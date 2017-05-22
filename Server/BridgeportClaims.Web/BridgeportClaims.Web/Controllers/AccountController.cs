@@ -85,7 +85,7 @@ namespace BridgeportClaims.Web.Controllers
                 return null;
             }
 
-            List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
+            var logins = new List<UserLoginInfoViewModel>();
 
             foreach (IdentityUserLogin linkedAccount in user.Logins)
                 logins.Add(new UserLoginInfoViewModel

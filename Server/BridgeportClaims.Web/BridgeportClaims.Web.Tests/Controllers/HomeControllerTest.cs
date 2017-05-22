@@ -1,6 +1,5 @@
 ﻿using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BridgeportClaims.Web;
 using BridgeportClaims.Web.Controllers;
 
 namespace BridgeportClaims.Web.Tests.Controllers
@@ -12,10 +11,10 @@ namespace BridgeportClaims.Web.Tests.Controllers
         public void Index()
         {
             // Arrange
-            HomeController controller = new HomeController();
+            var controller = new HomeController();
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            var result = controller.Index() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
