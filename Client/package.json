@@ -13,6 +13,7 @@
   "private": true,
   "dependencies": {
     "@angular/common": "^4.0.0",
+    "startbootstrap-sb-admin-2":"git+https://github.com/BlackrockDigital/startbootstrap-sb-admin-2.git",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
