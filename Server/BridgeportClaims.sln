@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.6
@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Web", "Bri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Web.Tests", "BridgeportClaims.Web.Tests\BridgeportClaims.Web.Tests.csproj", "{67115327-99BC-4FD1-81D2-DACD7E4F6CA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Entities", "..\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj", "{9CD69827-EFC0-4446-A337-F13ABECAB8B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Entities", "BridgeportClaims.Entities\BridgeportClaims.Entities.csproj", "{9CD69827-EFC0-4446-A337-F13ABECAB8B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data", "..\BridgeportClaims.Data\BridgeportClaims.Data.csproj", "{D5E6FAD3-315F-4BE1-9602-ABCE44914924}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data", "BridgeportClaims.Data\BridgeportClaims.Data.csproj", "{D5E6FAD3-315F-4BE1-9602-ABCE44914924}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
