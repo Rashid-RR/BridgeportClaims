@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Web", "BridgeportClaims.Web\BridgeportClaims.Web.csproj", "{B9998D1A-DD16-4E69-8815-4D9C71736292}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Web.Tests", "BridgeportClaims.Web.Tests\BridgeportClaims.Web.Tests.csproj", "{67115327-99BC-4FD1-81D2-DACD7E4F6CA5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9998D1A-DD16-4E69-8815-4D9C71736292}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9998D1A-DD16-4E69-8815-4D9C71736292}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9998D1A-DD16-4E69-8815-4D9C71736292}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9998D1A-DD16-4E69-8815-4D9C71736292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67115327-99BC-4FD1-81D2-DACD7E4F6CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67115327-99BC-4FD1-81D2-DACD7E4F6CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67115327-99BC-4FD1-81D2-DACD7E4F6CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67115327-99BC-4FD1-81D2-DACD7E4F6CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
