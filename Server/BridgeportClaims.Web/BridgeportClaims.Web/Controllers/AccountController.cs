@@ -88,22 +88,18 @@ namespace BridgeportClaims.Web.Controllers
             List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
 
             foreach (IdentityUserLogin linkedAccount in user.Logins)
-            {
                 logins.Add(new UserLoginInfoViewModel
                 {
                     LoginProvider = linkedAccount.LoginProvider,
                     ProviderKey = linkedAccount.ProviderKey
                 });
-            }
 
-            if (user.PasswordHash != null)
-            {
+            if (null != user.PasswordHash)
                 logins.Add(new UserLoginInfoViewModel
                 {
                     LoginProvider = LocalLoginProvider,
                     ProviderKey = user.UserName,
                 });
-            }
 
             return new ManageInfoViewModel
             {
