@@ -80,10 +80,8 @@ namespace BridgeportClaims.Web.Controllers
         {
             IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            if (user == null)
-            {
+            if (null == user)
                 return null;
-            }
 
             var logins = new List<UserLoginInfoViewModel>();
 
