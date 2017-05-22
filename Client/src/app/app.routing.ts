@@ -26,7 +26,6 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: AppLayoutComponent,
     children: [
       {
         path: 'home',
@@ -43,19 +42,13 @@ export const routes: Routes = [
         component: RegisterComponent      
       },         
       {
-      path: 'main',
-       children: [
+        path: 'main',
+        component: AppLayoutComponent,
+        children: [
         {
           path: 'private',
           component: PrivateComponent
-        },  
-       /* {       
-            path: 'chat',
-            loadChildren: '/chat/chat.module#ChatModule'
-        },{
-            path: 'admin',
-            loadChildren: '/admin/admin.module#AdminModule'
-        }*/
+        }
       ]
     }
     ]
