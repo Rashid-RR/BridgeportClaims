@@ -4,7 +4,7 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Web", "BridgeportClaims.Web\BridgeportClaims.Web.csproj", "{B9998D1A-DD16-4E69-8815-4D9C71736292}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Tests", "BridgeportClaims.Web.Tests\BridgeportClaims.Tests.csproj", "{67115327-99BC-4FD1-81D2-DACD7E4F6CA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Tests", "BridgeportClaims.Tests\BridgeportClaims.Tests.csproj", "{67115327-99BC-4FD1-81D2-DACD7E4F6CA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Entities", "BridgeportClaims.Entities\BridgeportClaims.Entities.csproj", "{9CD69827-EFC0-4446-A337-F13ABECAB8B7}"
 EndProject
