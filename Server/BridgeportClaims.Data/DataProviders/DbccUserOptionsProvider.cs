@@ -7,13 +7,13 @@ using BridgeportClaims.Data.StoredProcedureExecutors.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders
 {
-    public class SalesByUsStateProvider : ISalesByUsStateProvider
+    public class DbccUserOptionsProvider : IDbccUserOptionsProvider
     {
-        public IList<SalesByProductCategoryDbDto> GetSalesByCustomerDbDtos()
+        public IList<DbccUserOptionsResults> GetDbccUserOptions()
         {
             IStoredProcedureExecutor spExecutor = new StoredProcedureExecutor(FluentSessionProvider.SessionFactory);
-            var retVal = spExecutor.ExecuteMultiResultStoredProcedure<SalesByProductCategoryDbDto>
-                ("EXECUTE dbo.uspGetSalesByUsState", new List<SqlParameter>()).ToList();
+            var retVal = spExecutor.ExecuteMultiResultStoredProcedure<DbccUserOptionsResults>
+                ("EXECUTE dbo.uspDbccUserOptions", new List<SqlParameter>()).ToList();
             return retVal;
         }
     }

@@ -1,3 +1,4 @@
+using BridgeportClaims.Business.Config;
 using BridgeportClaims.Business.Logging;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Start")]
@@ -14,6 +15,7 @@ namespace BridgeportClaims.Web.App_Start
     using Ninject.Web.Common;
     using System.Web.Http;
     using Ninject.Web.WebApi;
+    using BridgeportClaims.Data.DataProviders;
 
     public static class NinjectWebCommon 
     {
@@ -67,6 +69,8 @@ namespace BridgeportClaims.Web.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<ILoggingService>().To<LoggingService>();
+            kernel.Bind<IDbccUserOptionsProvider>().To<DbccUserOptionsProvider>();
+            kernel.Bind<IConfigService>().To<ConfigService>();
         }        
     }
 }

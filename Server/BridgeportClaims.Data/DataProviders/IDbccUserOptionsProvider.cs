@@ -3,8 +3,8 @@ using BridgeportClaims.Data.StoredProcedureExecutors.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders
 {
-    public interface ISalesByUsStateProvider
+    public interface IDbccUserOptionsProvider
     {
-        IList<SalesByProductCategoryDbDto> GetSalesByCustomerDbDtos();
+        IList<DbccUserOptionsResults> GetDbccUserOptions();
     }
 }
