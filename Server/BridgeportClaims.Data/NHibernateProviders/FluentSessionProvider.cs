@@ -88,11 +88,11 @@ namespace BridgeportClaims.Data.NHibernateProviders
         private static MsSqlConfiguration CreateDbConfig()
         {
             return MsSqlConfiguration
-                .MsSql2012 // Actually 2014. Currently no dialect for MSSQL 2014 exists yet.
+                .MsSql2012 // Actually Azure SQL Server 2016. Currently no dialect for MSSQL 2016 exists yet.
                 // .ShowSql() // Nah... Performance Impact.
                 .ConnectionString(c =>
                     c.FromConnectionStringWithKey(
-                        "JGPortal.Services.Properties.Settings.JGPortalConnectionString"));
+                        "BridgeportClaimsConnectionString"));
         }
     }
 }

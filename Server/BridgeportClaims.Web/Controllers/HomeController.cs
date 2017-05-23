@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web.Http;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -11,9 +6,15 @@ namespace BridgeportClaims.Web.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
-            return View();
+            try
+            {
+                ViewBag.Title = "Home Page";
+                return View();
+            }
+            catch
+            {
+                return View();
+            }
         }   
     }
 }

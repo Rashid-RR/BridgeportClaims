@@ -1,4 +1,4 @@
-﻿using System.Web;
+﻿using BridgeportClaims.Web.ErrorHandler;
 using System.Web.Mvc;
 
 namespace BridgeportClaims.Web
@@ -7,7 +7,7 @@ namespace BridgeportClaims.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new AiHandleErrorAttribute());
         }
     }
 }
