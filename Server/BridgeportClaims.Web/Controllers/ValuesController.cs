@@ -45,12 +45,12 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public void Post([FromBody] string value)
         {
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody] string value)
         {
         }
 
@@ -61,17 +61,21 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         //[CamelCasedApiMethod]
-        public IHttpActionResult TestMe()
+        public async Task<IHttpActionResult> TestMe()
         {
             try
             {
-                var data = new
-                {
-                    IsSessionUsingReadCommittedSnapshotIsolation = 
-                        _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation(),
-                    UrlToPost = "HttpPost"
-                };
-                return Ok(data);
+                return
+                    await Task.Run(() =>
+                    {
+                        var data = new
+                        {
+                            IsSessionUsingReadCommittedSnapshotIsolation =
+                            _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation(),
+                            UrlToPost = "HttpPost"
+                        };
+                        return Ok(data);
+                    });
             }
             catch (Exception ex)
             {
