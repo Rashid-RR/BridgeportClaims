@@ -39,7 +39,7 @@ namespace BridgeportClaims.Data.Repositories
                             throw;
                         }
                     });*/
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -57,7 +57,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public T Get(Expression<Func<T, bool>> predicate)
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -76,7 +76,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public T Get(object id)
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -95,7 +95,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public void Save(T value)
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -113,7 +113,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public void SaveOrUpdateMany(IEnumerable<T> values)
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -131,7 +131,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public void SaveOrUpdate(T value)
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -148,7 +148,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public void Update(T value)
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -166,7 +166,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public void Delete(T value)
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -184,7 +184,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public IQueryable<T> GetMany(Expression<Func<T, bool>> predicate)
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {
@@ -202,7 +202,7 @@ namespace BridgeportClaims.Data.Repositories
 
         public IQueryable<T> GetAll()
         {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.Snapshot))
+            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
                 try
                 {

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Business.Logging;
+using BridgeportClaims.Data.DataProviders;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -11,10 +12,12 @@ namespace BridgeportClaims.Web.Controllers
     public class ValuesController : ApiController
     {
         private readonly ILoggingService _loggingService;
+        private readonly IDbccUserOptionsProvider _dbccUserOptionsProvider;
 
-        public ValuesController(ILoggingService loggingService)
+        public ValuesController(ILoggingService loggingService, IDbccUserOptionsProvider dbccUserOptionsProvider)
         {
             _loggingService = loggingService;
+            _dbccUserOptionsProvider = dbccUserOptionsProvider;
         }
 
         // GET api/values
@@ -64,7 +67,8 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var data = new
                 {
-                    FirstNameLastName = "John Smith",
+                    IsSessionUsingReadCommittedSnapshotIsolation = 
+                        _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation(),
                     UrlToPost = "HttpPost"
                 };
                 return Ok(data);
