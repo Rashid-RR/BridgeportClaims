@@ -18,6 +18,8 @@ import {Error404Component} from "./pages/error404/error404.component";
 import {RoutingModule} from "./app.routing";
 import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModules} from "@angular/router";
  
+ //services
+ import {HttpService,ProfileManager,EventsService} from "./services/services.barrel"
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) {}
@@ -54,7 +56,8 @@ export class SafeUrlPipe implements PipeTransform {
     HttpModule, 
     RoutingModule, 
   ],
-  providers: [       
+  providers: [  
+    HttpService,ProfileManager,EventsService,     
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

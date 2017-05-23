@@ -20,6 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.css",
+        "../node_modules/sweetalert/dist/sweetalert.css",
         "../node_modules/startbootstrap-sb-admin-2/vendor/bootstrap/css/bootstrap.min.css",
         "../node_modules/startbootstrap-sb-admin-2/dist/css/sb-admin-2.min.css",
         "../node_modules/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.css",
@@ -27,6 +28,7 @@
         "../node_modules/startbootstrap-sb-admin-2/vendor/font-awesome/css/font-awesome.min.css"
       ],
       "scripts": [
+        "../node_modules/sweetalert/dist/sweetalert.min.js",
         "../node_modules/startbootstrap-sb-admin-2/vendor/jquery/jquery.min.js",
         "../node_modules/startbootstrap-sb-admin-2/vendor/bootstrap/js/bootstrap.min.js",
         "../node_modules/startbootstrap-sb-admin-2/vendor/metisMenu/metisMenu.min.js",
