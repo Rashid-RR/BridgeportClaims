@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Business.Logging;
-using BridgeportClaims.Web.Attributes;
-using BridgeportClaims.Web.Models;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -15,11 +14,22 @@ namespace BridgeportClaims.Web.Controllers
 
         public ValuesController(ILoggingService loggingService)
         {
-            this._loggingService = loggingService;
+            _loggingService = loggingService;
         }
 
         // GET api/values
-        public async Task<IEnumerable<string>> GetValues() => await Task.FromResult(new string[] {"ValueOneTwoThree", "ValueOneTwoThreeFour" });
+        public async Task<IEnumerable<string>> GetValues()
+        {
+            try
+            {
+                return await Task.FromResult(new[] {"ValueOneTwoThree", "ValueOneTwoThreeFour"});
+            }
+            catch (Exception ex)
+            {
+                _loggingService.Error(ex, GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                throw;
+            }
+        }
 
         public IEnumerable<string> Get() => new[] {"ValueOneNonAsync", "ValueTwoNonAsync"};
 
@@ -27,7 +37,7 @@ namespace BridgeportClaims.Web.Controllers
         public string Get(int id)
         {
             var retVal = $"value with id {id} coming in...";
-            this._loggingService.Error(retVal, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+            _loggingService.Error(retVal, GetType().Name, MethodBase.GetCurrentMethod()?.Name);
             return retVal;
         }
 
@@ -50,13 +60,20 @@ namespace BridgeportClaims.Web.Controllers
         //[CamelCasedApiMethod]
         public IHttpActionResult TestMe()
         {
-            var data = new
+            try
             {
-                NameOfMe = "Jordan Gurney",
-                UrlToPost = "HttpPost",
-                FooFum = "California"
-            };
-            return Ok(data);
+                var data = new
+                {
+                    FirstNameLastName = "John Smith",
+                    UrlToPost = "HttpPost"
+                };
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                _loggingService.Error(ex, GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                throw;
+            }
         }
     }
 }
