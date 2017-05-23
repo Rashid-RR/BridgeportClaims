@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using System.Configuration;
 
 namespace BridgeportClaims.Business.Config
@@ -22,7 +23,7 @@ namespace BridgeportClaims.Business.Config
             {
                 var debugMode = GetAllConfigItems()["ApplicationIsInDebugMode"];
                 // Parsed accurately, and is true.
-                return bool.TryParse(debugMode, out bool b) && b;
+                return Boolean.TryParse(debugMode, out bool b) && b;
             }
         }
     }
