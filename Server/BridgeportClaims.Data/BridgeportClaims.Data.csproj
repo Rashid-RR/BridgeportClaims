@@ -51,16 +51,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProviders\ISalesByUsStateProvider.cs" />
+    <Compile Include="DataProviders\SalesByUsStateProvider.cs" />
+    <Compile Include="Mappings\USStateMap.cs" />
     <Compile Include="NHibernateProviders\FluentSessionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\NHibernateRepository.cs" />
+    <Compile Include="StoredProcedureExecutors\Dtos\SalesByProductCategoryDbDto.cs" />
+    <Compile Include="StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
+    <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataProviders\" />
-    <Folder Include="Mappings\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
