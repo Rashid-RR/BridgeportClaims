@@ -254,6 +254,9 @@
     <Content Include="Connections.config" />
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
     <Content Include="AppSettings.config" />
+    <Content Include="Connections.Staging.config">
+      <DependentUpon>Connections.config</DependentUpon>
+    </Content>
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-staging - Web Deploy.pubxml" />
   </ItemGroup>
@@ -276,6 +279,16 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Staging|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
