@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
     this.form = this.formBuilder.group({
       email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
       password: ['', Validators.compose([Validators.required])],
+      grant_type: ['password'],
       rememberMe: [false],
 
     });
@@ -30,14 +31,16 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/register']);          
   }
   login() {
-    /*this.submitted = true;
+    this.submitted = true;
     if (this.form.valid) {
       try {
-        this.http.login(this.form.value).subscribe(res => {
-          localStorage.setItem("user", JSON.stringify(res.json()));*/
+        this.http.login('username='+this.form.get('email').value+'&password='+this.form.get('password').value+"&grant_type=password",{'Content-Type':'x-www-form-urlencoded'}).subscribe(res => {
+          let data = res.json();
+          localStorage.setItem("user", JSON.stringify(data));
           this.router.navigate(['/main/private']);
-          /*this.events.broadcast('login', true);
+          this.events.broadcast('login', true);
           this.events.broadcast('profile', res.json());
+          this.http.setAuth(data.access_token);
         }, (error) => {
           if (error.status !== 500) {
             this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
@@ -48,7 +51,7 @@ export class LoginComponent implements OnInit {
       } finally {
 
       }
-    }*/
+    }
   }
   ngOnInit() {
 

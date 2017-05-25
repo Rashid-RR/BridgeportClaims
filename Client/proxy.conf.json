@@ -1,7 +1,14 @@
 {
   "/api": {
     "target": "http://bridgeportclaims.azurewebsites.net",
-    "changeOrigin": false,
+    "changeOrigin": true,
+    "secure": false,
+    "logLevel": "debug",
+    "ws":true
+  },
+  "/Token": {
+    "target": "http://bridgeportclaims.azurewebsites.net",
+    "changeOrigin": true,
     "secure": false,
     "logLevel": "debug",
     "ws":true

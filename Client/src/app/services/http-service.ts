@@ -6,19 +6,22 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import "rxjs/add/operator/map";
  import {Response} from "@angular/http/src/static_response";
-import {Http} from "@angular/http";
+import {Http,RequestOptions,Headers} from "@angular/http";
 import {UUID} from "angular2-uuid";
 
 @Injectable()
 export class HttpService {
   baseUrl: string = "/api";
  
+  token:String
   constructor(private http:Http) {
      
   }
- 
-  login(data): Observable<Response> {
-      return this.http.post(this.baseUrl + "/users", data)
+ setAuth(auth:String){
+   this.token = auth;
+ }
+  login(data,headers): Observable<Response> {
+      return this.http.post("/Token", data,{headers:headers})
   }
  
   logout(): Observable<Response> {
@@ -41,8 +44,17 @@ export class HttpService {
     return this.http.post(this.baseUrl + "/account/register", data)
   }
   //get user using id
-  userFromId(id:UUID): Observable<Response> {
-    return this.http.get(this.baseUrl + "/users/"+id.toString())
+  userFromId(id:UUID): Observable<Response> {  
+     return this.http.get(this.baseUrl + "/Account/UserInfo",{headers:this.headers})
+  }
+  profile(): Observable<Response> {  
+     return this.http.get(this.baseUrl + "/Account/UserInfo",{headers:this.headers})
+  }
+
+  get headers(){
+    let header = new Headers();
+    header.append('Authorization',"Bearer "+this.token);
+    return header;
   }
  
 
