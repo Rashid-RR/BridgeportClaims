@@ -38,7 +38,7 @@ export class HttpService {
   }
  //register user
   register(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/users/register", data)
+    return this.http.post(this.baseUrl + "/account/register", data)
   }
   //get user using id
   userFromId(id:UUID): Observable<Response> {

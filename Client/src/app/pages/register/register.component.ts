@@ -19,9 +19,9 @@ export class RegisterComponent implements OnInit {
     this.form = this.formBuilder.group({
       firstname: ['', Validators.compose([Validators.required])],
       lastname: ['', Validators.compose([Validators.required])],
-      email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
-      password: ["", Validators.compose([Validators.required])],
-      repeatPassword: ["", Validators.compose([Validators.required])]
+      Email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
+      Password: ["", Validators.compose([Validators.required])],
+      ConfirmPassword: ["", Validators.compose([Validators.required])]
     });
   }
 
@@ -33,18 +33,18 @@ export class RegisterComponent implements OnInit {
   }
   register() {
     this.submitted = true;
-    if (this.form.valid && this.form.get('password').value !== this.form.get('repeatPassword').value) {
-      this.form.get('repeatPassword').setErrors({"unmatched": "Repeat password does not match password"});
+    if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
+      this.form.get('ConfirmPassword').setErrors({"unmatched": "Repeat password does not match password"});
     }
     if (this.form.valid) {
       try {
         this.http.register(this.form.value).subscribe(res => {
-          if (res.text() == "success") {
-            console.log("Successful registration");
+          console.log("Successful registration");
             this.router.navigate(['/main/private']);
-          }
-          //console.log(res.json());
+            //console.log(res.json());
           this.registered = true
+        },err => {
+            console.log(err);
         })
       } catch (e) {
 

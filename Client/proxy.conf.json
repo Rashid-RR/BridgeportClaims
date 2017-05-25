@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "http://bridgeportclaims.azurewebsites.net:80",
+    "changeOrigin": false,
+    "secure": false,
+    "logLevel": "debug",
+    "ws":true
+  }
+}
