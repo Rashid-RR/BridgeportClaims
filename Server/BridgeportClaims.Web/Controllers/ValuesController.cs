@@ -8,7 +8,7 @@ using BridgeportClaims.Data.DataProviders;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ValuesController : ApiController
     {
         private readonly ILoggingService _loggingService;

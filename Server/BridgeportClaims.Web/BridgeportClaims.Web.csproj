@@ -18,10 +18,10 @@
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
+    <IISExpressSSLPort>1156</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -251,14 +251,14 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Connections.config" />
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
     <Content Include="AppSettings.config" />
-    <Content Include="Connections.Staging.config">
-      <DependentUpon>Connections.config</DependentUpon>
-    </Content>
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-staging - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <None Include="Web.Staging.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -304,7 +304,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>1156</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:1156/</IISUrl>
+          <IISUrl>http://localhost:1156</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
