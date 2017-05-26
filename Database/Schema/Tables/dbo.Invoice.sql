@@ -6,7 +6,10 @@ CREATE TABLE [dbo].[Invoice]
 [InvoiceDate] [datetime2] NOT NULL,
 [Amount] [money] NOT NULL,
 [PayorID] [int] NULL,
-[ClaimID] [int] NULL
+[ClaimID] [int] NULL,
+[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfInvoiceCreatedOn] DEFAULT (sysdatetime()),
+[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfInvoiceUpdatedOn] DEFAULT (sysdatetime()),
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Invoice] ADD CONSTRAINT [pkInvoice] PRIMARY KEY CLUSTERED  ([InvoiceID]) WITH (FILLFACTOR=90) ON [PRIMARY]
