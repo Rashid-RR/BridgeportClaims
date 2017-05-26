@@ -16,6 +16,8 @@ AS BEGIN
 	SET NOCOUNT ON
 		BEGIN TRY
 			BEGIN TRAN
+			IF PATINDEX('%]%', @TableName) > 0 OR PATINDEX('%[%', @TableName) > 0
+				SET @TableName = REPLACE(REPLACE(@TableName, '[', ''), ']', '')
 			DECLARE @TableNameWithoutSchema SYSNAME = PARSENAME(@TableName, 1)
 					, @SchemaName SYSNAME = PARSENAME(@TableName, 2)
 					, @SQLStatement NVARCHAR(1000)
@@ -64,4 +66,5 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
 GO
