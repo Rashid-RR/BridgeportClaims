@@ -23,7 +23,7 @@ CREATE NONCLUSTERED INDEX [idxClaimAdjusterID] ON [dbo].[Claim] ([AdjusterID]) W
 GO
 CREATE NONCLUSTERED INDEX [idxClaimPayorID] ON [dbo].[Claim] ([PayorID]) WITH (FILLFACTOR=90) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimAdjustorAdjustorID] FOREIGN KEY ([AdjusterID]) REFERENCES [dbo].[Adjustor] ([AdjustorID])
+ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimAdjusterIDAdjustorAdjustorID] FOREIGN KEY ([AdjusterID]) REFERENCES [dbo].[Adjustor] ([AdjustorID])
 GO
-ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimPayorPayorID] FOREIGN KEY ([PayorID]) REFERENCES [dbo].[Payor] ([PayorID])
+ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimPayorIDPayorPayorID] FOREIGN KEY ([PayorID]) REFERENCES [dbo].[Payor] ([PayorID])
 GO
