@@ -41,12 +41,12 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetAllPayors(int id)
+        public async Task<IHttpActionResult> GetPayors(int pageNumber, int pageSize)
         {
             try
             {
                 return await Task.Run(() =>
-                    Ok(_payorMapper.GetPayorViewModels(_payorService.GetTopPayors(id).ToList())));
+                    Ok(_payorService.GetPaginatedPayors(pageNumber, pageSize).ToList()));
             }
             catch (Exception ex)
             {
