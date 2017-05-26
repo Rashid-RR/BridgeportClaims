@@ -23,6 +23,8 @@ namespace BridgeportClaims.Data.Services.Payors
         public IQueryable<Payor> GetAllPayors()
             => _payorRepository.GetAll();
 
+        public IQueryable<Payor> GetTopPayors(int top) => _payorRepository.GetTop(top);
+
         public void InsertPayor(Payor payor)
             => _payorRepository.Save(payor);
 

@@ -21,5 +21,6 @@ namespace BridgeportClaims.Data.Repositories
         void Delete(T value);
         IQueryable<T> GetMany(Expression<Func<T, bool>> predicate);
         IQueryable<T> GetAll();
+        IQueryable<T> GetTop(int top);
     }
 }

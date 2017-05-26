@@ -2,6 +2,7 @@
 using System.Web.Http.Cors;
 using BridgeportClaims.Business.Config;
 using Microsoft.Owin.Security.OAuth;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace BridgeportClaims.Web
@@ -23,9 +24,15 @@ namespace BridgeportClaims.Web
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
+            formatter.SerializerSettings = new JsonSerializerSettings
+            {
+                // ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                // PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
 
-            var json = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             var corsHostName = new ConfigService();
 

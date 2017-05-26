@@ -10,6 +10,7 @@ namespace BridgeportClaims.Data.Services.Payors
         Payor GetPayorById(int id);
         IQueryable<Payor> GetManyPayors(Expression<Func<Payor, bool>> predicate);
         IQueryable<Payor> GetAllPayors();
+        IQueryable<Payor> GetTopPayors(int top);
         void InsertPayor(Payor payor);
         void UpdatePayor(Payor payor);
         void DeletePayor(Payor payor);

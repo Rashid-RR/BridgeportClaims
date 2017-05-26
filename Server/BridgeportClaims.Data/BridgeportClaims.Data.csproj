@@ -82,6 +82,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{53bad79f-90e5-45bb-bb4b-d370e44d82cc}</Project>
+      <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj">
       <Project>{9CD69827-EFC0-4446-A337-F13ABECAB8B7}</Project>
       <Name>BridgeportClaims.Entities</Name>

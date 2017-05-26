@@ -21,6 +21,7 @@ namespace BridgeportClaims.Web.App_Start
     using BridgeportClaims.Data.StoredProcedureExecutors;
     using NHibernate;
     using BridgeportClaims.Data.NHibernateProviders;
+    using BridgeportClaims.Entities.Automappers;
 
     public static class NinjectWebCommon 
     {
@@ -92,6 +93,7 @@ namespace BridgeportClaims.Web.App_Start
             kernel.Bind<IConfigService>().To<ConfigService>();
             kernel.Bind<IPayorService>().To<PayorService>();
             kernel.Bind<IStoredProcedureExecutor>().To<StoredProcedureExecutor>();
+            kernel.Bind<IPayorMapper>().To<PayorMapper>();
             kernel.Bind<HttpContext>().ToMethod(c => HttpContext.Current);
             kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
         }        

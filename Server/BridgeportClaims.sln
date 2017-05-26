@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Business",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data.Services", "BridgeportClaims.Data.Services\BridgeportClaims.Data.Services.csproj", "{C79B763C-F001-405C-AB3A-44893EE69B73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "BridgeportClaims.Common\BridgeportClaims.Common.csproj", "{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,12 @@ Global
 		{C79B763C-F001-405C-AB3A-44893EE69B73}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C79B763C-F001-405C-AB3A-44893EE69B73}.Staging|Any CPU.ActiveCfg = Release|Any CPU
 		{C79B763C-F001-405C-AB3A-44893EE69B73}.Staging|Any CPU.Build.0 = Release|Any CPU
+		{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}.Staging|Any CPU.ActiveCfg = Release|Any CPU
+		{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}.Staging|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
