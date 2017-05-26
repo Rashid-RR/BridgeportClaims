@@ -19,7 +19,6 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Extension).Column("Extension").Length(10);
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
-            Map(x => x.DataVersion).Column("DataVersion").Not.Nullable();
             HasMany(x => x.Claim).KeyColumn("AdjusterID");
         }
     }

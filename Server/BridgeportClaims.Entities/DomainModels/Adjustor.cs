@@ -30,7 +30,6 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
         [Required]
-        public virtual DateTime DataVersion { get; set; }
         public virtual IList<Claim> Claim { get; set; }
     }
 }

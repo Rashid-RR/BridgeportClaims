@@ -16,6 +16,11 @@ namespace BridgeportClaims.Web.App_Start
     using System.Web.Http;
     using Ninject.Web.WebApi;
     using BridgeportClaims.Data.DataProviders;
+    using BridgeportClaims.Data.Services.Payors;
+    using BridgeportClaims.Data.Repositories;
+    using BridgeportClaims.Data.StoredProcedureExecutors;
+    using NHibernate;
+    using BridgeportClaims.Data.NHibernateProviders;
 
     public static class NinjectWebCommon 
     {
@@ -68,9 +73,27 @@ namespace BridgeportClaims.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<ISession>()
+                .ToMethod(i => FluentSessionProvider.GetCurrentSession())
+                .InRequestScope()
+                .OnDeactivation((context, session) =>
+                {
+                    if (session.Transaction.IsActive)
+                        session.Transaction.Commit();
+
+                    if (session.IsOpen)
+                        session.Close();
+
+                    session.Dispose();
+                });
+            kernel.Bind(typeof(IRepository<>)).To(typeof(NHibernateRepository<>));
             kernel.Bind<ILoggingService>().To<LoggingService>();
             kernel.Bind<IDbccUserOptionsProvider>().To<DbccUserOptionsProvider>();
             kernel.Bind<IConfigService>().To<ConfigService>();
+            kernel.Bind<IPayorService>().To<PayorService>();
+            kernel.Bind<IStoredProcedureExecutor>().To<StoredProcedureExecutor>();
+            kernel.Bind<HttpContext>().ToMethod(c => HttpContext.Current);
+            kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
         }        
     }
 }

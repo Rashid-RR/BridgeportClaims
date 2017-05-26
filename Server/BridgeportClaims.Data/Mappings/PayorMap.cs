@@ -24,7 +24,6 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Contact).Column("Contact").Length(255);
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
-            Map(x => x.DataVersion).Column("DataVersion").Not.Nullable();
             HasMany(x => x.Adjustor).KeyColumn("PayorID");
             HasMany(x => x.Claim).KeyColumn("PayorID");
         }
