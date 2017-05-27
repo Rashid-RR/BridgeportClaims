@@ -19,7 +19,8 @@ import {RoutingModule} from "./app.routing";
 import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModules} from "@angular/router";
  
  //services
- import {HttpService,ProfileManager,EventsService} from "./services/services.barrel"
+ import {HttpService,ProfileManager,EventsService} from "./services/services.barrel";
+import { PayorsComponent } from './pages/payors/payors.component'
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) {}
@@ -47,7 +48,7 @@ export class SafeUrlPipe implements PipeTransform {
     PasswordResetComponent, 
     RegisterComponent,
     SafeStylePipe, SafeUrlPipe, 
-    SidebarComponent, PrivateComponent, 
+    SidebarComponent, PrivateComponent, PayorsComponent, 
   ],
   imports: [
     BrowserModule,

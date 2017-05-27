@@ -16,6 +16,7 @@ import {RegisterComponent} from "./pages/register/register.component";
 import {MainComponent} from "./pages/main/main.component";
 import {PasswordResetComponent} from "./pages/password-reset/password-reset.component";
 import {Error404Component} from "./pages/error404/error404.component";
+import { PayorsComponent } from './pages/payors/payors.component'
 
 
 export const routes: Routes = [
@@ -48,6 +49,10 @@ export const routes: Routes = [
         {
           path: 'private',
           component: PrivateComponent
+        },
+        {
+          path: 'payors',
+          component: PayorsComponent
         }
       ]
     }
