@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using NHibernate;
 using NHibernate.Linq;
+using BridgeportClaims.Common.ExpressionHelpers;
 
 namespace BridgeportClaims.Data.Repositories
 {
@@ -15,73 +16,55 @@ namespace BridgeportClaims.Data.Repositories
     public class NHibernateRepository<T> : BaseRepository, IRepository<T> where T : class, new()
     {
         public NHibernateRepository(ISession session) : base(session) { }
+        private const string TranNotCommittedCorrectly = "The transaction was not committed properly.";
 
-        public T Load(object id)
-        {
-            /*return
-                DisposableHelper.Using(
-                    () => Session.BeginTransaction(),
-                    transaction =>
-                    {
-                        try
-                        {
-                            T returnVal = Session.Load<T>(id);
-                            if (transaction.IsActive)
-                                transaction.Commit();
-                            if (!transaction.WasCommitted)
-                                throw new Exception("The transaction was not committed properly.");
-                            return returnVal;
-                        }
-                        catch (Exception)
-                        {
-                            if (transaction.IsActive)
-                                transaction.Rollback();
-                            throw;
-                        }
-                    });*/
-            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
+        public T Load(object id) => DisposableHelper.Using(
+            () => Session.BeginTransaction(IsolationLevel.ReadCommitted), transaction =>
             {
                 try
                 {
                     var returnVal = Session.Load<T>(id);
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
+                    if (!transaction.WasCommitted)
+                        throw new Exception(TranNotCommittedCorrectly);
                     return returnVal;
                 }
-                catch
+                catch (Exception)
                 {
-                    transaction.Rollback();
+                    if (transaction.IsActive)
+                        transaction.Rollback();
                     throw;
                 }
-            }
-        }
+            });
 
-        public T Get(Expression<Func<T, bool>> predicate)
-        {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
-            {
-                try
+        public T Get(Expression<Func<T, bool>> predicate) => DisposableHelper.Using(
+                () => Session.BeginTransaction(IsolationLevel.ReadCommitted), transaction =>
                 {
-                    var returnVal = Session.Query<T>().Where(predicate).FirstOrDefault();
-                    transaction.Commit();
-                    return returnVal;
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    throw;
-                }
-                
-            }
-        }
+                    try
+                    {
+                        var returnVal = Session.Query<T>().Where(predicate).FirstOrDefault();
+                        if (transaction.IsActive)
+                            transaction.Commit();
+                        return returnVal;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
 
-        public T Get(object id)
-        {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
+                });
+
+
+        public T Get(object id) => DisposableHelper.Using(
+            () => Session.BeginTransaction(IsolationLevel.ReadCommitted), transaction =>
             {
                 try
                 {
                     var returnVal = Session.Get<T>(id);
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
                     return returnVal;
                 }
                 catch
@@ -89,9 +72,9 @@ namespace BridgeportClaims.Data.Repositories
                     transaction.Rollback();
                     throw;
                 }
-                
-            }
-        }
+
+            });
+        
 
         public void Save(T value)
         {
@@ -100,7 +83,8 @@ namespace BridgeportClaims.Data.Repositories
                 try
                 {
                     Session.Save(value);
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
                 }
                 catch
                 {
@@ -119,7 +103,8 @@ namespace BridgeportClaims.Data.Repositories
                 {
                     foreach(var value in values)
                         Session.SaveOrUpdate(value);
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
                 }
                 catch
                 {
@@ -136,7 +121,8 @@ namespace BridgeportClaims.Data.Repositories
                 try
                 {
                     Session.SaveOrUpdate(value);
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
                 }
                 catch
                 {
@@ -153,7 +139,8 @@ namespace BridgeportClaims.Data.Repositories
                 try
                 {
                     Session.Update(value);
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
                 }
                 catch
                 {
@@ -171,7 +158,8 @@ namespace BridgeportClaims.Data.Repositories
                 try
                 {
                     Session.Delete(value);
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
                 }
                 catch
                 {
@@ -182,14 +170,14 @@ namespace BridgeportClaims.Data.Repositories
             }
         }
 
-        public IQueryable<T> GetMany(Expression<Func<T, bool>> predicate)
-        {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
+        public IQueryable<T> GetMany(Expression<Func<T, bool>> predicate) => DisposableHelper.Using(
+            () => Session.BeginTransaction(IsolationLevel.ReadCommitted), transaction =>
             {
                 try
                 {
                     var returnVal = Session.Query<T>().Where(predicate);
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
                     return returnVal;
                 }
                 catch
@@ -197,17 +185,17 @@ namespace BridgeportClaims.Data.Repositories
                     transaction.Rollback();
                     throw;
                 }
-            }
-        }
+            });
 
-        public IQueryable<T> GetAll()
-        {
-            using (var transaction = Session.BeginTransaction(IsolationLevel.ReadCommitted))
+
+        public IQueryable<T> GetAll() => DisposableHelper.Using(
+            () => Session.BeginTransaction(IsolationLevel.ReadCommitted), transaction =>
             {
                 try
                 {
                     var returnVal = Session.Query<T>();
-                    transaction.Commit();
+                    if (transaction.IsActive)
+                        transaction.Commit();
                     return returnVal;
                 }
                 catch
@@ -215,8 +203,26 @@ namespace BridgeportClaims.Data.Repositories
                     transaction.Rollback();
                     throw;
                 }
-                
-            }
-        }
+
+            });
+
+
+        public IQueryable<T> GetTop(int top) => DisposableHelper.Using(
+            () => Session.BeginTransaction(IsolationLevel.ReadCommitted), transaction =>
+            {
+                try
+                {
+                    var returnVal = Session.Query<T>().Select(q => q).Take(top);
+                    if (transaction.IsActive)
+                        transaction.Commit();
+                    return returnVal;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+
+            });
     }
 }

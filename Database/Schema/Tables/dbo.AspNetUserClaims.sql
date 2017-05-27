@@ -10,5 +10,5 @@ ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [pkAspNetUserClaims] PRIMARY
 GO
 CREATE NONCLUSTERED INDEX [idxAspNetUserClaimsUserID] ON [dbo].[AspNetUserClaims] ([UserID]) WITH (FILLFACTOR=90) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [fkAspNetUserClaimsAspNetUsersUserID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [fkAspNetUserClaimsUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID]) ON DELETE CASCADE
 GO

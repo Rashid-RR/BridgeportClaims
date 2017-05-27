@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Config\ConfigService.cs" />
     <Compile Include="Config\IConfigService.cs" />
+    <Compile Include="ExpressionHelpers\DisposableHelper.cs" />
     <Compile Include="Logging\ILoggingService.cs" />
     <Compile Include="Logging\LoggingLevel.cs" />
     <Compile Include="Logging\LoggingService.cs" />

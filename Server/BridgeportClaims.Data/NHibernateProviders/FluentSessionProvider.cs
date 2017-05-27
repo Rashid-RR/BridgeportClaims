@@ -2,6 +2,7 @@
 using System.Data;
 using System.Globalization;
 using System.Web;
+using BridgeportClaims.Data.Mappings;
 using NHibernate;
 using NHibernate.Context;
 using FluentNHibernate.Cfg;
@@ -76,10 +77,15 @@ namespace BridgeportClaims.Data.NHibernateProviders
                 .Database(CreateDbConfig)
                 .Mappings(m =>
                 {
-                    //m.FluentMappings.Add<OrdersMap>();
+                    m.FluentMappings.Add<AdjustorMap>();
+                    m.FluentMappings.Add<ClaimMap>();
+                    m.FluentMappings.Add<PaymentMap>();
+                    m.FluentMappings.Add<PayorMap>();
+                    m.FluentMappings.Add<UsStateMap>();
                 })
                 .ExposeConfiguration(c => c.SetProperty("current_session_context_class", "call"))
-                .ExposeConfiguration(c => c.SetProperty("command_timeout", timeout.ToString(CultureInfo.InvariantCulture)))
+                .ExposeConfiguration(c => c.SetProperty("command_timeout", 
+                    timeout.ToString(CultureInfo.InvariantCulture)))
                 .CurrentSessionContext<WebSessionContext>()
                 .Cache(c => c.Not.UseSecondLevelCache())
                 .BuildSessionFactory();

@@ -1,19 +1,21 @@
-﻿using BridgeportClaims.Data.StoredProcedureExecutors.Dtos;
+﻿using BridgeportClaims.Entities.DomainModels;
 using FluentNHibernate.Mapping;
 
 namespace BridgeportClaims.Data.Mappings
 {
-    public class UsStateMap : ClassMap<DbccUserOptionsResults>
+    public class UsStateMap : ClassMap<UsState>
     {
         public UsStateMap()
         {
-            Table("USState");
-            SchemaAction.None();
+            Table("UsState");
+            Schema("dbo");
             LazyLoad();
-            Id(x => x.SetOption).Column("StateID").Not.Nullable().GeneratedBy.Identity();
-            Map(x => x.Value).Column("StateCode").Not.Nullable().Length(2);
-            Map(x => x.SetOption).Column("StateName").Not.Nullable().Length(64);
-            Map(x => x.Value).Column("IsTerritory").Not.Nullable();
+            Id(x => x.StateId).GeneratedBy.Identity().Column("StateID");
+            Map(x => x.StateCode).Column("StateCode").Not.Nullable().Length(2);
+            Map(x => x.StateName).Column("StateName").Not.Nullable().Length(64);
+            Map(x => x.IsTerritory).Column("IsTerritory").Not.Nullable();
+            HasMany(x => x.Claim).KeyColumn("JurisdictionStateID");
+            HasMany(x => x.Payor).KeyColumn("BillToStateID");
         } 
     }
 }
