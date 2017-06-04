@@ -1,0 +1,43 @@
+[
+    {
+        "conversation_day":"Yesterday",
+        "conversation":[
+            {
+                "time":"9:18 AM",
+                "message":"Hello, can you hear me?",
+                "type":"text",
+                "user_id":"2edc1b43-c6e1-460e-8123-aeb71ab2b366"
+            },{
+                "time":"9:18 AM",
+                "message":"I'm in California dreaming",
+                "type":"text",
+                "user_id":"2edc1b43-c6e1-460e-8123-aeb71ab2b366"
+            },{
+                "time":"10:50 AM",
+                "message":"... about who we used to be.",
+                "type":"text",
+                "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8"
+            },{
+                "time":"10:51 AM",
+                "message":"Are you serious?",
+                "type":"text",
+                "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8"
+            }
+        ]    
+    },{
+        "conversation_day":"Today",
+        "conversation":[
+            {
+                "time":"3:48 AM",
+                "message":"When we were younger and free...",
+                "type":"text",
+                "user_id":"2aeef83a-d528-11e6-b48c-23a55db486af"
+            },{
+                "time":"3:48 AM",
+                "message":"I've forgotten how it felt before",
+                "type":"text",
+                "user_id":"2aeef83a-d528-11e6-b48c-23a55db486af"
+            }
+        ]
+    }
+]

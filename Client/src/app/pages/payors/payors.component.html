@@ -27,7 +27,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Billing Details</th>
-                    <th>Notes</th>
+                    <th width="20%">Notes</th>
                     <th>Created On</th>
                     <th>Updated On</th>
                     <th>Action</th>
@@ -38,17 +38,21 @@
                   <tr>
                     <td>{{payor.payorId}}</td>
                     <td>
-                      <em>Name</em>{{payor.billToName}}<br/>
-                      <em>Address 1</em>{{payor.billToAddress1}}<br/>
-                      <em>Address 2</em>{{payor.billToAddress2}}<br/>
-                      <em>City</em>{{payor.billToCity}}<br/>
-                      <em>State</em>{{payor.billToState}}<br/>
-                      <em>Phone Number</em>{{payor.phoneNumber}}<br/>
+                      <b>Name</b>: {{payor.billToName}}<br/>
+                      <b>Address 1</b>: {{payor.billToAddress1}}<br/>
+                      <b>Address 2</b>: {{payor.billToAddress2}}<br/>
+                      <b>City</b>: {{payor.billToCity}}<br/>
+                      <b>State</b>: {{payor.billToState}}<br/>
+                      <b>Phone Number</b>: {{payor.phoneNumber}}<br/>
                     </td>
                     <td>{{payor.notes}}</td>
-                    <td class="center">{{payor.createdOn}}</td>
-                    <td class="center">{{payor.updatedOn}}</td>
-                    <td>&nbsp;</td>
+                    <td class="center">{{payor.createdOn | date:"medium"}}</td>
+                    <td class="center">{{payor.updatedOn | date:"medium"}}</td>
+                    <td>
+                        <button type="button" class="btn btn-xs btn-primary" title ="View"><i class="fa fa-eye-slash"></i></button>                     
+                        <button type="button" class="btn btn-xs btn-info"  title ="Edit"><i class="fa fa-pencil-square"></i></button>                     
+                        <button type="button" class="btn btn-xs btn-danger"  title ="Delete"><i class="fa fa-trash-o"></i></button>                     
+                    </td>
                 </tr>
                 </ng-container>
             </tbody>
@@ -56,7 +60,7 @@
               <tr>
                 <td colspan="3"></td>
                 <td colspan="3" class="right">
-                    <button type="button" class="btn btn-default"  (click)="prev()">Prev</button> 
+                    <button type="button" class="btn btn-default"  (click)="prev()" *ngIf="pageNumber>1">Prev</button> 
                     <button type="button" class="btn btn-info">{{pageNumber}}</button>
                     <button type="button" class="btn btn-warning" (click)="next()">Next</button>
                 </td>

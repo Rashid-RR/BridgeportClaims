@@ -27,6 +27,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    component: AppLayoutComponent,
     children: [
       {
         path: 'home',
@@ -44,7 +45,6 @@ export const routes: Routes = [
       },         
       {
         path: 'main',
-        component: AppLayoutComponent,
         children: [
         {
           path: 'private',

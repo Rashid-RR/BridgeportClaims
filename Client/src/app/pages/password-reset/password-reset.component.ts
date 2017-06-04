@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from "@angular/core";
+import {HttpService} from "../../services/http-service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {HttpService} from "../../services/http-service";
 
 @Component({
   selector: 'app-password-reset',
@@ -9,13 +9,33 @@ import {HttpService} from "../../services/http-service";
   styleUrls: ['./password-reset.component.css']
 })
 export class PasswordResetComponent implements OnInit {
+
   form: FormGroup;
   submitted: boolean = false;
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-   constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router) {
+  
+  constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router) {
     this.form = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
+      email: ["", Validators.compose([Validators.required,Validators.pattern(this.emailRegex)])],
     });
+  }
+
+  ngOnInit() {
+
+  }
+
+  resetPassword() {
+     if(this.form.valid){
+      this.submitted = true;
+       this.http.changepassword({email:this.form.get('email').value})
+        .subscribe(res=>{
+            this.submitted = false;
+        },error=>{
+              this.form.get('email').setErrors({"error":"Incorrect email address"});
+              this.submitted = false;
+        });
+    }
+
   }
 
   register() {
@@ -41,10 +61,7 @@ export class PasswordResetComponent implements OnInit {
 
       }
     }
-  }
-  ngOnInit() {
-
-  }
+  } 
 
 
 }

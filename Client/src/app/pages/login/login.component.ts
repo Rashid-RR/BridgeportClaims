@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.http.login('username='+this.form.get('email').value+'&password='+this.form.get('password').value+"&grant_type=password",{'Content-Type':'x-www-form-urlencoded'}).subscribe(res => {
-          let data = res.json();
+          let data = res.json(); 
           localStorage.setItem("user", JSON.stringify(data));
           this.router.navigate(['/main/private']);
           this.events.broadcast('login', true);
