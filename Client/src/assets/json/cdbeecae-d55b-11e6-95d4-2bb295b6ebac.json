@@ -1,0 +1,42 @@
+[{
+    "conversation_day":"Today",
+    "conversation":[
+        {
+            "time":"6:48 AM",
+            "message":"Hello",
+            "type":"text",
+            "user_id":"719d6dde-d528-11e6-8750-0307b84b98e3"
+        },{
+            "time":"6:48 AM",
+            "message":"It's me here",
+            "type":"text",
+            "user_id":"719d6dde-d528-11e6-8750-0307b84b98e3"
+        },{
+            "time":"6:50 AM",
+            "message":"Hi Jason. How're you doing",
+            "type":"text",
+            "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8"
+        },{
+            "time":"6:51 AM",
+            "message":"Great, how about you?",
+            "type":"text",
+            "user_id":"719d6dde-d528-11e6-8750-0307b84b98e3"
+        },{
+            "time":"6:52 AM",
+            "message":"Am good. Any news for me?",
+            "type":"text",
+            "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8"
+        },{
+            "time":"6:53 AM",
+            "message":"Mmmmh... Was just saying hi",
+            "type":"text",
+            "user_id":"719d6dde-d528-11e6-8750-0307b84b98e3"
+        },{
+            "time":"6:53 AM",
+            "message":"Wasup for the third time like is you bling",
+            "type":"text",
+            "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8"
+        }
+    ]
+    
+}]

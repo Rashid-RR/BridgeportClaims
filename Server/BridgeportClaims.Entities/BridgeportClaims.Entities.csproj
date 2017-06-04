@@ -40,7 +40,11 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,10 +54,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Automappers\IPayorMapper.cs" />
+    <Compile Include="Automappers\PayorMapper.cs" />
+    <Compile Include="DomainModels\Adjustor.cs" />
+    <Compile Include="DomainModels\Claim.cs" />
+    <Compile Include="DomainModels\Payment.cs" />
+    <Compile Include="DomainModels\Payor.cs" />
+    <Compile Include="DomainModels\UsState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\PayorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DomainModels\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

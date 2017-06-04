@@ -50,6 +50,9 @@ export class HttpService {
   profile(): Observable<Response> {  
      return this.http.get(this.baseUrl + "/Account/UserInfo",{headers:this.headers})
   }
+  getPayours(pageNumber:Number,pageSize:Number): Observable<Response> {  
+     return this.http.get(this.baseUrl + "/payor/getpayors/?pageNumber="+pageNumber+"&pageSize="+pageSize,{headers:this.headers})
+  }
 
   get headers(){
     let header = new Headers();

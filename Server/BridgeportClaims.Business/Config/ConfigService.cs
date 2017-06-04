@@ -17,6 +17,8 @@ namespace BridgeportClaims.Business.Config
             return collection;
         }
 
+        public string GetConfigItem(string key) => ConfigurationManager.AppSettings[key];
+
         public bool ApplicationIsInDebugMode
         {
             get

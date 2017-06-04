@@ -9,7 +9,7 @@ import {EventsService} from "./events-service";
   
 @Injectable()
 export class ProfileManager{
-  private userCache: Immutable.OrderedMap<UUID, UserProfile> = Immutable.OrderedMap<UUID, UserProfile>();
+  private userCache: Immutable.OrderedMap<String, UserProfile> = Immutable.OrderedMap<String, UserProfile>();
   profile: UserProfile = null;
  
   constructor(private http:HttpService,private events:EventsService) {
@@ -20,7 +20,7 @@ export class ProfileManager{
         this.clearUsers();
     });
   }
-  userInfo(userId: UUID): Observable<UserProfile> {
+  userInfo(userId: String): Observable<UserProfile> {
     let v = this.userCache.get(userId);
     if (v) {
       return Observable.of(v);
@@ -28,21 +28,21 @@ export class ProfileManager{
       let s = this.http.userFromId(userId);
       s.subscribe(res => {
         let u = res.json() as UserProfile;
-        this.userCache = this.userCache.set(u.id, u);
+        this.userCache = this.userCache.set(u.userName, u);
       });
       return s.map(res => res.json() as UserProfile);
     }
   }
   setProfile(u:UserProfile){
-    let profile = new UserProfile(u.id,u.login,u.displayName,u.email,u.avatarUrl,u.createdOn);
-    this.userCache = this.userCache.set(u.id, profile);
+    let profile = new UserProfile(u.id || u.userName,u.login  || u.userName,u.displayName  || u.userName,u.email  || u.userName,u.userName,u.avatarUrl,u.createdOn);
+     this.userCache = this.userCache.set(profile.userName, profile);
   }
-  userProfile(userId: UUID){
+  userProfile(userId: String){
       return this.userCache.get(userId);
   }
   
   clearUsers(){
-    this.userCache = Immutable.OrderedMap<UUID, UserProfile>();
+    this.userCache = Immutable.OrderedMap<String, UserProfile>();
   }
   get User():Observable<UserProfile> {
     const user = localStorage.getItem("user");

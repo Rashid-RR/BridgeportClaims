@@ -16,16 +16,19 @@ import {RegisterComponent} from "./pages/register/register.component";
 import {MainComponent} from "./pages/main/main.component";
 import {PasswordResetComponent} from "./pages/password-reset/password-reset.component";
 import {Error404Component} from "./pages/error404/error404.component";
+import { PayorsComponent } from './pages/payors/payors.component'
+ import {AuthGuard} from "./services/services.barrel";
 
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'main/private',
     pathMatch: 'full'
   },
   {
     path: '',
+    component: AppLayoutComponent,
     children: [
       {
         path: 'home',
@@ -43,11 +46,16 @@ export const routes: Routes = [
       },         
       {
         path: 'main',
-        component: AppLayoutComponent,
+        //resolve:AuthGuard,
+        canActivate:[AuthGuard],
         children: [
         {
           path: 'private',
           component: PrivateComponent
+        },
+        {
+          path: 'payors',
+          component: PayorsComponent
         }
       ]
     }

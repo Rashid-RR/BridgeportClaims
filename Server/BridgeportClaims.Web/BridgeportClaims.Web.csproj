@@ -51,6 +51,9 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
     </Reference>
@@ -221,12 +224,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutomapperStartup.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\PayorController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Formatters\JsonNetFormatter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -258,7 +264,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
-    <Content Include="AppSettings.config" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-staging - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
@@ -277,9 +282,17 @@
       <Project>{f21cd3e0-2404-415a-8f12-156f20a32fe4}</Project>
       <Name>BridgeportClaims.Business</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BridgeportClaims.Data.Services\BridgeportClaims.Data.Services.csproj">
+      <Project>{C79B763C-F001-405C-AB3A-44893EE69B73}</Project>
+      <Name>BridgeportClaims.Data.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
       <Project>{d5e6fad3-315f-4be1-9602-abce44914924}</Project>
       <Name>BridgeportClaims.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj">
+      <Project>{9CD69827-EFC0-4446-A337-F13ABECAB8B7}</Project>
+      <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

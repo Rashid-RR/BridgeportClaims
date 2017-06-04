@@ -62,7 +62,12 @@
   <ItemGroup>
     <Compile Include="DataProviders\IDbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\DbccUserOptionsProvider.cs" />
-    <Compile Include="Mappings\USStateMap.cs" />
+    <Compile Include="DataProviders\PayorDataProvider.cs" />
+    <Compile Include="Mappings\AdjustorMap.cs" />
+    <Compile Include="Mappings\ClaimMap.cs" />
+    <Compile Include="Mappings\PaymentMap.cs" />
+    <Compile Include="Mappings\PayorMap.cs" />
+    <Compile Include="Mappings\UsStateMap.cs" />
     <Compile Include="NHibernateProviders\FluentSessionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
@@ -76,6 +81,15 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{53bad79f-90e5-45bb-bb4b-d370e44d82cc}</Project>
+      <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj">
+      <Project>{9CD69827-EFC0-4446-A337-F13ABECAB8B7}</Project>
+      <Name>BridgeportClaims.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
