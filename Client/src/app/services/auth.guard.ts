@@ -26,8 +26,9 @@ export class AuthGuard implements CanActivate,Resolve<UserProfile>{
       return this.isLoggedIn.map(e => {
             if (e) {
                 return true;
-            }
-        }).catch(() => {
+            }else console.log(e);
+        }).catch((e) => {
+          console.log(e);
             this.router.navigate(['/login']);
             return Observable.of(false);
         });      
@@ -37,7 +38,8 @@ export class AuthGuard implements CanActivate,Resolve<UserProfile>{
       if (user === null || user.length == 0) { return Observable.of(false);}    
         try {
           let us = JSON.parse(user);
-          return this.profileManager.userInfo(us.id).single().map(res=>{return res.id ? true : false;})        
+          console.log(this.profileManager.userProfile(us.userName));
+          return this.profileManager.userInfo(us.userName).single().map(res=>{return res.userName ? true : false;})        
         } catch (error) {
           return Observable.of(false);
         }

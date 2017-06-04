@@ -28,14 +28,16 @@ export class Role{
 export class UserProfile {
   id: UUID;
   login: string;
+  userName: string;
   displayName: string;
   avatarUrl?: URL;
   email: string;
   createdOn: Date;
   roles?:Array<Role>;
-constructor(id:UUID,login:string,displayName:string,email:string,avatarUrl?:URL,createdOn?:Date,roles?:Array<Role>){
+constructor(id:UUID,login:string,displayName:string,email:string,userName?:string,avatarUrl?:URL,createdOn?:Date,roles?:Array<Role>){
     this.id=id;
     this.login=login;
+    this.userName=userName;
     this.displayName=displayName;
     this.avatarUrl=avatarUrl;
     this.email=email;

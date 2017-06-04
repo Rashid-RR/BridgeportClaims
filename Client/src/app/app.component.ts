@@ -4,6 +4,7 @@ import { Router,NavigationEnd } from '@angular/router';
 
 import {HttpService} from "./services/http-service";
 import {ProfileManager} from "./services/profile-manager";
+import {UserProfile} from "./models/profile";
 import {EventsService} from "./services/events-service";
   @Component({
   selector: 'app-root',
@@ -23,15 +24,16 @@ export class AppComponent implements OnInit,OnDestroy {
       try {
         let us = JSON.parse(user);
         //this.events.broadcast('profile', us);
-        console.log(us);
-
+          console.log(us);
           this.http.setAuth(us.access_token); 
-        this.profileManager.userInfo(us.id).single().subscribe( res => {
+          this.profileManager.setProfile(us as UserProfile);
+          this.profileManager.profile = us;
+          /*this.profileManager.userInfo(us.userName).single().subscribe( res => {
           this.profileManager.profile= res; 
           this.events.broadcast('profile', res);
          },(error)=>{
            
-         });
+         });*/
       } catch (error) {
         console.log(error);
       }

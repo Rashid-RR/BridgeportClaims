@@ -23,7 +23,7 @@ import { PayorsComponent } from './pages/payors/payors.component'
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'main',
+    redirectTo: 'main/private',
     pathMatch: 'full'
   },
   {
@@ -46,6 +46,7 @@ export const routes: Routes = [
       },         
       {
         path: 'main',
+        //resolve:AuthGuard,
         canActivate:[AuthGuard],
         children: [
         {
