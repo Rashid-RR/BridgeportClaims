@@ -19,7 +19,7 @@ import {RoutingModule} from "./app.routing";
 import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModules} from "@angular/router";
  
  //services
- import {HttpService,ProfileManager,EventsService} from "./services/services.barrel";
+ import {HttpService,AuthGuard,ProfileManager,EventsService} from "./services/services.barrel";
 import { PayorsComponent } from './pages/payors/payors.component'
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -58,7 +58,7 @@ export class SafeUrlPipe implements PipeTransform {
     RoutingModule, 
   ],
   providers: [  
-    HttpService,ProfileManager,EventsService,     
+    HttpService,ProfileManager,EventsService,AuthGuard,     
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

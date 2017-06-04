@@ -11,7 +11,9 @@ export class PayorsComponent implements OnInit {
   payors:Array<Payor>=[];
   pageNumber:number;
   pageSize:number =5;
+  loading:boolean;
   constructor(private http:HttpService) {
+    this.loading=false;
      this.getPayors(1)
    }
 
@@ -29,7 +31,8 @@ export class PayorsComponent implements OnInit {
   }
 
   getPayors(pageNumber:number){
-    this.http.getPayours(pageNumber,this.pageSize).map(res=>{return res.json()}).subscribe(result=>{
+    this.loading = true;
+    this.http.getPayours(pageNumber,this.pageSize).map(res=>{this.loading = false;return res.json()}).subscribe(result=>{
           this.payors = result;
           this.pageNumber = pageNumber;
       },err=>{
