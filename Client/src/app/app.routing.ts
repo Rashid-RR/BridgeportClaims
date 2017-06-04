@@ -23,7 +23,7 @@ import { PayorsComponent } from './pages/payors/payors.component'
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'main',
     pathMatch: 'full'
   },
   {
