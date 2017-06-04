@@ -35,8 +35,7 @@ export class ProfileManager{
   }
   setProfile(u:UserProfile){
     let profile = new UserProfile(u.id || u.userName,u.login  || u.userName,u.displayName  || u.userName,u.email  || u.userName,u.userName,u.avatarUrl,u.createdOn);
-    console.log(profile);
-    this.userCache = this.userCache.set(profile.userName, profile);
+     this.userCache = this.userCache.set(profile.userName, profile);
   }
   userProfile(userId: String){
       return this.userCache.get(userId);

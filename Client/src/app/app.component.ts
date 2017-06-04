@@ -24,7 +24,6 @@ export class AppComponent implements OnInit,OnDestroy {
       try {
         let us = JSON.parse(user);
         //this.events.broadcast('profile', us);
-          console.log(us);
           this.http.setAuth(us.access_token); 
           this.profileManager.setProfile(us as UserProfile);
           this.profileManager.profile = us;
