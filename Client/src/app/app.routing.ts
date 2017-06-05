@@ -25,10 +25,10 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'main/private',
     pathMatch: 'full'
-  },
+  }, 
   {
     path: '',
-    component: AppLayoutComponent,
+    component: AppLayoutComponent,    
     children: [
       {
         path: 'home',
