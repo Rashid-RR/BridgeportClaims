@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Emailing\EmailGenerator.cs" />
     <Compile Include="Payors\IPayorService.cs" />
     <Compile Include="Payors\PayorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -58,6 +60,11 @@
       <Project>{9cd69827-efc0-4446-a337-f13abecab8b7}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Emailing\EmailTemplate-ActivateAccount.html" />
+    <Content Include="Emailing\EmailTemplate-ContactUs.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,7 +11,9 @@ namespace BridgeportClaims.Data.Repositories
 
         public BaseRepository(ISession session)
         {
-            Session = session ?? throw new ArgumentNullException(nameof(session), "No Nhibernate Session was supplied to the provider");
+            if (null == session)
+                throw new ArgumentNullException(nameof(session), "No Nhibernate Session was supplied to the provider");
+                Session = session;
         }
 
         public bool IsConfigured() => null != Session;
