@@ -1,19 +1,34 @@
 ﻿using System;
+using BridgeportClaims.Data.RepositoryUnitOfWork;
 using NHibernate;
 
 namespace BridgeportClaims.Data.Repositories
 {
     public class BaseRepository
     {
-        protected ISession Session { get; set; }
-        
-        public BaseRepository() { }
+        private readonly UnitOfWork _unitOfWork;
+        private ISession _session;
+
+        protected ISession Session
+        {
+            get
+            {
+                _session = _unitOfWork.Session;
+                return _session;
+            }
+            private set { _session = value; }
+        }
+
+        public BaseRepository(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = (UnitOfWork)unitOfWork;
+        }
 
         public BaseRepository(ISession session)
         {
             if (null == session)
                 throw new ArgumentNullException(nameof(session), "No Nhibernate Session was supplied to the provider");
-                Session = session;
+            Session = session;
         }
 
         public bool IsConfigured() => null != Session;

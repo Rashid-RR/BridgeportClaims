@@ -9,7 +9,7 @@ namespace BridgeportClaims.Data.Mappings
         {
             Table("Payment");
             LazyLoad();
-            Id(x => x.PaymentId).GeneratedBy.Identity().Column("PaymentID");
+            Id(x => x.Id).GeneratedBy.Identity().Column("PaymentID");
             References(x => x.Claim).Column("ClaimID");
             Map(x => x.CheckNumber).Column("CheckNumber").Not.Nullable().Length(100);
             Map(x => x.CheckDate).Column("CheckDate").Not.Nullable();

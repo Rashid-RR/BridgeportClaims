@@ -52,6 +52,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}</Project>
+      <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
       <Project>{d5e6fad3-315f-4be1-9602-abce44914924}</Project>
       <Name>BridgeportClaims.Data</Name>

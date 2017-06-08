@@ -10,7 +10,7 @@ namespace BridgeportClaims.Data.Mappings
             Table("Payor");
             Schema("dbo");
             LazyLoad();
-            Id(x => x.PayorId).GeneratedBy.Identity().Column("PayorID");
+            Id(x => x.Id).GeneratedBy.Identity().Column("PayorID");
             References(x => x.UsState).Column("BillToStateID");
             Map(x => x.BillToName).Column("BillToName").Length(255);
             Map(x => x.BillToAddress1).Column("BillToAddress1").Length(255);

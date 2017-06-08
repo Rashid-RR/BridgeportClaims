@@ -63,9 +63,10 @@ namespace BridgeportClaims.Common.Extensions
 
         // "a string".IsNullOrEmpty() beats string.IsNullOrEmpty("a string")
         public static bool IsNullOrEmpty(this string theString)
-        {
-            return string.IsNullOrEmpty(theString);
-        }
+            => string.IsNullOrEmpty(theString);
+
+        public static bool IsNotNullOrEmpty(this string theString)
+            => !string.IsNullOrEmpty(theString);
 
         //not so sure about this one -
         //"a string {0}".Format("blah") vs string.Format("a string {0}", "blah")

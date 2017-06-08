@@ -1,28 +1,25 @@
+using System;
+using System.Web;
+using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using Ninject;
+using Ninject.Web.Common;
+using System.Web.Http;
+using Ninject.Web.WebApi;
+using BridgeportClaims.Data.DataProviders;
+using BridgeportClaims.Data.Services.Payors;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Entities.Automappers;
 using BridgeportClaims.Business.Config;
 using BridgeportClaims.Business.Logging;
+using BridgeportClaims.Business.Security;
+using BridgeportClaims.Data.RepositoryUnitOfWork;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Stop")]
 
 namespace BridgeportClaims.Web.App_Start
 {
-    using System;
-    using System.Web;
-
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
-    using Ninject;
-    using Ninject.Web.Common;
-    using System.Web.Http;
-    using Ninject.Web.WebApi;
-    using BridgeportClaims.Data.DataProviders;
-    using BridgeportClaims.Data.Services.Payors;
-    using BridgeportClaims.Data.Repositories;
-    using BridgeportClaims.Data.StoredProcedureExecutors;
-    using NHibernate;
-    using BridgeportClaims.Data.NHibernateProviders;
-    using BridgeportClaims.Entities.Automappers;
-
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
@@ -74,20 +71,21 @@ namespace BridgeportClaims.Web.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<ISession>()
-                .ToMethod(i => FluentSessionProvider.GetCurrentSession())
-                .InRequestScope()
-                .OnDeactivation((context, session) =>
-                {
-                    if (session.Transaction.IsActive)
-                        session.Transaction.Commit();
+            //kernel.Bind<ISession>()
+            //    .ToMethod(i => FluentSessionProvider.GetCurrentSession())
+            //    .InRequestScope()
+            //    .OnDeactivation((context, session) =>
+            //    {
+            //        if (session.Transaction.IsActive)
+            //            session.Transaction.Commit();
 
-                    if (session.IsOpen)
-                        session.Close();
+            //        if (session.IsOpen)
+            //            session.Close();
 
-                    session.Dispose();
-                });
-            kernel.Bind(typeof(IRepository<>)).To(typeof(NHibernateRepository<>));
+            //        session.Dispose();
+            //    });
+            kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
+            kernel.Bind(typeof(IRepository<>)).To(typeof(Repository<>));
             kernel.Bind<ILoggingService>().To<LoggingService>();
             kernel.Bind<IDbccUserOptionsProvider>().To<DbccUserOptionsProvider>();
             kernel.Bind<IConfigService>().To<ConfigService>();
@@ -96,6 +94,7 @@ namespace BridgeportClaims.Web.App_Start
             kernel.Bind<IPayorMapper>().To<PayorMapper>();
             kernel.Bind<HttpContext>().ToMethod(c => HttpContext.Current);
             kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
+            kernel.Bind<IPasswordHasher>().To<PasswordHasher>();
         }        
     }
 }

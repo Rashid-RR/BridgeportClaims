@@ -46,6 +46,10 @@
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
@@ -63,6 +67,7 @@
     <Compile Include="DataProviders\IDbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\DbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\PayorDataProvider.cs" />
+    <Compile Include="MappingByConvention\ModelMapper.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
     <Compile Include="Mappings\ClaimMap.cs" />
     <Compile Include="Mappings\PaymentMap.cs" />
@@ -72,10 +77,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\NHibernateRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="RepositoryUnitOfWork\AutomappingConfiguration.cs" />
+    <Compile Include="RepositoryUnitOfWork\UnitOfWork.cs" />
+    <Compile Include="SerializableValues\Error.cs" />
+    <Compile Include="SessionFactory\SessionFactoryBuilder.cs" />
     <Compile Include="StoredProcedureExecutors\Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
     <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
+    <Compile Include="RepositoryUnitOfWork\IUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -90,6 +100,9 @@
       <Project>{9CD69827-EFC0-4446-A337-F13ABECAB8B7}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

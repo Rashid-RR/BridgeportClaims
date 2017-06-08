@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\JsonConverter.cs" />
-    <Compile Include="ExpressionHelpers\DisposableHelper.cs" />
+    <Compile Include="ExpressionManagers\DisposableManager.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\MemoryExtensions.cs" />
     <Compile Include="Extensions\MiscExtensions.cs" />

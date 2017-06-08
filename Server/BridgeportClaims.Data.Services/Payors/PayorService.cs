@@ -1,27 +1,50 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using BridgeportClaims.Data.NHibernateProviders;
 using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Data.RepositoryUnitOfWork;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Entities.ViewModels;
+using BridgeportClaims.Common.ExpressionManagers;
 
 namespace BridgeportClaims.Data.Services.Payors
 {
     public class PayorService : IPayorService
     {
         private readonly IRepository<Payor> _payorRepository;
+        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public PayorService(IRepository<Payor> payorRepository)
+        public PayorService(IRepository<Payor> payorRepository, IStoredProcedureExecutor storedProcedureExecutor, IUnitOfWork unitOfWork)
         {
             _payorRepository = payorRepository;
+            _storedProcedureExecutor = storedProcedureExecutor;
+            _unitOfWork = unitOfWork;
         }
 
         public Payor GetPayorById(int id) => _payorRepository.Get(id);
+
+        public Payor LoadPayor(int id)
+        {
+            try
+            {
+                _unitOfWork.BeginTransaction();
+                var payor = _payorRepository.Load(id);
+                if (null != payor)
+                    _unitOfWork.Commit();
+                return payor;
+            }
+            catch
+            {
+                _unitOfWork.Rollback();
+                throw;
+            }
+        }
 
         public IQueryable<Payor> GetManyPayors(Expression<Func<Payor, bool>> predicate) =>
             _payorRepository.GetMany(predicate);
@@ -45,9 +68,7 @@ namespace BridgeportClaims.Data.Services.Payors
                 Value = pageSize,
                 DbType = DbType.Int32
             };
-            IStoredProcedureExecutor storedProcedureExecutor = 
-                new StoredProcedureExecutor(FluentSessionProvider.SessionFactory);
-            return storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PayorViewModel>(
+            return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PayorViewModel>(
                 "EXEC [dbo].[uspGetPayors] :PageNumber, :PageSize",
                 new List<SqlParameter> {pageNumberParam, pageSizeParam}).ToList();
         }

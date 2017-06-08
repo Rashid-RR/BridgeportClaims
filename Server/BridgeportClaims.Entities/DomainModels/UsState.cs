@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using BridgeportClaims.Entities.Domain;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-    public class UsState
+    public class UsState : IEntity
     {
         public UsState()
         {
             Claim = new List<Claim>();
             Payor = new List<Payor>();
         }
-        public virtual int StateId { get; set; }
+        public virtual int Id { get; set; }
         [Required]
         [StringLength(2)]
         public virtual string StateCode { get; set; }

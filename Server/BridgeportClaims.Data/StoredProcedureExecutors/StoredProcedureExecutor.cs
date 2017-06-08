@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using BridgeportClaims.Common.ExpressionManagers;
+using BridgeportClaims.Data.RepositoryUnitOfWork;
 using NHibernate;
 using NHibernate.Transform;
 
@@ -8,43 +10,47 @@ namespace BridgeportClaims.Data.StoredProcedureExecutors
 {
     public class StoredProcedureExecutor : IStoredProcedureExecutor
     {
-        private readonly ISessionFactory _sessionFactory;
+        private readonly UnitOfWork _unitOfWork;
 
-        public StoredProcedureExecutor(ISessionFactory sessionFactory)
+        public StoredProcedureExecutor(IUnitOfWork unitOfWork)
         {
-            _sessionFactory = sessionFactory;
+            _unitOfWork = (UnitOfWork)unitOfWork;
         }
 
         public IEnumerable<T> ExecuteMultiResultStoredProcedure<T>(string procedureNameExecStatement, IList<SqlParameter> parameters)
         {
             IEnumerable<T> result;
-            using (var session = _sessionFactory.OpenSession())
+            using (var uow = _unitOfWork.Session)
             {
-                var query = session.CreateSQLQuery(procedureNameExecStatement);
+                var query = uow.CreateSQLQuery(procedureNameExecStatement);
                 AddStoredProcedureParameters(query, parameters);
                 result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).List().Cast<T>();
             }
             return result;
         }
 
-        public T ExecuteSingleResultStoredProcedure<T>(string procedureNameExecStatement, IList<SqlParameter> parameters)
+        public T ExecuteSingleResultStoredProcedure<T>(string procedureNameExecStatement,
+            IList<SqlParameter> parameters)
         {
-            T result;
-            using (var session = _sessionFactory.OpenSession())
-            {
-                var query = session.CreateSQLQuery(procedureNameExecStatement);
-                AddStoredProcedureParameters(query, parameters);
-                result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
-            }
-            return result;
+            return
+                DisposableManager.Using(() => _unitOfWork.Session,
+                    transaction =>
+                    {
+                        _unitOfWork.BeginTransaction();
+                        var query = transaction.CreateSQLQuery(procedureNameExecStatement);
+                        AddStoredProcedureParameters(query, parameters);
+                        var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
+                        _unitOfWork.Commit();
+                        return result;
+                    });
         }
 
         public T ExecuteScalarStoredProcedure<T>(string procedureName, IList<SqlParameter> parameters)
         {
             T result;
-            using (var session = _sessionFactory.OpenSession())
+            using (var uow = _unitOfWork.Session)
             {
-                var query = session.GetNamedQuery(procedureName);
+                var query = uow.GetNamedQuery(procedureName);
                 AddStoredProcedureParameters(query, parameters);
                 result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
             }
