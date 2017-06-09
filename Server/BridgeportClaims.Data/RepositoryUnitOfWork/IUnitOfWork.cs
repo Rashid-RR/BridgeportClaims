@@ -1,6 +1,8 @@
-﻿namespace BridgeportClaims.Data.RepositoryUnitOfWork
+﻿using System;
+
+namespace BridgeportClaims.Data.RepositoryUnitOfWork
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         void BeginTransaction();
         void Commit();

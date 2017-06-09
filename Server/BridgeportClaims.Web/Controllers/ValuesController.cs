@@ -1,23 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Data.DataProviders;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Data.RepositoryUnitOfWork;
+using BridgeportClaims.Data.SessionFactory;
+using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ValuesController : ApiController
     {
         private readonly ILoggingService _loggingService;
         private readonly IDbccUserOptionsProvider _dbccUserOptionsProvider;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IRepository<Claim> _claimRepository;
+        private readonly IRepository<Payment> _paymentRepository;
 
-        public ValuesController(ILoggingService loggingService, IDbccUserOptionsProvider dbccUserOptionsProvider)
+        public ValuesController(ILoggingService loggingService, IDbccUserOptionsProvider dbccUserOptionsProvider, IUnitOfWork unitOfWork, IRepository<Claim> claimRepository, IRepository<Payment> paymentRepository)
         {
             _loggingService = loggingService;
             _dbccUserOptionsProvider = dbccUserOptionsProvider;
+            _unitOfWork = unitOfWork;
+            _claimRepository = claimRepository;
+            _paymentRepository = paymentRepository;
         }
 
         // GET api/values
@@ -82,6 +93,24 @@ namespace BridgeportClaims.Web.Controllers
                 _loggingService.Error(ex, GetType().Name, MethodBase.GetCurrentMethod()?.Name);
                 throw;
             }
+        }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> TestMeAgain()
+        {
+            return await Task.Run(() =>
+            {
+                using (var uow = new UnitOfWork(SessionFactoryBuilder.CreateSessionFactory()))
+                {
+                    uow.BeginTransaction();
+                    var claim = _claimRepository.Load(14);
+                    claim.DateOfInjury = DateTime.Now;
+                    var payment = _paymentRepository.GetMany(x => x.Id == 691).First();
+                    payment.AmountPaid = -2;
+                    _unitOfWork.Commit();
+                    return Ok(claim);
+                }
+            });
         }
     }
 }

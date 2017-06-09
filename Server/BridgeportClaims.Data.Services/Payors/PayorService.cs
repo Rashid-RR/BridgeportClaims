@@ -10,7 +10,6 @@ using BridgeportClaims.Data.RepositoryUnitOfWork;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Entities.ViewModels;
-using BridgeportClaims.Common.ExpressionManagers;
 
 namespace BridgeportClaims.Data.Services.Payors
 {
@@ -33,7 +32,6 @@ namespace BridgeportClaims.Data.Services.Payors
         {
             try
             {
-                _unitOfWork.BeginTransaction();
                 var payor = _payorRepository.Load(id);
                 if (null != payor)
                     _unitOfWork.Commit();

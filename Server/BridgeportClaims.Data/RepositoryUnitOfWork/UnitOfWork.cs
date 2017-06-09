@@ -1,41 +1,50 @@
-﻿using NHibernate;
-using System;
+﻿using System;
+using NHibernate;
 using System.Data;
-using BridgeportClaims.Data.SessionFactory;
 
 namespace BridgeportClaims.Data.RepositoryUnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork, IDisposable
+    public class UnitOfWork : IUnitOfWork
     {
-        private static readonly ISessionFactory SessionFactory;
-        private readonly ITransaction _transaction;
+        #region Private Members
 
-        public ISession Session { get; private set; }
+        private ITransaction _transaction;
 
-        #region Ctors
+        #endregion
 
-        static UnitOfWork()
+        #region Ctor
+
+        public UnitOfWork(ISessionFactory sessionFactory)
         {
-            SessionFactory = SessionFactoryBuilder.GetSessionFactory();
-        }
-
-        public UnitOfWork(ITransaction transaction)
-        {
-            _transaction = transaction;
-            Session = SessionFactory.OpenSession();
+            CurrentSession = sessionFactory.OpenSession();
         }
 
         #endregion
+
+        #region Public Members
+
+        public ISession CurrentSession { get; private set; }
+
+        #endregion
+
+        #region Public Methods
 
         public void BeginTransaction()
         {
             try
             {
-                Session.BeginTransaction(IsolationLevel.ReadCommitted); // READ_COMMITTED_SNAPSHOT
+                if (null == _transaction || !_transaction.IsActive)
+                {
+                    _transaction = CurrentSession.BeginTransaction(IsolationLevel.ReadCommitted);
+                }
             }
-            finally
+            catch
             {
-                Session.Dispose();
+                // rollback if there was an exception
+                if (null != _transaction && _transaction.IsActive)
+                    _transaction.Rollback();
+
+                throw;
             }
         }
 
@@ -57,7 +66,7 @@ namespace BridgeportClaims.Data.RepositoryUnitOfWork
             }
             finally
             {
-                Session.Dispose();
+                Dispose();
             }
         }
 
@@ -70,15 +79,17 @@ namespace BridgeportClaims.Data.RepositoryUnitOfWork
             }
             finally
             {
-                Session.Dispose();
+                Dispose();
             }
         }
 
         public void Dispose()
         {
-            Session.Dispose();
-            Session = null;
+            CurrentSession.Dispose();
+            CurrentSession = null;
             //GC.SuppressFinalize(this);
         }
+
+        #endregion
     }
 }

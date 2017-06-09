@@ -1,42 +1,56 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using BridgeportClaims.Common.ExpressionManagers;
 using BridgeportClaims.Data.RepositoryUnitOfWork;
 using NHibernate;
 using NHibernate.Transform;
+using BridgeportClaims.Business.Logging;
 
 namespace BridgeportClaims.Data.StoredProcedureExecutors
 {
     public class StoredProcedureExecutor : IStoredProcedureExecutor
     {
         private readonly UnitOfWork _unitOfWork;
+        private readonly ILoggingService _loggingService;
 
-        public StoredProcedureExecutor(IUnitOfWork unitOfWork)
+        public StoredProcedureExecutor(IUnitOfWork unitOfWork, ILoggingService loggingService)
         {
+            _loggingService = loggingService;
             _unitOfWork = (UnitOfWork)unitOfWork;
         }
 
         public IEnumerable<T> ExecuteMultiResultStoredProcedure<T>(string procedureNameExecStatement, IList<SqlParameter> parameters)
         {
-            IEnumerable<T> result;
-            using (var uow = _unitOfWork.Session)
+            try
             {
-                var query = uow.CreateSQLQuery(procedureNameExecStatement);
-                AddStoredProcedureParameters(query, parameters);
-                result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).List().Cast<T>();
+                IEnumerable<T> result;
+                using (var uow = _unitOfWork.CurrentSession)
+                {
+                    var query = uow.CreateSQLQuery(procedureNameExecStatement);
+                    AddStoredProcedureParameters(query, parameters);
+                    result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).List().Cast<T>();
+                    _unitOfWork.Commit();
+                }
+                return result;
             }
-            return result;
+            catch (Exception ex)
+            {
+                _loggingService.Error(ex, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                _unitOfWork.Rollback();
+                throw;
+            }
         }
 
         public T ExecuteSingleResultStoredProcedure<T>(string procedureNameExecStatement,
             IList<SqlParameter> parameters)
         {
             return
-                DisposableManager.Using(() => _unitOfWork.Session,
+                DisposableManager.Using(() => _unitOfWork.CurrentSession,
                     transaction =>
                     {
-                        _unitOfWork.BeginTransaction();
                         var query = transaction.CreateSQLQuery(procedureNameExecStatement);
                         AddStoredProcedureParameters(query, parameters);
                         var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
@@ -48,7 +62,7 @@ namespace BridgeportClaims.Data.StoredProcedureExecutors
         public T ExecuteScalarStoredProcedure<T>(string procedureName, IList<SqlParameter> parameters)
         {
             T result;
-            using (var uow = _unitOfWork.Session)
+            using (var uow = _unitOfWork.CurrentSession)
             {
                 var query = uow.GetNamedQuery(procedureName);
                 AddStoredProcedureParameters(query, parameters);

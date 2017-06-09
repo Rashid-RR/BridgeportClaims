@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.Repositories
         {
             get
             {
-                _session = _unitOfWork.Session;
+                _session = _unitOfWork.CurrentSession;
                 return _session;
             }
             private set { _session = value; }
@@ -27,7 +27,7 @@ namespace BridgeportClaims.Data.Repositories
         public BaseRepository(ISession session)
         {
             if (null == session)
-                throw new ArgumentNullException(nameof(session), "No Nhibernate Session was supplied to the provider");
+                throw new ArgumentNullException(nameof(session), "No Nhibernate CurrentSession was supplied to the provider");
             Session = session;
         }
 
