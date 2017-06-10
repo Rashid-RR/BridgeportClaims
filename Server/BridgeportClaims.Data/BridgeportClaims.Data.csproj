@@ -46,10 +46,15 @@
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -60,20 +65,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProviders\GetClaimsDataProvider.cs" />
     <Compile Include="DataProviders\IDbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\DbccUserOptionsProvider.cs" />
-    <Compile Include="DataProviders\PayorDataProvider.cs" />
+    <Compile Include="DataProviders\IGetClaimsDataProvider.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
     <Compile Include="Mappings\ClaimMap.cs" />
     <Compile Include="Mappings\PaymentMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
-    <Compile Include="NHibernateProviders\FluentSessionProvider.cs" />
+    <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\NHibernateRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="SessionFactory\SessionFactoryBuilder.cs" />
     <Compile Include="StoredProcedureExecutors\Dtos\DbccUserOptionsResults.cs" />
+    <Compile Include="StoredProcedureExecutors\Dtos\GetClaimsData.cs" />
     <Compile Include="StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
     <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>
@@ -82,6 +90,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
+      <Project>{F21CD3E0-2404-415A-8F12-156F20A32FE4}</Project>
+      <Name>BridgeportClaims.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{53bad79f-90e5-45bb-bb4b-d370e44d82cc}</Project>
       <Name>BridgeportClaims.Common</Name>
@@ -90,6 +102,9 @@
       <Project>{9CD69827-EFC0-4446-A337-F13ABECAB8B7}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

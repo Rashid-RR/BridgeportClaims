@@ -1,4 +1,7 @@
-﻿using System.Web.Http;
+﻿using System;
+using System.Web.Http;
+using BridgeportClaims.Business.Config;
+using HibernatingRhinos.Profiler.Appender.NHibernate;
 
 namespace BridgeportClaims.Web
 {
@@ -8,6 +11,9 @@ namespace BridgeportClaims.Web
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AutomapperStartup.Configure();
+            var configService = new ConfigService();
+            if (Convert.ToBoolean(configService.GetConfigItem("ApplicationIsInDebugMode")))
+                NHibernateProfiler.Initialize();
         }
     }
 }

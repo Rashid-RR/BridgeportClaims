@@ -5,15 +5,20 @@ namespace BridgeportClaims.Data.Repositories
 {
     public class BaseRepository
     {
-        protected ISession Session { get; set; }
-        
-        public BaseRepository() { }
-
+        private readonly ISession _session;
         public BaseRepository(ISession session)
         {
-            Session = session ?? throw new ArgumentNullException(nameof(session), "No Nhibernate Session was supplied to the provider");
+            _session = session ?? throw new ArgumentNullException(nameof(session), "No NHibernate session argument was supplied");
         }
-
-        public bool IsConfigured() => null != Session;
+        protected ISession Session
+        {
+            get
+            {
+                if (null != _session)
+                    return _session;
+                throw new Exception("Session object not initialized by Ninject");
+            }
+        }
+        public bool IsConfigured() => null != _session;
     }
 }

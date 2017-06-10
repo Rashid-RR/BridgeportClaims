@@ -9,8 +9,10 @@ namespace BridgeportClaims.Data.Mappings
         {
             Table("UsState");
             Schema("dbo");
+            SchemaAction.None();
+            DynamicUpdate();
             LazyLoad();
-            Id(x => x.StateId).GeneratedBy.Identity().Column("StateID");
+            Id(x => x.Id).GeneratedBy.Identity().Column("StateID");
             Map(x => x.StateCode).Column("StateCode").Not.Nullable().Length(2);
             Map(x => x.StateName).Column("StateName").Not.Nullable().Length(64);
             Map(x => x.IsTerritory).Column("IsTerritory").Not.Nullable();

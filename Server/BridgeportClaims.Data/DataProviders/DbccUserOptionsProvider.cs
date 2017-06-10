@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using BridgeportClaims.Data.NHibernateProviders;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Data.StoredProcedureExecutors.Dtos;
 
@@ -11,11 +10,17 @@ namespace BridgeportClaims.Data.DataProviders
     public class DbccUserOptionsProvider : IDbccUserOptionsProvider
     {
         private const string ReadCommittedSnapshot = "READ_COMMITTED_SNAPSHOT";
+        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+
+        public DbccUserOptionsProvider(IStoredProcedureExecutor storedProcedureExecutor)
+        {
+            _storedProcedureExecutor = storedProcedureExecutor;
+        }
+
 
         public IList<DbccUserOptionsResults> GetDbccUserOptions()
         {
-            IStoredProcedureExecutor spExecutor = new StoredProcedureExecutor(FluentSessionProvider.SessionFactory);
-            var retVal = spExecutor.ExecuteMultiResultStoredProcedure<DbccUserOptionsResults>
+            var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<DbccUserOptionsResults>
                 ("EXECUTE dbo.uspDbccUserOptions", new List<SqlParameter>()).ToList();
             return retVal;
         }

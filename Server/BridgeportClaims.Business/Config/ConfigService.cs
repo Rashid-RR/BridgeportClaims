@@ -23,8 +23,9 @@ namespace BridgeportClaims.Business.Config
         {
             get
             {
+                bool b;
                 var debugMode = GetAllConfigItems()["ApplicationIsInDebugMode"];
-                return Boolean.TryParse(debugMode, out bool b) && b;
+                return Boolean.TryParse(debugMode, out b) && b;
             }
         }
     }

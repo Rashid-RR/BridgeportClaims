@@ -9,8 +9,10 @@ namespace BridgeportClaims.Data.Mappings
         {
             Table("Adjustor");
             Schema("dbo");
+            DynamicUpdate();
+            SchemaAction.None();
             LazyLoad();
-            Id(x => x.AdjustorId).GeneratedBy.Identity().Column("AdjustorID");
+            Id(x => x.Id).GeneratedBy.Identity().Column("AdjustorID");
             References(x => x.Payor).Column("PayorID");
             Map(x => x.AdjustorName).Column("AdjustorName").Not.Nullable().Length(255);
             Map(x => x.PhoneNumber).Column("PhoneNumber").Length(30);

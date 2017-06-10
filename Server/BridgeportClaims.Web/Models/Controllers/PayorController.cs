@@ -24,7 +24,7 @@ namespace BridgeportClaims.Web.Controllers
             _payorService = payorService;
             _payorMapper = payorMapper;
         }
-        
+
         [HttpGet]
         public async Task<IHttpActionResult> GetAllPayors()
         {

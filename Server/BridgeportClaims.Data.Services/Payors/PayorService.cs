@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
-using BridgeportClaims.Data.NHibernateProviders;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
@@ -15,10 +14,12 @@ namespace BridgeportClaims.Data.Services.Payors
     public class PayorService : IPayorService
     {
         private readonly IRepository<Payor> _payorRepository;
+        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
 
-        public PayorService(IRepository<Payor> payorRepository)
+        public PayorService(IRepository<Payor> payorRepository, IStoredProcedureExecutor storedProcedureExecutor)
         {
             _payorRepository = payorRepository;
+            _storedProcedureExecutor = storedProcedureExecutor;
         }
 
         public Payor GetPayorById(int id) => _payorRepository.Get(id);
@@ -45,9 +46,7 @@ namespace BridgeportClaims.Data.Services.Payors
                 Value = pageSize,
                 DbType = DbType.Int32
             };
-            IStoredProcedureExecutor storedProcedureExecutor = 
-                new StoredProcedureExecutor(FluentSessionProvider.SessionFactory);
-            return storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PayorViewModel>(
+            return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PayorViewModel>(
                 "EXEC [dbo].[uspGetPayors] :PageNumber, :PageSize",
                 new List<SqlParameter> {pageNumberParam, pageSizeParam}).ToList();
         }

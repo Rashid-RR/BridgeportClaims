@@ -29,7 +29,7 @@ namespace BridgeportClaims.Web
             {
                 // ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 // PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                Formatting = Formatting.Indented,
+                Formatting = Formatting.Indented,   
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
 

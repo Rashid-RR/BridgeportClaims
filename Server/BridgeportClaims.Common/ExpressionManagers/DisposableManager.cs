@@ -1,8 +1,8 @@
-﻿using System;
+﻿    using System;
 
-namespace BridgeportClaims.Common.ExpressionHelpers
+namespace BridgeportClaims.Common.ExpressionManagers
 {
-    public static class DisposableHelper
+    public static class DisposableManager
     {
         public static TResult Using<TDisposable, TResult>(
             Func<TDisposable> factory,

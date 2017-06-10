@@ -1,60 +1,74 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using NHibernate;
 using NHibernate.Transform;
+using BridgeportClaims.Business.Logging;
+using BridgeportClaims.Data.NHibernate;
+using NHibernate.Type;
 
 namespace BridgeportClaims.Data.StoredProcedureExecutors
 {
     public class StoredProcedureExecutor : IStoredProcedureExecutor
     {
-        private readonly ISessionFactory _sessionFactory;
+        private readonly ILoggingService _loggingService;
+        private readonly ISession _session;
 
-        public StoredProcedureExecutor(ISessionFactory sessionFactory)
+        public StoredProcedureExecutor(ISession session, ILoggingService loggingService)
         {
-            _sessionFactory = sessionFactory;
+            _loggingService = loggingService;
+            _session = session;
         }
 
         public IEnumerable<T> ExecuteMultiResultStoredProcedure<T>(string procedureNameExecStatement, IList<SqlParameter> parameters)
         {
-            IEnumerable<T> result;
-            using (var session = _sessionFactory.OpenSession())
+            using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
-                var query = session.CreateSQLQuery(procedureNameExecStatement);
-                AddStoredProcedureParameters(query, parameters);
-                result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).List().Cast<T>();
+                try
+                {
+                    var query = _session.CreateSQLQuery(procedureNameExecStatement);
+                    AddStoredProcedureParameters(query, parameters);
+                    var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).List().Cast<T>();
+                    if (transaction.IsActive)
+                        transaction.Commit();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    _loggingService.Error(ex, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                    if (transaction.IsActive)
+                        transaction.Rollback();
+                    throw;
+                }
             }
-            return result;
         }
 
-        public T ExecuteSingleResultStoredProcedure<T>(string procedureNameExecStatement, IList<SqlParameter> parameters)
+        public T ExecuteSingleResultStoredProcedure<T>(string procedureNameExecStatement,
+            IList<SqlParameter> parameters)
         {
-            T result;
-            using (var session = _sessionFactory.OpenSession())
-            {
-                var query = session.CreateSQLQuery(procedureNameExecStatement);
-                AddStoredProcedureParameters(query, parameters);
-                result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
-            }
+            var query = _session.CreateSQLQuery(procedureNameExecStatement);
+            AddStoredProcedureParameters(query, parameters);
+            var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
             return result;
         }
 
         public T ExecuteScalarStoredProcedure<T>(string procedureName, IList<SqlParameter> parameters)
         {
-            T result;
-            using (var session = _sessionFactory.OpenSession())
-            {
-                var query = session.GetNamedQuery(procedureName);
-                AddStoredProcedureParameters(query, parameters);
-                result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
-            }
+            var query = _session.GetNamedQuery(procedureName);
+            AddStoredProcedureParameters(query, parameters);
+            var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
+
             return result;
         }
 
         public static IQuery AddStoredProcedureParameters(IQuery query, IEnumerable<SqlParameter> parameters)
         {
             foreach (var parameter in parameters)
-                query.SetParameter(parameter.ParameterName, parameter.Value);
+                query.SetParameter(parameter.ParameterName, parameter.Value,
+                    TypeMapper.GetTypeFromDbType(parameter.DbType));
             return query;
         }
     }

@@ -56,11 +56,13 @@
   <ItemGroup>
     <Compile Include="Automappers\IPayorMapper.cs" />
     <Compile Include="Automappers\PayorMapper.cs" />
+    <Compile Include="BaseEntity\Entity.cs" />
     <Compile Include="DomainModels\Adjustor.cs" />
     <Compile Include="DomainModels\Claim.cs" />
     <Compile Include="DomainModels\Payment.cs" />
     <Compile Include="DomainModels\Payor.cs" />
     <Compile Include="DomainModels\UsState.cs" />
+    <Compile Include="Domain\IEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PayorViewModel.cs" />
   </ItemGroup>

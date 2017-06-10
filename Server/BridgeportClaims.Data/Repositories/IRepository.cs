@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using BridgeportClaims.Entities.Domain;
 
 namespace BridgeportClaims.Data.Repositories
 {
@@ -9,10 +10,9 @@ namespace BridgeportClaims.Data.Repositories
     /// Should you ever need to add functionality specific to a single class, extend
     /// the interface.
     /// </summary>
-    public interface IRepository<T>
+    public interface IRepository<T> where T : class, IEntity, new()
     {
         T Get(object id);
-        T Load(object id);
         T Get(Expression<Func<T, bool>> predicate);
         void Save(T value);
         void SaveOrUpdateMany(IEnumerable<T> values);
