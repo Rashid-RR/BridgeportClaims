@@ -7,6 +7,8 @@ using System.Reflection;
 using NHibernate;
 using NHibernate.Transform;
 using BridgeportClaims.Business.Logging;
+using BridgeportClaims.Data.NHibernate;
+using NHibernate.Type;
 
 namespace BridgeportClaims.Data.StoredProcedureExecutors
 {
@@ -65,7 +67,8 @@ namespace BridgeportClaims.Data.StoredProcedureExecutors
         public static IQuery AddStoredProcedureParameters(IQuery query, IEnumerable<SqlParameter> parameters)
         {
             foreach (var parameter in parameters)
-                query.SetParameter(parameter.ParameterName, parameter.Value);
+                query.SetParameter(parameter.ParameterName, parameter.Value,
+                    TypeMapper.GetTypeFromDbType(parameter.DbType));
             return query;
         }
     }

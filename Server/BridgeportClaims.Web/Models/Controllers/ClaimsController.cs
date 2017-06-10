@@ -23,14 +23,6 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                if (null == model.ClaimNumber)
-                    model.ClaimNumber = string.Empty;
-                if (null == model.FirstName)
-                    model.FirstName = string.Empty;
-                if (null == model.InvoiceNumber)
-                    model.InvoiceNumber = string.Empty;
-                if (null == model.RxNumber)
-                    model.RxNumber = string.Empty;
                 var claimsData = _getClaimsDataProvider.GetClaimsData(model.ClaimNumber,
                     model.FirstName, model.LastName, model.RxNumber, model.InvoiceNumber);
                 return Ok(claimsData);

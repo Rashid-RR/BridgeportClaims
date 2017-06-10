@@ -74,6 +74,7 @@
     <Compile Include="Mappings\PaymentMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
+    <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />

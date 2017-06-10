@@ -242,10 +242,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\NhSessionManagementAttribute.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ClaimsController.cs" />
-    <Compile Include="Controllers\PayorController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Models\Controllers\AccountController.cs" />
+    <Compile Include="Models\Controllers\ClaimsController.cs" />
+    <Compile Include="Models\Controllers\PayorController.cs" />
+    <Compile Include="Models\Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
