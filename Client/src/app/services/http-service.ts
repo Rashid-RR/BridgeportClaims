@@ -43,6 +43,9 @@ export class HttpService {
   register(data): Observable<Response> {
     return this.http.post(this.baseUrl + "/account/register", data)
   }
+  getClaimsData(data:any){
+    return this.http.post(this.baseUrl + "/Claims/GetClaimsData",data,{headers:this.headers});
+  }
   //get user using id
   userFromId(id:UUID): Observable<Response> {  
      return this.http.get(this.baseUrl + "/Account/UserInfo",{headers:this.headers})

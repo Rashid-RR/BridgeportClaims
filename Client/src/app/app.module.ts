@@ -19,8 +19,12 @@ import {RoutingModule} from "./app.routing";
 import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModules} from "@angular/router";
  
  //services
- import {HttpService,AuthGuard,ProfileManager,EventsService} from "./services/services.barrel";
+ import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager} from "./services/services.barrel";
 import { PayorsComponent } from './pages/payors/payors.component'
+import { ClaimsComponent } from './pages/claim/claim.component';
+import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
+import { ClaimResultComponent } from './components/claim-result/claim-result.component'
+
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) {}
@@ -47,8 +51,8 @@ export class SafeUrlPipe implements PipeTransform {
     MainComponent,
     PasswordResetComponent, 
     RegisterComponent,
-    SafeStylePipe, SafeUrlPipe, 
-    SidebarComponent, PrivateComponent, PayorsComponent, 
+    SafeStylePipe, SafeUrlPipe, ClaimsComponent,
+    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, 
   ],
   imports: [
     BrowserModule,
@@ -58,7 +62,7 @@ export class SafeUrlPipe implements PipeTransform {
     RoutingModule, 
   ],
   providers: [  
-    HttpService,ProfileManager,EventsService,AuthGuard,     
+    HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,    
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

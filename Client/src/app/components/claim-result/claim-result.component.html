@@ -1,0 +1,21 @@
+<div class="row invoice-info" *ngFor="let claim of claimManager.claims">
+  <div class="col-sm-6 invoice-col">
+    <address> 
+      Name: {{claim.name}}<br>
+      DOB: {{claim.dateOfBirth}}<br>
+      Gender: {{claim.gender}}<br>
+      Carrier: {{claim.carrier}}<br/>
+      Adjustor : {{claim.adjustor}}<br>
+      Adjustor Ph : {{claim.adjustorPhoneNumber}}<br><br>
+      Eligibility Entered: {{claim.dateEntered}}<br><br>
+    </address>
+  </div>
+  <!-- /.col -->
+  <div class="col-sm-6 invoice-col">
+    <address> 
+      Claim #: {{claim.claimNumber}}<br>
+      Injury Date: {{claim.injuryDate}}<br>
+      Adjustor Fax : {{claim.adjustorFaxNumber}}<br>
+    </address>
+  </div>
+</div>

@@ -14,7 +14,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li>
-          <a [routerLink]="'/private'">
+          <a [routerLink]="'/main/private'">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
@@ -22,6 +22,12 @@
             <a  [routerLink]="'/main/payors'">
               <i class="fa fa-user fa-fw"></i> 
               <span>Payors</span>
+            </a>
+        </li>       
+        <li>
+            <a  [routerLink]="'/main/claims'">
+              <i class="fa fa-credit-card fa-fw"></i> 
+              <span>Claims</span>
             </a>
         </li>       
       </ul>
