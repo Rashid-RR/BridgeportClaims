@@ -14,7 +14,7 @@ CREATE TABLE [dbo].[Patient]
 [AlternatePhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EmailAddress] [varchar] (155) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DateOfBirth] [datetime2] NOT NULL,
-[Gender] [nvarchar] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[GenderID] [int] NOT NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPatientCreatedOn] DEFAULT (sysdatetime()),
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPatientUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -22,7 +22,11 @@ CREATE TABLE [dbo].[Patient]
 GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [pkPaitent] PRIMARY KEY CLUSTERED  ([PatientID]) WITH (FILLFACTOR=90) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPatientGenderID] ON [dbo].[Patient] ([GenderID]) WITH (FILLFACTOR=100) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [fkPatientClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
+GO
+ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [fkPatientGenderIDGenderGenderID] FOREIGN KEY ([GenderID]) REFERENCES [dbo].[Gender] ([GenderID])
 GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [fkPatientStateIDUsStateStateID] FOREIGN KEY ([StateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO

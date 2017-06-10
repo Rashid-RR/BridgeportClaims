@@ -2,7 +2,7 @@ CREATE TABLE [dbo].[Prescription]
 (
 [PrescriptionID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NULL,
-[RxNumber] [float] NULL,
+[RxNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DateSubmitted] [datetime2] NOT NULL,
 [DateFilled] [datetime2] NULL,
 [LabelName] [nvarchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
