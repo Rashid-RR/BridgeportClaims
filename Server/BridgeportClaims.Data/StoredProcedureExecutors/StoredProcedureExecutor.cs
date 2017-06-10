@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
-using BridgeportClaims.Common.ExpressionManagers;
-using BridgeportClaims.Data.RepositoryUnitOfWork;
 using NHibernate;
 using NHibernate.Transform;
 using BridgeportClaims.Business.Logging;
@@ -13,61 +12,53 @@ namespace BridgeportClaims.Data.StoredProcedureExecutors
 {
     public class StoredProcedureExecutor : IStoredProcedureExecutor
     {
-        private readonly UnitOfWork _unitOfWork;
         private readonly ILoggingService _loggingService;
+        private readonly ISession _session;
 
-        public StoredProcedureExecutor(IUnitOfWork unitOfWork, ILoggingService loggingService)
+        public StoredProcedureExecutor(ISession session, ILoggingService loggingService)
         {
             _loggingService = loggingService;
-            _unitOfWork = (UnitOfWork)unitOfWork;
+            _session = session;
         }
 
         public IEnumerable<T> ExecuteMultiResultStoredProcedure<T>(string procedureNameExecStatement, IList<SqlParameter> parameters)
         {
-            try
+            using (var transaction = _session.BeginTransaction(IsolationLevel.ReadCommitted))
             {
-                IEnumerable<T> result;
-                using (var uow = _unitOfWork.CurrentSession)
+                try
                 {
-                    var query = uow.CreateSQLQuery(procedureNameExecStatement);
+                    var query = _session.CreateSQLQuery(procedureNameExecStatement);
                     AddStoredProcedureParameters(query, parameters);
-                    result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).List().Cast<T>();
-                    _unitOfWork.Commit();
+                    var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).List().Cast<T>();
+                    if (transaction.IsActive)
+                        transaction.Commit();
+                    return result;
                 }
-                return result;
-            }
-            catch (Exception ex)
-            {
-                _loggingService.Error(ex, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
-                _unitOfWork.Rollback();
-                throw;
+                catch (Exception ex)
+                {
+                    _loggingService.Error(ex, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                    if (transaction.IsActive)
+                        transaction.Rollback();
+                    throw;
+                }
             }
         }
 
         public T ExecuteSingleResultStoredProcedure<T>(string procedureNameExecStatement,
             IList<SqlParameter> parameters)
         {
-            return
-                DisposableManager.Using(() => _unitOfWork.CurrentSession,
-                    transaction =>
-                    {
-                        var query = transaction.CreateSQLQuery(procedureNameExecStatement);
-                        AddStoredProcedureParameters(query, parameters);
-                        var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
-                        _unitOfWork.Commit();
-                        return result;
-                    });
+            var query = _session.CreateSQLQuery(procedureNameExecStatement);
+            AddStoredProcedureParameters(query, parameters);
+            var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
+            return result;
         }
 
         public T ExecuteScalarStoredProcedure<T>(string procedureName, IList<SqlParameter> parameters)
         {
-            T result;
-            using (var uow = _unitOfWork.CurrentSession)
-            {
-                var query = uow.GetNamedQuery(procedureName);
-                AddStoredProcedureParameters(query, parameters);
-                result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
-            }
+            var query = _session.GetNamedQuery(procedureName);
+            AddStoredProcedureParameters(query, parameters);
+            var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
+
             return result;
         }
 

@@ -8,7 +8,10 @@ namespace BridgeportClaims.Data.Mappings
         public PaymentMap()
         {
             Table("Payment");
+            Schema("dbo");
+            DynamicUpdate();
             LazyLoad();
+            SchemaAction.None();
             Id(x => x.Id).GeneratedBy.Identity().Column("PaymentID");
             References(x => x.Claim).Column("ClaimID");
             Map(x => x.CheckNumber).Column("CheckNumber").Not.Nullable().Length(100);

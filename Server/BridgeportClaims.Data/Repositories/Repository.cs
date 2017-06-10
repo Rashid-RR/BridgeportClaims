@@ -2,64 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using NHibernate.Linq;
-using BridgeportClaims.Data.RepositoryUnitOfWork;
 using BridgeportClaims.Entities.Domain;
+using NHibernate;
+using NHibernate.Linq;
 
 namespace BridgeportClaims.Data.Repositories
 {
     /// <summary>
     /// Implementation of the IRepository pattern. No logging done at this level.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class Repository<T> : BaseRepository, IRepository<T> where T : class, IEntity, new()
+    /// <typeparam name="TEntity"></typeparam>
+    public class Repository<TEntity> : BaseRepository, IRepository<TEntity> where TEntity : class, IEntity, new()
     {
-        private readonly UnitOfWork _unitOfWork;
+        public Repository(ISession session) : base(session) { }
 
-        public Repository(IUnitOfWork unitOfWork) : base(unitOfWork)
-        {
-            _unitOfWork = (UnitOfWork) unitOfWork;
-        }
-        public T Load(int id) => Session.Load<T>(id);
-        public T Load(object obj) => Session.Load<T>(obj);
+        public TEntity Get(Expression<Func<TEntity, bool>> predicate) => Session.Query<TEntity>().Where(predicate).FirstOrDefault();
 
-        public T Get(Expression<Func<T, bool>> predicate) => Session.Query<T>().Where(predicate).FirstOrDefault();
+        public TEntity Get(object id) => Session.Get<TEntity>(id);
 
-        public T Get(object id) => Session.Get<T>(id);
-
-        public void Save(T value)
+        public void Save(TEntity value)
         {
             Session.Save(value);
         }
 
-        public void SaveOrUpdateMany(IEnumerable<T> values)
+        public void SaveOrUpdateMany(IEnumerable<TEntity> values)
         {
             foreach (var value in values)
                 Session.SaveOrUpdate(value);
         }
 
-        public void SaveOrUpdate(T value)
+        public void SaveOrUpdate(TEntity value)
         {
             Session.SaveOrUpdate(value);
         }
 
-        public void Update(T value)
+        public void Update(TEntity value)
         {
             Session.Update(value);
         }
 
-        public void Delete(T value)
+        public void Delete(TEntity value)
         {
             Session.Delete(value);
         }
 
-        public IQueryable<T> GetMany(Expression<Func<T, bool>> predicate)
-            => Session.Query<T>().Where(predicate);
+        public IQueryable<TEntity> GetMany(Expression<Func<TEntity, bool>> predicate)
+            => Session.Query<TEntity>().Where(predicate);
 
 
-        public IQueryable<T> GetAll() => Session.Query<T>();
+        public IQueryable<TEntity> GetAll() => Session.Query<TEntity>();
 
 
-        public IQueryable<T> GetTop(int top) => Session.Query<T>().Select(q => q).Take(top);
+        public IQueryable<TEntity> GetTop(int top) => Session.Query<TEntity>().Select(q => q).Take(top);
     }
 }

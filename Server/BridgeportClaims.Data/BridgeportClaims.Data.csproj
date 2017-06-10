@@ -54,6 +54,7 @@
       <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -64,28 +65,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProviders\GetClaimsDataProvider.cs" />
     <Compile Include="DataProviders\IDbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\DbccUserOptionsProvider.cs" />
-    <Compile Include="DataProviders\PayorDataProvider.cs" />
-    <Compile Include="MappingByConvention\ModelMapper.cs" />
+    <Compile Include="DataProviders\IGetClaimsDataProvider.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
     <Compile Include="Mappings\ClaimMap.cs" />
     <Compile Include="Mappings\PaymentMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
-    <Compile Include="NHibernateProviders\FluentSessionProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
-    <Compile Include="RepositoryUnitOfWork\AutomappingConfiguration.cs" />
-    <Compile Include="RepositoryUnitOfWork\UnitOfWork.cs" />
-    <Compile Include="SerializableValues\Error.cs" />
     <Compile Include="SessionFactory\SessionFactoryBuilder.cs" />
     <Compile Include="StoredProcedureExecutors\Dtos\DbccUserOptionsResults.cs" />
+    <Compile Include="StoredProcedureExecutors\Dtos\GetClaimsData.cs" />
     <Compile Include="StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
     <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
-    <Compile Include="RepositoryUnitOfWork\IUnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

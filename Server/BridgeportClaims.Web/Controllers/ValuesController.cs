@@ -7,8 +7,6 @@ using System.Web.Http;
 using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Data.DataProviders;
 using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Data.RepositoryUnitOfWork;
-using BridgeportClaims.Data.SessionFactory;
 using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Web.Controllers
@@ -18,15 +16,13 @@ namespace BridgeportClaims.Web.Controllers
     {
         private readonly ILoggingService _loggingService;
         private readonly IDbccUserOptionsProvider _dbccUserOptionsProvider;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Claim> _claimRepository;
         private readonly IRepository<Payment> _paymentRepository;
 
-        public ValuesController(ILoggingService loggingService, IDbccUserOptionsProvider dbccUserOptionsProvider, IUnitOfWork unitOfWork, IRepository<Claim> claimRepository, IRepository<Payment> paymentRepository)
+        public ValuesController(ILoggingService loggingService, IDbccUserOptionsProvider dbccUserOptionsProvider, IRepository<Claim> claimRepository, IRepository<Payment> paymentRepository)
         {
             _loggingService = loggingService;
             _dbccUserOptionsProvider = dbccUserOptionsProvider;
-            _unitOfWork = unitOfWork;
             _claimRepository = claimRepository;
             _paymentRepository = paymentRepository;
         }
@@ -81,8 +77,8 @@ namespace BridgeportClaims.Web.Controllers
                     {
                         var data = new
                         {
-                            IsSessionUsingReadCommittedSnapshotIsolation =
-                            _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation(),
+                            //IsSessionUsingReadCommittedSnapshotIsolation =
+                            //_dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation(),
                             UrlToPost = "HttpPost"
                         };
                         return Ok(data);
@@ -96,21 +92,12 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> TestMeAgain()
+        public IHttpActionResult TestMeAgain()
         {
-            return await Task.Run(() =>
-            {
-                using (var uow = new UnitOfWork(SessionFactoryBuilder.CreateSessionFactory()))
-                {
-                    uow.BeginTransaction();
-                    var claim = _claimRepository.Load(14);
-                    claim.DateOfInjury = DateTime.Now;
-                    var payment = _paymentRepository.GetMany(x => x.Id == 691).First();
-                    payment.AmountPaid = -2;
-                    _unitOfWork.Commit();
-                    return Ok(claim);
-                }
-            });
+            var claim = (from c in _claimRepository.GetAll()
+                join r in _paymentRepository.GetAll() on c.Id equals r.Claim.Id
+                select c).ToList();
+            return Ok(claim);
         }
     }
 }

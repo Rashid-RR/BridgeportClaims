@@ -1,36 +1,24 @@
 ﻿using System;
-using BridgeportClaims.Data.RepositoryUnitOfWork;
 using NHibernate;
 
 namespace BridgeportClaims.Data.Repositories
 {
     public class BaseRepository
     {
-        private readonly UnitOfWork _unitOfWork;
-        private ISession _session;
-
+        private readonly ISession _session;
+        public BaseRepository(ISession session)
+        {
+            _session = session ?? throw new ArgumentNullException(nameof(session), "No NHibernate session argument was supplied");
+        }
         protected ISession Session
         {
             get
             {
-                _session = _unitOfWork.CurrentSession;
-                return _session;
+                if (null != _session)
+                    return _session;
+                throw new Exception("Session object not initialized by Ninject");
             }
-            private set { _session = value; }
         }
-
-        public BaseRepository(IUnitOfWork unitOfWork)
-        {
-            _unitOfWork = (UnitOfWork)unitOfWork;
-        }
-
-        public BaseRepository(ISession session)
-        {
-            if (null == session)
-                throw new ArgumentNullException(nameof(session), "No Nhibernate CurrentSession was supplied to the provider");
-            Session = session;
-        }
-
-        public bool IsConfigured() => null != Session;
+        public bool IsConfigured() => null != _session;
     }
 }

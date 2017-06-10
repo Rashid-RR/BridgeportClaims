@@ -14,7 +14,6 @@ using BridgeportClaims.Entities.Automappers;
 using BridgeportClaims.Business.Config;
 using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Business.Security;
-using BridgeportClaims.Data.RepositoryUnitOfWork;
 using BridgeportClaims.Data.SessionFactory;
 using NHibernate;
 
@@ -89,25 +88,26 @@ namespace BridgeportClaims.Web.App_Start
                 })
                 .OnDeactivation(session =>
                 {
-                    if (session.Transaction.IsActive)
+                    try
                     {
-                        try
+                        if (session.Transaction.IsActive)
                         {
                             session.Flush();
                             session.Transaction.Commit();
                         }
-                        catch
-                        {
-                            session.Transaction.Rollback();
-                            throw;
-                        }
                     }
-                        session.Transaction.Commit();
+                    catch
+                    {
+                        if (session.Transaction.IsActive)
+                            session.Transaction.Rollback();
+                        throw;
+                    }
+                    finally
+                    {
                         session.Close();
-
-                    session.Dispose();
+                        session.Dispose();
+                    }
                 });
-            kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InTransientScope();
             kernel.Bind(typeof(IRepository<>)).To(typeof(Repository<>)).InTransientScope();
             kernel.Bind<ILoggingService>().To<LoggingService>();
             kernel.Bind<IDbccUserOptionsProvider>().To<DbccUserOptionsProvider>();
@@ -118,7 +118,7 @@ namespace BridgeportClaims.Web.App_Start
             kernel.Bind<HttpContext>().ToMethod(c => HttpContext.Current);
             kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
             kernel.Bind<IPasswordHasher>().To<PasswordHasher>();
-
+            kernel.Bind<IGetClaimsDataProvider>().To<GetClaimsDataProvider>();
         }        
     }
 }
