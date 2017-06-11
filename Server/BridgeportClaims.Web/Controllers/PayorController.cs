@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Data.Services.Payors;
 using BridgeportClaims.Entities.Automappers;
+using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
     public class PayorController : ApiController
     {
-        private readonly ILoggingService _loggingService;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IPayorService _payorService;
         private readonly IPayorMapper _payorMapper;
 
-        public PayorController(
-            ILoggingService loggingService, 
-            IPayorService payorService, 
-            IPayorMapper payorMapper)
+        public PayorController(IPayorService payorService, IPayorMapper payorMapper)
         {
-            _loggingService = loggingService;
             _payorService = payorService;
             _payorMapper = payorMapper;
         }
@@ -35,7 +30,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                _loggingService.Error(ex, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                Logger.Error(ex);
                 throw;
             }
         }
@@ -50,7 +45,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                _loggingService.Error(ex, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                Logger.Error(ex);
                 throw;
             }
         }

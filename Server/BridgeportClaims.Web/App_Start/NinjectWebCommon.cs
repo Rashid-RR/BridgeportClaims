@@ -12,7 +12,6 @@ using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.Automappers;
 using BridgeportClaims.Business.Config;
-using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Business.Security;
 using BridgeportClaims.Data.SessionFactory;
 using NHibernate;
@@ -109,7 +108,6 @@ namespace BridgeportClaims.Web.App_Start
                     }
                 });
             kernel.Bind(typeof(IRepository<>)).To(typeof(Repository<>)).InTransientScope();
-            kernel.Bind<ILoggingService>().To<LoggingService>();
             kernel.Bind<IDbccUserOptionsProvider>().To<DbccUserOptionsProvider>();
             kernel.Bind<IConfigService>().To<ConfigService>();
             kernel.Bind<IPayorService>().To<PayorService>();

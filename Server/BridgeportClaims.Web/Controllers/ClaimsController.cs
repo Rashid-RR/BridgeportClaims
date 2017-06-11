@@ -1,21 +1,19 @@
 ﻿using System;
-using System.Reflection;
 using System.Web.Http;
-using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Data.DataProviders;
 using BridgeportClaims.Web.Models;
+using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
     public class ClaimsController : ApiController
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IGetClaimsDataProvider _getClaimsDataProvider;
-        private readonly ILoggingService _loggingService;
 
-        public ClaimsController(IGetClaimsDataProvider getClaimsDataProvider, ILoggingService loggingService)
+        public ClaimsController(IGetClaimsDataProvider getClaimsDataProvider)
         {
             _getClaimsDataProvider = getClaimsDataProvider;
-            _loggingService = loggingService;
         }
 
         [HttpPost]
@@ -29,7 +27,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                _loggingService.Error(ex, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                Logger.Error(ex);
                 throw;
             }
         }

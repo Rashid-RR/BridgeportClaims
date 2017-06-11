@@ -3,23 +3,18 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Reflection;
 using NHibernate;
 using NHibernate.Transform;
-using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Data.NHibernate;
-using NHibernate.Type;
 
 namespace BridgeportClaims.Data.StoredProcedureExecutors
 {
     public class StoredProcedureExecutor : IStoredProcedureExecutor
     {
-        private readonly ILoggingService _loggingService;
         private readonly ISession _session;
 
-        public StoredProcedureExecutor(ISession session, ILoggingService loggingService)
+        public StoredProcedureExecutor(ISession session)
         {
-            _loggingService = loggingService;
             _session = session;
         }
 
@@ -38,7 +33,6 @@ namespace BridgeportClaims.Data.StoredProcedureExecutors
                 }
                 catch (Exception ex)
                 {
-                    _loggingService.Error(ex, this.GetType().Name, MethodBase.GetCurrentMethod()?.Name);
                     if (transaction.IsActive)
                         transaction.Rollback();
                     throw;

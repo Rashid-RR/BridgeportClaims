@@ -12,7 +12,7 @@ namespace BridgeportClaims.Web
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AutomapperStartup.Configure();
             var configService = new ConfigService();
-            if (Convert.ToBoolean(configService.GetConfigItem("ApplicationIsInDebugMode")))
+            if (Convert.ToBoolean(configService.ApplicationIsInDebugMode))
                 NHibernateProfiler.Initialize();
         }
     }

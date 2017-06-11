@@ -1,30 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Data.DataProviders;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
+using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
     //[Authorize]
     public class ValuesController : ApiController
     {
-        private readonly ILoggingService _loggingService;
         private readonly IDbccUserOptionsProvider _dbccUserOptionsProvider;
-        private readonly IRepository<Claim> _claimRepository;
-        private readonly IRepository<Payment> _paymentRepository;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ValuesController(ILoggingService loggingService, IDbccUserOptionsProvider dbccUserOptionsProvider, IRepository<Claim> claimRepository, IRepository<Payment> paymentRepository)
+        public ValuesController(IDbccUserOptionsProvider dbccUserOptionsProvider)
         {
-            _loggingService = loggingService;
             _dbccUserOptionsProvider = dbccUserOptionsProvider;
-            _claimRepository = claimRepository;
-            _paymentRepository = paymentRepository;
         }
 
         // GET api/values
@@ -36,7 +27,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                _loggingService.Error(ex, GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                Logger.Error(ex);
                 throw;
             }
         }
@@ -47,7 +38,7 @@ namespace BridgeportClaims.Web.Controllers
         public string Get(int id)
         {
             var retVal = $"value with id {id} coming in...";
-            _loggingService.Error(retVal, GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+            Logger.Info(retVal);
             return retVal;
         }
 
@@ -77,8 +68,8 @@ namespace BridgeportClaims.Web.Controllers
                     {
                         var data = new
                         {
-                            //IsSessionUsingReadCommittedSnapshotIsolation =
-                            //_dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation(),
+                            IsSessionUsingReadCommittedSnapshotIsolation =
+                            _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation(),
                             UrlToPost = "HttpPost"
                         };
                         return Ok(data);
@@ -86,18 +77,11 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                _loggingService.Error(ex, GetType().Name, MethodBase.GetCurrentMethod()?.Name);
+                Logger.Error(ex);
                 throw;
             }
         }
 
-        [HttpGet]
-        public IHttpActionResult TestMeAgain()
-        {
-            var claim = (from c in _claimRepository.GetAll()
-                join r in _paymentRepository.GetAll() on c.Id equals r.Claim.Id
-                select c).ToList();
-            return Ok(claim);
-        }
+    
     }
 }
