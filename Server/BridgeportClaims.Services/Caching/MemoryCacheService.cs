@@ -3,12 +3,12 @@ using System.Linq;
 using System.Runtime.Caching;
 using System.Text.RegularExpressions;
 
-namespace BridgeportClaims.Common.Caching
+namespace BridgeportClaims.Services.Caching
 {
     /// <summary>
     /// Represents a manager for caching between HTTP requests (long term caching)
     /// </summary>
-    public class MemoryCacheManager : ICacheManager
+    public class MemoryCacheService : ICacheService
     {
         protected ObjectCache Cache => MemoryCache.Default;
 
@@ -47,10 +47,7 @@ namespace BridgeportClaims.Common.Caching
         /// </summary>
         /// <param name="key">key</param>
         /// <returns>Result</returns>
-        public virtual bool IsSet(string key)
-        {
-            return (Cache.Contains(key));
-        }
+        public virtual bool IsSet(string key) => Cache.Contains(key);
 
         /// <summary>
         /// Removes the value with the specified key from the cache

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Web.Http;
-using BridgeportClaims.Business.Config;
+using BridgeportClaims.Services.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NLog;
 

@@ -7,15 +7,16 @@ using Ninject.Web.Common;
 using System.Web.Http;
 using Ninject.Web.WebApi;
 using BridgeportClaims.Data.DataProviders;
-using BridgeportClaims.Data.Services.Payors;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.Automappers;
-using BridgeportClaims.Business.Config;
 using BridgeportClaims.Business.Security;
+using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.SessionFactory;
+using BridgeportClaims.Services.Caching;
+using BridgeportClaims.Services.Config;
+using BridgeportClaims.Services.Email;
 using NHibernate;
-using BridgeportClaims.Common.Caching;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Stop")]
@@ -119,7 +120,8 @@ namespace BridgeportClaims.Web.App_Start
             kernel.Bind<IPasswordHasher>().To<PasswordHasher>();
             kernel.Bind<IGetClaimsDataProvider>().To<GetClaimsDataProvider>();
             kernel.Bind<IEncryptor>().To<SymmetricEncryptor>();
-            kernel.Bind<ICacheManager>().To<MemoryCacheManager>();
+            kernel.Bind<ICacheService>().To<MemoryCacheService>();
+            kernel.Bind<IEmailService>().To<EmailService>();
         }        
     }
 }

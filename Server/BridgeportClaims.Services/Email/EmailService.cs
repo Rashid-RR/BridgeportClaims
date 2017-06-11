@@ -1,12 +1,12 @@
-﻿using BridgeportClaims.Business.Config;
-using NLog;
-using System;
+﻿using System;
 using System.Net;
 using System.Net.Mail;
+using BridgeportClaims.Services.Config;
+using NLog;
 
-namespace BridgeportClaims.Data.Services.Email
+namespace BridgeportClaims.Services.Email
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
         private readonly IConfigService _configService;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -16,7 +16,7 @@ namespace BridgeportClaims.Data.Services.Email
             _configService = configService;
         }
 
-        public void SendEmail(string destinationEmailAddress)
+        public void SendEmail(string destinationEmailAddress, EmailTemplate template)
         {
             var sourceEmailAddress = _configService.GetConfigItem("SourceEmailAddress");
             var client = new SmtpClient

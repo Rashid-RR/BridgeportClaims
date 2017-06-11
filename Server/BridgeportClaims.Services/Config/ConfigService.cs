@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Configuration;
 
-namespace BridgeportClaims.Business.Config
+namespace BridgeportClaims.Services.Config
 {
     public class ConfigService : IConfigService
     {

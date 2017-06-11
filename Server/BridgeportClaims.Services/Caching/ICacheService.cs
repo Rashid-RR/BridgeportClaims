@@ -1,9 +1,9 @@
-﻿namespace BridgeportClaims.Common.Caching
+﻿namespace BridgeportClaims.Services.Caching
 {
     /// <summary>
     /// Cache manager interface
     /// </summary>
-    public interface ICacheManager
+    public interface ICacheService
     {
         /// <summary>
         /// Gets or sets the value associated with the specified key.

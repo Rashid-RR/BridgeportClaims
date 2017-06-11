@@ -51,7 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Caching\ICacheManager.cs" />
     <Compile Include="Converters\JsonConverter.cs" />
     <Compile Include="ExpressionManagers\DisposableManager.cs" />
     <Compile Include="Extensions\CacheExtensions.cs" />
@@ -67,7 +66,6 @@
     <Compile Include="Utilities\RegexUtils.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\XmlDocumentExtensions.cs" />
-    <Compile Include="Caching\MemoryCacheManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

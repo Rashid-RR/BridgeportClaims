@@ -7,8 +7,8 @@
     <ProjectGuid>{C79B763C-F001-405C-AB3A-44893EE69B73}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BridgeportClaims.Data.Services</RootNamespace>
-    <AssemblyName>BridgeportClaims.Data.Services</AssemblyName>
+    <RootNamespace>BridgeportClaims.Services</RootNamespace>
+    <AssemblyName>BridgeportClaims.Services</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -37,6 +37,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -45,10 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\ICacheService.cs" />
+    <Compile Include="Caching\MemoryCacheService.cs" />
     <Compile Include="Config\ConfigService.cs" />
     <Compile Include="Config\IConfigService.cs" />
     <Compile Include="Email\EmailGenerator.cs" />
     <Compile Include="Email\EmailService.cs" />
+    <Compile Include="Email\EmailTemplate.cs" />
+    <Compile Include="Email\IEmailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -75,8 +80,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Email\EmailTemplate-ActivateAccount.html" />
-    <Content Include="Email\EmailTemplate-ContactUs.html" />
+    <Content Include="Email\RegistrationAccountActivation.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

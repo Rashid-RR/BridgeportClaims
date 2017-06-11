@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using BridgeportClaims.Entities.DomainModels;
-using System.Collections.Generic;
 using BridgeportClaims.Entities.ViewModels;
 
-namespace BridgeportClaims.Data.Services.Payors
+namespace BridgeportClaims.Data.DataProviders.Payors
 {
     public interface IPayorService
     {

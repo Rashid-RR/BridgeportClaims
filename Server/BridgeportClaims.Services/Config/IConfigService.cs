@@ -1,6 +1,6 @@
 using System.Collections.Specialized;
 
-namespace BridgeportClaims.Business.Config
+namespace BridgeportClaims.Services.Config
 {
     public interface IConfigService
     {

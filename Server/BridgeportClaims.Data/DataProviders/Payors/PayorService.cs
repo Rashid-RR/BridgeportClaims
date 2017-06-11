@@ -9,7 +9,7 @@ using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Entities.ViewModels;
 
-namespace BridgeportClaims.Data.Services.Payors
+namespace BridgeportClaims.Data.DataProviders.Payors
 {
     public class PayorService : IPayorService
     {

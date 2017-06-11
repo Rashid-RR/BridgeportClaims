@@ -1,6 +1,6 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Cors;
-using BridgeportClaims.Business.Config;
+using BridgeportClaims.Services.Config;
 using BridgeportClaims.Web.Formatters;
 using BridgeportClaims.Web.Handlers;
 using Microsoft.Owin.Security.OAuth;

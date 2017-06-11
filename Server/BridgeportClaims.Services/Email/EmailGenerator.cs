@@ -2,7 +2,7 @@
 using System.Collections.Specialized;
 using System.Configuration;
 
-namespace BridgeportClaims.Data.Services.Emailing
+namespace BridgeportClaims.Services.Email
 {
     public class EmailGenerator
     {
