@@ -304,9 +304,9 @@
       <Project>{f21cd3e0-2404-415a-8f12-156f20a32fe4}</Project>
       <Name>BridgeportClaims.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BridgeportClaims.Data.Services\BridgeportClaims.Data.Services.csproj">
+    <ProjectReference Include="..\BridgeportClaims.Data.Services\BridgeportClaims.Services.csproj">
       <Project>{C79B763C-F001-405C-AB3A-44893EE69B73}</Project>
-      <Name>BridgeportClaims.Data.Services</Name>
+      <Name>BridgeportClaims.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
       <Project>{d5e6fad3-315f-4be1-9602-abce44914924}</Project>
