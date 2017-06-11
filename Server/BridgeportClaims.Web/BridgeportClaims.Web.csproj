@@ -304,7 +304,7 @@
       <Project>{f21cd3e0-2404-415a-8f12-156f20a32fe4}</Project>
       <Name>BridgeportClaims.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BridgeportClaims.Data.Services\BridgeportClaims.Services.csproj">
+    <ProjectReference Include="..\BridgeportClaims.Services\BridgeportClaims.Services.csproj">
       <Project>{C79B763C-F001-405C-AB3A-44893EE69B73}</Project>
       <Name>BridgeportClaims.Services</Name>
     </ProjectReference>
