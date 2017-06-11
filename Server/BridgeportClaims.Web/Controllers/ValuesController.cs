@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Business.Config;
 using BridgeportClaims.Data.DataProviders;
-using BridgeportClaims.Data.Services.Email;
 using NLog;
+using ServiceStack.Text;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -20,12 +21,24 @@ namespace BridgeportClaims.Web.Controllers
             _dbccUserOptionsProvider = dbccUserOptionsProvider;
         }
 
-        // GET api/values
-        public async Task<IEnumerable<string>> GetValues()
+        [HttpGet]
+        //[DeflateCompression]
+        public async Task<IHttpActionResult> JsonSerializerStringTest()
         {
             try
             {
-                return await Task.FromResult(new[] {"ValueOneTwoThree", "ValueOneTwoThreeFour"});
+                return
+                    await Task.Run(() =>
+                    {
+                        var data = new
+                        {
+                            FirstName = "Jordan",
+                            LastName = "Gurney",
+                            UrlToPost = "HttpPost"
+                        };
+                        var json = JsonSerializer.SerializeToString(data);
+                        return Ok(json);
+                    });
             }
             catch (Exception ex)
             {
@@ -34,47 +47,20 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        public IEnumerable<string> Get() => new[] {"ValueOneNonAsync", "ValueTwoNonAsync"};
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            var retVal = $"value with id {id} coming in...";
-            Logger.Info(retVal);
-            return retVal;
-        }
-
-        // POST api/values
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-        }
 
         [HttpGet]
-        //[CamelCasedApiMethod]
-        public async Task<IHttpActionResult> TestMe()
+        //[DeflateCompression]
+        public async Task<IHttpActionResult> NativeSerializationTest()
         {
             try
             {
                 return
                     await Task.Run(() =>
                     {
-                        var emailService = new EmailService(new ConfigService());
-                        emailService.SendEmail("jordangurney@gmail.com");
-
                         var data = new
                         {
-                            IsSessionUsingReadCommittedSnapshotIsolation =
-                            _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation(),
+                            FirstName = "Jordan",
+                            LastName = "Gurney",
                             UrlToPost = "HttpPost"
                         };
                         return Ok(data);
@@ -87,6 +73,32 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-    
+        [HttpGet]
+        //[DeflateCompression]
+        public async Task<HttpResponseMessage> HttpResponseMessageStringContentTest()
+        {
+            try
+            {
+                return
+                    await Task.Run(() =>
+                    {
+                        var data = new
+                        {
+                            FirstName = "Jordan",
+                            LastName = "Gurney",
+                            UrlToPost = "HttpPost"
+                        };
+                        var jsonString = JsonSerializer.SerializeToString(data);
+                        var response = Request.CreateResponse(HttpStatusCode.OK);
+                        response.Content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+                        return response;
+                    });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
     }
 }

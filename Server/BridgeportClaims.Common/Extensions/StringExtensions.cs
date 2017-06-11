@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -153,7 +152,7 @@ namespace BridgeportClaims.Common.Extensions
         public static T ToEnum<T>(this string value, bool ignorecase)
         {
             if (value == null)
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
 
             value = value.Trim();
 
