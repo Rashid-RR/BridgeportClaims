@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Business.Config;
 using BridgeportClaims.Data.DataProviders;
+using BridgeportClaims.Data.Services.Email;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -66,6 +68,9 @@ namespace BridgeportClaims.Web.Controllers
                 return
                     await Task.Run(() =>
                     {
+                        var emailService = new EmailService(new ConfigService());
+                        emailService.SendEmail("jordangurney@gmail.com");
+
                         var data = new
                         {
                             IsSessionUsingReadCommittedSnapshotIsolation =

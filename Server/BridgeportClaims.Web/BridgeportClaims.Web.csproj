@@ -18,7 +18,8 @@
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>1156</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -62,9 +63,6 @@
     </Reference>
     <Reference Include="HibernatingRhinos.Profiler.Appender, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
       <HintPath>..\packages\NHibernateProfiler.Appender.4.0.4041\lib\net46\HibernatingRhinos.Profiler.Appender.dll</HintPath>
-    </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Integration">
-      <HintPath>C:\Users\jordan.gurney\Desktop\NHibernate.Profiler-v4.0-Build-4041\Profiler\Integration\HibernatingRhinos.Profiler.Integration.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
@@ -303,6 +301,10 @@
     <ProjectReference Include="..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
       <Project>{f21cd3e0-2404-415a-8f12-156f20a32fe4}</Project>
       <Name>BridgeportClaims.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{53bad79f-90e5-45bb-bb4b-d370e44d82cc}</Project>
+      <Name>BridgeportClaims.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Services\BridgeportClaims.Services.csproj">
       <Project>{C79B763C-F001-405C-AB3A-44893EE69B73}</Project>

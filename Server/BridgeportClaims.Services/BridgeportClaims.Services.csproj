@@ -31,7 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4" />
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.10\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -43,15 +45,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Emailing\EmailGenerator.cs" />
-    <Compile Include="Payors\IPayorService.cs" />
-    <Compile Include="Payors\PayorService.cs" />
+    <Compile Include="Config\ConfigService.cs" />
+    <Compile Include="Config\IConfigService.cs" />
+    <Compile Include="Email\EmailGenerator.cs" />
+    <Compile Include="Email\EmailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
+      <Project>{F21CD3E0-2404-415A-8F12-156F20A32FE4}</Project>
+      <Name>BridgeportClaims.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}</Project>
       <Name>BridgeportClaims.Common</Name>
@@ -67,8 +75,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Emailing\EmailTemplate-ActivateAccount.html" />
-    <Content Include="Emailing\EmailTemplate-ContactUs.html" />
+    <Content Include="Email\EmailTemplate-ActivateAccount.html" />
+    <Content Include="Email\EmailTemplate-ContactUs.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

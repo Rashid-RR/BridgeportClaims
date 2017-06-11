@@ -31,7 +31,7 @@ namespace BridgeportClaims.Data.StoredProcedureExecutors
                         transaction.Commit();
                     return result;
                 }
-                catch (Exception ex)
+                catch
                 {
                     if (transaction.IsActive)
                         transaction.Rollback();

@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Configuration;
 using System.Globalization;
-using BridgeportClaims.Business.Config;
 using BridgeportClaims.Data.Mappings;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
@@ -27,9 +27,9 @@ namespace BridgeportClaims.Data.SessionFactory
         {
             get
             {
-                var configService = new ConfigService();
-                return new Tuple<int, bool>(Convert.ToInt32(configService.GetConfigItem("AdoNetBatchSize")),
-                    configService.ApplicationIsInDebugMode);
+                var size = ConfigurationManager.AppSettings["AdoNetBatchSize"];
+                var debug = ConfigurationManager.AppSettings["ApplicationIsInDebugMode"];
+                return new Tuple<int, bool>(Convert.ToInt32(size), Convert.ToBoolean(debug));
             }
         }
 

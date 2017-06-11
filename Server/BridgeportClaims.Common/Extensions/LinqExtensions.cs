@@ -72,16 +72,7 @@ namespace BridgeportClaims.Common.Extensions
                 var fields = row.GetType().GetProperties();
                 foreach (var t in fields)
                 {
-                    object value = null;
-                    try
-                    {
-                        value = t.GetValue(row, null);
-                    }
-                    // ReSharper disable once EmptyGeneralCatchClause
-                    catch (Exception ex)
-                    {
-                        
-                    }
+                    var value = t.GetValue(row, null);
                     if (value != null)
                     {
                         csvdata.Append(value.ToString().Replace("\r", "\f").Replace("\n", " \f").Replace("_", " ").Replace(replaceFrom, replaceDelimiter) + delimiter);

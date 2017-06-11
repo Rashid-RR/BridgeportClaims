@@ -2,14 +2,17 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using NLog;
 
 namespace BridgeportClaims.Business.Security
 {
     public class CryptographyManager : IEncryptor
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private byte[] _keyByte = {};
         //Default Key
-        private static string _key = @"#$*JFDJM#)#)*@#";
+        private const string Key = @"#$*JFDJM#)#)*@#";
+
         //Default initial vector
         private byte[] _ivByte = {0x01, 0x12, 0x23, 0x34, 0x45, 0x56, 0x67, 0x78};
 
@@ -64,12 +67,11 @@ namespace BridgeportClaims.Business.Security
                     }
                     else
                     {
-                        _keyByte = Encoding.UTF8.GetBytes(_key);
+                        _keyByte = Encoding.UTF8.GetBytes(Key);
                     }
                     using (var des = new DESCryptoServiceProvider())
                     {
-                        byte[] inputByteArray =
-                            Encoding.UTF8.GetBytes(value);
+                        var inputByteArray = Encoding.UTF8.GetBytes(value);
                         ms = new MemoryStream();
                         cs = new CryptoStream(ms, des.CreateEncryptor
                         (_keyByte, _ivByte), CryptoStreamMode.Write);
@@ -80,7 +82,8 @@ namespace BridgeportClaims.Business.Security
                 }
                 catch (Exception ex)
                 {
-                    //TODO: write log 
+                    Logger.Error(ex);
+                    throw;
                 }
                 finally
                 {
@@ -121,13 +124,13 @@ namespace BridgeportClaims.Business.Security
         /// <returns>encrypted text</returns> 
         public string Decrypt(string value, string key, string iv)
         {
-            string decrptValue = string.Empty;
+            var decrptValue = string.Empty;
             if (!string.IsNullOrEmpty(value))
             {
                 MemoryStream ms = null;
                 CryptoStream cs = null;
                 value = value.Replace(" ", "+");
-                byte[] inputByteArray = new byte[value.Length];
+                var inputByteArray = new byte[value.Length];
                 try
                 {
                     if (!string.IsNullOrEmpty(key))
@@ -142,9 +145,9 @@ namespace BridgeportClaims.Business.Security
                     }
                     else
                     {
-                        _keyByte = Encoding.UTF8.GetBytes(_key);
+                        _keyByte = Encoding.UTF8.GetBytes(Key);
                     }
-                    using (DESCryptoServiceProvider des =
+                    using (var des =
                             new DESCryptoServiceProvider())
                     {
                         inputByteArray = Convert.FromBase64String(value);
@@ -153,7 +156,7 @@ namespace BridgeportClaims.Business.Security
                         (_keyByte, _ivByte), CryptoStreamMode.Write);
                         cs.Write(inputByteArray, 0, inputByteArray.Length);
                         cs.FlushFinalBlock();
-                        Encoding encoding = Encoding.UTF8;
+                        var encoding = Encoding.UTF8;
                         decrptValue = encoding.GetString(ms.ToArray());
                     }
                 }
@@ -205,7 +208,7 @@ namespace BridgeportClaims.Business.Security
             if (!string.IsNullOrEmpty(plainText))
             {
                 // Convert plain text into a byte array. 
-                byte[] plainTextBytes = Encoding.ASCII.GetBytes(plainText);
+                var plainTextBytes = Encoding.ASCII.GetBytes(plainText);
                 // Allocate array, which will hold plain text and salt. 
                 byte[] plainTextWithSaltBytes = null;
                 byte[] saltBytes;
@@ -232,12 +235,12 @@ namespace BridgeportClaims.Business.Security
                     rngCryptoServiceProvider.GetNonZeroBytes(saltBytes);
                 }
                 // Copy plain text bytes into resulting array. 
-                for (int i = 0; i < plainTextBytes.Length; i++)
+                for (var i = 0; i < plainTextBytes.Length; i++)
                 {
                     plainTextWithSaltBytes[i] = plainTextBytes[i];
                 }
                 // Append salt bytes to the resulting array. 
-                for (int i = 0; i < saltBytes.Length; i++)
+                for (var i = 0; i < saltBytes.Length; i++)
                 {
                     plainTextWithSaltBytes[plainTextBytes.Length + i] =
                                         saltBytes[i];
@@ -262,22 +265,22 @@ namespace BridgeportClaims.Business.Security
                         break;
                 }
                 // Compute hash value of our plain text with appended salt. 
-                byte[] hashBytes = hash.ComputeHash(plainTextWithSaltBytes);
+                var hashBytes = hash.ComputeHash(plainTextWithSaltBytes);
                 // Create array which will hold hash and original salt bytes. 
-                byte[] hashWithSaltBytes =
+                var hashWithSaltBytes =
                     new byte[hashBytes.Length + saltBytes.Length];
                 // Copy hash bytes into resulting array. 
-                for (int i = 0; i < hashBytes.Length; i++)
+                for (var i = 0; i < hashBytes.Length; i++)
                 {
                     hashWithSaltBytes[i] = hashBytes[i];
                 }
                 // Append salt bytes to the result. 
-                for (int i = 0; i < saltBytes.Length; i++)
+                for (var i = 0; i < saltBytes.Length; i++)
                 {
                     hashWithSaltBytes[hashBytes.Length + i] = saltBytes[i];
                 }
                 // Convert result into a base64-encoded string. 
-                string hashValue = Convert.ToBase64String(hashWithSaltBytes);
+                var hashValue = Convert.ToBase64String(hashWithSaltBytes);
                 // Return the result. 
                 return hashValue;
             }
