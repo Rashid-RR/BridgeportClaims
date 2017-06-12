@@ -46,14 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\CacheExtensions.cs" />
     <Compile Include="Caching\ICacheService.cs" />
     <Compile Include="Caching\MemoryCacheService.cs" />
     <Compile Include="Config\ConfigService.cs" />
     <Compile Include="Config\IConfigService.cs" />
-    <Compile Include="Email\EmailGenerator.cs" />
-    <Compile Include="Email\EmailService.cs" />
-    <Compile Include="Email\EmailTemplate.cs" />
-    <Compile Include="Email\IEmailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,8 +76,5 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="Email\RegistrationAccountActivation.html" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

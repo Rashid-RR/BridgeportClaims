@@ -4,8 +4,6 @@ using BridgeportClaims.Services.Config;
 using BridgeportClaims.Web.Formatters;
 using BridgeportClaims.Web.Handlers;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using ServiceStack.Text;
 
 namespace BridgeportClaims.Web

@@ -1,9 +1,12 @@
+@model BridgeportClaims.Web.Models.AspNetUsersModel
+
+<!DOCTYPE html>
 <table style="width:100%; font-family: Droid Sans, Helvetica, Arial, Sans-Serif; border-width:0px;">
     <thead style="border-width:0px;">
         <tr>
             <th colspan="2" style="text-align:left; vertical-align:top; padding:8px 10px 10px; font-family: Droid Sans, Helvetica, Arial, Sans-Serif; border-style:solid; border-width:1px; border-bottom-color:#cccccc; border-top-color:#eeeeee; border-left-color:#eeeeee; border-right-color:#eeeeee; background-color:#eeeeee;">
                 <p style="margin:0; font-size:38px; color:#555555;">Bridgeport Claims</p>
-                <p style="margin:0; color:#666666; font-weight:normal; font-size:17px;">You have successfully registered</p>
+                <p style="margin:0; color:#666666; font-weight:normal; font-size:17px;">Welcome! You have successfully registered</p>
             </th>
         </tr>
     </thead>
@@ -12,17 +15,22 @@
     <tbody>
         <tr>
             <td style="padding:10px 14px 6px;">
-                <p style="font-size:22px; font-weight:bold; font-family:Droid Serif, Verdana, Geneva, Tahoma, sans-serif; margin:0;">Confirm your Email Address</p>                
+                <p style="font-size:22px; font-weight:bold; font-family:Droid Serif, Verdana, Geneva, Tahoma, sans-serif; margin:0;">Please Confirm your Email Address</p>                
             </td>            
         </tr>
         <tr>
             <td style="padding:14px; font-size:14px; line-height: 15px">
-                Thank you for registering for our site.
-                Please click the button below to confirm your email address
+                <p>Hi @( Model.FirstName + " " + Model.LastName ),</p>
+                <p>
+                    Thank you for registering for our site.
+                    Please click the button below to confirm your email address
+                </p>
                 <table style="margin-left:100px; padding-top: 15px">
                     <tr>
                         <td style="border-radius:10px; font-size:17px; height:44px; background-color:#337ab7; color:#fffff6 !important; vertical-align:middle; width:130px; border:1px solid #006688; text-align:center;">                                
-                            <a text-style-="Do" href="http://nextgen.icd-advisor.com/activate/A50FW9L" style="cursor:pointer; color:#ffffff; text-decoration: none; font-family: Droid Sans, Helvetica, Arial, Sans-Serif;" target="_blank">
+                            <a href="@(Model.HostName + "/api/Account/Activation/" + Model.AccountActivationToken)"
+                               style="cursor:pointer; color:#ffffff; text-decoration: none; font-family: Droid Sans, Helvetica, Arial, Sans-Serif;" 
+                               target="_blank">
                                 Confirm Now
                             </a>
                         </td>
@@ -30,8 +38,7 @@
                 </table>
                 <p style="padding:-110px; font-size:14px; line-height: 15px">
                 If the "Confirm Now" button does not work, please copy and paste the following URL into your web browser's address bar.</p>
-                <span style="font-size:14px; color:#777777 !important;">http://nextgen.icd-advisor.com/activate/A50FW9L</span>
-            </p>
+                <span style="font-size:14px; color:#777777 !important;">@(Model.HostName + "/api/Account/Activation/" + Model.AccountActivationToken)</span>
         </tr>
     </tbody>
 </table>

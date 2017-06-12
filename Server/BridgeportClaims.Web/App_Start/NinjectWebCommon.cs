@@ -15,13 +15,14 @@ using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.SessionFactory;
 using BridgeportClaims.Services.Caching;
 using BridgeportClaims.Services.Config;
-using BridgeportClaims.Services.Email;
+using BridgeportClaims.Web.Email;
 using NHibernate;
+using BridgeportClaims.Web.Email.EmailModelGeneration;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BridgeportClaims.Web.NinjectWebCommon), "Stop")]
 
-namespace BridgeportClaims.Web.App_Start
+namespace BridgeportClaims.Web
 {
     [System.Runtime.InteropServices.Guid("775DD962-2535-4617-AC22-62CDE8F23DD5")]
     public static class NinjectWebCommon 
@@ -122,6 +123,7 @@ namespace BridgeportClaims.Web.App_Start
             kernel.Bind<IEncryptor>().To<SymmetricEncryptor>();
             kernel.Bind<ICacheService>().To<MemoryCacheService>();
             kernel.Bind<IEmailService>().To<EmailService>();
+            kernel.Bind<IEmailModelGenerator>().To<EmailModelGenerator>();
         }        
     }
 }

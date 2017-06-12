@@ -1,7 +1,6 @@
 ﻿using System;
-using BridgeportClaims.Common.Caching;
 
-namespace BridgeportClaims.Common.Extensions
+namespace BridgeportClaims.Services.Caching
 {
     /// <summary>
     /// Extensions
@@ -16,7 +15,7 @@ namespace BridgeportClaims.Common.Extensions
         /// <param name="key">Cache key</param>
         /// <param name="acquire">Function to load item if it's not in the cache yet</param>
         /// <returns>Cached item</returns>
-        public static T Get<T>(this ICacheManager cacheManager, string key, Func<T> acquire)
+        public static T Get<T>(this ICacheService cacheManager, string key, Func<T> acquire)
         {
             return Get(cacheManager, key, 60, acquire);
         }
@@ -30,7 +29,7 @@ namespace BridgeportClaims.Common.Extensions
         /// <param name="cacheTime">Cache time in minutes (0 - do not cache)</param>
         /// <param name="acquire">Function to load item if it's not in the cache yet</param>
         /// <returns>Cached item</returns>
-        public static T Get<T>(this ICacheManager cacheManager, string key, int cacheTime, Func<T> acquire)
+        public static T Get<T>(this ICacheService cacheManager, string key, int cacheTime, Func<T> acquire)
         {
             if (cacheManager.IsSet(key))
             {
