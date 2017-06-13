@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Web.Http;
-using BridgeportClaims.Business.Config;
+using BridgeportClaims.Services.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
+using NLog;
 
 namespace BridgeportClaims.Web
 {
@@ -12,8 +13,15 @@ namespace BridgeportClaims.Web
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AutomapperStartup.Configure();
             var configService = new ConfigService();
-            if (Convert.ToBoolean(configService.GetConfigItem("ApplicationIsInDebugMode")))
+            if (Convert.ToBoolean(configService.ApplicationIsInDebugMode))
                 NHibernateProfiler.Initialize();
+        }
+
+        protected void Application_Error()
+        {
+            var lastException = Server.GetLastError();
+            var logger = LogManager.GetCurrentClassLogger();
+            logger.Fatal(lastException);
         }
     }
 }

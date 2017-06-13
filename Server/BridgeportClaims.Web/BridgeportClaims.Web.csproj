@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>1156</IISExpressSSLPort>
+    <IISExpressSSLPort>44325</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
     <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
@@ -27,7 +27,7 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
     <ApplicationInsightsResourceId>/subscriptions/a9db54b1-d4da-4fc2-bb01-0ebcf2effa0b/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/BridgeportClaims.Web</ApplicationInsightsResourceId>
-    <ApplicationInsightsAnnotationResourceId>/subscriptions/a9db54b1-d4da-4fc2-bb01-0ebcf2effa0b/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/BridgeportClaims.Web</ApplicationInsightsAnnotationResourceId>
+    <ApplicationInsightsAnnotationResourceId>/subscriptions/a9db54b1-d4da-4fc2-bb01-0ebcf2effa0b/resourceGroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/BridgeportClaims.Web</ApplicationInsightsAnnotationResourceId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,14 +57,14 @@
     <Reference Include="Castle.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <HintPath>..\packages\Castle.Core.3.2.0\lib\net45\Castle.Core.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Appender">
-      <HintPath>C:\Users\jordan.gurney\Desktop\NHibernate.Profiler-v4.0-Build-4041\Profiler\HibernatingRhinos.Profiler.Appender.dll</HintPath>
-    </Reference>
-    <Reference Include="HibernatingRhinos.Profiler.Integration">
-      <HintPath>C:\Users\jordan.gurney\Desktop\NHibernate.Profiler-v4.0-Build-4041\Profiler\Integration\HibernatingRhinos.Profiler.Integration.dll</HintPath>
+    <Reference Include="HibernatingRhinos.Profiler.Appender, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0774796e73ebf640, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernateProfiler.Appender.4.0.4041\lib\net46\HibernatingRhinos.Profiler.Appender.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.1.4000\lib\net40\Iesi.Collections.dll</HintPath>
@@ -139,9 +139,24 @@
     <Reference Include="Ninject.Web.WebApi, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.WebApi.3.2.4.0\lib\net45-full\Ninject.Web.WebApi.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.10\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Web.4.5.0\lib\net35\NLog.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.9.3.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\packages\RazorEngine.3.9.3\lib\net45\RazorEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="ServiceStack.Text, Version=4.5.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Text.4.5.10\lib\net45\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
@@ -241,14 +256,24 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Attributes\NhSessionManagementAttribute.cs" />
-    <Compile Include="Models\Controllers\AccountController.cs" />
-    <Compile Include="Models\Controllers\ClaimsController.cs" />
-    <Compile Include="Models\Controllers\PayorController.cs" />
-    <Compile Include="Models\Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClaimsController.cs" />
+    <Compile Include="Controllers\PayorController.cs" />
+    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Email\EmailModelGeneration\EmailModelGenerator.cs" />
+    <Compile Include="Email\EmailModelGeneration\IEmailModelGenerator.cs" />
+    <Compile Include="Email\EmailService.cs" />
+    <Compile Include="Email\EmailTemplateProviders\IEmailTemplateProvider.cs" />
+    <Compile Include="Email\EmailTemplateProviders\WelcomeActivationTemplate\EmailWelcomeActivationTemplate.cs" />
+    <Compile Include="Email\IEmailService.cs" />
+    <Compile Include="Email\Model\EmailModel.cs" />
+    <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\CompressedContent.cs" />
+    <Compile Include="Handlers\EncodingDelegateHandler.cs" />
+    <Compile Include="Helpers\CompressionHelper.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ClaimsSearchViewModel.cs" />
@@ -259,6 +284,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="EmailTemplates\WelcomeActivation.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -296,9 +324,13 @@
       <Project>{f21cd3e0-2404-415a-8f12-156f20a32fe4}</Project>
       <Name>BridgeportClaims.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BridgeportClaims.Data.Services\BridgeportClaims.Data.Services.csproj">
+    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{53bad79f-90e5-45bb-bb4b-d370e44d82cc}</Project>
+      <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BridgeportClaims.Services\BridgeportClaims.Services.csproj">
       <Project>{C79B763C-F001-405C-AB3A-44893EE69B73}</Project>
-      <Name>BridgeportClaims.Data.Services</Name>
+      <Name>BridgeportClaims.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
       <Project>{d5e6fad3-315f-4be1-9602-abce44914924}</Project>

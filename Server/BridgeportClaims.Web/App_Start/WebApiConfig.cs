@@ -1,9 +1,10 @@
 ﻿using System.Web.Http;
 using System.Web.Http.Cors;
-using BridgeportClaims.Business.Config;
+using BridgeportClaims.Services.Config;
+using BridgeportClaims.Web.Formatters;
+using BridgeportClaims.Web.Handlers;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using ServiceStack.Text;
 
 namespace BridgeportClaims.Web
 {
@@ -24,15 +25,11 @@ namespace BridgeportClaims.Web
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-            var formatter = GlobalConfiguration.Configuration.Formatters.JsonFormatter;
-            formatter.SerializerSettings = new JsonSerializerSettings
-            {
-                // ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                // PreserveReferencesHandling = PreserveReferencesHandling.Objects,
-                Formatting = Formatting.Indented,   
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-
+            config.Formatters.RemoveAt(0);
+            config.Formatters.Insert(0, new ServiceStackTextFormatter());
+            JsConfig.EmitCamelCaseNames = true;
+            
+            config.MessageHandlers.Add(new EncodingDelegateHandler());
 
             var corsHostName = new ConfigService();
 

@@ -32,9 +32,9 @@ namespace BridgeportClaims.Common.Extensions
         public static void CopyTo(this Stream fromStream, Stream toStream)
         {
             if (fromStream == null)
-                throw new ArgumentNullException("fromStream");
+                throw new ArgumentNullException(nameof(fromStream));
             if (toStream == null)
-                throw new ArgumentNullException("toStream");
+                throw new ArgumentNullException(nameof(toStream));
             var bytes = new byte[8092];
             int dataRead;
             while ((dataRead = fromStream.Read(bytes, 0, bytes.Length)) > 0)

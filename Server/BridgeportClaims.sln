@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data", "Br
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Business", "BridgeportClaims.Business\BridgeportClaims.Business.csproj", "{F21CD3E0-2404-415A-8F12-156F20A32FE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data.Services", "BridgeportClaims.Data.Services\BridgeportClaims.Data.Services.csproj", "{C79B763C-F001-405C-AB3A-44893EE69B73}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Services", "BridgeportClaims.Services\BridgeportClaims.Services.csproj", "{C79B763C-F001-405C-AB3A-44893EE69B73}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "BridgeportClaims.Common\BridgeportClaims.Common.csproj", "{53BAD79F-90E5-45BB-BB4B-D370E44D82CC}"
 EndProject

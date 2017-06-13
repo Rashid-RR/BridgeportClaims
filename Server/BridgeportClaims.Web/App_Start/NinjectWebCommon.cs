@@ -7,20 +7,22 @@ using Ninject.Web.Common;
 using System.Web.Http;
 using Ninject.Web.WebApi;
 using BridgeportClaims.Data.DataProviders;
-using BridgeportClaims.Data.Services.Payors;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.Automappers;
-using BridgeportClaims.Business.Config;
-using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Business.Security;
+using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.SessionFactory;
+using BridgeportClaims.Services.Caching;
+using BridgeportClaims.Services.Config;
+using BridgeportClaims.Web.Email;
 using NHibernate;
+using BridgeportClaims.Web.Email.EmailModelGeneration;
 
-[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BridgeportClaims.Web.App_Start.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.NinjectWebCommon), "Start")]
+[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BridgeportClaims.Web.NinjectWebCommon), "Stop")]
 
-namespace BridgeportClaims.Web.App_Start
+namespace BridgeportClaims.Web
 {
     [System.Runtime.InteropServices.Guid("775DD962-2535-4617-AC22-62CDE8F23DD5")]
     public static class NinjectWebCommon 
@@ -109,7 +111,6 @@ namespace BridgeportClaims.Web.App_Start
                     }
                 });
             kernel.Bind(typeof(IRepository<>)).To(typeof(Repository<>)).InTransientScope();
-            kernel.Bind<ILoggingService>().To<LoggingService>();
             kernel.Bind<IDbccUserOptionsProvider>().To<DbccUserOptionsProvider>();
             kernel.Bind<IConfigService>().To<ConfigService>();
             kernel.Bind<IPayorService>().To<PayorService>();
@@ -119,6 +120,10 @@ namespace BridgeportClaims.Web.App_Start
             kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
             kernel.Bind<IPasswordHasher>().To<PasswordHasher>();
             kernel.Bind<IGetClaimsDataProvider>().To<GetClaimsDataProvider>();
+            kernel.Bind<IEncryptor>().To<SymmetricEncryptor>();
+            kernel.Bind<ICacheService>().To<MemoryCacheService>();
+            kernel.Bind<IEmailService>().To<EmailService>();
+            kernel.Bind<IEmailModelGenerator>().To<EmailModelGenerator>();
         }        
     }
 }
