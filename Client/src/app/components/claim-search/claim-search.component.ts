@@ -27,11 +27,9 @@ export class ClaimSearchComponent implements OnInit {
   }
 
  textChange(controlName:string){
-   console.log(this.form.get(controlName).value);
    if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
      this.form.get(controlName).setValue(null);
    }
-   //this.form.get(controlName).setValue(this.form.get(controlName).value ? null : this.form.get(controlName).value);
  }
   search(){
     this.claimManager.search(this.form.value);
