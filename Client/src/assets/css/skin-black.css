@@ -163,7 +163,7 @@
   border-top-color: #222;
   border-left-color: #222;
 }
-html,body{
+/*html,body{
     height:100% !important;  
 }
 .wrapper{
@@ -175,5 +175,5 @@ html,body{
     height:calc(100% - 105px) !important; 
     height:-webkit-calc(100% - 105px) !important; 
     height:-moz-calc(100% - 105px) !important; 
-}
+}*/
 

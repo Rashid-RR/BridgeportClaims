@@ -22,10 +22,11 @@
                 </ul>
                 <ul class="nav navbar-nav" *ngIf="profileManager.profile">                        
                     <li routerLinkActive="active" *ngIf="profileManager.profile">
-                        <a  [routerLink]="'/profile'" class="navbar-link">Logged in as {{profileManager.profile? profileManager.profile.email : ''}}</a>
+                        <!--[routerLink]="'/profile'"--> 
+                        <a   class="navbar-link">Logged in as {{profileManager.profile? profileManager.profile.email : ''}}</a>
                     </li>
                     <li routerLinkActive="active" *ngIf="profileManager.profile">
-                        <a  (click)="logout()" class="navbar-link">Logout</a>
+                        <a  style="cursor:pointer;" (click)="logout()" class="navbar-link">Logout</a>
                     </li>
                 </ul>
             </div>

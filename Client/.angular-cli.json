@@ -48,7 +48,7 @@
         "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.js",
         "../node_modules/admin-lte/plugins/datepicker/bootstrap-datepicker.js",
         "../node_modules/admin-lte/plugins/colorpicker/bootstrap-colorpicker.min.js",
-        "assets/js/app.js",
+        "../node_modules/admin-lte/dist/js/app.js",
         "../node_modules/sweetalert/dist/sweetalert.min.js",
         "../node_modules/admin-lte/dist/js/demo.js"
       ],
