@@ -3,31 +3,31 @@
         <div class="col-md-2">
           <div class="form-group">
               <label>Claim #</label>
-              <input class="form-control"  name="claimNumber" class="form-control" formControlName="claimNumber" (focus)="submitted=false" focus-on>
+              <input class="form-control" name="claimNumber" class="form-control" formControlName="claimNumber" (change)="textChange('claimNumber')" (focus)="submitted=false" focus-on>
           </div>
       </div>
       <div class="col-md-2">
           <div class="form-group">
               <label>FirstName</label>
-              <input class="form-control"  name="firstName" class="form-control" formControlName="firstName" (focus)="submitted=false" focus-on>
+              <input class="form-control"  name="firstName" class="form-control" formControlName="firstName"  (change)="textChange('firstName')" (focus)="submitted=false" focus-on>
           </div>
       </div>
        <div class="col-md-2">
           <div class="form-group">
               <label>Last Name</label>
-              <input class="form-control"  name="lastName" class="form-control" formControlName="lastName" (focus)="submitted=false" focus-on>
+              <input class="form-control"  name="lastName" class="form-control" formControlName="lastName"  (change)="textChange('lastName')" (focus)="submitted=false" focus-on>
           </div>
       </div>
       <div class="col-md-2">
           <div class="form-group">
               <label>Rx Number</label>
-              <input class="form-control"  name="rxNumber" class="form-control" formControlName="rxNumber" (focus)="submitted=false" focus-on>
+              <input class="form-control"  name="rxNumber" class="form-control" formControlName="rxNumber"  (change)="textChange('rxNumber')" (focus)="submitted=false" focus-on>
           </div>
       </div>
       <div class="col-md-2">
           <div class="form-group">
               <label>Inv #</label>
-              <input class="form-control"  name="invoiceNumber" class="form-control" formControlName="invoiceNumber" (focus)="submitted=false" focus-on>
+              <input class="form-control"  name="invoiceNumber" class="form-control" formControlName="invoiceNumber"  (change)="textChange('invoiceNumber')" (focus)="submitted=false" focus-on>
           </div>
       </div>
 
