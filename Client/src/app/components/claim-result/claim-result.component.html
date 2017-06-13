@@ -1,21 +1,52 @@
-<div class="row invoice-info" *ngFor="let claim of claimManager.claims">
-  <div class="col-sm-6 invoice-col">
-    <address> 
-      Name: {{claim.name}}<br>
-      DOB: {{claim.dateOfBirth}}<br>
-      Gender: {{claim.gender}}<br>
-      Carrier: {{claim.carrier}}<br/>
-      Adjustor : {{claim.adjustor}}<br>
-      Adjustor Ph : {{claim.adjustorPhoneNumber}}<br><br>
-      Eligibility Entered: {{claim.dateEntered}}<br><br>
-    </address>
+<ng-container   *ngIf="claimManager.claims && claimManager.claims.length==1">
+    <div class="row invoice-info" *ngFor="let claim of claimManager.claims">
+      <div class="col-sm-6 invoice-col">
+        <address> 
+          Name: {{claim.name}}<br>
+          DOB: {{claim.dateOfBirth}}<br>
+          Gender: {{claim.gender}}<br>
+          Carrier: {{claim.carrier}}<br/>
+          Adjustor : {{claim.adjustor}}<br>
+          Adjustor Ph : {{claim.adjustorPhoneNumber}}<br><br>
+          Eligibility Entered: {{claim.dateEntered}}<br><br>
+        </address>
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-6 invoice-col">
+        <address> 
+          Claim #: {{claim.claimNumber}}<br>
+          Injury Date: {{claim.injuryDate}}<br>
+          Adjustor Fax : {{claim.adjustorFaxNumber}}<br>
+        </address>
+        <span class="label label-warning" style="cursor:pointer;"> View </span>
+      </div>
   </div>
-  <!-- /.col -->
-  <div class="col-sm-6 invoice-col">
-    <address> 
-      Claim #: {{claim.claimNumber}}<br>
-      Injury Date: {{claim.injuryDate}}<br>
-      Adjustor Fax : {{claim.adjustorFaxNumber}}<br>
-    </address>
+</ng-container>
+<ng-container *ngIf="claimManager.claims && claimManager.claims.length>1">
+  <div class="row invoice-info">
+        <div class="col-sm-12 invoice-col">
+          <div class="table-responsive">
+            <table class="table no-margin table-striped">
+              <thead>
+              <tr>
+                <th>Claim ID</th>
+                <th>Name</th>
+                <th>Carrier</th>
+                <th>Injury Date</th>
+                <th>&nbsp;</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let claim of claimManager.claims">
+                <td>{{claim.claimNumber}}</td>
+                <td>{{claim.name}}</td>
+                <td>{{claim.carrier}}</td>
+                <td>{{claim.injuryDate}}</td>
+                <td><span class="label label-warning" style="cursor:pointer;"> View </span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
   </div>
-</div>
+</ng-container>

@@ -9,20 +9,14 @@
     <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 ">
         <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="login()">
             <h3>Please sign in</h3>
-
             <div class="form-group">
-                <input type="text" name="email" class="form-control" placeholder="Email address"
-                       formControlName="email" (focus)="submitted=false" required focus-on>
+                <input type="text" name="email" class="form-control" placeholder="Email address" formControlName="email" (focus)="submitted=false" required focus-on>
                 <p class="text-danger form-control-static" *ngIf="form.get('email').value!='' && form.get('email').errors && submitted">Incorrect email</p>
-                <p class="text-danger form-control-static" *ngIf="form.get('email').value =='' && submitted">Email is
-                    required</p>
+                <p class="text-danger form-control-static" *ngIf="form.get('email').value =='' && submitted">Email is required</p>
             </div>
             <div class="form-group">
-                <input type="password" name="password" class="form-control bottom" placeholder="Password"
-                       formControlName="password" required (focus)="submitted=false">
-                <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted">
-                    {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email or
-                    password'}}</p>
+                <input type="password" name="password" class="form-control bottom" placeholder="Password" formControlName="password" required (focus)="submitted=false">
+                <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email or password'}}</p>
             </div>
             <div class="form-group">
                 <span class="help-block"><a [routerLink]="'/recover-lost-password'">Forgotten password?</a></span>
@@ -34,6 +28,3 @@
         </form>
     </div>
 </div>
-<!--<app-header></app-header>
-
-<app-footer></app-footer>-->
