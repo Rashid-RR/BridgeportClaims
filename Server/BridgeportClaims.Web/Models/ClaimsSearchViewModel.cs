@@ -2,6 +2,7 @@
 {
     public class ClaimsSearchViewModel
     {
+        public int? ClaimId { get; set; }
         public string ClaimNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

@@ -72,10 +72,24 @@
     <Compile Include="DataProviders\IGetClaimsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\IPayorService.cs" />
     <Compile Include="DataProviders\Payors\PayorService.cs" />
+    <Compile Include="Dtos\ClaimDto.cs" />
+    <Compile Include="Dtos\EpisodeDto.cs" />
+    <Compile Include="Dtos\PrescriptionDto.cs" />
+    <Compile Include="Dtos\PrescriptionNotesDto.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
+    <Compile Include="Mappings\AspNetUserClaimsMap.cs" />
+    <Compile Include="Mappings\AspNetUserLoginsMap.cs" />
+    <Compile Include="Mappings\AspNetUserRolesMap.cs" />
+    <Compile Include="Mappings\AspNetUsersMap.cs" />
     <Compile Include="Mappings\ClaimMap.cs" />
+    <Compile Include="Mappings\ClaimNoteMap.cs" />
+    <Compile Include="Mappings\ClaimNoteTypeMap.cs" />
+    <Compile Include="Mappings\InvoiceMap.cs" />
     <Compile Include="Mappings\PaymentMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />
+    <Compile Include="Mappings\PrescriptionMap.cs" />
+    <Compile Include="Mappings\PrescriptionNoteMap.cs" />
+    <Compile Include="Mappings\PrescriptionNoteTypeMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
     <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,8 +97,8 @@
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="SessionFactory\SessionFactoryBuilder.cs" />
-    <Compile Include="StoredProcedureExecutors\Dtos\DbccUserOptionsResults.cs" />
-    <Compile Include="StoredProcedureExecutors\Dtos\GetClaimsData.cs" />
+    <Compile Include="Dtos\DbccUserOptionsResults.cs" />
+    <Compile Include="Dtos\GetClaimsSearchResults.cs" />
     <Compile Include="StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
     <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>

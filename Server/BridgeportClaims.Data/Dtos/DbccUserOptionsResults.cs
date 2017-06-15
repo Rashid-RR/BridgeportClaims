@@ -1,4 +1,4 @@
-﻿namespace BridgeportClaims.Data.StoredProcedureExecutors.Dtos
+﻿namespace BridgeportClaims.Data.Dtos
 {
     public class DbccUserOptionsResults
     {

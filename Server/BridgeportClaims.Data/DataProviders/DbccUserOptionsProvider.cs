@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.StoredProcedureExecutors;
-using BridgeportClaims.Data.StoredProcedureExecutors.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders
 {

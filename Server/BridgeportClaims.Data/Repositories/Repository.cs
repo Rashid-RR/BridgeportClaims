@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BridgeportClaims.Entities.Domain;
 using NHibernate;
 using NHibernate.Linq;
 
@@ -12,7 +11,7 @@ namespace BridgeportClaims.Data.Repositories
     /// Implementation of the IRepository pattern. No logging done at this level.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class Repository<TEntity> : BaseRepository, IRepository<TEntity> where TEntity : class, IEntity, new()
+    public class Repository<TEntity> : BaseRepository, IRepository<TEntity> where TEntity : class, new()
     {
         public Repository(ISession session) : base(session) { }
 

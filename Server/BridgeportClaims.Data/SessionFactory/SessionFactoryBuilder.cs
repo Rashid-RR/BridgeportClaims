@@ -45,11 +45,20 @@ namespace BridgeportClaims.Data.SessionFactory
                                   .Mappings(m =>
                                    {
                                        m.FluentMappings.Add<AdjustorMap>();
+                                       m.FluentMappings.Add<AspNetUserClaimsMap>();
+                                       m.FluentMappings.Add<AspNetUserLoginsMap>();
+                                       m.FluentMappings.Add<AspNetUserRolesMap>();
+                                       m.FluentMappings.Add<AspNetUsersMap>();
                                        m.FluentMappings.Add<ClaimMap>();
+                                       m.FluentMappings.Add<ClaimNoteMap>();
+                                       m.FluentMappings.Add<ClaimNoteTypeMap>();
+                                       m.FluentMappings.Add<InvoiceMap>();
                                        m.FluentMappings.Add<PaymentMap>();
                                        m.FluentMappings.Add<PayorMap>();
+                                       m.FluentMappings.Add<PrescriptionMap>();
+                                       m.FluentMappings.Add<PrescriptionNoteMap>();
+                                       m.FluentMappings.Add<PrescriptionNoteTypeMap>();
                                        m.FluentMappings.Add<UsStateMap>();
-
                                    })
                                   .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, false))
                                   .ExposeConfiguration(config => config.SetProperty("current_session_context_class", "web"))

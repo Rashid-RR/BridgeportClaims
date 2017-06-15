@@ -2,21 +2,27 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
-using BridgeportClaims.Data.StoredProcedureExecutors.Dtos;
+using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Data.DataProviders
 {
     public class GetClaimsDataProvider : IGetClaimsDataProvider
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+        private readonly IRepository<Prescription> _prescriptionRepository;
+        private readonly IRepository<Claim> _claimRepository;
 
-        public GetClaimsDataProvider(IStoredProcedureExecutor storedProcedureExecutor)
+        public GetClaimsDataProvider(IStoredProcedureExecutor storedProcedureExecutor, IRepository<Prescription> prescriptionRepository, IRepository<Claim> claimRepository)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
+            _prescriptionRepository = prescriptionRepository;
+            _claimRepository = claimRepository;
         }
 
-        public IList<GetClaimsData> GetClaimsData(string claimNumber, string firstName, string lastName,
+        public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
             string rxNumber, string invoiceNumber)
         {
             var claimNumberParam = new SqlParameter
@@ -54,8 +60,8 @@ namespace BridgeportClaims.Data.DataProviders
                 DbType = DbType.String
             };
 
-            var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<GetClaimsData>
-            ("EXECUTE dbo.uspGetClaimsData @ClaimNumber = :ClaimNumber, @FirstName = :FirstName, " +
+            var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<GetClaimsSearchResults>
+            ("EXECUTE dbo.uspGetClaimsSearchResults @ClaimNumber = :ClaimNumber, @FirstName = :FirstName, " +
              "@LastName = :LastName, @RxNumber = :RxNumber, @InvoiceNumber = :InvoiceNumber",
                 new List<SqlParameter>
                 {
@@ -66,6 +72,13 @@ namespace BridgeportClaims.Data.DataProviders
                     invoiceNumberParam
                 }).ToList();
             return retVal;
+        }
+
+        public dynamic GetClaimsDataByClaimId(int claimId)
+        {
+            var claim = _claimRepository.Get(claimId);
+            var prescriptions = _prescriptionRepository.GetMany(w => w.Claim.Id == claimId);
+            return new object();
         }
     }
 }

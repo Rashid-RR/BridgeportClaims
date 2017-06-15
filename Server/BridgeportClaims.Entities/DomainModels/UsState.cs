@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using BridgeportClaims.Entities.Domain;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-    public class UsState : IEntity
+    public class UsState
     {
         public UsState()
         {
