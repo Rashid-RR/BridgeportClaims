@@ -7,16 +7,15 @@ GO
 	Create Date:	6/10/2017
 	Description:	Returns Claims data for Blade 1
 	Sample Execute:
-					EXEC dbo.uspGetClaimsData NULL, 'Brandie'
+					EXEC dbo.uspGetClaimsSearchResults NULL, 'Brandie'
 */
-CREATE PROC [dbo].[uspGetClaimsData]
+CREATE PROC [dbo].[uspGetClaimsSearchResults]
 (
     @ClaimNumber VARCHAR(255) = NULL, @FirstName VARCHAR(155) = NULL, 
     @LastName VARCHAR(155) = NULL, @RxNumber VARCHAR(100) = NULL, @InvoiceNumber NVARCHAR(100) = NULL
 )
 AS
 BEGIN
-    DECLARE @Format CHAR(10) = 'M/d/yyyy'
     SET NOCOUNT ON;
 
     WITH ClaimsCTE AS
@@ -26,17 +25,12 @@ BEGIN
           SELECT i.ClaimID FROM dbo.Invoice i WHERE i.InvoiceNumber = @InvoiceNumber UNION
           SELECT p.ClaimID FROM dbo.Prescription p WHERE p.RxNumber = @RxNumber
     )
-    SELECT c.ClaimId
-         , c.[Name]
+    SELECT DISTINCT c.ClaimId
          , c.ClaimNumber
-         , c.DateOfBirth
-         , InjuryDate
-         , Gender
-         , Carrier
-         , Adjustor
-         , AdjustorPhoneNumber
-         , DateEntered
-         , AdjustorFaxNumber
+         , c.LastName
+         , c.FirstName
+         , c.Carrier
+         , c.InjuryDate
     FROM   dbo.vwClaims c 
            INNER JOIN ClaimsCTE cte ON cte.ClaimID = c.ClaimId
     WHERE  1 = 1
