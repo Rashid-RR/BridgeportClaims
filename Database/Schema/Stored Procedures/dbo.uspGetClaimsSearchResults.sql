@@ -26,6 +26,8 @@ BEGIN
           SELECT p.ClaimID FROM dbo.Prescription p WHERE p.RxNumber = @RxNumber
     )
     SELECT DISTINCT c.ClaimId
+		 , c.PayorId
+		 , c.PrescriptionId
          , c.ClaimNumber
          , c.LastName
          , c.FirstName
