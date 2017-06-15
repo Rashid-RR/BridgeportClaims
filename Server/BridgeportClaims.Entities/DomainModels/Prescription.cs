@@ -78,7 +78,5 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOn { get; set; }
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
-        [Required]
-        public virtual DateTime DataVersion { get; set; }
     }
 }

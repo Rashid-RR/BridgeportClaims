@@ -8,6 +8,9 @@ namespace BridgeportClaims.Data.Mappings
         public AspNetUserClaimsMap()
         {
             Table("AspNetUserClaims");
+            Schema("dbo");
+            DynamicUpdate();
+            SchemaAction.None();
             LazyLoad();
             Id(x => x.Id).GeneratedBy.Identity().Column("ID");
             References(x => x.AspNetUsers).Column("UserID");

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
@@ -19,5 +20,9 @@ namespace BridgeportClaims.Entities.DomainModels
         [StringLength(10)]
         public virtual string Code { get; set; }
         public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
+        [Required]
+        public virtual DateTime CreatedOn { get; set; }
+        [Required]
+        public virtual DateTime UpdatedOn { get; set; }
     }
 }

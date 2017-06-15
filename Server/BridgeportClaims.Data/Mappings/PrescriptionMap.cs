@@ -51,7 +51,6 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.TheraClass).Column("TheraClass").Length(255);
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
-            Map(x => x.DataVersion).Column("DataVersion").Not.Nullable();
         }
     }
 }

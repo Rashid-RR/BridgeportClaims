@@ -21,7 +21,6 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Amount).Column("Amount").Not.Nullable().Precision(19).Scale(4);
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
-            Map(x => x.DataVersion).Column("DataVersion").Not.Nullable();
         }
     }
 }
