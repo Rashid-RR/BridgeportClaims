@@ -5,7 +5,8 @@ namespace BridgeportClaims.Entities.DomainModels
 {
     public class PrescriptionNote
     {
-        public virtual int Id { get; set; }
+        public virtual int PrescriptionNoteId { get; set; }
+        public virtual Prescription Prescription { get; set; }
         public virtual PrescriptionNoteType PrescriptionNoteType { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
         [Required]

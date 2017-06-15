@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
 
+    [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class AspNetUsers
     {
         public AspNetUsers()

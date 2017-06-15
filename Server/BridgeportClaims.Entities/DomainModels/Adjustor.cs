@@ -12,7 +12,7 @@ namespace BridgeportClaims.Entities.DomainModels
         {
             Claim = new List<Claim>();
         }
-        public virtual int Id { get; set; }
+        public virtual int AdjustorId { get; set; }
         public virtual Payor Payor { get; set; }
         [Required]
         [StringLength(255)]

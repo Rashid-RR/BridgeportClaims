@@ -7,7 +7,7 @@ namespace BridgeportClaims.Entities.DomainModels
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class Prescription
     {
-        public virtual int Id { get; set; }
+        public virtual int PrescriptionId { get; set; }
         public virtual Claim Claim { get; set; }
         [Required]
         [StringLength(100)]

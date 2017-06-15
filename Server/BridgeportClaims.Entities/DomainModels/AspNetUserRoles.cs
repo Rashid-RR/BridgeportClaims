@@ -2,7 +2,6 @@
 {
     public class AspNetUserRoles
     {
-        public virtual int Id { get; set; }
         public virtual string UserId { get; set; }
         public virtual string RoleId { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }

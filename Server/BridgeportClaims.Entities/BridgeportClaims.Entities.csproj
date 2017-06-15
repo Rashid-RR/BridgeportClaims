@@ -64,9 +64,13 @@
     <Compile Include="DomainModels\AspNetUserRoles.cs" />
     <Compile Include="DomainModels\AspNetUsers.cs" />
     <Compile Include="DomainModels\Claim.cs" />
+    <Compile Include="DomainModels\ClaimImage.cs" />
     <Compile Include="DomainModels\ClaimNote.cs" />
     <Compile Include="DomainModels\ClaimNoteType.cs" />
+    <Compile Include="DomainModels\Episode.cs" />
+    <Compile Include="DomainModels\Gender.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
+    <Compile Include="DomainModels\Patient.cs" />
     <Compile Include="DomainModels\Payment.cs" />
     <Compile Include="DomainModels\Payor.cs" />
     <Compile Include="DomainModels\Prescription.cs" />

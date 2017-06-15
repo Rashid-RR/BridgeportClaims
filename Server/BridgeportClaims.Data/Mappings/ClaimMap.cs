@@ -12,7 +12,7 @@ namespace BridgeportClaims.Data.Mappings
             SchemaAction.None();
             DynamicUpdate();
             LazyLoad();
-            Id(x => x.Id).GeneratedBy.Identity().Column("ClaimID");
+            Id(x => x.ClaimId).GeneratedBy.Identity().Column("ClaimID");
             References(x => x.Payor).Column("PayorID");
             References(x => x.Adjustor).Column("AdjusterID");
             References(x => x.UsState).Column("JurisdictionStateID");
@@ -27,7 +27,13 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.UniqueClaimNumber).Column("UniqueClaimNumber").Not.Nullable().Length(258);
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.DataVersion).Column("DataVersion").Not.Nullable();
+            HasMany(x => x.ClaimImage).KeyColumn("ClaimID");
+            HasMany(x => x.Episode).KeyColumn("ClaimID");
+            HasMany(x => x.Invoice).KeyColumn("ClaimID");
+            HasMany(x => x.Patient).KeyColumn("ClaimID");
             HasMany(x => x.Payment).KeyColumn("ClaimID");
+            HasMany(x => x.Prescription).KeyColumn("ClaimID");
         }
     }
 }

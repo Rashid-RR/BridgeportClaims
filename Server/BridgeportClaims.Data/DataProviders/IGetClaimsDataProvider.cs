@@ -8,6 +8,6 @@ namespace BridgeportClaims.Data.DataProviders
         IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
             string rxNumber, string invoiceNumber);
 
-        dynamic GetClaimsDataByClaimId(int claimId);
+        ClaimDto GetClaimsDataByClaimId(int claimId);
     }
 }

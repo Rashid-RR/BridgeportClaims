@@ -3,15 +3,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-
-    public class ClaimNote
+    public class ClaimImage
     {
-        public virtual int ClaimNoteId { get; set; }
+        public virtual int ClaimImageId { get; set; }
         public virtual Claim Claim { get; set; }
-        public virtual ClaimNoteType ClaimNoteType { get; set; }
-        public virtual AspNetUsers AspNetUsers { get; set; }
-        [StringLength(8000)]
-        public virtual string NoteText { get; set; }
+        public virtual int? ImageNumber { get; set; }
+        [StringLength(255)]
+        public virtual string ImageType { get; set; }
+        public virtual DateTime? Daterec { get; set; }
         [Required]
         public virtual DateTime CreatedOn { get; set; }
         [Required]

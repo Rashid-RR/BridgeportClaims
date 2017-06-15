@@ -4,7 +4,7 @@ namespace BridgeportClaims.Data.Dtos
 {
     public class PrescriptionDto
     {
-        public string RxDate { get; set; }
+        public DateTime? RxDate { get; set; }
         public string RxNumber { get; set; }
         public string LabelName { get; set; }
         public string BillTo { get; set; }

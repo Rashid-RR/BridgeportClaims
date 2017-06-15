@@ -10,9 +10,14 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         public Claim()
         {
+            ClaimImage = new List<ClaimImage>();
+            Episode = new List<Episode>();
+            Invoice = new List<Invoice>();
+            Patient = new List<Patient>();
             Payment = new List<Payment>();
+            Prescription = new List<Prescription>();
         }
-        public virtual int Id { get; set; }
+        public virtual int ClaimId { get; set; }
         public virtual Payor Payor { get; set; }
         public virtual Adjustor Adjustor { get; set; }
         public virtual UsState UsState { get; set; }
@@ -36,6 +41,13 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOn { get; set; }
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
+        [Required]
+        public virtual DateTime DataVersion { get; set; }
+        public virtual IList<ClaimImage> ClaimImage { get; set; }
+        public virtual IList<Episode> Episode { get; set; }
+        public virtual IList<Invoice> Invoice { get; set; }
+        public virtual IList<Patient> Patient { get; set; }
         public virtual IList<Payment> Payment { get; set; }
+        public virtual IList<Prescription> Prescription { get; set; }
     }
 }

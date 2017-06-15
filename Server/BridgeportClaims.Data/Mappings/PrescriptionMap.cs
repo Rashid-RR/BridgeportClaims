@@ -12,8 +12,8 @@ namespace BridgeportClaims.Data.Mappings
             SchemaAction.None();
             DynamicUpdate();
             LazyLoad();
-            Id(x => x.Id).GeneratedBy.Identity().Column("PrescriptionID");
-            References(x => x.Claim).Column("ClaimID");
+            Id(x => x.PrescriptionId).GeneratedBy.Identity().Column("PrescriptionID");
+            References(x => x.Claim).Column("ClaimId");
             Map(x => x.RxNumber).Column("RxNumber").Not.Nullable().Length(100);
             Map(x => x.DateSubmitted).Column("DateSubmitted").Not.Nullable();
             Map(x => x.DateFilled).Column("DateFilled").Not.Nullable();
