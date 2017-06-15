@@ -45,9 +45,9 @@ export class LoginComponent implements OnInit {
           this.profileManager.setProfile(new UserProfile(data.id || data.userName,data.userName,data.userName,data.userName,data.userName));
           this.router.navigate(['/main/private']);
         }, (error) => {
-          if (error.status !== 500) {
+         // if (error.status !== 500) {
             this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
-          }
+         // }
         })
       } catch (e) {
         this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
