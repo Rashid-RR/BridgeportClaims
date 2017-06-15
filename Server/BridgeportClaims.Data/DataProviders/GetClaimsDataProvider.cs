@@ -101,10 +101,10 @@ namespace BridgeportClaims.Data.DataProviders
             var claim = _claimRepository.Get(claimId);
             if (null == claim)
                 throw new Exception($"No claim found with with Claim ID {claimId}");
-            var claimNotes = _claimNoteRepository.GetMany(w => w.Claim.ClaimId == claimId);
             var claimDto = new ClaimDto
             {
-                Name = claim.Patient?.FirstOrDefault()?.FirstName + " " + claim.Patient?.FirstOrDefault()?.LastName,
+                Name = claim.Patient?.FirstOrDefault()?.FirstName + " " +
+                       claim.Patient?.FirstOrDefault()?.LastName,
                 Address1 = claim.Patient?.FirstOrDefault()?.Address1,
                 Address2 = claim.Patient?.FirstOrDefault()?.Address2,
                 Adjustor = claim.Adjustor?.AdjustorName,
@@ -120,11 +120,15 @@ namespace BridgeportClaims.Data.DataProviders
                 EligibilityTermDate = claim.TermDate,
                 PatientPhoneNumber = claim.Patient?.FirstOrDefault()?.PhoneNumber,
                 DateEntered = claim.DateOfInjury,
-                ClaimNumber = claim.ClaimNumber,   
-            };  
+                ClaimNumber = claim.ClaimNumber
+            };
             // Claim Note
-            if (null != claimNotes && claimNotes.Any())
-                claimDto.ClaimNote = new ClaimNoteDto {NoteText = claimNotes.FirstOrDefault()?.NoteText};
+            var claimNoteDto = _claimNoteRepository.GetMany(w => (null == w.Claim ? 0 : w.Claim.ClaimId) == claimId).ToList()
+                .Select(c => new ClaimNoteDto
+                {
+                    NoteText = c?.NoteText
+                }).FirstOrDefault();
+            claimDto.ClaimNote = claimNoteDto;
             // Claim Episodes
             var episodes = _episodeRepository.GetAll()
                 .Where(e => e.Claim.ClaimId == claimId)

@@ -12,6 +12,7 @@ namespace BridgeportClaims.Data.Repositories
     public interface IRepository<T> where T : class, new()
     {
         T Get(object id);
+        T Load(object id);
         T Get(Expression<Func<T, bool>> predicate);
         void Save(T value);
         void SaveOrUpdateMany(IEnumerable<T> values);

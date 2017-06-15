@@ -18,6 +18,7 @@ namespace BridgeportClaims.Data.Repositories
         public TEntity Get(Expression<Func<TEntity, bool>> predicate) => Session.Query<TEntity>().Where(predicate).FirstOrDefault();
 
         public TEntity Get(object id) => Session.Get<TEntity>(id);
+        public TEntity Load(object id) => Session.Load<TEntity>(id);
 
         public void Save(TEntity value)
         {
