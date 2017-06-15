@@ -1,6 +1,6 @@
-CREATE TABLE [dbo].[Image]
+CREATE TABLE [dbo].[ClaimImage]
 (
-[ImageID] [int] NOT NULL IDENTITY(1, 1),
+[ClaimImageID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NULL,
 [ImageNumber] [int] NULL,
 [ImageType] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[Image]
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Image] ADD CONSTRAINT [pkImage] PRIMARY KEY CLUSTERED  ([ImageID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[ClaimImage] ADD CONSTRAINT [pkClaimImage] PRIMARY KEY CLUSTERED  ([ClaimImageID]) WITH (FILLFACTOR=90) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Image] ADD CONSTRAINT [fkImageClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
+ALTER TABLE [dbo].[ClaimImage] ADD CONSTRAINT [fkImageClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
