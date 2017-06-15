@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
 /*
 	Author:			Jordan Gurney
 	Create Date:	10/30/2013
@@ -11,7 +12,7 @@ GO
 	Sample Execute:
 					EXEC [dbo].[uspBackupLocalDatabase] @BackupPath = 'C:\DBBackups\'
 */
-CREATE PROC [dbo].[uspBackupLocalDatabase]
+CREATE PROC [util].[uspBackupLocalDatabase]
 	@BackupPath NVARCHAR(1000) = NULL
 AS
 	BEGIN
