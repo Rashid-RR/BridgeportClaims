@@ -18,6 +18,7 @@ using BridgeportClaims.Services.Config;
 using BridgeportClaims.Web.Email;
 using NHibernate;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
+using BridgeportClaims.Services.Constants;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BridgeportClaims.Web.NinjectWebCommon), "Stop")]
@@ -43,9 +44,8 @@ namespace BridgeportClaims.Web
         /// Stops the application.
         /// </summary>
         public static void Stop()
-        {
-            bootstrapper.ShutDown();
-        }
+            => bootstrapper.ShutDown();
+        
         
         /// <summary>
         /// Creates the kernel that will manage your application.
@@ -58,7 +58,6 @@ namespace BridgeportClaims.Web
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
-
                 RegisterServices(kernel);
                 GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
                 return kernel;
@@ -124,6 +123,7 @@ namespace BridgeportClaims.Web
             kernel.Bind<ICacheService>().To<MemoryCacheService>();
             kernel.Bind<IEmailService>().To<EmailService>();
             kernel.Bind<IEmailModelGenerator>().To<EmailModelGenerator>();
+            kernel.Bind<IConstantsService>().To<ConstantsService>();
         }        
     }
 }

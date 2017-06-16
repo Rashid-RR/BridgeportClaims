@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
+    [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Patient
     {
+        public Patient()
+        {
+            Claim = new List<Claim>();
+        }
         public virtual int PatientId { get; set; }
-        public virtual Claim Claim { get; set; }
         public virtual UsState UsState { get; set; }
         public virtual Gender Gender { get; set; }
         [Required]
@@ -37,5 +43,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOn { get; set; }
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
+        public virtual IList<Claim> Claim { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace BridgeportClaims.Data.Mappings
             References(x => x.Payor).Column("PayorID");
             References(x => x.Adjustor).Column("AdjusterID");
             References(x => x.UsState).Column("JurisdictionStateID");
+            References(x => x.Patient).Column("PatientID");
             Map(x => x.PolicyNumber).Column("PolicyNumber").Length(255);
             Map(x => x.DateOfInjury).Column("DateOfInjury");
             Map(x => x.IsFirstParty).Column("IsFirstParty").Not.Nullable();
@@ -28,9 +29,9 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
             HasMany(x => x.ClaimImage).KeyColumn("ClaimID");
+            HasMany(x => x.ClaimNote).KeyColumn("ClaimID");
             HasMany(x => x.Episode).KeyColumn("ClaimID");
             HasMany(x => x.Invoice).KeyColumn("ClaimID");
-            HasMany(x => x.Patient).KeyColumn("ClaimID");
             HasMany(x => x.Payment).KeyColumn("ClaimID");
             HasMany(x => x.Prescription).KeyColumn("ClaimID");
         }

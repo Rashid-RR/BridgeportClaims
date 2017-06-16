@@ -22,7 +22,7 @@ namespace BridgeportClaims.Common.Extensions
             return (size / Math.Pow(1024, 6)).ToString("F0") + "EB";
         }
 
-        public static bool Has<T>(this System.Enum type, T value)
+        public static bool Has<T>(this Enum type, T value)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace BridgeportClaims.Common.Extensions
                 return false;
             }
         }
-        public static bool Is<T>(this System.Enum type, T value)
+        public static bool Is<T>(this Enum type, T value)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace BridgeportClaims.Common.Extensions
                 return false;
             }
         }
-        public static T Add<T>(this System.Enum type, T value)
+        public static T Add<T>(this Enum type, T value)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace BridgeportClaims.Common.Extensions
                         ), ex);
             }
         }
-        public static T Remove<T>(this System.Enum type, T value)
+        public static T Remove<T>(this Enum type, T value)
         {
             try
             {
