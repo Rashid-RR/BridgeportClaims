@@ -18,8 +18,12 @@ CREATE TABLE [dbo].[Episode]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [pkEpisode] PRIMARY KEY CLUSTERED  ([EpisodeID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [pkEpisode] PRIMARY KEY CLUSTERED  ([EpisodeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO

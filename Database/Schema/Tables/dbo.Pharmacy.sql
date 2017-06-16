@@ -21,8 +21,12 @@ CREATE TABLE [dbo].[Pharmacy]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[Pharmacy] ADD CONSTRAINT [pkPharmacy] PRIMARY KEY CLUSTERED  ([PharmacyID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[Pharmacy] ADD CONSTRAINT [pkPharmacy] PRIMARY KEY CLUSTERED  ([PharmacyID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Pharmacy] ADD CONSTRAINT [fkPharmacyStateIDUsStateStateID] FOREIGN KEY ([StateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO

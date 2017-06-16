@@ -7,6 +7,10 @@ CREATE TABLE [dbo].[ClaimNoteType]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteTypeUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[ClaimNoteType] ADD CONSTRAINT [pkClaimNoteType] PRIMARY KEY CLUSTERED  ([ClaimNoteTypeID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[ClaimNoteType] ADD CONSTRAINT [pkClaimNoteType] PRIMARY KEY CLUSTERED  ([ClaimNoteTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO

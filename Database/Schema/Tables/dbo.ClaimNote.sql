@@ -9,8 +9,12 @@ CREATE TABLE [dbo].[ClaimNote]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [pkClaimNote] PRIMARY KEY CLUSTERED  ([ClaimNoteID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [pkClaimNote] PRIMARY KEY CLUSTERED  ([ClaimNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [fkClaimNoteClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO

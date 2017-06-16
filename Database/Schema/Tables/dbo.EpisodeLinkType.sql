@@ -7,6 +7,10 @@ CREATE TABLE [dbo].[EpisodeLinkType]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkTypeUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[EpisodeLinkType] ADD CONSTRAINT [pkEpisodeLinkType] PRIMARY KEY CLUSTERED  ([EpisodeLinkTypeID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[EpisodeLinkType] ADD CONSTRAINT [pkEpisodeLinkType] PRIMARY KEY CLUSTERED  ([EpisodeLinkTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO

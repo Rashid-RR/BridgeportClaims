@@ -10,8 +10,12 @@ CREATE TABLE [dbo].[Payment]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPaymentUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[Payment] ADD CONSTRAINT [pkPayment] PRIMARY KEY CLUSTERED  ([PaymentID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[Payment] ADD CONSTRAINT [pkPayment] PRIMARY KEY CLUSTERED  ([PaymentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPaymentClaimIDIncludeAll] ON [dbo].[Payment] ([ClaimID]) INCLUDE ([AmountPaid], [CheckDate], [CheckNumber], [CreatedOn], [DataVersion], [InvoiceNumber], [PaymentID], [UpdatedOn]) ON [PRIMARY]
 GO

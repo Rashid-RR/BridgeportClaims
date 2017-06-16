@@ -11,8 +11,16 @@ CREATE TABLE [dbo].[Invoice]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfInvoiceUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[Invoice] ADD CONSTRAINT [pkInvoice] PRIMARY KEY CLUSTERED  ([InvoiceID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[Invoice] ADD CONSTRAINT [pkInvoice] PRIMARY KEY CLUSTERED  ([InvoiceID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxInvoiceClaimID] ON [dbo].[Invoice] ([ClaimID]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxInvoiceClaimIDInclude] ON [dbo].[Invoice] ([ClaimID]) INCLUDE ([InvoiceNumber]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Invoice] ADD CONSTRAINT [fkInvoiceClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO

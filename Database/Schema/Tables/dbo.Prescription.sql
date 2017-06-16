@@ -41,8 +41,18 @@ CREATE TABLE [dbo].[Prescription]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [pkPrescription] PRIMARY KEY CLUSTERED  ([PrescriptionID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [pkPrescription] PRIMARY KEY CLUSTERED  ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionClaimID] ON [dbo].[Prescription] ([ClaimID]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionClaimIDInclude] ON [dbo].[Prescription] ([ClaimID]) INCLUDE ([RxNumber]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionClaimIDIncludes] ON [dbo].[Prescription] ([ClaimID]) INCLUDE ([LabelName], [PayableAmount], [RefillDate], [RxNumber]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO

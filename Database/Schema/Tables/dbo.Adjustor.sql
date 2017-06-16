@@ -11,8 +11,12 @@ CREATE TABLE [dbo].[Adjustor]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfAdjustorUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = PAGE
+)
 GO
-ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [pkAdjustor] PRIMARY KEY CLUSTERED  ([AdjustorID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [pkAdjustor] PRIMARY KEY CLUSTERED  ([AdjustorID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxAdjustorPayorIDIncludeAll] ON [dbo].[Adjustor] ([PayorID]) INCLUDE ([AdjustorID], [AdjustorName], [CreatedOn], [DataVersion], [EmailAddress], [Extension], [FaxNumber], [PhoneNumber], [UpdatedOn]) ON [PRIMARY]
 GO
