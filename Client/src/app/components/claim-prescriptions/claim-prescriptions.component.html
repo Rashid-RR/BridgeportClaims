@@ -1,0 +1,34 @@
+  <div class="row invoice-info">
+        <div class="col-sm-12 invoice-col">
+          <div class="table-responsive">
+            <table class="table no-margin table-striped">
+              <thead>
+              <tr>
+                <th>&nbsp;</th>
+                <th>RxNum</th>
+                <th>labelName</th>
+                <th>Bill To</th>
+                <th>Inv #</th>
+                <th>Inv Amount</th>
+                <th>Amount Paid</th>
+                <th>Outstanding</th>
+                <th>Inv Date</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions">
+                <td><input type="checkbox"></td>
+                <td>{{prescription.rxNumber}}</td>
+                <td>{{prescription.labelName}}</td>
+                <td>{{prescription.billTo}}</td>
+                <td>{{prescription.invoiceNumber}}</td>               
+                <td>{{prescription.invoiceAmount}}</td>               
+                <td>{{prescription.amountPaid}}</td>               
+                <td>{{prescription.outstanding}}</td>               
+                <td>{{prescription.invoiceDate | date:"shortDate"}}</td>               
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  </div>

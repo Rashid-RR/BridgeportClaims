@@ -1,0 +1,24 @@
+  <div class="row invoice-info">
+        <div class="col-sm-12 invoice-col">
+          <div class="table-responsive">
+            <table class="table no-margin table-striped">
+              <thead>
+              <tr>
+                <th>Date</th>
+                <th>CheckNum</th>
+                <th>RxNum</th>
+                <th>Check Amount</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let pay of claimManager.selectedClaim.payments">
+                <td>{{pay.date  | date:"shortDate"}}</td>
+                <td>{{pay.checkNumber}}</td>
+                <td>{{pay.RxNum}}</td>
+                <td>{{pay.checkAmount}}</td>               
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  </div>

@@ -23,7 +23,13 @@ import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModul
 import { PayorsComponent } from './pages/payors/payors.component'
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
-import { ClaimResultComponent } from './components/claim-result/claim-result.component'
+import { ClaimResultComponent } from './components/claim-result/claim-result.component';
+import { ClaimPaymentComponent } from './components/claim-payment/claim-payment.component';
+import { ClaimImagesComponent } from './components/claim-images/claim-images.component';
+import { ClaimPrescriptionsComponent } from './components/claim-prescriptions/claim-prescriptions.component';
+import { ClaimNoteComponent } from './components/claim-note/claim-note.component';
+import { ClaimEpisodeComponent } from './components/claim-episode/claim-episode.component';
+import { ClaimScriptNoteComponent } from './components/claim-script-note/claim-script-note.component'
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -52,7 +58,7 @@ export class SafeUrlPipe implements PipeTransform {
     PasswordResetComponent, 
     RegisterComponent,
     SafeStylePipe, SafeUrlPipe, ClaimsComponent,
-    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, 
+    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, 
   ],
   imports: [
     BrowserModule,

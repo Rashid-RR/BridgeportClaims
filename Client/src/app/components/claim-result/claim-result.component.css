@@ -1,0 +1,8 @@
+td,th{
+    padding-bottom:8px !important;
+    padding-top:3px !important;
+    font-size: 9pt;
+}
+tr.active,tr.active td{
+    background:lightblue !important;
+}

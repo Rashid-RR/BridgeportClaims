@@ -1,8 +1,8 @@
-<ng-container   *ngIf="claimManager.claims && claimManager.claims.length==1">
-    <div class="row invoice-info" *ngFor="let claim of claimManager.claims">
+<ng-container   *ngIf="claimManager.dataSize==1">
+    <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
       <div class="col-sm-6 invoice-col">
         <address> 
-          Name: {{claim.name}}<br>
+          Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}<br>
           DOB: {{claim.dateOfBirth}}<br>
           Gender: {{claim.gender}}<br>
           Carrier: {{claim.carrier}}<br/>
@@ -18,15 +18,15 @@
           Injury Date: {{claim.injuryDate}}<br>
           Adjustor Fax : {{claim.adjustorFaxNumber}}<br>
         </address>
-        <span class="label label-warning" style="cursor:pointer;"> View </span>
+        <span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId)"> View </span>
       </div>
   </div>
 </ng-container>
-<ng-container *ngIf="claimManager.claims && claimManager.claims.length>1">
+<ng-container *ngIf="claimManager.dataSize>1">
   <div class="row invoice-info">
         <div class="col-sm-12 invoice-col">
           <div class="table-responsive">
-            <table class="table no-margin table-striped">
+            <table class="table no-margin table-striped table-hover">
               <thead>
               <tr>
                 <th>Claim #</th>
@@ -37,13 +37,16 @@
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let claim of claimManager.claims">
-                <td>{{claim.claimNumber}}</td>
-                <td>{{claim.name}}</td>
-                <td>{{claim.carrier}}</td>
-                <td>{{claim.injuryDate}}</td>
-                <td><span class="label label-warning" style="cursor:pointer;"> View </span></td>
-              </tr>
+                <ng-container *ngFor="let claim of claimManager.claimsData">
+                  <tr [class.active]="claimManager.selected && claim.claimId==claimManager.selectedClaim.claimId">                
+                    <td>{{claim.claimNumber}}</td>
+                    <td *ngIf="claim.name">{{claim.name}}</td>
+                    <td *ngIf="!claim.name">{{claim.firstName}}  {{claim.lastName}}</td>
+                    <td>{{claim.carrier}}</td>
+                    <td>{{claim.injuryDate}}</td>
+                    <td><span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId)"> View </span></td>
+                  </tr>
+                </ng-container>
               </tbody>
             </table>
           </div>

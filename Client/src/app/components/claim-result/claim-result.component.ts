@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {HttpService} from "../../services/http-service";
 import {ClaimManager} from "../../services/claim-manager";
 import {EventsService} from "../../services/events-service";
 
@@ -12,12 +11,16 @@ import {EventsService} from "../../services/events-service";
 })
 export class ClaimResultComponent implements OnInit {
 
-  constructor(public claimManager:ClaimManager,private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService) {
+  constructor(public claimManager:ClaimManager,private formBuilder: FormBuilder, private router: Router, private events: EventsService) {
     
   }
 
   ngOnInit() {
     
+  }
+
+  view(claimID:Number){
+    this.claimManager.getClaimsDataById(claimID);
   }
 
 }

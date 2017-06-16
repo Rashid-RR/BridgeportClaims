@@ -1,0 +1,22 @@
+  <div class="row invoice-info">
+        <div class="col-sm-12 invoice-col">
+          <div class="table-responsive">
+            <table class="table no-margin table-striped">
+              <thead>
+              <tr>
+                <th>Date</th>
+                <th>By</th>
+                <th>Notes</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let episode of claimManager.selectedClaim.episodes">
+                <td>{{episode.date  | date:"shortDate"}}</td>
+                <td>{{episode.By}}</td>
+                <td>{{pay.Note}}</td>               
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  </div>
