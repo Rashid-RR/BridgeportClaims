@@ -5,7 +5,7 @@ import {HttpService} from "../../services/http-service";
 import {ProfileManager} from "../../services/profile-manager";
 import {UserProfile} from "../../models/profile";
 import {EventsService} from "../../services/events-service";
-
+import {warn,success} from "../../models/notification"
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -44,16 +44,21 @@ export class LoginComponent implements OnInit {
           this.profileManager.profile = new UserProfile(data.id || data.userName,data.userName,data.userName,data.userName,data.userName);
           this.profileManager.setProfile(new UserProfile(data.id || data.userName,data.userName,data.userName,data.userName,data.userName));
           this.router.navigate(['/main/private']);
+          success('Welcome back');
         }, (error) => {
          // if (error.status !== 500) {
             this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
+            warn( 'Incorrect login or password');
          // }
         })
       } catch (e) {
         this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
+        warn( 'Incorrect login or password');
       } finally {
 
       }
+    }else{
+       warn('Error in fields. Please correct to proceed!');
     }
   }
   ngOnInit() {

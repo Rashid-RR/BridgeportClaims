@@ -14,11 +14,12 @@
   "private": true,
   "dependencies": {
     "@angular/common": "^4.0.0",
-    "startbootstrap-sb-admin-2": "git+https://github.com/BlackrockDigital/startbootstrap-sb-admin-2.git",
+    "startbootstrap-sb-admin-2":"git+https://github.com/BlackrockDigital/startbootstrap-sb-admin-2.git",
     "@angular/compiler": "^4.0.0",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
+    "@angular/animations":"^4.0.0",
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
@@ -29,7 +30,8 @@
     "sweetalert": "1.1.3",
     "immutable": "^3.8.1",
     "angular2-jwt": "0.1.27",
-    "angular2-uuid": "^1.1.0"
+    "angular2-uuid": "^1.1.0",
+    "ng2-toastr":"4.1.0"
   },
   "devDependencies": {
     "@angular/cli": "1.0.0",

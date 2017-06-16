@@ -17,9 +17,10 @@ import {PasswordResetComponent} from "./pages/password-reset/password-reset.comp
 import {Error404Component} from "./pages/error404/error404.component";
 import {RoutingModule} from "./app.routing";
 import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModules} from "@angular/router";
- 
+
+
  //services
- import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager} from "./services/services.barrel";
+import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager} from "./services/services.barrel";
 import { PayorsComponent } from './pages/payors/payors.component'
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
@@ -65,10 +66,10 @@ export class SafeUrlPipe implements PipeTransform {
     FormsModule,
     ReactiveFormsModule,
     HttpModule, 
-    RoutingModule, 
+    RoutingModule
   ],
   providers: [  
-    HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,    
+    HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
