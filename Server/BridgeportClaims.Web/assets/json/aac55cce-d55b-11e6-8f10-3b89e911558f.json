@@ -1,0 +1,42 @@
+[{
+    "conversation_day":"Today",
+    "conversation":[
+        {
+            "time":"6:48 AM",
+            "message":"Hello",
+            "type":"text",
+            "user_id":"6393242c-d528-11e6-a2b2-6f29765c463f"
+        },{
+            "time":"6:48 AM",
+            "message":"Hey man!",
+            "type":"text",
+            "user_id":"6393242c-d528-11e6-a2b2-6f29765c463f"
+        },{
+            "time":"6:50 AM",
+            "message":"Hi Jason. How're you doing",
+            "type":"text",
+            "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8"
+        },{
+            "time":"6:51 AM",
+            "message":"Great, how about you?",
+            "type":"text",
+            "user_id":"6393242c-d528-11e6-a2b2-6f29765c463f"
+        },{
+            "time":"6:52 AM",
+            "message":"Am good. Any news for me?",
+            "type":"text",
+            "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8"
+        },{
+            "time":"6:53 AM",
+            "message":"Was thinking about the floor...",
+            "type":"text",
+            "user_id":"6393242c-d528-11e6-a2b2-6f29765c463f"
+        },{
+            "time":"6:53 AM",
+            "message":"But we’re probably gonna need a new carpet.",
+            "type":"text",
+            "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8"
+        }
+    ]
+    
+}]
