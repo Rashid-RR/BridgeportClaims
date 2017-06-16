@@ -1,6 +1,7 @@
 CREATE TABLE [dbo].[ClaimNote]
 (
 [ClaimNoteID] [int] NOT NULL IDENTITY(1, 1),
+[ClaimID] [int] NOT NULL,
 [ClaimNoteTypeID] [int] NOT NULL,
 [NoteText] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EnteredByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -10,6 +11,8 @@ CREATE TABLE [dbo].[ClaimNote]
 ) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [pkClaimNote] PRIMARY KEY CLUSTERED  ([ClaimNoteID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [fkClaimNoteClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [fkClaimNoteClaimNoteTypeIDClaimNoteTypeClaimNoteTypeID] FOREIGN KEY ([ClaimNoteTypeID]) REFERENCES [dbo].[ClaimNoteType] ([ClaimNoteTypeID])
 GO
