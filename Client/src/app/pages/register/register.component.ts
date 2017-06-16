@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpService} from "../../services/http-service";
+import {warn,success} from "../../models/notification"
 
 
 @Component({
@@ -36,6 +37,7 @@ export class RegisterComponent implements OnInit {
     console.log(this.form.value);
     if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
       this.form.get('ConfirmPassword').setErrors({"unmatched": "Repeat password does not match password"});
+      warn( 'Password and Confirmed Password did not match password');
     }
     if (this.form.valid) {
       try {
@@ -43,12 +45,14 @@ export class RegisterComponent implements OnInit {
           console.log("Successful registration");
             this.router.navigate(['/main/private']);
             //console.log(res.json());
+            success("Successful signup");
           this.registered = true
         },err => {
             console.log(err);
+            warn( 'Email or phone number already exists!');
         })
       } catch (e) {
-
+          
       } finally {
 
       }

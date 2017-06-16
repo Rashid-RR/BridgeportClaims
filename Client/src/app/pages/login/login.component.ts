@@ -6,6 +6,7 @@ import {ProfileManager} from "../../services/profile-manager";
 import {UserProfile} from "../../models/profile";
 import {EventsService} from "../../services/events-service";
 import {warn,success} from "../../models/notification"
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
