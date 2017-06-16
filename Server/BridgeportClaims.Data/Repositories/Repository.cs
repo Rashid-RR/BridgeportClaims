@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BridgeportClaims.Entities.Domain;
 using NHibernate;
 using NHibernate.Linq;
 
@@ -12,13 +11,14 @@ namespace BridgeportClaims.Data.Repositories
     /// Implementation of the IRepository pattern. No logging done at this level.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class Repository<TEntity> : BaseRepository, IRepository<TEntity> where TEntity : class, IEntity, new()
+    public class Repository<TEntity> : BaseRepository, IRepository<TEntity> where TEntity : class, new()
     {
         public Repository(ISession session) : base(session) { }
 
         public TEntity Get(Expression<Func<TEntity, bool>> predicate) => Session.Query<TEntity>().Where(predicate).FirstOrDefault();
 
         public TEntity Get(object id) => Session.Get<TEntity>(id);
+        public TEntity Load(object id) => Session.Load<TEntity>(id);
 
         public void Save(TEntity value)
         {

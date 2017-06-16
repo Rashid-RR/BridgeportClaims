@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using BridgeportClaims.Entities.Domain;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-    public class Payment : IEntity
+    public class Payment
     {
         public virtual int Id { get; set; }
         public virtual Claim Claim { get; set; }

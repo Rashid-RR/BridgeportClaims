@@ -1,0 +1,58 @@
+[
+    {
+        "id": "72a2a819-8e50-4250-8344-a4a26ead6026",
+        "time": "2017-01-07T22:18:04.793-07:00",
+        "message": "howdoyoudoaspace",
+        "type": "test",
+        "threadId": "dc16ae0e-d55b-11e6-bea1-8be327038816",
+        "user": "58eb3803-f42e-4ea8-b3c5-979845a509e8"
+    },
+    {
+        "id": "175e80b2-f001-4ca1-ab9e-a1755002f12d",
+        "time": "2017-01-07T22:17:53.630-07:00",
+        "message": "Mmmmh... Was just saying hi",
+        "type": "test",
+        "threadId": "dc16ae0e-d55b-11e6-bea1-8be327038816",
+        "user": "78292dd2-d528-11e6-8231-03310204a97d"
+    },
+    {
+        "id": "c5ea8441-d9c0-4b78-92b6-cad7d84a1f0d",
+        "time": "2017-01-07T22:17:41.675-07:00",
+        "message": "Am good. Any news for me?",
+        "type": "test",
+        "threadId": "dc16ae0e-d55b-11e6-bea1-8be327038816",
+        "user": "58eb3803-f42e-4ea8-b3c5-979845a509e8"
+    },
+    {
+        "id": "10835295-df0e-4506-abaf-3acd4be18596",
+        "time": "2017-01-07T22:17:33.833-07:00",
+        "message": "Great, how about you?",
+        "type": "test",
+        "threadId": "dc16ae0e-d55b-11e6-bea1-8be327038816",
+        "user": "78292dd2-d528-11e6-8231-03310204a97d"
+    },
+    {
+        "id": "6495f6ce-2e43-4456-9a9b-2bac212e7929",
+        "time": "2017-01-07T22:17:26.033-07:00",
+        "message": "Hi Jason. How're you doing",
+        "type": "test",
+        "threadId": "dc16ae0e-d55b-11e6-bea1-8be327038816",
+        "user": "58eb3803-f42e-4ea8-b3c5-979845a509e8"
+    },
+    {
+        "id": "232de305-7638-41a6-a62f-22ce39bddff6",
+        "time": "2017-01-07T22:17:13.978-07:00",
+        "message": "It's me",
+        "type": "test",
+        "threadId": "dc16ae0e-d55b-11e6-bea1-8be327038816",
+        "user": "78292dd2-d528-11e6-8231-03310204a97d"
+    },
+    {
+        "id": "183e6fb6-d96a-47fa-906f-d1e4d47b99b8",
+        "time": "2017-01-07T22:17:04.089-07:00",
+        "message": "Hello",
+        "type": "test",
+        "threadId": "dc16ae0e-d55b-11e6-bea1-8be327038816",
+        "user": "78292dd2-d528-11e6-8231-03310204a97d"
+    }
+]

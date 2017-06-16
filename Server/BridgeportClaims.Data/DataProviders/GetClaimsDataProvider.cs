@@ -1,22 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
-using BridgeportClaims.Data.StoredProcedureExecutors.Dtos;
+using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Data.DataProviders
 {
     public class GetClaimsDataProvider : IGetClaimsDataProvider
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+        private readonly IRepository<Prescription> _prescriptionRepository;
+        private readonly IRepository<Claim> _claimRepository;
+        private readonly IRepository<PrescriptionNote> _prescriptionNoteRepository;
+        private readonly IRepository<PrescriptionNoteType> _prescriptionNoteTypeRepository;
+        private readonly IRepository<Invoice> _invoiceRepository;
+        private readonly IRepository<ClaimNote> _claimNoteRepository;
+        private readonly IRepository<Episode> _episodeRepository;
+        private readonly IRepository<Payment> _paymentRepository;
 
-        public GetClaimsDataProvider(IStoredProcedureExecutor storedProcedureExecutor)
+        public GetClaimsDataProvider(
+            IStoredProcedureExecutor storedProcedureExecutor, 
+            IRepository<Prescription> prescriptionRepository, 
+            IRepository<Claim> claimRepository, 
+            IRepository<PrescriptionNote> prescriptionNoteRepository, 
+            IRepository<PrescriptionNoteType> prescriptionNoteTypeRepository, 
+            IRepository<Invoice> invoiceRepository, 
+            IRepository<ClaimNote> claimNoteRepository, 
+            IRepository<Episode> episodeRepository, 
+            IRepository<Payment> paymentRepository)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
+            _prescriptionRepository = prescriptionRepository;
+            _claimRepository = claimRepository;
+            _prescriptionNoteRepository = prescriptionNoteRepository;
+            _prescriptionNoteTypeRepository = prescriptionNoteTypeRepository;
+            _invoiceRepository = invoiceRepository;
+            _claimNoteRepository = claimNoteRepository;
+            _episodeRepository = episodeRepository;
+            _paymentRepository = paymentRepository;
         }
 
-        public IList<GetClaimsData> GetClaimsData(string claimNumber, string firstName, string lastName,
+        public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
             string rxNumber, string invoiceNumber)
         {
             var claimNumberParam = new SqlParameter
@@ -54,8 +82,8 @@ namespace BridgeportClaims.Data.DataProviders
                 DbType = DbType.String
             };
 
-            var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<GetClaimsData>
-            ("EXECUTE dbo.uspGetClaimsData @ClaimNumber = :ClaimNumber, @FirstName = :FirstName, " +
+            var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<GetClaimsSearchResults>
+            ("EXECUTE dbo.uspGetClaimsSearchResults @ClaimNumber = :ClaimNumber, @FirstName = :FirstName, " +
              "@LastName = :LastName, @RxNumber = :RxNumber, @InvoiceNumber = :InvoiceNumber",
                 new List<SqlParameter>
                 {
@@ -66,6 +94,92 @@ namespace BridgeportClaims.Data.DataProviders
                     invoiceNumberParam
                 }).ToList();
             return retVal;
+        }
+
+        public ClaimDto GetClaimsDataByClaimId(int claimId)
+        {
+            var claim = _claimRepository.Get(claimId);
+            if (null == claim)
+                throw new Exception($"No claim found with with Claim ID {claimId}");
+            var claimDto = new ClaimDto
+            {
+                Name = claim.Patient?.FirstOrDefault()?.FirstName + " " +
+                       claim.Patient?.FirstOrDefault()?.LastName,
+                Address1 = claim.Patient?.FirstOrDefault()?.Address1,
+                Address2 = claim.Patient?.FirstOrDefault()?.Address2,
+                Adjustor = claim.Adjustor?.AdjustorName,
+                AdjustorFaxNumber = claim.Adjustor?.FaxNumber,
+                AdjustorPhoneNumber = claim.Adjustor?.PhoneNumber,
+                Carrier = claim.Payor?.BillToName,
+                City = claim.Patient?.FirstOrDefault()?.City,
+                StateAbbreviation = claim.Patient?.FirstOrDefault()?.UsState?.StateCode,
+                PostalCode = claim.Patient?.FirstOrDefault()?.PostalCode,
+                Flex2 = "PIP", // TODO: remove hard-coded
+                Gender = claim.Patient?.FirstOrDefault()?.Gender?.GenderName,
+                DateOfBirth = claim.Patient?.FirstOrDefault()?.DateOfBirth,
+                EligibilityTermDate = claim.TermDate,
+                PatientPhoneNumber = claim.Patient?.FirstOrDefault()?.PhoneNumber,
+                DateEntered = claim.DateOfInjury,
+                ClaimNumber = claim.ClaimNumber
+            };
+            // Claim Note
+            var claimNoteDto = _claimNoteRepository.GetMany(w => (null == w.Claim ? 0 : w.Claim.ClaimId) == claimId).ToList()
+                .Select(c => new ClaimNoteDto
+                {
+                    NoteText = c?.NoteText
+                }).FirstOrDefault();
+            claimDto.ClaimNote = claimNoteDto;
+            // Claim Episodes
+            var episodes = _episodeRepository.GetAll()
+                .Where(e => e.Claim.ClaimId == claimId)
+                .Select(e => new EpisodeDto
+                {
+                    Date = e.CreatedDate,
+                    By = e.AssignUser,
+                    Note = e.Note
+                }).ToList();
+            claimDto.Episodes = episodes;
+            // Claim Payments
+            var payments = _paymentRepository.GetMany(w => w.Claim.ClaimId == claimId)
+                .Select(p => new PaymentDto
+                {
+                    CheckAmount = p.AmountPaid,
+                    CheckNumber = p.CheckNumber,
+                    Date = p.CheckDate
+                }).ToList();
+            claimDto.Payments = payments;
+            // Claim Prescriptions
+            var prescriptions = _prescriptionRepository.GetMany(w => w.Claim.ClaimId == claimId)
+                .Join(_invoiceRepository.GetAll(), p => p.Claim.ClaimId, i => i.Claim.ClaimId,
+                    (p, i) => new PrescriptionDto
+                    {
+                        RxDate = p.RefillDate,
+                        AmountPaid = p.PayableAmount,
+                        RxNumber = p.RxNumber,
+                        LabelName = p.LabelName,
+                        BillTo = null == i.Payor ? string.Empty : i.Payor.BillToName,
+                        InvoiceAmount = i.Amount,
+                        InvoiceDate = i.InvoiceDate,
+                        InvoiceNumber = i.InvoiceNumber,
+                        Outstanding = i.Amount // TODO: Fix
+                    }).ToList();
+            claimDto.Prescriptions = prescriptions;
+            // Prescription Notes
+            var prescriptionNotes = _prescriptionNoteRepository.GetAll()
+                .Join(_prescriptionRepository.GetAll(),
+                    pn => pn.Prescription.PrescriptionId, p => p.PrescriptionId,
+                    (pn, p) => new {pn, p})
+                .Join(_prescriptionNoteTypeRepository.GetAll(),
+                    w => w.pn.PrescriptionNoteType.PrescriptionNoteTypeId,
+                    pnt => pnt.PrescriptionNoteTypeId, (x, pnt) => new PrescriptionNotesDto
+                    {
+                        Date = x.pn.CreatedOn,
+                        EnteredBy = x.pn.AspNetUsers.Email,
+                        Note = x.pn.NoteText,
+                        Type = pnt.TypeName
+                    }).ToList();
+            claimDto.PrescriptionNotes = prescriptionNotes;
+            return claimDto;
         }
     }
 }

@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
-using BridgeportClaims.Entities.Domain;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-    public class Adjustor : IEntity
+    public class Adjustor
     {
         public Adjustor()
         {
             Claim = new List<Claim>();
         }
-        public virtual int Id { get; set; }
+        public virtual int AdjustorId { get; set; }
         public virtual Payor Payor { get; set; }
         [Required]
         [StringLength(255)]

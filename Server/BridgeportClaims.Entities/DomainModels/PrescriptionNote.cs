@@ -1,0 +1,20 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace BridgeportClaims.Entities.DomainModels
+{
+    public class PrescriptionNote
+    {
+        public virtual int PrescriptionNoteId { get; set; }
+        public virtual Prescription Prescription { get; set; }
+        public virtual PrescriptionNoteType PrescriptionNoteType { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
+        [Required]
+        [StringLength(8000)]
+        public virtual string NoteText { get; set; }
+        [Required]
+        public virtual DateTime CreatedOn { get; set; }
+        [Required]
+        public virtual DateTime UpdatedOn { get; set; }
+    }
+}

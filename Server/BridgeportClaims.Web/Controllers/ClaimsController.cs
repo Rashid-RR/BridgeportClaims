@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders;
 using BridgeportClaims.Web.Models;
@@ -21,8 +22,15 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                if (model.ClaimId == 0)
+                    return InternalServerError(new Exception("Error, cannot pass in a Claim ID value of zero."));
+                if (null != model.ClaimId) return GetClaimsDataByClaimId(model.ClaimId.Value);
+
+                // Search terms passed, so we're at least performing a search first to see if multiple results appear.
                 var claimsData = _getClaimsDataProvider.GetClaimsData(model.ClaimNumber,
                     model.FirstName, model.LastName, model.RxNumber, model.InvoiceNumber);
+                if (null != claimsData && claimsData.Count == 1)
+                    return GetClaimsDataByClaimId(claimsData.Single().ClaimId);
                 return Ok(claimsData);
             }
             catch (Exception ex)
@@ -31,5 +39,7 @@ namespace BridgeportClaims.Web.Controllers
                 throw;
             }
         }
+
+        private IHttpActionResult GetClaimsDataByClaimId(int claimId) => Ok(_getClaimsDataProvider.GetClaimsDataByClaimId(claimId));
     }
 }
