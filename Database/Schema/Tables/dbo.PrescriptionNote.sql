@@ -11,10 +11,10 @@ CREATE TABLE [dbo].[PrescriptionNote]
 ) ON [PRIMARY]
 WITH
 (
-DATA_COMPRESSION = PAGE
+DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[PrescriptionNote] ADD CONSTRAINT [pkPrescriptionNote] PRIMARY KEY CLUSTERED  ([PrescriptionNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+ALTER TABLE [dbo].[PrescriptionNote] ADD CONSTRAINT [pkPrescriptionNote] PRIMARY KEY CLUSTERED  ([PrescriptionNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[PrescriptionNote] ADD CONSTRAINT [fkPrescriptionNotePrescriptionIDPrescriptionPrescriptionID] FOREIGN KEY ([PrescriptionID]) REFERENCES [dbo].[Prescription] ([PrescriptionID])
 GO

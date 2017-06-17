@@ -7,6 +7,10 @@ CREATE TABLE [dbo].[ClaimImageType]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimImageTypeUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = ROW
+)
 GO
-ALTER TABLE [dbo].[ClaimImageType] ADD CONSTRAINT [pkClaimImageType] PRIMARY KEY CLUSTERED  ([ClaimImageTypeID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[ClaimImageType] ADD CONSTRAINT [pkClaimImageType] PRIMARY KEY CLUSTERED  ([ClaimImageTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO

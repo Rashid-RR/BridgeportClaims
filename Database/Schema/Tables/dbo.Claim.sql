@@ -20,16 +20,16 @@ CREATE TABLE [dbo].[Claim]
 ) ON [PRIMARY]
 WITH
 (
-DATA_COMPRESSION = PAGE
+DATA_COMPRESSION = ROW
 )
 GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [ckClaimRelationCode] CHECK (([RelationCode]>=(1) AND [RelationCode]<=(9)))
 GO
-ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [pkClaim] PRIMARY KEY CLUSTERED  ([ClaimID]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [pkClaim] PRIMARY KEY CLUSTERED  ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxClaimAdjusterID] ON [dbo].[Claim] ([AdjusterID]) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxClaimJurisdictionStateID] ON [dbo].[Claim] ([JurisdictionStateID]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxClaimJurisdictionStateID] ON [dbo].[Claim] ([JurisdictionStateID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxClaimPayorIDIncludes] ON [dbo].[Claim] ([PayorID]) INCLUDE ([AdjusterID], [ClaimID], [ClaimNumber], [CreatedOn], [DateOfInjury], [IsFirstParty], [JurisdictionStateID], [PersonCode], [PolicyNumber], [PreviousClaimNumber], [RelationCode], [TermDate], [UniqueClaimNumber], [UpdatedOn]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO

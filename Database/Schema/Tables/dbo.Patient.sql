@@ -17,8 +17,12 @@ CREATE TABLE [dbo].[Patient]
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPatientUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = ROW
+)
 GO
-ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [pkPaitent] PRIMARY KEY CLUSTERED  ([PatientID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [pkPaitent] PRIMARY KEY CLUSTERED  ([PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPatientGenderID] ON [dbo].[Patient] ([GenderID]) WITH (FILLFACTOR=100) ON [PRIMARY]
 GO
