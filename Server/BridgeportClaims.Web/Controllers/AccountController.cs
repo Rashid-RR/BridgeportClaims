@@ -44,12 +44,13 @@ namespace BridgeportClaims.Web.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
 
+        [AllowAnonymous] // TODO: Remove. Temporary
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
             try
             {
-                return Ok(this.AppUserManager.Users.ToList().Select(u => this.TheModelFactory.Create(u)));
+                return Ok(AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
             }
             catch (Exception ex)
             {
@@ -58,6 +59,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [AllowAnonymous]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
         {
@@ -517,9 +519,10 @@ namespace BridgeportClaims.Web.Controllers
             {
                 try
                 {
-                    IList<Claim> claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
-
+                    IList<Claim> claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider)
+                    };
                     if (UserName != null)
                     {
                         claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));

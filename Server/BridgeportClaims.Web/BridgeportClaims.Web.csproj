@@ -278,11 +278,6 @@
     <Compile Include="Handlers\CompressedContent.cs" />
     <Compile Include="Handlers\EncodingDelegateHandler.cs" />
     <Compile Include="Helpers\CompressionHelper.cs" />
-    <Compile Include="Migrations\201706161743247_InitialCreate.cs" />
-    <Compile Include="Migrations\201706161743247_InitialCreate.Designer.cs">
-      <DependentUpon>201706161743247_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ClaimsSearchViewModel.cs" />
@@ -749,9 +744,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -805,11 +798,6 @@
       <Project>{9CD69827-EFC0-4446-A337-F13ABECAB8B7}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706161743247_InitialCreate.resx">
-      <DependentUpon>201706161743247_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
