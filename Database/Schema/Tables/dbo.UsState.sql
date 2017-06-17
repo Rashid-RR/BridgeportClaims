@@ -12,5 +12,5 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[UsState] ADD CONSTRAINT [pkUsState] PRIMARY KEY CLUSTERED  ([StateID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxUsStateStateNameStateCodeStateIDIncludeIsTerritory] ON [dbo].[UsState] ([StateName], [StateCode], [StateID]) INCLUDE ([IsTerritory]) WITH (FILLFACTOR=100, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxUsStateStateNameStateCodeStateIDIncludeIsTerritory] ON [dbo].[UsState] ([StateName], [StateCode], [StateID]) INCLUDE ([IsTerritory]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
