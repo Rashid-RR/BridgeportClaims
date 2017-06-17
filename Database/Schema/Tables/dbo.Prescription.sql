@@ -5,7 +5,7 @@ CREATE TABLE [dbo].[Prescription]
 [RxNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [DateSubmitted] [datetime2] NOT NULL,
 [DateFilled] [datetime2] NOT NULL,
-[LabelName] [nvarchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[LabelName] [varchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [NDC] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [Quantity] [float] NOT NULL,
 [DaySupply] [float] NOT NULL,
