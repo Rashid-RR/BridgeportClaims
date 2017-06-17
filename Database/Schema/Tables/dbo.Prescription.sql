@@ -1,7 +1,7 @@
 CREATE TABLE [dbo].[Prescription]
 (
 [PrescriptionID] [int] NOT NULL IDENTITY(1, 1),
-[ClaimID] [int] NULL,
+[ClaimID] [int] NOT NULL,
 [RxNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [DateSubmitted] [datetime2] NOT NULL,
 [DateFilled] [datetime2] NOT NULL,
@@ -37,22 +37,23 @@ CREATE TABLE [dbo].[Prescription]
 [Strength] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [GPIGenName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TheraClass] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[InvoiceID] [int] NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionCreatedOn] DEFAULT (sysdatetime()),
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (
-DATA_COMPRESSION = PAGE
+DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [pkPrescription] PRIMARY KEY CLUSTERED  ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [pkPrescription] PRIMARY KEY CLUSTERED  ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxPrescriptionClaimID] ON [dbo].[Prescription] ([ClaimID]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxPrescriptionClaimIDIncludes] ON [dbo].[Prescription] ([ClaimID]) INCLUDE ([LabelName], [PayableAmount], [RefillDate], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxPrescriptionClaimIDInclude] ON [dbo].[Prescription] ([ClaimID]) INCLUDE ([RxNumber]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
-CREATE NONCLUSTERED INDEX [idxPrescriptionClaimIDIncludes] ON [dbo].[Prescription] ([ClaimID]) INCLUDE ([LabelName], [PayableAmount], [RefillDate], [RxNumber]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxPrescriptionInvoiceIDIncludes] ON [dbo].[Prescription] ([InvoiceID]) INCLUDE ([ClaimID], [DateFilled], [LabelName], [RxNumber]) WHERE ([InvoiceID] IS NOT NULL) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
+GO
+ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionInvoiceIDInvoiceInvoiceID] FOREIGN KEY ([InvoiceID]) REFERENCES [dbo].[Invoice] ([InvoiceID])
 GO
