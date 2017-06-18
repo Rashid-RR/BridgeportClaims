@@ -27,8 +27,8 @@ namespace BridgeportClaims.Web.Controllers
                 return
                     await Task.Run(() =>
                     {
-                        var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-                        _emailService.SendEmail<EmailWelcomeActivationTemplate>("jordangurney@gmail.com", baseUrl);
+                        //var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
+                        //_emailService.SendEmail<EmailWelcomeActivationTemplate>("jordangurney@gmail.com", baseUrl);
                         var data = new
                         {
                             FirstName = "Jordan",

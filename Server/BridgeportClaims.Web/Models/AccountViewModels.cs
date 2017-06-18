@@ -38,15 +38,4 @@ namespace BridgeportClaims.Web.Models
 
         public string ProviderKey { get; set; }
     }
-
-    public class AspNetUsersModel
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string EmailAddress { get; set; }
-        public DateTime RegistrationDate { get; set; }
-        public string AccountActivationToken { get; set; }
-        public bool IsSecure { get; set; }
-        public string HostName { get; set; }
-    }
 }

@@ -2,7 +2,6 @@
 {
     public interface IEmailTemplateProvider
     {
-        string EmailSubject { get; }
-        string GetTemplatedEmailBody(string baseUrl);
+        string GetTemplatedEmailBody<TModel>(TModel model) where TModel : class, new();
     }
 }

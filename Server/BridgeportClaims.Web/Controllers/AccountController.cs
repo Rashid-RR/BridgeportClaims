@@ -79,7 +79,14 @@ namespace BridgeportClaims.Web.Controllers
                 var addUserResult = await AppUserManager.CreateAsync(user, createUserModel.Password);
                 if (!addUserResult.Succeeded)
                     return GetErrorResult(addUserResult);
-                var locationHeader = new Uri(Url.Link("GetUserById", new {id = user.Id}));
+
+                // Email Confirmation code.
+                var magicCode = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = magicCode }));
+
+                // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
+                await AppUserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}", callbackUrl.AbsoluteUri);
+                var locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
                 return Created(locationHeader, TheModelFactory.Create(user));
             }
             catch (Exception ex)
@@ -89,12 +96,26 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("", "User Id and Code are required");
+                return BadRequest(ModelState);
+            }
+            var result = await AppUserManager.ConfirmEmailAsync(userId, code);
+            return result.Succeeded ? Ok() : GetErrorResult(result);
+        }
+
         [Route("user/{id:guid}", Name = "GetUserById")]
-        public async Task<IHttpActionResult> GetUser(string Id)
+        public async Task<IHttpActionResult> GetUser(string id)
         {
             try
             {
-                var user = await this.AppUserManager.FindByIdAsync(Id);
+                var user = await this.AppUserManager.FindByIdAsync(id);
                 if (user != null)
                     return Ok(TheModelFactory.Create(user));
                 return NotFound();
@@ -440,12 +461,10 @@ namespace BridgeportClaims.Web.Controllers
                     return BadRequest(ModelState);
 
                 var info = await Authentication.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
+                if (null == info)
                     return InternalServerError();
-                }
 
-                var user = new ApplicationUser() {UserName = model.Email, Email = model.Email};
+                var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
 
                 var result = await UserManager.CreateAsync(user);
                 if (!result.Succeeded)

@@ -10,7 +10,7 @@ namespace BridgeportClaims.Web.Handlers
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            return base.SendAsync(request, cancellationToken).ContinueWith<HttpResponseMessage>(
+            return base.SendAsync(request, cancellationToken).ContinueWith(
                 (responseToCompleteTask) =>
                 {
                     var response = responseToCompleteTask.Result;

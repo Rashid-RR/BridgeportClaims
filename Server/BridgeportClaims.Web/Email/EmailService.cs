@@ -4,6 +4,9 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
+using BridgeportClaims.Web.Email.EmailTemplateProviders.WelcomeActivationTemplate;
+using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 using NLog;
 
 namespace BridgeportClaims.Web.Email
@@ -18,25 +21,39 @@ namespace BridgeportClaims.Web.Email
             _emailModelGenerator = emailModelGenerator;
         }
 
-        public async Task SendEmail<TTemplate>(IList<string> destinationEmailAddresses, string baseUrl) where TTemplate : IEmailTemplateProvider, new()
+        public async Task SendEmail<TTemplate>(IList<string> destinationEmailAddresses, string fullName, string absoluteActivationUri)
+            where TTemplate : IEmailTemplateProvider, new()
         {
             var msg = new MailMessage();
             foreach(var addressee in destinationEmailAddresses)
                 msg.To.Add(new MailAddress(addressee));
-            await SendEmail<TTemplate>(msg, baseUrl);
+            var model = new ActivationEmailModel
+            {
+                FullName = fullName,
+                AbsoluteActivationUri = absoluteActivationUri
+            };
+            await SendEmail<TTemplate>(msg, model);
         }
 
-        public async Task SendEmail<TTemplate>(string destinationEmailAddress, string baseUrl) where TTemplate : IEmailTemplateProvider, new()
+        public async Task SendEmail<TTemplate>(string destinationEmailAddress, string fullName, string absoluteActivationUri)
+            where TTemplate : IEmailTemplateProvider, new()
         {
             var msg = new MailMessage();
             msg.To.Add(new MailAddress(destinationEmailAddress));
-            await SendEmail<TTemplate>(msg, baseUrl);
+            var model = new ActivationEmailModel
+            {
+                FullName = fullName,
+                AbsoluteActivationUri = absoluteActivationUri
+            };
+            await SendEmail<TTemplate>(msg, model);
         }
 
-        private async Task SendEmail<TTemplate>(MailMessage msg, string baseUrl) where TTemplate : IEmailTemplateProvider, new()
+        private async Task SendEmail<TTemplate>(MailMessage msg, ActivationEmailModel activationEmailModel) 
+            where TTemplate : IEmailTemplateProvider, new()
         {
-            var model = _emailModelGenerator.GenerateEmailModelFromTemplate<TTemplate>(baseUrl);
+            var model = _emailModelGenerator.GenerateEmailModelFromTemplate<TTemplate>(activationEmailModel);
             var sourceEmailAddress = model.SourceEmailAddress;
+
             var client = new SmtpClient
             {
                 DeliveryMethod = model.DeliveryMethod,
@@ -60,6 +77,12 @@ namespace BridgeportClaims.Web.Email
                 Logger.Error(ex, "SmtpClient Send() method");
                 throw;
             }
+        }
+
+        public async Task SendAsync(IdentityMessage message)
+        {
+            // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
+            await SendEmail<EmailWelcomeActivationTemplate>(message.Destination, message.Subject, message.Body); 
         }
     }
 }
