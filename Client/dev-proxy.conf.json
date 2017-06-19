@@ -6,7 +6,7 @@
     "logLevel": "debug",
     "ws":true
   },
-  "/Token": {
+  "/oauth": {
     "target": "http://localhost:3000",
     "changeOrigin": true,
     "secure": false,

@@ -2,6 +2,7 @@
 import {Prescription} from "./prescription";
 import {Payment} from "./payment";
 import {PrescriptionNotes} from "./prescription-notes";
+import {ClaimNote} from "./claim-note";
 import {Episode} from "./episode";
 
  
@@ -23,6 +24,7 @@ export class Claim {
     private prescriptionNote:Array<PrescriptionNotes> = [];
     private payment:Array<Payment> = [];
     private episode:Array<Episode> = [];
+    private claimNote:ClaimNote;
 constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
     gender:String,carrier:String,adjustor:String,adjustorPhoneNumber:String,dateEntered:Date,adjustorFaxNumber:String,name?:String,firstName?:String,lastName?:String){
     this.claimId = claimId;
@@ -56,7 +58,7 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
   get payments():Array<Payment>{
       return this.payment
   }
-  setEpisodes(episodes:Array<Payment>){
+  setEpisodes(episodes:Array<Episode>){
       if(episodes){
         this.episode = episodes;
       }
@@ -64,12 +66,20 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
   get episodes():Array<Episode>{
       return this.episode;
   }
-  setPrescriptionNotes(prescriptionNotes:Array<Payment>){
+  setPrescriptionNotes(prescriptionNotes:Array<PrescriptionNotes>){
       if(prescriptionNotes){
         this.prescriptionNote = prescriptionNotes
       }
   }
   get prescriptionNotes():Array<PrescriptionNotes>{
       return this.prescriptionNote;
+  }
+  setClaimNotes(claimNote:ClaimNote){
+      if(claimNote){
+        this.claimNote = claimNote;
+      }
+  }
+  get claimNotes():ClaimNote{
+      return this.claimNote;
   }
 }

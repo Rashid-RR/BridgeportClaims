@@ -21,7 +21,7 @@ export class HttpService {
    this.token = auth;
  }
   login(data,headers): Observable<Response> {
-      return this.http.post("/Token", data,{headers:headers})
+      return this.http.post("/oauth/token", data,{headers:headers})
   }
  
   logout(): Observable<Response> {
@@ -41,7 +41,7 @@ export class HttpService {
   }
  //register user
   register(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/account/register", data)
+    return this.http.post(this.baseUrl + "/account/create", data)
   }
   getClaimsData(data:any){
     return this.http.post(this.baseUrl + "/Claims/GetClaimsData",data,{headers:this.headers});

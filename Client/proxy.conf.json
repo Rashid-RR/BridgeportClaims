@@ -6,7 +6,7 @@
     "logLevel": "debug",
     "ws":true
   },
-  "/Token": {
+  "/oauth": {
     "target": "http://bridgeportclaims.azurewebsites.net",
     "changeOrigin": true,
     "secure": false,

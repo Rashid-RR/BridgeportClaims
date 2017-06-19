@@ -6,18 +6,17 @@
               <tr>
                 <th>Date</th>
                 <th>Type</th>
-                <th>To</th>
                 <th>By</th>
                 <th>Notes</th>
               </tr>
               </thead>
               <tbody>
-              <!--<tr *ngFor="let pay of claimManager.selectedClaim.payments">
-                <td>{{pay.date  | date:"shortDate"}}</td>
-                <td>{{pay.checkNumber}}</td>
-                <td>{{pay.RxNum}}</td>
-                <td>{{pay.checkAmount}}</td>               
-              </tr>-->
+              <tr *ngFor="let pNotes of claimManager.selectedClaim.prescriptionNotes">
+                <td>{{pNotes.date  | date:"shortDate"}}</td>
+                <td>{{pNotes.type}}</td>
+                <td>{{pNotes.enteredBy}}</td>
+                <td>{{pNotes.note}}</td>               
+              </tr>
               </tbody>
             </table>
           </div>
