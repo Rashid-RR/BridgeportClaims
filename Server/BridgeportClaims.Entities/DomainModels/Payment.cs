@@ -5,8 +5,9 @@ namespace BridgeportClaims.Entities.DomainModels
 {
     public class Payment
     {
-        public virtual int Id { get; set; }
+        public virtual int PaymentId { get; set; }
         public virtual Claim Claim { get; set; }
+        public virtual Invoice Invoice { get; set; }
         [Required]
         [StringLength(100)]
         public virtual string CheckNumber { get; set; }
@@ -14,9 +15,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CheckDate { get; set; }
         [Required]
         public virtual decimal AmountPaid { get; set; }
-        [Required]
-        [StringLength(100)]
-        public virtual string InvoiceNumber { get; set; }
         [Required]
         public virtual DateTime CreatedOn { get; set; }
         [Required]

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using Owin;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -22,7 +24,7 @@ namespace BridgeportClaims.Web
 {
     public class Startup
     {
-        public static string PublicClientId => "self";
+        public static string PublicClientId => "LOCAL AUTHORITY";
 
         public void Configuration(IAppBuilder app)
         {
@@ -115,7 +117,10 @@ namespace BridgeportClaims.Web
             config.Formatters.RemoveAt(0);
             config.Formatters.Insert(0, new ServiceStackTextFormatter());
             JsConfig.EmitCamelCaseNames = true;
-            config.MessageHandlers.Add(new EncodingDelegateHandler());
+            
+            config.MessageHandlers.Insert(0, new CompressionHandler()); // first runs last
+            var httpClient = HttpClientFactory.Create(new EnrichingHandler());
+            httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
 
             var corsHostName = new ConfigService();
 

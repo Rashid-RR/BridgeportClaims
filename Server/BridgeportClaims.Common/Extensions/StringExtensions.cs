@@ -518,17 +518,17 @@ namespace BridgeportClaims.Common.Extensions
         /// </returns>
         public static bool IsNotNullOrEmpty(this string input)
         {
-            return !String.IsNullOrEmpty(input);
+            return !string.IsNullOrEmpty(input);
         }
 
         public static bool IsNullOrWhiteSpace(this string input)
         {
-            return String.IsNullOrWhiteSpace(input);
+            return string.IsNullOrWhiteSpace(input);
         }
 
         public static bool IsNotNullOrWhiteSpace(this string input)
         {
-            return !String.IsNullOrWhiteSpace(input);
+            return !string.IsNullOrWhiteSpace(input);
         }
 
         #endregion
@@ -685,7 +685,7 @@ namespace BridgeportClaims.Common.Extensions
                 return false;
             else
             {
-                Regex numericPattern = new Regex(@"^[-+]?\d*$");
+                var numericPattern = new Regex(@"^[-+]?\d*$");
                 return numericPattern.IsMatch(integer);
             }
         }
@@ -701,8 +701,8 @@ namespace BridgeportClaims.Common.Extensions
 
         public static bool IsValidTime(this string time)
         {
-            DateTime newDateTime = DateTime.Now;
-            string dateTime = $"{newDateTime.ToShortDateString()} {time}";
+            var newDateTime = DateTime.Now;
+            var dateTime = $"{newDateTime.ToShortDateString()} {time}";
             if (!DateTime.TryParse(dateTime, out newDateTime))
                 return false;
             else
@@ -711,7 +711,7 @@ namespace BridgeportClaims.Common.Extensions
 
         public static bool IsNullOrEmpty(this string value)
         {
-            string val = (value == null) ? string.Empty : value.Trim();
+            var val = (value == null) ? string.Empty : value.Trim();
             return string.IsNullOrEmpty(val);
         }
 
@@ -727,7 +727,7 @@ namespace BridgeportClaims.Common.Extensions
         {
             if (input == null) throw new ArgumentNullException();
 
-            bool res = false;
+            var res = false;
 
             if (input.Length == 0)
             {
@@ -748,7 +748,7 @@ namespace BridgeportClaims.Common.Extensions
             s = s.Trim();
             if (s.Length == 0)
                 return false;
-            foreach (char c in s)
+            foreach (var c in s)
             {
                 if (!char.IsDigit(c))
                 {
@@ -823,8 +823,8 @@ namespace BridgeportClaims.Common.Extensions
 
         public static bool IsEmail(this string email)
         {
-            int indexOfAt = email.IndexOf('@');
-            int indexOfDot = email.IndexOf('.', indexOfAt + 1);
+            var indexOfAt = email.IndexOf('@');
+            var indexOfDot = email.IndexOf('.', indexOfAt + 1);
 
             if (indexOfAt > indexOfDot || indexOfAt <= 0 || indexOfDot >= email.Length - 1)
                 return false;
@@ -852,7 +852,7 @@ namespace BridgeportClaims.Common.Extensions
 
         public static bool TryParseBool(this string text, out bool value)
         {
-            string boolValue = (text ?? "").ToLower();
+            var boolValue = (text ?? "").ToLower();
             if (boolValue == "1" || boolValue == "true" || boolValue == "t" || boolValue == "y" || boolValue == "yes" || boolValue == "on" || boolValue == "checked" || boolValue == "selected")
             {
                 value = true;
@@ -897,22 +897,22 @@ namespace BridgeportClaims.Common.Extensions
         /// Test this - JHE
         public static List<T> GetFromStringList<T>(string commaSeparatedValues, char separatingCharacter)
         {
-            Type objectType = typeof(T);
-            T result = default(T);
+            var objectType = typeof(T);
+            var result = default(T);
 
-            List<T> returnValue = new List<T>();
+            var returnValue = new List<T>();
             char[] sep = { separatingCharacter };
             Array array = commaSeparatedValues.Split(sep);
 
-            for (int i = 0; i < array.Length; i++)
+            for (var i = 0; i < array.Length; i++)
             {
-                string objectStringValue = array.GetValue(i).ToString().Trim();
+                var objectStringValue = array.GetValue(i).ToString().Trim();
                 object obj = (T)result;
                 if (obj is Enum)
                     result = (T)Enum.Parse(objectType, objectStringValue, true);
                 if (obj is Boolean)
                 {
-                    string boolValue = objectStringValue.ToLower();
+                    var boolValue = objectStringValue.ToLower();
                     if (boolValue.ToBool())
                         result = (T)Convert.ChangeType(true, objectType, null);
                     else
@@ -968,12 +968,12 @@ namespace BridgeportClaims.Common.Extensions
             if (s.IsNullOrEmpty())
                 return string.Empty;
 
-            string stFormD = s.Normalize(NormalizationForm.FormD);
-            StringBuilder sb = new StringBuilder();
+            var stFormD = s.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder();
 
-            for (int ich = 0; ich < stFormD.Length; ich++)
+            for (var ich = 0; ich < stFormD.Length; ich++)
             {
-                UnicodeCategory uc = CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
+                var uc = CharUnicodeInfo.GetUnicodeCategory(stFormD[ich]);
                 if (uc != UnicodeCategory.NonSpacingMark)
                 {
                     sb.Append(stFormD[ich]);
@@ -1030,8 +1030,8 @@ namespace BridgeportClaims.Common.Extensions
             if (!text.Contains(" "))
                 return text;
 
-            StringBuilder result = new StringBuilder(text);
-            for (int i = 0; i < result.Length - 1; ++i)
+            var result = new StringBuilder(text);
+            for (var i = 0; i < result.Length - 1; ++i)
             {
                 if (result[i] == ' ')
                     result[i + 1] = result[i + 1].ToString().ToUpper()[0];
@@ -1073,7 +1073,7 @@ namespace BridgeportClaims.Common.Extensions
             if (string.IsNullOrEmpty(name))
                 return string.Empty;
 
-            Regex regex = new Regex("(?<=[a-z])(?<x>[A-Z])|(?<=.)(?<x>[A-Z])(?=[a-z])");
+            var regex = new Regex("(?<=[a-z])(?<x>[A-Z])|(?<=.)(?<x>[A-Z])(?=[a-z])");
             name = regex.Replace(name, " ${x}");
             // get rid of any underscores or dashes
             name = name.Replace("_", string.Empty);
@@ -1087,15 +1087,15 @@ namespace BridgeportClaims.Common.Extensions
                 if (text.IsNullOrEmpty())
                     return string.Empty;
 
-                string returnString = string.Empty;
-                string[] arrayOfText = text.Split(' ');
+                var returnString = string.Empty;
+                var arrayOfText = text.Split(' ');
 
-                foreach (string item in arrayOfText)
+                foreach (var item in arrayOfText)
                 {
-                    string s = item.ToLower();
-                    string d = item[0].ToString().ToUpper();
+                    var s = item.ToLower();
+                    var d = item[0].ToString().ToUpper();
 
-                    for (int i = 1; i < s.Length; i++)
+                    for (var i = 1; i < s.Length; i++)
                         if (s[i - 1] == ' ')
                             d += s[i].ToString().ToUpper();
                         else
@@ -1112,16 +1112,16 @@ namespace BridgeportClaims.Common.Extensions
 
         public static string GetMd5Sum(this string str)
         {
-            Encoder enc = Encoding.Unicode.GetEncoder();
+            var enc = Encoding.Unicode.GetEncoder();
 
-            byte[] unicodeText = new byte[str.Length * 2];
+            var unicodeText = new byte[str.Length * 2];
             enc.GetBytes(str.ToCharArray(), 0, str.Length, unicodeText, 0, true);
 
             MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] result = md5.ComputeHash(unicodeText);
+            var result = md5.ComputeHash(unicodeText);
 
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < result.Length; i++)
+            var sb = new StringBuilder();
+            for (var i = 0; i < result.Length; i++)
                 sb.Append(result[i].ToString("X2"));
 
             return sb.ToString();
@@ -1142,15 +1142,15 @@ namespace BridgeportClaims.Common.Extensions
         /// <returns></returns>
         public static string Reverse(this string input)
         {
-            char[] chars = input.ToCharArray();
+            var chars = input.ToCharArray();
             Array.Reverse(chars);
             return new String(chars);
         }
 
         public static string ToFullMask(this string value)
         {
-            string returnValue = string.Empty;
-            for (int i = 0; i < value.Length; i++)
+            var returnValue = string.Empty;
+            for (var i = 0; i < value.Length; i++)
             {
                 returnValue += "*";
             }
@@ -1174,13 +1174,13 @@ namespace BridgeportClaims.Common.Extensions
         {
             if (!string.IsNullOrEmpty(phone))
             {
-                StringBuilder allDigits = new StringBuilder();
-                foreach (char c in phone)
+                var allDigits = new StringBuilder();
+                foreach (var c in phone)
                 {
                     if (Char.IsDigit(c))
                         allDigits.Append(c);
                 }
-                string phoneDigits = allDigits.ToString();
+                var phoneDigits = allDigits.ToString();
                 if (phoneDigits.Length == 10)
                 {
                     switch (format)

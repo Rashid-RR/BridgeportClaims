@@ -89,9 +89,9 @@ namespace BridgeportClaims.Common.Extensions
 
         public static DataTable ToDataTable<T>(this IEnumerable<T> source)
         {
-            PropertyInfo[] properties = typeof(T).GetProperties();
+            var properties = typeof(T).GetProperties();
 
-            DataTable output = new DataTable();
+            var output = new DataTable();
 
             foreach (var prop in properties)
             {
@@ -100,7 +100,7 @@ namespace BridgeportClaims.Common.Extensions
 
             foreach (var item in source)
             {
-                DataRow row = output.NewRow();
+                var row = output.NewRow();
 
                 foreach (var prop in properties)
                 {

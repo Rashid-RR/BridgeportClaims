@@ -5,7 +5,6 @@ namespace BridgeportClaims.Data.Mappings
 {
     public class EpisodeMap : ClassMap<Episode>
     {
-
         public EpisodeMap()
         {
             Table("Episode");
@@ -14,10 +13,9 @@ namespace BridgeportClaims.Data.Mappings
             SchemaAction.None();
             LazyLoad();
             Id(x => x.EpisodeId).GeneratedBy.Identity().Column("EpisodeID");
-            References(x => x.Claim).Column("ClaimId");
-            Map(x => x.EpisodeNumber).Column("EpisodeNumber").Precision(10);
-            Map(x => x.Note).Column("Note").Length(50);
-            Map(x => x.Role).Column("Role").Length(50);
+            References(x => x.Claim).Column("ClaimID");
+            Map(x => x.Note).Column("Note").Length(1000);
+            Map(x => x.Role).Column("Role").Length(10);
             Map(x => x.Type).Column("Type").Length(50);
             Map(x => x.ResolvedUser).Column("ResolvedUser").Length(100);
             Map(x => x.AcquiredUser).Column("AcquiredUser").Length(100);

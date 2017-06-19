@@ -12,12 +12,14 @@ namespace BridgeportClaims.Data.Mappings
             SchemaAction.None();
             DynamicUpdate();
             LazyLoad();
-            Id(x => x.Id).GeneratedBy.Identity().Column("StateID");
+            Id(x => x.StateId).GeneratedBy.Identity().Column("StateID");
             Map(x => x.StateCode).Column("StateCode").Not.Nullable().Length(2);
             Map(x => x.StateName).Column("StateName").Not.Nullable().Length(64);
             Map(x => x.IsTerritory).Column("IsTerritory").Not.Nullable();
             HasMany(x => x.Claim).KeyColumn("JurisdictionStateID");
+            HasMany(x => x.Patient).KeyColumn("StateID");
             HasMany(x => x.Payor).KeyColumn("BillToStateID");
+            HasMany(x => x.Pharmacy).KeyColumn("StateID");
         } 
     }
 }

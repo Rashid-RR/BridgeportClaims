@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-    [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-    public class PrescriptionNoteType
+    public class ClaimImageType
     {
-        public PrescriptionNoteType()
-        {
-            PrescriptionNote = new List<PrescriptionNote>();
-        }
-        public virtual int PrescriptionNoteTypeId { get; set; }
+        public virtual int ClaimImageTypeId { get; set; }
         [Required]
         [StringLength(255)]
         public virtual string TypeName { get; set; }
@@ -23,6 +16,5 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOn { get; set; }
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
-        public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
     }
 }

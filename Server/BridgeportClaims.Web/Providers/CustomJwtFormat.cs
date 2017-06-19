@@ -1,10 +1,11 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Configuration;
 using System.IdentityModel.Tokens;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler.Encoder;
-using NLog;
 using Thinktecture.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace BridgeportClaims.Web.Providers
 {
@@ -51,7 +52,7 @@ namespace BridgeportClaims.Web.Providers
 
         public AuthenticationTicket Unprotect(string protectedText)
         {
-            throw new NotImplementedException();
+            return new AuthenticationTicket(new ClaimsIdentity(), new AuthenticationProperties());
         }
     }
 }

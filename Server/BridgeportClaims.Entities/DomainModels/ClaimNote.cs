@@ -10,6 +10,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual Claim Claim { get; set; }
         public virtual ClaimNoteType ClaimNoteType { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
+        [Required]
         [StringLength(8000)]
         public virtual string NoteText { get; set; }
         [Required]

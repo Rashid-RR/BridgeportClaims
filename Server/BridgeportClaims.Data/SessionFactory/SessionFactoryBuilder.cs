@@ -53,10 +53,13 @@ namespace BridgeportClaims.Data.SessionFactory
                                        m.FluentMappings.Add<AspNetUsersMap>();
                                        m.FluentMappings.Add<AspNetRolesMap>();
                                        m.FluentMappings.Add<ClaimImageMap>();
+                                       m.FluentMappings.Add<ClaimImageTypeMap>();
                                        m.FluentMappings.Add<ClaimMap>();
                                        m.FluentMappings.Add<ClaimNoteMap>();
                                        m.FluentMappings.Add<ClaimNoteTypeMap>();
                                        m.FluentMappings.Add<EpisodeMap>();
+                                       m.FluentMappings.Add<EpisodeLinkMap>();
+                                       m.FluentMappings.Add<EpisodeLinkTypeMap>();
                                        m.FluentMappings.Add<GenderMap>();
                                        m.FluentMappings.Add<InvoiceMap>();
                                        m.FluentMappings.Add<PaymentMap>();

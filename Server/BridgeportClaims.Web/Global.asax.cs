@@ -9,7 +9,6 @@ namespace BridgeportClaims.Web
     {
         protected void Application_Start()
         {
-            //GlobalConfiguration.Configure(WebApiConfig.Register);
             AutomapperStartup.Configure();
             var configService = new ConfigService();
             if (Convert.ToBoolean(configService.ApplicationIsInDebugMode))

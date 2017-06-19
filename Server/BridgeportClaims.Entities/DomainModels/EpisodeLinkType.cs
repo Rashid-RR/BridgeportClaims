@@ -6,23 +6,23 @@ using System.Diagnostics.CodeAnalysis;
 namespace BridgeportClaims.Entities.DomainModels
 {
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-    public class PrescriptionNoteType
+    public class EpisodeLinkType
     {
-        public PrescriptionNoteType()
+        public EpisodeLinkType()
         {
-            PrescriptionNote = new List<PrescriptionNote>();
+            EpisodeLink = new List<EpisodeLink>();
         }
-        public virtual int PrescriptionNoteTypeId { get; set; }
+        public virtual int EpisodeLinkTypeId { get; set; }
         [Required]
-        [StringLength(255)]
-        public virtual string TypeName { get; set; }
+        [StringLength(50)]
+        public virtual string EpisodeLinkName { get; set; }
         [Required]
         [StringLength(10)]
-        public virtual string Code { get; set; }
+        public virtual string EpisodeLinkCode { get; set; }
         [Required]
         public virtual DateTime CreatedOn { get; set; }
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
-        public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
+        public virtual IList<EpisodeLink> EpisodeLink { get; set; }
     }
 }

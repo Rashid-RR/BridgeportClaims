@@ -34,7 +34,7 @@ namespace BridgeportClaims.Common.Converters
             if (reader.TokenType == JsonToken.Null)
                 return null;
 
-            T value = Create(objectType);
+            var value = Create(objectType);
             if (value == null)
                 throw new JsonSerializationException("No object created.");
 

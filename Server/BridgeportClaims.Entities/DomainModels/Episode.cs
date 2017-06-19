@@ -7,10 +7,9 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         public virtual int EpisodeId { get; set; }
         public virtual Claim Claim { get; set; }
-        public virtual int? EpisodeNumber { get; set; }
-        [StringLength(50)]
+        [StringLength(1000)]
         public virtual string Note { get; set; }
-        [StringLength(50)]
+        [StringLength(10)]
         public virtual string Role { get; set; }
         [StringLength(50)]
         public virtual string Type { get; set; }
