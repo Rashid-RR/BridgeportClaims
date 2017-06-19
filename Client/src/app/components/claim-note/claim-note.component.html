@@ -2,13 +2,12 @@
         <div class="col-sm-12 invoice-col">
           <div class="table-responsive">
             <table class="table no-margin table-striped">
-              <thead>
-              <tr>
-                 
-              </tr>
-              </thead>
               <tbody>
-               
+                  <tr>
+                    <td *ngIf="claimManager.selectedClaim.claimNote">
+                      {{claimManager.selectedClaim.claimNote.noteText}}
+                    </td>
+                  </tr>
               </tbody>
             </table>
           </div>

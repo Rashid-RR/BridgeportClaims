@@ -47,6 +47,7 @@ export class ClaimManager{
             claim.setPrescription(result.prescriptions); 
             claim.setPayment(result.payments);
             claim.setEpisodes(result.episodes);
+            claim.setClaimNotes(result.claimNote);
             claim.setPrescriptionNotes(result.prescriptionNotes);
         },err=>{
           console.log(err);

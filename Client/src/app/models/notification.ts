@@ -14,7 +14,7 @@ export function warn(title?:string){
         },
         offset: 50,
         delay: 5000,
-	      z_index: 1031,
+	    z_index: 1031,
         allow_dismiss: true,
           placement: {
             from: 'bottom',

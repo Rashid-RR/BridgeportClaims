@@ -37,15 +37,19 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.http.login('username='+this.form.get('email').value+'&password='+this.form.get('password').value+"&grant_type=password",{'Content-Type':'x-www-form-urlencoded'}).subscribe(res => {
-          let data = res.json(); 
-          localStorage.setItem("user", JSON.stringify(data));
-          this.events.broadcast('login', true);
-          this.events.broadcast('profile', res.json());
-          this.http.setAuth(data.access_token);
-          this.profileManager.profile = new UserProfile(data.id || data.userName,data.userName,data.userName,data.userName,data.userName);
-          this.profileManager.setProfile(new UserProfile(data.id || data.userName,data.userName,data.userName,data.userName,data.userName));
-          this.router.navigate(['/main/private']);
-          success('Welcome back');
+            let data = res.json(); 
+            this.events.broadcast('login', true);
+            this.http.setAuth(data.access_token);   
+            this.http.profile().map(res=>res.json()).subscribe(res=>{
+            this.profileManager.profile = new UserProfile(data.id || data.userName,data.userName,data.userName,data.userName,data.userName);
+            this.profileManager.setProfile(new UserProfile(data.id || data.userName,data.userName,data.userName,data.userName,data.userName));
+            let user = res;
+            res.access_token = data.access_token;
+            localStorage.setItem("user", JSON.stringify(res));
+            console.log(res)
+            this.router.navigate(['/main/private']);
+            success('Welcome back');
+          },err=>console.log(err))
         }, (error) => {
          // if (error.status !== 500) {
             this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
