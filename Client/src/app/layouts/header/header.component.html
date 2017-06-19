@@ -17,7 +17,7 @@
             <!-- Top right menu items, also check if user is logged in-->
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav" *ngIf="!profileManager.profile">                        
-                    <!--<li><a [routerLink]="'/register'">Register</a></li>-->
+                    <li><a [routerLink]="'/register'">Register</a></li>
                     <li><a [routerLink]="'/login'">Login</a></li>
                 </ul>
                 <ul class="nav navbar-nav" *ngIf="profileManager.profile">                        
