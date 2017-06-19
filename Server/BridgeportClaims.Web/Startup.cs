@@ -17,6 +17,8 @@ using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.OAuth;
 using ServiceStack.Text;
 using Microsoft.Owin.Security.Jwt;
+using Ninject.Web.Common;
+using Ninject.Web.WebApi;
 
 [assembly: OwinStartup(typeof(BridgeportClaims.Web.Startup))]
 
@@ -28,7 +30,7 @@ namespace BridgeportClaims.Web
 
         public void Configuration(IAppBuilder app)
         {
-            var httpConfig = new HttpConfiguration();
+            var httpConfig = GlobalConfiguration.Configuration;
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
             ConfigureWebApi(httpConfig);
