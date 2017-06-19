@@ -22,7 +22,7 @@ namespace BridgeportClaims.Web.Controllers
 {
     [Authorize]
     [RoutePrefix("api/Account")]
-    public class AccountController : ApiController
+    public class AccountController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private const string LocalLoginProvider = "Local";
@@ -42,9 +42,108 @@ namespace BridgeportClaims.Web.Controllers
             private set => _userManager = value;
         }
 
-        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
-        // GET api/Account/UserInfo
+        [AllowAnonymous] // TODO: Remove. Temporary
+        [Route("users")]
+        public IHttpActionResult GetUsers()
+        {
+            try
+            {
+                return Ok(AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        [AllowAnonymous]
+        [Route("create")]
+        public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var user = new ApplicationUser
+                {
+                    UserName = createUserModel.Username,
+                    Email = createUserModel.Email,
+                    FirstName = createUserModel.FirstName,
+                    LastName = createUserModel.LastName,
+                    JoinDate = DateTime.Now.Date,
+                };
+                var addUserResult = await AppUserManager.CreateAsync(user, createUserModel.Password);
+                if (!addUserResult.Succeeded)
+                    return GetErrorResult(addUserResult);
+
+                // Email Confirmation code.
+                var magicCode = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = magicCode }));
+
+                // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
+                await AppUserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}", callbackUrl.AbsoluteUri);
+                var locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
+                return Created(locationHeader, TheModelFactory.Create(user));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
+        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("", "User Id and Code are required");
+                return BadRequest(ModelState);
+            }
+            var result = await AppUserManager.ConfirmEmailAsync(userId, code);
+            return result.Succeeded ? Ok() : GetErrorResult(result);
+        }
+        
+        [Route("user/{id:guid}", Name = "GetUserById")]
+        public async Task<IHttpActionResult> GetUser(string id)
+        {
+            try
+            {
+                var user = await this.AppUserManager.FindByIdAsync(id);
+                if (user != null)
+                    return Ok(TheModelFactory.Create(user));
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        [Route("user/{username}")]
+        public async Task<IHttpActionResult> GetUserByName(string username)
+        {
+            try
+            {
+                var user = await AppUserManager.FindByNameAsync(username);
+                if (user != null)
+                    return Ok(TheModelFactory.Create(user));
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
@@ -121,6 +220,16 @@ namespace BridgeportClaims.Web.Controllers
                 Logger.Error(ex);
                 throw;
             }
+        }
+
+        [Route("user/{id:guid}")]
+        public async Task<IHttpActionResult> DeleteUser(string id)
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var appUser = await AppUserManager.FindByIdAsync(id);
+            if (appUser == null) return NotFound();
+            var result = await this.AppUserManager.DeleteAsync(appUser);
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
         // POST api/Account/ChangePassword
@@ -362,12 +471,10 @@ namespace BridgeportClaims.Web.Controllers
                     return BadRequest(ModelState);
 
                 var info = await Authentication.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
+                if (null == info)
                     return InternalServerError();
-                }
 
-                var user = new ApplicationUser() {UserName = model.Email, Email = model.Email};
+                var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
 
                 var result = await UserManager.CreateAsync(user);
                 if (!result.Succeeded)
@@ -405,29 +512,22 @@ namespace BridgeportClaims.Web.Controllers
 
         private IAuthenticationManager Authentication => Request.GetOwinContext().Authentication;
 
-        private IHttpActionResult GetErrorResult(IdentityResult result)
+        private new IHttpActionResult GetErrorResult(IdentityResult result)
         {
             try
             {
                 if (result == null)
-                {
                     return InternalServerError();
-                }
 
-                if (result.Succeeded) return null;
+                if (result.Succeeded)
+                    return null;
                 if (result.Errors != null)
-                {
                     foreach (var error in result.Errors)
-                    {
                         ModelState.AddModelError("", error);
-                    }
-                }
 
                 if (ModelState.IsValid)
-                {
                     // No ModelState errors are available to send, so just return an empty BadRequest.
                     return BadRequest();
-                }
 
                 return BadRequest(ModelState);
             }
@@ -448,9 +548,10 @@ namespace BridgeportClaims.Web.Controllers
             {
                 try
                 {
-                    IList<Claim> claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
-
+                    IList<Claim> claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider)
+                    };
                     if (UserName != null)
                     {
                         claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));

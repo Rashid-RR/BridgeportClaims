@@ -51,6 +51,8 @@
     <Compile Include="Caching\MemoryCacheService.cs" />
     <Compile Include="Config\ConfigService.cs" />
     <Compile Include="Config\IConfigService.cs" />
+    <Compile Include="Constants\ConstantsService.cs" />
+    <Compile Include="Constants\IConstantsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

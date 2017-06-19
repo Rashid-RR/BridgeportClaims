@@ -5,10 +5,14 @@ CREATE TABLE [dbo].[AspNetUserClaims]
 [ClaimType] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ClaimValue] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = ROW
+)
 GO
-ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [pkAspNetUserClaims] PRIMARY KEY CLUSTERED  ([ID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [pkAspNetUserClaims] PRIMARY KEY CLUSTERED  ([ID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxAspNetUserClaimsUserID] ON [dbo].[AspNetUserClaims] ([UserID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxAspNetUserClaimsUserID] ON [dbo].[AspNetUserClaims] ([UserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [fkAspNetUserClaimsUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUserClaims] ADD CONSTRAINT [fkAspNetUserClaimsUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

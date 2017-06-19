@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System;
+using System.Web.Http;
+using BridgeportClaims.Services.Constants;
+using BridgeportClaims.Web.Email;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -10,14 +14,20 @@ namespace BridgeportClaims.Web
 
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
-            : base(store)
-        {
-        }
+        public ApplicationUserManager(IUserStore<ApplicationUser> store) : base(store) { }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var dependencyResolver = GlobalConfiguration.Configuration.DependencyResolver;
+            var constantsService = dependencyResolver.GetService(typeof(IConstantsService)) as IConstantsService;
+            var emailService = dependencyResolver.GetService(typeof(IEmailService)) as IEmailService;
+            var manager =
+                new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()))
+                {
+                    UserLockoutEnabledByDefault = true,
+                    MaxFailedAccessAttemptsBeforeLockout = 6,
+                    EmailService = emailService
+                };
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -31,12 +41,17 @@ namespace BridgeportClaims.Web
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = true
             };
             var dataProtectionProvider = options.DataProtectionProvider;
-            if (dataProtectionProvider != null)
+            if (null != dataProtectionProvider)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create(constantsService?.DataSecurityProtection))
+                    {
+                        //Code for email confirmation and reset password life time
+                        TokenLifespan = TimeSpan.FromHours(24)
+                    };
             }
             return manager;
         }

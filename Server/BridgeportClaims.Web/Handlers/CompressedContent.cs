@@ -14,10 +14,13 @@ namespace BridgeportClaims.Web.Handlers
 
         public CompressedContent(HttpContent content, string encodingType)
         {
-            _originalContent = content ?? throw new ArgumentNullException(nameof(content));
-            this._encodingType = encodingType?.ToLowerInvariant() ?? throw new ArgumentNullException(nameof(encodingType));
+            if (null != content)
+                _originalContent = content;
+            else
+                return;
+            _encodingType = encodingType?.ToLowerInvariant() ?? throw new ArgumentNullException(nameof(encodingType));
 
-            if (this._encodingType != "gzip" && this._encodingType != "deflate")
+            if (_encodingType != "gzip" && _encodingType != "deflate")
             {
                 throw new InvalidOperationException(
                     $"Encoding '{_encodingType}' is not supported. Only supports gzip or deflate encoding.");
@@ -40,7 +43,6 @@ namespace BridgeportClaims.Web.Handlers
         protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
         {
             Stream compressedStream = null;
-
             switch (_encodingType)
             {
                 case "gzip":
@@ -50,7 +52,6 @@ namespace BridgeportClaims.Web.Handlers
                     compressedStream = new DeflateStream(stream, CompressionMode.Compress, leaveOpen: true);
                     break;
             }
-
             return _originalContent.CopyToAsync(compressedStream).ContinueWith(tsk =>
             {
                 compressedStream?.Dispose();

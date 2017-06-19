@@ -4,10 +4,14 @@ CREATE TABLE [dbo].[AspNetUserLogins]
 [ProviderKey] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [UserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = ROW
+)
 GO
-ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [pkAspNetUserLogins] PRIMARY KEY CLUSTERED  ([LoginProvider], [ProviderKey], [UserID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [pkAspNetUserLogins] PRIMARY KEY CLUSTERED  ([LoginProvider], [ProviderKey], [UserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxAspNetUserLoginsUserID] ON [dbo].[AspNetUserLogins] ([UserID]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxAspNetUserLoginsUserID] ON [dbo].[AspNetUserLogins] ([UserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [fkAspNetUserLoginsUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID]) ON DELETE CASCADE
+ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [fkAspNetUserLoginsUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

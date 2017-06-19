@@ -44,6 +44,7 @@ namespace BridgeportClaims.Data.SessionFactory
                                   .Database(MsSqlConfiguration)
                                   .Mappings(m =>
                                    {
+                                       m.FluentMappings.Add<PatientMap>();
                                        m.FluentMappings.Add<AdjustorMap>();
                                        m.FluentMappings.Add<AspNetRolesMap>();
                                        m.FluentMappings.Add<AspNetUserClaimsMap>();
@@ -58,7 +59,6 @@ namespace BridgeportClaims.Data.SessionFactory
                                        m.FluentMappings.Add<EpisodeMap>();
                                        m.FluentMappings.Add<GenderMap>();
                                        m.FluentMappings.Add<InvoiceMap>();
-                                       m.FluentMappings.Add<PatientMap>();
                                        m.FluentMappings.Add<PaymentMap>();
                                        m.FluentMappings.Add<PayorMap>();
                                        m.FluentMappings.Add<PrescriptionMap>();

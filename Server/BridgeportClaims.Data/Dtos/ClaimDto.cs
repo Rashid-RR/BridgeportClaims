@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Data.Dtos
 {

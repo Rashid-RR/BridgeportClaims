@@ -15,6 +15,7 @@ namespace BridgeportClaims.Data.DataProviders
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
         private readonly IRepository<Prescription> _prescriptionRepository;
         private readonly IRepository<Claim> _claimRepository;
+        private readonly IRepository<Patient> _patientRepository;
         private readonly IRepository<PrescriptionNote> _prescriptionNoteRepository;
         private readonly IRepository<PrescriptionNoteType> _prescriptionNoteTypeRepository;
         private readonly IRepository<Invoice> _invoiceRepository;
@@ -31,7 +32,8 @@ namespace BridgeportClaims.Data.DataProviders
             IRepository<Invoice> invoiceRepository, 
             IRepository<ClaimNote> claimNoteRepository, 
             IRepository<Episode> episodeRepository, 
-            IRepository<Payment> paymentRepository)
+            IRepository<Payment> paymentRepository, 
+            IRepository<Patient> patientRepository)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
             _prescriptionRepository = prescriptionRepository;
@@ -42,6 +44,7 @@ namespace BridgeportClaims.Data.DataProviders
             _claimNoteRepository = claimNoteRepository;
             _episodeRepository = episodeRepository;
             _paymentRepository = paymentRepository;
+            _patientRepository = patientRepository;
         }
 
         public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
@@ -101,27 +104,33 @@ namespace BridgeportClaims.Data.DataProviders
             var claim = _claimRepository.Get(claimId);
             if (null == claim)
                 throw new Exception($"No claim found with with Claim ID {claimId}");
-            var claimDto = new ClaimDto
-            {
-                Name = claim.Patient?.FirstOrDefault()?.FirstName + " " +
-                       claim.Patient?.FirstOrDefault()?.LastName,
-                Address1 = claim.Patient?.FirstOrDefault()?.Address1,
-                Address2 = claim.Patient?.FirstOrDefault()?.Address2,
-                Adjustor = claim.Adjustor?.AdjustorName,
-                AdjustorFaxNumber = claim.Adjustor?.FaxNumber,
-                AdjustorPhoneNumber = claim.Adjustor?.PhoneNumber,
-                Carrier = claim.Payor?.BillToName,
-                City = claim.Patient?.FirstOrDefault()?.City,
-                StateAbbreviation = claim.Patient?.FirstOrDefault()?.UsState?.StateCode,
-                PostalCode = claim.Patient?.FirstOrDefault()?.PostalCode,
-                Flex2 = "PIP", // TODO: remove hard-coded
-                Gender = claim.Patient?.FirstOrDefault()?.Gender?.GenderName,
-                DateOfBirth = claim.Patient?.FirstOrDefault()?.DateOfBirth,
-                EligibilityTermDate = claim.TermDate,
-                PatientPhoneNumber = claim.Patient?.FirstOrDefault()?.PhoneNumber,
-                DateEntered = claim.DateOfInjury,
-                ClaimNumber = claim.ClaimNumber
-            };
+            var claimDto = (from p in _patientRepository.GetAll()
+                join c in _claimRepository.GetAll() on p.PatientId equals c.Patient.PatientId
+                where c.ClaimId == claimId
+                select
+
+                new ClaimDto
+                {
+                    Name = p.FirstName + " " + p.LastName,
+                    Address1 = p.Address1,
+                    Address2 = p.Address2,
+                    Adjustor = null == c.Adjustor ? null : c.Adjustor.AdjustorName,
+                    AdjustorFaxNumber = null == c.Adjustor ? null : c.Adjustor.FaxNumber,
+                    AdjustorPhoneNumber = null == c.Adjustor ? null : c.Adjustor.PhoneNumber,
+                    Carrier = null == c.Payor ? null : c.Payor.BillToName,
+                    City = p.City,
+                    StateAbbreviation = null == p.UsState ? null : p.UsState.StateCode,
+                    PostalCode = p.PostalCode,
+                    Flex2 = "PIP", // TODO: remove hard-coded
+                    Gender = null == p.Gender ? null : p.Gender.GenderName,
+                    DateOfBirth = p.DateOfBirth,
+                    EligibilityTermDate = c.TermDate,
+                    PatientPhoneNumber = p.PhoneNumber,
+                    DateEntered = c.DateOfInjury,
+                    ClaimNumber = c.ClaimNumber
+                }).SingleOrDefault();
+            if (null == claimDto)
+                throw new ArgumentNullException(nameof(claimDto));
             // Claim Note
             var claimNoteDto = _claimNoteRepository.GetMany(w => (null == w.Claim ? 0 : w.Claim.ClaimId) == claimId).ToList()
                 .Select(c => new ClaimNoteDto
@@ -165,19 +174,20 @@ namespace BridgeportClaims.Data.DataProviders
                     }).ToList();
             claimDto.Prescriptions = prescriptions;
             // Prescription Notes
-            var prescriptionNotes = _prescriptionNoteRepository.GetAll()
-                .Join(_prescriptionRepository.GetAll(),
-                    pn => pn.Prescription.PrescriptionId, p => p.PrescriptionId,
-                    (pn, p) => new {pn, p})
+            var prescriptionNotes = _prescriptionRepository.GetAll()
+                .Join(_prescriptionNoteRepository.GetAll(), p => p.PrescriptionId, pn => pn.Prescription.PrescriptionId,
+                    (p, pn) => new {p, pn})
                 .Join(_prescriptionNoteTypeRepository.GetAll(),
-                    w => w.pn.PrescriptionNoteType.PrescriptionNoteTypeId,
-                    pnt => pnt.PrescriptionNoteTypeId, (x, pnt) => new PrescriptionNotesDto
-                    {
-                        Date = x.pn.CreatedOn,
-                        EnteredBy = x.pn.AspNetUsers.Email,
-                        Note = x.pn.NoteText,
-                        Type = pnt.TypeName
-                    }).ToList();
+                    pnl => pnl.pn.PrescriptionNoteType.PrescriptionNoteTypeId,
+                    pnt => pnt.PrescriptionNoteTypeId, (x, pnt) => new {y = x, pnt})
+                .Where(w => w.y.p.Claim.ClaimId == claimId)
+                .Select(s => new PrescriptionNotesDto
+                {
+                    Date = s.y.pn.CreatedOn,
+                    EnteredBy = s.y.pn.AspNetUsers.Email,
+                    Note = s.y.pn.NoteText,
+                    Type = s.pnt.TypeName
+                }).ToList();
             claimDto.PrescriptionNotes = prescriptionNotes;
             return claimDto;
         }

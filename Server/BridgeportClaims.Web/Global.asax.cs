@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Web.Http;
 using BridgeportClaims.Services.Config;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
 using NLog;
@@ -10,7 +9,7 @@ namespace BridgeportClaims.Web
     {
         protected void Application_Start()
         {
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+            //GlobalConfiguration.Configure(WebApiConfig.Register);
             AutomapperStartup.Configure();
             var configService = new ConfigService();
             if (Convert.ToBoolean(configService.ApplicationIsInDebugMode))

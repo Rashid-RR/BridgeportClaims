@@ -14,7 +14,6 @@ namespace BridgeportClaims.Data.Mappings
             SchemaAction.None();
             LazyLoad();
             Id(x => x.PatientId).GeneratedBy.Identity().Column("PatientID");
-            References(x => x.Claim).Column("ClaimID");
             References(x => x.UsState).Column("StateID");
             References(x => x.Gender).Column("GenderID");
             Map(x => x.LastName).Column("LastName").Not.Nullable().Length(155);
@@ -30,6 +29,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.DateOfBirth).Column("DateOfBirth").Not.Nullable();
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            HasMany(x => x.Claim).KeyColumn("PatientID");
         }
     }
 }

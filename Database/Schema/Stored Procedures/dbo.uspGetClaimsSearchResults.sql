@@ -21,13 +21,13 @@ BEGIN
     WITH ClaimsCTE AS
     (
           SELECT c.ClaimID FROM dbo.Claim c WHERE c.ClaimNumber = @ClaimNumber UNION
-          SELECT p.ClaimID FROM dbo.Patient p WHERE p.FirstName = @FirstName OR p.LastName = @LastName UNION
+          SELECT c.ClaimID FROM dbo.Claim AS c INNER JOIN dbo.Patient p ON c.PatientID = p.PatientID
+			WHERE p.FirstName = @FirstName OR p.LastName = @LastName UNION
           SELECT i.ClaimID FROM dbo.Invoice i WHERE i.InvoiceNumber = @InvoiceNumber UNION
           SELECT p.ClaimID FROM dbo.Prescription p WHERE p.RxNumber = @RxNumber
     )
     SELECT DISTINCT c.ClaimId
 		 , c.PayorId
-		 , c.PrescriptionId
          , c.ClaimNumber
          , c.LastName
          , c.FirstName
