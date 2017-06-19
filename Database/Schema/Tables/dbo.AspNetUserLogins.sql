@@ -13,3 +13,5 @@ ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [pkAspNetUserLogins] PRIMARY
 GO
 CREATE NONCLUSTERED INDEX [idxAspNetUserLoginsUserID] ON [dbo].[AspNetUserLogins] ([UserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+ALTER TABLE [dbo].[AspNetUserLogins] ADD CONSTRAINT [fkAspNetUserLoginsUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
+GO
