@@ -18,6 +18,8 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[Invoice] ADD CONSTRAINT [pkInvoice] PRIMARY KEY CLUSTERED  ([InvoiceID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxInvoiceClaimIDClaimClaimIDIncludeAll] ON [dbo].[Invoice] ([ClaimID], [PayorID]) INCLUDE ([Amount], [ARItemKey], [CreatedOn], [InvoiceDate], [InvoiceID], [InvoiceNumber], [UpdatedOn]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Invoice] ADD CONSTRAINT [fkInvoiceClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[Invoice] ADD CONSTRAINT [fkInvoicePayorIDPayorPayorID] FOREIGN KEY ([PayorID]) REFERENCES [dbo].[Payor] ([PayorID])
