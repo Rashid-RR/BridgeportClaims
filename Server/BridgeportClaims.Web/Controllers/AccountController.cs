@@ -42,7 +42,7 @@ namespace BridgeportClaims.Web.Controllers
             private set => _userManager = value;
         }
 
-        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
+        public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
         [AllowAnonymous] // TODO: Remove. Temporary
         [Route("users")]

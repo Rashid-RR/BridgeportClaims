@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Web.Email;
-using BridgeportClaims.Web.Email.EmailTemplateProviders.WelcomeActivationTemplate;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    //[Authorize]
-    public class ValuesController : ApiController
+    [Authorize]
+    public class ValuesController : BaseApiController
     {
-        private readonly IEmailService _emailService;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public ValuesController(IEmailService emailService)
-        {
-            _emailService = emailService;
-        }
 
         [HttpGet]
         //[DeflateCompression]
@@ -27,8 +19,6 @@ namespace BridgeportClaims.Web.Controllers
                 return
                     await Task.Run(() =>
                     {
-                        //var baseUrl = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-                        //_emailService.SendEmail<EmailWelcomeActivationTemplate>("jordangurney@gmail.com", baseUrl);
                         var data = new
                         {
                             FirstName = "Jordan",

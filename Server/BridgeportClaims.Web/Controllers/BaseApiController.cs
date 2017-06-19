@@ -30,8 +30,22 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-    protected ModelFactory TheModelFactory => _modelFactory ??
-                                                  (_modelFactory = new ModelFactory(Request, AppUserManager));
+        protected ModelFactory TheModelFactory
+        {
+            get
+            {
+                try
+                {
+                    return _modelFactory ??
+                           (_modelFactory = new ModelFactory(Request, AppUserManager));
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    throw;
+                }
+            }
+        }
 
         protected IHttpActionResult GetErrorResult(IdentityResult result)
         {
@@ -52,8 +66,8 @@ namespace BridgeportClaims.Web.Controllers
                     }
                 }
 
+                // No ModelState errors are available to send, so just return an empty BadRequest.
                 if (ModelState.IsValid)
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
                     return BadRequest();
 
                 return BadRequest(ModelState);

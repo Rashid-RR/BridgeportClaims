@@ -19,9 +19,10 @@ using BridgeportClaims.Web.Email;
 using NHibernate;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Services.Constants;
+using NLog;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(BridgeportClaims.Web.NinjectWebCommon), "Start")]
-[assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(BridgeportClaims.Web.NinjectWebCommon), "Stop")]
+[assembly: WebActivatorEx.ApplicationShutdownMethod(typeof(BridgeportClaims.Web.NinjectWebCommon), "Stop")]
 
 namespace BridgeportClaims.Web
 {
@@ -29,24 +30,43 @@ namespace BridgeportClaims.Web
     public static class NinjectWebCommon 
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         /// Starts the application
         /// </summary>
         public static void Start() 
         {
-            DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
-            DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
-            bootstrapper.Initialize(CreateKernel);
+            try
+            {
+                DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
+                DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
+                bootstrapper.Initialize(CreateKernel);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
         }
-        
+
         /// <summary>
         /// Stops the application.
         /// </summary>
         public static void Stop()
-            => bootstrapper.ShutDown();
-        
-        
+        {
+            try
+            {
+                bootstrapper.ShutDown();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+
         /// <summary>
         /// Creates the kernel that will manage your application.
         /// </summary>
@@ -62,9 +82,10 @@ namespace BridgeportClaims.Web
                 GlobalConfiguration.Configuration.DependencyResolver = new NinjectDependencyResolver(kernel);
                 return kernel;
             }
-            catch
+            catch (Exception ex)
             {
                 kernel.Dispose();
+                Logger.Error(ex);
                 throw;
             }
         }
@@ -75,55 +96,64 @@ namespace BridgeportClaims.Web
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<ISessionFactory>()
-                .ToMethod(c => SessionFactoryBuilder.CreateSessionFactory())
-                .InSingletonScope();
+            try
+            {
+                kernel.Bind<ISessionFactory>()
+                    .ToMethod(c => SessionFactoryBuilder.CreateSessionFactory())
+                    .InSingletonScope();
 
-            kernel.Bind<ISession>()
-                .ToMethod(i => SessionFactoryBuilder.GetSession())
-                .InRequestScope()
-                .OnActivation(session =>
-                {
-                    session.BeginTransaction(IsolationLevel.ReadCommitted);
-                    session.FlushMode = FlushMode.Commit;
-                })
-                .OnDeactivation(session =>
-                {
-                    try
+                kernel.Bind<ISession>()
+                    .ToMethod(i => SessionFactoryBuilder.GetSession())
+                    .InRequestScope()
+                    .OnActivation(session =>
                     {
-                        if (session.Transaction.IsActive)
+                        session.BeginTransaction(IsolationLevel.ReadCommitted);
+                        session.FlushMode = FlushMode.Commit;
+                    })
+                    .OnDeactivation(session =>
+                    {
+                        try
                         {
-                            session.Flush();
-                            session.Transaction.Commit();
+                            if (session.Transaction.IsActive)
+                            {
+                                session.Flush();
+                                session.Transaction.Commit();
+                            }
                         }
-                    }
-                    catch
-                    {
-                        if (session.Transaction.IsActive)
-                            session.Transaction.Rollback();
-                        throw;
-                    }
-                    finally
-                    {
-                        session.Close();
-                        session.Dispose();
-                    }
-                });
-            kernel.Bind(typeof(IRepository<>)).To(typeof(Repository<>)).InTransientScope();
-            kernel.Bind<IDbccUserOptionsProvider>().To<DbccUserOptionsProvider>();
-            kernel.Bind<IConfigService>().To<ConfigService>();
-            kernel.Bind<IPayorService>().To<PayorService>();
-            kernel.Bind<IStoredProcedureExecutor>().To<StoredProcedureExecutor>();
-            kernel.Bind<IPayorMapper>().To<PayorMapper>();
-            kernel.Bind<HttpContext>().ToMethod(c => HttpContext.Current);
-            kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current)).InTransientScope();
-            kernel.Bind<IPasswordHasher>().To<PasswordHasher>();
-            kernel.Bind<IGetClaimsDataProvider>().To<GetClaimsDataProvider>();
-            kernel.Bind<IEncryptor>().To<SymmetricEncryptor>();
-            kernel.Bind<ICacheService>().To<MemoryCacheService>();
-            kernel.Bind<IEmailService>().To<EmailService>();
-            kernel.Bind<IEmailModelGenerator>().To<EmailModelGenerator>();
-            kernel.Bind<IConstantsService>().To<ConstantsService>();
+                        catch
+                        {
+                            if (session.Transaction.IsActive)
+                                session.Transaction.Rollback();
+                            throw;
+                        }
+                        finally
+                        {
+                            session.Close();
+                            session.Dispose();
+                        }
+                    });
+                kernel.Bind(typeof(IRepository<>)).To(typeof(Repository<>)).InTransientScope();
+                kernel.Bind<IDbccUserOptionsProvider>().To<DbccUserOptionsProvider>();
+                kernel.Bind<IConfigService>().To<ConfigService>();
+                kernel.Bind<IPayorService>().To<PayorService>();
+                kernel.Bind<IStoredProcedureExecutor>().To<StoredProcedureExecutor>();
+                kernel.Bind<IPayorMapper>().To<PayorMapper>();
+                kernel.Bind<HttpContext>().ToMethod(c => HttpContext.Current);
+                kernel.Bind<HttpContextBase>().ToMethod(ctx => new HttpContextWrapper(HttpContext.Current))
+                    .InTransientScope();
+                kernel.Bind<IPasswordHasher>().To<PasswordHasher>();
+                kernel.Bind<IGetClaimsDataProvider>().To<GetClaimsDataProvider>();
+                kernel.Bind<IEncryptor>().To<SymmetricEncryptor>();
+                kernel.Bind<ICacheService>().To<MemoryCacheService>();
+                kernel.Bind<IEmailService>().To<EmailService>();
+                kernel.Bind<IEmailModelGenerator>().To<EmailModelGenerator>();
+                kernel.Bind<IConstantsService>().To<ConstantsService>();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
         }        
     }
 }

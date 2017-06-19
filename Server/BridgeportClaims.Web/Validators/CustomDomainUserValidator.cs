@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BridgeportClaims.Web.Models;
-using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Validators
