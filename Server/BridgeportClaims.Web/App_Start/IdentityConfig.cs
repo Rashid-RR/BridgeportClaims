@@ -41,7 +41,7 @@ namespace BridgeportClaims.Web
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = true
             };
             var dataProtectionProvider = options.DataProtectionProvider;
             if (null != dataProtectionProvider)

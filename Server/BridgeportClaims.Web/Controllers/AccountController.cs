@@ -109,7 +109,7 @@ namespace BridgeportClaims.Web.Controllers
             var result = await AppUserManager.ConfirmEmailAsync(userId, code);
             return result.Succeeded ? Ok() : GetErrorResult(result);
         }
-
+        
         [Route("user/{id:guid}", Name = "GetUserById")]
         public async Task<IHttpActionResult> GetUser(string id)
         {
@@ -220,6 +220,16 @@ namespace BridgeportClaims.Web.Controllers
                 Logger.Error(ex);
                 throw;
             }
+        }
+
+        [Route("user/{id:guid}")]
+        public async Task<IHttpActionResult> DeleteUser(string id)
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var appUser = await AppUserManager.FindByIdAsync(id);
+            if (appUser == null) return NotFound();
+            var result = await this.AppUserManager.DeleteAsync(appUser);
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
         // POST api/Account/ChangePassword

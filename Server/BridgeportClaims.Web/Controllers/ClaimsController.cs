@@ -7,7 +7,7 @@ using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    public class ClaimsController : ApiController
+    public class ClaimsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IGetClaimsDataProvider _getClaimsDataProvider;
