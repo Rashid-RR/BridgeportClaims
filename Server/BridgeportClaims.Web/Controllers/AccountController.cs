@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -16,11 +17,10 @@ using Microsoft.Owin.Security.OAuth;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Web.Providers;
 using BridgeportClaims.Web.Results;
-using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize]
+    // [Authorize(Roles = "User")]
     [RoutePrefix("api/Account")]
     public class AccountController : BaseApiController
     {
@@ -44,6 +44,7 @@ namespace BridgeportClaims.Web.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
+        [Authorize(Roles = "Admin")]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
@@ -108,7 +109,8 @@ namespace BridgeportClaims.Web.Controllers
             var result = await AppUserManager.ConfirmEmailAsync(userId, code);
             return result.Succeeded ? Ok() : GetErrorResult(result);
         }
-        
+
+        [Authorize(Roles = "Admin")]
         [Route("user/{id:guid}", Name = "GetUserById")]
         public async Task<IHttpActionResult> GetUser(string id)
         {
@@ -126,6 +128,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("user/{username}")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
@@ -225,6 +228,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
@@ -268,6 +272,42 @@ namespace BridgeportClaims.Web.Controllers
                     return BadRequest(ModelState);
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                 return !result.Succeeded ? GetErrorResult(result) : Ok();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("user/{id:guid}/roles")]
+        [HttpPut]
+        public async Task<IHttpActionResult> AssignRolesToUser([FromUri] string id, [FromBody] string[] rolesToAssign)
+        {
+            try
+            {
+                var appUser = await AppUserManager.FindByIdAsync(id);
+                if (null == appUser)
+                    return NotFound();
+                var currentRoles = await AppUserManager.GetRolesAsync(appUser.Id);
+                var rolesNotExists = rolesToAssign.Except(AppRoleManager.Roles.Select(x => x.Name)).ToArray();
+                if (rolesNotExists.Any())
+                {
+                    ModelState.AddModelError("",
+                        $"Roles '{string.Join(",", rolesNotExists)}' does not exixts in the system");
+                    return BadRequest(ModelState);
+                }
+                var removeResult = await AppUserManager.RemoveFromRolesAsync(appUser.Id, currentRoles.ToArray());
+                if (!removeResult.Succeeded)
+                {
+                    ModelState.AddModelError("", "Failed to remove user roles");
+                    return BadRequest(ModelState);
+                }
+                var addResult = await AppUserManager.AddToRolesAsync(appUser.Id, rolesToAssign);
+                if (addResult.Succeeded) return Ok();
+                ModelState.AddModelError("", "Failed to add user roles");
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {
@@ -600,7 +640,7 @@ namespace BridgeportClaims.Web.Controllers
 
         private static class RandomOAuthStateGenerator
         {
-            private static readonly RandomNumberGenerator _random = new RNGCryptoServiceProvider();
+            private static readonly RandomNumberGenerator Random = new RNGCryptoServiceProvider();
 
             public static string Generate(int strengthInBits)
             {
@@ -615,7 +655,7 @@ namespace BridgeportClaims.Web.Controllers
                     var strengthInBytes = strengthInBits / bitsPerByte;
 
                     var data = new byte[strengthInBytes];
-                    _random.GetBytes(data);
+                    Random.GetBytes(data);
                     return HttpServerUtility.UrlTokenEncode(data);
                 }
                 catch (Exception ex)
