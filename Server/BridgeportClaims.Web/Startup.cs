@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using Owin;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -8,6 +9,7 @@ using BridgeportClaims.Services.Config;
 using BridgeportClaims.Web.Formatters;
 using BridgeportClaims.Web.Handlers;
 using BridgeportClaims.Web.Models;
+using BridgeportClaims.Web.Ninject;
 using BridgeportClaims.Web.Providers;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
@@ -17,8 +19,6 @@ using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.OAuth;
 using ServiceStack.Text;
 using Microsoft.Owin.Security.Jwt;
-using Ninject.Web.Common;
-using Ninject.Web.WebApi;
 
 [assembly: OwinStartup(typeof(BridgeportClaims.Web.Startup))]
 
@@ -30,12 +30,16 @@ namespace BridgeportClaims.Web
 
         public void Configuration(IAppBuilder app)
         {
-            var httpConfig = GlobalConfiguration.Configuration;
+            var config = new HttpConfiguration();
+            //var kernel = CreateKernel();
+            //app.UseNinjectMiddleware(() => kernel)
+            //  .UseNinjectWebApi(config);
+            IocConfig.RegisterIoc(config);
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
-            ConfigureWebApi(httpConfig);
-            // app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            app.UseWebApi(httpConfig);
+            ConfigureWebApi(config);
+            app.UseWebApi(config);
+            config.EnsureInitialized();
         }
 
         private static void ConfigureOAuthTokenConsumption(IAppBuilder app)

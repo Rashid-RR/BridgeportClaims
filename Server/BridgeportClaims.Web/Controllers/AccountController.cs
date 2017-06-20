@@ -17,10 +17,11 @@ using Microsoft.Owin.Security.OAuth;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Web.Providers;
 using BridgeportClaims.Web.Results;
+using FluentNHibernate.Utils;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    // [Authorize(Roles = "User")]
+    [Authorize(Roles = "User")]
     [RoutePrefix("api/Account")]
     public class AccountController : BaseApiController
     {
@@ -287,6 +288,11 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                const string userRoleName = "User";
+                var rolesToAssignList = new List<string>(rolesToAssign);
+                rolesToAssignList.Remove(userRoleName);
+                rolesToAssign = rolesToAssignList.ToArray();
+
                 var appUser = await AppUserManager.FindByIdAsync(id);
                 if (null == appUser)
                     return NotFound();

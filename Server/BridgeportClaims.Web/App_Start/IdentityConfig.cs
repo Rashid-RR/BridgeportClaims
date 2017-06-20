@@ -21,8 +21,7 @@ namespace BridgeportClaims.Web
             var dependencyResolver = GlobalConfiguration.Configuration.DependencyResolver;
             var constantsService = dependencyResolver.GetService(typeof(IConstantsService)) as IConstantsService;
             var emailService = dependencyResolver.GetService(typeof(IEmailService)) as IEmailService;
-            var manager =
-                new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()))
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()))
                 {
                     UserLockoutEnabledByDefault = true,
                     MaxFailedAccessAttemptsBeforeLockout = 6,

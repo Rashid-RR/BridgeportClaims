@@ -8,7 +8,7 @@ using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     public class PayorController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

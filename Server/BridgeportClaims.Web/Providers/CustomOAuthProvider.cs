@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -43,6 +44,14 @@ namespace BridgeportClaims.Web.Providers
                 if (!user.EmailConfirmed)
                 {
                     context.SetError("invalid_grant", "User did not confirm email.");
+                    return;
+                }
+                // Special validation that the user is a part of a role in order to be granted authorization to login.
+                var hasAnyRoles = user.Roles?.Any();
+                if (null == hasAnyRoles || !hasAnyRoles.Value)
+                {
+                    context.SetError("invalid_grant", $"User {user.UserName} is not yet a part of any roles. " +
+                                                      "Please make this user at least a member of the \"User\" role group.");
                     return;
                 }
                 var oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, "JWT");

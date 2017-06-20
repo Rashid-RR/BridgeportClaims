@@ -3,7 +3,6 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using BridgeportClaims.Web.Models;
-using Owin;
 
 namespace BridgeportClaims.Web
 {
