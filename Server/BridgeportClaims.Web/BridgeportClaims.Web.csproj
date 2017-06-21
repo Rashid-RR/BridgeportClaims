@@ -186,6 +186,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Services" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=4.0.20622.1351, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.4.0.2.206221351\lib\net45\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
@@ -328,6 +329,9 @@
     <Compile Include="Providers\CustomJwtFormat.cs" />
     <Compile Include="Providers\CustomOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Security\MachineKeyDataProtectionProvider.cs" />
+    <Compile Include="Security\MachineKeyDataProtector.cs" />
+    <Compile Include="Security\MachineKeyProtectionProvider.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Validators\CustomDomainUserValidator.cs" />
     <Compile Include="Validators\CustomRoleUserValidator.cs" />
@@ -805,6 +809,8 @@
     <Content Include="polyfills.bundle.js.map" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-staging - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\bridgeportclaimsstaging - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\bridgeportclaimsstaging - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="scripts.bundle.js.map" />
     <Content Include="styles.bundle.js.map" />

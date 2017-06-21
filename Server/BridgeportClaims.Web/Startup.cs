@@ -12,10 +12,12 @@ using BridgeportClaims.Web.Models;
 using BridgeportClaims.Web.Ninject;
 using BridgeportClaims.Web.Providers;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataHandler.Encoder;
+using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.OAuth;
 using ServiceStack.Text;
 using Microsoft.Owin.Security.Jwt;
@@ -26,14 +28,13 @@ namespace BridgeportClaims.Web
 {
     public class Startup
     {
-        public static string PublicClientId => "LOCAL AUTHORITY";
+        internal static IDataProtectionProvider DataProtectionProvider { get; set; }
+        internal static string PublicClientId => "LOCAL AUTHORITY";
 
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
-            //var kernel = CreateKernel();
-            //app.UseNinjectMiddleware(() => kernel)
-            //  .UseNinjectWebApi(config);
+            DataProtectionProvider = app.GetDataProtectionProvider();
             IocConfig.RegisterIoc(config);
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);

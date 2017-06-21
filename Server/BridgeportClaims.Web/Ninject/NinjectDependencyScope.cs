@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Web.Http.Dependencies;
 using Ninject;
 using Ninject.Syntax;
@@ -13,7 +12,6 @@ namespace BridgeportClaims.Web.Ninject
 
         internal NinjectDependencyScope(IResolutionRoot resolver)
         {
-            Contract.Assert(resolver != null);
             _resolver = resolver;
         }
 

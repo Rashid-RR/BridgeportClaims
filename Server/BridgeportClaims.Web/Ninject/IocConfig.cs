@@ -13,6 +13,7 @@ using BridgeportClaims.Services.Config;
 using BridgeportClaims.Services.Constants;
 using BridgeportClaims.Web.Email;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
+using Microsoft.Owin.Security.DataProtection;
 using NHibernate;
 using Ninject;
 using Ninject.Web.Common;
@@ -78,7 +79,8 @@ namespace BridgeportClaims.Web.Ninject
             kernel.Bind<IEmailService>().To<EmailService>();
             kernel.Bind<IEmailModelGenerator>().To<EmailModelGenerator>();
             kernel.Bind<IConstantsService>().To<ConstantsService>();
-
+            kernel.Bind<IDataProtectionProvider>().ToConstant(Startup.DataProtectionProvider);
+                
             // Tell WebApi how to use our Ninject IoC
             config.DependencyResolver = new NinjectDependencyResolver(kernel);
         }

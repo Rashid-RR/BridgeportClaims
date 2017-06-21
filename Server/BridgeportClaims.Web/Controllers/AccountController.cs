@@ -18,6 +18,7 @@ using BridgeportClaims.Web.Models;
 using BridgeportClaims.Web.Providers;
 using BridgeportClaims.Web.Results;
 using FluentNHibernate.Utils;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -82,6 +83,9 @@ namespace BridgeportClaims.Web.Controllers
                     return GetErrorResult(addUserResult);
 
                 // Email Confirmation code.
+                //var magicCode = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var provider = new DpapiDataProtectionProvider();
+                AppUserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser, string>(provider.Create("EmailConfirmation"));
                 var magicCode = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                 var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = magicCode }));
 
