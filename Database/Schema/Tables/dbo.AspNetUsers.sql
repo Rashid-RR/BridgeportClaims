@@ -6,16 +6,16 @@ CREATE TABLE [dbo].[AspNetUsers]
 [RegisteredDate] [datetime] NOT NULL,
 [Email] [nvarchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EmailConfirmed] [bit] NOT NULL,
-[PasswordHash] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[SecurityStamp] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PhoneNumber] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PasswordHash] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[SecurityStamp] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[PhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PhoneNumberConfirmed] [bit] NOT NULL,
 [TwoFactorEnabled] [bit] NOT NULL,
 [LockoutEndDateUtc] [datetime] NULL,
 [LockoutEnabled] [bit] NOT NULL,
 [AccessFailedCount] [int] NOT NULL,
 [UserName] [nvarchar] (256) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 WITH
 (
 DATA_COMPRESSION = ROW
