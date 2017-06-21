@@ -47,9 +47,9 @@ export class RegisterComponent implements OnInit {
             //console.log(res.json());
             success("Successful signup");
           this.registered = true
-        },err => {
-            console.log(err);
-            warn( 'Email or phone number already exists!');
+        },error => {
+            let err = error.json();            
+            warn( err.message);
         })
       } catch (e) {
           
