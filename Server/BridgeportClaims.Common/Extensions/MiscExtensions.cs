@@ -53,10 +53,7 @@ namespace BridgeportClaims.Common.Extensions
             catch (Exception ex)
             {
                 throw new ArgumentException(
-                    string.Format(
-                        "Could not append value from enumerated type '{0}'.",
-                        typeof(T).Name
-                        ), ex);
+                    $"Could not append value from enumerated type '{typeof(T).Name}'.", ex);
             }
         }
         public static T Remove<T>(this Enum type, T value)
@@ -68,10 +65,7 @@ namespace BridgeportClaims.Common.Extensions
             catch (Exception ex)
             {
                 throw new ArgumentException(
-                    string.Format(
-                        "Could not remove value from enumerated type '{0}'.",
-                        typeof(T).Name
-                        ), ex);
+                    $"Could not remove value from enumerated type '{typeof(T).Name}'.", ex);
             }
         }
     }

@@ -8,7 +8,7 @@ namespace BridgeportClaims.Common.Extensions
     {
         public static Stream ToStream(this string str)
         {
-            byte[] byteArray = Encoding.UTF8.GetBytes(str);
+            var byteArray = Encoding.UTF8.GetBytes(str);
             //byte[] byteArray = Encoding.ASCII.GetBytes(str);
             return new MemoryStream(byteArray);
         }

@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Web.Http;
+using BridgeportClaims.Services.Config;
 using BridgeportClaims.Services.Constants;
 using BridgeportClaims.Web.Email;
+using BridgeportClaims.Web.Email.EmailModelGeneration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using BridgeportClaims.Web.Models;
+using BridgeportClaims.Web.Security;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace BridgeportClaims.Web
 {
@@ -16,13 +19,14 @@ namespace BridgeportClaims.Web
     {
         public ApplicationUserManager(IUserStore<ApplicationUser> store) : base(store) { }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, 
+            IOwinContext context)
         {
-            var dependencyResolver = GlobalConfiguration.Configuration.DependencyResolver;
-            var constantsService = dependencyResolver.GetService(typeof(IConstantsService)) as IConstantsService;
-            var emailService = dependencyResolver.GetService(typeof(IEmailService)) as IEmailService;
-            var manager =
-                new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()))
+            var constantsService = new ConstantsService();
+            var emailService = new EmailService(new EmailModelGenerator(new ConfigService(), new ConstantsService()));
+            if (null == emailService)
+                throw new ArgumentNullException(nameof(emailService));
+            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()))
                 {
                     UserLockoutEnabledByDefault = true,
                     MaxFailedAccessAttemptsBeforeLockout = 6,
@@ -43,16 +47,16 @@ namespace BridgeportClaims.Web
                 RequireLowercase = true,
                 RequireUppercase = true
             };
-            var dataProtectionProvider = options.DataProtectionProvider;
-            if (null != dataProtectionProvider)
-            {
-                manager.UserTokenProvider =
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create(constantsService?.DataSecurityProtection))
-                    {
-                        //Code for email confirmation and reset password life time
-                        TokenLifespan = TimeSpan.FromHours(24)
-                    };
-            }
+            IDataProtectionProvider dataProtectionProvider = Startup.DataProtectionProvider;
+            if (null == dataProtectionProvider)
+                throw new ArgumentNullException(nameof(dataProtectionProvider));
+            //var dataProtectionProvider = options.DataProtectionProvider;
+            manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
+                dataProtectionProvider.Create(constantsService.DataSecurityProtection))
+                {
+                    //Code for email confirmation and reset password life time
+                    TokenLifespan = TimeSpan.FromHours(24)
+                };
             return manager;
         }
     }

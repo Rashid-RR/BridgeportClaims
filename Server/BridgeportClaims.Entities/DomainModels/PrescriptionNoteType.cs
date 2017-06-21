@@ -19,10 +19,10 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         [StringLength(10)]
         public virtual string Code { get; set; }
-        public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
         [Required]
         public virtual DateTime CreatedOn { get; set; }
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
+        public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
     }
 }

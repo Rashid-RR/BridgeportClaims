@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -16,11 +17,12 @@ using Microsoft.Owin.Security.OAuth;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Web.Providers;
 using BridgeportClaims.Web.Results;
-using NLog;
+using FluentNHibernate.Utils;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
     [RoutePrefix("api/Account")]
     public class AccountController : BaseApiController
     {
@@ -44,7 +46,7 @@ namespace BridgeportClaims.Web.Controllers
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
-        [AllowAnonymous] // TODO: Remove. Temporary
+        [Authorize(Roles = "Admin")]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
@@ -81,6 +83,9 @@ namespace BridgeportClaims.Web.Controllers
                     return GetErrorResult(addUserResult);
 
                 // Email Confirmation code.
+                //var magicCode = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var provider = new DpapiDataProtectionProvider();
+                AppUserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser, string>(provider.Create("EmailConfirmation"));
                 var magicCode = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                 var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = magicCode }));
 
@@ -109,13 +114,14 @@ namespace BridgeportClaims.Web.Controllers
             var result = await AppUserManager.ConfirmEmailAsync(userId, code);
             return result.Succeeded ? Ok() : GetErrorResult(result);
         }
-        
+
+        [Authorize(Roles = "Admin")]
         [Route("user/{id:guid}", Name = "GetUserById")]
         public async Task<IHttpActionResult> GetUser(string id)
         {
             try
             {
-                var user = await this.AppUserManager.FindByIdAsync(id);
+                var user = await AppUserManager.FindByIdAsync(id);
                 if (user != null)
                     return Ok(TheModelFactory.Create(user));
                 return NotFound();
@@ -127,6 +133,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("user/{username}")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
@@ -151,12 +158,16 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-
+                var user = UserManager.FindByName(User.Identity.Name);
                 return new UserInfoViewModel
                 {
-                    Email = User.Identity.GetUserName(),
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
                     HasRegistered = externalLogin == null,
-                    LoginProvider = externalLogin?.LoginProvider
+                    LoginProvider = externalLogin?.LoginProvider,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    JoinDate = user.JoinDate
                 };
             }
             catch (Exception ex)
@@ -222,13 +233,14 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
             //Only SuperAdmin or Admin can delete users (Later when implement roles)
             var appUser = await AppUserManager.FindByIdAsync(id);
             if (appUser == null) return NotFound();
-            var result = await this.AppUserManager.DeleteAsync(appUser);
+            var result = await AppUserManager.DeleteAsync(appUser);
             return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
@@ -265,6 +277,47 @@ namespace BridgeportClaims.Web.Controllers
                     return BadRequest(ModelState);
                 var result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                 return !result.Succeeded ? GetErrorResult(result) : Ok();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        [Authorize(Roles = "Admin")]
+        [Route("user/{id:guid}/roles")]
+        [HttpPut]
+        public async Task<IHttpActionResult> AssignRolesToUser([FromUri] string id, [FromBody] string[] rolesToAssign)
+        {
+            try
+            {
+                const string userRoleName = "User";
+                var rolesToAssignList = new List<string>(rolesToAssign);
+                rolesToAssignList.Remove(userRoleName);
+                rolesToAssign = rolesToAssignList.ToArray();
+
+                var appUser = await AppUserManager.FindByIdAsync(id);
+                if (null == appUser)
+                    return NotFound();
+                var currentRoles = await AppUserManager.GetRolesAsync(appUser.Id);
+                var rolesNotExists = rolesToAssign.Except(AppRoleManager.Roles.Select(x => x.Name)).ToArray();
+                if (rolesNotExists.Any())
+                {
+                    ModelState.AddModelError("",
+                        $"Roles '{string.Join(",", rolesNotExists)}' does not exixts in the system");
+                    return BadRequest(ModelState);
+                }
+                var removeResult = await AppUserManager.RemoveFromRolesAsync(appUser.Id, currentRoles.ToArray());
+                if (!removeResult.Succeeded)
+                {
+                    ModelState.AddModelError("", "Failed to remove user roles");
+                    return BadRequest(ModelState);
+                }
+                var addResult = await AppUserManager.AddToRolesAsync(appUser.Id, rolesToAssign);
+                if (addResult.Succeeded) return Ok();
+                ModelState.AddModelError("", "Failed to add user roles");
+                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {
@@ -352,7 +405,7 @@ namespace BridgeportClaims.Web.Controllers
                     return new ChallengeResult(provider, this);
                 }
 
-                ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+                var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
                 if (externalLogin == null)
                 {
@@ -365,27 +418,27 @@ namespace BridgeportClaims.Web.Controllers
                     return new ChallengeResult(provider, this);
                 }
 
-                ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+                var user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
                     externalLogin.ProviderKey));
 
-                bool hasRegistered = user != null;
+                var hasRegistered = user != null;
 
                 if (hasRegistered)
                 {
                     Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
 
-                    ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                    var oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
                         OAuthDefaults.AuthenticationType);
-                    ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                    var cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                         CookieAuthenticationDefaults.AuthenticationType);
 
-                    AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+                    var properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
                     Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
                 }
                 else
                 {
                     IEnumerable<Claim> claims = externalLogin.GetClaims();
-                    ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                    var identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                     Authentication.SignIn(identity);
                 }
 
@@ -597,7 +650,7 @@ namespace BridgeportClaims.Web.Controllers
 
         private static class RandomOAuthStateGenerator
         {
-            private static readonly RandomNumberGenerator _random = new RNGCryptoServiceProvider();
+            private static readonly RandomNumberGenerator Random = new RNGCryptoServiceProvider();
 
             public static string Generate(int strengthInBits)
             {
@@ -612,7 +665,7 @@ namespace BridgeportClaims.Web.Controllers
                     var strengthInBytes = strengthInBits / bitsPerByte;
 
                     var data = new byte[strengthInBytes];
-                    _random.GetBytes(data);
+                    Random.GetBytes(data);
                     return HttpServerUtility.UrlTokenEncode(data);
                 }
                 catch (Exception ex)

@@ -29,16 +29,13 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string City { get; set; }
         [StringLength(100)]
         public virtual string PostalCode { get; set; }
-        [StringLength(2)]
-        public virtual string StateCode { get; set; }
         [StringLength(30)]
         public virtual string PhoneNumber { get; set; }
         [StringLength(30)]
         public virtual string AlternatePhoneNumber { get; set; }
         [StringLength(155)]
         public virtual string EmailAddress { get; set; }
-        [Required]
-        public virtual DateTime DateOfBirth { get; set; }
+        public virtual DateTime? DateOfBirth { get; set; }
         [Required]
         public virtual DateTime CreatedOn { get; set; }
         [Required]

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace BridgeportClaims.Common.Extensions
 {
@@ -49,7 +48,7 @@ namespace BridgeportClaims.Common.Extensions
 		}
 		public static IList<T> GetValues<T>()
 		{
-			Type enumType = typeof(T);
+			var enumType = typeof(T);
 			if (!enumType.IsEnum)
 				throw new ArgumentException("Type '" + enumType.Name + "' is not an enum");
 
@@ -59,9 +58,9 @@ namespace BridgeportClaims.Common.Extensions
 						 where field.IsLiteral
 						 select field;
 
-			foreach (FieldInfo field in fields)
+			foreach (var field in fields)
 			{
-				object value = field.GetValue(enumType);
+				var value = field.GetValue(enumType);
 				values.Add((T)value);
 			}
 
@@ -77,7 +76,7 @@ namespace BridgeportClaims.Common.Extensions
 
 		public static IEnumerable<T> GetValues<T>(this T e)
 		{
-			Type enumType = typeof(T);
+			var enumType = typeof(T);
 			if (!enumType.IsEnum)
 				throw new ArgumentException("Type '" + enumType.Name + "' is not an enum");
 			return Enum.GetNames(enumType).Select(t => (T)Enum.Parse(enumType, t));
@@ -89,7 +88,7 @@ namespace BridgeportClaims.Common.Extensions
 		}
 		public static IList<EnumNameValue> GetValuesList<T>()
 		{
-			Type enumType = typeof(T);
+			var enumType = typeof(T);
 			if (!enumType.IsEnum)
 				throw new ArgumentException("Type '" + enumType.Name + "' is not an enum");
 
@@ -99,9 +98,9 @@ namespace BridgeportClaims.Common.Extensions
 						 where field.IsLiteral
 						 select field;
 
-			foreach (FieldInfo field in fields)
+			foreach (var field in fields)
 			{
-				object value = field.GetValue(enumType);
+				var value = field.GetValue(enumType);
 				values.Add(new EnumNameValue() { Name = ((T)value).ToString().PascalToSpaced(), Value = ((T)value as Enum).ToInt() });
 			}
 

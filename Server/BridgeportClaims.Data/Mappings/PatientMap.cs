@@ -22,11 +22,10 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Address2).Column("Address2").Length(255);
             Map(x => x.City).Column("City").Length(155);
             Map(x => x.PostalCode).Column("PostalCode").Length(100);
-            Map(x => x.StateCode).Column("StateCode").Length(2);
             Map(x => x.PhoneNumber).Column("PhoneNumber").Length(30);
             Map(x => x.AlternatePhoneNumber).Column("AlternatePhoneNumber").Length(30);
             Map(x => x.EmailAddress).Column("EmailAddress").Length(155);
-            Map(x => x.DateOfBirth).Column("DateOfBirth").Not.Nullable();
+            Map(x => x.DateOfBirth).Column("DateOfBirth");
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
             HasMany(x => x.Claim).KeyColumn("PatientID");

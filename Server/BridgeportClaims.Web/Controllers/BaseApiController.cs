@@ -12,7 +12,24 @@ namespace BridgeportClaims.Web.Controllers
     {
         private ModelFactory _modelFactory;
         private readonly ApplicationUserManager _appUserManager = null;
+        private readonly ApplicationRoleManager _appRoleManager = null;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        protected ApplicationRoleManager AppRoleManager
+        {
+            get
+            {
+                try
+                {
+                    return _appRoleManager ?? Request?.GetOwinContext()?.GetUserManager<ApplicationRoleManager>();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    throw;
+                }
+            }
+        }
 
         protected ApplicationUserManager AppUserManager
         {

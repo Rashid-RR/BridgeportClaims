@@ -16,7 +16,7 @@ namespace BridgeportClaims.Data.Mappings
             References(x => x.Claim).Column("ClaimID");
             References(x => x.ClaimNoteType).Column("ClaimNoteTypeID");
             References(x => x.AspNetUsers).Column("EnteredByUserID");
-            Map(x => x.NoteText).Column("NoteText").Length(8000);
+            Map(x => x.NoteText).Column("NoteText").Not.Nullable().Length(8000);
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
         }

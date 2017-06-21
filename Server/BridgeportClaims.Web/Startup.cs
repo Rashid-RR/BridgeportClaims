@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
 using Owin;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -6,12 +9,15 @@ using BridgeportClaims.Services.Config;
 using BridgeportClaims.Web.Formatters;
 using BridgeportClaims.Web.Handlers;
 using BridgeportClaims.Web.Models;
+using BridgeportClaims.Web.Ninject;
 using BridgeportClaims.Web.Providers;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataHandler.Encoder;
+using Microsoft.Owin.Security.DataProtection;
 using Microsoft.Owin.Security.OAuth;
 using ServiceStack.Text;
 using Microsoft.Owin.Security.Jwt;
@@ -22,16 +28,19 @@ namespace BridgeportClaims.Web
 {
     public class Startup
     {
-        public static string PublicClientId => "self";
+        internal static IDataProtectionProvider DataProtectionProvider { get; set; }
+        internal static string PublicClientId => "LOCAL AUTHORITY";
 
         public void Configuration(IAppBuilder app)
         {
-            var httpConfig = new HttpConfiguration();
+            var config = new HttpConfiguration();
+            DataProtectionProvider = app.GetDataProtectionProvider();
+            IocConfig.RegisterIoc(config);
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
-            ConfigureWebApi(httpConfig);
-            // app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            app.UseWebApi(httpConfig);
+            ConfigureWebApi(config);
+            app.UseWebApi(config);
+            config.EnsureInitialized();
         }
 
         private static void ConfigureOAuthTokenConsumption(IAppBuilder app)
@@ -59,6 +68,7 @@ namespace BridgeportClaims.Web
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
@@ -115,7 +125,10 @@ namespace BridgeportClaims.Web
             config.Formatters.RemoveAt(0);
             config.Formatters.Insert(0, new ServiceStackTextFormatter());
             JsConfig.EmitCamelCaseNames = true;
-            config.MessageHandlers.Add(new EncodingDelegateHandler());
+            
+            config.MessageHandlers.Insert(0, new CompressionHandler()); // first runs last
+            var httpClient = HttpClientFactory.Create(new EnrichingHandler());
+            httpClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
 
             var corsHostName = new ConfigService();
 

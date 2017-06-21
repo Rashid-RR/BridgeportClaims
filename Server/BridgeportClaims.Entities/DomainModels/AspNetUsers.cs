@@ -14,10 +14,19 @@ namespace BridgeportClaims.Entities.DomainModels
             AspNetUserClaims = new List<AspNetUserClaims>();
             AspNetUserLogins = new List<AspNetUserLogins>();
             AspNetUserRoles = new List<AspNetUserRoles>();
-            ClaimNote = new List<ClaimNote>();
-            PrescriptionNote = new List<PrescriptionNote>();
         }
         public virtual string Id { get; set; }
+        [Required]
+        [StringLength(255)]
+        public virtual string FirstName { get; set; }
+        [Required]
+        [StringLength(255)]
+        public virtual string LastName { get; set; }
+        [Required]
+        public virtual DateTime JoinDate { get; set; }
+        [Required]
+        [StringLength(256)]
+        public virtual string UserName { get; set; }
         [StringLength(256)]
         public virtual string Email { get; set; }
         [Required]
@@ -34,9 +43,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual bool LockoutEnabled { get; set; }
         [Required]
         public virtual int AccessFailedCount { get; set; }
-        [Required]
-        [StringLength(256)]
-        public virtual string UserName { get; set; }
         public virtual IList<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual IList<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual IList<AspNetUserRoles> AspNetUserRoles { get; set; }

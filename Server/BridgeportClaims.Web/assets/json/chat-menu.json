@@ -1,0 +1,69 @@
+[
+    {
+        "thread_id":"7c2d36f2-d55b-11e6-9fcb-a7596b82eee9",
+        "thumbnailUrl":"http://s13.postimg.org/ih41k9tqr/img1.jpg",
+        "name":"Thomas Bangalter",
+        "time":"2:09 PM",
+        "preview":"That's kind of you. Thank you ;-)",
+        "type":"direct_chat"
+    },{
+        "thread_id":"916ea8a2-d55b-11e6-9b63-bfa30abfb435",
+        "thumbnailUrl":"http://s3.postimg.org/yf86x7z1r/img2.jpg",
+        "name":"Dog Woofson",
+        "time":"1:44 PM",
+        "preview":"I've forgotten how it felt before"  ,
+        "type":"direct_chat"       
+    },{
+        "thread_id":"aac55cce-d55b-11e6-8f10-3b89e911558f",
+        "thumbnailUrl":"http://s3.postimg.org/h9q4sm433/img3.jpg",
+        "name":"Louis CK",
+        "time":"2:09 PM",
+        "preview":"But we’re probably gonna need a new carpet.",
+        "type":"direct_chat"
+    },{   
+        "thread_id":"bcc154e6-d55b-11e6-8629-e7c91abbb773",
+        "thumbnailUrl":"http://s3.postimg.org/quect8isv/img4.jpg",
+        "name":"Bo Jackson",
+        "time":"2:09 PM",
+        "preview":"It’s not that bad...",
+        "type":"direct_chat"
+    },{  
+        "thread_id":"cdbeecae-d55b-11e6-95d4-2bb295b6ebac",
+        "thumbnailUrl":"http://s16.postimg.org/ete1l89z5/img5.jpg",
+        "name":"Michael Jordan",
+        "time":"2:09 PM",
+        "preview":"Wasup for the third time like is you bling",
+        "type":"direct_chat"
+     
+    },{    
+        "thread_id":"dc16ae0e-d55b-11e6-bea1-8be327038816",
+        "thumbnailUrl":"http://s30.postimg.org/kwi7e42rh/img6.jpg",
+        "name":"Drake",
+        "time":"2:09 PM",
+        "preview":"howdoyoudoaspace",
+        "type":"direct_chat"
+    },{
+        "thread_id":"5c78f5ee-d55b-11e6-9a09-37557cc97df4",
+        "thumbnailUrl":"http://s3.postimg.org/yf86x7z1r/img2.jpg",
+        "name":"City Geeks",
+        "time":"1:44 PM",
+        "preview":"I've forgotten how it felt before",
+       "status":"online",      
+        "type":"group_chat",
+        "members":[
+                 {
+                    "user_id":"2edc1b43-c6e1-460e-8123-aeb71ab2b366",
+                     "thumbnailUrl":"http://s13.postimg.org/ih41k9tqr/img1.jpg",
+                     "name":"Thomas Bangalter",
+                     "last_seen_time":"2:09 PM",
+                     "status":"away"
+               },{
+                     "user_id":"58eb3803-f42e-4ea8-b3c5-979845a509e8",
+                     "thumbnailUrl":"http://s13.postimg.org/ih41k9tqr/img1.jpg",
+                     "name":"Josephat Ogwayi",
+                     "last_seen_time":"now",
+                     "status":"online"
+               }
+          ]
+    }
+]

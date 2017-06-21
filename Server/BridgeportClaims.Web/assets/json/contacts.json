@@ -1,0 +1,33 @@
+[
+  {
+    "user_id": "2edc1b43-c6e1-460e-8123-aeb71ab2b366",
+    "thumbnailUrl": "http://s13.postimg.org/ih41k9tqr/img1.jpg",
+    "name": "Thomas Bangalter",
+    "last_seen_time": "2:09 PM"
+  }, {
+  "user_id": "2aeef83a-d528-11e6-b48c-23a55db486af",
+  "thumbnailUrl": "http://s3.postimg.org/yf86x7z1r/img2.jpg",
+  "name": "Dog Woofson",
+  "last_seen_time": "1:44 PM"
+}, {
+  "user_id": "6393242c-d528-11e6-a2b2-6f29765c463f",
+  "thumbnailUrl": "http://s3.postimg.org/h9q4sm433/img3.jpg",
+  "name": "Louis CK",
+  "last_seen_time": "2:09 PM"
+}, {
+  "user_id": "684fea04-d528-11e6-bbe6-270236c07ef6",
+  "thumbnailUrl": "http://s3.postimg.org/quect8isv/img4.jpg",
+  "name": "Bo Jackson",
+  "last_seen_time": "2:09 PM"
+}, {
+  "user_id": "719d6dde-d528-11e6-8750-0307b84b98e3",
+  "thumbnailUrl": "http://s16.postimg.org/ete1l89z5/img5.jpg",
+  "name": "Michael Jordan",
+  "last_seen_time": "2:09 PM"
+}, {
+  "user_id": "78292dd2-d528-11e6-8231-03310204a97d",
+  "thumbnailUrl": "http://s30.postimg.org/kwi7e42rh/img6.jpg",
+  "name": "Drake",
+  "last_seen_time": "2:09 PM"
+}
+]
