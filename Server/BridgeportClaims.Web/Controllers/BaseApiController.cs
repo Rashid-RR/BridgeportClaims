@@ -1,0 +1,97 @@
+﻿using System;
+using System.Linq;
+using System.Net.Http;
+using System.Web.Http;
+using BridgeportClaims.Web.Infrastructure;
+using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using NLog;
+
+namespace BridgeportClaims.Web.Controllers
+{
+    public class BaseApiController : ApiController
+    {
+        private ModelFactory _modelFactory;
+        private readonly ApplicationUserManager _appUserManager = null;
+        private readonly ApplicationRoleManager _appRoleManager = null;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        protected ApplicationRoleManager AppRoleManager
+        {
+            get
+            {
+                try
+                {
+                    return _appRoleManager ?? Request?.GetOwinContext()?.GetUserManager<ApplicationRoleManager>();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    throw;
+                }
+            }
+        }
+
+        protected ApplicationUserManager AppUserManager
+        {
+            get
+            {
+                try
+                {
+                    return _appUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    throw;
+                }
+            }
+        }
+
+        protected ModelFactory TheModelFactory
+        {
+            get
+            {
+                try
+                {
+                    return _modelFactory ??
+                           (_modelFactory = new ModelFactory(Request, AppUserManager));
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    throw;
+                }
+            }
+        }
+
+        protected IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (null == result)
+                return InternalServerError();
+            if (result.Succeeded) return null;
+            if (result.Errors != null)
+            {
+                foreach (var error in result.Errors)
+                {
+                    if (error.StartsWith("Name ") && error.EndsWith(" is already taken."))
+                    {
+                        // Do nothing
+                    }
+                    else // Else add messages to the ModelState
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+            if (ModelState.IsValid)
+            {
+                // No ModelState errors are available to send, so just return an empty BadRequest.
+                return BadRequest();
+            }
+            var message = string.Join(", ", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
+            return BadRequest(message);
+        }
+    }
+}

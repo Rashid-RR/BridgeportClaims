@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Web", "BridgeportClaims.Web\BridgeportClaims.Web.csproj", "{7B61BC98-9190-4576-9858-81279D5D2B47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Tests", "BridgeportClaims.Tests\BridgeportClaims.Tests.csproj", "{72ED3D40-B9AD-4D6E-8AA8-DF70F1EA0DD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Business", "BridgeportClaims.Business\BridgeportClaims.Business.csproj", "{F5F8DBA3-3A98-4F3B-8498-A6B9E542DFCD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{254DFF99-C629-4F73-B77C-06EA63396C50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Entities", "DAL\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj", "{499BF3D9-D035-4CF0-82DA-7DD823956A98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "BridgeportClaims.Common\BridgeportClaims.Common.csproj", "{8079BC13-DE39-4CB9-8929-E47BE08E52CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data", "DAL\BridgeportClaims.Data\BridgeportClaims.Data.csproj", "{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B61BC98-9190-4576-9858-81279D5D2B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B61BC98-9190-4576-9858-81279D5D2B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B61BC98-9190-4576-9858-81279D5D2B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B61BC98-9190-4576-9858-81279D5D2B47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72ED3D40-B9AD-4D6E-8AA8-DF70F1EA0DD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72ED3D40-B9AD-4D6E-8AA8-DF70F1EA0DD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72ED3D40-B9AD-4D6E-8AA8-DF70F1EA0DD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72ED3D40-B9AD-4D6E-8AA8-DF70F1EA0DD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5F8DBA3-3A98-4F3B-8498-A6B9E542DFCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5F8DBA3-3A98-4F3B-8498-A6B9E542DFCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5F8DBA3-3A98-4F3B-8498-A6B9E542DFCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5F8DBA3-3A98-4F3B-8498-A6B9E542DFCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{499BF3D9-D035-4CF0-82DA-7DD823956A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{499BF3D9-D035-4CF0-82DA-7DD823956A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{499BF3D9-D035-4CF0-82DA-7DD823956A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{499BF3D9-D035-4CF0-82DA-7DD823956A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8079BC13-DE39-4CB9-8929-E47BE08E52CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8079BC13-DE39-4CB9-8929-E47BE08E52CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8079BC13-DE39-4CB9-8929-E47BE08E52CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8079BC13-DE39-4CB9-8929-E47BE08E52CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{499BF3D9-D035-4CF0-82DA-7DD823956A98} = {254DFF99-C629-4F73-B77C-06EA63396C50}
+		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876} = {254DFF99-C629-4F73-B77C-06EA63396C50}
+	EndGlobalSection
+EndGlobal
