@@ -22,5 +22,3 @@ ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [fkClaimNoteClaimIDClaimClaimID] FO
 GO
 ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [fkClaimNoteClaimNoteTypeIDClaimNoteTypeClaimNoteTypeID] FOREIGN KEY ([ClaimNoteTypeID]) REFERENCES [dbo].[ClaimNoteType] ([ClaimNoteTypeID])
 GO
-ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [fkClaimNoteEnteredByUserIDAspNetUsersID] FOREIGN KEY ([EnteredByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
-GO
