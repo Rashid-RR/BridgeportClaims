@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace BridgeportClaims.Common.Disposable
 {
@@ -10,6 +11,15 @@ namespace BridgeportClaims.Common.Disposable
             using (var disposable = factory())
             {
                 return map(disposable);
+            }
+        }
+
+        public static void Using<TDisposable>(Func<TDisposable> factory,
+            Action<TDisposable> map) where TDisposable : IDisposable
+        {
+            using (var disposable = factory())
+            {
+                map(disposable);
             }
         }
     }

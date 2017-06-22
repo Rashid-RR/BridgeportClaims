@@ -28,6 +28,8 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<GetClaimsDataProvider>().As<IGetClaimsDataProvider>().InstancePerRequest();
             builder.RegisterType<EmailService>().As<IEmailService>().InstancePerRequest();
             builder.RegisterType<EmailModelGenerator>().As<IEmailModelGenerator>().InstancePerRequest();
+            builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
+            builder.RegisterType<ClaimNotesDataProvider>().As<IClaimNotesDataProvider>().InstancePerRequest();
             builder.Register(c => SessionFactoryBuilder.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
             builder.Register(c => SessionFactoryBuilder.GetSession()).As<ISession>().OnActivated(session =>
             {

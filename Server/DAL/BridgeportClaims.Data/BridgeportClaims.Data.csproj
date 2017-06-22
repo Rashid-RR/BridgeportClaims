@@ -39,6 +39,9 @@
     <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.4.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -50,8 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataProviders\AssignUsersToRolesProvider.cs" />
+    <Compile Include="DataProviders\ClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\DbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\GetClaimsDataProvider.cs" />
+    <Compile Include="DataProviders\IAssignUsersToRolesProvider.cs" />
+    <Compile Include="DataProviders\IClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\IDbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\IGetClaimsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\IPayorService.cs" />

@@ -67,6 +67,7 @@ namespace BridgeportClaims.Web
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
 
             // Plugin the OAuth bearer JSON Web Token tokens generation and Consumption will be here
             var oAuthServerOptions = new OAuthAuthorizationServerOptions

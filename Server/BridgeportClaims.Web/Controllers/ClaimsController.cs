@@ -2,9 +2,6 @@
 using System.Linq;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders;
-using BridgeportClaims.Data.SessionFactory;
-using BridgeportClaims.Data.StoredProcedureExecutors;
-using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using NLog;
 

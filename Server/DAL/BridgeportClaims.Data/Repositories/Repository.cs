@@ -15,7 +15,11 @@ namespace BridgeportClaims.Data.Repositories
     {
         public Repository(ISession session) : base(session) { }
 
-        public TEntity Get(Expression<Func<TEntity, bool>> predicate) => Session.Query<TEntity>().Where(predicate).FirstOrDefault();
+        public TEntity GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate) 
+            => Session.Query<TEntity>().Where(predicate).FirstOrDefault();
+
+        public TEntity GetSingleOrDefault(Expression<Func<TEntity, bool>> predicate)
+            => Session.Query<TEntity>().Where(predicate).SingleOrDefault();
 
         public TEntity Get(object id) => Session.Get<TEntity>(id);
         public TEntity Load(object id) => Session.Load<TEntity>(id);

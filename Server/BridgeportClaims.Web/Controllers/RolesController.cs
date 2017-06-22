@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity;
 using NLog;
 using BridgeportClaims.Web.Models;
@@ -33,6 +35,7 @@ namespace BridgeportClaims.Web.Controllers
             return Ok(roles);
         }
 
+        [HttpPost]
         [Route("create")]
         public async Task<IHttpActionResult> Create(CreateRoleBindingModel model)
         {
@@ -56,6 +59,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [DenyAction]
         [Route("{id:guid}")]
         public async Task<IHttpActionResult> DeleteRole(string id)
         {
@@ -73,19 +77,56 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [Route("user/{id:guid}/roles")]
+        [HttpPut]
+        public async Task<IHttpActionResult> AssignRolesToUser([FromUri] string id, [FromBody] string[] rolesToAssign)
+        {
+            try
+            {
+                var appUser = await AppUserManager.FindByIdAsync(id);
+                if (appUser == null)
+                    return NotFound();
+                var currentRoles = await AppUserManager.GetRolesAsync(appUser.Id);
+                var rolesNotExists = rolesToAssign.Except(AppRoleManager.Roles.Select(x => x.Name)).ToArray();
+                if (rolesNotExists.Any())
+                {
+                    ModelState.AddModelError("",
+                        $"Roles '{string.Join(",", rolesNotExists)}' does not exixts in the system");
+                    return BadRequest(ModelState);
+                }
+                var removeResult = await AppUserManager.RemoveFromRolesAsync(appUser.Id, currentRoles.ToArray());
+                if (!removeResult.Succeeded)
+                {
+                    ModelState.AddModelError("", "Failed to remove user roles");
+                    return BadRequest(ModelState);
+                }
+                var addResult = await AppUserManager.AddToRolesAsync(appUser.Id, rolesToAssign);
+                if (addResult.Succeeded) return Ok();
+                ModelState.AddModelError("", "Failed to add user roles");
+                return BadRequest(ModelState);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        [HttpPost]
         [Route(c.ManageUsersInRoleAction)]
         public async Task<IHttpActionResult> ManageUsersInRole(UsersInRoleModel model)
         {
             try
             {
                 var role = await AppRoleManager.FindByIdAsync(model.Id);
-                if (role == null)
+                if (null == role)
                 {
                     ModelState.AddModelError("", "Role does not exist");
                     return BadRequest(ModelState);
                 }
 
-                foreach (var user in model.EnrolledUsers)
+                foreach (var user in model.EnrolledUsers ?? Enumerable.Empty<string>())
                 {
                     var appUser = await AppUserManager.FindByIdAsync(user);
                     if (null == appUser)
@@ -98,10 +139,9 @@ namespace BridgeportClaims.Web.Controllers
 
                     if (!result.Succeeded)
                         ModelState.AddModelError("", $"User: {user} could not be added to role");
-
                 }
 
-                foreach (var user in model.RemovedUsers)
+                foreach (var user in model.RemovedUsers ?? Enumerable.Empty<string>())
                 {
                     var appUser = await AppUserManager.FindByIdAsync(user);
                     if (appUser == null)

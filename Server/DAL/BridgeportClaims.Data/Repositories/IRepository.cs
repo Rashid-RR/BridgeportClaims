@@ -13,7 +13,8 @@ namespace BridgeportClaims.Data.Repositories
     {
         T Get(object id);
         T Load(object id);
-        T Get(Expression<Func<T, bool>> predicate);
+        T GetFirstOrDefault(Expression<Func<T, bool>> predicate);
+        T GetSingleOrDefault(Expression<Func<T, bool>> predicate);
         void Save(T value);
         void SaveOrUpdateMany(IEnumerable<T> values);
         void SaveOrUpdate(T value);
