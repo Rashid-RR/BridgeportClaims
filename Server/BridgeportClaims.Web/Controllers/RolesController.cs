@@ -2,9 +2,10 @@
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using NLog;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -14,7 +15,7 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        [Route("{id:guid}", Name = "GetRoleById")]
+        [Route("{id:guid}", Name = c.GetRoleByIdAction)]
         public async Task<IHttpActionResult> GetRole(string id)
         {
             var role = await AppRoleManager.FindByIdAsync(id);
@@ -24,7 +25,7 @@ namespace BridgeportClaims.Web.Controllers
 
         }
 
-        [Route("", Name = "GetAllRoles")]
+        [Route("", Name = c.GetAllRolesAction)]
         public IHttpActionResult GetAllRoles()
         {
             var roles = AppRoleManager.Roles;
@@ -40,12 +41,12 @@ namespace BridgeportClaims.Web.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                var role = new IdentityRole {Name = model.Name};
+                var role = new IdentityRole { Name = model.Name};
                 var result = await AppRoleManager.CreateAsync(role);
                 if (!result.Succeeded)
                     return GetErrorResult(result);
 
-                var locationHeader = new Uri(Url.Link("GetRoleById", new {id = role.Id}));
+                var locationHeader = new Uri(Url.Link(c.GetRoleByIdAction, new {id = role.Id}));
                 return Created(locationHeader, TheModelFactory.Create(role));
             }
             catch (Exception ex)
@@ -72,7 +73,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        [Route("ManageUsersInRole")]
+        [Route(c.ManageUsersInRoleAction)]
         public async Task<IHttpActionResult> ManageUsersInRole(UsersInRoleModel model)
         {
             try

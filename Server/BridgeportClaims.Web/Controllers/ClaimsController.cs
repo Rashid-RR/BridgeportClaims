@@ -2,12 +2,16 @@
 using System.Linq;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders;
+using BridgeportClaims.Data.SessionFactory;
+using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "User")]
+    [RoutePrefix("api/claims")]
     public class ClaimsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -19,6 +23,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("getclaimsdata")]
         public IHttpActionResult GetClaimsData([FromBody] ClaimsSearchViewModel model)
         {
             try

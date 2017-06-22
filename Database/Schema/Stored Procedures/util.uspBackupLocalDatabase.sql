@@ -23,7 +23,7 @@ AS
 			/* If the File Path does not contain a slash at the end, create one. */
 			IF RIGHT(@BackupPath,1) != '\'
 				SET @BackupPath += '\'
-
+		PRINT 'Backing up to ' + @BackupPath
 		DECLARE @DbName VARCHAR(50) = DB_NAME()-- database name 
 
 		DECLARE @FileName VARCHAR(256) = @DbName -- filename for backup 
@@ -39,6 +39,7 @@ AS
 		SKIP, COMPRESSION, NOREWIND, NOUNLOAD, STATS = 10
  
 	END
+
 
 
 

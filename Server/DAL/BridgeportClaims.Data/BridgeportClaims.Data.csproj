@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BridgeportClaims.Data</RootNamespace>
+    <AssemblyName>BridgeportClaims.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentNHibernate, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentNHibernate.2.0.3.0\lib\net40\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Iesi.Collections.4.0.2\lib\net461\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataProviders\DbccUserOptionsProvider.cs" />
+    <Compile Include="DataProviders\GetClaimsDataProvider.cs" />
+    <Compile Include="DataProviders\IDbccUserOptionsProvider.cs" />
+    <Compile Include="DataProviders\IGetClaimsDataProvider.cs" />
+    <Compile Include="DataProviders\Payors\IPayorService.cs" />
+    <Compile Include="DataProviders\Payors\PayorService.cs" />
+    <Compile Include="Dtos\ClaimDto.cs" />
+    <Compile Include="Dtos\ClaimNoteDto.cs" />
+    <Compile Include="Dtos\DbccUserOptionsResults.cs" />
+    <Compile Include="Dtos\EpisodeDto.cs" />
+    <Compile Include="Dtos\GetClaimsSearchResults.cs" />
+    <Compile Include="Dtos\PaymentDto.cs" />
+    <Compile Include="Dtos\PrescriptionDto.cs" />
+    <Compile Include="Dtos\PrescriptionNotesDto.cs" />
+    <Compile Include="Mappings\AdjustorMap.cs" />
+    <Compile Include="Mappings\AspNetRolesMap.cs" />
+    <Compile Include="Mappings\AspNetUserClaimsMap.cs" />
+    <Compile Include="Mappings\AspNetUserLoginsMap.cs" />
+    <Compile Include="Mappings\AspNetUserRolesMap.cs" />
+    <Compile Include="Mappings\AspNetUsersMap.cs" />
+    <Compile Include="Mappings\ClaimImageMap.cs" />
+    <Compile Include="Mappings\ClaimImageTypeMap.cs" />
+    <Compile Include="Mappings\ClaimMap.cs" />
+    <Compile Include="Mappings\ClaimNoteMap.cs" />
+    <Compile Include="Mappings\ClaimNoteTypeMap.cs" />
+    <Compile Include="Mappings\EpisodeLinkMap.cs" />
+    <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
+    <Compile Include="Mappings\EpisodeMap.cs" />
+    <Compile Include="Mappings\GenderMap.cs" />
+    <Compile Include="Mappings\InvoiceMap.cs" />
+    <Compile Include="Mappings\PatientMap.cs" />
+    <Compile Include="Mappings\PaymentMap.cs" />
+    <Compile Include="Mappings\PayorMap.cs" />
+    <Compile Include="Mappings\PharmacyMap.cs" />
+    <Compile Include="Mappings\PrescriptionMap.cs" />
+    <Compile Include="Mappings\PrescriptionNoteMap.cs" />
+    <Compile Include="Mappings\PrescriptionNoteTypeMap.cs" />
+    <Compile Include="Mappings\UsStateMap.cs" />
+    <Compile Include="NHibernate\TypeMapper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="SessionFactory\SessionFactoryBuilder.cs" />
+    <Compile Include="StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
+    <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
+      <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj">
+      <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
+      <Name>BridgeportClaims.Entities</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -66,34 +68,30 @@ namespace BridgeportClaims.Web.Controllers
 
         protected IHttpActionResult GetErrorResult(IdentityResult result)
         {
-            try
+            if (null == result)
+                return InternalServerError();
+            if (result.Succeeded) return null;
+            if (result.Errors != null)
             {
-                if (result == null)
-                    return InternalServerError();
-
-                if (result.Succeeded)
-                    return null;
-
-                if (null != result.Errors)
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
+                    if (error.StartsWith("Name ") && error.EndsWith(" is already taken."))
+                    {
+                        // Do nothing
+                    }
+                    else // Else add messages to the ModelState
                     {
                         ModelState.AddModelError("", error);
-                        Logger.Error(error);
                     }
                 }
-
-                // No ModelState errors are available to send, so just return an empty BadRequest.
-                if (ModelState.IsValid)
-                    return BadRequest();
-
-                return BadRequest(ModelState);
             }
-            catch (Exception ex)
+            if (ModelState.IsValid)
             {
-                Logger.Error(ex);
-                throw;
+                // No ModelState errors are available to send, so just return an empty BadRequest.
+                return BadRequest();
             }
+            var message = string.Join(", ", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
+            return BadRequest(message);
         }
     }
 }
