@@ -15,7 +15,7 @@
                 <th>Inv Date</th>
               </tr>
               </thead>
-              <tbody>
+              <tbody  *ngIf="claimManager.selectedClaim">
               <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions">
                 <td><input type="checkbox"></td>
                 <td>{{prescription.rxNumber}}</td>

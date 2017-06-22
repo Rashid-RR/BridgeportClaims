@@ -10,7 +10,7 @@
                 <th>Notes</th>
               </tr>
               </thead>
-              <tbody>
+              <tbody  *ngIf="claimManager.selectedClaim">
               <tr *ngFor="let pNotes of claimManager.selectedClaim.prescriptionNotes">
                 <td>{{pNotes.date  | date:"shortDate"}}</td>
                 <td>{{pNotes.type}}</td>

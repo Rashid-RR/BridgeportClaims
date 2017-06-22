@@ -1,7 +1,16 @@
+.table-responsive{
+    overflow-x: hidden;
+}
+table{
+    table-layout:fixed;
+    width:99% !important;
+    overflow-x: hidden;
+}
 td,th{
     padding-bottom:8px !important;
     padding-top:3px !important;
     font-size: 9pt;
+    word-wrap: break-word;
 }
 tr.active,tr.active td{
     background:lightblue !important;

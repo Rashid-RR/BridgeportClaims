@@ -9,11 +9,11 @@
                 <th>Notes</th>
               </tr>
               </thead>
-              <tbody>
+              <tbody *ngIf="claimManager.selectedClaim">
               <tr *ngFor="let episode of claimManager.selectedClaim.episodes">
                 <td>{{episode.date  | date:"shortDate"}}</td>
                 <td>{{episode.by}}</td>
-                <td>{{pay.note}}</td>               
+                <td>{{episode.note}}</td>               
               </tr>
               </tbody>
             </table>

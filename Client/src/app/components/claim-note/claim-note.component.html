@@ -4,7 +4,7 @@
             <table class="table no-margin table-striped">
               <tbody>
                   <tr>
-                    <td *ngIf="claimManager.selectedClaim.claimNote">
+                    <td *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.claimNote">
                       {{claimManager.selectedClaim.claimNote.noteText}}
                     </td>
                   </tr>

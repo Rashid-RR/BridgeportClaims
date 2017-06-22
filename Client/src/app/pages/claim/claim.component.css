@@ -4,7 +4,12 @@
 .row.data .box{
     margin-bottom:0px;
 }
-
+.box{
+    border:1.5px solid #d2d6de;
+}
+.box .box-body{
+    overflow-x: hidden;
+}
 td,th{
     padding-bottom:1px !important;
     padding-top:1px !important;
