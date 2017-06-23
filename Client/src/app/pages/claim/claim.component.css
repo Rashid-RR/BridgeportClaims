@@ -18,3 +18,7 @@ td,th{
     height:180px;
     overflow-y: scroll;
 }
+
+.fittoSreen .box-body.claims{
+    height:250px;
+}
