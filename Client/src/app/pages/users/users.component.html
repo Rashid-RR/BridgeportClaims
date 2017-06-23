@@ -22,11 +22,11 @@
                         <thead>
                             <tr>
                                 <th>User Name</th>
-                                <th>Eamil</th>
+                                
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Confirmed</th>
-                                <th>Join Date</th>                                                   
+                                <th>Email Confirmed</th>
+                                <th>Registered Date</th>                                                   
                                 <th>Roles</th>                                                   
                                 <th>Action</th>
                             </tr>
@@ -35,12 +35,12 @@
                             <ng-container *ngFor="let user of users">
                             <tr>
                                 <td>{{user.userName}}</td>
-                                <td>{{user.email}}</td>
+                                
                                 <td>{{user.firstName}}</td>
                                 <td>{{user.lastName}}</td>
                                 <td>{{user.emailConfirmed}}</td>                                
                                 <td class="center">{{user.registeredDate | date:"shortDate"}}</td>   
-                                <td>{{user.roles}}</td>                                
+                                <td>{{user.roles | displayRoles}}</td>                                
                                 <td>
                                     <button type="button" class="btn btn-xs btn-primary" title ="View"><i class="fa fa-eye-slash"></i></button>                     
                                     <button type="button" class="btn btn-xs btn-info"  title ="Edit"><i class="fa fa-pencil-square"></i></button>                     
@@ -49,7 +49,7 @@
                             </tr>
                             </ng-container>
                         </tbody>
-                        <tfoot>
+                        <!--<tfoot>
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="3" class="right">
@@ -58,7 +58,7 @@
                                 <button type="button" class="btn btn-warning" (click)="next()">Next</button>
                             </td>
                             </tr>
-                        </tfoot>
+                        </tfoot>-->
                     </table>
                 </div>
             </div>

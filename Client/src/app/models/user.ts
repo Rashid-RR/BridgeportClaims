@@ -9,7 +9,7 @@ export class User {
         registeredDate: Date;
         email: String;
         emailConfirmed: Boolean;
-        roles: any;
+        roles: String;
         claims: any;
     constructor(url: String,id: String,
             userName: String,
@@ -19,7 +19,7 @@ export class User {
             registeredDate: Date,
             email: String,
             emailConfirmed: Boolean,
-            roles:any,
+            roles:String,
             claims:any) {
         this.url = url; 
         this.userName = userName;
