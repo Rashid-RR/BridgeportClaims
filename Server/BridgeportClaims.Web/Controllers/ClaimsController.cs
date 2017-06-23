@@ -8,6 +8,7 @@ using NLog;
 namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "User")]
+    [RoutePrefix("api/claims")]
     public class ClaimsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -19,6 +20,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("getclaimsdata")]
         public IHttpActionResult GetClaimsData([FromBody] ClaimsSearchViewModel model)
         {
             try

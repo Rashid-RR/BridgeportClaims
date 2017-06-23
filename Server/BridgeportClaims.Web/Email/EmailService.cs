@@ -27,7 +27,7 @@ namespace BridgeportClaims.Web.Email
             var msg = new MailMessage();
             foreach(var addressee in destinationEmailAddresses)
                 msg.To.Add(new MailAddress(addressee));
-            var model = new ActivationEmailModel
+            var model = new ConfirmRegistrationModel
             {
                 FullName = fullName,
                 AbsoluteActivationUri = absoluteActivationUri
@@ -40,7 +40,7 @@ namespace BridgeportClaims.Web.Email
         {
             var msg = new MailMessage();
             msg.To.Add(new MailAddress(destinationEmailAddress));
-            var model = new ActivationEmailModel
+            var model = new ConfirmRegistrationModel
             {
                 FullName = fullName,
                 AbsoluteActivationUri = absoluteActivationUri
@@ -48,10 +48,10 @@ namespace BridgeportClaims.Web.Email
             await SendEmail<TTemplate>(msg, model);
         }
 
-        private async Task SendEmail<TTemplate>(MailMessage msg, ActivationEmailModel activationEmailModel) 
+        private async Task SendEmail<TTemplate>(MailMessage msg, ConfirmRegistrationModel confirmRegistrationModel) 
             where TTemplate : IEmailTemplateProvider, new()
         {
-            var model = _emailModelGenerator.GenerateEmailModelFromTemplate<TTemplate>(activationEmailModel);
+            var model = _emailModelGenerator.GenerateEmailModelFromTemplate<TTemplate>(confirmRegistrationModel);
             var sourceEmailAddress = model.SourceEmailAddress;
 
             var client = new SmtpClient

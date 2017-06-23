@@ -56,7 +56,9 @@ export class HttpService {
   getPayours(pageNumber:Number,pageSize:Number): Observable<Response> {  
      return this.http.get(this.baseUrl + "/payor/getpayors/?pageNumber="+pageNumber+"&pageSize="+pageSize,{headers:this.headers})
   }
-
+  getUsers(pageNumber:Number,pageSize:Number): Observable<Response> {  
+     return this.http.get(this.baseUrl + "/account/users/?pageNumber="+pageNumber+"&pageSize="+pageSize,{headers:this.headers})
+  }
   get headers(){
     let header = new Headers();
     header.append('Authorization',"Bearer "+this.token);

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Net.Http;
 using System.Web.Http.Routing;
+using BridgeportClaims.Web.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
 using NLog;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Models
-{
+{   
     public class ModelFactory
     {
         private readonly UrlHelper _urlHelper;
@@ -18,15 +20,23 @@ namespace BridgeportClaims.Web.Models
             _appUserManager = appUserManager;
         }
 
-        public RoleReturnModel Create(IdentityRole appRole)
+        public UserReturnModel Create(ApplicationUser appUser)
         {
             try
             {
-                return new RoleReturnModel
+                return new UserReturnModel
                 {
-                    Url = _urlHelper.Link("GetRoleById", new {id = appRole.Id}),
-                    Id = appRole.Id,
-                    Name = appRole.Name
+                    Url = _urlHelper.Link(c.GetUserByIdAction, new {id = appUser.Id}),
+                    Id = appUser.Id,
+                    UserName = appUser.UserName,
+                    FullName = $"{appUser.FirstName} {appUser.LastName}",
+                    FirstName = appUser.FirstName,
+                    LastName = appUser.LastName,
+                    Email = appUser.Email,
+                    EmailConfirmed = appUser.EmailConfirmed,
+                    RegisteredDate = appUser.RegisteredDate,
+                    Roles = _appUserManager.GetRolesAsync(appUser.Id).Result,
+                    Claims = _appUserManager.GetClaimsAsync(appUser.Id).Result
                 };
             }
             catch (Exception ex)
@@ -36,23 +46,15 @@ namespace BridgeportClaims.Web.Models
             }
         }
 
-        public UserReturnModel Create(ApplicationUser appUser)
+        public RoleReturnModel Create(IdentityRole appRole)
         {
             try
             {
-                return new UserReturnModel
+                return new RoleReturnModel
                 {
-                    Url = _urlHelper.Link("GetUserById", new {id = appUser.Id}),
-                    Id = appUser.Id,
-                    UserName = appUser.UserName,
-                    FirstName = appUser.FirstName,
-                    LastName = appUser.LastName,
-                    FullName = $"{appUser.FirstName} {appUser.LastName}",
-                    Email = appUser.Email,
-                    EmailConfirmed = appUser.EmailConfirmed,
-                    JoinDate = appUser.JoinDate,
-                    Roles = _appUserManager.GetRolesAsync(appUser.Id).Result,
-                    Claims = _appUserManager.GetClaimsAsync(appUser.Id).Result
+                    Url = _urlHelper.Link(c.GetRoleByIdAction, new { id = appRole.Id }),
+                    Id = appRole.Id,
+                    Name = appRole.Name
                 };
             }
             catch (Exception ex)

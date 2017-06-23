@@ -38,7 +38,8 @@ export class AuthGuard implements CanActivate,Resolve<UserProfile>{
         });      
     }
     get isLoggedIn():Observable<boolean>{
-      var user = localStorage.getItem("user");
+      
+      var user = localStorage.getItem("user");      
       if (user === null || user.length == 0) { return Observable.of(false);}    
         try {
           let us = JSON.parse(user);

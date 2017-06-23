@@ -4,9 +4,11 @@ SET ANSI_NULLS ON
 GO
 CREATE VIEW [dbo].[vwAspNetUsersAndRoles]
 AS
-SELECT u.FirstName
+SELECT u.ID UserID
+	 , u.FirstName
      , u.LastName
      , u.UserName
+	 , r.ID RoleID
      , RoleName = r.Name
 FROM   dbo.AspNetUsers AS u
        LEFT JOIN dbo.AspNetUserRoles AS ur
