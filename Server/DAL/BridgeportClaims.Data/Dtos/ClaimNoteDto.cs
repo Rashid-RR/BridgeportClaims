@@ -1,7 +1,10 @@
-﻿namespace BridgeportClaims.Data.Dtos
+﻿using System.Collections.Generic;
+
+namespace BridgeportClaims.Data.Dtos
 {
-    public class ClaimNoteDto
+    public sealed class ClaimNoteDto
     {
+        public KeyValuePair<int, string> NoteType { get; set; }
         public string NoteText { get; set; }
     }
 }

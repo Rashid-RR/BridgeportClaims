@@ -16,7 +16,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual int AdjustorId { get; set; }
         public virtual Payor Payor { get; set; }
         [Required]
-        [StringLength(255)]
+        [StringLength(255, ErrorMessage = "The Err")]
         public virtual string AdjustorName { get; set; }
         [StringLength(30)]
         public virtual string PhoneNumber { get; set; }

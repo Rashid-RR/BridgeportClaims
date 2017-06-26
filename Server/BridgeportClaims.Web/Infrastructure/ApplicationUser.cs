@@ -1,9 +1,9 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Infrastructure
 {
@@ -16,8 +16,10 @@ namespace BridgeportClaims.Web.Infrastructure
         [MaxLength(100)]
         public string LastName { get; set; }
         [Required]
+        [MaxLength(201)]
+        public string FullName => $"{FirstName} {LastName}";
         public DateTime RegisteredDate { get; set; }
-
+        public static string DataFormatString => null;
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
