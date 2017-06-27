@@ -47,7 +47,7 @@ namespace BridgeportClaims.Web
         private static void ConfigureOAuthTokenConsumption(IAppBuilder app)
         {
             var issuer = PublicClientId;
-            var audienceId = ConfigService.GetAppSetting("as:AudienceId");
+            var audienceId = ConfigService.GetAppSetting("AudienceId");
             var audienceSecret = TextEncodings.Base64Url.Decode(ConfigService.GetAppSetting("as:AudienceSecret"));
 
             // Api controllers with an [Authorize] attribute will be validated with JWT

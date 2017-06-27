@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
+using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -205,6 +206,8 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [Route("user/{id:guid}")]
+        // [DenyAction]// Jut kiggin
+
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
             try
