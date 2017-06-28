@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
+using FluentNHibernate.Utils;
 
 namespace BridgeportClaims.Data.DataProviders
 {
@@ -19,6 +23,13 @@ namespace BridgeportClaims.Data.DataProviders
             _claimRepository = claimRepository;
             _userRepository = userRepository;
             _claimNoteTypeRepository = claimNoteTypeRepository;
+        }
+
+        public IList<KeyValuePair<int, string>> GetClaimNoteTypes()
+        {
+            var types = (from s in _claimNoteTypeRepository.GetAll()
+                select new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).ToList();
+            return types;
         }
 
         public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int noteTypeId)

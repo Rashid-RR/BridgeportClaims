@@ -1,9 +1,11 @@
-﻿using System;
+﻿using NLog;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders;
 using Microsoft.AspNet.Identity;
-using NLog;
+using RazorEngine.Templating;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -19,9 +21,26 @@ namespace BridgeportClaims.Web.Controllers
             _claimNotesDataProvider = claimNotesDataProvider;
         }
 
+        [HttpGet]
+        [Route("notetypes")]
+        public async Task<IHttpActionResult> GetClaimNoteType()
+        {
+            try
+            {
+                return await Task.Run(() 
+                    => Ok(_claimNotesDataProvider.GetClaimNoteTypes()));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+
+        }
+
         [HttpPost]
         [Route("savenote")]
-        public async Task<IHttpActionResult>SaveNote(int claimId, string noteText, int noteTypeId)
+        public async Task<IHttpActionResult> SaveNote(int claimId, string noteText, int noteTypeId)
         {
             try
             {

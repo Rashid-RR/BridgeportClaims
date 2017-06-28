@@ -142,14 +142,8 @@ namespace BridgeportClaims.Data.DataProviders
                 }).FirstOrDefault();
             if (null != claimNoteDto)
             {
-                var keyValuePair = _claimNoteTypeRepository?.GetAll()?.SingleOrDefault();
-                if (null != keyValuePair)
-                {
-                    claimNoteDto.NoteType =
-                        new KeyValuePair<int, string>(keyValuePair.ClaimNoteTypeId, keyValuePair.TypeName);
-                }
+                claimDto.ClaimNotes = new List<ClaimNoteDto> {claimNoteDto};
             }
-            claimDto.ClaimNotes = new List<ClaimNoteDto> {claimNoteDto};
             // Claim Episodes
             var episodes = _episodeRepository.GetAll()
                 .Where(e => e.Claim.ClaimId == claimId)

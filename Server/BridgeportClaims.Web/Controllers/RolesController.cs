@@ -27,6 +27,7 @@ namespace BridgeportClaims.Web.Controllers
 
         }
 
+        [HttpPost]
         [Route("", Name = c.GetAllRolesAction)]
         public IHttpActionResult GetAllRoles()
         {
