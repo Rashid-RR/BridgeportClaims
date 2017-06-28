@@ -29,7 +29,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
             HasMany(x => x.ClaimImage).KeyColumn("ClaimID");
-            HasMany(x => x.ClaimNote).KeyColumn("ClaimID");
+            HasMany(x => x.ClaimNotes).KeyColumn("ClaimID");
             HasMany(x => x.Episode).KeyColumn("ClaimID");
             HasMany(x => x.Invoice).KeyColumn("ClaimID");
             HasMany(x => x.Payment).KeyColumn("ClaimID");

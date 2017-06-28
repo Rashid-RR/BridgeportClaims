@@ -36,7 +36,6 @@ namespace BridgeportClaims.Data.DataProviders
                     ClaimNoteType = _claimNoteTypeRepository.Get(noteTypeId),
                     NoteText = note
                 };
-                
             }
             else
             {

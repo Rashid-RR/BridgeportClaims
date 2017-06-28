@@ -22,6 +22,7 @@ namespace BridgeportClaims.Data.DataProviders
         private readonly IRepository<ClaimNote> _claimNoteRepository;
         private readonly IRepository<Episode> _episodeRepository;
         private readonly IRepository<Payment> _paymentRepository;
+        private readonly IRepository<ClaimNoteType> _claimNoteTypeRepository;
 
         public GetClaimsDataProvider(
             IStoredProcedureExecutor storedProcedureExecutor, 
@@ -33,7 +34,8 @@ namespace BridgeportClaims.Data.DataProviders
             IRepository<ClaimNote> claimNoteRepository, 
             IRepository<Episode> episodeRepository, 
             IRepository<Payment> paymentRepository, 
-            IRepository<Patient> patientRepository)
+            IRepository<Patient> patientRepository, 
+            IRepository<ClaimNoteType> claimNoteTypeRepository)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
             _prescriptionRepository = prescriptionRepository;
@@ -45,6 +47,7 @@ namespace BridgeportClaims.Data.DataProviders
             _episodeRepository = episodeRepository;
             _paymentRepository = paymentRepository;
             _patientRepository = patientRepository;
+            _claimNoteTypeRepository = claimNoteTypeRepository;
         }
 
         public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
@@ -137,7 +140,16 @@ namespace BridgeportClaims.Data.DataProviders
                 {
                     NoteText = c?.NoteText
                 }).FirstOrDefault();
-            claimDto.ClaimNote = claimNoteDto;
+            if (null != claimNoteDto)
+            {
+                var keyValuePair = _claimNoteTypeRepository?.GetAll()?.SingleOrDefault();
+                if (null != keyValuePair)
+                {
+                    claimNoteDto.NoteType =
+                        new KeyValuePair<int, string>(keyValuePair.ClaimNoteTypeId, keyValuePair.TypeName);
+                }
+            }
+            claimDto.ClaimNotes = new List<ClaimNoteDto> {claimNoteDto};
             // Claim Episodes
             var episodes = _episodeRepository.GetAll()
                 .Where(e => e.Claim.ClaimId == claimId)
@@ -186,10 +198,21 @@ namespace BridgeportClaims.Data.DataProviders
                     Date = s.y.pn.CreatedOn,
                     EnteredBy = s.y.pn.AspNetUsers.Email,
                     Note = s.y.pn.NoteText,
+                    PrescriptionNoteTypes = GetPrescriptionNoteTypes(),
                     Type = s.pnt.TypeName
                 }).ToList();
             claimDto.PrescriptionNotes = prescriptionNotes;
             return claimDto;
+        }
+
+        // Data fill the drop down list for the Prescription Note Types.
+        private IList<KeyValuePair<int, string>> GetPrescriptionNoteTypes()
+        {
+            var query = _prescriptionNoteTypeRepository?.GetAll()?.ToList();
+            if (null == query|| !query.Any())
+                return null;
+            return query.Select(pair => new KeyValuePair<int, string>(
+                pair.PrescriptionNoteTypeId, pair.TypeName)).ToList();
         }
     }
 }

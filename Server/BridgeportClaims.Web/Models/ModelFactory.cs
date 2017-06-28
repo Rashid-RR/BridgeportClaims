@@ -1,9 +1,9 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Net.Http;
 using System.Web.Http.Routing;
 using BridgeportClaims.Web.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
-using NLog;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Models

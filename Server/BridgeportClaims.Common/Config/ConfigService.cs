@@ -17,8 +17,10 @@ namespace BridgeportClaims.Common.Config
 
         public static string GetAppSetting(string key) => cm.AppSettings[key];
 
-        public static bool AppIsInDebugMode => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode));
+        public static string GetDbConnStr() 
+            => cm.ConnectionStrings[c.DbConnStrName].ConnectionString;
 
-        public static string DbConnStr => cm.ConnectionStrings[c.DbConnStrName].ConnectionString;
+        public static bool AppIsInDebugMode
+            => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode));
     }
 }
