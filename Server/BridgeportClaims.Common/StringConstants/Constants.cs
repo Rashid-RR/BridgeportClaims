@@ -1,4 +1,6 @@
-﻿namespace BridgeportClaims.Common.StringConstants
+﻿using System.Configuration;
+
+namespace BridgeportClaims.Common.StringConstants
 {
     public static class Constants
     {
@@ -12,5 +14,6 @@
         public const string GetRoleByIdAction = "GetRoleById";
         public const string GetAllRolesAction = "GetAllRoles";
         public const string ManageUsersInRoleAction = "ManageUsersInRole";
+        public static string ConnStr = ConfigurationManager.ConnectionStrings[DbConnStrName].ConnectionString;
     }
 }

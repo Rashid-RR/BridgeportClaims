@@ -7,9 +7,10 @@ using System.Web.Http;
 using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Collections.Generic;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
+using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -61,6 +62,24 @@ namespace BridgeportClaims.Web.Controllers
                 throw;
             }
         }
+
+        /*public IHttpActionResult GetUserAsnyc(CreateRoleBindingModel createUserModel)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                var user = new ApplicationUser
+                {
+                    fullNane = createUserModel.Name
+                };
+            }
+            catch (Exception ex)
+            {
+                _Logger.Error(ex);
+                throw;
+            }
+        }*/
 
         [AllowAnonymous]
         [Route("create")]
@@ -157,7 +176,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var user = await AppUserManager.FindByNameAsync(username);
-                if (user != null)
+                if (null != user)
                     return Ok(TheModelFactory.Create(user));
                 return NotFound();
             }
@@ -187,6 +206,8 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [Route("user/{id:guid}")]
+        // [DenyAction]// Jut kiggin
+
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
             try

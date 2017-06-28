@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BridgeportClaims.Data.Dtos
 {
@@ -8,5 +9,6 @@ namespace BridgeportClaims.Data.Dtos
         public string Type { get; set; }
         public string EnteredBy { get; set; }
         public string Note { get; set; }
+        public IList<KeyValuePair<int, string>> PrescriptionNoteTypes { get; set; }
     }
 }

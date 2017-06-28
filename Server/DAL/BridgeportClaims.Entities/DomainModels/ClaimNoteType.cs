@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using FluentNHibernate.Mapping;
 
 namespace BridgeportClaims.Entities.DomainModels
 {

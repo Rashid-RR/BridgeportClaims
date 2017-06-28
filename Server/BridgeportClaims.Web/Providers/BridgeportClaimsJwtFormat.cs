@@ -20,8 +20,8 @@ namespace BridgeportClaims.Web.Providers
         {
             if (null == data)
                 throw new ArgumentNullException(nameof(data));
-            var audienceId = ConfigService.GetAppSetting("as:AudienceId");
-            var symmetricKeyAsBase64 = ConfigService.GetAppSetting("as:AudienceSecret");
+            var audienceId = ConfigService.GetAppSetting("AudienceId");
+            var symmetricKeyAsBase64 = ConfigService.GetAppSetting("AudienceSecret");
             var keyByteArray = TextEncodings.Base64Url.Decode(symmetricKeyAsBase64);
             var signingKey = new HmacSigningCredentials(keyByteArray);
             var issued = data.Properties.IssuedUtc;
