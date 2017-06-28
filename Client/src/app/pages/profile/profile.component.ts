@@ -44,18 +44,14 @@ export class ProfileComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.http.changepassword(this.form.value).subscribe(res => {
-          console.log(res.json());
-                success('Password successfully changed');
-          this.registered = true
+            success('Password successfully changed');
+            this.registered = true
         },error=>{
-            console.log(error);
-            let err = error.json();
+             let err = error.json();
              warn( err.Message);
         })
       } catch (e) {
        warn('Error in fields. Please correct to proceed!');
-
-      } finally {
 
       }
     }else{
