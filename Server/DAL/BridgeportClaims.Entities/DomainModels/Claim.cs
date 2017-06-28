@@ -11,7 +11,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public Claim()
         {
             ClaimImage = new List<ClaimImage>();
-            ClaimNote = new List<ClaimNote>();
+            ClaimNotes = new List<ClaimNote>();
             Episode = new List<Episode>();
             Invoice = new List<Invoice>();
             Payment = new List<Payment>();
@@ -44,7 +44,7 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
         public virtual IList<ClaimImage> ClaimImage { get; set; }
-        public virtual IList<ClaimNote> ClaimNote { get; set; }
+        public virtual IList<ClaimNote> ClaimNotes { get; set; }
         public virtual IList<Episode> Episode { get; set; }
         public virtual IList<Invoice> Invoice { get; set; }
         public virtual IList<Payment> Payment { get; set; }

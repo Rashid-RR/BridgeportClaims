@@ -149,7 +149,7 @@ namespace BridgeportClaims.Data.DataProviders
                         new KeyValuePair<int, string>(keyValuePair.ClaimNoteTypeId, keyValuePair.TypeName);
                 }
             }
-            claimDto.ClaimNote = claimNoteDto;
+            claimDto.ClaimNotes = new List<ClaimNoteDto> {claimNoteDto};
             // Claim Episodes
             var episodes = _episodeRepository.GetAll()
                 .Where(e => e.Claim.ClaimId == claimId)

@@ -18,7 +18,6 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Serialization;
 using ServiceStack.Text;
 
 namespace BridgeportClaims.Web
@@ -48,7 +47,7 @@ namespace BridgeportClaims.Web
         {
             var issuer = PublicClientId;
             var audienceId = ConfigService.GetAppSetting("AudienceId");
-            var audienceSecret = TextEncodings.Base64Url.Decode(ConfigService.GetAppSetting("as:AudienceSecret"));
+            var audienceSecret = TextEncodings.Base64Url.Decode(ConfigService.GetAppSetting("AudienceSecret"));
 
             // Api controllers with an [Authorize] attribute will be validated with JWT
             app.UseJwtBearerAuthentication(

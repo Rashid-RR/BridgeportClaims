@@ -6,7 +6,7 @@ namespace BridgeportClaims.Data.Mappings
     public class PrescriptionMap : ClassMap<Prescription>
     {
         public PrescriptionMap()
-        {
+                                                                                                                                                                                                                             {
             Table("Prescription");
             Schema("dbo");
             SchemaAction.None();
