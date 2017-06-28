@@ -18,7 +18,14 @@
                         </div>
                         <div class="box" *ngIf="claimManager.selected">                    
                             <div class="box-header">
-                                <h4 class="box-title text-center"><u>Notes</u></h4>                            
+                                <h4 class="box-title text-center"><u>Notes</u></h4>
+                                <div class="box-tools pull-right" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
+                                    <div class="btn-group" data-toggle="btn-toggle">                            
+                                        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="claimManager.selectedClaim.editing=true" *ngIf="!claimManager.selectedClaim.claimNotes">Add New</button>                                
+                                        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="claimManager.selectedClaim.editing=true" *ngIf="claimManager.selectedClaim.claimNotes">Edit</button>                                
+                                    </div>
+                                    &nbsp;&nbsp;&nbsp;
+                                </div>                       
                             </div>
                             <div class="box-body">
                                 <app-claim-note></app-claim-note>
@@ -72,8 +79,8 @@
                     </div>
                 </div>
             </div>
-             <div class="overlay" *ngIf="loading">
-                <i class="fa fa-refresh fa-spin"></i>
+             <div class="overlay" *ngIf="claimManager.loading" style="text-align:center;">
+                <img src="assets/1.gif">
             </div> 
         </div>
     </div>

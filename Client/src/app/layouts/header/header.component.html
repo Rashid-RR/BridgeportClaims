@@ -23,7 +23,7 @@
                 <ul class="nav navbar-nav" *ngIf="profileManager.profile">                        
                     <li routerLinkActive="active" *ngIf="profileManager.profile">
                         <!--[routerLink]="'/profile'"--> 
-                        <a   class="navbar-link">Logged in as {{profileManager.profile? profileManager.profile.email : ''}}</a>
+                        <a   class="navbar-link">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>
                     </li>
                     <li routerLinkActive="active" *ngIf="profileManager.profile">
                         <a  style="cursor:pointer;" (click)="logout()" class="navbar-link">Logout</a>

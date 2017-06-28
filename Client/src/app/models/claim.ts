@@ -24,7 +24,8 @@ export class Claim {
     private prescriptionNote:Array<PrescriptionNotes> = [];
     private payment:Array<Payment> = [];
     private episode:Array<Episode> = [];
-    private claimNote:ClaimNote;
+    claimNote:ClaimNote;
+    editing:Boolean=false;
 constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
     gender:String,carrier:String,adjustor:String,adjustorPhoneNumber:String,dateEntered:Date,adjustorFaxNumber:String,name?:String,firstName?:String,lastName?:String){
     this.claimId = claimId;

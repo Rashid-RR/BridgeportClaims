@@ -18,7 +18,7 @@ export class SidebarComponent implements OnInit {
   }
 
   get userName(){
-    return this.profileManager.profile ? this.profileManager.profile.displayName : '';
+    return this.profileManager.profile ? this.profileManager.profile.firstName +' '+this.profileManager.profile.lastName : '';
   }
   get avatar(){
     return this.profileManager.profile ?   this.profileManager.profile.avatarUrl : '';

@@ -17,9 +17,9 @@ export class HttpService {
   constructor(private http:Http) {
      
   }
- setAuth(auth:String){
-   this.token = auth;
- }
+  setAuth(auth:String){
+    this.token = auth;
+  }
   login(data,headers): Observable<Response> {
       return this.http.post("/oauth/token", data,{headers:headers})
   }
@@ -63,6 +63,14 @@ export class HttpService {
     let header = new Headers();
     header.append('Authorization',"Bearer "+this.token);
     return header;
+  }
+
+  getNotetypes(): Observable<Response> {  
+     return this.http.get(this.baseUrl + "/claimnotes/notetypes",{headers:this.headers})
+  }
+
+  saveClaimNote(data): Observable<Response> {
+    return this.http.post(this.baseUrl + "/claimnotes/savenote?claimId="+data.claimId+"&noteText="+data.noteText+"&noteTypeId="+data.noteTypeId, {},{headers:this.headers})
   }
  
 

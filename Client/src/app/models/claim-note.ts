@@ -1,6 +1,8 @@
 export class ClaimNote{
     noteText:String;
-    constructor(noteText:String){
-        this.noteText = noteText;
+    noteType:  Number
+    constructor(noteText:String,noteType:any){
+        this.noteText = noteText; 
+        this.noteType = noteType;
     }
 }

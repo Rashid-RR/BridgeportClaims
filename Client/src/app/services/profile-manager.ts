@@ -34,7 +34,7 @@ export class ProfileManager{
     }
   }
   setProfile(u:UserProfile){
-    let profile = new UserProfile(u.id || u.userName,u.login  || u.userName,u.displayName  || u.userName,u.email  || u.userName,u.userName,u.avatarUrl,u.createdOn);
+    let profile = new UserProfile(u.id || u.userName,u.login  || u.userName,u.firstName  || u.userName,u.lastName  || u.userName,u.email  || u.userName,u.userName,u.avatarUrl,u.createdOn);
      this.userCache = this.userCache.set(profile.userName, profile);
   }
   userProfile(userId: String){
