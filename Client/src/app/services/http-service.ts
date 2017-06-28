@@ -59,6 +59,15 @@ export class HttpService {
   getUsers(pageNumber:Number,pageSize:Number): Observable<Response> {  
      return this.http.get(this.baseUrl + "/account/users/?pageNumber="+pageNumber+"&pageSize="+pageSize,{headers:this.headers})
   }
+  getRoles(data:any): Observable<Response> {  
+    // console.log(this.baseUrl + "/api/roles/");
+     return this.http.post("http://bridgeportclaims.com/api/roles/",data,{headers:this.headers})
+    //  return this.http.post(this.baseUrl +"/api/roles/",data,{headers:this.headers})
+  }
+  assignUserRole(data:any){  
+    return this.http.post("http://bridgeportclaims.com/api/roles/ManageUsersInRole",data,{headers:this.headers});
+    // return this.http.post(this.baseUrl +"/api/roles/ManageUsersInRole",data,{headers:this.headers});
+  }
   get headers(){
     let header = new Headers();
     header.append('Authorization',"Bearer "+this.token);
