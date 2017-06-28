@@ -17,7 +17,7 @@ import {PasswordResetComponent} from "./pages/password-reset/password-reset.comp
 import {Error404Component} from "./pages/error404/error404.component";
 import {RoutingModule} from "./app.routing";
 import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModules} from "@angular/router";
-
+import {ProfileComponent} from "./pages/profile/profile.component";
 
  //services
 import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager} from "./services/services.barrel";
@@ -59,7 +59,7 @@ export class SafeUrlPipe implements PipeTransform {
     MainComponent,
     PasswordResetComponent, 
     RegisterComponent,
-    SafeStylePipe, SafeUrlPipe, ClaimsComponent,
+    SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
     SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent
   ],
   imports: [

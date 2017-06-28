@@ -20,7 +20,7 @@ import { PayorsComponent } from './pages/payors/payors.component'
 import { UsersComponent } from './pages/users/users.component'
 import { ClaimsComponent } from './pages/claim/claim.component' 
 import {AuthGuard} from "./services/services.barrel";
-
+import {ProfileComponent} from "./pages/profile/profile.component";
 
 export const routes: Routes = [
   {
@@ -54,6 +54,10 @@ export const routes: Routes = [
         {
           path: 'private',
           component: PrivateComponent
+        },
+        {
+          path: 'profile',
+          component: ProfileComponent
         },
         {
           path: 'payors',

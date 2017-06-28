@@ -37,7 +37,7 @@ export class HttpService {
   }
 
   changepassword(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/changepassword", data)
+    return this.http.post(this.baseUrl + "/account/changepassword", data,{headers:this.headers})
   }
  //register user
   register(data): Observable<Response> {
