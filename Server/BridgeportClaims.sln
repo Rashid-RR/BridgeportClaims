@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Web", "BridgeportClaims.Web\BridgeportClaims.Web.csproj", "{7B61BC98-9190-4576-9858-81279D5D2B47}"
 EndProject
@@ -16,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "BridgeportClaims.Common\BridgeportClaims.Common.csproj", "{8079BC13-DE39-4CB9-8929-E47BE08E52CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data", "DAL\BridgeportClaims.Data\BridgeportClaims.Data.csproj", "{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.DataIntegrations.Tests", "BridgeportClaims.DataIntegrations.Tests\BridgeportClaims.DataIntegrations.Tests.csproj", "{620B0572-A846-4629-B066-380C5A1E68FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{620B0572-A846-4629-B066-380C5A1E68FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{620B0572-A846-4629-B066-380C5A1E68FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{620B0572-A846-4629-B066-380C5A1E68FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{620B0572-A846-4629-B066-380C5A1E68FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,5 +60,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{499BF3D9-D035-4CF0-82DA-7DD823956A98} = {254DFF99-C629-4F73-B77C-06EA63396C50}
 		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876} = {254DFF99-C629-4F73-B77C-06EA63396C50}
+		{620B0572-A846-4629-B066-380C5A1E68FF} = {254DFF99-C629-4F73-B77C-06EA63396C50}
 	EndGlobalSection
 EndGlobal
