@@ -10,7 +10,6 @@ using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
-using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -63,24 +62,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        /*public IHttpActionResult GetUserAsnyc(CreateRoleBindingModel createUserModel)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
-                var user = new ApplicationUser
-                {
-                    fullNane = createUserModel.Name
-                };
-            }
-            catch (Exception ex)
-            {
-                _Logger.Error(ex);
-                throw;
-            }
-        }*/
-
+        [HttpGet]
         [AllowAnonymous]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)

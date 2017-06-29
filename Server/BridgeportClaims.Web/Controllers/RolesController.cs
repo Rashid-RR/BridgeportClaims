@@ -1,10 +1,10 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity;
-using NLog;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using c = BridgeportClaims.Common.StringConstants.Constants;
@@ -17,14 +17,22 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        [HttpGet]
         [Route("{id:guid}", Name = c.GetRoleByIdAction)]
         public async Task<IHttpActionResult> GetRole(string id)
         {
-            var role = await AppRoleManager.FindByIdAsync(id);
-            if (role != null)
-                return Ok(TheModelFactory.Create(role));
-            return NotFound();
-
+            try
+            {
+                var role = await AppRoleManager.FindByIdAsync(id);
+                if (role != null)
+                    return Ok(TheModelFactory.Create(role));
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
         }
 
         [HttpPost]

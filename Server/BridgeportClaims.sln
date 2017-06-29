@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data", "DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.DataIntegrations.Tests", "BridgeportClaims.DataIntegrations.Tests\BridgeportClaims.DataIntegrations.Tests.csproj", "{620B0572-A846-4629-B066-380C5A1E68FF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3303B691-F45F-404D-B6DA-ECEFDF74E5D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,8 +60,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{72ED3D40-B9AD-4D6E-8AA8-DF70F1EA0DD0} = {3303B691-F45F-404D-B6DA-ECEFDF74E5D9}
 		{499BF3D9-D035-4CF0-82DA-7DD823956A98} = {254DFF99-C629-4F73-B77C-06EA63396C50}
 		{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876} = {254DFF99-C629-4F73-B77C-06EA63396C50}
-		{620B0572-A846-4629-B066-380C5A1E68FF} = {254DFF99-C629-4F73-B77C-06EA63396C50}
+		{620B0572-A846-4629-B066-380C5A1E68FF} = {3303B691-F45F-404D-B6DA-ECEFDF74E5D9}
 	EndGlobalSection
 EndGlobal
