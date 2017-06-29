@@ -9,7 +9,9 @@ export class User {
         registeredDate: Date;
         email: String;
         emailConfirmed: Boolean;
-        roles: any;
+        roles: String;
+        admin:boolean;
+        user:boolean;
         claims: any;
     constructor(url: String,id: String,
             userName: String,
@@ -19,7 +21,9 @@ export class User {
             registeredDate: Date,
             email: String,
             emailConfirmed: Boolean,
-            roles:any,
+            roles:String,
+            admin:boolean,
+            user:boolean,
             claims:any) {
         this.url = url; 
         this.userName = userName;
@@ -29,6 +33,8 @@ export class User {
         this.email = email;
         this.emailConfirmed = emailConfirmed;
         this.roles = roles;
+        this.admin = admin
+        this.user = user;
         this.claims = claims;
 
     }

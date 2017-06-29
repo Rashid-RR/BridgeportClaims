@@ -1,55 +1,62 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box">
-            <div class="box-header with-border"><h3 class="box-title">Payors</h3></div>
+            <div class="box-header with-border">
+                <h3 class="box-title">Payors</h3>
+            </div>
             <div class="box-body row">
-                <div class="col-lg-12"   id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Search and Filter</a>
-                                </h4>
+                <div class="col-lg-12" id="accordion">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Search and Filter</a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse out">
+                            <div class="panel-body">
+                                Will add search and filter UI
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse out">
-                                <div class="panel-body">
-                                    Will add search and filter UI
-                                </div>
-                            </div> 
-                        </div> 
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-11 col-lg-offset-1">
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr>
                                 <th>User Name</th>
-                                <th>Eamil</th>
+
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Confirmed</th>
-                                <th>Join Date</th>                                                   
-                                <th>Roles</th>                                                   
+                                <th>Email Confirmed</th>
+                                <th>Registered Date</th>
+                                <th>Role User</th>
+                                <th>Role Admin</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody> 
-                            <ng-container *ngFor="let user of users">
-                            <tr>
-                                <td>{{user.userName}}</td>
-                                <td>{{user.email}}</td>
-                                <td>{{user.firstName}}</td>
-                                <td>{{user.lastName}}</td>
-                                <td>{{user.emailConfirmed}}</td>                                
-                                <td class="center">{{user.registeredDate | date:"shortDate"}}</td>   
-                                <td>{{user.roles}}</td>                                
-                                <td>
-                                    <button type="button" class="btn btn-xs btn-primary" title ="View"><i class="fa fa-eye-slash"></i></button>                     
-                                    <button type="button" class="btn btn-xs btn-info"  title ="Edit"><i class="fa fa-pencil-square"></i></button>                     
-                                    <button type="button" class="btn btn-xs btn-danger"  title ="Delete"><i class="fa fa-trash-o"></i></button>                     
-                                </td>
-                            </tr>
+                        <tbody>
+                            <ng-container *ngFor="let user of users;">
+                                <tr>
+                                    <td>{{user.userName}}</td>
+                                    <td>{{user.firstName}}</td>
+                                    <td>{{user.lastName}}</td>
+                                    <td>{{user.emailConfirmed}}</td>
+                                    <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
+                                    <td>
+                                        <input type="checkbox" [(ngModel)]="user.user" (ngModelChange)="processRoleChange(user,'User',$event)">
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" [(ngModel)]="user.admin" (ngModelChange)="processRoleChange(user,'Admin',$event)">
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs btn-primary" title="View"><i class="fa fa-eye-slash"></i></button>
+                                        <button type="button" class="btn btn-xs btn-info" title="Edit"><i class="fa fa-pencil-square"></i></button>
+                                        <button type="button" class="btn btn-xs btn-danger" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                    </td>
+                                </tr>
                             </ng-container>
                         </tbody>
-                        <tfoot>
+                        <!--<tfoot>
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="3" class="right">
@@ -58,13 +65,13 @@
                                 <button type="button" class="btn btn-warning" (click)="next()">Next</button>
                             </td>
                             </tr>
-                        </tfoot>
+                        </tfoot>-->
                     </table>
                 </div>
             </div>
-             <div class="overlay" *ngIf="loading">
+            <div class="overlay" *ngIf="loading">
                 <i class="fa fa-refresh fa-spin"></i>
-            </div> 
+            </div>
         </div>
     </div>
- </div>
+</div>
