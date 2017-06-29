@@ -60,13 +60,8 @@ export class SafeUrlPipe implements PipeTransform {
     MainComponent,
     PasswordResetComponent, 
     RegisterComponent,
-<<<<<<< HEAD
     SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
     SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent
-=======
-    SafeStylePipe, SafeUrlPipe, ClaimsComponent,
-    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent, DisplayRolesPipe
->>>>>>> ad88797a43fc7c7904e0f58dd9636607fab80fc7
   ],
   imports: [
     BrowserModule,
