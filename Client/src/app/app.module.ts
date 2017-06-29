@@ -67,7 +67,7 @@ export class SafeUrlPipe implements PipeTransform {
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule, 
+    HttpModule,
     RoutingModule
   ],
   providers: [  
