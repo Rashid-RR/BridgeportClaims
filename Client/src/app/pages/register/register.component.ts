@@ -43,9 +43,9 @@ export class RegisterComponent implements OnInit {
       try {
         this.http.register(this.form.value).subscribe(res => {
           console.log("Successful registration");
-            this.router.navigate(['/main/private']);
+            this.router.navigate(['/logon']);
             //console.log(res.json());
-            success("Successful signup");
+            success("You have been signup successfully");
           this.registered = true
         },error => {
             let err = error.json();            
@@ -56,6 +56,8 @@ export class RegisterComponent implements OnInit {
       } finally {
 
       }
+    }else{
+       warn('Error in fields. Please correct to proceed!');
     }
 
   }

@@ -14,18 +14,26 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
   
   form: FormGroup;
   constructor(public claimManager:ClaimManager,private formBuilder: FormBuilder, private http: HttpService) {
-      
+      this.form = this.formBuilder.group({
+        claimId: [this.claimManager.selectedClaim.claimId],
+        noteText: [ null,Validators.compose([Validators.required])],
+        noteTypeId: [null,Validators.compose([Validators.required])]
+      });
   }
 
   ngOnInit() {
-
-  }
+  
+ }
   ngAfterViewChecked() {
-    this.form = this.formBuilder.group({
-        claimId: [this.claimManager.selectedClaim.claimId],
-        noteText: [this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteText : null,Validators.compose([Validators.required])],
-        noteTypeId: [this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteType : null,Validators.compose([Validators.required])]
-      });
+    let text = this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteText :null;
+    let noteTypeId = this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteType : null;
+
+    if(this.claimManager.selectedClaim.claimNote!==undefined && this.form.get("noteText").value == null && this.form.get("noteText").value !==this.claimManager.selectedClaim.claimNote.noteText){
+      this.form.patchValue({
+          noteTypeId:noteTypeId,
+          noteText:text
+      })
+    }    
   }
 
   saveNote(){
