@@ -120,7 +120,7 @@ export class UsersComponent implements OnInit {
     try {
       this.http.assignUserRole(data).subscribe(res => {
         console.log("Successful updated role");
-        if (this.users[index].admin) {
+        if (role == this.adminRole && this.users[index].admin) {
           this.users[index].user = true;
         }
       }, error => {
