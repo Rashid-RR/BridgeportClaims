@@ -4,6 +4,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import {AppComponent} from "./app.component";
+import { BootstrapModalModule } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from './components/confirm.component';
+
 //Layouts 
 import {HeaderComponent} from "./layouts/header/header.component";
 import {AppLayoutComponent} from "./layouts/app-layout.component";
@@ -52,7 +55,8 @@ export class SafeUrlPipe implements PipeTransform {
 @NgModule({
   declarations: [
     AppComponent,
-    AppLayoutComponent,
+    ConfirmComponent,
+    AppLayoutComponent,    
     Error404Component, 
     HeaderComponent, 
     LoginComponent,
@@ -65,6 +69,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   imports: [
     BrowserModule,
+    BootstrapModalModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
@@ -76,6 +81,9 @@ export class SafeUrlPipe implements PipeTransform {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
     }],
+  entryComponents: [
+        ConfirmComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
