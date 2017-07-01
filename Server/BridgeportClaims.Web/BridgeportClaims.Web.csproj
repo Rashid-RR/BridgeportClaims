@@ -200,6 +200,7 @@
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
+    <Compile Include="Controllers\PrescriptionNotesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
