@@ -10,7 +10,7 @@ GO
 	Sample Execute:
 					SELECT * FROM dbo.vwClaims
 */
-CREATE VIEW [dbo].[vwClaims]
+CREATE VIEW [dbo].[vwClaim]
 AS 
 	SELECT DISTINCT ClaimId = c.ClaimID
 			, PayorId = pa.PayorID

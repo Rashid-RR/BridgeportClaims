@@ -22,12 +22,12 @@ AS BEGIN
 	WITH RolesCTE (UserID) AS
 	(
 		SELECT r.UserID
-		FROM   dbo.vwAspNetUsersAndRoles r
+		FROM   [dbo].[vwAspNetUserAndRole] r
 		WHERE  r.RoleID != @UserRoleID
 			   AND NOT EXISTS 
 			   (
 					SELECT *
-					FROM   dbo.vwAspNetUsersAndRoles ir
+					FROM   [dbo].[vwAspNetUserAndRole] ir
 					WHERE  ir.UserID = r.UserID
 						   AND ir.RoleID = @UserRoleID
 			   )

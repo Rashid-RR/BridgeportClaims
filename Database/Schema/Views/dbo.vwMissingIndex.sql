@@ -9,7 +9,7 @@ GO
 	Sample Execute:
 					SELECT * FROM dbo.vwMissingIndexes AS i ORDER BY i.Avg_Estimated_Impact DESC
 */
-CREATE VIEW [dbo].[vwMissingIndexes]
+CREATE VIEW [dbo].[vwMissingIndex]
 AS
 SELECT 	dm_mid.database_id AS DatabaseID,
 		dm_migs.avg_user_impact*(dm_migs.user_seeks+dm_migs.user_scans) Avg_Estimated_Impact,

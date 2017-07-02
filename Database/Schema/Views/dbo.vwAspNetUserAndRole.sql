@@ -2,7 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-CREATE VIEW [dbo].[vwAspNetUsersAndRoles]
+CREATE VIEW [dbo].[vwAspNetUserAndRole]
 AS
 SELECT u.ID UserID
 	 , u.FirstName

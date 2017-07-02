@@ -33,7 +33,7 @@ BEGIN
          , c.FirstName
          , c.Carrier
          , c.InjuryDate
-    FROM   dbo.vwClaims c 
+    FROM   [dbo].[vwClaim] c 
            INNER JOIN ClaimsCTE cte ON cte.ClaimID = c.ClaimId
     WHERE  1 = 1
            AND (c.ClaimNumber = @ClaimNumber OR @ClaimNumber IS NULL)
