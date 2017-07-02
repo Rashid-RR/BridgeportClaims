@@ -14,6 +14,9 @@ namespace BridgeportClaims.Data.Mappings.Views
             LazyLoad();
             CompositeId().KeyProperty(x => x.PrescriptionId, "PrescriptionID")
                 .KeyProperty(x => x.PrescriptionNoteId, "PrescriptionNoteID");
+            References(x => x.Prescription).Column("PrescriptionID");
+            References(x => x.PrescriptionNote).Column("PrescriptionNoteID");
+            Map(x => x.ClaimId).Column("ClaimID").Not.Nullable();
             Map(x => x.RxNumber).Column("RxNumber").Not.Nullable().Length(100);
             Map(x => x.DateFilled).Column("DateFilled").Not.Nullable();
             Map(x => x.LabelName).Column("LabelName").Length(25);

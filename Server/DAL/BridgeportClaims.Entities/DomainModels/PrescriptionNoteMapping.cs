@@ -5,9 +5,13 @@ namespace BridgeportClaims.Entities.DomainModels
 {
     public class PrescriptionNoteMapping
     {
+        [Required]
         public virtual int PrescriptionId { get; set; }
+        [Required]
         public virtual int PrescriptionNoteId { get; set; }
+        [Required]
         public virtual Prescription Prescription { get; set; }
+        [Required]
         public virtual PrescriptionNote PrescriptionNote { get; set; }
         [Required]
         public virtual DateTime CreatedOn { get; set; }
@@ -15,7 +19,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime UpdatedOn { get; set; }
 
         #region NHibernate Composite Key Requirements
-
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -27,7 +30,6 @@ namespace BridgeportClaims.Entities.DomainModels
 
             return false;
         }
-
         public override int GetHashCode()
         {
             int hash = GetType().GetHashCode();
@@ -36,7 +38,6 @@ namespace BridgeportClaims.Entities.DomainModels
 
             return hash;
         }
-
         #endregion
     }
 }

@@ -20,8 +20,8 @@ namespace BridgeportClaims.Data.Repositories
         void SaveOrUpdate(T value);
         void Update(T value);
         void Delete(T value);
-        IQueryable<T> GetMany(Expression<Func<T, bool>> predicate);
-        IQueryable<T> GetAll();
-        IQueryable<T> GetTop(int top);
+        IEnumerable<T> GetMany(Expression<Func<T, bool>> predicate);
+        IEnumerable<T> GetAll();
+        IEnumerable<T> GetTop(int top);
     }
 }

@@ -24,13 +24,13 @@ namespace BridgeportClaims.Data.DataProviders.Payors
 
         public Payor GetPayorById(int id) => _payorRepository.Get(id);
 
-        public IQueryable<Payor> GetManyPayors(Expression<Func<Payor, bool>> predicate) =>
+        public IEnumerable<Payor> GetManyPayors(Expression<Func<Payor, bool>> predicate) =>
             _payorRepository.GetMany(predicate);
 
-        public IQueryable<Payor> GetAllPayors()
+        public IEnumerable<Payor> GetAllPayors()
             => _payorRepository.GetAll();
 
-        public IQueryable<Payor> GetTopPayors(int top) => _payorRepository.GetTop(top);
+        public IEnumerable<Payor> GetTopPayors(int top) => _payorRepository.GetTop(top);
 
         public IList<PayorViewModel> GetPaginatedPayors(int pageNumber, int pageSize)
         {

@@ -3,54 +3,57 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
+using BridgeportClaims.Common.Expressions;
 using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Data.Mappings.Views;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
+using BridgeportClaims.Entities.DomainModels.Views;
+using NHibernate;
+using NHibernate.Criterion;
+using NHibernate.Criterion.Lambda;
+using NHibernate.Linq;
+using NHibernate.Transform;
 
 namespace BridgeportClaims.Data.DataProviders
 {
-    public class GetClaimsDataProvider : IGetClaimsDataProvider
+    public class GetClaimsDataProvider : BaseRepository, IGetClaimsDataProvider
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
         private readonly IRepository<Prescription> _prescriptionRepository;
         private readonly IRepository<Claim> _claimRepository;
         private readonly IRepository<Patient> _patientRepository;
-        private readonly IRepository<PrescriptionNote> _prescriptionNoteRepository;
         private readonly IRepository<PrescriptionNoteType> _prescriptionNoteTypeRepository;
         private readonly IRepository<Invoice> _invoiceRepository;
         private readonly IRepository<ClaimNote> _claimNoteRepository;
         private readonly IRepository<Episode> _episodeRepository;
         private readonly IRepository<Payment> _paymentRepository;
-        private readonly IRepository<ClaimNoteType> _claimNoteTypeRepository;
-        private readonly IRepository<PrescriptionNoteMapping> _prescriptionNoteMapping;
+        private readonly IRepository<VwPrescriptionNote> _vwPrescriptionNoteRepository;
 
-        public GetClaimsDataProvider(
+        public GetClaimsDataProvider(ISession session,
             IStoredProcedureExecutor storedProcedureExecutor, 
             IRepository<Prescription> prescriptionRepository, 
-            IRepository<Claim> claimRepository, 
-            IRepository<PrescriptionNote> prescriptionNoteRepository, 
+            IRepository<Claim> claimRepository,
             IRepository<PrescriptionNoteType> prescriptionNoteTypeRepository, 
             IRepository<Invoice> invoiceRepository, 
             IRepository<ClaimNote> claimNoteRepository, 
             IRepository<Episode> episodeRepository, 
             IRepository<Payment> paymentRepository, 
             IRepository<Patient> patientRepository, 
-            IRepository<ClaimNoteType> claimNoteTypeRepository, 
-            IRepository<PrescriptionNoteMapping> prescriptionNoteMapping)
+            IRepository<VwPrescriptionNote> vwPrescriptionNoteRepository) : base(session)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
             _prescriptionRepository = prescriptionRepository;
             _claimRepository = claimRepository;
-            _prescriptionNoteRepository = prescriptionNoteRepository;
             _prescriptionNoteTypeRepository = prescriptionNoteTypeRepository;
             _invoiceRepository = invoiceRepository;
             _claimNoteRepository = claimNoteRepository;
             _episodeRepository = episodeRepository;
             _paymentRepository = paymentRepository;
             _patientRepository = patientRepository;
-            _claimNoteTypeRepository = claimNoteTypeRepository;
-            _prescriptionNoteMapping = prescriptionNoteMapping;
+            _vwPrescriptionNoteRepository = vwPrescriptionNoteRepository;
         }
 
         public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
@@ -110,35 +113,34 @@ namespace BridgeportClaims.Data.DataProviders
             var claim = _claimRepository.Get(claimId);
             if (null == claim)
                 throw new Exception($"No claim found with with Claim ID {claimId}");
-            var claimDto = (from p in _patientRepository.GetAll()
-                join c in _claimRepository.GetAll() on p.PatientId equals c.Patient.PatientId
-                where c.ClaimId == claimId
-                select
-
-                new ClaimDto
+            var claimDto = Session.Query<Patient>()
+                .Join(Session.Query<Claim>(), p => p.PatientId, c => c.Patient.PatientId, (p, c) => new {p, c})
+                .Where(w => w.c.ClaimId == claimId)
+                .Select(w => new ClaimDto
                 {
-                    Name = p.FirstName + " " + p.LastName,
-                    Address1 = p.Address1,
-                    Address2 = p.Address2,
-                    Adjustor = null == c.Adjustor ? null : c.Adjustor.AdjustorName,
-                    AdjustorFaxNumber = null == c.Adjustor ? null : c.Adjustor.FaxNumber,
-                    AdjustorPhoneNumber = null == c.Adjustor ? null : c.Adjustor.PhoneNumber,
-                    Carrier = null == c.Payor ? null : c.Payor.BillToName,
-                    City = p.City,
-                    StateAbbreviation = null == p.UsState ? null : p.UsState.StateCode,
-                    PostalCode = p.PostalCode,
+                    Name = w.p.FirstName + " " + w.p.LastName,
+                    Address1 = w.p.Address1,
+                    Address2 = w.p.Address2,
+                    Adjustor = null == w.c.Adjustor ? null : w.c.Adjustor.AdjustorName,
+                    AdjustorFaxNumber = null == w.c.Adjustor ? null : w.c.Adjustor.FaxNumber,
+                    AdjustorPhoneNumber = null == w.c.Adjustor ? null : w.c.Adjustor.PhoneNumber,
+                    Carrier = null == w.c.Payor ? null : w.c.Payor.BillToName,
+                    City = w.p.City,
+                    StateAbbreviation = null == w.p.UsState ? null : w.p.UsState.StateCode,
+                    PostalCode = w.p.PostalCode,
                     Flex2 = "PIP", // TODO: remove hard-coded
-                    Gender = null == p.Gender ? null : p.Gender.GenderName,
-                    DateOfBirth = p.DateOfBirth,
-                    EligibilityTermDate = c.TermDate,
-                    PatientPhoneNumber = p.PhoneNumber,
-                    DateEntered = c.DateOfInjury,
-                    ClaimNumber = c.ClaimNumber
+                    Gender = null == w.p.Gender ? null : w.p.Gender.GenderName,
+                    DateOfBirth = w.p.DateOfBirth,
+                    EligibilityTermDate = w.c.TermDate,
+                    PatientPhoneNumber = w.p.PhoneNumber,
+                    DateEntered = w.c.DateOfInjury,
+                    ClaimNumber = w.c.ClaimNumber
                 }).SingleOrDefault();
             if (null == claimDto)
                 throw new ArgumentNullException(nameof(claimDto));
             // Claim Note
-            var claimNoteDto = _claimNoteRepository.GetMany(w => (null == w.Claim ? 0 : w.Claim.ClaimId) == claimId)
+            var claimNoteDto = Session.Query<ClaimNote>().Where(w => 
+                (null == w.Claim ? 0 : w.Claim.ClaimId) == claimId)
                 .ToList()
                 .Select(c => new ClaimNoteDto
                 {
@@ -149,7 +151,7 @@ namespace BridgeportClaims.Data.DataProviders
                 claimDto.ClaimNotes = new List<ClaimNoteDto> {claimNoteDto};
             }
             // Claim Episodes
-            var episodes = _episodeRepository.GetAll()
+            var episodes = Session.Query<Episode>()
                 .Where(e => e.Claim.ClaimId == claimId)
                 .Select(e => new EpisodeDto
                 {
@@ -159,7 +161,7 @@ namespace BridgeportClaims.Data.DataProviders
                 }).ToList();
             claimDto.Episodes = episodes;
             // Claim Payments
-            var payments = _paymentRepository.GetMany(w => w.Claim.ClaimId == claimId)
+            var payments = Session.Query<Payment>().Where(w => w.Claim.ClaimId == claimId)
                 .Select(p => new PaymentDto
                 {
                     CheckAmount = p.AmountPaid,
@@ -168,15 +170,15 @@ namespace BridgeportClaims.Data.DataProviders
                 }).ToList();
             claimDto.Payments = payments;
             // Claim Prescriptions
-            var prescriptions = _prescriptionRepository.GetMany(w => w.Claim.ClaimId == claimId)
-                .Join(_invoiceRepository.GetAll(), p => p.Claim.ClaimId, i => i.Claim.ClaimId,
+            var prescriptions = Session.Query<Prescription>().Where(w => w.ClaimId == claimId)
+                .Join(Session.Query<Invoice>(), p => p.Claim.ClaimId, i => i.Claim.ClaimId,
                     (p, i) => new PrescriptionDto
                     {
                         RxDate = p.RefillDate,
                         AmountPaid = p.PayableAmount,
                         RxNumber = p.RxNumber,
                         LabelName = p.LabelName,
-                        BillTo = null == i.Payor ? string.Empty : i.Payor.BillToName,
+                        BillTo = null == i.Payor ? null : i.Payor.BillToName,
                         InvoiceAmount = i.Amount,
                         InvoiceDate = i.InvoiceDate,
                         InvoiceNumber = i.InvoiceNumber,
@@ -184,20 +186,13 @@ namespace BridgeportClaims.Data.DataProviders
                     }).ToList();
             claimDto.Prescriptions = prescriptions;
             // Prescription Notes
-            var prescriptionNotes = (from p in _prescriptionRepository.GetAll()
-                join pnt in _prescriptionNoteMapping.GetAll() on p.PrescriptionId equals pnt.PrescriptionId
-                join pn in _prescriptionNoteRepository.GetAll() on pnt.PrescriptionNoteId equals pn.PrescriptionNoteId
-                join pntr in _prescriptionNoteTypeRepository.GetAll() on pn.PrescriptionNoteType.PrescriptionNoteTypeId
-                equals pntr.PrescriptionNoteTypeId
-                where p.Claim.ClaimId == claimId
-                select new PrescriptionNotesDto
-                {
-                    Date = pn.CreatedOn,
-                    EnteredBy = pn.AspNetUsers.FirstName + " " + pn.AspNetUsers.LastName,
-                    Note = pn.NoteText,
-                    PrescriptionNoteTypes = GetPrescriptionNoteTypes(),
-                    Type = pntr.TypeName
-                }).ToList();
+            var prescriptionNotes = Session.CreateQuery(@"SELECT [a].[DateFilled] [Date]                                                               , [a].[DateFilled] [Date]
+                                                                , [a].[PrescriptionNoteType] [Type]                                         
+                                                                , [a].[NoteAuthor] [EnteredBy]
+                                                                , [a].[NoteText] [Note]
+                                                            FROM[dbo].[vwPrescriptionNote] AS a WITH(NOEXPAND)
+                                                            ORDER BY [a].[NoteUpdatedOn]")
+                .List<PrescriptionNotesDto>();
             claimDto.PrescriptionNotes = prescriptionNotes;
             return claimDto;
         }

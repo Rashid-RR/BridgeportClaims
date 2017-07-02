@@ -63,6 +63,7 @@
     <Compile Include="DataProviders\IGetClaimsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\IPayorService.cs" />
     <Compile Include="DataProviders\Payors\PayorService.cs" />
+    <Compile Include="DataProviders\PrescriptionNotesDataProvider.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />

@@ -6,9 +6,15 @@ namespace BridgeportClaims.Entities.DomainModels.Views
     public class VwPrescriptionNote
     {
         [Required]
+        public virtual int ClaimId { get; set; }
+        [Required]
         public virtual int PrescriptionId { get; set; }
         [Required]
         public virtual int PrescriptionNoteId { get; set; }
+        [Required]
+        public virtual Prescription Prescription { get; set; }
+        [Required]
+        public virtual PrescriptionNote PrescriptionNote { get; set; }
         [Required]
         [StringLength(100)]
         public virtual string RxNumber { get; set; }

@@ -43,6 +43,10 @@
   <ItemGroup>
     <Compile Include="Config\ConfigService.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
+    <Compile Include="Expressions\ExpressionHelper.cs" />
+    <Compile Include="Expressions\ExpressionReplacer.cs" />
+    <Compile Include="Expressions\NullPropagationExpression.cs" />
+    <Compile Include="Extensions\NullableExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConstants\Constants.cs" />
   </ItemGroup>
