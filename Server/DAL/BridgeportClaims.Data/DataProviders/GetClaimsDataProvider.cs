@@ -23,6 +23,7 @@ namespace BridgeportClaims.Data.DataProviders
         private readonly IRepository<Episode> _episodeRepository;
         private readonly IRepository<Payment> _paymentRepository;
         private readonly IRepository<ClaimNoteType> _claimNoteTypeRepository;
+        private readonly IRepository<PrescriptionNoteMapping> _prescriptionNoteMapping;
 
         public GetClaimsDataProvider(
             IStoredProcedureExecutor storedProcedureExecutor, 
@@ -35,7 +36,8 @@ namespace BridgeportClaims.Data.DataProviders
             IRepository<Episode> episodeRepository, 
             IRepository<Payment> paymentRepository, 
             IRepository<Patient> patientRepository, 
-            IRepository<ClaimNoteType> claimNoteTypeRepository)
+            IRepository<ClaimNoteType> claimNoteTypeRepository, 
+            IRepository<PrescriptionNoteMapping> prescriptionNoteMapping)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
             _prescriptionRepository = prescriptionRepository;
@@ -48,6 +50,7 @@ namespace BridgeportClaims.Data.DataProviders
             _paymentRepository = paymentRepository;
             _patientRepository = patientRepository;
             _claimNoteTypeRepository = claimNoteTypeRepository;
+            _prescriptionNoteMapping = prescriptionNoteMapping;
         }
 
         public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
@@ -135,7 +138,8 @@ namespace BridgeportClaims.Data.DataProviders
             if (null == claimDto)
                 throw new ArgumentNullException(nameof(claimDto));
             // Claim Note
-            var claimNoteDto = _claimNoteRepository.GetMany(w => (null == w.Claim ? 0 : w.Claim.ClaimId) == claimId).ToList()
+            var claimNoteDto = _claimNoteRepository.GetMany(w => (null == w.Claim ? 0 : w.Claim.ClaimId) == claimId)
+                .ToList()
                 .Select(c => new ClaimNoteDto
                 {
                     NoteText = c?.NoteText
@@ -180,20 +184,19 @@ namespace BridgeportClaims.Data.DataProviders
                     }).ToList();
             claimDto.Prescriptions = prescriptions;
             // Prescription Notes
-            var prescriptionNotes = _prescriptionRepository.GetAll()
-                .Join(_prescriptionNoteRepository.GetAll(), p => p.PrescriptionId, pn => pn.Prescription.PrescriptionId,
-                    (p, pn) => new {p, pn})
-                .Join(_prescriptionNoteTypeRepository.GetAll(),
-                    pnl => pnl.pn.PrescriptionNoteType.PrescriptionNoteTypeId,
-                    pnt => pnt.PrescriptionNoteTypeId, (x, pnt) => new {y = x, pnt})
-                .Where(w => w.y.p.Claim.ClaimId == claimId)
-                .Select(s => new PrescriptionNotesDto
+            var prescriptionNotes = (from p in _prescriptionRepository.GetAll()
+                join pnt in _prescriptionNoteMapping.GetAll() on p.PrescriptionId equals pnt.PrescriptionId
+                join pn in _prescriptionNoteRepository.GetAll() on pnt.PrescriptionNoteId equals pn.PrescriptionNoteId
+                join pntr in _prescriptionNoteTypeRepository.GetAll() on pn.PrescriptionNoteType.PrescriptionNoteTypeId
+                equals pntr.PrescriptionNoteTypeId
+                where p.Claim.ClaimId == claimId
+                select new PrescriptionNotesDto
                 {
-                    Date = s.y.pn.CreatedOn,
-                    EnteredBy = s.y.pn.AspNetUsers.Email,
-                    Note = s.y.pn.NoteText,
+                    Date = pn.CreatedOn,
+                    EnteredBy = pn.AspNetUsers.FirstName + " " + pn.AspNetUsers.LastName,
+                    Note = pn.NoteText,
                     PrescriptionNoteTypes = GetPrescriptionNoteTypes(),
-                    Type = s.pnt.TypeName
+                    Type = pntr.TypeName
                 }).ToList();
             claimDto.PrescriptionNotes = prescriptionNotes;
             return claimDto;

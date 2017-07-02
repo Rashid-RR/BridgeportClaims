@@ -6,13 +6,13 @@ namespace BridgeportClaims.Data.Mappings
     public class PrescriptionMap : ClassMap<Prescription>
     {
         public PrescriptionMap()
-                                                                                                                                                                                                                             {
+        {
             Table("Prescription");
             Schema("dbo");
             SchemaAction.None();
             DynamicUpdate();
             LazyLoad();
-            Id(x => x.PrescriptionId).GeneratedBy.Identity().Column("PrescriptionId");
+            Id(x => x.PrescriptionId).GeneratedBy.Identity().Column("PrescriptionID");
             References(x => x.Claim).Column("ClaimID");
             References(x => x.Invoice).Column("InvoiceID");
             Map(x => x.RxNumber).Column("RxNumber").Not.Nullable().Length(100);
@@ -52,7 +52,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.TheraClass).Column("TheraClass").Length(255);
             Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
             Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
-            HasMany(x => x.PrescriptionNote).KeyColumn("PrescriptionId");
+            HasMany(x => x.PrescriptionNoteMapping).KeyColumn("PrescriptionID");
         }
     }
 }

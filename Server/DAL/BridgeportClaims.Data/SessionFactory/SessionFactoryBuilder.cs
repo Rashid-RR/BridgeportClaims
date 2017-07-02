@@ -9,7 +9,7 @@ using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.StringConstants;
-using BridgeportClaims.Entities.DomainModels;
+using BridgeportClaims.Data.Mappings.Views;
 using cnm = BridgeportClaims.Data.Mappings.ClaimNoteMap;
 
 namespace BridgeportClaims.Data.SessionFactory
@@ -78,6 +78,8 @@ namespace BridgeportClaims.Data.SessionFactory
                                              m.FluentMappings.Add<PrescriptionNoteMap>();
                                              m.FluentMappings.Add<PrescriptionNoteTypeMap>();
                                              m.FluentMappings.Add<UsStateMap>();
+                                             m.FluentMappings.Add<PrescriptionNoteMappingMap>();
+                                             m.FluentMappings.Add<VwPrescriptionNoteMap>();
                                          })
                                          .ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, false))
                                          .ExposeConfiguration(

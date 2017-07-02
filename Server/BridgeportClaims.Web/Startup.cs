@@ -1,9 +1,6 @@
 ﻿using Owin;
 using System;
-using Autofac;
-using System.Linq;
 using System.Web.Http;
-using System.Net.Http.Formatting;
 using Autofac.Integration.WebApi;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Web.Formatters;

@@ -1,13 +1,11 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
 using Microsoft.AspNet.Identity;
-using RazorEngine.Templating;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
