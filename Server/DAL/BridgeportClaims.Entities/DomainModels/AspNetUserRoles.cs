@@ -10,7 +10,9 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         [StringLength(128)]
         public virtual string RoleId { get; set; }
+        [Required]
         public virtual AspNetUsers AspNetUsers { get; set; }
+        [Required]
         public virtual AspNetRoles AspNetRoles { get; set; }
         #region NHibernate Composite Key Requirements
         public override bool Equals(object obj)

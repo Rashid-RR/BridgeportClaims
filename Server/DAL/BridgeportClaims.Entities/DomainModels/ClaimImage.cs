@@ -7,6 +7,7 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int ClaimImageId { get; set; }
+        [Required]
         public virtual Claim Claim { get; set; }
         [StringLength(255)]
         public virtual string ImageType { get; set; }
