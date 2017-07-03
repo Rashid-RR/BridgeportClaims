@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Entities.ViewModels;
 
 namespace BridgeportClaims.Data.DataProviders.Payors
 {
-    public interface IPayorService
+    public interface IPayorsDataProvider
     {
         Payor GetPayorById(int id);
         IEnumerable<Payor> GetManyPayors(Expression<Func<Payor, bool>> predicate);

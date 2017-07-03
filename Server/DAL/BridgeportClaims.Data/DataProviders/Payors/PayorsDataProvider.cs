@@ -11,12 +11,12 @@ using BridgeportClaims.Entities.ViewModels;
 
 namespace BridgeportClaims.Data.DataProviders.Payors
 {
-    public class PayorService : IPayorService
+    public class PayorsDataProvider : IPayorsDataProvider
     {
         private readonly IRepository<Payor> _payorRepository;
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
 
-        public PayorService(IRepository<Payor> payorRepository, IStoredProcedureExecutor storedProcedureExecutor)
+        public PayorsDataProvider(IRepository<Payor> payorRepository, IStoredProcedureExecutor storedProcedureExecutor)
         {
             _payorRepository = payorRepository;
             _storedProcedureExecutor = storedProcedureExecutor;

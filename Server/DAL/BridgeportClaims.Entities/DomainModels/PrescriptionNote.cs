@@ -12,7 +12,11 @@ namespace BridgeportClaims.Entities.DomainModels
         {
             PrescriptionNoteMapping = new List<PrescriptionNoteMapping>();
         }
+        [Required]
         public virtual int PrescriptionNoteId { get; set; }
+        [Required]
+        public virtual int PrescriptionNoteTypeId { get; set; }
+        [Required]
         public virtual PrescriptionNoteType PrescriptionNoteType { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
         [Required]
