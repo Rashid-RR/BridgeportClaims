@@ -11,11 +11,15 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         public Prescription()
         {
-            PrescriptionNote = new List<PrescriptionNote>();
+            PrescriptionNoteMapping = new List<PrescriptionNoteMapping>();
         }
         [Required]
         public virtual int PrescriptionId { get; set; }
+        [Required]
+        public virtual int ClaimId { get; set; }
+        [Required]
         public virtual Claim Claim { get; set; }
+        [Required]
         public virtual Invoice Invoice { get; set; }
         [Required]
         [StringLength(100)]
@@ -57,7 +61,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string Compound { get; set; }
         [Required]
         [StringLength(14)]
-        public virtual string Tran { get; set; }
+        public virtual string PrescriptionTran { get; set; }
         public virtual DateTime? RefillDate { get; set; }
         public virtual short? RefillNumber { get; set; }
         [StringLength(1)]
@@ -86,6 +90,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOn { get; set; }
         [Required]
         public virtual DateTime UpdatedOn { get; set; }
-        public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
+        public virtual IList<PrescriptionNoteMapping> PrescriptionNoteMapping { get; set; }
     }
 }

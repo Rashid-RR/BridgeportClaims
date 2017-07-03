@@ -35,7 +35,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <ng-container *ngFor="let user of users;">
+                            <ng-container *ngFor="let user of users;let i = index">
                                 <tr>
                                     <td>{{user.userName}}</td>
                                     <td>{{user.firstName}}</td>
@@ -43,10 +43,10 @@
                                     <td>{{user.emailConfirmed}}</td>
                                     <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
                                     <td>
-                                        <input type="checkbox" [(ngModel)]="user.user" (ngModelChange)="processRoleChange(user,'User',$event)">
+                                        <input type="checkbox" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)">
                                     </td>
                                     <td>
-                                        <input type="checkbox" [(ngModel)]="user.admin" (ngModelChange)="processRoleChange(user,'Admin',$event)">
+                                        <input type="checkbox" [(ngModel)]="user.admin" (ngModelChange)="showRoleConfirm(i,adminRole,$event)">
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-xs btn-primary" title="View"><i class="fa fa-eye-slash"></i></button>

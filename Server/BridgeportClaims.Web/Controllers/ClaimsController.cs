@@ -6,7 +6,7 @@ using BridgeportClaims.Web.Models;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
-{
+{ 
     [Authorize(Roles = "User")]
     [RoutePrefix("api/claims")]
     public class ClaimsController : BaseApiController

@@ -13,12 +13,12 @@ namespace BridgeportClaims.Web.Controllers
     public class PayorsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IPayorService _payorService;
+        private readonly IPayorsDataProvider _payorsDataProvider;
         private readonly IPayorMapper _payorMapper;
 
-        public PayorsController(IPayorService payorService, IPayorMapper payorMapper)
+        public PayorsController(IPayorsDataProvider payorsDataProvider, IPayorMapper payorMapper)
         {
-            _payorService = payorService;
+            _payorsDataProvider = payorsDataProvider;
             _payorMapper = payorMapper;
         }
 
@@ -28,7 +28,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return await Task.Run(() => 
-                    Ok(_payorMapper.GetPayorViewModels(_payorService.GetAllPayors().ToList())));
+                    Ok(_payorMapper.GetPayorViewModels(_payorsDataProvider.GetAllPayors().ToList())));
             }
             catch (Exception ex)
             {
@@ -43,7 +43,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return await Task.Run(() =>
-                    Ok(_payorService.GetPaginatedPayors(pageNumber, pageSize).ToList()));
+                    Ok(_payorsDataProvider.GetPaginatedPayors(pageNumber, pageSize).ToList()));
             }
             catch (Exception ex)
             {

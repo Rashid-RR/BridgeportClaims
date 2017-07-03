@@ -3,6 +3,8 @@ import { HttpService } from "../../services/http-service";
 import { User } from "../../models/user";
 import { Role } from "../../models/role"
 
+import { ConfirmComponent } from '../../components/confirm.component';
+import { DialogService } from "ng2-bootstrap-modal";
 
 @Component({
   selector: 'app-users',
@@ -14,9 +16,11 @@ export class UsersComponent implements OnInit {
   pageNumber: number;
   pageSize: number = 5;
   loading: boolean;
+  userRole = 'User';
+  adminRole = 'Admin';
   roles: Array<Role> = [];
 
-  constructor(private http: HttpService) {
+  constructor(private http: HttpService, private dialogService: DialogService) {
     this.loading = false;
     this.getRoles();
     this.getUsers(1)
@@ -38,19 +42,18 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this.http.getUsers(pageNumber, this.pageSize).map(res => { this.loading = false; return res.json() }).subscribe(result => {
       result.forEach(element => {
-        if (element.roles.includes('User')) {
+        if (element.roles.includes(this.userRole)) {
           element.user = true;
         } else {
           element.user = false;
         }
-        if (element.roles.includes('Admin')) {
+        if (element.roles.includes(this.adminRole)) {
           element.admin = true;
         } else {
           element.admin = false;
         }
         this.users.push(element);
-      });
-      console.log(this.users);
+      });  
       this.pageNumber = pageNumber;
     }, err => {
       console.log(err);
@@ -70,23 +73,55 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  processRoleChange(user, role, event) {
-    let data;
-    console.log(this.roles[role]);
+
+  processRoleChange(index, role, event) {
+    let data;    
 
     if (event) {
-      data = { Id: this.roles[role].id, EnrolledUsers: [user.id] };
+      data = { Id: this.roles[role].id, EnrolledUsers: this.users[index].id };
     } else {
-      data = { Id: this.roles[role].id, RemovedUsers: [user.id] };
+      data = { Id: this.roles[role].id, RemovedUsers: this.users[index].id };
     }
-    console.log(data);
-    this.http.assignUserRole(data);
+    this.processRoleChangeRequest(data,role,index);
+  }
+
+  showRoleConfirm(index, role, event) {
+    let title = 'Update Role';
+    let action = (event)?'Assgin '+role+' role to ':'Revoke '+role+' role from ';
+    let msg = 'Please confirm to '+action+this.users[index].fullName;
+
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: title,
+      message: msg
+    })
+      .subscribe((isConfirmed) => {
+        //We get dialog result
+        if (isConfirmed) {
+          this.processRoleChange(index, role, event);
+        }
+        else {          
+          if(role == this.adminRole){
+            this.users[index].admin = !event;
+          }
+          if(role == this.userRole){
+            this.users[index].user = !event;
+          }          
+        }
+      });
+    //We can close dialog calling disposable.unsubscribe();
+    //If dialog was not closed manually close it by timeout
+    // setTimeout(() => {
+    //   disposable.unsubscribe();
+    // }, 10000);
+  }
+
+  processRoleChangeRequest(data,role,index) {
+    // this.http.assignUserRole(data);
     try {
       this.http.assignUserRole(data).subscribe(res => {
         console.log("Successful updated role");
-        if(role=='admin'){
-          user.admin=true;
-          user.user=true;
+        if (role == this.adminRole && this.users[index].admin) {
+          this.users[index].user = true;
         }
       }, error => {
         let err = error.json();
@@ -98,5 +133,4 @@ export class UsersComponent implements OnInit {
 
     }
   }
-
 }

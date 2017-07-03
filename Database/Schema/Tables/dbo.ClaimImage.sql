@@ -1,7 +1,7 @@
 CREATE TABLE [dbo].[ClaimImage]
 (
 [ClaimImageID] [int] NOT NULL IDENTITY(1, 1),
-[ClaimID] [int] NULL,
+[ClaimID] [int] NOT NULL,
 [ImageType] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Daterec] [datetime2] NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfImageCreatedOn] DEFAULT (sysdatetime()),
