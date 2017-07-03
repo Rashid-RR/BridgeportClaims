@@ -37,26 +37,80 @@ namespace BridgeportClaims.Web.Controllers
             AccessTokenFormat = accessTokenFormat;
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("forgotpassword")]
+        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByNameAsync(model.Email);
+                // If user has to activate his email to confirm his account, the use code listing below
+                if (user == null || !await UserManager.IsEmailConfirmedAsync(user.Id))
+                    return BadRequest(
+                        "You must confirm your email address from your registration before confirming your password");
+                
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                // Send an email with this link
+
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new { userId = user.Id, code }));
+                await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
+                    callbackUrl.AbsoluteUri);
+                return Ok();
+            }
+
+            // If we got this far, something failed, redisplay form
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("ResetPassword", Name = c.ResetPasswordRouteAction)]
+        public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (null == user)
+            {
+                // Don't reveal that the user does not exist
+                return Ok();
+            }
+            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return Ok();
+        }
+
+
         [HttpGet]
         [Route("UserInfo")]
-        public UserInfoViewModel GetUserInfo()
+        public async Task<UserInfoViewModel> GetUserInfo()
         {
             try
             {
-                var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-                var user = UserManager.FindByName(User.Identity.Name);
-                return new UserInfoViewModel
+                return await Task.Run(() =>
                 {
-                    Email = user.Email,
-                    EmailConfirmed = user.EmailConfirmed,
-                    HasRegistered = externalLogin == null,
-                    LoginProvider = externalLogin?.LoginProvider,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    RegisteredDate = user.RegisteredDate,
-                    Roles = user.Roles.Join(AppRoleManager.Roles, ur => ur.RoleId, 
+                    var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+                    var user = UserManager.FindByName(User.Identity.Name);
+                    return new UserInfoViewModel
+                    {
+                        Email = user.Email,
+                        EmailConfirmed = user.EmailConfirmed,
+                        HasRegistered = externalLogin == null,
+                        LoginProvider = externalLogin?.LoginProvider,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        RegisteredDate = user.RegisteredDate,
+                        Roles = user.Roles.Join(AppRoleManager.Roles, ur => ur.RoleId,
                             r => r.Id, (ur, r) => r.Name).ToList()
-                };
+                    };
+                });
             }
             catch (Exception ex)
             {
@@ -126,11 +180,14 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("users")]
-        public IHttpActionResult GetUsers()
+        public async Task<IHttpActionResult> GetUsers()
         {
             try
             {
-                return Ok(AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
+                return await Task.Run(() =>
+                {
+                    return Ok(AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
+                });
             }
             catch (Exception ex)
             {

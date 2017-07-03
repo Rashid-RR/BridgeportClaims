@@ -12,6 +12,7 @@ using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.Automappers;
 using BridgeportClaims.Web.Email;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
+using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using NHibernate;
 
 namespace BridgeportClaims.Web.IoCConfig
@@ -32,6 +33,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<EmailModelGenerator>().As<IEmailModelGenerator>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
             builder.RegisterType<ClaimNotesDataProvider>().As<IClaimNotesDataProvider>().InstancePerRequest();
+            builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
             builder.Register(c => SessionFactoryBuilder.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
             builder.Register(c => SessionFactoryBuilder.GetSession()).As<ISession>().OnActivated(session =>
             {

@@ -185,6 +185,9 @@
     <Content Include="EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="EmailTemplates\PasswordReset.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
@@ -205,12 +208,16 @@
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
     <Compile Include="IoCConfig\IoCConfigService.cs" />
     <Compile Include="Middleware\BridgeportClaimsMiddleware.cs" />
     <Compile Include="Models\ClaimsSearchViewModel.cs" />
     <Compile Include="Models\CreateRoleBindingModel.cs" />
+    <Compile Include="Models\ForgotPasswordViewModel.cs" />
+    <Compile Include="Email\Models\EmailViewModel.cs" />
+    <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\RoleReturnModel.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\UsersInRoleModel.cs" />
@@ -221,14 +228,13 @@
     <Compile Include="Email\EmailModelGeneration\IEmailModelGenerator.cs" />
     <Compile Include="Email\EmailService.cs" />
     <Compile Include="Email\EmailTemplateProviders\IEmailTemplateProvider.cs" />
-    <Compile Include="Email\EmailTemplateProviders\WelcomeActivationTemplate\EmailWelcomeActivationTemplate.cs" />
+    <Compile Include="Email\EmailTemplateProviders\EmailTemplateProvider.cs" />
     <Compile Include="Email\IEmailService.cs" />
     <Compile Include="Email\Models\EmailModel.cs" />
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
     <Compile Include="Infrastructure\ApplicationUser.cs" />
     <Compile Include="Infrastructure\ApplicationUserManager.cs" />
     <Compile Include="Models\ChangePasswordBindingModel.cs" />
-    <Compile Include="Models\ConfirmRegistrationModel.cs" />
     <Compile Include="Models\CreateUserBindingModel.cs" />
     <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\UserReturnModel.cs" />

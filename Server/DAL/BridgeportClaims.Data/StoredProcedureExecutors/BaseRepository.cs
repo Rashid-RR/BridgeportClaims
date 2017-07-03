@@ -1,7 +1,7 @@
 ﻿using System;
 using NHibernate;
 
-namespace BridgeportClaims.Data.Repositories
+namespace BridgeportClaims.Data.StoredProcedureExecutors
 {
     public class BaseRepository
     {
