@@ -1,4 +1,5 @@
-﻿using BridgeportClaims.Entities.DomainModels;
+﻿
+using BridgeportClaims.Entities.DomainModels;
 using FluentNHibernate.Mapping;
 
 namespace BridgeportClaims.Data.Mappings

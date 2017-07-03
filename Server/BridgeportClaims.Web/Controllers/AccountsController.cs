@@ -135,6 +135,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [HttpPost]
         [Route("user/{id:guid}", Name = c.GetUserByIdAction)]
         public async Task<IHttpActionResult> GetUser(string id)
         {
@@ -152,6 +153,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [HttpPost]
         [Route("user/{username}")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
@@ -169,6 +171,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [HttpPut]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {

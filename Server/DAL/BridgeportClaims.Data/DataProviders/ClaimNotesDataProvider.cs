@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
-using FluentNHibernate.Utils;
 
 namespace BridgeportClaims.Data.DataProviders
 {

@@ -19,9 +19,11 @@ namespace BridgeportClaims.Entities.DomainModels
         }
         [Required]
         public virtual int ClaimId { get; set; }
+        [Required]
         public virtual Payor Payor { get; set; }
         public virtual Adjustor Adjustor { get; set; }
         public virtual UsState UsState { get; set; }
+        [Required]
         public virtual Patient Patient { get; set; }
         [StringLength(255)]
         public virtual string PolicyNumber { get; set; }

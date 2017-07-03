@@ -15,11 +15,11 @@ namespace BridgeportClaims.Data.Repositories
     {
         public Repository(ISession session) : base(session) { }
 
-        public TEntity GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate) 
-            => Session.Query<TEntity>().Where(predicate).FirstOrDefault();
+        public TEntity GetFirstOrDefault(Expression<Func<TEntity, bool>> predicate)
+            => Session.Query<TEntity>().Where(predicate).ToFuture().FirstOrDefault();
 
         public TEntity GetSingleOrDefault(Expression<Func<TEntity, bool>> predicate)
-            => Session.Query<TEntity>().Where(predicate).SingleOrDefault();
+            => Session.Query<TEntity>().Where(predicate).ToFuture().SingleOrDefault();
 
         public TEntity Get(object id) => Session.Get<TEntity>(id);
         public TEntity Load(object id) => Session.Load<TEntity>(id);
@@ -50,13 +50,13 @@ namespace BridgeportClaims.Data.Repositories
             Session.Delete(value);
         }
 
-        public IQueryable<TEntity> GetMany(Expression<Func<TEntity, bool>> predicate)
-            => Session.Query<TEntity>().Where(predicate);
+        public IEnumerable<TEntity> GetMany(Expression<Func<TEntity, bool>> predicate)
+            => Session.Query<TEntity>().Where(predicate).ToFuture();
 
 
-        public IQueryable<TEntity> GetAll() => Session.Query<TEntity>();
+        public IEnumerable<TEntity> GetAll() => Session.Query<TEntity>().ToFuture();
 
 
-        public IQueryable<TEntity> GetTop(int top) => Session.Query<TEntity>().Select(q => q).Take(top);
+        public IEnumerable<TEntity> GetTop(int top) => Session.Query<TEntity>().Select(q => q).Take(top).ToFuture();
     }
 }

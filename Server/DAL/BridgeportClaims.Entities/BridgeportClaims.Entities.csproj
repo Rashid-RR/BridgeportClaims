@@ -77,8 +77,10 @@
     <Compile Include="DomainModels\Pharmacy.cs" />
     <Compile Include="DomainModels\Prescription.cs" />
     <Compile Include="DomainModels\PrescriptionNote.cs" />
+    <Compile Include="DomainModels\PrescriptionNoteMapping.cs" />
     <Compile Include="DomainModels\PrescriptionNoteType.cs" />
     <Compile Include="DomainModels\UsState.cs" />
+    <Compile Include="DomainModels\Views\VwPrescriptionNote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PayorViewModel.cs" />
   </ItemGroup>
