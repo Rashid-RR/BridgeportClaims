@@ -21,6 +21,7 @@ import { UsersComponent } from './pages/users/users.component'
 import { ClaimsComponent } from './pages/claim/claim.component' 
 import {AuthGuard} from "./services/services.barrel";
 import {ProfileComponent} from "./pages/profile/profile.component";
+import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 
 export const routes: Routes = [
   {
@@ -75,6 +76,7 @@ export const routes: Routes = [
     }
     ]
   },
+  { path: 'confirm-email/:userId/:code',component: ConfirmEmailComponent},
   {path: '404', component: Error404Component},
   {path: '**', redirectTo: '/404'}
 ];

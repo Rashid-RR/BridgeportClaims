@@ -15,6 +15,7 @@ import {warn,success} from "../../models/notification"
 export class ProfileComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
+  loading: boolean = false;
   registered: boolean = false;
   emailRegex = '^[A-Za-z0-9]+(\.[_A-Za-z0-9]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,15})$';
   saveLogin:boolean=false;
@@ -41,14 +42,17 @@ export class ProfileComponent implements OnInit {
     if (this.form.valid && this.form.get('newPassword').value !== this.form.get('confirmPassword').value) {
       this.form.get('confirmPassword').setErrors({"unmatched": "Confirm password does not match password"});
     }
-    if (this.form.valid) {
+    if (this.form.valid && !this.loading) {
+      this.loading = true;
       try {
         this.http.changepassword(this.form.value).subscribe(res => {
             success('Password successfully changed');
             this.registered = true
+            this.loading = false;
         },error=>{
-             let err = error.json();
+             let err = error.json() || ({"Message":"Server error!"});
              warn( err.Message);
+            this.loading = false;
         })
       } catch (e) {
        warn('Error in fields. Please correct to proceed!');
