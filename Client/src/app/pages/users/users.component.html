@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Payors</h3>
+                <h3 class="box-title">Users</h3>
             </div>
             <div class="box-body row">
                 <div class="col-lg-12" id="accordion">
@@ -14,49 +14,79 @@
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse out">
                             <div class="panel-body">
-                                Will add search and filter UI
+                                <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Name</label>
+                                                <input class="form-control" name="name" class="form-control" formControlName="userName"
+                                                    (focus)="submitted=false" focus-on>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-md-2">
+                                            <label>Admin</label>
+                                            <div class="form-group">                                                
+                                                <label class="switch">
+                                                    <input  type="checkbox" class="toggle-switch-checkbox" formControlName="isAdmin">
+                                                    <div class="slider round"></div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label>&nbsp;</label>
+                                            <button class="btn btn-primary btn-block" type="button" (click)="search()">Search</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-11 col-lg-offset-1">
-                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
-                        <thead>
-                            <tr>
-                                <th>User Name</th>
-
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Email Confirmed</th>
-                                <th>Registered Date</th>
-                                <th>Role User</th>
-                                <th>Role Admin</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let user of users;let i = index">
+                    <div class="col-lg-11 col-lg-offset-1">
+                        <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                            <thead>
                                 <tr>
-                                    <td>{{user.userName}}</td>
-                                    <td>{{user.firstName}}</td>
-                                    <td>{{user.lastName}}</td>
-                                    <td>{{user.emailConfirmed}}</td>
-                                    <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
-                                    <td>
-                                        <input type="checkbox" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)">
-                                    </td>
-                                    <td>
-                                        <input type="checkbox" [(ngModel)]="user.admin" (ngModelChange)="showRoleConfirm(i,adminRole,$event)">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-xs btn-primary" title="View"><i class="fa fa-eye-slash"></i></button>
-                                        <button type="button" class="btn btn-xs btn-info" title="Edit"><i class="fa fa-pencil-square"></i></button>
-                                        <button type="button" class="btn btn-xs btn-danger" title="Delete"><i class="fa fa-trash-o"></i></button>
-                                    </td>
+                                    <th>User Name</th>
+
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Email Confirmed</th>
+                                    <th>Registered Date</th>
+                                    <th>Role User</th>
+                                    <th>Role Admin</th>
+                                    <th>Action</th>
                                 </tr>
-                            </ng-container>
-                        </tbody>
-                        <!--<tfoot>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let user of users;let i = index">
+                                    <tr>
+                                        <td>{{user.userName}}</td>
+                                        <td>{{user.firstName}}</td>
+                                        <td>{{user.lastName}}</td>
+                                        <td>{{user.emailConfirmed}}</td>
+                                        <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
+                                        <td>
+                                            <label class="switch">
+                                            <input type="checkbox" class="toggle-switch-checkbox" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)">
+                                            <div class="slider round"></div>
+                                        </label>
+                                        </td>
+                                        <td>
+                                            <label class="switch">
+                                            <input type="checkbox" class="toggle-switch-checkbox" [(ngModel)]="user.admin" (ngModelChange)="showRoleConfirm(i,adminRole,$event)">
+                                            <div class="slider round"></div>
+                                        </label>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-xs btn-primary" title="View"><i class="fa fa-eye-slash"></i></button>
+                                            <button type="button" class="btn btn-xs btn-info" title="Edit"><i class="fa fa-pencil-square"></i></button>
+                                            <button type="button" class="btn btn-xs btn-danger" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                            <!--<tfoot>
                         <tr>
                             <td colspan="3"></td>
                             <td colspan="3" class="right">
@@ -66,12 +96,12 @@
                             </td>
                             </tr>
                         </tfoot>-->
-                    </table>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="overlay" *ngIf="loading">
-                <i class="fa fa-refresh fa-spin"></i>
+                <div class="overlay" *ngIf="loading">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
             </div>
         </div>
     </div>
-</div>
