@@ -62,7 +62,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
