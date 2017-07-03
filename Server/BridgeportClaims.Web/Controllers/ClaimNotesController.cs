@@ -12,7 +12,7 @@ namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "User")]
     [RoutePrefix("api/claimnotes")]
-    public class ClaimNotesController : BaseApiController
+    public class ClaimNotesController : ApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IClaimNotesDataProvider _claimNotesDataProvider;
@@ -64,7 +64,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("savenote")]
         public async Task<IHttpActionResult> SaveNote(int claimId, string noteText, int noteTypeId)
         {

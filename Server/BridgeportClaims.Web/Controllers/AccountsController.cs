@@ -37,6 +37,7 @@ namespace BridgeportClaims.Web.Controllers
             AccessTokenFormat = accessTokenFormat;
         }
 
+        [HttpGet]
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
@@ -52,7 +53,9 @@ namespace BridgeportClaims.Web.Controllers
                     LoginProvider = externalLogin?.LoginProvider,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
-                    RegisteredDate = user.RegisteredDate
+                    RegisteredDate = user.RegisteredDate,
+                    Roles = user.Roles.Join(AppRoleManager.Roles, ur => ur.RoleId, 
+                            r => r.Id, (ur, r) => r.Name).ToList()
                 };
             }
             catch (Exception ex)
@@ -121,6 +124,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [HttpGet]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
@@ -190,9 +194,8 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [HttpPost]
         [Route("user/{id:guid}")]
-        // [DenyAction]// Jut kiggin
-
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
             try
