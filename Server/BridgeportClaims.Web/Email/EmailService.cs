@@ -1,13 +1,12 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
-using BridgeportClaims.Web.Email.EmailTemplateProviders.WelcomeActivationTemplate;
-using BridgeportClaims.Web.Models;
+using BridgeportClaims.Web.Email.Models;
 using Microsoft.AspNet.Identity;
-using NLog;
 
 namespace BridgeportClaims.Web.Email
 {
@@ -21,37 +20,41 @@ namespace BridgeportClaims.Web.Email
             _emailModelGenerator = emailModelGenerator;
         }
 
-        public async Task SendEmail<TTemplate>(IList<string> destinationEmailAddresses, string fullName, string absoluteActivationUri)
+        public async Task SendEmail<TTemplate>(IList<string> destinationEmailAddresses, 
+            string fullName, string url, EmailModelEnum emailModelEnum)
             where TTemplate : IEmailTemplateProvider, new()
         {
             var msg = new MailMessage();
             foreach(var addressee in destinationEmailAddresses)
                 msg.To.Add(new MailAddress(addressee));
-            var model = new ConfirmRegistrationModel
+            var model = new EmailViewModel
             {
                 FullName = fullName,
-                AbsoluteActivationUri = absoluteActivationUri
+                Uri = url,
+                EmailModelEnum = emailModelEnum
             };
             await SendEmail<TTemplate>(msg, model);
         }
 
-        public async Task SendEmail<TTemplate>(string destinationEmailAddress, string fullName, string absoluteActivationUri)
+        public async Task SendEmail<TTemplate>(string destinationEmailAddress, 
+            string fullName, string url, EmailModelEnum emailModelEnum)
             where TTemplate : IEmailTemplateProvider, new()
         {
             var msg = new MailMessage();
             msg.To.Add(new MailAddress(destinationEmailAddress));
-            var model = new ConfirmRegistrationModel
+            var model = new EmailViewModel
             {
                 FullName = fullName,
-                AbsoluteActivationUri = absoluteActivationUri
+                Uri = url,
+                EmailModelEnum = emailModelEnum
             };
             await SendEmail<TTemplate>(msg, model);
         }
 
-        private async Task SendEmail<TTemplate>(MailMessage msg, ConfirmRegistrationModel confirmRegistrationModel) 
+        private async Task SendEmail<TTemplate>(MailMessage msg, EmailViewModel emailViewModel) 
             where TTemplate : IEmailTemplateProvider, new()
         {
-            var model = _emailModelGenerator.GenerateEmailModelFromTemplate<TTemplate>(confirmRegistrationModel);
+            var model = _emailModelGenerator.GenerateEmailModelFromTemplate<TTemplate>(emailViewModel);
             var sourceEmailAddress = model.SourceEmailAddress;
 
             var client = new SmtpClient
@@ -82,7 +85,17 @@ namespace BridgeportClaims.Web.Email
         public async Task SendAsync(IdentityMessage message)
         {
             // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
-            await SendEmail<EmailWelcomeActivationTemplate>(message.Destination, message.Subject, message.Body); 
+            const string resetPassword = "resetpassword";
+            if (null != message?.Body?.ToLower().Contains(resetPassword) &&
+                message.Body.ToLower().Contains(resetPassword))
+            {
+                await SendEmail<EmailTemplateProvider>(message.Destination, message.Subject, message.Body, EmailModelEnum.PasswordReset);
+            }
+            else
+            {
+                // ReSharper disable once PossibleNullReferenceException
+                await SendEmail<EmailTemplateProvider>(message.Destination, message.Subject, message.Body, EmailModelEnum.WelcomeActivation);
+            }
         }
     }
 }

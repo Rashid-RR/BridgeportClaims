@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../../services/http-service";
+import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
+
 import { User } from "../../models/user";
 import { Role } from "../../models/role"
+import {warn,success} from "../../models/notification"
 
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
@@ -19,8 +22,13 @@ export class UsersComponent implements OnInit {
   userRole = 'User';
   adminRole = 'Admin';
   roles: Array<Role> = [];
-
-  constructor(private http: HttpService, private dialogService: DialogService) {
+  form: FormGroup;
+  submitted: boolean = false;
+  constructor(private http: HttpService,private formBuilder: FormBuilder, private dialogService: DialogService) {
+     this.form = this.formBuilder.group({      
+      userName: [null],
+      isAdmin:[null]
+    });  
     this.loading = false;
     this.getRoles();
     this.getUsers(1)
@@ -53,7 +61,7 @@ export class UsersComponent implements OnInit {
           element.admin = false;
         }
         this.users.push(element);
-      });  
+      });
       this.pageNumber = pageNumber;
     }, err => {
       console.log(err);
@@ -75,20 +83,28 @@ export class UsersComponent implements OnInit {
 
 
   processRoleChange(index, role, event) {
-    let data;    
+    let data;
 
     if (event) {
       data = { Id: this.roles[role].id, EnrolledUsers: this.users[index].id };
     } else {
       data = { Id: this.roles[role].id, RemovedUsers: this.users[index].id };
     }
-    this.processRoleChangeRequest(data,role,index);
+    this.processRoleChangeRequest(data, role, index,event);
   }
 
   showRoleConfirm(index, role, event) {
     let title = 'Update Role';
-    let action = (event)?'Assgin '+role+' role to ':'Revoke '+role+' role from ';
-    let msg = 'Please confirm to '+action+this.users[index].fullName;
+    let msg = '';
+    let action = (event) ? 'Assgin ' + role + ' role to ' : 'Revoke ' + role + ' role from ';
+    // console.log(this.users[index].admin , this.users[index].user , role , this.userRole ,event);
+    if (this.users[index].admin && role == this.userRole && !event) {
+      msg = 'Warning, revoking ' + this.users[index].fullName + ' from the User role will also revoke them from the Admin role.';
+    } else {
+      msg = 'Please confirm to ' + action + this.users[index].fullName;
+    }
+
+
 
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: title,
@@ -99,13 +115,13 @@ export class UsersComponent implements OnInit {
         if (isConfirmed) {
           this.processRoleChange(index, role, event);
         }
-        else {          
-          if(role == this.adminRole){
+        else {
+          if (role == this.adminRole) {
             this.users[index].admin = !event;
           }
-          if(role == this.userRole){
+          if (role == this.userRole) {
             this.users[index].user = !event;
-          }          
+          }
         }
       });
     //We can close dialog calling disposable.unsubscribe();
@@ -115,16 +131,27 @@ export class UsersComponent implements OnInit {
     // }, 10000);
   }
 
-  processRoleChangeRequest(data,role,index) {
-    // this.http.assignUserRole(data);
+  processRoleChangeRequest(data, role, index,event) {
+    let msg = '';
+    if(event){
+      msg ='Assigned '+this.users[index].firstName+' '+this.users[index].lastName+' to the '+role+' role Successfully';
+    }else{
+      msg = 'Removed '+this.users[index].firstName+' '+this.users[index].lastName+' from the '+role+' role Successfully';
+    }
     try {
       this.http.assignUserRole(data).subscribe(res => {
         console.log("Successful updated role");
-        if (role == this.adminRole && this.users[index].admin) {
+        if (this.users[index].admin && role == this.userRole && !event) {
+          this.users[index].admin = false;
+        }else if (role == this.adminRole && this.users[index].admin) {
           this.users[index].user = true;
         }
+        success(msg);
+        
       }, error => {
         let err = error.json();
+      
+        warn('Some error occured, please try again');
         console.log(err.message);
       })
     } catch (e) {
@@ -132,5 +159,9 @@ export class UsersComponent implements OnInit {
     } finally {
 
     }
+  }
+
+  search(){
+    console.log(this.form.value);
   }
 }

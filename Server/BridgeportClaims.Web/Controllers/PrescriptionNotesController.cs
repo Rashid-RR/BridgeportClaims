@@ -1,11 +1,12 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Business.Models;
+using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers
@@ -16,37 +17,24 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IPrescriptionNoteTypesDataProvider _prescriptionNoteTypesDataProvider;
-        private readonly IRepository<PrescriptionNote> _prescriptionNoteRepository;
-        private readonly IRepository<AspNetUsers> _aspNetUsersRepository;
+        private readonly IPrescriptionNotesDataProvider _prescriptionNotesDataProvider;
 
         public PrescriptionNotesController(IPrescriptionNoteTypesDataProvider prescriptionNoteTypesDataProvider,
-                IRepository<PrescriptionNote> prescriptionNoteRepository, IRepository<AspNetUsers> aspNetUsersRepository)
+            IPrescriptionNotesDataProvider prescriptionNotesDataProvider)
         {
             _prescriptionNoteTypesDataProvider = prescriptionNoteTypesDataProvider;
-            _prescriptionNoteRepository = prescriptionNoteRepository;
-            _aspNetUsersRepository = aspNetUsersRepository;
+            _prescriptionNotesDataProvider = prescriptionNotesDataProvider;
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("savenote")]
-        public void AddOrUpdatePrescriptionNote(IList<int> prescriptionIds, string noteText, 
-            int noteTypeId, int? prescriptionNoteId = null)
+        public async Task<IHttpActionResult> AddOrUpdatePrescriptionNote(PrescriptionNoteSaveModel model)
         {
             try
             {
-                var now = DateTime.Now;
-                PrescriptionNote note = null;
-                if (null != prescriptionNoteId) // Update
-                {
-                    note = _prescriptionNoteRepository.Get(prescriptionNoteId.Value);
-                    if (null == note)
-                        throw new Exception($"Could not find a Prescription Note with Id: {prescriptionNoteId.Value}");
-                    note.UpdatedOn = now;
-                    note.NoteText = noteText;
-                    note.PrescriptionNoteTypeId = noteTypeId;
-                    note.AspNetUsers = _aspNetUsersRepository.Get(User.Identity.GetUserId());
-
-                }
+                await _prescriptionNotesDataProvider.AddOrUpdatePrescriptionNoteAsync(
+                    model, User.Identity.GetUserId());
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -55,13 +43,15 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        
+
         [HttpGet]
         [Route("notetypes")]
-        public IList<PrescriptionNoteTypesDto> GetPrescriptionNoteTypes()
+        public async Task<IList<PrescriptionNoteTypesDto>> GetPrescriptionNoteTypes()
         {
             try
             {
-                return _prescriptionNoteTypesDataProvider.GetPrescriptionNoteTypes();
+                return await Task.Run(() => _prescriptionNoteTypesDataProvider.GetPrescriptionNoteTypes());
             }
             catch (Exception ex)
             {

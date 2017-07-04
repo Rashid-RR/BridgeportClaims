@@ -1,4 +1,4 @@
-@model BridgeportClaims.Web.Models.ConfirmRegistrationModel
+@model BridgeportClaims.Web.Email.Models.EmailViewModel
 
 <!DOCTYPE html>
 <table style="width:100%; font-family: Droid Sans, Helvetica, Arial, Sans-Serif; border-width:0px;">
@@ -28,7 +28,7 @@
                 <table style="margin-left:100px; padding-top: 15px">
                     <tr>
                         <td style="border-radius:10px; font-size:17px; height:44px; background-color:#337ab7; color:#fffff6 !important; vertical-align:middle; width:130px; border:1px solid #006688; text-align:center;">                                
-                            <a href="@Model.AbsoluteActivationUri"
+                            <a href="@Model.Uri"
                                style="cursor:pointer; color:#ffffff; text-decoration: none; font-family: Droid Sans, Helvetica, Arial, Sans-Serif;" 
                                target="_blank">
                                 Confirm Now
@@ -38,7 +38,7 @@
                 </table>
                 <p style="padding:-110px; font-size:14px; line-height: 15px">
                 If the "Confirm Now" button does not work, please copy and paste the following URL into your web browser's address bar.</p>
-                <span style="font-size:14px; color:#777777 !important;">@Model.AbsoluteActivationUri</span>
+                <span style="font-size:14px; color:#777777 !important;">@Model.Uri</span>
         </tr>
     </tbody>
 </table>

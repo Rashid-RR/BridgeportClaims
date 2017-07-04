@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BridgeportClaims.Web.Models
 {
@@ -13,5 +14,6 @@ namespace BridgeportClaims.Web.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime RegisteredDate { get; set; }
+        public IList<string> Roles { get; set; }
     }
 }

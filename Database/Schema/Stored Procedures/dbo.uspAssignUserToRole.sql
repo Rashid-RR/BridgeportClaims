@@ -2,6 +2,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+-- Stored Procedure
+
 /*
 	Author:			Jordan Gurney
 	Create Date:	6/21/2017
@@ -25,7 +27,14 @@ AS BEGIN
 	FROM   dbo.AspNetRoles r
 	WHERE  r.[Name] = @RoleName
 
-	INSERT dbo.AspNetUserRoles (UserID, RoleID)
-	VALUES (@UserID, @RoleID)
+	IF NOT EXISTS (   SELECT *
+					  FROM   [dbo].[AspNetUserRoles] AS x
+					  WHERE  [x].[UserID] = @UserID
+							 AND [x].[RoleID] = @RoleID
+				  )
+		INSERT [dbo].[AspNetUserRoles] (UserID, RoleID)
+		VALUES ( @UserID, @RoleID )
 END
+
+
 GO

@@ -10,9 +10,12 @@ namespace BridgeportClaims.Common.StringConstants
         public const string ThankYouEmailConfirmedAction = "ThankYouEmailConfirmed";
         public const string EmailWelcomeActivationTemplateEmailSubject = 
             "Thank you for Registering to BridgeportClaims.com, Please Activate your Email Address";
+        public const string PasswordResetTemplateEmailSubject =
+            "Forgotten Password Assistance from BridgeportClaims.com";
         public const string AspNetIdentity = "ASP.NET Identity";
         public const string ConfirmEmailRouteAction = "ConfirmEmailRoute";
         public const string GetRoleByIdAction = "GetRoleById";
+        public const string ResetPasswordRouteAction = "ResetPasswordRoute";
         public const string GetAllRolesAction = "GetAllRoles";
         public const string ManageUsersInRoleAction = "ManageUsersInRole";
         public const string GetClaimNoteAction = "GetClaimNote";

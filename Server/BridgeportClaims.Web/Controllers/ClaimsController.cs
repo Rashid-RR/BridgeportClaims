@@ -9,7 +9,7 @@ namespace BridgeportClaims.Web.Controllers
 { 
     [Authorize(Roles = "User")]
     [RoutePrefix("api/claims")]
-    public class ClaimsController : BaseApiController
+    public class ClaimsController : ApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IGetClaimsDataProvider _getClaimsDataProvider;

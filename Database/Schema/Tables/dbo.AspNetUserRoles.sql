@@ -24,16 +24,26 @@ CREATE TRIGGER [dbo].[utAspNetUserRolesAddAllUsersToUserRole] ON [dbo].[AspNetUs
 AS 
 BEGIN
 	SET NOCOUNT ON;
-	-- If the insert is for the "User" role, do not call stored procedure
-	IF (SELECT anr.Id FROM dbo.AspNetRoles anr WHERE anr.Name = 'User') != (SELECT RoleId FROM Inserted)
+	
+	DECLARE @UserRoleID NVARCHAR(128)
+			, @UserID NVARCHAR(128)
+	
+	SELECT @UserRoleID = [anr].[ID]
+	FROM   [dbo].[AspNetRoles] AS [anr]
+	WHERE  [anr].[Name] = 'User';
+
+	DECLARE C CURSOR LOCAL FAST_FORWARD FOR
+	SELECT i.UserId FROM Inserted i WHERE i.[RoleID] != @UserRoleID
+	OPEN C;
+	FETCH NEXT FROM C INTO @UserID
+
+	WHILE @@FETCH_STATUS = 0
 		BEGIN
-			DECLARE @UserID NVARCHAR(128)
-			SELECT @UserID = i.UserId FROM Inserted i
-			IF @UserID IS NULL
-				RETURN
-			ELSE
-				EXEC dbo.uspAddUsersToUserRoleGroup @UserID
+			EXEC dbo.uspAddUsersToUserRoleGroup @UserID
+			FETCH NEXT FROM C INTO @UserID
 		END
+	CLOSE C;
+	DEALLOCATE C;
 END
 GO
 ALTER TABLE [dbo].[AspNetUserRoles] ADD CONSTRAINT [pkAspNetUserRoles] PRIMARY KEY CLUSTERED  ([UserID], [RoleID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
