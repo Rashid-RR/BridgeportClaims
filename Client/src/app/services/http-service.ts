@@ -83,6 +83,9 @@ export class HttpService {
   saveClaimNote(data): Observable<Response> {
     return this.http.post(this.baseUrl + "/claimnotes/savenote?claimId="+data.claimId+"&noteText="+data.noteText+"&noteTypeId="+data.noteTypeId, {},{headers:this.headers})
   }
+  savePrescriptionNote(data): Observable<Response> {
+    return this.http.post(this.baseUrl + "/prescriptionnotes/savenote", data,{headers:this.headers})
+  }
  
 
 }
