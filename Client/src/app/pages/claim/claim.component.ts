@@ -35,13 +35,13 @@ export class ClaimsComponent implements OnInit {
     let selectedNotes = [];
     let prescriptionNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
       this.claimManager.PrescriptionNoteTypes.forEach((note:PrescriptionNoteType)=>{
-          prescriptionNoteTypeIds=prescriptionNoteTypeIds+'<option value="'+note.prescriptionNoteTypeId+'"' +(note.prescriptionNoteTypeId ==TypeId ? "selected": "")+'>'+note.typeName+'</option>';
-          selectedNotes.push(note.prescriptionNoteTypeId);
+          prescriptionNoteTypeIds=prescriptionNoteTypeIds+'<option value="'+note.prescriptionNoteTypeId+'"' +(note.prescriptionNoteTypeId ==TypeId ? "selected": "")+'>'+note.typeName+'</option>';          
       });
     var selectedPrecriptions = '';
      this.claimManager.selectedClaim.prescriptions.forEach(prescription=>{
         if(prescription.selected){
             selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex">'+prescription.labelName+'</span> &nbsp; ';
+            selectedNotes.push(Number(prescription.rxNumber));
         }
     });
      
@@ -94,17 +94,18 @@ export class ClaimsComponent implements OnInit {
           swal({title:"",html:"Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>",showConfirmButton:false})
           this.http.savePrescriptionNote(
             {
-              "claimId": this.claimManager.selectedClaim.claimId,
-              "noteText": result[1],
-              "prescriptionNoteTypeId": result[0],
-              "Prescriptions": selectedNotes,
-              "prescriptionNoteId": prescriptionNoteId
+              claimId: this.claimManager.selectedClaim.claimId,
+              noteText: result[1],
+              prescriptionNoteTypeId: Number(result[0]),
+              prescriptions: selectedNotes,
+              prescriptionNoteId: prescriptionNoteId
             }).single().subscribe(result=>{
               console.log(result);
-              swal.clickConfirm();
+              swal.close();
               success("Noted successfully saved");
             },error=>{
               console.log("Saving error",error);
+              swal.close();
             })
       } 
     }).catch(swal.noop)
