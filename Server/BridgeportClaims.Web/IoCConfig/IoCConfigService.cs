@@ -5,6 +5,7 @@ using Autofac;
 using Autofac.Integration.WebApi;
 using BridgeportClaims.Data.DataProviders;
 using BridgeportClaims.Data.DataProviders.Payors;
+using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.SessionFactory;
@@ -34,6 +35,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
             builder.RegisterType<ClaimNotesDataProvider>().As<IClaimNotesDataProvider>().InstancePerRequest();
             builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
+            builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();
             builder.Register(c => SessionFactoryBuilder.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
             builder.Register(c => SessionFactoryBuilder.GetSession()).As<ISession>().OnActivated(session =>
             {

@@ -63,6 +63,8 @@
     <Compile Include="DataProviders\IGetClaimsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\IPayorsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\PayorsDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNotes\IPrescriptionNotesDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNotes\PrescriptionNotesDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionNoteTypes\IPrescriptionNoteTypesDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionNoteTypes\PrescriptionNoteTypesDataProvider.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />
@@ -111,6 +113,10 @@
     <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
+      <Project>{F5F8DBA3-3A98-4F3B-8498-A6B9E542DFCD}</Project>
+      <Name>BridgeportClaims.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
       <Name>BridgeportClaims.Common</Name>

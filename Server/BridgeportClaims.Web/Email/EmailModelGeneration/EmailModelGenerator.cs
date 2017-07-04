@@ -15,17 +15,16 @@ namespace BridgeportClaims.Web.Email.EmailModelGeneration
         public EmailModel GenerateEmailModelFromTemplate<TTemplate>(EmailViewModel model)
             where TTemplate : IEmailTemplateProvider, new()
         {
-            var emailEnum = default(EmailModelEnum);
-            string subject;
-
-                emailEnum = EmailModelEnum.WelcomeActivation;
-            switch (emailEnum)
+            var subject = string.Empty;
+            switch (model.EmailModelEnum)
             {
                 case EmailModelEnum.PasswordReset:
                     subject = c.PasswordResetTemplateEmailSubject;
                     break;
                 case EmailModelEnum.WelcomeActivation:
                     subject = c.EmailWelcomeActivationTemplateEmailSubject;
+                    break;
+                case EmailModelEnum.Unknown:
                     break;
                 default:
                     throw new InstanceNotFoundException("Cannot determine the emailEnum enum type.");
