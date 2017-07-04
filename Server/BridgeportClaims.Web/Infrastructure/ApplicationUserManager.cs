@@ -21,6 +21,8 @@ namespace BridgeportClaims.Web.Infrastructure
             {
                 EmailService = new EmailService(new EmailModelGenerator())
             };
+            appUserManager.UserLockoutEnabledByDefault = true;
+            appUserManager.MaxFailedAccessAttemptsBeforeLockout = 5;
             //Rest of code is removed for clarity
 
             var dataProtectionProvider = options.DataProtectionProvider;

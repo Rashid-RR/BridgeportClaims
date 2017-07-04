@@ -28,11 +28,11 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("savenote")]
-        public async Task<IHttpActionResult> AddOrUpdatePrescriptionNote(PrescriptionNoteSaveModel model)
+        public IHttpActionResult AddOrUpdatePrescriptionNote(PrescriptionNoteSaveModel model)
         {
             try
             {
-                await _prescriptionNotesDataProvider.AddOrUpdatePrescriptionNoteAsync(
+                _prescriptionNotesDataProvider.AddOrUpdatePrescriptionNoteAsync(
                     model, User.Identity.GetUserId());
                 return Ok();
             }
