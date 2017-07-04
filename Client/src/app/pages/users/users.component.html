@@ -19,24 +19,18 @@
                                         <div class="col-md-2">
                                             <div class="form-group">
                                                 <label>Name</label>
-                                                <input class="form-control" name="name" class="form-control" formControlName="userName"
-                                                    (focus)="submitted=false" focus-on>
+                                                <input class="form-control" name="userName" class="form-control" formControlName="userName" [(ngModel)]="userName" (focus)="submitted=false"
+                                                    focus-on>
                                             </div>
                                         </div>
-                                       
                                         <div class="col-md-2">
-                                            <label>Admin</label>
-                                            <div class="form-group">                                                
+                                            <label>Display Only Admin</label>
+                                            <div class="form-group">
                                                 <label class="switch">
-                                                    <input  type="checkbox" class="toggle-switch-checkbox" formControlName="isAdmin">
+                                                    <input  type="checkbox" class="toggle-switch-checkbox" formControlName="isAdmin" [(ngModel)]="isAdmin">
                                                     <div class="slider round"></div>
                                                 </label>
                                             </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <label>&nbsp;</label>
-                                            <button class="btn btn-primary btn-block" type="button" (click)="search()">Search</button>
                                         </div>
                                     </div>
                                 </form>
@@ -55,11 +49,11 @@
                                     <th>Registered Date</th>
                                     <th>Role User</th>
                                     <th>Role Admin</th>
-                                    <th>Action</th>
+                                    <th>Activate / Deactivate</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <ng-container *ngFor="let user of users;let i = index">
+                                <ng-container *ngFor="let user of (users | filterUser : userName : isAdmin);let i = index">
                                     <tr>
                                         <td>{{user.userName}}</td>
                                         <td>{{user.firstName}}</td>
@@ -68,7 +62,7 @@
                                         <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
                                         <td>
                                             <label class="switch">
-                                            <input type="checkbox" class="toggle-switch-checkbox" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)">
+                                            <input type="checkbox" class="checkbox checkbox-slider--b checkbox-slider-md" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)">
                                             <div class="slider round"></div>
                                         </label>
                                         </td>
@@ -79,9 +73,9 @@
                                         </label>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-xs btn-primary" title="View"><i class="fa fa-eye-slash"></i></button>
-                                            <button type="button" class="btn btn-xs btn-info" title="Edit"><i class="fa fa-pencil-square"></i></button>
-                                            <button type="button" class="btn btn-xs btn-danger" title="Delete"><i class="fa fa-trash-o"></i></button>
+                                            <div class="demo text-center">                    
+                                                    <input type="checkbox" class="faChkRnd" [(ngModel)]="user.activated" (ngModelChange)="changeStatus(i,$event)"><label></label>
+                                            </div>
                                         </td>
                                     </tr>
                                 </ng-container>

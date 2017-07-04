@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
   loginError:string='';
   emailError:string='';
   constructor(private formBuilder: FormBuilder,public claimManager:ClaimManager,private http:HttpService,private profileManager:ProfileManager) {
+    
     if(this.profileManager.profile==null){
       this.profileManager.profile = new UserProfile('','','','','');
     }
