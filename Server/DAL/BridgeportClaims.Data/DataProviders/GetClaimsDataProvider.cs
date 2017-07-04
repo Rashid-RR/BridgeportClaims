@@ -146,24 +146,30 @@ namespace BridgeportClaims.Data.DataProviders
                                 }).ToList();
                             claimDto.Payments = payments;
                             // Claim Prescriptions
-                            var prescriptions = session.Query<Prescription>().Where(w => w.ClaimId == claimId)
-                                .Join(session.Query<Invoice>(), p => p.Claim.ClaimId, i => i.Claim.ClaimId,
-                                    (p, i) => new PrescriptionDto
-                                    {
-                                        RxDate = p.RefillDate,
-                                        AmountPaid = p.PayableAmount,
-                                        RxNumber = p.RxNumber,
-                                        LabelName = p.LabelName,
-                                        BillTo = null == i.Payor ? null : i.Payor.BillToName,
-                                        InvoiceAmount = i.Amount,
-                                        InvoiceDate = i.InvoiceDate,
-                                        InvoiceNumber = i.InvoiceNumber,
-                                        Outstanding = i.Amount // TODO: Fix
-                                    }).ToFuture().ToList();
+                            var prescriptions = session.CreateSQLQuery(
+                                    @"SELECT RxDate = [p].[DateFilled]
+                                    , AmountPaid = [p].[PayableAmount]
+                                , RxNumber = [p].[RxNumber]
+                                , LabelName = [p].[LabelName]
+                                , BillTo = [pay].[BillToName]
+                                , InvoiceAmount = [i].[Amount]
+                                , InvoiceDate = [i].[InvoiceDate]
+                                , InvoiceNumber = [i].[InvoiceNumber]
+                                , Outstanding = [i].[Amount]
+                            FROM[dbo].[Prescription] AS[p]
+                            LEFT JOIN[dbo].[Invoice] AS[i] ON[i].[InvoiceID] = [p].[InvoiceID]
+                            LEFT JOIN[dbo].[Payor] AS[pay] ON[pay].[PayorID] = [i].[PayorID]
+                            WHERE[p].[ClaimID] = :ClaimID").SetInt32("ClaimID", claimId)
+                                .SetMaxResults(500)
+                                .SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionDto)))
+                                .List<PrescriptionDto>();
                             claimDto.Prescriptions = prescriptions;
                             // Prescription Notes
                             var prescriptionNotesDtos = session.CreateSQLQuery(
-                                    "SELECT [a].[DateFilled] [Date]" +
+                                    "SELECT [a].[ClaimID] [ClaimId]" +
+                                    ", [a].[PrescriptionID] [PrescriptionId]" +
+                                    ", [a].[PrescriptionNoteID] [PrescriptionNoteId]" +
+                                    ", [a].[DateFilled] [Date]" +
                                     ", [a].[PrescriptionNoteType] [Type]" +
                                     ", [a].[NoteAuthor] [EnteredBy]" +
                                     ", [a].[NoteText] [Note] " +

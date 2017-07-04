@@ -5,6 +5,6 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 {
     public interface IPrescriptionNotesDataProvider
     {
-        Task AddOrUpdatePrescriptionNoteAsync(PrescriptionNoteSaveModel model, string userId);
+        void AddOrUpdatePrescriptionNoteAsync(PrescriptionNoteSaveModel model, string userId);
     }
 }

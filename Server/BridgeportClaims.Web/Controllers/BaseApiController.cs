@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
@@ -10,6 +11,7 @@ using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class BaseApiController : ApiController
     {
         private ModelFactory _modelFactory;
@@ -90,8 +92,14 @@ namespace BridgeportClaims.Web.Controllers
                 // No ModelState errors are available to send, so just return an empty BadRequest.
                 return BadRequest();
             }
-            var message = string.Join(", ", ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage));
-            return BadRequest(message);
+            return GetBadRequestFormattedErrorMessages();
+        }
+
+        protected IHttpActionResult GetBadRequestFormattedErrorMessages()
+        {
+            var error_description = string.Join(", ",
+                ModelState.Values.SelectMany(sm => sm.Errors).Select(err => err.ErrorMessage));
+            return BadRequest(error_description);
         }
     }
 }

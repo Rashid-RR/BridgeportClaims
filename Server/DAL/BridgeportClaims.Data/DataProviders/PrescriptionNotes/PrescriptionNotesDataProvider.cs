@@ -3,29 +3,25 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading;
 using BridgeportClaims.Business.Models;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.Disposable;
-using NLog;
 
 namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 {
     public class PrescriptionNotesDataProvider : IPrescriptionNotesDataProvider
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public async Task AddOrUpdatePrescriptionNoteAsync(PrescriptionNoteSaveModel model, string userId)
+        public void AddOrUpdatePrescriptionNoteAsync(PrescriptionNoteSaveModel model, string userId)
         {
             if (null == model.Prescriptions || model.Prescriptions.Count < 1)
                 throw new Exception(
                     "Error. There needs to be at least one or more Prescription ID's' " +
                     "associated to this Prescription Note.");
-                await DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()),
-                async con =>
+            DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()),
+                con =>
                 {
-                    await DisposableService.Using(() => new SqlCommand("[dbo].[uspSavePrescriptionNote]", con),
-                        async cmd =>
+                    DisposableService.Using(() => new SqlCommand("[dbo].[uspSavePrescriptionNote]", con),
+                        cmd =>
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
                             var claimIdSqlParameter =
@@ -53,17 +49,20 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
                             var prescriptionSqlParameter = new SqlParameter("@Prescription", SqlDbType.Structured)
                                 {Value = dt};
                             cmd.Parameters.Add(prescriptionSqlParameter);
-                            var connectionTask = con.OpenAsync();
-                            Task.WaitAll(connectionTask);
-                            if (connectionTask.IsFaulted)
+                            try
                             {
-                                throw new Exception("Connection failure", connectionTask.Exception);
+                                con.Open();
+                                cmd.ExecuteNonQuery();
                             }
-                            await cmd.ExecuteNonQueryAsync().ContinueWith(_ => con.Close());
+                            finally
+                            {
+                                con.Close();
+                                cmd.Dispose();
+                            }
                         });
                 });
         }
-        
+
 
         private static DataTable CreateDataTable(IEnumerable<int> prescriptionIds)
         {
