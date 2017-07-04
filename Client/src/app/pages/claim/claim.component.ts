@@ -104,8 +104,10 @@ export class ClaimsComponent implements OnInit {
               swal.close();
               success("Noted successfully saved");
             },error=>{
-              console.log("Saving error",error);
-              swal.close();
+              setTimeout(()=>{
+                this.addPrescriptionNote(result[1],result[0]);
+                warn('Server error!');
+              },200)
             })
       } 
     }).catch(swal.noop)
