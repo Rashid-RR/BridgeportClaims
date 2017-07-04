@@ -23,6 +23,10 @@
                 <ul class="nav navbar-nav" *ngIf="profileManager.profile">                        
                     <li routerLinkActive="active" *ngIf="profileManager.profile">
                         <!--[routerLink]="'/profile'"--> 
+                        <a   class="navbar-link" [routerLink]="'/main/profile'">My Account</a>
+                    </li>
+                    <li routerLinkActive="active" *ngIf="profileManager.profile">
+                        <!--[routerLink]="'/profile'"--> 
                         <a   class="navbar-link" [routerLink]="'/main/profile'">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>
                     </li>
                     <li routerLinkActive="active" *ngIf="profileManager.profile">
