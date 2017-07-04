@@ -1,7 +1,7 @@
 <ng-container   *ngIf="claimManager.dataSize==1 || claimManager.selected">
     <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
       <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
-        <address> 
+        <address>
           Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}<br>
           DOB: {{claim.dateOfBirth}}<br>
           Gender: {{claim.gender}}<br>
@@ -13,13 +13,13 @@
       </div>
       <!-- /.col -->
       <div class="col-sm-6 invoice-col"  *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
-        <address> 
+        <address>
           Claim #: {{claim.claimNumber}}<br>
           Injury Date: {{claim.injuryDate}}<br>
           Adjustor Fax : {{claim.adjustorFaxNumber}}<br>
         </address>
         <br/><br/><br/><br/><br/>
-        <span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId)"  *ngIf="claimManager.dataSize==1"> View </span>
+        <span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId);"  *ngIf="claimManager.dataSize==1"> View </span>
         <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="claimManager.selected=undefined"  style="font-size:10pt"  *ngIf="claimManager.dataSize>1"> Back to Claim Results </button>
       </div>
   </div>
