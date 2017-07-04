@@ -60,6 +60,7 @@ export class ClaimsComponent implements OnInit {
                   <textarea class="form-control"  id="noteText" rows="3">`+text+`</textarea>
               </div>
               <div style="text-align:left">
+                  <h4 class="text-green">Prescriptions</h4>
                   `+selectedPrecriptions+`              
               </div>
         `,
