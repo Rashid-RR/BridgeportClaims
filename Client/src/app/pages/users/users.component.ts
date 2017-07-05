@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 
 import { User } from "../../models/user";
 import { Role } from "../../models/role"
-import { warn, success } from "../../models/notification"
+import { warn, success,error } from "../../models/notification"
 
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
@@ -61,7 +61,6 @@ export class UsersComponent implements OnInit {
         } else {
           element.admin = false;
         }
-        element.activated = false;
         this.users.push(element);
       });
       this.pageNumber = pageNumber;
@@ -84,7 +83,7 @@ export class UsersComponent implements OnInit {
     })
   }
 
-  changeStatus(index, event) {    
+  changeStatus(index, event) {
     let title = 'Activate/Deactivate';
     let msg = '';
     if (!event) {
@@ -102,12 +101,39 @@ export class UsersComponent implements OnInit {
           this.processStatusChange(index, event);
         }
         else {
-           this.users[index].activated = !event;
+          this.users[index].deactivated = !event;
         }
       });
   }
   processStatusChange(index, event) {
-    // console.log(this.users[index].active);
+    if (event) {
+      try {
+        this.http.deactivateUser(this.users[index].id).subscribe(res => {
+          this.users[index].admin = false;
+          this.users[index].user = false;
+          success('User deactivated successfully');                              
+        }, error => {
+          let err = error.json();
+          error('Some error occured, please try again');
+          console.log(err.message);
+        })
+      } catch (e) {
+        warn('Some error occured, please try again');
+      }
+    } else {
+      try {
+        this.http.activateUser(this.users[index].id).subscribe(res => {          
+          this.users[index].user = true;
+          success('User activated sucessfully');          
+        }, error => {
+          let err = error.json();
+          warn('Some error occured, please try again');
+          console.log(err.message);
+        })
+      } catch (e) {
+        warn('Some error occured, please try again');
+      }
+    }
   }
   processRoleChange(index, role, event) {
     let data;

@@ -5,7 +5,7 @@ import {HttpService} from "../../services/http-service";
 import {ProfileManager} from "../../services/profile-manager";
 import {UserProfile} from "../../models/profile";
 import {EventsService} from "../../services/events-service";
-import {warn,success} from "../../models/notification"
+import {warn,success,error} from "../../models/notification"
 
 @Component({
   selector: 'app-login',
@@ -54,17 +54,17 @@ export class LoginComponent implements OnInit {
          // if (error.status !== 500) {
            let err = error.json();
             this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
-            warn( err.error_description);
+            error( err.error_description);
          // }
         })
       } catch (e) {
         this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
-        warn( 'Incorrect login or password');
+        error( 'Incorrect login or password');
       } finally {
 
       }
     }else{
-       warn('Error in fields. Please correct to proceed!');
+       error('Error in fields. Please correct to proceed!');
     }
   }
   ngOnInit() {

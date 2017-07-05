@@ -65,6 +65,12 @@ export class HttpService {
   assignUserRole(data:any){      
     return this.http.post(this.baseUrl +"/roles/ManageUsersInRole",data,{headers:this.headers});
   }
+  activateUser(userID){      
+    return this.http.post(this.baseUrl +"/users/activate/"+userID,'',{headers:this.headers});
+  }
+  deactivateUser(userID){          
+    return this.http.post(this.baseUrl +"/users/deactivate/"+userID,'',{headers:this.headers});
+  }
   get headers(){
     let header = new Headers();
     header.append('Authorization',"Bearer "+this.token);

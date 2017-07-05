@@ -12,7 +12,7 @@
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">Search and Filter</a>
                             </h4>
                         </div>
-                        <div id="collapseOne" class="panel-collapse collapse out">
+                        <div id="collapseOne" class="panel-collapse collapse in collapse out">
                             <div class="panel-body">
                                 <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
                                     <div class="row">
@@ -24,7 +24,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-2">
-                                            <label>Display Only Admin</label>
+                                            <label>Display Only Admins</label>
                                             <div class="form-group">
                                                 <label class="switch">
                                                     <input  type="checkbox" class="toggle-switch-checkbox" formControlName="isAdmin" [(ngModel)]="isAdmin">
@@ -74,7 +74,7 @@
                                         </td>
                                         <td>
                                             <div class="demo text-center">                    
-                                                    <input type="checkbox" class="faChkRnd" [(ngModel)]="user.activated" (ngModelChange)="changeStatus(i,$event)"><label></label>
+                                                    <input type="checkbox" class="faChkRnd" [(ngModel)]="user.deactivated" (ngModelChange)="changeStatus(i,$event)"><label></label>
                                             </div>
                                         </td>
                                     </tr>

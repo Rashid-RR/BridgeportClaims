@@ -17,7 +17,7 @@ export function warn(title?:string){
 	    z_index: 1031,
         allow_dismiss: true,
           placement: {
-            from: 'bottom',
+            from: 'top',
             align: 'right'
           }
       }); 
@@ -25,7 +25,7 @@ export function warn(title?:string){
   export function success(message){
     jQuery.notify({
           // options
-          icon:"glyphicon glyphicon-warning-sign",
+          icon:"glyphicon glyphicon-ok-circle",
           message: message 
         },{
           // settings
@@ -38,8 +38,30 @@ export function warn(title?:string){
           delay: 5000,
           allow_dismiss: true,
             placement: {
-              from: 'bottom',
+              from: 'top',
               align: 'right'
             }
         }); 
   }
+export function error(title?:string){
+     jQuery.notify({
+        // options
+        icon:"glyphicon glyphicon-exclamation-sign",
+        message: title !==undefined ? title : 'Please correct the errors highlighted in red' 
+      },{
+        // settings
+        type: 'error',
+        animate: {
+          enter: 'animated swing',
+          exit: 'animated fadeOutUp'
+        },
+        offset: 50,
+        delay: 5000,
+	    z_index: 1031,
+        allow_dismiss: true,
+          placement: {
+            from: 'top',
+            align: 'right'
+          }
+      }); 
+  }  
