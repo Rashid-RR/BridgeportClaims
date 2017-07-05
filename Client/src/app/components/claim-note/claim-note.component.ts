@@ -15,7 +15,7 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
   form: FormGroup;
   constructor(public claimManager:ClaimManager,private formBuilder: FormBuilder, private http: HttpService) {
       this.form = this.formBuilder.group({
-        claimId: [this.claimManager.selectedClaim.claimId],
+        //claimId: [this.claimManager.selectedClaim.claimId],
         noteText: [ null,Validators.compose([Validators.required])],
         noteTypeId: [null,Validators.compose([Validators.required])]
       });
@@ -25,8 +25,8 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
   
  }
   ngAfterViewChecked() {
-    let text = this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteText :null;
-    let noteTypeId = this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteType : null;
+    let text = this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteText :null;
+    let noteTypeId = this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteType : null;
 
     if(this.claimManager.selectedClaim.claimNote!==undefined && this.form.get("noteText").value == null && this.form.get("noteText").value !==this.claimManager.selectedClaim.claimNote.noteText){
       this.form.patchValue({
@@ -40,6 +40,8 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
     this.claimManager.loading = true;
     if (this.form.valid) {
       try {
+        let note=this.form.value;
+        note.claimId = this.claimManager.selectedClaim.claimId;
         this.http.saveClaimNote(this.form.value).subscribe(res => {
             if(!this.claimManager.selectedClaim.claimNote){
               this.claimManager.selectedClaim.claimNote = new ClaimNote(this.form.value['noteText'],this.form.value['noteTypeId'])

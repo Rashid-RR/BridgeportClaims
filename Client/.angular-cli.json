@@ -21,6 +21,7 @@
       "styles": [
         "../node_modules/admin-lte/bootstrap/css/bootstrap.min.css",
         "assets/css/font-awesome.min.css",
+        "../node_modules/admin-lte/plugins/iCheck/all.css",
         "../node_modules/admin-lte/plugins/iCheck/square/blue.css",
         "../node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.css",
         "../node_modules/admin-lte/plugins/select2/select2.min.css",
@@ -28,7 +29,7 @@
         "../node_modules/admin-lte/plugins/daterangepicker/daterangepicker.css",
         "../node_modules/admin-lte/plugins/datepicker/datepicker3.css",
         "../node_modules/admin-lte/dist/css/AdminLTE.min.css",
-        "../node_modules/sweetalert/dist/sweetalert.css",
+        "../node_modules/sweetalert2/dist/sweetalert2.min.css",
         "assets/css/animate.css",
         "assets/css/skin-black.css"
       ],
@@ -49,7 +50,7 @@
         "../node_modules/admin-lte/plugins/datepicker/bootstrap-datepicker.js",
         "../node_modules/admin-lte/plugins/colorpicker/bootstrap-colorpicker.min.js",
         "../node_modules/admin-lte/dist/js/app.js",
-        "../node_modules/sweetalert/dist/sweetalert.min.js",
+        "../node_modules/sweetalert2/dist/sweetalert2.min.js",
         "../node_modules/admin-lte/dist/js/demo.js"
       ],
       "environmentSource": "environments/environment.ts",

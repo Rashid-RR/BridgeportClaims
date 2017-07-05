@@ -1,6 +1,7 @@
 declare var jQuery:any 
 
 export function warn(title?:string){
+     jQuery.notifyClose();
      jQuery.notify({
         // options
         icon:"glyphicon glyphicon-warning-sign",
@@ -14,7 +15,7 @@ export function warn(title?:string){
         },
         offset: 50,
         delay: 5000,
-	    z_index: 1031,
+	      z_index: 9991031,
         allow_dismiss: true,
           placement: {
             from: 'top',

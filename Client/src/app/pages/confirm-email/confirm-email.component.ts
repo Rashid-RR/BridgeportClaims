@@ -17,8 +17,8 @@ export class ConfirmEmailComponent implements OnInit {
 
   ngOnInit() {
       this.hashChange = this.route.params.subscribe(params => {
-       if(params['link']){
-          console.log(params['link'])
+       if(params['code'] && params['userId']){
+          console.log(params['code'],params['userId'])
        }
     });
   }

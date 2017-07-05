@@ -42,14 +42,14 @@ export class RegisterComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.http.register(this.form.value).subscribe(res => {
-          console.log("Successful registration");
+            console.log("Successful registration");
             this.router.navigate(['/logon']);
             //console.log(res.json());
             success("You have been signup successfully");
-          this.registered = true
+            this.registered = true
         },error => {
             let err = error.json();            
-            warn( err.message);
+            warn( err.error_description);
         })
       } catch (e) {
           

@@ -8,8 +8,9 @@ export class Prescription {
     billTo:String;
     amountPaid:Number;
     outstanding:Number;
+    selected:Boolean;
 constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Date,
-    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number){
+    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number,selected:Boolean=false){
     this.rxNumber = rxNumber;
     this.labelName = labelName;
     this.invoiceNumber = invoiceNumber;
@@ -18,5 +19,11 @@ constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Da
     this.amountPaid = amountPaid;
     this.outstanding= outstanding;
     this.invoiceAmount = invoiceAmount;
+    this.selected=selected;
+  }
+
+  setSelected(s:Boolean){
+      console.log("Works...");
+      this.selected = s==undefined? true : s;
   }
 }

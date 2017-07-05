@@ -127,7 +127,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                    return GetBadRequestFormattedErrorMessages();
                 var user = new ApplicationUser
                 {
                     UserName = createUserModel.Username,
