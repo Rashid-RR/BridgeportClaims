@@ -21,6 +21,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("deactivate/{id:guid}")]
         public async Task<IHttpActionResult> Deactivate(string id)
         {
@@ -35,6 +36,7 @@ namespace BridgeportClaims.Web.Controllers
                 if (isUser)
                     roles.Add("User");
                 await AppUserManager.RemoveFromRolesAsync(id, roles.ToArray());
+                await AppUserManager.SetLockoutEnabledAsync(id, true);
                 await AppUserManager.SetLockoutEndDateAsync(id, DateTimeOffset.UtcNow.AddYears(200));
                 await AppUserManager.AccessFailedAsync(id);
                 return Ok(new {message = "User Deactivated Successfully"});
@@ -47,6 +49,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("activate/{id:guid}")]
         public async Task<IHttpActionResult> Activate(string id)
         {

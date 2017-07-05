@@ -157,6 +157,10 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                                 , InvoiceDate = [i].[InvoiceDate]
                                 , InvoiceNumber = [i].[InvoiceNumber]
                                 , Outstanding = [i].[Amount]
+                                , NoteCount =  (   SELECT COUNT(*)
+                                                   FROM   [dbo].[PrescriptionNoteMapping] AS [pnm]
+                                                   WHERE  [pnm].[PrescriptionID] = [p].[PrescriptionID]
+                                               )
                             FROM [dbo].[Prescription] AS [p]
                             LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
                             LEFT JOIN [dbo].[Payor] AS [pay] ON [pay].[PayorID] = [i].[PayorID]

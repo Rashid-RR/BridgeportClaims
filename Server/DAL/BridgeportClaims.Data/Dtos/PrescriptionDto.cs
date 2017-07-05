@@ -15,5 +15,6 @@ namespace BridgeportClaims.Data.Dtos
         public decimal? AmountPaid { get; set; }
         public decimal? Outstanding { get; set; }
         public DateTime? InvoiceDate { get; set; }
+        public int NoteCount { get; set; }
     }
 }

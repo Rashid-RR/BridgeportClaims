@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
 using System.Web;
+using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -179,6 +180,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("users")]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetUsers()
         {
             try
@@ -197,6 +199,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("user/{id:guid}", Name = c.GetUserByIdAction)]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetUser(string id)
         {
             try
@@ -215,6 +218,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("user/{username}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
             try
@@ -251,6 +255,8 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        [DenyAction]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
