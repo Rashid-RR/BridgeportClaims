@@ -19,7 +19,7 @@ CREATE TABLE [dbo].[Prescription]
 [BilledAmount] [money] NOT NULL,
 [TransactionType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [Compound] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[PrescriptionTran] [varchar] (14) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[TranID] [varchar] (14) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [RefillDate] [date] NULL,
 [RefillNumber] [smallint] NULL,
 [MONY] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
