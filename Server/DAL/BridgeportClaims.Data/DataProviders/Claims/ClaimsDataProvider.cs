@@ -147,7 +147,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                             claimDto.Payments = payments;
                             // Claim Prescriptions
                             var prescriptions = session.CreateSQLQuery(
-                                    @"SELECT RxDate = [p].[DateFilled]
+                                    @"SELECT PrescriptionId = [p].[PrescriptionID]
+                                         , RxDate = [p].[DateFilled]
                                     , AmountPaid = [p].[PayableAmount]
                                 , RxNumber = [p].[RxNumber]
                                 , LabelName = [p].[LabelName]
@@ -156,10 +157,10 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                                 , InvoiceDate = [i].[InvoiceDate]
                                 , InvoiceNumber = [i].[InvoiceNumber]
                                 , Outstanding = [i].[Amount]
-                            FROM[dbo].[Prescription] AS[p]
-                            LEFT JOIN[dbo].[Invoice] AS[i] ON[i].[InvoiceID] = [p].[InvoiceID]
-                            LEFT JOIN[dbo].[Payor] AS[pay] ON[pay].[PayorID] = [i].[PayorID]
-                            WHERE[p].[ClaimID] = :ClaimID").SetInt32("ClaimID", claimId)
+                            FROM [dbo].[Prescription] AS [p]
+                            LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
+                            LEFT JOIN [dbo].[Payor] AS [pay] ON [pay].[PayorID] = [i].[PayorID]
+                            WHERE [p].[ClaimID] = :ClaimID").SetInt32("ClaimID", claimId)
                                 .SetMaxResults(500)
                                 .SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionDto)))
                                 .List<PrescriptionDto>();

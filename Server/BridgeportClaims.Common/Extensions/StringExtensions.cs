@@ -9,6 +9,7 @@ namespace BridgeportClaims.Common.Extensions
 
         public static bool IsNotNullOrWhiteSpace(this string _this) => !string.IsNullOrWhiteSpace(_this);
 
+        public static bool IsNullOrWhiteSpace(this string _this) => string.IsNullOrWhiteSpace(_this);
 
         public static string Repeat(this string _this, int count) => Repeat(_this, count, string.Empty);
 

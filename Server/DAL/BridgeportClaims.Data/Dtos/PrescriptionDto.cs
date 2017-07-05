@@ -5,6 +5,7 @@ namespace BridgeportClaims.Data.Dtos
     [Serializable]
     public sealed class PrescriptionDto
     {
+        public int PrescriptionId { get; set; }
         public DateTime? RxDate { get; set; }
         public string RxNumber { get; set; }
         public string LabelName { get; set; }

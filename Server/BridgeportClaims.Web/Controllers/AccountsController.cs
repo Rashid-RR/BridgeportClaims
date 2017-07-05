@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
+using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -83,13 +84,8 @@ namespace BridgeportClaims.Web.Controllers
                 return Ok();
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return Ok();
-            }
-            return Ok();
+            return result.Succeeded ? Ok() : GetBadRequestFormattedErrorMessages(result);
         }
-
 
         [HttpGet]
         [Route("UserInfo")]
