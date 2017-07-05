@@ -11,14 +11,14 @@ using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
 
-namespace BridgeportClaims.Data.DataProviders
+namespace BridgeportClaims.Data.DataProviders.Claims
 {
-    public class GetClaimsDataProvider : IGetClaimsDataProvider
+    public class ClaimsDataProvider : IClaimsDataProvider
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
         private readonly ISessionFactory _factory;
 
-        public GetClaimsDataProvider(ISessionFactory factory,
+        public ClaimsDataProvider(ISessionFactory factory,
             IStoredProcedureExecutor storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
@@ -166,16 +166,16 @@ namespace BridgeportClaims.Data.DataProviders
                             claimDto.Prescriptions = prescriptions;
                             // Prescription Notes
                             var prescriptionNotesDtos = session.CreateSQLQuery(
-                                    "SELECT [a].[ClaimID] [ClaimId]" +
-                                    ", [a].[PrescriptionID] [PrescriptionId]" +
-                                    ", [a].[PrescriptionNoteID] [PrescriptionNoteId]" +
-                                    ", [a].[DateFilled] [Date]" +
-                                    ", [a].[PrescriptionNoteType] [Type]" +
-                                    ", [a].[NoteAuthor] [EnteredBy]" +
-                                    ", [a].[NoteText] [Note] " +
-                                    "FROM [dbo].[vwPrescriptionNote] AS a WITH ( NOEXPAND ) " +
-                                    "WHERE [a].[ClaimID] = :ClaimID " +
-                                    "ORDER BY [a].[NoteUpdatedOn]")
+                                                @"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
+                                                    , [PrescriptionNoteId] = [a].[PrescriptionNoteID]
+                                                    , [Date] = [a].[DateFilled]
+                                                    , [Type] = [a].[PrescriptionNoteType]
+                                                    , [EnteredBy] = [a].[NoteAuthor]
+                                                    , [Note] = [a].[NoteText]
+                                                    , [NoteUpdatedOn] = [a].[NoteUpdatedOn]
+                                                FROM[dbo].[vwPrescriptionNote] AS a WITH(NOEXPAND)
+                                                WHERE[a].[ClaimID] = :ClaimID
+                                                ORDER BY[a].[NoteUpdatedOn] ASC")
                                 .SetInt32("ClaimID", claimId)
                                 .SetMaxResults(1000)
                                 .SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))

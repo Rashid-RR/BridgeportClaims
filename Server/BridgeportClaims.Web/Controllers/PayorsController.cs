@@ -10,7 +10,7 @@ namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "User")]
     [RoutePrefix("api/payors")]
-    public class PayorsController : ApiController
+    public class PayorsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IPayorsDataProvider _payorsDataProvider;

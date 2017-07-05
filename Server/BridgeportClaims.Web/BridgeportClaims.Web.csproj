@@ -207,6 +207,7 @@
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UserClaimsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using BridgeportClaims.Data.Dtos;
 
-namespace BridgeportClaims.Data.DataProviders
+namespace BridgeportClaims.Data.DataProviders.Claims
 {
-    public interface IGetClaimsDataProvider
+    public interface IClaimsDataProvider
     {
         IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
             string rxNumber, string invoiceNumber);

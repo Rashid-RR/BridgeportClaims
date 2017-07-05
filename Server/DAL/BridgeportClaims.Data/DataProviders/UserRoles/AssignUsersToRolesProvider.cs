@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 
-namespace BridgeportClaims.Data.DataProviders
+namespace BridgeportClaims.Data.DataProviders.UserRoles
 {
     public class AssignUsersToRolesProvider : IAssignUsersToRolesProvider
     {

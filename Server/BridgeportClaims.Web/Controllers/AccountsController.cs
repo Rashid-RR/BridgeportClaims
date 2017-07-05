@@ -29,9 +29,12 @@ namespace BridgeportClaims.Web.Controllers
             private set { _userManager = value; }
         }
 
-        public AccountsController() { }
+        public AccountsController()
+        {
+        }
 
-        public AccountsController(ApplicationUserManager userManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        public AccountsController(ApplicationUserManager userManager,
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
@@ -49,12 +52,12 @@ namespace BridgeportClaims.Web.Controllers
                 if (user == null || !await UserManager.IsEmailConfirmedAsync(user.Id))
                     return BadRequest(
                         "You must confirm your email address from your registration before confirming your password");
-                
+
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new { userId = user.Id, code }));
+                var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
                 await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);
                 return Ok();
@@ -251,7 +254,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
@@ -271,8 +274,8 @@ namespace BridgeportClaims.Web.Controllers
                 throw;
             }
         }
-
-        private class ExternalLoginData
+        
+    private class ExternalLoginData
         {
             public string LoginProvider { get; private set; }
             public string ProviderKey { get; private set; }

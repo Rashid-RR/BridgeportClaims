@@ -4,7 +4,7 @@ using System.Linq;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
 
-namespace BridgeportClaims.Data.DataProviders
+namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
     public class ClaimNotesDataProvider : IClaimNotesDataProvider
     {

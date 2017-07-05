@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Http;
-using BridgeportClaims.Data.DataProviders;
+using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Web.Models;
 using NLog;
 
@@ -9,14 +9,14 @@ namespace BridgeportClaims.Web.Controllers
 { 
     [Authorize(Roles = "User")]
     [RoutePrefix("api/claims")]
-    public class ClaimsController : ApiController
+    public class ClaimsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IGetClaimsDataProvider _getClaimsDataProvider;
+        private readonly IClaimsDataProvider _claimsDataProvider;
 
-        public ClaimsController(IGetClaimsDataProvider getClaimsDataProvider)
+        public ClaimsController(IClaimsDataProvider claimsDataProvider)
         {
-            _getClaimsDataProvider = getClaimsDataProvider;
+            _claimsDataProvider = claimsDataProvider;
         }
 
         [HttpPost]
@@ -30,7 +30,7 @@ namespace BridgeportClaims.Web.Controllers
                 if (null != model.ClaimId) return GetClaimsDataByClaimId(model.ClaimId.Value);
 
                 // Search terms passed, so we're at least performing a search first to see if multiple results appear.
-                var claimsData = _getClaimsDataProvider.GetClaimsData(model.ClaimNumber,
+                var claimsData = _claimsDataProvider.GetClaimsData(model.ClaimNumber,
                     model.FirstName, model.LastName, model.RxNumber, model.InvoiceNumber);
                 if (null != claimsData && claimsData.Count == 1)
                     return GetClaimsDataByClaimId(claimsData.Single().ClaimId);
@@ -43,6 +43,6 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        private IHttpActionResult GetClaimsDataByClaimId(int claimId) => Ok(_getClaimsDataProvider.GetClaimsDataByClaimId(claimId));
+        private IHttpActionResult GetClaimsDataByClaimId(int claimId) => Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId));
     }
 }
