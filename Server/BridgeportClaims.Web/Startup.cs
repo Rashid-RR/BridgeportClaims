@@ -91,6 +91,7 @@ namespace BridgeportClaims.Web
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Filters.Add(new AuthorizeAttribute());
             config.Formatters.RemoveAt(0);
             config.Formatters.Insert(0, new ServiceStackTextFormatter());
             JsConfig.EmitCamelCaseNames = true;
