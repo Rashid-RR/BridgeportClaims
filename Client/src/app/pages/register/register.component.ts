@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/login']);          
   }
   register() {
-    this.submitted = true;
+    this.submitted = true;    
     console.log(this.form.value);
     if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
       this.form.get('ConfirmPassword').setErrors({"unmatched": "Repeat password does not match password"});
@@ -43,10 +43,18 @@ export class RegisterComponent implements OnInit {
       try {
         this.http.register(this.form.value).subscribe(res => {
             console.log("Successful registration");
+<<<<<<< Updated upstream
             this.router.navigate(['/logon']);
             //console.log(res.json());
             success("You have registered successfully");
+=======
+            success("You have been signup successfully");
+>>>>>>> Stashed changes
             this.registered = true
+            this.router.navigate(['/login']);
+            // this.router.navigate(['/logon']);
+            //console.log(res.json());
+            
         },error => {
             let err = error.json();            
             warn( err.error_description);
