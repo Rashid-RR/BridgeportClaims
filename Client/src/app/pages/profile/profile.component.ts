@@ -1,11 +1,11 @@
-import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {HttpService} from "../../services/http-service"
-import {ClaimManager} from "../../services/claim-manager";
-import {UserProfile} from "../../models/profile";
-import {ProfileManager} from "../../services/profile-manager";
-import {warn,success} from "../../models/notification"
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { HttpService } from "../../services/http-service"
+import { ClaimManager } from "../../services/claim-manager";
+import { UserProfile } from "../../models/profile";
+import { ProfileManager } from "../../services/profile-manager";
+import { warn, success,error } from "../../models/notification"
 
 @Component({
   selector: 'app-profile',
@@ -13,54 +13,95 @@ import {warn,success} from "../../models/notification"
   //styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+  
   form: FormGroup;
   submitted: boolean = false;
   loading: boolean = false;
   registered: boolean = false;
   emailRegex = '^[A-Za-z0-9]+(\.[_A-Za-z0-9]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,15})$';
-  saveLogin:boolean=false;
-  saveEmail:boolean=false;
-  loginError:string='';
-  emailError:string='';
-  constructor(private formBuilder: FormBuilder,public claimManager:ClaimManager,private http:HttpService,private profileManager:ProfileManager) {
+  saveLogin: boolean = false;
+  saveEmail: boolean = false;
+  loginError: string = '';
+  emailError: string = '';
+  constructor(private formBuilder: FormBuilder, public claimManager: ClaimManager, private http: HttpService, private profileManager: ProfileManager) {
+    console.log(this.profileManager.User);
+    console.log(this.profileManager.profile);
     
-    if(this.profileManager.profile==null){
-      this.profileManager.profile = new UserProfile('','','','','');
+    if (this.profileManager.profile == null) {
+      this.profileManager.profile = new UserProfile('', '', '', '', '');
     }
     this.form = this.formBuilder.group({
-      oldPassword: ['', Validators.compose([Validators.required])],
-      newPassword: ["", Validators.compose([Validators.required])],
-      confirmPassword: ["", Validators.compose([Validators.required])]
+      firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
+      lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required])],
+      oldPassword: [''],
+      newPassword: [""],
+      confirmPassword: [""]
     });
   }
 
   ngOnInit() {
-     
+
   }
 
+  updateUserInfo(){
+    if (this.form.valid && !this.loading) {
+      this.loading = true;
+      try {
+        this.http.changeusername(this.form.value.firstName,this.form.value.lastName,'43b8b8cb-9f41-4904-9cee-df770efdb2bd').subscribe(res => {
+          success('User name updated successfully');
+          this.profileManager.profile.firstName = this.form.value.firstName;
+          this.profileManager.profile.lastName= this.form.value.lastName;          
+          this.registered = true
+          this.loading = false;
+        }, error => {
+          let err = error.json() || ({ "Message": "Server error!" });
+          error(err.Message);
+          this.loading = false;
+        })
+      } catch (e) {
+        error('Error in fields. Please correct to proceed!');
+
+      }
+    } else {
+      error('Error in fields. Please correct to proceed!');
+    }
+  }
+  submitForm(form: any): void {
+    if (this.form.valid && this.form.dirty) {
+      if(this.form.value.firstName != this.profileManager.profile.firstName || this.form.value.lastName != this.profileManager.profile.lastName){
+          this.updateUserInfo();
+      }    
+      if (this.form.get('oldPassword').value != '' || this.form.get('newPassword').value != '' || this.form.get('confirmPassword').value != '') {
+        this.updatePassword();
+      }
+    } else {
+      console.log(this.form.valueChanges);
+    }
+
+  }
   updatePassword() {
     this.submitted = true;
     if (this.form.valid && this.form.get('newPassword').value !== this.form.get('confirmPassword').value) {
-      this.form.get('confirmPassword').setErrors({"unmatched": "Confirm password does not match password"});
+      this.form.get('confirmPassword').setErrors({ "unmatched": "Confirm password does not match password" });
     }
     if (this.form.valid && !this.loading) {
       this.loading = true;
       try {
         this.http.changepassword(this.form.value).subscribe(res => {
-            success('Password successfully changed');
-            this.registered = true
-            this.loading = false;
-        },error=>{
-             let err = error.json() || ({"Message":"Server error!"});
-             warn( err.Message);
-            this.loading = false;
+          success('Password successfully changed');
+          this.registered = true
+          this.loading = false;
+        }, error => {
+          let err = error.json() || ({ "Message": "Server error!" });
+          error(err.Message);
+          this.loading = false;
         })
       } catch (e) {
-       warn('Error in fields. Please correct to proceed!');
+        error('Error in fields. Please correct to proceed!');
 
       }
-    }else{
-       warn('Error in fields. Please correct to proceed!');
+    } else {
+      error('Error in fields. Please correct to proceed!');
     }
   }
 }

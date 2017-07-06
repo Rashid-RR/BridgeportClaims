@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-   constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private profileManager:ProfileManager) {
+   constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private profileManager:ProfileManager) {    
     this.form = this.formBuilder.group({
       email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
       password: ['', Validators.compose([Validators.required])],

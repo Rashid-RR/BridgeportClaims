@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 export class HeaderComponent implements OnInit {
 
   constructor(private http: HttpService, private router: Router, public eventservice: EventsService,public profileManager:ProfileManager) {
+
   }
 
   ngOnInit() {
