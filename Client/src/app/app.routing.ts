@@ -51,6 +51,7 @@ export const routes: Routes = [
         path: 'main',
         //resolve:AuthGuard,
         canActivate:[AuthGuard],
+        canActivateChild:[AuthGuard],
         children: [
         {
           path: 'private',
@@ -66,7 +67,7 @@ export const routes: Routes = [
         },
         {
           path: 'users',
-          component: UsersComponent
+          component: UsersComponent          
         },
         {
           path: 'claims',

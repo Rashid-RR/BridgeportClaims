@@ -16,4 +16,8 @@ export class PrivateComponent implements OnInit {
   ngOnInit() {
     
   }
+  get allowed():Boolean{
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin')>-1)
+  }
+
 }

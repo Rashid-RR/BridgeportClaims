@@ -25,7 +25,7 @@
             </a>
         </li>       
         <li>
-            <a  [routerLink]="'/main/users'">
+            <a  [routerLink]="'/main/users'" *ngIf="allowed">
               <i class="fa fa-user fa-fw"></i> 
               <span>Users</span>
             </a>

@@ -182,7 +182,7 @@ export class ClaimsComponent implements OnInit {
             } 
             this.claimManager.selectedClaim.editing = false;
             this.claimManager.loading = false;              
-              console.log(res);
+              //console.log(res);
               swal.close();
               success("Noted successfully saved");
             },error=>{
