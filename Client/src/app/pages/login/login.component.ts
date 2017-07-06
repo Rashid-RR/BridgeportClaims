@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
                 this.profileManager.profile = new UserProfile(data.id || res.email,res.email,res.firstName,res.lastName,res.email,res.email,null,data.createdOn,res.roles);
                 this.profileManager.setProfile(new UserProfile(data.id || res.email,res.email,res.firstName,res.lastName,res.email,res.email,null,data.createdOn,res.roles));
                 let user = res;
-                console.log(this.profileManager.profile);
                 res.access_token = data.access_token;
                 localStorage.setItem("user", JSON.stringify(res));
                 this.router.navigate(['/main/private']);
