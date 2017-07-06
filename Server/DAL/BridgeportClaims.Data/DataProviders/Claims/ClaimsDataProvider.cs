@@ -113,17 +113,19 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                             if (null == claimDto)
                                 throw new ArgumentNullException(nameof(claimDto));
                             // Claim Note
-                            var claimNoteDto = session.Query<ClaimNote>().Where(w =>
-                                    (null == w.Claim ? 0 : w.Claim.ClaimId) == claimId)
-                                    .ToFuture()
-                                .ToList()
-                                .Select(c => new ClaimNoteDto
-                                {
-                                    NoteText = c?.NoteText
-                                }).FirstOrDefault();
+                            var claimNoteDto = session.CreateSQLQuery(
+                                    @"SELECT cnt.[TypeName] NoteType, [cn]. [NoteText]
+                                        FROM   [dbo].[ClaimNote] AS [cn]
+                                                INNER JOIN [dbo].[ClaimNoteType] AS [cnt] 
+                                                ON [cnt].[ClaimNoteTypeID] = [cn].[ClaimNoteTypeID]
+                                        WHERE  [cn].[ClaimID] = :ClaimID")
+                                .SetInt32("ClaimID", claimId)
+                                .SetMaxResults(1)
+                                .SetResultTransformer(Transformers.AliasToBean(typeof(ClaimNoteDto)))
+                                .List<ClaimNoteDto>();
                             if (null != claimNoteDto)
                             {
-                                claimDto.ClaimNote = claimNoteDto;
+                                claimDto.ClaimNote = claimNoteDto.FirstOrDefault();
                             }
 
                             // Claim Episodes

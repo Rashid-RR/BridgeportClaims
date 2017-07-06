@@ -116,7 +116,7 @@ export class ClaimsComponent implements OnInit {
           } 
         }).catch(swal.noop)
      }else{
-        warn('Please select atleast one prescription');
+        warn('Please select at least one prescription');
      }
   }
 
