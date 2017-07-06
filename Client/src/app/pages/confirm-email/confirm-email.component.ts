@@ -18,7 +18,9 @@ export class ConfirmEmailComponent implements OnInit {
   private hashChange: any;
   constructor(private route: ActivatedRoute, private http: HttpService, private req: Http, private router: Router) {
     router.routerState.root.queryParams.subscribe(
-      data => { this.code = data['code']; this.user = data['userId'] });
+      data => {       
+        this.code = encodeURIComponent(data['code']); this.user = data['userId']     
+      });
 
   }
 
