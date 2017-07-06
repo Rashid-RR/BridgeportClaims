@@ -43,13 +43,7 @@ export class RegisterComponent implements OnInit {
       try {
         this.http.register(this.form.value).subscribe(res => {
             console.log("Successful registration");
-<<<<<<< Updated upstream
-            this.router.navigate(['/logon']);
-            //console.log(res.json());
-            success("You have registered successfully");
-=======
             success("You have been signup successfully");
->>>>>>> Stashed changes
             this.registered = true
             this.router.navigate(['/login']);
             // this.router.navigate(['/logon']);
