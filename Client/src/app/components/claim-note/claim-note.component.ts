@@ -1,10 +1,11 @@
 import { Component, OnInit,AfterViewChecked } from '@angular/core';
 import {ClaimManager} from "../../services/claim-manager";
 import {HttpService} from "../../services/http-service";
-import {warn,success} from "../../models/notification"
 import {ClaimNote} from "../../models/claim-note"
 import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
- 
+import swal from "sweetalert2";
+import {warn,success} from "../../models/notification"
+
 @Component({
   selector: 'app-claim-note',
   templateUrl: './claim-note.component.html',

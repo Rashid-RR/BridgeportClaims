@@ -35,7 +35,7 @@ export class ClaimManager{
             claim.setPrescription(result.prescriptions  as Array<Prescription>); 
             claim.setPayment(result.payments);
             claim.setEpisodes(result.episodes);
-            claim.setClaimNotes(result.claimNotes? new ClaimNote(result.claimNotes[0].noteText,result.claimNotes[0].noteType.key) : null);
+            claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType.key) : null);
             claim.setPrescriptionNotes(result.prescriptionNotes);
         }else{
             let res:  Array<Claim>  = result;
@@ -55,7 +55,7 @@ export class ClaimManager{
       })
       this.http.getNotetypes().map(res=>{return res.json()})
         .subscribe((result:Array<any>)=>{
-            console.log("Claim Notes",result)
+           // console.log("Claim Notes",result)
             this.notetypes= result;
         },err=>{
             this.loading = false;
@@ -63,7 +63,7 @@ export class ClaimManager{
         })
       this.http.getPrescriptionNotetypes().map(res=>{return res.json()})
         .subscribe((result:Array<any>)=>{
-            console.log("Prescription Notes",result)
+            //console.log("Prescription Notes",result)
             this.prescriptionNotetypes= result;
         },err=>{
             this.loading = false;
@@ -94,7 +94,7 @@ export class ClaimManager{
               claim.setPrescription(result.prescriptions as Array<Prescription>); 
               claim.setPayment(result.payments);
               claim.setEpisodes(result.episodes);
-              claim.setClaimNotes(result.claimNotes? new ClaimNote(result.claimNotes[0].noteText,result.claimNotes[0].noteType.key) : null);
+              claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType.key) : null);
               claim.setPrescriptionNotes(result.prescriptionNotes);
           },err=>{
             this.loading = false;

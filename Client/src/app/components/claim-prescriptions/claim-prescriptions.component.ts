@@ -24,5 +24,10 @@ export class ClaimPrescriptionsComponent implements OnInit {
     })
   }
 
+  setSelected(p:any,s:Boolean){
+      console.log("Works...");
+      p.selected = s==undefined? true : s;
+  }
+
  
 }

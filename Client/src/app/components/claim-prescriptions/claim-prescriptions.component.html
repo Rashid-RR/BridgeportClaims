@@ -17,7 +17,7 @@
               </thead>
               <tbody  *ngIf="claimManager.selectedClaim">
               <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions">
-                <td>&nbsp;&nbsp;<input type="checkbox" [checked]="prescription.selected" (click)="prescription.selected=!prescription.selected"></td>
+                <td>&nbsp;&nbsp;<input type="checkbox" class="pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName"></td>
                 <td>{{prescription.rxNumber}}</td> 
                 <td>{{prescription.labelName}}</td>
                 <td>{{prescription.billTo}}</td>
