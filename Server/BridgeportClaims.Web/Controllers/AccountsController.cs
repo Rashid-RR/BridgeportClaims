@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
+using System.Web;
+using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 
@@ -29,9 +31,12 @@ namespace BridgeportClaims.Web.Controllers
             private set { _userManager = value; }
         }
 
-        public AccountsController() { }
+        public AccountsController()
+        {
+        }
 
-        public AccountsController(ApplicationUserManager userManager, ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+        public AccountsController(ApplicationUserManager userManager,
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
@@ -49,12 +54,12 @@ namespace BridgeportClaims.Web.Controllers
                 if (user == null || !await UserManager.IsEmailConfirmedAsync(user.Id))
                     return BadRequest(
                         "You must confirm your email address from your registration before confirming your password");
-                
+
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new { userId = user.Id, code }));
+                var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
                 await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);
                 return Ok();
@@ -80,13 +85,8 @@ namespace BridgeportClaims.Web.Controllers
                 return Ok();
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
-            {
-                return Ok();
-            }
-            return Ok();
+            return result.Succeeded ? Ok() : GetBadRequestFormattedErrorMessages(result);
         }
-
 
         [HttpGet]
         [Route("UserInfo")]
@@ -127,7 +127,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                    return GetBadRequestFormattedErrorMessages();
                 var user = new ApplicationUser
                 {
                     UserName = createUserModel.Username,
@@ -180,6 +180,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("users")]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetUsers()
         {
             try
@@ -198,6 +199,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("user/{id:guid}", Name = c.GetUserByIdAction)]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetUser(string id)
         {
             try
@@ -216,6 +218,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("user/{username}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
             try
@@ -251,7 +254,9 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
+        [Authorize(Roles = "Admin")]
+        [DenyAction]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
@@ -271,8 +276,8 @@ namespace BridgeportClaims.Web.Controllers
                 throw;
             }
         }
-
-        private class ExternalLoginData
+        
+    private class ExternalLoginData
         {
             public string LoginProvider { get; private set; }
             public string ProviderKey { get; private set; }

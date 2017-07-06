@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Data.DataProviders;
+using BridgeportClaims.Data.DataProviders.ClaimNotes;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
 using Microsoft.AspNet.Identity;
@@ -12,7 +12,7 @@ namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "User")]
     [RoutePrefix("api/claimnotes")]
-    public class ClaimNotesController : ApiController
+    public class ClaimNotesController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IClaimNotesDataProvider _claimNotesDataProvider;

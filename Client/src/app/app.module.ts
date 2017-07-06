@@ -37,6 +37,7 @@ import { ClaimScriptNoteComponent } from './components/claim-script-note/claim-s
 import { UsersComponent } from './pages/users/users.component';
 import { DisplayRolesPipe } from './pipes/display-roles.pipe';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
+import { FilterUserPipe } from './pages/users/filter-user.pipe';
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -66,7 +67,7 @@ export class SafeUrlPipe implements PipeTransform {
     PasswordResetComponent, 
     RegisterComponent,
     SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
-    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent, ConfirmEmailComponent
+    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent, ConfirmEmailComponent,FilterUserPipe
   ],
   imports: [
     BrowserModule,

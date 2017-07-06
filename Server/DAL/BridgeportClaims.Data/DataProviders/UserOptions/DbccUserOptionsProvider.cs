@@ -5,7 +5,7 @@ using System.Linq;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 
-namespace BridgeportClaims.Data.DataProviders
+namespace BridgeportClaims.Data.DataProviders.UserOptions
 {
     public class DbccUserOptionsProvider : IDbccUserOptionsProvider
     {

@@ -27,19 +27,41 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("savenote")]
-        public async Task<IHttpActionResult> AddOrUpdatePrescriptionNote(PrescriptionNoteSaveModel model)
+        [Route("getprescriptionnotes")]
+        public async Task<IHttpActionResult> GetPrescriptionNotesByPrescriptionId(int prescriptionId)
         {
             try
             {
-                await _prescriptionNotesDataProvider.AddOrUpdatePrescriptionNoteAsync(
-                    model, User.Identity.GetUserId());
-                return Ok();
+                return await Task.Run(() =>
+                {
+                    var notes = _prescriptionNotesDataProvider.GetPrescriptionNotesByPrescriptionId(prescriptionId);
+                    return Ok(notes);
+                });
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("savenote")]
+        public async Task<IHttpActionResult> AddOrUpdatePrescriptionNote(PrescriptionNoteSaveModel model)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    _prescriptionNotesDataProvider.AddOrUpdatePrescriptionNote(
+                        model, User.Identity.GetUserId());
+                    return Ok(new {message = "The Prescription Note was Saved Successfully"});
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return InternalServerError(ex);
             }
         }
 

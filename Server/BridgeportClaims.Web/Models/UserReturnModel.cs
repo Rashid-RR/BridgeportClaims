@@ -12,6 +12,7 @@ namespace BridgeportClaims.Web.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
+        public bool Deactivated { get; set; }
         public DateTime RegisteredDate { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }

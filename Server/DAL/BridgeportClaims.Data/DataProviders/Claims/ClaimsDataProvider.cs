@@ -11,14 +11,14 @@ using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
 
-namespace BridgeportClaims.Data.DataProviders
+namespace BridgeportClaims.Data.DataProviders.Claims
 {
-    public class GetClaimsDataProvider : IGetClaimsDataProvider
+    public class ClaimsDataProvider : IClaimsDataProvider
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
         private readonly ISessionFactory _factory;
 
-        public GetClaimsDataProvider(ISessionFactory factory,
+        public ClaimsDataProvider(ISessionFactory factory,
             IStoredProcedureExecutor storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
@@ -146,30 +146,41 @@ namespace BridgeportClaims.Data.DataProviders
                                 }).ToList();
                             claimDto.Payments = payments;
                             // Claim Prescriptions
-                            var prescriptions = session.Query<Prescription>().Where(w => w.ClaimId == claimId)
-                                .Join(session.Query<Invoice>(), p => p.Claim.ClaimId, i => i.Claim.ClaimId,
-                                    (p, i) => new PrescriptionDto
-                                    {
-                                        RxDate = p.RefillDate,
-                                        AmountPaid = p.PayableAmount,
-                                        RxNumber = p.RxNumber,
-                                        LabelName = p.LabelName,
-                                        BillTo = null == i.Payor ? null : i.Payor.BillToName,
-                                        InvoiceAmount = i.Amount,
-                                        InvoiceDate = i.InvoiceDate,
-                                        InvoiceNumber = i.InvoiceNumber,
-                                        Outstanding = i.Amount // TODO: Fix
-                                    }).ToFuture().ToList();
+                            var prescriptions = session.CreateSQLQuery(
+                                    @"SELECT PrescriptionId = [p].[PrescriptionID]
+                                         , RxDate = [p].[DateFilled]
+                                    , AmountPaid = [p].[PayableAmount]
+                                , RxNumber = [p].[RxNumber]
+                                , LabelName = [p].[LabelName]
+                                , BillTo = [pay].[BillToName]
+                                , InvoiceAmount = [i].[Amount]
+                                , InvoiceDate = [i].[InvoiceDate]
+                                , InvoiceNumber = [i].[InvoiceNumber]
+                                , Outstanding = [i].[Amount]
+                                , NoteCount =  (   SELECT COUNT(*)
+                                                   FROM   [dbo].[PrescriptionNoteMapping] AS [pnm]
+                                                   WHERE  [pnm].[PrescriptionID] = [p].[PrescriptionID]
+                                               )
+                            FROM [dbo].[Prescription] AS [p]
+                            LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
+                            LEFT JOIN [dbo].[Payor] AS [pay] ON [pay].[PayorID] = [i].[PayorID]
+                            WHERE [p].[ClaimID] = :ClaimID").SetInt32("ClaimID", claimId)
+                                .SetMaxResults(500)
+                                .SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionDto)))
+                                .List<PrescriptionDto>();
                             claimDto.Prescriptions = prescriptions;
                             // Prescription Notes
                             var prescriptionNotesDtos = session.CreateSQLQuery(
-                                    "SELECT [a].[DateFilled] [Date]" +
-                                    ", [a].[PrescriptionNoteType] [Type]" +
-                                    ", [a].[NoteAuthor] [EnteredBy]" +
-                                    ", [a].[NoteText] [Note] " +
-                                    "FROM [dbo].[vwPrescriptionNote] AS a WITH ( NOEXPAND ) " +
-                                    "WHERE [a].[ClaimID] = :ClaimID " +
-                                    "ORDER BY [a].[NoteUpdatedOn]")
+                                                @"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
+                                                    , [PrescriptionNoteId] = [a].[PrescriptionNoteID]
+                                                    , [Date] = [a].[DateFilled]
+                                                    , [Type] = [a].[PrescriptionNoteType]
+                                                    , [EnteredBy] = [a].[NoteAuthor]
+                                                    , [Note] = [a].[NoteText]
+                                                    , [NoteUpdatedOn] = [a].[NoteUpdatedOn]
+                                                FROM[dbo].[vwPrescriptionNote] AS a WITH(NOEXPAND)
+                                                WHERE[a].[ClaimID] = :ClaimID
+                                                ORDER BY[a].[NoteUpdatedOn] ASC")
                                 .SetInt32("ClaimID", claimId)
                                 .SetMaxResults(1000)
                                 .SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))

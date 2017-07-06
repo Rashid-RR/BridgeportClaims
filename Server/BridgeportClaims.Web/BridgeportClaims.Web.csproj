@@ -467,9 +467,6 @@
     <Content Include="fontawesome-webfont.2641fadf03fdf2cba0a7.svg" />
     <Content Include="glyphicons-halflings-regular.89889688147bd7575d63.svg" />
     <Content Include="Index.html" />
-    <Content Include="inline.bundle.js" />
-    <Content Include="main.bundle.js" />
-    <Content Include="packages.config" />
     <Content Include="EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -645,6 +642,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="inline.bundle.js" />
+    <Content Include="main.bundle.js" />
+    <Content Include="polaris%402x.78fe5012ba83d554949a.png" />
     <Content Include="polyfills.bundle.js" />
     <Content Include="scripts.bundle.js" />
     <Content Include="styles.bundle.js" />
@@ -659,6 +659,8 @@
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
