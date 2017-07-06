@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BridgeportClaims.Data.DataProviders
+namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
     public interface IClaimNotesDataProvider
     {

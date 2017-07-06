@@ -3,6 +3,7 @@ import {HttpService} from "../../services/http-service"
 import {ClaimManager} from "../../services/claim-manager";
 import {PrescriptionNoteType} from "../../models/prescription-note-type";
 import swal from "sweetalert2";
+import {ClaimNote} from "../../models/claim-note"
 import {warn,success} from "../../models/notification"
 
 @Component({
@@ -37,31 +38,107 @@ export class ClaimsComponent implements OnInit {
       this.claimManager.PrescriptionNoteTypes.forEach((note:PrescriptionNoteType)=>{
           prescriptionNoteTypeIds=prescriptionNoteTypeIds+'<option value="'+note.prescriptionNoteTypeId+'"' +(note.prescriptionNoteTypeId ==TypeId ? "selected": "")+'>'+note.typeName+'</option>';          
       });
-    var selectedPrecriptions = '';
-     this.claimManager.selectedClaim.prescriptions.forEach(prescription=>{
-        if(prescription.selected){
-            selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex">'+prescription.labelName+'</span> &nbsp; ';
-            selectedNotes.push(Number(prescription.rxNumber));
+     var selectedPrecriptions = '';
+     var checkboxes = window['jQuery']('.pescriptionCheck');
+     for(var i=0;i<checkboxes.length;i++){
+         if(window['jQuery']("#"+checkboxes[i].id).is(':checked')){
+            selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex">'+window['jQuery']("#"+checkboxes[i].id).attr("labelName")+'</span> &nbsp; ';
+            selectedNotes.push(Number(checkboxes[i].id));
         }
-    });
-     
+     }
+     if(selectedNotes.length>0){
+        swal({
+          title: 'New Prescription Note',
+          html:
+            `
+                  <div class="form-group">
+                      <label id="claimNoteTypeLabel">Prescription Note type</label>
+                      <select class="form-control" id="prescriptionNoteTypeId">
+                        `+prescriptionNoteTypeIds+`
+                      </select>
+                  </div>
+                  <div class="form-group">
+                      <label id="noteTextLabel">Note Text</label>
+                      <textarea class="form-control"  id="noteText" rows="3">`+text+`</textarea>
+                  </div>
+                  <div style="text-align:left">
+                      <h4 class="text-green">Prescriptions</h4>
+                      `+selectedPrecriptions+`              
+                  </div>
+            `,
+          showCancelButton: true,
+          showLoaderOnConfirm:true,
+          confirmButtonText:"Save",
+          preConfirm: function () {
+            return new Promise(function (resolve) {
+              resolve([
+                window['jQuery']('#prescriptionNoteTypeId').val(),
+                window['jQuery']('#noteText').val()
+              ])
+            })
+          },
+          onOpen: function () {
+            window['jQuery']('#prescriptionNoteTypeId').focus()
+          }
+        }).then( (result)=> {
+          if(result[0]==""){
+              warn('Please select one type!');
+              setTimeout(()=>{
+                  this.addPrescriptionNote(result[1],result[0]);
+                  window['jQuery']('#claimNoteTypeLabel').css({"color":"red"})
+                },200)
+          }else if(result[1]==""){
+              warn('Note Text is required!');
+              setTimeout(()=>{
+                this.addPrescriptionNote(result[1],result[0]);
+                window['jQuery']('#noteTextLabel').css({"color":"red"})
+              },200)
+          }else{
+              swal({title:"",html:"Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>",showConfirmButton:false})
+              this.http.savePrescriptionNote(
+                {
+                  claimId: this.claimManager.selectedClaim.claimId,
+                  noteText: result[1],
+                  prescriptionNoteTypeId: Number(result[0]),
+                  prescriptions: selectedNotes,
+                  prescriptionNoteId: prescriptionNoteId
+                }).single().subscribe(res=>{
+                  let result = res.json()
+                  swal.close();
+                  this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+                  success(result.message);
+                },error=>{
+                  setTimeout(()=>{
+                    this.addPrescriptionNote(result[1],result[0]);
+                    warn('Server error!');
+                  },200)
+                })
+          } 
+        }).catch(swal.noop)
+     }else{
+        warn('Please select atleast one prescription');
+     }
+  }
+
+  addNote(noteText:String="",TypeId?:Number){
+    let selectedNotes = [];
+    let claimNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
+    this.claimManager.NoteTypes.forEach((note:{key:Number,value:String})=>{
+        claimNoteTypeIds=claimNoteTypeIds+'<option value="'+note.key+'"' +(note.key ==TypeId ? "selected": "")+'>'+note.value+'</option>';          
+    });     
     swal({
-      title: 'New Prescription Note',
+      title: 'Claim Note',
       html:
         `
               <div class="form-group">
-                  <label id="prescriptionNoteTypeLabel">Prescription Note type</label>
-                  <select class="form-control" id="prescriptionNoteTypeId">
-                    `+prescriptionNoteTypeIds+`
+                  <label id="claimNoteTypeLabel">Note type</label>
+                  <select class="form-control" id="noteTypeId">
+                    `+claimNoteTypeIds+`
                   </select>
               </div>
               <div class="form-group">
                   <label id="noteTextLabel">Note Text</label>
-                  <textarea class="form-control"  id="noteText" rows="3">`+text+`</textarea>
-              </div>
-              <div style="text-align:left">
-                  <h4 class="text-green">Prescriptions</h4>
-                  `+selectedPrecriptions+`              
+                  <textarea class="form-control"  id="noteText" rows="3">`+noteText+`</textarea>
               </div>
         `,
       showCancelButton: true,
@@ -70,44 +147,49 @@ export class ClaimsComponent implements OnInit {
       preConfirm: function () {
         return new Promise(function (resolve) {
           resolve([
-            window['jQuery']('#prescriptionNoteTypeId').val(),
+            window['jQuery']('#noteTypeId').val(),
             window['jQuery']('#noteText').val()
           ])
         })
       },
       onOpen: function () {
-        window['jQuery']('#prescriptionNoteTypeId').focus()
+        window['jQuery']('#noteTypeId').focus()
       }
     }).then( (result)=> {
       if(result[0]==""){
           warn('Please select one type!');
           setTimeout(()=>{
-              this.addPrescriptionNote(result[1],result[0]);
-              window['jQuery']('#prescriptionNoteTypeLabel').css({"color":"red"})
+              this.addNote(result[1],result[0]);
+              window['jQuery']('#claimNoteTypeLabel').css({"color":"red"})
             },200)
       }else if(result[1]==""){
           warn('Note Text is required!');
           setTimeout(()=>{
-            this.addPrescriptionNote(result[1],result[0]);
+            this.addNote(result[1],result[0]);
             window['jQuery']('#noteTextLabel').css({"color":"red"})
           },200)
       }else{
           swal({title:"",html:"Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>",showConfirmButton:false})
-          this.http.savePrescriptionNote(
-            {
+          this.http.saveClaimNote({
               claimId: this.claimManager.selectedClaim.claimId,
-              noteText: result[1],
-              prescriptionNoteTypeId: Number(result[0]),
-              prescriptions: selectedNotes,
-              prescriptionNoteId: prescriptionNoteId
-            }).single().subscribe(result=>{
-              console.log(result);
+              noteTypeId:result[0],
+              noteText:result[1]
+          }).subscribe(res => {
+            if(!this.claimManager.selectedClaim.claimNote){
+              this.claimManager.selectedClaim.claimNote = new ClaimNote(result[1],result[0])
+            }else{
+              this.claimManager.selectedClaim.claimNote.noteText=result[1];
+            } 
+            this.claimManager.selectedClaim.editing = false;
+            this.claimManager.loading = false;              
+              //console.log(res);
               swal.close();
               success("Noted successfully saved");
             },error=>{
+              let err = error.json();
               setTimeout(()=>{
-                this.addPrescriptionNote(result[1],result[0]);
-                warn('Server error!');
+                this.addNote(result[1],result[0]);
+                warn(err.error_description);
               },200)
             })
       } 

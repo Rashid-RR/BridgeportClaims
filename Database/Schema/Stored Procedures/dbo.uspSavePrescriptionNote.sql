@@ -22,11 +22,25 @@ CREATE PROC [dbo].[uspSavePrescriptionNote]
 AS 
 BEGIN
 	SET NOCOUNT ON;
+	INSERT [dbo].[Audit] ([ClaimID], [PrescriptionNoteTypeID], [NoteText], [EnteredByUserID], [PrescriptionNoteID])
+	VALUES ( @ClaimID,@PrescriptionNoteTypeID, @NoteText, @EnteredByUserID, @PrescriptionNoteID)
+	INSERT dbo.PrescriptionMappingAudit (PrescriptionID)
+	SELECT p.[PrescriptionID] FROM @Prescription AS [p]
 	DECLARE @Now DATETIME2 = SYSDATETIME(),
 			@OutputPrescriptionNoteID INTEGER
 	
 	DECLARE @PrescriptionNoteMergeChangeResult TABLE (ChangeType VARCHAR(10) NOT NULL, PrescriptionNoteID INTEGER NOT NULL)
 
+	-- Testing
+	/*DECLARE @ClaimID INT = 95
+		  , @PrescriptionNoteTypeID INT = 3
+		  , @NoteText VARCHAR(8000) = 'I am a baffled'
+		  , @EnteredByUserID NVARCHAR(128) = '70a2ef1c-4077-461d-bb24-078d0e965c29'
+		  , @PrescriptionNoteID INT --= -4
+	DECLARE @Prescription dbo.udtPrescriptionID
+	INSERT @Prescription ( [PrescriptionID] )
+	VALUES ( 993),(994),(995),(996),(1013),(1000)*/
+	
 	IF @ClaimID IS NULL OR @PrescriptionNoteTypeID IS NULL OR @NoteText IS NULL OR @EnteredByUserID IS NULL
 		BEGIN
 			RAISERROR(N'Error. One or more required arguements were not supplied', 16, 1) WITH NOWAIT
@@ -48,19 +62,16 @@ BEGIN
 					[tgt].[NoteText] = [src].[NoteText],
 					[tgt].[EnteredByUserID] = [src].[EnteredByUserID],
 					[tgt].[UpdatedOn] = @Now
-	OUTPUT $action, [Inserted].[PrescriptionNoteID] INTO @PrescriptionNoteMergeChangeResult ([ChangeType], [PrescriptionNoteID]);
-	-- TODO: REMOVE, DEBUG ONLY
-	SELECT * FROM @PrescriptionNoteMergeChangeResult AS [pnmcr]
+	OUTPUT $action, Inserted.[PrescriptionNoteID] INTO @PrescriptionNoteMergeChangeResult ([ChangeType], [PrescriptionNoteID]);
 
-
-	SELECT @OutputPrescriptionNoteID = r.[PrescriptionNoteID] 
-	FROM @PrescriptionNoteMergeChangeResult r
-
-	IF @OutputPrescriptionNoteID IS NULL
+	IF NOT EXISTS (SELECT * FROM @PrescriptionNoteMergeChangeResult AS [pnmcr])
 		BEGIN
-			RAISERROR(N'Error. Something went wrong, and a Prescription Note was not Updated or Inserted, or it''s Primary Key column was not captured.', 16, 1) WITH NOWAIT
+			RAISERROR(N'Error. No new Prescription Note was Updated or Inserted into the Prescription', 16, 1) WITH NOWAIT
 			RETURN
 		END
+	
+	SELECT @OutputPrescriptionNoteID = [x].[PrescriptionNoteID]
+	FROM   @PrescriptionNoteMergeChangeResult AS x
 
 	-- Dupsert PrescriptionNoteMapping
 	MERGE [dbo].[PrescriptionNoteMapping] AS tgt
@@ -73,8 +84,7 @@ BEGIN
 		VALUES ([src].[PrescriptionID], [src].[PrescriptionNoteID])
 	WHEN MATCHED THEN
 		UPDATE SET [tgt].[UpdatedOn] = @Now
-	WHEN NOT MATCHED BY SOURCE THEN
-		DELETE;
-	
+	WHEN NOT MATCHED BY SOURCE AND [tgt].[PrescriptionNoteID] = @OutputPrescriptionNoteID
+	 THEN DELETE;
 END
 GO

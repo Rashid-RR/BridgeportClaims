@@ -34,8 +34,8 @@ export class UserProfile {
   avatarUrl?: URL;
   email: string;
   createdOn: Date;
-  roles?:Array<Role>;
-constructor(id:UUID,login:string,firstName:string,lastName:string,email:string,userName?:string,avatarUrl?:URL,createdOn?:Date,roles?:Array<Role>){
+  roles?:Array<String>;
+constructor(id:UUID,login:string,firstName:string,lastName:string,email:string,userName?:string,avatarUrl?:URL,createdOn?:Date,roles?:Array<String>){
     this.id=id;
     this.login=login;
     this.userName=userName;

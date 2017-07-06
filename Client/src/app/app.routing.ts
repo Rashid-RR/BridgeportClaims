@@ -50,31 +50,31 @@ export const routes: Routes = [
       },
       {
         path: 'main',
-        //resolve:AuthGuard,
-        canActivate: [AuthGuard],
+        canActivate:[AuthGuard],
+        canActivateChild:[AuthGuard],
         children: [
-          {
-            path: 'private',
-            component: PrivateComponent
-          },
-          {
-            path: 'profile',
-            component: ProfileComponent
-          },
-          {
-            path: 'payors',
-            component: PayorsComponent
-          },
-          {
-            path: 'users',
-            component: UsersComponent
-          },
-          {
-            path: 'claims',
-            component: ClaimsComponent
-          }
-        ]
-      }
+        {
+          path: 'private',
+          component: PrivateComponent
+        },
+        {
+          path: 'profile',
+          component: ProfileComponent
+        },
+        {
+          path: 'payors',
+          component: PayorsComponent
+        },
+        {
+          path: 'users',
+          component: UsersComponent          
+        },
+        {
+          path: 'claims',
+          component: ClaimsComponent
+        }
+      ]
+    }
     ]
   },
   { path: 'confirm-email', component: ConfirmEmailComponent },

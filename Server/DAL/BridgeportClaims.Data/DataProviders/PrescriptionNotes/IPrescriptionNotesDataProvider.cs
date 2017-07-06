@@ -1,10 +1,12 @@
-using System.Threading.Tasks;
+using System.Collections.Generic;
 using BridgeportClaims.Business.Models;
+using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 {
     public interface IPrescriptionNotesDataProvider
     {
-        void AddOrUpdatePrescriptionNoteAsync(PrescriptionNoteSaveModel model, string userId);
+        IList<PrescriptionNotesDto> GetPrescriptionNotesByPrescriptionId(int prescriptionId);
+        void AddOrUpdatePrescriptionNote(PrescriptionNoteSaveModel model, string userId);
     }
 }

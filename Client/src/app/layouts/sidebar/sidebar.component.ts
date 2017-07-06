@@ -24,5 +24,9 @@ export class SidebarComponent implements OnInit {
     return this.profileManager.profile ?   this.profileManager.profile.avatarUrl : '';
   }
 
+  get allowed():Boolean{
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin')>-1)
+  }
+
 
 }

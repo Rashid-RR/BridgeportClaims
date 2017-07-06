@@ -53,14 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataProviders\AssignUsersToRolesProvider.cs" />
-    <Compile Include="DataProviders\ClaimNotesDataProvider.cs" />
-    <Compile Include="DataProviders\DbccUserOptionsProvider.cs" />
-    <Compile Include="DataProviders\GetClaimsDataProvider.cs" />
-    <Compile Include="DataProviders\IAssignUsersToRolesProvider.cs" />
-    <Compile Include="DataProviders\IClaimNotesDataProvider.cs" />
-    <Compile Include="DataProviders\IDbccUserOptionsProvider.cs" />
-    <Compile Include="DataProviders\IGetClaimsDataProvider.cs" />
+    <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
+    <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
+    <Compile Include="DataProviders\UserOptions\DbccUserOptionsProvider.cs" />
+    <Compile Include="DataProviders\Claims\ClaimsDataProvider.cs" />
+    <Compile Include="DataProviders\UserRoles\IAssignUsersToRolesProvider.cs" />
+    <Compile Include="DataProviders\ClaimNotes\IClaimNotesDataProvider.cs" />
+    <Compile Include="DataProviders\UserOptions\IDbccUserOptionsProvider.cs" />
+    <Compile Include="DataProviders\Claims\IClaimsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\IPayorsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\PayorsDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionNotes\IPrescriptionNotesDataProvider.cs" />

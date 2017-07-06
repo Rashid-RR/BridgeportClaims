@@ -19,10 +19,13 @@ namespace BridgeportClaims.Web.Infrastructure
             var appDbContext = context.Get<ApplicationDbContext>();
             var appUserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(appDbContext))
             {
-                EmailService = new EmailService(new EmailModelGenerator())
+                EmailService = new EmailService(new EmailModelGenerator()),
+                UserLockoutEnabledByDefault = true,
+                MaxFailedAccessAttemptsBeforeLockout = 5,
+                DefaultAccountLockoutTimeSpan = TimeSpan.FromDays(365 * 200)
             };
-            appUserManager.UserLockoutEnabledByDefault = true;
-            appUserManager.MaxFailedAccessAttemptsBeforeLockout = 5;
+            // 200 years
+
             //Rest of code is removed for clarity
 
             var dataProtectionProvider = options.DataProtectionProvider;

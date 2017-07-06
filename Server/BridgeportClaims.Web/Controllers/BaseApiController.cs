@@ -95,6 +95,12 @@ namespace BridgeportClaims.Web.Controllers
             return GetBadRequestFormattedErrorMessages();
         }
 
+        protected IHttpActionResult GetBadRequestFormattedErrorMessages(IdentityResult result)
+        {
+            var error_description = string.Join(", ", result.Errors.SelectMany(sm => sm));
+            return BadRequest(error_description);
+        }
+
         protected IHttpActionResult GetBadRequestFormattedErrorMessages()
         {
             var error_description = string.Join(", ",
