@@ -10,7 +10,6 @@ using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
-using System.Web;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -144,9 +143,11 @@ namespace BridgeportClaims.Web.Controllers
                 var locationHeader = new Uri(Url.Link(c.GetUserByIdAction, new {id = user.Id}));
                 // Email
                 var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                // Generate link for the email.
                 var baseUri = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-                //var callbackUrl = new Uri($"{baseUri}/#/confirm-email/?userId={user.Id}&code={code}");
-                var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
+                var callbackUrl = new Uri($"{baseUri}/#/confirm-email/?userId={user.Id}&code={code}");
+                // the line below can be uncommented, in place of the two lines above, to generate a link directly to the API.
+                // var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
                 // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
                 await AppUserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);
