@@ -13,6 +13,7 @@
                 <th>Amount Paid</th>
                 <th>Outstanding</th>
                 <th>Inv Date</th>
+                <th>Note Count</th>
               </tr>
               </thead>
               <tbody  *ngIf="claimManager.selectedClaim">
@@ -26,6 +27,8 @@
                 <td>{{prescription.amountPaid}}</td>               
                 <td>{{prescription.outstanding}}</td>               
                 <td>{{prescription.invoiceDate | date:"shortDate"}}</td>               
+                <td *ngIf="prescription.noteCount"><a style="font-size:12pt;cursor:pointer;" (click)="showNotes(prescription.prescriptionId)">{{prescription.noteCount}}</a></td>
+                <td *ngIf="!prescription.noteCount">{{prescription.noteCount}}</td>
               </tr>
               </tbody>
             </table>

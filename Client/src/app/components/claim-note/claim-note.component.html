@@ -5,6 +5,7 @@
               <tbody>
                   <tr>
                     <td *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.claimNote">
+                     <span class="label label-info"> {{claimManager.selectedClaim.claimNote.noteType}}</span>
                       {{claimManager.selectedClaim.claimNote.noteText}}
                     </td>
                   </tr>

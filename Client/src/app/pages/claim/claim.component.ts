@@ -120,11 +120,11 @@ export class ClaimsComponent implements OnInit {
      }
   }
 
-  addNote(noteText:String="",TypeId?:Number){
+  addNote(noteText:String="",TypeId?:String){
     let selectedNotes = [];
     let claimNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
-    this.claimManager.NoteTypes.forEach((note:{key:Number,value:String})=>{
-        claimNoteTypeIds=claimNoteTypeIds+'<option value="'+note.key+'"' +(note.key ==TypeId ? "selected": "")+'>'+note.value+'</option>';          
+    this.claimManager.NoteTypes.forEach((note:{key:String,value:String})=>{
+        claimNoteTypeIds=claimNoteTypeIds+'<option value="'+note.key+'"' +(note.value ==TypeId ? "selected": "")+'>'+note.value+'</option>';          
     });     
     swal({
       title: 'Claim Note',

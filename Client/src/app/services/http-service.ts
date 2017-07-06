@@ -91,6 +91,9 @@ export class HttpService {
   getPrescriptionNotetypes(): Observable<Response> {
     return this.http.get(this.baseUrl + "/prescriptionnotes/notetypes", { headers: this.headers })
   }
+  getPrescriptionNotes(id:Number): Observable<Response> {
+    return this.http.post(this.baseUrl + "/prescriptionnotes/getprescriptionnotes/?prescriptionId="+id,{}, { headers: this.headers })
+  }
 
   saveClaimNote(data): Observable<Response> {
     return this.http.post(this.baseUrl + "/claimnotes/savenote?claimId=" + data.claimId + "&noteText=" + data.noteText + "&noteTypeId=" + data.noteTypeId, {}, { headers: this.headers })

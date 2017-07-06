@@ -35,7 +35,7 @@ export class ClaimManager{
             claim.setPrescription(result.prescriptions  as Array<Prescription>); 
             claim.setPayment(result.payments);
             claim.setEpisodes(result.episodes);
-            claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType.key) : null);
+            claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType) : null);
             claim.setPrescriptionNotes(result.prescriptionNotes);
         }else{
             let res:  Array<Claim>  = result;
@@ -94,7 +94,7 @@ export class ClaimManager{
               claim.setPrescription(result.prescriptions as Array<Prescription>); 
               claim.setPayment(result.payments);
               claim.setEpisodes(result.episodes);
-              claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType.key) : null);
+              claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType) : null);
               claim.setPrescriptionNotes(result.prescriptionNotes);
           },err=>{
             this.loading = false;
@@ -107,4 +107,6 @@ export class ClaimManager{
   get selectedClaim():Claim {
     return this.claims.get(this.selected)
   }
+
+  
 }

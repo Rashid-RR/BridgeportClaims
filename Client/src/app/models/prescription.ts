@@ -9,9 +9,10 @@ export class Prescription {
     amountPaid:Number;
     outstanding:Number;
     selected:Boolean;
-    prescriptionId:Number
+    prescriptionId:Number;
+    noteCount:Number;
 constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Date,
-    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number,prescriptionId:Number,selected:Boolean=false){
+    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number,prescriptionId:Number,noteCount:Number,selected:Boolean=false){
     this.rxNumber = rxNumber;
     this.labelName = labelName;
     this.invoiceNumber = invoiceNumber;
@@ -22,6 +23,7 @@ constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Da
     this.invoiceAmount = invoiceAmount;
     this.selected=selected;
     this.prescriptionId = prescriptionId;
+    this.noteCount = noteCount;
   }
 
   setSelected(s:Boolean){

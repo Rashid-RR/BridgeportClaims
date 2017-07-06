@@ -2,7 +2,7 @@ import {BrowserModule, DomSanitizer} from "@angular/platform-browser";
 import {NgModule, Pipe, PipeTransform} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
-import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import {HashLocationStrategy, LocationStrategy,DatePipe} from "@angular/common";
 import {AppComponent} from "./app.component";
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from './components/confirm.component';
@@ -78,7 +78,7 @@ export class SafeUrlPipe implements PipeTransform {
     RoutingModule
   ],
   providers: [  
-    HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,
+    DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
