@@ -45,7 +45,7 @@ export class RegisterComponent implements OnInit {
             console.log("Successful registration");
             this.router.navigate(['/logon']);
             //console.log(res.json());
-            success("You have been signup successfully");
+            success("You have registered successfully");
             this.registered = true
         },error => {
             let err = error.json();            
