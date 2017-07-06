@@ -145,7 +145,8 @@ namespace BridgeportClaims.Web.Controllers
                 // Email
                 var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                 var baseUri = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-                var callbackUrl = new Uri($"{baseUri}/#/confirm-email/?userId={user.Id}&code={code}");
+                //var callbackUrl = new Uri($"{baseUri}/#/confirm-email/?userId={user.Id}&code={code}");
+                var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
                 // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
                 await AppUserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);
