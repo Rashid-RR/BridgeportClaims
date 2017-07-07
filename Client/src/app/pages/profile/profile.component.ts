@@ -5,7 +5,7 @@ import { HttpService } from "../../services/http-service"
 import { ClaimManager } from "../../services/claim-manager";
 import { UserProfile } from "../../models/profile";
 import { ProfileManager } from "../../services/profile-manager";
-import { warn, success,error } from "../../models/notification"
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +13,7 @@ import { warn, success,error } from "../../models/notification"
   //styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  
+
   form: FormGroup;
   submitted: boolean = false;
   loading: boolean = false;
@@ -23,10 +23,16 @@ export class ProfileComponent implements OnInit {
   saveEmail: boolean = false;
   loginError: string = '';
   emailError: string = '';
-  constructor(private formBuilder: FormBuilder, public claimManager: ClaimManager, private http: HttpService, private profileManager: ProfileManager) {
+  constructor(
+    private formBuilder: FormBuilder,
+    public claimManager: ClaimManager,
+    private http: HttpService,
+    private profileManager: ProfileManager,
+    private toast: ToastsManager
+  ) {
     console.log(this.profileManager.User);
     console.log(this.profileManager.profile);
-    
+
     if (this.profileManager.profile == null) {
       this.profileManager.profile = new UserProfile('', '', '', '', '');
     }
@@ -43,14 +49,14 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  updateUserInfo(){
+  updateUserInfo() {
     if (this.form.valid && !this.loading) {
       this.loading = true;
       try {
-        this.http.changeusername(this.form.value.firstName,this.form.value.lastName,this.profileManager.profile.id).subscribe(res => {
-          success('User name updated successfully');
+        this.http.changeusername(this.form.value.firstName, this.form.value.lastName, this.profileManager.profile.id).subscribe(res => {
+          this.toast.success('User name updated successfully');
           this.profileManager.profile.firstName = this.form.value.firstName;
-          this.profileManager.profile.lastName= this.form.value.lastName;          
+          this.profileManager.profile.lastName = this.form.value.lastName;
           this.registered = true
           this.loading = false;
         }, error => {
@@ -59,18 +65,18 @@ export class ProfileComponent implements OnInit {
           this.loading = false;
         })
       } catch (e) {
-        error('Error in fields. Please correct to proceed!');
+        this.toast.error('Error in fields. Please correct to proceed!');
 
       }
     } else {
-      error('Error in fields. Please correct to proceed!');
+      this.toast.error('Error in fields. Please correct to proceed!');
     }
   }
   submitForm(form: any): void {
     if (this.form.valid && this.form.dirty) {
-      if(this.form.value.firstName != this.profileManager.profile.firstName || this.form.value.lastName != this.profileManager.profile.lastName){
-          this.updateUserInfo();
-      }    
+      if (this.form.value.firstName != this.profileManager.profile.firstName || this.form.value.lastName != this.profileManager.profile.lastName) {
+        this.updateUserInfo();
+      }
       if (this.form.get('oldPassword').value != '' || this.form.get('newPassword').value != '' || this.form.get('confirmPassword').value != '') {
         this.updatePassword();
       }
@@ -88,7 +94,7 @@ export class ProfileComponent implements OnInit {
       this.loading = true;
       try {
         this.http.changepassword(this.form.value).subscribe(res => {
-          success('Password successfully changed');
+          this.toast.success('Password successfully changed');
           this.registered = true
           this.loading = false;
         }, error => {
@@ -97,11 +103,11 @@ export class ProfileComponent implements OnInit {
           this.loading = false;
         })
       } catch (e) {
-        error('Error in fields. Please correct to proceed!');
+        this.toast.error('Error in fields. Please correct to proceed!');
 
       }
     } else {
-      error('Error in fields. Please correct to proceed!');
+      this.toast.error('Error in fields. Please correct to proceed!');
     }
   }
 }

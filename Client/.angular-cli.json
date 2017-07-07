@@ -31,14 +31,15 @@
         "../node_modules/admin-lte/dist/css/AdminLTE.min.css",
         "../node_modules/sweetalert2/dist/sweetalert2.min.css",
         "assets/css/animate.css",
-        "assets/css/skin-black.css"
+        "assets/css/skin-black.css",
+        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
+        "styles.css"
       ],
       "scripts": [
         "../node_modules/admin-lte/plugins/jQuery/jquery-2.2.3.min.js",
         "../node_modules/admin-lte/plugins/jQueryUI/jquery-ui.min.js",
         "../node_modules/admin-lte/bootstrap/js/bootstrap.min.js",
         "assets/js/blob-util.js",
-        "assets/js/bootstrap-notify.min.js",
         "assets/js/moment.min.js",
         "../node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js",
         "../node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.min.js",
