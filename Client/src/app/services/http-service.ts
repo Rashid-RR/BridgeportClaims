@@ -109,6 +109,8 @@ export class HttpService {
   savePrescriptionNote(data): Observable<Response> {
     return this.http.post(this.baseUrl + "/prescriptionnotes/savenote", data, { headers: this.headers })
   }
-
+  saveEpisode(data): Observable<Response> {
+    return this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers })
+  }
 
 }

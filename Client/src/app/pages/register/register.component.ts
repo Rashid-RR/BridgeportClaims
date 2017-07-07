@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpService} from "../../services/http-service";
-import {warn,success} from "../../models/notification"
+import {warn,success,error} from "../../models/notification"
 
 
 @Component({
@@ -43,17 +43,15 @@ export class RegisterComponent implements OnInit {
       try {
         this.http.register(this.form.value).subscribe(res => {
             console.log("Successful registration");
-            success("You have been signup successfully");
+            this.router.navigate(['/logon']);
+            success("You have registered successfully");
             success("Please go check your email – you’ll need to confirm your email address before you login.");            
             this.registered = true
-            this.router.navigate(['/login']);
-            // this.router.navigate(['/logon']);
-            //console.log(res.json());
-            
-        },error => {
-          this.submitted = false;
-            let err = error.json();            
-            warn( err.Message);
+            this.submitted = false;
+        },requestError => {
+            let err = requestError.json();            
+            error(err.Message,10000);
+            this.submitted = false;
         })
       } catch (e) {
           this.submitted = false;

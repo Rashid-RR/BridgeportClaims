@@ -44,7 +44,7 @@ export function warn(title?:string){
             }
         }); 
   }
-export function error(title?:string){
+export function error(title?:string,duration?:Number){
      jQuery.notify({
         // options
         icon:"glyphicon glyphicon-exclamation-sign",
@@ -57,7 +57,7 @@ export function error(title?:string){
           exit: 'animated fadeOutUp'
         },
         offset: 50,
-        delay: 5000,
+        delay: duration || 5000,
 	    z_index: 1031,
         allow_dismiss: true,
           placement: {

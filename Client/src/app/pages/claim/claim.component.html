@@ -28,7 +28,7 @@
                                 <div class="box-tools pull-right" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
                                     <div class="btn-group" data-toggle="btn-toggle">                            
                                         <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="addNote()" *ngIf="!claimManager.selectedClaim.claimNotes">Add New</button>                                
-                                        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)" *ngIf="claimManager.selectedClaim.claimNotes"   title="Edit Note">Edit</button>                                
+                                        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)" *ngIf="claimManager.selectedClaim.claimNotes"   title="Edit Note">Edit</button>
                                     </div>
                                         <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,2)"   title="Expand blade"><i class="fa fa-expand"></i></button>
@@ -44,7 +44,7 @@
                                 <h4 class="box-title text-center"><u>Episodes</u></h4>
                                 <div class="box-tools pull-right">
                                     <div class="btn-group" data-toggle="btn-toggle">                            
-                                        <button type="button" class="btn btn-flat bg-purple btn-sm"   title="New Episode">Add New</button>                                
+                                        <button type="button" class="btn btn-flat bg-purple btn-sm"   title="New Episode" (click)="episode()">Add New</button>                                
                                     </div>
                                         <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,3)"   title="Expand blade"><i class="fa fa-expand"></i></button>
