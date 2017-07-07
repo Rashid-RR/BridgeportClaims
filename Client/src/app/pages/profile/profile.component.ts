@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
     if (this.form.valid && !this.loading) {
       this.loading = true;
       try {
-        this.http.changeusername(this.form.value.firstName,this.form.value.lastName,'43b8b8cb-9f41-4904-9cee-df770efdb2bd').subscribe(res => {
+        this.http.changeusername(this.form.value.firstName,this.form.value.lastName,this.profileManager.profile.id).subscribe(res => {
           success('User name updated successfully');
           this.profileManager.profile.firstName = this.form.value.firstName;
           this.profileManager.profile.lastName= this.form.value.lastName;          

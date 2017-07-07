@@ -10,7 +10,6 @@ using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
-using System.Web;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -45,7 +44,7 @@ namespace BridgeportClaims.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("forgotpassword")]
-        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<IHttpActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +61,7 @@ namespace BridgeportClaims.Web.Controllers
                 var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
                 await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);
-                return Ok();
+                return Ok(new {message="The Email to Reset your Password has been Sent Successfully"});
             }
 
             // If we got this far, something failed, redisplay form
@@ -71,21 +70,39 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("ResetPassword", Name = c.ResetPasswordRouteAction)]
-        public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
+        [Route("resetpassword", Name = c.ResetPasswordRouteAction)]
+        public async Task<IHttpActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var user = await UserManager.FindByIdAsync(model.UserId);
+                if (null == user)
+                {
+                    // Don't reveal that the user does not exist
+                    return Ok();
+                }
+                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+                if (result.Succeeded)
+                    return Ok(new {message = "The Password was Reset Successfully"});
+                string error = null;
+                if (!result.Errors.Any())
+                {
+                    error = result.Errors.Count() > 1
+                        ? string.Join(", ", result.Errors.SelectMany(sm => sm))
+                        : result.Errors.Select(x => x).FirstOrDefault();
+                }
+                Logger.Error(error);
+                return GetBadRequestFormattedErrorMessages(result);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
-            if (null == user)
+            catch (Exception ex)
             {
-                // Don't reveal that the user does not exist
-                return Ok();
+                Logger.Error(ex);
+                throw;
             }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            return result.Succeeded ? Ok() : GetBadRequestFormattedErrorMessages(result);
         }
 
         [HttpGet]
@@ -144,9 +161,11 @@ namespace BridgeportClaims.Web.Controllers
                 var locationHeader = new Uri(Url.Link(c.GetUserByIdAction, new {id = user.Id}));
                 // Email
                 var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                // Generate link for the email.
                 var baseUri = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-                //var callbackUrl = new Uri($"{baseUri}/#/confirm-email/?userId={user.Id}&code={code}");
-                var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
+                var callbackUrl = new Uri($"{baseUri}/#/confirm-email/?userId={user.Id}&code={code}");
+                // the line below can be uncommented, in place of the two lines above, to generate a link directly to the API.
+                // var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
                 // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
                 await AppUserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);

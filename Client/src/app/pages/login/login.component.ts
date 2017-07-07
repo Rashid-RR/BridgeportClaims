@@ -38,11 +38,13 @@ export class LoginComponent implements OnInit {
       try {
         this.http.login('userName='+this.form.get('email').value+'&password='+this.form.get('password').value+"&grant_type=password",{'Content-Type':'x-www-form-urlencoded'}).subscribe(res => {
             let data = res.json(); 
+            
             this.events.broadcast('login', true);
             this.http.setAuth(data.access_token);   
             this.http.profile().map(res=>res.json()).subscribe(res=>{
-                this.profileManager.profile = new UserProfile(data.id || res.email,res.email,res.firstName,res.lastName,res.email,res.email,null,data.createdOn,res.roles);
-                this.profileManager.setProfile(new UserProfile(data.id || res.email,res.email,res.firstName,res.lastName,res.email,res.email,null,data.createdOn,res.roles));
+                
+                this.profileManager.profile = new UserProfile(res.id || res.email,res.email,res.firstName,res.lastName,res.email,res.email,null,data.createdOn,res.roles);
+                this.profileManager.setProfile(new UserProfile(res.id || res.email,res.email,res.firstName,res.lastName,res.email,res.email,null,data.createdOn,res.roles));
                 let user = res;
                 res.access_token = data.access_token;
                 localStorage.setItem("user", JSON.stringify(res));

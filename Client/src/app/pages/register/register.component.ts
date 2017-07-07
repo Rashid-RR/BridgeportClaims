@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/login']);          
   }
   register() {
-    this.submitted = true;
+    this.submitted = true;    
     console.log(this.form.value);
     if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
       this.form.get('ConfirmPassword').setErrors({"unmatched": "Repeat password does not match password"});

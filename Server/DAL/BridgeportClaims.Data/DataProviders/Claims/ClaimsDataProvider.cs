@@ -133,6 +133,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                                 .Where(e => e.Claim.ClaimId == claimId)
                                 .Select(e => new EpisodeDto
                                 {
+                                    EpisodeId = e.EpisodeId,
                                     Date = e.CreatedDate,
                                     By = e.AssignUser,
                                     Note = e.Note
