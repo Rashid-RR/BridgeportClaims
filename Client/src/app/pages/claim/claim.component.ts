@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../services/http-service"
+import {EventsService} from "../../services/events-service"
 import {ClaimManager} from "../../services/claim-manager";
 import {PrescriptionNoteType} from "../../models/prescription-note-type";
 import swal from "sweetalert2";
 import {ClaimNote} from "../../models/claim-note"
+import {Episode} from "../../models/episode"
 import {warn,success} from "../../models/notification"
 
 @Component({
@@ -16,7 +18,7 @@ export class ClaimsComponent implements OnInit {
   expanded:Boolean=false
   expandedBlade:Number=0;
   
-  constructor(public claimManager:ClaimManager,private http:HttpService) {
+  constructor(public claimManager:ClaimManager,private http:HttpService,private events:EventsService) {
      
    }
 
@@ -30,6 +32,9 @@ export class ClaimsComponent implements OnInit {
   }
   ngOnInit() {
      window['jQuery']('body').addClass('sidebar-collapse');
+     this.events.on("edit-episode",(id:Number)=>{
+       this.episode(id);
+     })
   }
 
   addPrescriptionNote(text:String="",TypeId?:String,prescriptionNoteId:any=null){
@@ -120,6 +125,64 @@ export class ClaimsComponent implements OnInit {
      }
   }
 
+  episode(id?:Number){
+    var episode:Episode;
+      if(id){
+          episode = this.claimManager.selectedClaim.episodes.find(episode=>episode.episodeId==id);
+          console.log(episode);
+      }
+      swal({
+          title: 'Episode Entry',
+          html:
+            `<div class="form-group">
+                  <label id="noteTextLabel">Note Text</label>
+                  <textarea class="form-control"  id="note" rows="3">`+(episode !==undefined ? episode.note : '')+`</textarea>
+              </div>
+            `,
+          showCancelButton: true,
+          showLoaderOnConfirm:true,
+          confirmButtonText:"Save",
+          preConfirm: function () {
+            return new Promise(function (resolve) {
+              resolve([
+                window['jQuery']('#note').val()
+              ])
+            })
+          },
+          onOpen: function () {
+            window['jQuery']('#note').focus()
+          }
+        }).then( (result)=> {
+          if(result[0]==""){
+              warn('Note Text is required!');
+              setTimeout(()=>{
+                this.episode(result[0]);
+                window['jQuery']('#noteTextLabel').css({"color":"red"})
+              },200)
+          }else{
+              swal({title:"",html:"Saving episode... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>",showConfirmButton:false})
+              console.log(result);
+              this.http.saveEpisode(
+                {
+                  claimId: this.claimManager.selectedClaim.claimId,
+                  episodeId: episode !==undefined ? episode.episodeId : null,
+                  note: result[0],
+                  by: episode !==undefined  ?episode.by : 'me',
+                  date: episode !==undefined  ? episode.date : (new Date())
+                }).single().subscribe(res=>{
+                  let result = res.json()
+                  swal.close();
+                  this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+                  success(result.message);
+                },error=>{
+                  setTimeout(()=>{
+                    this.episode(id);
+                    warn('Server error!');
+                  },200)
+                })
+          } 
+        }).catch(swal.noop)
+  }
   addNote(noteText:String="",TypeId?:String){
     let selectedNotes = [];
     let claimNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
