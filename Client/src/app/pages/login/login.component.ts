@@ -27,8 +27,7 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
       password: ['', Validators.compose([Validators.required])],
       grant_type: ['password'],
-      rememberMe: [false],
-
+      rememberMe: [false]
     });
   }
 
