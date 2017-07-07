@@ -7,6 +7,7 @@ import swal from "sweetalert2";
 import {ClaimNote} from "../../models/claim-note"
 import {Episode} from "../../models/episode"
 import {warn,success} from "../../models/notification"
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-claim',
@@ -18,9 +19,10 @@ export class ClaimsComponent implements OnInit {
   expanded:Boolean=false
   expandedBlade:Number=0;
   
-  constructor(public claimManager:ClaimManager,private http:HttpService,private events:EventsService) {
+  constructor(public claimManager:ClaimManager,private http:HttpService,private events:EventsService,
+    private toast: ToastsManager) {
      
-   }
+  }
 
   expand(expanded:Boolean,expandedBlade:Number){
     this.expanded = expanded;
@@ -87,19 +89,19 @@ export class ClaimsComponent implements OnInit {
           }
         }).then( (result)=> {
           if(result[0]==""){
-              warn('Please select one type!');
+              this.toast.warning('Please select one type!');
               setTimeout(()=>{
                   this.addPrescriptionNote(result[1],result[0]);
                   window['jQuery']('#claimNoteTypeLabel').css({"color":"red"})
                 },200)
           }else if(result[1]==""){
-              warn('Note Text is required!');
+              this.toast.warning('Note Text is required!');
               setTimeout(()=>{
                 this.addPrescriptionNote(result[1],result[0]);
                 window['jQuery']('#noteTextLabel').css({"color":"red"})
               },200)
           }else{
-              swal({title:"",html:"Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>",showConfirmButton:false})
+              swal({title: "", html: "Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>", showConfirmButton: false})
               this.http.savePrescriptionNote(
                 {
                   claimId: this.claimManager.selectedClaim.claimId,
@@ -111,17 +113,17 @@ export class ClaimsComponent implements OnInit {
                   let result = res.json()
                   swal.close();
                   this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
-                  success(result.message);
+                  this.toast.success(result.message);
                 },error=>{
                   setTimeout(()=>{
                     this.addPrescriptionNote(result[1],result[0]);
-                    warn('Server error!');
+                    this.toast.warning('Server error!');
                   },200)
                 })
           } 
         }).catch(swal.noop)
      }else{
-        warn('Please select at least one prescription');
+        this.toast.warning('Please select at least one prescription');
      }
   }
 
@@ -154,7 +156,7 @@ export class ClaimsComponent implements OnInit {
           }
         }).then( (result)=> {
           if(result[0]==""){
-              warn('Note Text is required!');
+              this.toast.warning('Note Text is required!');
               setTimeout(()=>{
                 this.episode(result[0]);
                 window['jQuery']('#noteTextLabel').css({"color":"red"})
@@ -177,7 +179,7 @@ export class ClaimsComponent implements OnInit {
                 },error=>{
                   setTimeout(()=>{
                     this.episode(id);
-                    warn('Server error!');
+                    this.toast.warning('Server error!');
                   },200)
                 })
           } 
@@ -220,13 +222,13 @@ export class ClaimsComponent implements OnInit {
       }
     }).then( (result)=> {
       if(result[0]==""){
-          warn('Please select one type!');
+          this.toast.warning('Please select one type!');
           setTimeout(()=>{
               this.addNote(result[1],result[0]);
               window['jQuery']('#claimNoteTypeLabel').css({"color":"red"})
             },200)
       }else if(result[1]==""){
-          warn('Note Text is required!');
+          this.toast.warning('Note Text is required!');
           setTimeout(()=>{
             this.addNote(result[1],result[0]);
             window['jQuery']('#noteTextLabel').css({"color":"red"})
@@ -247,12 +249,12 @@ export class ClaimsComponent implements OnInit {
             this.claimManager.loading = false;              
               //console.log(res);
               swal.close();
-              success("Noted successfully saved");
+              this.toast.success("Noted successfully saved");
             },error=>{
               let err = error.json();
               setTimeout(()=>{
                 this.addNote(result[1],result[0]);
-                warn(err.error_description);
+                this.toast.warning(err.error_description);
               },200)
             })
       } 

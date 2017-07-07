@@ -4,7 +4,7 @@ import {HttpService} from "../../services/http-service";
 import {ClaimNote} from "../../models/claim-note"
 import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
 import swal from "sweetalert2";
-import {warn,success} from "../../models/notification"
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-claim-note',
@@ -14,12 +14,17 @@ import {warn,success} from "../../models/notification"
 export class ClaimNoteComponent implements OnInit,AfterViewChecked {
   
   form: FormGroup;
-  constructor(public claimManager:ClaimManager,private formBuilder: FormBuilder, private http: HttpService) {
-      this.form = this.formBuilder.group({
-        //claimId: [this.claimManager.selectedClaim.claimId],
-        noteText: [ null,Validators.compose([Validators.required])],
-        noteTypeId: [null,Validators.compose([Validators.required])]
-      });
+  constructor(
+    public claimManager:ClaimManager,
+    private formBuilder: FormBuilder, 
+    private http: HttpService,
+    private toast: ToastsManager
+  ) {
+    this.form = this.formBuilder.group({
+      //claimId: [this.claimManager.selectedClaim.claimId],
+      noteText: [ null,Validators.compose([Validators.required])],
+      noteTypeId: [null,Validators.compose([Validators.required])]
+    });
   }
 
   ngOnInit() {
@@ -55,15 +60,15 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
           console.log(error);
           this.claimManager.loading = false;
           let err = error.json();
-          warn(err.error_description);
+          this.toast.warning(err.error_description);
         })
       } catch (e) {
-        warn( 'Error in fields. Please correct to proceed!');
+        this.toast.warning( 'Error in fields. Please correct to proceed!');
         this.claimManager.loading = false;
       }
     }else{
       console.log(this.form.value)
-       warn('Error in fields. Please correct to proceed!');
+       this.toast.warning('Error in fields. Please correct to proceed!');
        this.claimManager.loading = false;
     }
   }

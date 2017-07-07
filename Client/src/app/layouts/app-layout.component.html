@@ -3,6 +3,7 @@
     <app-header></app-header>
     <app-sidebar *ngIf="isLoggedIn"></app-sidebar>
     <div class="content-wrapper">
+        <div #toastContainer> </div>
         <router-outlet></router-outlet>
     </div>
     <!-- /.content-wrapper -->

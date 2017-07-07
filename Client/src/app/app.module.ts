@@ -3,6 +3,8 @@ import {NgModule, Pipe, PipeTransform} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {HashLocationStrategy, LocationStrategy,DatePipe} from "@angular/common";
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {AppComponent} from "./app.component";
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from './components/confirm.component';
@@ -71,6 +73,8 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ToastModule.forRoot(),
     BootstrapModalModule,
     FormsModule,
     ReactiveFormsModule,
