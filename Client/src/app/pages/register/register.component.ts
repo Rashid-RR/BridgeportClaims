@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpService} from "../../services/http-service";
 import {warn,success,error} from "../../models/notification"
-
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +16,12 @@ export class RegisterComponent implements OnInit {
   registered: boolean = false;
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router) {
+  constructor(
+    private formBuilder: FormBuilder, 
+    private http: HttpService, 
+    private router: Router, 
+    private toast: ToastsManager
+  ) {
     this.form = this.formBuilder.group({
       firstname: ['', Validators.compose([Validators.required])],
       lastname: ['', Validators.compose([Validators.required])],
@@ -33,32 +38,34 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/login']);          
   }
   register() {
-    this.submitted = true;    
+    this.submitted = true;
     console.log(this.form.value);
     if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
       this.form.get('ConfirmPassword').setErrors({"unmatched": "Repeat password does not match password"});
-      warn( 'Password and Confirmed Password did not match password');
+      this.toast.warning( 'Password and Confirmed Password did not match password');
     }
     if (this.form.valid) {
+      this.submitted = true;
       try {
         this.http.register(this.form.value).subscribe(res => {
             console.log("Successful registration");
             this.router.navigate(['/logon']);
-            success("You have registered successfully");
+            this.toast.success("You have registered successfully");
+            this.toast.success("Please go check your email – you’ll need to confirm your email address before you login.");
             this.registered = true
             this.submitted = false;
         },requestError => {
             let err = requestError.json();            
-            error(err.Message,10000);
+            this.toast.error(err.Message);
             this.submitted = false;
         })
       } catch (e) {
-          
+          this.submitted = false;
       } finally {
 
       }
     }else{
-       warn('Error in fields. Please correct to proceed!');
+       this.toast.warning('Error in fields. Please correct to proceed!');
     }
 
   }

@@ -5,7 +5,7 @@ import {HttpService} from "../../services/http-service";
 import {ProfileManager} from "../../services/profile-manager";
 import {UserProfile} from "../../models/profile";
 import {EventsService} from "../../services/events-service";
-import {warn,success,error} from "../../models/notification"
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,13 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-   constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private profileManager:ProfileManager) {    
+  constructor(
+    private formBuilder: FormBuilder, 
+    private http: HttpService, 
+    private router: Router, private events: EventsService,
+    private profileManager: ProfileManager,
+    private toast: ToastsManager
+  ) {    
     this.form = this.formBuilder.group({
       email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
       password: ['', Validators.compose([Validators.required])],
@@ -38,36 +44,37 @@ export class LoginComponent implements OnInit {
       try {
         this.http.login('userName='+this.form.get('email').value+'&password='+this.form.get('password').value+"&grant_type=password",{'Content-Type':'x-www-form-urlencoded'}).subscribe(res => {
             let data = res.json(); 
-            
+
             this.events.broadcast('login', true);
             this.http.setAuth(data.access_token);   
             this.http.profile().map(res=>res.json()).subscribe(res=>{
-                
+
                 this.profileManager.profile = new UserProfile(res.id || res.email,res.email,res.firstName,res.lastName,res.email,res.email,null,data.createdOn,res.roles);
                 this.profileManager.setProfile(new UserProfile(res.id || res.email,res.email,res.firstName,res.lastName,res.email,res.email,null,data.createdOn,res.roles));
                 let user = res;
                 res.access_token = data.access_token;
                 localStorage.setItem("user", JSON.stringify(res));
                 this.router.navigate(['/main/private']);
-                success('Welcome back');
-                this.submitted = false;
+                this.toast.success('Welcome back');
             },err=>console.log(err))
         }, (requestError) => {
             this.submitted = false;
          // if (error.status !== 500) {
+           this.submitted = false;
            let err = requestError.json();
             this.form.get('password').setErrors({'auth': err.error_description})
-            error( err.error_description);
+            this.toast.error( err.error_description);
          // }
         })
       } catch (e) {
+        this.submitted = false;
         this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
-        error( 'Incorrect login or password');
+        this.toast.error( 'Incorrect login or password');
       } finally {
 
       }
     }else{
-       error('Error in fields. Please correct to proceed!');
+       this.toast.error('Error in fields. Please correct to proceed!');
     }
   }
   ngOnInit() {

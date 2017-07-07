@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms"
 
 import { User } from "../../models/user";
 import { Role } from "../../models/role"
-import { warn, success,error } from "../../models/notification"
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
@@ -24,7 +24,12 @@ export class UsersComponent implements OnInit {
   roles: Array<Role> = [];
   form: FormGroup;
   submitted: boolean = false;
-  constructor(private http: HttpService, private formBuilder: FormBuilder, private dialogService: DialogService) {
+  constructor(
+    private http: HttpService,
+    private formBuilder: FormBuilder,
+    private dialogService: DialogService,
+    private toast: ToastsManager
+  ) {
     this.form = this.formBuilder.group({
       userName: [null],
       isAdmin: [null]
@@ -106,32 +111,32 @@ export class UsersComponent implements OnInit {
       });
   }
   processStatusChange(index, event) {
-    if (event) {
+    if (!event) {
       try {
         this.http.deactivateUser(this.users[index].id).subscribe(res => {
           this.users[index].admin = false;
           this.users[index].user = false;
-          success('User deactivated successfully');                              
+          this.toast.success('User deactivated successfully');
         }, error => {
           let err = error.json();
-          error('Some error occured, please try again');
+          this.toast.error('Some error occured, please try again');
           console.log(err.message);
         })
       } catch (e) {
-        warn('Some error occured, please try again');
+        this.toast.warning('Some error occured, please try again');
       }
     } else {
       try {
-        this.http.activateUser(this.users[index].id).subscribe(res => {          
+        this.http.activateUser(this.users[index].id).subscribe(res => {
           this.users[index].user = true;
-          success('User activated sucessfully');          
+          this.toast.success('User activated sucessfully');
         }, error => {
           let err = error.json();
-          warn('Some error occured, please try again');
+          this.toast.warning('Some error occured, please try again');
           console.log(err.message);
         })
       } catch (e) {
-        warn('Some error occured, please try again');
+        this.toast.warning('Some error occured, please try again');
       }
     }
   }
@@ -199,12 +204,12 @@ export class UsersComponent implements OnInit {
         } else if (role == this.adminRole && this.users[index].admin) {
           this.users[index].user = true;
         }
-        success(msg);
+        this.toast.success(msg);
 
       }, error => {
         let err = error.json();
 
-        warn('Some error occured, please try again');
+        this.toast.warning('Some error occured, please try again');
         console.log(err.message);
       })
     } catch (e) {
