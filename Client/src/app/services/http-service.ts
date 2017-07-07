@@ -36,6 +36,14 @@ export class HttpService {
     return this.http.post(this.baseUrl + "/passwordreset", data)
   }
 
+  resetpassword(data): Observable<Response> {
+    return this.http.post(this.baseUrl + "/account/resetpassword", data)
+  }
+
+  forgotpassword(data): Observable<Response> {
+    return this.http.post(this.baseUrl + "/account/forgotpassword", data)
+  }
+
   changepassword(data): Observable<Response> {
     return this.http.put(this.baseUrl + "/account/changepassword", data, { headers: this.headers })
   }

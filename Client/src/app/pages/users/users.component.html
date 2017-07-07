@@ -74,7 +74,7 @@
                                         </td>
                                         <td>
                                             <div class="demo text-center">                    
-                                                    <input type="checkbox" class="faChkRnd" [(ngModel)]="user.deactivated" (ngModelChange)="changeStatus(i,$event)"><label></label>
+                                                    <input type="checkbox" class="faChkRnd" [(ngModel)]="!user.deactivated" (ngModelChange)="changeStatus(i,$event)"><label></label>
                                             </div>
                                         </td>
                                     </tr>

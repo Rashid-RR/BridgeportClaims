@@ -45,11 +45,13 @@ export class RegisterComponent implements OnInit {
       this.toast.warning( 'Password and Confirmed Password did not match password');
     }
     if (this.form.valid) {
+      this.submitted = true;
       try {
         this.http.register(this.form.value).subscribe(res => {
             console.log("Successful registration");
             this.router.navigate(['/logon']);
             this.toast.success("You have registered successfully");
+            this.toast.success("Please go check your email – you’ll need to confirm your email address before you login.");
             this.registered = true
             this.submitted = false;
         },requestError => {
@@ -58,7 +60,7 @@ export class RegisterComponent implements OnInit {
             this.submitted = false;
         })
       } catch (e) {
-          
+          this.submitted = false;
       } finally {
 
       }

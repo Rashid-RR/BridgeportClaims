@@ -111,7 +111,7 @@ export class UsersComponent implements OnInit {
       });
   }
   processStatusChange(index, event) {
-    if (event) {
+    if (!event) {
       try {
         this.http.deactivateUser(this.users[index].id).subscribe(res => {
           this.users[index].admin = false;

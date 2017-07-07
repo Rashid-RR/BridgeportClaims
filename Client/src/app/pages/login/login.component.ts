@@ -60,12 +60,14 @@ export class LoginComponent implements OnInit {
         }, (requestError) => {
             this.submitted = false;
          // if (error.status !== 500) {
+           this.submitted = false;
            let err = requestError.json();
             this.form.get('password').setErrors({'auth': err.error_description})
             this.toast.error( err.error_description);
          // }
         })
       } catch (e) {
+        this.submitted = false;
         this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
         this.toast.error( 'Incorrect login or password');
       } finally {
