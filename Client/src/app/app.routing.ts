@@ -15,6 +15,7 @@ import { PrivateComponent } from "./pages/private/private.component";
 import { RegisterComponent } from "./pages/register/register.component";
 import { MainComponent } from "./pages/main/main.component";
 import { PasswordResetComponent } from "./pages/password-reset/password-reset.component";
+import { ChangePasswordComponent } from "./pages/change-password/change-password.component";
 import { Error404Component } from "./pages/error404/error404.component";
 import { PayorsComponent } from './pages/payors/payors.component'
 import { UsersComponent } from './pages/users/users.component'
@@ -44,7 +45,11 @@ export const routes: Routes = [
       , {
         path: 'recover-lost-password',
         component: PasswordResetComponent
-      }, {
+      },{
+        path: 'resetpassword',
+        component: ChangePasswordComponent
+      }
+      , {
         path: 'register',
         component: RegisterComponent
       },

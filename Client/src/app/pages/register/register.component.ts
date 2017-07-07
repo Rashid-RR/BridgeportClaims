@@ -33,28 +33,30 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/login']);          
   }
   register() {
-    this.submitted = true;    
     console.log(this.form.value);
     if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
       this.form.get('ConfirmPassword').setErrors({"unmatched": "Repeat password does not match password"});
       warn( 'Password and Confirmed Password did not match password');
     }
     if (this.form.valid) {
+      this.submitted = true;
       try {
         this.http.register(this.form.value).subscribe(res => {
             console.log("Successful registration");
             success("You have been signup successfully");
+            success("Please go check your email – you’ll need to confirm your email address before you login.");            
             this.registered = true
             this.router.navigate(['/login']);
             // this.router.navigate(['/logon']);
             //console.log(res.json());
             
         },error => {
+          this.submitted = false;
             let err = error.json();            
-            warn( err.error_description);
+            warn( err.Message);
         })
       } catch (e) {
-          
+          this.submitted = false;
       } finally {
 
       }

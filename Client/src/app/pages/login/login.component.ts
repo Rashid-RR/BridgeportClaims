@@ -53,12 +53,16 @@ export class LoginComponent implements OnInit {
             },err=>console.log(err))
         }, (error) => {
          // if (error.status !== 500) {
+           this.submitted = false;
            let err = error.json();
+           console.log(err.error_description);
+          //  success('Welcome back');
             this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
-            error( err.error_description);
+            warn( err.error_description);
          // }
         })
       } catch (e) {
+        this.submitted = false;
         this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
         error( 'Incorrect login or password');
       } finally {

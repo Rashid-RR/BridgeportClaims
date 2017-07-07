@@ -6,6 +6,10 @@
     </div>
 </div>
 <div class="row" *ngIf="!registered">
+    <div class="overlay" *ngIf="submitted" style="text-align:center;">
+        <!--<img src="assets/1.gif" *ngIf="loading">-->
+        <i class="fa fa-refresh fa-2x fa-spin"></i>
+    </div>
     <div class="col-lg-12">        
         <form role="form"  [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="register()" class="center-form">
             <h4>Please complete form to register</h4>
@@ -51,4 +55,4 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    

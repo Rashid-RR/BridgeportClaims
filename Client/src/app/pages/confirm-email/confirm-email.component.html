@@ -1,44 +1,47 @@
- <div class="wrapper">
-    <div class="row" *ngIf="confirmed==0"> 
-      <div class="col-md-8 col-md-offset-2">
-          <br><br><br>
-          <div class="box">
-              <div class="box-body text-center">
+<div class="wrapper">
+    <div class="row" *ngIf="confirmed==0">
+        <div class="col-md-8 col-md-offset-2">
+            <br><br><br>
+            <div class="box">
+                <div class="box-body text-center">
                     <br><br><br>
                     <h2>
-                      Confirming your email address ...
+                        Confirming your email address ...
                     </h2>
                     <br><br><br>
-              </div>
-              <div class="overlay" style="text-align:center;">
-                  <!--<img src="assets/1.gif" *ngIf="loading">-->
-                  <i class="fa fa-refresh fa-2x fa-spin"></i>
-              </div> 
-          </div>
-      </div>
-  </div>
-  <div class="row" *ngIf="confirmed==1">
-      <div class="row">
-          <div class="col-md-12">&nbsp;</div>
-      </div>
-      <div class="row">
-          <div class="col-md-6 col-md-offset-4">
-              <div class="alert alert-success">
-                  <strong>Success!</strong> An email has been sent for you to verifiy your email address.
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="row" *ngIf="confirmed==2">
-      <div class="row">
-          <div class="col-md-12">&nbsp;</div>
-      </div>
-      <div class="row">
-          <div class="col-md-6 col-md-offset-4">
-              <div class="alert alert-danger">
-                  <strong>Error!</strong> An email has been sent for you to verifiy your email address.
-              </div>
-          </div>
-      </div>
-  </div>
- </div>
+                </div>
+                <div class="overlay" *ngIf="loading" style="text-align:center;">
+                    <img src="assets/1.gif">
+                </div>
+                <!--<div class="overlay" style="text-align:center;">
+                    <!--<img src="assets/1.gif" *ngIf="loading">-->
+                    <!--<i class="fa fa-refresh fa-2x fa-spin"></i>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="confirmed==1">
+        <div class="row">
+            <div class="col-md-12">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-4">
+                <div class="alert alert-success">
+                    <strong>Success!</strong> An email has been sent for you to verifiy your email address.
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" *ngIf="confirmed==2">
+        <div class="row">
+            <div class="col-md-12">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-4">
+                <div class="alert alert-danger">
+                    <strong>Error!</strong> An email has been sent for you to verifiy your email address.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
