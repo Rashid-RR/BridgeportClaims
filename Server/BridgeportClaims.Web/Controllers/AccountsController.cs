@@ -30,9 +30,9 @@ namespace BridgeportClaims.Web.Controllers
             private set { _userManager = value; }
         }
 
-        public AccountsController()
-        {
-        }
+        public AccountsController() { }
+
+        private string BaseUri => Request.RequestUri.GetLeftPart(UriPartial.Authority);
 
         public AccountsController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
@@ -58,7 +58,9 @@ namespace BridgeportClaims.Web.Controllers
                 // Send an email with this link
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
+                // var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
+                var callbackUrl = new Uri($"{BaseUri}/#/resetpassword/?userId={user.Id}&code={code}");
+
                 await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);
                 return Ok(new {message="The Email to Reset your Password has been Sent Successfully"});
@@ -162,8 +164,7 @@ namespace BridgeportClaims.Web.Controllers
                 // Email
                 var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                 // Generate link for the email.
-                var baseUri = Request.RequestUri.GetLeftPart(UriPartial.Authority);
-                var callbackUrl = new Uri($"{baseUri}/#/confirm-email/?userId={user.Id}&code={code}");
+                var callbackUrl = new Uri($"{BaseUri}/#/confirm-email/?userId={user.Id}&code={code}");
                 // the line below can be uncommented, in place of the two lines above, to generate a link directly to the API.
                 // var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
                 // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
