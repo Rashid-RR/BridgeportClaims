@@ -10,10 +10,12 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
     public class EpisodesDataProvider : IEpisodesDataProvider
     {
         private readonly IRepository<Episode> _episodeRepository;
+        private readonly IRepository<Claim> _claimRepository;
 
-        public EpisodesDataProvider(IRepository<Episode> episodeRepository)
+        public EpisodesDataProvider(IRepository<Episode> episodeRepository, IRepository<Claim> claimRepository)
         {
             _episodeRepository = episodeRepository;
+            _claimRepository = claimRepository;
         }
 
         public async Task AddOrUpdateEpisode(EpisodeDto episode)
@@ -27,7 +29,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                     {
                         CreatedDate = episode.Date,
                         AssignUser = episode.By,
-                        Note = episode.Note
+                        Note = episode.Note,
+                        Claim = _claimRepository.Get(episode.ClaimId)
                     };
                     _episodeRepository.Save(e);
                 }
@@ -39,6 +42,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                     e.CreatedDate = episode.Date;
                     e.AssignUser = episode.By;
                     e.Note = episode.Note;
+                    e.Claim = _claimRepository.Get(episode.ClaimId);
                     _episodeRepository.Update(e);
                 }
             });
