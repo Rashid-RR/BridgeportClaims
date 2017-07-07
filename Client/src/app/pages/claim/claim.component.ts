@@ -6,7 +6,6 @@ import {PrescriptionNoteType} from "../../models/prescription-note-type";
 import swal from "sweetalert2";
 import {ClaimNote} from "../../models/claim-note"
 import {Episode} from "../../models/episode"
-import {warn,success} from "../../models/notification"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
@@ -163,7 +162,6 @@ export class ClaimsComponent implements OnInit {
               },200)
           }else{
               swal({title:"",html:"Saving episode... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>",showConfirmButton:false})
-              console.log(result);
               this.http.saveEpisode(
                 {
                   claimId: this.claimManager.selectedClaim.claimId,
@@ -175,7 +173,7 @@ export class ClaimsComponent implements OnInit {
                   let result = res.json()
                   swal.close();
                   this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
-                  success(result.message);
+                  this.toast.success(result.message);
                 },error=>{
                   setTimeout(()=>{
                     this.episode(id);

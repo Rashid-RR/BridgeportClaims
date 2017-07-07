@@ -2,7 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { HttpService } from "../../services/http-service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { warn, success, error } from "../../models/notification"
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
 @Component({
   selector: 'app-password-reset',
   templateUrl: './password-reset.component.html',
@@ -14,7 +15,8 @@ export class PasswordResetComponent implements OnInit {
   submitted: boolean = false;
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router,
+    private toast: ToastsManager) {
     this.form = this.formBuilder.group({
       email: ["", Validators.compose([Validators.required, Validators.pattern(this.emailRegex)])],
     });
@@ -33,7 +35,7 @@ export class PasswordResetComponent implements OnInit {
         }, error => {
           this.submitted = false;
           this.form.get('email').setErrors({ "error": "Incorrect email address" });
-          error('Incorrect email address');
+          this.toast.error('Incorrect email address');
 
         });
     }
@@ -51,12 +53,12 @@ export class PasswordResetComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.http.forgotpassword(this.form.value).subscribe(res => {                    
-          success('The Email to Reset your Password has been Sent Successfully');
+          this.toast.success('The Email to Reset your Password has been Sent Successfully');
           this.router.navigate(['/login']);
           
         }, (error) => {          
           this.submitted = false;
-          warn('You must confirm your email address from your registration before confirming your password');
+          this.toast.warning('You must confirm your email address from your registration before confirming your password');
           // console.log(error);
           if (error.status !== 500) {            
             this.form.get('email').setErrors({ 'auth': 'Incorrect email' })
@@ -64,7 +66,7 @@ export class PasswordResetComponent implements OnInit {
         })
       } catch (e) {        
         this.submitted = false;
-        warn('Please enter valid Email');
+        this.toast.warning('Please enter valid Email');
         this.form.get('email').setErrors({ 'auth': 'Incorrect email' })
       } finally {
 

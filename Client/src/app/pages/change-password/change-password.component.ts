@@ -2,8 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { HttpService } from "../../services/http-service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
-
-import { warn, success, error } from "../../models/notification"
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-change-password',
@@ -15,7 +14,7 @@ export class ChangePasswordComponent implements OnInit {
   submitted: boolean = false;  
   code:any;
   user:any;
-  constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router,private route: ActivatedRoute) {
+  constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router,private route: ActivatedRoute,private toast: ToastsManager) {
     this.form = this.formBuilder.group({
       Password: ["", Validators.compose([Validators.required])],
       ConfirmPassword: ["", Validators.compose([Validators.required])]
@@ -42,18 +41,18 @@ export class ChangePasswordComponent implements OnInit {
         
         this.http.resetpassword(data).subscribe(res => {
            this.submitted = false;
-          success("You may login with your new password.");
+          this.toast.success("You may login with your new password.");
           this.router.navigate(['/login']);
 
         }, (error) => {          
           this.submitted = false;
            let err = error.json();
           // console.log(err.Message);
-          warn(err.Message);                 
+          this.toast.warning(err.Message);                 
         })
       } catch (e) {
         this.submitted = false;
-        warn('Some error occured');        
+        this.toast.warning('Some error occured');        
       } finally {
 
       }
