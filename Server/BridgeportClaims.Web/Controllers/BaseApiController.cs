@@ -97,8 +97,14 @@ namespace BridgeportClaims.Web.Controllers
 
         protected IHttpActionResult GetBadRequestFormattedErrorMessages(IdentityResult result)
         {
-            var error_description = string.Join(", ", result.Errors.SelectMany(sm => sm));
-            return BadRequest(error_description);
+            string error_description = null;
+            if (null != result?.Errors)
+            {
+                error_description = result.Errors.Count() > 1
+                    ? string.Join(", ", result.Errors.SelectMany(sm => sm))
+                    : result.Errors.Select(x => x).FirstOrDefault();
+            }
+            return BadRequest(error_description ?? "An error occurred.");
         }
 
         protected IHttpActionResult GetBadRequestFormattedErrorMessages()
