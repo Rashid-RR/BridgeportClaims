@@ -8,7 +8,6 @@ using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
 using BridgeportClaims.Web.Attributes;

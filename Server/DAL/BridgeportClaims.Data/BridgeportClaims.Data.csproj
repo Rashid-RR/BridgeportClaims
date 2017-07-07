@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
+    <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\UserOptions\DbccUserOptionsProvider.cs" />
