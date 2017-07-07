@@ -7,24 +7,31 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <form role="form" [formGroup]="form" class="center-form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="login()">
-            <h3>Please sign in</h3>
-            <div class="form-group">
-                <input type="text" name="email" class="form-control" placeholder="Email address" formControlName="email" (focus)="submitted=false" required focus-on>
-                <p class="text-danger form-control-static" *ngIf="form.get('email').value!='' && form.get('email').errors && submitted">Incorrect email</p>
-                <p class="text-danger form-control-static" *ngIf="form.get('email').value =='' && submitted">Email is required</p>
+        <div class="box center-form no-border">
+            <div class="box-body"> 
+                <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="login()">
+                    <h3>Please sign in</h3>
+                    <div class="form-group">
+                        <input type="text" name="email" class="form-control" placeholder="Email address" formControlName="email" (focus)="submitted=false" required focus-on>
+                        <p class="text-danger form-control-static" *ngIf="form.get('email').value!='' && form.get('email').errors && submitted">Incorrect email</p>
+                        <p class="text-danger form-control-static" *ngIf="form.get('email').value =='' && submitted">Email is required</p>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-control bottom" placeholder="Password" formControlName="password" required (focus)="submitted=false">
+                        <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email or password'}}</p>
+                    </div>
+                    <div class="form-group">
+                        <span class="help-block"><a [routerLink]="'/recover-lost-password'">Forgotten password?</a></span>
+                    </div>
+                    <div class="checkbox">
+                        <label><input type="checkbox" value="true" formControlName="rememberMe"> Remember me</label>
+                    </div>
+                    <button class="btn btn-primary btn-block" type="button" (click)="login()">Sign in</button>
+                </form>
             </div>
-            <div class="form-group">
-                <input type="password" name="password" class="form-control bottom" placeholder="Password" formControlName="password" required (focus)="submitted=false">
-                <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email or password'}}</p>
-            </div>
-            <div class="form-group">
-                <span class="help-block"><a [routerLink]="'/recover-lost-password'">Forgotten password?</a></span>
-            </div>
-            <div class="checkbox">
-                <label><input type="checkbox" value="true" formControlName="rememberMe"> Remember me</label>
-            </div>
-            <button class="btn btn-primary btn-block" type="button" (click)="login()">Sign in</button>
-        </form>
+            <div class="overlay" *ngIf="submitted" style="text-align:center;">
+                <img src="assets/1.gif" style="width:70%"><br/>
+            </div> 
+        </div>
     </div>
 </div>

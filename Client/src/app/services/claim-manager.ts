@@ -9,6 +9,7 @@ import {PrescriptionNoteType} from "../models/prescription-note-type"
 import {Injectable} from "@angular/core";
 import {HttpService} from "./http-service";
 import {EventsService} from "./events-service";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class ClaimManager{
@@ -17,7 +18,7 @@ export class ClaimManager{
   loading:Boolean=false;
   private notetypes:Array<any>=[];
   private prescriptionNotetypes:Array<PrescriptionNoteType>=[];
-  constructor(private http:HttpService,private events:EventsService) {}
+  constructor(private http:HttpService,private events:EventsService,private router: Router) {}
   
   search(data){    
     this.loading = true;
@@ -49,7 +50,13 @@ export class ClaimManager{
         }
       },err=>{
         this.loading = false;
-        console.log(err);
+        try{
+          let error = err.json();
+          console.log(error);
+          if(error.status==401){
+            this.router.navigate(['/login']);
+          }
+        }catch(e){}
       },()=>{
           this.events.broadcast("claim-updated")
       })

@@ -48,11 +48,13 @@ export class LoginComponent implements OnInit {
                 localStorage.setItem("user", JSON.stringify(res));
                 this.router.navigate(['/main/private']);
                 success('Welcome back');
+                this.submitted = false;
             },err=>console.log(err))
-        }, (error) => {
+        }, (requestError) => {
+            this.submitted = false;
          // if (error.status !== 500) {
-           let err = error.json();
-            this.form.get('password').setErrors({'auth': 'Incorrect login or password'})
+           let err = requestError.json();
+            this.form.get('password').setErrors({'auth': err.error_description})
             error( err.error_description);
          // }
         })
