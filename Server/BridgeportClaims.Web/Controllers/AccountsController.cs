@@ -8,11 +8,14 @@ using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
+using System.Data;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
+using BridgeportClaims.Data.SessionFactory;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using NHibernate;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -22,6 +25,8 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private ApplicationUserManager _userManager;
+
+        private ISessionFactory SessionFactory => SessionFactoryBuilder.CreateSessionFactory();
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
         public ApplicationUserManager UserManager
@@ -58,8 +63,27 @@ namespace BridgeportClaims.Web.Controllers
                 // Send an email with this link
 
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
-                var callbackUrl = new Uri($"{BaseUri}/#/resetpassword/?userId={user.Id}&code={code}");
+                using (var session = SessionFactory.OpenSession())
+                {
+                    using (var transaction = session.BeginTransaction(IsolationLevel.ReadCommitted))
+                    {
+                        try
+                        {
+                            session.CreateSQLQuery(@"INSERT dbo.ForgotPasswordCode ([Code]) VALUES (':Code')")
+                                .SetString("Code", code).ExecuteUpdate();
+                            if (transaction.IsActive)
+                                transaction.Commit();
+                        }
+                        catch
+                        {
+                            if (transaction.IsActive)
+                                transaction.Rollback();
+                            throw;
+                        }
+                    }
+                }
+                    // var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
+                    var callbackUrl = new Uri($"{BaseUri}/#/resetpassword/?userId={user.Id}&code={code}");
 
                 await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);

@@ -1,11 +1,11 @@
 webpackJsonp([2,5],{
 
-/***/ 100:
+/***/ 105:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng2_bootstrap_modal__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfirmComponent; });
 var __extends = (this && this.__extends) || (function () {
@@ -55,13 +55,15 @@ var _a;
 
 /***/ }),
 
-/***/ 101:
+/***/ 106:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng2_toastr_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_profile_manager__ = __webpack_require__(28);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppLayoutComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -75,12 +77,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AppLayoutComponent = (function () {
-    function AppLayoutComponent(router, profileManager) {
+    function AppLayoutComponent(router, profileManager, toast) {
         this.router = router;
         this.profileManager = profileManager;
+        this.toast = toast;
     }
     AppLayoutComponent.prototype.ngOnInit = function () {
+    };
+    AppLayoutComponent.prototype.ngAfterViewInit = function () {
+        this.toast.setRootViewContainerRef(this.toastVcr);
     };
     Object.defineProperty(AppLayoutComponent.prototype, "isLoggedIn", {
         get: function () {
@@ -99,31 +106,127 @@ var AppLayoutComponent = (function () {
     });
     return AppLayoutComponent;
 }());
+__decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewChild"])('toastContainer', { read: __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] }),
+    __metadata("design:type", typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _a || Object)
+], AppLayoutComponent.prototype, "toastVcr", void 0);
 AppLayoutComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-layout',
-        template: __webpack_require__(352),
-        styles: [__webpack_require__(306)]
+        template: __webpack_require__(365),
+        styles: [__webpack_require__(318)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_profile_manager__["a" /* ProfileManager */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _d || Object])
 ], AppLayoutComponent);
 
-var _a, _b;
+var _a, _b, _c, _d;
 //# sourceMappingURL=app-layout.component.js.map
 
 /***/ }),
 
-/***/ 102:
+/***/ 107:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_claim_manager__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_sweetalert2__ = __webpack_require__(170);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_sweetalert2__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_claim_note__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_notification__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification__ = __webpack_require__(75);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ChangePasswordComponent; });
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ChangePasswordComponent = (function () {
+    function ChangePasswordComponent(formBuilder, http, router, route) {
+        var _this = this;
+        this.formBuilder = formBuilder;
+        this.http = http;
+        this.router = router;
+        this.route = route;
+        this.submitted = false;
+        this.form = this.formBuilder.group({
+            Password: ["", __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* Validators */].required])],
+            ConfirmPassword: ["", __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* Validators */].required])]
+        });
+        router.routerState.root.queryParams.subscribe(function (data) {
+            _this.code = encodeURIComponent(data['code']);
+            _this.user = data['userId'];
+        });
+    }
+    ChangePasswordComponent.prototype.ngOnInit = function () {
+    };
+    ChangePasswordComponent.prototype.submit = function () {
+        var _this = this;
+        if (!this.form.valid || (this.form.get('Password').value !== this.form.get('ConfirmPassword').value)) {
+            this.form.get('ConfirmPassword').setErrors({ "unmatched": "Confirm password does not match password" });
+            this.submitted = false;
+        }
+        else {
+            this.submitted = true;
+            try {
+                var data = void 0;
+                data = { userId: this.user, code: this.code, password: this.form.value.Password, confirmPassword: this.form.value.ConfirmPassword };
+                this.http.resetpassword(data).subscribe(function (res) {
+                    _this.submitted = false;
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["a" /* success */])("You may login with your new password.");
+                    _this.router.navigate(['/login']);
+                }, function (error) {
+                    _this.submitted = false;
+                    var err = error.json();
+                    // console.log(err.Message);
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["b" /* warn */])(err.Message);
+                });
+            }
+            catch (e) {
+                this.submitted = false;
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["b" /* warn */])('Some error occured');
+            }
+            finally {
+            }
+        }
+    };
+    return ChangePasswordComponent;
+}());
+ChangePasswordComponent = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+        selector: 'app-change-password',
+        template: __webpack_require__(368),
+        styles: [__webpack_require__(321)]
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["c" /* ActivatedRoute */]) === "function" && _d || Object])
+], ChangePasswordComponent);
+
+var _a, _b, _c, _d;
+//# sourceMappingURL=change-password.component.js.map
+
+/***/ }),
+
+/***/ 108:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_events_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2__ = __webpack_require__(177);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_sweetalert2__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_claim_note__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_notification__ = __webpack_require__(75);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClaimsComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -140,10 +243,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var ClaimsComponent = (function () {
-    function ClaimsComponent(claimManager, http) {
+    function ClaimsComponent(claimManager, http, events, toast) {
         this.claimManager = claimManager;
         this.http = http;
+        this.events = events;
+        this.toast = toast;
         this.expanded = false;
         this.expandedBlade = 0;
     }
@@ -156,7 +263,11 @@ var ClaimsComponent = (function () {
         this.expandedBlade = 0;
     };
     ClaimsComponent.prototype.ngOnInit = function () {
+        var _this = this;
         window['jQuery']('body').addClass('sidebar-collapse');
+        this.events.on("edit-episode", function (id) {
+            _this.episode(id);
+        });
     };
     ClaimsComponent.prototype.addPrescriptionNote = function (text, TypeId, prescriptionNoteId) {
         var _this = this;
@@ -176,7 +287,7 @@ var ClaimsComponent = (function () {
             }
         }
         if (selectedNotes.length > 0) {
-            __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({
+            __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
                 title: 'New Prescription Note',
                 html: "\n                  <div class=\"form-group\">\n                      <label id=\"claimNoteTypeLabel\">Prescription Note type</label>\n                      <select class=\"form-control\" id=\"prescriptionNoteTypeId\">\n                        " + prescriptionNoteTypeIds + "\n                      </select>\n                  </div>\n                  <div class=\"form-group\">\n                      <label id=\"noteTextLabel\">Note Text</label>\n                      <textarea class=\"form-control\"  id=\"noteText\" rows=\"3\">" + text + "</textarea>\n                  </div>\n                  <div style=\"text-align:left\">\n                      <h4 class=\"text-green\">Prescriptions</h4>\n                      " + selectedPrecriptions + "              \n                  </div>\n            ",
                 showCancelButton: true,
@@ -195,21 +306,21 @@ var ClaimsComponent = (function () {
                 }
             }).then(function (result) {
                 if (result[0] == "") {
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])('Please select one type!');
+                    _this.toast.warning('Please select one type!');
                     setTimeout(function () {
                         _this.addPrescriptionNote(result[1], result[0]);
                         window['jQuery']('#claimNoteTypeLabel').css({ "color": "red" });
                     }, 200);
                 }
                 else if (result[1] == "") {
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])('Note Text is required!');
+                    _this.toast.warning('Note Text is required!');
                     setTimeout(function () {
                         _this.addPrescriptionNote(result[1], result[0]);
                         window['jQuery']('#noteTextLabel').css({ "color": "red" });
                     }, 200);
                 }
                 else {
-                    __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({ title: "", html: "Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>", showConfirmButton: false });
+                    __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({ title: "", html: "Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>", showConfirmButton: false });
                     _this.http.savePrescriptionNote({
                         claimId: _this.claimManager.selectedClaim.claimId,
                         noteText: result[1],
@@ -218,21 +329,75 @@ var ClaimsComponent = (function () {
                         prescriptionNoteId: prescriptionNoteId
                     }).single().subscribe(function (res) {
                         var result = res.json();
-                        __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default.a.close();
+                        __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default.a.close();
                         _this.claimManager.getClaimsDataById(_this.claimManager.selectedClaim.claimId);
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["a" /* success */])(result.message);
+                        _this.toast.success(result.message);
                     }, function (error) {
                         setTimeout(function () {
                             _this.addPrescriptionNote(result[1], result[0]);
-                            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])('Server error!');
+                            _this.toast.warning('Server error!');
                         }, 200);
                     });
                 }
-            }).catch(__WEBPACK_IMPORTED_MODULE_3_sweetalert2___default.a.noop);
+            }).catch(__WEBPACK_IMPORTED_MODULE_4_sweetalert2___default.a.noop);
         }
         else {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])('Please select at least one prescription');
+            this.toast.warning('Please select at least one prescription');
         }
+    };
+    ClaimsComponent.prototype.episode = function (id) {
+        var _this = this;
+        var episode;
+        if (id) {
+            episode = this.claimManager.selectedClaim.episodes.find(function (episode) { return episode.episodeId == id; });
+            console.log(episode);
+        }
+        __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
+            title: 'Episode Entry',
+            html: "<div class=\"form-group\">\n                  <label id=\"noteTextLabel\">Note Text</label>\n                  <textarea class=\"form-control\"  id=\"note\" rows=\"3\">" + (episode !== undefined ? episode.note : '') + "</textarea>\n              </div>\n            ",
+            showCancelButton: true,
+            showLoaderOnConfirm: true,
+            confirmButtonText: "Save",
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    resolve([
+                        window['jQuery']('#note').val()
+                    ]);
+                });
+            },
+            onOpen: function () {
+                window['jQuery']('#note').focus();
+            }
+        }).then(function (result) {
+            if (result[0] == "") {
+                _this.toast.warning('Note Text is required!');
+                setTimeout(function () {
+                    _this.episode(result[0]);
+                    window['jQuery']('#noteTextLabel').css({ "color": "red" });
+                }, 200);
+            }
+            else {
+                __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({ title: "", html: "Saving episode... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>", showConfirmButton: false });
+                console.log(result);
+                _this.http.saveEpisode({
+                    claimId: _this.claimManager.selectedClaim.claimId,
+                    episodeId: episode !== undefined ? episode.episodeId : null,
+                    note: result[0],
+                    by: episode !== undefined ? episode.by : 'me',
+                    date: episode !== undefined ? episode.date : (new Date())
+                }).single().subscribe(function (res) {
+                    var result = res.json();
+                    __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default.a.close();
+                    _this.claimManager.getClaimsDataById(_this.claimManager.selectedClaim.claimId);
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__models_notification__["a" /* success */])(result.message);
+                }, function (error) {
+                    setTimeout(function () {
+                        _this.episode(id);
+                        _this.toast.warning('Server error!');
+                    }, 200);
+                });
+            }
+        }).catch(__WEBPACK_IMPORTED_MODULE_4_sweetalert2___default.a.noop);
     };
     ClaimsComponent.prototype.addNote = function (noteText, TypeId) {
         var _this = this;
@@ -242,7 +407,7 @@ var ClaimsComponent = (function () {
         this.claimManager.NoteTypes.forEach(function (note) {
             claimNoteTypeIds = claimNoteTypeIds + '<option value="' + note.key + '"' + (note.value == TypeId ? "selected" : "") + '>' + note.value + '</option>';
         });
-        __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({
+        __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({
             title: 'Claim Note',
             html: "\n              <div class=\"form-group\">\n                  <label id=\"claimNoteTypeLabel\">Note type</label>\n                  <select class=\"form-control\" id=\"noteTypeId\">\n                    " + claimNoteTypeIds + "\n                  </select>\n              </div>\n              <div class=\"form-group\">\n                  <label id=\"noteTextLabel\">Note Text</label>\n                  <textarea class=\"form-control\"  id=\"noteText\" rows=\"3\">" + noteText + "</textarea>\n              </div>\n        ",
             showCancelButton: true,
@@ -261,28 +426,28 @@ var ClaimsComponent = (function () {
             }
         }).then(function (result) {
             if (result[0] == "") {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])('Please select one type!');
+                _this.toast.warning('Please select one type!');
                 setTimeout(function () {
                     _this.addNote(result[1], result[0]);
                     window['jQuery']('#claimNoteTypeLabel').css({ "color": "red" });
                 }, 200);
             }
             else if (result[1] == "") {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])('Note Text is required!');
+                _this.toast.warning('Note Text is required!');
                 setTimeout(function () {
                     _this.addNote(result[1], result[0]);
                     window['jQuery']('#noteTextLabel').css({ "color": "red" });
                 }, 200);
             }
             else {
-                __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default()({ title: "", html: "Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>", showConfirmButton: false });
+                __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default()({ title: "", html: "Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>", showConfirmButton: false });
                 _this.http.saveClaimNote({
                     claimId: _this.claimManager.selectedClaim.claimId,
                     noteTypeId: result[0],
                     noteText: result[1]
                 }).subscribe(function (res) {
                     if (!_this.claimManager.selectedClaim.claimNote) {
-                        _this.claimManager.selectedClaim.claimNote = new __WEBPACK_IMPORTED_MODULE_4__models_claim_note__["a" /* ClaimNote */](result[1], result[0]);
+                        _this.claimManager.selectedClaim.claimNote = new __WEBPACK_IMPORTED_MODULE_5__models_claim_note__["a" /* ClaimNote */](result[1], result[0]);
                     }
                     else {
                         _this.claimManager.selectedClaim.claimNote.noteText = result[1];
@@ -290,43 +455,44 @@ var ClaimsComponent = (function () {
                     _this.claimManager.selectedClaim.editing = false;
                     _this.claimManager.loading = false;
                     //console.log(res);
-                    __WEBPACK_IMPORTED_MODULE_3_sweetalert2___default.a.close();
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["a" /* success */])("Noted successfully saved");
+                    __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default.a.close();
+                    _this.toast.success("Noted successfully saved");
                 }, function (error) {
                     var err = error.json();
                     setTimeout(function () {
                         _this.addNote(result[1], result[0]);
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])(err.error_description);
+                        _this.toast.warning(err.error_description);
                     }, 200);
                 });
             }
-        }).catch(__WEBPACK_IMPORTED_MODULE_3_sweetalert2___default.a.noop);
+        }).catch(__WEBPACK_IMPORTED_MODULE_4_sweetalert2___default.a.noop);
     };
     return ClaimsComponent;
 }());
 ClaimsComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim',
-        template: __webpack_require__(355),
-        styles: [__webpack_require__(309)]
+        template: __webpack_require__(369),
+        styles: [__webpack_require__(322)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_events_service__["a" /* EventsService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _d || Object])
 ], ClaimsComponent);
 
-var _a, _b;
+var _a, _b, _c, _d;
 //# sourceMappingURL=claim.component.js.map
 
 /***/ }),
 
-/***/ 103:
+/***/ 109:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(73);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ConfirmEmailComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -343,12 +509,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ConfirmEmailComponent = (function () {
-    function ConfirmEmailComponent(route, http, req, router) {
+    function ConfirmEmailComponent(route, http, req, router, toast) {
         var _this = this;
         this.route = route;
         this.http = http;
         this.req = req;
         this.router = router;
+        this.toast = toast;
         this.confirmed = 0;
         this.loading = true;
         router.routerState.root.queryParams.subscribe(function (data) {
@@ -360,7 +527,7 @@ var ConfirmEmailComponent = (function () {
         var _this = this;
         try {
             this.http.confirmEmail(this.user, this.code).subscribe(function (res) {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["a" /* success */])('Thank you for confirming your email. Please proceed to login');
+                _this.toast.success('Thank you for confirming your email. Please proceed to login');
                 _this.loading = false;
                 _this.confirmed = 1;
                 _this.router.navigate(['/login']);
@@ -371,7 +538,7 @@ var ConfirmEmailComponent = (function () {
             });
         }
         catch (e) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["b" /* error */])('Error in fields. Please correct to proceed!');
+            this.toast.error('Error in fields. Please correct to proceed!');
         }
     };
     return ConfirmEmailComponent;
@@ -379,23 +546,23 @@ var ConfirmEmailComponent = (function () {
 ConfirmEmailComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-confirm-email',
-        template: __webpack_require__(356),
-        styles: [__webpack_require__(310)]
+        template: __webpack_require__(370),
+        styles: [__webpack_require__(323)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Http */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["c" /* Http */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* Router */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _e || Object])
 ], ConfirmEmailComponent);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=confirm-email.component.js.map
 
 /***/ }),
 
-/***/ 104:
+/***/ 110:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common__ = __webpack_require__(34);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return Error404Component; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -422,8 +589,8 @@ var Error404Component = (function () {
 Error404Component = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-error404',
-        template: __webpack_require__(357),
-        styles: [__webpack_require__(311)]
+        template: __webpack_require__(371),
+        styles: [__webpack_require__(324)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_common__["Location"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_common__["Location"]) === "function" && _a || Object])
 ], Error404Component);
@@ -433,18 +600,19 @@ var _a;
 
 /***/ }),
 
-/***/ 105:
+/***/ 111:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_profile_manager__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_profile_manager__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_profile__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_events_service__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__models_notification__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_events_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -464,17 +632,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var LoginComponent = (function () {
-    function LoginComponent(formBuilder, http, router, events, profileManager) {
+    function LoginComponent(formBuilder, http, router, events, profileManager, toast) {
         this.formBuilder = formBuilder;
         this.http = http;
         this.router = router;
         this.events = events;
         this.profileManager = profileManager;
+        this.toast = toast;
         this.submitted = false;
         this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         this.form = this.formBuilder.group({
-            email: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].pattern(this.emailRegex)])],
-            password: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].required])],
+            email: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern(this.emailRegex)])],
+            password: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required])],
             grant_type: ['password'],
             rememberMe: [false],
         });
@@ -501,25 +670,28 @@ var LoginComponent = (function () {
                         res.access_token = data.access_token;
                         localStorage.setItem("user", JSON.stringify(res));
                         _this.router.navigate(['/main/private']);
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__models_notification__["a" /* success */])('Welcome back');
+                        _this.toast.success('Welcome back');
                     }, function (err) { return console.log(err); });
-                }, function (error) {
+                }, function (requestError) {
+                    _this.submitted = false;
                     // if (error.status !== 500) {
-                    var err = error.json();
-                    _this.form.get('password').setErrors({ 'auth': 'Incorrect login or password' });
-                    error(err.error_description);
+                    _this.submitted = false;
+                    var err = requestError.json();
+                    _this.form.get('password').setErrors({ 'auth': err.error_description });
+                    _this.toast.error(err.error_description);
                     // }
                 });
             }
             catch (e) {
+                this.submitted = false;
                 this.form.get('password').setErrors({ 'auth': 'Incorrect login or password' });
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__models_notification__["b" /* error */])('Incorrect login or password');
+                this.toast.error('Incorrect login or password');
             }
             finally {
             }
         }
         else {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__models_notification__["b" /* error */])('Error in fields. Please correct to proceed!');
+            this.toast.error('Error in fields. Please correct to proceed!');
         }
     };
     LoginComponent.prototype.ngOnInit = function () {
@@ -529,18 +701,18 @@ var LoginComponent = (function () {
 LoginComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-login',
-        template: __webpack_require__(358),
-        styles: [__webpack_require__(312)]
+        template: __webpack_require__(372),
+        styles: [__webpack_require__(325)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_events_service__["a" /* EventsService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_profile_manager__["a" /* ProfileManager */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_6__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_events_service__["a" /* EventsService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_4__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_profile_manager__["a" /* ProfileManager */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _f || Object])
 ], LoginComponent);
 
-var _a, _b, _c, _d, _e;
+var _a, _b, _c, _d, _e, _f;
 //# sourceMappingURL=login.component.js.map
 
 /***/ }),
 
-/***/ 106:
+/***/ 112:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -566,8 +738,8 @@ var MainComponent = (function () {
 MainComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-main',
-        template: __webpack_require__(359),
-        styles: [__webpack_require__(313)]
+        template: __webpack_require__(373),
+        styles: [__webpack_require__(326)]
     }),
     __metadata("design:paramtypes", [])
 ], MainComponent);
@@ -576,14 +748,15 @@ MainComponent = __decorate([
 
 /***/ }),
 
-/***/ 107:
+/***/ 113:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_router__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification__ = __webpack_require__(75);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PasswordResetComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -598,6 +771,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var PasswordResetComponent = (function () {
     function PasswordResetComponent(formBuilder, http, router) {
         this.formBuilder = formBuilder;
@@ -606,7 +780,7 @@ var PasswordResetComponent = (function () {
         this.submitted = false;
         this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         this.form = this.formBuilder.group({
-            email: ["", __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* Validators */].pattern(this.emailRegex)])],
+            email: ["", __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* Validators */].required, __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* Validators */].pattern(this.emailRegex)])],
         });
     }
     PasswordResetComponent.prototype.ngOnInit = function () {
@@ -619,8 +793,9 @@ var PasswordResetComponent = (function () {
                 .subscribe(function (res) {
                 _this.submitted = false;
             }, function (error) {
-                _this.form.get('email').setErrors({ "error": "Incorrect email address" });
                 _this.submitted = false;
+                _this.form.get('email').setErrors({ "error": "Incorrect email address" });
+                error('Incorrect email address');
             });
         }
     };
@@ -635,15 +810,21 @@ var PasswordResetComponent = (function () {
         this.submitted = true;
         if (this.form.valid) {
             try {
-                this.http.passwordreset(this.form.value).subscribe(function (res) {
-                    _this.router.navigate(['/main/login']);
+                this.http.forgotpassword(this.form.value).subscribe(function (res) {
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["a" /* success */])('The Email to Reset your Password has been Sent Successfully');
+                    _this.router.navigate(['/login']);
                 }, function (error) {
+                    _this.submitted = false;
+                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["b" /* warn */])('You must confirm your email address from your registration before confirming your password');
+                    // console.log(error);
                     if (error.status !== 500) {
                         _this.form.get('email').setErrors({ 'auth': 'Incorrect email' });
                     }
                 });
             }
             catch (e) {
+                this.submitted = false;
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["b" /* warn */])('Please enter valid Email');
                 this.form.get('email').setErrors({ 'auth': 'Incorrect email' });
             }
             finally {
@@ -655,10 +836,10 @@ var PasswordResetComponent = (function () {
 PasswordResetComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-password-reset',
-        template: __webpack_require__(360),
-        styles: [__webpack_require__(314)]
+        template: __webpack_require__(374),
+        styles: [__webpack_require__(327)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_router__["a" /* Router */]) === "function" && _c || Object])
 ], PasswordResetComponent);
 
 var _a, _b, _c;
@@ -666,7 +847,7 @@ var _a, _b, _c;
 
 /***/ }),
 
-/***/ 108:
+/***/ 114:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -717,8 +898,8 @@ var PayorsComponent = (function () {
 PayorsComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-payors',
-        template: __webpack_require__(361),
-        styles: [__webpack_require__(315)]
+        template: __webpack_require__(375),
+        styles: [__webpack_require__(328)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _a || Object])
 ], PayorsComponent);
@@ -728,14 +909,14 @@ var _a;
 
 /***/ }),
 
-/***/ 109:
+/***/ 115:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_events_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_events_service__ = __webpack_require__(16);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PrivateComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -770,8 +951,8 @@ var PrivateComponent = (function () {
 PrivateComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-private',
-        template: __webpack_require__(362),
-        styles: [__webpack_require__(316)]
+        template: __webpack_require__(376),
+        styles: [__webpack_require__(329)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_events_service__["a" /* EventsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */]) === "function" && _c || Object])
 ], PrivateComponent);
@@ -781,17 +962,18 @@ var _a, _b, _c;
 
 /***/ }),
 
-/***/ 110:
+/***/ 116:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_http_service__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_profile__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_profile_manager__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__models_notification__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_profile_manager__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -810,11 +992,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ProfileComponent = (function () {
-    function ProfileComponent(formBuilder, claimManager, http, profileManager) {
+    function ProfileComponent(formBuilder, claimManager, http, profileManager, toast) {
         this.formBuilder = formBuilder;
         this.claimManager = claimManager;
         this.http = http;
         this.profileManager = profileManager;
+        this.toast = toast;
         this.submitted = false;
         this.loading = false;
         this.registered = false;
@@ -829,8 +1012,8 @@ var ProfileComponent = (function () {
             this.profileManager.profile = new __WEBPACK_IMPORTED_MODULE_4__models_profile__["a" /* UserProfile */]('', '', '', '', '');
         }
         this.form = this.formBuilder.group({
-            firstName: [this.profileManager.profile.firstName, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].required])],
-            lastName: [this.profileManager.profile.lastName, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].required])],
+            firstName: [this.profileManager.profile.firstName, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required])],
+            lastName: [this.profileManager.profile.lastName, __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required])],
             oldPassword: [''],
             newPassword: [""],
             confirmPassword: [""]
@@ -844,7 +1027,7 @@ var ProfileComponent = (function () {
             this.loading = true;
             try {
                 this.http.changeusername(this.form.value.firstName, this.form.value.lastName, this.profileManager.profile.id).subscribe(function (res) {
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__models_notification__["a" /* success */])('User name updated successfully');
+                    _this.toast.success('User name updated successfully');
                     _this.profileManager.profile.firstName = _this.form.value.firstName;
                     _this.profileManager.profile.lastName = _this.form.value.lastName;
                     _this.registered = true;
@@ -856,11 +1039,11 @@ var ProfileComponent = (function () {
                 });
             }
             catch (e) {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__models_notification__["b" /* error */])('Error in fields. Please correct to proceed!');
+                this.toast.error('Error in fields. Please correct to proceed!');
             }
         }
         else {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__models_notification__["b" /* error */])('Error in fields. Please correct to proceed!');
+            this.toast.error('Error in fields. Please correct to proceed!');
         }
     };
     ProfileComponent.prototype.submitForm = function (form) {
@@ -886,7 +1069,7 @@ var ProfileComponent = (function () {
             this.loading = true;
             try {
                 this.http.changepassword(this.form.value).subscribe(function (res) {
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__models_notification__["a" /* success */])('Password successfully changed');
+                    _this.toast.success('Password successfully changed');
                     _this.registered = true;
                     _this.loading = false;
                 }, function (error) {
@@ -896,11 +1079,11 @@ var ProfileComponent = (function () {
                 });
             }
             catch (e) {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__models_notification__["b" /* error */])('Error in fields. Please correct to proceed!');
+                this.toast.error('Error in fields. Please correct to proceed!');
             }
         }
         else {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__models_notification__["b" /* error */])('Error in fields. Please correct to proceed!');
+            this.toast.error('Error in fields. Please correct to proceed!');
         }
     };
     return ProfileComponent;
@@ -908,25 +1091,26 @@ var ProfileComponent = (function () {
 ProfileComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-profile',
-        template: __webpack_require__(363),
+        template: __webpack_require__(377),
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_profile_manager__["a" /* ProfileManager */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_profile_manager__["a" /* ProfileManager */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _e || Object])
 ], ProfileComponent);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=profile.component.js.map
 
 /***/ }),
 
-/***/ 111:
+/***/ 117:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_notification__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -943,19 +1127,20 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var RegisterComponent = (function () {
-    function RegisterComponent(formBuilder, http, router) {
+    function RegisterComponent(formBuilder, http, router, toast) {
         this.formBuilder = formBuilder;
         this.http = http;
         this.router = router;
+        this.toast = toast;
         this.submitted = false;
         this.registered = false;
         this.emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         this.form = this.formBuilder.group({
-            firstname: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].required])],
-            lastname: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].required])],
-            Email: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].pattern(this.emailRegex)])],
-            Password: ["", __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].required])],
-            ConfirmPassword: ["", __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* Validators */].required])]
+            firstname: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required])],
+            lastname: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required])],
+            Email: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].pattern(this.emailRegex)])],
+            Password: ["", __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required])],
+            ConfirmPassword: ["", __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* Validators */].required])]
         });
     }
     RegisterComponent.prototype.ngOnInit = function () {
@@ -969,29 +1154,32 @@ var RegisterComponent = (function () {
         console.log(this.form.value);
         if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
             this.form.get('ConfirmPassword').setErrors({ "unmatched": "Repeat password does not match password" });
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["c" /* warn */])('Password and Confirmed Password did not match password');
+            this.toast.warning('Password and Confirmed Password did not match password');
         }
         if (this.form.valid) {
+            this.submitted = true;
             try {
                 this.http.register(this.form.value).subscribe(function (res) {
                     console.log("Successful registration");
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["a" /* success */])("You have been signup successfully");
+                    _this.router.navigate(['/logon']);
+                    _this.toast.success("You have registered successfully");
+                    _this.toast.success("Please go check your email – you’ll need to confirm your email address before you login.");
                     _this.registered = true;
-                    _this.router.navigate(['/login']);
-                    // this.router.navigate(['/logon']);
-                    //console.log(res.json());
-                }, function (error) {
-                    var err = error.json();
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["c" /* warn */])(err.error_description);
+                    _this.submitted = false;
+                }, function (requestError) {
+                    var err = requestError.json();
+                    _this.toast.error(err.Message);
+                    _this.submitted = false;
                 });
             }
             catch (e) {
+                this.submitted = false;
             }
             finally {
             }
         }
         else {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__models_notification__["c" /* warn */])('Error in fields. Please correct to proceed!');
+            this.toast.warning('Error in fields. Please correct to proceed!');
         }
     };
     return RegisterComponent;
@@ -999,27 +1187,28 @@ var RegisterComponent = (function () {
 RegisterComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-register',
-        template: __webpack_require__(364),
-        styles: [__webpack_require__(317)]
+        template: __webpack_require__(378),
+        styles: [__webpack_require__(330)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _d || Object])
 ], RegisterComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=register.component.js.map
 
 /***/ }),
 
-/***/ 112:
+/***/ 118:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_notification__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_confirm_component__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_modal__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_confirm_component__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_modal__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_modal__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return UsersComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1038,10 +1227,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var UsersComponent = (function () {
-    function UsersComponent(http, formBuilder, dialogService) {
+    function UsersComponent(http, formBuilder, dialogService, toast) {
         this.http = http;
         this.formBuilder = formBuilder;
         this.dialogService = dialogService;
+        this.toast = toast;
         this.users = [];
         this.pageSize = 5;
         this.userRole = 'User';
@@ -1128,35 +1318,35 @@ var UsersComponent = (function () {
     };
     UsersComponent.prototype.processStatusChange = function (index, event) {
         var _this = this;
-        if (event) {
+        if (!event) {
             try {
                 this.http.deactivateUser(this.users[index].id).subscribe(function (res) {
                     _this.users[index].admin = false;
                     _this.users[index].user = false;
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__models_notification__["a" /* success */])('User deactivated successfully');
+                    _this.toast.success('User deactivated successfully');
                 }, function (error) {
                     var err = error.json();
-                    error('Some error occured, please try again');
+                    _this.toast.error('Some error occured, please try again');
                     console.log(err.message);
                 });
             }
             catch (e) {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__models_notification__["c" /* warn */])('Some error occured, please try again');
+                this.toast.warning('Some error occured, please try again');
             }
         }
         else {
             try {
                 this.http.activateUser(this.users[index].id).subscribe(function (res) {
                     _this.users[index].user = true;
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__models_notification__["a" /* success */])('User activated sucessfully');
+                    _this.toast.success('User activated sucessfully');
                 }, function (error) {
                     var err = error.json();
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__models_notification__["c" /* warn */])('Some error occured, please try again');
+                    _this.toast.warning('Some error occured, please try again');
                     console.log(err.message);
                 });
             }
             catch (e) {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__models_notification__["c" /* warn */])('Some error occured, please try again');
+                this.toast.warning('Some error occured, please try again');
             }
         }
     };
@@ -1224,10 +1414,10 @@ var UsersComponent = (function () {
                 else if (role == _this.adminRole && _this.users[index].admin) {
                     _this.users[index].user = true;
                 }
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__models_notification__["a" /* success */])(msg);
+                _this.toast.success(msg);
             }, function (error) {
                 var err = error.json();
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__models_notification__["c" /* warn */])('Some error occured, please try again');
+                _this.toast.warning('Some error occured, please try again');
                 console.log(err.message);
             });
         }
@@ -1244,30 +1434,30 @@ var UsersComponent = (function () {
 UsersComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-users',
-        template: __webpack_require__(365),
-        styles: [__webpack_require__(318)]
+        template: __webpack_require__(379),
+        styles: [__webpack_require__(331)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_modal__["DialogService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_modal__["DialogService"]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_forms__["d" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_modal__["DialogService"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_ng2_bootstrap_modal__["DialogService"]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _d || Object])
 ], UsersComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=users.component.js.map
 
 /***/ }),
 
-/***/ 113:
+/***/ 119:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__http_service__ = __webpack_require__(8);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__http_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__profile_manager__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__profile_manager__ = __webpack_require__(28);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__profile_manager__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__claim_manager__ = __webpack_require__(20);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_2__claim_manager__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events_service__ = __webpack_require__(16);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_3__events_service__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_guard__ = __webpack_require__(225);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__auth_guard__ = __webpack_require__(235);
 /* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_4__auth_guard__["a"]; });
 
 
@@ -1278,47 +1468,12 @@ var _a, _b, _c;
 
 /***/ }),
 
-/***/ 174:
-/***/ (function(module, exports) {
-
-function webpackEmptyContext(req) {
-	throw new Error("Cannot find module '" + req + "'.");
-}
-webpackEmptyContext.keys = function() { return []; };
-webpackEmptyContext.resolve = webpackEmptyContext;
-module.exports = webpackEmptyContext;
-webpackEmptyContext.id = 174;
-
-
-/***/ }),
-
-/***/ 175:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(209);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(211);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(226);
-
-
-
-
-if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
-}
-__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
-//# sourceMappingURL=main.js.map
-
-/***/ }),
-
-/***/ 18:
+/***/ 16:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(138);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EventsService; });
 // event-service.ts
@@ -1379,17 +1534,53 @@ EventsService = __decorate([
 
 /***/ }),
 
+/***/ 181:
+/***/ (function(module, exports) {
+
+function webpackEmptyContext(req) {
+	throw new Error("Cannot find module '" + req + "'.");
+}
+webpackEmptyContext.keys = function() { return []; };
+webpackEmptyContext.resolve = webpackEmptyContext;
+module.exports = webpackEmptyContext;
+webpackEmptyContext.id = 181;
+
+
+/***/ }),
+
+/***/ 182:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__ = __webpack_require__(218);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_app_module__ = __webpack_require__(221);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__(236);
+
+
+
+
+if (__WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].production) {
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["enableProdMode"])();
+}
+__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_2__app_app_module__["a" /* AppModule */]);
+//# sourceMappingURL=main.js.map
+
+/***/ }),
+
 /***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_immutable__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_immutable__ = __webpack_require__(132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_immutable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_immutable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_claim__ = __webpack_require__(223);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_claim_note__ = __webpack_require__(72);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_claim__ = __webpack_require__(233);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_claim_note__ = __webpack_require__(74);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__events_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__events_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_router__ = __webpack_require__(19);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClaimManager; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1406,10 +1597,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var ClaimManager = (function () {
-    function ClaimManager(http, events) {
+    function ClaimManager(http, events, router) {
         this.http = http;
         this.events = events;
+        this.router = router;
         this.claims = __WEBPACK_IMPORTED_MODULE_0_immutable__["OrderedMap"]();
         this.loading = false;
         this.notetypes = [];
@@ -1443,7 +1636,14 @@ var ClaimManager = (function () {
             }
         }, function (err) {
             _this.loading = false;
-            console.log(err);
+            try {
+                var error = err.json();
+                console.log(error);
+                if (error.status == 401) {
+                    _this.router.navigate(['/login']);
+                }
+            }
+            catch (e) { }
         }, function () {
             _this.events.broadcast("claim-updated");
         });
@@ -1525,23 +1725,25 @@ var ClaimManager = (function () {
 }());
 ClaimManager = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__angular_core__["Injectable"])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__events_service__["a" /* EventsService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__events_service__["a" /* EventsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_6__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__angular_router__["a" /* Router */]) === "function" && _c || Object])
 ], ClaimManager);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=claim-manager.js.map
 
 /***/ }),
 
-/***/ 210:
+/***/ 220:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_profile__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_events_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng2_toastr_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_http_service__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_profile_manager__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__models_profile__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_events_service__ = __webpack_require__(16);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1557,11 +1759,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AppComponent = (function () {
-    function AppComponent(http, events, profileManager) {
+    function AppComponent(http, events, profileManager, toast, vcr) {
         this.http = http;
         this.events = events;
         this.profileManager = profileManager;
+        this.toast = toast;
+        this.vcr = vcr;
+        this.toast.setRootViewContainerRef(vcr);
     }
     AppComponent.prototype.ngOnDestroy = function () {
     };
@@ -1573,7 +1779,7 @@ var AppComponent = (function () {
                 var us = JSON.parse(user);
                 //this.events.broadcast('profile', us);
                 this.http.setAuth(us.access_token);
-                var profile = new __WEBPACK_IMPORTED_MODULE_3__models_profile__["a" /* UserProfile */](us.id || us.email, us.email, us.firstName || us.email, us.lastName || us.email, us.email || us.email, us.email, us.avatarUrl, us.createdOn, us.roles);
+                var profile = new __WEBPACK_IMPORTED_MODULE_4__models_profile__["a" /* UserProfile */](us.id || us.email, us.email, us.firstName || us.email, us.lastName || us.email, us.email || us.email, us.email, us.avatarUrl, us.createdOn, us.roles);
                 this.profileManager.setProfile(profile);
                 this.profileManager.profile = profile;
                 var auth = localStorage.getItem("token");
@@ -1600,52 +1806,56 @@ AppComponent = __decorate([
         selector: 'app-root',
         template: "<router-outlet></router-outlet>"
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_events_service__["a" /* EventsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_5__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_events_service__["a" /* EventsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_profile_manager__["a" /* ProfileManager */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_core__["ViewContainerRef"]) === "function" && _e || Object])
 ], AppComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=app.component.js.map
 
 /***/ }),
 
-/***/ 211:
+/***/ 221:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(71);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__app_component__ = __webpack_require__(210);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_modal__ = __webpack_require__(90);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_modal__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__components_confirm_component__ = __webpack_require__(100);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__layouts_header_header_component__ = __webpack_require__(221);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__layouts_app_layout_component__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__layouts_sidebar_sidebar_component__ = __webpack_require__(222);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_private_private_component__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_login_login_component__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_register_register_component__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_main_main_component__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_password_reset_password_reset_component__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_error404_error404_component__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__app_routing__ = __webpack_require__(212);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_profile_profile_component__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__services_services_barrel__ = __webpack_require__(113);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_payors_payors_component__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_claim_claim_component__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__components_claim_search_claim_search_component__ = __webpack_require__(220);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__components_claim_result_claim_result_component__ = __webpack_require__(218);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__components_claim_payment_claim_payment_component__ = __webpack_require__(216);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_claim_images_claim_images_component__ = __webpack_require__(214);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_claim_prescriptions_claim_prescriptions_component__ = __webpack_require__(217);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_claim_note_claim_note_component__ = __webpack_require__(215);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_claim_episode_claim_episode_component__ = __webpack_require__(213);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_claim_script_note_claim_script_note_component__ = __webpack_require__(219);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_users_users_component__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_confirm_email_confirm_email_component__ = __webpack_require__(103);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__pages_users_filter_user_pipe__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_forms__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(73);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser_animations__ = __webpack_require__(219);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(220);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ng2_bootstrap_modal__ = __webpack_require__(93);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8_ng2_bootstrap_modal___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_8_ng2_bootstrap_modal__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__components_confirm_component__ = __webpack_require__(105);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__layouts_header_header_component__ = __webpack_require__(231);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__layouts_app_layout_component__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__layouts_sidebar_sidebar_component__ = __webpack_require__(232);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_private_private_component__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_login_login_component__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_register_register_component__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_main_main_component__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_password_reset_password_reset_component__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_change_password_change_password_component__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_error404_error404_component__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__app_routing__ = __webpack_require__(222);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_profile_profile_component__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__services_services_barrel__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_payors_payors_component__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_claim_claim_component__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__components_claim_search_claim_search_component__ = __webpack_require__(230);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__components_claim_result_claim_result_component__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__components_claim_payment_claim_payment_component__ = __webpack_require__(226);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__components_claim_images_claim_images_component__ = __webpack_require__(224);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__components_claim_prescriptions_claim_prescriptions_component__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__components_claim_note_claim_note_component__ = __webpack_require__(225);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__components_claim_episode_claim_episode_component__ = __webpack_require__(223);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__components_claim_script_note_claim_script_note_component__ = __webpack_require__(229);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__pages_users_users_component__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__pages_confirm_email_confirm_email_component__ = __webpack_require__(109);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__pages_users_filter_user_pipe__ = __webpack_require__(234);
 /* unused harmony export SafeStylePipe */
 /* unused harmony export SafeUrlPipe */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
@@ -1666,11 +1876,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 //Layouts 
 
 
 
 //end of layouts
+
 
 
 
@@ -1705,7 +1918,7 @@ var SafeStylePipe = (function () {
 }());
 SafeStylePipe = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Pipe"])({ name: 'safeStyle' }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* DomSanitizer */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* DomSanitizer */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["DomSanitizer"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["DomSanitizer"]) === "function" && _a || Object])
 ], SafeStylePipe);
 
 var SafeUrlPipe = (function () {
@@ -1719,7 +1932,7 @@ var SafeUrlPipe = (function () {
 }());
 SafeUrlPipe = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["Pipe"])({ name: 'safeURL' }),
-    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* DomSanitizer */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* DomSanitizer */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["DomSanitizer"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["DomSanitizer"]) === "function" && _b || Object])
 ], SafeUrlPipe);
 
 var AppModule = (function () {
@@ -1730,38 +1943,40 @@ var AppModule = (function () {
 AppModule = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_core__["NgModule"])({
         declarations: [
-            __WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */],
-            __WEBPACK_IMPORTED_MODULE_7__components_confirm_component__["a" /* ConfirmComponent */],
-            __WEBPACK_IMPORTED_MODULE_9__layouts_app_layout_component__["a" /* AppLayoutComponent */],
-            __WEBPACK_IMPORTED_MODULE_16__pages_error404_error404_component__["a" /* Error404Component */],
-            __WEBPACK_IMPORTED_MODULE_8__layouts_header_header_component__["a" /* HeaderComponent */],
-            __WEBPACK_IMPORTED_MODULE_12__pages_login_login_component__["a" /* LoginComponent */],
-            __WEBPACK_IMPORTED_MODULE_12__pages_login_login_component__["a" /* LoginComponent */],
-            __WEBPACK_IMPORTED_MODULE_14__pages_main_main_component__["a" /* MainComponent */],
-            __WEBPACK_IMPORTED_MODULE_15__pages_password_reset_password_reset_component__["a" /* PasswordResetComponent */],
-            __WEBPACK_IMPORTED_MODULE_13__pages_register_register_component__["a" /* RegisterComponent */],
-            SafeStylePipe, SafeUrlPipe, __WEBPACK_IMPORTED_MODULE_21__pages_claim_claim_component__["a" /* ClaimsComponent */], __WEBPACK_IMPORTED_MODULE_18__pages_profile_profile_component__["a" /* ProfileComponent */],
-            __WEBPACK_IMPORTED_MODULE_10__layouts_sidebar_sidebar_component__["a" /* SidebarComponent */], __WEBPACK_IMPORTED_MODULE_11__pages_private_private_component__["a" /* PrivateComponent */], __WEBPACK_IMPORTED_MODULE_20__pages_payors_payors_component__["a" /* PayorsComponent */], __WEBPACK_IMPORTED_MODULE_22__components_claim_search_claim_search_component__["a" /* ClaimSearchComponent */], __WEBPACK_IMPORTED_MODULE_23__components_claim_result_claim_result_component__["a" /* ClaimResultComponent */], __WEBPACK_IMPORTED_MODULE_24__components_claim_payment_claim_payment_component__["a" /* ClaimPaymentComponent */], __WEBPACK_IMPORTED_MODULE_25__components_claim_images_claim_images_component__["a" /* ClaimImagesComponent */], __WEBPACK_IMPORTED_MODULE_26__components_claim_prescriptions_claim_prescriptions_component__["a" /* ClaimPrescriptionsComponent */], __WEBPACK_IMPORTED_MODULE_27__components_claim_note_claim_note_component__["a" /* ClaimNoteComponent */], __WEBPACK_IMPORTED_MODULE_28__components_claim_episode_claim_episode_component__["a" /* ClaimEpisodeComponent */], __WEBPACK_IMPORTED_MODULE_29__components_claim_script_note_claim_script_note_component__["a" /* ClaimScriptNoteComponent */], __WEBPACK_IMPORTED_MODULE_30__pages_users_users_component__["a" /* UsersComponent */], __WEBPACK_IMPORTED_MODULE_31__pages_confirm_email_confirm_email_component__["a" /* ConfirmEmailComponent */], __WEBPACK_IMPORTED_MODULE_32__pages_users_filter_user_pipe__["a" /* FilterUserPipe */]
+            __WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */],
+            __WEBPACK_IMPORTED_MODULE_9__components_confirm_component__["a" /* ConfirmComponent */],
+            __WEBPACK_IMPORTED_MODULE_11__layouts_app_layout_component__["a" /* AppLayoutComponent */],
+            __WEBPACK_IMPORTED_MODULE_19__pages_error404_error404_component__["a" /* Error404Component */],
+            __WEBPACK_IMPORTED_MODULE_10__layouts_header_header_component__["a" /* HeaderComponent */],
+            __WEBPACK_IMPORTED_MODULE_14__pages_login_login_component__["a" /* LoginComponent */],
+            __WEBPACK_IMPORTED_MODULE_14__pages_login_login_component__["a" /* LoginComponent */],
+            __WEBPACK_IMPORTED_MODULE_16__pages_main_main_component__["a" /* MainComponent */],
+            __WEBPACK_IMPORTED_MODULE_17__pages_password_reset_password_reset_component__["a" /* PasswordResetComponent */],
+            __WEBPACK_IMPORTED_MODULE_15__pages_register_register_component__["a" /* RegisterComponent */],
+            SafeStylePipe, SafeUrlPipe, __WEBPACK_IMPORTED_MODULE_24__pages_claim_claim_component__["a" /* ClaimsComponent */], __WEBPACK_IMPORTED_MODULE_21__pages_profile_profile_component__["a" /* ProfileComponent */],
+            __WEBPACK_IMPORTED_MODULE_12__layouts_sidebar_sidebar_component__["a" /* SidebarComponent */], __WEBPACK_IMPORTED_MODULE_13__pages_private_private_component__["a" /* PrivateComponent */], __WEBPACK_IMPORTED_MODULE_23__pages_payors_payors_component__["a" /* PayorsComponent */], __WEBPACK_IMPORTED_MODULE_25__components_claim_search_claim_search_component__["a" /* ClaimSearchComponent */], __WEBPACK_IMPORTED_MODULE_26__components_claim_result_claim_result_component__["a" /* ClaimResultComponent */], __WEBPACK_IMPORTED_MODULE_27__components_claim_payment_claim_payment_component__["a" /* ClaimPaymentComponent */], __WEBPACK_IMPORTED_MODULE_28__components_claim_images_claim_images_component__["a" /* ClaimImagesComponent */], __WEBPACK_IMPORTED_MODULE_29__components_claim_prescriptions_claim_prescriptions_component__["a" /* ClaimPrescriptionsComponent */], __WEBPACK_IMPORTED_MODULE_30__components_claim_note_claim_note_component__["a" /* ClaimNoteComponent */], __WEBPACK_IMPORTED_MODULE_31__components_claim_episode_claim_episode_component__["a" /* ClaimEpisodeComponent */], __WEBPACK_IMPORTED_MODULE_32__components_claim_script_note_claim_script_note_component__["a" /* ClaimScriptNoteComponent */], __WEBPACK_IMPORTED_MODULE_33__pages_users_users_component__["a" /* UsersComponent */], __WEBPACK_IMPORTED_MODULE_18__pages_change_password_change_password_component__["a" /* ChangePasswordComponent */], __WEBPACK_IMPORTED_MODULE_34__pages_confirm_email_confirm_email_component__["a" /* ConfirmEmailComponent */], __WEBPACK_IMPORTED_MODULE_35__pages_users_filter_user_pipe__["a" /* FilterUserPipe */]
         ],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["b" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_6_ng2_bootstrap_modal__["BootstrapModalModule"],
+            __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["BrowserModule"],
+            __WEBPACK_IMPORTED_MODULE_5__angular_platform_browser_animations__["a" /* BrowserAnimationsModule */],
+            __WEBPACK_IMPORTED_MODULE_6_ng2_toastr_ng2_toastr__["ToastModule"].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_8_ng2_bootstrap_modal__["BootstrapModalModule"],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* ReactiveFormsModule */],
             __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* HttpModule */],
-            __WEBPACK_IMPORTED_MODULE_17__app_routing__["a" /* RoutingModule */]
+            __WEBPACK_IMPORTED_MODULE_20__app_routing__["a" /* RoutingModule */]
         ],
         providers: [
-            __WEBPACK_IMPORTED_MODULE_4__angular_common__["DatePipe"], __WEBPACK_IMPORTED_MODULE_19__services_services_barrel__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_19__services_services_barrel__["b" /* ProfileManager */], __WEBPACK_IMPORTED_MODULE_19__services_services_barrel__["c" /* EventsService */], __WEBPACK_IMPORTED_MODULE_19__services_services_barrel__["d" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_19__services_services_barrel__["e" /* ClaimManager */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_common__["DatePipe"], __WEBPACK_IMPORTED_MODULE_22__services_services_barrel__["a" /* HttpService */], __WEBPACK_IMPORTED_MODULE_22__services_services_barrel__["b" /* ProfileManager */], __WEBPACK_IMPORTED_MODULE_22__services_services_barrel__["c" /* EventsService */], __WEBPACK_IMPORTED_MODULE_22__services_services_barrel__["d" /* AuthGuard */], __WEBPACK_IMPORTED_MODULE_22__services_services_barrel__["e" /* ClaimManager */],
             {
                 provide: __WEBPACK_IMPORTED_MODULE_4__angular_common__["LocationStrategy"],
                 useClass: __WEBPACK_IMPORTED_MODULE_4__angular_common__["HashLocationStrategy"]
             }
         ],
         entryComponents: [
-            __WEBPACK_IMPORTED_MODULE_7__components_confirm_component__["a" /* ConfirmComponent */]
+            __WEBPACK_IMPORTED_MODULE_9__components_confirm_component__["a" /* ConfirmComponent */]
         ],
-        bootstrap: [__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* AppComponent */]]
+        bootstrap: [__WEBPACK_IMPORTED_MODULE_7__app_component__["a" /* AppComponent */]]
     })
 ], AppModule);
 
@@ -1770,25 +1985,26 @@ var _a, _b;
 
 /***/ }),
 
-/***/ 212:
+/***/ 222:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_app_layout_component__ = __webpack_require__(101);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_login_login_component__ = __webpack_require__(105);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_private_private_component__ = __webpack_require__(109);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_register_register_component__ = __webpack_require__(111);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_main_main_component__ = __webpack_require__(106);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_password_reset_password_reset_component__ = __webpack_require__(107);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_error404_error404_component__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_payors_payors_component__ = __webpack_require__(108);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_users_users_component__ = __webpack_require__(112);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_claim_claim_component__ = __webpack_require__(102);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__services_services_barrel__ = __webpack_require__(113);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_profile_profile_component__ = __webpack_require__(110);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_confirm_email_confirm_email_component__ = __webpack_require__(103);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__layouts_app_layout_component__ = __webpack_require__(106);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__pages_login_login_component__ = __webpack_require__(111);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_private_private_component__ = __webpack_require__(115);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_register_register_component__ = __webpack_require__(117);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_main_main_component__ = __webpack_require__(112);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_password_reset_password_reset_component__ = __webpack_require__(113);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_change_password_change_password_component__ = __webpack_require__(107);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_error404_error404_component__ = __webpack_require__(110);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_payors_payors_component__ = __webpack_require__(114);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_users_users_component__ = __webpack_require__(118);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_claim_claim_component__ = __webpack_require__(108);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__services_services_barrel__ = __webpack_require__(119);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_profile_profile_component__ = __webpack_require__(116);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_confirm_email_confirm_email_component__ = __webpack_require__(109);
 /* unused harmony export routes */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RoutingModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1801,6 +2017,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 //end of layouts
+
 
 
 
@@ -1835,13 +2052,17 @@ var routes = [
                 path: 'recover-lost-password',
                 component: __WEBPACK_IMPORTED_MODULE_7__pages_password_reset_password_reset_component__["a" /* PasswordResetComponent */]
             }, {
+                path: 'resetpassword',
+                component: __WEBPACK_IMPORTED_MODULE_8__pages_change_password_change_password_component__["a" /* ChangePasswordComponent */]
+            },
+            {
                 path: 'register',
                 component: __WEBPACK_IMPORTED_MODULE_5__pages_register_register_component__["a" /* RegisterComponent */]
             },
             {
                 path: 'main',
-                canActivate: [__WEBPACK_IMPORTED_MODULE_12__services_services_barrel__["d" /* AuthGuard */]],
-                canActivateChild: [__WEBPACK_IMPORTED_MODULE_12__services_services_barrel__["d" /* AuthGuard */]],
+                canActivate: [__WEBPACK_IMPORTED_MODULE_13__services_services_barrel__["d" /* AuthGuard */]],
+                canActivateChild: [__WEBPACK_IMPORTED_MODULE_13__services_services_barrel__["d" /* AuthGuard */]],
                 children: [
                     {
                         path: 'private',
@@ -1849,26 +2070,26 @@ var routes = [
                     },
                     {
                         path: 'profile',
-                        component: __WEBPACK_IMPORTED_MODULE_13__pages_profile_profile_component__["a" /* ProfileComponent */]
+                        component: __WEBPACK_IMPORTED_MODULE_14__pages_profile_profile_component__["a" /* ProfileComponent */]
                     },
                     {
                         path: 'payors',
-                        component: __WEBPACK_IMPORTED_MODULE_9__pages_payors_payors_component__["a" /* PayorsComponent */]
+                        component: __WEBPACK_IMPORTED_MODULE_10__pages_payors_payors_component__["a" /* PayorsComponent */]
                     },
                     {
                         path: 'users',
-                        component: __WEBPACK_IMPORTED_MODULE_10__pages_users_users_component__["a" /* UsersComponent */]
+                        component: __WEBPACK_IMPORTED_MODULE_11__pages_users_users_component__["a" /* UsersComponent */]
                     },
                     {
                         path: 'claims',
-                        component: __WEBPACK_IMPORTED_MODULE_11__pages_claim_claim_component__["a" /* ClaimsComponent */]
+                        component: __WEBPACK_IMPORTED_MODULE_12__pages_claim_claim_component__["a" /* ClaimsComponent */]
                     }
                 ]
             }
         ]
     },
-    { path: 'confirm-email', component: __WEBPACK_IMPORTED_MODULE_14__pages_confirm_email_confirm_email_component__["a" /* ConfirmEmailComponent */] },
-    { path: '404', component: __WEBPACK_IMPORTED_MODULE_8__pages_error404_error404_component__["a" /* Error404Component */] },
+    { path: 'confirm-email', component: __WEBPACK_IMPORTED_MODULE_15__pages_confirm_email_confirm_email_component__["a" /* ConfirmEmailComponent */] },
+    { path: '404', component: __WEBPACK_IMPORTED_MODULE_9__pages_error404_error404_component__["a" /* Error404Component */] },
     { path: '**', redirectTo: '/404' }
 ];
 var RoutingModule = (function () {
@@ -1887,12 +2108,13 @@ RoutingModule = __decorate([
 
 /***/ }),
 
-/***/ 213:
+/***/ 223:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_events_service__ = __webpack_require__(16);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClaimEpisodeComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1905,29 +2127,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var ClaimEpisodeComponent = (function () {
-    function ClaimEpisodeComponent(claimManager) {
+    function ClaimEpisodeComponent(claimManager, events) {
         this.claimManager = claimManager;
+        this.events = events;
     }
     ClaimEpisodeComponent.prototype.ngOnInit = function () {
+    };
+    ClaimEpisodeComponent.prototype.edit = function (id) {
+        this.events.broadcast("edit-episode", id);
     };
     return ClaimEpisodeComponent;
 }());
 ClaimEpisodeComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim-episode',
-        template: __webpack_require__(344),
-        styles: [__webpack_require__(298)]
+        template: __webpack_require__(357),
+        styles: [__webpack_require__(310)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_events_service__["a" /* EventsService */]) === "function" && _b || Object])
 ], ClaimEpisodeComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=claim-episode.component.js.map
 
 /***/ }),
 
-/***/ 214:
+/***/ 224:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1956,8 +2183,8 @@ var ClaimImagesComponent = (function () {
 ClaimImagesComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim-images',
-        template: __webpack_require__(345),
-        styles: [__webpack_require__(299)]
+        template: __webpack_require__(358),
+        styles: [__webpack_require__(311)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object])
 ], ClaimImagesComponent);
@@ -1967,16 +2194,17 @@ var _a;
 
 /***/ }),
 
-/***/ 215:
+/***/ 225:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_claim_note__ = __webpack_require__(72);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_notification__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_claim_note__ = __webpack_require__(74);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_forms__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr_ng2_toastr__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_ng2_toastr_ng2_toastr___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_ng2_toastr_ng2_toastr__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClaimNoteComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1994,14 +2222,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var ClaimNoteComponent = (function () {
-    function ClaimNoteComponent(claimManager, formBuilder, http) {
+    function ClaimNoteComponent(claimManager, formBuilder, http, toast) {
         this.claimManager = claimManager;
         this.formBuilder = formBuilder;
         this.http = http;
+        this.toast = toast;
         this.form = this.formBuilder.group({
             //claimId: [this.claimManager.selectedClaim.claimId],
-            noteText: [null, __WEBPACK_IMPORTED_MODULE_4__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_4__angular_forms__["d" /* Validators */].required])],
-            noteTypeId: [null, __WEBPACK_IMPORTED_MODULE_4__angular_forms__["d" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_4__angular_forms__["d" /* Validators */].required])]
+            noteText: [null, __WEBPACK_IMPORTED_MODULE_4__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_4__angular_forms__["c" /* Validators */].required])],
+            noteTypeId: [null, __WEBPACK_IMPORTED_MODULE_4__angular_forms__["c" /* Validators */].compose([__WEBPACK_IMPORTED_MODULE_4__angular_forms__["c" /* Validators */].required])]
         });
     }
     ClaimNoteComponent.prototype.ngOnInit = function () {
@@ -2036,17 +2265,17 @@ var ClaimNoteComponent = (function () {
                     console.log(error);
                     _this.claimManager.loading = false;
                     var err = error.json();
-                    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])(err.error_description);
+                    _this.toast.warning(err.error_description);
                 });
             }
             catch (e) {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])('Error in fields. Please correct to proceed!');
+                this.toast.warning('Error in fields. Please correct to proceed!');
                 this.claimManager.loading = false;
             }
         }
         else {
             console.log(this.form.value);
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__models_notification__["c" /* warn */])('Error in fields. Please correct to proceed!');
+            this.toast.warning('Error in fields. Please correct to proceed!');
             this.claimManager.loading = false;
         }
     };
@@ -2055,18 +2284,18 @@ var ClaimNoteComponent = (function () {
 ClaimNoteComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim-note',
-        template: __webpack_require__(346),
-        styles: [__webpack_require__(300)]
+        template: __webpack_require__(359),
+        styles: [__webpack_require__(312)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_forms__["c" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_forms__["c" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_forms__["d" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_5_ng2_toastr_ng2_toastr__["ToastsManager"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5_ng2_toastr_ng2_toastr__["ToastsManager"]) === "function" && _d || Object])
 ], ClaimNoteComponent);
 
-var _a, _b, _c;
+var _a, _b, _c, _d;
 //# sourceMappingURL=claim-note.component.js.map
 
 /***/ }),
 
-/***/ 216:
+/***/ 226:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2095,8 +2324,8 @@ var ClaimPaymentComponent = (function () {
 ClaimPaymentComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim-payment',
-        template: __webpack_require__(347),
-        styles: [__webpack_require__(301)]
+        template: __webpack_require__(360),
+        styles: [__webpack_require__(313)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object])
 ], ClaimPaymentComponent);
@@ -2106,17 +2335,17 @@ var _a;
 
 /***/ }),
 
-/***/ 217:
+/***/ 227:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_events_service__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2__ = __webpack_require__(170);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_events_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2__ = __webpack_require__(177);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_sweetalert2___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_sweetalert2__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common__ = __webpack_require__(34);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClaimPrescriptionsComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2186,8 +2415,8 @@ var ClaimPrescriptionsComponent = (function () {
 ClaimPrescriptionsComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim-prescriptions',
-        template: __webpack_require__(348),
-        styles: [__webpack_require__(302)]
+        template: __webpack_require__(361),
+        styles: [__webpack_require__(314)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_5__angular_common__["DatePipe"] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__angular_common__["DatePipe"]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_events_service__["a" /* EventsService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_http_service__["a" /* HttpService */]) === "function" && _d || Object])
 ], ClaimPrescriptionsComponent);
@@ -2197,15 +2426,15 @@ var _a, _b, _c, _d;
 
 /***/ }),
 
-/***/ 218:
+/***/ 228:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_events_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_events_service__ = __webpack_require__(16);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClaimResultComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2247,10 +2476,10 @@ __decorate([
 ClaimResultComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim-result',
-        template: __webpack_require__(349),
-        styles: [__webpack_require__(303)]
+        template: __webpack_require__(362),
+        styles: [__webpack_require__(315)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_events_service__["a" /* EventsService */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_events_service__["a" /* EventsService */]) === "function" && _d || Object])
 ], ClaimResultComponent);
 
 var _a, _b, _c, _d;
@@ -2258,7 +2487,7 @@ var _a, _b, _c, _d;
 
 /***/ }),
 
-/***/ 219:
+/***/ 229:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2287,8 +2516,8 @@ var ClaimScriptNoteComponent = (function () {
 ClaimScriptNoteComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim-script-note',
-        template: __webpack_require__(350),
-        styles: [__webpack_require__(304)]
+        template: __webpack_require__(363),
+        styles: [__webpack_require__(316)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object])
 ], ClaimScriptNoteComponent);
@@ -2298,16 +2527,16 @@ var _a;
 
 /***/ }),
 
-/***/ 220:
+/***/ 230:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_http_service__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_claim_manager__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_events_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_events_service__ = __webpack_require__(16);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ClaimSearchComponent; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2355,10 +2584,10 @@ var ClaimSearchComponent = (function () {
 ClaimSearchComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-claim-search',
-        template: __webpack_require__(351),
-        styles: [__webpack_require__(305)]
+        template: __webpack_require__(364),
+        styles: [__webpack_require__(317)]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_events_service__["a" /* EventsService */]) === "function" && _e || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_4__services_claim_manager__["a" /* ClaimManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_claim_manager__["a" /* ClaimManager */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["d" /* FormBuilder */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* Router */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_5__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__services_events_service__["a" /* EventsService */]) === "function" && _e || Object])
 ], ClaimSearchComponent);
 
 var _a, _b, _c, _d, _e;
@@ -2366,13 +2595,13 @@ var _a, _b, _c, _d, _e;
 
 /***/ }),
 
-/***/ 221:
+/***/ 231:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_events_service__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_events_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_http_service__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(19);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HeaderComponent; });
@@ -2413,8 +2642,8 @@ var HeaderComponent = (function () {
 HeaderComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-header',
-        template: __webpack_require__(353),
-        styles: [__webpack_require__(307)]
+        template: __webpack_require__(366),
+        styles: [__webpack_require__(319)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_events_service__["a" /* EventsService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */]) === "function" && _d || Object])
 ], HeaderComponent);
@@ -2424,13 +2653,13 @@ var _a, _b, _c, _d;
 
 /***/ }),
 
-/***/ 222:
+/***/ 232:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_events_service__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_events_service__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_http_service__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_router__ = __webpack_require__(19);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SidebarComponent; });
@@ -2483,8 +2712,8 @@ var SidebarComponent = (function () {
 SidebarComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-sidebar',
-        template: __webpack_require__(354),
-        styles: [__webpack_require__(308)]
+        template: __webpack_require__(367),
+        styles: [__webpack_require__(320)]
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_http_service__["a" /* HttpService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__services_events_service__["a" /* EventsService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_events_service__["a" /* EventsService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* Router */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__["a" /* ProfileManager */]) === "function" && _d || Object])
 ], SidebarComponent);
@@ -2494,7 +2723,7 @@ var _a, _b, _c, _d;
 
 /***/ }),
 
-/***/ 223:
+/***/ 233:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2587,7 +2816,7 @@ var Claim = (function () {
 
 /***/ }),
 
-/***/ 224:
+/***/ 234:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2632,17 +2861,17 @@ FilterUserPipe = __decorate([
 
 /***/ }),
 
-/***/ 225:
+/***/ 235:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_events_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_profile_manager__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_events_service__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_Observable__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_first__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_first__ = __webpack_require__(96);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_first___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_first__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthGuard; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -2755,7 +2984,7 @@ var _a, _b, _c;
 
 /***/ }),
 
-/***/ 226:
+/***/ 236:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2772,18 +3001,18 @@ var environment = {
 
 /***/ }),
 
-/***/ 26:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_immutable__ = __webpack_require__(126);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_immutable__ = __webpack_require__(132);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_immutable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_immutable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Observable___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Observable__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__models_profile__ = __webpack_require__(55);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_core__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__http_service__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__events_service__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__events_service__ = __webpack_require__(16);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ProfileManager; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2880,222 +3109,6 @@ var _a, _b;
 
 /***/ }),
 
-/***/ 298:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 299:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 300:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}\r\n\r\n.red{\r\n    color:red;\r\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 301:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 302:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 303:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\ntable{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    padding-bottom:8px !important;\r\n    padding-top:3px !important;\r\n    font-size: 9pt;\r\n    word-wrap: break-word;\r\n}\r\ntr.active,tr.active td{\r\n    background:lightblue !important;\r\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 304:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 305:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 306:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, " .content-wrapper{\r\n     min-height:90vh;\r\n }", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 307:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 308:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
-/***/ 309:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(3)();
-// imports
-
-
-// module
-exports.push([module.i, ".row.data{\r\n    font-size:9.6pt;\r\n}\r\n.row.data .box{\r\n    margin-bottom:0px;\r\n}\r\n.box{\r\n    border:1.5px solid #d2d6de;\r\n}\r\n.box .box-body{\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    padding-bottom:1px !important;\r\n    padding-top:1px !important;\r\n}\r\n.fittoSreen .box-body{\r\n    height:180px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.fittoSreen .box-body.claims{\r\n    height:250px;\r\n}", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
 /***/ 310:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3104,7 +3117,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "app-confirm-email,.wrapper{    \r\n    height:100vh !important;\r\n    background: #d2d6de;\r\n    /*background: -webkit-linear-gradient(left, purple, brown);\r\n    background: -moz-linear-gradient(left, purple, brown);\r\n    background: -o-linear-gradient(left, purple, brown);\r\n    background: linear-gradient(to right, purple, brown); */\r\n    /*Safari 5.1-6*/ /*Opera 11.1-12*/ /*Fx 3.6-15*/ /*Standard*/\r\n}\r\n", ""]);
+exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
 
 // exports
 
@@ -3122,7 +3135,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
 
 // exports
 
@@ -3140,7 +3153,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, ".center-form{\r\n        width: 500px;\r\n        margin: auto;\r\n}", ""]);
+exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}\r\n\r\n.red{\r\n    color:red;\r\n}", ""]);
 
 // exports
 
@@ -3158,7 +3171,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
 
 // exports
 
@@ -3176,7 +3189,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, ".center-form{\r\n        width: 500px;\r\n        margin: auto;\r\n}", ""]);
+exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
 
 // exports
 
@@ -3194,7 +3207,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\ntable{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    padding-bottom:8px !important;\r\n    padding-top:3px !important;\r\n    font-size: 9pt;\r\n    word-wrap: break-word;\r\n}\r\ntr.active,tr.active td{\r\n    background:lightblue !important;\r\n}", ""]);
 
 // exports
 
@@ -3212,7 +3225,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, ".table-responsive{\r\n    overflow-x: hidden;\r\n}\r\n    table{\r\n    table-layout:fixed;\r\n    width:99% !important;\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    font-size:9pt;\r\n    word-wrap: break-word;\r\n    padding-left:2px !important;\r\n    padding-right:2px  !important;\r\n}", ""]);
 
 // exports
 
@@ -3230,7 +3243,7 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
-exports.push([module.i, ".center-form{\r\n        width: 500px;\r\n        margin: auto;\r\n}", ""]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -3248,6 +3261,240 @@ exports = module.exports = __webpack_require__(3)();
 
 
 // module
+exports.push([module.i, " .content-wrapper {\r\n     min-height: 90vh;\r\n }", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 319:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 320:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 321:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, ".center-form{\r\n        width: 500px;\r\n        margin: auto;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 322:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, ".row.data{\r\n    font-size:9.6pt;\r\n}\r\n.row.data .box{\r\n    margin-bottom:0px;\r\n}\r\n.box{\r\n    border:1.5px solid #d2d6de;\r\n}\r\n.box .box-body{\r\n    overflow-x: hidden;\r\n}\r\ntd,th{\r\n    padding-bottom:1px !important;\r\n    padding-top:1px !important;\r\n}\r\n.fittoSreen .box-body{\r\n    height:180px;\r\n    overflow-y: scroll;\r\n}\r\n\r\n.fittoSreen .box-body.claims{\r\n    height:250px;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 323:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, "app-confirm-email,.wrapper{    \r\n    height:100vh !important;\r\n    background: #d2d6de;\r\n    /*background: -webkit-linear-gradient(left, purple, brown);\r\n    background: -moz-linear-gradient(left, purple, brown);\r\n    background: -o-linear-gradient(left, purple, brown);\r\n    background: linear-gradient(to right, purple, brown); */\r\n    /*Safari 5.1-6*/ /*Opera 11.1-12*/ /*Fx 3.6-15*/ /*Standard*/\r\n}\r\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 324:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 325:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, ".center-form{\r\n        width: 500px;\r\n        margin: auto;\r\n        background: #fafafa;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 326:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 327:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, ".center-form{\r\n        width: 500px;\r\n        margin: auto;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 328:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 329:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 330:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
+exports.push([module.i, ".center-form{\r\n        width: 500px;\r\n        margin: auto;\r\n        background: #fafafa;\r\n}", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 331:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(3)();
+// imports
+
+
+// module
 exports.push([module.i, ".switch {\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 50px;\r\n  height: 25px;\r\n}\r\n\r\n.switch input {display:none;}\r\n\r\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background-color: #ccc;\r\n  transition: .4s;\r\n}\r\n\r\n.slider:before {\r\n  position: absolute;\r\n  content: \"\";\r\n  height: 20px;\r\n  width: 20px;\r\n  left: 3px;\r\n  bottom: 3px;\r\n  background-color: white;\r\n  transition: .4s;\r\n}\r\n\r\ninput:checked + .slider {\r\n  background-color: #4caf50;\r\n}\r\n\r\ninput:focus + .slider {\r\n  box-shadow: 0 0 1px #4caf50;\r\n}\r\n\r\ninput:checked + .slider:before {\r\n  -webkit-transform: translateX(20px);\r\n  transform: translateX(22px);\r\n}\r\n\r\n/* Rounded sliders */\r\n.slider.round {\r\n  border-radius: 34px;\r\n}\r\n\r\n.slider.round:before {\r\n  border-radius: 50%;\r\n}\r\n\r\n.active-switch {\r\n  margin: 50px auto;\r\n  position: relative;\r\n}\r\n\r\n.active-switch label {\r\n  width: 100%;\r\n  height: 100%;\r\n  position: relative;\r\n  display: block;\r\n}\r\n\r\n.active-switch input {\r\n  top: 0; \r\n  right: 0; \r\n  bottom: 0; \r\n  left: 0;\r\n  opacity: 0;\r\n  z-index: 100;\r\n  position: absolute;\r\n  width: 100%;\r\n  height: 100%;\r\n  cursor: pointer;\r\n}\r\n\r\n.btn-circle {\r\n  width: 30px;\r\n  height: 30px;\r\n  text-align: center;\r\n  padding: 6px 0;\r\n  font-size: 12px;\r\n  line-height: 1.428571429;\r\n  border-radius: 50%;\r\n}\r\n.btn-circle.btn-lg {\r\n  width: 50px;\r\n  height: 50px;\r\n  padding: 10px 16px;\r\n  font-size: 18px;\r\n  line-height: 1.33;\r\n}\r\n.btn-circle.btn-xl {\r\n  width: 70px;\r\n  height: 70px;\r\n  padding: 10px 16px;\r\n  font-size: 24px;\r\n  line-height: 1.33;\r\n}\r\n/* CSS used here will be applied after bootstrap.css */\r\n\r\n/* CSS used here will be applied after bootstrap.css */\r\n\r\n.demo {\r\n  padding:0px;\r\n  color:green;\r\n}\r\n\r\n.demo label{\r\n top:3px; left:15px;\r\n margin-right:30px;     \r\n position:relative;     \r\n}  \r\n  \r\n\r\ninput.faChkRnd, input.faChkSqr {\r\n  visibility: hidden;\r\n}\r\n\r\ninput.faChkRnd:checked:after, input.faChkRnd:after,\r\ninput.faChkSqr:checked:after, input.faChkSqr:after {\r\n  visibility: visible;\r\n  font-family: FontAwesome;\r\n  font-size:30px;height: 20px; width: 20px;\r\n  position: relative;\r\n  top: -3px;\r\n  left: 0px;\r\n  background-color:#FFF;\r\n  display: inline-block;\r\n}\r\n\r\ninput.faChkRnd:checked:after {\r\n  content: '\\F058';\r\n}\r\n\r\ninput.faChkRnd:after {\r\n  content: '\\F10C';\r\n}\r\n\r\ninput.faChkSqr:checked:after {\r\n  content: '\\F14A';\r\n}\r\n\r\ninput.faChkSqr:after {\r\n  content: '\\F096';\r\n}", ""]);
 
 // exports
@@ -3258,234 +3505,164 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ 344:
-/***/ (function(module, exports) {
-
-module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <thead>\r\n              <tr>\r\n                <th>Date</th>\r\n                <th>By</th>\r\n                <th>Notes</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody *ngIf=\"claimManager.selectedClaim\">\r\n              <tr *ngFor=\"let episode of claimManager.selectedClaim.episodes\">\r\n                <td>{{episode.date  | date:\"shortDate\"}}</td>\r\n                <td>{{episode.by}}</td>\r\n                <td>{{episode.note}}</td>               \r\n              </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
-
-/***/ }),
-
-/***/ 345:
-/***/ (function(module, exports) {
-
-module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <thead>\r\n              <tr>\r\n                <th>Date</th>\r\n                <th>RxNum</th>\r\n                <th>Type</th>\r\n                <th>File</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody>\r\n              <!--<tr *ngFor=\"let pay of claimManager.selectedClaim.payments\">\r\n                <td>{{pay.date  | date:\"shortDate\"}}</td>\r\n                <td>{{pay.checkNumber}}</td>\r\n                <td>{{pay.RxNum}}</td>\r\n                <td>{{pay.checkAmount}}</td>               \r\n              </tr>-->\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
-
-/***/ }),
-
-/***/ 346:
-/***/ (function(module, exports) {
-
-module.exports = "  <div class=\"row invoice-info\"  *ngIf=\"claimManager.selectedClaim && !claimManager.selectedClaim.editing\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <tbody>\r\n                  <tr>\r\n                    <td *ngIf=\"claimManager.selectedClaim && claimManager.selectedClaim.claimNote\">\r\n                     <span class=\"label label-info\"> {{claimManager.selectedClaim.claimNote.noteType}}</span>\r\n                      {{claimManager.selectedClaim.claimNote.noteText}}\r\n                    </td>\r\n                  </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>\r\n\r\n  <div class=\"row invoice-info\" *ngIf=\"claimManager.selectedClaim && claimManager.selectedClaim.editing\">\r\n      <form role=\"form\"  [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"saveNote()\">\r\n        <div class=\"form-group col-sm-offset-1 col-sm-10 invoice-col\" [class.has-error]=\"form.get('noteTypeId').errors\">\r\n              <label> <i class=\"fa fa-times-circle-o\" *ngIf=\"form.get('noteTypeId').errors\"></i> Claim Types</label>\r\n              <select class=\"form-control\" formControlName=\"noteTypeId\">\r\n                <option *ngFor=\"let note of claimManager.NoteTypes\" [value]=\"note.key\">{{note.value}}</option>\r\n              </select>\r\n        </div>\r\n        <div class=\"form-group col-sm-offset-1 col-sm-10 invoice-col\"  [class.has-error]=\"form.get('noteText').errors\">\r\n            <label>  <i class=\"fa fa-times-circle-o\" *ngIf=\"form.get('noteText').errors\"></i>  Claim Text</label>\r\n            <textarea class=\"form-control\"  name=\"noteText\" class=\"form-control\" formControlName=\"noteText\" focus-on></textarea>\r\n        </div>\r\n        <div class=\"form-group col-sm-offset-1 col-sm-10 invoice-col text-right\">\r\n          <button class=\"btn bg-purple btn-flat\" type=\"button\" (click)=\"saveNote()\">Save</button>\r\n          <button class=\"btn btn-danger btn-flat margin\" type=\"button\" (click)=\"claimManager.selectedClaim.editing=false\">Cancel</button>  \r\n        </div>\r\n      </form>\r\n  </div>"
-
-/***/ }),
-
-/***/ 347:
-/***/ (function(module, exports) {
-
-module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table>\r\n              <thead>\r\n              <tr>\r\n                <th>Date</th>\r\n                <th>CheckNum</th>\r\n                <th>RxNum</th>\r\n                <th>Check Amount</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody  *ngIf=\"claimManager.selectedClaim\">\r\n              <tr *ngFor=\"let pay of claimManager.selectedClaim.payments\">\r\n                <td>{{pay.date  | date:\"shortDate\"}}</td>\r\n                <td>{{pay.checkNumber}}</td>\r\n                <td>{{pay.RxNum}}</td>\r\n                <td>{{pay.checkAmount}}</td>               \r\n              </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
-
-/***/ }),
-
-/***/ 348:
-/***/ (function(module, exports) {
-
-module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <thead>\r\n              <tr>\r\n                <th>&nbsp;</th>\r\n                <th>RxNum</th>\r\n                <th>labelName</th>\r\n                <th>Bill To</th>\r\n                <th>Inv #</th>\r\n                <th>Inv Amount</th>\r\n                <th>Amount Paid</th>\r\n                <th>Outstanding</th>\r\n                <th>Inv Date</th>\r\n                <th>Note Count</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody  *ngIf=\"claimManager.selectedClaim\">\r\n              <tr *ngFor=\"let prescription of claimManager.selectedClaim.prescriptions\">\r\n                <td>&nbsp;&nbsp;<input type=\"checkbox\" class=\"pescriptionCheck\" [id]=\"prescription.prescriptionId\" [attr.labelName]=\"prescription.labelName\"></td>\r\n                <td>{{prescription.rxNumber}}</td> \r\n                <td>{{prescription.labelName}}</td>\r\n                <td>{{prescription.billTo}}</td>\r\n                <td>{{prescription.invoiceNumber}}</td>               \r\n                <td>{{prescription.invoiceAmount}}</td>               \r\n                <td>{{prescription.amountPaid}}</td>               \r\n                <td>{{prescription.outstanding}}</td>               \r\n                <td>{{prescription.invoiceDate | date:\"shortDate\"}}</td>               \r\n                <td *ngIf=\"prescription.noteCount\"><a style=\"font-size:12pt;cursor:pointer;\" (click)=\"showNotes(prescription.prescriptionId)\">{{prescription.noteCount}}</a></td>\r\n                <td *ngIf=\"!prescription.noteCount\">{{prescription.noteCount}}</td>\r\n              </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
-
-/***/ }),
-
-/***/ 349:
-/***/ (function(module, exports) {
-
-module.exports = "<ng-container   *ngIf=\"claimManager.dataSize==1 || claimManager.selected\">\r\n    <div class=\"row invoice-info\" *ngFor=\"let claim of claimManager.claimsData\">\r\n      <div class=\"col-sm-6 invoice-col\" *ngIf=\"claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId\">\r\n        <address>\r\n          Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}<br>\r\n          DOB: {{claim.dateOfBirth}}<br>\r\n          Gender: {{claim.gender}}<br>\r\n          Carrier: {{claim.carrier}}<br/>\r\n          Adjustor : {{claim.adjustor}}<br>\r\n          Adjustor Ph : {{claim.adjustorPhoneNumber}}<br><br>\r\n          Eligibility Entered: {{claim.dateEntered}}<br><br>\r\n        </address>\r\n      </div>\r\n      <!-- /.col -->\r\n      <div class=\"col-sm-6 invoice-col\"  *ngIf=\"claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId\">\r\n        <address>\r\n          Claim #: {{claim.claimNumber}}<br>\r\n          Injury Date: {{claim.injuryDate}}<br>\r\n          Adjustor Fax : {{claim.adjustorFaxNumber}}<br>\r\n        </address>\r\n        <br/><br/><br/><br/><br/>\r\n        <span class=\"label label-warning\" style=\"cursor:pointer;font-size:9pt\" (click)=\"view(claim.claimId);\"  *ngIf=\"claimManager.dataSize==1\"> View </span>\r\n        <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm\" (click)=\"claimManager.selected=undefined\"  style=\"font-size:10pt\"  *ngIf=\"claimManager.dataSize>1\"> Back to Claim Results </button>\r\n      </div>\r\n  </div>\r\n</ng-container>\r\n<ng-container *ngIf=\"claimManager.dataSize>1 && ! claimManager.selected\">\r\n  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped table-hover\">\r\n              <thead>\r\n              <tr>\r\n                <th>Claim #</th>\r\n                <th>Name</th>\r\n                <th>Carrier</th>\r\n                <th>Injury Date</th>\r\n                <th>&nbsp;</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody>\r\n                <ng-container *ngFor=\"let claim of claimManager.claimsData\">\r\n                  <tr [class.active]=\"claimManager.selected && claim.claimId==claimManager.selectedClaim.claimId\">                \r\n                    <td>{{claim.claimNumber}}</td>\r\n                    <td *ngIf=\"claim.name\">{{claim.name}}</td>\r\n                    <td *ngIf=\"!claim.name\">{{claim.firstName}}  {{claim.lastName}}</td>\r\n                    <td>{{claim.carrier}}</td>\r\n                    <td>{{claim.injuryDate}}</td>\r\n                    <td><span class=\"label label-warning\" style=\"cursor:pointer;font-size:9pt\" (click)=\"view(claim.claimId)\"> View </span></td>\r\n                  </tr>\r\n                </ng-container>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>\r\n</ng-container>\r\n"
-
-/***/ }),
-
-/***/ 350:
-/***/ (function(module, exports) {
-
-module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <thead>\r\n              <tr>\r\n                <th>Date</th>\r\n                <th>Type</th>\r\n                <th>By</th>\r\n                <th>Notes</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody  *ngIf=\"claimManager.selectedClaim\">\r\n              <tr *ngFor=\"let pNotes of claimManager.selectedClaim.prescriptionNotes\">\r\n                <td>{{pNotes.date  | date:\"shortDate\"}}</td>\r\n                <td>{{pNotes.type}}</td>\r\n                <td>{{pNotes.enteredBy}}</td>\r\n                <td>{{pNotes.note}}</td>               \r\n              </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
-
-/***/ }),
-
-/***/ 351:
-/***/ (function(module, exports) {
-
-module.exports = "<form role=\"form\"  [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"search()\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>Claim #</label>\r\n              <input class=\"form-control\" name=\"claimNumber\" class=\"form-control\" formControlName=\"claimNumber\" (change)=\"textChange('claimNumber')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>FirstName</label>\r\n              <input class=\"form-control\"  name=\"firstName\" class=\"form-control\" formControlName=\"firstName\"  (change)=\"textChange('firstName')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n       <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>Last Name</label>\r\n              <input class=\"form-control\"  name=\"lastName\" class=\"form-control\" formControlName=\"lastName\"  (change)=\"textChange('lastName')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>Rx Number</label>\r\n              <input class=\"form-control\"  name=\"rxNumber\" class=\"form-control\" formControlName=\"rxNumber\"  (change)=\"textChange('rxNumber')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>Invoice #</label>\r\n              <input class=\"form-control\"  name=\"invoiceNumber\" class=\"form-control\" formControlName=\"invoiceNumber\"  (change)=\"textChange('invoiceNumber')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n\r\n      <div class=\"col-md-2\">\r\n           <label>&nbsp;</label>\r\n          <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"search()\">Search</button>\r\n      </div>\r\n    </div>\r\n</form>\r\n"
-
-/***/ }),
-
-/***/ 352:
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"wrapper\" style=\"height: auto;\">\r\n    <!--top header -->\r\n    <app-header></app-header>\r\n    <app-sidebar *ngIf=\"isLoggedIn\"></app-sidebar>\r\n    <div class=\"content-wrapper\">\r\n        <router-outlet></router-outlet>\r\n    </div>\r\n    <!-- /.content-wrapper -->\r\n</div>"
-
-/***/ }),
-
-/***/ 353:
-/***/ (function(module, exports) {
-
-module.exports = "<header class=\"main-header\">\r\n    <!-- Logo -->\r\n    <a [routerLink]=\"'/'\" class=\"logo\">\r\n      <!-- mini logo for sidebar mini 50x50 pixels -->\r\n      <span class=\"logo-mini\"><b>BR</b>-C</span>\r\n      <!-- logo for regular state and mobile devices -->\r\n      <span class=\"logo-lg\">Bridgeport Claims</span>\r\n    </a>\r\n    <nav class=\"navbar navbar-static-top\">\r\n            <!-- Sidebar toggle button, check if user is logged in-->\r\n            <a href=\"#\" class=\"sidebar-toggle\" data-toggle=\"offcanvas\" role=\"button\" *ngIf=\"profileManager.profile\">\r\n                <span class=\"sr-only\">Toggle navigation</span>\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n            </a>\r\n            <!-- Top right menu items, also check if user is logged in-->\r\n            <div class=\"navbar-custom-menu\">\r\n                <ul class=\"nav navbar-nav\" *ngIf=\"!profileManager.profile\">                        \r\n                    <li><a [routerLink]=\"'/register'\">Register</a></li>\r\n                    <li><a [routerLink]=\"'/login'\">Login</a></li>\r\n                </ul>\r\n                <ul class=\"nav navbar-nav\" *ngIf=\"profileManager.profile\">                        \r\n                    <li routerLinkActive=\"active\" *ngIf=\"profileManager.profile\">\r\n                        <!--[routerLink]=\"'/profile'\"--> \r\n                        <a   class=\"navbar-link\" [routerLink]=\"'/main/profile'\">My Account</a>\r\n                    </li>\r\n                    <li routerLinkActive=\"active\" *ngIf=\"profileManager.profile\">\r\n                        <!--[routerLink]=\"'/profile'\"--> \r\n                        <a   class=\"navbar-link\" [routerLink]=\"'/main/profile'\">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>\r\n                    </li>\r\n                    <li routerLinkActive=\"active\" *ngIf=\"profileManager.profile\">\r\n                        <a  style=\"cursor:pointer;\" (click)=\"logout()\" class=\"navbar-link\">Logout</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n\r\n    </nav>\r\n    \r\n</header>"
-
-/***/ }),
-
-/***/ 354:
-/***/ (function(module, exports) {
-
-module.exports = "<aside class=\"main-sidebar\">\r\n    <!-- sidebar: style can be found in sidebar.less -->\r\n    <section class=\"sidebar\">\r\n      <!-- Sidebar user panel -->\r\n      <div class=\"user-panel\">\r\n        <div class=\"pull-left image\">\r\n          <img [src]=\"'assets/logo/Color Logo.jpg'\" class=\"img-square\" [alt]=\"userName\">\r\n          <br style=\"line-height:2em\" *ngIf=\"!avatar\">\r\n        </div>\r\n        <div class=\"pull-left info\">\r\n          <p>{{userName}}</p>\r\n        </div>\r\n      </div>\r\n      <!-- sidebar menu: : style can be found in sidebar.less -->\r\n      <ul class=\"sidebar-menu\">\r\n        <li>\r\n          <a [routerLink]=\"'/main/private'\">\r\n            <i class=\"fa fa-dashboard\"></i> <span>Dashboard</span>\r\n          </a>\r\n        </li>\r\n        <li>\r\n            <a  [routerLink]=\"'/main/payors'\">\r\n              <i class=\"fa fa-user fa-fw\"></i> \r\n              <span>Payors</span>\r\n            </a>\r\n        </li>       \r\n        <li>\r\n            <a  [routerLink]=\"'/main/users'\" *ngIf=\"allowed\">\r\n              <i class=\"fa fa-user fa-fw\"></i> \r\n              <span>Users</span>\r\n            </a>\r\n        </li>       \r\n        <li>\r\n            <a  [routerLink]=\"'/main/claims'\">\r\n              <i class=\"fa fa-credit-card fa-fw\"></i> \r\n              <span>Claims</span>\r\n            </a>\r\n        </li>       \r\n      </ul>\r\n    </section>\r\n    <!-- /.sidebar -->\r\n  </aside>"
-
-/***/ }),
-
-/***/ 355:
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-header with-border\"><h3 class=\"box-title\">Bridgeport Claims</h3></div>\r\n            <div class=\"box-body\">\r\n                <div class=\"row\">\r\n                    <div class=\"col-sm-12\"   id=\"accordion\">\r\n                            <app-claim-search></app-claim-search>\r\n                    </div>\r\n                </div>\r\n                <div class=\"row data\" [class.fittoSreen]=\"claimManager.selected && !expanded\">\r\n                    <div [class.col-sm-5]=\"!expanded\"  [class.col-sm-12]=\"expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)\" *ngIf=\"!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)\"  style=\"padding-right:0px;\">\r\n                        <div class=\"box\" *ngIf=\"(!expanded && expandedBlade==0) || expandedBlade==1\">\r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Claims</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,1)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body claims\">\r\n                                <app-claim-result [expand]=\"expand\" [minimize]=\"minimize\"></app-claim-result>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==2\">                    \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Notes</u></h4>\r\n                                <div class=\"box-tools pull-right\" *ngIf=\"claimManager.selectedClaim && !claimManager.selectedClaim.editing\">\r\n                                    <div class=\"btn-group\" data-toggle=\"btn-toggle\">                            \r\n                                        <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm\" (click)=\"addNote()\" *ngIf=\"!claimManager.selectedClaim.claimNotes\">Add New</button>                                \r\n                                        <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm\" (click)=\"addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)\" *ngIf=\"claimManager.selectedClaim.claimNotes\"   title=\"Edit Note\">Edit</button>                                \r\n                                    </div>\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                    <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,2)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                    &nbsp;&nbsp;&nbsp;\r\n                                </div>                       \r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-note></app-claim-note>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box\" *ngIf=\"(claimManager.selected  && expandedBlade==0) || expandedBlade==3\">                            \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Episodes</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                    <div class=\"btn-group\" data-toggle=\"btn-toggle\">                            \r\n                                        <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm\"   title=\"New Episode\">Add New</button>                                \r\n                                    </div>\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                    <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,3)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                    &nbsp;&nbsp;&nbsp;\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-episode></app-claim-episode>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div [class.col-sm-7]=\"!expanded\"  [class.col-sm-12]=\"expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)\" *ngIf=\"!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)\" style=\"padding-left:0px;\">\r\n                        <div class=\"box\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==4\">                            \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Prescriptions</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,4)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-prescriptions></app-claim-prescriptions>\r\n                            </div>\r\n                            <div class=\"box-footer\">\r\n                                <div class=\"btn-group\">\r\n                                    <button class=\"btn bg-purple btn-flat btn-small btn-block left\" type=\"button\" (click)=\"addPrescriptionNote()\">Add Note</button>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box box-warn\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==5\">                            \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Script Notes</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,5)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-script-note></app-claim-script-note>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box box-warn\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==6\">                            \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Payments</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,6)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-payment></app-claim-payment>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box box-warn\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==7\">\r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Images</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,7)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-images></app-claim-images>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n             <div class=\"overlay\" *ngIf=\"claimManager.loading\" style=\"text-align:center;\">\r\n                <img src=\"assets/1.gif\">\r\n            </div> \r\n        </div>\r\n    </div>\r\n </div>"
-
-/***/ }),
-
-/***/ 356:
-/***/ (function(module, exports) {
-
-module.exports = " <div class=\"wrapper\">\r\n    <div class=\"row\" *ngIf=\"confirmed==0\"> \r\n      <div class=\"col-md-8 col-md-offset-2\">\r\n          <br><br><br>\r\n          <div class=\"box\">\r\n              <div class=\"box-body text-center\">\r\n                    <br><br><br>\r\n                    <h2>\r\n                      Confirming your email address ...\r\n                    </h2>\r\n                    <br><br><br>\r\n              </div>\r\n              <div class=\"overlay\" style=\"text-align:center;\">\r\n                  <!--<img src=\"assets/1.gif\" *ngIf=\"loading\">-->\r\n                  <i class=\"fa fa-refresh fa-2x fa-spin\"></i>\r\n              </div> \r\n          </div>\r\n      </div>\r\n  </div>\r\n  <div class=\"row\" *ngIf=\"confirmed==1\">\r\n      <div class=\"row\">\r\n          <div class=\"col-md-12\">&nbsp;</div>\r\n      </div>\r\n      <div class=\"row\">\r\n          <div class=\"col-md-6 col-md-offset-4\">\r\n              <div class=\"alert alert-success\">\r\n                  <strong>Success!</strong> An email has been sent for you to verifiy your email address.\r\n              </div>\r\n          </div>\r\n      </div>\r\n  </div>\r\n  <div class=\"row\" *ngIf=\"confirmed==2\">\r\n      <div class=\"row\">\r\n          <div class=\"col-md-12\">&nbsp;</div>\r\n      </div>\r\n      <div class=\"row\">\r\n          <div class=\"col-md-6 col-md-offset-4\">\r\n              <div class=\"alert alert-danger\">\r\n                  <strong>Error!</strong> An email has been sent for you to verifiy your email address.\r\n              </div>\r\n          </div>\r\n      </div>\r\n  </div>\r\n </div>"
-
-/***/ }),
-
 /***/ 357:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-8 col-md-offset-2\">\r\n                 <h3>We can't seem to find the page you're looking for</h3>\r\n                <div class=\"row\">\r\n                    <div class=\"span5\">\r\n                        Please choose one of the locations below:\r\n                    </div>\r\n                </div>\r\n                <div class=\"row\"><br/></div>\r\n                <div class=\"row\">\r\n                    <div class=\"col-md-3\">\r\n                         <a [routerLink]=\"'/main/private'\" class=\"btn btn-primary btn-md btn-block\">Home</a>\r\n                    </div>\r\n                    <div class=\"col-md-3 col-md-offset-1\">\r\n                         <a (click)=\"backClicked()\" class=\"btn btn-default btn-md btn-block\">Go back</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <thead>\r\n              <tr>\r\n                <th>Date</th>\r\n                <th>By</th>\r\n                <th>Notes</th>\r\n                <th>&nbsp;</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody *ngIf=\"claimManager.selectedClaim\">\r\n              <tr *ngFor=\"let episode of claimManager.selectedClaim.episodes\">\r\n                <td>{{episode.date  | date:\"shortDate\"}}</td>\r\n                <td>{{episode.by}}</td>\r\n                <td>{{episode.note}}</td>               \r\n                <td>\r\n                  <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm pull-right\" (click)=\"edit(episode.episodeId)\" title=\"Edit Episode\">Edit</button>\r\n                </td>               \r\n              </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
 
 /***/ }),
 
 /***/ 358:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 \">\r\n        <div class=\"login-logo\">\r\n            <img [src]=\"'assets/logo/Color All.png'\" style=\"width:250px; padding-top: 50px;\" class=\"img-square\">\r\n        </div> \r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-lg-12\">\r\n        <form role=\"form\" [formGroup]=\"form\" class=\"center-form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"login()\">\r\n            <h3>Please sign in</h3>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" name=\"email\" class=\"form-control\" placeholder=\"Email address\" formControlName=\"email\" (focus)=\"submitted=false\" required focus-on>\r\n                <p class=\"text-danger form-control-static\" *ngIf=\"form.get('email').value!='' && form.get('email').errors && submitted\">Incorrect email</p>\r\n                <p class=\"text-danger form-control-static\" *ngIf=\"form.get('email').value =='' && submitted\">Email is required</p>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" name=\"password\" class=\"form-control bottom\" placeholder=\"Password\" formControlName=\"password\" required (focus)=\"submitted=false\">\r\n                <p class=\"text-danger form-control-static\" *ngIf=\"form.get('password').errors && submitted\"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email or password'}}</p>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <span class=\"help-block\"><a [routerLink]=\"'/recover-lost-password'\">Forgotten password?</a></span>\r\n            </div>\r\n            <div class=\"checkbox\">\r\n                <label><input type=\"checkbox\" value=\"true\" formControlName=\"rememberMe\"> Remember me</label>\r\n            </div>\r\n            <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"login()\">Sign in</button>\r\n        </form>\r\n    </div>\r\n</div>"
+module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <thead>\r\n              <tr>\r\n                <th>Date</th>\r\n                <th>RxNum</th>\r\n                <th>Type</th>\r\n                <th>File</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody>\r\n              <!--<tr *ngFor=\"let pay of claimManager.selectedClaim.payments\">\r\n                <td>{{pay.date  | date:\"shortDate\"}}</td>\r\n                <td>{{pay.checkNumber}}</td>\r\n                <td>{{pay.RxNum}}</td>\r\n                <td>{{pay.checkAmount}}</td>               \r\n              </tr>-->\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
 
 /***/ }),
 
 /***/ 359:
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "  <div class=\"row invoice-info\"  *ngIf=\"claimManager.selectedClaim && !claimManager.selectedClaim.editing\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <tbody>\r\n                  <tr>\r\n                    <td *ngIf=\"claimManager.selectedClaim && claimManager.selectedClaim.claimNote\">\r\n                     <span class=\"label label-info\"> {{claimManager.selectedClaim.claimNote.noteType}}</span>\r\n                      {{claimManager.selectedClaim.claimNote.noteText}}\r\n                    </td>\r\n                  </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>\r\n\r\n  <div class=\"row invoice-info\" *ngIf=\"claimManager.selectedClaim && claimManager.selectedClaim.editing\">\r\n      <form role=\"form\"  [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"saveNote()\">\r\n        <div class=\"form-group col-sm-offset-1 col-sm-10 invoice-col\" [class.has-error]=\"form.get('noteTypeId').errors\">\r\n              <label> <i class=\"fa fa-times-circle-o\" *ngIf=\"form.get('noteTypeId').errors\"></i> Claim Types</label>\r\n              <select class=\"form-control\" formControlName=\"noteTypeId\">\r\n                <option *ngFor=\"let note of claimManager.NoteTypes\" [value]=\"note.key\">{{note.value}}</option>\r\n              </select>\r\n        </div>\r\n        <div class=\"form-group col-sm-offset-1 col-sm-10 invoice-col\"  [class.has-error]=\"form.get('noteText').errors\">\r\n            <label>  <i class=\"fa fa-times-circle-o\" *ngIf=\"form.get('noteText').errors\"></i>  Claim Text</label>\r\n            <textarea class=\"form-control\"  name=\"noteText\" class=\"form-control\" formControlName=\"noteText\" focus-on></textarea>\r\n        </div>\r\n        <div class=\"form-group col-sm-offset-1 col-sm-10 invoice-col text-right\">\r\n          <button class=\"btn bg-purple btn-flat\" type=\"button\" (click)=\"saveNote()\">Save</button>\r\n          <button class=\"btn btn-danger btn-flat margin\" type=\"button\" (click)=\"claimManager.selectedClaim.editing=false\">Cancel</button>  \r\n        </div>\r\n      </form>\r\n  </div>"
 
 /***/ }),
 
 /***/ 360:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-lg-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-body\"> \r\n                <form role=\"form\" class=\"center-form\" [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\">\r\n                    <h4>Enter  your email to recover lost password</h4>\r\n                    <div class=\"form-group\">\r\n                        <input type=\"text\" formControlName=\"email\" class=\"form-control\" placeholder=\"Email address or login\"\r\n                            required>\r\n                        <p class=\"text-danger form-control-static\" *ngIf=\"form.get('email').errors && form.get('email').value\">Invalid Email address</p>\r\n                    </div>\r\n                    <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"submit()\">Reset password</button>\r\n                </form>\r\n            </div>\r\n            <div class=\"overlay\" *ngIf=\"submitted\">\r\n                <i class=\"fa fa-refresh fa-spin\"></i>\r\n            </div>    \r\n        </div>    \r\n    </div>\r\n</div>\r\n"
+module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table>\r\n              <thead>\r\n              <tr>\r\n                <th>Date</th>\r\n                <th>CheckNum</th>\r\n                <th>RxNum</th>\r\n                <th>Check Amount</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody  *ngIf=\"claimManager.selectedClaim\">\r\n              <tr *ngFor=\"let pay of claimManager.selectedClaim.payments\">\r\n                <td>{{pay.date  | date:\"shortDate\"}}</td>\r\n                <td>{{pay.checkNumber}}</td>\r\n                <td>{{pay.RxNum}}</td>\r\n                <td>{{pay.checkAmount}}</td>               \r\n              </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
 
 /***/ }),
 
 /***/ 361:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-header with-border\"><h3 class=\"box-title\">Payors</h3></div>\r\n            <div class=\"box-body row\">\r\n                <div class=\"col-lg-12\"   id=\"accordion\">\r\n                        <div class=\"panel panel-default\">\r\n                            <div class=\"panel-heading\">\r\n                                <h4 class=\"panel-title\">\r\n                                    <a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\">Search and Filter</a>\r\n                                </h4>\r\n                            </div>\r\n                            <div id=\"collapseOne\" class=\"panel-collapse collapse out\">\r\n                                <div class=\"panel-body\">\r\n                                    Will add search and filter UI\r\n                                </div>\r\n                            </div> \r\n                        </div> \r\n                </div>\r\n                <div class=\"col-lg-11 col-lg-offset-1\">\r\n                    <table width=\"100%\" class=\"table table-striped table-bordered table-hover\" id=\"dataTables-example\">\r\n                        <thead>\r\n                            <tr>\r\n                                <th>ID</th>\r\n                                <th>Billing Details</th>\r\n                                <th width=\"20%\">Notes</th>\r\n                                <th>Created On</th>\r\n                                <th>Updated On</th>\r\n                                <th>Action</th>\r\n                            </tr>\r\n                        </thead>\r\n                        <tbody> \r\n                            <ng-container *ngFor=\"let payor of payors\">\r\n                            <tr>\r\n                                <td>{{payor.payorId}}</td>\r\n                                <td>\r\n                                <b>Name</b>: {{payor.billToName}}<br/>\r\n                                <b>Address 1</b>: {{payor.billToAddress1}}<br/>\r\n                                <b>Address 2</b>: {{payor.billToAddress2}}<br/>\r\n                                <b>City</b>: {{payor.billToCity}}<br/>\r\n                                <b>State</b>: {{payor.billToState}}<br/>\r\n                                <b>Phone Number</b>: {{payor.phoneNumber}}<br/>\r\n                                </td>\r\n                                <td>{{payor.notes}}</td>\r\n                                <td class=\"center\">{{payor.createdOn | date:\"medium\"}}</td>\r\n                                <td class=\"center\">{{payor.updatedOn | date:\"medium\"}}</td>\r\n                                <td>\r\n                                    <button type=\"button\" class=\"btn btn-xs btn-primary\" title =\"View\"><i class=\"fa fa-eye-slash\"></i></button>                     \r\n                                    <button type=\"button\" class=\"btn btn-xs btn-info\"  title =\"Edit\"><i class=\"fa fa-pencil-square\"></i></button>                     \r\n                                    <button type=\"button\" class=\"btn btn-xs btn-danger\"  title =\"Delete\"><i class=\"fa fa-trash-o\"></i></button>                     \r\n                                </td>\r\n                            </tr>\r\n                            </ng-container>\r\n                        </tbody>\r\n                        <tfoot>\r\n                        <tr>\r\n                            <td colspan=\"3\"></td>\r\n                            <td colspan=\"3\" class=\"right\">\r\n                                <button type=\"button\" class=\"btn btn-default\"  (click)=\"prev()\" *ngIf=\"pageNumber>1\">Prev</button> \r\n                                <button type=\"button\" class=\"btn btn-info\">{{pageNumber}}</button>\r\n                                <button type=\"button\" class=\"btn btn-warning\" (click)=\"next()\">Next</button>\r\n                            </td>\r\n                            </tr>\r\n                        </tfoot>\r\n                    </table>\r\n                </div>\r\n            </div>\r\n             <div class=\"overlay\" *ngIf=\"loading\">\r\n                <i class=\"fa fa-refresh fa-spin\"></i>\r\n            </div> \r\n        </div>\r\n    </div>\r\n </div>"
+module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <thead>\r\n              <tr>\r\n                <th>&nbsp;</th>\r\n                <th>RxNum</th>\r\n                <th>labelName</th>\r\n                <th>Bill To</th>\r\n                <th>Inv #</th>\r\n                <th>Inv Amount</th>\r\n                <th>Amount Paid</th>\r\n                <th>Outstanding</th>\r\n                <th>Inv Date</th>\r\n                <th>Note Count</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody  *ngIf=\"claimManager.selectedClaim\">\r\n              <tr *ngFor=\"let prescription of claimManager.selectedClaim.prescriptions\">\r\n                <td>&nbsp;&nbsp;<input type=\"checkbox\" class=\"pescriptionCheck\" [id]=\"prescription.prescriptionId\" [attr.labelName]=\"prescription.labelName\"></td>\r\n                <td>{{prescription.rxNumber}}</td> \r\n                <td>{{prescription.labelName}}</td>\r\n                <td>{{prescription.billTo}}</td>\r\n                <td>{{prescription.invoiceNumber}}</td>               \r\n                <td>{{prescription.invoiceAmount}}</td>               \r\n                <td>{{prescription.amountPaid}}</td>               \r\n                <td>{{prescription.outstanding}}</td>               \r\n                <td>{{prescription.invoiceDate | date:\"shortDate\"}}</td>               \r\n                <td *ngIf=\"prescription.noteCount\"><a style=\"font-size:12pt;cursor:pointer;\" (click)=\"showNotes(prescription.prescriptionId)\">{{prescription.noteCount}}</a></td>\r\n                <td *ngIf=\"!prescription.noteCount\">{{prescription.noteCount}}</td>\r\n              </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
 
 /***/ }),
 
 /***/ 362:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-header with-border\"><h3 class=\"box-title\">General widget</h3></div>\r\n            <div class=\"box-body\">\r\n                <div class=\"row\">\r\n                    <div class=\"col-lg-3 col-md-6\">\r\n                        <div class=\"panel panel-primary\">\r\n                            <div class=\"panel-heading\">\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-xs-3\">\r\n                                        <i class=\"fa fa-group fa-5x\"></i>\r\n                                    </div>\r\n                                    <div class=\"col-xs-9 text-right\">\r\n                                        <div class=\"huge\">26</div>\r\n                                        <div>Payors</div>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <a [routerLink]=\"'/main/payors'\">\r\n                                <div class=\"panel-footer\">\r\n                                    <span class=\"pull-left\">Manage</span>\r\n                                    <span class=\"pull-right\"><i class=\"fa fa-arrow-circle-right\"></i></span>\r\n                                    <div class=\"clearfix\"></div>\r\n                                </div>\r\n                            </a>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-lg-3 col-md-6\"  *ngIf=\"allowed\">\r\n                        <div class=\"panel panel-success\">\r\n                            <div class=\"panel-heading\">\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-xs-3\">\r\n                                        <i class=\"fa fa-user fa-5x\"></i>\r\n                                    </div>\r\n                                    <div class=\"col-xs-9 text-right\">\r\n                                        <div class=\"huge\">26</div>\r\n                                        <div>Users</div>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <a [routerLink]=\"'/main/users'\">\r\n                                <div class=\"panel-footer\">\r\n                                    <span class=\"pull-left\">Manage</span>\r\n                                    <span class=\"pull-right\"><i class=\"fa fa-arrow-circle-right\"></i></span>\r\n                                    <div class=\"clearfix\"></div>\r\n                                </div>\r\n                            </a>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-lg-3 col-md-6\">\r\n                        <div class=\"panel panel-warning\">\r\n                            <div class=\"panel-heading\">\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-xs-3\">\r\n                                        <i class=\"fa fa-credit-card fa-5x\"></i>\r\n                                    </div>\r\n                                    <div class=\"col-xs-9 text-right\">\r\n                                        <div class=\"huge\"></div>\r\n                                        <div>Claims</div>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <a [routerLink]=\"'/main/claims'\">\r\n                                <div class=\"panel-footer\">\r\n                                    <span class=\"pull-left\">Manage</span>\r\n                                    <span class=\"pull-right\"><i class=\"fa fa-arrow-circle-right\"></i></span>\r\n                                    <div class=\"clearfix\"></div>\r\n                                </div>\r\n                            </a>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n </div>"
+module.exports = "<ng-container   *ngIf=\"claimManager.dataSize==1 || claimManager.selected\">\r\n    <div class=\"row invoice-info\" *ngFor=\"let claim of claimManager.claimsData\">\r\n      <div class=\"col-sm-6 invoice-col\" *ngIf=\"claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId\">\r\n        <address>\r\n          Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}<br>\r\n          DOB: {{claim.dateOfBirth}}<br>\r\n          Gender: {{claim.gender}}<br>\r\n          Carrier: {{claim.carrier}}<br/>\r\n          Adjustor : {{claim.adjustor}}<br>\r\n          Adjustor Ph : {{claim.adjustorPhoneNumber}}<br><br>\r\n          Eligibility Entered: {{claim.dateEntered}}<br><br>\r\n        </address>\r\n      </div>\r\n      <!-- /.col -->\r\n      <div class=\"col-sm-6 invoice-col\"  *ngIf=\"claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId\">\r\n        <address>\r\n          Claim #: {{claim.claimNumber}}<br>\r\n          Injury Date: {{claim.injuryDate}}<br>\r\n          Adjustor Fax : {{claim.adjustorFaxNumber}}<br>\r\n        </address>\r\n        <br/><br/><br/><br/><br/>\r\n        <span class=\"label label-warning\" style=\"cursor:pointer;font-size:9pt\" (click)=\"view(claim.claimId);\"  *ngIf=\"claimManager.dataSize==1\"> View </span>\r\n        <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm\" (click)=\"claimManager.selected=undefined\"  style=\"font-size:10pt\"  *ngIf=\"claimManager.dataSize>1\"> Back to Claim Results </button>\r\n      </div>\r\n  </div>\r\n</ng-container>\r\n<ng-container *ngIf=\"claimManager.dataSize>1 && ! claimManager.selected\">\r\n  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped table-hover\">\r\n              <thead>\r\n              <tr>\r\n                <th>Claim #</th>\r\n                <th>Name</th>\r\n                <th>Carrier</th>\r\n                <th>Injury Date</th>\r\n                <th>&nbsp;</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody>\r\n                <ng-container *ngFor=\"let claim of claimManager.claimsData\">\r\n                  <tr [class.active]=\"claimManager.selected && claim.claimId==claimManager.selectedClaim.claimId\">                \r\n                    <td>{{claim.claimNumber}}</td>\r\n                    <td *ngIf=\"claim.name\">{{claim.name}}</td>\r\n                    <td *ngIf=\"!claim.name\">{{claim.firstName}}  {{claim.lastName}}</td>\r\n                    <td>{{claim.carrier}}</td>\r\n                    <td>{{claim.injuryDate}}</td>\r\n                    <td><span class=\"label label-warning\" style=\"cursor:pointer;font-size:9pt\" (click)=\"view(claim.claimId)\"> View </span></td>\r\n                  </tr>\r\n                </ng-container>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>\r\n</ng-container>\r\n"
 
 /***/ }),
 
 /***/ 363:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\r\n    <div class=\"row\">&nbsp;</div>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6 col-md-offset-3\">\r\n            <div class=\"box\">\r\n                <div class=\"box-body\">\r\n                    <form role=\"form\" [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (ngSubmit)=\"submitForm(form.value)\">\r\n                        <div class=\"form-group\">\r\n                            <label>Email</label>\r\n                            <input type=\"text\" name=\"email\" class=\"form-control\" value=\"{{profileManager.profile.email}}\" disabled>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <label>First Name</label>\r\n                            <input type=\"text\" name=\"firstName\" formControlName=\"firstName\" class=\"form-control\" value=\"{{profileManager.profile.firstName}}\">\r\n                            <!--<p class=\"text-danger form-control-static\" *ngIf=\"form.get('firstName').errors && submitted\">First Name is required!</p>-->\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <label>Last Name</label>\r\n                            <input type=\"text\" name=\"lastName\" formControlName=\"lastName\" class=\"form-control\" value=\"{{profileManager.profile.lastName}}\">                            \r\n                            <!--<p class=\"text-danger form-control-static\" *ngIf=\"form.get('lastName').errors && submitted\">Last Name is required!</p>-->\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"password\" formControlName=\"oldPassword\" class=\"form-control\" placeholder=\"Current password\" ng-model=\"currentPassword\"\r\n                                >\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('oldPassword').errors && submitted\">\r\n                                Current password is required!</p>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"password\" formControlName=\"newPassword\" class=\"form-control\" placeholder=\"New password\" ng-model=\"newPassword\"\r\n                            >\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('newPassword').errors && submitted\">New password is required!</p>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"password\" formControlName=\"confirmPassword\" class=\"form-control\" placeholder=\"Repeat new password\" ng-model=\"confirmPassword\"\r\n                                bs-match=\"newPassword\">\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('confirmPassword').errors && submitted\">Repeat Password does not match password!</p>\r\n                        </div>\r\n                        <!--<button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"updatePassword()\">Update\r\n                        </button>-->\r\n                        <div class=\"form-group\">\r\n                            <button type=\"submit\" class=\"btn btn-primary btn-block\" [disabled]=\"!form.dirty\"> Update </button>\r\n                        </div>\r\n                    </form>\r\n                </div>\r\n                <div class=\"overlay\" *ngIf=\"loading\" style=\"text-align:center;\">\r\n                    <!--<img src=\"assets/1.gif\" *ngIf=\"loading\">-->\r\n                    <i class=\"fa fa-refresh fa-2x fa-spin\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+module.exports = "  <div class=\"row invoice-info\">\r\n        <div class=\"col-sm-12 invoice-col\">\r\n          <div class=\"table-responsive\">\r\n            <table class=\"table no-margin table-striped\">\r\n              <thead>\r\n              <tr>\r\n                <th>Date</th>\r\n                <th>Type</th>\r\n                <th>By</th>\r\n                <th>Notes</th>\r\n              </tr>\r\n              </thead>\r\n              <tbody  *ngIf=\"claimManager.selectedClaim\">\r\n              <tr *ngFor=\"let pNotes of claimManager.selectedClaim.prescriptionNotes\">\r\n                <td>{{pNotes.date  | date:\"shortDate\"}}</td>\r\n                <td>{{pNotes.type}}</td>\r\n                <td>{{pNotes.enteredBy}}</td>\r\n                <td>{{pNotes.note}}</td>               \r\n              </tr>\r\n              </tbody>\r\n            </table>\r\n          </div>\r\n        </div>\r\n  </div>"
 
 /***/ }),
 
 /***/ 364:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 \">\r\n        <div class=\"login-logo\">\r\n            <img [src]=\"'assets/logo/Color All.png'\" style=\"width:150px\" class=\"img-square\">\r\n        </div> \r\n    </div>\r\n</div>\r\n<div class=\"row\" *ngIf=\"!registered\">\r\n    <div class=\"col-lg-12\">        \r\n        <form role=\"form\"  [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"register()\" class=\"center-form\">\r\n            <h4>Please complete form to register</h4>\r\n                <div class=\"form-group\">\r\n                    <input class=\"form-control\"  name=\"Email\" class=\"form-control\" placeholder=\"Email address\" formControlName=\"Email\" (focus)=\"submitted=false\" required focus-on>\r\n                    <p class=\"text-danger form-control-static\" *ngIf=\"form.get('Email').errors && submitted\">Email is required</p>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <input class=\"form-control\"  name=\"firstname\" class=\"form-control\" placeholder=\"Firstname\" formControlName=\"firstname\" (focus)=\"submitted=false\" required focus-on>\r\n                    <p class=\"text-danger form-control-static\" *ngIf=\"form.get('firstname').errors && submitted\">Firstname is required</p>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                    <input class=\"form-control\"  name=\"lastname\" class=\"form-control\" placeholder=\"Lastname\" formControlName=\"lastname\" (focus)=\"submitted=false\" required focus-on>\r\n                    <p class=\"text-danger form-control-static\" *ngIf=\"form.get('lastname').errors && submitted\">Lastname is required</p>\r\n                </div>                                \r\n                <div class=\"form-group\">\r\n                        <input type=\"password\" name=\"Password\" class=\"form-control bottom\" placeholder=\"Password\"  formControlName=\"Password\" required (focus)=\"submitted=false\">\r\n                        <p class=\"text-danger form-control-static\" *ngIf=\"form.get('Password').errors && submitted\">\r\n                            {{this.form.get('Password').getError('required') ? 'Password is required': 'Password validation creteria'}}\r\n                        </p>\r\n                </div>\r\n                <div class=\"form-group\">\r\n                        <input type=\"password\" name=\"password\" class=\"form-control bottom\" placeholder=\"Repeat password\"  formControlName=\"ConfirmPassword\" required (focus)=\"submitted=false\">\r\n                        <p class=\"text-danger form-control-static\" *ngIf=\"form.get('ConfirmPassword').errors && submitted\">\r\n                            Repeated password does not match password entry\r\n                        </p>\r\n                </div>                                \r\n                <div class=\"form-group\">\r\n                    <span class=\"help-block\"><a [routerLink]=\"'/recover-lost-password'\">Forgotten password?</a></span>\r\n                </div>\r\n                <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"register()\">Register</button>\r\n            </form>\r\n        </div>\r\n    </div>\r\n    <div class=\"row\" *ngIf=\"registered\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">&nbsp;</div>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"col-md-6 col-md-offset-4\">\r\n                <div class=\"alert alert-success\">\r\n                    <strong>Success!</strong> An email has been sent for you to verifiy your email address.\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n"
+module.exports = "<form role=\"form\"  [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"search()\">\r\n    <div class=\"row\">\r\n        <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>Claim #</label>\r\n              <input class=\"form-control\" name=\"claimNumber\" class=\"form-control\" formControlName=\"claimNumber\" (change)=\"textChange('claimNumber')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>FirstName</label>\r\n              <input class=\"form-control\"  name=\"firstName\" class=\"form-control\" formControlName=\"firstName\"  (change)=\"textChange('firstName')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n       <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>Last Name</label>\r\n              <input class=\"form-control\"  name=\"lastName\" class=\"form-control\" formControlName=\"lastName\"  (change)=\"textChange('lastName')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>Rx Number</label>\r\n              <input class=\"form-control\"  name=\"rxNumber\" class=\"form-control\" formControlName=\"rxNumber\"  (change)=\"textChange('rxNumber')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n          <div class=\"form-group\">\r\n              <label>Invoice #</label>\r\n              <input class=\"form-control\"  name=\"invoiceNumber\" class=\"form-control\" formControlName=\"invoiceNumber\"  (change)=\"textChange('invoiceNumber')\" (focus)=\"submitted=false\" focus-on>\r\n          </div>\r\n      </div>\r\n\r\n      <div class=\"col-md-2\">\r\n           <label>&nbsp;</label>\r\n          <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"search()\">Search</button>\r\n      </div>\r\n    </div>\r\n</form>\r\n"
 
 /***/ }),
 
 /***/ 365:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-header with-border\">\r\n                <h3 class=\"box-title\">Users</h3>\r\n            </div>\r\n            <div class=\"box-body row\">\r\n                <div class=\"col-lg-12\" id=\"accordion\">\r\n                    <div class=\"panel panel-default\">\r\n                        <div class=\"panel-heading\">\r\n                            <h4 class=\"panel-title\">\r\n                                <a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\">Search and Filter</a>\r\n                            </h4>\r\n                        </div>\r\n                        <div id=\"collapseOne\" class=\"panel-collapse collapse in collapse out\">\r\n                            <div class=\"panel-body\">\r\n                                <form role=\"form\" [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"search()\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-2\">\r\n                                            <div class=\"form-group\">\r\n                                                <label>Name</label>\r\n                                                <input class=\"form-control\" name=\"userName\" class=\"form-control\" formControlName=\"userName\" [(ngModel)]=\"userName\" (focus)=\"submitted=false\"\r\n                                                    focus-on>\r\n                                            </div>\r\n                                        </div>\r\n                                        <div class=\"col-md-2\">\r\n                                            <label>Display Only Admins</label>\r\n                                            <div class=\"form-group\">\r\n                                                <label class=\"switch\" style=\"margin-top: 4px;\">\r\n                                                    <input  type=\"checkbox\" class=\"toggle-switch-checkbox\" formControlName=\"isAdmin\" [(ngModel)]=\"isAdmin\">\r\n                                                    <div class=\"slider round\"></div>\r\n                                                </label>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                </form>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-lg-11 col-lg-offset-1\">\r\n                        <table width=\"100%\" class=\"table table-striped table-bordered table-hover\" id=\"dataTables-example\">\r\n                            <thead>\r\n                                <tr>\r\n                                    <th>User Name</th>\r\n\r\n                                    <th>First Name</th>\r\n                                    <th>Last Name</th>\r\n                                    <th>Email Confirmed</th>\r\n                                    <th>Registered Date</th>\r\n                                    <th>Role User</th>\r\n                                    <th>Role Admin</th>\r\n                                    <th>Activate / Deactivate</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody>\r\n                                <ng-container *ngFor=\"let user of (users | filterUser : userName : isAdmin);let i = index\">\r\n                                    <tr>\r\n                                        <td>{{user.userName}}</td>\r\n                                        <td>{{user.firstName}}</td>\r\n                                        <td>{{user.lastName}}</td>\r\n                                        <td>{{user.emailConfirmed}}</td>\r\n                                        <td class=\"center\">{{user.registeredDate | date:\"shortDate\"}}</td>\r\n                                        <td>\r\n                                            <label class=\"switch\">\r\n                                            <input type=\"checkbox\" class=\"checkbox checkbox-slider--b checkbox-slider-md\" [(ngModel)]=\"user.user\" (ngModelChange)=\"showRoleConfirm(i,userRole,$event)\">\r\n                                            <div class=\"slider round\"></div>\r\n                                        </label>\r\n                                        </td>\r\n                                        <td>\r\n                                            <label class=\"switch\">\r\n                                            <input type=\"checkbox\" class=\"toggle-switch-checkbox\" [(ngModel)]=\"user.admin\" (ngModelChange)=\"showRoleConfirm(i,adminRole,$event)\">\r\n                                            <div class=\"slider round\"></div>\r\n                                        </label>\r\n                                        </td>\r\n                                        <td>\r\n                                            <div class=\"demo text-center\">                    \r\n                                                    <input type=\"checkbox\" class=\"faChkRnd\" [(ngModel)]=\"user.deactivated\" (ngModelChange)=\"changeStatus(i,$event)\"><label></label>\r\n                                            </div>\r\n                                        </td>\r\n                                    </tr>\r\n                                </ng-container>\r\n                            </tbody>\r\n                            <!--<tfoot>\r\n                        <tr>\r\n                            <td colspan=\"3\"></td>\r\n                            <td colspan=\"3\" class=\"right\">\r\n                                <button type=\"button\" class=\"btn btn-default\"  (click)=\"prev()\" *ngIf=\"pageNumber>1\">Prev</button> \r\n                                <button type=\"button\" class=\"btn btn-info\">{{pageNumber}}</button>\r\n                                <button type=\"button\" class=\"btn btn-warning\" (click)=\"next()\">Next</button>\r\n                            </td>\r\n                            </tr>\r\n                        </tfoot>-->\r\n                        </table>\r\n                    </div>\r\n                </div>\r\n                <div class=\"overlay\" *ngIf=\"loading\">\r\n                    <i class=\"fa fa-refresh fa-spin\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>"
+module.exports = "<div class=\"wrapper\" style=\"height: auto;\">\r\n    <!--top header -->\r\n    <app-header></app-header>\r\n    <app-sidebar *ngIf=\"isLoggedIn\"></app-sidebar>\r\n    <div class=\"content-wrapper\">\r\n        <div #toastContainer> </div>\r\n        <router-outlet></router-outlet>\r\n    </div>\r\n    <!-- /.content-wrapper -->\r\n</div>"
 
 /***/ }),
 
-/***/ 37:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 366:
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony export (immutable) */ __webpack_exports__["c"] = warn;
-/* harmony export (immutable) */ __webpack_exports__["a"] = success;
-/* harmony export (immutable) */ __webpack_exports__["b"] = error;
-function warn(title) {
-    jQuery.notifyClose();
-    jQuery.notify({
-        // options
-        icon: "glyphicon glyphicon-warning-sign",
-        message: title !== undefined ? title : 'Please correct the errors highlighted in red'
-    }, {
-        // settings
-        type: 'warning',
-        animate: {
-            enter: 'animated swing',
-            exit: 'animated fadeOutUp'
-        },
-        offset: 50,
-        delay: 5000,
-        z_index: 9991031,
-        allow_dismiss: true,
-        placement: {
-            from: 'top',
-            align: 'right'
-        }
-    });
-}
-function success(message) {
-    jQuery.notify({
-        // options
-        icon: "glyphicon glyphicon-ok-circle",
-        message: message
-    }, {
-        // settings
-        type: 'success',
-        animate: {
-            enter: 'animated fadeInDown',
-            exit: 'animated fadeOutUp'
-        },
-        offset: 50,
-        delay: 5000,
-        allow_dismiss: true,
-        placement: {
-            from: 'top',
-            align: 'right'
-        }
-    });
-}
-function error(title) {
-    jQuery.notify({
-        // options
-        icon: "glyphicon glyphicon-exclamation-sign",
-        message: title !== undefined ? title : 'Please correct the errors highlighted in red'
-    }, {
-        // settings
-        type: 'error',
-        animate: {
-            enter: 'animated swing',
-            exit: 'animated fadeOutUp'
-        },
-        offset: 50,
-        delay: 5000,
-        z_index: 1031,
-        allow_dismiss: true,
-        placement: {
-            from: 'top',
-            align: 'right'
-        }
-    });
-}
-//# sourceMappingURL=notification.js.map
+module.exports = "<header class=\"main-header\">\r\n    <!-- Logo -->\r\n    <a [routerLink]=\"'/'\" class=\"logo\">\r\n      <!-- mini logo for sidebar mini 50x50 pixels -->\r\n      <span class=\"logo-mini\"><b>BR</b>-C</span>\r\n      <!-- logo for regular state and mobile devices -->\r\n      <span class=\"logo-lg\">Bridgeport Claims</span>\r\n    </a>\r\n    <nav class=\"navbar navbar-static-top\">\r\n            <!-- Sidebar toggle button, check if user is logged in-->\r\n            <a href=\"#\" class=\"sidebar-toggle\" data-toggle=\"offcanvas\" role=\"button\" *ngIf=\"profileManager.profile\">\r\n                <span class=\"sr-only\">Toggle navigation</span>\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n                <span class=\"icon-bar\"></span>\r\n            </a>\r\n            <!-- Top right menu items, also check if user is logged in-->\r\n            <div class=\"navbar-custom-menu\">\r\n                <ul class=\"nav navbar-nav\" *ngIf=\"!profileManager.profile\">                        \r\n                    <li><a [routerLink]=\"'/register'\">Register</a></li>\r\n                    <li><a [routerLink]=\"'/login'\">Login</a></li>\r\n                </ul>\r\n                <ul class=\"nav navbar-nav\" *ngIf=\"profileManager.profile\">                        \r\n                    <li routerLinkActive=\"active\" *ngIf=\"profileManager.profile\">\r\n                        <!--[routerLink]=\"'/profile'\"--> \r\n                        <a   class=\"navbar-link\" [routerLink]=\"'/main/profile'\">My Account</a>\r\n                    </li>\r\n                    <li routerLinkActive=\"active\" *ngIf=\"profileManager.profile\">\r\n                        <!--[routerLink]=\"'/profile'\"--> \r\n                        <a   class=\"navbar-link\" [routerLink]=\"'/main/profile'\">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>\r\n                    </li>\r\n                    <li routerLinkActive=\"active\" *ngIf=\"profileManager.profile\">\r\n                        <a  style=\"cursor:pointer;\" (click)=\"logout()\" class=\"navbar-link\">Logout</a>\r\n                    </li>\r\n                </ul>\r\n            </div>\r\n\r\n    </nav>\r\n    \r\n</header>"
+
+/***/ }),
+
+/***/ 367:
+/***/ (function(module, exports) {
+
+module.exports = "<aside class=\"main-sidebar\">\r\n    <!-- sidebar: style can be found in sidebar.less -->\r\n    <section class=\"sidebar\">\r\n      <!-- Sidebar user panel -->\r\n      <div class=\"user-panel\">\r\n        <div class=\"pull-left image\">\r\n          <img [src]=\"'assets/logo/Color Logo.jpg'\" class=\"img-square\" [alt]=\"userName\">\r\n          <br style=\"line-height:2em\" *ngIf=\"!avatar\">\r\n        </div>\r\n        <div class=\"pull-left info\">\r\n          <p>{{userName}}</p>\r\n        </div>\r\n      </div>\r\n      <!-- sidebar menu: : style can be found in sidebar.less -->\r\n      <ul class=\"sidebar-menu\">\r\n        <li>\r\n          <a [routerLink]=\"'/main/private'\">\r\n            <i class=\"fa fa-dashboard\"></i> <span>Dashboard</span>\r\n          </a>\r\n        </li>\r\n        <!--<li>\r\n            <a  [routerLink]=\"'/main/payors'\">\r\n              <i class=\"fa fa-user fa-fw\"></i> \r\n              <span>Payors</span>\r\n            </a>\r\n        </li>       -->\r\n        <li>\r\n            <a  [routerLink]=\"'/main/users'\" *ngIf=\"allowed\">\r\n              <i class=\"fa fa-user fa-fw\"></i> \r\n              <span>Users</span>\r\n            </a>\r\n        </li>       \r\n        <li>\r\n            <a  [routerLink]=\"'/main/claims'\">\r\n              <i class=\"fa fa-credit-card fa-fw\"></i> \r\n              <span>Claims</span>\r\n            </a>\r\n        </li>       \r\n      </ul>\r\n    </section>\r\n    <!-- /.sidebar -->\r\n  </aside>"
+
+/***/ }),
+
+/***/ 368:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n  <div class=\"col-lg-12\">\r\n    <div class=\"box\">\r\n      <div class=\"box-body\">\r\n        <form role=\"form\" class=\"center-form\" [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\">\r\n          <h4>Set New Password</h4>\r\n          <div class=\"form-group\">\r\n            <input type=\"password\" formControlName=\"Password\" class=\"form-control\" placeholder=\"New password\" ng-model=\"Password\">\r\n            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('Password').errors && submitted\">New password is required!</p>\r\n          </div>\r\n          <div class=\"form-group\">\r\n            <input type=\"password\" formControlName=\"ConfirmPassword\" class=\"form-control\" placeholder=\"Repeat new password\" ng-model=\"ConfirmPassword\"\r\n              bs-match=\"password\">\r\n            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('ConfirmPassword').errors && submitted\">Repeat Password does not match password!</p>\r\n          </div>\r\n          <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"submit()\">Set New password</button>\r\n        </form>\r\n      </div>\r\n\r\n      <div class=\"overlay\" *ngIf=\"submitted\" style=\"text-align:center;\">\r\n        <img src=\"assets/1.gif\">\r\n      </div>\r\n    </div>\r\n  </div>"
+
+/***/ }),
+
+/***/ 369:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-header with-border\"><h3 class=\"box-title\">Bridgeport Claims</h3></div>\r\n            <div class=\"box-body\">\r\n                <div class=\"row\">\r\n                    <div class=\"col-sm-12\"   id=\"accordion\">\r\n                            <app-claim-search></app-claim-search>\r\n                    </div>\r\n                </div>\r\n                <div class=\"row data\" [class.fittoSreen]=\"claimManager.selected && !expanded\">\r\n                    <div [class.col-sm-5]=\"!expanded\"  [class.col-sm-12]=\"expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)\" *ngIf=\"!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)\"  style=\"padding-right:0px;\">\r\n                        <div class=\"box\" *ngIf=\"(!expanded && expandedBlade==0) || expandedBlade==1\">\r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Claims</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,1)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body claims\">\r\n                                <app-claim-result [expand]=\"expand\" [minimize]=\"minimize\"></app-claim-result>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==2\">                    \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Notes</u></h4>\r\n                                <div class=\"box-tools pull-right\" *ngIf=\"claimManager.selectedClaim && !claimManager.selectedClaim.editing\">\r\n                                    <div class=\"btn-group\" data-toggle=\"btn-toggle\">                            \r\n                                        <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm\" (click)=\"addNote()\" *ngIf=\"!claimManager.selectedClaim.claimNotes\">Add New</button>                                \r\n                                        <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm\" (click)=\"addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)\" *ngIf=\"claimManager.selectedClaim.claimNotes\"   title=\"Edit Note\">Edit</button>\r\n                                    </div>\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                    <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,2)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                    &nbsp;&nbsp;&nbsp;\r\n                                </div>                       \r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-note></app-claim-note>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box\" *ngIf=\"(claimManager.selected  && expandedBlade==0) || expandedBlade==3\">                            \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Episodes</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                    <div class=\"btn-group\" data-toggle=\"btn-toggle\">                            \r\n                                        <button type=\"button\" class=\"btn btn-flat bg-purple btn-sm\"   title=\"New Episode\" (click)=\"episode()\">Add New</button>                                \r\n                                    </div>\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                    <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,3)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                    &nbsp;&nbsp;&nbsp;\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-episode></app-claim-episode>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div [class.col-sm-7]=\"!expanded\"  [class.col-sm-12]=\"expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)\" *ngIf=\"!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)\" style=\"padding-left:0px;\">\r\n                        <div class=\"box\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==4\">                            \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Prescriptions</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,4)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-prescriptions></app-claim-prescriptions>\r\n                            </div>\r\n                            <div class=\"box-footer\">\r\n                                <div class=\"btn-group\">\r\n                                    <button class=\"btn bg-purple btn-flat btn-small btn-block left\" type=\"button\" (click)=\"addPrescriptionNote()\">Add Note</button>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box box-warn\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==5\">                            \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Script Notes</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,5)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-script-note></app-claim-script-note>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box box-warn\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==6\">                            \r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Payments</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,6)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-payment></app-claim-payment>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"box box-warn\" *ngIf=\"(claimManager.selected && expandedBlade==0) || expandedBlade==7\">\r\n                            <div class=\"box-header\">\r\n                                <h4 class=\"box-title text-center\"><u>Images</u></h4>\r\n                                <div class=\"box-tools pull-right\">\r\n                                        <button type=\"button\" *ngIf=\"expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"minimize()\"   title=\"Minimize\"><i class=\"fa fa-minus\"></i></button>\r\n                                        <button type=\"button\" *ngIf=\"!expanded\" class=\"btn btn-flat bg-green btn-sm\" (click)=\"expand(true,7)\"   title=\"Expand blade\"><i class=\"fa fa-expand\"></i></button>\r\n                                </div>\r\n                            </div>\r\n                            <div class=\"box-body\">\r\n                                <app-claim-images></app-claim-images>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n             <div class=\"overlay\" *ngIf=\"claimManager.loading\" style=\"text-align:center;\">\r\n                <img src=\"assets/1.gif\">\r\n            </div> \r\n        </div>\r\n    </div>\r\n </div>"
+
+/***/ }),
+
+/***/ 370:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"wrapper\">\r\n    <div class=\"row\" *ngIf=\"confirmed==0\">\r\n        <div class=\"col-md-8 col-md-offset-2\">\r\n            <br><br><br>\r\n            <div class=\"box\">\r\n                <div class=\"box-body text-center\">\r\n                    <br><br><br>\r\n                    <h2>\r\n                        Confirming your email address ...\r\n                    </h2>\r\n                    <br><br><br>\r\n                </div>\r\n                <div class=\"overlay\" *ngIf=\"loading\" style=\"text-align:center;\">\r\n                    <img src=\"assets/1.gif\">\r\n                </div>\r\n                <!--<div class=\"overlay\" style=\"text-align:center;\">\r\n                    <!--<img src=\"assets/1.gif\" *ngIf=\"loading\">-->\r\n                    <!--<i class=\"fa fa-refresh fa-2x fa-spin\"></i>\r\n                </div>-->\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"row\" *ngIf=\"confirmed==1\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">&nbsp;</div>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"col-md-6 col-md-offset-4\">\r\n                <div class=\"alert alert-success\">\r\n                    <strong>Success!</strong> An email has been sent for you to verifiy your email address.\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"row\" *ngIf=\"confirmed==2\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">&nbsp;</div>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"col-md-6 col-md-offset-4\">\r\n                <div class=\"alert alert-danger\">\r\n                    <strong>Error!</strong> An email has been sent for you to verifiy your email address.\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ 371:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\r\n    <div class=\"row\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-8 col-md-offset-2\">\r\n                 <h3>We can't seem to find the page you're looking for</h3>\r\n                <div class=\"row\">\r\n                    <div class=\"span5\">\r\n                        Please choose one of the locations below:\r\n                    </div>\r\n                </div>\r\n                <div class=\"row\"><br/></div>\r\n                <div class=\"row\">\r\n                    <div class=\"col-md-3\">\r\n                         <a [routerLink]=\"'/main/private'\" class=\"btn btn-primary btn-md btn-block\">Home</a>\r\n                    </div>\r\n                    <div class=\"col-md-3 col-md-offset-1\">\r\n                         <a (click)=\"backClicked()\" class=\"btn btn-default btn-md btn-block\">Go back</a>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ 372:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 \">\r\n        <div class=\"login-logo\">\r\n            <img [src]=\"'assets/logo/Color All.png'\" style=\"width:250px; padding-top: 50px;\" class=\"img-square\">\r\n        </div>\r\n    </div>\r\n</div>\r\n<div class=\"row\">    \r\n    <div class=\"col-lg-12\">\r\n        <div class=\"box center-form no-border\">\r\n            <div class=\"box-body\"> \r\n                <form role=\"form\" [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"login()\">\r\n                    <h3>Please sign in</h3>\r\n                    <div class=\"form-group\">\r\n                        <input type=\"text\" name=\"email\" class=\"form-control\" placeholder=\"Email address\" formControlName=\"email\" (focus)=\"submitted=false\" required focus-on>\r\n                        <p class=\"text-danger form-control-static\" *ngIf=\"form.get('email').value!='' && form.get('email').errors && submitted\">Incorrect email</p>\r\n                        <p class=\"text-danger form-control-static\" *ngIf=\"form.get('email').value =='' && submitted\">Email is required</p>\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        <input type=\"password\" name=\"password\" class=\"form-control bottom\" placeholder=\"Password\" formControlName=\"password\" required (focus)=\"submitted=false\">\r\n                        <p class=\"text-danger form-control-static\" *ngIf=\"form.get('password').errors && submitted\"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email or password'}}</p>\r\n                    </div>\r\n                    <div class=\"form-group\">\r\n                        <span class=\"help-block\"><a [routerLink]=\"'/recover-lost-password'\">Forgotten password?</a></span>\r\n                    </div>\r\n                    <div class=\"checkbox\">\r\n                        <label><input type=\"checkbox\" value=\"true\" formControlName=\"rememberMe\"> Remember me</label>\r\n                    </div>\r\n                    <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"login()\">Sign in</button>\r\n                </form>\r\n            </div>\r\n            <div class=\"overlay\" *ngIf=\"submitted\" style=\"text-align:center;\">\r\n                <img src=\"assets/1.gif\" style=\"width:70%\"><br/>\r\n            </div> \r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ 373:
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ 374:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-lg-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-body\"> \r\n                <form role=\"form\" class=\"center-form\" [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\">\r\n                    <h4>Enter  your email to recover lost password</h4>\r\n                    <div class=\"form-group\">\r\n                        <input type=\"text\" formControlName=\"email\" class=\"form-control\" placeholder=\"Email address or login\"\r\n                            required>\r\n                        <p class=\"text-danger form-control-static\" *ngIf=\"form.get('email').errors && form.get('email').value\">Invalid Email address</p>\r\n                    </div>\r\n                    <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"submit()\" [disabled]=\"!form.valid\">Reset password</button>\r\n                </form>\r\n            </div>\r\n            \r\n            <div class=\"overlay\" *ngIf=\"submitted\" style=\"text-align:center;\">\r\n                <img src=\"assets/1.gif\">\r\n            </div> \r\n        </div>    \r\n    </div>\r\n</div>\r\n"
+
+/***/ }),
+
+/***/ 375:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-header with-border\"><h3 class=\"box-title\">Payors</h3></div>\r\n            <div class=\"box-body row\">\r\n                <div class=\"col-lg-12\"   id=\"accordion\">\r\n                        <div class=\"panel panel-default\">\r\n                            <div class=\"panel-heading\">\r\n                                <h4 class=\"panel-title\">\r\n                                    <a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\">Search and Filter</a>\r\n                                </h4>\r\n                            </div>\r\n                            <div id=\"collapseOne\" class=\"panel-collapse collapse out\">\r\n                                <div class=\"panel-body\">\r\n                                    Will add search and filter UI\r\n                                </div>\r\n                            </div> \r\n                        </div> \r\n                </div>\r\n                <div class=\"col-lg-11 col-lg-offset-1\">\r\n                    <table width=\"100%\" class=\"table table-striped table-bordered table-hover\" id=\"dataTables-example\">\r\n                        <thead>\r\n                            <tr>\r\n                                <th>ID</th>\r\n                                <th>Billing Details</th>\r\n                                <th width=\"20%\">Notes</th>\r\n                                <th>Created On</th>\r\n                                <th>Updated On</th>\r\n                                <th>Action</th>\r\n                            </tr>\r\n                        </thead>\r\n                        <tbody> \r\n                            <ng-container *ngFor=\"let payor of payors\">\r\n                            <tr>\r\n                                <td>{{payor.payorId}}</td>\r\n                                <td>\r\n                                <b>Name</b>: {{payor.billToName}}<br/>\r\n                                <b>Address 1</b>: {{payor.billToAddress1}}<br/>\r\n                                <b>Address 2</b>: {{payor.billToAddress2}}<br/>\r\n                                <b>City</b>: {{payor.billToCity}}<br/>\r\n                                <b>State</b>: {{payor.billToState}}<br/>\r\n                                <b>Phone Number</b>: {{payor.phoneNumber}}<br/>\r\n                                </td>\r\n                                <td>{{payor.notes}}</td>\r\n                                <td class=\"center\">{{payor.createdOn | date:\"medium\"}}</td>\r\n                                <td class=\"center\">{{payor.updatedOn | date:\"medium\"}}</td>\r\n                                <td>\r\n                                    <button type=\"button\" class=\"btn btn-xs btn-primary\" title =\"View\"><i class=\"fa fa-eye-slash\"></i></button>                     \r\n                                    <button type=\"button\" class=\"btn btn-xs btn-info\"  title =\"Edit\"><i class=\"fa fa-pencil-square\"></i></button>                     \r\n                                    <button type=\"button\" class=\"btn btn-xs btn-danger\"  title =\"Delete\"><i class=\"fa fa-trash-o\"></i></button>                     \r\n                                </td>\r\n                            </tr>\r\n                            </ng-container>\r\n                        </tbody>\r\n                        <tfoot>\r\n                        <tr>\r\n                            <td colspan=\"3\"></td>\r\n                            <td colspan=\"3\" class=\"right\">\r\n                                <button type=\"button\" class=\"btn btn-default\"  (click)=\"prev()\" *ngIf=\"pageNumber>1\">Prev</button> \r\n                                <button type=\"button\" class=\"btn btn-info\">{{pageNumber}}</button>\r\n                                <button type=\"button\" class=\"btn btn-warning\" (click)=\"next()\">Next</button>\r\n                            </td>\r\n                            </tr>\r\n                        </tfoot>\r\n                    </table>\r\n                </div>\r\n            </div>\r\n             <div class=\"overlay\" *ngIf=\"loading\">\r\n                <i class=\"fa fa-refresh fa-spin\"></i>\r\n            </div> \r\n        </div>\r\n    </div>\r\n </div>"
+
+/***/ }),
+
+/***/ 376:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-header with-border\"><h3 class=\"box-title\">General widget</h3></div>\r\n            <div class=\"box-body\">\r\n                <div class=\"row\">\r\n                    <!--<div class=\"col-lg-3 col-md-6\">\r\n                        <div class=\"panel panel-primary\">\r\n                            <div class=\"panel-heading\">\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-xs-3\">\r\n                                        <i class=\"fa fa-group fa-5x\"></i>\r\n                                    </div>\r\n                                    <div class=\"col-xs-9 text-right\">\r\n                                        <div class=\"huge\">26</div>\r\n                                        <div>Payors</div>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <a [routerLink]=\"'/main/payors'\">\r\n                                <div class=\"panel-footer\">\r\n                                    <span class=\"pull-left\">Manage</span>\r\n                                    <span class=\"pull-right\"><i class=\"fa fa-arrow-circle-right\"></i></span>\r\n                                    <div class=\"clearfix\"></div>\r\n                                </div>\r\n                            </a>\r\n                        </div>\r\n                    </div>-->\r\n                    <div class=\"col-lg-3 col-md-6\"  *ngIf=\"allowed\">\r\n                        <div class=\"panel panel-success\">\r\n                            <div class=\"panel-heading\">\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-xs-3\">\r\n                                        <i class=\"fa fa-user fa-5x\"></i>\r\n                                    </div>\r\n                                    <div class=\"col-xs-9 text-right\">\r\n                                        <div class=\"huge\">26</div>\r\n                                        <div>Users</div>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <a [routerLink]=\"'/main/users'\">\r\n                                <div class=\"panel-footer\">\r\n                                    <span class=\"pull-left\">Manage</span>\r\n                                    <span class=\"pull-right\"><i class=\"fa fa-arrow-circle-right\"></i></span>\r\n                                    <div class=\"clearfix\"></div>\r\n                                </div>\r\n                            </a>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-lg-3 col-md-6\">\r\n                        <div class=\"panel panel-warning\">\r\n                            <div class=\"panel-heading\">\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-xs-3\">\r\n                                        <i class=\"fa fa-credit-card fa-5x\"></i>\r\n                                    </div>\r\n                                    <div class=\"col-xs-9 text-right\">\r\n                                        <div class=\"huge\"></div>\r\n                                        <div>Claims</div>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                            <a [routerLink]=\"'/main/claims'\">\r\n                                <div class=\"panel-footer\">\r\n                                    <span class=\"pull-left\">Manage</span>\r\n                                    <span class=\"pull-right\"><i class=\"fa fa-arrow-circle-right\"></i></span>\r\n                                    <div class=\"clearfix\"></div>\r\n                                </div>\r\n                            </a>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n </div>"
+
+/***/ }),
+
+/***/ 377:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"container\">\r\n    <div class=\"row\">&nbsp;</div>\r\n    <div class=\"row\">\r\n        <div class=\"col-md-6 col-md-offset-3\">\r\n            <div class=\"box\">\r\n                <div class=\"box-body\">\r\n                    <form role=\"form\" [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (ngSubmit)=\"submitForm(form.value)\">\r\n                        <div class=\"form-group\">\r\n                            <label>Email</label>\r\n                            <input type=\"text\" name=\"email\" class=\"form-control\" value=\"{{profileManager.profile.email}}\" disabled>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <label>First Name</label>\r\n                            <input type=\"text\" name=\"firstName\" formControlName=\"firstName\" class=\"form-control\" value=\"{{profileManager.profile.firstName}}\">\r\n                            <!--<p class=\"text-danger form-control-static\" *ngIf=\"form.get('firstName').errors && submitted\">First Name is required!</p>-->\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <label>Last Name</label>\r\n                            <input type=\"text\" name=\"lastName\" formControlName=\"lastName\" class=\"form-control\" value=\"{{profileManager.profile.lastName}}\">                            \r\n                            <!--<p class=\"text-danger form-control-static\" *ngIf=\"form.get('lastName').errors && submitted\">Last Name is required!</p>-->\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"password\" formControlName=\"oldPassword\" class=\"form-control\" placeholder=\"Current password\" ng-model=\"currentPassword\"\r\n                                >\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('oldPassword').errors && submitted\">\r\n                                Current password is required!</p>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"password\" formControlName=\"newPassword\" class=\"form-control\" placeholder=\"New password\" ng-model=\"newPassword\"\r\n                            >\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('newPassword').errors && submitted\">New password is required!</p>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input type=\"password\" formControlName=\"confirmPassword\" class=\"form-control\" placeholder=\"Repeat new password\" ng-model=\"confirmPassword\"\r\n                                bs-match=\"newPassword\">\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('confirmPassword').errors && submitted\">Repeat Password does not match password!</p>\r\n                        </div>\r\n                        <!--<button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"updatePassword()\">Update\r\n                        </button>-->\r\n                        <div class=\"form-group\">\r\n                            <button type=\"submit\" class=\"btn btn-primary btn-block\" [disabled]=\"!form.dirty\"> Update </button>\r\n                        </div>\r\n                    </form>\r\n                </div>\r\n                <div class=\"overlay\" *ngIf=\"loading\" style=\"text-align:center;\">\r\n                    <!--<img src=\"assets/1.gif\" *ngIf=\"loading\">-->\r\n                    <i class=\"fa fa-refresh fa-2x fa-spin\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>"
+
+/***/ }),
+
+/***/ 378:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 \">\r\n        <div class=\"login-logo\">\r\n            <img [src]=\"'assets/logo/Color All.png'\" style=\"width:150px\" class=\"img-square\">\r\n        </div> \r\n    </div>\r\n</div>\r\n<div class=\"row\" *ngIf=\"!registered\">\r\n    <div class=\"col-lg-12\"> \r\n        <div class=\"box center-form no-border\">\r\n            <div class=\"box-body\">       \r\n                <form role=\"form\"  [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"register()\">\r\n                    <h4>Please complete form to register</h4>\r\n                        <div class=\"form-group\">\r\n                            <input class=\"form-control\"  name=\"Email\" class=\"form-control\" placeholder=\"Email address\" formControlName=\"Email\" (focus)=\"submitted=false\" required focus-on>\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('Email').errors && submitted\">Email is required</p>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input class=\"form-control\"  name=\"firstname\" class=\"form-control\" placeholder=\"Firstname\" formControlName=\"firstname\" (focus)=\"submitted=false\" required focus-on>\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('firstname').errors && submitted\">Firstname is required</p>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <input class=\"form-control\"  name=\"lastname\" class=\"form-control\" placeholder=\"Lastname\" formControlName=\"lastname\" (focus)=\"submitted=false\" required focus-on>\r\n                            <p class=\"text-danger form-control-static\" *ngIf=\"form.get('lastname').errors && submitted\">Lastname is required</p>\r\n                        </div>                                \r\n                        <div class=\"form-group\">\r\n                                <input type=\"password\" name=\"Password\" class=\"form-control bottom\" placeholder=\"Password\"  formControlName=\"Password\" required (focus)=\"submitted=false\">\r\n                                <p class=\"text-danger form-control-static\" *ngIf=\"form.get('Password').errors && submitted\">\r\n                                    {{this.form.get('Password').getError('required') ? 'Password is required': 'Password validation creteria'}}\r\n                                </p>\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                                <input type=\"password\" name=\"password\" class=\"form-control bottom\" placeholder=\"Repeat password\"  formControlName=\"ConfirmPassword\" required (focus)=\"submitted=false\">\r\n                                <p class=\"text-danger form-control-static\" *ngIf=\"form.get('ConfirmPassword').errors && submitted\">\r\n                                    Repeated password does not match password entry\r\n                                </p>\r\n                        </div>                                \r\n                        <div class=\"form-group\">\r\n                            <span class=\"help-block\"><a [routerLink]=\"'/recover-lost-password'\">Forgotten password?</a></span>\r\n                        </div>\r\n                        <button class=\"btn btn-primary btn-block\" type=\"button\" (click)=\"register()\">Register</button>\r\n                    </form>\r\n                </div>\r\n                <div class=\"overlay\" *ngIf=\"submitted\" style=\"text-align:center;\">\r\n                    <img src=\"assets/1.gif\">\r\n                </div> \r\n            </div>\r\n        </div>\r\n    </div>\r\n    <div class=\"row\" *ngIf=\"registered\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">&nbsp;</div>\r\n        </div>\r\n        <div class=\"row\">\r\n            <div class=\"col-md-6 col-md-offset-4\">\r\n                <div class=\"alert alert-success\">\r\n                    <strong>Success!</strong> An email has been sent for you to verifiy your email address.\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>    \r\n"
+
+/***/ }),
+
+/***/ 379:
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-12 col-sm-12 col-xs-12\">\r\n        <div class=\"box\">\r\n            <div class=\"box-header with-border\">\r\n                <h3 class=\"box-title\">Users</h3>\r\n            </div>\r\n            <div class=\"box-body row\">\r\n                <div class=\"col-lg-12\" id=\"accordion\">\r\n                    <div class=\"panel panel-default\">\r\n                        <div class=\"panel-heading\">\r\n                            <h4 class=\"panel-title\">\r\n                                <a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\">Search and Filter</a>\r\n                            </h4>\r\n                        </div>\r\n                        <div id=\"collapseOne\" class=\"panel-collapse collapse in collapse out\">\r\n                            <div class=\"panel-body\">\r\n                                <form role=\"form\" [formGroup]=\"form\" autocomplete=\"off\" autocapitalize=\"none\" autocomplete=\"off\" (keyup.enter)=\"search()\">\r\n                                    <div class=\"row\">\r\n                                        <div class=\"col-md-2\">\r\n                                            <div class=\"form-group\">\r\n                                                <label>Name</label>\r\n                                                <input class=\"form-control\" name=\"userName\" class=\"form-control\" formControlName=\"userName\" [(ngModel)]=\"userName\" (focus)=\"submitted=false\"\r\n                                                    focus-on>\r\n                                            </div>\r\n                                        </div>\r\n                                        <div class=\"col-md-2\">\r\n                                            <label>Display Only Admins</label>\r\n                                            <div class=\"form-group\">\r\n                                                <label class=\"switch\" style=\"margin-top: 4px;\">\r\n                                                    <input  type=\"checkbox\" class=\"toggle-switch-checkbox\" formControlName=\"isAdmin\" [(ngModel)]=\"isAdmin\">\r\n                                                    <div class=\"slider round\"></div>\r\n                                                </label>\r\n                                            </div>\r\n                                        </div>\r\n                                    </div>\r\n                                </form>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"col-lg-11 col-lg-offset-1\">\r\n                        <table width=\"100%\" class=\"table table-striped table-bordered table-hover\" id=\"dataTables-example\">\r\n                            <thead>\r\n                                <tr>\r\n                                    <th>User Name</th>\r\n\r\n                                    <th>First Name</th>\r\n                                    <th>Last Name</th>\r\n                                    <th>Email Confirmed</th>\r\n                                    <th>Registered Date</th>\r\n                                    <th>Role User</th>\r\n                                    <th>Role Admin</th>\r\n                                    <th>Activate / Deactivate</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody>\r\n                                <ng-container *ngFor=\"let user of (users | filterUser : userName : isAdmin);let i = index\">\r\n                                    <tr>\r\n                                        <td>{{user.userName}}</td>\r\n                                        <td>{{user.firstName}}</td>\r\n                                        <td>{{user.lastName}}</td>\r\n                                        <td>{{user.emailConfirmed}}</td>\r\n                                        <td class=\"center\">{{user.registeredDate | date:\"shortDate\"}}</td>\r\n                                        <td>\r\n                                            <label class=\"switch\">\r\n                                            <input type=\"checkbox\" class=\"checkbox checkbox-slider--b checkbox-slider-md\" [(ngModel)]=\"user.user\" (ngModelChange)=\"showRoleConfirm(i,userRole,$event)\">\r\n                                            <div class=\"slider round\"></div>\r\n                                        </label>\r\n                                        </td>\r\n                                        <td>\r\n                                            <label class=\"switch\">\r\n                                            <input type=\"checkbox\" class=\"toggle-switch-checkbox\" [(ngModel)]=\"user.admin\" (ngModelChange)=\"showRoleConfirm(i,adminRole,$event)\">\r\n                                            <div class=\"slider round\"></div>\r\n                                        </label>\r\n                                        </td>\r\n                                        <td>\r\n                                            <div class=\"demo text-center\">                    \r\n                                                    <input type=\"checkbox\" class=\"faChkRnd\" [(ngModel)]=\"!user.deactivated\" (ngModelChange)=\"changeStatus(i,$event)\"><label></label>\r\n                                            </div>\r\n                                        </td>\r\n                                    </tr>\r\n                                </ng-container>\r\n                            </tbody>\r\n                            <!--<tfoot>\r\n                        <tr>\r\n                            <td colspan=\"3\"></td>\r\n                            <td colspan=\"3\" class=\"right\">\r\n                                <button type=\"button\" class=\"btn btn-default\"  (click)=\"prev()\" *ngIf=\"pageNumber>1\">Prev</button> \r\n                                <button type=\"button\" class=\"btn btn-info\">{{pageNumber}}</button>\r\n                                <button type=\"button\" class=\"btn btn-warning\" (click)=\"next()\">Next</button>\r\n                            </td>\r\n                            </tr>\r\n                        </tfoot>-->\r\n                        </table>\r\n                    </div>\r\n                </div>\r\n                <div class=\"overlay\" *ngIf=\"loading\">\r\n                    <i class=\"fa fa-refresh fa-spin\"></i>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>"
 
 /***/ }),
 
@@ -3534,15 +3711,15 @@ var UserProfile = (function () {
 
 /***/ }),
 
-/***/ 702:
+/***/ 716:
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(175);
+module.exports = __webpack_require__(182);
 
 
 /***/ }),
 
-/***/ 72:
+/***/ 74:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3559,14 +3736,91 @@ var ClaimNote = (function () {
 
 /***/ }),
 
+/***/ 75:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["b"] = warn;
+/* harmony export (immutable) */ __webpack_exports__["a"] = success;
+/* unused harmony export error */
+function warn(title) {
+    jQuery.notifyClose();
+    jQuery.notify({
+        // options
+        icon: "glyphicon glyphicon-warning-sign",
+        message: title !== undefined ? title : 'Please correct the errors highlighted in red'
+    }, {
+        // settings
+        type: 'warning',
+        animate: {
+            enter: 'animated swing',
+            exit: 'animated fadeOutUp'
+        },
+        offset: 50,
+        delay: 5000,
+        z_index: 9991031,
+        allow_dismiss: true,
+        placement: {
+            from: 'top',
+            align: 'right'
+        }
+    });
+}
+function success(message) {
+    jQuery.notify({
+        // options
+        icon: "glyphicon glyphicon-ok-circle",
+        message: message
+    }, {
+        // settings
+        type: 'success',
+        animate: {
+            enter: 'animated fadeInDown',
+            exit: 'animated fadeOutUp'
+        },
+        offset: 50,
+        delay: 5000,
+        allow_dismiss: true,
+        placement: {
+            from: 'top',
+            align: 'right'
+        }
+    });
+}
+function error(title, duration) {
+    jQuery.notify({
+        // options
+        icon: "glyphicon glyphicon-exclamation-sign",
+        message: title !== undefined ? title : 'Please correct the errors highlighted in red'
+    }, {
+        // settings
+        type: 'error',
+        animate: {
+            enter: 'animated swing',
+            exit: 'animated fadeOutUp'
+        },
+        offset: 50,
+        delay: duration || 5000,
+        z_index: 1031,
+        allow_dismiss: true,
+        placement: {
+            from: 'top',
+            align: 'right'
+        }
+    });
+}
+//# sourceMappingURL=notification.js.map
+
+/***/ }),
+
 /***/ 8:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(133);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(73);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HttpService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -3603,6 +3857,12 @@ var HttpService = (function () {
     };
     HttpService.prototype.passwordreset = function (data) {
         return this.http.post(this.baseUrl + "/passwordreset", data);
+    };
+    HttpService.prototype.resetpassword = function (data) {
+        return this.http.post(this.baseUrl + "/account/resetpassword", data);
+    };
+    HttpService.prototype.forgotpassword = function (data) {
+        return this.http.post(this.baseUrl + "/account/forgotpassword", data);
     };
     HttpService.prototype.changepassword = function (data) {
         return this.http.put(this.baseUrl + "/account/changepassword", data, { headers: this.headers });
@@ -3670,6 +3930,9 @@ var HttpService = (function () {
     HttpService.prototype.savePrescriptionNote = function (data) {
         return this.http.post(this.baseUrl + "/prescriptionnotes/savenote", data, { headers: this.headers });
     };
+    HttpService.prototype.saveEpisode = function (data) {
+        return this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers });
+    };
     return HttpService;
 }());
 HttpService = __decorate([
@@ -3682,5 +3945,5 @@ var _a;
 
 /***/ })
 
-},[702]);
+},[716]);
 //# sourceMappingURL=main.bundle.js.map
