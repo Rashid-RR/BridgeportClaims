@@ -100,7 +100,7 @@ export class ClaimsComponent implements OnInit {
                 window['jQuery']('#noteTextLabel').css({"color":"red"})
               },200)
           }else{
-              swal({title: "", html: "Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>", showConfirmButton: false})
+              swal({title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false})
               this.http.savePrescriptionNote(
                 {
                   claimId: this.claimManager.selectedClaim.claimId,
@@ -161,7 +161,7 @@ export class ClaimsComponent implements OnInit {
                 window['jQuery']('#noteTextLabel').css({"color":"red"})
               },200)
           }else{
-              swal({title:"",html:"Saving episode... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>",showConfirmButton:false})
+              swal({title:"",html:"Saving episode... <br/> <img src='assets/1.gif'>",showConfirmButton:false})
               this.http.saveEpisode(
                 {
                   claimId: this.claimManager.selectedClaim.claimId,
@@ -232,16 +232,18 @@ export class ClaimsComponent implements OnInit {
             window['jQuery']('#noteTextLabel').css({"color":"red"})
           },200)
       }else{
-          swal({title:"",html:"Saving note... <br/> <i class='fa fa-refresh fa-2x fa-spin'></i>",showConfirmButton:false})
+          swal({title:"",html:"Saving note... <br/> <img src='assets/1.gif'>",showConfirmButton:false})
           this.http.saveClaimNote({
               claimId: this.claimManager.selectedClaim.claimId,
               noteTypeId:result[0],
               noteText:result[1]
           }).subscribe(res => {
+            let noteType = this.claimManager.NoteTypes.find(type=>type.key==result[0]);
             if(!this.claimManager.selectedClaim.claimNote){
-              this.claimManager.selectedClaim.claimNote = new ClaimNote(result[1],result[0])
+              this.claimManager.selectedClaim.claimNote = new ClaimNote(result[1],noteType.value)
             }else{
               this.claimManager.selectedClaim.claimNote.noteText=result[1];
+              this.claimManager.selectedClaim.claimNote.noteType=noteType.value;
             } 
             this.claimManager.selectedClaim.editing = false;
             this.claimManager.loading = false;              
