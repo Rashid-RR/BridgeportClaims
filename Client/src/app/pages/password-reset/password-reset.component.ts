@@ -58,8 +58,8 @@ export class PasswordResetComponent implements OnInit {
           
         }, (error) => {          
           this.submitted = false;
-          this.toast.warning('You must confirm your email address from your registration before confirming your password');
-          // console.log(error);
+          let err = error.json();
+          this.toast.error(err.Message);          
           if (error.status !== 500) {            
             this.form.get('email').setErrors({ 'auth': 'Incorrect email' })
           }
