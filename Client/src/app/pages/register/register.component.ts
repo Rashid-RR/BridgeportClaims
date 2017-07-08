@@ -36,23 +36,22 @@ export class RegisterComponent implements OnInit {
   login() {
     this.router.navigate(['/login']);          
   }
-  register() {
-    this.submitted = true;
+  register() {    
     console.log(this.form.value);
     if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
       this.form.get('ConfirmPassword').setErrors({"unmatched": "Repeat password does not match password"});
       this.toast.warning( 'Password and Confirmed Password did not match password');
     }
     if (this.form.valid) {
-      this.submitted = true;
+      this.submitted = true;      
       try {
         this.http.register(this.form.value).subscribe(res => {
-            console.log("Successful registration");
-            this.router.navigate(['/logon']);
+            console.log("Successful registration");            
             this.toast.success("You have registered successfully");
             this.toast.success("Please go check your email – you’ll need to confirm your email address before you login.");
             this.registered = true
             this.submitted = false;
+            this.router.navigate(['/login']);
         },requestError => {
             let err = requestError.json();            
             this.toast.error(err.Message);
@@ -64,6 +63,7 @@ export class RegisterComponent implements OnInit {
 
       }
     }else{
+      this.submitted = false;      
        this.toast.warning('Error in fields. Please correct to proceed!');
     }
 
