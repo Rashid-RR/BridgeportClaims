@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Data.Dtos;
@@ -21,20 +20,19 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("saveepisode")]
-        public async Task<IHttpActionResult> AddOrUpdateEpisode([FromBody] EpisodeDto episode)
+        public IHttpActionResult AddOrUpdateEpisode([FromBody] EpisodeDto episode)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    _episodesDataProvider.AddOrUpdateEpisode(episode);
-                    return Ok(new {message = "Episode was saved Successfully"});
-                });
+                if (!ModelState.IsValid)
+                    return GetBadRequestFormattedErrorMessages();
+                _episodesDataProvider.AddOrUpdateEpisode(episode);
+                return Ok(new { message = "Episode was saved Successfully" });
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return InternalServerError(ex);
             }
         }
     }
