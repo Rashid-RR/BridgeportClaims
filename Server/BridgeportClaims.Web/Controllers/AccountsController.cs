@@ -9,13 +9,14 @@ using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Data;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 using System.Net.Http;
+using BridgeportClaims.Common.Config;
 using BridgeportClaims.Data.SessionFactory;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using NHibernate;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -51,47 +52,79 @@ namespace BridgeportClaims.Web.Controllers
         [Route("forgotpassword")]
         public async Task<IHttpActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                // If user has to activate his email to confirm his account, the use code listing below
-                if (user == null || !await UserManager.IsEmailConfirmedAsync(user.Id))
-                    return BadRequest(
-                        "You must confirm your email address from your registration before confirming your password");
-
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-
-                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                using (var session = SessionFactory.OpenSession())
+                if (ModelState.IsValid)
                 {
-                    using (var transaction = session.BeginTransaction(IsolationLevel.ReadCommitted))
+                    var user = await UserManager.FindByNameAsync(model.Email);
+                    if (null == user)
+                        return BadRequest("The email that you have entered does not exist within the system.");
+                    // If user has to activate his email to confirm his account, the use code listing below
+                    if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                        return BadRequest(
+                            "You must confirm your email address from your registration before confirming your password");
+
+                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                    // Send an email with this link
+
+                    var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                    using (var session = SessionFactory.OpenSession())
                     {
-                        try
+                        using (var transaction = session.BeginTransaction(IsolationLevel.ReadCommitted))
                         {
-                            session.CreateSQLQuery(@"INSERT dbo.ForgotPasswordCode ([Code]) VALUES (':Code')")
-                                .SetString("Code", code).ExecuteUpdate();
-                            if (transaction.IsActive)
-                                transaction.Commit();
-                        }
-                        catch
-                        {
-                            if (transaction.IsActive)
-                                transaction.Rollback();
-                            throw;
+                            try
+                            {
+                                var query = session.CreateSQLQuery(
+                                    @"DECLARE @Code NVARCHAR(4000) = :Code; 
+                                      INSERT dbo.ForgotPasswordCode ([Code]) VALUES (@Code)");
+                                query.SetParameter("Code", code, NHibernateUtil.String);
+                                query.UniqueResult();
+                                if (transaction.IsActive)
+                                    transaction.Commit();
+                            }
+                            catch
+                            {
+                                if (transaction.IsActive)
+                                    transaction.Rollback();
+                                throw;
+                            }
                         }
                     }
-                }
                     // var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
-                    var callbackUrl = new Uri($"{BaseUri}/#/resetpassword/?userId={user.Id}&code={code}");
+                    var callbackUrl = GetCallbackUrlForEmail(EmailType.ResetPassword, user.Id, code);
+                    await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
+                        callbackUrl.AbsoluteUri);
+                    return Ok(new {message = "Please check your Email. An Email has been sent to Reset your Password"});
+                }
 
-                await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
-                    callbackUrl.AbsoluteUri);
-                return Ok(new {message="The Email to Reset your Password has been Sent Successfully"});
+                // If we got this far, something failed, redisplay form
+                return BadRequest(ModelState);
             }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
 
-            // If we got this far, something failed, redisplay form
-            return BadRequest(ModelState);
+        private Uri GetCallbackUrlForEmail(EmailType type, string userId, string code)
+        {
+            var route = string.Empty;
+            switch (type)
+            {
+                case EmailType.ResetPassword:
+                    route = c.ResetPasswordClientRoute;
+                    break;
+                case EmailType.Registration:
+                    route = c.ConfirmEmailClientRoute;
+                    break;
+            }
+            var baseUrl = BaseUri;
+            var serverLocalHostName = ConfigService.GetAppSetting(c.ServerLocalHostNameKey);
+            var clientLocalHostName = ConfigService.GetAppSetting(c.ClientLocalHostNameKey);
+            if (BaseUri.Contains(serverLocalHostName))
+                baseUrl = BaseUri.Replace(serverLocalHostName, clientLocalHostName);
+            return new Uri($"{baseUrl}/#/{route}/?userId={userId}&code={code}");
         }
 
         [HttpPost]
@@ -188,7 +221,7 @@ namespace BridgeportClaims.Web.Controllers
                 // Email
                 var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                 // Generate link for the email.
-                var callbackUrl = new Uri($"{BaseUri}/#/confirm-email/?userId={user.Id}&code={code}");
+                var callbackUrl = GetCallbackUrlForEmail(EmailType.Registration, user.Id, code);
                 // the line below can be uncommented, in place of the two lines above, to generate a link directly to the API.
                 // var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
                 // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.

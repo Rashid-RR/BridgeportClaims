@@ -1,8 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using NHibernate;
 using BridgeportClaims.Common.Extensions;
+using NLog;
 
 namespace BridgeportClaims.Data.DataProviders.Episodes
 {
@@ -10,6 +12,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
     public class EpisodesDataProvider : IEpisodesDataProvider
     {
         private readonly ISessionFactory _sessionFactory;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public EpisodesDataProvider(ISessionFactory sessionFactory)
         {
@@ -39,8 +42,9 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                                     if (transaction.IsActive)
                                         transaction.Commit();
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
+                                    Logger.Error(ex);
                                     if (transaction.IsActive)
                                         transaction.Rollback();
                                     throw;

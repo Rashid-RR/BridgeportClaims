@@ -20,5 +20,9 @@ namespace BridgeportClaims.Common.StringConstants
         public const string ManageUsersInRoleAction = "ManageUsersInRole";
         public const string GetClaimNoteAction = "GetClaimNote";
         public static string ConnStr = ConfigurationManager.ConnectionStrings[DbConnStrName].ConnectionString;
+        public const string ClientLocalHostNameKey = "ClientLocalHostName";
+        public const string ServerLocalHostNameKey = "ServerLocalHostName";
+        public const string ResetPasswordClientRoute = "resetpassword";
+        public const string ConfirmEmailClientRoute = "confirm-email";
     }
 }
