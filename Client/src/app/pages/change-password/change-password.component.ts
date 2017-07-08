@@ -21,8 +21,8 @@ export class ChangePasswordComponent implements OnInit {
     });
 
     router.routerState.root.queryParams.subscribe(
-      data => {       
-        this.code = encodeURIComponent(data['code']); this.user = data['userId']     
+      data => {               
+        this.code = data['code']; this.user = data['userId']     
       });
   }
 
@@ -38,7 +38,7 @@ export class ChangePasswordComponent implements OnInit {
       try {
         let data;
         data = {userId: this.user, code: this.code, password: this.form.value.Password, confirmPassword: this.form.value.ConfirmPassword};
-        
+        console.log(data);
         this.http.resetpassword(data).subscribe(res => {
            this.submitted = false;
           this.toast.success("You may login with your new password.");
@@ -48,11 +48,11 @@ export class ChangePasswordComponent implements OnInit {
           this.submitted = false;
            let err = error.json();
           // console.log(err.Message);
-          this.toast.warning(err.Message);                 
+          this.toast.error(err.Message);                 
         })
       } catch (e) {
         this.submitted = false;
-        this.toast.warning('Some error occured');        
+        this.toast.error('Some error occured');        
       } finally {
 
       }

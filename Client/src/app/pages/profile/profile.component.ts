@@ -65,10 +65,12 @@ export class ProfileComponent implements OnInit {
           this.loading = false;
         })
       } catch (e) {
+        this.loading = false;
         this.toast.error('Error in fields. Please correct to proceed!');
 
       }
     } else {
+      this.loading = false;
       this.toast.error('Error in fields. Please correct to proceed!');
     }
   }
@@ -99,14 +101,16 @@ export class ProfileComponent implements OnInit {
           this.loading = false;
         }, error => {
           let err = error.json() || ({ "Message": "Server error!" });
-          error(err.Message);
+          this.toast.error(err.Message);
           this.loading = false;
         })
       } catch (e) {
+        this.loading = false;
         this.toast.error('Error in fields. Please correct to proceed!');
 
       }
     } else {
+      this.loading = false;
       this.toast.error('Error in fields. Please correct to proceed!');
     }
   }
