@@ -48,11 +48,11 @@ export class ChangePasswordComponent implements OnInit {
           this.submitted = false;
            let err = error.json();
           // console.log(err.Message);
-          this.toast.warning(err.Message);                 
+          this.toast.error(err.Message);                 
         })
       } catch (e) {
         this.submitted = false;
-        this.toast.warning('Some error occured');        
+        this.toast.error('Some error occured');        
       } finally {
 
       }
