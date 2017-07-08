@@ -1,13 +1,13 @@
 {
   "/api": {
-    "target": "http://bridgeportclaims.com",
+    "target": "http://localhost:2095",
     "changeOrigin": true,
     "secure": false,
     "logLevel": "debug",
     "ws":true
   },
   "/oauth": {
-    "target": "http://bridgeportclaims.com",
+    "target": "http://localhost:2095",
     "changeOrigin": true,
     "secure": false,
     "logLevel": "debug",
