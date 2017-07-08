@@ -39,7 +39,7 @@ export class ConfirmEmailComponent implements OnInit {
         this.router.navigate(['/login']);
       }, error => {
         let err = error.json() || ({ "Message": "Server error!" });
-        error(err.Message);
+        this.toast.error(err.Message);
         this.loading = false;
       })
     } catch (e) {
