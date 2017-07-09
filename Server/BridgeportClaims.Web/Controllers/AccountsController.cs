@@ -8,26 +8,24 @@ using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
-using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using BridgeportClaims.Common.Config;
-using BridgeportClaims.Data.SessionFactory;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using NHibernate;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "User")]
     [RoutePrefix("api/account")]
+    [SuppressMessage("ReSharper", "ArrangeAccessorOwnerBody")]
     public class AccountsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private ApplicationUserManager _userManager;
 
-        private ISessionFactory SessionFactory => SessionFactoryBuilder.CreateSessionFactory();
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
         public ApplicationUserManager UserManager
@@ -54,51 +52,25 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var user = await UserManager.FindByNameAsync(model.Email);
-                    if (null == user)
-                        return BadRequest("The email that you have entered does not exist within the system.");
-                    // If user has to activate his email to confirm his account, the use code listing below
-                    if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-                        return BadRequest(
-                            "You must confirm your email address from your registration before confirming your password");
+                if (!ModelState.IsValid) return BadRequest(ModelState);
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if (null == user)
+                    return BadRequest("The email that you have entered does not exist within the system.");
+                // If user has to activate his email to confirm his account, the use code listing below
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                    return BadRequest(
+                        "You must confirm your email address from your registration before confirming your password");
 
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-
-                    var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                    using (var session = SessionFactory.OpenSession())
-                    {
-                        using (var transaction = session.BeginTransaction(IsolationLevel.ReadCommitted))
-                        {
-                            try
-                            {
-                                var query = session.CreateSQLQuery(
-                                    @"DECLARE @Code NVARCHAR(4000) = :Code; 
-                                      INSERT dbo.ForgotPasswordCode ([Code]) VALUES (@Code)");
-                                query.SetParameter("Code", code, NHibernateUtil.String);
-                                query.UniqueResult();
-                                if (transaction.IsActive)
-                                    transaction.Commit();
-                            }
-                            catch
-                            {
-                                if (transaction.IsActive)
-                                    transaction.Rollback();
-                                throw;
-                            }
-                        }
-                    }
-                    // var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
-                    var callbackUrl = GetCallbackUrlForEmail(EmailType.ResetPassword, user.Id, code);
-                    await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
-                        callbackUrl.AbsoluteUri);
-                    return Ok(new {message = "Please check your Email. An Email has been sent to Reset your Password"});
-                }
+                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                // Send an email with this link
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                // var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
+                var callbackUrl = GetCallbackUrlForEmail(EmailType.ResetPassword, user.Id, code);
+                await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
+                    callbackUrl.AbsoluteUri);
+                return Ok(new {message = "Please check your Email. An Email has been sent to Reset your Password"});
 
                 // If we got this far, something failed, redisplay form
-                return BadRequest(ModelState);
             }
             catch (Exception ex)
             {
