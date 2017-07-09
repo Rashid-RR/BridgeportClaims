@@ -58,12 +58,11 @@ export class LoginComponent implements OnInit {
             },err=>console.log(err))
         }, (requestError) => {
             this.submitted = false;
-         // if (error.status !== 500) {
            this.submitted = false;
            let err = requestError.json();
             this.form.get('password').setErrors({'auth': err.error_description})
             this.toast.error( err.error_description);
-         // }
+            this.router.navigate(['/login']);         
         })
       } catch (e) {
         this.submitted = false;
