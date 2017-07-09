@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box">
-            <div class="box-header with-border"><h3 class="box-title">General widget</h3></div>
             <div class="box-body">
                 <div class="row">
                     <!--<div class="col-lg-3 col-md-6">
@@ -27,40 +26,26 @@
                         </div>
                     </div>-->
                     <div class="col-lg-3 col-md-6"  *ngIf="allowed">
-                        <div class="panel panel-success">
+                        <a a [routerLink]="'/main/users'" class="panel">
                             <div class="panel-heading" style="height:90px;background-image:url(assets/Users_Icon_Design.png);background-size:100% 100%">
                                 <div class="row">
                                     <div class="col-xs-12">
                                          
                                     </div>
                                 </div>
-                            </div>
-                            <a [routerLink]="'/main/users'">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Manage</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
+                            </div>                           
+                        </a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-warning">
+                        <a [routerLink]="'/main/claims'" class="panel">
                             <div class="panel-heading" style="height:90px;background-image:url(assets/Claim_Icon_Design.png);background-size:100% 100%">
                                 <div class="row">
                                     <div class="col-xs-12">
                                          
                                     </div>
                                 </div>
-                            </div>
-                            <a [routerLink]="'/main/claims'">
-                                <div class="panel-footer">
-                                    <span class="pull-left">Manage</span>
-                                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                    <div class="clearfix"></div>
-                                </div>
-                            </a>
-                        </div>
+                            </div>                            
+                        </a>
                     </div>
                 </div>
             </div>
