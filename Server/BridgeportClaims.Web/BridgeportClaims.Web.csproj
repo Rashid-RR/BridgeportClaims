@@ -188,6 +188,8 @@
     </Content>
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\BridgeportClaims-BridgeportClaimsStaging - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\BridgeportClaims-BridgeportClaimsStaging - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
