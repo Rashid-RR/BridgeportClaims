@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.FileUploading;
+using BridgeportClaims.Data.DataProviders.ImportFile;
 using BridgeportClaims.Web.Infrastructure;
 
 namespace BridgeportClaims.Web.Controllers
@@ -34,9 +35,6 @@ namespace BridgeportClaims.Web.Controllers
 
                 // Extract the fields from the form data.
                 var description = provider.FormData["description"];
-                int uploadType;
-                //if (!int.TryParse(provider.FormData["uploadType"], out uploadType))
-                //    return BadRequest("Upload Type is invalid.");
 
                 // Check if files are on the request.
                 if (!provider.FileStreams.Any())
@@ -46,17 +44,11 @@ namespace BridgeportClaims.Web.Controllers
                 foreach (var file in provider.FileStreams)
                 {
                     var fileName = file.Key;
-
-                    // Do something with the uploaded file
-                    var fullFilePath = Path.Combine(Path.Combine(
-                        AppDomain.CurrentDomain.BaseDirectory, "FileUploads"), fileName);
-
+                    var ext = Path.GetExtension(fileName);
                     try
                     {
-                        using (var fileToCopy = File.Create(fullFilePath))
-                        {
-                            StreamProvider.CopyStream(file.Value, fileToCopy);
-                        }
+                        if (0 < file.Value.Length)
+                            ImportFileProvider.SaveFileToDatabase(file.Value, fileName, ext, description);
                     }
                     catch (Exception ex)
                     {
