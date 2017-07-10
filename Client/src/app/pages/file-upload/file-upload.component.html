@@ -1,27 +1,33 @@
 
     <div class="row" style="padding: 0px; margin: 0px; background-color: white;"> 
-        <div class="col-md-2"> 
-            <h3>Select files</h3>           
-            Multiple
-            <input type="file" accept=".csv" ng2FileSelect [uploader]="uploader" multiple  /><br/> 
+        <div class="col-md-12" style="text-align: center;"> 
+            <h3>Select Multiple Files</h3>           
+            
+            <div class="image-upload">
+            <label for="file-input">
+                <img src="assets/file-upload.png" style="pointer-events: none; width: 400px; "/>
+            </label>            
+            <input id="file-input" type="file" ng2FileSelect [uploader]="uploader" multiple  />
+        </div>
         </div> 
-        <div class="col-md-9" style="margin-bottom: 40px"> 
+        
+        <div class="col-md-12" style="margin-bottom: 40px"> 
             <h3>Upload queue</h3>
             <p>Queue length: {{ uploader?.queue?.length }}</p> 
             <table class="table">
                 <thead>
                 <tr>
                     <th width="50%">Name</th>
-                    <th>Size</th>
+                    <!--<th>Size</th>
                     <th>Progress</th>
-                    <th>Status</th>
+                    <th>Status</th>-->
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let item of uploader.queue">
                     <td><strong>{{ item?.file?.name }}</strong></td>
-                    <td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <!--<td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                     <td *ngIf="uploader.isHTML5">
                         <div class="progress" style="margin-bottom: 0;">
                             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
@@ -31,7 +37,7 @@
                         <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
                         <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
                         <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                    </td>
+                    </td>-->
                     <td nowrap>
                         <button type="button" class="btn btn-success btn-xs"
                                 (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
