@@ -20,5 +20,5 @@ ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [pkAdjustor] PRIMARY KEY CLUSTERED  
 GO
 CREATE NONCLUSTERED INDEX [idxAdjustorPayorIDIncludeAll] ON [dbo].[Adjustor] ([PayorID]) INCLUDE ([AdjustorID], [AdjustorName], [CreatedOn], [DataVersion], [EmailAddress], [Extension], [FaxNumber], [PhoneNumber], [UpdatedOn]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Adjustor] WITH NOCHECK ADD CONSTRAINT [fkAdjustorPayorIDPayorPayorID] FOREIGN KEY ([PayorID]) REFERENCES [dbo].[Payor] ([PayorID])
+ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [fkAdjustorPayorIDPayorPayorID] FOREIGN KEY ([PayorID]) REFERENCES [dbo].[Payor] ([PayorID])
 GO

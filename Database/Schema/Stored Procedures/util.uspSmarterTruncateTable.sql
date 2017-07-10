@@ -13,7 +13,8 @@ CREATE PROCEDURE [util].[uspSmarterTruncateTable]  --'etl.Accounts'
      @TableName VARCHAR(100)  
 AS  
 BEGIN  
-
+	 IF @TableName LIKE '%[%' OR @TableName LIKE '%]%'
+		SET @TableName = REPLACE(REPLACE(@TableName, '[', ''), ']', '')
      DECLARE @UQTableName VARCHAR(100) = ( SELECT SUBSTRING(@TableName, CHARINDEX('.', @TableName) + 1, LEN(@TableName)) )
      DECLARE @SchemaName VARCHAR(20) = ( SELECT LEFT(@TableName, CHARINDEX('.', @TableName)- 1 ))
      DECLARE @NewLineChar AS CHAR(2) = CHAR(13) + CHAR(10)
@@ -99,9 +100,9 @@ BEGIN
          DECLARE @SQL NVARCHAR(MAX)   
          DECLARE @intTableCount INT  
          SELECT @SQL = @DropKeysSQL + ' TRUNCATE TABLE ' + @tableName + ' ' + @NewLineChar + @CreateKeysSQL     
-         PRINT '----- Running Script -----' + @NewLineChar + @NewLineChar  
-         PRINT @SQL + @NewLineChar  
-         PRINT '----- End of Script -----' + @NewLineChar + @NewLineChar  
+         PRINT '----- Running Script -----' + @NewLineChar
+         PRINT @SQL
+         PRINT '----- End of Script -----' + @NewLineChar
 
          PRINT 'NOTE: If error occurs, it may be nessassary to truncate a referencing tables data first.' + @NewLineChar
          EXEC sp_executesql @SQL, N'@intTableCount INT OUTPUT', @intTableCount OUTPUT
@@ -117,4 +118,5 @@ BEGIN
            PRINT 'Truncated Successfully.'
      END
 END
+
 GO

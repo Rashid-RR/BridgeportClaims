@@ -10,7 +10,7 @@ GO
 	Example Execute:
 						SELECT * FROM dbo.udfGetTableSizes()
 */
-CREATE FUNCTION [dbo].[udfGetTableSizes]()
+CREATE FUNCTION [util].[udfGetTableSizes]()
 RETURNS @TableSizes TABLE
 	(
 	 TableName NVARCHAR(150) NOT NULL

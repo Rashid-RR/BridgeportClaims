@@ -1,6 +1,7 @@
 CREATE TABLE [dbo].[Payor]
 (
 [PayorID] [int] NOT NULL IDENTITY(1, 1),
+[GroupName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BillToName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [BillToAddress1] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BillToAddress2] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
