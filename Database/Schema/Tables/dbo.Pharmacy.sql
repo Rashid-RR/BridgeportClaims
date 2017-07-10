@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[Pharmacy]
 [PostalCode] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AlternatePhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[FaxNumber] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FaxNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Contact] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ContactPhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ContactEmailAddress] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

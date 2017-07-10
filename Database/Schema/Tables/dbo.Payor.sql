@@ -1,7 +1,7 @@
 CREATE TABLE [dbo].[Payor]
 (
 [PayorID] [int] NOT NULL IDENTITY(1, 1),
-[GroupName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[GroupName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [BillToName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [BillToAddress1] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [BillToAddress2] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -25,6 +25,8 @@ GO
 ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [pkPayor] PRIMARY KEY CLUSTERED  ([PayorID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPayorBillToStateID] ON [dbo].[Payor] ([BillToStateID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [idxPayorGroupName] ON [dbo].[Payor] ([GroupName]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [fkPayorBillToStateIDUsStateStateID] FOREIGN KEY ([BillToStateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO
