@@ -27,7 +27,7 @@
                     </div>-->
                     <div class="col-lg-3 col-md-6"  *ngIf="allowed">
                         <a a [routerLink]="'/main/users'" class="panel">
-                            <div class="panel-heading" style="height:90px;background-image:url(assets/Users_Icon_Design.png);background-size:100% 100%">
+                            <div class="panel-heading" style="height:80px;background-image:url(assets/Users_Icon_Design.png);background-size:100% 100%">
                                 <div class="row">
                                     <div class="col-xs-12">
                                          
@@ -38,7 +38,18 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <a [routerLink]="'/main/claims'" class="panel">
-                            <div class="panel-heading" style="height:90px;background-image:url(assets/Claim_Icon_Design.png);background-size:100% 100%">
+                            <div class="panel-heading" style="height:80px;background-image:url(assets/Claim_Icon_Design.png);background-size:100% 100%">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                         
+                                    </div>
+                                </div>
+                            </div>                            
+                        </a>
+                    </div>
+                    <div class="col-lg-3 col-md-6" *ngIf="allowed">
+                        <a [routerLink]="'/main/fileupload'" class="panel">
+                            <div class="panel-heading" style="height:80px;background-image:url(assets/file-upload.png);background-size:100% 100%">
                                 <div class="row">
                                     <div class="col-xs-12">
                                          

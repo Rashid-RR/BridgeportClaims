@@ -37,7 +37,7 @@
             </a>
         </li>       
         <li>
-            <a  [routerLink]="'/main/fileupload'">            
+            <a  [routerLink]="'/main/fileupload'" *ngIf="allowed">            
               <i class="fa fa-upload"></i> 
               <span>File Upload</span>
             </a>
