@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace BridgeportClaims.Business.Models
+namespace BridgeportClaims.Data.Dtos
 {
-    public class PrescriptionNoteSaveModel
+    public class PrescriptionNoteSaveDto
     {
         public int ClaimId { get; set; }
         public string NoteText { get; set; }

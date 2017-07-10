@@ -55,6 +55,7 @@
     <Compile Include="Extensions\NullableExtensions.cs" />
     <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="FileUploading\StreamProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConstants\Constants.cs" />
   </ItemGroup>

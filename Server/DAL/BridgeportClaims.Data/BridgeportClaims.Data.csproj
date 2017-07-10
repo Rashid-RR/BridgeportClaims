@@ -79,6 +79,7 @@
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
     <Compile Include="Dtos\PaymentDto.cs" />
     <Compile Include="Dtos\PrescriptionDto.cs" />
+    <Compile Include="Dtos\PrescriptionNoteSaveDto.cs" />
     <Compile Include="Dtos\PrescriptionNotesDto.cs" />
     <Compile Include="Dtos\PrescriptionNoteTypesDto.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
@@ -117,10 +118,6 @@
     <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
-      <Project>{F5F8DBA3-3A98-4F3B-8498-A6B9E542DFCD}</Project>
-      <Name>BridgeportClaims.Business</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
       <Name>BridgeportClaims.Common</Name>

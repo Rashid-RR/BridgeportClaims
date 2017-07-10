@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Business.Models;
 using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Data.Dtos;
@@ -47,14 +46,14 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("savenote")]
-        public async Task<IHttpActionResult> AddOrUpdatePrescriptionNote(PrescriptionNoteSaveModel model)
+        public async Task<IHttpActionResult> AddOrUpdatePrescriptionNote(PrescriptionNoteSaveDto dto)
         {
             try
             {
                 return await Task.Run(() =>
                 {
                     _prescriptionNotesDataProvider.AddOrUpdatePrescriptionNote(
-                        model, User.Identity.GetUserId());
+                        dto, User.Identity.GetUserId());
                     return Ok(new {message = "The Prescription Note was Saved Successfully"});
                 });
             }
