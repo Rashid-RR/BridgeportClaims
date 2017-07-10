@@ -19,8 +19,8 @@
                 <tr>
                     <th width="50%">Name</th>
                     <!--<th>Size</th>
-                    <th>Progress</th>
-                    <th>Status</th>-->
+                    <th>Progress</th> -->
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -32,12 +32,12 @@
                         <div class="progress" style="margin-bottom: 0;">
                             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
                         </div>
-                    </td>
+                    </td> -->
                     <td class="text-center">
                         <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
                         <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
                         <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
-                    </td>-->
+                    </td>
                     <td nowrap>
                         <button type="button" class="btn btn-success btn-xs"
                                 (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
