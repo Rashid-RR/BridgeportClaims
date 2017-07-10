@@ -13,8 +13,6 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[PrescriptionNote] ADD CONSTRAINT [ckPrescriptionNoteMappingMustBeTiedToOnlyOneClaimID] CHECK (([dbo].[udfCheckPrescriptionNoteClaimID]([PrescriptionNoteID])=(1)))
-GO
 ALTER TABLE [dbo].[PrescriptionNote] ADD CONSTRAINT [pkPrescriptionNote] PRIMARY KEY CLUSTERED  ([PrescriptionNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionNotePrescriptionNoteTypeIDEnteredByUserIDIncludeAll] ON [dbo].[PrescriptionNote] ([PrescriptionNoteTypeID], [EnteredByUserID]) INCLUDE ([CreatedOn], [NoteText], [PrescriptionNoteID], [UpdatedOn]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
