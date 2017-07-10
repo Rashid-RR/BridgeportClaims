@@ -22,10 +22,7 @@ CREATE PROC [dbo].[uspSavePrescriptionNote]
 AS 
 BEGIN
 	SET NOCOUNT ON;
-	INSERT [dbo].[Audit] ([ClaimID], [PrescriptionNoteTypeID], [NoteText], [EnteredByUserID], [PrescriptionNoteID])
-	VALUES ( @ClaimID,@PrescriptionNoteTypeID, @NoteText, @EnteredByUserID, @PrescriptionNoteID)
-	INSERT dbo.PrescriptionMappingAudit (PrescriptionID)
-	SELECT p.[PrescriptionID] FROM @Prescription AS [p]
+
 	DECLARE @Now DATETIME2 = SYSDATETIME(),
 			@OutputPrescriptionNoteID INTEGER
 	

@@ -8,6 +8,7 @@ import {ToastModule} from 'ng2-toastr/ng2-toastr';
 import {AppComponent} from "./app.component";
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from './components/confirm.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 //Layouts 
 import {HeaderComponent} from "./layouts/header/header.component";
@@ -41,6 +42,8 @@ import { UsersComponent } from './pages/users/users.component';
 import { DisplayRolesPipe } from './pipes/display-roles.pipe';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
+import { FileUploadComponent } from './pages/file-upload/file-upload.component';
+
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -70,7 +73,7 @@ export class SafeUrlPipe implements PipeTransform {
     PasswordResetComponent, 
     RegisterComponent,
     SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
-    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe
+    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe, FileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ export class SafeUrlPipe implements PipeTransform {
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    RoutingModule
+    RoutingModule,
+    FileUploadModule
   ],
   providers: [  
     DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,

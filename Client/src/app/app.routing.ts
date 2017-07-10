@@ -23,6 +23,7 @@ import { ClaimsComponent } from './pages/claim/claim.component'
 import { AuthGuard } from "./services/services.barrel";
 import { ProfileComponent } from "./pages/profile/profile.component";
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
+import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 
 export const routes: Routes = [
   {
@@ -77,6 +78,11 @@ export const routes: Routes = [
         {
           path: 'claims',
           component: ClaimsComponent
+        }
+        ,
+        {
+          path: 'fileupload',
+          component: FileUploadComponent
         }
       ]
     }
