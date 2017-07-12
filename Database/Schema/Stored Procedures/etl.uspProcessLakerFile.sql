@@ -40,8 +40,13 @@ AS BEGIN
 			IF @ReProcess = 1
 				BEGIN
 					-- Clear out tables that we're going to be loading
+					EXEC [util].[uspSmarterTruncateTable] 'dbo.PrescriptionNoteMapping'
+					EXEC [util].[uspSmarterTruncateTable] 'dbo.PrescriptionNote'
+					IF EXISTS (SELECT * FROM [sys].[views] AS [v] WHERE [v].[name] = 'vwPrescriptionNote')
+						DROP VIEW [dbo].[vwPrescriptionNote]
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Prescription'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Invoice'
+					EXEC [util].[uspSmarterTruncateTable] 'dbo.Episode'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Claim'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Patient'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Adjustor'
@@ -499,9 +504,11 @@ AS BEGIN
 			INSERT INTO [dbo].[Prescription] ([ClaimID],[DateSubmitted],[RxNumber],[DateFilled],[RefillDate],[RefillNumber],[MONY],
 					[DAW],[Quantity],[DaySupply],[NDC],[LabelName],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],
 					[BilledAmount],[PayIngrCost],[PayDispFee],[PayTax],[PayableAmount],[DEA],[PrescriberNPI],[AWPUnit],[Usual],
-					[Compound],[Strength],[GPIGenName],[TheraClass])--,[Generic],[PharmacyNABP],[AWP],[Prescriber],[TransactionType],[PrescriptionTran],[InvoiceID])
+					[Compound],[Strength],[GPIGenName],[TheraClass],[Generic],[PharmacyNABP],[Prescriber],[TransactionType],[TranID])
+					-- [AWP],[PrescriptionTran],[InvoiceID])
 			SELECT	s.[ClaimID],s.[3],s.[60],s.[61],s.[62],s.[63],s.[64],s.[65],s.[66],s.[67],s.[68],s.[69],s.[70],s.[71],s.[72],s.[73]
 					,s.[74],s.[75],s.[76],s.[77],s.[78],s.[79],s.[80],s.[81],s.[105],s.[122],s.[123],s.[137],s.[143],s.[146]
+					,'Y','','','','' -- Question for Adam: this isn't in the mapping file. [Generic],[PharmacyNABP]
 			FROM	[etl].[StagedLakerFile] AS s
 			
 			-- Prescription QA Check
@@ -532,6 +539,8 @@ AS BEGIN
 					UPDATE [etl].[StagedLakerFile] SET [InvoiceID] = NULL WHERE 1 = 1;
 					EXEC [sys].[sp_executesql] N'ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN StageID';
 				END
+			-- Re-create indexed view.
+			EXEC [dbo].[uspCreateIndexedPrescriptionNoteView]
 		IF @@TRANCOUNT > 0
 			COMMIT
 	END TRY

@@ -5,11 +5,11 @@ GO
 /*
 	Author:			Jordan Gurney
 	Create Date:	7/9/2017
-	Description:	
+	Description:	Alters the Staging table to format the added ETL columns to prepare them for import.
 	Sample Execute:
-					EXEC etl.uspChangeEtlTableColumnNames '[etl].[BulkInsertLakerFile]'
+					EXEC etl.uspChangeETLTableColumnNames '[etl].[BulkInsertLakerFile]'
 */
-CREATE PROC [etl].[uspChangeEtlTableColumnNames] @TableName VARCHAR(100)
+CREATE PROC [etl].[uspChangeETLTableColumnNames] @TableName VARCHAR(100)
 AS BEGIN
 	SET NOCOUNT ON;
 	DECLARE @ColumnName VARCHAR(100), @SQLStatement NVARCHAR(4000), @NewColumnName VARCHAR(3), @Loop INT = 1
