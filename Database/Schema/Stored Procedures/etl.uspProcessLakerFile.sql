@@ -36,10 +36,11 @@ AS BEGIN
 					DROP TABLE #InvoiceImport
 			IF OBJECT_ID(N'tempdb..#ProcessInvoice') IS NOT NULL
 					DROP TABLE #ProcessInvoice*/
-
+			DECLARE @TotalRowCount INT = (SELECT COUNT(*) FROM [etl].[StagedLakerFile])
 			IF @ReProcess = 1
 				BEGIN
 					-- Clear out tables that we're going to be loading
+					EXEC [util].[uspSmarterTruncateTable] 'dbo.Prescription'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Invoice'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Claim'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Patient'
@@ -491,8 +492,37 @@ AS BEGIN
 			/********************************************************************************************
 			End Invoice Section
 			********************************************************************************************/
+
+			/********************************************************************************************
+			Begin Prescription Section
+			********************************************************************************************/
+			INSERT INTO [dbo].[Prescription] ([ClaimID],[DateSubmitted],[RxNumber],[DateFilled],[RefillDate],[RefillNumber],[MONY],
+					[DAW],[Quantity],[DaySupply],[NDC],[LabelName],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],
+					[BilledAmount],[PayIngrCost],[PayDispFee],[PayTax],[PayableAmount],[DEA],[PrescriberNPI],[AWPUnit],[Usual],
+					[Compound],[Strength],[GPIGenName],[TheraClass])--,[Generic],[PharmacyNABP],[AWP],[Prescriber],[TransactionType],[PrescriptionTran],[InvoiceID])
+			SELECT	s.[ClaimID],s.[3],s.[60],s.[61],s.[62],s.[63],s.[64],s.[65],s.[66],s.[67],s.[68],s.[69],s.[70],s.[71],s.[72],s.[73]
+					,s.[74],s.[75],s.[76],s.[77],s.[78],s.[79],s.[80],s.[81],s.[105],s.[122],s.[123],s.[137],s.[143],s.[146]
+			FROM	[etl].[StagedLakerFile] AS s
 			
-			-- Cleanup Staging Table.
+			-- Prescription QA Check
+			IF (@TotalRowCount != (SELECT COUNT(*) FROM 
+					(SELECT DISTINCT s.[ClaimID],s.[3],s.[60],s.[61],s.[62],s.[63],s.[64],s.[65],s.[66],s.[67],
+					s.[68],s.[69],s.[70],s.[71],s.[72],s.[73]
+					,s.[74],s.[75],s.[76],s.[77],s.[78],s.[79],s.[80],s.[81],s.[105],s.[122],s.[123],s.[137],s.[143],s.[146]
+					 FROM [etl].[StagedLakerFile] AS s
+					 ) AS a))
+				BEGIN
+					IF (@@TRANCOUNT > 0)
+						ROLLBACK TRANSACTION;
+					RAISERROR(N'Something went wrong. The total row count of the Staging table didn''t match the distinct count of Prescription columns.', 16, 1) WITH NOWAIT
+					RETURN
+				END
+
+			/********************************************************************************************
+			*********************************************************************************************
+			Final Steps. Cleanup Staging Table
+			*********************************************************************************************
+			********************************************************************************************/
 			IF @Cleanup = 1
 				BEGIN
 					EXEC [sys].[sp_executesql] N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN PayorID INT NULL';
