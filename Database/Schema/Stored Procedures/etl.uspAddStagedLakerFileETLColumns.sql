@@ -66,6 +66,14 @@ AS BEGIN
 		)
 			ALTER TABLE [etl].[StagedLakerFile] ADD [PrescriptionID] INTEGER NULL
 		IF NOT EXISTS
+	    (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'PharmacyID'
+				  AND [t].[object_id] = @Obj
+		)
+			ALTER TABLE [etl].[StagedLakerFile] ADD [PharmacyID] INTEGER NULL
+		IF NOT EXISTS
 		(
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
@@ -73,6 +81,51 @@ AS BEGIN
 				  AND [t].[object_id] = @Obj
 		)
 			ALTER TABLE [etl].[StagedLakerFile] ADD [StageID] INTEGER IDENTITY
+		-- Payor
+		IF NOT EXISTS
+        (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'StageID'
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.Payor', N'U')
+		)
+			ALTER TABLE dbo.[Payor] ADD StageID INTEGER NULL
+		-- Patient
+		IF NOT EXISTS
+        (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'StageID'
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.Patient', N'U')
+		)
+			ALTER TABLE dbo.[Patient] ADD StageID INTEGER NULL
+		-- Claim
+		IF NOT EXISTS
+        (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'StageID'
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.Claim', N'U')
+		)
+			ALTER TABLE dbo.[Claim] ADD StageID INTEGER NULL
+		-- Invoice
+		IF NOT EXISTS
+        (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'StageID'
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.Invoice', N'U')
+		)
+			ALTER TABLE dbo.[Invoice] ADD StageID INTEGER NULL
+		-- Pharmacy
+		IF NOT EXISTS
+        (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'StageID'
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.Pharmacy', N'U')
+		)
+			ALTER TABLE dbo.[Pharmacy] ADD StageID INTEGER NULL
 		IF (@@TRANCOUNT > 0)
 			COMMIT TRANSACTION;
 	END TRY
@@ -82,4 +135,5 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
+
 GO

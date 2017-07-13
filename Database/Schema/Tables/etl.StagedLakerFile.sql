@@ -159,6 +159,8 @@ CREATE TABLE [etl].[StagedLakerFile]
 [InvoiceID] [int] NULL,
 [ClaimID] [int] NULL,
 [PrescriptionID] [int] NULL,
-[StageID] [int] NOT NULL IDENTITY(1, 1)
+[StageID] [int] NOT NULL IDENTITY(1, 1),
+[PayorID] [int] NOT NULL,
+[PharmacyID] [int] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
