@@ -17,10 +17,10 @@ CREATE PROC [etl].[uspProcessLakerFile]
 )
 AS BEGIN
 	SET NOCOUNT ON;
-	SET TRAN ISOLATION LEVEL SERIALIZABLE
-	SET DEADLOCK_PRIORITY HIGH
+	SET TRAN ISOLATION LEVEL SERIALIZABLE;
+	SET DEADLOCK_PRIORITY HIGH;
 	BEGIN TRY
-		BEGIN TRAN 
+		BEGIN TRAN;
 			-- Testing
 			/*DECLARE @ReProcess BIT = 1,
 					@Cleanup BIT = 1
@@ -540,10 +540,11 @@ AS BEGIN
 					RAISERROR(N'Something went wrong. The total row count of the Staging table didn''t match the distinct count of Prescription columns.', 16, 1) WITH NOWAIT
 					RETURN
 				END
-				SELECT COUNT(*) FROM [etl].[StagedLakerFile]
+
 			/********************************************************************************************
 			Begin Pharmacy Section
 			********************************************************************************************/
+
 			CREATE TABLE #PharmacyImport
 			(
 				[89] [varchar] (500) NOT NULL,
@@ -607,7 +608,7 @@ AS BEGIN
 			
 			EXEC [sys].[sp_executesql] N'ALTER TABLE dbo.Pharmacy DROP COLUMN StageID'
 			
-			-- Invoice QA Check
+			-- Pharmacy QA Check
 			IF @RowCountCheck != (SELECT COUNT(DISTINCT s.PharmacyID) FROM [etl].[StagedLakerFile] AS s)
 				BEGIN
 					IF @@TRANCOUNT > 0
@@ -617,7 +618,7 @@ AS BEGIN
 				END
 			
 			/********************************************************************************************
-			End Invoice Section
+			End Pharmacy Section
 			********************************************************************************************/
 
 			/********************************************************************************************
