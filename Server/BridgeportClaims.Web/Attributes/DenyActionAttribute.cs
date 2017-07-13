@@ -7,7 +7,7 @@ namespace BridgeportClaims.Web.Attributes
     {
         protected override bool IsAuthorized(HttpActionContext context)
         {
-            // Todo: enhance with special, allowed exceptions.
+            // TODO: enhance with special, allowed exceptions.
             return false;
         }
     }
