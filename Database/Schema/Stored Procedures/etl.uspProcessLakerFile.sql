@@ -45,10 +45,10 @@ AS BEGIN
 					-- Clear out tables that we're going to be loading
 					IF EXISTS (SELECT * FROM [sys].[views] AS [v] WHERE [v].[name] = 'vwPrescriptionNote')
 						DROP VIEW [dbo].[vwPrescriptionNote]
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.PrescriptionNoteMapping'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.PrescriptionNote'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Prescription'
+					EXEC [util].[uspSmarterTruncateTable] 'dbo.Payment'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Invoice'
+					EXEC [util].[uspSmarterTruncateTable] 'dbo.Pharmacy'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Episode'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Claim'
 					EXEC [util].[uspSmarterTruncateTable] 'dbo.Patient'
@@ -544,6 +544,14 @@ AS BEGIN
 			/********************************************************************************************
 			Begin Pharmacy Section
 			********************************************************************************************/
+			IF NOT EXISTS
+            (
+				SELECT * FROM [sys].[columns] AS [c]
+				INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+				WHERE [t].[name] = 'Pharmacy'
+					AND [c].[name] = 'StageID'
+			)
+				EXEC(N'ALTER TABLE dbo.Pharmacy ADD StageID INT NULL')
 
 			CREATE TABLE #PharmacyImport
 			(
@@ -619,6 +627,24 @@ AS BEGIN
 			
 			/********************************************************************************************
 			End Pharmacy Section
+			********************************************************************************************/
+
+			/********************************************************************************************
+			Begin Payments Section
+			********************************************************************************************/
+			INSERT INTO [dbo].[Payment] ([CheckNumber],[CheckDate],[AmountPaid],[ClaimID],[InvoiceID])
+			SELECT [s].[6]
+				 , [s].[7]
+				 , 0
+				 , [s].[ClaimID]
+				 , [s].[InvoiceID]
+			FROM   [etl].[StagedLakerFile] AS [s]
+			WHERE  1 = 1
+				   AND [s].[InvoiceID] IS NOT NULL
+				   AND [s].[6] IS NOT NULL
+
+			/********************************************************************************************
+			End Payments Section
 			********************************************************************************************/
 
 			/********************************************************************************************
