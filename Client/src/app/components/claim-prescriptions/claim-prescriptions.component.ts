@@ -66,7 +66,7 @@ export class ClaimPrescriptionsComponent implements OnInit {
                       <th>Date</th>
                       <th>Type</th>
                       <th>By</th>
-                      <th width="60%">Notes</th>
+                      <th width="75%">Notes</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -79,7 +79,7 @@ export class ClaimPrescriptionsComponent implements OnInit {
         this.claimManager.loading = false;
         swal({
             title: 'Claim Note',
-            width:"650px",
+            width: window.innerWidth*3/4+"px",
             html:html
         }).then(success=>{          
           

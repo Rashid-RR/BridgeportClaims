@@ -38,14 +38,15 @@ export class ClaimManager{
             claim.setEpisodes(result.episodes);
             claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType) : null);
             claim.setPrescriptionNotes(result.prescriptionNotes);
+            this.selected = -10;
         }else{
             let res:  Array<Claim>  = result;
             this.claims = Immutable.OrderedMap<Number, Claim>();
             result.forEach(claim=>{
-            var c = new Claim(claim.claimId,claim.claimNumber,claim.dateEntered,claim.injuryDate,claim.gender,
-            claim.carrier,claim.adjustor,claim.adjustorPhoneNumber,claim.dateEntered,claim.adjustorPhoneNumber
-            ,claim.name,claim.firstName,claim.lastName);
-            this.claims = this.claims.set(claim.claimId,c);
+              var c = new Claim(claim.claimId,claim.claimNumber,claim.dateEntered,claim.injuryDate,claim.gender,
+              claim.carrier,claim.adjustor,claim.adjustorPhoneNumber,claim.dateEntered,claim.adjustorPhoneNumber
+              ,claim.name,claim.firstName,claim.lastName);
+              this.claims = this.claims.set(claim.claimId,c);
             })
         }
       },err=>{
