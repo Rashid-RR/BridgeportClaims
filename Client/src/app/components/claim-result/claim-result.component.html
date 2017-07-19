@@ -21,8 +21,8 @@
         <br/><br/><br/><br/><br/>
         <!--
             <span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId);"  *ngIf="claimManager.dataSize==1"> View </span>
-            <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="claimManager.selected=undefined"  style="font-size:10pt"  *ngIf="claimManager.dataSize>1 || (claimManager.selectedClaim.claimId==-10)"> Back to Claim Results </button>
-         -->
+        -->    
+        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="claimManager.selected=undefined"  style="font-size:10pt"  *ngIf="claimManager.dataSize>1"> Back to Claim Results </button>        
       </div>
   </div>
 </ng-container>
