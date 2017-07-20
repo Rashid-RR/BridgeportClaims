@@ -43,6 +43,6 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        private IHttpActionResult GetClaimsDataByClaimId(int claimId) => Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId));
+        private IHttpActionResult GetClaimsDataByClaimId(int claimId) => Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId, User.Identity.Name));
     }
 }
