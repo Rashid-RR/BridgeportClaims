@@ -19,7 +19,8 @@ CREATE TABLE [dbo].[Pharmacy]
 [DispType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyCreatedOn] DEFAULT (sysdatetime()),
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyUpdatedOn] DEFAULT (sysdatetime()),
-[DataVersion] [timestamp] NOT NULL
+[DataVersion] [timestamp] NOT NULL,
+[StageID] [int] NULL
 ) ON [PRIMARY]
 WITH
 (
