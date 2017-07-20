@@ -15,8 +15,7 @@ CREATE TABLE [dbo].[Payor]
 [Contact] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPayorCreatedOn] DEFAULT (sysdatetime()),
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPayorUpdatedOn] DEFAULT (sysdatetime()),
-[DataVersion] [timestamp] NOT NULL,
-[StageID] [int] NULL
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (
