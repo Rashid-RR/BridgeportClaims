@@ -1,20 +1,16 @@
 <div class="container">
     <div class="row">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
-                 <h3>We can't seem to find the page you're looking for</h3>
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <h1 class="text-404">404</h1>
+                <h4>We are sorry, but the page you were looking for was not found</h4>
+                <br>
                 <div class="row">
-                    <div class="span5">
-                        Please choose one of the locations below:
+                    <div class="col-md-6">
+                        <a [routerLink]="'/main/private'" class="btn btn-primary btn-md btn-block">Home</a>
                     </div>
-                </div>
-                <div class="row"><br/></div>
-                <div class="row">
-                    <div class="col-md-3">
-                         <a [routerLink]="'/main/private'" class="btn btn-primary btn-md btn-block">Home</a>
-                    </div>
-                    <div class="col-md-3 col-md-offset-1">
-                         <a (click)="backClicked()" class="btn btn-default btn-md btn-block">Go back</a>
+                    <div class="col-md-6">
+                        <a (click)="backClicked()" class="btn btn-default btn-md btn-block">Go back</a>
                     </div>
                 </div>
             </div>
