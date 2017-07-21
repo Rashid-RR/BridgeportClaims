@@ -30,8 +30,8 @@ export class ProfileComponent implements OnInit {
     private profileManager: ProfileManager,
     private toast: ToastsManager
   ) {
-    console.log(this.profileManager.User);
-    console.log(this.profileManager.profile);
+    /* console.log(this.profileManager.User);
+    console.log(this.profileManager.profile); */
 
     if (this.profileManager.profile == null) {
       this.profileManager.profile = new UserProfile('', '', '', '', '');
