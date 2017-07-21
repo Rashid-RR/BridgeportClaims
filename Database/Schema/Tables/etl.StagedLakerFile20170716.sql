@@ -1,4 +1,4 @@
-CREATE TABLE [etl].[StagedLakerFile]
+CREATE TABLE [etl].[StagedLakerFile20170716]
 (
 [1] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [2] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -153,14 +153,6 @@ CREATE TABLE [etl].[StagedLakerFile]
 [151] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [152] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [153] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[154] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PayorID] [int] NULL,
-[AdjustorID] [int] NULL,
-[PatientID] [int] NULL,
-[InvoiceID] [int] NULL,
-[ClaimID] [int] NULL,
-[PrescriptionID] [int] NULL,
-[PharmacyID] [int] NULL,
-[StageID] [int] NOT NULL IDENTITY(1, 1)
+[154] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO

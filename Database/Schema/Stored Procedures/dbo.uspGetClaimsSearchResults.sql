@@ -7,7 +7,7 @@ GO
 	Create Date:	6/10/2017
 	Description:	Returns Claims data for Blade 1
 	Sample Execute:
-					EXEC dbo.uspGetClaimsSearchResults NULL, 'Brandie'
+					EXEC dbo.uspGetClaimsSearchResults @FirstName = 'amie'
 */
 CREATE PROC [dbo].[uspGetClaimsSearchResults]
 (
@@ -20,9 +20,9 @@ BEGIN
 
     WITH ClaimsCTE AS
     (
-          SELECT c.ClaimID FROM dbo.Claim c WHERE c.ClaimNumber = @ClaimNumber UNION
+          SELECT c.ClaimID FROM dbo.Claim c WHERE c.ClaimNumber LIKE '%' + @ClaimNumber + '%' UNION
           SELECT c.ClaimID FROM dbo.Claim AS c INNER JOIN dbo.Patient p ON c.PatientID = p.PatientID
-			WHERE p.FirstName = @FirstName OR p.LastName = @LastName UNION
+			WHERE p.FirstName LIKE  '%' + @FirstName + '%' OR p.LastName LIKE '%' + @LastName + '%' UNION
           SELECT i.ClaimID FROM dbo.Invoice i WHERE i.InvoiceNumber = @InvoiceNumber UNION
           SELECT p.ClaimID FROM dbo.Prescription p WHERE p.RxNumber = @RxNumber
     )
@@ -36,9 +36,9 @@ BEGIN
     FROM   [dbo].[vwClaim] c 
            INNER JOIN ClaimsCTE cte ON cte.ClaimID = c.ClaimId
     WHERE  1 = 1
-           AND (c.ClaimNumber = @ClaimNumber OR @ClaimNumber IS NULL)
-           AND (c.FirstName = @FirstName OR @FirstName IS NULL)
-           AND (c.LastName = @LastName OR @LastName IS NULL)
+           AND (c.ClaimNumber LIKE '%' + @ClaimNumber + '%' OR @ClaimNumber IS NULL)
+           AND (c.FirstName LIKE '%' + @FirstName + '%' OR @FirstName IS NULL)
+           AND (c.LastName LIKE '%' + @LastName + '%' OR @LastName IS NULL)
            AND (c.InvoiceNumber = @InvoiceNumber OR @InvoiceNumber IS NULL)
            AND (c.RxNumber = @RxNumber OR @RxNumber IS NULL);
 END
