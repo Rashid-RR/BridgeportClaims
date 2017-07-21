@@ -53,10 +53,7 @@ export class ClaimManager{
         this.loading = false;
         try{
           let error = err.json();
-          console.log(error);
-          if(error.status==401){
-            this.router.navigate(['/login']);
-          }
+          console.log(error);          
         }catch(e){}
       },()=>{
           this.events.broadcast("claim-updated")
@@ -67,7 +64,7 @@ export class ClaimManager{
             this.notetypes= result;
         },err=>{
             this.loading = false;
-            console.log(err);
+            let error = err.json();              
         })
       this.http.getPrescriptionNotetypes().map(res=>{return res.json()})
         .subscribe((result:Array<any>)=>{
@@ -76,6 +73,7 @@ export class ClaimManager{
         },err=>{
             this.loading = false;
             console.log(err);
+            let error = err.json();           
         })
   }
 
@@ -107,6 +105,7 @@ export class ClaimManager{
           },err=>{
             this.loading = false;
             console.log(err);
+            let error = err.json();
           },()=>{
               this.events.broadcast("claim-updated")
           })

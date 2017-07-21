@@ -70,7 +70,7 @@ export class UsersComponent implements OnInit {
       });
       this.pageNumber = pageNumber;
     }, err => {
-      console.log(err);
+      //console.log(err);
     })
   }
 
@@ -84,7 +84,7 @@ export class UsersComponent implements OnInit {
       }, {});
 
     }, err => {
-      console.log(err);
+      //console.log(err);
     })
   }
 

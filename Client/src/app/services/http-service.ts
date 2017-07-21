@@ -8,13 +8,15 @@ import "rxjs/add/operator/map";
 import { Response } from "@angular/http/src/static_response";
 import { Http, RequestOptions, Headers } from "@angular/http";
 import { UUID } from "angular2-uuid";
+import {Router} from "@angular/router";
+import {EventsService} from "./events-service";
 
 @Injectable()
 export class HttpService {
   baseUrl: string = "/api";
 
   token: String
-  constructor(private http: Http) {
+  constructor(private router:Router,private http: Http,private events:EventsService) {
 
   }
   setAuth(auth: String) {
@@ -29,61 +31,128 @@ export class HttpService {
   }
 
   updateProfile(data): Observable<Response> {
-    return this.http.patch(this.baseUrl + "/users", data)
+    let s = this.http.patch(this.baseUrl + "/users", data)    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
   }
 
   passwordreset(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/passwordreset", data)
+    let s = this.http.post(this.baseUrl + "/passwordreset", data)    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
   }
 
   resetpassword(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/account/resetpassword", data)
+    let s = this.http.post(this.baseUrl + "/account/resetpassword", data)    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
   }
 
   forgotpassword(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/account/forgotpassword", data)
+    let s = this.http.post(this.baseUrl + "/account/forgotpassword", data)    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
   }
 
   changepassword(data): Observable<Response> {
-    return this.http.put(this.baseUrl + "/account/changepassword", data, { headers: this.headers })
+    let s = this.http.put(this.baseUrl + "/account/changepassword", data, { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
   }
   changeusername(firstName, lastName, id): Observable<Response> {
-    return this.http.post(this.baseUrl + "/users/updatename/" + id + "?firstName=" + firstName + "&lastName=" + lastName, '', { headers: this.headers })
+    let s = this.http.post(this.baseUrl + "/users/updatename/" + id + "?firstName=" + firstName + "&lastName=" + lastName, '', { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    return s;
   }
   //register user
   register(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/account/create", data)
+    let s = this.http.post(this.baseUrl + "/account/create", data)    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    
+    return s;
   }
   getClaimsData(data: any) {
-    return this.http.post(this.baseUrl + "/Claims/GetClaimsData", data, { headers: this.headers });
+    let s = this.http.post(this.baseUrl + "/Claims/GetClaimsData", data, { headers: this.headers });    
+    return s;
   }
   //get user using id
   userFromId(id: UUID): Observable<Response> {
-    return this.http.get(this.baseUrl + "/Account/UserInfo", { headers: this.headers })
+    let s = this.http.get(this.baseUrl + "/Account/UserInfo", { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    
+    return s;
   }
   confirmEmail(id: any, code: any): Observable<Response> {
-    return this.http.get(this.baseUrl + "/Account/ConfirmEmail?userId="+id + "&code=" + code, { headers: this.headers })
+    let s = this.http.get(this.baseUrl + "/Account/ConfirmEmail?userId="+id + "&code=" + code, { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    return s;
   }
   profile(): Observable<Response> {
-    return this.http.get(this.baseUrl + "/Account/UserInfo", { headers: this.headers })
+    let s = this.http.get(this.baseUrl + "/Account/UserInfo", { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    return s;
   }
   getPayours(pageNumber: Number, pageSize: Number): Observable<Response> {
-    return this.http.get(this.baseUrl + "/payor/getpayors/?pageNumber=" + pageNumber + "&pageSize=" + pageSize, { headers: this.headers })
+    let s = this.http.get(this.baseUrl + "/payor/getpayors/?pageNumber=" + pageNumber + "&pageSize=" + pageSize, { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    return s;
   }
   getUsers(pageNumber: Number, pageSize: Number): Observable<Response> {
-    return this.http.get(this.baseUrl + "/account/users/?pageNumber=" + pageNumber + "&pageSize=" + pageSize, { headers: this.headers })
+    let s = this.http.get(this.baseUrl + "/account/users/?pageNumber=" + pageNumber + "&pageSize=" + pageSize, { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })    
+    return s;
   }
   getRoles(data: any): Observable<Response> {
-    return this.http.post(this.baseUrl + "/roles/", data, { headers: this.headers })
+    let s = this.http.post(this.baseUrl + "/roles/", data, { headers: this.headers })    
+    return s;
   }
   assignUserRole(data: any) {
-    return this.http.post(this.baseUrl + "/roles/ManageUsersInRole", data, { headers: this.headers });
+    let s =  this.http.post(this.baseUrl + "/roles/ManageUsersInRole", data, { headers: this.headers });    
+    return s;
   }
   activateUser(userID) {
-    return this.http.post(this.baseUrl + "/users/activate/" + userID, '', { headers: this.headers });
+    let s = this.http.post(this.baseUrl + "/users/activate/" + userID, '', { headers: this.headers }); 
+    return s;
   }
   deactivateUser(userID) {
-    return this.http.post(this.baseUrl + "/users/deactivate/" + userID, '', { headers: this.headers });
+    let s = this.http.post(this.baseUrl + "/users/deactivate/" + userID, '', { headers: this.headers });    
+    return s;
   }
   get headers() {
     let header = new Headers();
@@ -94,23 +163,36 @@ export class HttpService {
   }
 
   getNotetypes(): Observable<Response> {
-    return this.http.get(this.baseUrl + "/claimnotes/notetypes", { headers: this.headers })
+    let s = this.http.get(this.baseUrl + "/claimnotes/notetypes", { headers: this.headers })    
+    return s;
   }
   getPrescriptionNotetypes(): Observable<Response> {
-    return this.http.get(this.baseUrl + "/prescriptionnotes/notetypes", { headers: this.headers })
+    let s =  this.http.get(this.baseUrl + "/prescriptionnotes/notetypes", { headers: this.headers })    
+    return s;
   }
   getPrescriptionNotes(id:Number): Observable<Response> {
-    return this.http.post(this.baseUrl + "/prescriptionnotes/getprescriptionnotes/?prescriptionId="+id,{}, { headers: this.headers })
+    let s =  this.http.post(this.baseUrl + "/prescriptionnotes/getprescriptionnotes/?prescriptionId="+id,{}, { headers: this.headers })
+    return s;
   }
 
   saveClaimNote(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/claimnotes/savenote?claimId=" + data.claimId + "&noteText=" + data.noteText + "&noteTypeId=" + data.noteTypeId, {}, { headers: this.headers })
+    let s = this.http.post(this.baseUrl + "/claimnotes/savenote?claimId=" + data.claimId + "&noteText=" + data.noteText + "&noteTypeId=" + data.noteTypeId, {}, { headers: this.headers })    
+    return s;
   }
   savePrescriptionNote(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/prescriptionnotes/savenote", data, { headers: this.headers })
+    let s= this.http.post(this.baseUrl + "/prescriptionnotes/savenote", data, { headers: this.headers })    
+    return s;
   }
   saveEpisode(data): Observable<Response> {
-    return this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers })
+    let s= this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers })    
+    return s;
+  }
+
+  handleResponseError(res:Response){
+      if(res.status == 401) {        
+        this.router.navigate(['/login']);
+        this.events.broadcast("logout", true);
+      }
   }
 
 }

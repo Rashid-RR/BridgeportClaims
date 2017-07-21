@@ -6,13 +6,14 @@ import {UserProfile} from "../models/profile"
 import {Injectable} from "@angular/core";
 import {HttpService} from "./http-service";
 import {EventsService} from "./events-service";
-  
+import {Router} from "@angular/router";
+
 @Injectable()
 export class ProfileManager{
   private userCache: Immutable.OrderedMap<String, UserProfile> = Immutable.OrderedMap<String, UserProfile>();
   profile: UserProfile = null;
  
-  constructor(private http:HttpService,private events:EventsService) {
+  constructor(private router:Router,private http:HttpService,private events:EventsService) {
       this.events.on("profile",(profile)=>{
         this.profile = profile as UserProfile;
       });
@@ -29,6 +30,8 @@ export class ProfileManager{
       s.subscribe(res => {
         let u = res.json() as UserProfile;
         this.userCache = this.userCache.set(u.userName, u);
+      },err=>{
+        let error = err.json();
       });
       return s.map(res => res.json() as UserProfile);
     }
