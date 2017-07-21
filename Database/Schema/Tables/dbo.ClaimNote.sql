@@ -3,12 +3,12 @@ CREATE TABLE [dbo].[ClaimNote]
 [ClaimNoteID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NOT NULL,
 [ClaimNoteTypeID] [int] NOT NULL,
-[NoteText] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[NoteText] [varchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [EnteredByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteCreatedOn] DEFAULT (sysdatetime()),
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteUpdatedOn] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 WITH
 (
 DATA_COMPRESSION = ROW

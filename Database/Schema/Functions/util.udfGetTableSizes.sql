@@ -24,11 +24,7 @@ RETURNS @TableSizes TABLE
 AS
 BEGIN
     DECLARE @PageSize FLOAT
-
-    SELECT  @PageSize = v.low / 1024.0
-    FROM    master.dbo.spt_values v
-    WHERE   v.number = 1
-            AND v.type = 'E';
+	SELECT @PageSize = 8.000000;
 
     WITH SpaceUsedCTE AS
 	( 
@@ -87,4 +83,5 @@ BEGIN
     RETURN
 
 END
+
 GO
