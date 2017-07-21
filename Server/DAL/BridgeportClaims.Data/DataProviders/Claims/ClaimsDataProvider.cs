@@ -96,8 +96,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                                     Address1 = w.p.Address1,
                                     Address2 = w.p.Address2,
                                     Adjustor = null == w.c.Adjustor ? null : w.c.Adjustor.AdjustorName,
-
-#pragma warning disable IDE0031 // Use null propagationAdjustorFaxNumber = null == w.c.Adjustor ? null : w.c.Adjustor.FaxNumber,
+                                    #pragma warning disable IDE0031 // Use null propagationAdjustorFaxNumber = null == w.c.Adjustor ? null : w.c.Adjustor.FaxNumber,
                                     AdjustorPhoneNumber = null == w.c.Adjustor ? null : w.c.Adjustor.PhoneNumber,
                                     #pragma warning disable IDE0031 // Use null propagation
                                     Carrier = null == w.c.Payor ? null : w.c.Payor.BillToName,
