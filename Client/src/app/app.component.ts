@@ -39,12 +39,12 @@ export class AppComponent implements OnInit, OnDestroy {
           this.profileManager.setProfile(profile);
           this.profileManager.profile = profile;
           let auth = localStorage.getItem("token");
-          /*this.profileManager.userInfo(us.userName).single().subscribe( res => {
-          this.profileManager.profile= res; 
-          this.events.broadcast('profile', res);
-         },(error)=>{
-           
-         });*/
+          this.http.userFromId(us.id).single().subscribe( res => {
+              //console.log(res);
+              this.profileManager.profile.roles = res.json().roles;
+          },(error)=>{
+            //console.log(error)
+          });
       } catch (error) {
         console.log(error);
       }
