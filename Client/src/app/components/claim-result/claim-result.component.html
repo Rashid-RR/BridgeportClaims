@@ -48,7 +48,7 @@
                     <td *ngIf="!claim.name">{{claim.firstName}}  {{claim.lastName}}</td>
                     <td>{{claim.carrier}}</td>
                     <td>{{claim.injuryDate}}</td>
-                    <td><span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId)"> View </span></td>
+                    <td><button class="btn btn-flat btn-sm bg-purple" style="font-size:9pt" (click)="view(claim.claimId)"> View </button></td>
                   </tr>
                 </ng-container>
               </tbody>

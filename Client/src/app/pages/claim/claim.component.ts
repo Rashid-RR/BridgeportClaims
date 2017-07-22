@@ -48,7 +48,7 @@ export class ClaimsComponent implements OnInit {
      var checkboxes = window['jQuery']('.pescriptionCheck');
      for(var i=0;i<checkboxes.length;i++){
          if(window['jQuery']("#"+checkboxes[i].id).is(':checked')){
-            selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex">'+window['jQuery']("#"+checkboxes[i].id).attr("labelName")+'</span> &nbsp; ';
+            selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex;font-size:11pt;">'+window['jQuery']("#"+checkboxes[i].id).attr("labelName")+'</span> &nbsp; ';
             selectedNotes.push(Number(checkboxes[i].id));
         }
      }
@@ -100,7 +100,7 @@ export class ClaimsComponent implements OnInit {
                 window['jQuery']('#noteTextLabel').css({"color":"red"})
               },200)
           }else{
-              swal({title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false})
+              swal({title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false})              
               this.http.savePrescriptionNote(
                 {
                   claimId: this.claimManager.selectedClaim.claimId,
@@ -185,6 +185,7 @@ export class ClaimsComponent implements OnInit {
   }
   addNote(noteText:String="",TypeId?:String){
     let selectedNotes = [];
+    noteText = noteText.replace(/\\n/g,'&#13;');
     let claimNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
     this.claimManager.NoteTypes.forEach((note:{key:String,value:String})=>{
         claimNoteTypeIds=claimNoteTypeIds+'<option value="'+note.key+'"' +(note.value ==TypeId ? "selected": "")+'>'+note.value+'</option>';          
@@ -233,16 +234,19 @@ export class ClaimsComponent implements OnInit {
           },200)
       }else{
           swal({title:"",html:"Saving note... <br/> <img src='assets/1.gif'>",showConfirmButton:false})
+          console.log(JSON.stringify({text:result[1]}),{text:result[1]});
+          var txt = JSON.stringify(result[1]);
+          txt = txt.substring(1, txt.length - 1)
           this.http.saveClaimNote({
               claimId: this.claimManager.selectedClaim.claimId,
               noteTypeId:result[0],
-              noteText:result[1]
+              noteText:txt
           }).subscribe(res => {
             let noteType = this.claimManager.NoteTypes.find(type=>type.key==result[0]);
             if(!this.claimManager.selectedClaim.claimNote){
-              this.claimManager.selectedClaim.claimNote = new ClaimNote(result[1],noteType.value)
+              this.claimManager.selectedClaim.claimNote = new ClaimNote(txt,noteType.value)
             }else{
-              this.claimManager.selectedClaim.claimNote.noteText=result[1];
+              this.claimManager.selectedClaim.claimNote.noteText=txt;
               this.claimManager.selectedClaim.claimNote.noteType=noteType.value;
             } 
             this.claimManager.selectedClaim.editing = false;

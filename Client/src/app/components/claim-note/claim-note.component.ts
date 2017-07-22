@@ -42,6 +42,9 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
     }    
   }
 
+  parseText(txt:String){
+    return txt.replace(/\\n/g,'<br>');
+  }
   saveNote(){
     this.claimManager.loading = true;
     if (this.form.valid) {
