@@ -23,27 +23,29 @@ export class ConfirmEmailComponent implements OnInit {
     private router: Router,
     private toast: ToastsManager
   ) {
-    router.routerState.root.queryParams.subscribe(
-      data => {
-        this.code = encodeURIComponent(data['code']); this.user = data['userId']
-      });
+    
 
   }
 
   ngOnInit() {
-    try {
-      this.http.confirmEmail(this.user, this.code).subscribe(res => {
-        this.toast.success('Thank you for confirming your email. Please proceed to login');
-        this.loading = false;
-        this.confirmed = 1;
-        this.router.navigate(['/login']);
-      }, error => {
-        let err = error.json() || ({ "Message": "Server error!" });
-        this.toast.error(err.Message);
-        this.loading = false;
-      })
-    } catch (e) {
-      this.toast.error('Error in fields. Please correct to proceed!');
-    }
+    this.route.params.subscribe(
+      data => {
+        console.log(data);
+        this.code = encodeURIComponent(data['code']); this.user = data['userId']
+        try {
+          this.http.confirmEmail(this.user, this.code).subscribe(res => {
+            this.toast.success('Thank you for confirming your email. Please proceed to login');
+            this.loading = false;
+            this.confirmed = 1;
+            this.router.navigate(['/login']);
+          }, error => {
+            let err = error.json() || ({ "Message": "Server error!" });
+            this.toast.error(err.Message);
+            this.loading = false;
+          })
+        } catch (e) {
+          this.toast.error('Error in fields. Please correct to proceed!');
+        }
+      });
   }
 }

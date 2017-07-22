@@ -92,7 +92,7 @@ export const routes: Routes = [
       }
     ]
   },
-  { path: 'confirm-email', component: ConfirmEmailComponent },
+  { path: 'confirm-email/:userId/:code', component: ConfirmEmailComponent },
   { component: Error404Component, path: '**'}
 ];
 @NgModule({
