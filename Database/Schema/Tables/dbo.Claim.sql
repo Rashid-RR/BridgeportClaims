@@ -16,7 +16,8 @@ CREATE TABLE [dbo].[Claim]
 [PatientID] [int] NOT NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimCreatedOn] DEFAULT (sysdatetime()),
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimUpdatedOn] DEFAULT (sysdatetime()),
-[DataVersion] [timestamp] NOT NULL
+[DataVersion] [timestamp] NOT NULL,
+[StageID] [int] NULL
 ) ON [PRIMARY]
 WITH
 (

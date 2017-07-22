@@ -46,7 +46,7 @@ export const routes: Routes = [
       , {
         path: 'recover-lost-password',
         component: PasswordResetComponent
-      },{
+      }, {
         path: 'resetpassword',
         component: ChangePasswordComponent
       }
@@ -56,36 +56,40 @@ export const routes: Routes = [
       },
       {
         path: 'main',
-        canActivate:[AuthGuard],
-        canActivateChild:[AuthGuard],
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         children: [
-        {
-          path: 'private',
-          component: PrivateComponent
-        },
-        {
-          path: 'profile',
-          component: ProfileComponent
-        },
-        {
-          path: 'payors',
-          component: PayorsComponent
-        },
-        {
-          path: 'users',
-          component: UsersComponent          
-        },
-        {
-          path: 'claims',
-          component: ClaimsComponent
-        }
-        ,
-        {
-          path: 'fileupload',
-          component: FileUploadComponent
-        }
-      ]
-    }
+          {
+            path: 'private',
+            component: PrivateComponent
+          },
+          {
+            path: 'profile',
+            component: ProfileComponent
+          },
+          {
+            path: 'payors',
+            component: PayorsComponent
+          },
+          {
+            path: 'users',
+            component: UsersComponent
+          },
+          {
+            path: 'claims',
+            component: ClaimsComponent
+          }
+          ,
+          {
+            path: 'fileupload',
+            component: FileUploadComponent
+          },
+        ]
+      },
+      {
+        path: '404',
+        component: Error404Component
+      }
     ]
   },
   { path: 'confirm-email', component: ConfirmEmailComponent },

@@ -12,7 +12,6 @@ GO
 */
 CREATE PROC [etl].[uspProcessLakerFile] 
 (
-	@ReProcess BIT = 0,
 	@Cleanup BIT = 1
 )
 AS BEGIN
@@ -40,21 +39,19 @@ AS BEGIN
 					DROP TABLE #PharmacyImport*/
 
 			DECLARE @TotalRowCount INT = (SELECT COUNT(*) FROM [etl].[StagedLakerFile])
-			IF @ReProcess = 1
-				BEGIN
-					-- Clear out tables that we're going to be loading
-					IF EXISTS (SELECT * FROM [sys].[views] AS [v] WHERE [v].[name] = 'vwPrescriptionNote')
-						DROP VIEW [dbo].[vwPrescriptionNote]
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Prescription'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Payment'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Invoice'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Pharmacy'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Episode'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Claim'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Patient'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Adjustor'
-					EXEC [util].[uspSmarterTruncateTable] 'dbo.Payor'
-				END
+		
+			-- Clear out tables regarle
+			IF EXISTS (SELECT * FROM [sys].[views] AS [v] WHERE [v].[name] = 'vwPrescriptionNote')
+				DROP VIEW [dbo].[vwPrescriptionNote]
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Prescription'
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Payment'
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Invoice'
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Pharmacy'
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Episode'
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Claim'
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Patient'
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Adjustor'
+			EXEC [util].[uspSmarterTruncateTable] 'dbo.Payor'
 
 			DECLARE @RowCountCheck INT
 			IF NOT EXISTS

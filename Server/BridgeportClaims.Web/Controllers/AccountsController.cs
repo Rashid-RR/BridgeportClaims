@@ -37,6 +37,7 @@ namespace BridgeportClaims.Web.Controllers
         public AccountsController() { }
 
         private string BaseUri => Request.RequestUri.GetLeftPart(UriPartial.Authority);
+        private bool IsSecure => Request.RequestUri.Scheme.ToLower() == "https";
 
         public AccountsController(ApplicationUserManager userManager,
             ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
@@ -93,9 +94,22 @@ namespace BridgeportClaims.Web.Controllers
             }
             var baseUrl = BaseUri;
             var serverLocalHostName = ConfigService.GetAppSetting(c.ServerLocalHostNameKey);
+            var secureServerLocalHostName = ConfigService.GetAppSetting(c.SecureServerLocalHostNameKey);
             var clientLocalHostName = ConfigService.GetAppSetting(c.ClientLocalHostNameKey);
-            if (BaseUri.Contains(serverLocalHostName))
+            if (!BaseUri.Contains(serverLocalHostName) && !BaseUri.Contains(secureServerLocalHostName))
+                return new Uri($"{baseUrl}/#/{route}/?userId={userId}&code={code}");
+            if (IsSecure)
+            {
+                var containsHttps = baseUrl?.ToLower().Contains("https");
+                if (containsHttps.HasValue && containsHttps.Value)
+                {
+                    baseUrl = BaseUri.Replace("https", "http").Replace(secureServerLocalHostName, clientLocalHostName);
+                }
+            }
+            else
+            {
                 baseUrl = BaseUri.Replace(serverLocalHostName, clientLocalHostName);
+            }
             return new Uri($"{baseUrl}/#/{route}/?userId={userId}&code={code}");
         }
 
