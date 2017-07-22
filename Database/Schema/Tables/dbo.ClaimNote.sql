@@ -5,8 +5,8 @@ CREATE TABLE [dbo].[ClaimNote]
 [ClaimNoteTypeID] [int] NOT NULL,
 [NoteText] [varchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [EnteredByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteCreatedOn] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteUpdatedOn] DEFAULT (sysdatetime()),
+[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 WITH

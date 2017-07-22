@@ -4,8 +4,8 @@ CREATE TABLE [dbo].[PrescriptionNote]
 [PrescriptionNoteTypeID] [int] NOT NULL,
 [NoteText] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [EnteredByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteCreatedOn] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteUpdatedOn] DEFAULT (sysdatetime()),
+[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

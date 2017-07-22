@@ -4,8 +4,8 @@ CREATE TABLE [dbo].[EpisodeLink]
 [EpisodeLinkTypeID] [int] NOT NULL,
 [LinkTransNumber] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EpisodeNumber] [int] NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkCreatedOn] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkUpdatedOn] DEFAULT (sysdatetime()),
+[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

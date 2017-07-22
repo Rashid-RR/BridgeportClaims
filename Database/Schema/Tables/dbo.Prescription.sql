@@ -38,8 +38,8 @@ CREATE TABLE [dbo].[Prescription]
 [GPIGenName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TheraClass] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [InvoiceID] [int] NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionCreatedOn] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOn] DEFAULT (sysdatetime()),
+[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

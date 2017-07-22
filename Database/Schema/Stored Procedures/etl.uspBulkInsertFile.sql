@@ -7,9 +7,9 @@ GO
 	Create Date:	7/9/2017
 	Description:	
 	Sample Execute:
-					EXEC etl.uspBulkInsertFile 'D:\TFS\JGPortal\BridgeportClaimsLakerExtractFiles\FileBytes_20170711_1418.csv'
+					EXEC etl.uspBulkInsertFile 'D:\TFS\JGPortal\ImportFiles\Billing_Claim_File_20170717.csv', 0
 */
-CREATE PROC [etl].[uspBulkInsertFile] @FullPathAndFileName VARCHAR(1000)
+CREATE PROC [etl].[uspBulkInsertFile] @FullPathAndFileName VARCHAR(1000), @PrepareForETLColumns BIT = 1
 AS BEGIN
 	SET NOCOUNT ON;
 	SET TRAN ISOLATION LEVEL SERIALIZABLE;
@@ -17,6 +17,8 @@ AS BEGIN
 	EXEC [util].[uspSmarterTruncateTable] 'etl.BulkInsertLakerFile';
 	EXEC [util].[uspSmarterTruncateTable] 'etl.StagedLakerFile';
 	EXEC [etl].[uspCleanupStagedLakerFileAddedColumns];
+	-- Add back the Stage ID
+	EXEC (N'ALTER TABLE etl.StagedLakerFile ADD StageID INT IDENTITY')
 	BEGIN TRY
 		BEGIN TRANSACTION;
 			DECLARE @SQLStatement NVARCHAR(4000), @LineEnd CHAR(1) = CHAR(10) + CHAR(13);
@@ -37,7 +39,8 @@ AS BEGIN
 			FROM	[etl].[BulkInsertLakerFile]
 			EXEC [util].[uspSmarterTruncateTable] 'etl.BulkInsertLakerFile'
 			-- Finally, prepare the StagedLakerFile table with the ETL columns that it will need.
-			EXEC [etl].[uspAddStagedLakerFileETLColumns];
+			IF @PrepareForETLColumns = 1
+				EXEC [etl].[uspAddStagedLakerFileETLColumns];
 		IF (@@TRANCOUNT > 0)
 			COMMIT TRANSACTION;
 	END TRY
