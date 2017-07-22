@@ -93,7 +93,11 @@ export class HttpService {
     return s;
   }
   getClaimsData(data: any) {
-    let s = this.http.post(this.baseUrl + "/Claims/GetClaimsData", data, { headers: this.headers });    
+    let s = this.http.post(this.baseUrl + "/Claims/GetClaimsData", data, { headers: this.headers })   
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
     return s;
   }
   //get user using id

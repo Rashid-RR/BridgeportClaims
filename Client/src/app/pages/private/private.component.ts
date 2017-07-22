@@ -17,7 +17,7 @@ export class PrivateComponent implements OnInit {
     
   }
   get allowed():Boolean{
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin')>-1)
+    return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin')>-1)
   }
 
 }

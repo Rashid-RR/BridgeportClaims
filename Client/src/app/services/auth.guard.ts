@@ -25,11 +25,12 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
     canActivate():Observable<boolean> {
       return this.isLoggedIn.map(e => {
             if (e) {
-              console.log("User is logged in");
+              //console.log("User is logged in");
                 return true;
             }else {
-              console.log(e,"User is not logged in");
+              //console.log(e,"User is not logged in");
               this.router.navigate(['/login']);
+              return false;
             }
         }).catch((e) => {
             console.log(e);
