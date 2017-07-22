@@ -16,3 +16,5 @@ td,th{
 .red{
     color:red;
 }
+
+textarea { resize: vertical; }

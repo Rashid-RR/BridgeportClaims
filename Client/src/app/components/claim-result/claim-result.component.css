@@ -15,3 +15,4 @@ td,th{
 tr.active,tr.active td{
     background:lightblue !important;
 }
+textarea { resize: vertical; }
