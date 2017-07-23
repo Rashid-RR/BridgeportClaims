@@ -10,13 +10,14 @@ import { Http, RequestOptions, Headers } from "@angular/http";
 import { UUID } from "angular2-uuid";
 import {Router} from "@angular/router";
 import {EventsService} from "./events-service";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class HttpService {
   baseUrl: string = "/api";
 
   token: String
-  constructor(private router:Router,private http: Http,private events:EventsService) {
+  constructor(private router:Router,private http: Http,private events:EventsService,private toast: ToastsManager) {
 
   }
   setAuth(auth: String) {
@@ -93,7 +94,11 @@ export class HttpService {
     return s;
   }
   getClaimsData(data: any) {
-    let s = this.http.post(this.baseUrl + "/Claims/GetClaimsData", data, { headers: this.headers });    
+    let s = this.http.post(this.baseUrl + "/Claims/GetClaimsData", data, { headers: this.headers })   
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
     return s;
   }
   //get user using id
@@ -189,7 +194,8 @@ export class HttpService {
   }
 
   handleResponseError(res:Response){
-      if(res.status == 401) {        
+      if(res.status == 401) {     
+        this.toast.info('The page the tried to reach discovered an invalid login for you. Please log in!');             
         this.router.navigate(['/login']);
         this.events.broadcast("logout", true);
       }

@@ -22,3 +22,11 @@ td,th{
 .fittoSreen .box-body.claims{
     height:250px;
 }
+
+
+.swal2-modal{
+    width:900px  !important;
+    min-width:900px !important;
+}
+
+textarea { resize: vertical; }

@@ -92,9 +92,8 @@ export const routes: Routes = [
       }
     ]
   },
-  { path: 'confirm-email', component: ConfirmEmailComponent },
-
-  { path: '**', redirectTo: '/404' }
+  { path: 'confirm-email/:userId/:code', component: ConfirmEmailComponent },
+  { component: Error404Component, path: '**'}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
