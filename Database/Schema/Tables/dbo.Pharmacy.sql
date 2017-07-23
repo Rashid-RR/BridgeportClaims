@@ -17,10 +17,9 @@ CREATE TABLE [dbo].[Pharmacy]
 [ContactEmailAddress] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FederalTIN] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DispType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyCreatedOn] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyUpdatedOn] DEFAULT (sysdatetime()),
-[DataVersion] [timestamp] NOT NULL,
-[StageID] [int] NULL
+[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyUpdatedOnUTC] DEFAULT (sysdatetime()),
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (
@@ -28,6 +27,8 @@ DATA_COMPRESSION = ROW
 )
 GO
 ALTER TABLE [dbo].[Pharmacy] ADD CONSTRAINT [pkPharmacy] PRIMARY KEY CLUSTERED  ([PharmacyID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxPharmacyStateID] ON [dbo].[Pharmacy] ([StateID]) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Pharmacy] ADD CONSTRAINT [fkPharmacyStateIDUsStateStateID] FOREIGN KEY ([StateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO

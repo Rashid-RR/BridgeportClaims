@@ -5,9 +5,9 @@ GO
 /*
 	Author:			Jordan Gurney
 	Create Date:	7/19/2017
-	Description:	
+	Description:	Final function that returns local MST instead of UTC time.
 	Sample Execute:
-					SELECT FORMAT(dtme.udfGetLocalDateTime(SYSUTCDATETIME()), 'M/d/yyyy h:mm:ss')
+					SELECT dtme.udfGetLocalDateTime(SYSUTCDATETIME())
 */
 CREATE FUNCTION [dtme].[udfGetLocalDateTime]
 (

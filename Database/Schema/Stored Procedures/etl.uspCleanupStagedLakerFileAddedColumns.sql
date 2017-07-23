@@ -19,7 +19,7 @@ AS BEGIN
 		DECLARE @PrntMsg NVARCHAR(1000)
 				,@TableName SYSNAME
 				,@ColumnName SYSNAME
-				,@NewLine CHAR(2) = CHAR(10) + CHAR(13)
+				,@NewLine CHAR(1) = CHAR(10) + CHAR(13)
 		DECLARE @Obj INT = OBJECT_ID(N'etl.StagedLakerFile', N'U')
 		IF EXISTS
 		(
@@ -106,7 +106,7 @@ AS BEGIN
 			SELECT * FROM [#QA] AS [q]
 		)
 			BEGIN
-				SET @PrntMsg = 'Error. The following table(s) still have a column named "StageID" in them';
+				SET @PrntMsg = 'Error. The following table(s) still have a column named "StageID" in them. ';
 				DECLARE C CURSOR LOCAL FAST_FORWARD FOR
 				SELECT TableName, [ColumnName]
 				FROM [#QA] AS [q]
@@ -114,7 +114,6 @@ AS BEGIN
 				FETCH NEXT FROM [C] INTO @TableName, @ColumnName
 				WHILE @@FETCH_STATUS = 0
 					BEGIN
-						SET @PrntMsg += @NewLine
 						SET @PrntMsg += 'Table Name: ' + @TableName + '. Column Name: ' + @ColumnName + @NewLine
 						RAISERROR(@PrntMsg, 10, 1) WITH NOWAIT
 						FETCH NEXT FROM [C] INTO @TableName, @ColumnName
@@ -131,4 +130,5 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
+
 GO
