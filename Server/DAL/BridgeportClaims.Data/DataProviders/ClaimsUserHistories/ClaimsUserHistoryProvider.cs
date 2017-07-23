@@ -35,9 +35,10 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
                 .OrderByDescending(w => w.h.CreatedOnUtc)
                 .Select(s => new ClaimsUserHistoryDto
                 {
+                    ClaimId = s.c.ClaimId,
                     ClaimNumber = s.c.ClaimNumber,
                     Name = s.c.Name,
-                    InjuryDate = s.c.InjuryDate ?? null,
+                    InjuryDate = s.c.InjuryDate,
                     Carrier = s.c.Carrier
                 }).Take(maxClaimsLookup).ToList();
             return claimsUserHistories;
