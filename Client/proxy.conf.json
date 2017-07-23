@@ -1,13 +1,13 @@
 {
   "/api": {
-    "target": "https://localhost:44342",
+    "target": "http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
     "changeOrigin": true,
     "secure": false,
     "logLevel": "debug",
     "ws":true
   },
   "/oauth": {
-    "target": "https://localhost:44342",
+    "target": "http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
     "changeOrigin": true,
     "secure": false,
     "logLevel": "debug",
