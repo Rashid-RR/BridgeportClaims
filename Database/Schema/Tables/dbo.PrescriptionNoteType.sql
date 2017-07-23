@@ -14,5 +14,5 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[PrescriptionNoteType] ADD CONSTRAINT [pkPrescriptionNoteType] PRIMARY KEY CLUSTERED  ([PrescriptionNoteTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE UNIQUE NONCLUSTERED INDEX [idxUqPrescriptionNoteTypeCodeIncludeTypeName] ON [dbo].[PrescriptionNoteType] ([Code]) INCLUDE ([TypeName]) ON [PRIMARY]
+CREATE UNIQUE NONCLUSTERED INDEX [idxUqPrescriptionNoteTypeCodeIncludeTypeName] ON [dbo].[PrescriptionNoteType] ([Code]) INCLUDE ([TypeName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO

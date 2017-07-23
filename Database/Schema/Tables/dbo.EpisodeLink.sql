@@ -15,5 +15,7 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[EpisodeLink] ADD CONSTRAINT [pkEpisodeLink] PRIMARY KEY CLUSTERED  ([EpisodeLinkID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxEpisodeLinkEpisodeLinkTypeIDEpisodeLinkTypeEpisodeLinkTypeIDIncludeAll] ON [dbo].[EpisodeLink] ([EpisodeLinkTypeID]) INCLUDE ([CreatedOn], [EpisodeLinkID], [EpisodeNumber], [LinkTransNumber], [UpdatedOn]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[EpisodeLink] ADD CONSTRAINT [fkEpisodeLinkEpisodeLinkTypeIDEpisodeLinkTypeEpisodeLinkTypeID] FOREIGN KEY ([EpisodeLinkTypeID]) REFERENCES [dbo].[EpisodeLinkType] ([EpisodeLinkTypeID])
 GO
