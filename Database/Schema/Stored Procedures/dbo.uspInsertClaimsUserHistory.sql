@@ -7,7 +7,7 @@ GO
 	Create Date:	7/23/2017
 	Description:	
 	Sample Execute:
-					EXEC dbo.uspInsertClaimsUserHistory 2, '900d319e-ff5a-49f2-8135-8ee0aaf01792'
+					EXEC dbo.uspInsertClaimsUserHistory 9, 'b33804ac-6bd2-4895-a6d3-3cb59a0dc830'
 */
 CREATE PROC [dbo].[uspInsertClaimsUserHistory]
 (
@@ -46,9 +46,10 @@ AS BEGIN
 						CROSS APPLY (SELECT   TOP 1 ih.[ClaimsUserHistoryID] -- Grab earliest entry
 									 FROM     [dbo].[ClaimsUserHistory] AS ih
 									 WHERE    [h].[UserID] = [ih].[UserID]
-									 ORDER BY [h].[CreatedOnUTC] ASC
+									 ORDER BY [ih].[CreatedOnUTC] ASC
 								   ) AS d
 				WHERE	h.[ClaimsUserHistoryID] = d.[ClaimsUserHistoryID]
+					    AND h.[UserID] = @UserID
 				SET @RowCount = @@ROWCOUNT 
 				
 				IF @RowCount != 1
