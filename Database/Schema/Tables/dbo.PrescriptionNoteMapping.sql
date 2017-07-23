@@ -2,8 +2,8 @@ CREATE TABLE [dbo].[PrescriptionNoteMapping]
 (
 [PrescriptionID] [int] NOT NULL,
 [PrescriptionNoteID] [int] NOT NULL,
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteMappingCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteMappingUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteMappingCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteMappingUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

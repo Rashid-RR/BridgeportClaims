@@ -14,8 +14,8 @@ CREATE TABLE [dbo].[Claim]
 [TermDate] [datetime2] NULL,
 [UniqueClaimNumber] AS ([ClaimNumber]+isnull('-'+CONVERT([char](2),[PersonCode],(0)),'')),
 [PatientID] [int] NOT NULL,
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

@@ -7,8 +7,8 @@ CREATE TABLE [dbo].[Invoice]
 [Amount] [money] NOT NULL,
 [PayorID] [int] NOT NULL,
 [ClaimID] [int] NOT NULL,
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfInvoiceCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfInvoiceUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfInvoiceCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfInvoiceUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

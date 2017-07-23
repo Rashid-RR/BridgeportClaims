@@ -13,8 +13,8 @@ CREATE TABLE [dbo].[Payor]
 [FaxNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Notes] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Contact] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPayorCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPayorUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPayorCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPayorUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

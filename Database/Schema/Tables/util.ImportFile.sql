@@ -5,8 +5,8 @@ CREATE TABLE [util].[ImportFile]
 [FileName] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [FileExtension] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FileDescription] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfImportFileCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfImportFileUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfImportFileCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfImportFileUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 WITH

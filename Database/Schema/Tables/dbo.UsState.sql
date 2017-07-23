@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[UsState]
 [StateID] [int] NOT NULL IDENTITY(1, 1),
 [StateCode] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [StateName] [varchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[IsTerritory] [bit] NOT NULL CONSTRAINT [dfUSState] DEFAULT ((0))
+[IsTerritory] [bit] NOT NULL CONSTRAINT [dfUsStateIsTerritory] DEFAULT ((0))
 ) ON [PRIMARY]
 WITH
 (

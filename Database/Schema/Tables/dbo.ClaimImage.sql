@@ -4,8 +4,8 @@ CREATE TABLE [dbo].[ClaimImage]
 [ClaimID] [int] NOT NULL,
 [ClaimImageTypeID] [int] NOT NULL,
 [DateRecorded] [datetime2] NULL,
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfImageCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfImageUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfImageCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfImageUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
