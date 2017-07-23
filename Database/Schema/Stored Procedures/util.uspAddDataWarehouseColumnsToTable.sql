@@ -26,14 +26,14 @@ AS BEGIN
 			IF NOT EXISTS ( SELECT  *
 							FROM    sys.columns AS c
 							WHERE   c.object_id = OBJECT_ID(@TableName, N'U') AND c.name IN (
-									'CreatedOn', 'UpdatedOn', 'DataVersion') )
+									'CreatedOnUTC', 'UpdatedOnUTC', 'DataVersion') )
 				BEGIN
 					SET @SQLStatement = N'ALTER TABLE ' + QUOTENAME(@SchemaName) + '.' 
-						+ QUOTENAME(@TableNameWithoutSchema) + ' ADD [CreatedOn] DATETIME2 NOT NULL CONSTRAINT [df' +
-						@TableNameWithoutSchema + 'CreatedOn] DEFAULT (SYSDATETIME());' + @Return
+						+ QUOTENAME(@TableNameWithoutSchema) + ' ADD [CreatedOnUTC] DATETIME2 NOT NULL CONSTRAINT [df' +
+						@TableNameWithoutSchema + 'CreatedOnUTC] DEFAULT (SYSUTCDATETIME());' + @Return
 					SET @SQLStatement += N'ALTER TABLE ' + QUOTENAME(@SchemaName) + '.' 
-						+ QUOTENAME(@TableNameWithoutSchema) + ' ADD [UpdatedOn] DATETIME2 NOT NULL CONSTRAINT [df' +
-						@TableNameWithoutSchema + 'UpdatedOn] DEFAULT (SYSDATETIME());' + @Return
+						+ QUOTENAME(@TableNameWithoutSchema) + ' ADD [UpdatedOnUTC] DATETIME2 NOT NULL CONSTRAINT [df' +
+						@TableNameWithoutSchema + 'UpdatedOnUTC] DEFAULT (SYSUTCDATETIME());' + @Return
 					SET @SQLStatement += N'ALTER TABLE ' + QUOTENAME(@SchemaName) + '.' 
 						+ QUOTENAME(@TableNameWithoutSchema) + ' ADD [DataVersion] ROWVERSION NOT NULL;'
 					IF @DebugOnly = 1
