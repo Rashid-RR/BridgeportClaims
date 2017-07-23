@@ -4,8 +4,8 @@ CREATE TABLE [dbo].[EpisodeLink]
 [EpisodeLinkTypeID] [int] NOT NULL,
 [LinkTransNumber] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EpisodeNumber] [int] NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeLinkUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
@@ -15,7 +15,7 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[EpisodeLink] ADD CONSTRAINT [pkEpisodeLink] PRIMARY KEY CLUSTERED  ([EpisodeLinkID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeLinkEpisodeLinkTypeIDEpisodeLinkTypeEpisodeLinkTypeIDIncludeAll] ON [dbo].[EpisodeLink] ([EpisodeLinkTypeID]) INCLUDE ([CreatedOn], [EpisodeLinkID], [EpisodeNumber], [LinkTransNumber], [UpdatedOn]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeLinkEpisodeLinkTypeIDEpisodeLinkTypeEpisodeLinkTypeIDIncludeAll] ON [dbo].[EpisodeLink] ([EpisodeLinkTypeID]) INCLUDE ([CreatedOnUTC], [EpisodeLinkID], [EpisodeNumber], [LinkTransNumber], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[EpisodeLink] ADD CONSTRAINT [fkEpisodeLinkEpisodeLinkTypeIDEpisodeLinkTypeEpisodeLinkTypeID] FOREIGN KEY ([EpisodeLinkTypeID]) REFERENCES [dbo].[EpisodeLinkType] ([EpisodeLinkTypeID])
 GO

@@ -17,8 +17,8 @@ CREATE TABLE [dbo].[Pharmacy]
 [ContactEmailAddress] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FederalTIN] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DispType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPharmacyUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPharmacyCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPharmacyUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

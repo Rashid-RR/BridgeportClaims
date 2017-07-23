@@ -5,8 +5,8 @@ CREATE TABLE [dbo].[Diary]
 [DiaryTypeID] [int] NOT NULL,
 [EnteredByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ClaimID] [int] NOT NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfDiaryCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfDiaryUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDiaryCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDiaryUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 WITH

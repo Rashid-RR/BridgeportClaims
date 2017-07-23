@@ -4,8 +4,8 @@ CREATE TABLE [dbo].[DiaryType]
 [TypeName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [Code] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [Description] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfDiaryTypeCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfDiaryTypeUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDiaryTypeCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDiaryTypeUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

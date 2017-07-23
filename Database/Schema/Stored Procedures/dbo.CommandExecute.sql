@@ -126,7 +126,7 @@ BEGIN
 
   IF @LogToTable = 'Y'
   BEGIN
-    INSERT INTO dbo.CommandLog (DatabaseName, SchemaName, ObjectName, ObjectType, IndexName, IndexType, StatisticsName, PartitionNumber, ExtendedInfo, CommandType, Command, StartTime)
+    INSERT INTO [util].[CommandLog] (DatabaseName, SchemaName, ObjectName, ObjectType, IndexName, IndexType, StatisticsName, PartitionNumber, ExtendedInfo, CommandType, Command, StartTime)
     VALUES (@DatabaseName, @SchemaName, @ObjectName, @ObjectType, @IndexName, @IndexType, @StatisticsName, @PartitionNumber, @ExtendedInfo, @CommandType, @Command, @StartTime)
   END
 
@@ -172,7 +172,7 @@ BEGIN
 
   IF @LogToTable = 'Y'
   BEGIN
-    UPDATE dbo.CommandLog
+    UPDATE [util].[CommandLog]
     SET EndTime = @EndTime,
         ErrorNumber = CASE WHEN @Execute = 'N' THEN NULL ELSE @Error END,
         ErrorMessage = @ErrorMessageOriginal

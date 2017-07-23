@@ -2,8 +2,8 @@ CREATE TABLE [dbo].[PrescriptionNoteMapping]
 (
 [PrescriptionID] [int] NOT NULL,
 [PrescriptionNoteID] [int] NOT NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteMappingCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteMappingUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteMappingCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionNoteMappingUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
@@ -13,7 +13,7 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[PrescriptionNoteMapping] ADD CONSTRAINT [pkPrescriptionNoteMapping] PRIMARY KEY CLUSTERED  ([PrescriptionID], [PrescriptionNoteID]) WITH (FILLFACTOR=95, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxPrescriptionNoteMappingIncludeAll] ON [dbo].[PrescriptionNoteMapping] ([PrescriptionID], [PrescriptionNoteID]) INCLUDE ([CreatedOn], [UpdatedOn]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxPrescriptionNoteMappingIncludeAll] ON [dbo].[PrescriptionNoteMapping] ([PrescriptionID], [PrescriptionNoteID]) INCLUDE ([CreatedOnUTC], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[PrescriptionNoteMapping] ADD CONSTRAINT [fkPrescriptionNoteMappingPrescriptionIDPrescriptionPrescriptionID] FOREIGN KEY ([PrescriptionID]) REFERENCES [dbo].[Prescription] ([PrescriptionID])
 GO

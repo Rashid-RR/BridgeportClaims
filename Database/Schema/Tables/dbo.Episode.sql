@@ -13,8 +13,8 @@ CREATE TABLE [dbo].[Episode]
 [CreatedDate] [datetime2] NULL,
 [Description] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ResolvedDate] [datetime2] NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeCreatedOnUTC] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfEpisodeUpdatedOnUTC] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeCreatedOnUTC] DEFAULT (sysdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeUpdatedOnUTC] DEFAULT (sysdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
