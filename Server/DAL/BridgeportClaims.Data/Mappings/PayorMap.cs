@@ -14,6 +14,7 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.PayorId).GeneratedBy.Identity().Column("PayorID");
             References(x => x.UsState).Column("BillToStateID");
+            Map(x => x.GroupName).Column("GroupName").Not.Nullable().Length(255);
             Map(x => x.BillToName).Column("BillToName").Not.Nullable().Length(255);
             Map(x => x.BillToAddress1).Column("BillToAddress1").Length(255);
             Map(x => x.BillToAddress2).Column("BillToAddress2").Length(255);
@@ -24,8 +25,8 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.FaxNumber).Column("FaxNumber").Length(30);
             Map(x => x.Notes).Column("Notes").Length(8000);
             Map(x => x.Contact).Column("Contact").Length(255);
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.Adjustor).KeyColumn("PayorID");
             HasMany(x => x.Claim).KeyColumn("PayorID");
             HasMany(x => x.Invoice).KeyColumn("PayorID");

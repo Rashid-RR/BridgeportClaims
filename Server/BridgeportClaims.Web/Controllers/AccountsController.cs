@@ -10,11 +10,11 @@ using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
-using BridgeportClaims.Common.Config;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using c = BridgeportClaims.Common.StringConstants.Constants;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -93,11 +93,11 @@ namespace BridgeportClaims.Web.Controllers
                     break;
             }
             var baseUrl = BaseUri;
-            var serverLocalHostName = ConfigService.GetAppSetting(c.ServerLocalHostNameKey);
-            var secureServerLocalHostName = ConfigService.GetAppSetting(c.SecureServerLocalHostNameKey);
-            var clientLocalHostName = ConfigService.GetAppSetting(c.ClientLocalHostNameKey);
+            var serverLocalHostName = cs.GetAppSetting(c.ServerLocalHostNameKey);
+            var secureServerLocalHostName = cs.GetAppSetting(c.SecureServerLocalHostNameKey);
+            var clientLocalHostName = cs.GetAppSetting(c.ClientLocalHostNameKey);
             if (!BaseUri.Contains(serverLocalHostName) && !BaseUri.Contains(secureServerLocalHostName))
-                return new Uri($"{baseUrl}/#/{route}/?userId={userId}&code={code}");
+                return ConstructUri(baseUrl, route, userId, code);
             if (IsSecure)
             {
                 var containsHttps = baseUrl?.ToLower().Contains("https");
@@ -110,8 +110,11 @@ namespace BridgeportClaims.Web.Controllers
             {
                 baseUrl = BaseUri.Replace(serverLocalHostName, clientLocalHostName);
             }
-            return new Uri($"{baseUrl}/#/{route}/?userId={userId}&code={code}");
+            return ConstructUri(baseUrl, route, userId, code);
         }
+
+        private static Uri ConstructUri(string baseUrl, string route, string userId, string code)
+            => new Uri($"{baseUrl}/#/{route}/?userId={userId}&code={code}");
 
         [HttpPost]
         [AllowAnonymous]
@@ -127,7 +130,7 @@ namespace BridgeportClaims.Web.Controllers
                 var user = await UserManager.FindByIdAsync(model.UserId);
                 if (null == user)
                 {
-                    // Don't reveal that the user does not exist
+                    // Don't reveal that the user does not exist (security hole)
                     return Ok();
                 }
                 var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);

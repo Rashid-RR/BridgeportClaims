@@ -15,7 +15,6 @@ namespace BridgeportClaims.Data.Mappings
             Id(x => x.PrescriptionId).GeneratedBy.Identity().Column("PrescriptionID");
             References(x => x.Claim).Column("ClaimID");
             References(x => x.Invoice).Column("InvoiceID");
-            Map(x => x.ClaimId).Column("ClaimID").Not.Nullable();
             Map(x => x.RxNumber).Column("RxNumber").Not.Nullable().Length(100);
             Map(x => x.DateSubmitted).Column("DateSubmitted").Not.Nullable();
             Map(x => x.DateFilled).Column("DateFilled").Not.Nullable();
@@ -33,7 +32,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.BilledAmount).Column("BilledAmount").Not.Nullable().Precision(19).Scale(4);
             Map(x => x.TransactionType).Column("TransactionType").Not.Nullable().Length(1);
             Map(x => x.Compound).Column("Compound").Not.Nullable().Length(1);
-            Map(x => x.PrescriptionTran).Column("PrescriptionTran").Not.Nullable().Length(14);
+            Map(x => x.TranID).Column("TranID").Not.Nullable().Length(14);
             Map(x => x.RefillDate).Column("RefillDate");
             Map(x => x.RefillNumber).Column("RefillNumber").Precision(5);
             Map(x => x.MONY).Column("MONY").Length(1);
@@ -51,8 +50,8 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Strength).Column("Strength").Length(255);
             Map(x => x.GPIGenName).Column("GPIGenName").Length(255);
             Map(x => x.TheraClass).Column("TheraClass").Length(255);
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.PrescriptionNoteMapping).KeyColumn("PrescriptionID");
         }
     }

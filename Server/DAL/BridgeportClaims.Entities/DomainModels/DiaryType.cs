@@ -6,22 +6,26 @@ using System.Diagnostics.CodeAnalysis;
 namespace BridgeportClaims.Entities.DomainModels
 {
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-    public class ClaimImageType
+    public class DiaryType
     {
-        
-        public ClaimImageType() { ClaimImage = new List<ClaimImage>(); }
+        public DiaryType()
+        {
+            Diary = new List<Diary>();
+        }
         [Required]
-        public virtual int ClaimImageTypeId { get; set; }
+        public virtual int DiaryTypeId { get; set; }
         [Required]
         [StringLength(255)]
         public virtual string TypeName { get; set; }
         [Required]
         [StringLength(10)]
         public virtual string Code { get; set; }
+        [StringLength(1000)]
+        public virtual string Description { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-        public virtual IList<ClaimImage> ClaimImage { get; set; }
+        public virtual IList<Diary> Diary { get; set; }
     }
 }

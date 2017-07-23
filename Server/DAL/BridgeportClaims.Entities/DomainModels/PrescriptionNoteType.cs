@@ -8,11 +8,7 @@ namespace BridgeportClaims.Entities.DomainModels
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class PrescriptionNoteType
     {
-        public PrescriptionNoteType()
-        {
-            PrescriptionNote = new List<PrescriptionNote>();
-        }
-        [Required]
+        public PrescriptionNoteType() { PrescriptionNote = new List<PrescriptionNote>(); }
         public virtual int PrescriptionNoteTypeId { get; set; }
         [Required]
         [StringLength(255)]
@@ -21,9 +17,9 @@ namespace BridgeportClaims.Entities.DomainModels
         [StringLength(10)]
         public virtual string Code { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
         public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
     }
 }

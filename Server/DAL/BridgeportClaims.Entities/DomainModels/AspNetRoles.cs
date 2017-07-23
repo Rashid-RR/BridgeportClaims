@@ -7,10 +7,7 @@ namespace BridgeportClaims.Entities.DomainModels
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class AspNetRoles
     {
-        public AspNetRoles()
-        {
-            AspNetUserRoles = new List<AspNetUserRoles>();
-        }
+        public AspNetRoles() { AspNetUserRoles = new List<AspNetUserRoles>(); }
         [Required]
         public virtual string Id { get; set; }
         [Required]

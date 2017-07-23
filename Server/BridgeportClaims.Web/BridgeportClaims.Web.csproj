@@ -248,6 +248,7 @@
     <Compile Include="Controllers\ClaimsController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />

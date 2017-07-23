@@ -3,19 +3,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-    public class Payment
+    public class Diary
     {
         [Required]
-        public virtual int PaymentId { get; set; }
+        public virtual int DiaryId { get; set; }
+        public virtual DiaryType DiaryType { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual Claim Claim { get; set; }
-        public virtual Invoice Invoice { get; set; }
         [Required]
-        [StringLength(100)]
-        public virtual string CheckNumber { get; set; }
-        [Required]
-        public virtual DateTime CheckDate { get; set; }
-        [Required]
-        public virtual decimal AmountPaid { get; set; }
+        public virtual string NoteText { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]

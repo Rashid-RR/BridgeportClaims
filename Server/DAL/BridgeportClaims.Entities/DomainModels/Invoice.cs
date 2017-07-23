@@ -29,9 +29,9 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         public virtual decimal Amount { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
         public virtual IList<Payment> Payment { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
     }

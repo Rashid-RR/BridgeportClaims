@@ -12,10 +12,10 @@ namespace BridgeportClaims.Data.Mappings.Views
             DynamicUpdate();
             SchemaAction.None();
             LazyLoad();
-            CompositeId().KeyProperty(x => x.PrescriptionId, "PrescriptionID")
-                .KeyProperty(x => x.PrescriptionNoteId, "PrescriptionNoteID");
-            References(x => x.Prescription).Column("PrescriptionID");
-            References(x => x.PrescriptionNote).Column("PrescriptionNoteID");
+            CompositeId().KeyProperty(x => x.PrescriptionId, "PrescriptionId")
+                .KeyProperty(x => x.PrescriptionNoteId, "PrescriptionNoteId");
+            References(x => x.Prescription).Column("PrescriptionId");
+            References(x => x.PrescriptionNote).Column("PrescriptionNoteId");
             Map(x => x.ClaimId).Column("ClaimID").Not.Nullable();
             Map(x => x.RxNumber).Column("RxNumber").Not.Nullable().Length(100);
             Map(x => x.DateFilled).Column("DateFilled").Not.Nullable();

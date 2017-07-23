@@ -7,16 +7,14 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Common.FileUploading;
 using BridgeportClaims.Data.DataProviders.ImportFile;
 using BridgeportClaims.Web.Infrastructure;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    //[Authorize(Roles = "Admin")]
-    [AllowAnonymous]
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/fileupload")]
-    public class FileUploadController : ApiController
+    public class FileUploadController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 

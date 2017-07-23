@@ -3,21 +3,22 @@ using FluentNHibernate.Mapping;
 
 namespace BridgeportClaims.Data.Mappings
 {
-    public class PrescriptionNoteTypeMap : ClassMap<PrescriptionNoteType>
+    public class DiaryTypeMap : ClassMap<DiaryType>
     {
-        public PrescriptionNoteTypeMap()
+        public DiaryTypeMap()
         {
-            Table("PrescriptionNoteType");
+            Table("DiaryType");
             Schema("dbo");
-            DynamicUpdate();
             SchemaAction.None();
+            DynamicUpdate();
             LazyLoad();
-            Id(x => x.PrescriptionNoteTypeId).GeneratedBy.Identity().Column("PrescriptionNoteTypeID");
+            Id(x => x.DiaryTypeId).GeneratedBy.Identity().Column("DiaryTypeID");
             Map(x => x.TypeName).Column("TypeName").Not.Nullable().Length(255);
             Map(x => x.Code).Column("Code").Not.Nullable().Length(10);
+            Map(x => x.Description).Column("Description").Length(1000);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
-            HasMany(x => x.PrescriptionNote).KeyColumn("PrescriptionNoteTypeID");
+            HasMany(x => x.Diary).KeyColumn("DiaryTypeID");
         }
     }
 }

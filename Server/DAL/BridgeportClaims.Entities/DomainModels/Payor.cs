@@ -19,6 +19,9 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual UsState UsState { get; set; }
         [Required]
         [StringLength(255)]
+        public virtual string GroupName { get; set; }
+        [Required]
+        [StringLength(255)]
         public virtual string BillToName { get; set; }
         [StringLength(255)]
         public virtual string BillToAddress1 { get; set; }
@@ -39,9 +42,9 @@ namespace BridgeportClaims.Entities.DomainModels
         [StringLength(255)]
         public virtual string Contact { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
         public virtual IList<Adjustor> Adjustor { get; set; }
         public virtual IList<Claim> Claim { get; set; }
         public virtual IList<Invoice> Invoice { get; set; }

@@ -30,16 +30,16 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 							{
 								var notes = session.CreateSQLQuery(
 										@"SELECT  [p].[ClaimID] ClaimId
-												, [p].[PrescriptionNoteID] PrescriptionNoteId
+												, [p].[PrescriptionNoteId] PrescriptionNoteId
 												, [p].[NoteUpdatedOn] [Date]
 												, [p].[PrescriptionNoteType] [Type]
 												, [p].[NoteAuthor] EnteredBy
 												, [p].[NoteText] [Note]
 												, [p].[NoteUpdatedOn] NoteUpdatedOn
 										FROM     [dbo].[vwPrescriptionNote] AS [p] WITH ( NOEXPAND )
-										WHERE    [p].[PrescriptionID] = :PrescriptionNoteID
+										WHERE    [p].[PrescriptionId] = :PrescriptionNoteId
 										ORDER BY [p].[NoteUpdatedOn] ASC")
-									.SetInt32("PrescriptionNoteID", prescriptionId)
+									.SetInt32("PrescriptionNoteId", prescriptionId)
 									.SetMaxResults(1000)
 									.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
 									.List<PrescriptionNotesDto>();
@@ -86,7 +86,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 							if (null != dto.PrescriptionNoteId && dto.PrescriptionNoteId.Value > 0)
 							{
 								var prescriptionNoteIdSqlParameter =
-									new SqlParameter("@PrescriptionNoteID", SqlDbType.Int)
+									new SqlParameter("@PrescriptionNoteId", SqlDbType.Int)
 										{Value = dto.PrescriptionNoteId.Value};
 								cmd.Parameters.Add(prescriptionNoteIdSqlParameter);
 							}
@@ -112,7 +112,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 		private static DataTable CreateDataTable(IEnumerable<int> prescriptionIds)
 		{
 			var table = new DataTable();
-			table.Columns.Add("PrescriptionID", typeof(int));
+			table.Columns.Add("PrescriptionId", typeof(int));
 			foreach (var prescriptionId in prescriptionIds)
 				table.Rows.Add(prescriptionId);
 			return table;

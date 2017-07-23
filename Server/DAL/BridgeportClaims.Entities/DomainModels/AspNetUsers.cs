@@ -14,9 +14,11 @@ namespace BridgeportClaims.Entities.DomainModels
             AspNetUserClaims = new List<AspNetUserClaims>();
             AspNetUserLogins = new List<AspNetUserLogins>();
             AspNetUserRoles = new List<AspNetUserRoles>();
+            ClaimNote = new List<ClaimNote>();
+            Diary = new List<Diary>();
+            PrescriptionNote = new List<PrescriptionNote>();
         }
         [Required]
-        [StringLength(128)]
         public virtual string Id { get; set; }
         [Required]
         [StringLength(100)]
@@ -52,6 +54,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual IList<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual IList<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual IList<ClaimNote> ClaimNote { get; set; }
+        public virtual IList<Diary> Diary { get; set; }
         public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
     }
 }

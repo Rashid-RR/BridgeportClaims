@@ -3,13 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-    public class ClaimImage
+    public class ClaimsUserHistory
     {
         [Required]
-        public virtual int ClaimImageId { get; set; }
+        public virtual int ClaimsUserHistoryId { get; set; }
         public virtual Claim Claim { get; set; }
-        public virtual ClaimImageType ClaimImageType { get; set; }
-        public virtual DateTime? DateRecorded { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]

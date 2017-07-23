@@ -12,8 +12,8 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string LinkTransNumber { get; set; }
         public virtual int? EpisodeNumber { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
     }
 }

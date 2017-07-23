@@ -28,7 +28,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string PhoneNumber { get; set; }
         [StringLength(30)]
         public virtual string AlternatePhoneNumber { get; set; }
-        [StringLength(10)]
+        [StringLength(30)]
         public virtual string FaxNumber { get; set; }
         [StringLength(55)]
         public virtual string Contact { get; set; }
@@ -41,8 +41,8 @@ namespace BridgeportClaims.Entities.DomainModels
         [StringLength(1)]
         public virtual string DispType { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
     }
 }

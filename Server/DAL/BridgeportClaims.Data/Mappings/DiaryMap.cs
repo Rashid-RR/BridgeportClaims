@@ -3,19 +3,19 @@ using FluentNHibernate.Mapping;
 
 namespace BridgeportClaims.Data.Mappings
 {
-    public class ClaimNoteMap : ClassMap<ClaimNote>
+    public class DiaryMap : ClassMap<Diary>
     {
-        public ClaimNoteMap()
+        public DiaryMap()
         {
-            Table("ClaimNote");
+            Table("Diary");
             Schema("dbo");
             DynamicUpdate();
             SchemaAction.None();
             LazyLoad();
-            Id(x => x.ClaimId).GeneratedBy.Identity().Column("ClaimID");
-            References(x => x.Claim).Column("ClaimID");
-            References(x => x.ClaimNoteType).Column("ClaimNoteTypeID");
+            Id(x => x.DiaryId).GeneratedBy.Identity().Column("DiaryID");
+            References(x => x.DiaryType).Column("DiaryTypeID");
             References(x => x.AspNetUsers).Column("EnteredByUserID");
+            References(x => x.Claim).Column("ClaimID");
             Map(x => x.NoteText).Column("NoteText").Not.Nullable();
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();

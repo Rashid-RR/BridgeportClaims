@@ -16,8 +16,8 @@ namespace BridgeportClaims.Data.Mappings
                 .KeyProperty(x => x.PrescriptionNoteId, "PrescriptionNoteID");
             References(x => x.Prescription).Column("PrescriptionID");
             References(x => x.PrescriptionNote).Column("PrescriptionNoteID");
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
     }
 }

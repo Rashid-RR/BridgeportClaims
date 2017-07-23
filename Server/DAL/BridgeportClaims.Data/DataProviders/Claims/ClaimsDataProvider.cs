@@ -158,7 +158,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							claimDto.Payments = payments;
 							// Claim Prescriptions
 							var prescriptions = session.CreateSQLQuery(
-									@"SELECT PrescriptionId = [p].[PrescriptionID]
+									@"SELECT PrescriptionId = [p].[PrescriptionId]
 										 , RxDate = [p].[DateFilled]
 									, AmountPaid = [p].[PayableAmount]
 								, RxNumber = [p].[RxNumber]
@@ -170,7 +170,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								, Outstanding = [i].[Amount]
 								, NoteCount =  (   SELECT COUNT(*)
 												   FROM   [dbo].[PrescriptionNoteMapping] AS [pnm]
-												   WHERE  [pnm].[PrescriptionID] = [p].[PrescriptionID]
+												   WHERE  [pnm].[PrescriptionId] = [p].[PrescriptionId]
 											   )
 							FROM [dbo].[Prescription] AS [p]
 							LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
@@ -183,7 +183,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
 									@"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
-													, [PrescriptionNoteId] = [a].[PrescriptionNoteID]
+													, [PrescriptionNoteId] = [a].[PrescriptionNoteId]
 													, [Date] = [a].[DateFilled]
 													, [Type] = [a].[PrescriptionNoteType]
 													, [EnteredBy] = [a].[NoteAuthor]

@@ -15,10 +15,9 @@ namespace BridgeportClaims.Data.Mappings
             Id(x => x.PrescriptionNoteId).GeneratedBy.Identity().Column("PrescriptionNoteID");
             References(x => x.PrescriptionNoteType).Column("PrescriptionNoteTypeID");
             References(x => x.AspNetUsers).Column("EnteredByUserID");
-            Map(x => x.PrescriptionNoteTypeId).Column("PrescriptionNoteTypeID").Not.Nullable();
             Map(x => x.NoteText).Column("NoteText").Not.Nullable().Length(8000);
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.PrescriptionNoteMapping).KeyColumn("PrescriptionNoteID");
         }
     }
