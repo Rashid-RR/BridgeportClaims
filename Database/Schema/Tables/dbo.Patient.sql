@@ -15,8 +15,7 @@ CREATE TABLE [dbo].[Patient]
 [GenderID] [int] NOT NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfPatientCreatedOnUTC] DEFAULT (sysdatetime()),
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfPatientUpdatedOnUTC] DEFAULT (sysdatetime()),
-[DataVersion] [timestamp] NOT NULL,
-[StageID] [int] NULL
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (

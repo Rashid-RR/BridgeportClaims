@@ -18,9 +18,9 @@ ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [pkDiary] PRIMARY KEY CLUSTERED  ([Diar
 GO
 CREATE NONCLUSTERED INDEX [idxDiaryEnteredByUserIDClaimIDDiaryTypeIDIncludeAll] ON [dbo].[Diary] ([EnteredByUserID], [ClaimID], [DiaryTypeID]) INCLUDE ([DiaryID], [NoteText]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [FK__Diary__EnteredBy__1466F737] FOREIGN KEY ([EnteredByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
+ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [fkDiaryClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
-ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [FK__Diary__ClaimID__155B1B70] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
+ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [fkDiaryDiaryTypeIDDiaryTypeDiaryTypeID] FOREIGN KEY ([DiaryTypeID]) REFERENCES [dbo].[DiaryType] ([DiaryTypeID])
 GO
-ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [FK__Diary__DiaryType__1372D2FE] FOREIGN KEY ([DiaryTypeID]) REFERENCES [dbo].[DiaryType] ([DiaryTypeID])
+ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [fkDiaryEnteredByUserIDAspNetUsersID] FOREIGN KEY ([EnteredByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

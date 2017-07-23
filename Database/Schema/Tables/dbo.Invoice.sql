@@ -9,8 +9,7 @@ CREATE TABLE [dbo].[Invoice]
 [ClaimID] [int] NOT NULL,
 [CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfInvoiceCreatedOnUTC] DEFAULT (sysdatetime()),
 [UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfInvoiceUpdatedOnUTC] DEFAULT (sysdatetime()),
-[DataVersion] [timestamp] NOT NULL,
-[StageID] [int] NULL
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (
