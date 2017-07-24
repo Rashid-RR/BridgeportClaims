@@ -16,6 +16,9 @@ AS BEGIN
 	SET DEADLOCK_PRIORITY HIGH;
 	BEGIN TRY;
 		BEGIN TRANSACTION;
+		/****************************************************************************
+		First, we're going to add all of the columns from the import tables to the staging table.
+		****************************************************************************/
 		DECLARE @Obj INTEGER = OBJECT_ID(N'etl.StagedLakerFile', N'U')
 		IF NOT EXISTS
 		(
@@ -25,6 +28,14 @@ AS BEGIN
 				  AND [t].[object_id] = @Obj
 		)
 			ALTER TABLE [etl].[StagedLakerFile] ADD [PayorID] INTEGER NULL
+		IF NOT EXISTS
+		(
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'PaymentID'
+				  AND [t].[object_id] = @Obj
+		)
+			ALTER TABLE [etl].[StagedLakerFile] ADD [PaymentID] INTEGER NULL
 		IF NOT EXISTS
 	    (
 			SELECT * FROM [sys].[columns] AS [c]
@@ -73,59 +84,81 @@ AS BEGIN
 				  AND [t].[object_id] = @Obj
 		)
 			ALTER TABLE [etl].[StagedLakerFile] ADD [PharmacyID] INTEGER NULL
-		IF NOT EXISTS
-		(
-			SELECT * FROM [sys].[columns] AS [c]
-			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'StageID'
-				  AND [t].[object_id] = @Obj
-		)
-			ALTER TABLE [etl].[StagedLakerFile] ADD [StageID] INTEGER IDENTITY
+		/****************************************************************************
+		Now, we're going to move on to the import tables themselves, and permanently add Columns for the Import
+		****************************************************************************/
 		-- Payor
 		IF NOT EXISTS
         (
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'StageID'
+			WHERE [c].[name] = 'ETLRowID'
 				  AND [t].[object_id] = OBJECT_ID(N'dbo.Payor', N'U')
 		)
-			ALTER TABLE dbo.[Payor] ADD StageID INTEGER NULL
+			ALTER TABLE dbo.[Payor] ADD ETLRowID VARCHAR(50) NULL
+		-- Adjustor
+		IF NOT EXISTS
+        (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'ETLRowID'
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.Adjustor', N'U')
+		)
+			ALTER TABLE dbo.[Adjustor] ADD ETLRowID VARCHAR(50) NULL
 		-- Patient
 		IF NOT EXISTS
         (
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'StageID'
+			WHERE [c].[name] = 'ETLRowID'
 				  AND [t].[object_id] = OBJECT_ID(N'dbo.Patient', N'U')
 		)
-			ALTER TABLE dbo.[Patient] ADD StageID INTEGER NULL
+			ALTER TABLE dbo.[Patient] ADD ETLRowID VARCHAR(50) NULL
 		-- Claim
 		IF NOT EXISTS
         (
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'StageID'
+			WHERE [c].[name] = 'ETLRowID'
 				  AND [t].[object_id] = OBJECT_ID(N'dbo.Claim', N'U')
 		)
-			ALTER TABLE dbo.[Claim] ADD StageID INTEGER NULL
+			ALTER TABLE dbo.[Claim] ADD ETLRowID VARCHAR(50) NULL
 		-- Invoice
 		IF NOT EXISTS
         (
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'StageID'
+			WHERE [c].[name] = 'ETLRowID'
 				  AND [t].[object_id] = OBJECT_ID(N'dbo.Invoice', N'U')
 		)
-			ALTER TABLE dbo.[Invoice] ADD StageID INTEGER NULL
+			ALTER TABLE dbo.[Invoice] ADD ETLRowID VARCHAR(50) NULL
 		-- Pharmacy
 		IF NOT EXISTS
         (
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'StageID'
+			WHERE [c].[name] = 'ETLRowID'
 				  AND [t].[object_id] = OBJECT_ID(N'dbo.Pharmacy', N'U')
 		)
-			ALTER TABLE dbo.[Pharmacy] ADD StageID INTEGER NULL
+			ALTER TABLE dbo.[Pharmacy] ADD ETLRowID VARCHAR(50) NULL
+		-- Prescription
+		IF NOT EXISTS
+        (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'ETLRowID'
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.Prescription', N'U')
+		)
+			ALTER TABLE dbo.[Prescription] ADD ETLRowID VARCHAR(50) NULL
+		-- Payment
+		IF NOT EXISTS
+        (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'ETLRowID'
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.Payment', N'U')
+		)
+			ALTER TABLE dbo.[Payment] ADD ETLRowID VARCHAR(50) NULL
 		IF (@@TRANCOUNT > 0)
 			COMMIT TRANSACTION;
 	END TRY
@@ -135,5 +168,4 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
-
 GO

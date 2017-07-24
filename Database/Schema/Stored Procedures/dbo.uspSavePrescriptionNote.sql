@@ -52,13 +52,13 @@ BEGIN
 				@EnteredByUserID EnteredByUserID) AS src 
 	       ON [tgt].[PrescriptionNoteID] = [src].[PrescriptionNoteID]
 	WHEN NOT MATCHED BY TARGET THEN
-		INSERT ([PrescriptionNoteTypeID],[NoteText],[EnteredByUserID],[CreatedOn],[UpdatedOn])
-		VALUES (src.[PrescriptionNoteTypeID],src.[NoteText],src.[EnteredByUserID],@Now,@Now)
+		INSERT ([PrescriptionNoteTypeID],[NoteText],[EnteredByUserID])
+		VALUES (src.[PrescriptionNoteTypeID],src.[NoteText],src.[EnteredByUserID])
 	WHEN MATCHED THEN
 		UPDATE SET [tgt].[PrescriptionNoteTypeID] = [src].[PrescriptionNoteTypeID],
 					[tgt].[NoteText] = [src].[NoteText],
 					[tgt].[EnteredByUserID] = [src].[EnteredByUserID],
-					[tgt].[UpdatedOn] = @Now
+					[tgt].[UpdatedOnUTC] = @Now
 	OUTPUT $action, Inserted.[PrescriptionNoteID] INTO @PrescriptionNoteMergeChangeResult ([ChangeType], [PrescriptionNoteID]);
 
 	IF NOT EXISTS (SELECT * FROM @PrescriptionNoteMergeChangeResult AS [pnmcr])
@@ -80,7 +80,7 @@ BEGIN
 		INSERT ([PrescriptionID], [PrescriptionNoteID])
 		VALUES ([src].[PrescriptionID], [src].[PrescriptionNoteID])
 	WHEN MATCHED THEN
-		UPDATE SET [tgt].[UpdatedOn] = @Now
+		UPDATE SET [tgt].[UpdatedOnUTC] = @Now
 	WHEN NOT MATCHED BY SOURCE AND [tgt].[PrescriptionNoteID] = @OutputPrescriptionNoteID
 	 THEN DELETE;
 END

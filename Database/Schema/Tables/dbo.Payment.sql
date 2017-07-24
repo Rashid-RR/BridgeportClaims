@@ -8,7 +8,8 @@ CREATE TABLE [dbo].[Payment]
 [InvoiceID] [int] NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPaymentCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPaymentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
-[DataVersion] [timestamp] NOT NULL
+[DataVersion] [timestamp] NOT NULL,
+[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 WITH
 (
