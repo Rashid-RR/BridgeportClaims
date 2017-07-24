@@ -118,7 +118,7 @@ export class ClaimsComponent implements OnInit {
                 },error=>{
                   setTimeout(()=>{
                     this.addPrescriptionNote(result[1],result[0]);
-                    this.toast.warning('Server error!');
+                    this.toast.error('An internal system error has occurred. This will be investigated ASAP.');
                   },200)
                 })
           } 
@@ -179,7 +179,7 @@ export class ClaimsComponent implements OnInit {
                 },error=>{
                   setTimeout(()=>{
                     this.episode(id);
-                    this.toast.warning('Server error!');
+                    this.toast.error('An internal system error has occurred. This will be investigated ASAP.');
                   },200)
                 })
           } 
@@ -224,7 +224,7 @@ export class ClaimsComponent implements OnInit {
       }
     }).then( (result)=> {
       if(result[0]==""){
-          this.toast.warning('Please select one type!');
+          this.toast.warning('Please select a Note Type in order to Save your Note!');
           setTimeout(()=>{
               this.addNote(result[1],result[0]);
               window['jQuery']('#claimNoteTypeLabel').css({"color":"red"})
