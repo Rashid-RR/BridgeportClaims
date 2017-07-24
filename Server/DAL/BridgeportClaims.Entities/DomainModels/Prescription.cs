@@ -9,17 +9,10 @@ namespace BridgeportClaims.Entities.DomainModels
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Prescription
     {
-        public Prescription()
-        {
-            PrescriptionNoteMapping = new List<PrescriptionNoteMapping>();
-        }
+        public Prescription() { PrescriptionNoteMapping = new List<PrescriptionNoteMapping>(); }
         [Required]
         public virtual int PrescriptionId { get; set; }
-        [Required]
-        public virtual int ClaimId { get; set; }
-        [Required]
         public virtual Claim Claim { get; set; }
-        [Required]
         public virtual Invoice Invoice { get; set; }
         [Required]
         [StringLength(100)]
@@ -61,7 +54,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string Compound { get; set; }
         [Required]
         [StringLength(14)]
-        public virtual string PrescriptionTran { get; set; }
+        public virtual string TranID { get; set; }
         public virtual DateTime? RefillDate { get; set; }
         public virtual short? RefillNumber { get; set; }
         [StringLength(1)]
@@ -87,9 +80,9 @@ namespace BridgeportClaims.Entities.DomainModels
         [StringLength(255)]
         public virtual string TheraClass { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
         public virtual IList<PrescriptionNoteMapping> PrescriptionNoteMapping { get; set; }
     }
 }

@@ -212,7 +212,6 @@
     <Content Include="FileUploads\SeedFile.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Index.html" />
     <Content Include="EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -223,6 +222,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
+    <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
@@ -248,6 +248,7 @@
     <Compile Include="Controllers\ClaimsController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />

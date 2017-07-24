@@ -8,10 +8,7 @@ namespace BridgeportClaims.Entities.DomainModels
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Patient
     {
-        public Patient()
-        {
-            Claim = new List<Claim>();
-        }
+        public Patient() { Claim = new List<Claim>(); }
         [Required]
         public virtual int PatientId { get; set; }
         public virtual UsState UsState { get; set; }
@@ -38,9 +35,9 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string EmailAddress { get; set; }
         public virtual DateTime? DateOfBirth { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
         public virtual IList<Claim> Claim { get; set; }
     }
 }

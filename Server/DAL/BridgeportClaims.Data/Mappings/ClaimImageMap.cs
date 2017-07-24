@@ -14,10 +14,10 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.ClaimImageId).GeneratedBy.Identity().Column("ClaimImageID");
             References(x => x.Claim).Column("ClaimID");
-            Map(x => x.ImageType).Column("ImageType").Length(255);
-            Map(x => x.Daterec).Column("Daterec");
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            References(x => x.ClaimImageType).Column("ClaimImageTypeID");
+            Map(x => x.DateRecorded).Column("DateRecorded");
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
     }
 }

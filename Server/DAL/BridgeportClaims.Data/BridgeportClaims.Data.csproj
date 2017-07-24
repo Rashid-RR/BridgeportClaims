@@ -45,6 +45,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,6 +56,8 @@
   <ItemGroup>
     <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
+    <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
     <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
     <Compile Include="DataProviders\ImportFile\ImportFileProvider.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="Dtos\ClaimDto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
     <Compile Include="Dtos\ClaimNoteTypesDto.cs" />
+    <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
@@ -94,6 +98,9 @@
     <Compile Include="Mappings\ClaimMap.cs" />
     <Compile Include="Mappings\ClaimNoteMap.cs" />
     <Compile Include="Mappings\ClaimNoteTypeMap.cs" />
+    <Compile Include="Mappings\ClaimsUserHistoryMap.cs" />
+    <Compile Include="Mappings\DiaryMap.cs" />
+    <Compile Include="Mappings\DiaryTypeMap.cs" />
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />
@@ -109,12 +116,13 @@
     <Compile Include="Mappings\PrescriptionNoteTypeMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
     <Compile Include="Mappings\Views\VwPrescriptionNoteMap.cs" />
+    <Compile Include="Mappings\VwClaimInfoMap.cs" />
     <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoredProcedureExecutors\BaseRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
-    <Compile Include="SessionFactory\SessionFactoryBuilder.cs" />
+    <Compile Include="SessionFactory\FluentSessionProvider.cs" />
     <Compile Include="StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
     <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>

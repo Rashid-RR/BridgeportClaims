@@ -7,14 +7,12 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int ClaimImageId { get; set; }
-        [Required]
         public virtual Claim Claim { get; set; }
-        [StringLength(255)]
-        public virtual string ImageType { get; set; }
-        public virtual DateTime? Daterec { get; set; }
+        public virtual ClaimImageType ClaimImageType { get; set; }
+        public virtual DateTime? DateRecorded { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
     }
 }

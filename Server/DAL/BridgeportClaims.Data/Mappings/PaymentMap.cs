@@ -18,8 +18,8 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.CheckNumber).Column("CheckNumber").Not.Nullable().Length(100);
             Map(x => x.CheckDate).Column("CheckDate").Not.Nullable();
             Map(x => x.AmountPaid).Column("AmountPaid").Not.Nullable().Precision(19).Scale(4);
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
     }
 }

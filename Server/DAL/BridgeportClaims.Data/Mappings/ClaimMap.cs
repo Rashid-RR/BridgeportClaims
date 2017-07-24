@@ -26,10 +26,11 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.RelationCode).Column("RelationCode").Precision(3);
             Map(x => x.TermDate).Column("TermDate");
             Map(x => x.UniqueClaimNumber).Column("UniqueClaimNumber").Not.Nullable().Length(258);
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.ClaimImage).KeyColumn("ClaimID");
             HasMany(x => x.ClaimNote).KeyColumn("ClaimID");
+            HasMany(x => x.Diary).KeyColumn("ClaimID");
             HasMany(x => x.Episode).KeyColumn("ClaimID");
             HasMany(x => x.Invoice).KeyColumn("ClaimID");
             HasMany(x => x.Payment).KeyColumn("ClaimID");

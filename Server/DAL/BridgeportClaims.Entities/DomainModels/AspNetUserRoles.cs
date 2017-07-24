@@ -14,6 +14,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual AspNetUsers AspNetUsers { get; set; }
         [Required]
         public virtual AspNetRoles AspNetRoles { get; set; }
+
         #region NHibernate Composite Key Requirements
         public override bool Equals(object obj)
         {
@@ -28,7 +29,7 @@ namespace BridgeportClaims.Entities.DomainModels
         }
         public override int GetHashCode()
         {
-            var hash = GetType().GetHashCode();
+            int hash = GetType().GetHashCode();
             hash = (hash * 397) ^ UserId.GetHashCode();
             hash = (hash * 397) ^ RoleId.GetHashCode();
 

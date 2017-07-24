@@ -12,13 +12,13 @@ namespace BridgeportClaims.Data.Mappings
             DynamicUpdate();
             SchemaAction.None();
             LazyLoad();
-            Id(x => x.ClaimNoteId).GeneratedBy.Identity().Column("ClaimNoteID");
+            Id(x => x.ClaimId).GeneratedBy.Identity().Column("ClaimID");
             References(x => x.Claim).Column("ClaimID");
             References(x => x.ClaimNoteType).Column("ClaimNoteTypeID");
             References(x => x.AspNetUsers).Column("EnteredByUserID");
-            Map(x => x.NoteText).Column("NoteText").Not.Nullable().Length(8000);
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.NoteText).Column("NoteText").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
     }
 }

@@ -16,8 +16,8 @@ namespace BridgeportClaims.Data.Mappings
             References(x => x.EpisodeLinkType).Column("EpisodeLinkTypeID");
             Map(x => x.LinkTransNumber).Column("LinkTransNumber").Length(50);
             Map(x => x.EpisodeNumber).Column("EpisodeNumber").Precision(10);
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
     }
 }

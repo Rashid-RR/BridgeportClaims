@@ -33,7 +33,7 @@ AS BEGIN
 		SELECT [p].[ClaimID], [p].[PrescriptionID], p.[RxNumber], p.[DateFilled], p.[LabelName],
 			[pn].[PrescriptionNoteID], [pnt].[TypeName] PrescriptionNoteType, [pn].[NoteText], 
 			[u].[FirstName] + '' ''+ [u].[LastName] NoteAuthor,
-			[pn].[CreatedOn] NoteCreatedOn, [pn].[UpdatedOn] NoteUpdatedOn
+			[pn].[CreatedOnUTC] NoteCreatedOn, [pn].[UpdatedOnUTC] NoteUpdatedOn
 		FROM [dbo].[Prescription] AS [p]
 			INNER JOIN [dbo].[PrescriptionNoteMapping] AS [pnm] ON [pnm].[PrescriptionID] = [p].[PrescriptionID]
 			INNER JOIN [dbo].[PrescriptionNote] AS [pn] INNER JOIN [dbo].[PrescriptionNoteType] AS [pnt] ON [pnt].[PrescriptionNoteTypeID] = [pn].[PrescriptionNoteTypeID]
@@ -68,4 +68,5 @@ AS BEGIN
 		 ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 90, DATA_COMPRESSION = PAGE)';
 	EXEC sys.sp_executesql @SQLStatement;
 END
+
 GO

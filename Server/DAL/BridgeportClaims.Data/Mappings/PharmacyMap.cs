@@ -23,14 +23,14 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.PostalCode).Column("PostalCode").Length(11);
             Map(x => x.PhoneNumber).Column("PhoneNumber").Length(30);
             Map(x => x.AlternatePhoneNumber).Column("AlternatePhoneNumber").Length(30);
-            Map(x => x.FaxNumber).Column("FaxNumber").Length(10);
+            Map(x => x.FaxNumber).Column("FaxNumber").Length(30);
             Map(x => x.Contact).Column("Contact").Length(55);
             Map(x => x.ContactPhoneNumber).Column("ContactPhoneNumber").Length(30);
             Map(x => x.ContactEmailAddress).Column("ContactEmailAddress").Length(50);
             Map(x => x.FederalTIN).Column("FederalTIN").Length(15);
             Map(x => x.DispType).Column("DispType").Length(1);
-            Map(x => x.CreatedOn).Column("CreatedOn").Not.Nullable();
-            Map(x => x.UpdatedOn).Column("UpdatedOn").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
     }
 }

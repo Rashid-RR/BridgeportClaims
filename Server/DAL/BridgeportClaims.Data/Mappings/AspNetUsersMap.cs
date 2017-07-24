@@ -31,6 +31,7 @@ namespace BridgeportClaims.Data.Mappings
             HasMany(x => x.AspNetUserLogins).KeyColumn("UserID");
             HasMany(x => x.AspNetUserRoles).KeyColumn("UserID");
             HasMany(x => x.ClaimNote).KeyColumn("EnteredByUserID");
+            HasMany(x => x.Diary).KeyColumn("EnteredByUserID");
             HasMany(x => x.PrescriptionNote).KeyColumn("EnteredByUserID");
         }
     }

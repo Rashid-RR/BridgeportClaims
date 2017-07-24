@@ -6,12 +6,9 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int Id { get; set; }
-        [Required]
         public virtual AspNetUsers AspNetUsers { get; set; }
-        [Required]
         [StringLength(4000)]
         public virtual string ClaimType { get; set; }
-        [Required]
         [StringLength(4000)]
         public virtual string ClaimValue { get; set; }
     }

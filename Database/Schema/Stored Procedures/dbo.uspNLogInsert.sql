@@ -29,7 +29,7 @@ CREATE PROCEDURE [dbo].[uspNLogInsert] (
 ) AS
 BEGIN
     SET NOCOUNT ON;
-    INSERT  dbo.NLog 
+    INSERT  [util].[NLog] 
            ( [MachineName]
             , [SiteName]
             , [Logged]

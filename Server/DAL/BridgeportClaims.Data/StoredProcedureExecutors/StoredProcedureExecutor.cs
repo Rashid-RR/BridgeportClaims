@@ -31,9 +31,13 @@ namespace BridgeportClaims.Data.StoredProcedureExecutors
                             IQuery query = _session.CreateSQLQuery(procedureNameExecStatement);
                             AddStoredProcedureParameters(query, parameters);
                             query.UniqueResult();
+                            if (transaction.IsActive)
+                                transaction.Commit();
                         }
                         catch (Exception ex)
                         {
+                            if (transaction.IsActive)
+                                transaction.Rollback();
                             Logger.Error(ex);
                             throw;
                         }

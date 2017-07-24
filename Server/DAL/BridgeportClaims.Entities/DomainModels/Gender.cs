@@ -12,7 +12,6 @@ namespace BridgeportClaims.Entities.DomainModels
         {
             Patient = new List<Patient>();
         }
-        [Required]
         public virtual int GenderId { get; set; }
         [Required]
         [StringLength(55)]
@@ -21,9 +20,9 @@ namespace BridgeportClaims.Entities.DomainModels
         [StringLength(5)]
         public virtual string GenderCode { get; set; }
         [Required]
-        public virtual DateTime CreatedOn { get; set; }
+        public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
-        public virtual DateTime UpdatedOn { get; set; }
+        public virtual DateTime UpdatedOnUtc { get; set; }
         public virtual IList<Patient> Patient { get; set; }
     }
 }

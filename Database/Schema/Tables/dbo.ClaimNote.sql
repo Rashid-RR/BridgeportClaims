@@ -1,12 +1,11 @@
 CREATE TABLE [dbo].[ClaimNote]
 (
-[ClaimNoteID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NOT NULL,
 [ClaimNoteTypeID] [int] NOT NULL,
 [NoteText] [varchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [EnteredByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[CreatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteCreatedOn] DEFAULT (sysdatetime()),
-[UpdatedOn] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteUpdatedOn] DEFAULT (sysdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 WITH
@@ -14,9 +13,9 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [pkClaimNote] PRIMARY KEY CLUSTERED  ([ClaimNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
+ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [pkClaimNote] PRIMARY KEY CLUSTERED  ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxClaimNoteClaimIDClaimClaimID] ON [dbo].[ClaimNote] ([ClaimID], [ClaimNoteTypeID], [EnteredByUserID]) INCLUDE ([ClaimNoteID], [CreatedOn], [NoteText], [UpdatedOn]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxClaimNoteClaimIDClaimNoteTypeIDEnteredByUserIDIncludeAll] ON [dbo].[ClaimNote] ([ClaimID], [ClaimNoteTypeID], [EnteredByUserID]) INCLUDE ([CreatedOnUTC], [NoteText], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[ClaimNote] ADD CONSTRAINT [fkClaimNoteClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
