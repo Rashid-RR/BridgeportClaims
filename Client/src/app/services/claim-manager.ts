@@ -83,6 +83,9 @@ export class ClaimManager{
   get claimsData():Claim []{
     return this.claims.asImmutable().toArray();
   }
+  clearClaimsData(){
+    this.claims = Immutable.OrderedMap<Number, Claim>();
+  }
   get NoteTypes():Array<any>{
     return this.notetypes;
   }

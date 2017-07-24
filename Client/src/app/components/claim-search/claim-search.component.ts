@@ -34,5 +34,16 @@ export class ClaimSearchComponent implements OnInit {
   search(){
     this.claimManager.search(this.form.value);
   }
+  clear(){
+    this.claimManager.selected = undefined;
+    this.claimManager.clearClaimsData();
+    this.form.patchValue({
+      claimNumber: null,
+      firstName: null,
+      lastName: null,
+      rxNumber: null,
+      invoiceNumber: null
+    });
+  }
 
 }

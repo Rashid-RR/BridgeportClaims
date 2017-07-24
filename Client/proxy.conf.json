@@ -1,15 +1,15 @@
 {
   "/api": {
-    "target": "http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
+    "target": "https://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
     "changeOrigin": true,
-    "secure": false,
+    "secure": true,
     "logLevel": "debug",
     "ws":true
   },
   "/oauth": {
-    "target": "http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
+    "target": "https://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
     "changeOrigin": true,
-    "secure": false,
+    "secure": true,
     "logLevel": "debug",
     "ws":true
   }
