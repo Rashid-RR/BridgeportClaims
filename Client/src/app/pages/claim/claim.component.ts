@@ -53,7 +53,7 @@ export class ClaimsComponent implements OnInit {
         }
      }
      if(selectedNotes.length>0){
-        var width   = window.innerWidth-200;
+        var width   = window.innerWidth*1.799/3;
         swal({
           width: width+'px',
           title: 'New Prescription Note',          
@@ -67,7 +67,7 @@ export class ClaimsComponent implements OnInit {
                   </div>
                   <div class="form-group">
                       <label id="noteTextLabel">Note Text</label>
-                      <textarea class="form-control"  id="noteText"  rows="3" cols="5" style="resize: vertical;">`+text+`</textarea>
+                      <textarea class="form-control"  id="noteText"  rows="5" cols="5" style="resize: vertical;">`+text+`</textarea>
                   </div>
                   <div style="text-align:left">
                       <h4 class="text-green">Prescriptions</h4>
@@ -139,7 +139,7 @@ export class ClaimsComponent implements OnInit {
           html:
             `<div class="form-group">
                   <label id="noteTextLabel">Note Text</label>
-                  <textarea class="form-control"  id="note" rows="3"  style="resize: vertical;">`+(episode !==undefined ? episode.note : '')+`</textarea>
+                  <textarea class="form-control"  id="note" rows="5"  style="resize: vertical;">`+(episode !==undefined ? episode.note : '')+`</textarea>
               </div>
             `,
           showCancelButton: true,
@@ -192,7 +192,7 @@ export class ClaimsComponent implements OnInit {
     this.claimManager.NoteTypes.forEach((note:{key:String,value:String})=>{
         claimNoteTypeIds=claimNoteTypeIds+'<option value="'+note.key+'"' +(note.value ==TypeId ? "selected": "")+'>'+note.value+'</option>';          
     }); 
-      var width   = window.innerWidth-200;
+      var width   = window.innerWidth*1.799/3;
     swal({
       title: 'Claim Note',
       width: width+'px',
@@ -205,7 +205,7 @@ export class ClaimsComponent implements OnInit {
           </div>
           <div class="form-group">
               <label id="noteTextLabel">Note Text</label>
-              <textarea class="form-control"  id="noteText" rows="3" cols="5"  style="resize: vertical;">`+noteText+`</textarea>
+              <textarea class="form-control"  id="noteText" rows="5" cols="5"  style="resize: vertical;">`+noteText+`</textarea>
           </div>
         `,
       showCancelButton: true,
