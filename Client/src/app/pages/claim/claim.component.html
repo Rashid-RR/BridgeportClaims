@@ -61,8 +61,11 @@
                             <div class="box-header">
                                 <h4 class="box-title text-center"><u>Prescriptions</u></h4>
                                 <div class="box-tools pull-right">
-                                        <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
-                                        <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,4)"   title="Expand blade"><i class="fa fa-expand"></i></button>
+                                    <div class="btn-group" data-toggle="btn-toggle">
+                                        <button class="btn bg-purple btn-flat btn-sm" type="button" (click)="addPrescriptionNote()">Add Note</button>
+                                    </div>
+                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
+                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,4)"   title="Expand blade"><i class="fa fa-expand"></i></button>                                    
                                 </div>
                             </div>
                             <div class="box-body">
