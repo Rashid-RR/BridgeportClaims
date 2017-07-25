@@ -36,7 +36,7 @@ export class ClaimManager{
             claim.setPrescription(result.prescriptions  as Array<Prescription>); 
             claim.setPayment(result.payments);
             claim.setEpisodes(result.episodes);
-            claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType) : null);
+            claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText,result.claimNotes[0].noteType) : null);
             claim.setPrescriptionNotes(result.prescriptionNotes);
             this.selected = -10;
         }else{
@@ -103,7 +103,7 @@ export class ClaimManager{
               claim.setPrescription(result.prescriptions as Array<Prescription>); 
               claim.setPayment(result.payments);
               claim.setEpisodes(result.episodes);
-              claim.setClaimNotes(result.claimNote? new ClaimNote(result.claimNote.noteText,result.claimNote.noteType) : null);
+              claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText,result.claimNotes[0].noteType) : null);
               claim.setPrescriptionNotes(result.prescriptionNotes);
           },err=>{
             this.loading = false;
