@@ -30,8 +30,7 @@ export class FileUploadComponent implements OnInit {
         if(status ==200)
           this.toast.success(r.message);
         else 
-          this.toast.error(r.message);
-        
+          this.toast.error(r.message);        
       }
   }
 
