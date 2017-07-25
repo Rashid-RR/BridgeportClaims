@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FileSelectDirective, FileDropDirective, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import { FileSelectDirective,FileItem, FileDropDirective,ParsedResponseHeaders, FileUploader } from 'ng2-file-upload/ng2-file-upload';
+import {HttpService} from "../../services/http-service"
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 
 const URL = 'http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/api/fileupload/upload';
@@ -13,11 +15,25 @@ const URL = 'http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/a
 })
 export class FileUploadComponent implements OnInit {
 
-  public uploader: FileUploader = new FileUploader({ url: "/api/fileupload/upload" });
+  public uploader: FileUploader;
   public hasBaseDropZoneOver: boolean = false;
   public hasAnotherDropZoneOver: boolean = false;
 
-  constructor() { }
+  constructor(private http:HttpService,private toast: ToastsManager) { 
+     var headers= [{
+                name:'Authorization',
+                value: "Bearer " + this.http.token
+          }]
+      this.uploader =  new FileUploader({ url: "/api/fileupload/upload",headers: headers });
+      this.uploader.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders)=>{
+        var r = JSON.parse(response);
+        if(status ==200)
+          this.toast.success(r.message);
+        else 
+          this.toast.error(r.message);
+        
+      }
+  }
 
   ngOnInit() {
   }
