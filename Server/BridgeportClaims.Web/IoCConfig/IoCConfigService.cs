@@ -56,7 +56,6 @@ namespace BridgeportClaims.Web.IoCConfig
                 {
                     if (session.Transaction.IsActive)
                     {
-                        session.Flush();
                         session.Transaction.Commit();
                     }
                 }

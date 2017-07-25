@@ -72,8 +72,11 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
+                    var userId = User.Identity.GetUserId();
+                    if (null == userId)
+                        throw new ArgumentNullException(nameof(userId));
                     var locationHeader = new Uri(Url.Link(c.GetClaimNoteAction, new { claimId }));
-                    _claimNotesDataProvider.AddOrUpdateNote(claimId, noteText, User.Identity.GetUserId(), noteTypeId);
+                    _claimNotesDataProvider.AddOrUpdateNote(claimId, noteText, userId, noteTypeId);
                     return Created(locationHeader, new { message = "The Claim Note was Saved Successfully"});
                 });
             }
