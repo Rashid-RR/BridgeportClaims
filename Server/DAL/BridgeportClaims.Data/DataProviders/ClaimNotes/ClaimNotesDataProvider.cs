@@ -1,26 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
     public class ClaimNotesDataProvider : IClaimNotesDataProvider
     {
-        private readonly IRepository<ClaimNote> _claimNoteRepository;
-        private readonly IRepository<Claim> _claimRepository;
-        private readonly IRepository<AspNetUsers> _userRepository;
+        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
         private readonly IRepository<ClaimNoteType> _claimNoteTypeRepository;
 
-        public ClaimNotesDataProvider(IRepository<ClaimNote> claimNoteRepository, 
-            IRepository<Claim> claimRepository, IRepository<AspNetUsers> userRepository, 
-            IRepository<ClaimNoteType> claimNoteTypeRepository)
+        public ClaimNotesDataProvider(IStoredProcedureExecutor storedProcedureExecutor, 
+            IRepository<ClaimNoteType> claimNoteTypeRepositor)
         {
-            _claimNoteRepository = claimNoteRepository;
-            _claimRepository = claimRepository;
-            _userRepository = userRepository;
-            _claimNoteTypeRepository = claimNoteTypeRepository;
+            _storedProcedureExecutor = storedProcedureExecutor;
+            _claimNoteTypeRepository = claimNoteTypeRepositor;
         }
 
         public IList<KeyValuePair<int, string>> GetClaimNoteTypes()
@@ -32,28 +29,33 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 
         public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int noteTypeId)
         {
-            var utcNow = DateTime.UtcNow;
-            var claimNote = _claimNoteRepository.GetSingleOrDefault(x => x.Claim.ClaimId == claimId);
-            if (null == claimNote)
+            var claimIdParam = new SqlParameter
             {
-                claimNote = new ClaimNote
-                {
-                    CreatedOnUtc = utcNow,
-                    UpdatedOnUtc = utcNow,
-                    Claim = _claimRepository.Get(claimId),
-                    AspNetUsers = _userRepository.Get(enteredByUserId),
-                    ClaimNoteType = _claimNoteTypeRepository.Get(noteTypeId),
-                    NoteText = note
-                };
-            }
-            else
+                DbType = DbType.Int32,
+                Value = claimId,
+                ParameterName = "ClaimID"
+            };
+            var noteParam = new SqlParameter
             {
-                claimNote.NoteText = note;
-                claimNote.AspNetUsers = _userRepository.Get(enteredByUserId);
-                claimNote.ClaimNoteType = _claimNoteTypeRepository.Get(noteTypeId);
-                claimNote.UpdatedOnUtc = utcNow;
-            }
-            _claimNoteRepository.SaveOrUpdate(claimNote);
+                DbType = DbType.String,
+                Value = note,
+                ParameterName = "NoteText"
+            };
+            var enteredByUserIdParam = new SqlParameter
+            {
+                DbType = DbType.String,
+                Value = enteredByUserId,
+                ParameterName = "EnteredByUserID"
+            };
+            var noteTypeIdParam = new SqlParameter
+            {
+                DbType = DbType.Int32,
+                Value = noteTypeId,
+                ParameterName = "NoteTypeID"
+            };
+            _storedProcedureExecutor.ExecuteNoResultStoredProcedure("EXEC dbo.uspAddOrUpdateClaimNote @ClaimID = :ClaimID, " +
+                    "@NoteText = :NoteText, @EnteredByUserID = :EnteredByUserID, @NoteTypeID = :NoteTypeID", new List<SqlParameter>
+                    {claimIdParam, noteParam, enteredByUserIdParam, noteTypeIdParam});
         }
     }
 }
