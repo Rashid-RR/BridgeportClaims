@@ -158,7 +158,7 @@ CREATE TABLE [etl].[StagedLakerFile]
 [AdjustorID] [int] NULL,
 [PatientID] [int] NULL,
 [InvoiceID] [int] NULL,
-[ClaimID] [int] NULL,
+[ClaimID] [int] NOT NULL,
 [PrescriptionID] [int] NULL,
 [PharmacyID] [int] NULL,
 [PaymentID] [int] NULL
