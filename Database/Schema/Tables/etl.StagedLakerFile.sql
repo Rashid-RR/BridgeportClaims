@@ -154,14 +154,8 @@ CREATE TABLE [etl].[StagedLakerFile]
 [152] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [153] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [154] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PayorID] [int] NULL,
-[AdjustorID] [int] NULL,
-[PatientID] [int] NULL,
-[InvoiceID] [int] NULL,
-[ClaimID] [int] NOT NULL,
-[PrescriptionID] [int] NULL,
-[PharmacyID] [int] NULL,
-[PaymentID] [int] NULL
+[PaymentID] [int] NULL,
+[StageID] [int] NOT NULL IDENTITY(1, 1)
 ) ON [PRIMARY]
 WITH
 (
