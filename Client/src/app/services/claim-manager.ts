@@ -28,7 +28,7 @@ export class ClaimManager{
         this.selected=undefined;
         if(result.name){
             this.claims = Immutable.OrderedMap<Number, Claim>();
-            var c = new Claim(-10,result.claimNumber,result.dateEntered,result.injuryDate,result.gender,
+            var c = new Claim(-10,result.claimNumber,result.date,result.injuryDate,result.gender,
             result.carrier,result.adjustor,result.adjustorPhoneNumber,result.dateEntered,result.adjustorPhoneNumber
             ,result.name,result.firstName,result.lastName);
             this.claims = this.claims.set(-10,c);

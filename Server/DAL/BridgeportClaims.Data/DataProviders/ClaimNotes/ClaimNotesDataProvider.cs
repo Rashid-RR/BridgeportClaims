@@ -30,10 +30,10 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
             var result = _memoryCacher.GetValue(c.ClaimNoteTypesKey) as IList<KeyValuePair<int, string>>;
             if (null != result)
                 return result;
-            var types = _claimNoteTypeRepository.GetAll()
+            result = _claimNoteTypeRepository.GetAll()
                 .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).ToList();
             _memoryCacher.Add(c.ClaimNoteTypesKey, result, DateTimeOffset.UtcNow.AddDays(1));
-            return types;
+            return result;
         }
 
         public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId)
