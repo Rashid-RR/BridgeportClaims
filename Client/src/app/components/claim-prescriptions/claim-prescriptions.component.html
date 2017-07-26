@@ -18,7 +18,12 @@
         </thead>
         <tbody *ngIf="claimManager.selectedClaim" class="overflowable">
           <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions">
-            <td>&nbsp;&nbsp;<input type="checkbox" class="pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName"></td>
+            <td>
+              <label class="switch">
+                  <input type="checkbox" class="toggle-switch-checkbox pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName">
+                  <div class="slider round"></div>
+              </label>
+            </td>
             <td>{{prescription.rxNumber}}</td>
             <td>{{prescription.labelName}}</td>
             <td>{{prescription.billTo}}</td>
