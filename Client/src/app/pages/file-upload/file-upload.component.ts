@@ -27,7 +27,7 @@ export class FileUploadComponent implements OnInit {
       this.uploader =  new FileUploader({ url: "/api/fileupload/upload",headers: headers });
       this.uploader.onCompleteItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders)=>{
         var r = JSON.parse(response);
-        if(status ==200)
+        if(status =>200 && status <300)
           this.toast.success(r.message);
         else 
           this.toast.error(r.message);        

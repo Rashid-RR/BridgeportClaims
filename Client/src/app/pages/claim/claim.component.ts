@@ -197,11 +197,12 @@ export class ClaimsComponent implements OnInit {
       title: 'Claim Note',
       width: width+'px',
       html:
-        `<div class="form-group">
+        `<div class="form-group" style="text-align:center">
               <label id="claimNoteTypeLabel">Note type</label>
-              <select class="form-control" id="noteTypeId">
+              <select class="form-control" id="noteTypeId" style="min-width:200px;width:350px;margin-left: calc(50% - 150px);">
                 `+claimNoteTypeIds+`
               </select>
+              <p style="font-size:9pt">Optional</p>
           </div>
           <div class="form-group">
               <label id="noteTextLabel">Note Text</label>
@@ -223,13 +224,13 @@ export class ClaimsComponent implements OnInit {
         window['jQuery']('#noteTypeId').focus()
       }
     }).then( (result)=> {
-      if(result[0]==""){
+      /* if(result[0]==""){
           this.toast.warning('Please select a Note Type in order to Save your Note!');
           setTimeout(()=>{
               this.addNote(result[1],result[0]);
               window['jQuery']('#claimNoteTypeLabel').css({"color":"red"})
             },200)
-      }else if(result[1]==""){
+      }else  */if(result[1]==""){
           this.toast.warning('Note Text is required!');
           setTimeout(()=>{
             this.addNote(result[1],result[0]);
@@ -242,7 +243,7 @@ export class ClaimsComponent implements OnInit {
           txt = txt.substring(1, txt.length - 1)
           this.http.saveClaimNote({
               claimId: this.claimManager.selectedClaim.claimId,
-              noteTypeId:result[0],
+              noteTypeId:result[0] ? result[0] : 0,
               noteText:txt
           }).subscribe(res => {
             let noteType = this.claimManager.NoteTypes.find(type=>type.key==result[0]);
