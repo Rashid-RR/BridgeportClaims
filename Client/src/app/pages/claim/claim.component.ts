@@ -199,14 +199,14 @@ export class ClaimsComponent implements OnInit {
       html:
         `<div class="form-group" style="text-align:center">
               <label id="claimNoteTypeLabel">Note type</label>
-              <select class="form-control" id="noteTypeId" style="min-width:200px;width:350px;margin-left: calc(50% - 150px);">
+              <select class="form-control" id="noteTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
                 `+claimNoteTypeIds+`
               </select>
-              <p style="font-size:9pt">Optional</p>
+              <p style="font-size:11pt">Optional</p>
           </div>
           <div class="form-group">
               <label id="noteTextLabel">Note Text</label>
-              <textarea class="form-control"  id="noteText" rows="5" cols="5"  style="resize: vertical;">`+noteText+`</textarea>
+              <textarea class="form-control"  id="noteText" rows="5" cols="5"  style="resize: vertical;font-size:12pt;">`+noteText+`</textarea>
           </div>
         `,
       showCancelButton: true,
