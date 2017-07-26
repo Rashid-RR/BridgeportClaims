@@ -3,6 +3,7 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Data.Dtos;
+using Microsoft.AspNet.Identity;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -27,7 +28,10 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (!ModelState.IsValid)
                     return GetBadRequestFormattedErrorMessages();
-                _episodesDataProvider.AddOrUpdateEpisode(episode);
+                var user = User.Identity.GetUserId();
+                if (null == user)
+                    throw new ArgumentNullException(nameof(user));
+                _episodesDataProvider.AddOrUpdateEpisode(episode.EpisodeId, episode.ClaimId, user, episode.Note);
                 return Ok(new { message = "Episode was saved Successfully" });
             }
             catch (Exception ex)

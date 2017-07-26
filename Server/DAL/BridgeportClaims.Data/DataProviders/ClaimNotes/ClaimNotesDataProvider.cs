@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
@@ -12,23 +15,30 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
         private readonly IRepository<ClaimNoteType> _claimNoteTypeRepository;
+        private readonly IMemoryCacher _memoryCacher;
 
         public ClaimNotesDataProvider(IStoredProcedureExecutor storedProcedureExecutor, 
-            IRepository<ClaimNoteType> claimNoteTypeRepositor)
+            IRepository<ClaimNoteType> claimNoteTypeRepositor, IMemoryCacher memoryCacher)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
             _claimNoteTypeRepository = claimNoteTypeRepositor;
+            _memoryCacher = memoryCacher;
         }
 
         public IList<KeyValuePair<int, string>> GetClaimNoteTypes()
         {
+            var result = _memoryCacher.GetValue(c.ClaimNoteTypesKey) as IList<KeyValuePair<int, string>>;
+            if (null != result)
+                return result;
             var types = _claimNoteTypeRepository.GetAll()
                 .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).ToList();
+            _memoryCacher.Add(c.ClaimNoteTypesKey, result, DateTimeOffset.UtcNow.AddDays(1));
             return types;
         }
 
-        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int noteTypeId)
+        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId)
         {
+            var listToAdd = new List<SqlParameter>();
             var claimIdParam = new SqlParameter
             {
                 DbType = DbType.Int32,
@@ -53,9 +63,12 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
                 Value = noteTypeId,
                 ParameterName = "NoteTypeID"
             };
+            listToAdd.Add(noteTypeIdParam);
+            listToAdd.Add(claimIdParam);
+            listToAdd.Add(noteParam);
+            listToAdd.Add(enteredByUserIdParam);
             _storedProcedureExecutor.ExecuteNoResultStoredProcedure("EXEC dbo.uspAddOrUpdateClaimNote @ClaimID = :ClaimID, " +
-                    "@NoteText = :NoteText, @EnteredByUserID = :EnteredByUserID, @NoteTypeID = :NoteTypeID", new List<SqlParameter>
-                    {claimIdParam, noteParam, enteredByUserIdParam, noteTypeIdParam});
+                    "@NoteText = :NoteText, @EnteredByUserID = :EnteredByUserID, @NoteTypeID = :NoteTypeID", listToAdd);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
             _sessionFactory = sessionFactory;
         }
 
-        public void AddOrUpdateEpisode(EpisodeDto episode)
+        public void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string note)
                 => DisposableService.Using(() => _sessionFactory.OpenSession(),
                     session =>
                     {
@@ -30,13 +30,13 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                                 {   // Upsert
                                     session.CreateSQLQuery("EXECUTE [dbo].[uspSaveEpisode] " +
                                                            "@EpisodeID = :EpisodeID, @ClaimID = :ClaimID, " +
-                                                           "@CreatedDate = :CreatedDate," +
+                                                           "@CreatedDateUTC = :CreatedDateUTC," +
                                                            " @AssignUser = :AssignUser, @Note = :Note")
-                                        .SetInt32("EpisodeID", episode.EpisodeId)
-                                        .SetInt32("ClaimID", episode.ClaimId)
-                                        .SetDateTime2("CreatedDate", episode.Date)
-                                        .SetString("AssignUser", episode.By)
-                                        .SetString("Note", episode.Note)
+                                        .SetInt32("EpisodeID", episodeId)
+                                        .SetInt32("ClaimID", claimId)
+                                        .SetDateTime2("CreatedDateUTC", DateTime.UtcNow)
+                                        .SetString("AssignUser", by)
+                                        .SetString("Note", note)
                                         .SetMaxResults(1)
                                         .ExecuteUpdate();
                                     if (transaction.IsActive)

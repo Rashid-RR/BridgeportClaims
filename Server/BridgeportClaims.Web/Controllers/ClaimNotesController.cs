@@ -69,7 +69,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("savenote")]
-        public async Task<IHttpActionResult> SaveNote(int claimId, string noteText, int noteTypeId)
+        public async Task<IHttpActionResult> SaveNote(int claimId, string noteText, int? noteTypeId)
         {
             try
             {

@@ -9,8 +9,6 @@ namespace BridgeportClaims.Data.Dtos
         public int? EpisodeId { get; set; }
         [Required]
         public int ClaimId { get; set; }
-        public DateTime? Date { get; set; }
-        public string By { get; set; }
         public string Note { get; set; }
     }
 }

@@ -28,5 +28,6 @@ namespace BridgeportClaims.Common.StringConstants
         public const string MaxClaimsLookupHistoryItemsKey = "MaxClaimsLookupHistoryItems";
         public const string DateDisplayCacheKey = "__DateDisplayCacheKey__";
         public const string PrescriptionNoteTypesKey = "__PrescriptionNoteTypes__";
+        public const string ClaimNoteTypesKey = "__ClaimNoteTypesKey__";
     }
 }

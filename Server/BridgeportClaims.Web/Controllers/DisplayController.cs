@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DateDisplay;
+using BridgeportClaims.Web.Attributes;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -21,6 +22,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("date")]
+        [BridgeportClaimsOutputCache(14400, 14400, false)]
         public async Task<IHttpActionResult> GetDateDisplay()
         {
             try

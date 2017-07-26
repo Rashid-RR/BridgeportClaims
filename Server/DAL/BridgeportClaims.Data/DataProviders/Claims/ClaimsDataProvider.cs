@@ -120,7 +120,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							var claimNoteDto = session.CreateSQLQuery(
 									@"SELECT cnt.[TypeName] NoteType, [cn]. [NoteText]
 										FROM   [dbo].[ClaimNote] AS [cn]
-												INNER JOIN [dbo].[ClaimNoteType] AS [cnt] 
+												LEFT JOIN [dbo].[ClaimNoteType] AS [cnt] 
 												ON [cnt].[ClaimNoteTypeID] = [cn].[ClaimNoteTypeID]
 										WHERE  [cn].[ClaimID] = :ClaimID")
 								.SetInt32("ClaimID", claimId)
@@ -140,9 +140,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 										, [e].[Note]
 									  FROM   [dbo].[Episode] AS [e]
 									  WHERE  [e].[ClaimID] = :ClaimID")
-								.SetMaxResults(100)
+								.SetMaxResults(1000)
 								.SetString("UserName", userName)
-								.SetInt32("ClaimID", claimId )
+								.SetInt32("ClaimID", claimId)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(EpisodeDto)))
 								.List<EpisodeDto>();
 							claimDto.Episodes = episodes;
