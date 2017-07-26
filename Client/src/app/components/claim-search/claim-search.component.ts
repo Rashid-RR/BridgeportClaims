@@ -34,6 +34,13 @@ export class ClaimSearchComponent implements OnInit {
   search(){
     this.claimManager.search(this.form.value);
   }
+  refresh(){
+    var form = this.form.value;
+    if(this.claimManager.selectedClaim){
+      form.claimId = this.claimManager.selectedClaim.claimId
+    }
+    this.claimManager.search(form);
+  }
   clear(){
     this.claimManager.selected = undefined;
     this.claimManager.clearClaimsData();
