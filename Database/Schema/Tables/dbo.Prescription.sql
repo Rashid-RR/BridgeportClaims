@@ -11,7 +11,6 @@ CREATE TABLE [dbo].[Prescription]
 [DaySupply] [float] NOT NULL,
 [Generic] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [PharmacyNABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[AWP] [float] NULL,
 [AWPUnit] [float] NULL,
 [Usual] [decimal] (18, 0) NULL,
 [Prescriber] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -41,7 +40,8 @@ CREATE TABLE [dbo].[Prescription]
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL,
-[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AWP] AS ([Quantity]*[AWPUnit])
 ) ON [PRIMARY]
 WITH
 (
