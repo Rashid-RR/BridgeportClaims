@@ -8,7 +8,7 @@ SELECT [if].[ImportFileID]
      , [if].[FileName]
      , [if].[FileExtension]
      , [if].[FileDescription]
-     , [dtme].[udfGetLocalDateTime]([if].[CreatedOnUTC]) CreatedOn
-     , [dtme].[udfGetLocalDateTime]([if].[UpdatedOnUTC]) UpdatedOn
+     , [dtme].[udfGetLocalDateTime]([if].[CreatedOnUTC]) CreatedOnLocal
+     , [dtme].[udfGetLocalDateTime]([if].[UpdatedOnUTC]) UpdatedOnLocal
 FROM   [util].[ImportFile] AS [if]
 GO

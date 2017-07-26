@@ -18,7 +18,7 @@ WITH SCHEMABINDING
 AS
 BEGIN
 
-DECLARE @TimeZoneID SMALLINT = 7 -- Mountain Standard / Daylight Time
+DECLARE @TimeZoneID SMALLINT
       , @LocalDateTime DATETIME2
       , @DltBiasFactor SMALLINT
       , @Display NVARCHAR(50)
@@ -32,6 +32,14 @@ DECLARE @TimeZoneID SMALLINT = 7 -- Mountain Standard / Daylight Time
       , @DltDow SMALLINT
       , @DltWeek SMALLINT
       , @DltHour SMALLINT
+
+SELECT @TimeZoneID = tz.TimeZoneID
+FROM   [dtme].[TimeZone] AS [tz]
+WHERE  tz.IsDefault = 1
+
+IF @TimeZoneID IS NULL
+	-- Print error. RAISERROR not allowed within a function
+	SET @TimeZoneID = CONVERT(TINYINT, N'Error, a default time zone was not found')
 
 DECLARE @DaylightDate DATETIME2
 DECLARE @StandardDate DATETIME2
@@ -49,7 +57,7 @@ SELECT @Display = Display
      , @DltDow = DltDayOfWeek + 1
      , @DltWeek = DltWeek
      , @DltHour = DltHour
-FROM   [dtme].[TimeZoneInfo]
+FROM   [dtme].[TimeZone]
 WHERE  TimeZoneID = @TimeZoneID
 
 IF @StdMonth = 0
@@ -70,7 +78,4 @@ ELSE
 	-- RETURN  'Time Zone ID:' + CAST( @TimeZoneID  AS CHAR(2)) + ' - '  + @Display + ' - <UTC DT:' + CAST ( @UTCDate AS CHAR(20)) + '> - <Local DT:' + CAST(  @LocalDateTime AS CHAR(20)) + '>'
 	RETURN @LocalDateTime
 END 
-
-
-
 GO
