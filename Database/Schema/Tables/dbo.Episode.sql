@@ -2,6 +2,7 @@ CREATE TABLE [dbo].[Episode]
 (
 [EpisodeID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NOT NULL,
+[EpisodeTypeID] [int] NULL,
 [Note] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Role] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Type] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -27,4 +28,6 @@ GO
 CREATE NONCLUSTERED INDEX [idxEpisodeClaimID] ON [dbo].[Episode] ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
+GO
+ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeEpisodeTypeIDEpisodeTypeEpisodeTypeID] FOREIGN KEY ([EpisodeTypeID]) REFERENCES [dbo].[EpisodeType] ([EpisodeTypeID])
 GO
