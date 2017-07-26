@@ -1,6 +1,6 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
@@ -40,7 +40,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -60,7 +60,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return InternalServerError(ex);
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -68,16 +68,20 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("notetypes")]
-        public async Task<IList<PrescriptionNoteTypesDto>> GetPrescriptionNoteTypes()
+        public async Task<IHttpActionResult> GetPrescriptionNoteTypes()
         {
             try
             {
-                return await Task.Run(() => _prescriptionNoteTypesDataProvider.GetPrescriptionNoteTypes());
+                return await Task.Run(() =>
+                {
+                    var types = _prescriptionNoteTypesDataProvider.GetPrescriptionNoteTypes();
+                    return Ok(types);
+                });
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Web.Attributes;
@@ -31,7 +32,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -64,7 +65,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -82,7 +83,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -118,7 +119,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -165,12 +166,12 @@ namespace BridgeportClaims.Web.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
 
-                return Ok();
+                return Ok( new {message ="User Role(s) saved Successfully"});
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
     }

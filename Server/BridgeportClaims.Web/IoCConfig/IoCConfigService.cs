@@ -3,10 +3,12 @@ using System.Reflection;
 using System.Web;
 using Autofac;
 using Autofac.Integration.WebApi;
+using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
+using BridgeportClaims.Data.DataProviders.DateDisplay;
 using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
@@ -40,10 +42,12 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<EmailModelGenerator>().As<IEmailModelGenerator>().InstancePerRequest();
             builder.RegisterType<EpisodesDataProvider>().As<IEpisodesDataProvider>().InstancePerRequest();
             builder.RegisterType<AspNetUsersProvider>().As<IAspNetUsersProvider>().InstancePerRequest();
+            builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().InstancePerRequest();
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
             builder.RegisterType<ClaimNotesDataProvider>().As<IClaimNotesDataProvider>().InstancePerRequest();
             builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
+            builder.RegisterType<DateDisplayProvider>().As<IDateDisplayProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();
             builder.Register(c => FluentSessionProvider.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
             builder.Register(c => FluentSessionProvider.GetSession()).As<ISession>().OnActivated(session =>

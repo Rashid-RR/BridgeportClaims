@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\IMemoryCacher.cs" />
+    <Compile Include="Caching\MemoryCacher.cs" />
     <Compile Include="Config\ConfigService.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Expressions\ExpressionHelper.cs" />

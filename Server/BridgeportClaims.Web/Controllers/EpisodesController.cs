@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Data.Dtos;
@@ -32,7 +33,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return InternalServerError(ex);
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
     }

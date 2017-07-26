@@ -18,7 +18,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
             using (var connection = new SqlConnection(ConfigService.GetDbConnStr()))
             {
                 connection.Open();
-                using (var sqlCommand = new SqlCommand("INSERT [dbo].[ImportFile] ([FileBytes], " +
+                using (var sqlCommand = new SqlCommand("INSERT [util].[ImportFile] ([FileBytes], " +
                     "[FileName], [FileExtension], [FileDescription]) Values (@File, @FileName, @FileExtension, @FileDescription);",
                     connection))
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Web.Models;
@@ -39,7 +40,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
             }
         }
 

@@ -4,6 +4,7 @@ using System.Web.Http;
 using Autofac.Integration.WebApi;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Web.Formatters;
+using BridgeportClaims.Web.Handlers;
 using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.IoCConfig;
 using BridgeportClaims.Web.Middleware;
@@ -25,6 +26,7 @@ namespace BridgeportClaims.Web
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
+            config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());
             var builder = IoCConfigService.Configure();
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);

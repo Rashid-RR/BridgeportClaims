@@ -26,5 +26,7 @@ namespace BridgeportClaims.Common.StringConstants
         public const string ConfirmEmailClientRoute = "confirm-email";
         public const string SecureServerLocalHostNameKey = "SecureServerLocalHostName";
         public const string MaxClaimsLookupHistoryItemsKey = "MaxClaimsLookupHistoryItems";
+        public const string DateDisplayCacheKey = "__DateDisplayCacheKey__";
+        public const string PrescriptionNoteTypesKey = "__PrescriptionNoteTypes__";
     }
 }

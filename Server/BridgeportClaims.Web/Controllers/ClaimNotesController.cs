@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
@@ -15,14 +16,16 @@ namespace BridgeportClaims.Web.Controllers
     public class ClaimNotesController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly IRepository<Claim> _claimRepository;
         private readonly IClaimNotesDataProvider _claimNotesDataProvider;
         private readonly IRepository<ClaimNote> _claimNoteRepository;
 
         public ClaimNotesController(IClaimNotesDataProvider claimNotesDataProvider, 
-            IRepository<ClaimNote> claimNoteRepository)
+            IRepository<ClaimNote> claimNoteRepository, IRepository<Claim> claimRepository)
         {
             _claimNotesDataProvider = claimNotesDataProvider;
             _claimNoteRepository = claimNoteRepository;
+            _claimRepository = claimRepository;
         }
 
         [HttpGet]
@@ -37,7 +40,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
 
         }
@@ -60,7 +63,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -75,6 +78,9 @@ namespace BridgeportClaims.Web.Controllers
                     var userId = User.Identity.GetUserId();
                     if (null == userId)
                         throw new ArgumentNullException(nameof(userId));
+                    // validate that the Claim exists
+                    if (null == _claimRepository.Get(claimId))
+                        throw new Exception($"An error has occurred, claim Id {claimId} doesn't exist");
                     var locationHeader = new Uri(Url.Link(c.GetClaimNoteAction, new { claimId }));
                     _claimNotesDataProvider.AddOrUpdateNote(claimId, noteText, userId, noteTypeId);
                     return Created(locationHeader, new { message = "The Claim Note was Saved Successfully"});
@@ -83,7 +89,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
             }
         }
     }

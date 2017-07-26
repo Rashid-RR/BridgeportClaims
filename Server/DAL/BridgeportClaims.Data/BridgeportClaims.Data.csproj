@@ -58,6 +58,8 @@
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
+    <Compile Include="DataProviders\DateDisplay\DateDisplayProvider.cs" />
+    <Compile Include="DataProviders\DateDisplay\IDateDisplayProvider.cs" />
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
     <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
     <Compile Include="DataProviders\ImportFile\ImportFileProvider.cs" />
@@ -77,7 +79,6 @@
     <Compile Include="DataProviders\PrescriptionNoteTypes\PrescriptionNoteTypesDataProvider.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
-    <Compile Include="Dtos\ClaimNoteTypesDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
