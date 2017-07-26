@@ -99,7 +99,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									#pragma warning disable IDE0031 // Use null propagationAdjustorFaxNumber = null == w.c.Adjustor ? null : w.c.Adjustor.FaxNumber,
 									AdjustorPhoneNumber = null == w.c.Adjustor ? null : w.c.Adjustor.PhoneNumber,
 									#pragma warning disable IDE0031 // Use null propagation
-									Carrier = null == w.c.Payor ? null : w.c.Payor.BillToName,
+									Carrier = null == w.c.Payor ? null : w.c.Payor.GroupName,
 									City = w.p.City,
 									#pragma warning disable IDE0031 // Use null propagation
 									StateAbbreviation = null == w.p.UsState ? null : w.p.UsState.StateCode,
@@ -158,13 +158,13 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							claimDto.Payments = payments;
 							// Claim Prescriptions
 							var prescriptions = session.CreateSQLQuery(
-									@"SELECT PrescriptionId = [p].[PrescriptionId]
+                                    @"SELECT PrescriptionId = [p].[PrescriptionId]
 										 , RxDate = [p].[DateFilled]
 									, AmountPaid = [p].[PayableAmount]
 								, RxNumber = [p].[RxNumber]
 								, LabelName = [p].[LabelName]
 								, BillTo = [pay].[BillToName]
-								, InvoiceAmount = [i].[Amount]
+								, InvoiceAmount = [p].[BilledAmount]
 								, InvoiceDate = [i].[InvoiceDate]
 								, InvoiceNumber = [i].[InvoiceNumber]
 								, Outstanding = [i].[Amount]
