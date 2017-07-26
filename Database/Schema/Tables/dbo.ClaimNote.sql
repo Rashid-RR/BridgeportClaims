@@ -1,7 +1,7 @@
 CREATE TABLE [dbo].[ClaimNote]
 (
 [ClaimID] [int] NOT NULL,
-[ClaimNoteTypeID] [int] NOT NULL,
+[ClaimNoteTypeID] [int] NULL,
 [NoteText] [varchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [EnteredByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimNoteCreatedOnUTC] DEFAULT (sysutcdatetime()),

@@ -13,14 +13,14 @@ CREATE PROC [dbo].[uspSaveEpisode]
 (
 	@EpisodeID INT,
 	@ClaimID INT,
-	@CreatedDate DATETIME2,
+	@CreatedDateUTC DATETIME2,
 	@AssignUser VARCHAR(100),
 	@Note VARCHAR(1000)
 )
 AS 
 BEGIN
 	SET NOCOUNT ON;
-	DECLARE @Now DATETIME2 = SYSDATETIME()
+	DECLARE @UTCNow DATETIME2 = SYSUTCDATETIME()
 	IF @ClaimID IS NULL
 		BEGIN
 			RAISERROR(N'Error. The ClaimID is a required arguement, and was not supplied', 16, 1) WITH NOWAIT
@@ -38,18 +38,19 @@ BEGIN
 	MERGE [dbo].[Episode] AS tgt
 	USING (SELECT @EpisodeID EpisodeID,
 				  @ClaimID ClaimID,
-				  @CreatedDate CreatedDate,
+				  @CreatedDateUTC CreatedDateUTC,
 				  @AssignUser AssignUser,
 				  @Note Note) AS src
 	       ON [tgt].[EpisodeID] = [src].[EpisodeID]
 	WHEN NOT MATCHED BY TARGET THEN
-		INSERT ([ClaimID], [CreatedDate], [AssignUser], [Note])
-		VALUES (src.[ClaimID], src.[CreatedDate], src.[AssignUser], src.[Note])
+		INSERT ([ClaimID], [CreatedDateUTC], [AssignUser], [Note])
+		VALUES (src.[ClaimID], src.[CreatedDateUTC], src.[AssignUser], src.[Note])
 	WHEN MATCHED THEN
 		UPDATE SET  [tgt].[ClaimID] = [src].[ClaimID],
-					[tgt].[CreatedDate] = [src].[CreatedDate],
+					[tgt].[CreatedDateUTC] = [src].[CreatedDateUTC],
 					[tgt].[AssignUser] = [src].[AssignUser],
 					[tgt].[Note] = [src].[Note],
-					[tgt].[UpdatedOn] = @Now;
+					[tgt].[UpdatedOnUTC] = @UTCNow;
 END
+
 GO

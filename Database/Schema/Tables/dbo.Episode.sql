@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[Episode]
 [AssignUser] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [RxNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Status] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[CreatedDate] [datetime2] NULL,
+[CreatedDateUTC] [datetime2] NULL,
 [Description] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ResolvedDate] [datetime2] NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeCreatedOnUTC] DEFAULT (sysutcdatetime()),
