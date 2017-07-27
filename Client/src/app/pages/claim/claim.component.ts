@@ -243,7 +243,7 @@ export class ClaimsComponent implements OnInit {
           txt = txt.substring(1, txt.length - 1)
           this.http.saveClaimNote({
               claimId: this.claimManager.selectedClaim.claimId,
-              noteTypeId:result[0] ? result[0] : 0,
+              noteTypeId:result[0] ? result[0] : null,
               noteText:txt
           }).subscribe(res => {
             let noteType = this.claimManager.NoteTypes.find(type=>type.key==result[0]);

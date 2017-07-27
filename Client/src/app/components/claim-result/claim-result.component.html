@@ -1,4 +1,4 @@
-<ng-container   *ngIf="claimManager.dataSize==1 || claimManager.selected">
+<ng-container   *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
     <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
       <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
         <address>
@@ -26,7 +26,7 @@
       </div>
   </div>
 </ng-container>
-<ng-container *ngIf="claimManager.dataSize>1 && ! claimManager.selected">
+<ng-container *ngIf="claimManager.dataSize>1 && claimManager.selected===undefined">
   <div class="row invoice-info">
         <div class="col-sm-12 invoice-col">
           <div class="table-responsive">
@@ -42,7 +42,7 @@
               </thead>
               <tbody>
                 <ng-container *ngFor="let claim of claimManager.claimsData">
-                  <tr [class.active]="claimManager.selected && claim.claimId==claimManager.selectedClaim.claimId">                
+                  <tr [class.active]="claimManager.selected!==undefined && claim.claimId==claimManager.selectedClaim.claimId">                
                     <td>{{claim.claimNumber}}</td>
                     <td *ngIf="claim.name">{{claim.name}}</td>
                     <td *ngIf="!claim.name">{{claim.firstName}}  {{claim.lastName}}</td>

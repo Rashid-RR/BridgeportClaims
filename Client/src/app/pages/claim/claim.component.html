@@ -8,7 +8,7 @@
                             <app-claim-search></app-claim-search>
                     </div>
                 </div>
-                <div class="row data" [class.fittoSreen]="claimManager.selected && !expanded">
+                <div class="row data" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
                     <div [class.col-sm-5]="!expanded"  [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" *ngIf="!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)"  style="padding-right:0px;">
                         <div class="box" *ngIf="(!expanded && expandedBlade==0) || expandedBlade==1">
                             <div class="box-header">
@@ -22,7 +22,7 @@
                                 <app-claim-result [expand]="expand" [minimize]="minimize"></app-claim-result>
                             </div>
                         </div>
-                        <div class="box" *ngIf="(claimManager.selected && expandedBlade==0) || expandedBlade==2">                    
+                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==2">                    
                             <div class="box-header">
                                 <h4 class="box-title text-center"><u>Notes</u></h4>
                                 <div class="box-tools pull-right" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
@@ -39,7 +39,7 @@
                                 <app-claim-note></app-claim-note>
                             </div>
                         </div>
-                        <div class="box" *ngIf="(claimManager.selected  && expandedBlade==0) || expandedBlade==3">                            
+                        <div class="box" *ngIf="(claimManager.selected!==undefined  && expandedBlade==0) || expandedBlade==3">                            
                             <div class="box-header">
                                 <h4 class="box-title text-center"><u>Episodes</u></h4>
                                 <div class="box-tools pull-right">
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                     <div [class.col-sm-7]="!expanded"  [class.col-sm-12]="expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" style="padding-left:0px;">
-                        <div class="box" *ngIf="(claimManager.selected && expandedBlade==0) || expandedBlade==4">                            
+                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4">                            
                             <div class="box-header">
                                 <h4 class="box-title text-center"><u>Prescriptions</u></h4>
                                 <div class="box-tools pull-right">
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box box-warn" *ngIf="(claimManager.selected && expandedBlade==0) || expandedBlade==5">                            
+                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==5">                            
                             <div class="box-header">
                                 <h4 class="box-title text-center"><u>Script Notes</u></h4>
                                 <div class="box-tools pull-right">
@@ -89,7 +89,7 @@
                                 <app-claim-script-note></app-claim-script-note>
                             </div>
                         </div>
-                        <div class="box box-warn" *ngIf="(claimManager.selected && expandedBlade==0) || expandedBlade==6">                            
+                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==6">                            
                             <div class="box-header">
                                 <h4 class="box-title text-center"><u>Payments</u></h4>
                                 <div class="box-tools pull-right">
@@ -101,7 +101,7 @@
                                 <app-claim-payment></app-claim-payment>
                             </div>
                         </div>
-                        <div class="box box-warn" *ngIf="(claimManager.selected && expandedBlade==0) || expandedBlade==7">
+                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==7">
                             <div class="box-header">
                                 <h4 class="box-title text-center"><u>Images</u></h4>
                                 <div class="box-tools pull-right">
