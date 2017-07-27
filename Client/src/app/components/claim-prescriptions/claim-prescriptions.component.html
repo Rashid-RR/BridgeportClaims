@@ -31,9 +31,9 @@
                         <td>{{prescription.billTo}}</td>
                         <td>{{prescription.invoiceDate | date:"shortDate"}}</td>
                         <td>{{prescription.invoiceNumber}}</td>
-                        <td>{{prescription.invoiceAmount}}</td>
-                        <td>{{prescription.amountPaid}}</td>
-                        <td>{{prescription.outstanding}}</td>
+                        <td>{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
                         <td *ngIf="prescription.noteCount"><a class="label label-info" (click)="showNotes(prescription.prescriptionId)">{{prescription.noteCount}}</a></td>
                         <td *ngIf="!prescription.noteCount">{{prescription.noteCount}}</td>
                     </tr>
