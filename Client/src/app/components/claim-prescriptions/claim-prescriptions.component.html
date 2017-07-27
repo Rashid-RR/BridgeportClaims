@@ -20,10 +20,10 @@
                 <tbody *ngIf="claimManager.selectedClaim" class="overflowable">
                     <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions">
                         <td>
-                            <label class="switch">
-                  <input type="checkbox" class="toggle-switch-checkbox pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName">
-                  <div class="slider round"></div>
-              </label>
+                            <div class="perscriptionCheckBox">
+                                <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName">
+                                <label for="perscriptionCheckBox"></label>
+                            </div>
                         </td>
                         <td>{{prescription.rxNumber}}</td>
                         <td>{{prescription.rxDate | date:"shortDate"}}</td>
@@ -31,9 +31,9 @@
                         <td>{{prescription.billTo}}</td>
                         <td>{{prescription.invoiceDate | date:"shortDate"}}</td>
                         <td>{{prescription.invoiceNumber}}</td>
-                        <td>{{prescription.invoiceAmount}}</td>
-                        <td>{{prescription.amountPaid}}</td>
-                        <td>{{prescription.outstanding}}</td>
+                        <td>{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
                         <td *ngIf="prescription.noteCount"><a class="label label-info" (click)="showNotes(prescription.prescriptionId)">{{prescription.noteCount}}</a></td>
                         <td *ngIf="!prescription.noteCount">{{prescription.noteCount}}</td>
                     </tr>
