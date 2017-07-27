@@ -11,7 +11,6 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         public Invoice()
         {
-            Payment = new List<Payment>();
             Prescription = new List<Prescription>();
         }
         [Required]
@@ -32,7 +31,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-        public virtual IList<Payment> Payment { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
     }
 }

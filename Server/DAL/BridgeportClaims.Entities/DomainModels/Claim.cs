@@ -15,7 +15,6 @@ namespace BridgeportClaims.Entities.DomainModels
             Diary = new List<Diary>();
             Episode = new List<Episode>();
             Invoice = new List<Invoice>();
-            Payment = new List<Payment>();
             Prescription = new List<Prescription>();
         }
         [Required]
@@ -49,7 +48,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual IList<Diary> Diary { get; set; }
         public virtual IList<Episode> Episode { get; set; }
         public virtual IList<Invoice> Invoice { get; set; }
-        public virtual IList<Payment> Payment { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
     }
 }

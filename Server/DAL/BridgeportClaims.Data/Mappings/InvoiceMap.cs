@@ -21,7 +21,6 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Amount).Column("Amount").Not.Nullable().Precision(19).Scale(4);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
-            HasMany(x => x.Payment).KeyColumn("InvoiceID");
             HasMany(x => x.Prescription).KeyColumn("InvoiceID");
         }
     }

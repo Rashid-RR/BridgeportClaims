@@ -147,18 +147,11 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.List<EpisodeDto>();
 							claimDto.Episodes = episodes;
 
-							// Claim Payments
-							var payments = session.Query<Payment>().Where(w => w.Claim.ClaimId == claimId)
-								.Select(p => new PaymentDto
-								{
-									CheckAmount = p.AmountPaid,
-									CheckNumber = p.CheckNumber,
-									Date = p.CheckDate
-								}).ToList();
-							claimDto.Payments = payments;
+					
+							claimDto.Payments = new List<PaymentDto>();
 							// Claim Prescriptions
 							var prescriptions = session.CreateSQLQuery(
-                                    @"SELECT PrescriptionId = [p].[PrescriptionId]
+									@"SELECT PrescriptionId = [p].[PrescriptionId]
 										 , RxDate = [p].[DateFilled]
 									, AmountPaid = [p].[PayableAmount]
 								, RxNumber = [p].[RxNumber]
