@@ -10,6 +10,7 @@ import {Injectable} from "@angular/core";
 import {HttpService} from "./http-service";
 import {EventsService} from "./events-service";
 import {Router} from "@angular/router";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class ClaimManager{
@@ -18,7 +19,7 @@ export class ClaimManager{
   loading:Boolean=false;
   private notetypes:Array<any>=[];
   private prescriptionNotetypes:Array<PrescriptionNoteType>=[];
-  constructor(private http:HttpService,private events:EventsService,private router: Router) {}
+  constructor(private http:HttpService,private events:EventsService,private router: Router, private toast: ToastsManager) {}
   
   search(data){    
     this.loading = true;
@@ -26,6 +27,11 @@ export class ClaimManager{
     .subscribe((result:any)=>{
         this.loading = false;
         this.selected=undefined;
+        
+        if(result.length < 1) {
+          this.toast.warning('No records were found with that search critera.');
+        }
+
         if(result.name){
             this.claims = Immutable.OrderedMap<Number, Claim>();
             var c = new Claim(-10,result.claimNumber,result.date,result.injuryDate,result.gender,
