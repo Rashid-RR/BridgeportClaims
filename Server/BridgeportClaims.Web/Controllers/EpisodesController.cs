@@ -2,7 +2,7 @@
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Episodes;
-using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;
 
@@ -22,7 +22,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("saveepisode")]
-        public IHttpActionResult AddOrUpdateEpisode([FromBody] EpisodeDto episode)
+        public IHttpActionResult AddOrUpdateEpisode([FromBody] SaveEpisodeModel model)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace BridgeportClaims.Web.Controllers
                 var user = User.Identity.GetUserId();
                 if (null == user)
                     throw new ArgumentNullException(nameof(user));
-                _episodesDataProvider.AddOrUpdateEpisode(episode.EpisodeId, episode.ClaimId, user, episode.Note);
+                _episodesDataProvider.AddOrUpdateEpisode(model.EpisodeId, model.ClaimId, user, model.NoteText);
                 return Ok(new { message = "Episode was saved Successfully" });
             }
             catch (Exception ex)

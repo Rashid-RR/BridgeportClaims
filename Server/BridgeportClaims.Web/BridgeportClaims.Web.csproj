@@ -707,6 +707,7 @@
     <Compile Include="Email\Models\EmailViewModel.cs" />
     <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\RoleReturnModel.cs" />
+    <Compile Include="Models\SaveEpisodeModel.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\UsersInRoleModel.cs" />
     <Compile Include="Providers\BridgeportClaimOAuthProvider.cs" />

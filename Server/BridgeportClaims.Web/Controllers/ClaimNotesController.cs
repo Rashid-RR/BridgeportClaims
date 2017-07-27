@@ -81,9 +81,8 @@ namespace BridgeportClaims.Web.Controllers
                     // validate that the Claim exists
                     if (null == _claimRepository.Get(claimId))
                         throw new Exception($"An error has occurred, claim Id {claimId} doesn't exist");
-                    var locationHeader = new Uri(Url.Link(c.GetClaimNoteAction, new { claimId }));
                     _claimNotesDataProvider.AddOrUpdateNote(claimId, noteText, userId, noteTypeId);
-                    return Created(locationHeader, new { message = "The Claim Note was Saved Successfully"});
+                    return Ok(new { message = "The Claim Note was Saved Successfully"});
                 });
             }
             catch (Exception ex)

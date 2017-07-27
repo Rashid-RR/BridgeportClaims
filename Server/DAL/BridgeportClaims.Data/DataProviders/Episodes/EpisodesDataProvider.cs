@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using BridgeportClaims.Common.Disposable;
-using BridgeportClaims.Data.Dtos;
 using NHibernate;
 using BridgeportClaims.Common.Extensions;
 using NLog;
