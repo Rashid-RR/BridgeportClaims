@@ -8,10 +8,19 @@ table {
     overflow-x: hidden;
 }
 
+tbody>tr:hover {
+    background: #b6f1ff !important;
+    cursor: pointer;
+}
+
 td,
 th {
     font-size: 9pt;
     word-wrap: break-word;
     padding-left: 1px !important;
     padding-right: 1px !important;
+}
+.note-text {
+    background: #d6d8cc;
+    padding: 2rem;
 }

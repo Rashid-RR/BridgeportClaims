@@ -4,7 +4,6 @@ import swal from "sweetalert2";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { HttpService } from "../../services/http-service"
 
-
 @Component({
   selector: 'app-claim-script-note',
   templateUrl: './claim-script-note.component.html',
@@ -23,10 +22,7 @@ export class ClaimScriptNoteComponent implements OnInit {
 
   openScriptNotesModal(sType, sDate, SPerson, sNote) {
     let newDate = new Date(sDate);
-    console.log(newDate);
     let dateString = (newDate.getMonth() + 1 + '/' + newDate.getDate() + '/' + newDate.getFullYear());
-
-    console.log(dateString);
 
     swal({
       title: 'Script Note',
@@ -46,7 +42,7 @@ export class ClaimScriptNoteComponent implements OnInit {
       </div>
       <div class="form-group">
         <label id="noteTextLabel">Note Text</label>
-        <textarea class="form-control"  id="note" rows="5"  style="resize: vertical;">` + sNote + `</textarea>
+        <div style="background: #d6d8cc; padding: 2rem;">` + sNote + `</div>
       </div>`,
       showCancelButton: true,
       showCloseButton: true,
