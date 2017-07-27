@@ -112,83 +112,59 @@ th {
     flex-shrink: 1;
     flex-grow: 1;
 }
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 25px;
+
+
+/* Perscription Checkbox Style */
+
+.perscriptionCheckBox {
+    position: relative;
+    margin: -2px 5px;
 }
 
-.switch input {display:none;}
-
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .1s;
-  transition: .1s;
+.perscriptionCheckBox label {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #fcfff4;
+    background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+    border-radius: 4px;
+    box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  -webkit-transition: .1s;
-  transition: .1s;
+.perscriptionCheckBox label:after {
+    content: '';
+    width: 11px;
+    height: 6px;
+    position: absolute;
+    top: 6px;
+    left: 4px;
+    border: 3px solid #333;
+    border-top: none;
+    border-right: none;
+    background: transparent;
+    opacity: 0;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 
-input:checked + .slider {
-  background-color: #4caf50;
+.perscriptionCheckBox label:hover::after {
+    opacity: 0.5;
 }
 
-input:focus + .slider {
-  box-shadow: 0 0 1px #4caf50;
+.perscriptionCheckBox input[type=checkbox] {
+    position: absolute;
+    z-index: 9;
+    opacity: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    cursor: pointer;
 }
 
-input:checked + .slider:before {
-  -webkit-transform: translateX(20px);
-  -ms-transform: translateX(20px);
-  transform: translateX(22px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-}
-
-.active-switch {
-  margin: 50px auto;
-  position: relative;
-}
-
-.active-switch label {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  display: block;
-}
-
-.active-switch input {
-  top: 0; 
-  right: 0; 
-  bottom: 0; 
-  left: 0;
-  opacity: 0;
-  z-index: 100;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
+.perscriptionCheckBox input[type=checkbox]:checked+label:after {
+    opacity: 1;
 }
