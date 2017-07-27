@@ -38,7 +38,7 @@ AS BEGIN
 	)
 		EXEC(N'ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN StageID')
 
-	/*IF OBJECT_ID(N'tempdb..#Payor') IS NOT NULL
+	IF OBJECT_ID(N'tempdb..#Payor') IS NOT NULL
 			DROP TABLE #Payor
 	IF OBJECT_ID(N'tempdb..#Adjustor') IS NOT NULL
 			DROP TABLE #Adjustor
@@ -63,16 +63,19 @@ AS BEGIN
 	IF OBJECT_ID(N'tempdb..#UpdateClaim') IS NOT NULL
 			DROP TABLE #UpdateClaim
 	IF OBJECT_ID(N'tempdb..#TransientPatient') IS NOT NULL
-			DROP TABLE #TransientPatient*/
+			DROP TABLE #TransientPatient
+	IF OBJECT_ID(N'tempdb..#UpdateInvoice') IS NOT NULL
+			DROP TABLE #UpdateInvoice
 
 	DECLARE @TotalRowCount INT = (SELECT COUNT(*) FROM [etl].[StagedLakerFile])
 	-- Clear out tables that we're going to be loading
 	IF EXISTS (SELECT * FROM [sys].[views] AS [v] WHERE [v].[name] = 'vwPrescriptionNote')
 		DROP VIEW [dbo].[vwPrescriptionNote]
+	EXEC [util].[uspSmarterTruncateTable] 'dbo.ClaimNote'
 	EXEC [util].[uspSmarterTruncateTable] 'dbo.PrescriptionNoteMapping'
 	EXEC [util].[uspSmarterTruncateTable] 'dbo.PrescriptionNote'
 	EXEC [util].[uspSmarterTruncateTable] 'dbo.Prescription'
-	EXEC [util].[uspSmarterTruncateTable] 'dbo.Payment'
+	EXEC [util].[uspSmarterTruncateTable] 'dbo.AcctPayable'
 	EXEC [util].[uspSmarterTruncateTable] 'dbo.Invoice'
 	EXEC [util].[uspSmarterTruncateTable] 'dbo.Pharmacy'
 	EXEC [util].[uspSmarterTruncateTable] 'dbo.Episode'
@@ -94,11 +97,12 @@ AS BEGIN
 		RAISERROR(N'Nothing to Process. The etl.StagedLakerFile table is empty', 1, 1) WITH NOWAIT;
 		RETURN;
 	END
-
 	/********************************************************************************************
 	Import Payor Section
 	********************************************************************************************/
-	CREATE TABLE #Payor ([42] [varchar](8000) NULL,[43] [varchar](8000) NULL,[44] [varchar](8000) NULL,[45] [varchar](8000) NULL,[46] [varchar](8000) NULL,[StateID] [int] NULL,[48] [varchar](8000) NULL,[49] [varchar](8000) NULL,[50] [varchar](8000) NULL, RowNumber INT NOT NULL, DenseRank INT NOT NULL, ETLRowID VARCHAR(50) NOT NULL)
+	CREATE TABLE #Payor ([42] [varchar](8000) NULL,[43] [varchar](8000) NULL,[44] [varchar](8000) NULL,[45] 
+		[varchar](8000) NULL,[46] [varchar](8000) NULL,[StateID] [int] NULL,[48] [varchar](8000) NULL,[49] [varchar](8000) NULL,[50]
+		[varchar](8000) NULL, RowNumber INT NOT NULL, DenseRank INT NOT NULL, ETLRowID VARCHAR(50) NOT NULL)
 	INSERT [#Payor] ([42],[43],[44],[45],[46],[StateID],[48],[49],[50],[RowNumber],[DenseRank],[ETLRowID])
 	SELECT [s].[42], [s].[43],[s].[44],[s].[45],[s].[46],[us].[StateID],s.[48],s.[49],s.[50]
 			,ROW_NUMBER() OVER (PARTITION BY [s].[42], [s].[43],[s].[44],[s].[45],[s].[46],[us].[StateID],s.[48],s.[49],s.[50] ORDER BY [s].[42] ASC) RowNumber
@@ -106,7 +110,7 @@ AS BEGIN
 	FROM   [etl].[StagedLakerFile] AS s
 			LEFT JOIN [dbo].[UsState] AS [us] ON [us].[StateCode] = [s].[47]
 	WHERE  [s].[47] IS NOT NULL
-
+	
 	-- Actual Payor Import
 	INSERT [dbo].[Payor] ([GroupName],[BillToName],[BillToAddress1],[BillToAddress2],[BillToCity],[BillToStateID],[BillToPostalCode],[PhoneNumber],[FaxNumber],[ETLRowID])
 	SELECT [42],[43],[44],[45],[46],[StateID],[48],[49],[50],[ETLRowID] 
@@ -437,7 +441,6 @@ AS BEGIN
 	/********************************************************************************************
 	End Claim Section
 	********************************************************************************************/
-
 	/********************************************************************************************
 	Begin Invoice Section
 	********************************************************************************************/
@@ -456,7 +459,7 @@ AS BEGIN
 			AND [s].[4] IS NOT NULL
 			AND [s].[5] IS NOT NULL
 			AND [s].[PayorID] IS NOT NULL
-
+			
 	-- Invoice Import Statement
 	INSERT [dbo].[Invoice] ([ARItemKey],[Amount],[InvoiceNumber],[InvoiceDate],[PayorID],[ClaimID],[ETLRowID])
 	SELECT [i].[ARItemKey],[i].[Amount],[i].[InvoiceNumber],[i].[InvoiceDate],[i].[PayorID],[i].[ClaimID],[i].[ETLRowID]
@@ -471,21 +474,20 @@ AS BEGIN
 	FROM   [etl].[StagedLakerFile] AS s
 			INNER JOIN [#InvoiceImport] AS i ON [i].[ETLRowID] = [s].[RowID]
 			LEFT JOIN [dbo].[Invoice] AS [inv] ON [s].[RowID] = [inv].[ETLRowID];
-				   
-	WITH WindowingMagicCTE AS
-	(
-		SELECT [inv].ETLRowID
-				, InvoiceID = MIN([inv].[InvoiceID]) OVER ( 
-						PARTITION BY [inv].[DenseRank] ORDER BY [inv].[DenseRank]
-						ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING )
-		FROM   [#ProcessInvoice] AS [inv] WHERE [inv].[InvoiceID] IS NOT NULL AND inv.ETLRowID IS NOT NULL
-	)
+	
+	CREATE TABLE #UpdateInvoice (ETLRowID VARCHAR(50) NOT NULL, InvoiceID INT NOT NULL)
+	INSERT #UpdateInvoice ([ETLRowID],[InvoiceID])
+	SELECT [inv].ETLRowID
+			, InvoiceID = MIN([inv].[InvoiceID]) OVER ( 
+					PARTITION BY [inv].[DenseRank] ORDER BY [inv].[DenseRank]
+					ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING )
+	FROM   [#ProcessInvoice] AS [inv]
+	
 	UPDATE [s]
 	SET    [s].InvoiceID = [c].InvoiceID
-	FROM   [WindowingMagicCTE] AS c
-			INNER JOIN [etl].[StagedLakerFile] AS s WITH (TABLOCKX) ON [s].[RowID] = [c].[ETLRowID];
-	SET @RowCountCheck = @@ROWCOUNT
-			
+	FROM   #UpdateInvoice AS c
+		   INNER JOIN [etl].[StagedLakerFile] AS s WITH (TABLOCKX) ON [s].[RowID] = [c].[ETLRowID];
+
 	-- Invoice QA Check
 	IF @RowCountCheck != (SELECT COUNT(DISTINCT s.InvoiceID) FROM [etl].[StagedLakerFile] AS s)
 		BEGIN
@@ -498,20 +500,20 @@ AS BEGIN
 	/********************************************************************************************
 	End Invoice Section
 	********************************************************************************************/
-
+	
 	/********************************************************************************************
 	Begin Prescription Section
 	********************************************************************************************/
 	INSERT INTO [dbo].[Prescription] ([ClaimID],[DateSubmitted],[RxNumber],[DateFilled],[RefillDate],[RefillNumber],[MONY],
 			[DAW],[Quantity],[DaySupply],[NDC],[LabelName],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],
 			[BilledAmount],[PayIngrCost],[PayDispFee],[PayTax],[PayableAmount],[DEA],[PrescriberNPI],[AWPUnit],[Usual],
-			[Compound],[Strength],[GPIGenName],[TheraClass],[Generic],[PharmacyNABP],[Prescriber],[TransactionType],[TranID],[ETLRowID])
-			-- [AWP],[PrescriptionTran],[InvoiceID])
+			[Compound],[Strength],[GPIGenName],[TheraClass],[Generic],[PharmacyNABP],[Prescriber],[TransactionType],[TranID],
+			[InvoiceID],[ETLRowID])
 	SELECT	s.[ClaimID],s.[3],s.[60],s.[61],s.[62],s.[63],s.[64],s.[65],s.[66],s.[67],s.[68],s.[69],s.[70],s.[71],s.[72],s.[73]
 			,s.[74],s.[75],s.[76],s.[77],s.[78],s.[79],s.[80],s.[81],s.[105],s.[122],
 			ISNULL(s.[123],'') -- TODO: Remove at some point, this column is non-nullable.
 			,s.[137],s.[143],s.[146]
-			,'Y','','','','',s.[RowID] -- Question for Adam: this isn't in the mapping file. [Generic],[PharmacyNABP]
+			,'Y','','','','',s.[InvoiceID],s.[RowID] -- Question for Adam: this isn't in the mapping file. [Generic],[PharmacyNABP]
 	FROM	[etl].[StagedLakerFile] AS s
 
 	UPDATE e SET e.[PrescriptionID] = [p].[PrescriptionID]
@@ -626,9 +628,9 @@ AS BEGIN
 	********************************************************************************************/
 
 	/********************************************************************************************
-	Begin Payments Section
+	Begin AcctPayables Section
 	********************************************************************************************/
-	INSERT INTO [dbo].[Payment] ([CheckNumber],[CheckDate],[AmountPaid],[ClaimID],[InvoiceID], [ETLRowID])
+	INSERT INTO [dbo].[AcctPayable] ([CheckNumber],[CheckDate],[AmountPaid],[ClaimID],[InvoiceID], [ETLRowID])
 	SELECT [s].[6]
 			, [s].[7]
 			, 0
@@ -642,7 +644,7 @@ AS BEGIN
 	SET @RowCountCheck = @@ROWCOUNT
 
 	UPDATE s SET s.PaymentID = p.[PaymentID]
-	FROM   [dbo].[Payment] AS [p]
+	FROM   [dbo].[AcctPayable] AS [p]
 			INNER JOIN [etl].[StagedLakerFile] AS [s] ON [s].[RowID] = [p].[ETLRowID]
 	IF @@ROWCOUNT != @RowCountCheck
 		BEGIN
