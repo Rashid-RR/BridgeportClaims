@@ -86,12 +86,14 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 					{
 						try
 						{
+
 							var claimDto = session.Query<Patient>()
 								.Join(session.Query<Claim>(), p => p.PatientId, c => c.Patient.PatientId,
 									(p, c) => new { p, c })
 								.Where(w => w.c.ClaimId == claimId)
 								.Select(w => new ClaimDto
 								{
+									ClaimId = w.c.ClaimId,
 									Name = w.p.FirstName + " " + w.p.LastName,
 									Address1 = w.p.Address1,
 									Address2 = w.p.Address2,
@@ -115,7 +117,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									ClaimNumber = w.c.ClaimNumber
 								}).ToFuture().SingleOrDefault();
 							if (null == claimDto)
-								throw new ArgumentNullException(nameof(claimDto));
+								return null;
 							// Claim Note
 							var claimNoteDto = session.CreateSQLQuery(
 									@"SELECT cnt.[TypeName] NoteType, [cn]. [NoteText]

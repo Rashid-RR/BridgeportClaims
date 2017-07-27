@@ -6,6 +6,7 @@ namespace BridgeportClaims.Data.Dtos
     [Serializable]
     public sealed class ClaimDto
     {
+        public int ClaimId { get; set; }
         public string Name { get; set; }
         public string ClaimNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
