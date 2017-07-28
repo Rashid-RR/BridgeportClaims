@@ -54,7 +54,7 @@ export class ClaimPrescriptionsComponent implements OnInit {
               <td>`+noteDate+`</td>
               <td>`+note.type+`</td>
               <td>`+note.enteredBy+`</td>
-              <td>`+note.note+`</td>               
+              <td style="white-space: pre-wrap;">`+note.note+`</td>               
             </tr>`;
     })
     let html=`<div class="row invoice-info">
