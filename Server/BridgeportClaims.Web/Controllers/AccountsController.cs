@@ -9,6 +9,7 @@ using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using System.Net.Http;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
@@ -325,24 +326,22 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpDelete]
         [Authorize(Roles = "Admin")]
-        [DenyAction]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
             try
             {
                 var appUser = await AppUserManager.FindByIdAsync(id);
-                if (appUser != null)
-                {
-                    var result = await AppUserManager.DeleteAsync(appUser);
-                    return !result.Succeeded ? GetErrorResult(result) : Ok();
-                }
-                return NotFound();
+                if (null == appUser)
+                    return Content(HttpStatusCode.InternalServerError,
+                        new {message = "Error. The user was not found."});
+                var result = await AppUserManager.DeleteAsync(appUser);
+                return !result.Succeeded ? GetErrorResult(result) : Ok(new {message="The User was Deleted Successfully."});
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
             }
         }
         
