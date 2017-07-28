@@ -15,12 +15,31 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 @Injectable()
 export class ClaimManager{
   private claims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
+  private history: Array<Claim> = [];
   selected:Number;
   loading:Boolean=false;
   private notetypes:Array<any>=[];
   private prescriptionNotetypes:Array<PrescriptionNoteType>=[];
-  constructor(private http:HttpService,private events:EventsService,private router: Router, private toast: ToastsManager) {}
+  constructor(private http:HttpService,private events:EventsService,private router: Router, private toast: ToastsManager) {
+    this.getHistory();
+  }
   
+  getHistory(){
+    this.http.getHistory().single().map(r=>{return r.json()}).subscribe(res=>{    
+      this.history  = res as Array<Claim>;
+    },error=>{});
+  }
+
+  get claimHistory():Array<Claim>{
+    return this.history;
+  }
+  addHistory(id:Number){
+    this.http.addHistory(id).single().subscribe((res:any)=>{
+        this.getHistory();       
+    },err=>{
+
+    })
+  }
   search(data){    
     this.loading = true;
     this.http.getClaimsData(data).map(res=>{return res.json()})
@@ -53,6 +72,7 @@ export class ClaimManager{
             claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText,result.claimNotes[0].noteType) : null);
             claim.setPrescriptionNotes(result.prescriptionNotes);
             this.selected = result.claimId;
+            this.addHistory(result.claimId);
         }
       },err=>{
         this.loading = false;
@@ -101,7 +121,8 @@ export class ClaimManager{
       this.selected = id;
       var claim:Claim = this.claims.get(id) as Claim; 
       if(id !== undefined){ 
-        this.loading = true;         
+        this.loading = true;   
+        this.history.unshift(claim);         
         this.http.getClaimsData({claimId:id}).map(res=>{return res.json()})
           .subscribe(result=>{
               this.loading = false;
@@ -115,7 +136,8 @@ export class ClaimManager{
             console.log(err);
             let error = err.json();
           },()=>{
-              this.events.broadcast("claim-updated")
+              this.events.broadcast("claim-updated");
+              this.addHistory(id);
           })
       }
   }

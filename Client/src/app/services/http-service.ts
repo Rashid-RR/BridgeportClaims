@@ -66,7 +66,7 @@ export class HttpService {
     });
     return s;
   }
-  addHistory(id:number): Observable<Response> {
+  addHistory(id:Number): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/history/addclaim?claimId="+id, {}, { headers: this.headers })    
     .catch(err =>  { 
       this.handleResponseError(err);

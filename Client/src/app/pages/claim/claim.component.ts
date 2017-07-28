@@ -32,7 +32,7 @@ export class ClaimsComponent implements OnInit {
     this.expandedBlade = 0;
   }
   ngOnInit() {
-     window['jQuery']('body').addClass('sidebar-collapse');
+     //window['jQuery']('body').addClass('sidebar-collapse');
      this.events.on("edit-episode",(id:Number)=>{
        this.episode(id);
      })

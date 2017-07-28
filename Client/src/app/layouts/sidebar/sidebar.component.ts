@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {EventsService} from "../../services/events-service";
 import {ProfileManager} from "../../services/profile-manager";
+import {ClaimManager} from "../../services/claim-manager";
 import {HttpService} from "../../services/http-service";
 import {Router} from "@angular/router";
 
@@ -11,7 +12,7 @@ import {Router} from "@angular/router";
 })
 export class SidebarComponent implements OnInit {
 
-  constructor(private http: HttpService,private events:EventsService, private router: Router, private profileManager:ProfileManager) { }
+  constructor(private http: HttpService,private events:EventsService, private router: Router, private profileManager:ProfileManager,public claimManager:ClaimManager) { }
 
   ngOnInit() {
 
@@ -26,6 +27,11 @@ export class SidebarComponent implements OnInit {
 
   get allowed():Boolean{
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin')>-1)
+  }
+  goToClaim(id:Number){
+       this.claimManager.search({ 
+         claimNumber: null,firstName: null,lastName: null,
+         rxNumber: null,invoiceNumber: null,claimId:id});
   }
 
 
