@@ -219,4 +219,7 @@ export class HttpService {
       }
   }
 
+  getDate() {
+    return this.http.get(this.baseUrl + "/display/date", {headers: this.headers})
+  }
 }
