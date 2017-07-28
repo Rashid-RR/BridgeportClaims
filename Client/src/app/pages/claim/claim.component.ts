@@ -248,10 +248,10 @@ export class ClaimsComponent implements OnInit {
           }).subscribe(res => {
             let noteType = this.claimManager.NoteTypes.find(type=>type.key==result[0]);
             if(!this.claimManager.selectedClaim.claimNote){
-              this.claimManager.selectedClaim.claimNote = new ClaimNote(txt,noteType.value)
+              this.claimManager.selectedClaim.claimNote = new ClaimNote(txt,noteType? noteType.value : undefined)
             }else{
               this.claimManager.selectedClaim.claimNote.noteText=txt;
-              this.claimManager.selectedClaim.claimNote.noteType=noteType.value;
+              this.claimManager.selectedClaim.claimNote.noteType=noteType ? noteType.value : undefined;
             } 
             this.claimManager.selectedClaim.editing = false;
             this.claimManager.loading = false;              

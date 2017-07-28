@@ -31,8 +31,16 @@ export class ClaimManager{
         if(result.length < 1) {
           this.toast.warning('No records were found with that search critera.');
         }
-
-        if(result.name){
+        if( Object.prototype.toString.call( result ) === '[object Array]' ){
+            let res:  Array<Claim>  = result;
+            this.claims = Immutable.OrderedMap<Number, Claim>();
+            result.forEach(claim=>{
+              var c = new Claim(claim.claimId,claim.claimNumber,claim.dateEntered,claim.injuryDate,claim.gender,
+              claim.carrier,claim.adjustor,claim.adjustorPhoneNumber,claim.dateEntered,claim.adjustorPhoneNumber
+              ,claim.name,claim.firstName,claim.lastName);
+              this.claims = this.claims.set(claim.claimId,c);
+            })
+        }else/*   if(result.name) */{
             this.claims = Immutable.OrderedMap<Number, Claim>();
             var c = new Claim(result.claimId,result.claimNumber,result.date,result.injuryDate,result.gender,
             result.carrier,result.adjustor,result.adjustorPhoneNumber,result.dateEntered,result.adjustorPhoneNumber
@@ -45,15 +53,6 @@ export class ClaimManager{
             claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText,result.claimNotes[0].noteType) : null);
             claim.setPrescriptionNotes(result.prescriptionNotes);
             this.selected = result.claimId;
-        }else{
-            let res:  Array<Claim>  = result;
-            this.claims = Immutable.OrderedMap<Number, Claim>();
-            result.forEach(claim=>{
-              var c = new Claim(claim.claimId,claim.claimNumber,claim.dateEntered,claim.injuryDate,claim.gender,
-              claim.carrier,claim.adjustor,claim.adjustorPhoneNumber,claim.dateEntered,claim.adjustorPhoneNumber
-              ,claim.name,claim.firstName,claim.lastName);
-              this.claims = this.claims.set(claim.claimId,c);
-            })
         }
       },err=>{
         this.loading = false;
