@@ -66,6 +66,24 @@ export class HttpService {
     });
     return s;
   }
+  addHistory(id:number): Observable<Response> {
+    let s = this.http.post(this.baseUrl + "/history/addclaim?claimId="+id, {}, { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+
+  getHistory(): Observable<Response> {
+    let s = this.http.get(this.baseUrl + "/history/claims", { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    
+    return s;
+  }
 
   changepassword(data): Observable<Response> {
     let s = this.http.put(this.baseUrl + "/account/changepassword", data, { headers: this.headers })    
