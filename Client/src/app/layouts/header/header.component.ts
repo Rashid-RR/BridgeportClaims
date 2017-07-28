@@ -20,7 +20,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.http.getDate().subscribe(response => {
         this.date = response.json().message;
-        console.log(this.date)
       }
     )
   }
