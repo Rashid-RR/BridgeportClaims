@@ -1,124 +1,124 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box">
-            <div class="box-header with-border"><h3 class="box-title">Bridgeport Claims</h3></div>
+            <div class="box-header with-border">
+                <h3 class="box-title">Bridgeport Claims</h3>
+            </div>
             <div class="box-body">
                 <div class="row">
-                    <div class="col-sm-12"   id="accordion">
-                            <app-claim-search></app-claim-search>
+                    <div class="col-sm-12" id="accordion">
+                        <app-claim-search></app-claim-search>
                     </div>
                 </div>
                 <div class="row data" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
-                    <div [class.col-sm-5]="!expanded"  [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" *ngIf="!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)"  style="padding-right:0px;">
+                    <div [class.col-sm-5]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" *ngIf="!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" style="padding-right:0px;">
                         <div class="box" *ngIf="(!expanded && expandedBlade==0) || expandedBlade==1">
-                            <div class="box-header">
-                                <h4 class="box-title text-center"><u>Claims</u></h4>
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconClaims.png"> Claims</u></h4>
                                 <div class="box-tools pull-right">
-                                        <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
-                                        <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,1)"   title="Expand blade"><i class="fa fa-expand"></i></button>
+                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()" title="Minimize"><i class="fa fa-minus"></i></button>
+                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,1)" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body claims">
+                            <div class="box-body claims panel-body-bg">
                                 <app-claim-result [expand]="expand" [minimize]="minimize"></app-claim-result>
                             </div>
                         </div>
-                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==2">                    
-                            <div class="box-header">
-                                <h4 class="box-title text-center"><u>Notes</u></h4>
+                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==2">
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconnotes.png">Notes</u></h4>
                                 <div class="box-tools pull-right" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
-                                    <div class="btn-group" data-toggle="btn-toggle">                            
-                                        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="addNote()" *ngIf="!claimManager.selectedClaim.claimNotes">Add New</button>                                
-                                        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)" *ngIf="claimManager.selectedClaim.claimNotes"   title="Edit Note">Edit</button>
+                                    <div class="btn-group" data-toggle="btn-toggle">
+                                        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="addNote()" *ngIf="!claimManager.selectedClaim.claimNotes">Add New</button>
+                                        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)" *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note">Edit</button>
                                     </div>
-                                        <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
-                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,2)"   title="Expand blade"><i class="fa fa-expand"></i></button>
-                                    &nbsp;&nbsp;&nbsp;
-                                </div>                       
+                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()" title="Minimize"><i class="fa fa-minus"></i></button>
+                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,2)" title="Expand blade"><i class="fa fa-expand"></i></button> &nbsp;&nbsp;&nbsp;
+                                </div>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body panel-body-bg">
                                 <app-claim-note></app-claim-note>
                             </div>
                         </div>
-                        <div class="box" *ngIf="(claimManager.selected!==undefined  && expandedBlade==0) || expandedBlade==3">                            
-                            <div class="box-header">
-                                <h4 class="box-title text-center"><u>Episodes</u></h4>
+                        <div class="box" *ngIf="(claimManager.selected!==undefined  && expandedBlade==0) || expandedBlade==3">
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconepisodes.png">Episodes</u></h4>
                                 <div class="box-tools pull-right">
-                                    <div class="btn-group" data-toggle="btn-toggle">                            
-                                        <button type="button" class="btn btn-flat bg-purple btn-sm"   title="New Episode" (click)="episode()">Add New</button>                                
+                                    <div class="btn-group" data-toggle="btn-toggle">
+                                        <button type="button" class="btn btn-flat bg-purple btn-sm" title="New Episode" (click)="episode()">Add New</button>
                                     </div>
-                                        <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
-                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,3)"   title="Expand blade"><i class="fa fa-expand"></i></button>
-                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()" title="Minimize"><i class="fa fa-minus"></i></button>
+                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,3)" title="Expand blade"><i class="fa fa-expand"></i></button> &nbsp;&nbsp;&nbsp;
                                 </div>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body panel-body-bg">
                                 <app-claim-episode></app-claim-episode>
                             </div>
                         </div>
                     </div>
-                    <div [class.col-sm-7]="!expanded"  [class.col-sm-12]="expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" style="padding-left:0px;">
-                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4">                            
-                            <div class="box-header">
-                                <h4 class="box-title text-center"><u>Prescriptions</u></h4>
+                    <div [class.col-sm-7]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" style="padding-left:0px;">
+                        <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4">
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconPrescriptions.png">Prescriptions</u></h4>
                                 <div class="box-tools pull-right">
                                     <div class="btn-group" data-toggle="btn-toggle">
-                                        <button class="btn bg-purple btn-flat btn-sm" type="button" (click)="addPrescriptionNote()">Add Note</button>
+                                        <button class="btn btn-flat btn-sm bg-purple" type="button" (click)="addPrescriptionNote()">Add Note</button>
                                     </div>
-                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
-                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,4)"   title="Expand blade"><i class="fa fa-expand"></i></button>                                    
+                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()" title="Minimize"><i class="fa fa-minus"></i></button>
+                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,4)" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body panel-body-bg">
                                 <app-claim-prescriptions></app-claim-prescriptions>
                             </div>
                             <div class="box-footer">
                                 <div class="btn-group">
-                                    <button class="btn bg-purple btn-flat btn-small btn-block left" type="button" (click)="addPrescriptionNote()">Add Note</button>
+                                    <button class="btn bg-darkRed btn-flat btn-small btn-block left" type="button" (click)="addPrescriptionNote()">Add Note</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==5">                            
-                            <div class="box-header">
-                                <h4 class="box-title text-center"><u>Script Notes</u></h4>
+                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==5">
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconScripts.png">Script Notes</u></h4>
                                 <div class="box-tools pull-right">
-                                        <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
-                                        <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,5)"   title="Expand blade"><i class="fa fa-expand"></i></button>
+                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()" title="Minimize"><i class="fa fa-minus"></i></button>
+                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,5)" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body panel-body-bg">
                                 <app-claim-script-note></app-claim-script-note>
                             </div>
                         </div>
-                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==6">                            
-                            <div class="box-header">
-                                <h4 class="box-title text-center"><u>Payments</u></h4>
+                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==6">
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconpayments.png">Payments</u></h4>
                                 <div class="box-tools pull-right">
-                                        <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
-                                        <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,6)"   title="Expand blade"><i class="fa fa-expand"></i></button>
+                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()" title="Minimize"><i class="fa fa-minus"></i></button>
+                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,6)" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body panel-body-bg">
                                 <app-claim-payment></app-claim-payment>
                             </div>
                         </div>
                         <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==7">
-                            <div class="box-header">
-                                <h4 class="box-title text-center"><u>Images</u></h4>
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconImages.png">Images</u></h4>
                                 <div class="box-tools pull-right">
-                                        <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()"   title="Minimize"><i class="fa fa-minus"></i></button>
-                                        <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,7)"   title="Expand blade"><i class="fa fa-expand"></i></button>
+                                    <button type="button" *ngIf="expanded" class="btn btn-flat bg-green btn-sm" (click)="minimize()" title="Minimize"><i class="fa fa-minus"></i></button>
+                                    <button type="button" *ngIf="!expanded" class="btn btn-flat bg-green btn-sm" (click)="expand(true,7)" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body">
+                            <div class="box-body panel-body-bg">
                                 <app-claim-images></app-claim-images>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-             <div class="overlay" *ngIf="claimManager.loading" style="text-align:center;">
+            <div class="overlay" *ngIf="claimManager.loading" style="text-align:center;">
                 <img src="assets/1.gif">
-            </div> 
+            </div>
         </div>
     </div>
- </div>
+</div>
