@@ -40,10 +40,11 @@ export class ClaimScriptNoteComponent implements OnInit {
           <div class="col-xs-4">` + SPerson + `</div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group" style="margin-top: 1.2rem;">
         <label id="noteTextLabel">Note Text</label>
         <div style="background: #d6d8cc; padding: 2rem;">` + sNote + `</div>
       </div>`,
+      width: window.innerWidth*1.799/3,
       showCancelButton: true,
       showCloseButton: true,
       showLoaderOnConfirm: true,

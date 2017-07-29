@@ -136,10 +136,12 @@ input.faChkSqr:checked:after, input.faChkSqr:after {
 
 input.faChkRnd:checked:after {
   content: '\f058';
+  background: transparent;
 }
 
 input.faChkRnd:after {
   content: '\f10c';
+  background: transparent;
 }
 
 input.faChkSqr:checked:after {

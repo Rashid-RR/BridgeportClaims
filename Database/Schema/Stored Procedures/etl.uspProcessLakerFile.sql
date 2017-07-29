@@ -427,7 +427,7 @@ AS BEGIN
 	EXEC(N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN [ClaimID] INT NOT NULL')
 
 	-- Ok, set it back.
-	EXEC(N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN [ClaimID] INT NOT NULL')
+	EXEC(N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN [ClaimID] INT NULL')
 
 	-- Claim QA Check
 	IF @RowCountCheck != (SELECT COUNT(DISTINCT slf.[ClaimID]) FROM [etl].[StagedLakerFile] AS [slf])

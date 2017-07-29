@@ -30,14 +30,6 @@ AS BEGIN
 		)
 			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN [PayorID]
 		IF EXISTS
-		(
-			SELECT * FROM [sys].[columns] AS [c]
-			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'PaymentID'
-				  AND [t].[object_id] = @Obj
-		)
-			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN [PaymentID]
-		IF EXISTS
 	    (
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
@@ -61,6 +53,14 @@ AS BEGIN
 				  AND [t].[object_id] = @Obj
 		)
 			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN [InvoiceID]
+		IF EXISTS
+	    (
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'PaymentID'
+				  AND [t].[object_id] = @Obj
+		)
+			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN [PaymentID]
 		IF EXISTS
 	    (
 			SELECT * FROM [sys].[columns] AS [c]
