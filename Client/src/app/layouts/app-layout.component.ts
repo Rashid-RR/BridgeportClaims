@@ -30,11 +30,12 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
 
    get isLoggedIn():boolean{
     if(this.profileManager.profile){
-       // window['jQuery']('body').addClass('sidebar-mini');
+      console.log("Logged int");
+        window['jQuery']('body').addClass('sidebar-mini');
         return true;
-    }else{
-       // window['jQuery']('body').removeClass('sidebar-mini');
-        //window['jQuery']('body').addClass('sidebar-collapse');
+    }else{console.log("Logged out");
+       window['jQuery']('body').removeClass('sidebar-mini');
+       window['jQuery']('body').addClass('sidebar-collapse');
         return false;
     }
   }
