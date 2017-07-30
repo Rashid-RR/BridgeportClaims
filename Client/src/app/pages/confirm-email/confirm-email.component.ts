@@ -31,7 +31,7 @@ export class ConfirmEmailComponent implements OnInit {
   ngOnInit() {
 
     this.router.routerState.root.queryParams.subscribe(params => {
-      this.code = decodeURIComponent(params['code']); this.user = decodeURIComponent(params['userId'])
+      this.code = encodeURIComponent(params['code']); this.user = params['userId']
         /* console.log(this.code);
         console.log('\n\n');
         console.log(this.user); */
