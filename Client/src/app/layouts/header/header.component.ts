@@ -11,12 +11,17 @@ import {Router} from "@angular/router";
 })
 export class HeaderComponent implements OnInit {
 
+  date: string;
+
   constructor(private http: HttpService, private router: Router, public eventservice: EventsService,public profileManager:ProfileManager) {
 
   }
 
   ngOnInit() {
-    
+    this.http.getDate().subscribe(response => {
+        this.date = response.json().message;
+      }
+    )
   }
 
   logout() {

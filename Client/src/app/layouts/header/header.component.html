@@ -21,6 +21,7 @@
                 <li><a [routerLink]="'/login'">Login</a></li>
             </ul>
             <ul class="nav navbar-nav" *ngIf="profileManager.profile">
+                                <li class="display-date">{{ date }}</li>
                 <li routerLinkActive="active" *ngIf="profileManager.profile">
                     <!--[routerLink]="'/profile'"-->
                     <a class="navbar-link" [routerLink]="'/main/profile'">My Account</a>
