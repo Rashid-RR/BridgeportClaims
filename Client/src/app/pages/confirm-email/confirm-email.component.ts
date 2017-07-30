@@ -15,6 +15,7 @@ export class ConfirmEmailComponent implements OnInit {
   user: any;
   confirmed: Number = 0;
   loading = true;
+  error='';
   private hashChange: any;
   constructor(
     private route: ActivatedRoute,
@@ -28,11 +29,13 @@ export class ConfirmEmailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(
-      data => {
-        console.log(data);
-        this.code = encodeURIComponent(data['code']); this.user = data['userId']
-        try {
+
+    this.router.routerState.root.queryParams.subscribe(params => {
+      this.code = decodeURIComponent(params['code']); this.user = decodeURIComponent(params['userId'])
+        /* console.log(this.code);
+        console.log('\n\n');
+        console.log(this.user); */
+      try {
           this.http.confirmEmail(this.user, this.code).subscribe(res => {
             this.toast.success('Thank you for confirming your email. Please proceed to login');
             this.loading = false;
@@ -42,10 +45,12 @@ export class ConfirmEmailComponent implements OnInit {
             let err = error.json() || ({ "Message": "Server error!" });
             this.toast.error(err.Message);
             this.loading = false;
+            this.confirmed = 2;
+            this.error = err.Message;
           })
         } catch (e) {
           this.toast.error('Error in fields. Please correct to proceed!');
         }
-      });
+    });  
   }
 }
