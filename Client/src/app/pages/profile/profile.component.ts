@@ -27,7 +27,7 @@ export class ProfileComponent implements OnInit {
     private formBuilder: FormBuilder,
     public claimManager: ClaimManager,
     private http: HttpService,
-    private profileManager: ProfileManager,
+    public profileManager: ProfileManager,
     private toast: ToastsManager
   ) {
     /* console.log(this.profileManager.User);

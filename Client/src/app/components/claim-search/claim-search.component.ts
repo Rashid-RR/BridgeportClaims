@@ -39,7 +39,7 @@ export class ClaimSearchComponent implements OnInit {
     if(this.claimManager.selectedClaim){
       form.claimId = this.claimManager.selectedClaim.claimId
     }
-    this.claimManager.search(form);
+    this.claimManager.search(form,false);
   }
   clear(){
     this.claimManager.selected = undefined;

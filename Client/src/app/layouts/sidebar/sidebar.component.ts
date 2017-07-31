@@ -31,6 +31,6 @@ export class SidebarComponent implements OnInit {
   goToClaim(id:Number){
        this.claimManager.search({
          claimNumber: null,firstName: null,lastName: null,
-         rxNumber: null,invoiceNumber: null,claimId:id});
+         rxNumber: null,invoiceNumber: null,claimId:id},false);
   }
 }

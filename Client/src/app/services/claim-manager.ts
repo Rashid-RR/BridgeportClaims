@@ -40,7 +40,7 @@ export class ClaimManager{
 
     })
   }
-  search(data){    
+  search(data,addHistory=true){    
     this.loading = true;
     this.http.getClaimsData(data).map(res=>{return res.json()})
     .subscribe((result:any)=>{
@@ -72,7 +72,9 @@ export class ClaimManager{
             claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText,result.claimNotes[0].noteType) : null);
             claim.setPrescriptionNotes(result.prescriptionNotes);
             this.selected = result.claimId;
-            this.addHistory(result.claimId);
+            if(addHistory){
+              this.addHistory(result.claimId);
+            }
         }
       },err=>{
         this.loading = false;
@@ -117,7 +119,7 @@ export class ClaimManager{
   get PrescriptionNoteTypes():Array<any>{
     return this.prescriptionNotetypes;
   }
-  getClaimsDataById(id:Number){
+  getClaimsDataById(id:Number,addHistory=true){
       this.selected = id;
       var claim:Claim = this.claims.get(id) as Claim; 
       if(id !== undefined){ 
@@ -137,7 +139,9 @@ export class ClaimManager{
             let error = err.json();
           },()=>{
               this.events.broadcast("claim-updated");
-              this.addHistory(id);
+              if(addHistory){
+                this.addHistory(id);
+              }
           })
       }
   }
