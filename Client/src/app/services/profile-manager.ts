@@ -2,6 +2,7 @@
 import {UUID} from "angular2-uuid";
 import * as Immutable from "immutable";
 import {Observable} from "rxjs/Observable";
+import { Subject } from 'rxjs/Subject';
 import {UserProfile} from "../models/profile" 
 import {Injectable} from "@angular/core";
 import {HttpService} from "./http-service";
@@ -10,6 +11,7 @@ import {Router} from "@angular/router";
 
 @Injectable()
 export class ProfileManager{
+  profileChanged = new Subject<UserProfile>();
   private userCache: Immutable.OrderedMap<String, UserProfile> = Immutable.OrderedMap<String, UserProfile>();
   profile: UserProfile = null;
  
@@ -38,7 +40,8 @@ export class ProfileManager{
   }
   setProfile(u:UserProfile){
     let profile = new UserProfile(u.id || u.userName,u.login  || u.userName,u.firstName  || u.userName,u.lastName  || u.userName,u.email  || u.userName,u.userName,u.avatarUrl,u.createdOn);
-     this.userCache = this.userCache.set(profile.userName, profile);
+    this.userCache = this.userCache.set(profile.userName, profile);
+    this.profileChanged.next(profile);
   }
   userProfile(userId: String){
       return this.userCache.get(userId);
@@ -46,6 +49,7 @@ export class ProfileManager{
   
   clearUsers(){
     this.userCache = Immutable.OrderedMap<String, UserProfile>();
+    this.profileChanged.next(null);
   }
   get User():Observable<UserProfile> {
     const user = localStorage.getItem("user");
@@ -58,6 +62,7 @@ export class ProfileManager{
               this.profile= res; 
               this.events.broadcast('profile', res);
               observer.next(res);
+              this.profileChanged.next(res);
             },(error)=>{              
                 observer.error();
             })
