@@ -29,5 +29,7 @@ CREATE NONCLUSTERED INDEX [idxPayorBillToStateID] ON [dbo].[Payor] ([BillToState
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxPayorGroupName] ON [dbo].[Payor] ([GroupName]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE UNIQUE NONCLUSTERED INDEX [idxUqPayorGroupName] ON [dbo].[Payor] ([GroupName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [fkPayorBillToStateIDUsStateStateID] FOREIGN KEY ([BillToStateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO
