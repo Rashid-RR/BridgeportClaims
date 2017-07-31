@@ -254,4 +254,5 @@ paket-files/
 
 # dependencies
 /Client/node_modules
+/Client/dist
 /Server/BridgeportClaims.Web/assets
