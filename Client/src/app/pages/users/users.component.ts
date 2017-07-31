@@ -21,8 +21,8 @@ export class UsersComponent implements OnInit {
   loading: boolean;
   userRole = 'User';
   adminRole = 'Admin';
-  isAdmin ='';
-  userName:String='';
+  isAdmin = undefined;
+  userName:String = undefined;
   roles: Array<Role> = [];
   form: FormGroup;
   submitted: boolean = false;
