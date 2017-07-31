@@ -1,6 +1,6 @@
 import {AfterViewInit,Renderer2, Component,OnDestroy, OnInit, ViewContainerRef} from "@angular/core";
 import {Http,Headers} from "@angular/http";
-import { Router,NavigationEnd } from '@angular/router';
+import { Router,NavigationEnd,ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import {HttpService} from "./services/http-service";
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private events: EventsService,
     private profileManager: ProfileManager,
     private toast: ToastsManager,
-    private vcr: ViewContainerRef
+    private vcr: ViewContainerRef,private route:ActivatedRoute
   ) {
     this.toast.setRootViewContainerRef(vcr);
   }
@@ -39,12 +39,14 @@ export class AppComponent implements OnInit, OnDestroy {
           this.profileManager.setProfile(profile);
           this.profileManager.profile = profile;
           let auth = localStorage.getItem("token");
-          this.http.userFromId(us.id).single().subscribe( res => {
-              //console.log(res);
-              this.profileManager.profile.roles = res.json().roles;
-          },(error)=>{
-            //console.log(error)
-          });
+          if(window.location.hash.indexOf("#/confirm-email")!==0){         
+            this.http.userFromId(us.id).single().subscribe( res => {
+                //console.log(res);
+                this.profileManager.profile.roles = res.json().roles;
+            },(error)=>{
+              //console.log(error)
+            });
+          }
       } catch (error) {
         console.log(error);
       }
