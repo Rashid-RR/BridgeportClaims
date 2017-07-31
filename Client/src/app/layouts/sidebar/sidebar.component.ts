@@ -29,10 +29,8 @@ export class SidebarComponent implements OnInit {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin')>-1)
   }
   goToClaim(id:Number){
-       this.claimManager.search({ 
+       this.claimManager.search({
          claimNumber: null,firstName: null,lastName: null,
          rxNumber: null,invoiceNumber: null,claimId:id});
   }
-
-
 }
