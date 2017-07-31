@@ -10,6 +10,20 @@
     <!-- Icons -->
     <link href="assets/css/font-awesome.min.css" rel="stylesheet">
     <link href="assets/css/simple-line-icons.css" rel="stylesheet">
+    <!-- Pingdom -->
+    <script type="text/javascript">
+        var _prum = [
+            ['id', '597f6f94a8340810fa6aa06a'],
+            ['mark', 'firstbyte', (new Date()).getTime()]
+        ];
+        (function() {
+            var s = document.getElementsByTagName('script')[0],
+                p = document.createElement('script');
+            p.async = 'async';
+            p.src = '//rum-static.pingdom.net/prum.min.js';
+            s.parentNode.insertBefore(p, s);
+        })();
+    </script>
 </head>
 
 <body class="hold-transition skin-black">
@@ -25,20 +39,20 @@
                 -webkit-transform: translate(-50%, -50%);
                 transform: translate(-50%, -50%);
             }
-
+            
             .text {
                 color: #fbae17;
                 display: inline-block;
                 margin-left: 5px;
             }
-
+            
             .bounceball {
                 position: relative;
                 display: inline-block;
                 height: 37px;
                 width: 15px;
             }
-
+            
             .bounceball:before {
                 position: absolute;
                 content: '';
@@ -53,7 +67,7 @@
                 -webkit-animation: bounce 500ms alternate infinite ease;
                 animation: bounce 500ms alternate infinite ease;
             }
-
+            
             @-webkit-keyframes bounce {
                 0% {
                     top: 30px;
@@ -72,7 +86,7 @@
                     top: 0;
                 }
             }
-
+            
             @keyframes bounce {
                 0% {
                     top: 30px;
