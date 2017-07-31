@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
-using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using c = BridgeportClaims.Common.StringConstants.Constants;
