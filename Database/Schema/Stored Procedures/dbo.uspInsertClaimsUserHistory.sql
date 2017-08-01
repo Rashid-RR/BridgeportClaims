@@ -22,7 +22,7 @@ AS BEGIN
 		BEGIN TRANSACTION;
 		
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME()
-			   ,@MagicNumberOfHistoryToKeep TINYINT = 20
+			   ,@MagicNumberOfHistoryToKeep TINYINT = 25
 			   ,@PrntMsg VARCHAR(1000)
 			   ,@RowCount INT
 
