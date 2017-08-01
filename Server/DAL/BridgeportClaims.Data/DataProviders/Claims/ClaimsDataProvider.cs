@@ -173,7 +173,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetMaxResults(500)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionDto)))
 								.List<PrescriptionDto>();
-							claimDto.Prescriptions = prescriptions;
+						    claimDto.Prescriptions = prescriptions?.OrderByDescending(x => x.RxDate).ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
 									@"SELECT DISTINCT [ClaimId] = [a].[ClaimID]

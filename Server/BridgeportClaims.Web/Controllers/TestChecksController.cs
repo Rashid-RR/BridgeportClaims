@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.UserOptions;
+using BridgeportClaims.Web.Models;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -15,6 +16,7 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IDbccUserOptionsProvider _dbccUserOptionsProvider;
         private readonly IClaimsDataProvider _claimsDataProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private const string TestUserName = "testemail@testdomain.com";
 
         public TestChecksController(IDbccUserOptionsProvider dbccUserOptionsProvider, 
             IClaimsDataProvider claimsDataProvider)
