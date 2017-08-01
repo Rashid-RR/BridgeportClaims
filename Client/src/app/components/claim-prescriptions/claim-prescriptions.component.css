@@ -10,6 +10,7 @@
     z-index: 2;
     padding: 1.6rem 0;
 }
+
 table {
     table-layout: fixed;
     width: 99% !important;
@@ -198,5 +199,5 @@ th {
 }
 
 .bg-darkblue {
-    background-color: #0a25a8 !important;
+    background-color: #414772 !important;
 }
