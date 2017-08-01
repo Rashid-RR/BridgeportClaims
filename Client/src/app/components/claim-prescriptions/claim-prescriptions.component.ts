@@ -1,9 +1,9 @@
-import { Component, OnInit,AfterViewChecked } from '@angular/core';
-import {ClaimManager} from "../../services/claim-manager";
-import {HttpService} from "../../services/http-service";
-import {EventsService} from "../../services/events-service";
-import {Prescription} from "../../models/prescription";
-import {PrescriptionNotes} from "../../models/prescription-notes";
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { ClaimManager } from "../../services/claim-manager";
+import { HttpService } from "../../services/http-service";
+import { EventsService } from "../../services/events-service";
+import { Prescription } from "../../models/prescription";
+import { PrescriptionNotes } from "../../models/prescription-notes";
 import swal from "sweetalert2";
 import { DatePipe } from '@angular/common';
 
@@ -12,52 +12,106 @@ import { DatePipe } from '@angular/common';
   templateUrl: './claim-prescriptions.component.html',
   styleUrls: ['./claim-prescriptions.component.css']
 })
-export class ClaimPrescriptionsComponent implements OnInit {
+export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked {
 
-  constructor(private dp:DatePipe,public claimManager:ClaimManager,private events:EventsService,private http:HttpService) { }
+  constructor(
+    private dp: DatePipe,
+    public claimManager: ClaimManager,
+    private events: EventsService,
+    private http: HttpService
+  ) { }
 
   ngOnInit() {
-    this.events.on("claim-updated",()=>{
-        setTimeout(()=>{
-          window['jQuery']('input[type="checkbox"].flat-red, input[type="radio"].flat-red')
+    this.events.on("claim-updated", () => {
+      setTimeout(() => {
+        window['jQuery']('input[type="checkbox"].flat-red, input[type="radio"].flat-red')
           .iCheck({
             checkboxClass: 'icheckbox_flat-green',
             radioClass: 'iradio_flat-green'
           });
-        },1000);
+      }, 1000);
     })
+    this.cloneTableHeading();
   }
 
-  setSelected(p:any,s:Boolean){
-      console.log("Works...");
-      p.selected = s==undefined? true : s;
+  ngAfterViewChecked() {
+    this.updateTableHeadingWidth();
+    if (this.claimManager.isPrescriptionsExpanded) {
+      let fixedHeader = document.getElementById('fixed-header');
+      if (fixedHeader.style.position !== 'fixed') {
+        fixedHeader.style.position = 'fixed';
+        // console.log('set fixed header to Fixed');
+      }
+    } else {
+      let fixedHeader = document.getElementById('fixed-header');
+      if (fixedHeader.style.position === 'fixed') {
+        fixedHeader.style.position = 'absolute';
+        // console.log('set fixed header to Absolute');
+      }
+    }
   }
 
-  showNotes(prescriptionId:Number){
+  cloneTableHeading() {
+    let cln = document.getElementById('fixed-thead').cloneNode(true);
+    let fixedHeader = document.getElementById('fixed-header');
+    fixedHeader.appendChild(cln);
+    this.updateTableHeadingWidth();
+  }
+
+  cloneBoxHeader() {
+    let cln = document.getElementById
+  }
+
+
+  updateTableHeadingWidth() {
+    setTimeout(() => {
+      let fixedHeader = document.getElementById('fixed-header');
+      let fixedMaxHeader = document.getElementById('fixed-max-header');
+      let mainTable = document.getElementById('maintable');
+      if (fixedHeader) {
+        if (mainTable) {
+          let tableWidth = mainTable.clientWidth.toString();
+          fixedHeader.style.width = tableWidth + 'px';
+        }
+      } else {
+        if (mainTable) {
+          let tableWidth = mainTable.clientWidth.toString();
+          fixedMaxHeader.style.width = tableWidth + 'px';
+        }
+      }
+    }), 500
+  }
+
+  setSelected(p: any, s: Boolean) {
+    console.log("Works...");
+    p.selected = s == undefined ? true : s;
+  }
+
+  showNotes(prescriptionId: Number) {
     this.claimManager.loading = true;
-      this.http.getPrescriptionNotes(prescriptionId).single().subscribe(res=>{
-        let notes:Array<PrescriptionNotes> = res.json();
-        this.displayNotes(notes);
-      },error=>{
-        this.claimManager.loading = false;
-      });
+    this.http.getPrescriptionNotes(prescriptionId).single().subscribe(res => {
+      let notes: Array<PrescriptionNotes> = res.json();
+      this.displayNotes(notes);
+    }, error => {
+      this.claimManager.loading = false;
+    });
   }
 
-  displayNotes(notes:Array<PrescriptionNotes>){
+  displayNotes(notes: Array<PrescriptionNotes>) {
 
-    let notesHTML='';
-    notes.forEach(note=>{
-      
-      let noteDate = this.dp.transform(note.date,"shortDate");
-      notesHTML = notesHTML+`
+    let notesHTML = '';
+    notes.forEach(note => {
+
+      let noteDate = this.dp.transform(note.date, "shortDate");
+      notesHTML = notesHTML + `
             <tr>
-              <td>`+noteDate+`</td>
-              <td>`+note.type+`</td>
-              <td>`+note.enteredBy+`</td>
-              <td style="white-space: pre-wrap;">`+note.note+`</td>               
+              <td>`+ noteDate + `</td>
+              <td>`+ note.type + `</td>
+              <td>`+ note.enteredBy + `</td>
+              <td style="white-space: pre-wrap;">`+ note.note + `</td>               
             </tr>`;
     })
-    let html=`<div class="row invoice-info">
+    let html = `<div class="row invoice-info">
               <div class="col-sm-12 invoice-col" style="text-align:left;font-size:10pt">
                 <div class="table-responsive">
                   <table class="table no-margin table-striped">
@@ -70,21 +124,21 @@ export class ClaimPrescriptionsComponent implements OnInit {
                     </tr>
                     </thead>
                     <tbody>
-                    `+notesHTML+`
+                    `+ notesHTML + `
                     </tbody>
                   </table>
                 </div>
               </div>
         </div>`;
-        this.claimManager.loading = false;
-        swal({
-            title: 'Claim Note',
-            width: window.innerWidth*3/4+"px",
-            html:html
-        }).then(success=>{          
-          
-        }).catch(swal.noop)
+    this.claimManager.loading = false;
+    swal({
+      title: 'Claim Note',
+      width: window.innerWidth * 3 / 4 + "px",
+      html: html
+    }).then(success => {
+
+    }).catch(swal.noop)
   }
 
- 
+
 }

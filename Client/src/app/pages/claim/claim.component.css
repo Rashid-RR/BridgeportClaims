@@ -14,6 +14,16 @@
     overflow-x: hidden;
 }
 
+.box-header.with-border,
+.box .box-body>.row:first-child {
+    position: relative;
+    z-index: 3;
+    background: #fff;
+}
+#fixed-box-header {
+    z-index: 2;
+}
+
 td,
 th {
     padding-bottom: 1px !important;
@@ -40,6 +50,7 @@ textarea {
 
 .bg-head-box {
     background: #992727;
+    z-index: 3;
 }
 
 .panel-head {

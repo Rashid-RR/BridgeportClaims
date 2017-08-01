@@ -1,7 +1,15 @@
 .table-responsive {
+    position: relative;
     overflow-x: hidden;
 }
 
+#fixed-header {
+    position: absolute;
+    top: 43px;
+    background: #fbeede;
+    z-index: 2;
+    padding: 1.6rem 0;
+}
 table {
     table-layout: fixed;
     width: 99% !important;
