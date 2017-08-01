@@ -64,14 +64,17 @@ tr>th:nth-child(7),
 tr>td:nth-child(7) {
     max-width: 5%;
 }
+
 tr>th:nth-child(8),
 tr>td:nth-child(8) {
     max-width: 6%;
 }
+
 tr>th:nth-child(9),
 tr>td:nth-child(9) {
     max-width: 6%;
 }
+
 tr>th:nth-child(10),
 tr>td:nth-child(10) {
     max-width: 8%;
@@ -82,6 +85,7 @@ tr>td:last-child {
     text-align: center;
     max-width: 7%;
 }
+
 tr>td:last-child {
     font-size: 1.4rem;
     font-weight: bold;
@@ -183,4 +187,8 @@ th {
 
 .perscriptionCheckBox input[type=checkbox]:checked+label:after {
     opacity: 1;
+}
+
+.bg-darkblue {
+    background-color: #0a25a8 !important;
 }

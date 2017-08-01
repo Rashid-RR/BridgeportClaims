@@ -1,18 +1,31 @@
-.table-responsive{
+.table-responsive {
     overflow-x: hidden;
 }
-table{
-    table-layout:fixed;
-    width:99% !important;
+
+table {
+    table-layout: fixed;
+    width: 99% !important;
     overflow-x: hidden;
 }
-td,th{
-    padding-bottom:8px !important;
-    padding-top:3px !important;
+
+td,
+th {
+    padding-bottom: 8px !important;
+    padding-top: 3px !important;
     font-size: 9pt;
     word-wrap: break-word;
 }
-tr.active,tr.active td{
-    background:lightblue !important;
+
+tr.active,
+tr.active td {
+    background: lightblue !important;
 }
-textarea { resize: vertical; }
+
+textarea {
+    resize: vertical;
+}
+
+.bg-darkblue {
+    background-color: #0a25a8;
+    color: #fff;
+}

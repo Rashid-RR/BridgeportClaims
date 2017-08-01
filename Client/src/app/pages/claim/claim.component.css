@@ -63,3 +63,17 @@ textarea {
     background: #992727;
     color: #fff;
 }
+
+.bg-fullWhite {
+    background: #fff;
+    color: #992727;
+}
+
+.bg-fullWhite:hover {
+    box-shadow: none;
+}
+
+.bg-darkblue {
+    background-color: #0a25a8;
+    color: #fff;
+}

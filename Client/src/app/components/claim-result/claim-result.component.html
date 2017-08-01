@@ -1,7 +1,7 @@
-<ng-container   *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
+<ng-container *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
     <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
-      <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
-        <address>
+        <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
+            <address>
           Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}<br>
           DOB: {{claim.dateOfBirth | date:'shortDate'}}<br>
           Gender: {{claim.gender}}<br>
@@ -10,50 +10,50 @@
           Adjustor Ph : {{claim.adjustorPhoneNumber}}<br><br>
           Eligibility Entered: {{claim.dateEntered | date:'shortDate'}}<br><br>
         </address>
-      </div>
-      <!-- /.col -->
-      <div class="col-sm-6 invoice-col"  *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
-        <address>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
+            <address>
           Claim #: {{claim.claimNumber}}<br>
           Injury Date: {{claim.injuryDate}}<br>
           Adjustor Fax : {{claim.adjustorFaxNumber}}<br>
         </address>
-        <br/><br/><br/><br/><br/>
-        <!--
+            <br/><br/><br/><br/><br/>
+            <!--
             <span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId);"  *ngIf="claimManager.dataSize==1"> View </span>
-        -->    
-        <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="claimManager.selected=undefined"  style="font-size:10pt"  *ngIf="claimManager.dataSize>1"> Back to Claim Results </button>        
-      </div>
-  </div>
+        -->
+            <button type="button" class="btn btn-flat bg-purple btn-sm" (click)="claimManager.selected=undefined" style="font-size:10pt" *ngIf="claimManager.dataSize>1"> Back to Claim Results </button>
+        </div>
+    </div>
 </ng-container>
 <ng-container *ngIf="claimManager.dataSize>1 && claimManager.selected===undefined">
-  <div class="row invoice-info">
+    <div class="row invoice-info">
         <div class="col-sm-12 invoice-col">
-          <div class="table-responsive">
-            <table class="table no-margin table-striped table-hover">
-              <thead>
-              <tr>
-                <th>Claim #</th>
-                <th>Name</th>
-                <th>Carrier</th>
-                <th>Injury Date</th>
-                <th>&nbsp;</th>
-              </tr>
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let claim of claimManager.claimsData">
-                  <tr [class.active]="claimManager.selected!==undefined && claim.claimId==claimManager.selectedClaim.claimId">                
-                    <td>{{claim.claimNumber}}</td>
-                    <td *ngIf="claim.name">{{claim.name}}</td>
-                    <td *ngIf="!claim.name">{{claim.firstName}}  {{claim.lastName}}</td>
-                    <td>{{claim.carrier}}</td>
-                    <td>{{claim.injuryDate}}</td>
-                    <td><button class="btn btn-flat btn-sm bg-purple" style="font-size:9pt" (click)="view(claim.claimId)"> View </button></td>
-                  </tr>
-                </ng-container>
-              </tbody>
-            </table>
-          </div>
+            <div class="table-responsive">
+                <table class="table no-margin table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Claim #</th>
+                            <th>Name</th>
+                            <th>Carrier</th>
+                            <th>Injury Date</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngFor="let claim of claimManager.claimsData">
+                            <tr [class.active]="claimManager.selected!==undefined && claim.claimId==claimManager.selectedClaim.claimId">
+                                <td>{{claim.claimNumber}}</td>
+                                <td *ngIf="claim.name">{{claim.name}}</td>
+                                <td *ngIf="!claim.name">{{claim.firstName}} {{claim.lastName}}</td>
+                                <td>{{claim.carrier}}</td>
+                                <td>{{claim.injuryDate}}</td>
+                                <td><button class="btn btn-flat btn-sm bg-darkblue" style="font-size:9pt" (click)="view(claim.claimId)"> View </button></td>
+                            </tr>
+                        </ng-container>
+                    </tbody>
+                </table>
+            </div>
         </div>
-  </div>
+    </div>
 </ng-container>
