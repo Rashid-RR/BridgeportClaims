@@ -300,6 +300,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
+      <Project>{ecbbfbd1-dbab-486b-a50b-7b2de864f29f}</Project>
+      <Name>BridgeportClaims.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
       <Name>BridgeportClaims.Common</Name>

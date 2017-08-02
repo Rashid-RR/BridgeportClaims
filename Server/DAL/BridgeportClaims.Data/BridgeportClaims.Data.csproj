@@ -137,6 +137,10 @@
       <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
+      <Project>{DF854117-1C14-4F92-935D-A740DDED79DF}</Project>
+      <Name>BridgeportClaims.Excel</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

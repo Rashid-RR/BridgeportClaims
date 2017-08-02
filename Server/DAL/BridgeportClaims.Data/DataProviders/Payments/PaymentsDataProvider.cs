@@ -1,16 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using BridgeportClaims.Common.Disposable;
 using c = BridgeportClaims.Common.StringConstants.Constants;
-
+using BridgeportClaims.Excel.Adapters;
 
 namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public class PaymentsDataProvider : IPaymentsDataProvider
     {
-        public byte[] GetBytesFromDbAsync(string fileName) => DisposableService.Using(() 
+        public async Task ImportPaymentFile(string fileName)
+        {
+            var fileBytes = GetBytesFromDbAsync(fileName);
+            var dt = OleDbExcelAdapter.GetDataTableFromExcel(fileBytes.ToArray(), true);
+            await ImportDataTableIntoDbAsync(dt);
+        }
+
+        private static IEnumerable<byte> GetBytesFromDbAsync(string fileName) => DisposableService.Using(() 
             => new SqlConnection(c.ConnStr), conn =>
             {
                 conn.Open();
@@ -29,7 +38,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     });
             });
 
-        public async Task ImportDataTableIntoDbAsync(DataTable dt) => await DisposableService.Using(() 
+        private static async Task ImportDataTableIntoDbAsync(DataTable dt) => await DisposableService.Using(() 
             => new SqlConnection(c.ConnStr), async conn =>
             {
                 conn.Open();
