@@ -31,11 +31,11 @@ namespace BridgeportClaims.Web.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("call")]
-        public async Task<IHttpActionResult> InitializeTestCall()
+        public async Task<IHttpActionResult> InitializeTestCall(int i)
         {
             try
             {
-                var fileBytes = _paymentsDataProvider.GetBytesFromDbAsync("darkerv2.png");
+                var fileBytes = _paymentsDataProvider.GetBytesFromDbAsync($"0{i}-17 Posting File for Claims System.xlsx");
                 var dt = OleDbExcelAdapter.GetDataTableFromExcel(fileBytes, true);
                 await _paymentsDataProvider.ImportDataTableIntoDbAsync(dt);
                 var testClaimId = Convert.ToInt32(cs.GetAppSetting(c.TestClaimIdKey));

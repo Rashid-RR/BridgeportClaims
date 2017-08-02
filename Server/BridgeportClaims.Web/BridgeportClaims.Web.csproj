@@ -493,7 +493,9 @@
     <Content Include="assets\img\iconpayments.png" />
     <Content Include="assets\img\iconPrescriptions.png" />
     <Content Include="assets\img\iconScripts.png" />
+    <Content Include="assets\img\Laker_File_Upload.jpg" />
     <Content Include="assets\img\name_type.png" />
+    <Content Include="assets\img\Payment_File_Upload.jpg" />
     <Content Include="assets\img\select.png" />
     <Content Include="assets\img\send.png" />
     <Content Include="assets\img\smiley.png" />
@@ -528,7 +530,9 @@
     <Content Include="glyphicons-halflings-regular.89889688147bd7575d63.svg" />
     <Content Include="index.html" />
     <Content Include="inline.1a89d3452eef963c6e1c.bundle.js" />
+    <Content Include="inline.4e7d5d44c20f605cbff9.bundle.js" />
     <Content Include="main.5c8f9f2aa536761b9dc4.bundle.js" />
+    <Content Include="main.89b0a11e4acf589a82dd.bundle.js" />
     <Content Include="packages.config" />
     <Content Include="assets\css\font-awesome.css.map" />
     <Content Include="assets\fonts\fontawesome-webfont.eot" />
@@ -683,6 +687,7 @@
     <Content Include="glyphicons-halflings-regular.e18bbf611f2a2e43afc0.ttf" />
     <Content Include="glyphicons-halflings-regular.f4769f9bdb7466be6508.eot" />
     <Content Include="glyphicons-halflings-regular.fa2772327f55d8198301.woff" />
+    <Content Include="assets\json\invoice.json" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-BridgeportClaimsStaging - FTP.pubxml" />
@@ -697,6 +702,7 @@
   <ItemGroup>
     <Content Include="polaris%402x.78fe5012ba83d554949a.png" />
     <Content Include="polyfills.3f2a66b727eef84616a8.bundle.js" />
+    <Content Include="polyfills.76972cf8a95de10172ff.bundle.js" />
     <Content Include="scripts.66b4fe72977bedca2a83.bundle.js" />
     <Content Include="styles.d8fa6a497d7f42184831.bundle.css" />
     <Content Include="vendor.de51fcbee6e0a4b3e374.bundle.js" />
@@ -718,6 +724,7 @@
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
+    <Compile Include="Controllers\ServerEventsController.cs" />
     <Compile Include="Controllers\TestChecksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
