@@ -22,8 +22,9 @@ export class ClaimResultComponent implements OnInit {
   }
 
   view(claimID:Number){
-    this.claimManager.getClaimsDataById(claimID);    
-    this.minimize();
+    this.claimManager.getClaimsDataById(claimID);   
+    this.events.broadcast('minimize',[]); 
+    //this.minimize();
   }
 
 }

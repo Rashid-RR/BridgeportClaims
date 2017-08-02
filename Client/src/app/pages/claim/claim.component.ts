@@ -58,7 +58,7 @@ export class ClaimsComponent implements OnInit {
     this.initializeExpandedTableBooleanValue(table);
   }
 
-  initializeExpandedTableBooleanValue(table: string) {
+  public initializeExpandedTableBooleanValue(table: string) {
     if (table === 'claims') {
       this.claimManager.isClaimsExpanded = !this.claimManager.isClaimsExpanded;
     } else if (table === 'notes') {
@@ -83,6 +83,12 @@ export class ClaimsComponent implements OnInit {
     //window['jQuery']('body').addClass('sidebar-collapse');
     this.events.on("edit-episode", (id: Number) => {
       this.episode(id);
+    })
+    this.events.on("minimize", (...args) => {
+      this.minimize(args[0]);
+    })
+    this.events.on("expand", (...args) => {
+      this.expand(args[0],args[1],args[2]);
     })
   }
 

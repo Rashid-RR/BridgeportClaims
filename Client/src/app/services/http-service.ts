@@ -85,6 +85,14 @@ export class HttpService {
     return s;
   }
 
+  getInvoices(data:any){
+    let s = this.http.get("/assets/json/invoice.json", { headers: this.headers })   
+    .catch(err =>  { 
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    return s;
+  }
   changepassword(data): Observable<Response> {
     let s = this.http.put(this.baseUrl + "/account/changepassword", data, { headers: this.headers })    
     .catch(err =>  { 

@@ -44,6 +44,11 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
+import { PaymentComponent } from './pages/payment/payment.component';
+import { PaymentInvoiceComponent } from './components/payment-invoice/payment-invoice.component';
+import { PaymentInputComponent } from './components/payment-input/payment-input.component';
+import { PaymentResultComponent } from './components/payment-result/payment-result.component';
+import {PaymentService} from "./services/payment-service";
 
 
 @Pipe({name: 'safeStyle'})
@@ -74,7 +79,7 @@ export class SafeUrlPipe implements PipeTransform {
     PasswordResetComponent, 
     RegisterComponent,
     DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
-    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe, FileUploadComponent, FooterComponent
+    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe, FileUploadComponent, FooterComponent, PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +93,7 @@ export class SafeUrlPipe implements PipeTransform {
     FileUploadModule
   ],
   providers: [  
-    DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,
+    DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
