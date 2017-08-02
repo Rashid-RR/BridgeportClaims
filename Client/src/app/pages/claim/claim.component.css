@@ -103,3 +103,7 @@ textarea {
     vertical-align: -5px;
     color: #992727;
 }
+
+.display-none {
+    display: none
+}
