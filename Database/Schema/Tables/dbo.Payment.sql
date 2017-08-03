@@ -5,7 +5,10 @@ CREATE TABLE [dbo].[Payment]
 [AmountPaid] [money] NOT NULL,
 [DateScanned] [date] NULL,
 [PrescriptionID] [int] NULL,
-[ClaimID] [int] NOT NULL
+[ClaimID] [int] NOT NULL,
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPaymentCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPaymentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (
