@@ -115,7 +115,7 @@ export class ClaimsComponent implements OnInit {
         `
                   <div class="form-group">
                       <label id="claimNoteTypeLabel">Prescription Note type</label>
-                      <select class="form-control" id="prescriptionNoteTypeId">
+                      <select class="form-control" id="prescriptionNoteTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
                         `+ prescriptionNoteTypeIds + `
                       </select>
                   </div>

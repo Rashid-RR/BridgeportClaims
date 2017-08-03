@@ -1,4 +1,8 @@
+.nav.navbar-nav {
+    float: right;
+}
 .display-date {
+    display: inline-block;
     color: #fff;
     line-height: 50px;
     margin-right: 15px;

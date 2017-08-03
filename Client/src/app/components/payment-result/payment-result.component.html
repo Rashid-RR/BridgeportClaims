@@ -18,11 +18,11 @@
                     </tr>
                 </thead>
                 <tbody *ngIf="paymentService.invoicesData" class="overflowable">
-                    <tr *ngFor="let invoice of paymentService.invoicesData">
+                    <tr *ngFor="let invoice of paymentService.invoicesData"  (click)="inv.click()">
                         <td>
                              <div class="paymentCheckBox"> 
-                                <input type="checkbox" name="check" value="None" (change)="select(invoice,$event)" [id]="invoice.invoiceNumber" [attr.labelName]="invoice.labelName">
-                                 <label [for]="invoice.invoiceNumber"></label>
+                                <input type="checkbox" name="check" value="None" #inv (change)="select(invoice,$event)" [id]="invoice.invoiceNumber" [attr.labelName]="invoice.labelName" [attr.checked]="invoice.selected" (click)="inv.click()">
+                                 <label [for]="invoice.invoiceNumber" (click)="inv.click()"></label>
                             </div> 
                         </td>
                         <td>{{invoice.claimNumber}}</td>
