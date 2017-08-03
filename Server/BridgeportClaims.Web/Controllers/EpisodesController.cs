@@ -31,10 +31,10 @@ namespace BridgeportClaims.Web.Controllers
 				{
 					if (!ModelState.IsValid)
 						return GetBadRequestFormattedErrorMessages();
-					var user = User.Identity.GetUserId();
-					if (null == user)
-						throw new ArgumentNullException(nameof(user));
-					_episodesDataProvider.AddOrUpdateEpisode(model.EpisodeId, model.ClaimId, user, model.NoteText,
+					var userId = User.Identity.GetUserId();
+					if (null == userId)
+						throw new ArgumentNullException(nameof(userId));
+					_episodesDataProvider.AddOrUpdateEpisode(model.EpisodeId, model.ClaimId, userId, model.NoteText,
 						model.EpisodeTypeId);
 					return Ok(new { message = "Episode was saved Successfully" });
 				});

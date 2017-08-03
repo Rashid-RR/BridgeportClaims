@@ -33,9 +33,8 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var testClaimId = Convert.ToInt32(cs.GetAppSetting(c.TestClaimIdKey));
-                    var testUserId = cs.GetAppSetting(c.TestUserIdKey);
                     _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation();
-                    var retVal = _claimsDataProvider.GetClaimsDataByClaimId(testClaimId, testUserId);
+                    var retVal = _claimsDataProvider.GetClaimsDataByClaimId(testClaimId);
                     return Ok(retVal);
                 });
             }

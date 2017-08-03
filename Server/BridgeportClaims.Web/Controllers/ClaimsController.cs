@@ -48,10 +48,7 @@ namespace BridgeportClaims.Web.Controllers
 
 		private IHttpActionResult GetClaimsDataByClaimId(int claimId)
 		{
-			var userId = User.Identity.GetUserId();
-			if (userId.IsNullOrWhiteSpace())
-				throw new ArgumentNullException(nameof(userId));
-			return	Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId, userId));
+			return	Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId));
 		}
 	}
 }
