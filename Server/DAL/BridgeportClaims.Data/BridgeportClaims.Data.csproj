@@ -86,6 +86,7 @@
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
+    <Compile Include="Dtos\ImportFileDto.cs" />
     <Compile Include="Dtos\PaymentDto.cs" />
     <Compile Include="Dtos\PrescriptionDto.cs" />
     <Compile Include="Dtos\PrescriptionNoteSaveDto.cs" />
