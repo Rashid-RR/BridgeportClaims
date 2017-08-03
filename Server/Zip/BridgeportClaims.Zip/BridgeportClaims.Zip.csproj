@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{DF854117-1C14-4F92-935D-A740DDED79DF}</ProjectGuid>
+    <ProjectGuid>{29F2631F-DAEC-4287-8A7F-EB2A6F79A308}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BridgeportClaims.Excel</RootNamespace>
-    <AssemblyName>BridgeportClaims.Excel</AssemblyName>
+    <RootNamespace>BridgeportClaims.Zip</RootNamespace>
+    <AssemblyName>BridgeportClaims.Zip</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,12 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ExcelDataReader, Version=3.1.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ExcelDataReader.3.1.0\lib\net45\ExcelDataReader.dll</HintPath>
-    </Reference>
-    <Reference Include="ExcelDataReader.DataSet, Version=3.1.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\ExcelDataReader.DataSet.3.1.0\lib\net45\ExcelDataReader.DataSet.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,19 +40,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\ExcelDataReaderAdapter.cs" />
-    <Compile Include="Adapters\OleDbExcelAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
-      <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
-      <Name>BridgeportClaims.Common</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
+    <Compile Include="Zip\Compression\Deflater.cs" />
+    <Compile Include="Zip\Compression\DeflaterConstants.cs" />
+    <Compile Include="Zip\Compression\DeflaterEngine.cs" />
+    <Compile Include="Zip\Compression\DeflaterHuffman.cs" />
+    <Compile Include="Zip\Compression\DeflaterPending.cs" />
+    <Compile Include="Zip\Compression\Inflater.cs" />
+    <Compile Include="Zip\Compression\InflaterDynHeader.cs" />
+    <Compile Include="Zip\Compression\InflaterHuffmanTree.cs" />
+    <Compile Include="Zip\Compression\PendingBuffer.cs" />
+    <Compile Include="Zip\Compression\Streams\DeflaterOutputStream.cs" />
+    <Compile Include="Zip\Compression\Streams\InflaterInputStream.cs" />
+    <Compile Include="Zip\Compression\Streams\OutputWindow.cs" />
+    <Compile Include="Zip\Compression\Streams\StreamManipulator.cs" />
+    <Compile Include="Zip\FastZip.cs" />
+    <Compile Include="Zip\IEntryFactory.cs" />
+    <Compile Include="Zip\WindowsNameTransform.cs" />
+    <Compile Include="Zip\ZipConstants.cs" />
+    <Compile Include="Zip\ZipEntry.cs" />
+    <Compile Include="Zip\ZipEntryFactory.cs" />
+    <Compile Include="Zip\ZipException.cs" />
+    <Compile Include="Zip\ZipExtraData.cs" />
+    <Compile Include="Zip\ZipFile.cs" />
+    <Compile Include="Zip\ZipHelperStream.cs" />
+    <Compile Include="Zip\ZipInputStream.cs" />
+    <Compile Include="Zip\ZipNameTransform.cs" />
+    <Compile Include="Zip\ZipOutputStream.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -54,6 +54,7 @@
     <Compile Include="Caching\IMemoryCacher.cs" />
     <Compile Include="Caching\MemoryCacher.cs" />
     <Compile Include="Config\ConfigService.cs" />
+    <Compile Include="DataTables\DataTableProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Expressions\ExpressionHelper.cs" />
     <Compile Include="Expressions\ExpressionReplacer.cs" />

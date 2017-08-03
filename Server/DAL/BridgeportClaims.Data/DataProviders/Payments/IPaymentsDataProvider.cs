@@ -4,6 +4,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public interface IPaymentsDataProvider
     {
-        Task ImportPaymentFile(string fileName);
+        void ImportPaymentFile(string fileName);
     }
 }
