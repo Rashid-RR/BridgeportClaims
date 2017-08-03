@@ -84,6 +84,7 @@
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
+    <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
     <Compile Include="Dtos\PaymentDto.cs" />
     <Compile Include="Dtos\PrescriptionDto.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />
+    <Compile Include="Mappings\EpisodeTypeMap.cs" />
     <Compile Include="Mappings\GenderMap.cs" />
     <Compile Include="Mappings\InvoiceMap.cs" />
     <Compile Include="Mappings\PatientMap.cs" />

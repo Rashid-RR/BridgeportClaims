@@ -89,7 +89,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 				new List<SqlParameter> {claimIdParam}).ToList();
 		}
 
-		public ClaimDto GetClaimsDataByClaimId(int claimId, string userName)
+		public ClaimDto GetClaimsDataByClaimId(int claimId)
 		{
 			return DisposableService.Using(() => _factory.OpenSession(), session =>
 			{
@@ -148,14 +148,16 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 
 							// Claim Episodes
 							var episodes = session.CreateSQLQuery(
-									@"SELECT EpisodeId = [e].[EpisodeID]
-										, [Date] = [e].[CreatedDateUTC]
-										, [By] = :UserName
-										, [e].[Note]
-									  FROM   [dbo].[Episode] AS [e]
-									  WHERE  [e].[ClaimID] = :ClaimID")
+								  @"SELECT EpisodeId = [e].[EpisodeID]
+										 , [Date] = [e].[CreatedDateUTC]
+										 , [By] = [u].[FirstName] + ' ' + [u].[LastName]
+										 , [e].[Note]
+										 , [Type] = [et].[TypeName]
+									FROM   [dbo].[Episode] AS [e] 
+											INNER JOIN [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [e].[AssignedUserID]
+											LEFT JOIN [dbo].[EpisodeType] AS [et] ON [et].[EpisodeTypeID] = [e].[EpisodeTypeID]
+									WHERE  [e].[ClaimID] = :ClaimID")
 								.SetMaxResults(1000)
-								.SetString("UserName", userName)
 								.SetInt32("ClaimID", claimId)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(EpisodeDto)))
 								.List<EpisodeDto>();
