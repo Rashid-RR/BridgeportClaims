@@ -34,7 +34,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
         return true;
     }else{
        window['jQuery']('body').removeClass('sidebar-mini');
-       window['jQuery']('body').addClass('sidebar-collapse');
+       //window['jQuery']('body').addClass('sidebar-collapse');
         return false;
     }
   }
