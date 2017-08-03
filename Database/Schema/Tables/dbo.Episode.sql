@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[Episode]
 [Type] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ResolvedUser] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AcquiredUser] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[AssignUser] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[AssignedUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [RxNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Status] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedDateUTC] [datetime2] NULL,
@@ -30,4 +30,6 @@ GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeEpisodeTypeIDEpisodeTypeEpisodeTypeID] FOREIGN KEY ([EpisodeTypeID]) REFERENCES [dbo].[EpisodeType] ([EpisodeTypeID])
+GO
+ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkfkfk] FOREIGN KEY ([AssignedUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

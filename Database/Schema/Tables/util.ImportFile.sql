@@ -18,3 +18,5 @@ ALTER TABLE [util].[ImportFile] ADD CONSTRAINT [pkImportFile] PRIMARY KEY CLUSTE
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxUqImportFileFileName] ON [util].[ImportFile] ([FileName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxImportFileFileNameIncludeImportFileIDFileExtensionCreatedOnUTC] ON [util].[ImportFile] ([FileName]) INCLUDE ([CreatedOnUTC], [FileExtension], [ImportFileID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO

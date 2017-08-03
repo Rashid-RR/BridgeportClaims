@@ -15,7 +15,8 @@ CREATE PROC [dbo].[uspSaveEpisode]
 	@ClaimID INT,
 	@CreatedDateUTC DATETIME2,
 	@AssignUser VARCHAR(100),
-	@Note VARCHAR(1000)
+	@Note VARCHAR(1000),
+	@EpisodeTypeID INT
 )
 AS 
 BEGIN
@@ -40,17 +41,17 @@ BEGIN
 				  @ClaimID ClaimID,
 				  @CreatedDateUTC CreatedDateUTC,
 				  @AssignUser AssignUser,
-				  @Note Note) AS src
+				  @Note Note,
+				  @EpisodeTypeID EpisodeTypeID) AS src
 	       ON [tgt].[EpisodeID] = [src].[EpisodeID]
 	WHEN NOT MATCHED BY TARGET THEN
-		INSERT ([ClaimID], [CreatedDateUTC], [AssignUser], [Note])
-		VALUES (src.[ClaimID], src.[CreatedDateUTC], src.[AssignUser], src.[Note])
+		INSERT ([ClaimID], [CreatedDateUTC], [AssignUser], [Note], [EpisodeTypeID])
+		VALUES (src.[ClaimID], src.[CreatedDateUTC], src.[AssignUser], src.[Note], [src].[EpisodeTypeID])
 	WHEN MATCHED THEN
 		UPDATE SET  [tgt].[ClaimID] = [src].[ClaimID],
-					[tgt].[CreatedDateUTC] = [src].[CreatedDateUTC],
 					[tgt].[AssignUser] = [src].[AssignUser],
 					[tgt].[Note] = [src].[Note],
-					[tgt].[UpdatedOnUTC] = @UTCNow;
+					[tgt].[UpdatedOnUTC] = @UTCNow,
+					[tgt].[EpisodeTypeID] = [src].[EpisodeTypeID];
 END
-
 GO
