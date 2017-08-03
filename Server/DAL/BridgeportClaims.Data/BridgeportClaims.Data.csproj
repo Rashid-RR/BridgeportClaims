@@ -63,6 +63,8 @@
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
     <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
     <Compile Include="DataProviders\ImportFile\ImportFileProvider.cs" />
+    <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
+    <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\UserOptions\DbccUserOptionsProvider.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
+    <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
     <Compile Include="Dtos\PaymentDto.cs" />
     <Compile Include="Dtos\PrescriptionDto.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />
+    <Compile Include="Mappings\EpisodeTypeMap.cs" />
     <Compile Include="Mappings\GenderMap.cs" />
     <Compile Include="Mappings\InvoiceMap.cs" />
     <Compile Include="Mappings\PatientMap.cs" />
@@ -134,6 +138,10 @@
     <ProjectReference Include="..\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj">
       <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
       <Name>BridgeportClaims.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
+      <Project>{DF854117-1C14-4F92-935D-A740DDED79DF}</Project>
+      <Name>BridgeportClaims.Excel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

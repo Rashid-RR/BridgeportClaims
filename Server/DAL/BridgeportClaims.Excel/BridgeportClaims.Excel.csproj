@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ECBBFBD1-DBAB-486B-A50B-7B2DE864F29F}</ProjectGuid>
+    <ProjectGuid>{DF854117-1C14-4F92-935D-A740DDED79DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BridgeportClaims.Business</RootNamespace>
-    <AssemblyName>BridgeportClaims.Business</AssemblyName>
+    <RootNamespace>BridgeportClaims.Excel</RootNamespace>
+    <AssemblyName>BridgeportClaims.Excel</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ExcelDataReader, Version=3.1.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ExcelDataReader.3.1.0\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.1.0.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ExcelDataReader.DataSet.3.1.0\lib\net45\ExcelDataReader.DataSet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,14 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FilePatterns\FilePatternProvider.cs" />
+    <Compile Include="Adapters\ExcelDataReaderAdapter.cs" />
+    <Compile Include="Adapters\OleDbExcelAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+    <ProjectReference Include="..\..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
       <Name>BridgeportClaims.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

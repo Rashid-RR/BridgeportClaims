@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.UserOptions;
-using BridgeportClaims.Web.Models;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -16,7 +15,6 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IDbccUserOptionsProvider _dbccUserOptionsProvider;
         private readonly IClaimsDataProvider _claimsDataProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private const string TestUserName = "testemail@testdomain.com";
 
         public TestChecksController(IDbccUserOptionsProvider dbccUserOptionsProvider, 
             IClaimsDataProvider claimsDataProvider)
@@ -35,9 +33,8 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var testClaimId = Convert.ToInt32(cs.GetAppSetting(c.TestClaimIdKey));
-                    var testUserId = cs.GetAppSetting(c.TestUserIdKey);
                     _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation();
-                    var retVal = _claimsDataProvider.GetClaimsDataByClaimId(testClaimId, testUserId);
+                    var retVal = _claimsDataProvider.GetClaimsDataByClaimId(testClaimId);
                     return Ok(retVal);
                 });
             }

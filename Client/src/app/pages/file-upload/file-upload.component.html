@@ -2,20 +2,20 @@
     <div class="col-md-12" style="text-align: center;">
         <h3>Select Multiple Files</h3>
     </div>
-    <div class="col-md-6" style="text-align: center;">
+    <div class="col-md-6" style="text-align: right;">
         <!-- File Upload For CSV -->
         <div class="image-upload">
             <label for="file-input-csv">
-                <img src="assets/file-upload.png" style="pointer-events: none; width: 400px; "/>
+                <img src="assets/img/Laker_File_Upload.jpg" style="pointer-events: none; width: 400px; "/>
             </label>
             <input id="file-input-csv" accept=".csv" type="file" ng2FileSelect [uploader]="uploaderCsv" multiple />
         </div>
     </div>
-    <div class="col-md-6" style="text-align: center;">
+    <div class="col-md-6" style="text-align: left;">
         <!-- File Upload For XLSX  -->
         <div class="image-upload">
             <label for="file-input-excel">
-                <img src="assets/file-upload.png" style="pointer-events: none; width: 400px; "/>
+                <img src="assets/img/Payment_File_Upload.jpg" style="pointer-events: none; width: 400px; "/>
             </label>
             <input id="file-input-excel" accept=".xlsx" type="file" ng2FileSelect [uploader]="uploaderExcel" multiple />
         </div>
@@ -23,7 +23,7 @@
 
     <div class="col-md-12" style="margin-bottom: 40px">
         <h3>Upload queue</h3>
-        <p>Queue length: {{ uploader?.queue?.length }}</p>
+        <p>Queue length: {{ uploaderCsv?.queue?.length }}</p>
         <table class="table">
             <thead>
                 <tr>
@@ -80,7 +80,7 @@
                     <span class="glyphicon glyphicon-trash"></span> Remove all
                 </button>
         </div>
-         <div>
+        <div>
             <div>
                 Queue progress Excel files:
                 <div class="progress" style="">

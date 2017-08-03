@@ -54,6 +54,7 @@
     <Compile Include="Caching\IMemoryCacher.cs" />
     <Compile Include="Caching\MemoryCacher.cs" />
     <Compile Include="Config\ConfigService.cs" />
+    <Compile Include="DataTables\DataTableProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Expressions\ExpressionHelper.cs" />
     <Compile Include="Expressions\ExpressionReplacer.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="FileUploading\StreamProvider.cs" />
+    <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConstants\Constants.cs" />
   </ItemGroup>

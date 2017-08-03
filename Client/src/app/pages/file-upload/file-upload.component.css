@@ -1,5 +1,9 @@
-.image-upload > input {
-  visibility:hidden;
-  width:0;
-  height:0
+.image-upload>input {
+    visibility: hidden;
+    width: 0;
+    height: 0
+}
+
+.image-upload>label {
+    cursor: pointer;
 }

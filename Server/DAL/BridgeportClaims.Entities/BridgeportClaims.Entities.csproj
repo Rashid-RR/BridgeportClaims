@@ -72,6 +72,7 @@
     <Compile Include="DomainModels\Episode.cs" />
     <Compile Include="DomainModels\EpisodeLink.cs" />
     <Compile Include="DomainModels\EpisodeLinkType.cs" />
+    <Compile Include="DomainModels\EpisodeType.cs" />
     <Compile Include="DomainModels\Gender.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
     <Compile Include="DomainModels\Patient.cs" />

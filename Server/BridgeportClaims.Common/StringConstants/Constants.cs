@@ -31,5 +31,8 @@ namespace BridgeportClaims.Common.StringConstants
         public const string ClaimNoteTypesKey = "__ClaimNoteTypesKey__";
         public const string TestClaimIdKey = "TestClaimId";
         public const string TestUserIdKey = "TestUserId";
+        public const string PaymentsDataImporterAppName = "PaymentsDataImporter";
+        public const string LakerFilePatternKeyName = "LakerFilePattern";
+        public const string PaymentFilePatternKeyName = "PaymentFilePattern";
     }
 }
