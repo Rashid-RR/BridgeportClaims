@@ -5,24 +5,22 @@ namespace BridgeportClaims.Common.Extensions
 {
 	public static class StringExtensions
 	{
-		public static string Left(this string value, int maxLength)
+		public static string Left(this string _this, int maxLength)
 		{
-			if (value.IsNullOrWhiteSpace()) return value;
+			if (_this.IsNullOrWhiteSpace()) return _this;
 			maxLength = Math.Abs(maxLength);
 
-			return value.Length <= maxLength
-				? value
-				: value.Substring(0, maxLength);
+			return _this.Length <= maxLength
+				? _this : _this.Substring(0, maxLength);
 		}
 
-		public static string Right(this string value, int maxLength)
+		public static string Right(this string _this, int maxLength)
 		{
-			if (value.IsNullOrWhiteSpace()) return value;
+			if (_this.IsNullOrWhiteSpace()) return _this;
 			maxLength = Math.Abs(maxLength);
 
-			return value.Length <= maxLength
-				? value
-				: value.Substring(value.Length - maxLength, maxLength);
+			return _this.Length <= maxLength
+				? _this : _this.Substring(_this.Length - maxLength, maxLength);
 		}
 
 		public static bool IsNotNullOrEmpty(this string _this) => !string.IsNullOrEmpty(_this);

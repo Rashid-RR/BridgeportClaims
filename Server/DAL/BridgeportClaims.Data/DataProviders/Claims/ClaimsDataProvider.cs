@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -76,6 +76,19 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			return retVal;
 		}
 
+		private IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId)
+		{
+			var claimIdParam = new SqlParameter
+			{
+				ParameterName = "ClaimID",
+				Value = claimId,
+				DbType = DbType.Int32
+			};
+			return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PrescriptionDto>(
+				"EXEC dbo.uspGetPrescriptionDataForClaim @ClaimID = :ClaimID",
+				new List<SqlParameter> {claimIdParam}).ToList();
+		}
+
 		public ClaimDto GetClaimsDataByClaimId(int claimId, string userName)
 		{
 			return DisposableService.Using(() => _factory.OpenSession(), session =>
@@ -147,33 +160,10 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetResultTransformer(Transformers.AliasToBean(typeof(EpisodeDto)))
 								.List<EpisodeDto>();
 							claimDto.Episodes = episodes;
-
-					
 							claimDto.Payments = new List<PaymentDto>();
 							// Claim Prescriptions
-							var prescriptions = session.CreateSQLQuery(
-									@"SELECT PrescriptionId = [p].[PrescriptionId]
-										 , RxDate = [p].[DateFilled]
-									, AmountPaid = [p].[PayableAmount]
-								, RxNumber = [p].[RxNumber]
-								, LabelName = [p].[LabelName]
-								, BillTo = [pay].[BillToName]
-								, InvoiceAmount = [p].[BilledAmount]
-								, InvoiceDate = [i].[InvoiceDate]
-								, InvoiceNumber = [i].[InvoiceNumber]
-								, Outstanding = [i].[Amount]
-								, NoteCount =  (   SELECT COUNT(*)
-												   FROM   [dbo].[PrescriptionNoteMapping] AS [pnm]
-												   WHERE  [pnm].[PrescriptionId] = [p].[PrescriptionId]
-											   )
-							FROM [dbo].[Prescription] AS [p]
-							LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
-							LEFT JOIN [dbo].[Payor] AS [pay] ON [pay].[PayorID] = [i].[PayorID]
-							WHERE [p].[ClaimID] = :ClaimID").SetInt32("ClaimID", claimId)
-								.SetMaxResults(500)
-								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionDto)))
-								.List<PrescriptionDto>();
-						    claimDto.Prescriptions = prescriptions?.OrderByDescending(x => x.RxDate).ToList();
+							claimDto.Prescriptions = 
+								GetPrescriptionDataByClaim(claimId)?.OrderByDescending(x => x.RxDate).ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
 									@"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
