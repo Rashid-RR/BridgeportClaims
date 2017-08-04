@@ -215,7 +215,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Start\NHibernateProfilerBootstrapper.vb" />
     <Content Include="EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
