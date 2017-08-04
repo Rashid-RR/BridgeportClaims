@@ -12,37 +12,17 @@ import { Subscription } from 'rxjs/Subscription';
 })
 export class HeaderComponent implements OnInit {
 
-  date: string;
-  private getDateSub: Subscription;
+  date: number;
+
   constructor(
     private http: HttpService,
     private router: Router,
     public eventservice: EventsService,
     public profileManager: ProfileManager
   ) { }
-
-
-  private fetchDate(){
-    this.getDateSub = this.http.getDate().subscribe(result => {
-      this.date = result.json().message;
-    });
-  }
   
   ngOnInit() {
-    // this.date = this.http.date;
-    if (this.profileManager.profile) {
-      this.fetchDate();
-    }
-    this.profileManager.profileChanged.subscribe((profile) => {
-      if (profile) {
-        if (!this.getDateSub) {
-          this.fetchDate();
-        }
-      } else if (this.getDateSub) {
-        this.getDateSub.unsubscribe();
-        this.getDateSub = null;
-      }
-    });
+    this.date = Date.now();
   }
 
   logout() {
