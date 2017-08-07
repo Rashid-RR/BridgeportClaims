@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
         this.http.register(this.form.value).subscribe(res => {
             console.log("Successful registration");            
             this.toast.success("You have registered successfully");
-            this.toast.success("Please go check your email – you’ll need to confirm your email address before you login.");
+            this.toast.warning("Please check your email to confirm it before Logging in...");
             this.registered = true
             this.submitted = false;
             this.router.navigate(['/login']);
