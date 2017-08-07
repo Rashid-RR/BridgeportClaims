@@ -6,6 +6,7 @@
                     <tr>
                         <th>Date</th>
                         <th>By</th>
+                        <th>Type</th>
                         <th>Notes</th>
                         <th>&nbsp;</th>
                     </tr>
@@ -14,6 +15,7 @@
                     <tr *ngFor="let episode of claimManager.selectedClaim.episodes">
                         <td>{{episode.date | date:"shortDate"}}</td>
                         <td>{{episode.by}}</td>
+                        <td>{{getTypeName(episode.episodeTypeId)}}</td>
                         <td>{{episode.note}}</td>
                         <td>
                             <button type="button" class="btn btn-flat bg-darkRed btn-sm pull-right" (click)="edit(episode.episodeId)" title="Edit Episode">Edit</button>

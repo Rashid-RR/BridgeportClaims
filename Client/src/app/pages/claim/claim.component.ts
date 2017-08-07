@@ -88,7 +88,7 @@ export class ClaimsComponent implements OnInit {
       this.minimize(args[0]);
     })
     this.events.on("expand", (...args) => {
-      this.expand(args[0],args[1],args[2]);
+      this.expand(args[0], args[1], args[2]);
     })
   }
 
@@ -182,18 +182,38 @@ export class ClaimsComponent implements OnInit {
     }
   }
 
-  episode(id?: Number) {
+  episode(id?: Number, TypeId?: String) {
     var episode: Episode;
+
+    // console.log(id);
+
     if (id) {
       episode = this.claimManager.selectedClaim.episodes.find(episode => episode.episodeId == id);
-      console.log(episode);
+      // console.log('Episode ID: ', episode.episodeId);
+      // console.log(episode);
     }
+
+    let episodeTypeId = '<option value="" style="color:purple">Select Episode Type</option>';
+    this.claimManager.EpisodeNoteTypes.forEach((note: { episodeTypeId: String, episodeTypeName: String }) => {
+      episodeTypeId = episodeTypeId + '<option value="' + note.episodeTypeId + '"' + (note.episodeTypeId == TypeId ? "selected" : "") + '>' + note.episodeTypeName + '</option>';
+    });
+    let note_text: String = '';
+    if (episode) {
+      note_text = episode.note ? episode.note : episode.noteText;
+    }
+
     swal({
+      width: window.innerWidth * 1.799 / 3,
       title: 'Episode Entry',
       html:
       `<div class="form-group">
-                  <label id="noteTextLabel">Note Text</label>
-                  <textarea class="form-control"  id="note" rows="5"  style="resize: vertical;">`+ (episode !== undefined ? episode.note : '') + `</textarea>
+              <label id="episodeNoteTypeLabel">Note type</label>
+              <select class="form-control" id="episodeTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
+                `+ episodeTypeId + `
+              </select>
+              <p style="font-size:11pt" id="selected">Optional</p>
+                  <label id="noteTextLabel">Episode Text</label>
+                  <textarea class="form-control"  id="note" rows="5"  style="resize: vertical;">`+ note_text + `</textarea>
               </div>
             `,
       showCancelButton: true,
@@ -202,7 +222,8 @@ export class ClaimsComponent implements OnInit {
       preConfirm: function () {
         return new Promise(function (resolve) {
           resolve([
-            window['jQuery']('#note').val()
+            window['jQuery']('#note').val(),
+            window['jQuery']('#episodeTypeId').val()
           ])
         })
       },
@@ -217,14 +238,16 @@ export class ClaimsComponent implements OnInit {
           window['jQuery']('#noteTextLabel').css({ "color": "red" })
         }, 200)
       } else {
-        swal({ title: "", html: "Saving episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false })
+        swal({ title: "", html: "Saving episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false });
+        let TypeId = result[1];
         this.http.saveEpisode(
           {
+            episodeId: episode !== undefined ? episode.episodeId : null, // only send on episode edit
             claimId: this.claimManager.selectedClaim.claimId,
-            episodeId: episode !== undefined ? episode.episodeId : null,
-            note: result[0],
-            by: episode !== undefined ? episode.by : 'me',
-            date: episode !== undefined ? episode.date : (new Date())
+            noteText: result[0],
+            episodeTypeId: TypeId ? +TypeId : null,
+            // by: episode !== undefined ? episode.by : 'me',
+            // date: episode !== undefined ? episode.date : (new Date())
           }).single().subscribe(res => {
             let result = res.json()
             swal.close();
@@ -239,7 +262,10 @@ export class ClaimsComponent implements OnInit {
       }
     }).catch(swal.noop)
   }
+
+
   addNote(noteText: String = "", TypeId?: String) {
+    console.log(TypeId)
     let selectedNotes = [];
     noteText = noteText.replace(/\\n/g, '&#13;');
     let claimNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
@@ -292,6 +318,13 @@ export class ClaimsComponent implements OnInit {
         }, 200)
       } else {
         swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false })
+
+        console.log({
+          claimId: this.claimManager.selectedClaim.claimId,
+          noteTypeId: result[0] ? result[0] : null, // SIMILAR TO EPISODES TYPE
+          noteText: txt
+        });
+
         console.log(JSON.stringify({ text: result[1] }), { text: result[1] });
         var txt = JSON.stringify(result[1]);
         txt = txt.substring(1, txt.length - 1)

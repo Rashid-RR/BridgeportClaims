@@ -5,7 +5,8 @@ import { Observable } from "rxjs/Observable";
 import { Claim } from "../models/claim"
 import { Prescription } from "../models/prescription"
 import { ClaimNote } from "../models/claim-note"
-import { PrescriptionNoteType } from "../models/prescription-note-type"
+import { PrescriptionNoteType } from "../models/prescription-note-type";
+import { EpisodeNoteType } from "../models/episode-note-type";
 import { Injectable } from "@angular/core";
 import { HttpService } from "./http-service";
 import { EventsService } from "./events-service";
@@ -20,6 +21,7 @@ export class ClaimManager {
   loading: Boolean = false;
   private notetypes: Array<any> = [];
   private prescriptionNotetypes: Array<PrescriptionNoteType> = [];
+  private episodeNoteTypes: Array<EpisodeNoteType> = []
 
   // Expanded Table Properties
   isClaimsExpanded: boolean;
@@ -105,13 +107,22 @@ export class ClaimManager {
       })
     this.http.getPrescriptionNotetypes().map(res => { return res.json() })
       .subscribe((result: Array<any>) => {
-        //console.log("Prescription Notes",result)
+        // console.log("Prescription Notes", result)
         this.prescriptionNotetypes = result;
       }, err => {
         this.loading = false;
         console.log(err);
         let error = err.json();
       })
+    this.http.getEpisodesNoteTypes().map(res => { return res.json() })
+      .subscribe((result: Array<any>) => {
+        // console.log("Episode Notes", result)
+        this.episodeNoteTypes = result;
+      }, err => {
+        this.loading = false;
+        console.log(err);
+        let error = err.json();
+      });
   }
 
   get dataSize() {
@@ -128,6 +139,10 @@ export class ClaimManager {
   }
   get PrescriptionNoteTypes(): Array<any> {
     return this.prescriptionNotetypes;
+  }
+
+  get EpisodeNoteTypes(): Array<any> {
+    return this.episodeNoteTypes;
   }
   getClaimsDataById(id: Number, addHistory = true) {
     this.selected = id;

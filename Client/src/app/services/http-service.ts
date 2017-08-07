@@ -201,6 +201,9 @@ export class HttpService {
     let s =  this.http.get(this.baseUrl + "/prescriptionnotes/notetypes", { headers: this.headers })    
     return s;
   }
+  getEpisodesNoteTypes(): Observable<Response> {
+    return this.http.get(this.baseUrl + '/episodes/getepisodetypes', {headers: this.headers})
+  }
   getPrescriptionNotes(id:Number): Observable<Response> {
     let s =  this.http.post(this.baseUrl + "/prescriptionnotes/getprescriptionnotes/?prescriptionId="+id,{}, { headers: this.headers })
     return s;
@@ -215,8 +218,8 @@ export class HttpService {
     return s;
   }
   saveEpisode(data): Observable<Response> {
-    let s= this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers })    
-    return s;
+    console.log(data);
+    return this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers });
   }
 
   handleResponseError(res:Response){
