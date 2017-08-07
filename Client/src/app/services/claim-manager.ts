@@ -90,7 +90,7 @@ export class ClaimManager {
         this.loading = false;
         try {
           let error = err.json();
-          console.log(error);
+          //console.log(error);
         } catch (e) { }
       }, () => {
         this.events.broadcast("claim-updated")
@@ -101,7 +101,7 @@ export class ClaimManager {
         this.notetypes = result;
       }, err => {
         this.loading = false;
-        let error = err.json();
+        //let error = err.json();
       })
     this.http.getPrescriptionNotetypes().map(res => { return res.json() })
       .subscribe((result: Array<any>) => {
@@ -109,8 +109,8 @@ export class ClaimManager {
         this.prescriptionNotetypes = result;
       }, err => {
         this.loading = false;
-        console.log(err);
-        let error = err.json();
+        //console.log(err);
+        //let error = err.json();
       })
   }
 
