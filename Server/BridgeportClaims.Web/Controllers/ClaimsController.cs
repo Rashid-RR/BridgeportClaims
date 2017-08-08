@@ -2,10 +2,8 @@
 using System.Linq;
 using System.Net;
 using System.Web.Http;
-using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Web.Models;
-using Microsoft.AspNet.Identity;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers

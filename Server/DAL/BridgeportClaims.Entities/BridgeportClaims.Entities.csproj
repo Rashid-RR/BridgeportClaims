@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Automappers\IPayorMapper.cs" />
     <Compile Include="Automappers\PayorMapper.cs" />
+    <Compile Include="DomainModels\AcctPayable.cs" />
     <Compile Include="DomainModels\Adjustor.cs" />
     <Compile Include="DomainModels\AspNetRoles.cs" />
     <Compile Include="DomainModels\AspNetUserClaims.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="DomainModels\Gender.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
     <Compile Include="DomainModels\Patient.cs" />
+    <Compile Include="DomainModels\Payment.cs" />
     <Compile Include="DomainModels\Payor.cs" />
     <Compile Include="DomainModels\Pharmacy.cs" />
     <Compile Include="DomainModels\Prescription.cs" />
