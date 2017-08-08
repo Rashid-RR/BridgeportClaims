@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[AcctPayable]
 (
-[PaymentID] [int] NOT NULL IDENTITY(1, 1),
+[AcctPayableID] [int] NOT NULL IDENTITY(1, 1),
 [CheckNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CheckDate] [date] NOT NULL,
 [AmountPaid] [money] NOT NULL,
@@ -16,9 +16,9 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[AcctPayable] ADD CONSTRAINT [pkAcctPayable] PRIMARY KEY CLUSTERED  ([PaymentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
+ALTER TABLE [dbo].[AcctPayable] ADD CONSTRAINT [pkAcctPayable] PRIMARY KEY CLUSTERED  ([AcctPayableID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxAcctPayableClaimIDIncludeAll] ON [dbo].[AcctPayable] ([ClaimID]) INCLUDE ([AmountPaid], [CheckDate], [CheckNumber], [CreatedOnUTC], [InvoiceID], [PaymentID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxAcctPayableClaimIDIncludeAll] ON [dbo].[AcctPayable] ([ClaimID]) INCLUDE ([AcctPayableID], [AmountPaid], [CheckDate], [CheckNumber], [CreatedOnUTC], [InvoiceID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[AcctPayable] ADD CONSTRAINT [fkAcctPayableClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
