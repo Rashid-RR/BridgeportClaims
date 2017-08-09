@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Payments;
@@ -19,15 +20,35 @@ namespace BridgeportClaims.Web.Controllers
             _paymentsDataProvider = paymentsDataProvider;
         }
 
-        [Route("searchresults")]
-        public async Task<IHttpActionResult> GetPaymentSearchResults([FromBody] PaymentsSearchModel model)
+        [HttpPost]
+        [Route("claims-script-details")]
+        public async Task<IHttpActionResult> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
         {
             try
             {
                 return await Task.Run(() =>
                 {
-                    var payments = _paymentsDataProvider.GetInitialPaymentsSearchResults(model.ClaimNumber, model.FirstName,
-                        model.LastName, model.RxDate, model.InvoiceNumber);
+                    var claimsWithScripts = _paymentsDataProvider.GetClaimsWithPrescriptionDetails(claimIds);
+                    return Ok(claimsWithScripts);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("claims-script-counts")]
+        public async Task<IHttpActionResult> GetClaimsWithPrescriptionCounts([FromBody] PaymentsSearchModel model)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var payments = _paymentsDataProvider.GetClaimsWithPrescriptionCounts(model.ClaimNumber, 
+                        model.FirstName, model.LastName, model.RxDate, model.InvoiceNumber);
                     return Ok(payments);
                 });
             }

@@ -6,12 +6,9 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public interface IPaymentsDataProvider
     {
-        IList<PaymentDto> SearchPayments(string claimNumber, string firstName,
-            string lastName, DateTime? rxDate, string invoiceNumber);
-
         void ImportPaymentFile(string fileName);
-
-        IList<PaymentSearchResultsDto> GetInitialPaymentsSearchResults(string claimNumber, string firstName,
+        IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds);
+        IList<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,
             string lastName, DateTime? rxDate, string invoiceNumber);
     }
 }
