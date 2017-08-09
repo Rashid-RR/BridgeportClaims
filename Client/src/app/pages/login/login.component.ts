@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HttpService } from "../../services/http-service";
+import { AuthGuard } from "../../services/auth.guard";
 import { ProfileManager } from "../../services/profile-manager";
 import { UserProfile } from "../../models/profile";
 import { EventsService } from "../../services/events-service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +23,8 @@ export class LoginComponent implements OnInit {
     private http: HttpService,
     private router: Router, private events: EventsService,
     private profileManager: ProfileManager,
+    private authGuard: AuthGuard,
+    private _location:Location,
     private toast: ToastsManager
   ) {
     this.form = this.formBuilder.group({
@@ -43,16 +47,15 @@ export class LoginComponent implements OnInit {
         this.submitted = true;
         this.http.login('userName=' + this.form.get('email').value + '&password=' + this.form.get('password').value + "&grant_type=password", { 'Content-Type': 'x-www-form-urlencoded' }).subscribe(res => {
           let data = res.json();
-
           this.events.broadcast('login', true);
           this.http.setAuth(data.access_token);
+          localStorage.setItem("user", JSON.stringify(data));            
           this.http.profile().map(res => res.json()).subscribe(res => {
-
-            this.profileManager.profile = new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles);
-            this.profileManager.setProfile(new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles));
             let user = res;
             res.access_token = data.access_token;
             localStorage.setItem("user", JSON.stringify(res));
+            this.profileManager.profile = new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles);
+            this.profileManager.setProfile(new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles));
             this.router.navigate(['/main/private']);
             this.toast.success('Welcome back');
           }, err => console.log(err))
@@ -80,7 +83,10 @@ export class LoginComponent implements OnInit {
     }
   }
   ngOnInit() {
-
+    var user = localStorage.getItem("user");  
+     if(user!==null){
+      this._location.back();
+    }     
   }
 
 

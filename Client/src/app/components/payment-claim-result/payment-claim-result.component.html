@@ -1,0 +1,38 @@
+    <div class="col-sm-12 claim-col">
+        <div class="table-responsive">
+            <table class="table no-margin table-striped" id="maintable">
+                <thead class="overflowable" id="fixed-thead">
+                    <tr>
+                        <th>
+                            <div class="paymentCheckBox"> 
+                                <input type="checkbox" id="claimsCheckBox" value="None" (change)="claimsCheckBox($event)">
+                                <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
+                            </div>
+                        </th>
+                        <th>Claim #</th>
+                        <th>Patient Name</th>                        
+                        <th>Payor</th>
+                        <th># of Prescriptions</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="paymentService.claimsData" class="overflowable">
+                    <tr *ngFor="let claim of paymentService.claimsData"  (click)="inv.click()">
+                        <td>
+                             <div class="paymentCheckBox"> 
+                                <input type="checkbox" name="check" value="None"  (change)="select(claim,$event)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [checked]="claim.selected || checkAll" (click)="inv.click()" class="claimCheckBox" #inv>
+                                 <label [for]="claim.claimNumber" (click)="inv.click()"></label>
+                            </div>
+                        </td>
+                        <td>{{claim.claimNumber}}</td>
+                        <td>{{claim.patientName}}</td>
+                        <td>{{claim.payor}}</td>
+                        <td>
+                            <a class="label label-info bg-darkblue" (click)="showNotes(claim.claimId)">
+                                {{claim.numberOfPrescriptions}}
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

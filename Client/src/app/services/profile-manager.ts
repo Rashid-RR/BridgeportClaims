@@ -31,7 +31,7 @@ export class ProfileManager{
       let s = this.http.userFromId(userId);
       s.subscribe(res => {
         let u = res.json() as UserProfile;
-        this.userCache = this.userCache.set(u.userName, u);
+        this.userCache = this.userCache.set(u.email, u);
       },err=>{
         let error = err.json();
       });
@@ -40,7 +40,7 @@ export class ProfileManager{
   }
   setProfile(u:UserProfile){
     let profile = new UserProfile(u.id || u.userName,u.login  || u.userName,u.firstName  || u.userName,u.lastName  || u.userName,u.email  || u.userName,u.userName,u.avatarUrl,u.createdOn);
-    this.userCache = this.userCache.set(profile.userName, profile);
+    this.userCache = this.userCache.set(profile.email, profile);
     this.profileChanged.next(profile);
   }
   userProfile(userId: String){

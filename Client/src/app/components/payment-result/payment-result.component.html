@@ -1,42 +1,9 @@
 <div id="fixed-header"></div>
-<div class="row invoice-info">
-    <div class="col-sm-12 invoice-col">
-        <div class="table-responsive">
-            <table class="table no-margin table-striped" id="maintable">
-                <thead class="overflowable" id="fixed-thead">
-                    <tr>
-                        <th>&nbsp;</th>
-                        <th>Claim #</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Rx Date</th>
-                        <th>Rx #</th>
-                        <th>Label Name</th>
-                        <th>Inv Amt</th>
-                        <th>Outstanding</th>
-                        <th>Payor</th>
-                    </tr>
-                </thead>
-                <tbody *ngIf="paymentService.invoicesData" class="overflowable">
-                    <tr *ngFor="let invoice of paymentService.invoicesData"  (click)="inv.click()">
-                        <td>
-                             <div class="paymentCheckBox"> 
-                                <input type="checkbox" name="check" value="None" #inv (change)="select(invoice,$event)" [id]="invoice.invoiceNumber" [attr.labelName]="invoice.labelName" [attr.checked]="invoice.selected" (click)="inv.click()">
-                                 <label [for]="invoice.invoiceNumber" (click)="inv.click()"></label>
-                            </div> 
-                        </td>
-                        <td>{{invoice.claimNumber}}</td>
-                        <td>{{invoice.firstName}}</td>
-                        <td>{{invoice.lastName}}</td>
-                        <td>{{invoice.rxDate | date:"shortDate"}}</td>
-                        <td>{{invoice.rxNumber}}</td>
-                        <td>{{invoice.labelName}}</td>
-                        <td>{{invoice.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
-                        <td>{{invoice.outstanding | currency:'USD':true:'1.2-2'}}</td>                        
-                        <td>{{invoice.payor}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="row claim-info">
+    <div class="col-sm-12 claim-col" *ngIf="!paymentService.prescriptionSelected">
+         <app-payment-claim-result></app-payment-claim-result>
+    </div>
+    <div class="col-sm-12 claim-col" *ngIf="paymentService.prescriptionSelected">
+         <app-payment-detail-result></app-payment-detail-result>
     </div>
 </div>

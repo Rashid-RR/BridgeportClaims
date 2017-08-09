@@ -22,16 +22,14 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
         this.router.navigate(['/login']);
     }); 
   }
-    canActivate():Observable<boolean> {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> {
       return this.isLoggedIn.map(e => {
-            if (e) {
-              //console.log("User is logged in");
-                return true;
-            }else {
-              //console.log(e,"User is not logged in");
-              this.router.navigate(['/login']);
-              return false;
-            }
+          if (e) {
+             return true;               
+          }else {
+            this.router.navigate(['/login']);
+            return false;
+          }
         }).catch((e) => {
             console.log(e);
             this.router.navigate(['/login']);
@@ -40,8 +38,12 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
     }
     canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         var user = localStorage.getItem("user");      
-        if (user === null || user.length == 0) { return Observable.of(false);}    
-          try {
+        if (user === null || user.length == 0) {
+            this.router.navigate(['/login']);
+            this.events.broadcast("logout", true);
+            return Observable.of(false);
+        }    
+        try {
             let us = JSON.parse(user);
             //console.log(this.profileManager.userProfile(us.userName));
             if(childRoute.url[0].path == 'users'){
@@ -54,14 +56,54 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
             return Observable.of(false);
           }
     }
+  /*canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+        var user = localStorage.getItem("user");      
+        if (user === null || user.length == 0) { return Observable.of(false);}    
+          var shouldActivate:Boolean = false;
+          try {
+
+            let us = JSON.parse(user);
+            //console.log(this.profileManager.userProfile(us.userName));
+            var userLoggedIn = this.http.userFromId(us.id).single()
+            .catch(err =>  { 
+              this.handleResponseError(err);
+              return Observable.throw(err);
+            })
+            
+            return userLoggedIn.map(r=>{
+              var user =  r.json();
+              if(childRoute.url[0].path == 'users'){
+                return (user.roles && (user.roles instanceof Array) && user.roles.indexOf('Admin')>-1);
+              }else{
+                return true;
+              }          
+            });      
+          } catch (error) {
+            return Observable.of(false);           
+          }
+           
+          
+    }
+    handleResponseError(res:Response){
+        if(res.status == 401) {     
+          this.toast.info('The page the tried to reach discovered an invalid login for you. Please log in!');             
+          this.router.navigate(['/login']);
+          this.events.broadcast("logout", true);
+        }
+    }*/
     get isLoggedIn():Observable<boolean>{
       
-      var user = localStorage.getItem("user");      
-      if (user === null || user.length == 0) { return Observable.of(false);}    
+      var user = localStorage.getItem("user");  
+       if (user === null || user.length == 0) { return Observable.of(false);}    
         try {
           let us = JSON.parse(user);
           //console.log(this.profileManager.userProfile(us.userName));
-          return this.profileManager.userInfo(us.email).single().map(res=>{return res.email ? true : false;})        
+          return this.profileManager.userInfo(us.email).single().map(res=>{
+            if(res.email && !this.profileManager.profile){
+              this.profileManager.profile = res;
+            }
+            return res.email ? true : false;
+          })        
         } catch (error) {
           return Observable.of(false);
         }

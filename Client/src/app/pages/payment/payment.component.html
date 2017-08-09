@@ -5,7 +5,7 @@
                 <h3 class="box-title">Payments</h3>
             </div>
             <div class="box-body">                
-                <div class="row ">
+                <div class="row" *ngIf="paymentService.prescriptionSelected">
                     <div class="col-sm-12" id="accordion">
                         <div class="box bottom-0">
                             <div class="box-body payment-input">
@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="!paymentService.prescriptionSelected">
                     <div class="col-sm-12" id="accordion">
                         <div class="box">
                             <div class="box-body payment-invoice">
@@ -26,7 +26,18 @@
                 <div class="row">
                     <div class="col-sm-12" id="accordion">
                         <div class="box">
-                            <div class="box-body payment-result panel-body-bg">
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head">
+                                    <u><img src="assets/img/iconClaims.png"> Claims</u>
+                                </h4>
+                                <div class="box-tools pull-right" *ngIf="!paymentService.prescriptionSelected">
+                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="viewClaims()" *ngIf="paymentService.claimsData.length>0" style="margin-left:auto;margin-right:auto;">View Claims</button>                                
+                                </div>
+                                <div class="box-tools pull-right" *ngIf="paymentService.prescriptionSelected">
+                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentService.prescriptionSelected=false" style="margin-left:auto;margin-right:auto;"><i class="fa fa-arrow-back"></i> Back to Claims</button>                                
+                                </div>
+                            </div>
+                            <div class="box-body claims payment-result panel-body-bg">
                                 <app-payment-result></app-payment-result>
                             </div>
                         </div>

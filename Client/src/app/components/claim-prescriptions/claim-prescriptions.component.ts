@@ -79,7 +79,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked {
           fixedMaxHeader.style.width = tableWidth + 'px';
         }
       }
-    }), 500
+    }, 500)
   }
 
   setSelected(p: any, s: Boolean) {

@@ -34,7 +34,7 @@ export class HttpService {
   updateProfile(data): Observable<Response> {
     let s = this.http.patch(this.baseUrl + "/users", data)    
     .catch(err =>  { 
-      this.handleResponseError(err);
+     this.handleResponseError(err);
       return Observable.throw(err);
     });
     return s;
@@ -43,7 +43,7 @@ export class HttpService {
   passwordreset(data): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/passwordreset", data)    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     });
     return s;
@@ -52,7 +52,7 @@ export class HttpService {
   resetpassword(data): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/account/resetpassword", data)    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     });
     return s;
@@ -61,7 +61,7 @@ export class HttpService {
   forgotpassword(data): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/account/forgotpassword", data)    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     });
     return s;
@@ -69,7 +69,7 @@ export class HttpService {
   addHistory(id:Number): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/history/addclaim?claimId="+id, {}, { headers: this.headers })    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     });
     return s;
@@ -78,17 +78,25 @@ export class HttpService {
   getHistory(): Observable<Response> {
     let s = this.http.get(this.baseUrl + "/history/claims", { headers: this.headers })    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     })
     
     return s;
   }
 
-  getInvoices(data:any){
-    let s = this.http.get("/assets/json/invoice.json", { headers: this.headers })   
+  getPaymentClaim(data:any){
+    let s = this.http.post(this.baseUrl+"/payment/claims-script-counts",data, { headers: this.headers })   
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    return s;
+  }
+  getDetailedPaymentClaim(data:any){
+    let s = this.http.post(this.baseUrl+"/payment/claims-script-details",data, { headers: this.headers })   
+    .catch(err =>  { 
+    this.handleResponseError(err);
       return Observable.throw(err);
     })
     return s;
@@ -96,7 +104,7 @@ export class HttpService {
   changepassword(data): Observable<Response> {
     let s = this.http.put(this.baseUrl + "/account/changepassword", data, { headers: this.headers })    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     });
     return s;
@@ -104,7 +112,7 @@ export class HttpService {
   changeusername(firstName, lastName, id): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/users/updatename/" + id + "?firstName=" + firstName + "&lastName=" + lastName, '', { headers: this.headers })    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     })
     return s;
@@ -113,7 +121,7 @@ export class HttpService {
   register(data): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/account/create", data)    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     });
     
@@ -122,7 +130,7 @@ export class HttpService {
   getClaimsData(data: any) {
     let s = this.http.post(this.baseUrl + "/Claims/GetClaimsData", data, { headers: this.headers })   
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     })
     return s;
@@ -131,7 +139,7 @@ export class HttpService {
   userFromId(id: UUID): Observable<Response> {
     let s = this.http.get(this.baseUrl + "/Account/UserInfo", { headers: this.headers })    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     })
     
@@ -140,7 +148,7 @@ export class HttpService {
   confirmEmail(id: any, code: any): Observable<Response> {
     let s = this.http.get(this.baseUrl + "/Account/ConfirmEmail?userId="+id + "&code=" + code, { headers: this.headers })    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     })
     return s;
@@ -148,7 +156,7 @@ export class HttpService {
   profile(): Observable<Response> {
     let s = this.http.get(this.baseUrl + "/Account/UserInfo", { headers: this.headers })    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     })
     return s;
@@ -156,7 +164,7 @@ export class HttpService {
   getPayours(pageNumber: Number, pageSize: Number): Observable<Response> {
     let s = this.http.get(this.baseUrl + "/payor/getpayors/?pageNumber=" + pageNumber + "&pageSize=" + pageSize, { headers: this.headers })    
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     })
     return s;
@@ -164,7 +172,7 @@ export class HttpService {
   getUsers(pageNumber: Number, pageSize: Number): Observable<Response> {
     let s = this.http.get(this.baseUrl + "/account/users/?pageNumber=" + pageNumber + "&pageSize=" + pageSize, { headers: this.headers })
     .catch(err =>  { 
-      this.handleResponseError(err);
+    this.handleResponseError(err);
       return Observable.throw(err);
     })    
     return s;
@@ -187,9 +195,13 @@ export class HttpService {
   }
   get headers():Headers {
     let header = new Headers();
-    header.append('Authorization', "Bearer " + this.token);
-    //header.append('Authorization',"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTM4NCJ9.eyJuYW1laWQiOiJjYTcwNjJkZC04ZDEyLTQ4ODItOWUwNy01N2QxNWFmOGQ0YzAiLCJ1bmlxdWVfbmFtZSI6ImpvZ3dheWlAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS9hY2Nlc3Njb250cm9sc2VydmljZS8yMDEwLzA3L2NsYWltcy9pZGVudGl0eXByb3ZpZGVyIjoiQVNQLk5FVCBJZGVudGl0eSIsIkFzcE5ldC5JZGVudGl0eS5TZWN1cml0eVN0YW1wIjoiYjBlM2I2NjUtNTBhZS00NDU1LTkzYWItNWI5NGQ0MjRhMWRiIiwicm9sZSI6WyJBZG1pbiIsIlVzZXIiXSwiaXNzIjoiTE9DQUwgQVVUSE9SSVRZIiwiYXVkIjoiOWYyYzBhYzlkMGRiMGE5ZDE4NDM4YzgyOTZmN2FhYzExYjMwZGJjMTc2OTY1YmJiMDlhMjIyZDcwNTViZDE2MCIsImV4cCI6MTQ5OTg1NDE4MSwibmJmIjoxNDk4NjQ0NTgxfQ.4COg0PkqIRM1biFb9md65BYVHbkq2mAa-LgvRNsiAek-YXK9fOz3vXtOoZATUj3-");
-
+    var user = localStorage.getItem("user");
+     try {
+          let us = JSON.parse(user);
+          header.append('Authorization', "Bearer " + us.access_token);
+     } catch (error) {
+      
+      }
     return header;
   }
 
@@ -222,12 +234,14 @@ export class HttpService {
     return this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers });
   }
 
-  handleResponseError(res:Response){
+  handleResponseError(res:Response) {
       if(res.status == 401) {     
         this.toast.info('The page the tried to reach discovered an invalid login for you. Please log in!');             
         this.router.navigate(['/login']);
         this.events.broadcast("logout", true);
-      }
+       }else if(res.status == 500) {     
+        this.toast.error('Fatal Server Error. Please contact your System Administrator');             
+       }
   }
     
 }

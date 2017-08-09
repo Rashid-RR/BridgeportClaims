@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import {HttpService} from "../../services/http-service";
 import {PaymentService} from "../../services/payment-service";
 import {EventsService} from "../../services/events-service";
+import {PaymentClaim} from "../../models/payment-claim";
 import {ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {Router} from "@angular/router";
+
+declare var jQuery:any;
 
 @Component({
   selector: 'app-payment-result',
@@ -18,9 +21,6 @@ export class PaymentResultComponent implements OnInit {
 
   ngOnInit() {
     
-  }
-  select(invoice:any,$event){
-    invoice.selected = $event.target.checked
   }
 
 }

@@ -34,14 +34,14 @@ export class PaymentInvoiceComponent implements OnInit {
    }
  }
   search(){
-    this.paymentService.search(this.form,false);
+    this.paymentService.search(this.form.value,false);
   }
   refresh(){
     var form = this.form.value;
     this.paymentService.search(form,false);
   }
   clear(){
-    this.paymentService.clearInvoicesData();
+    this.paymentService.clearClaimsData();
     this.form.patchValue({
       claimNumber: null,
       firstName: null,
