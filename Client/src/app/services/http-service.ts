@@ -85,8 +85,16 @@ export class HttpService {
     return s;
   }
 
-  getInvoices(data:any){
-    let s = this.http.get("/assets/json/invoice.json", { headers: this.headers })   
+  getPaymentClaim(data:any){
+    let s = this.http.post(this.baseUrl+"/payment/claims-script-counts",data, { headers: this.headers })   
+    .catch(err =>  { 
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    })
+    return s;
+  }
+  getDetailedPaymentClaim(data:any){
+    let s = this.http.post(this.baseUrl+"/payment/claims-script-details",data, { headers: this.headers })   
     .catch(err =>  { 
     this.handleResponseError(err);
       return Observable.throw(err);

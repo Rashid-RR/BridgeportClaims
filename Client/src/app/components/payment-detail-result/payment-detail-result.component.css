@@ -1,13 +1,3 @@
-.box-header.with-border,
-.box .box-body>.row:first-child {
-    position: relative;
-    z-index: 3;
-    background: #fff;
-}
-
-#fixed-box-header {
-    z-index: 2;
-}
 .table-responsive {
     position: relative;
     overflow-x: hidden;

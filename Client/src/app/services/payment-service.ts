@@ -4,6 +4,7 @@ import * as Immutable from "immutable";
 import { Observable } from "rxjs/Observable";
 import { Prescription } from "../models/prescription"
 import { Invoice } from "../models/invoice"
+import { PaymentClaim } from "../models/payment-claim"
 import { PrescriptionNoteType } from "../models/prescription-note-type"
 import { Injectable } from "@angular/core";
 import { HttpService } from "./http-service";
@@ -13,29 +14,32 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class PaymentService {
-  private invoices: Immutable.OrderedMap<Number, Invoice> = Immutable.OrderedMap<Number, Invoice>();
+  private claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
+   claimsDetail: Immutable.OrderedMap<Number, Invoice> = Immutable.OrderedMap<Number, Invoice>();
   loading: Boolean = false;
+  prescriptionSelected:Boolean = false
   
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     
   }
 
-  
+  clearClaimsDetail(){
+    this.claimsDetail = Immutable.OrderedMap<Number, Invoice>();
+  }
   search(data, addHistory = true) {
     this.loading = true;
-    this.http.getInvoices(data).map(res => { return res.json() })
+    this.http.getPaymentClaim(data).map(res => { return res.json() })
       .subscribe((result: any) => {
         this.loading = false;
         if (result.length < 1) {
           this.toast.warning('No records were found with that search critera.');
         }
         if (Object.prototype.toString.call(result) === '[object Array]') {
-          let res: Array<Invoice> = result;
-          this.invoices = Immutable.OrderedMap<Number, Invoice>();
-          result.forEach(invoice => {
-            var c = new Invoice(invoice.claimNumber, invoice.firstName, invoice.lastName, invoice.rxNumber, invoice.invoiceNumber, invoice.rxDate,
-              invoice.labelName, invoice.outstanding, invoice.invoiceAmount, invoice.payor);
-            this.invoices = this.invoices.set(invoice.invoiceNumber, c);
+          let res: Array<PaymentClaim> = result;
+          this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
+          result.forEach(claim => {
+            var c = new PaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.payor,claim.numberOfPrescriptions);
+            this.claims = this.claims.set(claim.claimId, c);
           })
         }
       }, err => {
@@ -50,34 +54,48 @@ export class PaymentService {
   }
 
   get dataSize() {
-    return this.invoices.size;
+    return this.claims.size;
   }
   get selected(){
-    return this.invoices.toArray().filter(invoice=>{
-        return invoice.selected;
+    return this.claims.toArray().filter(claim=>{
+        return claim.selected;
     })
   }
   get amountSelected(){
     var amount:number = 0;
      this.selected.forEach(invoice => {
-        amount=amount+Number(invoice.outstanding)
+        //amount=amount+Number(claim.outstanding)
     });
     return amount;
   }
-  get invoicesData(): Invoice[] {
-    return this.invoices.asImmutable().toArray();
+  get claimsData(): PaymentClaim[] {
+    return this.claims.asImmutable().toArray();
   }
-  clearInvoicesData() {
-    this.invoices = Immutable.OrderedMap<Number, Invoice>();
+  get detailedClaimsData(): Invoice[] {
+    return this.claimsDetail.asImmutable().toArray();
+  }
+  clearClaimsData() {
+    this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
   }
   
-  getinvoicesDataById(id: Number, addHistory = true) {
-     var claim: Invoice = this.invoices.get(id) as Invoice;
-    if (id !== undefined) {
+  getPaymentClaimDataByIds(ids: Array<Number>=[]) {
+    if (ids.length >0) {
       this.loading = true;
-      this.http.getClaimsData({ claimId: id }).map(res => { return res.json() })
+      this.http.getDetailedPaymentClaim(ids).map(res => { return res.json() })
         .subscribe(result => {
-          this.loading = false;          
+          console.log(result);
+          this.loading = false; 
+          if (result.length < 1) {
+          this.toast.warning('No records were found with that search critera.');
+          }
+          if (Object.prototype.toString.call(result) === '[object Array]') {
+            let res: Array<Invoice> = result;
+            this.claimsDetail = Immutable.OrderedMap<Number, Invoice>();
+            result.forEach(claim => {
+              var c = new Invoice(claim.claimId,claim.claimNumber, claim.patientName, claim.rxNumber, claim.invoiceNumber, claim.rxDate, claim.labelName,claim.outstanding, claim.invoiceAmount,claim.payor);
+              this.claimsDetail = this.claimsDetail.set(claim.claimId, c);
+            })
+          }         
         }, err => {
           this.loading = false;
           console.log(err);

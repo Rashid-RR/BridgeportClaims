@@ -1,0 +1,45 @@
+<div id="fixed-header"></div>
+<div class="row claim-info">
+    <div class="col-sm-12 claim-col">
+        <div class="table-responsive">
+            <table class="table no-margin table-striped" id="maintable">
+                <thead class="overflowable" id="fixed-thead">
+                    <tr>
+                        <th>
+                            <div class="paymentCheckBox"> 
+                                <input type="checkbox" id="claimsCheckBox" name="check" value="None" (change)="claimsCheckBox($event)">
+                                  <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
+                            </div>
+                        </th>
+                        <th>Claim #</th>
+                        <th>Patient Name</th>
+                        <th>Rx Date</th>
+                        <th>Rx #</th>
+                        <th>Label Name</th>
+                        <th>Inv Amt</th>
+                        <th>Outstanding</th>
+                        <th>Payor</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="paymentService.detailedClaimsData" class="overflowable">
+                    <tr *ngFor="let claim of paymentService.detailedClaimsData"  (click)="inv.click()">
+                        <td>
+                             <div class="paymentCheckBox"> 
+                                <input type="checkbox" name="check" value="None" [id]="claim.claimId" (change)="select(claim,$event)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [attr.checked]="claim.selected" (click)="inv.click()" class="claimCheckBox" #inv>
+                                 <label [for]="claim.claimId" (click)="inv.click()"></label>
+                            </div>
+                        </td>
+                        <td>{{claim.claimNumber}}</td>
+                        <td>{{claim.patientName}}</td>
+                        <td>{{claim.rxDate | date:"shortDate"}}</td>
+                        <td>{{claim.rxNumber}}</td>
+                        <td>{{claim.labelName}}</td>
+                        <td>{{claim.claimAmount | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{claim.outstanding | currency:'USD':true:'1.2-2'}}</td>                        
+                        <td>{{claim.payor}}</td>                        
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

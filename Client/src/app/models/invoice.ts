@@ -1,7 +1,7 @@
 export class Invoice{
+  claimId: Number;
   claimNumber: Number;
-  firstName: String;
-  lastName: String;
+  patientName: String;
   rxNumber: Number;
   invoiceNumber: any
   rxDate:Date;
@@ -10,13 +10,13 @@ export class Invoice{
   labelName:String;
   payor:String;
   selected:Boolean;
-  constructor(claimNumber: Number, firstName: String, lastName: String,
+  constructor(claimId: Number,claimNumber: Number, patientName: String,
     rxNumber: Number, invoiceNumber: any,rxDate:Date,labelName:String,
     outstanding:Number,invoiceAmount:number,payor:String,selected:Boolean=false){
+    this.claimId = claimId,
     this.claimNumber = claimNumber,
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.rxNumber = rxNumber;
+    this.patientName = patientName;
+     this.rxNumber = rxNumber;
     this.invoiceNumber = invoiceNumber;
     this.rxDate=rxDate;
     this.outstanding= outstanding;
