@@ -95,8 +95,8 @@ export class PaymentService {
             let res: Array<DetailedPaymentClaim> = result;
             this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
             result.forEach(claim => {
-              var c = new DetailedPaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName,claim.outstanding, claim.invoicedAmount,claim.payor);
-              this.claimsDetail = this.claimsDetail.set(claim.rxNumber, c);
+              var c = new DetailedPaymentClaim(claim.prescriptionId,claim.claimId,claim.claimNumber, claim.patientName, claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName,claim.outstanding, claim.invoicedAmount,claim.payor);
+              this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
             })
           }         
         }, err => {

@@ -10,9 +10,11 @@ export class DetailedPaymentClaim{
   labelName:String;
   payor:String;
   selected:Boolean;
-  constructor(claimId: Number,claimNumber: Number, patientName: String,
+  prescriptionId: number;
+  constructor(prescriptionId: number,claimId: Number,claimNumber: Number, patientName: String,
     rxNumber: Number, invoiceNumber: any,rxDate:Date,labelName:String,
     outstanding:Number,invoicedAmount:number,payor:String,selected:Boolean=false){
+    this.prescriptionId = prescriptionId,
     this.claimId = claimId,
     this.claimNumber = claimNumber,
     this.patientName = patientName;
