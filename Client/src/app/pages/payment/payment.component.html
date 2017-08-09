@@ -28,15 +28,16 @@
                         <div class="box">
                             <div class="box-header bg-head-box">
                                 <h4 class="box-title text-center panel-head">
-                                    <u><img src="assets/img/iconClaims.png"> Claims</u>
+                                    <u *ngIf="!paymentService.prescriptionSelected"><img src="assets/img/iconClaims.png"> Claims</u>
+                                    <u *ngIf="paymentService.prescriptionSelected"><img src="assets/img/iconPrescriptions.png"> Prescriptions</u>
                                 </h4>
                                 <div class="box-tools pull-right" *ngIf="!paymentService.prescriptionSelected">
                                     <span style="color:white;font-size:16pt" *ngIf="paymentService.claimsData.length>0"> {{paymentService.claimsData.length}} records found</span>
-                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="viewClaims()" *ngIf="paymentService.claimsData.length>0" style="margin-left:auto;margin-right:auto;">View Claims</button>                                
+                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="viewClaims()" *ngIf="paymentService.claimsData.length>0" style="margin-left:auto;margin-right:auto;">View Prescriptions</button>                                
                                 </div>
                                 <div class="box-tools pull-right" *ngIf="paymentService.prescriptionSelected">
                                     <span style="color:white;font-size:16pt" *ngIf="paymentService.detailedClaimsData.length>0"> {{paymentService.detailedClaimsData.length}} records found</span>
-                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentService.prescriptionSelected=false" style="margin-left:auto;margin-right:auto;"><i class="fa fa-arrow-back"></i> Back to Claims</button>                                
+                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentService.prescriptionSelected=false" style="margin-left:auto;margin-right:auto;"><i class="fa fa-arrow-left"></i> Back to Claims</button>                                
                                 </div>
                             </div>
                             <div class="box-body claims payment-result panel-body-bg">
