@@ -4,6 +4,9 @@
                 <thead class="overflowable" id="fixed-thead">
                     <tr>
                         <th>
+                            <span *ngIf="!checkAll" class="pull-left">Check All</span>
+                            <span *ngIf="checkAll"  class="pull-left">Uncheck All</span>
+                            <br>
                             <div class="paymentCheckBox"> 
                                 <input type="checkbox" id="claimsCheckBox" value="None" (change)="claimsCheckBox($event)">
                                 <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 

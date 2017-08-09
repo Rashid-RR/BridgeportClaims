@@ -42,7 +42,8 @@ tr>td {
 
 tr>th:first-child,
 tr>td:first-child {
-    max-width: 4%;
+    max-width: 10%;
+    font-size: 8pt;
 }
 
 /* tr>th:nth-child(2),
@@ -173,7 +174,9 @@ th {
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
-
+tr>th:first-child .paymentCheckBox label {
+    box-shadow: inset 0px 1px 1px #992727, 2px 2px 2px #992727;
+}
 .paymentCheckBox label:hover::after {
     opacity: 0.5;
 }
