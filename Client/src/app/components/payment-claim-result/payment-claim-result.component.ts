@@ -32,6 +32,15 @@ export class PaymentClaimResultComponent implements OnInit {
   }
   claimsCheckBox($event){    
      this.checkAll =  $event.target.checked;    
+     if(this.checkAll){
+       this.paymentService.claimsData.forEach(claim=>{
+         claim.selected = false;
+       })
+     }else{
+       this.paymentService.claimsData.forEach(claim=>{
+         claim.selected = false;
+       });
+     }
   }
   prescriptionsCheckBox(invoice:any,$event){
       if($event.target.checked){

@@ -60,7 +60,7 @@ export class ClaimManager {
         this.selected = undefined;
 
         if (result.length < 1) {
-          this.toast.warning('No records were found with that search critera.');
+          this.toast.info('No records were found with that search critera.');
         }
         if (Object.prototype.toString.call(result) === '[object Array]') {
           let res: Array<Claim> = result;

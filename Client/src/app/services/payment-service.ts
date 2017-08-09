@@ -32,7 +32,7 @@ export class PaymentService {
       .subscribe((result: any) => {
         this.loading = false;
         if (result.length < 1) {
-          this.toast.warning('No Claims were Found that Match your Search Criteria. Please try again.');
+          this.toast.info('No Claims were Found that Match your Search Criteria. Please try again.');
         }
         if (Object.prototype.toString.call(result) === '[object Array]') {
           let res: Array<PaymentClaim> = result;
@@ -85,7 +85,7 @@ export class PaymentService {
         .subscribe(result => {
           this.loading = false; 
           if (result.length < 1) {
-          this.toast.warning('No records were found with that search critera.');
+          this.toast.info('No records were found with that search critera.');
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
             let res: Array<DetailedPaymentClaim> = result;

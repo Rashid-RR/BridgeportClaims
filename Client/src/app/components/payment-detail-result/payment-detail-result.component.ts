@@ -25,7 +25,16 @@ export class PaymentDetailedResultComponent implements OnInit {
     invoice.selected = $event.target.checked
   }
   claimsCheckBox($event){    
-     this.checkAll =  $event.target.checked;    
+     this.checkAll =  $event.target.checked; 
+     if(this.checkAll){
+       this.paymentService.claimsDetail.forEach(c=>{
+         c.selected = false;
+       })
+     }else{
+       this.paymentService.claimsDetail.forEach(c=>{
+         c.selected = false;
+       });
+     }   
   }
 
 }
