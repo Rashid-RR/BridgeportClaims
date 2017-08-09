@@ -5,7 +5,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 {
 	public interface IEpisodesDataProvider
 	{
-		void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string note, int? episodeTypeId);
+		void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string noteText, int? episodeTypeId);
 		IList<EpisodeTypeDto> GetEpisodeTypes();
 	}
 }
