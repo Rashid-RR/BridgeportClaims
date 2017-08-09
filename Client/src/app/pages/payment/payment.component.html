@@ -31,9 +31,11 @@
                                     <u><img src="assets/img/iconClaims.png"> Claims</u>
                                 </h4>
                                 <div class="box-tools pull-right" *ngIf="!paymentService.prescriptionSelected">
+                                    <span style="color:white;font-size:16pt" *ngIf="paymentService.claimsData.length>0"> {{paymentService.claimsData.length}} records found</span>
                                     <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="viewClaims()" *ngIf="paymentService.claimsData.length>0" style="margin-left:auto;margin-right:auto;">View Claims</button>                                
                                 </div>
                                 <div class="box-tools pull-right" *ngIf="paymentService.prescriptionSelected">
+                                    <span style="color:white;font-size:16pt" *ngIf="paymentService.detailedClaimsData.length>0"> {{paymentService.detailedClaimsData.length}} records found</span>
                                     <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentService.prescriptionSelected=false" style="margin-left:auto;margin-right:auto;"><i class="fa fa-arrow-back"></i> Back to Claims</button>                                
                                 </div>
                             </div>
@@ -44,6 +46,10 @@
                     </div>
                 </div>
             </div>
+             <div class="overlay" *ngIf="paymentService.loading" style="text-align:center;">
+                <img src="assets/1.gif">
+            </div>
         </div>
+
     </div>
 </div>

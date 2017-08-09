@@ -32,13 +32,10 @@ export class PaymentClaimResultComponent implements OnInit {
   }
   claimsCheckBox($event){    
      this.checkAll =  $event.target.checked;    
-     console.log(this.checkAll);   
   }
   prescriptionsCheckBox(invoice:any,$event){
       if($event.target.checked){
 
       }
   }
-
-
 }

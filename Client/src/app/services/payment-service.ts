@@ -3,7 +3,7 @@ import { UUID } from "angular2-uuid";
 import * as Immutable from "immutable";
 import { Observable } from "rxjs/Observable";
 import { Prescription } from "../models/prescription"
-import { Invoice } from "../models/invoice"
+import { DetailedPaymentClaim } from "../models/detailed-payment-claim"
 import { PaymentClaim } from "../models/payment-claim"
 import { PrescriptionNoteType } from "../models/prescription-note-type"
 import { Injectable } from "@angular/core";
@@ -15,16 +15,16 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 @Injectable()
 export class PaymentService {
   private claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
-   claimsDetail: Immutable.OrderedMap<Number, Invoice> = Immutable.OrderedMap<Number, Invoice>();
+   claimsDetail: Immutable.OrderedMap<Number, DetailedPaymentClaim> = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   loading: Boolean = false;
   prescriptionSelected:Boolean = false
-  
+
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     
   }
 
   clearClaimsDetail(){
-    this.claimsDetail = Immutable.OrderedMap<Number, Invoice>();
+    this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   }
   search(data, addHistory = true) {
     this.loading = true;
@@ -63,7 +63,7 @@ export class PaymentService {
   }
   get amountSelected(){
     var amount:number = 0;
-     this.selected.forEach(invoice => {
+     this.selected.forEach(DetailedPaymentClaim => {
         //amount=amount+Number(claim.outstanding)
     });
     return amount;
@@ -71,7 +71,7 @@ export class PaymentService {
   get claimsData(): PaymentClaim[] {
     return this.claims.asImmutable().toArray();
   }
-  get detailedClaimsData(): Invoice[] {
+  get detailedClaimsData(): DetailedPaymentClaim[] {
     return this.claimsDetail.asImmutable().toArray();
   }
   clearClaimsData() {
@@ -83,16 +83,15 @@ export class PaymentService {
       this.loading = true;
       this.http.getDetailedPaymentClaim(ids).map(res => { return res.json() })
         .subscribe(result => {
-          console.log(result);
           this.loading = false; 
           if (result.length < 1) {
           this.toast.warning('No records were found with that search critera.');
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
-            let res: Array<Invoice> = result;
-            this.claimsDetail = Immutable.OrderedMap<Number, Invoice>();
+            let res: Array<DetailedPaymentClaim> = result;
+            this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
             result.forEach(claim => {
-              var c = new Invoice(claim.claimId,claim.claimNumber, claim.patientName, claim.rxNumber, claim.invoiceNumber, claim.rxDate, claim.labelName,claim.outstanding, claim.invoiceAmount,claim.payor);
+              var c = new DetailedPaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName,claim.outstanding, claim.invoicedAmount,claim.payor);
               this.claimsDetail = this.claimsDetail.set(claim.claimId, c);
             })
           }         

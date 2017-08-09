@@ -25,7 +25,7 @@
                     <tr *ngFor="let claim of paymentService.detailedClaimsData"  (click)="inv.click()">
                         <td>
                              <div class="paymentCheckBox"> 
-                                <input type="checkbox" name="check" value="None" [id]="claim.claimId" (change)="select(claim,$event)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [attr.checked]="claim.selected" (click)="inv.click()" class="claimCheckBox" #inv>
+                                <input type="checkbox" name="check" value="None" [id]="claim.claimId" (change)="select(claim,$event)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [checked]="(claim.selected || checkAll)" (click)="inv.click()" class="claimCheckBox" #inv>
                                  <label [for]="claim.claimId" (click)="inv.click()"></label>
                             </div>
                         </td>
@@ -34,7 +34,7 @@
                         <td>{{claim.rxDate | date:"shortDate"}}</td>
                         <td>{{claim.rxNumber}}</td>
                         <td>{{claim.labelName}}</td>
-                        <td>{{claim.claimAmount | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{claim.invoicedAmount | currency:'USD':true:'1.2-2'}}</td>
                         <td>{{claim.outstanding | currency:'USD':true:'1.2-2'}}</td>                        
                         <td>{{claim.payor}}</td>                        
                     </tr>
