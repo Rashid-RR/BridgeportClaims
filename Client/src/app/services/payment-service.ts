@@ -27,30 +27,34 @@ export class PaymentService {
     this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   }
   search(data, addHistory = true) {
-    this.loading = true;
-    this.http.getPaymentClaim(data).map(res => { return res.json() })
-      .subscribe((result: any) => {
-        this.loading = false;
-        if (result.length < 1) {
-          this.toast.info('No Claims were Found that Match your Search Criteria. Please try again.');
-        }
-        if (Object.prototype.toString.call(result) === '[object Array]') {
-          let res: Array<PaymentClaim> = result;
-          this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
-          result.forEach(claim => {
-            var c = new PaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.payor,claim.numberOfPrescriptions);
-            this.claims = this.claims.set(claim.claimId, c);
-          })
-        }
-      }, err => {
-        this.loading = false;
-        try {
-          let error = err.json();
-          console.log(error);
-        } catch (e) { }
-      }, () => {
-        this.events.broadcast("payment-updated")
-      })    
+    if (data.claimNumber==null && data.firstName==null && data.lastName==null && data.rxNumber==null && data.invoiceNumber==null) {
+          this.toast.warning('Please specify at least one search field');
+    }else{
+      this.loading = true;    
+      this.http.getPaymentClaim(data).map(res => { return res.json() })
+        .subscribe((result: any) => {
+          this.loading = false;
+          if (result.length < 1) {
+            this.toast.info('No Claims were Found that Match your Search Criteria. Please try again.');
+          }
+          if (Object.prototype.toString.call(result) === '[object Array]') {
+            let res: Array<PaymentClaim> = result;
+            this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
+            result.forEach(claim => {
+              var c = new PaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.payor,claim.numberOfPrescriptions);
+              this.claims = this.claims.set(claim.claimNumber, c);
+            })
+          }
+        }, err => {
+          this.loading = false;
+          try {
+            let error = err.json();
+            console.log(error);
+          } catch (e) { }
+        }, () => {
+          this.events.broadcast("payment-updated")
+        }) 
+    }   
   }
 
   get dataSize() {
@@ -92,7 +96,7 @@ export class PaymentService {
             this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
             result.forEach(claim => {
               var c = new DetailedPaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName,claim.outstanding, claim.invoicedAmount,claim.payor);
-              this.claimsDetail = this.claimsDetail.set(claim.claimId, c);
+              this.claimsDetail = this.claimsDetail.set(claim.rxNumber, c);
             })
           }         
         }, err => {
