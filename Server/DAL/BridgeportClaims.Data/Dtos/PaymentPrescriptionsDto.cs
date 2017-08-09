@@ -7,6 +7,8 @@ namespace BridgeportClaims.Data.Dtos
     public class ClaimsWithPrescriptionDetailsDto
     {
         [Required]
+        public virtual int PrescriptionId { get; set; }
+        [Required]
         public virtual int ClaimId { get; set; }
         [Required]
         public virtual string ClaimNumber { get; set; }
