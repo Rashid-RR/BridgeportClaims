@@ -42,7 +42,7 @@ export class PaymentService {
             this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
             result.forEach(claim => {
               var c = new PaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.payor,claim.numberOfPrescriptions);
-              this.claims = this.claims.set(claim.claimId, c);
+              this.claims = this.claims.set(claim.claimNumber, c);
             })
           }
         }, err => {
@@ -96,7 +96,7 @@ export class PaymentService {
             this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
             result.forEach(claim => {
               var c = new DetailedPaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName,claim.outstanding, claim.invoicedAmount,claim.payor);
-              this.claimsDetail = this.claimsDetail.set(claim.claimId, c);
+              this.claimsDetail = this.claimsDetail.set(claim.rxNumber, c);
             })
           }         
         }, err => {
