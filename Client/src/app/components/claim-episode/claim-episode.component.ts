@@ -13,7 +13,17 @@ export class ClaimEpisodeComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  getTypeName(id: number): string {
+    // find in list for item to get name!!
+    if (id) {
+      let item =this.claimManager.EpisodeNoteTypes.find(p => p.episodeTypeId == id);
+      if (item) {
+        return item.episodeTypeName;
+      }
+      return 'not found';
+    }
+    return 'not specified';
+  }
   edit(id:Number){
       this.events.broadcast("edit-episode",id);    
   }

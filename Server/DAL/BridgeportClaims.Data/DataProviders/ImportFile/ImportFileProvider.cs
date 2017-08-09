@@ -81,9 +81,9 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			{
 				connection.Open();
 				DisposableService.Using(() => new SqlCommand("INSERT [util].[ImportFile] ([FileBytes], " +
-				                                             "[FileName], [FileExtension], [FileDescription])" +
+				                                             "[FileName], [FileExtension], [FileDescription], [CreatedOnUTC])" +
 				                                             " VALUES (@File, @FileName, @FileExtension, " +
-				                                             "@FileDescription);", connection),
+				                                             "@FileDescription, SYSDATETIME());", connection),
 					sqlCommand =>
 					{
 						sqlCommand.CommandType = CommandType.Text;

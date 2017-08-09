@@ -3,7 +3,7 @@
 namespace BridgeportClaims.Data.Dtos
 {
     [Serializable]
-    public sealed class PaymentDto
+    public sealed class AcctPayableDto
     {
         public DateTime? Date { get; set; }
         public string CheckNumber { get; set; }

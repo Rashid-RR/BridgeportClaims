@@ -1,32 +1,103 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
+using System.Data.SqlClient;
+using BridgeportClaims.Data.Dtos;
+using System.Collections.Generic;
+using BridgeportClaims.Excel.Adapters;
 using BridgeportClaims.Common.DataTables;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Data.StoredProcedureExecutors;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 using c = BridgeportClaims.Common.StringConstants.Constants;
-using BridgeportClaims.Excel.Adapters;
+
 
 namespace BridgeportClaims.Data.DataProviders.Payments
 {
 	public class PaymentsDataProvider : IPaymentsDataProvider
 	{
-		public void ImportPaymentFile(string fileName)
+		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+
+		public PaymentsDataProvider(IStoredProcedureExecutor storedProcedureExecutor)
 		{
-			var fileBytes = GetBytesFromDbAsync(fileName);
-			var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(fileBytes.ToArray());
-			var newDt = DataTableProvider.FormatDataTableForPaymentImport(dt, true);
-			ImportDataTableIntoDbAsync(newDt);
+			_storedProcedureExecutor = storedProcedureExecutor;
 		}
 
-		private static IEnumerable<byte> GetBytesFromDbAsync(string fileName) => DisposableService.Using(() 
-			=> new SqlConnection(c.ConnStr), conn =>
+		public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
+		{
+			var splitClaimIds = string.Join(c.Comma, claimIds);
+			var claimIdParam = new SqlParameter {ParameterName = "ClaimIDs", Value = splitClaimIds, DbType = DbType.String };
+			var paymentSearchResultsDtos = _storedProcedureExecutor
+				.ExecuteMultiResultStoredProcedure<ClaimsWithPrescriptionDetailsDto>(
+					"EXEC [dbo].[uspGetClaimsWithPrescriptionDetails] @ClaimIDs = :ClaimIDs",
+					new List<SqlParameter> {claimIdParam});
+			return paymentSearchResultsDtos?.ToList();
+		}
+
+		public void ImportPaymentFile(string fileName)
+		{
+			var fileBytes = GetBytesFromDb(fileName);
+			if (null == fileBytes)
+				throw new ArgumentNullException($"Error. The File \"{fileName}\" does not Exist in the Database");
+			var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(fileBytes.ToArray());
+			if (null == dt)
+				throw new Exception("Error. Could not Populate the Data Table from the Excel File Bytes " +
+									"Returned from the Database");
+			var newDt = DataTableProvider.FormatDataTableForPaymentImport(dt, true);
+			if (null == newDt)
+				throw new Exception("Error. Could not Copy over Contents of the Original Data Table into the " +
+									"Cloned Data Table with String Column Types");
+			ImportDataTableIntoDb(newDt);
+		}
+
+		public IList<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,
+			string lastName, DateTime? rxDate, string invoiceNumber)
+		{
+			var paymentSearchResultsDtos = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<ClaimsWithPrescriptionCountsDto>(
+				"EXEC [dbo].[uspGetClaimsWithPrescriptionCounts] @ClaimNumber = :ClaimNumber, @FirstName = :FirstName, " +
+				"@LastName = :LastName, @RxDate = :RxDate, @InvoiceNumber = :InvoiceNumber", new List<SqlParameter>
+				{
+					new SqlParameter
+					{
+						ParameterName = "ClaimNumber",
+						Value = claimNumber,
+						DbType = DbType.String
+					},
+					new SqlParameter
+					{
+						ParameterName = "FirstName",
+						Value = firstName,
+						DbType = DbType.String
+					},
+					new SqlParameter
+					{
+						ParameterName = "LastName",
+						Value = lastName,
+						DbType = DbType.String
+					},
+					new SqlParameter
+					{
+						ParameterName = "RxDate",
+						Value = rxDate?.ToShortDateString(),
+						DbType = DbType.String
+					},
+					new SqlParameter
+					{
+						ParameterName = "InvoiceNumber",
+						Value = invoiceNumber,
+						DbType = DbType.String
+					}
+				})?.ToList();
+			return paymentSearchResultsDtos ?? new List<ClaimsWithPrescriptionCountsDto>();
+		}
+
+		private static IEnumerable<byte> GetBytesFromDb(string fileName) => DisposableService.Using(() 
+			=> new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
-				conn.Open();
 				return DisposableService.Using(() => new SqlCommand("uspGetFileBytesFromFileName", conn),
 					cmd =>
 					{
+						conn.Open();
 						cmd.CommandType = CommandType.StoredProcedure;
 						cmd.Parameters.Add("@FileName", SqlDbType.NVarChar, 255).Value = fileName;
 						return DisposableService.Using(cmd.ExecuteReader,
@@ -39,8 +110,8 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 					});
 			});
 
-		private static void ImportDataTableIntoDbAsync(DataTable dt) => DisposableService.Using(() 
-			=> new SqlConnection(c.ConnStr), conn =>
+		private static void ImportDataTableIntoDb(DataTable dt) => DisposableService.Using(() 
+			=> new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
 				DisposableService.Using(() => new SqlCommand("uspImportPaymentFromDataTable", conn),
 					cmd =>

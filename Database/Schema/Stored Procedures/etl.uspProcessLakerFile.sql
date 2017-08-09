@@ -643,7 +643,7 @@ AS BEGIN
 			AND [s].[6] IS NOT NULL
 	SET @RowCountCheck = @@ROWCOUNT
 
-	UPDATE s SET s.PaymentID = p.[PaymentID]
+	UPDATE s SET s.PaymentID = [p].[AcctPayableID]
 	FROM   [dbo].[AcctPayable] AS [p]
 			INNER JOIN [etl].[StagedLakerFile] AS [s] ON [s].[RowID] = [p].[ETLRowID]
 	IF @@ROWCOUNT != @RowCountCheck

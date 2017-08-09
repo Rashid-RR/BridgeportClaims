@@ -19,7 +19,6 @@ namespace BridgeportClaims.Common.StringConstants
         public const string GetAllRolesAction = "GetAllRoles";
         public const string ManageUsersInRoleAction = "ManageUsersInRole";
         public const string GetClaimNoteAction = "GetClaimNote";
-        public static string ConnStr = ConfigurationManager.ConnectionStrings[DbConnStrName].ConnectionString;
         public const string ClientLocalHostNameKey = "ClientLocalHostName";
         public const string ServerLocalHostNameKey = "ServerLocalHostName";
         public const string ResetPasswordClientRoute = "resetpassword";
@@ -34,5 +33,6 @@ namespace BridgeportClaims.Common.StringConstants
         public const string PaymentsDataImporterAppName = "PaymentsDataImporter";
         public const string LakerFilePatternKeyName = "LakerFilePattern";
         public const string PaymentFilePatternKeyName = "PaymentFilePattern";
+        public const string Comma = ",";
     }
 }

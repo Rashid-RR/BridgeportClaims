@@ -162,7 +162,20 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetResultTransformer(Transformers.AliasToBean(typeof(EpisodeDto)))
 								.List<EpisodeDto>();
 							claimDto.Episodes = episodes;
-							claimDto.Payments = new List<PaymentDto>();
+							var acctPayableDtos = session.CreateSQLQuery(
+							  @"SELECT [Date] = [p].[DateScanned]
+									 , [p].[CheckNumber]
+									 , [p2].[RxNumber]
+									 , RxDate = CAST([p2].[DateFilled] AS DATE)
+									 , CheckAmount = [p].[AmountPaid]
+								FROM   [dbo].[Payment] AS [p]
+									   INNER JOIN [dbo].[Prescription] AS [p2] ON [p2].[PrescriptionID] = [p].[PrescriptionID]
+								WHERE  [p].[ClaimID] = :ClaimID")
+								.SetMaxResults(1000)
+								.SetInt32("ClaimID", claimId)
+								.SetResultTransformer(Transformers.AliasToBean(typeof(AcctPayableDto)))
+								.List<AcctPayableDto>();
+							claimDto.AcctPayables = acctPayableDtos;
 							// Claim Prescriptions
 							claimDto.Prescriptions = 
 								GetPrescriptionDataByClaim(claimId)?.OrderByDescending(x => x.RxDate).ToList();
@@ -175,7 +188,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 													, [EnteredBy] = [a].[NoteAuthor]
 													, [Note] = [a].[NoteText]
 													, [NoteUpdatedOn] = [a].[NoteUpdatedOn]
-												FROM[dbo].[vwPrescriptionNote] AS a WITH(NOEXPAND)
+												FROM[dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
 												WHERE[a].[ClaimID] = :ClaimID
 												ORDER BY[a].[NoteUpdatedOn] ASC")
 								.SetInt32("ClaimID", claimId)

@@ -1,10 +1,10 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DateDisplay;
 using BridgeportClaims.Web.Attributes;
-using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
