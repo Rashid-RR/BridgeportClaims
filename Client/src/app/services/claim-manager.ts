@@ -131,6 +131,10 @@ export class ClaimManager {
   get claimsData(): Claim[] {
     return this.claims.asImmutable().toArray();
   }
+  claimsDataLength(): number {
+    let claimsLength = this.claims.asImmutable().toArray().length;
+    return claimsLength;
+  }
   clearClaimsData() {
     this.claims = Immutable.OrderedMap<Number, Claim>();
   }

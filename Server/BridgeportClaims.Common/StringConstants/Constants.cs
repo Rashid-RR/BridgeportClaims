@@ -1,6 +1,4 @@
-﻿using System.Configuration;
-
-namespace BridgeportClaims.Common.StringConstants
+﻿namespace BridgeportClaims.Common.StringConstants
 {
     public static class Constants
     {
