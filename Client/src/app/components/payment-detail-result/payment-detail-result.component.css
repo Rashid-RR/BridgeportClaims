@@ -149,8 +149,8 @@ th {
     height: 15px;
     cursor: pointer;
     position: absolute;
-    top: 2;
-    left: 0;
+    top: 2px;
+    left: 0px;
     background: #fcfff4;
     background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
     background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
@@ -184,8 +184,9 @@ th {
     opacity: 0;
     width: 15px;
     height: 15px;
-    margin: 0;
+    margin: 0px;
     cursor: pointer;
+    left: 0px;
     top: 2px;
 }
 
