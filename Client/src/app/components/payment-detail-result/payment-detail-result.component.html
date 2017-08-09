@@ -28,7 +28,7 @@
                     <tr *ngFor="let claim of paymentService.detailedClaimsData"  (click)="inv.click()">
                         <td>
                              <div class="paymentCheckBox"> 
-                                <input type="checkbox" name="check" value="None" [id]="claim.claimId" (change)="select(claim,$event)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [checked]="(claim.selected || checkAll)" (click)="inv.click()" class="claimCheckBox" #inv>
+                                <input type="checkbox" name="check" value="None" (change)="select(claim,$event)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [checked]="(claim.selected || checkAll)" (click)="inv.click()" class="claimCheckBox" #inv>
                                  <label [for]="claim.claimId" (click)="inv.click()"></label>
                             </div>
                         </td>

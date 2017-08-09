@@ -20,6 +20,7 @@ export class PaymentComponent implements OnInit {
     var checkboxes = window['jQuery']('.claimCheckBox');
     for (var i = 0; i < checkboxes.length; i++) {
       if (window['jQuery']("#" + checkboxes[i].id).is(':checked')) {
+        console.log(checkboxes[i].id);
         selectedClaims.push(Number(checkboxes[i].id));
       }
     }
