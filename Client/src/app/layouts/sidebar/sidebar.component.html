@@ -1,74 +1,73 @@
 <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      <!-- Sidebar user panel -->
-      <div class="user-panel">
-        <div class="pull-left image">
-          <img [src]="'assets/logo/Color Logo.jpg'" class="img-square" [alt]="userName">
-          <br style="line-height:2em" *ngIf="!avatar">
-        </div>
-        <div class="pull-left info">
-          <p>{{userName}}</p>
-        </div>
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar">
+    <!-- Sidebar user panel -->
+    <div class="user-panel">
+      <div class="pull-left image">
+        <img [src]="'assets/logo/Color Logo.jpg'" class="img-square" [alt]="userName">
+        <br style="line-height:2em" *ngIf="!avatar">
       </div>
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li>
-          <a [routerLink]="'/main/private'">
+      <div class="pull-left info">
+        <p>{{userName}}</p>
+      </div>
+    </div>
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul class="sidebar-menu">
+      <li>
+        <a [routerLink]="'/main/private'">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
-        </li>
-        <!--<li>
+      </li>
+      <!--<li>
             <a  [routerLink]="'/main/payors'">
               <i class="fa fa-user fa-fw"></i> 
               <span>Payors</span>
             </a>
         </li>       -->
-        <li>
-            <a  [routerLink]="'/main/users'" *ngIf="allowed">
+      <li>
+        <a [routerLink]="'/main/users'" *ngIf="allowed">
               <i class="fa fa-user fa-fw"></i> 
               <span>Users</span>
             </a>
-        </li>       
-        <li>
-            <a  [routerLink]="'/main/claims'">
+      </li>
+      <li>
+        <a [routerLink]="'/main/claims'">
               <i class="fa fa-credit-card fa-fw"></i> 
               <span>Claims</span>
             </a>
-        </li>       
-        <li>
-            <a  [routerLink]="'/main/fileupload'" *ngIf="allowed">            
+      </li>
+      <li>
+        <a [routerLink]="'/main/fileupload'" *ngIf="allowed">            
               <i class="fa fa-upload"></i> 
               <span>File Upload</span>
             </a>
-        </li> 
-        <li>
-            <a  [routerLink]="'/main/payments'">            
+      </li>
+      <li>
+        <a [routerLink]="'/main/payments'">            
               <i class="fa fa-money"></i> 
               <span>Payments</span>
             </a>
-        </li> 
-        <li class="header" style="color:white;font-size:14pt">
-          <i class="fa fa-history"></i>
-          HISTORY
-        </li>
-        <ng-container *ngIf="!claimManager.loadingHistory">
-          <li *ngFor="let claim of claimManager.claimHistory">
-            <a class="history" (click)="goToClaim(claim.claimId)">
+      </li>
+      <li class="header" style="color:white;font-size:14pt">
+        <i class="fa fa-history"></i> HISTORY
+      </li>
+      <ng-container *ngIf="!claimManager.loadingHistory">
+        <li *ngFor="let claim of claimManager.claimHistory">
+          <a class="history" (click)="goToClaim(claim.claimId)">
               <i class="fa fa-check-square-o"></i> 
               <span *ngIf="claim.name">{{claim.name}}</span>
               <span *ngIf="!claim.name">{{claim.firstName+" "+claim.lastName}}</span>
             </a>
-          </li> 
-        </ng-container>
-        <ng-container  >
-          <li class="loader">
-            <a>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="claimManager.loadingHistory">
+        <li class="loader">
+          <a>
               <img src="assets/img/ajax-loader.gif">
             </a>
-          </li> 
-        </ng-container>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
-  </aside>
+        </li>
+      </ng-container>
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>
