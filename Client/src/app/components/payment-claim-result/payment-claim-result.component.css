@@ -42,7 +42,7 @@ tr>td {
 
 tr>th:first-child,
 tr>td:first-child {    
-    max-width: 10%;
+    max-width: 0%;
     font-size: 8pt;
 }
 

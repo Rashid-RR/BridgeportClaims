@@ -75,6 +75,9 @@ export class PaymentService {
   get claimsData(): PaymentClaim[] {
     return this.claims.asImmutable().toArray();
   }
+  get rawClaimsData(): Immutable.OrderedMap<Number, PaymentClaim> {
+    return this.claims;
+  }
   get detailedClaimsData(): DetailedPaymentClaim[] {
     return this.claimsDetail.asImmutable().toArray();
   }
