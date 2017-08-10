@@ -19,8 +19,7 @@ export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
   lastSelectedIndex:number;
   @ViewChild('prescriptionTable') table:ElementRef;
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
    activateClaimCheckBoxes(){
     jQuery('#claimsCheckBox').click();
   }
