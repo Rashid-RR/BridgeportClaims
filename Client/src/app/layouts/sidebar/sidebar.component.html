@@ -52,12 +52,22 @@
           <i class="fa fa-history"></i>
           HISTORY
         </li>
-        <li *ngFor="let claim of claimManager.claimHistory">
-          <a class="history" (click)="goToClaim(claim.claimId)">
-            <i class="fa fa-check-square-o"></i> 
-            <span *ngIf="claim.name">{{claim.name}}</span>
-            <span *ngIf="!claim.name">{{claim.firstName+" "+claim.lastName}}</span>
-          </a></li>        
+        <ng-container *ngIf="!claimManager.loadingHistory">
+          <li *ngFor="let claim of claimManager.claimHistory">
+            <a class="history" (click)="goToClaim(claim.claimId)">
+              <i class="fa fa-check-square-o"></i> 
+              <span *ngIf="claim.name">{{claim.name}}</span>
+              <span *ngIf="!claim.name">{{claim.firstName+" "+claim.lastName}}</span>
+            </a>
+          </li> 
+        </ng-container>
+        <ng-container  *ngIf="claimManager.loadingHistory">
+          <li>
+            <a>
+              <img src="assets/img/ajax-loader.gif">
+            </a>
+          </li> 
+        </ng-container>
       </ul>
     </section>
     <!-- /.sidebar -->

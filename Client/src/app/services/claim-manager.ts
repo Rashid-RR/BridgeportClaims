@@ -19,6 +19,7 @@ export class ClaimManager {
   private history: Array<Claim> = [];
   selected: Number;
   loading: Boolean = false;
+  loadingHistory:Boolean=false;
   private notetypes: Array<any> = [];
   private prescriptionNotetypes: Array<PrescriptionNoteType> = [];
   private episodeNoteTypes: Array<EpisodeNoteType> = []
@@ -37,9 +38,13 @@ export class ClaimManager {
   }
 
   getHistory() {
+    this.loadingHistory=true;
     this.http.getHistory().single().map(r => { return r.json() }).subscribe(res => {
       this.history = res as Array<Claim>;
-    }, error => { });
+      this.loadingHistory=false;
+    }, error => {
+      this.loadingHistory=false;
+     });
   }
 
   get claimHistory(): Array<Claim> {
