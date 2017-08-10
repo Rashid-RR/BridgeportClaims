@@ -19,7 +19,7 @@
                     </tr>
                 </thead>
                 <tbody *ngIf="paymentService.claimsData" class="overflowable">
-                    <tr *ngFor="let claim of paymentService.claimsData"  (click)="inv.click()">
+                    <tr *ngFor="let claim of paymentService.claimsData"  (click)="inv.click()" [class.bgBlue]="claim.selected || checkAll">
                         <td>
                              <div class="paymentCheckBox"> 
                                 <input type="checkbox" name="check" value="None"  (change)="select(claim,$event)" [id]="claim.claimId" [attr.labelName]="claim.labelName" [checked]="claim.selected || checkAll" (click)="inv.click()" class="claimCheckBox" #inv>
