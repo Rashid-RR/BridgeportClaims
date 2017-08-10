@@ -112,3 +112,8 @@ textarea {
 .display-none {
     display: none
 }
+.tally{
+    color:white;font-size:10pt;
+    font-family: "Comic Sans MS";
+    display:grid;
+}

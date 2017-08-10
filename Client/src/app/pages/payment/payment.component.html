@@ -29,14 +29,20 @@
                             <div class="box-header bg-head-box">
                                 <h4 class="box-title text-center panel-head">
                                     <u *ngIf="!paymentService.prescriptionSelected"><img src="assets/img/iconClaims.png"> Claims</u>
-                                    <u *ngIf="paymentService.prescriptionSelected"><img src="assets/img/iconPrescriptions.png"> Prescriptions</u>
-                                </h4>
+                                    <u *ngIf="paymentService.prescriptionSelected"><img src="assets/img/iconPrescriptions.png"> Prescriptions</u>                                    
+                                </h4>  
+                                <span  class="tally pull-right"  *ngIf="paymentService.claimsData.length>0" style="margin-right:250px;">
+                                       <span>
+                                           {{paymentService.claimsData.length}} records found
+                                        </span>
+                                        <span class="label" *ngIf="paymentService.claimsDataCount" style="clear:both;background:#56a1ff;font-size:9pt">
+                                            {{paymentService.claimsDataCount}} rows selected
+                                        </span>
+                                    </span>                             
                                 <div class="box-tools pull-right" *ngIf="!paymentService.prescriptionSelected">
-                                    <span style="color:white;font-size:16pt" *ngIf="paymentService.claimsData.length>0"> {{paymentService.claimsData.length}} records found</span>
                                     <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="viewClaims()" *ngIf="paymentService.claimsData.length>0" style="margin-left:auto;margin-right:auto;">View Prescriptions</button>                                
                                 </div>
                                 <div class="box-tools pull-right" *ngIf="paymentService.prescriptionSelected">
-                                    <span style="color:white;font-size:16pt" *ngIf="paymentService.detailedClaimsData.length>0"> {{paymentService.detailedClaimsData.length}} records found</span>
                                     <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentService.prescriptionSelected=false" style="margin-left:auto;margin-right:auto;"><i class="fa fa-arrow-left"></i> Back to Claims</button>                                
                                 </div>
                             </div>

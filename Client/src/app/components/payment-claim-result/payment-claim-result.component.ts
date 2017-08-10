@@ -28,15 +28,15 @@ export class PaymentClaimResultComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit() {
-       this.rd.listen(this.table.nativeElement,'keydown',($event)=>{
-            if($event.keyCode==16){
-              this.selectMultiple = true;
-            }
+      this.rd.listen(this.table.nativeElement,'keydown',($event)=>{
+        if($event.keyCode==16){
+          this.selectMultiple = true;
+        }
       })
-       this.rd.listen(this.table.nativeElement,'keyup',($event)=>{
-            if($event.keyCode==16){
-              this.selectMultiple = false;
-            }
+      this.rd.listen(this.table.nativeElement,'keyup',($event)=>{
+        if($event.keyCode==16){
+          this.selectMultiple = false;
+        }
       })
        
   }
