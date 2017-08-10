@@ -200,3 +200,22 @@ tr>th:first-child .paymentCheckBox label {
 .bg-darkblue {
     background-color: #414772 !important;
 }
+
+tbody>tr.bgBlue {
+    background: #56a1ff !important;
+    color:white;
+}
+tbody>tr.bgBlue td{
+    color:white;
+}
+tbody>tr.bgBlue td::selection,tbody>tr.bgBlue td a::selection{
+    background:transparent !important;
+}
+tbody>tr:hover {
+    background: #b6f1ff !important;
+    cursor: pointer;
+    color:#000;
+}
+tbody>tr:hover td,tbody>tr:hover td::selection{
+    color:#000;
+}

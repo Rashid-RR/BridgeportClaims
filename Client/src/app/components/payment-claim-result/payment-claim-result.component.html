@@ -30,7 +30,8 @@
                         <td>{{claim.claimNumber}}</td>
                         <td>{{claim.patientName}}</td>
                         <td>{{claim.payor}}</td>
-                        <td>
+                        <td *ngIf="!claim.numberOfPrescriptions">{{claim.numberOfPrescriptions}}</td>
+                        <td *ngIf="claim.numberOfPrescriptions">
                             <a class="label label-info bg-darkblue" style="cursor: not-allowed;">
                                 {{claim.numberOfPrescriptions}}
                             </a>
