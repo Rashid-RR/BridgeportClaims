@@ -82,8 +82,18 @@ export class PaymentService {
      });
      return count;
   }
+  get detailedClaimsDataCount(): Number{
+    let count = 0;
+     this.claimsDetail.asImmutable().toArray().forEach(c=>{
+       if(c.selected) count++;
+     });
+     return count;
+  }
   get rawClaimsData(): Immutable.OrderedMap<Number, PaymentClaim> {
     return this.claims;
+  }
+  get rawDetailedClaimsData(): Immutable.OrderedMap<Number, DetailedPaymentClaim> {
+    return this.claimsDetail;
   }
   get detailedClaimsData(): DetailedPaymentClaim[] {
     return this.claimsDetail.asImmutable().toArray();
