@@ -39,13 +39,13 @@
                                 <h4 class="box-title text-center panel-head">
                                     <u><img src="assets/img/iconnotes.png">Notes</u>
                                 </h4>
-                                <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.claimNotes.length>0" style="margin-right:50px;">
+                                <!-- <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.claimNotes.length>0" style="margin-right:50px;">
                                     <span>
                                         <span style="font-size:13pt">
                                             {{claimManager.selectedClaim.claimNotes.length}}
                                             </span> Record{{claimManager.selectedClaim.claimNotes.length>1 ? 's':''}} found                                        
                                     </span>
-                                </span>
+                                </span> -->
                                 <div class="box-tools pull-right" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
                                     <div class="btn-group" data-toggle="btn-toggle">
                                         <button type="button" class="btn btn-flat bg-darkblue btn-sm" (click)="addNote()" *ngIf="!claimManager.selectedClaim.claimNotes">Add New</button>
