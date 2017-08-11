@@ -20,5 +20,5 @@ ALTER TABLE [util].[ImportFile] ADD CONSTRAINT [pkImportFile] PRIMARY KEY CLUSTE
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxUqImportFileFileNameIncludeAllExceptBytes] ON [util].[ImportFile] ([FileName]) INCLUDE ([CreatedOnUTC], [FileExtension], [FileSize], [ImportFileID], [ImportFileTypeID], [Processed], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [util].[ImportFile] ADD CONSTRAINT [FK__ImportFil__Impor__5B4E756C] FOREIGN KEY ([ImportFileTypeID]) REFERENCES [util].[ImportFileType] ([ImportFileTypeID])
+ALTER TABLE [util].[ImportFile] ADD CONSTRAINT [fkImportFileImportFileTypeIDImportFileTypeImportFileTypeID] FOREIGN KEY ([ImportFileTypeID]) REFERENCES [util].[ImportFileType] ([ImportFileTypeID])
 GO
