@@ -17,6 +17,12 @@ namespace BridgeportClaims.Web.Controllers
 	public class FileUploadController : BaseApiController
 	{
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+		private readonly IImportFileProvider _importFileProvider;
+
+		public FileUploadController(IImportFileProvider importFileProvider)
+		{
+			_importFileProvider = importFileProvider;
+		}
 
 		[HttpDelete]
 		[Route("delete")]
@@ -45,7 +51,7 @@ namespace BridgeportClaims.Web.Controllers
 			{
 				return await Task.Run(() =>
 				{
-					var files = ImportFileProvider.GetImportFileDtos();
+					var files = _importFileProvider.GetImportFileDtos();
 					return Ok(files);
 				});
 			}

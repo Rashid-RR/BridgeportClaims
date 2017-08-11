@@ -75,6 +75,8 @@
     <Compile Include="DomainModels\EpisodeLinkType.cs" />
     <Compile Include="DomainModels\EpisodeType.cs" />
     <Compile Include="DomainModels\Gender.cs" />
+    <Compile Include="DomainModels\ImportFile.cs" />
+    <Compile Include="DomainModels\ImportFileType.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
     <Compile Include="DomainModels\Patient.cs" />
     <Compile Include="DomainModels\Payment.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="DomainModels\UsState.cs" />
     <Compile Include="DomainModels\Views\VwPrescriptionNote.cs" />
     <Compile Include="DomainModels\VwClaimInfo.cs" />
+    <Compile Include="DomainModels\VwImportFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PayorViewModel.cs" />
   </ItemGroup>
