@@ -14,7 +14,7 @@ CREATE PROC [dbo].[uspSaveEpisode]
 	@EpisodeID INT,
 	@ClaimID INT,
 	@CreatedDateUTC DATETIME2,
-	@AssignUser VARCHAR(100),
+	@AssignedUserID NVARCHAR(128),
 	@Note VARCHAR(1000),
 	@EpisodeTypeID INT
 )
@@ -40,16 +40,16 @@ BEGIN
 	USING (SELECT @EpisodeID EpisodeID,
 				  @ClaimID ClaimID,
 				  @CreatedDateUTC CreatedDateUTC,
-				  @AssignUser AssignUser,
+				  @AssignedUserID AssignedUserID,
 				  @Note Note,
 				  @EpisodeTypeID EpisodeTypeID) AS src
 	       ON [tgt].[EpisodeID] = [src].[EpisodeID]
 	WHEN NOT MATCHED BY TARGET THEN
-		INSERT ([ClaimID], [CreatedDateUTC], [AssignUser], [Note], [EpisodeTypeID])
-		VALUES (src.[ClaimID], src.[CreatedDateUTC], src.[AssignUser], src.[Note], [src].[EpisodeTypeID])
+		INSERT ([ClaimID], [CreatedDateUTC], [AssignedUserID], [Note], [EpisodeTypeID])
+		VALUES (src.[ClaimID], src.[CreatedDateUTC], src.[AssignedUserID], src.[Note], [src].[EpisodeTypeID])
 	WHEN MATCHED THEN
 		UPDATE SET  [tgt].[ClaimID] = [src].[ClaimID],
-					[tgt].[AssignUser] = [src].[AssignUser],
+					[tgt].[AssignedUserID] = [src].[AssignedUserID],
 					[tgt].[Note] = [src].[Note],
 					[tgt].[UpdatedOnUTC] = @UTCNow,
 					[tgt].[EpisodeTypeID] = [src].[EpisodeTypeID];

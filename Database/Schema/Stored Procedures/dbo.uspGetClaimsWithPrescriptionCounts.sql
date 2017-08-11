@@ -7,14 +7,14 @@ GO
 	Create Date:	8/8/2017
 	Description:	Returns unique, Claims, and count of their Prescriptions
 	Sample Execute:
-					EXEC dbo.uspGetPaymentSearchResults
+					EXEC [dbo].[uspGetClaimsWithPrescriptionCounts]
 												@ClaimNumber = NULL,
 												@FirstName = NULL,
 												@LastName = 'WILLIAMS',
 												@RxDate = NULL,
 												@InvoiceNumber = NULL
 */
-CREATE PROC [dbo].[uspGetPaymentSearchResults]
+CREATE PROC [dbo].[uspGetClaimsWithPrescriptionCounts]
 (
 	@ClaimNumber VARCHAR(255),
 	@FirstName VARCHAR(155),
@@ -25,7 +25,7 @@ CREATE PROC [dbo].[uspGetPaymentSearchResults]
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
-	SELECT    [c].[ClaimID]
+	SELECT    [c].[ClaimID] ClaimId
 			, [c].[ClaimNumber]
 			, PatientName = [p].[FirstName] + ' ' + [p].[LastName]
 			, Payor = [py].[GroupName]
@@ -52,4 +52,5 @@ AS BEGIN
 				)
 	GROUP BY [c].[ClaimID], [c].[ClaimNumber],[p].[FirstName],[p].[LastName],[py].[GroupName]
 END
+
 GO
