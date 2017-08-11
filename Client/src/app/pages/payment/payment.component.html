@@ -35,24 +35,24 @@
                                     <span>
                                         <span style="font-size:13pt">
                                             {{paymentService.claimsData.length}}
-                                            </span> record{{paymentService.claimsData.length>1 ? 's':''}} found                                        
+                                            </span> Record{{paymentService.claimsData.length>1 ? 's':''}} found                                        
                                     </span>
                                     <span class="label" *ngIf="paymentService.claimsDataCount" style="margin-left:20px;background:#56a1ff;font-size:9pt">
                                         <span style="font-size:11pt">
                                             {{paymentService.claimsDataCount}}
-                                        </span> row{{paymentService.claimsDataCount>1 ? 's':''}} selected
+                                        </span> Row{{paymentService.claimsDataCount>1 ? 's':''}} selected
                                     </span>
                                 </span>                             
                                 <span  class="tally pull-right"  *ngIf="paymentService.prescriptionSelected && paymentService.detailedClaimsData.length>0" style="margin-right:250px;">
                                     <span>
                                         <span style="font-size:13pt">
                                             {{paymentService.detailedClaimsData.length}}
-                                        </span> record{{paymentService.detailedClaimsData.length>1 ? 's':''}} found
+                                        </span> Record{{paymentService.detailedClaimsData.length>1 ? 's':''}} found
                                     </span>
                                     <span class="label" *ngIf="paymentService.claimsDataCount" style="margin-left:20px;background:#56a1ff;font-size:9pt">
                                         <span style="font-size:11pt">
                                            {{paymentService.detailedClaimsDataCount}}
-                                        </span> row{{paymentService.detailedClaimsDataCount>1 ? 's':''}} selected
+                                        </span> Row{{paymentService.detailedClaimsDataCount>1 ? 's':''}} selected
                                     </span>
                                 </span>                             
                                 <div class="box-tools pull-right" *ngIf="!paymentService.prescriptionSelected">

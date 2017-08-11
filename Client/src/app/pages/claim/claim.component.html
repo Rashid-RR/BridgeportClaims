@@ -17,8 +17,15 @@
                                 <h4 class="box-title text-center panel-head">
                                     <u><img src="assets/img/iconClaims.png"> Claims</u>
                                 </h4>
+                                <span  class="tally pull-right"  *ngIf="claimManager.claimsData && claimManager.claimsData.length>0" style="margin-right:50px;">
+                                    <span>
+                                        <span style="font-size:13pt">
+                                            {{claimManager.claimsData.length}}
+                                            </span> Record{{claimManager.claimsData.length>1 ? 's':''}} found                                        
+                                    </span>
+                                </span>
                                 <div class="box-tools pull-right">
-                                    <span class="results-no" *ngIf="this.claimManager.claimsDataLength() > 0"> {{ this.claimManager.claimsDataLength() }} result<span *ngIf="this.claimManager.claimsDataLength() > 1">s</span> found</span>
+                                    <!-- <span class="results-no" *ngIf="claimManager.claimsDataLength() > 0"> {{claimManager.claimsDataLength() }} result<span *ngIf="claimManager.claimsDataLength() > 1">s</span> found</span> -->
                                     <button type="button" *ngIf="expanded" class="btn btn-flat bg-grey btn-sm" (click)="minimize('claims')" title="Minimize"><i class="fa fa-minus"></i></button>
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-grey btn-sm" (click)="expand(true,1,'claims')" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
@@ -32,6 +39,13 @@
                                 <h4 class="box-title text-center panel-head">
                                     <u><img src="assets/img/iconnotes.png">Notes</u>
                                 </h4>
+                                <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.claimNotes.length>0" style="margin-right:50px;">
+                                    <span>
+                                        <span style="font-size:13pt">
+                                            {{claimManager.selectedClaim.claimNotes.length}}
+                                            </span> Record{{claimManager.selectedClaim.claimNotes.length>1 ? 's':''}} found                                        
+                                    </span>
+                                </span>
                                 <div class="box-tools pull-right" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
                                     <div class="btn-group" data-toggle="btn-toggle">
                                         <button type="button" class="btn btn-flat bg-darkblue btn-sm" (click)="addNote()" *ngIf="!claimManager.selectedClaim.claimNotes">Add New</button>
@@ -50,6 +64,13 @@
                                 <h4 class="box-title text-center panel-head">
                                     <u><img src="assets/img/iconepisodes.png">Episodes</u>
                                 </h4>
+                                <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.episodes.length>0" style="margin-right:150px;">
+                                    <span>
+                                        <span style="font-size:13pt">
+                                            {{claimManager.selectedClaim.episodes.length}}
+                                            </span> Record{{claimManager.selectedClaim.episodes.length>1 ? 's':''}} found                                        
+                                    </span>
+                                </span>
                                 <div class="box-tools pull-right">
                                     <div class="btn-group" data-toggle="btn-toggle">
                                         <button type="button" class="btn btn-flat bg-darkblue btn-sm" title="New Episode" (click)="episode()">Add New</button>
@@ -67,6 +88,13 @@
                         <div class="box" id="pres-box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4">
                             <div class="box-header bg-head-box" id="pres-box-header">
                                 <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconPrescriptions.png">Prescriptions</u></h4>
+                                <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.prescriptions.length>0" style="margin-right:150px;">
+                                    <span>
+                                        <span style="font-size:13pt">
+                                            {{claimManager.selectedClaim.prescriptions.length}}
+                                            </span> Record{{claimManager.selectedClaim.prescriptions.length>1 ? 's':''}} found                                        
+                                    </span>
+                                </span>
                                 <div class="box-tools pull-right">
                                     <div class="btn-group" data-toggle="btn-toggle">
                                         <button class="btn btn-flat btn-sm bg-darkblue" type="button" (click)="addPrescriptionNote()">Add Note</button>
@@ -89,6 +117,13 @@
                                 <h4 class="box-title text-center panel-head">
                                     <u><img src="assets/img/iconScripts.png">Script Notes</u>
                                 </h4>
+                                <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.prescriptionNotes.length>0" style="margin-right:50px;">
+                                    <span>
+                                        <span style="font-size:13pt">
+                                            {{claimManager.selectedClaim.prescriptionNotes.length}}
+                                            </span> Record{{claimManager.selectedClaim.prescriptionNotes.length>1 ? 's':''}} found                                        
+                                    </span>
+                                </span>
                                 <div class="box-tools pull-right">
                                     <button type="button" *ngIf="expanded" class="btn btn-flat bg-grey btn-sm" (click)="minimize('script-notes')" title="Minimize"><i class="fa fa-minus"></i></button>
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-grey btn-sm" (click)="expand(true,5,'script-notes')" title="Expand blade"><i class="fa fa-expand"></i></button>
@@ -103,6 +138,13 @@
                                 <h4 class="box-title text-center panel-head">
                                     <u><img src="assets/img/iconpayments.png">Payments</u>
                                 </h4>
+                                <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.payments.length>0" style="margin-right:50px;">
+                                    <span>
+                                        <span style="font-size:13pt">
+                                            {{claimManager.selectedClaim.payments.length}}
+                                            </span> Record{{claimManager.selectedClaim.payments.length>1 ? 's':''}} found                                        
+                                    </span>
+                                </span>
                                 <div class="box-tools pull-right">
                                     <button type="button" *ngIf="expanded" class="btn btn-flat bg-grey btn-sm" (click)="minimize('payments')" title="Minimize"><i class="fa fa-minus"></i></button>
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-grey btn-sm" (click)="expand(true,6,'payments')" title="Expand blade"><i class="fa fa-expand"></i></button>
