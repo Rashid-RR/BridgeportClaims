@@ -42,7 +42,7 @@ tr>td {
 
 tr>th:first-child,
 tr>td:first-child {
-    max-width: 10%;
+    max-width: 5%;
     font-size: 8pt;
 }
 
@@ -174,9 +174,28 @@ th {
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
-tr>th:first-child .paymentCheckBox label {
-    box-shadow: inset 0px 1px 1px #992727, 2px 2px 2px #992727;
+
+.fa.rotate{
+    transform: rotate(-90deg);
+    margin-top:5px;
+    position: absolute;
+    margin-left:2px;
 }
+
+@media screen and (max-width: 300px) {
+    .fa.rotate{
+        margin-left:2px;
+    }
+}
+
+@media screen and (min-width: 300px) {
+    .fa.rotate{
+        margin-left:7px;
+    }
+}
+/* tr>th:first-child .paymentCheckBox label {
+    box-shadow: inset 0px 1px 1px #992727, 2px 2px 2px #992727;
+} */
 .paymentCheckBox label:hover::after {
     opacity: 0.5;
 }
