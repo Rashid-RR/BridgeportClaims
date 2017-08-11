@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[Prescription]
 [PharmacyNABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [AWPUnit] [float] NULL,
 [Usual] [decimal] (18, 0) NULL,
-[Prescriber] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[Prescriber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PayableAmount] [money] NOT NULL,
 [BilledAmount] [money] NOT NULL,
 [TransactionType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,

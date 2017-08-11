@@ -7,29 +7,31 @@ GO
 	Create Date:	8/7/2017
 	Description:	Gets the results in order to narrow down the search for the Payment Page.
 	Sample Execute:
-					EXEC dbo.uspGetPaymentPageData 695
+					EXEC [dbo].[uspGetClaimsWithPrescriptionDetails] '8,9,10,11'
 */
-CREATE PROC [dbo].[uspGetPaymentPageData]
+CREATE PROC [dbo].[uspGetClaimsWithPrescriptionDetails]
 (
-	@ClaimID INT
+	@ClaimIDs VARCHAR(4000)
 )
 AS BEGIN
 	SET NOCOUNT ON;
-	SET TRAN ISOLATION LEVEL SERIALIZABLE;
+	SET TRAN ISOLATION LEVEL READ COMMITTED; -- SNAPSHOT
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
 		
-		SELECT [c].[ClaimNumber]
+		SELECT [pr].[PrescriptionID] PrescriptionId
+			 , [c].[ClaimID] ClaimId
+			 , [c].[ClaimNumber]
 			 , PatientName = [p].[FirstName] + ' ' + [p].[LastName]
 			 , RxDate = FORMAT([pr].[DateFilled], 'M/d/yyyy')
 			 , [pr].[RxNumber]
 			 , [pr].[LabelName]
 			 , InvoicedAmount = [pr].[BilledAmount]
-			 , [ot].[AmountPaid]
 			 , Outstanding = [pr].[BilledAmount] - [ot].[AmountPaid]
 			 , Payor = [py].[GroupName]
 		FROM   [dbo].[Claim] AS [c]
+			   INNER JOIN STRING_SPLIT(@ClaimIDs, ',') AS [ss] ON [ss].[value] = [c].[ClaimID]
 			   INNER JOIN [dbo].[Payor] AS [py] ON [py].[PayorID] = [c].[PayorID]
 			   INNER JOIN [dbo].[Patient] AS p ON [p].[PatientID] = [c].[PatientID]
 			   INNER JOIN [dbo].[Prescription] AS [pr] ON [pr].[ClaimID] = [c].[ClaimID]
@@ -38,15 +40,13 @@ AS BEGIN
 							   FROM   [dbo].[Payment] AS [ipm]
 							   WHERE  [ipm].[PrescriptionID] = [pr].[PrescriptionID]
 						   ) AS ot
-		WHERE  [c].[ClaimID] = @ClaimID
-
-	IF @@TRANCOUNT > 0
-		COMMIT
+		IF @@TRANCOUNT > 0
+			COMMIT
 	END TRY
 	BEGIN CATCH
 		IF @@TRANCOUNT > 0
 			ROLLBACK
-				
+
         DECLARE @ErrSeverity INT = ERROR_SEVERITY()
             , @ErrState INT = ERROR_STATE()
             , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
@@ -61,4 +61,6 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
+
 GO
