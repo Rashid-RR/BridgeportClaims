@@ -115,5 +115,5 @@ textarea {
 .tally{
     color:white;font-size:10pt;
     font-family: "Comic Sans MS";
-    display:grid;
+    display:block;
 }
