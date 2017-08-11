@@ -25,8 +25,6 @@ export class ClaimResultComponent implements OnInit {
 
   ngOnInit() {
     let claimsLength = this.claimManager.claimsData;
-    console.log(claimsLength.length);
-
   }
 
   view(claimID: Number) {

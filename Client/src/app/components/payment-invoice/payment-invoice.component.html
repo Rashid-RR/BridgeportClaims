@@ -20,8 +20,13 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label>Rx Number</label>
-                <input class="form-control" name="rxNumber" formControlName="rxNumber" (change)="textChange('rxNumber')" (focus)="submitted=false" focus-on>
+                <label>Rx Date</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                 <input class="form-control pull-right" id="datepicker" name="rxDate" formControlName="rxDate" (change)="textChange('rxDate')" (focus)="submitted=false" focus-on>                  
+                </div>
             </div>
         </div>
         <div class="col-sm-2 col-md-1">

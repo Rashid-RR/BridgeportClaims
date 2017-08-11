@@ -27,7 +27,8 @@ export class PaymentService {
     this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   }
   search(data, addHistory = true) {
-    if (data.claimNumber==null && data.firstName==null && data.lastName==null && data.rxNumber==null && data.invoiceNumber==null) {
+    console.log(data);
+    if (data.claimNumber==null && data.firstName==null && data.lastName==null && data.rxDate==null && data.invoiceNumber==null) {
           this.toast.warning('Please specify at least one search field');
     }else{
       this.loading = true;    

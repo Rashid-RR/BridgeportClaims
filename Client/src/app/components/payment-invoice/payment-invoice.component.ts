@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewInit } from '@angular/core';
 import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpService} from "../../services/http-service";
@@ -11,7 +11,7 @@ import {ToastsManager } from 'ng2-toastr/ng2-toastr';
   templateUrl: './payment-invoice.component.html',
   styleUrls: ['./payment-invoice.component.css']
 })
-export class PaymentInvoiceComponent implements OnInit {
+export class PaymentInvoiceComponent implements OnInit,AfterViewInit {
 
  form: FormGroup;
   submitted: boolean = false;
@@ -20,12 +20,18 @@ export class PaymentInvoiceComponent implements OnInit {
       claimNumber: [null],
       firstName: [null],
       lastName: [null],
-      rxNumber: [null],
+      rxDate: [null],
       invoiceNumber: [null]
     });
   }
   ngOnInit() {
 
+  }
+  ngAfterViewInit(){
+     //Date picker
+    window['jQuery']('#datepicker').datepicker({
+      autoclose: true
+    });
   }
 
  textChange(controlName:string){
@@ -34,10 +40,17 @@ export class PaymentInvoiceComponent implements OnInit {
    }
  }
   search(){
+    let form  = this.form.value;
+    if((window['jQuery']('#datepicker').val())){
+      form.rxDate = window['jQuery']('#datepicker').val();
+    }
     this.paymentService.search(this.form.value,false);
   }
   refresh(){
     var form = this.form.value;
+    if((window['jQuery']('#datepicker').val())){
+      form.rxDate = window['jQuery']('#datepicker').val();
+    }
     this.paymentService.search(form,false);
   }
   clear(){
@@ -46,7 +59,7 @@ export class PaymentInvoiceComponent implements OnInit {
       claimNumber: null,
       firstName: null,
       lastName: null,
-      rxNumber: null,
+      rxDate: null,
       invoiceNumber: null
     });
   }
