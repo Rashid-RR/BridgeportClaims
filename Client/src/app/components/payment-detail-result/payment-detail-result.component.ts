@@ -25,6 +25,9 @@ export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
   }
   select(p:any,$event,index){
       p.selected = $event.target.checked
+      if(!$event.target.checked){
+        this.checkAll=false;
+      }
       if(this.selectMultiple){
           for(var i=this.lastSelectedIndex;i<index;i++){
               try{
@@ -54,7 +57,7 @@ export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
      this.checkAll =  $event.target.checked; 
      if(this.checkAll){
        this.paymentService.claimsDetail.forEach(c=>{
-         c.selected = false;
+         c.selected = true;
        })
      }else{
        this.paymentService.claimsDetail.forEach(c=>{

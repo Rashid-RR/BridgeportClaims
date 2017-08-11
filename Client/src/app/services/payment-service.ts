@@ -61,14 +61,14 @@ export class PaymentService {
     return this.claims.size;
   }
   get selected(){
-    return this.claims.toArray().filter(claim=>{
+    return this.claimsDetail.toArray().filter(claim=>{
         return claim.selected;
     })
   }
   get amountSelected(){
     var amount:number = 0;
-     this.selected.forEach(DetailedPaymentClaim => {
-        //amount=amount+Number(claim.outstanding)
+     this.selected.forEach(detailedPaymentClaim => {
+        amount=amount+Number(detailedPaymentClaim.invoicedAmount)
     });
     return amount;
   }
