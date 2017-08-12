@@ -10,12 +10,17 @@ GO
 					EXEC dbo.uspGetImportFile
 */
 CREATE PROC [dbo].[uspGetImportFile]
-AS BEGIN
-	SET NOCOUNT ON;
-	SELECT [if].[ImportFileID]
-     , [if].[FileName]
-     , [if].[FileExtension]
-     , [dtme].[udfGetLocalDateTime]([if].[CreatedOnUTC]) CreatedOn
-      FROM [util].[ImportFile] AS [if]
-END
+AS
+    BEGIN
+        SET NOCOUNT ON;
+        SELECT [if].[ImportFileID]
+             , [if].[FileName]
+             , [if].[FileExtension]
+             , [if].[FileSize]
+             , [if].[FileType]
+             , [if].[Processed]
+             , [if].[CreatedOnLocal]
+        FROM   [util].[vwImportFile] AS [if]
+    END
+
 GO
