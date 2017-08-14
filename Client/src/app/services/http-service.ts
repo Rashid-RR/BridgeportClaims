@@ -30,6 +30,12 @@ export class HttpService {
   logout(): Observable<Response> {
     return this.http.get(this.baseUrl + "/users/logout");
   }
+  getFiles(): Observable<Response> {
+    return this.http.get(this.baseUrl + "/fileupload/getfiles", { headers: this.headers });
+  }
+  deleteFileById(id:any): Observable<Response> {
+    return this.http.delete(this.baseUrl + "/fileupload/delete/?importFileId="+id, { headers: this.headers });
+  }
 
   updateProfile(data): Observable<Response> {
     let s = this.http.patch(this.baseUrl + "/users", data)    
