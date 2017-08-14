@@ -81,8 +81,8 @@ export class ClaimsComponent implements OnInit {
 
   ngOnInit() {
     //window['jQuery']('body').addClass('sidebar-collapse');
-    this.events.on("edit-episode", (id: Number) => {
-      this.episode(id);
+    this.events.on("edit-episode", (id: Number,type:String) => {
+      this.episode(id,type);
     })
     this.events.on("minimize", (...args) => {
       this.minimize(args[0]);
@@ -195,7 +195,7 @@ export class ClaimsComponent implements OnInit {
 
     let episodeTypeId = '<option value="" style="color:purple">Select Episode Type</option>';
     this.claimManager.EpisodeNoteTypes.forEach((note: { episodeTypeId: String, episodeTypeName: String }) => {
-      episodeTypeId = episodeTypeId + '<option value="' + note.episodeTypeId + '"' + (note.episodeTypeId == TypeId ? "selected" : "") + '>' + note.episodeTypeName + '</option>';
+      episodeTypeId = episodeTypeId + '<option value="' + note.episodeTypeId + '"' + (note.episodeTypeId == TypeId || note.episodeTypeName == TypeId ? "selected" : "") + '>' + note.episodeTypeName + '</option>';
     });
     let note_text: String = '';
     if (episode) {

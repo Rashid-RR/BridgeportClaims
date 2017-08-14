@@ -24,8 +24,8 @@ export class ClaimEpisodeComponent implements OnInit {
     }
     return 'not specified';
   }
-  edit(id:Number){
-      this.events.broadcast("edit-episode",id);    
+  edit(id:Number,type:String){
+      this.events.broadcast("edit-episode",id,type);    
   }
 
 }
