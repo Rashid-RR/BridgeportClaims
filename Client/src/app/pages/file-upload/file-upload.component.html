@@ -99,5 +99,30 @@
         </div>
 
     </div>
+    <div class="col-md-12" style="margin-bottom: 40px">
+        <h3>Uploaded Files</h3>
+        <p>Queue length: {{ uploaderCsv?.queue?.length }}</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th width="50%">Name</th>
+                    <th>Extension</th>
+                    <th>Created On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let file of importedFiles">
+                    <td><strong>{{ file?.fileName }}</strong></td>
+                    <td><strong>{{ file?.fileExtension }}</strong></td>                    
+                    <td><strong>{{ file?.createdOn  | date:"shortDate" }} {{ file?.createdOn  | date:"shortTime"}}</strong> </td>
+                    <td nowrap>                        
+                        <button type="button" class="btn btn-danger btn-xs" (click)="deleteFile(file.importFileId)">
+                            <span class="glyphicon glyphicon-trash"></span> Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
 </div>
