@@ -10,7 +10,6 @@ using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using BridgeportClaims.Data.DataProviders.DateDisplay;
 using BridgeportClaims.Data.DataProviders.Episodes;
-using BridgeportClaims.Data.DataProviders.ImportFile;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
@@ -45,7 +44,6 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<EpisodesDataProvider>().As<IEpisodesDataProvider>().InstancePerRequest();
             builder.RegisterType<AspNetUsersProvider>().As<IAspNetUsersProvider>().InstancePerRequest();
             builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().InstancePerRequest();
-            builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
             builder.RegisterType<ClaimNotesDataProvider>().As<IClaimNotesDataProvider>().InstancePerRequest();

@@ -126,7 +126,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 						};
 						cmd.Parameters.Add(dataTableParam);
 						cmd.ExecuteNonQuery();
-
 					});
 			});
 	}

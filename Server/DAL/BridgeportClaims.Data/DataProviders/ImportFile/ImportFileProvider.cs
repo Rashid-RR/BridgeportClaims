@@ -9,20 +9,11 @@ using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Data.DataProviders.ImportFile
 {
-	public class ImportFileProvider : IImportFileProvider
+	public static class ImportFileProvider
 	{
-		private readonly IRepository<VwImportFile> _vwImportFileRepository;
-
-		public ImportFileProvider(IRepository<VwImportFile> vwImportFileRepository)
-		{
-			_vwImportFileRepository = vwImportFileRepository;
-		}
-
 		public static void DeleteImportFile(int importFileId)
 		{
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
@@ -44,21 +35,10 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			});
 		}
 
-		public IList<ImportFileDto> GetImportFileDtos()
+		public static IList<ImportFileDto> GetImportFileDtos()
 		{
-			var files = _vwImportFileRepository.GetAll()
-				.Select(f => new ImportFileDto
-				{
-					CreatedOn = Convert.ToDateTime(f.CreatedOnLocal),
-					FileExtension = f.FileExtension,
-					FileName = f.FileName,
-					FileSize = f.FileSize,
-					FileType = f.FileType,
-					ImportFileId = f.ImportFileId,
-					Processed = f.Processed
-				}).ToList();
-			return files;
-			/*var files = new List<ImportFileDto>();
+			
+			var files = new List<ImportFileDto>();
 			return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
 				connection.Open();
@@ -67,26 +47,35 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 					sqlCommand.CommandType = CommandType.StoredProcedure;
 					return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
 					{
-						var fileImportIdOrdinal = reader.GetOrdinal("ImportFileID");
+						var importFileIdOrdinal = reader.GetOrdinal("ImportFileID");
 						var fileNameOrdinal = reader.GetOrdinal("FileName");
 						var fileExtensionOrdinal = reader.GetOrdinal("FileExtension");
-						var createdOnOrdinal = reader.GetOrdinal("CreatedOn");
+						var fileSizeOrdinal = reader.GetOrdinal("FileSize");
+						var fileTypeOrdinal = reader.GetOrdinal("FileType");
+						var processedOrdinal = reader.GetOrdinal("Processed");
+						var createdOnLocalOrdinal = reader.GetOrdinal("CreatedOnLocal");
+
 						while (reader.Read())
 						{
-							var file = new ImportFileDto
-							{
-								ImportFileId = reader.GetInt32(fileImportIdOrdinal),
-								FileName = reader.GetString(fileNameOrdinal),
-								CreatedOn = reader.GetDateTime(createdOnOrdinal)
-							};
-							if (!reader.IsDBNull(fileExtensionOrdinal))
+						    var file = new ImportFileDto
+						    {
+						        ImportFileId = reader.GetInt32(importFileIdOrdinal),
+						        FileName = reader.GetString(fileNameOrdinal),
+						        FileSize = reader.GetString(fileSizeOrdinal),
+						        FileType = reader.GetString(fileTypeOrdinal),
+						        Processed = reader.GetBoolean(processedOrdinal),
+						        CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
+						            ? reader.GetDateTime(createdOnLocalOrdinal)
+						            : DateTime.Now
+						    };
+						    if (!reader.IsDBNull(fileExtensionOrdinal))
 								file.FileExtension = reader.GetString(fileExtensionOrdinal);
 							files.Add(file);
 						}
 						return files.OrderByDescending(x => x.CreatedOn).ToList();
 					});
 				});
-			});*/
+			});
 		}
 
 		public static void SaveFileToDatabase(Stream stream, string fileName, string fileExtension, 
@@ -122,12 +111,13 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 							fileSize.Length).Value = fileSize;
 						sqlCommand.Parameters.Add("@ImportFileTypeID", SqlDbType.Int, 1).Value =
 							fileExtension == ".csv" ? 1 : 2; // TODO: Make this dynamic.
+						sqlCommand.Parameters.Add("@Processed", SqlDbType.Bit).Value = false;
 						sqlCommand.ExecuteNonQuery();
 					});
 			});
 		}
 
-		private static string GetFileSize(double byteCount)
+		public static string GetFileSize(double byteCount)
 		{
 			var size = "0 Bytes";
 			if (byteCount >= 1073741824.0)

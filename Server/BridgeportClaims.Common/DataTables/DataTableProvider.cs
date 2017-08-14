@@ -22,6 +22,10 @@ namespace BridgeportClaims.Common.DataTables
 			dtCloned.Columns[7].DataType = typeof(string);
 			dtCloned.Columns[8].DataType = typeof(string);
 			dtCloned.Columns[9].DataType = typeof(string);
+			// Get rid of any columns beyond 10.
+			const int desiredSize = 10;
+			while (dtCloned.Columns.Count > desiredSize)
+			    dtCloned.Columns.RemoveAt(desiredSize);
 			foreach (DataRow row in dt.Rows)
 				dtCloned.ImportRow(row);
 			return dtCloned;
