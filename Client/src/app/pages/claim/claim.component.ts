@@ -178,7 +178,9 @@ export class ClaimsComponent implements OnInit {
         }
       }).catch(swal.noop)
     } else {
-      this.toast.warning('Please select at least one prescription');
+      this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length>0 ? 
+        this.toast.warning('Please select at least one prescription'):
+        this.toast.warning('Sorry, you cannot add a Prescription note when no prescriptions exist!');      
     }
   }
 
