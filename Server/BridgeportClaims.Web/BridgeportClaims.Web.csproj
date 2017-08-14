@@ -252,6 +252,7 @@
     <Compile Include="Controllers\DisplayController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\Foo.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
