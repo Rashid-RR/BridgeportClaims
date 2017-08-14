@@ -114,8 +114,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
   }
   select(p:any,$event,index){
     p.selected = $event.target.checked;
-    console.log(p,$event)
-    if(!$event.target.checked){
+     if(!$event.target.checked){
       this.checkAll=false;
       this.uncheckMain();
     }
