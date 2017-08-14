@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { Component, OnInit,Renderer2,AfterViewInit,NgZone,HostListener,AfterViewChecked,ElementRef,ViewChild } from '@angular/core';
 import { ClaimManager } from "../../services/claim-manager";
 import { HttpService } from "../../services/http-service";
 import { EventsService } from "../../services/events-service";
@@ -6,15 +6,22 @@ import { Prescription } from "../../models/prescription";
 import { PrescriptionNotes } from "../../models/prescription-notes";
 import swal from "sweetalert2";
 import { DatePipe } from '@angular/common';
+declare var jQuery:any;
+
 
 @Component({
   selector: 'app-claim-prescriptions',
   templateUrl: './claim-prescriptions.component.html',
   styleUrls: ['./claim-prescriptions.component.css']
 })
-export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked {
+export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,AfterViewInit {
 
+  checkAll:Boolean=false;
+  selectMultiple:Boolean=false;
+  lastSelectedIndex:number;
+  @ViewChild('prescriptionTable') table:ElementRef;
   constructor(
+    private rd: Renderer2,private ngZone:NgZone,
     private dp: DatePipe,
     public claimManager: ClaimManager,
     private events: EventsService,
@@ -32,6 +39,23 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked {
       }, 1000);
     })
     this.cloneTableHeading();
+    
+  }
+  ngAfterViewInit() {
+    this.rd.listen(this.table.nativeElement,'keydown',($event)=>{
+      if($event.keyCode==16){
+        this.selectMultiple = true;
+      }
+    })
+    this.rd.listen(this.table.nativeElement,'keyup',($event)=>{
+      if($event.keyCode==16){
+        this.selectMultiple = false;
+      }
+    })
+     
+}
+  activateClaimCheckBoxes(){
+    jQuery('#selectAllCheckBox').click();
   }
 
   ngAfterViewChecked() {
@@ -81,11 +105,52 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked {
       }
     }, 500)
   }
-
-  setSelected(p: any, s: Boolean) {
-    console.log("Works...");
-    p.selected = s == undefined ? true : s;
+  clicked(){
+     
   }
+
+  uncheckMain(){
+    jQuery("input#selectAllCheckBox").attr({"checked":false})
+  }
+  select(p:any,$event,index){
+    p.selected = $event.target.checked;
+    console.log(p,$event)
+    if(!$event.target.checked){
+      this.checkAll=false;
+      this.uncheckMain();
+    }
+    if(this.selectMultiple){
+        for(var i=this.lastSelectedIndex;i<index;i++){
+            try{
+              let p = jQuery('#row'+i).attr('prescription');
+              let prescription = JSON.parse(p);
+              let data = this.claimManager.selectedClaim.prescriptions.find(pres=>pres.prescriptionId==prescription.prescriptionId);// .get(prescription.prescriptionId);
+              data.selected = true;
+            }catch(e){}
+        }
+    }
+    this.lastSelectedIndex = index;
+}
+  setSelected(p: any, s: Boolean) {
+    p.selected = !p.selected;
+    if(!p.selected){
+      this.checkAll=false;
+      this.uncheckMain();
+    }
+  }
+  selectAllCheckBox($event){    
+    this.checkAll =  $event.target.checked; 
+    if(this.checkAll){
+      this.claimManager.selectedClaim.prescriptions.forEach(c=>{
+        c.selected = true;
+      })
+    }else{
+      this.claimManager.selectedClaim.prescriptions.forEach(c=>{
+        c.selected = false;
+      });
+      this.uncheckMain();
+    }   
+ }
 
   showNotes(prescriptionId: Number) {
     this.claimManager.loading = true;

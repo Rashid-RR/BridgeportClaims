@@ -5,7 +5,12 @@
             <table class="table no-margin table-striped" id="maintable">
                 <thead class="overflowable" id="fixed-thead">
                     <tr>
-                        <th>&nbsp;</th>
+                        <th>
+                            <div class="perscriptionCheckBox checkAll"> 
+                                <input type="checkbox" id="selectAllCheckBox" name="check" value="None" (change)="selectAllCheckBox($event)">
+                                  <label for="selectAllCheckBox" (click)="activateClaimCheckBoxes()"></label> 
+                            </div>&nbsp;<i class="fa rotate fa-exchange"></i>
+                        </th>
                         <th>Rx #</th>
                         <th>Rx Date</th>
                         <th>Label Name</th>
@@ -18,12 +23,12 @@
                         <th>Note Count</th>
                     </tr>
                 </thead>
-                <tbody *ngIf="claimManager.selectedClaim" class="overflowable">
-                    <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions">
+                <tbody *ngIf="claimManager.selectedClaim" class="overflowable" #prescriptionTable  tabindex="0">
+                    <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json"  (click)="setSelected(prescription,prescription.selected)">
                         <td>
                             <div class="perscriptionCheckBox">
-                                <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName">
-                                <label for="perscriptionCheckBox"></label>
+                                <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName" [checked]="(prescription.selected || checkAll)" (change)="select(prescription,$event,i)" #inv>
+                                <label [for]="prescription.prescriptionId" (click)="inv.click()"></label>
                             </div>
                         </td>
                         <td>{{prescription.rxNumber}}</td>
