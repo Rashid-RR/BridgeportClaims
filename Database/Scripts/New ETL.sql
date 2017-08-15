@@ -4,6 +4,7 @@ SET NOCOUNT ON;
 BEGIN TRANSACTION
 EXEC [etl].[uspCleanupStagedLakerFileAddedColumns]
 EXEC [etl].[uspAddStagedLakerFileETLColumns]
+
 :ON ERROR EXIT
 -- Update the various ID's from previous File
 UPDATE [s]
@@ -1006,7 +1007,7 @@ IF @@TRANCOUNT > 0
 		ELSE
 			ROLLBACK
 	END
-
+	
 IF @@TRANCOUNT > 0
 	RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT
 
@@ -1027,4 +1028,5 @@ IF @Success = 1
 		DBCC CHECKDB 
 	END
 GO
-SELECT COUNT(*) FROM [etl].[StagedLakerFile] AS [slf] WHERE [slf].[ClaimID] IS NULL OR [slf].[PatientID] IS NULL OR [slf].[PayorID] IS NULL
+-- Verification Query
+-- SELECT COUNT(*) FROM [etl].[StagedLakerFile] AS [slf] WHERE [slf].[ClaimID] IS NULL OR [slf].[PatientID] IS NULL OR [slf].[PayorID] IS NULL

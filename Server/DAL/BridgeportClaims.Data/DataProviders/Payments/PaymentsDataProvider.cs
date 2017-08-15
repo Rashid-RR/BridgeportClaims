@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;
+using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Excel.Adapters;
 using BridgeportClaims.Common.DataTables;
 using BridgeportClaims.Common.Disposable;
@@ -17,10 +18,12 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 	public class PaymentsDataProvider : IPaymentsDataProvider
 	{
 		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+	    private readonly IMemoryCacher _memoryCacher;
 
-		public PaymentsDataProvider(IStoredProcedureExecutor storedProcedureExecutor)
+		public PaymentsDataProvider(IStoredProcedureExecutor storedProcedureExecutor, IMemoryCacher memoryCacher)
 		{
-			_storedProcedureExecutor = storedProcedureExecutor;
+		    _storedProcedureExecutor = storedProcedureExecutor;
+		    _memoryCacher = memoryCacher;
 		}
 
 		public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
@@ -36,7 +39,9 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 
 		public void ImportPaymentFile(string fileName)
 		{
-			var fileBytes = GetBytesFromDb(fileName);
+		    // Remove cached entries
+		    _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
+            var fileBytes = GetBytesFromDb(fileName);
 			if (null == fileBytes)
 				throw new ArgumentNullException($"Error. The File \"{fileName}\" does not Exist in the Database");
 			var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(fileBytes.ToArray());

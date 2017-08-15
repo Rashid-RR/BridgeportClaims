@@ -2,8 +2,8 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Business.FilePatterns;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Data.DataProviders.ImportFile;
 using BridgeportClaims.Data.DataProviders.Payments;
 
 namespace BridgeportClaims.Web.Controllers
@@ -14,24 +14,26 @@ namespace BridgeportClaims.Web.Controllers
 	{
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
+	    private readonly IImportFileProvider _importFileProvider;
 
-		public ServerEventsController(IPaymentsDataProvider paymentsDataProvider)
+		public ServerEventsController(IPaymentsDataProvider paymentsDataProvider, IImportFileProvider importFileProvider)
 		{
-			_paymentsDataProvider = paymentsDataProvider;
+		    _paymentsDataProvider = paymentsDataProvider;
+		    _importFileProvider = importFileProvider;
 		}
 
 		[HttpPost]
 		[Route("ImportPaymentFile")]
-		public async Task<IHttpActionResult> ImportPaymentFile(int year, int month, string fileName = null)
+		public async Task<IHttpActionResult> ImportPaymentFile(string fileName)
 		{
 			return await Task.Run(() =>
 			{
 				try
 				{
-					var paymentFileName = fileName.IsNotNullOrWhiteSpace()
-						? fileName : FilePatternProvider.GetPaymentFilePattern(year, month);
-					_paymentsDataProvider.ImportPaymentFile(paymentFileName);
-					return Ok(new {message = "The Payment File was Processed Successfully"});
+					_paymentsDataProvider.ImportPaymentFile(fileName);
+				    _importFileProvider.MarkFileProcessed(fileName);
+
+                    return Ok(new {message = "The Payment File was Processed Successfully"});
 				}
 				catch (Exception ex)
 				{

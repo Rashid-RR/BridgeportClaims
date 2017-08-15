@@ -62,6 +62,7 @@
     <Compile Include="DataProviders\DateDisplay\IDateDisplayProvider.cs" />
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
     <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
+    <Compile Include="DataProviders\ImportFile\IImportFileProvider.cs" />
     <Compile Include="DataProviders\ImportFile\ImportFileProvider.cs" />
     <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />

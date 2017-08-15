@@ -5,17 +5,28 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Data.DataProviders.ImportFile
 {
-	public static class ImportFileProvider
+	public class ImportFileProvider : IImportFileProvider
 	{
-		public static void DeleteImportFile(int importFileId)
+	    private readonly IMemoryCacher _memoryCacher;
+
+	    public ImportFileProvider(IMemoryCacher memoryCacher)
+	    {
+	        _memoryCacher = memoryCacher;
+	    }
+
+	    public void DeleteImportFile(int importFileId)
 		{
+            // Remove cached entries
+            _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
 				connection.Open();
@@ -35,10 +46,13 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			});
 		}
 
-		public static IList<ImportFileDto> GetImportFileDtos()
+		public IList<ImportFileDto> GetImportFileDtos()
 		{
-			
-			var files = new List<ImportFileDto>();
+		    // Get Items from Cache if they exist there.
+		    var cachedFiles = _memoryCacher.GetValue(c.ImportFileDatabaseCachingKey) as IList<ImportFileDto>;
+		    if (null != cachedFiles)
+		        return cachedFiles;
+            var files = new List<ImportFileDto>();
 			return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
 				connection.Open();
@@ -72,16 +86,45 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 								file.FileExtension = reader.GetString(fileExtensionOrdinal);
 							files.Add(file);
 						}
-						return files.OrderByDescending(x => x.CreatedOn).ToList();
+					    var retList = files.OrderByDescending(x => x.CreatedOn).ToList();
+                        // Put into cache.
+					    _memoryCacher.Add(c.ImportFileDatabaseCachingKey, retList, DateTimeOffset.UtcNow.AddDays(5));
+					    return retList;
 					});
 				});
 			});
 		}
 
-		public static void SaveFileToDatabase(Stream stream, string fileName, string fileExtension, 
+	    public void MarkFileProcessed(string fileName)
+	    {
+	        // Remove cached entries
+	        _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
+	        const string sql = @"UPDATE i SET i.Processed = 1 FROM util.ImportFile AS i WHERE i.[FileName] = @FileName;";
+	        DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
+	        {
+	            connection.Open();
+	            DisposableService.Using(() => new SqlCommand(sql, connection), cmd =>
+	            {
+	                cmd.CommandType = CommandType.Text;
+	                var fileNameParam = new SqlParameter
+	                {
+	                    Value = fileName,
+	                    SqlDbType = SqlDbType.VarChar,
+	                    DbType = DbType.String,
+	                    ParameterName = "@FileName"
+                    };
+	                cmd.Parameters.Add(fileNameParam);
+	                cmd.ExecuteNonQuery();
+	            });
+	        });
+        }
+
+	    public void SaveFileToDatabase(Stream stream, string fileName, string fileExtension, 
 			string fileDescription)
 		{
-			byte[] file = null;
+		    // Remove cached entries
+		    _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
+            byte[] file = null;
 			DisposableService.Using(() => new BinaryReader(stream), reader =>
 			{
 				file = reader.ReadBytes((int) stream.Length);
