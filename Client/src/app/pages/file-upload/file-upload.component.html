@@ -117,7 +117,7 @@
                     <td><strong>{{ file?.fileExtension }}</strong></td>                    
                     <td><strong>{{ file?.createdOn  | date:"shortDate" }} {{ file?.createdOn  | date:"shortTime"}}</strong> </td>
                     <td nowrap>                        
-                        <button type="button" class="btn btn-danger btn-xs" (click)="deleteFile(file.importFileId)">
+                        <button type="button" class="btn btn-danger btn-xs" (click)="deleteFile(file)">
                             <span class="glyphicon glyphicon-trash"></span> Delete
                         </button>
                     </td>

@@ -4,7 +4,8 @@ import { FileSelectDirective,FileItem, FileDropDirective,ParsedResponseHeaders, 
 import {HttpService} from "../../services/http-service"
 import {ImportFile} from "../../models/import-file"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-
+import { DialogService } from "ng2-bootstrap-modal";
+import { ConfirmComponent } from '../../components/confirm.component';
 
 const URL = 'http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/api/fileupload/upload';
 
@@ -24,7 +25,7 @@ export class FileUploadComponent implements OnInit {
   get queueFiles() {
     return this.uploaderCsv.queue.concat(this.uploaderExcel.queue);
   }
-  constructor(private http: HttpService, private toast: ToastsManager) {
+  constructor(private http: HttpService,private dialogService: DialogService,private toast: ToastsManager) {
      const headers = [{
                 name: 'Authorization',
                 value: 'Bearer ' + this.http.token
@@ -57,15 +58,28 @@ export class FileUploadComponent implements OnInit {
   }
 
   getFiles(){
-    this.http.getFiles().single().map(r=>{return r.json()}).subscribe(res=>{      
+    this.http.getFiles().single().map(r=>{return r.json()}).subscribe(res=>{ 
+      //res.push(new ImportFile(new Date(),".png",231,"assets/that-file.png"));     
       this.importedFiles = res;
-      console.log(this.importedFiles)
+      //console.log(this.importedFiles)
     },error=>{});
   }
-  deleteFile(id){
-    this.http.deleteFileById(id).single().map(r=>{return r.json()}).subscribe(res=>{      
-      console.log(res);
-      this.getFiles();
-    },error=>{});
+  deleteFile(file:ImportFile){
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Delete File",
+      message: "Do you want to delete "+file.fileName+"?"
+    })
+      .subscribe((isConfirmed) => {
+        //We get dialog result
+        if (isConfirmed) {            
+          this.http.deleteFileById(file.importFileId).single().map(r=>{return r.json()}).subscribe(res=>{      
+            console.log(res);
+            this.getFiles();
+          },error=>{});
+        }
+        else {
+           
+        }
+      });
   }
 }

@@ -1,7 +1,7 @@
 import {AfterViewInit,Renderer2, Component,OnDestroy, OnInit, ViewContainerRef} from "@angular/core";
 import {Http,Headers} from "@angular/http";
 import { Router,NavigationEnd,ActivatedRoute } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
 
 import {HttpService} from "./services/http-service";
 import {ProfileManager} from "./services/profile-manager";
@@ -15,6 +15,8 @@ import {EventsService} from "./services/events-service";
 })
 export class AppComponent implements OnInit, OnDestroy {
  
+  activeToast:Toast;
+  t:any;
   constructor(
     private http:HttpService,
     private events: EventsService,
@@ -30,6 +32,18 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     var user = localStorage.getItem("user");
+    /* setTimeout(()=>{
+      this.t = this.toast.warning('Please select at least one prescription 1',null,{maxShown:1,toastLife:10000}).then((toast:Toast)=>{
+        this.activeToast = toast;
+    })},1000);
+   
+    this.t = this.toast.info('Please select at least one prescription 2',null,{maxShown:1,toastLife:10000}).then((toast:Toast)=>{
+        this.activeToast = toast;
+    })
+    
+    this.t = this.toast.error('Please select at least one prescription 3',null,{maxShown:1,toastLife:10000}).then((toast:Toast)=>{
+        this.activeToast = toast;
+    }) */
     if (user !== null && user.length > 0) {
       try {
         let us = JSON.parse(user);

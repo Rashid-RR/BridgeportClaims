@@ -10,12 +10,12 @@ import { Http, RequestOptions, Headers } from "@angular/http";
 import { UUID } from "angular2-uuid";
 import {Router} from "@angular/router";
 import {EventsService} from "./events-service";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class HttpService {
   baseUrl: string = "/api";
-
+  activeToast:Toast;  
   token: String
   constructor(private router:Router,private http: Http,private events:EventsService,private toast: ToastsManager) {
 
@@ -241,8 +241,15 @@ export class HttpService {
   }
 
   handleResponseError(res:Response) {
-      if(res.status == 401) {     
-        this.toast.info('The page the tried to reach discovered an invalid login for you. Please log in!');             
+      if(res.status == 401) { 
+        if(this.activeToast && this.activeToast.timeoutId){ 
+          this.toast.dismissToast(this.activeToast); 
+        }
+        setTimeout(()=>{
+          this.toast.info('The page the tried to reach discovered an invalid login for you. Please log in!',null,{toastLife:10000}).then((toast:Toast)=>{
+              this.activeToast = toast;
+          })
+        ,1500})
         this.router.navigate(['/login']);
         this.events.broadcast("logout", true);
        }else if(res.status == 500) {     
