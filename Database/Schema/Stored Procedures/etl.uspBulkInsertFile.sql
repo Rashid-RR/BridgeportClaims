@@ -17,8 +17,6 @@ AS BEGIN
 	EXEC [util].[uspSmarterTruncateTable] 'etl.BulkInsertLakerFile';
 	EXEC [util].[uspSmarterTruncateTable] 'etl.StagedLakerFile';
 	EXEC [etl].[uspCleanupStagedLakerFileAddedColumns];
-	-- Add back the Stage ID
-	EXEC (N'ALTER TABLE etl.StagedLakerFile ADD StageID INT IDENTITY')
 	BEGIN TRY
 		BEGIN TRANSACTION;
 			DECLARE @SQLStatement NVARCHAR(4000), @LineEnd CHAR(1) = CHAR(10) + CHAR(13);
@@ -50,5 +48,6 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
+
 
 GO

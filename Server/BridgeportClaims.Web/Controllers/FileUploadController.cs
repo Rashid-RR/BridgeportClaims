@@ -17,14 +17,14 @@ namespace BridgeportClaims.Web.Controllers
 	public class FileUploadController : BaseApiController
 	{
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-		private readonly IImportFileProvider _importFileProvider;
+	    private readonly IImportFileProvider _importFileProvider;
 
-		public FileUploadController(IImportFileProvider importFileProvider)
-		{
-			_importFileProvider = importFileProvider;
-		}
+	    public FileUploadController(IImportFileProvider importFileProvider)
+	    {
+	        _importFileProvider = importFileProvider;
+	    }
 
-		[HttpDelete]
+	    [HttpDelete]
 		[Route("delete")]
 		public async Task<IHttpActionResult> DeleteImportFile(int importFileId)
 		{
@@ -32,7 +32,7 @@ namespace BridgeportClaims.Web.Controllers
 			{
 				return await Task.Run(() =>
 				{
-					ImportFileProvider.DeleteImportFile(importFileId);
+				    _importFileProvider.DeleteImportFile(importFileId);
 					return Ok(new { message = "Deleted the Import File Successfully"});
 				});
 			}
@@ -90,7 +90,7 @@ namespace BridgeportClaims.Web.Controllers
 					try
 					{
 						if (0 < file.Value.Length)
-							ImportFileProvider.SaveFileToDatabase(file.Value, fileName, ext, description);
+						    _importFileProvider.SaveFileToDatabase(file.Value, fileName, ext, description);
 					}
 					catch (Exception ex)
 					{

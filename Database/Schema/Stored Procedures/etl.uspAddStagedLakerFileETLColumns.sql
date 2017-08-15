@@ -32,10 +32,10 @@ AS BEGIN
 		(
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'PaymentID'
+			WHERE [c].[name] = 'AcctPayableID'
 				  AND [t].[object_id] = @Obj
 		)
-			ALTER TABLE [etl].[StagedLakerFile] ADD [PaymentID] INTEGER NULL
+			ALTER TABLE [etl].[StagedLakerFile] ADD [AcctPayableID] INTEGER NULL
 		IF NOT EXISTS
 	    (
 			SELECT * FROM [sys].[columns] AS [c]
@@ -156,9 +156,9 @@ AS BEGIN
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
 			WHERE [c].[name] = 'ETLRowID'
-				  AND [t].[object_id] = OBJECT_ID(N'dbo.Payment', N'U')
+				  AND [t].[object_id] = OBJECT_ID(N'dbo.AcctPayable', N'U')
 		)
-			ALTER TABLE dbo.[Payment] ADD ETLRowID VARCHAR(50) NULL
+			ALTER TABLE dbo.[AcctPayable] ADD ETLRowID VARCHAR(50) NULL
 		IF (@@TRANCOUNT > 0)
 			COMMIT TRANSACTION;
 	END TRY
@@ -168,4 +168,6 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
+
+
 GO
