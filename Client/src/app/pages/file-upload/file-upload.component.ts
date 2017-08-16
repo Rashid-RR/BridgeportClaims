@@ -73,7 +73,25 @@ export class FileUploadComponent implements OnInit {
         //We get dialog result
         if (isConfirmed) {            
           this.http.deleteFileById(file.importFileId).single().map(r=>{return r.json()}).subscribe(res=>{      
-            console.log(res);
+            this.toast.success(res.message);            
+            this.getFiles();
+          },error=>{});
+        }
+        else {
+           
+        }
+      });
+  }
+  process(file:ImportFile){
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Process Payment",
+      message: "You are about to import the Payment File "+file.fileName+" into the Payment table in the database. Would you like to proceed?"
+    })
+      .subscribe((isConfirmed) => {
+        //We get dialog result
+        if (isConfirmed) {            
+          this.http.importFile(file.fileName).single().map(r=>{return r.json()}).subscribe(res=>{      
+            this.toast.success(res.message);
             this.getFiles();
           },error=>{});
         }

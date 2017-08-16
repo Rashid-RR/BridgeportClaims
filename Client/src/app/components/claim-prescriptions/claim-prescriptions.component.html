@@ -5,9 +5,9 @@
             <table class="table no-margin table-striped" id="maintable">
                 <thead class="overflowable" id="fixed-thead">
                     <tr>
-                        <th>
+                        <th (click)="checkAllFields.click()">
                             <div class="perscriptionCheckBox checkAll"> 
-                                <input type="checkbox" id="selectAllCheckBox" name="check" value="None" (change)="selectAllCheckBox($event)">
+                                <input type="checkbox" id="selectAllCheckBox" name="check" value="None" (change)="selectAllCheckBox($event)" #checkAllFields>
                                   <label for="selectAllCheckBox" (click)="activateClaimCheckBoxes()"></label> 
                             </div>&nbsp;<i class="fa rotate fa-exchange"></i>
                         </th>

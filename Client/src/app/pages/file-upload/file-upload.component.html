@@ -107,6 +107,9 @@
                 <tr>
                     <th width="50%">Name</th>
                     <th>Extension</th>
+                    <th>Size</th>
+                    <th>Type</th>
+                    <th>Processed</th>
                     <th>Created On</th>
                     <th>Actions</th>
                 </tr>
@@ -115,8 +118,17 @@
                 <tr *ngFor="let file of importedFiles">
                     <td><strong>{{ file?.fileName }}</strong></td>
                     <td><strong>{{ file?.fileExtension }}</strong></td>                    
+                    <td><strong>{{ file?.fileSize }}</strong></td>                    
+                    <td><strong>{{ file?.fileType }}</strong></td>                    
+                    <td><strong>{{ file?.processed }}</strong></td>                    
                     <td><strong>{{ file?.createdOn  | date:"shortDate" }} {{ file?.createdOn  | date:"shortTime"}}</strong> </td>
                     <td nowrap>                        
+                        <button *ngIf="file.fileType=='Payment Import' && !file.processed" type="button" class="btn bg-purple btn-xs" (click)="process(file)">
+                            <span class="glyphicon glyphicon-import"></span> Import Payments
+                        </button>
+                        <button *ngIf="file?.fileType=='Payment Import'  && file.processed" type="button" class="btn btn-success btn-xs">
+                            <i class="fa fa-check"></i> Payments Processed
+                        </button>
                         <button type="button" class="btn btn-danger btn-xs" (click)="deleteFile(file)">
                             <span class="glyphicon glyphicon-trash"></span> Delete
                         </button>
