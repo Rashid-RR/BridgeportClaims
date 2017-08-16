@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Caching;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
@@ -27,12 +28,12 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 
         public IList<KeyValuePair<int, string>> GetClaimNoteTypes()
         {
-            var result = _memoryCacher.GetValue(c.ClaimNoteTypesKey) as IList<KeyValuePair<int, string>>;
-            if (null != result)
-                return result;
-            result = _claimNoteTypeRepository.GetAll()
-                .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).ToList();
-            _memoryCacher.Add(c.ClaimNoteTypesKey, result, DateTimeOffset.UtcNow.AddDays(1));
+            //var result = _memoryCacher.GetValue(c.ClaimNoteTypesKey) as IList<KeyValuePair<int, string>>;
+            var result = _memoryCacher.AddOrGetExisting(c.ClaimNoteTypesKey, () =>
+            {
+                return _claimNoteTypeRepository.GetAll()
+                    .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).ToList();
+            });
             return result;
         }
 

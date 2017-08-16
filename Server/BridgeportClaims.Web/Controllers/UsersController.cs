@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Accounts;
 
@@ -15,10 +16,12 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IAspNetUsersProvider _aspNetUsersProvider;
+        private readonly IMemoryCacher _memoryCacher;
 
-        public UsersController(IAspNetUsersProvider aspNetUsersProvider)
+        public UsersController(IAspNetUsersProvider aspNetUsersProvider, IMemoryCacher memoryCacher)
         {
             _aspNetUsersProvider = aspNetUsersProvider;
+            _memoryCacher = memoryCacher;
         }
 
         [HttpPost]
@@ -36,6 +39,7 @@ namespace BridgeportClaims.Web.Controllers
                     roles.Add("Admin");
                 if (isUser)
                     roles.Add("User");
+                _memoryCacher.DeleteIfExists(id);
                 await AppUserManager.RemoveFromRolesAsync(id, roles.ToArray());
                 await AppUserManager.SetLockoutEnabledAsync(id, true);
                 await AppUserManager.SetLockoutEndDateAsync(id, DateTimeOffset.UtcNow.AddYears(200));
@@ -57,6 +61,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var isInUserRole = await AppUserManager.IsInRoleAsync(id, "User");
+                _memoryCacher.DeleteIfExists(id);
                 if (!isInUserRole)
                     await AppUserManager.AddToRoleAsync(id, "User");
                 await AppUserManager.SetLockoutEndDateAsync(id, DateTimeOffset.UtcNow.AddYears(-1));
@@ -80,6 +85,7 @@ namespace BridgeportClaims.Web.Controllers
                                         " parameter cannot both be null or empty.");
                 return await Task.Run(() =>
                 {
+                    _memoryCacher.DeleteIfExists(id);
                     _aspNetUsersProvider.UpdateFirstOrLastName(id, firstName, lastName);
                     return Ok(new {message = "Name has been Updated Successfully"});
                 });
