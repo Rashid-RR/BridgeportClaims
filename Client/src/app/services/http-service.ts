@@ -31,10 +31,25 @@ export class HttpService {
     return this.http.get(this.baseUrl + "/users/logout");
   }
   getFiles(): Observable<Response> {
-    return this.http.get(this.baseUrl + "/fileupload/getfiles", { headers: this.headers });
+    return this.http.get(this.baseUrl + "/fileupload/getfiles", { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
   }
   deleteFileById(id:any): Observable<Response> {
-    return this.http.delete(this.baseUrl + "/fileupload/delete/?importFileId="+id, { headers: this.headers });
+    return this.http.delete(this.baseUrl + "/fileupload/delete/?importFileId="+id, { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
+  }
+  importFile(id:String): Observable<Response> {
+    return this.http.post(this.baseUrl + "/ServerEvents/ImportPaymentFile/?fileName="+id, {},{ headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
   }
 
   updateProfile(data): Observable<Response> {
@@ -184,19 +199,35 @@ export class HttpService {
     return s;
   }
   getRoles(data: any): Observable<Response> {
-    let s = this.http.post(this.baseUrl + "/roles/", data, { headers: this.headers })    
+    let s = this.http.post(this.baseUrl + "/roles/", data, { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      })  
     return s;
   }
   assignUserRole(data: any) {
-    let s =  this.http.post(this.baseUrl + "/roles/ManageUsersInRole", data, { headers: this.headers });    
+    let s =  this.http.post(this.baseUrl + "/roles/ManageUsersInRole", data, { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
     return s;
   }
   activateUser(userID) {
-    let s = this.http.post(this.baseUrl + "/users/activate/" + userID, '', { headers: this.headers }); 
+    let s = this.http.post(this.baseUrl + "/users/activate/" + userID, '', { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
     return s;
   }
   deactivateUser(userID) {
-    let s = this.http.post(this.baseUrl + "/users/deactivate/" + userID, '', { headers: this.headers });    
+    let s = this.http.post(this.baseUrl + "/users/deactivate/" + userID, '', { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
     return s;
   }
   get headers():Headers {
@@ -212,32 +243,59 @@ export class HttpService {
   }
 
   getNotetypes(): Observable<Response> {
-    let s = this.http.get(this.baseUrl + "/claimnotes/notetypes", { headers: this.headers })    
+    let s = this.http.get(this.baseUrl + "/claimnotes/notetypes", { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
     return s;
   }
   getPrescriptionNotetypes(): Observable<Response> {
-    let s =  this.http.get(this.baseUrl + "/prescriptionnotes/notetypes", { headers: this.headers })    
+    let s =  this.http.get(this.baseUrl + "/prescriptionnotes/notetypes", { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
     return s;
   }
   getEpisodesNoteTypes(): Observable<Response> {
     return this.http.get(this.baseUrl + '/episodes/getepisodetypes', {headers: this.headers})
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
   }
   getPrescriptionNotes(id:Number): Observable<Response> {
     let s =  this.http.post(this.baseUrl + "/prescriptionnotes/getprescriptionnotes/?prescriptionId="+id,{}, { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
     return s;
   }
 
   saveClaimNote(data): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/claimnotes/savenote?claimId=" + data.claimId + "&noteText=" + data.noteText + "&noteTypeId=" + data.noteTypeId, {}, { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
     return s;
   }
   savePrescriptionNote(data): Observable<Response> {
     let s= this.http.post(this.baseUrl + "/prescriptionnotes/savenote", data, { headers: this.headers })    
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
     return s;
   }
   saveEpisode(data): Observable<Response> {
-    console.log(data);
-    return this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers });
+    return this.http.post(this.baseUrl + "/episodes/saveepisode", data, { headers: this.headers })
+    .catch(err =>  { 
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      }) 
   }
 
   handleResponseError(res:Response) {
