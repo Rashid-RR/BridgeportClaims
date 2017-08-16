@@ -100,41 +100,58 @@
 
     </div>
     <div class="col-md-12" style="margin-bottom: 40px">
-        <h3>Uploaded Files</h3>
-        <p>Queue length: {{ uploaderCsv?.queue?.length }}</p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th width="50%">Name</th>
-                    <th>Extension</th>
-                    <th>Size</th>
-                    <th>Type</th>
-                    <th>Processed</th>
-                    <th>Created On</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let file of importedFiles">
-                    <td><strong>{{ file?.fileName }}</strong></td>
-                    <td><strong>{{ file?.fileExtension }}</strong></td>                    
-                    <td><strong>{{ file?.fileSize }}</strong></td>                    
-                    <td><strong>{{ file?.fileType }}</strong></td>                    
-                    <td><strong>{{ file?.processed }}</strong></td>                    
-                    <td><strong>{{ file?.createdOn  | date:"shortDate" }} {{ file?.createdOn  | date:"shortTime"}}</strong> </td>
-                    <td nowrap>                        
-                        <button *ngIf="file.fileType=='Payment Import' && !file.processed" type="button" class="btn bg-purple btn-xs" (click)="process(file)">
-                            <span class="glyphicon glyphicon-import"></span> Import Payments
-                        </button>
-                        <button *ngIf="file?.fileType=='Payment Import'  && file.processed" type="button" class="btn btn-success btn-xs">
-                            <i class="fa fa-check"></i> Payments Processed
-                        </button>
-                        <button type="button" class="btn btn-danger btn-xs" (click)="deleteFile(file)">
-                            <span class="glyphicon glyphicon-trash"></span> Delete
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="box">
+            <div class="box-header bg-head-box">
+                <h4 class="box-title text-center panel-head">
+                    <u><i class="fa fa-upload"></i> Uploaded Files</u>
+                </h4>
+                <span  class="tally pull-right"  *ngIf="importedFiles && importedFiles.length>0" style="margin-right:20px;">
+                        <span>
+                            <span style="font-size:13pt">
+                                {{importedFiles.length}}
+                                </span> Record{{importedFiles.length>1 ? 's':''}} found                                        
+                        </span>
+                    </span>
+                    <div class="box-tools pull-right">
+                      
+                    </div>
+            </div>
+            <div class="box-body panel-body-bg"> 
+                <table class="table no-margin table-striped">
+                    <thead>
+                        <tr>
+                            <th width="50%">Name</th>
+                            <th>Extension</th>
+                            <th>Size</th>
+                            <th>Type</th>
+                            <th>Processed</th>
+                            <th>Created On</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let file of importedFiles">
+                            <td><strong>{{ file?.fileName }}</strong></td>
+                            <td><strong>{{ file?.fileExtension }}</strong></td>                    
+                            <td><strong>{{ file?.fileSize }}</strong></td>                    
+                            <td><strong>{{ file?.fileType }}</strong></td>                    
+                            <td><strong>{{ file?.processed }}</strong></td>                    
+                            <td><strong>{{ file?.createdOn  | date:"shortDate" }} {{ file?.createdOn  | date:"shortTime"}}</strong> </td>
+                            <td nowrap>                        
+                                <button *ngIf="file.fileType=='Payment Import' && !file.processed" type="button" class="btn bg-purple btn-xs" (click)="process(file)">
+                                    <span class="glyphicon glyphicon-import"></span> Import Payments
+                                </button>
+                            <!--  <button *ngIf="file?.fileType=='Payment Import'  && file.processed" type="button" class="btn btn-success btn-xs">
+                                    <i class="fa fa-check"></i> Payments Processed
+                                </button> -->
+                                <button type="button" class="btn btn-danger btn-xs" (click)="deleteFile(file)">
+                                    <span class="glyphicon glyphicon-trash"></span> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
 </div>

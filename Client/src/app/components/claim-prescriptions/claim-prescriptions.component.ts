@@ -100,7 +100,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
       } else {
         if (mainTable) {
           let tableWidth = mainTable.clientWidth.toString();
-          fixedMaxHeader.style.width = tableWidth + 'px';
+          try{
+            fixedMaxHeader.style.width = tableWidth + 'px';
+          }catch(e){}
         }
       }
     }, 500)
