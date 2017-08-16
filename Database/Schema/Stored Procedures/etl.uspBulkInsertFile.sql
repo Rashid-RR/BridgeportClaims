@@ -7,7 +7,7 @@ GO
 	Create Date:	7/9/2017
 	Description:	
 	Sample Execute:
-					EXEC etl.uspBulkInsertFile 'D:\TFS\JGPortal\ImportFiles\Billing_Claim_File_20170724.csv', 0
+					EXEC etl.uspBulkInsertFile 'D:\Jordan\Development\Clients\BridgeportClaims\LakerExtractFiles\Billing_Claim_File_20170809.csv', 1
 */
 CREATE PROC [etl].[uspBulkInsertFile] @FullPathAndFileName VARCHAR(1000), @PrepareForETLColumns BIT = 1
 AS BEGIN
@@ -48,6 +48,7 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
+
 
 
 GO

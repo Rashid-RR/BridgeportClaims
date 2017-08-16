@@ -7,10 +7,12 @@ using System.Web.Http;
 using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Caching;
+using System.Threading;
+using BridgeportClaims.Common.Caching;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using c = BridgeportClaims.Common.StringConstants.Constants;
@@ -25,6 +27,7 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private ApplicationUserManager _userManager;
+        private readonly IMemoryCacher _memoryCacher;
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
@@ -34,16 +37,20 @@ namespace BridgeportClaims.Web.Controllers
             private set { _userManager = value; }
         }
 
-        public AccountsController() { }
+        public AccountsController(IMemoryCacher memoryCacher)
+        {
+            _memoryCacher = memoryCacher;
+        }
 
         private string BaseUri => Request.RequestUri.GetLeftPart(UriPartial.Authority);
         private bool IsSecure => Request.RequestUri.Scheme.ToLower() == "https";
 
         public AccountsController(ApplicationUserManager userManager,
-            ISecureDataFormat<AuthenticationTicket> accessTokenFormat)
+            ISecureDataFormat<AuthenticationTicket> accessTokenFormat, IMemoryCacher memoryCacher)
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
+            _memoryCacher = memoryCacher;
         }
 
         [HttpPost]
@@ -61,7 +68,9 @@ namespace BridgeportClaims.Web.Controllers
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                     return BadRequest(
                         "You must confirm your email address from your registration before confirming your password");
-
+                // Before we start doing work, clear the cache for this user
+                _memoryCacher.DeleteIfExists(user.Id);
+                _memoryCacher.DeleteIfExists(user.UserName);
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -133,6 +142,9 @@ namespace BridgeportClaims.Web.Controllers
                     // Don't reveal that the user does not exist (security hole)
                     return Ok();
                 }
+                // Before we start doing work, clear the cache for this user
+                _memoryCacher.DeleteIfExists(user.Id);
+                _memoryCacher.DeleteIfExists(user.UserName);
                 var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
                 if (result.Succeeded)
                     return Ok(new {message = "The Password was Reset Successfully"});
@@ -159,30 +171,36 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return await Task.Run(() =>
+                var user = await _memoryCacher.AddOrGetExisting(User.Identity.GetUserId(), () =>
                 {
-                    var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
-                    var user = UserManager.FindByName(User.Identity.Name);
-                    return new UserInfoViewModel
-                    {
-                        Id = User.Identity.GetUserId(),
-                        Email = user.Email,
-                        EmailConfirmed = user.EmailConfirmed,
-                        HasRegistered = externalLogin == null,
-                        LoginProvider = externalLogin?.LoginProvider,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        RegisteredDate = user.RegisteredDate,
-                        Roles = user.Roles.Join(AppRoleManager.Roles, ur => ur.RoleId,
-                            r => r.Id, (ur, r) => r.Name).ToList()
-                    };
+                    var userManager = UserManager.FindByNameAsync(User.Identity.Name);
+                    return userManager;
                 });
+                return GetUserInfoViewModelFromApplicationUser(user);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 throw;
             }
+        }
+
+        private UserInfoViewModel GetUserInfoViewModelFromApplicationUser(ApplicationUser user)
+        {
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            return new UserInfoViewModel
+            {
+                Id = User.Identity.GetUserId(),
+                Email = user.Email,
+                EmailConfirmed = user.EmailConfirmed,
+                HasRegistered = externalLogin == null,
+                LoginProvider = externalLogin?.LoginProvider,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                RegisteredDate = user.RegisteredDate,
+                Roles = user.Roles.Join(AppRoleManager.Roles, ur => ur.RoleId,
+                    r => r.Id, (ur, r) => r.Name).ToList()
+            };
         }
 
         [HttpPost]
@@ -200,7 +218,7 @@ namespace BridgeportClaims.Web.Controllers
                     Email = createUserModel.Email,
                     FirstName = createUserModel.FirstName,
                     LastName = createUserModel.LastName,
-                    RegisteredDate = DateTime.Now.Date
+                    RegisteredDate = DateTime.UtcNow.Date
                 };
                 // Register to the Database
                 var addUserResult = await AppUserManager.CreateAsync(user, createUserModel.Password);
@@ -216,6 +234,7 @@ namespace BridgeportClaims.Web.Controllers
                 // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
                 await AppUserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
                     callbackUrl.AbsoluteUri);
+
                 return Created(locationHeader, TheModelFactory.Create(user));
             }
             catch (Exception ex)
@@ -256,7 +275,9 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    return Ok(AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
+                    var retVal = _memoryCacher.AddOrGetExisting(c.GetAllUsersCacheKey,
+                        () => AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
+                    return Ok(retVal);
                 });
             }
             catch (Exception ex)
@@ -273,7 +294,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await AppUserManager.FindByIdAsync(id);
+                var user = await _memoryCacher.AddOrGetExisting(id, () => UserManager.FindByIdAsync(id));
                 if (user != null)
                     return Ok(TheModelFactory.Create(user));
                 return NotFound();
@@ -292,9 +313,9 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await AppUserManager.FindByNameAsync(username);
+                var user = await _memoryCacher.AddOrGetExisting(username, () => UserManager.FindByNameAsync(username));
                 if (null != user)
-                    return Ok(TheModelFactory.Create(user));
+                    return Ok(GetUserInfoViewModelFromApplicationUser(user));
                 return NotFound();
             }
             catch (Exception ex)
@@ -330,11 +351,13 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var appUser = await AppUserManager.FindByIdAsync(id);
-                if (null == appUser)
+                var user = await AppUserManager.FindByIdAsync(id);
+                if (null == user)
                     return Content(HttpStatusCode.InternalServerError,
                         new {message = "Error. The user was not found."});
-                var result = await AppUserManager.DeleteAsync(appUser);
+                _memoryCacher.DeleteIfExists(id);
+                _memoryCacher.DeleteIfExists(user.UserName);
+                var result = await AppUserManager.DeleteAsync(user);
                 return !result.Succeeded ? GetErrorResult(result) : Ok(new {message="The User was Deleted Successfully."});
             }
             catch (Exception ex)
@@ -344,33 +367,11 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
         
-    private class ExternalLoginData
+        private class ExternalLoginData
         {
             public string LoginProvider { get; private set; }
-            public string ProviderKey { get; private set; }
+            private string ProviderKey { get; set; }
             private string UserName { get; set; }
-
-            public IList<Claim> GetClaims()
-            {
-                try
-                {
-                    IList<Claim> claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider)
-                    };
-                    if (UserName != null)
-                    {
-                        claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
-                    }
-
-                    return claims;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex);
-                    throw;
-                }
-            }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
@@ -381,7 +382,6 @@ namespace BridgeportClaims.Web.Controllers
                     if (string.IsNullOrEmpty(providerKeyClaim?.Issuer) ||
                         string.IsNullOrEmpty(providerKeyClaim.Value))
                         return null;
-
 
                     if (providerKeyClaim.Issuer == ClaimsIdentity.DefaultIssuer)
                         return null;

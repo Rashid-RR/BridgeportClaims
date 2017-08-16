@@ -36,8 +36,8 @@ namespace BridgeportClaims.Web.Models
                     Email = appUser.Email,
                     EmailConfirmed = appUser.EmailConfirmed,
                     RegisteredDate = appUser.RegisteredDate,
-                    Roles = _appUserManager.GetRolesAsync(appUser.Id).Result,
-                    Claims = _appUserManager.GetClaimsAsync(appUser.Id).Result
+                    Roles = _appUserManager.GetRolesAsync(appUser.Id).GetAwaiter().GetResult(),
+                    Claims = _appUserManager.GetClaimsAsync(appUser.Id).GetAwaiter().GetResult()
                 };
             }
             catch (Exception ex)

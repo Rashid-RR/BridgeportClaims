@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
@@ -22,17 +23,16 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes
 
         public IList<PrescriptionNoteTypesDto> GetPrescriptionNoteTypes()
         {
-            var result = _memoryCacher.GetValue(c.PrescriptionNoteTypesKey) as IList<PrescriptionNoteTypesDto>;
-            if (null != result)
-                return result;
-            var query = _repository.GetAll()
-                .Select(c => new PrescriptionNoteTypesDto
-                {
-                    PrescriptionNoteTypeId = c.PrescriptionNoteTypeId,
-                    TypeName = c.TypeName
-                });
-            result = query.ToList();
-            _memoryCacher.Add(c.PrescriptionNoteTypesKey, result, DateTimeOffset.UtcNow.AddDays(1));
+            var result = _memoryCacher.AddOrGetExisting(c.PrescriptionNoteTypesKey, () =>
+            {
+                var query = _repository.GetAll()
+                    .Select(c => new PrescriptionNoteTypesDto
+                    {
+                        PrescriptionNoteTypeId = c.PrescriptionNoteTypeId,
+                        TypeName = c.TypeName
+                    });
+                return query.ToList();
+            });
             return result;
         }
     }

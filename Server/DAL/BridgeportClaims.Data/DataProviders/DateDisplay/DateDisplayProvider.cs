@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Data;
+using System.Runtime.Caching;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Disposable;
 using NHibernate;
@@ -23,29 +24,29 @@ namespace BridgeportClaims.Data.DataProviders.DateDisplay
 
         public string GetDateDisplay()
         {
-            var result = _memoryCacher.GetValue(c.DateDisplayCacheKey) as string;
-            if (null != result)
-                return result;
-            DisposableService.Using(() => _factory.OpenSession(), session =>
+            var result = _memoryCacher.AddOrGetExisting(c.DateDisplayCacheKey, () =>
             {
-                DisposableService.Using(() => session.BeginTransaction(IsolationLevel.ReadCommitted),
-                    transaction =>
-                    {
-                        try
+                return DisposableService.Using(() => _factory.OpenSession(), session =>
+                {
+                    return DisposableService.Using(() => session.BeginTransaction(IsolationLevel.ReadCommitted),
+                        transaction =>
                         {
-                            result = session.CreateSQLQuery("SELECT dtme.udfGetFriendlyDateDisplay()")
-                                .UniqueResult<string>();
-                            if (transaction.IsActive)
-                                transaction.Commit();
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Error(ex);
-                            throw;
-                        }
-                    });
+                            try
+                            {
+                                var retVal = session.CreateSQLQuery("SELECT dtme.udfGetFriendlyDateDisplay()")
+                                    .UniqueResult<string>();
+                                if (transaction.IsActive)
+                                    transaction.Commit();
+                                return retVal;
+                            }
+                            catch (Exception ex)
+                            {
+                                Logger.Error(ex);
+                                throw;
+                            }
+                        });
+                });
             });
-            _memoryCacher.Add(c.DateDisplayCacheKey, result, DateTimeOffset.UtcNow.AddHours(4));
             return result;
         }
     }

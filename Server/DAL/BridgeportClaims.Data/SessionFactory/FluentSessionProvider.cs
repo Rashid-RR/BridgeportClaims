@@ -43,9 +43,7 @@ namespace BridgeportClaims.Data.SessionFactory
 			{
 				lock (Semiphore)
 				{
-					if (null == _sessionFactory)
-						_sessionFactory = CreateSessionFactory();
-					return _sessionFactory;
+				    return _sessionFactory ?? (_sessionFactory = CreateSessionFactory());
 				}
 			}
 		}

@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Caching;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Common.Config;
@@ -26,7 +27,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 	    public void DeleteImportFile(int importFileId)
 		{
             // Remove cached entries
-            _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
+            _memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
 				connection.Open();
@@ -49,56 +50,55 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 		public IList<ImportFileDto> GetImportFileDtos()
 		{
 		    // Get Items from Cache if they exist there.
-		    var cachedFiles = _memoryCacher.GetValue(c.ImportFileDatabaseCachingKey) as IList<ImportFileDto>;
-		    if (null != cachedFiles)
-		        return cachedFiles;
-            var files = new List<ImportFileDto>();
-			return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
-			{
-				connection.Open();
-				return DisposableService.Using(() => new SqlCommand("uspGetImportFile", connection), sqlCommand =>
-				{
-					sqlCommand.CommandType = CommandType.StoredProcedure;
-					return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
-					{
-						var importFileIdOrdinal = reader.GetOrdinal("ImportFileID");
-						var fileNameOrdinal = reader.GetOrdinal("FileName");
-						var fileExtensionOrdinal = reader.GetOrdinal("FileExtension");
-						var fileSizeOrdinal = reader.GetOrdinal("FileSize");
-						var fileTypeOrdinal = reader.GetOrdinal("FileType");
-						var processedOrdinal = reader.GetOrdinal("Processed");
-						var createdOnLocalOrdinal = reader.GetOrdinal("CreatedOnLocal");
+		    var cachedFiles = _memoryCacher.AddOrGetExisting(c.ImportFileDatabaseCachingKey, () =>
+		    {
+		        var files = new List<ImportFileDto>();
+		        return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
+		        {
+		            connection.Open();
+		            return DisposableService.Using(() => new SqlCommand("uspGetImportFile", connection), sqlCommand =>
+		            {
+		                sqlCommand.CommandType = CommandType.StoredProcedure;
+		                return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
+		                {
+		                    var importFileIdOrdinal = reader.GetOrdinal("ImportFileID");
+		                    var fileNameOrdinal = reader.GetOrdinal("FileName");
+		                    var fileExtensionOrdinal = reader.GetOrdinal("FileExtension");
+		                    var fileSizeOrdinal = reader.GetOrdinal("FileSize");
+		                    var fileTypeOrdinal = reader.GetOrdinal("FileType");
+		                    var processedOrdinal = reader.GetOrdinal("Processed");
+		                    var createdOnLocalOrdinal = reader.GetOrdinal("CreatedOnLocal");
 
-						while (reader.Read())
-						{
-						    var file = new ImportFileDto
-						    {
-						        ImportFileId = reader.GetInt32(importFileIdOrdinal),
-						        FileName = reader.GetString(fileNameOrdinal),
-						        FileSize = reader.GetString(fileSizeOrdinal),
-						        FileType = reader.GetString(fileTypeOrdinal),
-						        Processed = reader.GetBoolean(processedOrdinal),
-						        CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
-						            ? reader.GetDateTime(createdOnLocalOrdinal)
-						            : DateTime.Now
-						    };
-						    if (!reader.IsDBNull(fileExtensionOrdinal))
-								file.FileExtension = reader.GetString(fileExtensionOrdinal);
-							files.Add(file);
-						}
-					    var retList = files.OrderByDescending(x => x.CreatedOn).ToList();
-                        // Put into cache.
-					    _memoryCacher.Add(c.ImportFileDatabaseCachingKey, retList, DateTimeOffset.UtcNow.AddDays(5));
-					    return retList;
-					});
-				});
-			});
+		                    while (reader.Read())
+		                    {
+		                        var file = new ImportFileDto
+		                        {
+		                            ImportFileId = reader.GetInt32(importFileIdOrdinal),
+		                            FileName = reader.GetString(fileNameOrdinal),
+		                            FileSize = reader.GetString(fileSizeOrdinal),
+		                            FileType = reader.GetString(fileTypeOrdinal),
+		                            Processed = reader.GetBoolean(processedOrdinal),
+		                            CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
+		                                ? reader.GetDateTime(createdOnLocalOrdinal)
+		                                : DateTime.Now
+		                        };
+		                        if (!reader.IsDBNull(fileExtensionOrdinal))
+		                            file.FileExtension = reader.GetString(fileExtensionOrdinal);
+		                        files.Add(file);
+		                    }
+		                    var retList = files.OrderByDescending(x => x.CreatedOn).ToList();
+		                    return retList;
+		                });
+		            });
+		        });
+		    });
+		    return cachedFiles;
 		}
 
 	    public void MarkFileProcessed(string fileName)
 	    {
 	        // Remove cached entries
-	        _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
+	        _memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
 	        const string sql = @"UPDATE i SET i.Processed = 1 FROM util.ImportFile AS i WHERE i.[FileName] = @FileName;";
 	        DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 	        {
@@ -123,7 +123,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			string fileDescription)
 		{
 		    // Remove cached entries
-		    _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
+		    _memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
             byte[] file = null;
 			DisposableService.Using(() => new BinaryReader(stream), reader =>
 			{
