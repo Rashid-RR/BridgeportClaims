@@ -4,15 +4,18 @@ SET ANSI_NULLS ON
 GO
 /*
 	Author:			Jordan Gurney
-	Create Date:	8/1/2017
-	Description:	Takes two duplicate Patient ID's and merges them into one.
+	Create Date:	8/18/2017
+	Description:	Takes one duplicate table row, and updated all of the foreign key
+					references to it, into the other row. This essentially dedupes, or
+					merges two distinct table entities, and makes them one.
 	Sample Execute:
-					EXEC dbo.uspDeDupePatient 9, 124
+					EXEC dbo.uspDeDupeTable 'dbo.Claim', 1877, 621, 1
 */
-CREATE PROC [dbo].[uspDeDupePatient]
+CREATE PROC [dbo].[uspDeDupeTable]
 (
-	@PatientIDToRemove INT,
-	@PatientIDToKeep INT,
+	@TableName SYSNAME, -- Includes column name.
+	@IDToRemove INT,
+	@IDToKeep INT,
 	@DebugOnly BIT = 0
 )
 AS BEGIN
@@ -21,6 +24,14 @@ AS BEGIN
 	SET DEADLOCK_PRIORITY HIGH;
 	BEGIN TRY
 		BEGIN TRANSACTION;
+
+		IF @TableName NOT LIKE '%.%'
+			BEGIN
+				IF @@TRANCOUNT > 0
+					ROLLBACK
+				RAISERROR(N'Error. You must include the schema name in the table name parameter.', 16, 1) WITH NOWAIT
+				RETURN
+			END
 		
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME()
 			   ,@PrntMsg VARCHAR(1000)
@@ -29,8 +40,20 @@ AS BEGIN
 			   ,@FkTableName SYSNAME
 			   ,@FkColumnName SYSNAME
 			   ,@SQLStatement NVARCHAR(4000)
+			   ,@Schema SYSNAME = PARSENAME(@TableName, 2)
+			   ,@Table SYSNAME = PARSENAME(@TableName, 1)
 
-		DECLARE @TableObjID INT = OBJECT_ID(N'dbo.Patient', N'U')
+		IF @Schema IS NULL OR @Table IS NULL
+			BEGIN
+				IF @@TRANCOUNT > 0
+					ROLLBACK
+				RAISERROR(N'Error. Unable to parse a schema and table name from the @TableName parameter.', 16, 1) WITH NOWAIT
+				RETURN
+			END
+
+		DECLARE @QualifiedQuotedTableName SYSNAME = QUOTENAME(@Schema) + '.' + QUOTENAME(@Table)
+
+		DECLARE @TableObjID INT = OBJECT_ID(@QualifiedQuotedTableName, N'U')
 		IF @TableObjID IS NULL
 			BEGIN
 				IF @@TRANCOUNT > 0
@@ -38,6 +61,9 @@ AS BEGIN
 				RAISERROR(N'Error. Could no populate the @TableObjID variable', 16, 1) WITH NOWAIT
 				RETURN
 			END
+
+		-- If the table has a composite key, this function call will appropriately error.
+		DECLARE @TablePrimaryKeyColumnName SYSNAME = util.udfGetPrimaryKeyColumnName(@TableName)
 		
 		DECLARE FkCursor CURSOR LOCAL FAST_FORWARD READ_ONLY FOR
 		SELECT FkTableSchema = CONVERT(SYSNAME, schema_name([o2].[schema_id]))
@@ -65,14 +91,8 @@ AS BEGIN
 		WHILE @@FETCH_STATUS = 0
 			BEGIN
 				SET @SQLStatement = N'UPDATE ' + QUOTENAME(@FkTableSchema) + '.' + QUOTENAME(@FkTableName)
-					+ N' SET ' + QUOTENAME(@FkColumnName) + ' = ' + CONVERT(NVARCHAR, @PatientIDToKeep)
-					+ N' WHERE ' + QUOTENAME(@FkColumnName) + ' = ' + CONVERT(NVARCHAR, @PatientIDToRemove)
-				IF @DebugOnly = 1
-					PRINT @SQLStatement
-				ELSE
-					EXECUTE [sys].[sp_executesql] @SQLStatement
-
-				SET @SQLStatement = N'DELETE [dbo].[Patient] WHERE [PatientID] = ' + CONVERT(NVARCHAR, @PatientIDToRemove)
+					+ N' SET ' + QUOTENAME(@FkColumnName) + ' = ' + CONVERT(NVARCHAR, @IDToKeep)
+					+ N' WHERE ' + QUOTENAME(@FkColumnName) + ' = ' + CONVERT(NVARCHAR, @IDToRemove)
 				IF @DebugOnly = 1
 					PRINT @SQLStatement
 				ELSE
@@ -81,6 +101,16 @@ AS BEGIN
 			END
 		CLOSE [FkCursor];
 		DEALLOCATE [FkCursor];
+
+		-- Finally, construct the delete statement.
+		SET @SQLStatement = N'DELETE ' + 
+					@QualifiedQuotedTableName + ' WHERE ' +
+					QUOTENAME(@TablePrimaryKeyColumnName) + ' = ' 
+					+ CONVERT(NVARCHAR, @IDToRemove)
+		IF @DebugOnly = 1
+			PRINT @SQLStatement
+		ELSE
+			EXECUTE [sys].[sp_executesql] @SQLStatement
 
 		IF @@TRANCOUNT > 0
 			COMMIT
