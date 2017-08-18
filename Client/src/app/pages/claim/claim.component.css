@@ -126,3 +126,13 @@ textarea {
     font-family: "Comic Sans MS";
     display:block;
 }
+app-claim-prescriptions{
+    height:100%;
+    position: relative;
+    display: block;
+}
+.expanded{
+    height: calc(100vh - 154px);
+    height: -moz-calc(100vh - 154px);
+    height: -webkit-calc(100vh - 154px);
+}

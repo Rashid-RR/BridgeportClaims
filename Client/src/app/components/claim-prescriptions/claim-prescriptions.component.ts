@@ -59,7 +59,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
   }
 
   ngAfterViewChecked() {
-    this.updateTableHeadingWidth();
+   /*  this.updateTableHeadingWidth();
     if (this.claimManager.isPrescriptionsExpanded) {
       let fixedHeader = document.getElementById('fixed-header');
       if (fixedHeader.style.position !== 'fixed') {
@@ -72,14 +72,14 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
         fixedHeader.style.position = 'absolute';
         // console.log('set fixed header to Absolute');
       }
-    }
+    } */
   }
 
   cloneTableHeading() {
-    let cln = document.getElementById('fixed-thead').cloneNode(true);
+    /* let cln = document.getElementById('fixed-thead').cloneNode(true);
     let fixedHeader = document.getElementById('fixed-header');
     fixedHeader.appendChild(cln);
-    this.updateTableHeadingWidth();
+    this.updateTableHeadingWidth(); */
   }
 
   cloneBoxHeader() {

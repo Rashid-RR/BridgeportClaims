@@ -239,3 +239,22 @@ tbody>tr:hover {
 tbody>tr:hover td,tbody>tr:hover td::selection{
     color:#000;
 }
+.row.invoice-info,.row.invoice-info .invoice-col{
+    height:100% !important;
+    position: relative;
+    display: block;
+}
+.top-header,.table-body{
+    width:95%;
+}
+
+.top-header{
+    height:56px;
+    position: absolute;
+}
+.table-body{
+    position: absolute;
+    top:56px;
+    height: calc(100% - 56px);
+    overflow-y: scroll;
+}

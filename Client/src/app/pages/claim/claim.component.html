@@ -5,7 +5,7 @@
                 <h3 class="box-title">Bridgeport Claims</h3>
             </div>
             <div class="box-body" style="padding-top:0px;">
-                <div class="row">
+                <div class="row" *ngIf="!expanded">
                     <div class="col-sm-12" id="accordion" >
                         <app-claim-search></app-claim-search>
                     </div>
@@ -103,7 +103,7 @@
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-grey btn-sm" id="pres-max" (click)="expand(true,4,'prescriptions')" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body panel-body-bg">
+                            <div class="box-body panel-body-bg" [class.expanded]="expanded">
                                 <app-claim-prescriptions [class.open]=""></app-claim-prescriptions>
                             </div>
                             <div class="box-footer display-none">
