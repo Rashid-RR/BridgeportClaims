@@ -4,7 +4,7 @@
 }
 
 #fixed-header {
-    position: absolute;
+    position: fixed;
     top: 43px;
     background: #fbeede;
     z-index: 2;

@@ -140,7 +140,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
     }
   }
   selectAllCheckBox($event){    
-    this.checkAll =  $event.target.checked; 
+    this.checkAll =  $event.target.checked;
     if(this.checkAll){
       this.claimManager.selectedClaim.prescriptions.forEach(c=>{
         c.selected = true;

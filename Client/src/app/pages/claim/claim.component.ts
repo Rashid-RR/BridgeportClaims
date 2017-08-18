@@ -7,7 +7,7 @@ import swal from "sweetalert2";
 import { ClaimNote } from "../../models/claim-note"
 import { Episode } from "../../models/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-
+declare var jQuery:any
 @Component({
   selector: 'app-claim',
   templateUrl: './claim.component.html',
@@ -68,8 +68,10 @@ export class ClaimsComponent implements OnInit {
     } else if (table === 'prescriptions') {
       this.claimManager.isPrescriptionsExpanded = !this.claimManager.isPrescriptionsExpanded;
       let fixedBoxHeader = document.getElementById('pres-box-header');
-      fixedBoxHeader.style.position = 'relative';
-      fixedBoxHeader.style.width = '100%';
+      if(fixedBoxHeader){
+        fixedBoxHeader.style.position = 'relative';
+        fixedBoxHeader.style.width = '100%'; 
+      }
     } else if (table === 'script-notes') {
       this.claimManager.isScriptNotesExpanded = !this.claimManager.isScriptNotesExpanded;
     } else if (table === 'payments') {

@@ -113,6 +113,11 @@ textarea {
     color: #992727;
 }
 
+.sticky{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0; 
+}
 .display-none {
     display: none
 }

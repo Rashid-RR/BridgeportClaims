@@ -40,6 +40,7 @@
         "../node_modules/admin-lte/plugins/jQueryUI/jquery-ui.min.js",
         "../node_modules/admin-lte/bootstrap/js/bootstrap.min.js",
         "assets/js/blob-util.js",
+        "assets/js/stickyfill.min.js",
         "assets/js/moment.min.js",
         "../node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js",
         "../node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.min.js",

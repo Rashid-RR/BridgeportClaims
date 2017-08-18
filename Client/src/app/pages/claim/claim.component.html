@@ -4,9 +4,9 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Bridgeport Claims</h3>
             </div>
-            <div class="box-body">
+            <div class="box-body" style="padding-top:0px;">
                 <div class="row">
-                    <div class="col-sm-12" id="accordion">
+                    <div class="col-sm-12" id="accordion" >
                         <app-claim-search></app-claim-search>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                     </div>
                     <div [class.col-sm-7]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" style="padding-left:0px;">
                         <div class="box" id="pres-box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4">
-                            <div class="box-header bg-head-box" id="pres-box-header">
+                            <div class="box-header bg-head-box"  id="pres-box-header">
                                 <h4 class="box-title text-center panel-head"><u><img src="assets/img/iconPrescriptions.png">Prescriptions</u></h4>
                                 <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.prescriptions.length>0" style="margin-right:150px;">
                                     <span>
@@ -112,7 +112,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==5">
+                        <div class="box box-warn" id="pres-box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==5">
                             <div class="box-header bg-head-box">
                                 <h4 class="box-title text-center panel-head">
                                     <u><img src="assets/img/iconScripts.png">Script Notes</u>
