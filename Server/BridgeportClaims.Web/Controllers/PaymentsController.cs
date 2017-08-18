@@ -1,4 +1,5 @@
 ﻿using NLog;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -39,6 +40,11 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// First call, gets the intial Claims, to then drill into to enter the Prescriios d
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("claims-script-counts")]
         public async Task<IHttpActionResult> GetClaimsWithPrescriptionCounts([FromBody] PaymentsSearchModel model)
