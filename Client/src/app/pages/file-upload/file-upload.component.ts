@@ -21,6 +21,7 @@ export class FileUploadComponent implements OnInit,AfterViewChecked {
   public uploaderExcel: FileUploader;
   public hasBaseDropZoneOver = false;
   public hasAnotherDropZoneOver = false;
+  public loading = false;
   importedFiles:Array<ImportFile>=[];
   get queueFiles() {
     return this.uploaderCsv.queue.concat(this.uploaderExcel.queue);
@@ -58,11 +59,15 @@ export class FileUploadComponent implements OnInit,AfterViewChecked {
   }
 
   getFiles(){
+    this.loading = true;
     this.http.getFiles().single().map(r=>{return r.json()}).subscribe(res=>{ 
       //res.push(new ImportFile(new Date(),".png",231,"assets/that-file.png"));     
       this.importedFiles = res;
+      this.loading = false;
       //console.log(this.importedFiles)
-    },error=>{});
+    },error=>{
+      this.loading = false;
+    });
   }
   deleteFile(file:ImportFile){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
@@ -71,11 +76,15 @@ export class FileUploadComponent implements OnInit,AfterViewChecked {
     })
       .subscribe((isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {            
+        if (isConfirmed) {  
+          this.loading = true;          
           this.http.deleteFileById(file.importFileId).single().map(r=>{return r.json()}).subscribe(res=>{      
-            this.toast.success(res.message);            
+            this.toast.success(res.message);  
+            this.loading = false;          
             this.getFiles();
-          },error=>{});
+          },error=>{
+            this.loading = false;
+          });
         }
         else {
            
@@ -89,11 +98,15 @@ export class FileUploadComponent implements OnInit,AfterViewChecked {
     })
       .subscribe((isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {            
+        if (isConfirmed) {
+          this.loading = true;        
           this.http.importFile(file.fileName).single().map(r=>{return r.json()}).subscribe(res=>{      
             this.toast.success(res.message);
+            this.loading = false;
             this.getFiles();
-          },error=>{});
+          },error=>{
+            this.loading = false;
+          });
         }
         else {
            
