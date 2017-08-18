@@ -238,3 +238,9 @@ tbody>tr:hover {
 tbody>tr:hover td,tbody>tr:hover td::selection{
     color:#000;
 }
+tr>th:nth-child(8),
+tr>td:nth-child(8),
+tr>th:nth-child(7),
+tr>td:nth-child(7){    
+     text-align: right !important;
+}

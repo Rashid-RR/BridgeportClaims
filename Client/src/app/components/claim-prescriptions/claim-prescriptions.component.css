@@ -100,7 +100,15 @@ tr>td:last-child {
     font-weight: bold;
     line-height: 1.5rem;
 }
-
+tr>th:nth-child(8),
+tr>td:nth-child(8),
+tr>th:nth-child(9),
+tr>td:nth-child(9),
+tr>th:nth-child(10),
+tr>td:nth-child(10),
+ {
+     text-align: right !important;
+}
 td>a.label {
     font-size: 1.2rem;
 }
