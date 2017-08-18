@@ -35,10 +35,10 @@ namespace BridgeportClaims.Tests.Caching
         [TestMethod]
         public async Task AddOrGetExisting_ReturnsValueFromValueFactory()
         {
-            var testValue = "value1";
-            Func<Task<TestValue>> valueFactory = () => Task.FromResult(new TestValue(testValue));
+            const string testValue = "value1";
+            Task<TestValue> Factory() => Task.FromResult(new TestValue(testValue));
 
-            var value = await _cache.AddOrGetExisting("key1", valueFactory);
+            var value = await _cache.AddOrGetExisting("key1", (Func<Task<TestValue>>) Factory);
 
             Assert.AreEqual(testValue, value.Value);
         }
@@ -52,22 +52,23 @@ namespace BridgeportClaims.Tests.Caching
         [TestMethod]
         public async Task AddOrGetExisting_GeneratesTheValueOnlyOnce()
         {
-            string testValue = "value1";
-            string testkey = "key1";
-            int valueGeneratedTimes = 0;
-            Func<Task<TestValue>> valueFactory = () =>
+            const string testValue = "value1";
+            const string testkey = "key1";
+            var valueGeneratedTimes = 0;
+
+            Task<TestValue> Factory()
             {
                 valueGeneratedTimes++;
                 return Task.FromResult(new TestValue(testValue));
-            };
+            }
 
-            var value1 = await _cache.AddOrGetExisting(testkey, valueFactory);
+            var value1 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value1.Value);
 
-            var value2 = await _cache.AddOrGetExisting(testkey, valueFactory);
+            var value2 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value2.Value);
 
-            var value3 = await _cache.AddOrGetExisting(testkey, valueFactory);
+            var value3 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value3.Value);
 
             Assert.AreEqual(1, valueGeneratedTimes, "Value should be generated only once.");
@@ -76,26 +77,27 @@ namespace BridgeportClaims.Tests.Caching
         [TestMethod]
         public async Task AddOrGetExisting_ValueIsRebuildAfterInvalidation()
         {
-            string testValue = "value1";
-            string testkey = "key1";
-            int valueGeneratedTimes = 0;
-            Func<Task<TestValue>> valueFactory = () =>
+            const string testValue = "value1";
+            const string testkey = "key1";
+            var valueGeneratedTimes = 0;
+
+            Task<TestValue> Factory()
             {
                 valueGeneratedTimes++;
                 return Task.FromResult(new TestValue(testValue));
-            };
+            }
 
-            var value1 = await _cache.AddOrGetExisting(testkey, valueFactory);
+            var value1 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value1.Value);
 
-            var value2 = await _cache.AddOrGetExisting(testkey, valueFactory);
+            var value2 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value2.Value);
 
             Assert.AreEqual(1, valueGeneratedTimes, "Value should be generated only once.");
 
             _cache.DeleteIfExists(testkey);
 
-            var value3 = await _cache.AddOrGetExisting(testkey, valueFactory);
+            var value3 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value3.Value);
 
             Assert.AreEqual(2, valueGeneratedTimes, "Value should be regenerated after invalidation.");
@@ -108,19 +110,19 @@ namespace BridgeportClaims.Tests.Caching
         [TestMethod]
         public async Task AddOrGetExisting_DifferentKeysInCacheFunctionIndependently()
         {
-            string testValue1 = "value1";
-            string testValue2 = "value2";
-            string testkey1 = "key1";
-            string testkey2 = "key2";
+            var testValue1 = "value1";
+            var testValue2 = "value2";
+            var testkey1 = "key1";
+            var testkey2 = "key2";
 
-            int value1GeneratedTimes = 0;
+            var value1GeneratedTimes = 0;
             Func<Task<TestValue>> buildValue1Func = () =>
             {
                 value1GeneratedTimes++;
                 return Task.FromResult(new TestValue(testValue1));
             };
 
-            int value2GeneratedTimes = 0;
+            var value2GeneratedTimes = 0;
             Func<Task<TestValue>> buildValue2Func = () =>
             {
                 value2GeneratedTimes++;
@@ -157,11 +159,11 @@ namespace BridgeportClaims.Tests.Caching
         [TestMethod]
         public async Task AddOrGetExisting_FailedTasksAreNotPersisted()
         {
-            string testValue = "value1";
-            string testkey = "key1";
-            string exceptionMessage = "First two calls will fail.";
+            var testValue = "value1";
+            var testkey = "key1";
+            var exceptionMessage = "First two calls will fail.";
 
-            int valueGeneratedTimes = 0;
+            var valueGeneratedTimes = 0;
             Func<Task<TestValue>> valueFactory = () =>
             {
                 valueGeneratedTimes++;
@@ -202,8 +204,8 @@ namespace BridgeportClaims.Tests.Caching
         [TestMethod]
         public async Task Contains_ReturnsTrueWhenKeyExists()
         {
-            string testkey1 = "key1";
-            string testkey2 = "key2";
+            var testkey1 = "key1";
+            var testkey2 = "key2";
 
             Func<Task<TestValue>> valueFactory = () =>
             {
@@ -223,11 +225,11 @@ namespace BridgeportClaims.Tests.Caching
         [TestMethod]
         public async Task AddOrGetExisting_ExceptionsFromValueGenerationCanBeHandled()
         {
-            string testkey = "key";
-            string testValue = "value";
-            string testExceptionMessage = "this is exception";
+            var testkey = "key";
+            var testValue = "value";
+            var testExceptionMessage = "this is exception";
 
-            int valueFactoryCalledTimes = 0;
+            var valueFactoryCalledTimes = 0;
             Func<Task<TestValue>> valueFactory = () =>
             {
                 valueFactoryCalledTimes++;
@@ -292,9 +294,9 @@ namespace BridgeportClaims.Tests.Caching
         [TestMethod]
         public async Task AddOrGetExisting_DoesNotReturnResultsThatWereInvalidatedDuringAwait()
         {
-            string key = "key";
-            string earlierValue = "first";
-            string laterValue = "second";
+            var key = "key";
+            var earlierValue = "first";
+            var laterValue = "second";
 
             var laterTaskStart = new ManualResetEvent(false);
             var firstValueFactoryStarted = new ManualResetEvent(false);
@@ -302,8 +304,8 @@ namespace BridgeportClaims.Tests.Caching
             var firstValueFactoryContinue = new ManualResetEvent(false);
             var laterValueFactoryContinue = new ManualResetEvent(false);
 
-            int valueFactory1Executed = 0;
-            int valueFactory2Executed = 0;
+            var valueFactory1Executed = 0;
+            var valueFactory2Executed = 0;
 
             Func<Task<TestValue>> valueFactory1 = () =>
             {

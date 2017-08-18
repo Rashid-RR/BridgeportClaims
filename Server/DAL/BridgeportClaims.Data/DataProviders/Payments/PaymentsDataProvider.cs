@@ -18,12 +18,12 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 	public class PaymentsDataProvider : IPaymentsDataProvider
 	{
 		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
-	    private readonly IMemoryCacher _memoryCacher;
+		private readonly IMemoryCacher _memoryCacher;
 
 		public PaymentsDataProvider(IStoredProcedureExecutor storedProcedureExecutor, IMemoryCacher memoryCacher)
 		{
-		    _storedProcedureExecutor = storedProcedureExecutor;
-		    _memoryCacher = memoryCacher;
+			_storedProcedureExecutor = storedProcedureExecutor;
+			_memoryCacher = memoryCacher;
 		}
 
 		public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
@@ -39,9 +39,9 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 
 		public void ImportPaymentFile(string fileName)
 		{
-		    // Remove cached entries
-		    _memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
-            var fileBytes = GetBytesFromDb(fileName);
+			// Remove cached entries
+			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
+			var fileBytes = GetBytesFromDb(fileName);
 			if (null == fileBytes)
 				throw new ArgumentNullException($"Error. The File \"{fileName}\" does not Exist in the Database");
 			var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(fileBytes.ToArray());

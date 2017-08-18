@@ -17,17 +17,17 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 {
 	public class ImportFileProvider : IImportFileProvider
 	{
-	    private readonly IMemoryCacher _memoryCacher;
+		private readonly IMemoryCacher _memoryCacher;
 
-	    public ImportFileProvider(IMemoryCacher memoryCacher)
-	    {
-	        _memoryCacher = memoryCacher;
-	    }
-
-	    public void DeleteImportFile(int importFileId)
+		public ImportFileProvider(IMemoryCacher memoryCacher)
 		{
-            // Remove cached entries
-            _memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
+			_memoryCacher = memoryCacher;
+		}
+
+		public void DeleteImportFile(int importFileId)
+		{
+			// Remove cached entries
+			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
 				connection.Open();
@@ -49,82 +49,82 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 
 		public IList<ImportFileDto> GetImportFileDtos()
 		{
-		    // Get Items from Cache if they exist there.
-		    var cachedFiles = _memoryCacher.AddOrGetExisting(c.ImportFileDatabaseCachingKey, () =>
-		    {
-		        var files = new List<ImportFileDto>();
-		        return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
-		        {
-		            connection.Open();
-		            return DisposableService.Using(() => new SqlCommand("uspGetImportFile", connection), sqlCommand =>
-		            {
-		                sqlCommand.CommandType = CommandType.StoredProcedure;
-		                return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
-		                {
-		                    var importFileIdOrdinal = reader.GetOrdinal("ImportFileID");
-		                    var fileNameOrdinal = reader.GetOrdinal("FileName");
-		                    var fileExtensionOrdinal = reader.GetOrdinal("FileExtension");
-		                    var fileSizeOrdinal = reader.GetOrdinal("FileSize");
-		                    var fileTypeOrdinal = reader.GetOrdinal("FileType");
-		                    var processedOrdinal = reader.GetOrdinal("Processed");
-		                    var createdOnLocalOrdinal = reader.GetOrdinal("CreatedOnLocal");
+			// Get Items from Cache if they exist there.
+			var cachedFiles = _memoryCacher.AddOrGetExisting(c.ImportFileDatabaseCachingKey, () =>
+			{
+				var files = new List<ImportFileDto>();
+				return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
+				{
+					connection.Open();
+					return DisposableService.Using(() => new SqlCommand("uspGetImportFile", connection), sqlCommand =>
+					{
+						sqlCommand.CommandType = CommandType.StoredProcedure;
+						return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
+						{
+							var importFileIdOrdinal = reader.GetOrdinal("ImportFileID");
+							var fileNameOrdinal = reader.GetOrdinal("FileName");
+							var fileExtensionOrdinal = reader.GetOrdinal("FileExtension");
+							var fileSizeOrdinal = reader.GetOrdinal("FileSize");
+							var fileTypeOrdinal = reader.GetOrdinal("FileType");
+							var processedOrdinal = reader.GetOrdinal("Processed");
+							var createdOnLocalOrdinal = reader.GetOrdinal("CreatedOnLocal");
 
-		                    while (reader.Read())
-		                    {
-		                        var file = new ImportFileDto
-		                        {
-		                            ImportFileId = reader.GetInt32(importFileIdOrdinal),
-		                            FileName = reader.GetString(fileNameOrdinal),
-		                            FileSize = reader.GetString(fileSizeOrdinal),
-		                            FileType = reader.GetString(fileTypeOrdinal),
-		                            Processed = reader.GetBoolean(processedOrdinal),
-		                            CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
-		                                ? reader.GetDateTime(createdOnLocalOrdinal)
-		                                : DateTime.Now
-		                        };
-		                        if (!reader.IsDBNull(fileExtensionOrdinal))
-		                            file.FileExtension = reader.GetString(fileExtensionOrdinal);
-		                        files.Add(file);
-		                    }
-		                    var retList = files.OrderByDescending(x => x.CreatedOn).ToList();
-		                    return retList;
-		                });
-		            });
-		        });
-		    });
-		    return cachedFiles;
+							while (reader.Read())
+							{
+								var file = new ImportFileDto
+								{
+									ImportFileId = reader.GetInt32(importFileIdOrdinal),
+									FileName = reader.GetString(fileNameOrdinal),
+									FileSize = reader.GetString(fileSizeOrdinal),
+									FileType = reader.GetString(fileTypeOrdinal),
+									Processed = reader.GetBoolean(processedOrdinal),
+									CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
+										? reader.GetDateTime(createdOnLocalOrdinal)
+										: DateTime.Now
+								};
+								if (!reader.IsDBNull(fileExtensionOrdinal))
+									file.FileExtension = reader.GetString(fileExtensionOrdinal);
+								files.Add(file);
+							}
+							var retList = files.OrderByDescending(x => x.CreatedOn).ToList();
+							return retList;
+						});
+					});
+				});
+			});
+			return cachedFiles;
 		}
 
-	    public void MarkFileProcessed(string fileName)
-	    {
-	        // Remove cached entries
-	        _memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
-	        const string sql = @"UPDATE i SET i.Processed = 1 FROM util.ImportFile AS i WHERE i.[FileName] = @FileName;";
-	        DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
-	        {
-	            connection.Open();
-	            DisposableService.Using(() => new SqlCommand(sql, connection), cmd =>
-	            {
-	                cmd.CommandType = CommandType.Text;
-	                var fileNameParam = new SqlParameter
-	                {
-	                    Value = fileName,
-	                    SqlDbType = SqlDbType.VarChar,
-	                    DbType = DbType.String,
-	                    ParameterName = "@FileName"
-                    };
-	                cmd.Parameters.Add(fileNameParam);
-	                cmd.ExecuteNonQuery();
-	            });
-	        });
-        }
+		public void MarkFileProcessed(string fileName)
+		{
+			// Remove cached entries
+			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
+			const string sql = @"UPDATE i SET i.Processed = 1 FROM util.ImportFile AS i WHERE i.[FileName] = @FileName;";
+			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
+			{
+				connection.Open();
+				DisposableService.Using(() => new SqlCommand(sql, connection), cmd =>
+				{
+					cmd.CommandType = CommandType.Text;
+					var fileNameParam = new SqlParameter
+					{
+						Value = fileName,
+						SqlDbType = SqlDbType.VarChar,
+						DbType = DbType.String,
+						ParameterName = "@FileName"
+					};
+					cmd.Parameters.Add(fileNameParam);
+					cmd.ExecuteNonQuery();
+				});
+			});
+		}
 
-	    public void SaveFileToDatabase(Stream stream, string fileName, string fileExtension, 
+		public void SaveFileToDatabase(Stream stream, string fileName, string fileExtension, 
 			string fileDescription)
 		{
-		    // Remove cached entries
-		    _memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
-            byte[] file = null;
+			// Remove cached entries
+			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
+			byte[] file = null;
 			DisposableService.Using(() => new BinaryReader(stream), reader =>
 			{
 				file = reader.ReadBytes((int) stream.Length);
