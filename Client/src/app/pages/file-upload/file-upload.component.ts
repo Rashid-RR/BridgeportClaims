@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewChecked } from '@angular/core';
 
 import { FileSelectDirective,FileItem, FileDropDirective,ParsedResponseHeaders, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import {HttpService} from "../../services/http-service"
@@ -15,7 +15,7 @@ const URL = 'http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/a
   styleUrls: ['./file-upload.component.css'],
 
 })
-export class FileUploadComponent implements OnInit {
+export class FileUploadComponent implements OnInit,AfterViewChecked {
 
   public uploaderCsv: FileUploader;
   public uploaderExcel: FileUploader;
@@ -99,5 +99,46 @@ export class FileUploadComponent implements OnInit {
            
         }
       });
+  }
+  ngAfterViewChecked() {
+    this.updateTableHeadingWidth();
+     let fixedHeader = document.getElementById('fixed-header');
+      if (fixedHeader.style.position !== 'fixed') {
+        fixedHeader.style.position = 'fixed';
+        // console.log('set fixed header to Fixed');
+      }    
+  }
+
+  cloneTableHeading() {
+    let cln = document.getElementById('fixed-thead').cloneNode(true);
+    let fixedHeader = document.getElementById('fixed-header');
+    fixedHeader.appendChild(cln);
+    this.updateTableHeadingWidth();
+  }
+
+  cloneBoxHeader() {
+    let cln = document.getElementById
+  }
+
+
+  updateTableHeadingWidth() {
+    setTimeout(() => {
+      let fixedHeader = document.getElementById('fixed-header');
+      let fixedMaxHeader = document.getElementById('fixed-max-header');
+      let mainTable = document.getElementById('maintable');
+      if (fixedHeader) {
+        if (mainTable) {
+          let tableWidth = mainTable.clientWidth.toString();
+          fixedHeader.style.width = tableWidth + 'px';
+        }
+      } else {
+        if (mainTable) {
+          let tableWidth = mainTable.clientWidth.toString();
+          try{
+            fixedMaxHeader.style.width = tableWidth + 'px';
+          }catch(e){}
+        }
+      }
+    }, 500)
   }
 }

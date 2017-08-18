@@ -9,6 +9,7 @@ import { PrescriptionNoteType } from "../models/prescription-note-type";
 import { EpisodeNoteType } from "../models/episode-note-type";
 import { Injectable } from "@angular/core";
 import { HttpService } from "./http-service";
+import { AuthGuard } from "./auth.guard";
 import { EventsService } from "./events-service";
 import { Router } from "@angular/router";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -33,15 +34,25 @@ export class ClaimManager {
   isPaymentsExpanded: boolean;
   isImagesExpanded: boolean;
 
-  constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
+  constructor(private auth:AuthGuard,private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     this.getHistory();
+    this.events.on("loadHistory",()=>{
+      this.getHistory();
+    })
   }
 
   getHistory() {
-    this.loadingHistory=true;
-    this.http.getHistory().single().map(r => { return r.json() }).subscribe(res => {
-      this.history = res as Array<Claim>;
-      this.loadingHistory=false;
+    this.auth.isLoggedIn.single().subscribe(res=>{
+      console.log("First check if user is logged in...",res);        
+      if(res == true){
+        this.loadingHistory=true;
+        this.http.getHistory().single().map(r => { return r.json() }).subscribe(res => {
+          this.history = res as Array<Claim>;
+          this.loadingHistory=false;
+        }, error => {
+          this.loadingHistory=false;
+        });
+      }
     }, error => {
       this.loadingHistory=false;
      });

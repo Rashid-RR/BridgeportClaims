@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
             this.profileManager.setProfile(new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles));
             this.router.navigate(['/main/private']);
             this.toast.success('Welcome back');
+            this.events.broadcast("loadHistory",[]);
           }, err => console.log(err))
         }, (requestError) => {
           this.submitted = false;
