@@ -1,7 +1,7 @@
 <div id="fixed-header"></div>
 <div class="row invoice-info">
     <div class="col-sm-12 invoice-col">
-        <div class="table-responsive top-header">
+        <div class="table-responsive top-header scroll-y">
             <table class="table no-margin table-striped">
                 <thead class="overflowable">
                     <tr>
@@ -19,13 +19,13 @@
                         <th>Inv #</th>
                         <th>Inv Amt</th>
                         <th>Amt Paid</th>
-                        <th class="text-right">Outstanding</th>
+                        <th>Outstanding</th>
                         <th>Note Count</th>
                     </tr>
                 </thead>
             </table>
         </div>
-        <div class="table-responsive table-body">
+        <div class="table-responsive table-body scroll-y">
             <table class="table no-margin table-striped" id="maintable">
                 <tbody *ngIf="claimManager.selectedClaim" class="overflowable" #prescriptionTable  tabindex="0">
                     <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json"  (click)="setSelected(prescription,prescription.selected)">
@@ -41,8 +41,8 @@
                         <td>{{prescription.billTo}}</td>
                         <td>{{prescription.invoiceDate | date:"shortDate"}}</td>
                         <td>{{prescription.invoiceNumber}}</td>
-                        <td>{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
-                        <td>{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="text-right">{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
+                        <td class="text-right">{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
                         <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
                         <td *ngIf="prescription.noteCount"><a class="label label-info bg-darkblue" (click)="showNotes(prescription.prescriptionId)">{{prescription.noteCount}}</a></td>
                         <td *ngIf="!prescription.noteCount">{{prescription.noteCount}}</td>
