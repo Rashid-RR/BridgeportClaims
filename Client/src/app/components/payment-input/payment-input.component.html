@@ -18,19 +18,28 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label>Amount Selected</label>
-                <input class="form-control" name="amountSelected" formControlName="amountSelected" [ngModel]="paymentService.amountSelected  | currency:'USD':true:'1.2-2'" (focus)="submitted=false" readonly>
+                <div class="input-group not-allowed">
+                    <div class="input-group-addon">$</div>
+                    <input class="form-control" name="amountSelected" formControlName="amountSelected" [ngModel]="paymentService.amountSelected" (focus)="submitted=false" readonly>
+                </div>                
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
                 <label>Amount To Post</label>
-                <input class="form-control" name="amountToPost" formControlName="amountToPost"  [ngModel]="paymentService.amountSelected  | currency:'USD':true:'1.2-2'" readonly  (focus)="submitted=false">
+                <div class="input-group">
+                    <div class="input-group-addon">$</div>
+                    <input class="form-control" name="amountToPost" formControlName="amountToPost"  [ngModel]="paymentService.amountSelected"  (focus)="submitted=false">
+                </div>
             </div>
         </div>
         <div class="col-sm-2 col-md-2">
             <div class="form-group">
                 <label>Amount Remaining</label>
-                <input class="form-control" name="amountRemaining" formControlName="amountRemaining" [ngModel]="amountRemaining  | currency:'USD':true:'1.2-2'" readonly (focus)="submitted=false">
+                <div class="input-group not-allowed">
+                    <div class="input-group-addon">$</div>
+                    <input class="form-control" name="amountRemaining" formControlName="amountRemaining"  readonly (focus)="submitted=false"><!-- [ngModel]="amountRemaining" -->
+                </div>
             </div>
         </div>
 
@@ -38,7 +47,7 @@
             <div class="form-group">
                 <label>&nbsp;</label><br/>
                 <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="post()">Post</button>
-                <button class="btn bg-darkRed btn-flat btn-small" type="button" (click)="post()">To Suspense</button>
+                <button class="btn bg-darkRed btn-flat btn-small not-allowed" type="button" (click)="post()" disabled>To Suspense</button>
             </div>
         </div>
     </div>

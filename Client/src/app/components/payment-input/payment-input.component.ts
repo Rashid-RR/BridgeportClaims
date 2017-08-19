@@ -40,6 +40,8 @@ export class PaymentInputComponent implements OnInit {
  }
   post(){
     this.toast.info("To do item...");
+    this.form.get('amountRemaining').setValue(this.amountRemaining);
+    
   }
   get amountRemaining():Number{
     var amount =  Number((this.form.get('checkAmount') ? this.form.get('checkAmount').value : 0 ) -this.paymentService.amountSelected);

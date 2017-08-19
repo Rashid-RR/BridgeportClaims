@@ -13,6 +13,9 @@
     background-color: #414772;
     color: #fff;
 }
+.not-allowed,.not-allowed .form-control{
+    cursor: not-allowed;
+}
 
 .bg-DarkGreen {
     background: #084205;

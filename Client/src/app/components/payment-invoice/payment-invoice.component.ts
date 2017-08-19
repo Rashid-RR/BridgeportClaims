@@ -32,6 +32,8 @@ export class PaymentInvoiceComponent implements OnInit,AfterViewInit {
     window['jQuery']('#datepicker').datepicker({
       autoclose: true
     });
+    window['jQuery']("#datemask").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+    window['jQuery']("[data-mask]").inputmask();
   }
 
  textChange(controlName:string){
