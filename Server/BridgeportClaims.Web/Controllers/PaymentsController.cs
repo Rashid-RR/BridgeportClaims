@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Web.Models;
+using System.Net;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -35,7 +36,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
             }
         }
 
@@ -52,7 +53,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var payments = _paymentsDataProvider.GetClaimsWithPrescriptionCounts(model.ClaimNumber, 
+                    var payments = _paymentsDataProvider.GetClaimsWithPrescriptionCounts(model.ClaimNumber,
                         model.FirstName, model.LastName, model.RxDate, model.InvoiceNumber);
                     return Ok(payments);
                 });
@@ -60,7 +61,40 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
+                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
+        [Route("post-payments")]
+        public async Task<IHttpActionResult> PostPayments(PostPaymentsModel model)
+        {
+            try
+            {
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                if (!ModelState.IsValid)
+                    throw new Exception("Error. The inputted fields are not in the correct format.");
+                var numberOfPrescriptions = model.PrescriptionIds?.Count;
+                switch (numberOfPrescriptions)
+                {
+                    case null:
+                        throw new Exception("Error. There were no Prescriptions sent.");
+                    case 0:
+                        throw new Exception("Error. No prescriptions were sent.");
+                }
+                await Task.Run(() =>
+                {
+                    _paymentsDataProvider.PostPaymentAsync(model.PrescriptionIds, model.CheckNumber,
+                        model.CheckAmount, model.AmountSelected,
+                        model.AmountToPost);
+                });
+                return Ok(new {message = $"Payment{(1 == numberOfPrescriptions ? string.Empty : "s")} Posted Successfully!"});
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
             }
         }
     }

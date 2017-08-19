@@ -1,6 +1,6 @@
 ﻿namespace BridgeportClaims.Web.Models
 {
-    public class RoleReturnModel
+    public sealed class RoleReturnModel
     {
         public string Url { get; set; }
         public string Id { get; set; }

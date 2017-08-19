@@ -1,7 +1,6 @@
 ﻿using NLog;
 using System;
 using System.Data;
-using System.Runtime.Caching;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Disposable;
 using NHibernate;

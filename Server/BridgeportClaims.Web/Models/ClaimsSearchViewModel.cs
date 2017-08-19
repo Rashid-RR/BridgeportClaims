@@ -1,6 +1,6 @@
 ﻿namespace BridgeportClaims.Web.Models
 {
-    public class ClaimsSearchViewModel
+    public sealed class ClaimsSearchViewModel
     {
         public int? ClaimId { get; set; }
         public string ClaimNumber { get; set; }

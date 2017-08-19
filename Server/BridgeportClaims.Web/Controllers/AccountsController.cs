@@ -10,8 +10,6 @@ using Microsoft.AspNet.Identity;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.Caching;
-using System.Threading;
 using BridgeportClaims.Common.Caching;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;

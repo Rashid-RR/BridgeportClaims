@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    public class CreateRoleBindingModel
+    public sealed class CreateRoleBindingModel
     {
         [Required]
         [StringLength(255, ErrorMessage = "The {0} must be at least {4} characters long.", MinimumLength = 4)]
