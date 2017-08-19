@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ImportFile;
 using BridgeportClaims.Data.DataProviders.Payments;
 

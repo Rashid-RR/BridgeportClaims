@@ -4,6 +4,8 @@ using System.Linq;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Excel.Adapters;
 using BridgeportClaims.Common.DataTables;
@@ -99,11 +101,12 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 		private static IEnumerable<byte> GetBytesFromDb(string fileName) => DisposableService.Using(() 
 			=> new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
-				return DisposableService.Using(() => new SqlCommand("uspGetFileBytesFromFileName", conn),
+				return DisposableService.Using(() => new SqlCommand("dbo.uspGetFileBytesFromFileName", conn),
 					cmd =>
 					{
-						conn.Open();
-						cmd.CommandType = CommandType.StoredProcedure;
+					    if (conn.State == ConnectionState.Closed)
+					        conn.Open();
+                        cmd.CommandType = CommandType.StoredProcedure;
 						cmd.Parameters.Add("@FileName", SqlDbType.NVarChar, 255).Value = fileName;
 						return DisposableService.Using(cmd.ExecuteReader,
 							reader =>
@@ -118,10 +121,11 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 		private static void ImportDataTableIntoDb(DataTable dt) => DisposableService.Using(() 
 			=> new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
-				DisposableService.Using(() => new SqlCommand("uspImportPaymentFromDataTable", conn),
+				DisposableService.Using(() => new SqlCommand("dbo.uspImportPaymentFromDataTable", conn),
 					cmd =>
 					{
-						conn.Open();
+					    if (conn.State == ConnectionState.Closed)
+                            conn.Open();
 						cmd.CommandType = CommandType.StoredProcedure;
 						var dataTableParam = new SqlParameter
 						{
@@ -133,5 +137,72 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 						cmd.ExecuteNonQuery();
 					});
 			});
-	}
+
+	    public void PostPaymentAsync(IEnumerable<int> prescriptionIds, string checkNumber,
+	        decimal checkAmount, decimal amountSelected, decimal amountToPost)
+	    {
+            DisposableService.Using(()
+                 => new SqlConnection(cs.GetDbConnStr()), conn =>
+             {
+                 DisposableService.Using(() => new SqlCommand("dbo.uspPostPayment", conn),
+                     cmd =>
+                     {
+                         if (conn.State == ConnectionState.Closed)
+                             conn.OpenAsync();
+                         cmd.CommandType = CommandType.StoredProcedure;
+                         var prescriptionIdsParam = new SqlParameter
+                         {
+                             Value = CreateDataTable(prescriptionIds),
+                             SqlDbType = SqlDbType.Structured,
+                             ParameterName = "@PrescriptionIDs",
+                             Direction = ParameterDirection.Input,
+                             TypeName = "dbo.udtPrescriptionID"
+                         };
+                         var checkNumberParam = new SqlParameter
+                         {
+                             Value = checkNumber,
+                             SqlDbType = SqlDbType.VarChar,
+                             Direction = ParameterDirection.Input,
+                             ParameterName = "@CheckNumber"
+                         };
+                         var checkAmountParam = new SqlParameter
+                         {
+                             Value = checkAmount,
+                             SqlDbType = SqlDbType.Money,
+                             Direction = ParameterDirection.Input,
+                             ParameterName = "@CheckAmount"
+                         };
+                         var amountSelectedParam = new SqlParameter
+                         {
+                             Value = amountSelected,
+                             SqlDbType = SqlDbType.Money,
+                             Direction = ParameterDirection.Input,
+                             ParameterName = "@AmountSelected"
+                         };
+                         var amountToPostParam = new SqlParameter
+                         {
+                             Value = amountToPost,
+                             SqlDbType = SqlDbType.Money,
+                             Direction = ParameterDirection.Input,
+                             ParameterName = "@AmountToPost"
+                         };
+                         cmd.Parameters.Add(prescriptionIdsParam);
+                         cmd.Parameters.Add(checkNumberParam);
+                         cmd.Parameters.Add(checkAmountParam);
+                         cmd.Parameters.Add(amountSelectedParam);
+                         cmd.Parameters.Add(amountToPostParam);
+                         cmd.ExecuteNonQuery();
+                     });
+             });
+        }
+
+	    private static DataTable CreateDataTable(IEnumerable<int> ids)
+	    {
+	        var table = new DataTable();
+	        table.Columns.Add("PrescriptionID", typeof(int));
+	        foreach (var id in ids)
+	            table.Rows.Add(id);
+	        return table;
+	    }
+    }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BridgeportClaims.Web.Models
 {
-    public class ResetPasswordViewModel
+    public sealed class ResetPasswordViewModel
     {
         public string UserId { get; set; }
         public string Code { get; set; }

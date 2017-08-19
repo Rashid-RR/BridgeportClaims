@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders.Payments
@@ -10,5 +11,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
         IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds);
         IList<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,
             string lastName, DateTime? rxDate, string invoiceNumber);
+        void PostPaymentAsync(IEnumerable<int> prescriptionIds, string checkNumber,
+            decimal checkAmount, decimal amountSelected, decimal amountToPost);
     }
 }

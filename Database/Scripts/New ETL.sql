@@ -4,7 +4,6 @@ SET NOCOUNT ON;
 BEGIN TRANSACTION
 EXEC [etl].[uspCleanupStagedLakerFileAddedColumns]
 EXEC [etl].[uspAddStagedLakerFileETLColumns]
-
 :ON ERROR EXIT
 -- Update the various ID's from previous File
 UPDATE [s]
@@ -464,9 +463,10 @@ SELECT [s].[8],[s].[9],[s].[19],[s].[22],[s].[25],[s].[125],s.[PatientID],s.[Pay
 ,ROW_NUMBER() OVER (PARTITION BY [s].[8],[s].[9],[s].[19],[s].[22],[s].[25],[s].[125],s.[PatientID],s.[PayorID],s.[AdjustorID] ORDER BY [s].[8]) RowNumber
 ,DENSE_RANK() OVER (ORDER BY [s].[8],[s].[9],[s].[19],[s].[22],[s].[25],[s].[125],s.[PatientID],s.[PayorID],s.[AdjustorID]) DenseRank, s.[RowID]
 FROM   [#New] AS s LEFT JOIN [dbo].[Claim] AS [c] ON [c].[PersonCode] = [s].[9]
-	   AND [c].[ClaimNumber] = [s].[22]
+	   AND [c].[ClaimNumber] = [s].[8]
 WHERE  [c].[ClaimID] IS NULL
 SET @NewRowsImported = @@ROWCOUNT
+
 
 -- Actual Claims Import
 INSERT [dbo].[Claim] ([ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],
@@ -995,7 +995,7 @@ FROM   [etl].[StagedLakerFile] AS [s]
 WHERE  1 = 1
        AND [s].[InvoiceID] IS NOT NULL
        AND [s].[6] IS NOT NULL
-
+	   
 DECLARE @Success BIT = 0
 IF @@TRANCOUNT > 0
 	BEGIN
@@ -1030,3 +1030,4 @@ IF @Success = 1
 GO
 -- Verification Query
 -- SELECT COUNT(*) FROM [etl].[StagedLakerFile] AS [slf] WHERE [slf].[ClaimID] IS NULL OR [slf].[PatientID] IS NULL OR [slf].[PayorID] IS NULL
+

@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    public class ChangePasswordBindingModel
+    public sealed class ChangePasswordBindingModel
     {
         [Required]
         [DataType(DataType.Password)]

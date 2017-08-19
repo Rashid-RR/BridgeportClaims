@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 namespace BridgeportClaims.Web.Models
 {
-    public class UserReturnModel
+    public sealed class UserReturnModel
     {
         public string Url { get; set; }
         public string Id { get; set; }

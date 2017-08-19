@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Caching;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.Caching;
-using System.Threading;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
@@ -33,7 +31,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			{
 				DisposableService.Using(() => new SqlCommand("uspSaveEpisode", conn), cmd =>
 				{
-					conn.Open();
+				    if (conn.State == ConnectionState.Closed)
+				        conn.Open();
 					cmd.CommandType = CommandType.StoredProcedure;
 					var epId = new SqlParameter
 					{

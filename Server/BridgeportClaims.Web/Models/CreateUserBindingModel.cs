@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    public class CreateUserBindingModel
+    public sealed class CreateUserBindingModel
     {
         [Required]
         [EmailAddress]

@@ -8,7 +8,7 @@ using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Models
 {   
-    public class ModelFactory
+    public sealed class ModelFactory
     {
         private readonly UrlHelper _urlHelper;
         private readonly ApplicationUserManager _appUserManager;

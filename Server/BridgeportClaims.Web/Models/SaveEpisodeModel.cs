@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Models
 {
-	public class SaveEpisodeModel
+	public sealed class SaveEpisodeModel
 	{
 		public int? EpisodeId { get; set; }
 		[Required]
