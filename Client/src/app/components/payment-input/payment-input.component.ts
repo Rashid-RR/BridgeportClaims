@@ -39,8 +39,18 @@ export class PaymentInputComponent implements OnInit {
    }
  }
   post(){
-    this.toast.info("To do item...");
+    var prescriptions=[];
+    this.paymentService.detailedClaimsData.forEach(p=>{
+        if(p.selected){
+          prescriptions.push(p.prescriptionId)
+        }
+    })
     this.form.get('amountRemaining').setValue(this.amountRemaining);
+    var form  = this.form.value;
+    form.prescriptionIds = prescriptions;
+    form.amountRemaining = undefined;
+    this.paymentService.post(form);
+    console.log(form);
     
   }
   get amountRemaining():Number{

@@ -15,7 +15,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 @Injectable()
 export class PaymentService {
   private claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
-   claimsDetail: Immutable.OrderedMap<Number, DetailedPaymentClaim> = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
+  claimsDetail: Immutable.OrderedMap<Number, DetailedPaymentClaim> = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   loading: Boolean = false;
   prescriptionSelected:Boolean = false
 
@@ -46,6 +46,26 @@ export class PaymentService {
               this.claims = this.claims.set(claim.claimNumber, c);
             })
           }
+        }, err => {
+          this.loading = false;
+          try {
+            let error = err.json();
+            console.log(error);
+          } catch (e) { }
+        }, () => {
+          this.events.broadcast("payment-updated")
+        }) 
+    }   
+  }
+  post(data) {
+     if (!data) {
+          this.toast.warning('Please specify at least one search field');
+    }else{
+      this.loading = true;    
+      this.http.postPatments(data).map(res => { return res.json() })
+        .subscribe((result: any) => {
+          this.loading = false;
+           this.toast.success(result.message);
         }, err => {
           this.loading = false;
           try {
