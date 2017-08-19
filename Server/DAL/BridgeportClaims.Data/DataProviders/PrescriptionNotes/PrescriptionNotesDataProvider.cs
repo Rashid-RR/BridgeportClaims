@@ -96,8 +96,9 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 							cmd.Parameters.Add(prescriptionSqlParameter);
 							try
 							{
-								con.Open();
-								cmd.ExecuteNonQuery();
+							    if (con.State == ConnectionState.Closed)
+							        con.Open();
+                                cmd.ExecuteNonQuery();
 							}
 							finally
 							{

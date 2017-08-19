@@ -39,8 +39,8 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-				throw;
-			}
+			    return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+            }
 		}
 
 		[HttpGet]
@@ -58,8 +58,8 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-				throw;
-			}
+			    return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+            }
 		}
 
 		[HttpPost]

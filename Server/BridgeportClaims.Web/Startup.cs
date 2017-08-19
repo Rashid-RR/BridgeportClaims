@@ -26,20 +26,20 @@ namespace BridgeportClaims.Web
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
+            app.Use<BridgeportClaimsMiddleware>();
             config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());
             var builder = IoCConfigService.Configure();
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
-            // app.UseAutofacMiddleware(container);
-            
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
             ConfigureWebApi(config);
-            app.UseCors(CorsOptions.AllowAll);
+            if (ConfigService.AppIsInDebugMode)
+                app.UseCors(CorsOptions.AllowAll);
             AutomapperStartup.Configure();
             if (ConfigService.AppIsInDebugMode)
                 NHibernateProfiler.Initialize();
-            app.Use<BridgeportClaimsMiddleware>().UseWebApi(config);
+            app.UseWebApi(config);
         }
         
         private static void ConfigureOAuthTokenConsumption(IAppBuilder app)

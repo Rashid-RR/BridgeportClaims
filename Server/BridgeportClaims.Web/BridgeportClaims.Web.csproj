@@ -225,6 +225,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
+    <Content Include="index.html" />
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
@@ -268,11 +269,13 @@
     <Compile Include="Infrastructure\MultipartFormDataMemoryStreamProvider.cs" />
     <Compile Include="IoCConfig\IoCConfigService.cs" />
     <Compile Include="Middleware\BridgeportClaimsMiddleware.cs" />
+    <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
     <Compile Include="Models\ClaimsSearchViewModel.cs" />
     <Compile Include="Models\CreateRoleBindingModel.cs" />
     <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Email\Models\EmailViewModel.cs" />
     <Compile Include="Models\PaymentsSearchModel.cs" />
+    <Compile Include="Models\PostPaymentsModel.cs" />
     <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\RoleReturnModel.cs" />
     <Compile Include="Models\SaveEpisodeModel.cs" />

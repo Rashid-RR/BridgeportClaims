@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BridgeportClaims.Web.Models
 {
-    public class UserInfoViewModel
+    public sealed class UserInfoViewModel
     {
         public string Id { get; set; }
         public string Email { get; set; }

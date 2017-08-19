@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.Caching;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Common.Config;
@@ -30,10 +29,11 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
-				connection.Open();
 				DisposableService.Using(() => new SqlCommand("uspDeleteImportFile", connection), cmd => 
 				{
-					cmd.CommandType = CommandType.StoredProcedure;
+				    if (connection.State == ConnectionState.Closed)
+				        connection.Open();
+                    cmd.CommandType = CommandType.StoredProcedure;
 					var importFileIdParam = new SqlParameter
 					{
 						Value = importFileId,
@@ -55,7 +55,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 				var files = new List<ImportFileDto>();
 				return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 				{
-					connection.Open();
+				    if (connection.State == ConnectionState.Closed)
+				        connection.Open();
 					return DisposableService.Using(() => new SqlCommand("uspGetImportFile", connection), sqlCommand =>
 					{
 						sqlCommand.CommandType = CommandType.StoredProcedure;
@@ -102,10 +103,11 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			const string sql = @"UPDATE i SET i.Processed = 1 FROM util.ImportFile AS i WHERE i.[FileName] = @FileName;";
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
-				connection.Open();
 				DisposableService.Using(() => new SqlCommand(sql, connection), cmd =>
 				{
-					cmd.CommandType = CommandType.Text;
+				    if (connection.State == ConnectionState.Closed)
+				        connection.Open();
+                    cmd.CommandType = CommandType.Text;
 					var fileNameParam = new SqlParameter
 					{
 						Value = fileName,
@@ -133,8 +135,9 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 				throw new ArgumentNullException(nameof(file));
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
-				connection.Open();
-				DisposableService.Using(() => new SqlCommand(
+			    if (connection.State == ConnectionState.Closed)
+			        connection.Open();
+                DisposableService.Using(() => new SqlCommand(
 					@"INSERT [util].[ImportFile] ([FileBytes],[FileName],[FileExtension],
 							[FileSize],[ImportFileTypeID],[Processed],[CreatedOnUTC],[UpdatedOnUTC])
 					VALUES (@FileBytes, @FileName,@FileExtension,@FileSize,@ImportFileTypeID,
