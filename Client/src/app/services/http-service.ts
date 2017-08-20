@@ -312,14 +312,14 @@ export class HttpService {
           this.toast.dismissToast(this.activeToast); 
         }
         setTimeout(()=>{
-          this.toast.info('The page the tried to reach discovered an invalid login for you. Please log in!',null,{toastLife:10000}).then((toast:Toast)=>{
+          this.toast.info('An invalid login was detected. Please log in again.',null,{toastLife:10000}).then((toast:Toast)=>{
               this.activeToast = toast;
           })
         ,1500})
         this.router.navigate(['/login']);
         this.events.broadcast("logout", true);
        }else if(res.status == 500) {     
-        this.toast.error('Fatal Server Error. Please contact your System Administrator');             
+        this.toast.error('A server error was detected. Please contact your system administrator.');
        }
   }
     

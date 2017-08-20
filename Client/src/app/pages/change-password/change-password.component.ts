@@ -41,7 +41,7 @@ export class ChangePasswordComponent implements OnInit {
         console.log(data);
         this.http.resetpassword(data).subscribe(res => {
            this.submitted = false;
-          this.toast.success("You may login with your new password.");
+          this.toast.success("You may now login with your new password.");
           this.router.navigate(['/login']);
 
         }, (error) => {          
@@ -52,7 +52,7 @@ export class ChangePasswordComponent implements OnInit {
         })
       } catch (e) {
         this.submitted = false;
-        this.toast.error('Some error occured');        
+        this.toast.error('An error occured. Please contact your system administrator.');        
       } finally {
 
       }

@@ -42,8 +42,7 @@ export class ClaimManager {
   }
 
   getHistory() {
-    this.auth.isLoggedIn.single().subscribe(res=>{
-      console.log("First check if user is logged in...",res);        
+    this.auth.isLoggedIn.single().subscribe(res=>{     
       if(res == true){
         this.loadingHistory=true;
         this.http.getHistory().single().map(r => { return r.json() }).subscribe(res => {
@@ -76,7 +75,7 @@ export class ClaimManager {
         this.selected = undefined;
 
         if (result.length < 1) {
-          this.toast.info('No records were found with that search critera.');
+          this.toast.info('No records were found from your search.');
         }
         if (Object.prototype.toString.call(result) === '[object Array]') {
           let res: Array<Claim> = result;

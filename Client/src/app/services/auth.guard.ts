@@ -86,7 +86,7 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
     }
     handleResponseError(res:Response){
         if(res.status == 401) {     
-          this.toast.info('The page the tried to reach discovered an invalid login for you. Please log in!');             
+          this.toast.info('An invalid login was detected. Please log in again.');             
           this.router.navigate(['/login']);
           this.events.broadcast("logout", true);
         }

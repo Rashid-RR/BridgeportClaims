@@ -24,7 +24,7 @@ export class PaymentComponent implements OnInit {
       }
     }
     if (selectedClaims.length == 0) {
-      this.toast.warning('Please check one or more Claims to view Prescriptions');
+      this.toast.warning('Please select one or more claims in order to view prescriptions.');
     }else{
       this.paymentService.prescriptionSelected=true
       this.paymentService.clearClaimsDetail();

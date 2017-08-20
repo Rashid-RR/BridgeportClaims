@@ -118,27 +118,27 @@ export class UsersComponent implements OnInit {
         this.http.deactivateUser(this.users[index].id).subscribe(res => {
           this.users[index].admin = false;
           this.users[index].user = false;
-          this.toast.success('User deactivated successfully');
+          this.toast.success('The user was deactivated successfully.');
         }, error => {
           let err = error.json();
-          this.toast.error('Some error occured, please try again');
+          this.toast.error('A server error has occurred. Please contact your system administrator.');
           console.log(err.message);
         })
       } catch (e) {
-        this.toast.warning('Some error occured, please try again');
+        this.toast.warning('A server error has occurred. Please contact your system administrator.');
       }
     } else {
       try {
         this.http.activateUser(this.users[index].id).subscribe(res => {
           this.users[index].user = true;
-          this.toast.success('User activated sucessfully');
+          this.toast.success('The user was activated sucessfully.');
         }, error => {
           let err = error.json();
-          this.toast.warning('Some error occured, please try again');
+          this.toast.warning('A server error has occurred. Please contact your system administrator.');
           console.log(err.message);
         })
       } catch (e) {
-        this.toast.warning('Some error occured, please try again');
+        this.toast.warning('A server error has occurred. Please contact your system administrator.');
       }
     }
   }
@@ -159,7 +159,7 @@ export class UsersComponent implements OnInit {
     let action = (event) ? 'Assgin ' + role + ' role to ' : 'Revoke ' + role + ' role from ';
     // console.log(this.users[index].admin , this.users[index].user , role , this.userRole ,event);
     if (this.users[index].admin && role == this.userRole && !event) {
-      msg = 'Warning, revoking ' + this.users[index].fullName + ' from the User role will also revoke them from the Admin role.';
+      msg = 'Warning, revoking ' + this.users[index].fullName + ' from the "User" role will also revoke them from the "Admin" role.';
     } else {
       msg = 'Please confirm to ' + action + this.users[index].fullName;
     }
@@ -211,7 +211,7 @@ export class UsersComponent implements OnInit {
       }, error => {
         let err = error.json();
 
-        this.toast.warning('Some error occured, please try again');
+        this.toast.warning('A server error has occurred. Please contact your system administrator.');
         console.log(err.message);
       })
     } catch (e) {

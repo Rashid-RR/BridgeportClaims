@@ -29,14 +29,14 @@ export class PaymentService {
   search(data, addHistory = true) {
     console.log(data);
     if (data.claimNumber==null && data.firstName==null && data.lastName==null && data.rxDate==null && data.invoiceNumber==null) {
-          this.toast.warning('Please specify at least one search field');
+          this.toast.warning('Please populate at least one search field.');
     }else{
       this.loading = true;    
       this.http.getPaymentClaim(data).map(res => { return res.json() })
         .subscribe((result: any) => {
           this.loading = false;
           if (result.length < 1) {
-            this.toast.info('No Claims were Found that Match your Search Criteria. Please try again.');
+            this.toast.info('No claims were found. Please try searching again.');
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
             let res: Array<PaymentClaim> = result;
@@ -59,7 +59,7 @@ export class PaymentService {
   }
   post(data) {
      if (!data) {
-          this.toast.warning('Please specify at least one search field');
+          this.toast.warning('Please populate at least one search field.');
     }else{
       this.loading = true;    
       this.http.postPatments(data).map(res => { return res.json() })
@@ -130,7 +130,7 @@ export class PaymentService {
         .subscribe(result => {
           this.loading = false; 
           if (result.length < 1) {
-          this.toast.info('No records were found with that search critera.');
+          this.toast.info('No records were found from your search');
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
             let res: Array<DetailedPaymentClaim> = result;

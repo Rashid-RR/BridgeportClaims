@@ -34,8 +34,8 @@ export class PasswordResetComponent implements OnInit {
           this.submitted = false;
         }, error => {
           this.submitted = false;
-          this.form.get('email').setErrors({ "error": "Incorrect email address" });
-          this.toast.error('Incorrect email address');
+          this.form.get('email').setErrors({ "error": "The email address entered is incorrect." });
+          this.toast.error('The email address entered is incorrect.');
 
         });
     }
@@ -53,7 +53,7 @@ export class PasswordResetComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.http.forgotpassword(this.form.value).subscribe(res => {                    
-          this.toast.success('The Email to Reset your Password has been Sent Successfully');
+          this.toast.success('An email has been sent for you to reset your password.');
           this.router.navigate(['/login']);
           
         }, (error) => {          
@@ -61,13 +61,13 @@ export class PasswordResetComponent implements OnInit {
           let err = error.json();
           this.toast.error(err.Message);          
           if (error.status !== 500) {            
-            this.form.get('email').setErrors({ 'auth': 'Incorrect email' })
+            this.form.get('email').setErrors({ 'auth': 'The email address entered is incorrect.' })
           }
         })
       } catch (e) {        
         this.submitted = false;
-        this.toast.warning('Please enter valid Email');
-        this.form.get('email').setErrors({ 'auth': 'Incorrect email' })
+        this.toast.warning('Please enter a valid email address.');
+        this.form.get('email').setErrors({ 'auth': 'The email address entered is incorrect.' })
       } finally {
 
       }

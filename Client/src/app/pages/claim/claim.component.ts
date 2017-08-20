@@ -146,13 +146,13 @@ export class ClaimsComponent implements OnInit {
         }
       }).then((result) => {
         if (result[0] == "") {
-          this.toast.warning('Please select a Note Type in order to Save your Note!');
+          this.toast.warning('Please select a note type in order to save your note.');
           setTimeout(() => {
             this.addPrescriptionNote(result[1], result[0]);
             window['jQuery']('#claimNoteTypeLabel').css({ "color": "red" })
           }, 200)
         } else if (result[1] == "") {
-          this.toast.warning('Note Text is required!');
+          this.toast.warning('A blank note cannot be saved.');
           setTimeout(() => {
             this.addPrescriptionNote(result[1], result[0]);
             window['jQuery']('#noteTextLabel').css({ "color": "red" })
@@ -174,15 +174,15 @@ export class ClaimsComponent implements OnInit {
             }, error => {
               setTimeout(() => {
                 this.addPrescriptionNote(result[1], result[0]);
-                this.toast.error('An internal system error has occurred. This will be investigated ASAP.');
+                this.toast.error('A server error has occurred. Please contact your system administrator.');
               }, 200)
             })
         }
       }).catch(swal.noop)
     } else {
       this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length>0 ? 
-        this.toast.warning('Please select at least one prescription'):
-        this.toast.warning('Sorry, you cannot add a Prescription note when no prescriptions exist!');      
+        this.toast.warning('Please select at least one prescription.'):
+        this.toast.warning('No prescriptions are present to save a prescription note.');
     }
   }
 
@@ -236,7 +236,7 @@ export class ClaimsComponent implements OnInit {
       }
     }).then((result) => {
       if (result[0] == "") {
-        this.toast.warning('Note Text is required!');
+        this.toast.warning('A blank note cannot be saved.');
         setTimeout(() => {
           this.episode(result[0]);
           window['jQuery']('#noteTextLabel').css({ "color": "red" })
@@ -308,13 +308,7 @@ export class ClaimsComponent implements OnInit {
         window['jQuery']('#noteTypeId').focus()
       }
     }).then((result) => {
-      /* if(result[0]==""){
-          this.toast.warning('Please select a Note Type in order to Save your Note!');
-          setTimeout(()=>{
-              this.addNote(result[1],result[0]);
-              window['jQuery']('#claimNoteTypeLabel').css({"color":"red"})
-            },200)
-      }else  */if (result[1] == "") {
+      if (result[1] == "") {
         this.toast.warning('Note Text is required!');
         setTimeout(() => {
           this.addNote(result[1], result[0]);
