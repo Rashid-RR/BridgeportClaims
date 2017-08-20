@@ -1,15 +1,15 @@
 
-import { UUID } from "angular2-uuid";
-import * as Immutable from "immutable";
-import { Observable } from "rxjs/Observable";
-import { Prescription } from "../models/prescription"
-import { DetailedPaymentClaim } from "../models/detailed-payment-claim"
-import { PaymentClaim } from "../models/payment-claim"
-import { PrescriptionNoteType } from "../models/prescription-note-type"
-import { Injectable } from "@angular/core";
-import { HttpService } from "./http-service";
-import { EventsService } from "./events-service";
-import { Router } from "@angular/router";
+import { UUID } from 'angular2-uuid';
+import * as Immutable from 'immutable';
+import { Observable } from 'rxjs/Observable';
+import { Prescription } from '../models/prescription';
+import { DetailedPaymentClaim } from '../models/detailed-payment-claim';
+import { PaymentClaim } from '../models/payment-claim';
+import { PrescriptionNoteType } from '../models/prescription-note-type';
+import { Injectable } from '@angular/core';
+import { HttpService } from './http-service';
+import { EventsService } from './events-service';
+import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
@@ -17,79 +17,78 @@ export class PaymentService {
   private claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
   claimsDetail: Immutable.OrderedMap<Number, DetailedPaymentClaim> = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   loading: Boolean = false;
-  prescriptionSelected:Boolean = false
+  prescriptionSelected: Boolean = false;
 
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
-    
   }
 
-  clearClaimsDetail(){
+  clearClaimsDetail() {
     this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   }
   search(data, addHistory = true) {
     console.log(data);
-    if (data.claimNumber==null && data.firstName==null && data.lastName==null && data.rxDate==null && data.invoiceNumber==null) {
+    if (data.claimNumber == null && data.firstName == null && data.lastName == null && data.rxDate == null && data.invoiceNumber == null) {
           this.toast.warning('Please populate at least one search field.');
-    }else{
-      this.loading = true;    
-      this.http.getPaymentClaim(data).map(res => { return res.json() })
+    } else {
+      this.loading = true;
+      this.http.getPaymentClaim(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
           if (result.length < 1) {
             this.toast.info('No claims were found. Please try searching again.');
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
-            let res: Array<PaymentClaim> = result;
+            const res: Array<PaymentClaim> = result;
             this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
             result.forEach(claim => {
-              var c = new PaymentClaim(claim.claimId,claim.claimNumber, claim.patientName, claim.payor,claim.numberOfPrescriptions);
+              const c = new PaymentClaim(claim.claimId, claim.claimNumber, claim.patientName, claim.payor, claim.numberOfPrescriptions);
               this.claims = this.claims.set(claim.claimNumber, c);
-            })
+            });
           }
         }, err => {
           this.loading = false;
           try {
-            let error = err.json();
+            const error = err.json();
             console.log(error);
           } catch (e) { }
         }, () => {
-          this.events.broadcast("payment-updated")
-        }) 
-    }   
+          this.events.broadcast('payment-updated');
+        });
+    }
   }
   post(data) {
      if (!data) {
           this.toast.warning('Please populate at least one search field.');
-    }else{
-      this.loading = true;    
-      this.http.postPatments(data).map(res => { return res.json() })
+    } else {
+      this.loading = true;
+      this.http.postPatments(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
            this.toast.success(result.message);
         }, err => {
           this.loading = false;
           try {
-            let error = err.json();
+            const error = err.json();
             console.log(error);
           } catch (e) { }
         }, () => {
-          this.events.broadcast("payment-updated")
-        }) 
-    }   
+          this.events.broadcast('payment-updated');
+        });
+    }
   }
 
   get dataSize() {
     return this.claims.size;
   }
   get selected(){
-    return this.claimsDetail.toArray().filter(claim=>{
+    return this.claimsDetail.toArray().filter(claim => {
         return claim.selected;
-    })
+    });
   }
   get amountSelected(){
-    var amount:number = 0;
+     let amount = 0;
      this.selected.forEach(detailedPaymentClaim => {
-        amount=amount+Number(detailedPaymentClaim.invoicedAmount)
+        amount = amount + Number(detailedPaymentClaim.invoicedAmount);
     });
     return amount;
   }
@@ -98,15 +97,19 @@ export class PaymentService {
   }
   get claimsDataCount(): Number{
     let count = 0;
-     this.claims.asImmutable().toArray().forEach(c=>{
-       if(c.selected) count++;
+     this.claims.asImmutable().toArray().forEach(c => {
+       if (c.selected) {
+        count++;
+       }
      });
      return count;
   }
   get detailedClaimsDataCount(): Number{
-    let count = 0;
-     this.claimsDetail.asImmutable().toArray().forEach(c=>{
-       if(c.selected) count++;
+     let count = 0;
+     this.claimsDetail.asImmutable().toArray().forEach(c => {
+       if (c.selected) {
+         count++;
+       }
      });
      return count;
   }
@@ -122,32 +125,32 @@ export class PaymentService {
   clearClaimsData() {
     this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
   }
-  
-  getPaymentClaimDataByIds(ids: Array<Number>=[]) {
-    if (ids.length >0) {
+
+  getPaymentClaimDataByIds(ids: Array<Number>= []) {
+    if (ids.length > 0) {
       this.loading = true;
-      this.http.getDetailedPaymentClaim(ids).map(res => { return res.json() })
+      this.http.getDetailedPaymentClaim(ids).map(res => { return res.json(); })
         .subscribe(result => {
-          this.loading = false; 
+          this.loading = false;
           if (result.length < 1) {
           this.toast.info('No records were found from your search');
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
-            let res: Array<DetailedPaymentClaim> = result;
+            const res: Array<DetailedPaymentClaim> = result;
             this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
             result.forEach(claim => {
-              var c = new DetailedPaymentClaim(claim.prescriptionId,claim.claimId,claim.claimNumber, claim.patientName, claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName,claim.outstanding, claim.invoicedAmount,claim.payor);
+              const c = new DetailedPaymentClaim(claim.prescriptionId, claim.claimId, claim.claimNumber, claim.patientName,
+                claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName, claim.outstanding, claim.invoicedAmount, claim.payor);
               this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
-            })
-          }         
+            });
+          }
         }, err => {
           this.loading = false;
           console.log(err);
-          let error = err.json();
+          const error = err.json();
         }, () => {
-          this.events.broadcast("payment-updated");          
-        })
+          this.events.broadcast('payment-updated');
+        });
     }
   }
-  
 }
