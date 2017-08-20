@@ -44,7 +44,7 @@ AS BEGIN
 			AND (   [p].[LastName] LIKE '%' + @LastName + '%'
 					OR @LastName IS NULL
 				)
-			AND (   [pr].[DateFilled] = @RxDate
+			AND (   CONVERT(DATE, [pr].[DateFilled]) = CONVERT(DATE, @RxDate)
 					OR @RxDate IS NULL
 				)
 			AND (   [i].[InvoiceNumber] = @InvoiceNumber
@@ -52,5 +52,4 @@ AS BEGIN
 				)
 	GROUP BY [c].[ClaimID], [c].[ClaimNumber],[p].[FirstName],[p].[LastName],[py].[GroupName]
 END
-
 GO
