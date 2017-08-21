@@ -1,4 +1,4 @@
-import { Component, OnInit,Renderer2,AfterViewChecked,AfterViewInit,NgZone,HostListener,ElementRef,ViewChild } from '@angular/core';
+import { Component, OnInit,Renderer2,AfterViewInit,NgZone,HostListener,ElementRef,ViewChild } from '@angular/core';
 import {HttpService} from "../../services/http-service";
 import {PaymentService} from "../../services/payment-service";
 import {EventsService} from "../../services/events-service";
@@ -14,7 +14,7 @@ declare var jQuery:any;
   templateUrl: './payment-claim-result.component.html',
   styleUrls: ['./payment-claim-result.component.css']
 })
-export class PaymentClaimResultComponent implements OnInit,AfterViewInit,AfterViewChecked {
+export class PaymentClaimResultComponent implements OnInit,AfterViewInit {
   checkAll:Boolean=false;
   selectMultiple:Boolean=false;
   lastSelectedIndex:number;
@@ -78,46 +78,5 @@ export class PaymentClaimResultComponent implements OnInit,AfterViewInit,AfterVi
       if($event.target.checked){
 
       }
-  }
-  ngAfterViewChecked() {
-    this.updateTableHeadingWidth();
-    let fixedHeader = document.getElementById('fixed-header');
-    if (fixedHeader.style.position !== 'fixed') {
-      fixedHeader.style.position = 'fixed';
-      // console.log('set fixed header to Fixed');
-    }    
-  }
-
-  cloneTableHeading() {
-    let cln = document.getElementById('fixed-thead').cloneNode(true);
-    let fixedHeader = document.getElementById('fixed-header');
-    fixedHeader.appendChild(cln);
-    this.updateTableHeadingWidth();
-  }
-
-  cloneBoxHeader() {
-    let cln = document.getElementById
-  }
-
-
-  updateTableHeadingWidth() {
-    setTimeout(() => {
-      let fixedHeader = document.getElementById('fixed-header');
-      let fixedMaxHeader = document.getElementById('fixed-max-header');
-      let mainTable = document.getElementById('maintable');
-      if (fixedHeader) {
-        if (mainTable) {
-          let tableWidth = mainTable.clientWidth.toString();
-          fixedHeader.style.width = tableWidth + 'px';
-        }
-      } else {
-        if (mainTable) {
-          let tableWidth = mainTable.clientWidth.toString();
-          try{
-            fixedMaxHeader.style.width = tableWidth + 'px';
-          }catch(e){}
-        }
-      }
-    }, 500)
   }
 }
