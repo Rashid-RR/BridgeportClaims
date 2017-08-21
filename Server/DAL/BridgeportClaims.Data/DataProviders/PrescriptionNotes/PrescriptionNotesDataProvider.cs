@@ -65,47 +65,39 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()),
 				con =>
 				{
-					DisposableService.Using(() => new SqlCommand("[dbo].[uspSavePrescriptionNote]", con),
-						cmd =>
-						{
-							cmd.CommandType = CommandType.StoredProcedure;
-							var claimIdSqlParameter =
-								new SqlParameter("@ClaimID", SqlDbType.Int) {Value = dto.ClaimId};
-							var prescriptionNoteTypeIdSqlParameter =
-								new SqlParameter("@PrescriptionNoteTypeID", SqlDbType.Int)
-									{Value = dto.PrescriptionNoteTypeId};
-							cmd.Parameters.Add(claimIdSqlParameter);
-							cmd.Parameters.Add(prescriptionNoteTypeIdSqlParameter);
-							var noteTextSqlParameter =
-								new SqlParameter("@NoteText", SqlDbType.VarChar) {Value = dto.NoteText};
-							cmd.Parameters.Add(noteTextSqlParameter);
-							var enteredByUserIdSqlParameter =
-								new SqlParameter("@EnteredByUserID", SqlDbType.NVarChar)
-									{Value = userId};
-							cmd.Parameters.Add(enteredByUserIdSqlParameter);
-							if (null != dto.PrescriptionNoteId && dto.PrescriptionNoteId.Value > 0)
-							{
-								var prescriptionNoteIdSqlParameter =
-									new SqlParameter("@PrescriptionNoteId", SqlDbType.Int)
-										{Value = dto.PrescriptionNoteId.Value};
-								cmd.Parameters.Add(prescriptionNoteIdSqlParameter);
-							}
-							var dt = CreateDataTable(dto.Prescriptions);
-							var prescriptionSqlParameter = new SqlParameter("@Prescription", SqlDbType.Structured)
-								{Value = dt};
-							cmd.Parameters.Add(prescriptionSqlParameter);
-							try
-							{
-							    if (con.State == ConnectionState.Closed)
-							        con.Open();
-                                cmd.ExecuteNonQuery();
-							}
-							finally
-							{
-								con.Close();
-								cmd.Dispose();
-							}
-						});
+				    DisposableService.Using(() => new SqlCommand("[dbo].[uspSavePrescriptionNote]", con),
+				        cmd =>
+				        {
+				            cmd.CommandType = CommandType.StoredProcedure;
+				            var claimIdSqlParameter =
+				                new SqlParameter("@ClaimID", SqlDbType.Int) {Value = dto.ClaimId};
+				            var prescriptionNoteTypeIdSqlParameter =
+				                new SqlParameter("@PrescriptionNoteTypeID", SqlDbType.Int)
+				                    {Value = dto.PrescriptionNoteTypeId};
+				            cmd.Parameters.Add(claimIdSqlParameter);
+				            cmd.Parameters.Add(prescriptionNoteTypeIdSqlParameter);
+				            var noteTextSqlParameter =
+				                new SqlParameter("@NoteText", SqlDbType.VarChar) {Value = dto.NoteText};
+				            cmd.Parameters.Add(noteTextSqlParameter);
+				            var enteredByUserIdSqlParameter =
+				                new SqlParameter("@EnteredByUserID", SqlDbType.NVarChar)
+				                    {Value = userId};
+				            cmd.Parameters.Add(enteredByUserIdSqlParameter);
+				            if (null != dto.PrescriptionNoteId && dto.PrescriptionNoteId.Value > 0)
+				            {
+				                var prescriptionNoteIdSqlParameter =
+				                    new SqlParameter("@PrescriptionNoteId", SqlDbType.Int)
+				                        {Value = dto.PrescriptionNoteId.Value};
+				                cmd.Parameters.Add(prescriptionNoteIdSqlParameter);
+				            }
+				            var dt = CreateDataTable(dto.Prescriptions);
+				            var prescriptionSqlParameter = new SqlParameter("@Prescription", SqlDbType.Structured)
+				                {Value = dt};
+				            cmd.Parameters.Add(prescriptionSqlParameter);
+				            if (con.State != ConnectionState.Open)
+				                con.Open();
+				            cmd.ExecuteNonQuery();
+				        });
 				});
 		}
 

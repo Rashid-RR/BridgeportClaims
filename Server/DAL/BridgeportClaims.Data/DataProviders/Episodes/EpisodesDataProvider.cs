@@ -31,8 +31,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			{
 				DisposableService.Using(() => new SqlCommand("uspSaveEpisode", conn), cmd =>
 				{
-				    if (conn.State == ConnectionState.Closed)
-				        conn.Open();
 					cmd.CommandType = CommandType.StoredProcedure;
 					var epId = new SqlParameter
 					{
@@ -82,7 +80,9 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					cmd.Parameters.Add(uId);
 					cmd.Parameters.Add(note);
 					cmd.Parameters.Add(etId);
-					cmd.ExecuteNonQuery();
+				    if (conn.State != ConnectionState.Open)
+				        conn.Open();
+                    cmd.ExecuteNonQuery();
 				});
 			});
 		}

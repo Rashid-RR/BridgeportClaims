@@ -85,7 +85,7 @@ namespace BridgeportClaims.Web.Controllers
                 }
                 await Task.Run(() =>
                 {
-                    _paymentsDataProvider.PostPaymentAsync(model.PrescriptionIds, model.CheckNumber,
+                    _paymentsDataProvider.PostPayment(model.PrescriptionIds, model.CheckNumber,
                         model.CheckAmount, model.AmountSelected,
                         model.AmountToPost);
                 });

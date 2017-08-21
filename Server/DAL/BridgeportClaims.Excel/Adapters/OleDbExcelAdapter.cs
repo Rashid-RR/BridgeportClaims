@@ -26,7 +26,7 @@ namespace BridgeportClaims.Excel.Adapters
                 ? $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};Extended Properties=\"Excel 12.0;HDR={hdr};IMEX=0\""
                 : $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={filePath};Extended Properties=\"Excel 8.0;HDR={hdr};IMEX=0\"";
             var conn = new OleDbConnection(strConn);
-            if (conn.State == ConnectionState.Closed)
+            if (conn.State != ConnectionState.Open)
                 conn.Open();
             var schemaTable = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, new object[] { null, null, null, "TABLE" });
             var schemaRow = schemaTable?.Rows[0];

@@ -31,8 +31,6 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			{
 				DisposableService.Using(() => new SqlCommand("uspDeleteImportFile", connection), cmd => 
 				{
-				    if (connection.State == ConnectionState.Closed)
-				        connection.Open();
                     cmd.CommandType = CommandType.StoredProcedure;
 					var importFileIdParam = new SqlParameter
 					{
@@ -42,7 +40,9 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 						ParameterName = "@ImportFileID"
 					};
 					cmd.Parameters.Add(importFileIdParam);
-					cmd.ExecuteNonQuery();
+				    if (connection.State != ConnectionState.Open)
+				        connection.Open();
+                    cmd.ExecuteNonQuery();
 				});
 			});
 		}
@@ -55,12 +55,12 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 				var files = new List<ImportFileDto>();
 				return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 				{
-				    if (connection.State == ConnectionState.Closed)
-				        connection.Open();
 					return DisposableService.Using(() => new SqlCommand("uspGetImportFile", connection), sqlCommand =>
 					{
 						sqlCommand.CommandType = CommandType.StoredProcedure;
-						return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
+					    if (connection.State != ConnectionState.Open)
+					        connection.Open();
+                        return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
 						{
 							var importFileIdOrdinal = reader.GetOrdinal("ImportFileID");
 							var fileNameOrdinal = reader.GetOrdinal("FileName");
@@ -105,8 +105,6 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			{
 				DisposableService.Using(() => new SqlCommand(sql, connection), cmd =>
 				{
-				    if (connection.State == ConnectionState.Closed)
-				        connection.Open();
                     cmd.CommandType = CommandType.Text;
 					var fileNameParam = new SqlParameter
 					{
@@ -116,7 +114,9 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 						ParameterName = "@FileName"
 					};
 					cmd.Parameters.Add(fileNameParam);
-					cmd.ExecuteNonQuery();
+				    if (connection.State != ConnectionState.Open)
+				        connection.Open();
+                    cmd.ExecuteNonQuery();
 				});
 			});
 		}
@@ -135,8 +135,6 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 				throw new ArgumentNullException(nameof(file));
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
-			    if (connection.State == ConnectionState.Closed)
-			        connection.Open();
                 DisposableService.Using(() => new SqlCommand(
 					@"INSERT [util].[ImportFile] ([FileBytes],[FileName],[FileExtension],
 							[FileSize],[ImportFileTypeID],[Processed],[CreatedOnUTC],[UpdatedOnUTC])
@@ -158,7 +156,9 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 						sqlCommand.Parameters.Add("@ImportFileTypeID", SqlDbType.Int, 1).Value =
 							fileExtension == ".csv" ? 1 : 2; // TODO: Make this dynamic.
 						sqlCommand.Parameters.Add("@Processed", SqlDbType.Bit).Value = false;
-						sqlCommand.ExecuteNonQuery();
+					    if (connection.State != ConnectionState.Open)
+					        connection.Open();
+                        sqlCommand.ExecuteNonQuery();
 					});
 			});
 		}

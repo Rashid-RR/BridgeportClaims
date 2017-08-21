@@ -104,11 +104,11 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 				return DisposableService.Using(() => new SqlCommand("dbo.uspGetFileBytesFromFileName", conn),
 					cmd =>
 					{
-					    if (conn.State == ConnectionState.Closed)
-					        conn.Open();
                         cmd.CommandType = CommandType.StoredProcedure;
 						cmd.Parameters.Add("@FileName", SqlDbType.NVarChar, 255).Value = fileName;
-						return DisposableService.Using(cmd.ExecuteReader,
+					    if (conn.State != ConnectionState.Open)
+					        conn.Open();
+                        return DisposableService.Using(cmd.ExecuteReader,
 							reader =>
 							{
 								if (reader.Read())
@@ -124,8 +124,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 				DisposableService.Using(() => new SqlCommand("dbo.uspImportPaymentFromDataTable", conn),
 					cmd =>
 					{
-					    if (conn.State == ConnectionState.Closed)
-                            conn.Open();
 						cmd.CommandType = CommandType.StoredProcedure;
 						var dataTableParam = new SqlParameter
 						{
@@ -134,11 +132,13 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 							ParameterName = "@Payment"
 						};
 						cmd.Parameters.Add(dataTableParam);
-						cmd.ExecuteNonQuery();
+					    if (conn.State != ConnectionState.Open)
+					        conn.Open();
+                        cmd.ExecuteNonQuery();
 					});
 			});
 
-	    public void PostPaymentAsync(IEnumerable<int> prescriptionIds, string checkNumber,
+	    public void PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
 	        decimal checkAmount, decimal amountSelected, decimal amountToPost)
 	    {
             DisposableService.Using(()
@@ -147,8 +147,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                  DisposableService.Using(() => new SqlCommand("dbo.uspPostPayment", conn),
                      cmd =>
                      {
-                         if (conn.State == ConnectionState.Closed)
-                             conn.OpenAsync();
                          cmd.CommandType = CommandType.StoredProcedure;
                          var prescriptionIdsParam = new SqlParameter
                          {
@@ -191,6 +189,8 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                          cmd.Parameters.Add(checkAmountParam);
                          cmd.Parameters.Add(amountSelectedParam);
                          cmd.Parameters.Add(amountToPostParam);
+                         if (conn.State != ConnectionState.Open)
+                             conn.Open();
                          cmd.ExecuteNonQuery();
                      });
              });
