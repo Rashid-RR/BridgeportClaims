@@ -42,7 +42,7 @@ export class PaymentInputComponent implements OnInit {
        case 'checkAmount':
        case 'amountToPost':
         var val = this.form.get(controlName).value.replace(",",'');
-        this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.0-2"));
+        this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.2-2"));
        break;
        default:
        break;
@@ -65,13 +65,13 @@ export class PaymentInputComponent implements OnInit {
           prescriptions.push(p.prescriptionId)
         }
     })
-    this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.0-2"));
+    this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
     var form  = this.form.value;
     form.prescriptionIds = prescriptions;
     form.amountRemaining = undefined;
-    form.amountToPost = Number(form.amountToPost.replace(",",""));
-    form.amountSelected = Number(form.amountSelected.replace(",",""));
-    form.checkAmount = Number(form.checkAmount.replace(",","")); 
+    form.amountToPost = Number(form.amountToPost.replace(",","")).toFixed(2);
+    form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
+    form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
     this.paymentService.post(form);
   }
   get amountRemaining():Number{
