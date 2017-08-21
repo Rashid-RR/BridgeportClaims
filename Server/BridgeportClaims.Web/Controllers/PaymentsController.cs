@@ -7,7 +7,6 @@ using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Web.Models;
 using System.Net;
 using BridgeportClaims.Business.Payments;
-using NHibernate.Util;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -19,9 +18,10 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IPaymentsDataProvider _paymentsDataProvider;
         private readonly IPaymentsBusiness _paymentsBusiness;
 
-        public PaymentsController(IPaymentsDataProvider paymentsDataProvider)
+        public PaymentsController(IPaymentsDataProvider paymentsDataProvider, IPaymentsBusiness paymentsBusiness)
         {
             _paymentsDataProvider = paymentsDataProvider;
+            _paymentsBusiness = paymentsBusiness;
         }
 
         [HttpPost]
