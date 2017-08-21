@@ -34,7 +34,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 				.ExecuteMultiResultStoredProcedure<ClaimsWithPrescriptionDetailsDto>(
 					"EXEC [dbo].[uspGetClaimsWithPrescriptionDetails] @ClaimIDs = :ClaimIDs",
 					new List<SqlParameter> {claimIdParam});
-			return paymentSearchResultsDtos?.ToList();
+			return paymentSearchResultsDtos?.OrderByDescending(x => x.RxDate).ToList();
 		}
 
 		public void ImportPaymentFile(string fileName)
