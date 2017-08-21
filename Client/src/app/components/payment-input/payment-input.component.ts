@@ -69,7 +69,7 @@ export class PaymentInputComponent implements OnInit {
     var form  = this.form.value;
     form.prescriptionIds = prescriptions;
     form.amountRemaining = undefined;
-    form.amountToPost = Number(form.amountToPost.replace(",","")).toFixed(2);
+    form.amountToPost = form.amountToPost !==null ? Number(form.amountToPost.replace(",","")).toFixed(2) :(0).toFixed(2);
     form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
     form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
     this.paymentService.post(form);
