@@ -24,11 +24,11 @@ AS BEGIN
 			 , [c].[ClaimID] ClaimId
 			 , [c].[ClaimNumber]
 			 , PatientName = [p].[FirstName] + ' ' + [p].[LastName]
-			 , RxDate = FORMAT([pr].[DateFilled], 'M/d/yyyy')
+			 , RxDate = CAST(FORMAT([pr].[DateFilled], 'M/d/yyyy') AS DATE)
 			 , [pr].[RxNumber]
 			 , [pr].[LabelName]
 			 , InvoicedAmount = [pr].[BilledAmount]
-			 , Outstanding = [pr].[BilledAmount] - [ot].[AmountPaid]
+			 , Outstanding = [pr].[BilledAmount] - ISNULL([ot].[AmountPaid], 0)
 			 , Payor = [py].[GroupName]
 		FROM   [dbo].[Claim] AS [c]
 			   INNER JOIN STRING_SPLIT(@ClaimIDs, ',') AS [ss] ON [ss].[value] = [c].[ClaimID]
@@ -61,6 +61,4 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
-
-
 GO

@@ -5,7 +5,8 @@ GO
 /*
 	Author:			Jordan Gurney
 	Create Date:	7/23/2017
-	Description:	
+	Description:	Inserts the latest ClaimID into the Claim History, and purges
+					records that exceed the maximum history count.
 	Sample Execute:
 					EXEC dbo.uspInsertClaimsUserHistory 9, 'b33804ac-6bd2-4895-a6d3-3cb59a0dc830'
 */
@@ -16,11 +17,8 @@ CREATE PROC [dbo].[uspInsertClaimsUserHistory]
 )
 AS BEGIN
 	SET NOCOUNT ON;
-	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
-	SET DEADLOCK_PRIORITY HIGH;
 	BEGIN TRY
-		BEGIN TRANSACTION;
-		
+		BEGIN TRAN;
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME()
 			   ,@MagicNumberOfHistoryToKeep TINYINT = 25
 			   ,@PrntMsg VARCHAR(1000)
@@ -63,7 +61,7 @@ AS BEGIN
 			END
 
 	
-		INSERT INTO dbo.[ClaimsUserHistory] WITH (TABLOCKX) ([ClaimID],[UserID],[CreatedOnUTC],[UpdatedOnUTC])
+		INSERT INTO dbo.[ClaimsUserHistory] ([ClaimID],[UserID],[CreatedOnUTC],[UpdatedOnUTC])
 		VALUES (@ClaimID,@UserID,@UtcNow,@UtcNow)
 
 		IF @@TRANCOUNT > 0
