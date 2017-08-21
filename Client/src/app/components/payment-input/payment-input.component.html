@@ -29,7 +29,7 @@
                 <label>Amount To Post</label>
                 <div class="input-group">
                     <div class="input-group-addon">$</div>
-                    <input class="form-control" pattern="[0-9]" name="amountToPost" formControlName="amountToPost"  [ngModel]="paymentService.amountSelected  | number:'1.0-2'"   (change)="textChange('amountToPost')" (focus)="submitted=false">
+                    <input class="form-control" name="amountToPost" formControlName="amountToPost"  [ngModel]="paymentService.amountSelected  | number:'1.0-2'"   (change)="textChange('amountToPost')" (focus)="submitted=false">
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <label>Amount Remaining</label>
                 <div class="input-group not-allowed">
                     <div class="input-group-addon">$</div>
-                    <input class="form-control"  pattern="[0-9]" name="amountRemaining" formControlName="amountRemaining"  readonly (focus)="submitted=false"><!-- [ngModel]="amountRemaining" -->
+                    <input class="form-control"  (keypress)="checkNumber($event)" name="amountRemaining" formControlName="amountRemaining"  readonly (focus)="submitted=false"><!-- [ngModel]="amountRemaining" -->
                 </div>
             </div>
         </div>
