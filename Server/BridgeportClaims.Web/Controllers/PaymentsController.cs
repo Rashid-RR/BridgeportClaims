@@ -39,7 +39,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -64,7 +64,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
 
@@ -77,7 +77,7 @@ namespace BridgeportClaims.Web.Controllers
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
                 var numberOfPrescriptions = model.PrescriptionIds?.Count;
-                if (null  == numberOfPrescriptions || numberOfPrescriptions < 1)
+                if (null == numberOfPrescriptions || numberOfPrescriptions < 1)
                     throw new Exception("Error. There were no Prescriptions sent.");
                 if (!ModelState.IsValid)
                     throw new Exception("Error. The inputted fields are not in the correct format. " +
@@ -94,14 +94,14 @@ namespace BridgeportClaims.Web.Controllers
                 });
                 return Ok(new
                 {
-                    message = $"Payment posted successfully for {numberOfPrescriptions.Value} " +
-                    $"prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}"
+                    message = "Payment posted successfully " + Environment.NewLine +
+                    $"for {numberOfPrescriptions.Value} prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}"
                 });
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
     }
