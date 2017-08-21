@@ -6,6 +6,8 @@ using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Web.Models;
 using System.Net;
+using BridgeportClaims.Business.Payments;
+using NHibernate.Util;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -15,6 +17,7 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IPaymentsDataProvider _paymentsDataProvider;
+        private readonly IPaymentsBusiness _paymentsBusiness;
 
         public PaymentsController(IPaymentsDataProvider paymentsDataProvider)
         {
@@ -73,23 +76,27 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                if (!ModelState.IsValid)
-                    throw new Exception("Error. The inputted fields are not in the correct format.");
                 var numberOfPrescriptions = model.PrescriptionIds?.Count;
-                switch (numberOfPrescriptions)
-                {
-                    case null:
-                        throw new Exception("Error. There were no Prescriptions sent.");
-                    case 0:
-                        throw new Exception("Error. No prescriptions were sent.");
-                }
+                if (null  == numberOfPrescriptions || numberOfPrescriptions < 1)
+                    throw new Exception("Error. There were no Prescriptions sent.");
+                if (!ModelState.IsValid)
+                    throw new Exception("Error. The inputted fields are not in the correct format. " +
+                                        "Model state is not valid.");
+                // Business rule check.
+                if (!_paymentsBusiness.CheckMultiLinePartialPayments(model.AmountSelected, model.AmountToPost,
+                    numberOfPrescriptions.Value))
+                    throw new Exception("Error. Multi-prescription, partial payments are not supported at this time.");
                 await Task.Run(() =>
                 {
                     _paymentsDataProvider.PostPayment(model.PrescriptionIds, model.CheckNumber,
                         model.CheckAmount, model.AmountSelected,
                         model.AmountToPost);
                 });
-                return Ok(new {message = $"Payment{(1 == numberOfPrescriptions ? string.Empty : "s")} Posted Successfully!"});
+                return Ok(new
+                {
+                    message = $"Payment posted successfully for {numberOfPrescriptions.Value} " +
+                    $"prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}"
+                });
             }
             catch (Exception ex)
             {

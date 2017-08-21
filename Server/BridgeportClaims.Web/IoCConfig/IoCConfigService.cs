@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Web;
 using Autofac;
 using Autofac.Integration.WebApi;
+using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
@@ -49,6 +50,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
             builder.RegisterType<ClaimNotesDataProvider>().As<IClaimNotesDataProvider>().InstancePerRequest();
+            builder.RegisterType<PaymentsBusiness>().As<IPaymentsBusiness>().InstancePerRequest();
             builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerRequest();
             builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
             builder.RegisterType<DateDisplayProvider>().As<IDateDisplayProvider>().InstancePerRequest();
