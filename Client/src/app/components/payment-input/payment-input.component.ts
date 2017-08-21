@@ -69,10 +69,18 @@ export class PaymentInputComponent implements OnInit {
     var form  = this.form.value;
     form.prescriptionIds = prescriptions;
     form.amountRemaining = undefined;
-    form.amountToPost = Number(form.amountToPost.replace(",","")).toFixed(2);
+    form.amountToPost = form.amountToPost !==null ? Number(form.amountToPost.replace(",","")).toFixed(2) :(0).toFixed(2);
     form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
     form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
-    this.paymentService.post(form);
+    if(form.amountToPost==0 || form.amountToPost==null){
+      this.toast.warning("You need to specify amount to post");
+    }else if(form.amountToPost==form.amountSelected){
+      this.paymentService.post(form);
+    }else if(this.paymentService.selected.length>1){
+      this.toast.warning("Multi-line, partial payments are not supported at this time. Please correct to continue...");
+    }else{
+      this.paymentService.post(form);
+    }
   }
   get amountRemaining():Number{
     var checkAmount = Number(this.form.get('checkAmount').value.replace(",",""));

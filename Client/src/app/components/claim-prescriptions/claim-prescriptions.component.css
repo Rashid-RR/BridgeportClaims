@@ -13,7 +13,7 @@
 
 table {
     table-layout: fixed;
-    width: 99% !important;
+    width: 95% !important;
     overflow-x: hidden;
 }
 
@@ -93,6 +93,7 @@ tr>th:last-child,
 tr>td:last-child {
     text-align: center;
     max-width: 7%;
+    word-wrap: normal;
 }
 
 tr>td:last-child {
@@ -244,6 +245,9 @@ tbody>tr:hover td,tbody>tr:hover td::selection{
     position: relative;
     display: block;
 }
+.invoice-col{
+    overflow: hidden;
+}
 .top-header,.table-body{
     width:100%;
 }
@@ -251,6 +255,7 @@ tbody>tr:hover td,tbody>tr:hover td::selection{
 .top-header{
     height:56px;
     position: absolute;
+    overflow: hidden;
 }
 .table-body{
     position: absolute;
