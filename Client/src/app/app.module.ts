@@ -42,6 +42,8 @@ import { UsersComponent } from './pages/users/users.component';
 import { DisplayRolesPipe } from './pipes/display-roles.pipe';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
+import { DecimalPipe } from '@angular/common';
+
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentComponent } from './pages/payment/payment.component';
@@ -95,7 +97,7 @@ export class SafeUrlPipe implements PipeTransform {
     FileUploadModule
   ],
   providers: [  
-    DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,
+    DecimalPipe,DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
