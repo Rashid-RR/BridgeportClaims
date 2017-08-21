@@ -70,33 +70,8 @@ tr>th:nth-child(6),
 tr>td:nth-child(6) {
     max-width: 7%;
 }
-
-tr>th:nth-child(7),
-tr>td:nth-child(7) {
-    max-width: 5%;
-}
-
-tr>th:nth-child(8),
-tr>td:nth-child(8) {
-    max-width: 6%;
-}
-
-tr>th:nth-child(9),
-tr>td:nth-child(9) {
-    max-width: 6%;
-}
-
-tr>th:nth-child(10),
-tr>td:nth-child(10) {
-    max-width: 8%;
-}
 */
-tr>th:last-child,
-tr>td:last-child {
-    max-width: 7%; 
-    font-size: 1.4rem;
-     line-height: 1.5rem;
-}
+
 
 td>a.label {
     font-size: 1.2rem;
@@ -237,6 +212,33 @@ tbody>tr:hover {
 }
 tbody>tr:hover td,tbody>tr:hover td::selection{
     color:#000;
+}
+
+tr>th:nth-child(6),
+tr>td:nth-child(6),
+tr>th:nth-child(3),
+tr>td:nth-child(3) {
+    max-width: 27%;
+}
+tr>th:nth-child(2),
+tr>td:nth-child(2),
+tr>th:nth-child(4),
+tr>td:nth-child(4),
+tr>th:nth-child(5),
+tr>td:nth-child(5),
+tr>th:nth-child(7),
+tr>td:nth-child(7),
+tr>th:nth-child(8),
+tr>td:nth-child(8),
+tr>th:nth-child(9),
+tr>td:nth-child(9) {
+    max-width: 6%;
+}
+tr>th:last-child,
+tr>td:last-child {
+    max-width: 7%; 
+    font-size: 1.4rem;
+     line-height: 1.5rem;
 }
 tr>th:nth-child(8),
 tr>td:nth-child(8),
