@@ -61,7 +61,7 @@ export class PaymentService {
           this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      this.http.postPatments(data).map(res => { return res.json(); })
+      this.http.postPayment(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
            this.toast.success(result.message);
