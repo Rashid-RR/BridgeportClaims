@@ -5,6 +5,7 @@ import {HttpService} from "../../services/http-service";
 import {PaymentService} from "../../services/payment-service";
 import {EventsService} from "../../services/events-service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-payment-input',
@@ -16,7 +17,7 @@ export class PaymentInputComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
   checkAmount:number = 0;
-  constructor(public paymentService:PaymentService,private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager) {
+  constructor(private decimalPipe:DecimalPipe,public paymentService:PaymentService,private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager) {
     this.form = this.formBuilder.group({
       checkNumber: [null],
       checkAmount: [null],
@@ -36,7 +37,26 @@ export class PaymentInputComponent implements OnInit {
  textChange(controlName:string){
    if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
      this.form.get(controlName).setValue(null);
+   }else{
+     switch(controlName){
+       case 'checkAmount':
+       case 'amountToPost':
+        var val = this.form.get(controlName).value.replace(",",'');
+        this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.2-2"));
+       break;
+       default:
+       break;
+
+     }
    }
+ }
+ checkNumber($event){
+  $event = ($event) ? $event : window.event;
+  var charCode = ($event.which) ? $event.which : $event.keyCode;
+  if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode!=44 && charCode!=46) {
+      return false;
+  }
+  return true;
  }
   post(){
     var prescriptions=[];
@@ -45,16 +65,19 @@ export class PaymentInputComponent implements OnInit {
           prescriptions.push(p.prescriptionId)
         }
     })
-    this.form.get('amountRemaining').setValue(this.amountRemaining);
+    this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
     var form  = this.form.value;
     form.prescriptionIds = prescriptions;
     form.amountRemaining = undefined;
+    form.amountToPost = Number(form.amountToPost.replace(",","")).toFixed(2);
+    form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
+    form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
     this.paymentService.post(form);
-    console.log(form);
-    
   }
   get amountRemaining():Number{
-    var amount =  Number((this.form.get('checkAmount') ? this.form.get('checkAmount').value : 0 ) -this.paymentService.amountSelected);
+    var checkAmount = Number(this.form.get('checkAmount').value.replace(",",""));
+    var amountSelected = Number(this.form.get('amountSelected').value.replace(",",""));
+    var amount =  Number((checkAmount ? checkAmount : 0)  - amountSelected);
     return amount;
   }
 

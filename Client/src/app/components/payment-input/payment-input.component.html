@@ -11,7 +11,7 @@
                 <label>Check Amount</label>
                 <div class="input-group">
                     <div class="input-group-addon">$</div>
-                    <input class="form-control" name="checkAmount" formControlName="checkAmount" (change)="textChange('checkAmount')"  (focus)="submitted=false" [ngModel]="checkAmount" focus-on>
+                    <input class="form-control"  (keypress)="checkNumber($event)" name="checkAmount" formControlName="checkAmount" (change)="textChange('checkAmount')"  (focus)="submitted=false" [ngModel]="checkAmount | number:'1.2-2'" focus-on>
                 </div>
             </div>
         </div>
@@ -20,7 +20,7 @@
                 <label>Amount Selected</label>
                 <div class="input-group not-allowed">
                     <div class="input-group-addon">$</div>
-                    <input class="form-control" name="amountSelected" formControlName="amountSelected" [ngModel]="paymentService.amountSelected" (focus)="submitted=false" readonly>
+                    <input class="form-control" name="amountSelected" formControlName="amountSelected" [ngModel]="paymentService.amountSelected  | number:'1.2-2'" (focus)="submitted=false" readonly>
                 </div>                
             </div>
         </div>
@@ -29,7 +29,7 @@
                 <label>Amount To Post</label>
                 <div class="input-group">
                     <div class="input-group-addon">$</div>
-                    <input class="form-control" name="amountToPost" formControlName="amountToPost"  [ngModel]="paymentService.amountSelected"  (focus)="submitted=false">
+                    <input class="form-control" name="amountToPost" formControlName="amountToPost"  [ngModel]="paymentService.amountSelected  | number:'1.2-2'"   (change)="textChange('amountToPost')" (focus)="submitted=false">
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <label>Amount Remaining</label>
                 <div class="input-group not-allowed">
                     <div class="input-group-addon">$</div>
-                    <input class="form-control" name="amountRemaining" formControlName="amountRemaining"  readonly (focus)="submitted=false"><!-- [ngModel]="amountRemaining" -->
+                    <input class="form-control"  (keypress)="checkNumber($event)" name="amountRemaining" formControlName="amountRemaining"  readonly (focus)="submitted=false"><!-- [ngModel]="amountRemaining" -->
                 </div>
             </div>
         </div>
