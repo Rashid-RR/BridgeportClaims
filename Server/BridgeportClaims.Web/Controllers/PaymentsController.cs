@@ -7,6 +7,7 @@ using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Web.Models;
 using System.Net;
 using BridgeportClaims.Business.Payments;
+using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -92,11 +93,20 @@ namespace BridgeportClaims.Web.Controllers
                         model.CheckAmount, model.AmountSelected,
                         model.AmountToPost);
                 });
-                return Ok(new
+                // construct, stubbed return model. TODO: replace stubbed data with real data from the proc.
+                var retVal = new PostPaymentReturnDto
                 {
-                    message = "Payment posted successfully " + Environment.NewLine +
-                    $"for {numberOfPrescriptions.Value} prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}"
-                });
+                    ToastMessage = "Payment posted successfully " + Environment.NewLine +
+                                   $"for {numberOfPrescriptions.Value} prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}",
+                    AmountRemaining = 35.16m
+                };
+                foreach (var prescriptionId in model.PrescriptionIds)
+                    retVal.PostPaymentPrescriptionReturnDtos.Add(new PostPaymentPrescriptionReturnDto
+                    {
+                        PrescriptionId = prescriptionId,
+                        Outstanding = 50.00m
+                    });
+                return Ok(retVal);
             }
             catch (Exception ex)
             {
