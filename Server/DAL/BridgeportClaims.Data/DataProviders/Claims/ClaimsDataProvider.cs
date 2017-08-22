@@ -85,7 +85,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 				DbType = DbType.Int32
 			};
 			return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PrescriptionDto>(
-				"EXEC dbo.uspGetPrescriptionDataForClaim @ClaimID = :ClaimID",
+				"EXECUTE [dbo].[uspGetPrescriptionDataForClaim] @ClaimID = :ClaimID",
 				new List<SqlParameter> {claimIdParam}).ToList();
 		}
 
@@ -188,7 +188,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 													, [EnteredBy] = [a].[NoteAuthor]
 													, [Note] = [a].[NoteText]
 													, [NoteUpdatedOn] = [a].[NoteUpdatedOn]
-												FROM[dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
+												FROM [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
 												WHERE[a].[ClaimID] = :ClaimID
 												ORDER BY[a].[NoteUpdatedOn] ASC")
 								.SetInt32("ClaimID", claimId)
