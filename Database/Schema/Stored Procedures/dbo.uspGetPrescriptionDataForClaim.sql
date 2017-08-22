@@ -8,7 +8,7 @@ GO
 	Description:	Executes the SELECT statement for Prescriptions. The goal behind putting this in a proc
 					is to allow malleability to change it without a managed code deployment.
 	Sample Execute:
-					EXEC dbo.uspGetPrescriptionDataForClaim @ClaimID = 960
+					EXEC dbo.uspGetPrescriptionDataForClaim @ClaimID = 775
 */
 CREATE PROC [dbo].[uspGetPrescriptionDataForClaim] @ClaimID INTEGER
 AS BEGIN
@@ -28,8 +28,9 @@ AS BEGIN
 						   WHERE  [pnm].[PrescriptionID] = [p].[PrescriptionID]
 					   )
 	FROM   [dbo].[Prescription] AS [p]
+		   INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
+		   INNER JOIN [dbo].[Payor] AS [py] ON [py].[PayorID] = [c].[PayorID]
 		   LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
-		   LEFT JOIN [dbo].[Payor] AS [py] ON [py].[PayorID] = [i].[PayorID]
 		   OUTER APPLY (
 				SELECT SUM([ipm].[AmountPaid]) AmountPaid 
 				FROM [dbo].[Payment] AS [ipm] 

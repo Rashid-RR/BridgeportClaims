@@ -5,7 +5,10 @@ CREATE TABLE [dbo].[PostPaymentAudit]
 [CheckNumber] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CheckAmount] [money] NULL,
 [AmountSelected] [money] NULL,
-[AmountToPost] [money] NULL
+[AmountToPost] [money] NULL,
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPostPaymentAuditCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPostPaymentAuditUpdatedOnUTC] DEFAULT (sysutcdatetime()),
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (

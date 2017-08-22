@@ -29,19 +29,65 @@ AS BEGIN
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
+		DECLARE @Now DATETIME2 = SYSUTCDATETIME(), @RowCount INTEGER;
+		DECLARE @DateScanned DATE = CAST(dtme.udfGetLocalDateTime(@Now) AS DATE);
+
+		-- Full Payment.
+		IF @AmountSelected = @AmountToPost
+			BEGIN
+				INSERT dbo.Payment(CheckNumber, AmountPaid, DateScanned, PrescriptionID, ClaimID,
+						CreatedOnUTC, UpdatedOnUTC)
+				SELECT @CheckNumber, p.BilledAmount, @DateScanned, p.PrescriptionID
+						,p.ClaimID, @Now, @Now
+				FROM @PrescriptionIDs AS pd
+					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID = pd.PrescriptionID
+				SET @RowCount = @@ROWCOUNT
+
+				-- Ensure that the row count equals the number of records in @PrescriptionIDs
+				IF @RowCount != (SELECT COUNT(*) FROM @PrescriptionIDs)
+					BEGIN
+						IF @@TRANCOUNT > 0
+							ROLLBACK
+						RAISERROR(N'Error. The count of Payments inserted does not match the count of Prescription records being processed.', 16, 1)
+							WITH NOWAIT
+						RETURN;
+					END
+			END
+		ELSE IF (SELECT COUNT(*) FROM @PrescriptionIDs) = 1 -- Partial Payment. One line.
+			BEGIN
+				INSERT dbo.Payment(CheckNumber, AmountPaid, DateScanned, PrescriptionID, ClaimID,
+					 CreatedOnUTC, UpdatedOnUTC)
+				SELECT @CheckNumber, @AmountToPost, @DateScanned, p.PrescriptionID, p.ClaimID,
+					 @Now, @Now
+				FROM @PrescriptionIDs AS pd
+					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID=pd.PrescriptionID
+			END
+		ELSE -- Partial Payment. Multi-Line.
+			BEGIN
+				IF @@TRANCOUNT > 0
+					ROLLBACK
+				RAISERROR(N'Error. Partial payments for multiple prescriptions is not supported.', 16, 1)
+					WITH NOWAIT
+				RETURN;
+			END
+		-- Leave this Audit Insert for a while. Match the CreatedOnUTC and UpdatedOnUTC
 	    INSERT dbo.PostPaymentAudit
 	    (
 	        PrescriptionID,
 	        CheckNumber,
 	        CheckAmount,
 	        AmountSelected,
-	        AmountToPost
+	        AmountToPost,
+			CreatedOnUTC,
+			UpdatedOnUTC
 	    )
 		SELECT p.PrescriptionID,
 			   @CheckNumber,
 			   @CheckAmount,
 			   @AmountSelected,
-			   @AmountToPost
+			   @AmountToPost,
+			   @Now,
+			   @Now
 		FROM @PrescriptionIDs AS p
 		IF @@TRANCOUNT > 0
 			COMMIT
@@ -64,4 +110,6 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
+
 GO

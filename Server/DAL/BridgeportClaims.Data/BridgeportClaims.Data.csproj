@@ -92,6 +92,8 @@
     <Compile Include="Dtos\AcctPayableDto.cs" />
     <Compile Include="Dtos\PaymentPrescriptionsDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
+    <Compile Include="Dtos\PostPaymentPrescriptionReturnDto.cs" />
+    <Compile Include="Dtos\PostPaymentReturnDto.cs" />
     <Compile Include="Dtos\PrescriptionDto.cs" />
     <Compile Include="Dtos\PrescriptionNoteSaveDto.cs" />
     <Compile Include="Dtos\PrescriptionNotesDto.cs" />

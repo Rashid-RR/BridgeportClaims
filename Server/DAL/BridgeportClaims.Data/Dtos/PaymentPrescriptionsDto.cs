@@ -13,10 +13,13 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         public virtual string ClaimNumber { get; set; }
         public virtual string PatientName { get; set; }
-        public virtual string RxDate { get; set; }
+        [Required]
+        public virtual DateTime RxDate { get; set; }
+        [Required]
         public virtual string RxNumber { get; set; }
         public virtual string LabelName { get; set; }
-        public virtual decimal? InvoicedAmount { get; set; }
+        [Required]
+        public virtual decimal InvoicedAmount { get; set; }
         public virtual decimal? Outstanding { get; set; }
         public virtual string Payor { get; set; }
     }
