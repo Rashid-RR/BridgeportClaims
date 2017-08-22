@@ -25,6 +25,9 @@ export class PaymentInputComponent implements OnInit {
       amountToPost: [null],
       amountRemaining: [null]
     });
+    this.events.on("payment-amountRemaining",a=>{
+         this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(a),"1.2-2"));
+    })
   }
   ngOnInit() {
 
@@ -65,7 +68,7 @@ export class PaymentInputComponent implements OnInit {
           prescriptions.push(p.prescriptionId)
         }
     })
-    this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
+    //this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
     var form  = this.form.value;
     form.prescriptionIds = prescriptions;
     form.amountRemaining = undefined;

@@ -21,9 +21,17 @@ export class PaymentService {
 
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     this.events.on("postPaymentPrescriptionReturnDtos",data=>{
-
+          data.prescriptions.forEach(d=>{
+            console.log(d);
+            var prescription = this.claimsDetail.get(d.prescriptionId);
+            if(prescription){
+              prescription.outstanding= d.outstanding;
+            }
+            console.log(prescription);
+          })
     })
   }
+
 
   clearClaimsDetail() {
     this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
@@ -68,7 +76,7 @@ export class PaymentService {
           this.loading = false;
            this.toast.success(result.toastMessage);
            this.events.broadcast('payment-amountRemaining',result.amountRemaining);
-           this.events.broadcast('postPaymentPrescriptionReturnDtos',result.postPaymentPrescriptionReturnDtos);
+           this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
         }, err => {
           this.loading = false;
           try {
