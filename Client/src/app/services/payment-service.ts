@@ -20,13 +20,15 @@ export class PaymentService {
   prescriptionSelected: Boolean = false;
 
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
+    this.events.on("postPaymentPrescriptionReturnDtos",data=>{
+
+    })
   }
 
   clearClaimsDetail() {
     this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   }
   search(data, addHistory = true) {
-    console.log(data);
     if (data.claimNumber == null && data.firstName == null && data.lastName == null && data.rxDate == null && data.invoiceNumber == null) {
           this.toast.warning('Please populate at least one search field.');
     } else {
@@ -64,7 +66,9 @@ export class PaymentService {
       this.http.postPayment(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
-           this.toast.success(result.message);
+           this.toast.success(result.toastMessage);
+           this.events.broadcast('payment-amountRemaining',result.amountRemaining);
+           this.events.broadcast('postPaymentPrescriptionReturnDtos',result.postPaymentPrescriptionReturnDtos);
         }, err => {
           this.loading = false;
           try {
