@@ -10,7 +10,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
         IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds);
         IList<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,
             string lastName, DateTime? rxDate, string invoiceNumber);
-        void PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
+        PostPaymentReturnDto PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
             decimal checkAmount, decimal amountSelected, decimal amountToPost);
     }
 }

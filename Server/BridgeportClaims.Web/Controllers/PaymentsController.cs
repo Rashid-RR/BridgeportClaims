@@ -75,38 +75,41 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                if (null == model)
-                    throw new ArgumentNullException(nameof(model));
-                var numberOfPrescriptions = model.PrescriptionIds?.Count;
-                if (null == numberOfPrescriptions || numberOfPrescriptions < 1)
-                    throw new Exception("Error. There were no Prescriptions sent.");
-                if (!ModelState.IsValid)
-                    throw new Exception("Error. The inputted fields are not in the correct format. " +
-                                        "Model state is not valid.");
-                // Business rule check.
-                if (!_paymentsBusiness.CheckMultiLinePartialPayments(model.AmountSelected, model.AmountToPost,
-                    numberOfPrescriptions.Value))
-                    throw new Exception("Error. Multi-prescription, partial payments are not supported at this time.");
-                await Task.Run(() =>
+                return await Task.Run(() =>
                 {
-                    _paymentsDataProvider.PostPayment(model.PrescriptionIds, model.CheckNumber,
+                    if (null == model)
+                        throw new ArgumentNullException(nameof(model));
+                    var numberOfPrescriptions = model.PrescriptionIds?.Count;
+                    if (null == numberOfPrescriptions || numberOfPrescriptions < 1)
+                        throw new Exception("Error. There were no Prescriptions sent.");
+                    if (!ModelState.IsValid)
+                        throw new Exception("Error. The inputted fields are not in the correct format. " +
+                                            "Model state is not valid.");
+                    // Business rule check.
+                    if (!_paymentsBusiness.CheckMultiLinePartialPayments(model.AmountSelected, model.AmountToPost,
+                        numberOfPrescriptions.Value))
+                        throw new Exception(
+                            "Error. Multi-prescription, partial payments are not supported at this time.");
+
+                    var postPaymentReturnDto = _paymentsDataProvider.PostPayment(model.PrescriptionIds, model.CheckNumber,
                         model.CheckAmount, model.AmountSelected,
                         model.AmountToPost);
-                });
-                // construct, stubbed return model. TODO: replace stubbed data with real data from the proc.
-                var retVal = new PostPaymentReturnDto
-                {
-                    ToastMessage = "Payment posted successfully " + Environment.NewLine +
-                                   $"for {numberOfPrescriptions.Value} prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}",
-                    AmountRemaining = 35.16m
-                };
-                foreach (var prescriptionId in model.PrescriptionIds)
-                    retVal.PostPaymentPrescriptionReturnDtos.Add(new PostPaymentPrescriptionReturnDto
+
+                    // construct, stubbed return model. TODO: replace stubbed data with real data from the proc.
+                    var retVal = new PostPaymentReturnDto
                     {
-                        PrescriptionId = prescriptionId,
-                        Outstanding = 50.00m
-                    });
-                return Ok(retVal);
+                        ToastMessage = "Payment posted successfully " + Environment.NewLine +
+                                       $"for {numberOfPrescriptions.Value} prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}",
+                        AmountRemaining = postPaymentReturnDto.AmountRemaining
+                    };
+                    foreach (var prescription in postPaymentReturnDto.PostPaymentPrescriptionReturnDtos)
+                        retVal.PostPaymentPrescriptionReturnDtos.Add(new PostPaymentPrescriptionReturnDto
+                        {
+                            PrescriptionId = prescription.PrescriptionId,
+                            Outstanding = prescription.Outstanding
+                        });
+                    return Ok(retVal);
+                });
             }
             catch (Exception ex)
             {
