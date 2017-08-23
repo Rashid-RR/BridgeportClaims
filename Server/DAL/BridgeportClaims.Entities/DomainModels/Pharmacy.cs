@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
+    [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Pharmacy
     {
+        public Pharmacy()
+        {
+            Prescription = new List<Prescription>();
+        }
         [Required]
-        public virtual int PharmacyId { get; set; }
-        public virtual UsState UsState { get; set; }
-        [StringLength(7)]
         public virtual string NABP { get; set; }
+        public virtual UsState UsState { get; set; }
         [StringLength(10)]
         public virtual string NPI { get; set; }
         [StringLength(60)]
@@ -44,5 +48,8 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
+        [StringLength(50)]
+        public virtual string ETLRowID { get; set; }
+        public virtual IList<Prescription> Prescription { get; set; }
     }
 }

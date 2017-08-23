@@ -7,6 +7,7 @@ using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
+using BridgeportClaims.Entities.DomainModels.Views;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 

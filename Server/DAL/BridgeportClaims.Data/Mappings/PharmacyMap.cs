@@ -12,9 +12,8 @@ namespace BridgeportClaims.Data.Mappings
             DynamicUpdate();
             SchemaAction.None();
             LazyLoad();
-            Id(x => x.PharmacyId).GeneratedBy.Identity().Column("PharmacyID");
+            Id(x => x.NABP).GeneratedBy.Assigned().Column("NABP");
             References(x => x.UsState).Column("StateID");
-            Map(x => x.NABP).Column("NABP").Length(7);
             Map(x => x.NPI).Column("NPI").Length(10);
             Map(x => x.PharmacyName).Column("PharmacyName").Length(60);
             Map(x => x.Address1).Column("Address1").Length(55);
@@ -31,6 +30,8 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.DispType).Column("DispType").Length(1);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
+            Map(x => x.ETLRowID).Column("ETLRowID").Length(50);
+            HasMany(x => x.Prescription).KeyColumn("PharmacyNABP");
         }
     }
 }

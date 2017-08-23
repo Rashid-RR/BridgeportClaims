@@ -43,7 +43,7 @@ namespace BridgeportClaims.Data.SessionFactory
 			{
 				lock (Semiphore)
 				{
-				    return _sessionFactory ?? (_sessionFactory = CreateSessionFactory());
+					return _sessionFactory ?? (_sessionFactory = CreateSessionFactory());
 				}
 			}
 		}
@@ -117,7 +117,7 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<AspNetRolesMap>();
 					m.FluentMappings.Add<ClaimImageMap>();
 					m.FluentMappings.Add<ClaimImageTypeMap>();
-				    m.FluentMappings.Add<AcctPayableMap>();
+					m.FluentMappings.Add<AcctPayableMap>();
 					m.FluentMappings.Add<ClaimMap>();
 					m.FluentMappings.Add<cnm>();
 					m.FluentMappings.Add<ClaimNoteTypeMap>();
@@ -125,22 +125,25 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<EpisodeTypeMap>();
 					m.FluentMappings.Add<EpisodeLinkMap>();
 					m.FluentMappings.Add<EpisodeLinkTypeMap>();
-				    m.FluentMappings.Add<PaymentMap>();
+					m.FluentMappings.Add<PaymentMap>();
 					m.FluentMappings.Add<GenderMap>();
+					m.FluentMappings.Add<PrescriptionPaymentMap>();
 					m.FluentMappings.Add<InvoiceMap>();
 					m.FluentMappings.Add<PharmacyMap>();
 					m.FluentMappings.Add<ClaimsUserHistoryMap>();
 					m.FluentMappings.Add<DiaryMap>();
 					m.FluentMappings.Add<DiaryTypeMap>();
-				    m.FluentMappings.Add<ImportFileMap>();
+					m.FluentMappings.Add<ImportFileMap>();
 					m.FluentMappings.Add<PayorMap>();
-					m.FluentMappings.Add<VwClaimInfoMap>();
 					m.FluentMappings.Add<PrescriptionMap>();
 					m.FluentMappings.Add<PrescriptionNoteMap>();
 					m.FluentMappings.Add<PrescriptionNoteTypeMap>();
 					m.FluentMappings.Add<UsStateMap>();
 					m.FluentMappings.Add<PrescriptionNoteMappingMap>();
 					m.FluentMappings.Add<VwPrescriptionNoteMap>();
+					m.FluentMappings.Add<VwClaimInfoMap>();
+					m.FluentMappings.Add<VwImportFileMap>();
+					m.FluentMappings.Add<VwPaymentMap>();
 				})
 				.ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, false))
 				.ExposeConfiguration(c => c.SetProperty("current_session_context_class", "call"))

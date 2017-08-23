@@ -68,6 +68,7 @@
     <Compile Include="DomainModels\ClaimImageType.cs" />
     <Compile Include="DomainModels\ClaimNote.cs" />
     <Compile Include="DomainModels\ClaimNoteType.cs" />
+    <Compile Include="DomainModels\ClaimPayment.cs" />
     <Compile Include="DomainModels\ClaimsUserHistory.cs" />
     <Compile Include="DomainModels\Diary.cs" />
     <Compile Include="DomainModels\DiaryType.cs" />
@@ -87,10 +88,12 @@
     <Compile Include="DomainModels\PrescriptionNote.cs" />
     <Compile Include="DomainModels\PrescriptionNoteMapping.cs" />
     <Compile Include="DomainModels\PrescriptionNoteType.cs" />
+    <Compile Include="DomainModels\PrescriptionPayment.cs" />
     <Compile Include="DomainModels\UsState.cs" />
+    <Compile Include="DomainModels\Views\VwPayment.cs" />
     <Compile Include="DomainModels\Views\VwPrescriptionNote.cs" />
-    <Compile Include="DomainModels\VwClaimInfo.cs" />
-    <Compile Include="DomainModels\VwImportFile.cs" />
+    <Compile Include="DomainModels\Views\VwClaimInfo.cs" />
+    <Compile Include="DomainModels\Views\VwImportFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PayorViewModel.cs" />
   </ItemGroup>

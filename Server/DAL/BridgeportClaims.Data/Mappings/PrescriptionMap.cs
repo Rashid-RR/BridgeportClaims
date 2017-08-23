@@ -14,6 +14,7 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.PrescriptionId).GeneratedBy.Identity().Column("PrescriptionID");
             References(x => x.Claim).Column("ClaimID");
+            References(x => x.Pharmacy).Column("PharmacyNABP");
             References(x => x.Invoice).Column("InvoiceID");
             Map(x => x.RxNumber).Column("RxNumber").Not.Nullable().Length(100);
             Map(x => x.DateSubmitted).Column("DateSubmitted").Not.Nullable();
@@ -23,11 +24,9 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Quantity).Column("Quantity").Not.Nullable().Precision(53);
             Map(x => x.DaySupply).Column("DaySupply").Not.Nullable().Precision(53);
             Map(x => x.Generic).Column("Generic").Not.Nullable().Length(1);
-            Map(x => x.PharmacyNABP).Column("PharmacyNABP").Not.Nullable().Length(7);
-            Map(x => x.AWP).Column("AWP").Precision(53);
             Map(x => x.AWPUnit).Column("AWPUnit").Precision(53);
             Map(x => x.Usual).Column("Usual").Precision(18);
-            Map(x => x.Prescriber).Column("Prescriber").Not.Nullable().Length(10);
+            Map(x => x.Prescriber).Column("Prescriber").Length(100);
             Map(x => x.PayableAmount).Column("PayableAmount").Not.Nullable().Precision(19).Scale(4);
             Map(x => x.BilledAmount).Column("BilledAmount").Not.Nullable().Precision(19).Scale(4);
             Map(x => x.TransactionType).Column("TransactionType").Not.Nullable().Length(1);
@@ -52,7 +51,10 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.TheraClass).Column("TheraClass").Length(255);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
+            Map(x => x.ETLRowID).Column("ETLRowID").Length(50);
+            Map(x => x.AWP).Column("AWP").Precision(53);
             HasMany(x => x.PrescriptionNoteMapping).KeyColumn("PrescriptionID");
+            HasMany(x => x.PrescriptionPayment).KeyColumn("PrescriptionID");
         }
     }
 }

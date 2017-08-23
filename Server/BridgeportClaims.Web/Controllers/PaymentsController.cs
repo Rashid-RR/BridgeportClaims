@@ -90,16 +90,13 @@ namespace BridgeportClaims.Web.Controllers
                         numberOfPrescriptions.Value))
                         throw new Exception(
                             "Error. Multi-prescription, partial payments are not supported at this time.");
-
                     var postPaymentReturnDto = _paymentsDataProvider.PostPayment(model.PrescriptionIds, model.CheckNumber,
-                        model.CheckAmount, model.AmountSelected,
-                        model.AmountToPost);
-
-                    // construct, stubbed return model. TODO: replace stubbed data with real data from the proc.
+                        model.CheckAmount, model.AmountSelected, model.AmountToPost);
                     var retVal = new PostPaymentReturnDto
                     {
                         ToastMessage = "Payment posted successfully " + Environment.NewLine +
-                                       $"for {numberOfPrescriptions.Value} prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}",
+                                       $"for {numberOfPrescriptions.Value} prescription" +
+                                       $"{(1 == numberOfPrescriptions ? string.Empty : "s")}",
                         AmountRemaining = postPaymentReturnDto.AmountRemaining
                     };
                     foreach (var prescription in postPaymentReturnDto.PostPaymentPrescriptionReturnDtos)

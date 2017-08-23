@@ -111,6 +111,7 @@
     <Compile Include="Mappings\ClaimMap.cs" />
     <Compile Include="Mappings\ClaimNoteMap.cs" />
     <Compile Include="Mappings\ClaimNoteTypeMap.cs" />
+    <Compile Include="Mappings\ClaimPaymentMap.cs" />
     <Compile Include="Mappings\ClaimsUserHistoryMap.cs" />
     <Compile Include="Mappings\DiaryMap.cs" />
     <Compile Include="Mappings\DiaryTypeMap.cs" />
@@ -130,10 +131,12 @@
     <Compile Include="Mappings\PrescriptionNoteMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteMappingMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteTypeMap.cs" />
+    <Compile Include="Mappings\PrescriptionPaymentMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
+    <Compile Include="Mappings\Views\VwPaymentMap.cs" />
     <Compile Include="Mappings\Views\VwPrescriptionNoteMap.cs" />
-    <Compile Include="Mappings\VwClaimInfoMap.cs" />
-    <Compile Include="Mappings\VwImportFileMap.cs" />
+    <Compile Include="Mappings\Views\VwClaimInfoMap.cs" />
+    <Compile Include="Mappings\Views\VwImportFileMap.cs" />
     <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StoredProcedureExecutors\BaseRepository.cs" />
