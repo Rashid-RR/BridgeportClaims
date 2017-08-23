@@ -7,11 +7,15 @@ GO
 	Create Date:	8/21/2017
 	Description:	
 	Sample Execute:
-					EXEC dbo.uspUpdateImportFilesProcessed
+					EXEC dbo.uspUpdateImportFilesProcessed N'Billing_Claim_File_20170821.csv'
 */
-CREATE PROC [dbo].[uspUpdateImportFilesProcessed]
+CREATE PROC [dbo].[uspUpdateImportFilesProcessed] @FileName NVARCHAR(255)
 AS BEGIN
 	SET NOCOUNT ON;
+
+	UPDATE etl.LatestStagedLakerFileLoaded
+	SET LastFileNameLoaded = (SELECT i.[FileName] FROM util.vwImportFile AS i WHERE i.[FileName] = @FileName)
+
 	DECLARE @LatestDate DATE
 	SELECT @LatestDate = CAST(SUBSTRING(i.LastFileNameLoaded, 20, 8) AS DATE)
 	FROM   etl.LatestStagedLakerFileLoaded AS i
