@@ -35,5 +35,6 @@
         public const string Comma = ",";
         public const string GetAllUsersCacheKey = "__GetAllUsersCacheKey__";
         public const string EpisodeTypesCacheKey = "__EpisodeTypesCacheKey__";
+        public const string PaymentChannel = "PaymentChannel";
     }
 }

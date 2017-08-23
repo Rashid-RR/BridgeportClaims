@@ -1,10 +1,10 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Threading.Tasks;
 using BridgeportClaims.Web.Infrastructure;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
-using NLog;
 using System.Linq;
 
 namespace BridgeportClaims.Web.Providers
