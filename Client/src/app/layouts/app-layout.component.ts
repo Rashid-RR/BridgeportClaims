@@ -49,11 +49,8 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
       var st = document.body.classList;
        if(st.contains('sidebar-collapse')){
         this.localSt.store("sidebarOpen",false);
-        console.log("Last in...",false)
       }else{
-        this.localSt.store("sidebarOpen",true);
-        console.log("Last in...",true)
-        
+        this.localSt.store("sidebarOpen",true);        
       }
     });
     
@@ -61,8 +58,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
   }
   adjustSideBar(status){
     this.guard.isLoggedIn.subscribe(r=>{
-      console.log(r,status);
-      if(!r){
+       if(!r){
         window['jQuery']('body').removeClass('sidebar-mini');
         window['jQuery']('body').addClass('sidebar-collapse');
       }else{
