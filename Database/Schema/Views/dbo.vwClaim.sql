@@ -2,7 +2,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-
 /*
 	Author:			Jordan Gurney
 	Create Date:	6/13/2017
@@ -32,7 +31,7 @@ AS
            LEFT JOIN dbo.Patient p INNER JOIN dbo.Gender g ON g.GenderID = p.GenderID ON p.PatientID = c.PatientID
            LEFT JOIN dbo.Payor pa ON pa.PayorID = c.PayorID
            LEFT JOIN dbo.Adjustor a ON a.AdjustorID = c.AdjusterID
-           LEFT JOIN dbo.Invoice i ON i.ClaimID = c.ClaimID
            LEFT JOIN dbo.Prescription pre ON pre.ClaimID = c.ClaimID
+		   LEFT JOIN dbo.Invoice i ON i.InvoiceID = pre.InvoiceID
 
 GO

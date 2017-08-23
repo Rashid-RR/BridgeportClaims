@@ -18,13 +18,32 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    WITH ClaimsCTE AS
-    (
-          SELECT c.ClaimID FROM dbo.Claim c WHERE c.ClaimNumber LIKE '%' + @ClaimNumber + '%' UNION
-          SELECT c.ClaimID FROM dbo.Claim AS c INNER JOIN dbo.Patient p ON c.PatientID = p.PatientID
-			WHERE p.FirstName LIKE  '%' + @FirstName + '%' OR p.LastName LIKE '%' + @LastName + '%' UNION
-          SELECT i.ClaimID FROM dbo.Invoice i WHERE i.InvoiceNumber = @InvoiceNumber UNION
-          SELECT p.ClaimID FROM dbo.Prescription p WHERE p.RxNumber = @RxNumber
+	WITH ClaimsCTE AS
+	(
+			SELECT c.ClaimID
+			FROM   dbo.Claim AS c
+			WHERE  c.ClaimNumber LIKE '%' + @ClaimNumber + '%'
+		  
+			UNION
+
+			SELECT c.ClaimID
+			FROM   dbo.Claim AS c
+				   INNER JOIN dbo.Patient AS p ON c.PatientID = p.PatientID
+			WHERE  p.FirstName LIKE '%' + @FirstName + '%'
+				   OR p.LastName LIKE '%' + @LastName + '%'
+			
+			UNION
+
+			SELECT p.ClaimID
+			FROM   dbo.Invoice AS i
+					INNER JOIN dbo.Prescription AS p ON p.InvoiceID = i.InvoiceID
+			WHERE  i.InvoiceNumber = @InvoiceNumber
+
+			UNION
+
+			SELECT p.ClaimID
+			FROM   dbo.Prescription AS p
+			WHERE  p.RxNumber = @RxNumber
     )
     SELECT DISTINCT c.ClaimId
 		 , c.PayorId

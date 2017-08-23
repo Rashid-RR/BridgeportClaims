@@ -461,8 +461,8 @@ AS BEGIN
 			AND [s].[PayorID] IS NOT NULL
 			
 	-- Invoice Import Statement
-	INSERT [dbo].[Invoice] ([ARItemKey],[Amount],[InvoiceNumber],[InvoiceDate],[PayorID],[ClaimID],[ETLRowID])
-	SELECT [i].[ARItemKey],[i].[Amount],[i].[InvoiceNumber],[i].[InvoiceDate],[i].[PayorID],[i].[ClaimID],[i].[ETLRowID]
+	INSERT [dbo].[Invoice] ([ARItemKey],[Amount],[InvoiceNumber],[InvoiceDate],[ETLRowID])
+	SELECT [i].[ARItemKey],[i].[Amount],[i].[InvoiceNumber],[i].[InvoiceDate],[i].[ETLRowID]
 	FROM [#InvoiceImport] i WHERE i.RowNumber = 1
 	SET @RowCountCheck = @@ROWCOUNT
 			
@@ -643,7 +643,7 @@ AS BEGIN
 			AND [s].[6] IS NOT NULL
 	SET @RowCountCheck = @@ROWCOUNT
 
-	UPDATE s SET s.PaymentID = [p].[AcctPayableID]
+	UPDATE s SET s.AcctPayableID = [p].[AcctPayableID]
 	FROM   [dbo].[AcctPayable] AS [p]
 			INNER JOIN [etl].[StagedLakerFile] AS [s] ON [s].[RowID] = [p].[ETLRowID]
 	IF @@ROWCOUNT != @RowCountCheck
@@ -654,7 +654,7 @@ AS BEGIN
 			RETURN
 		END
 
-	IF @RowCountCheck != (SELECT COUNT(DISTINCT PaymentID) FROM [etl].[StagedLakerFile])
+	IF @RowCountCheck != (SELECT COUNT(DISTINCT AcctPayableID) FROM [etl].[StagedLakerFile])
 		BEGIN
 			IF @@TRANCOUNT > 0
 				ROLLBACK;
