@@ -25,6 +25,9 @@ namespace BridgeportClaims.Web
         internal static string PublicClientId => "LOCAL AUTHORITY";
         public void Configuration(IAppBuilder app)
         {
+            // Add SignalR to the OWIN pipeline
+            //
+            app.MapSignalR();
             var config = new HttpConfiguration();
             app.Use<BridgeportClaimsMiddleware>();
             config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());

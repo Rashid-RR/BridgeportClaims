@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;
+using System.Globalization;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Excel.Adapters;
 using BridgeportClaims.Common.DataTables;
@@ -136,13 +137,13 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 					});
 			});
 
-		public void PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
+		public PostPaymentReturnDto PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
 			decimal checkAmount, decimal amountSelected, decimal amountToPost)
 		{
-			DisposableService.Using(()
+			return DisposableService.Using(()
 				 => new SqlConnection(cs.GetDbConnStr()), conn =>
 			 {
-				 DisposableService.Using(() => new SqlCommand("dbo.uspPostPayment", conn),
+				 return DisposableService.Using(() => new SqlCommand("dbo.uspPostPayment", conn),
 					 cmd =>
 					 {
 						 cmd.CommandType = CommandType.StoredProcedure;
@@ -182,15 +183,46 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 							 Direction = ParameterDirection.Input,
 							 ParameterName = "@AmountToPost"
 						 };
+					     var amountRemainingParam = cmd.CreateParameter();
+					     amountRemainingParam.SqlDbType = SqlDbType.Money;
+					     amountRemainingParam.DbType = DbType.Decimal;
+					     amountRemainingParam.Precision = 18;
+					     amountRemainingParam.Scale = 2;
+					     amountRemainingParam.Direction = ParameterDirection.Output;
+					     amountRemainingParam.ParameterName = "@AmountRemaining";
+					     
 						 cmd.Parameters.Add(prescriptionIdsParam);
 						 cmd.Parameters.Add(checkNumberParam);
 						 cmd.Parameters.Add(checkAmountParam);
 						 cmd.Parameters.Add(amountSelectedParam);
 						 cmd.Parameters.Add(amountToPostParam);
+                         cmd.Parameters.Add(amountRemainingParam);
 						 if (conn.State != ConnectionState.Open)
 							 conn.Open();
-						 cmd.ExecuteNonQuery();
+					     var retVal = new PostPaymentReturnDto();
+                         DisposableService.Using(cmd.ExecuteReader, reader =>
+					     {    
+					         var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionID");
+					         var outstandingOrdinal = reader.GetOrdinal("Outstanding");
+					         while (reader.Read())
+					         {
+					             var postPaymentPrescriptionReturnDto =
+					                 new PostPaymentPrescriptionReturnDto
+					                 {
+					                     PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
+					                     Outstanding = reader.GetDecimal(outstandingOrdinal)
+					                 };
+					             retVal.PostPaymentPrescriptionReturnDtos.Add(postPaymentPrescriptionReturnDto);
+                             }
+                             return retVal;
+					     });
+					     const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
+					     var culture = CultureInfo.CreateSpecificCulture("en-US");
+                         retVal.AmountRemaining = decimal.TryParse(amountRemainingParam.Value.ToString(), style, culture, out decimal d)
+                             ? d : default(decimal);
+                         return retVal;
 					 });
+
 			 });
 		}
 

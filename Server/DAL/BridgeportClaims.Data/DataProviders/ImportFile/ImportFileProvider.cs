@@ -55,7 +55,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 				var files = new List<ImportFileDto>();
 				return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 				{
-					return DisposableService.Using(() => new SqlCommand("uspGetImportFile", connection), sqlCommand =>
+					return DisposableService.Using(() => new SqlCommand("dbo.uspGetImportFile", connection), sqlCommand =>
 					{
 						sqlCommand.CommandType = CommandType.StoredProcedure;
 					    if (connection.State != ConnectionState.Open)
