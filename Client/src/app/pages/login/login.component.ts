@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit {
         this.submitted = true;
         this.http.login('userName=' + this.form.get('email').value + '&password=' + this.form.get('password').value + "&grant_type=password", { 'Content-Type': 'x-www-form-urlencoded' }).subscribe(res => {
           let data = res.json();
-          this.events.broadcast('login', true);
           this.http.setAuth(data.access_token);
           localStorage.setItem("user", JSON.stringify(data));            
           this.http.profile().map(res => res.json()).subscribe(res => {
@@ -57,6 +56,7 @@ export class LoginComponent implements OnInit {
             this.profileManager.profile = new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles);
             this.profileManager.setProfile(new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles));
             this.router.navigate(['/main/private']);
+            this.events.broadcast('login', true);
             this.toast.success('Welcome back');
             this.events.broadcast("loadHistory",[]);
           }, err => console.log(err))

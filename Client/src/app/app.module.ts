@@ -9,6 +9,7 @@ import {AppComponent} from "./app.component";
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from './components/confirm.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import {Ng2Webstorage} from 'ng2-webstorage';
 
 //Layouts 
 import {HeaderComponent} from "./layouts/header/header.component";
@@ -94,7 +95,8 @@ export class SafeUrlPipe implements PipeTransform {
     ReactiveFormsModule,
     HttpModule,
     RoutingModule,
-    FileUploadModule
+    FileUploadModule,
+    Ng2Webstorage
   ],
   providers: [  
     DecimalPipe,DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,

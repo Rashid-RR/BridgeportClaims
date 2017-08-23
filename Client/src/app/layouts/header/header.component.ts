@@ -4,7 +4,10 @@ import { ProfileManager } from "../../services/profile-manager";
 import { HttpService } from "../../services/http-service";
 import { Router } from "@angular/router";
 import { Subscription } from 'rxjs/Subscription';
+import {AuthGuard} from "../../services/auth.guard"
+import {LocalStorageService} from 'ng2-webstorage';
 
+declare var jQuery:any
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,11 +21,18 @@ export class HeaderComponent implements OnInit {
     private http: HttpService,
     private router: Router,
     public eventservice: EventsService,
-    public profileManager: ProfileManager
+    public profileManager: ProfileManager,
+    private guard:AuthGuard,
+    private localSt:LocalStorageService
   ) { }
   
   ngOnInit() {
     this.date = Date.now();
+    
+  }
+
+  sidebarToggle(){
+    this.eventservice.broadcast("sidebarOpen", true);    
   }
 
   logout() {
