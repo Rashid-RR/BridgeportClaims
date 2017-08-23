@@ -124,7 +124,6 @@
     <Compile Include="Mappings\ImportFileTypeMap.cs" />
     <Compile Include="Mappings\InvoiceMap.cs" />
     <Compile Include="Mappings\PatientMap.cs" />
-    <Compile Include="Mappings\PaymentMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />
     <Compile Include="Mappings\PharmacyMap.cs" />
     <Compile Include="Mappings\PrescriptionMap.cs" />

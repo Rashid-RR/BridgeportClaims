@@ -81,7 +81,6 @@
     <Compile Include="DomainModels\ImportFileType.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
     <Compile Include="DomainModels\Patient.cs" />
-    <Compile Include="DomainModels\Payment.cs" />
     <Compile Include="DomainModels\Payor.cs" />
     <Compile Include="DomainModels\Pharmacy.cs" />
     <Compile Include="DomainModels\Prescription.cs" />
