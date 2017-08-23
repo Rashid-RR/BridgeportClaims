@@ -12,7 +12,7 @@ namespace BridgeportClaims.Data.Mappings.Views
             ReadOnly();
             SchemaAction.None();
             LazyLoad();
-            Map(x => x.PaymentId).Column("PaymentID").Not.Nullable().Precision(10);
+            Id(x => x.PaymentId).Column("PaymentID").Not.Nullable();
             Map(x => x.CheckNumber).Column("CheckNumber").Not.Nullable().Length(50);
             Map(x => x.AmountPaid).Column("AmountPaid").Not.Nullable().Precision(19).Scale(4);
             Map(x => x.DatePosted).Column("DatePosted");

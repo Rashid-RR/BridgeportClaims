@@ -170,7 +170,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									 , CheckAmount = [p].[AmountPaid]
 								FROM   [dbo].[PrescriptionPayment] AS [p]
 									   INNER JOIN [dbo].[Prescription] AS [p2] ON [p2].[PrescriptionID] = [p].[PrescriptionID]
-								WHERE  [p].[ClaimID] = :ClaimID")
+								WHERE  [p2].[ClaimID] = :ClaimID")
 								.SetMaxResults(1000)
 								.SetInt32("ClaimID", claimId)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(AcctPayableDto)))
