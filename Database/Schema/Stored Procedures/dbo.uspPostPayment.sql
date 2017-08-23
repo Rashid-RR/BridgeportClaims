@@ -30,15 +30,14 @@ AS BEGIN
 	BEGIN TRY
 		BEGIN TRAN;
 		DECLARE @Now DATETIME2 = SYSUTCDATETIME(), @RowCount INTEGER;
-		DECLARE @DateScanned DATE = CAST(dtme.udfGetLocalDateTime(@Now) AS DATE);
+		DECLARE @DatePosted DATE = CAST(dtme.udfGetLocalDateTime(@Now) AS DATE);
 
 		-- Full Payment.
 		IF @AmountSelected = @AmountToPost
 			BEGIN
-				INSERT dbo.Payment(CheckNumber, AmountPaid, DateScanned, PrescriptionID, ClaimID,
+				INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, PrescriptionID,
 						CreatedOnUTC, UpdatedOnUTC)
-				SELECT @CheckNumber, p.BilledAmount, @DateScanned, p.PrescriptionID
-						,p.ClaimID, @Now, @Now
+				SELECT @CheckNumber, p.BilledAmount, @DatePosted, p.PrescriptionID, @Now, @Now
 				FROM @PrescriptionIDs AS pd
 					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID = pd.PrescriptionID
 				SET @RowCount = @@ROWCOUNT
@@ -55,10 +54,9 @@ AS BEGIN
 			END
 		ELSE IF (SELECT COUNT(*) FROM @PrescriptionIDs) = 1 -- Partial Payment. One line.
 			BEGIN
-				INSERT dbo.Payment(CheckNumber, AmountPaid, DateScanned, PrescriptionID, ClaimID,
-					 CreatedOnUTC, UpdatedOnUTC)
-				SELECT @CheckNumber, @AmountToPost, @DateScanned, p.PrescriptionID, p.ClaimID,
-					 @Now, @Now
+				INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, 
+					PrescriptionID, CreatedOnUTC, UpdatedOnUTC)
+				SELECT @CheckNumber, @AmountToPost, @DatePosted, p.PrescriptionID, @Now, @Now
 				FROM @PrescriptionIDs AS pd
 					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID=pd.PrescriptionID
 			END
