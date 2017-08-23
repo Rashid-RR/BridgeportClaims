@@ -4,6 +4,7 @@ using System.Linq;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;
+using System.Globalization;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Excel.Adapters;
 using BridgeportClaims.Common.DataTables;
@@ -213,10 +214,12 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 					                 };
 					             retVal.PostPaymentPrescriptionReturnDtos.Add(postPaymentPrescriptionReturnDto);
                              }
-					         
                              return retVal;
 					     });
-					     retVal.AmountRemaining = amountRemainingParam.Value as decimal? ?? default(decimal);
+					     const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
+					     var culture = CultureInfo.CreateSpecificCulture("en-US");
+                         retVal.AmountRemaining = decimal.TryParse(amountRemainingParam.Value.ToString(), style, culture, out decimal d)
+                             ? d : default(decimal);
                          return retVal;
 					 });
 
