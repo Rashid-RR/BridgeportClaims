@@ -1,13 +1,13 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Http;
-using BridgeportClaims.Data.DataProviders.Payments;
-using BridgeportClaims.Web.Models;
 using System.Net;
-using BridgeportClaims.Business.Payments;
+using System.Web.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Web.Models;
+using BridgeportClaims.Business.Payments;
+using BridgeportClaims.Data.DataProviders.Payments;
 
 namespace BridgeportClaims.Web.Controllers
 {
