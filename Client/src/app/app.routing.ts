@@ -25,6 +25,7 @@ import { ProfileComponent } from "./pages/profile/profile.component";
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { PaymentComponent } from './pages/payment/payment.component';
+import { NewFeaturesComponent } from './pages/new-features/new-features.component';
 
 export const routes: Routes = [
   {
@@ -88,6 +89,10 @@ export const routes: Routes = [
             path: 'fileupload',
             component: FileUploadComponent
           },
+          {
+            path: 'new-features',
+            component: NewFeaturesComponent
+          },
         ]
       },
       {
@@ -97,7 +102,7 @@ export const routes: Routes = [
     ]
   },
   { path: 'confirm-email', component: ConfirmEmailComponent },
-  { component: Error404Component, path: '**'}
+  { component: Error404Component, path: '**' }
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
