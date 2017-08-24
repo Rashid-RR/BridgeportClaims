@@ -163,14 +163,14 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.List<EpisodeDto>();
 							claimDto.Episodes = episodes;
 							var acctPayableDtos = session.CreateSQLQuery(
-							  @"SELECT [Date] = [p].[DateScanned]
+							  @"SELECT [Date] = [p].[DatePosted]
 									 , [p].[CheckNumber]
 									 , [p2].[RxNumber]
 									 , RxDate = CAST([p2].[DateFilled] AS DATE)
 									 , CheckAmount = [p].[AmountPaid]
-								FROM   [dbo].[Payment] AS [p]
+								FROM   [dbo].[PrescriptionPayment] AS [p]
 									   INNER JOIN [dbo].[Prescription] AS [p2] ON [p2].[PrescriptionID] = [p].[PrescriptionID]
-								WHERE  [p].[ClaimID] = :ClaimID")
+								WHERE  [p2].[ClaimID] = :ClaimID")
 								.SetMaxResults(1000)
 								.SetInt32("ClaimID", claimId)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(AcctPayableDto)))

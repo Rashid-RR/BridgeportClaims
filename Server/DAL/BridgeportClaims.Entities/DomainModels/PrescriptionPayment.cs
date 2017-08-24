@@ -3,18 +3,18 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-    public class Payment
+    public class PrescriptionPayment
     {
         [Required]
-        public virtual int PaymentId { get; set; }
+        public virtual int PrescriptionPaymentId { get; set; }
+        [Required]
         public virtual Prescription Prescription { get; set; }
-        public virtual Claim Claim { get; set; }
         [Required]
         [StringLength(50)]
         public virtual string CheckNumber { get; set; }
         [Required]
         public virtual decimal AmountPaid { get; set; }
-        public virtual DateTime? DateScanned { get; set; }
+        public virtual DateTime? DatePosted { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]

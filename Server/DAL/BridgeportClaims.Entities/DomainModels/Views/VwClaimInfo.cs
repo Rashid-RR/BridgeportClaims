@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BridgeportClaims.Entities.DomainModels
+namespace BridgeportClaims.Entities.DomainModels.Views
 {
     public class VwClaimInfo
     {

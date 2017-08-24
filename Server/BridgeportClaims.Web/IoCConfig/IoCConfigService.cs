@@ -1,31 +1,31 @@
-﻿using System.Data;
-using System.Reflection;
+﻿using Autofac;
+using NHibernate;
 using System.Web;
-using Autofac;
+using System.Data;
+using System.Reflection;
 using Autofac.Integration.WebApi;
-using BridgeportClaims.Business.Payments;
+using BridgeportClaims.Web.Email;
 using BridgeportClaims.Common.Caching;
-using BridgeportClaims.Data.DataProviders.Accounts;
-using BridgeportClaims.Data.DataProviders.ClaimNotes;
-using BridgeportClaims.Data.DataProviders.Claims;
-using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
-using BridgeportClaims.Data.DataProviders.DateDisplay;
-using BridgeportClaims.Data.DataProviders.Episodes;
-using BridgeportClaims.Data.DataProviders.ImportFile;
-using BridgeportClaims.Data.DataProviders.Payments;
-using BridgeportClaims.Data.DataProviders.Payors;
-using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
-using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
-using BridgeportClaims.Data.DataProviders.UserOptions;
-using BridgeportClaims.Data.DataProviders.UserRoles;
+using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.SessionFactory;
-using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.Automappers;
-using BridgeportClaims.Web.Email;
+using BridgeportClaims.Data.DataProviders.Claims;
+using BridgeportClaims.Data.DataProviders.Payors;
+using BridgeportClaims.Data.DataProviders.Episodes;
+using BridgeportClaims.Data.DataProviders.Accounts;
+using BridgeportClaims.Data.DataProviders.Payments;
+using BridgeportClaims.Data.DataProviders.UserRoles;
+using BridgeportClaims.Data.DataProviders.ClaimNotes;
+using BridgeportClaims.Data.DataProviders.ImportFile;
+using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Data.DataProviders.UserOptions;
+using BridgeportClaims.Data.DataProviders.DateDisplay;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
-using NHibernate;
+using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
+using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
+using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 
 namespace BridgeportClaims.Web.IoCConfig
 {
@@ -65,9 +65,7 @@ namespace BridgeportClaims.Web.IoCConfig
                 try
                 {
                     if (session.Transaction.IsActive)
-                    {
                         session.Transaction.Commit();
-                    }
                 }
                 catch
                 {

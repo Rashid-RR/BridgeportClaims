@@ -1,13 +1,13 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web.Http;
-using BridgeportClaims.Data.DataProviders.Payments;
-using BridgeportClaims.Web.Models;
 using System.Net;
-using BridgeportClaims.Business.Payments;
+using System.Web.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Web.Models;
+using BridgeportClaims.Business.Payments;
+using BridgeportClaims.Data.DataProviders.Payments;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -90,16 +90,13 @@ namespace BridgeportClaims.Web.Controllers
                         numberOfPrescriptions.Value))
                         throw new Exception(
                             "Error. Multi-prescription, partial payments are not supported at this time.");
-
                     var postPaymentReturnDto = _paymentsDataProvider.PostPayment(model.PrescriptionIds, model.CheckNumber,
-                        model.CheckAmount, model.AmountSelected,
-                        model.AmountToPost);
-
-                    // construct, stubbed return model. TODO: replace stubbed data with real data from the proc.
+                        model.CheckAmount, model.AmountSelected, model.AmountToPost);
                     var retVal = new PostPaymentReturnDto
                     {
                         ToastMessage = "Payment posted successfully " + Environment.NewLine +
-                                       $"for {numberOfPrescriptions.Value} prescription{(1 == numberOfPrescriptions ? string.Empty : "s")}",
+                                       $"for {numberOfPrescriptions.Value} prescription" +
+                                       $"{(1 == numberOfPrescriptions ? string.Empty : "s")}",
                         AmountRemaining = postPaymentReturnDto.AmountRemaining
                     };
                     foreach (var prescription in postPaymentReturnDto.PostPaymentPrescriptionReturnDtos)

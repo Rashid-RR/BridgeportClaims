@@ -54,6 +54,8 @@ import { PaymentResultComponent } from './components/payment-result/payment-resu
 import {PaymentService} from "./services/payment-service";
 import { PaymentClaimResultComponent } from './components/payment-claim-result/payment-claim-result.component';
 import { PaymentDetailedResultComponent } from './components/payment-detail-result/payment-detail-result.component';
+import { NewFeaturesComponent } from './pages/new-features/new-features.component';
+import { NewPaymentInputComponent } from './pages/new-features/new-payment-input/new-payment-input.component';
 
 
 @Pipe({name: 'safeStyle'})
@@ -84,7 +86,7 @@ export class SafeUrlPipe implements PipeTransform {
     PasswordResetComponent, 
     RegisterComponent,
     DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
-    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe, FileUploadComponent, FooterComponent, PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent, PaymentDetailedResultComponent
+    SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe, FileUploadComponent, FooterComponent, PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent, PaymentDetailedResultComponent, NewFeaturesComponent, NewPaymentInputComponent
   ],
   imports: [
     BrowserModule,

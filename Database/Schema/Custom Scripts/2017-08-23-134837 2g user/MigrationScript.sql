@@ -1,6 +1,182 @@
-SET QUOTED_IDENTIFIER ON
+/*
+This migration script replaces uncommitted changes made to these objects:
+Invoice
+Payment
+
+Use this script to make necessary schema and data changes for these objects only. Schema changes to any other objects won't be deployed.
+
+Schema changes and migration scripts are deployed in the order they're committed.
+
+Migration scripts must not reference static data. When you deploy migration scripts alongside static data 
+changes, the migration scripts will run first. This can cause the deployment to fail. 
+Read more at https://documentation.red-gate.com/display/SOC5/Static+data+and+migrations.
+*/
+
+SET NUMERIC_ROUNDABORT OFF
 GO
-SET ANSI_NULLS ON
+SET ANSI_PADDING, ANSI_WARNINGS, CONCAT_NULL_YIELDS_NULL, ARITHABORT, QUOTED_IDENTIFIER, ANSI_NULLS ON
+GO
+PRINT N'Dropping foreign keys from [dbo].[Invoice]'
+GO
+ALTER TABLE [dbo].[Invoice] DROP CONSTRAINT [fkInvoicePayorIDPayorPayorID]
+GO
+ALTER TABLE [dbo].[Invoice] DROP CONSTRAINT [fkInvoiceClaimIDClaimClaimID]
+GO
+PRINT N'Dropping foreign keys from [dbo].[Payment]'
+GO
+ALTER TABLE [dbo].[Payment] DROP CONSTRAINT [fkPaymentPrescriptionIDPrescriptionPrescriptionID]
+GO
+ALTER TABLE [dbo].[Payment] DROP CONSTRAINT [fkPaymentClaimIDClaimClaimID]
+GO
+PRINT N'Dropping constraints from [dbo].[Payment]'
+GO
+ALTER TABLE [dbo].[Payment] DROP CONSTRAINT [pkPayment]
+GO
+PRINT N'Dropping constraints from [dbo].[Payment]'
+GO
+ALTER TABLE [dbo].[Payment] DROP CONSTRAINT [dfPaymentCreatedOnUTC]
+GO
+PRINT N'Dropping constraints from [dbo].[Payment]'
+GO
+ALTER TABLE [dbo].[Payment] DROP CONSTRAINT [dfPaymentUpdatedOnUTC]
+GO
+PRINT N'Dropping index [idxInvoiceClaimIDClaimClaimIDIncludeAll] from [dbo].[Invoice]'
+GO
+DROP INDEX [idxInvoiceClaimIDClaimClaimIDIncludeAll] ON [dbo].[Invoice]
+GO
+-- interject the moving of data to different tables
+SET IDENTITY_INSERT dbo.PrescriptionPayment ON
+INSERT dbo.PrescriptionPayment (   [PrescriptionPaymentID]
+                                 , CheckNumber
+                                 , AmountPaid
+                                 , DatePosted
+                                 , PrescriptionID
+                                 , CreatedOnUTC
+                                 , UpdatedOnUTC
+                               )
+SELECT p.PaymentID
+     , p.CheckNumber
+     , p.AmountPaid
+     , p.DateScanned
+     , p.PrescriptionID
+     , p.CreatedOnUTC
+     , p.UpdatedOnUTC
+FROM   dbo.Payment AS p
+WHERE  p.PrescriptionID IS NOT NULL
+SET IDENTITY_INSERT dbo.PrescriptionPayment OFF
+GO
+INSERT dbo.ClaimPayment(CheckNumber,AmountPaid,DatePosted,ClaimID,CreatedOnUTC,UpdatedOnUTC)
+SELECT CheckNumber,AmountPaid,p.DateScanned,ClaimID,p.CreatedOnUTC,p.UpdatedOnUTC FROM dbo.Payment AS p
+WHERE p.PrescriptionID IS NULL
+GO
+PRINT N'Dropping [dbo].[Payment]'
+GO
+DROP TABLE [dbo].[Payment]
+GO
+PRINT N'Altering [dbo].[Invoice]'
+GO
+ALTER TABLE [dbo].[Invoice] DROP
+COLUMN [PayorID],
+COLUMN [ClaimID]
+GO
+PRINT N'Altering [dbo].[vwClaim]'
+GO
+/*
+	Author:			Jordan Gurney
+	Create Date:	6/13/2017
+	Description:	View to reduce code footprint of query for Claims Panel
+	Sample Execute:
+					SELECT * FROM dbo.vwClaims
+*/
+ALTER VIEW [dbo].[vwClaim]
+AS 
+	SELECT DISTINCT ClaimId = c.ClaimID
+			, PayorId = pa.PayorID
+			, [Name] = NULLIF(ISNULL(LTRIM(RTRIM(p.FirstName)), '') + ' ' + ISNULL(LTRIM(RTRIM(p.LastName)), ''), ' ')
+			, c.ClaimNumber
+			, DateOfBirth = FORMAT(p.DateOfBirth, 'M/d/yyyy')
+			, InjuryDate = FORMAT(c.DateOfInjury, 'M/d/yyyy')
+			, Gender = g.GenderName
+			, Carrier = pa.BillToName
+			, Adjustor = a.AdjustorName
+			, AdjustorPhoneNumber = a.PhoneNumber
+			, DateEntered = FORMAT(c.TermDate, 'M/d/yyyy')
+			, AdjustorFaxNumber = a.FaxNumber
+			, i.InvoiceNumber
+			, p.FirstName
+			, p.LastName
+			, pre.RxNumber
+    FROM   dbo.Claim c 
+           LEFT JOIN dbo.Patient p INNER JOIN dbo.Gender g ON g.GenderID = p.GenderID ON p.PatientID = c.PatientID
+           LEFT JOIN dbo.Payor pa ON pa.PayorID = c.PayorID
+           LEFT JOIN dbo.Adjustor a ON a.AdjustorID = c.AdjusterID
+           LEFT JOIN dbo.Prescription pre ON pre.ClaimID = c.ClaimID
+		   LEFT JOIN dbo.Invoice i ON i.InvoiceID = pre.InvoiceID
+
+GO
+PRINT N'Altering [dbo].[uspGetClaimsSearchResults]'
+GO
+/*
+	Author:			Jordan Gurney
+	Create Date:	6/10/2017
+	Description:	Returns Claims data for Blade 1
+	Sample Execute:
+					EXEC dbo.uspGetClaimsSearchResults @FirstName = 'amie'
+*/
+ALTER PROC [dbo].[uspGetClaimsSearchResults]
+(
+    @ClaimNumber VARCHAR(255) = NULL, @FirstName VARCHAR(155) = NULL, 
+    @LastName VARCHAR(155) = NULL, @RxNumber VARCHAR(100) = NULL, @InvoiceNumber NVARCHAR(100) = NULL
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+	WITH ClaimsCTE AS
+	(
+			SELECT c.ClaimID
+			FROM   dbo.Claim AS c
+			WHERE  c.ClaimNumber LIKE '%' + @ClaimNumber + '%'
+		  
+			UNION
+
+			SELECT c.ClaimID
+			FROM   dbo.Claim AS c
+				   INNER JOIN dbo.Patient AS p ON c.PatientID = p.PatientID
+			WHERE  p.FirstName LIKE '%' + @FirstName + '%'
+				   OR p.LastName LIKE '%' + @LastName + '%'
+			
+			UNION
+
+			SELECT p.ClaimID
+			FROM   dbo.Invoice AS i
+					INNER JOIN dbo.Prescription AS p ON p.InvoiceID = i.InvoiceID
+			WHERE  i.InvoiceNumber = @InvoiceNumber
+
+			UNION
+
+			SELECT p.ClaimID
+			FROM   dbo.Prescription AS p
+			WHERE  p.RxNumber = @RxNumber
+    )
+    SELECT DISTINCT c.ClaimId
+		 , c.PayorId
+         , c.ClaimNumber
+         , c.LastName
+         , c.FirstName
+         , c.Carrier
+         , c.InjuryDate
+    FROM   [dbo].[vwClaim] c 
+           INNER JOIN ClaimsCTE cte ON cte.ClaimID = c.ClaimId
+    WHERE  1 = 1
+           AND (c.ClaimNumber LIKE '%' + @ClaimNumber + '%' OR @ClaimNumber IS NULL)
+           AND (c.FirstName LIKE '%' + @FirstName + '%' OR @FirstName IS NULL)
+           AND (c.LastName LIKE '%' + @LastName + '%' OR @LastName IS NULL)
+           AND (c.InvoiceNumber = @InvoiceNumber OR @InvoiceNumber IS NULL)
+           AND (c.RxNumber = @RxNumber OR @RxNumber IS NULL);
+END
+GO
+PRINT N'Altering [etl].[uspProcessLakerFile]'
 GO
 /*
 	Author:			Jordan Gurney
@@ -9,7 +185,7 @@ GO
 	Sample Execute:
 					EXEC etl.uspProcessLakerFile
 */
-CREATE PROC [etl].[uspProcessLakerFile]
+ALTER PROC [etl].[uspProcessLakerFile]
 WITH RECOMPILE -- Not for performance, but out of
 			   -- necessity for compilation and avoiding parser errors.
 AS BEGIN
@@ -675,3 +851,8 @@ AS BEGIN
 	EXEC [dbo].[uspCreateIndexedPrescriptionNoteView]
 END
 GO
+PRINT N'Adding foreign keys to [dbo].[Prescription]'
+GO
+ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionPharmacyNABPPharmacyNABP] FOREIGN KEY ([PharmacyNABP]) REFERENCES [dbo].[Pharmacy] ([NABP])
+GO
+
