@@ -1,7 +1,7 @@
-﻿using BridgeportClaims.Entities.DomainModels;
+﻿using BridgeportClaims.Entities.DomainModels.Views;
 using FluentNHibernate.Mapping;
 
-namespace BridgeportClaims.Data.Mappings
+namespace BridgeportClaims.Data.Mappings.Views
 {
     public class VwClaimInfoMap : ClassMap<VwClaimInfo>
     {

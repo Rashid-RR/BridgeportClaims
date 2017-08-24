@@ -27,6 +27,10 @@ export class PaymentInputComponent implements OnInit {
     });
     this.events.on("payment-amountRemaining",a=>{
          this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(a),"1.2-2"));
+         if (a <= 0) {
+
+         }
+         this.form.get('amountToPost').setValue(null);         
     })
   }
   ngOnInit() {

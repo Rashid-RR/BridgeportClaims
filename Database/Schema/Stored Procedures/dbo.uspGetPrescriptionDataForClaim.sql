@@ -33,7 +33,7 @@ AS BEGIN
 		   LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
 		   OUTER APPLY (
 				SELECT SUM([ipm].[AmountPaid]) AmountPaid 
-				FROM [dbo].[Payment] AS [ipm] 
+				FROM dbo.PrescriptionPayment AS [ipm] 
 				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID]) AS pm
 	WHERE  [p].[ClaimID] = @ClaimID
 END

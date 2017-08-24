@@ -11,15 +11,11 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         public Invoice()
         {
+            AcctPayable = new List<AcctPayable>();
             Prescription = new List<Prescription>();
         }
         [Required]
         public virtual int InvoiceId { get; set; }
-        public virtual Payor Payor { get; set; }
-        public virtual Claim Claim { get; set; }
-        [Required]
-        [StringLength(255)]
-        public virtual string ARItemKey { get; set; }
         [Required]
         [StringLength(100)]
         public virtual string InvoiceNumber { get; set; }
@@ -31,6 +27,9 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
+        [StringLength(50)]
+        public virtual string ETLRowID { get; set; }
+        public virtual IList<AcctPayable> AcctPayable { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
     }
 }

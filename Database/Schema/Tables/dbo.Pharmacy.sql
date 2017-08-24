@@ -1,7 +1,6 @@
 CREATE TABLE [dbo].[Pharmacy]
 (
-[PharmacyID] [int] NOT NULL IDENTITY(1, 1),
-[NABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[NABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [NPI] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PharmacyName] [varchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Address1] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -27,7 +26,7 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[Pharmacy] ADD CONSTRAINT [pkPharmacy] PRIMARY KEY CLUSTERED  ([PharmacyID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
+ALTER TABLE [dbo].[Pharmacy] ADD CONSTRAINT [pkPharmacy] PRIMARY KEY CLUSTERED  ([NABP]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPharmacyStateID] ON [dbo].[Pharmacy] ([StateID]) ON [PRIMARY]
 GO

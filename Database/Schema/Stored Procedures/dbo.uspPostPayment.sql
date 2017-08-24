@@ -22,7 +22,8 @@ CREATE PROC [dbo].[uspPostPayment]
 	@CheckNumber VARCHAR(50),
 	@CheckAmount MONEY,
 	@AmountSelected MONEY,
-	@AmountToPost MONEY
+	@AmountToPost MONEY,
+	@AmountRemaining MONEY OUTPUT
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -30,15 +31,14 @@ AS BEGIN
 	BEGIN TRY
 		BEGIN TRAN;
 		DECLARE @Now DATETIME2 = SYSUTCDATETIME(), @RowCount INTEGER;
-		DECLARE @DateScanned DATE = CAST(dtme.udfGetLocalDateTime(@Now) AS DATE);
+		DECLARE @DatePosted DATE = CAST(dtme.udfGetLocalDateTime(@Now) AS DATE);
 
 		-- Full Payment.
 		IF @AmountSelected = @AmountToPost
 			BEGIN
-				INSERT dbo.Payment(CheckNumber, AmountPaid, DateScanned, PrescriptionID, ClaimID,
+				INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, PrescriptionID,
 						CreatedOnUTC, UpdatedOnUTC)
-				SELECT @CheckNumber, p.BilledAmount, @DateScanned, p.PrescriptionID
-						,p.ClaimID, @Now, @Now
+				SELECT @CheckNumber, p.BilledAmount, @DatePosted, p.PrescriptionID, @Now, @Now
 				FROM @PrescriptionIDs AS pd
 					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID = pd.PrescriptionID
 				SET @RowCount = @@ROWCOUNT
@@ -55,10 +55,9 @@ AS BEGIN
 			END
 		ELSE IF (SELECT COUNT(*) FROM @PrescriptionIDs) = 1 -- Partial Payment. One line.
 			BEGIN
-				INSERT dbo.Payment(CheckNumber, AmountPaid, DateScanned, PrescriptionID, ClaimID,
+				INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, PrescriptionID,
 					 CreatedOnUTC, UpdatedOnUTC)
-				SELECT @CheckNumber, @AmountToPost, @DateScanned, p.PrescriptionID, p.ClaimID,
-					 @Now, @Now
+				SELECT @CheckNumber, @AmountToPost, @DatePosted, p.PrescriptionID, @Now, @Now
 				FROM @PrescriptionIDs AS pd
 					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID=pd.PrescriptionID
 			END
@@ -89,6 +88,18 @@ AS BEGIN
 			   @Now,
 			   @Now
 		FROM @PrescriptionIDs AS p
+
+		-- Do something arbitrary for the @AmountRemaining OUTPUT param
+		SET @AmountRemaining = ISNULL(@CheckAmount, 0.00) - ISNULL(@AmountToPost, 0.00)
+
+		-- Select out @PrescriptionIDs and the Outstanding amount.
+		SELECT	p.PrescriptionID, Outstanding = 
+					ISNULL(pre.BilledAmount, 0.00) - ISNULL(pay.AmountPaid, 0.00)
+		FROM	@PrescriptionIDs AS p
+				INNER JOIN dbo.Prescription AS pre ON pre.PrescriptionID = p.PrescriptionID
+				OUTER APPLY (  SELECT	AmountPaid = SUM(ipay.AmountPaid)
+							   FROM		dbo.PrescriptionPayment AS ipay
+							   WHERE	ipay.PrescriptionID=pre.PrescriptionID) AS pay
 		IF @@TRANCOUNT > 0
 			COMMIT
 	END TRY

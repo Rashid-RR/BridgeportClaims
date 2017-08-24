@@ -37,7 +37,7 @@ AS BEGIN
 			   INNER JOIN [dbo].[Prescription] AS [pr] ON [pr].[ClaimID] = [c].[ClaimID]
 			   LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [pr].[InvoiceID]
 			   OUTER APPLY (   SELECT AmountPaid = SUM([ipm].[AmountPaid])
-							   FROM   [dbo].[Payment] AS [ipm]
+							   FROM   [dbo].[PrescriptionPayment] AS [ipm]
 							   WHERE  [ipm].[PrescriptionID] = [pr].[PrescriptionID]
 						   ) AS ot
 		IF @@TRANCOUNT > 0

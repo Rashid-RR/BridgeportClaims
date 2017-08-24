@@ -22,13 +22,11 @@ export class PaymentService {
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     this.events.on("postPaymentPrescriptionReturnDtos",data=>{
           data.prescriptions.forEach(d=>{
-            console.log(d);
-            var prescription = this.claimsDetail.get(d.prescriptionId);
+             var prescription = this.claimsDetail.get(d.prescriptionId);
             if(prescription){
               prescription.outstanding= d.outstanding;
             }
-            console.log(prescription);
-          })
+           })
     })
   }
 

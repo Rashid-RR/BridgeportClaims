@@ -9,10 +9,14 @@ namespace BridgeportClaims.Entities.DomainModels
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Prescription
     {
-        public Prescription() { PrescriptionNoteMapping = new List<PrescriptionNoteMapping>(); }
-        [Required]
+        public Prescription()
+        {
+            PrescriptionNoteMapping = new List<PrescriptionNoteMapping>();
+            PrescriptionPayment = new List<PrescriptionPayment>();
+        }
         public virtual int PrescriptionId { get; set; }
         public virtual Claim Claim { get; set; }
+        public virtual Pharmacy Pharmacy { get; set; }
         public virtual Invoice Invoice { get; set; }
         [Required]
         [StringLength(100)]
@@ -33,14 +37,9 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         [StringLength(1)]
         public virtual string Generic { get; set; }
-        [Required]
-        [StringLength(7)]
-        public virtual string PharmacyNABP { get; set; }
-        public virtual float? AWP { get; set; }
         public virtual float? AWPUnit { get; set; }
         public virtual decimal? Usual { get; set; }
-        [Required]
-        [StringLength(10)]
+        [StringLength(100)]
         public virtual string Prescriber { get; set; }
         [Required]
         public virtual decimal PayableAmount { get; set; }
@@ -83,6 +82,10 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
+        [StringLength(50)]
+        public virtual string ETLRowID { get; set; }
+        public virtual float? AWP { get; set; }
         public virtual IList<PrescriptionNoteMapping> PrescriptionNoteMapping { get; set; }
+        public virtual IList<PrescriptionPayment> PrescriptionPayment { get; set; }
     }
 }

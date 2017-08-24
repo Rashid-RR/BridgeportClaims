@@ -21,6 +21,7 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
         localStorage.removeItem("user");  
         this.router.navigate(['/login']);
     }); 
+    
   }
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> {
       return this.isLoggedIn.map(e => {
@@ -109,6 +110,17 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
         }
     }
     
+    get isSideBarOpen():boolean{      
+      var sidebar = localStorage.getItem("sidebarOpen");  
+        if (sidebar === null) { return true} 
+       console.log("gets here..");   
+        try {
+          return Boolean(sidebar);                  
+        } catch (error) {
+          console.log(error);
+          return true;
+        }
+    }
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<UserProfile>{
      let user = this.profileManager.User;
       user.subscribe(profile=>{      

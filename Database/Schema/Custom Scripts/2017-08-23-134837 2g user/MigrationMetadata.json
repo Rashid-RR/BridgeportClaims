@@ -1,0 +1,16 @@
+{
+  "Id": "e2d0bab8-6d39-401c-a3dc-5df14644f6e9",
+  "Name": "Covers changes to: Invoice, Payment. Script created at 2017-08-23 13:42.",
+  "ObjectIds": [
+    {
+      "Name": "Invoice",
+      "Owner": "dbo",
+      "ObjectType": "Table"
+    },
+    {
+      "Name": "Payment",
+      "Owner": "dbo",
+      "ObjectType": "Table"
+    }
+  ]
+}
