@@ -1,43 +1,58 @@
-<div class="col-sm-12 claim-col">
-        <div class="table-responsive">
-            <table class="table no-margin table-striped" id="maintable">
-                <thead class="overflowable">
-                    <tr>
-                        <th>
-                           <!--  <span *ngIf="!checkAll" class="pull-left">Check All</span>
-                            <span *ngIf="checkAll"  class="pull-left">Uncheck All</span>
-                            <br>
-                            <div class="paymentCheckBox"> 
-                                <input type="checkbox" id="claimsCheckBox" value="None" (change)="claimsCheckBox($event)">
-                                <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
-                            </div> -->
-                            &nbsp;
-                        </th>
-                        <th>Claim #</th>
-                        <th>Patient Name</th>                        
-                        <th>Payor</th>
-                        <th># of Prescriptions</th>
-                    </tr>
-                </thead>
-                <tbody class="overflowable" #claimsTable tabindex="0">
-                    <tr *ngFor="let claim of paymentService.claimsData;let i=index"  (click)="inv.click()" [class.bgBlue]="claim.selected || checkAll" [id]="'row'+i" [attr.claim]="claim | json">
-                        <td> &nbsp;
-                             <div class="paymentCheckBox" style="visibility:hidden;"> 
-                                <input type="checkbox" name="check" value="None"  (change)="select(claim,$event,i)" [id]="claim.claimId" [attr.labelName]="claim.labelName" [checked]="claim.selected || checkAll" (click)="inv.click()" class="claimCheckBox" #inv>
-                                 <label [for]="claim.claimId" (click)="inv.click()"></label>
-                            </div>
-                        </td>
-                        <td>{{claim.claimNumber}}</td>
-                        <td>{{claim.patientName}}</td>
-                        <td>{{claim.payor}}</td>
-                        <td *ngIf="!claim.numberOfPrescriptions">{{claim.numberOfPrescriptions}}</td>
-                        <td *ngIf="claim.numberOfPrescriptions">
-                            <a class="label label-info bg-darkblue" style="cursor: not-allowed;">
-                                {{claim.numberOfPrescriptions}}
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+<div class="col-sm-12 claim-col" [class.expanded]="paymentService.claimsData.length>0">
+    <div class="table-responsive top-header scroll-y">
+        <table class="table no-margin table-striped">
+            <thead class="overflowable">
+                <tr>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>Claim #</th>
+                    <th>Patient Name</th>                        
+                    <th>Payor</th>
+                    <th># of Prescriptions</th>
+                </tr>
+            </thead>
+        </table>
     </div>
+    <div class="table-responsive table-body">
+        <table class="table no-margin table-striped" id="maintable">
+            <!--<thead class="overflowable">
+                <tr>
+                    <th>
+                        <!--  <span *ngIf="!checkAll" class="pull-left">Check All</span>
+                        <span *ngIf="checkAll"  class="pull-left">Uncheck All</span>
+                        <br>
+                        <div class="paymentCheckBox"> 
+                            <input type="checkbox" id="claimsCheckBox" value="None" (change)="claimsCheckBox($event)">
+                            <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
+                        </div> - ->
+                        &nbsp;
+                    </th>
+                    <th>Claim #</th>
+                    <th>Patient Name</th>                        
+                    <th>Payor</th>
+                    <th># of Prescriptions</th>
+                </tr>
+            </thead>-->
+            <tbody class="overflowable" #claimsTable tabindex="0">
+                <tr *ngFor="let claim of paymentService.claimsData;let i=index"  (click)="inv.click()" [class.bgBlue]="claim.selected || checkAll" [id]="'row'+i" [attr.claim]="claim | json">
+                    <td> &nbsp;
+                            <div class="paymentCheckBox" style="visibility:hidden;"> 
+                            <input type="checkbox" name="check" value="None"  (change)="select(claim,$event,i)" [id]="claim.claimId" [attr.labelName]="claim.labelName" [checked]="claim.selected || checkAll" (click)="inv.click()" class="claimCheckBox" #inv>
+                                <label [for]="claim.claimId" (click)="inv.click()"></label>
+                        </div>
+                    </td>
+                    <td>{{claim.claimNumber}}</td>
+                    <td>{{claim.patientName}}</td>
+                    <td>{{claim.payor}}</td>
+                    <td *ngIf="!claim.numberOfPrescriptions">{{claim.numberOfPrescriptions}}</td>
+                    <td *ngIf="claim.numberOfPrescriptions">
+                        <a class="label label-info bg-darkblue" style="cursor: not-allowed;">
+                            {{claim.numberOfPrescriptions}}
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

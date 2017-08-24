@@ -260,3 +260,32 @@ tr>th:nth-child(7),
 tr>td:nth-child(7) {
     text-align: right !important;
 }
+.claim-col{
+    height:60px;
+}
+.expanded{
+    height: calc(100vh - 154px);
+    height: -moz-calc(100vh - 154px);
+    height: -webkit-calc(100vh - 154px);
+    height: -o-calc(100vh - 154px);
+    overflow:hidden;
+    overflow-y:scroll;
+}
+.top-header,.table-body{
+    width:99%;
+}
+
+.top-header{
+    height:56px;
+    position: absolute;
+    overflow: hidden;
+}
+.table-body{
+    position: absolute;
+    top:56px;
+    max-height: calc(100% - 56px);
+    max-height: -moz-calc(100% - 56px);
+    max-height: -webkit-calc(100% - 56px);
+    max-height: -o-calc(100% - 56px);
+    overflow-y: scroll;
+} 

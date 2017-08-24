@@ -1,14 +1,40 @@
 <div class="row claim-info">
-    <div class="col-sm-12 claim-col">
-        <div class="table-responsive">
-            <table class="table no-margin table-striped" id="maintable">
+    <div class="col-sm-12 claim-col" [class.expanded]="paymentService.detailedClaimsData.length>0">
+        <div class="table-responsive top-header scroll-y">
+            <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
                     <tr>
                         <th>
                             <!-- <span *ngIf="!checkAll" class="pull-left">Check All</span>
                             <span *ngIf="checkAll"  class="pull-left">Uncheck All</span>
                             <br>
-                             -->
+                                -->
+                            <div class="paymentCheckBox checkAll"> 
+                                <input type="checkbox" id="claimsCheckBox" name="check" value="None" (change)="claimsCheckBox($event)">
+                                    <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
+                            </div>&nbsp;<i class="fa rotate fa-exchange"></i>
+                        </th>
+                        <th>Claim #</th>
+                        <th>Patient Name</th>
+                        <th>Rx Date</th>
+                        <th>Rx #</th>
+                        <th>Label Name</th>
+                        <th>Inv Amt</th>
+                        <th>Outstanding</th>
+                        <th>Payor</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-responsive table-body">
+            <table class="table no-margin table-striped" id="maintable">
+                <!--<thead class="overflowable" id="fixed-thead">
+                    <tr>
+                        <th>
+                            <!-- <span *ngIf="!checkAll" class="pull-left">Check All</span>
+                            <span *ngIf="checkAll"  class="pull-left">Uncheck All</span>
+                            <br>
+                             - ->
                            <div class="paymentCheckBox checkAll"> 
                                 <input type="checkbox" id="claimsCheckBox" name="check" value="None" (change)="claimsCheckBox($event)">
                                   <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
@@ -23,7 +49,7 @@
                         <th>Outstanding</th>
                         <th>Payor</th>
                     </tr>
-                </thead>
+                </thead>-->
                 <tbody *ngIf="paymentService.detailedClaimsData" class="overflowable" #prescriptionTable  tabindex="0">
                     <tr *ngFor="let claim of paymentService.detailedClaimsData;let i=index" [class.bgBlue]="claim.selected || checkAll" (click)="inv.click()" [id]="'row'+i" [attr.prescription]="claim | json">
                         <td>
