@@ -50,6 +50,9 @@ export class PaymentService {
             this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
             result.forEach(claim => {
               const c = new PaymentClaim(claim.claimId, claim.claimNumber, claim.patientName, claim.payor, claim.numberOfPrescriptions);
+              if(result.length==1){
+                c.selected = true;
+              }
               this.claims = this.claims.set(claim.claimNumber, c);
             });
           }
