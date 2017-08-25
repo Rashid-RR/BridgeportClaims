@@ -17,6 +17,7 @@ using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using ServiceStack.Text;
+using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
 
 namespace BridgeportClaims.Web
 {
@@ -24,16 +25,16 @@ namespace BridgeportClaims.Web
     {
         internal static string PublicClientId => "LOCAL AUTHORITY";
         public void Configuration(IAppBuilder app)
-        {
-            // Add SignalR to the OWIN pipeline
-            //
-            app.MapSignalR();
+        {   
             var config = new HttpConfiguration();
             app.Use<BridgeportClaimsMiddleware>();
             config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());
             var builder = IoCConfigService.Configure();
             var container = builder.Build();
-            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            var resolver = new AutofacWebApiDependencyResolver(container);
+            config.DependencyResolver = resolver;
+            // Add SignalR to the OWIN pipeline
+            app.MapSignalR();
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
             ConfigureWebApi(config);

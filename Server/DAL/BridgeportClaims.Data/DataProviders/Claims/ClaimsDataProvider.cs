@@ -1,7 +1,10 @@
-﻿ using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Runtime.Caching;
+using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.StoredProcedureExecutors;
@@ -9,6 +12,9 @@ using BridgeportClaims.Entities.DomainModels;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
+using NLog;
+using c = BridgeportClaims.Common.StringConstants.Constants;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Claims
 {
@@ -16,12 +22,15 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	{
 		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
 		private readonly ISessionFactory _factory;
+	    private readonly IMemoryCacher _cache;
+	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-		public ClaimsDataProvider(ISessionFactory factory,
-			IStoredProcedureExecutor storedProcedureExecutor)
+        public ClaimsDataProvider(ISessionFactory factory,
+			IStoredProcedureExecutor storedProcedureExecutor, IMemoryCacher cache)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
-			_factory = factory;
+		    _cache = cache;
+		    _factory = factory;
 		}
 
 		public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
@@ -76,17 +85,56 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			return retVal;
 		}
 
-		private IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId)
+	    private static string ConstructPrescriptionCacheKey(int claimId, string sort, string direction, int page, int pageSize)
+	    {
+            // start with the cache key.
+	        var cacheKey = c.PrescriptionBladeCacheKey;
+	        cacheKey += $"claimdId={claimId}__sort={sort}__direction={direction}__page={page}__pageSize={pageSize}__";
+	        return cacheKey;
+	    }
+
+		public IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page, int pageSize)
 		{
-			var claimIdParam = new SqlParameter
-			{
-				ParameterName = "ClaimID",
-				Value = claimId,
-				DbType = DbType.Int32
-			};
-			return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PrescriptionDto>(
-				"EXECUTE [dbo].[uspGetPrescriptionDataForClaim] @ClaimID = :ClaimID",
-				new List<SqlParameter> {claimIdParam}).ToList();
+		    return _cache.AddOrGetExisting(ConstructPrescriptionCacheKey(claimId, sort, direction, page, pageSize), () =>
+		    {
+                if (cs.AppIsInDebugMode)
+                    Logger.Info("Pulling Prescription data from the database...");
+		        var claimIdParam = new SqlParameter
+		        {
+		            ParameterName = "ClaimID",
+		            Value = claimId,
+		            DbType = DbType.Int32
+		        };
+		        var sortParam = new SqlParameter
+		        {
+		            ParameterName = "SortColumn",
+		            Value = sort,
+		            DbType = DbType.String
+		        };
+		        var sortDirectionParam = new SqlParameter
+		        {
+		            ParameterName = "SortDirection",
+		            Value = direction,
+		            DbType = DbType.String
+		        };
+		        var pageNumberParam = new SqlParameter
+		        {
+		            ParameterName = "PageNumber",
+		            Value = page,
+		            DbType = DbType.Int32
+		        };
+		        var pageSizeParam = new SqlParameter
+		        {
+		            ParameterName = "PageSize",
+		            Value = pageSize,
+		            DbType = DbType.Int32
+		        };
+		        return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PrescriptionDto>(
+                    "EXECUTE [dbo].[uspGetPrescriptionDataForClaim] @ClaimID = :ClaimID, @SortColumn = :SortColumn, @SortDirection " +
+                        "= :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize",
+		            new List<SqlParameter> {claimIdParam, sortParam, sortDirectionParam, pageNumberParam, pageSizeParam}).ToList();
+                // Just a few hours cache time, otherwise we might put some load onto the cache unnecessarily.
+		    }, new CacheItemPolicy {AbsoluteExpiration = DateTimeOffset.UtcNow.AddHours(2)});
 		}
 
 		public ClaimDto GetClaimsDataByClaimId(int claimId)
@@ -178,7 +226,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							claimDto.AcctPayables = acctPayableDtos;
 							// Claim Prescriptions
 							claimDto.Prescriptions = 
-								GetPrescriptionDataByClaim(claimId)?.OrderByDescending(x => x.RxDate).ToList();
+								GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 1000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
 									@"SELECT DISTINCT [ClaimId] = [a].[ClaimID]

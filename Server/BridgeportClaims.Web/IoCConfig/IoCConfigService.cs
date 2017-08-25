@@ -46,7 +46,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<EpisodesDataProvider>().As<IEpisodesDataProvider>().InstancePerRequest();
             builder.RegisterType<AspNetUsersProvider>().As<IAspNetUsersProvider>().InstancePerRequest();
             builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
-            builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().InstancePerRequest();
+            
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
             builder.RegisterType<ClaimNotesDataProvider>().As<IClaimNotesDataProvider>().InstancePerRequest();
@@ -55,6 +55,8 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
             builder.RegisterType<DateDisplayProvider>().As<IDateDisplayProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();
+            // Singletons
+            builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().SingleInstance();
             builder.Register(c => FluentSessionProvider.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
             builder.Register(c => FluentSessionProvider.GetSession()).As<ISession>().OnActivated(session =>
             {

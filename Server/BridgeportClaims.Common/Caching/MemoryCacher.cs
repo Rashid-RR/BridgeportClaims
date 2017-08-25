@@ -13,10 +13,11 @@ namespace BridgeportClaims.Common.Caching
         private MemoryCache _memoryCache { get; } = MemoryCache.Default;
         private CacheItemPolicy _defaultPolicy { get; } = new CacheItemPolicy{AbsoluteExpiration = DateTimeOffset.UtcNow.AddDays(5)};
 
-        public async Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory)
+        public async Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory, CacheItemPolicy policy = null)
         {
+            var useThisPolicy = policy ?? _defaultPolicy;
             var asyncLazyValue = new AsyncLazy<T>(valueFactory);
-            var existingValue = (AsyncLazy<T>) _memoryCache.AddOrGetExisting(key, asyncLazyValue, _defaultPolicy);
+            var existingValue = (AsyncLazy<T>) _memoryCache.AddOrGetExisting(key, asyncLazyValue, useThisPolicy);
 
             if (null != existingValue)
                 asyncLazyValue = existingValue;
@@ -44,10 +45,11 @@ namespace BridgeportClaims.Common.Caching
             }
         }
 
-        public T AddOrGetExisting<T>(string key, Func<T> valueFactory)
+        public T AddOrGetExisting<T>(string key, Func<T> valueFactory, CacheItemPolicy policy = null)
         {
+            var useThisPolicy = policy ?? _defaultPolicy;
             var newValue = new Lazy<T>(valueFactory);
-            var oldValue = _memoryCache.AddOrGetExisting(key, newValue, _defaultPolicy) as Lazy<T>;
+            var oldValue = _memoryCache.AddOrGetExisting(key, newValue, useThisPolicy) as Lazy<T>;
 
             try
             {

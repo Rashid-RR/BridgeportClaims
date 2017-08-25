@@ -36,5 +36,6 @@
         public const string GetAllUsersCacheKey = "__GetAllUsersCacheKey__";
         public const string EpisodeTypesCacheKey = "__EpisodeTypesCacheKey__";
         public const string PaymentChannel = "PaymentChannel";
+        public const string PrescriptionBladeCacheKey = "__PrescriptionBladeCacheKey__";
     }
 }
