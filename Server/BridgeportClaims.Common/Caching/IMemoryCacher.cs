@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Caching;
 using System.Threading.Tasks;
 
 namespace BridgeportClaims.Common.Caching
@@ -25,8 +26,9 @@ namespace BridgeportClaims.Common.Caching
         ///  <typeparam name="T">Type of the value.</typeparam>
         ///  <param name="key">Key that matches the wanted return value.</param>
         ///  <param name="valueFactory">Function that is run only if a value for the given key is not already present in the cache.</param>
-        /// <returns>Returned task-object can be completed or running. Note that the task might result in exception.</returns>
-        Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory);
+        ///  <param name="policy">An optional parameter that defines the cache eviction policy</param>
+        ///  <returns>Returned task-object can be completed or running. Note that the task might result in exception.</returns>
+        Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory, CacheItemPolicy policy = null);
 
         /// <summary>
         /// Repeats the same mechanism above, in a non-async fashion.
@@ -34,8 +36,9 @@ namespace BridgeportClaims.Common.Caching
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <param name="valueFactory"></param>
+        /// <param name="policy">An optional parameter that defines the cache eviction policy</param>
         /// <returns></returns>
-        T AddOrGetExisting<T>(string key, Func<T> valueFactory);
+        T AddOrGetExisting<T>(string key, Func<T> valueFactory, CacheItemPolicy policy = null);
 
         /// <summary>
         /// Invalidate the value for the given key, if value exists.
