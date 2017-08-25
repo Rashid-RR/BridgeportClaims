@@ -1,5 +1,5 @@
 .col-sm-2,
-.col-md-1 {
+.col-md-1:not(.normal) {
     padding-left: 2px;
     padding-right: 2px;
 }
