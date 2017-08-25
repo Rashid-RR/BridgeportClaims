@@ -85,59 +85,59 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			return retVal;
 		}
 
-	    private static string ConstructPrescriptionCacheKey(int claimId, string sort, string direction, int page, int pageSize)
+        // A unique, cache key creator, based on the parameters that are passed in. Putting a hold on this for now, as I saw
+        // no noticeable performance improvement. Speed of light in C# memory, and speed of light in SQL Server memory.
+	    /*private static string ConstructPrescriptionCacheKey(int claimId, string sort, string direction, int page, int pageSize)
 	    {
             // start with the cache key.
 	        var cacheKey = c.PrescriptionBladeCacheKey;
 	        cacheKey += $"claimdId={claimId}__sort={sort}__direction={direction}__page={page}__pageSize={pageSize}__";
 	        return cacheKey;
+	    }*/
+
+	    public IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page,
+	        int pageSize)
+	    {
+	        if (cs.AppIsInDebugMode)
+	            Logger.Info("Pulling Prescription data from the database...");
+	        var claimIdParam = new SqlParameter
+	        {
+	            ParameterName = "ClaimID",
+	            Value = claimId,
+	            DbType = DbType.Int32
+	        };
+	        var sortParam = new SqlParameter
+	        {
+	            ParameterName = "SortColumn",
+	            Value = sort,
+	            DbType = DbType.String
+	        };
+	        var sortDirectionParam = new SqlParameter
+	        {
+	            ParameterName = "SortDirection",
+	            Value = direction,
+	            DbType = DbType.String
+	        };
+	        var pageNumberParam = new SqlParameter
+	        {
+	            ParameterName = "PageNumber",
+	            Value = page,
+	            DbType = DbType.Int32
+	        };
+	        var pageSizeParam = new SqlParameter
+	        {
+	            ParameterName = "PageSize",
+	            Value = pageSize,
+	            DbType = DbType.Int32
+	        };
+	        return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PrescriptionDto>(
+	                "EXECUTE [dbo].[uspGetPrescriptionDataForClaim] @ClaimID = :ClaimID, @SortColumn = :SortColumn, @SortDirection " +
+	                "= :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize",
+	                new List<SqlParameter> {claimIdParam, sortParam, sortDirectionParam, pageNumberParam, pageSizeParam})
+	            .ToList();
 	    }
 
-		public IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page, int pageSize)
-		{
-		    return _cache.AddOrGetExisting(ConstructPrescriptionCacheKey(claimId, sort, direction, page, pageSize), () =>
-		    {
-                if (cs.AppIsInDebugMode)
-                    Logger.Info("Pulling Prescription data from the database...");
-		        var claimIdParam = new SqlParameter
-		        {
-		            ParameterName = "ClaimID",
-		            Value = claimId,
-		            DbType = DbType.Int32
-		        };
-		        var sortParam = new SqlParameter
-		        {
-		            ParameterName = "SortColumn",
-		            Value = sort,
-		            DbType = DbType.String
-		        };
-		        var sortDirectionParam = new SqlParameter
-		        {
-		            ParameterName = "SortDirection",
-		            Value = direction,
-		            DbType = DbType.String
-		        };
-		        var pageNumberParam = new SqlParameter
-		        {
-		            ParameterName = "PageNumber",
-		            Value = page,
-		            DbType = DbType.Int32
-		        };
-		        var pageSizeParam = new SqlParameter
-		        {
-		            ParameterName = "PageSize",
-		            Value = pageSize,
-		            DbType = DbType.Int32
-		        };
-		        return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PrescriptionDto>(
-                    "EXECUTE [dbo].[uspGetPrescriptionDataForClaim] @ClaimID = :ClaimID, @SortColumn = :SortColumn, @SortDirection " +
-                        "= :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize",
-		            new List<SqlParameter> {claimIdParam, sortParam, sortDirectionParam, pageNumberParam, pageSizeParam}).ToList();
-                // Just a few hours cache time, otherwise we might put some load onto the cache unnecessarily.
-		    }, new CacheItemPolicy {AbsoluteExpiration = DateTimeOffset.UtcNow.AddHours(2)});
-		}
-
-		public ClaimDto GetClaimsDataByClaimId(int claimId)
+	    public ClaimDto GetClaimsDataByClaimId(int claimId)
 		{
 			return DisposableService.Using(() => _factory.OpenSession(), session =>
 			{
