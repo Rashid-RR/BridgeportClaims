@@ -202,7 +202,70 @@ th {
 .paymentCheckBox input[type=checkbox]:checked+label:after {
     opacity: 1;
 }
+.bg-head-box {
+    background: #992727;
+    z-index: 3;
+}
 
 .bg-darkblue {
     background-color: #414772 !important;
+}
+
+.panel-head {
+    color: #fff;
+}
+
+.panel-head u {
+    text-decoration: none;
+}
+
+.panel-head img {
+    vertical-align: -5px;
+    margin-right: 7px;
+}
+
+.panel-body-bg {
+    background: #fbeede;
+}
+
+.bg-darkRed {
+    background: #992727;
+    color: #fff;
+}
+
+.bg-fullWhite {
+    background: #fff;
+    color: #992727;
+}
+
+.bg-fullWhite:hover {
+    box-shadow: none;
+}
+
+.bg-darkblue {
+    background-color: #414772;
+    color: #fff;
+    font-size: 14px;
+}
+
+.bg-grey {
+    background: #E2E2E2;
+    padding: 5px;
+    min-width: 35px;
+    text-align: center;
+}
+
+.bg-grey i {
+    font-size: 20px;
+    vertical-align: -5px;
+    color: #992727;
+}
+
+.display-none {
+    display: none
+}
+.tally{
+    color:white;font-size:10pt;
+    font-family: "Comic Sans MS";
+    display:block;
 }

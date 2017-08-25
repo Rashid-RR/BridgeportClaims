@@ -2,7 +2,63 @@
     <div class="col-sm-12 claim-col" *ngIf="!paymentService.prescriptionSelected">
          <app-payment-claim-result></app-payment-claim-result>
     </div>
-    <div class="col-sm-12 claim-col" *ngIf="paymentService.prescriptionSelected">
-         <app-payment-detail-result></app-payment-detail-result>
+    <div class="col-md-5 claim-col" style="width:47%" *ngIf="paymentService.prescriptionSelected">
+        <div class="box">
+            <div class="box-header bg-head-box">
+                <h4 class="box-title text-center panel-head">
+                    <u><img src="assets/img/iconPrescriptions.png"> Selected Prescriptions</u>
+                </h4>
+                <span  class="tally pull-right" style="margin-right:50px;">
+                    <span class="label" *ngIf="paymentService.claimsDataCount" style="margin-left:20px;background:#414772;font-size:9pt">
+                        <span style="font-size:11pt">
+                            {{paymentService.detailedClaimsDataCount}}
+                        </span> Row{{paymentService.detailedClaimsDataCount>1 ? 's':''}} selected
+                    </span>
+                </span>
+                <div class="box-tools pull-right">
+                    
+                </div>
+            </div>
+            <div class="box-body claims panel-body-bg">
+                <app-payment-detail-result></app-payment-detail-result>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1 claim-col"  style="width:5%"  *ngIf="paymentService.prescriptionSelected">             
+        <a class="btn btn-social-icon btn-default btn-flat" style="margin-top:140px;"  (click)="paymentService.unSelectAllPrescriptions()">
+            <i class="fa fa-angle-double-left"></i>
+        </a>
+        <a class="btn btn-social-icon btn-default btn-flat" style="margin-top:10px;" (click)="paymentService.moveSelectedPrescriptions()">
+            <i class="fa fa-chevron-right "></i>
+        </a>
+        <a class="btn btn-social-icon btn-default btn-flat"style="margin-top:10px;" (click)="paymentService.moveUnselectedPrescriptions()">
+            <i class="fa fa-chevron-left "></i>
+        </a>
+        <a class="btn btn-social-icon btn-default btn-flat"style="margin-top:10px;" (click)="paymentService.selectAllPrescriptions()">
+            <i class="fa fa-angle-double-right"></i>
+        </a> 
+
+    </div>
+    <div class="col-md-5 claim-col"  style="width:47%"  *ngIf="paymentService.prescriptionSelected">
+        <div class="box">
+            <div class="box-header bg-head-box">
+                <h4 class="box-title text-center panel-head">
+                    <u><i class="fa fa-medkit"></i> Selected Prescriptions</u>
+                </h4>
+                <span  class="tally pull-right" style="margin-right:50px;">
+                    <span class="label" *ngIf="paymentService.claimsDataCount" style="margin-left:20px;background:#414772;font-size:9pt">
+                        <span style="font-size:11pt">
+                            {{paymentService.detailedClaimsDataCount}}
+                        </span> Row{{paymentService.detailedClaimsDataCount>1 ? 's':''}} selected
+                    </span>
+                </span>
+                <div class="box-tools pull-right">
+                    
+                </div>
+            </div>
+            <div class="box-body claims panel-body-bg">
+               <app-payment-detail-result-selected></app-payment-detail-result-selected>
+            </div>
+        </div>
     </div>
 </div>
