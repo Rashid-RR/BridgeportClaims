@@ -47,13 +47,14 @@ export class PaymentService {
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
             const res: Array<PaymentClaim> = result;
+            console.log(res);
             this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
             result.forEach(claim => {
               const c = new PaymentClaim(claim.claimId, claim.claimNumber, claim.patientName, claim.payor, claim.numberOfPrescriptions);
               if(result.length==1){
                 c.selected = true;
               }
-              this.claims = this.claims.set(claim.claimNumber, c);
+              this.claims = this.claims.set(claim.claimId, c);
             });
           }
         }, err => {

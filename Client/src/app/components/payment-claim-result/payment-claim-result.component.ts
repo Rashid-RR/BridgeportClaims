@@ -47,7 +47,7 @@ export class PaymentClaimResultComponent implements OnInit,AfterViewInit {
           try{
             let c = jQuery('#row'+i).attr('claim');
             let claim = JSON.parse(c);
-            let data = this.paymentService.rawClaimsData.get(claim.claimNumber);
+            let data = this.paymentService.rawClaimsData.get(claim.claimId);
             data.selected = true;
           }catch(e){}
       }
