@@ -29,6 +29,9 @@ export class HttpService {
   logout(): Observable<Response> {
     return this.http.get(this.baseUrl + '/users/logout');
   }
+  clearCache(): Observable<Response> {
+    return this.http.post(this.baseUrl + '/cache/clear',{}, { headers: this.headers });
+  }
   getFiles(): Observable<Response> {
     return this.http.get(this.baseUrl + '/fileupload/getfiles', { headers: this.headers })
     .catch(err => {

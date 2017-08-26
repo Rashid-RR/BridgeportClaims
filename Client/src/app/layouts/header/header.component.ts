@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { Subscription } from 'rxjs/Subscription';
 import {AuthGuard} from "../../services/auth.guard"
 import {LocalStorageService} from 'ng2-webstorage';
+import {ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 declare var jQuery:any
 @Component({
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
     public eventservice: EventsService,
     public profileManager: ProfileManager,
     private guard:AuthGuard,
+    private toast:ToastsManager,
     private localSt:LocalStorageService
   ) { }
   
@@ -31,6 +33,16 @@ export class HeaderComponent implements OnInit {
     
   }
 
+  clearCache(){
+    this.http.clearCache().map(r=>{return r.json()}).subscribe(res=>{
+        this.toast.success(res.message);
+    },err=>{
+      this.toast.error(err.message);
+    })
+  }
+  get allowed():Boolean{
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin')>-1)
+  }
   sidebarToggle(){
     this.eventservice.broadcast("sidebarOpen", true);    
   }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Globalization;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;
-using System.Globalization;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Excel.Adapters;
 using BridgeportClaims.Common.DataTables;
@@ -12,7 +12,6 @@ using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using c = BridgeportClaims.Common.StringConstants.Constants;
-
 
 namespace BridgeportClaims.Data.DataProviders.Payments
 {
@@ -29,8 +28,8 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 
 		public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
 		{
-			var splitClaimIds = string.Join(c.Comma, claimIds);
-			var claimIdParam = new SqlParameter {ParameterName = "ClaimIDs", Value = splitClaimIds, DbType = DbType.String };
+			var delimitedClaimIds = string.Join(c.Comma, claimIds);
+			var claimIdParam = new SqlParameter {ParameterName = "ClaimIDs", Value = delimitedClaimIds, DbType = DbType.String };
 			var paymentSearchResultsDtos = _storedProcedureExecutor
 				.ExecuteMultiResultStoredProcedure<ClaimsWithPrescriptionDetailsDto>(
 					"EXEC [dbo].[uspGetClaimsWithPrescriptionDetails] @ClaimIDs = :ClaimIDs",
