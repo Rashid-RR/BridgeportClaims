@@ -13,14 +13,10 @@
 
 table {
     table-layout: fixed;
-    width: 97% !important;
+    width: 99% !important;
     overflow-x: hidden;
 }
-@media screen and (min-width: 1000px) {
-    table{
-        width:99%;
-    }
-}
+
 thead,
 tbody {
     overflow-y: hidden !important;

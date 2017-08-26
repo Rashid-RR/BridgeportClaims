@@ -13,11 +13,7 @@ declare var jQuery:any;
 })
 export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
 
- constructor(private rd: Renderer2,private ngZone:NgZone,public paymentService:PaymentService, private http: HttpService, private events: EventsService,private toast: ToastsManager) {
-    this.events.on('claimsCheckBox',()=>{
-      this.checkAll = false;
-    })
-  }
+ constructor(private rd: Renderer2,private ngZone:NgZone,public paymentService:PaymentService, private http: HttpService, private events: EventsService,private toast: ToastsManager) { }
   checkAll:Boolean=false;
   selectMultiple:Boolean=false;
   lastSelectedIndex:number;
@@ -28,7 +24,7 @@ export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
     jQuery('#claimsCheckBox').click();
   }
   select(p:any,$event,index){
-      p.searchSelected = $event.target.checked
+      p.selected = $event.target.checked
       if(!$event.target.checked){
         this.checkAll=false;
       }
@@ -38,7 +34,7 @@ export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
                 let p = jQuery('#row'+i).attr('prescription');
                 let prescription = JSON.parse(p);
                 let data = this.paymentService.rawDetailedClaimsData.get(prescription.prescriptionId);
-                data.searchSelected = true;
+                data.selected = true;
               }catch(e){}
           }
       }
@@ -61,11 +57,11 @@ export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
      this.checkAll =  $event.target.checked; 
      if(this.checkAll){
        this.paymentService.claimsDetail.forEach(c=>{
-         c.searchSelected = true;
+         c.selected = true;
        })
      }else{
        this.paymentService.claimsDetail.forEach(c=>{
-         c.searchSelected = false;
+         c.selected = false;
        });
      }   
   }

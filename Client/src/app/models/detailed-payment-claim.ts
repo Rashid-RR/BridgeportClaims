@@ -10,14 +10,11 @@ export class DetailedPaymentClaim{
   labelName:String;
   payor:String;
   selected:Boolean;
-  searchSelected:Boolean;
-  filterSelected:Boolean;
   prescriptionId: number;
   amountRemaining:number;
   constructor(prescriptionId: number,claimId: Number,claimNumber: Number, patientName: String,
     rxNumber: Number, invoiceNumber: any,rxDate:Date,labelName:String,
-    outstanding:Number,invoicedAmount:number,payor:String,selected:Boolean=false,amountRemaining?:number,searchSelected?:Boolean,
-    filterSelected?:Boolean){
+    outstanding:Number,invoicedAmount:number,payor:String,selected:Boolean=false,amountRemaining?:number){
     this.prescriptionId = prescriptionId,
     this.claimId = claimId,
     this.claimNumber = claimNumber,
@@ -30,8 +27,6 @@ export class DetailedPaymentClaim{
     this.invoicedAmount = invoicedAmount;
     this.payor = payor;
     this.amountRemaining = amountRemaining;
-    this.searchSelected = searchSelected;
-    this.filterSelected = filterSelected;
     
   }
 }
