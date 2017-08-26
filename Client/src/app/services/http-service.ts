@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Response } from '@angular/http/src/static_response';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
 import { UUID } from 'angular2-uuid';
 import {Router} from '@angular/router';
 import {EventsService} from './events-service';
@@ -321,5 +321,26 @@ export class HttpService {
        } else if (res.status == 500) {
         this.toast.error('A server error was detected. Please contact your system administrator.');
        }
+  }
+  getPrescriptions(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
+    page: Number= 1, pageSize: Number = 20) {
+    // api/prescriptions/sort/?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=20
+    let params = new URLSearchParams();
+    params.append('claimId', claimId.toString());
+    if (sort) {
+      params.append('sort', sort.toString());
+      params.append('sortDirection', sortDir.toUpperCase());
+    }
+    if (page >= 1) {
+      params.append('page', page.toString());
+    }
+    params.append('pageSize', pageSize.toString());
+    let options = new RequestOptions({ params: params, headers: this.headers });
+    const s = this.http.post(this.baseUrl + '/prescriptions/sort/', '', options)
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
   }
 }
