@@ -49,7 +49,7 @@
             </a>
       </li>
       <li>
-        <a [routerLink]="'/main/new-features'">            
+        <a [routerLink]="'/main/new-features'" *ngIf="allowed">            
           <i class="fa fa-star"></i> 
           <span>New Features</span>
         </a>
