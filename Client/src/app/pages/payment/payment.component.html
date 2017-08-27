@@ -62,7 +62,7 @@
                                     <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentService.prescriptionSelected=false" style="margin-left:auto;margin-right:auto;"><i class="fa fa-arrow-left"></i> Back to Claims</button>
                                 </div>
                             </div>
-                            <div class="box-body claims payment-result panel-body-bg">
+                            <div class="box-body claims payment-result" [class.panel-body-bg]="!paymentService.prescriptionSelected">
                                 <app-payment-result></app-payment-result>
                             </div>
                         </div>
