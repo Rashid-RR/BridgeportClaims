@@ -49,34 +49,34 @@ export class PaymentInputComponent implements OnInit {
     this.paymentService.prescriptionSelected=false;
     this.events.broadcast("disable-links",false);
   }
-   search(){
+  search(){
  
-   }
-
- textChange(controlName:string){
-   if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
-     this.form.get(controlName).setValue(null);
-   }else{
-     switch(controlName){
-       case 'checkAmount':
-       case 'amountToPost':
-        var val = this.form.get(controlName).value.replace(",",'');
-        this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.2-2"));
-       break;
-       default:
-       break;
-
-     }
-   }
- }
- checkNumber($event){
-  $event = ($event) ? $event : window.event;
-  var charCode = ($event.which) ? $event.which : $event.keyCode;
-  if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode!=44 && charCode!=46) {
-      return false;
   }
-  return true;
- }
+
+  textChange(controlName:string){
+    if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
+      this.form.get(controlName).setValue(null);
+    }else{
+      switch(controlName){
+        case 'checkAmount':
+        case 'amountToPost':
+          var val = this.form.get(controlName).value.replace(",",'');
+          this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.2-2"));
+        break;
+        default:
+        break;
+
+      }
+    }
+  }
+  checkNumber($event){
+    $event = ($event) ? $event : window.event;
+    var charCode = ($event.which) ? $event.which : $event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode!=44 && charCode!=46) {
+        return false;
+    }
+    return true;
+  }
   post(){
     var prescriptions=[];
     this.paymentService.detailedClaimsData.forEach(p=>{
