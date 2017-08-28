@@ -17,7 +17,7 @@ declare var jQuery:any
 export class HeaderComponent implements OnInit {
 
   date: number;
-
+  disableLinks = false;  
   constructor(
     private http: HttpService,
     private router: Router,
@@ -30,7 +30,9 @@ export class HeaderComponent implements OnInit {
   
   ngOnInit() {
     this.date = Date.now();
-    
+    this.eventservice.on("disable-links",(status:boolean)=>{
+        this.disableLinks = status;
+    });    
   }
 
   clearCache(){
@@ -48,12 +50,14 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    this.eventservice.broadcast("logout", true);
-    this.profileManager.profile = undefined;
-    localStorage.removeItem('user');
-    this.router.navigate(['/login']);
-    /* this.http.logout().subscribe(res=>{
-         console.log(res);
-     });*/
+    if(!this.disableLinks){
+      this.eventservice.broadcast("logout", true);
+      this.profileManager.profile = undefined;
+      localStorage.removeItem('user');
+      this.router.navigate(['/login']);
+      /* this.http.logout().subscribe(res=>{
+          console.log(res);
+      });*/
+    }
   }
 }

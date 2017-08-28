@@ -12,3 +12,7 @@
     .scroll-y {
       overflow-y: scroll;
     }
+    li.disabled , a.disabled {
+        cursor: not-allowed;
+        text-decoration: none;
+    }

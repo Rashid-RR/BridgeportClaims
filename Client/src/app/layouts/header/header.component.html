@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a [routerLink]="'/'" class="logo">
+    <a [routerLink]="!disableLinks ?  '/' : []" class="logo" [class.disabled]="disableLinks">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>BR</b>-C</span>
         <!-- logo for regular state and mobile devices -->
@@ -27,14 +27,14 @@
             <ul class="nav navbar-nav" *ngIf="profileManager.profile">
                 <li routerLinkActive="active" *ngIf="profileManager.profile">
                     <!--[routerLink]="'/profile'"-->
-                     <a class="navbar-link" [routerLink]="'/main/profile'">My Account</a>
+                     <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">My Account</a>
                 </li>
                 <li routerLinkActive="active" *ngIf="profileManager.profile">
                     <!--[routerLink]="'/profile'"-->
-                    <a class="navbar-link" [routerLink]="'/main/profile'">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>
+                    <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>
                 </li>
                 <li routerLinkActive="active" *ngIf="profileManager.profile">
-                    <a style="cursor:pointer;" (click)="logout()" class="navbar-link">Logout</a>
+                    <a style="cursor:pointer;" (click)="logout()" class="navbar-link" [class.disabled]="disableLinks">Logout</a>
                 </li>
             </ul>
         </div>

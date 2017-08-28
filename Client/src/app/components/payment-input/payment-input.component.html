@@ -3,15 +3,15 @@
         <div class="col-md-1 normal">
             <div class="form-group">
                 <label>Check #</label>
-                <input class="form-control" name="checkNumber" formControlName="checkNumber" (change)="textChange('checkNumber')" (focus)="submitted=false" focus-on>
+                <input class="form-control"   [class.not-allowed]="disableCheckEntry" name="checkNumber" formControlName="checkNumber" (change)="textChange('checkNumber')" (focus)="submitted=false" focus-on  [readonly]="disableCheckEntry">
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
                 <label>Check Amount</label>
-                <div class="input-group">
+                <div class="input-group" [class.not-allowed]="disableCheckEntry">
                     <div class="input-group-addon">$</div>
-                    <input class="form-control"  (keypress)="checkNumber($event)" name="checkAmount" formControlName="checkAmount" (change)="textChange('checkAmount')"  (focus)="submitted=false" [ngModel]="checkAmount | number:'1.2-2'" focus-on>
+                    <input class="form-control"  (keypress)="checkNumber($event)" name="checkAmount" formControlName="checkAmount" (change)="textChange('checkAmount')"  (focus)="submitted=false" [ngModel]="checkAmount | number:'1.2-2'" [readonly]="disableCheckEntry">
                 </div>
             </div>
         </div>

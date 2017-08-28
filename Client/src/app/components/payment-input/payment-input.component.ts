@@ -16,6 +16,7 @@ export class PaymentInputComponent implements OnInit {
 
   form: FormGroup;
   submitted: boolean = false;
+  disableCheckEntry: boolean = false;
   checkAmount:number = 0;
   constructor(private decimalPipe:DecimalPipe,public paymentService:PaymentService,private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager) {
     this.form = this.formBuilder.group({
@@ -27,9 +28,17 @@ export class PaymentInputComponent implements OnInit {
     });
     this.events.on("payment-amountRemaining",a=>{
          this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(a),"1.2-2"));
+         let c=Number(this.form.get('checkAmount').value.replace(",","")).toFixed(2);
+         let checkAmount  = Number(c);
+         console.log(checkAmount-(a as number));
          if (a <= 0) {
-
+              this.events.broadcast("disable-links",false);
+              this.paymentService.prescriptionSelected = false; 
+         }else if(checkAmount-(a as number)>0){
+           this.disableCheckEntry = true;
+           this.events.broadcast("disable-links",true);
          }
+         this.paymentService.unSelectAllPrescriptions();
          this.form.get('amountToPost').setValue(null);         
     })
   }

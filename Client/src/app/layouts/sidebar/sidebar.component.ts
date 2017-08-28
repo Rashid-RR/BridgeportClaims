@@ -12,10 +12,14 @@ import {Router} from "@angular/router";
 })
 export class SidebarComponent implements OnInit {
 
+  disableLinks = false;
   constructor(private http: HttpService,private events:EventsService, private router: Router, private profileManager:ProfileManager,public claimManager:ClaimManager) { }
 
   ngOnInit() {
-
+    //this.disableLinks = true;
+    this.events.on("disable-links",(status:boolean)=>{
+        this.disableLinks = status;
+    });
   }
 
   get userName(){
@@ -29,11 +33,13 @@ export class SidebarComponent implements OnInit {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin')>-1)
   }
   goToClaim(id:Number){
+    if(!this.disableLinks){
       this.claimManager.search({
           claimNumber: null,firstName: null,lastName: null,
           rxNumber: null,invoiceNumber: null,claimId:id},false);      
       if(this.router.url !='/main/claims'){
         this.router.navigate(['/main/claims']);
       }
+    }
   }
 }
