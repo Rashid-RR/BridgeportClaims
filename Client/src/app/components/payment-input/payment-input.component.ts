@@ -45,7 +45,10 @@ export class PaymentInputComponent implements OnInit {
   ngOnInit() {
 
   }
-
+  cancel(){
+    this.paymentService.prescriptionSelected=false;
+    this.events.broadcast("disable-links",false);
+  }
    search(){
  
    }
