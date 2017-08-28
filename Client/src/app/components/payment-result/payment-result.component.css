@@ -269,3 +269,7 @@ th {
     font-family: "Comic Sans MS";
     display:block;
 }
+app-payment-detail-result{
+    min-width:100%;
+    width:100%;
+}
