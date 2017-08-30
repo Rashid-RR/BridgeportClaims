@@ -14,7 +14,8 @@ GO
 CREATE PROC [dbo].[uspGetAmountRemaining]
 (
 	@ClaimIDs [dbo].[udtClaimID] READONLY,
-	@CheckNumber VARCHAR(50)
+	@CheckNumber VARCHAR(50),
+	@AmountRemaining MONEY OUTPUT
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -22,11 +23,15 @@ AS BEGIN
 	SELECT	@SplitList = COALESCE(@SplitList + ',' , '') + CAST(p.ClaimID AS VARCHAR)
 	FROM	@ClaimIDs AS p
 
-	SELECT	@CheckNumber CheckNumber, @CheckNumber CheckNumber, SUM(p.AmountPaid) AmountRemaining
+	CREATE TABLE #PossibleClaimIDs (ClaimID INT) -- Needs to match at least one of these.
+	INSERT	#PossibleClaimIDs ( ClaimID )
+	SELECT	Split.[value] 
+	FROM	STRING_SPLIT(@SplitList, ',') AS Split
+
+	SELECT	@AmountRemaining = SUM(p.AmountPaid)
 	FROM	dbo.vwPayment AS p
-			INNER JOIN STRING_SPLIT(@SplitList, ',') AS Split
-				ON Split.[value] = p.PaymentID
-	WHERE	p.PaymentID IS NOT NULL
-			AND	p.CheckNumber = @CheckNumber
+	WHERE	p.CheckNumber = @CheckNumber
+			AND p.ClaimID IN (SELECT c.ClaimID FROM #PossibleClaimIDs AS c)
 END
+
 GO
