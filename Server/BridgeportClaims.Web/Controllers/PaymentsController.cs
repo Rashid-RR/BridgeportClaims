@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Business.Payments;
@@ -23,6 +24,25 @@ namespace BridgeportClaims.Web.Controllers
         {
             _paymentsDataProvider = paymentsDataProvider;
             _paymentsBusiness = paymentsBusiness;
+        }
+
+        [HttpPost]
+        [Route("amount-remaining")]
+        public async Task<IHttpActionResult> GetAmountRemaining(IList<int> claimIds, string checkNumber)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var retVal = _paymentsDataProvider.GetAmountRemaining(claimIds, checkNumber);
+                    return Ok(retVal);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

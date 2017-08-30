@@ -6,6 +6,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public interface IPaymentsDataProvider
     {
+        decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber);
         void ImportPaymentFile(string fileName);
         IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds);
         IList<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,
