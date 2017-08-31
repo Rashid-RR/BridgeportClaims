@@ -28,44 +28,45 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 
 	    public decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber)
 	    {
-	        return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        var outputParam = new SqlParameter
 	        {
-	            return DisposableService.Using(() => new SqlCommand("dbo.uspGetAmountRemaining", conn), cmd =>
+	            ParameterName = "AmountRemaining",
+	            DbType = DbType.Decimal,
+	            SqlDbType = SqlDbType.Money,
+	            Direction = ParameterDirection.Output
+	        };
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            DisposableService.Using(() => new SqlCommand("dbo.uspGetAmountRemaining", conn), cmd =>
 	            {
 	                cmd.CommandType = CommandType.StoredProcedure;
 	                cmd.CommandTimeout = 30;
 	                var param = new SqlParameter
 	                {
-	                    ParameterName = "ClaimIDs",
+	                    ParameterName = "@ClaimIDs",
 	                    SqlDbType = SqlDbType.Structured,
 	                    Direction = ParameterDirection.Input
 	                };
-                    cmd.Parameters.Add(param);
+	                
 	                var nextParam = new SqlParameter
 	                {
 	                    DbType = DbType.String,
 	                    SqlDbType = SqlDbType.VarChar,
 	                    Direction = ParameterDirection.Input,
-	                    ParameterName = "CheckNumber"
-	                };
+	                    ParameterName = "@CheckNumber"
+                    };
+	                cmd.Parameters.Add(param);
+                    cmd.Parameters.Add(outputParam);
                     cmd.Parameters.Add(nextParam);
-	                var outputParam = new SqlParameter
-	                {
-	                    ParameterName = "AmountRemaining",
-	                    DbType = DbType.Decimal,
-	                    SqlDbType = SqlDbType.Money,
-	                    Direction = ParameterDirection.Output
-	                };
-	                cmd.Parameters.Add(outputParam);
-                    if (conn.State != ConnectionState.Open)
-                        conn.Open();
+	                if (conn.State != ConnectionState.Open)
+	                    conn.Open();
 	                cmd.ExecuteNonQuery();
-	                return decimal.TryParse(outputParam.Value?.ToString(), out decimal d) ? d : new decimal();
 	            });
 	        });
-	    }
+	        return decimal.TryParse(outputParam.Value?.ToString(), out decimal d) ? d : new decimal();
+        }
 
-		public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
+	    public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
 		{
 			var delimitedClaimIds = string.Join(c.Comma, claimIds);
 			var claimIdParam = new SqlParameter {ParameterName = "ClaimIDs", Value = delimitedClaimIds, DbType = DbType.String };

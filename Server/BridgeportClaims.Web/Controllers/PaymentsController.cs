@@ -28,13 +28,13 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("amount-remaining")]
-        public async Task<IHttpActionResult> GetAmountRemaining(IList<int> claimIds, string checkNumber)
+        public async Task<IHttpActionResult> GetAmountRemaining(AmountRemainingModel model)
         {
             try
             {
                 return await Task.Run(() =>
                 {
-                    var retVal = _paymentsDataProvider.GetAmountRemaining(claimIds, checkNumber);
+                    var retVal = _paymentsDataProvider.GetAmountRemaining(model.ClaimIds, model.CheckNumber);
                     return Ok(retVal);
                 });
             }
