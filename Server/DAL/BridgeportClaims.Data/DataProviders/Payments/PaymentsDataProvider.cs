@@ -99,7 +99,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 		private static IEnumerable<byte> GetBytesFromDb(string fileName) => DisposableService.Using(() 
 			=> new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
-				return DisposableService.Using(() => new SqlCommand("dbo.uspGetFileBytesFromFileName", conn),
+				return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetFileBytesFromFileName]", conn),
 					cmd =>
 					{
 						cmd.CommandType = CommandType.StoredProcedure;
@@ -142,7 +142,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 			return DisposableService.Using(()
 				 => new SqlConnection(cs.GetDbConnStr()), conn =>
 			 {
-				 return DisposableService.Using(() => new SqlCommand("dbo.uspPostPayment", conn),
+				 return DisposableService.Using(() => new SqlCommand("[dbo].[uspPostPayment]", conn),
 					 cmd =>
 					 {
 						 cmd.CommandType = CommandType.StoredProcedure;
