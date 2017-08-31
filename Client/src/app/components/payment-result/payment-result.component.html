@@ -24,21 +24,19 @@
             </div>
         </div>
     </div>
-    <div class="col-md-1 claim-col"  style="width:5%;text-align:center;padding:2px;"  *ngIf="paymentService.prescriptionSelected">             
-        
-        <a class="btn btn-social-icon btn-default btn-flat"style="margin-top:140px;" (click)="paymentService.selectAllPrescriptions()">
-             <i class="fa fa-angle-double-right"></i>
+    <div class="col-md-1 claim-col action-buttons"   *ngIf="paymentService.prescriptionSelected">             
+        <a class="btn btn-social-icon btn-default btn-flat" (click)="paymentService.selectAllPrescriptions()">
+            <i class="fa fa-angle-double-right"></i>
         </a>                 
         <a class="btn btn-social-icon btn-default btn-flat" style="margin-top:10px;" (click)="paymentService.moveSelectedPrescriptions()">
             <i class="fa fa-chevron-right "></i>
         </a>
-        <a class="btn btn-social-icon btn-default btn-flat"style="margin-top:10px;" (click)="paymentService.moveUnselectedPrescriptions()">
+        <a class="btn btn-social-icon btn-default btn-flat" style="margin-top:10px;" (click)="paymentService.moveUnselectedPrescriptions()">
             <i class="fa fa-chevron-left "></i>
         </a>
         <a class="btn btn-social-icon btn-default btn-flat" style="margin-top:10px;"  (click)="paymentService.unSelectAllPrescriptions()">
             <i class="fa fa-angle-double-left"></i>
-        </a>
-
+        </a> 
     </div>
     <div class="col-md-5 claim-col"  style="width:47%"  *ngIf="paymentService.prescriptionSelected">
         <div class="box">

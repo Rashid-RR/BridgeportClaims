@@ -273,3 +273,25 @@ app-payment-detail-result{
     min-width:100%;
     width:100%;
 }
+
+.action-buttons{
+    width:5%;
+    text-align:center;
+    padding:2px;
+    display:flex;
+    flex-direction:column;
+}
+.action-buttons a{
+    margin-top:140px;
+    margin-left:calc(50% - 17px);
+    margin-left:-moz-calc(50% - 17px);
+    margin-left:-webkit-calc(50% - 17px);
+    margin-left:-o-calc(50% - 17px);
+}
+
+.action-buttons a i{
+    color: #992727;
+}
+.action-buttons a:hover i{
+    color: #370505;
+}
