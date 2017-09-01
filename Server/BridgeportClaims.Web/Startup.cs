@@ -78,7 +78,7 @@ namespace BridgeportClaims.Web
                 //For Dev enviroment only (on production should be AllowInsecureHttp = false)
                 AllowInsecureHttp = !Convert.ToBoolean(ConfigService.GetAppSetting("forceHttps")),
                 TokenEndpointPath = new PathString("/oauth/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromHours(24),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(5),
                 Provider = new BridgeportClaimOAuthProvider(),
                 AccessTokenFormat = new BridgeportClaimsJwtFormat(PublicClientId)
             };
