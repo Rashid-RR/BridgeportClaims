@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
-using c = BridgeportClaims.Common.StringConstants.Constants;
+using BridgeportClaims.Web.SignalR;
 using Microsoft.AspNet.SignalR;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
-namespace BridgeportClaims.Web.SignalR
+namespace BridgeportClaims.Web.Hubs
 {
     public class PaymentHub : Hub
     {

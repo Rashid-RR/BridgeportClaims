@@ -13,6 +13,8 @@ namespace BridgeportClaims.Common.Caching
         private MemoryCache _memoryCache { get; } = MemoryCache.Default;
         private CacheItemPolicy _defaultPolicy { get; } = new CacheItemPolicy{AbsoluteExpiration = DateTimeOffset.UtcNow.AddDays(5)};
 
+
+
         public async Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory, CacheItemPolicy policy = null)
         {
             var useThisPolicy = policy ?? _defaultPolicy;
