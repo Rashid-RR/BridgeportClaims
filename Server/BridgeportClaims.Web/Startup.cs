@@ -10,6 +10,7 @@ using BridgeportClaims.Web.IoCConfig;
 using BridgeportClaims.Web.Middleware;
 using BridgeportClaims.Web.Providers;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security;
@@ -33,8 +34,14 @@ namespace BridgeportClaims.Web
             var container = builder.Build();
             var resolver = new AutofacWebApiDependencyResolver(container);
             config.DependencyResolver = resolver;
+            app.UseCors(CorsOptions.AllowAll);
+            var hubConfiguration = new HubConfiguration
+            {
+                EnableJSONP = true,
+                EnableDetailedErrors = true
+            };
             // Add SignalR to the OWIN pipeline
-            app.MapSignalR();
+            app.MapSignalR(hubConfiguration);
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
             ConfigureWebApi(config);
