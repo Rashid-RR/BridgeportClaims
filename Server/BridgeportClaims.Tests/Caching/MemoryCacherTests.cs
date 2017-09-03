@@ -25,7 +25,7 @@ namespace BridgeportClaims.Tests.Caching
         [TestInitialize]
         public void Setup()
         {
-            _cache = new MemoryCacher();
+            _cache = MemoryCacher.Instance;
             _cache.DeleteAll();
         }
 
