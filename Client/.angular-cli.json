@@ -55,7 +55,7 @@
         "../node_modules/admin-lte/plugins/input-mask/jquery.inputmask.js",
         "../node_modules/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js",
         "../node_modules/admin-lte/plugins/input-mask/jquery.inputmask.extensions.js",
-        "../node_modules/admin-lte/dist/js/app.js",
+        "assets/js/app.js",
         "../node_modules/sweetalert2/dist/sweetalert2.min.js",
         "../node_modules/admin-lte/dist/js/demo.js"
       ],
