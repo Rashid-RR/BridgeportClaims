@@ -26,7 +26,47 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 			_memoryCacher = memoryCacher;
 		}
 
-		public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
+	    public decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber)
+	    {
+	        var outputParam = new SqlParameter
+	        {
+	            ParameterName = "AmountRemaining",
+	            DbType = DbType.Decimal,
+	            SqlDbType = SqlDbType.Money,
+	            Direction = ParameterDirection.Output
+	        };
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            DisposableService.Using(() => new SqlCommand("dbo.uspGetAmountRemaining", conn), cmd =>
+	            {
+	                cmd.CommandType = CommandType.StoredProcedure;
+	                cmd.CommandTimeout = 30;
+	                var param = new SqlParameter
+	                {
+	                    ParameterName = "@ClaimIDs",
+	                    SqlDbType = SqlDbType.Structured,
+	                    Direction = ParameterDirection.Input
+	                };
+	                
+	                var nextParam = new SqlParameter
+	                {
+	                    DbType = DbType.String,
+	                    SqlDbType = SqlDbType.VarChar,
+	                    Direction = ParameterDirection.Input,
+	                    ParameterName = "@CheckNumber"
+                    };
+	                cmd.Parameters.Add(param);
+                    cmd.Parameters.Add(outputParam);
+                    cmd.Parameters.Add(nextParam);
+	                if (conn.State != ConnectionState.Open)
+	                    conn.Open();
+	                cmd.ExecuteNonQuery();
+	            });
+	        });
+	        return decimal.TryParse(outputParam.Value?.ToString(), out decimal d) ? d : new decimal();
+        }
+
+	    public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
 		{
 			var delimitedClaimIds = string.Join(c.Comma, claimIds);
 			var claimIdParam = new SqlParameter {ParameterName = "ClaimIDs", Value = delimitedClaimIds, DbType = DbType.String };
@@ -99,7 +139,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 		private static IEnumerable<byte> GetBytesFromDb(string fileName) => DisposableService.Using(() 
 			=> new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
-				return DisposableService.Using(() => new SqlCommand("dbo.uspGetFileBytesFromFileName", conn),
+				return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetFileBytesFromFileName]", conn),
 					cmd =>
 					{
 						cmd.CommandType = CommandType.StoredProcedure;
@@ -142,7 +182,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 			return DisposableService.Using(()
 				 => new SqlConnection(cs.GetDbConnStr()), conn =>
 			 {
-				 return DisposableService.Using(() => new SqlCommand("dbo.uspPostPayment", conn),
+				 return DisposableService.Using(() => new SqlCommand("[dbo].[uspPostPayment]", conn),
 					 cmd =>
 					 {
 						 cmd.CommandType = CommandType.StoredProcedure;

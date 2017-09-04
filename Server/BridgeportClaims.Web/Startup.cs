@@ -10,6 +10,7 @@ using BridgeportClaims.Web.IoCConfig;
 using BridgeportClaims.Web.Middleware;
 using BridgeportClaims.Web.Providers;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security;
@@ -25,16 +26,20 @@ namespace BridgeportClaims.Web
     {
         internal static string PublicClientId => "LOCAL AUTHORITY";
         public void Configuration(IAppBuilder app)
-        {   
+        {
+            // Add SignalR to the OWIN pipeline
+            
             var config = new HttpConfiguration();
-            app.Use<BridgeportClaimsMiddleware>();
-            config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());
+            
+            app.MapSignalR();
             var builder = IoCConfigService.Configure();
             var container = builder.Build();
+            app.UseAutofacMiddleware(container);
             var resolver = new AutofacWebApiDependencyResolver(container);
             config.DependencyResolver = resolver;
-            // Add SignalR to the OWIN pipeline
-            app.MapSignalR();
+            
+            app.Use<BridgeportClaimsMiddleware>();
+            config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
             ConfigureWebApi(config);
@@ -44,6 +49,7 @@ namespace BridgeportClaims.Web
             if (ConfigService.AppIsInDebugMode)
                 NHibernateProfiler.Initialize();
             app.UseWebApi(config);
+            app.UseAutofacWebApi(config);
         }
         
         private static void ConfigureOAuthTokenConsumption(IAppBuilder app)
@@ -78,7 +84,7 @@ namespace BridgeportClaims.Web
                 //For Dev enviroment only (on production should be AllowInsecureHttp = false)
                 AllowInsecureHttp = !Convert.ToBoolean(ConfigService.GetAppSetting("forceHttps")),
                 TokenEndpointPath = new PathString("/oauth/token"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromHours(24),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(5),
                 Provider = new BridgeportClaimOAuthProvider(),
                 AccessTokenFormat = new BridgeportClaimsJwtFormat(PublicClientId)
             };

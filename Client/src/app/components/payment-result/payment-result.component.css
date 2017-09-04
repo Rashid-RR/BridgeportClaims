@@ -202,10 +202,6 @@ th {
 .paymentCheckBox input[type=checkbox]:checked+label:after {
     opacity: 1;
 }
-.bg-head-box {
-    background: #992727;
-    z-index: 3;
-}
 
 .bg-darkblue {
     background-color: #414772 !important;

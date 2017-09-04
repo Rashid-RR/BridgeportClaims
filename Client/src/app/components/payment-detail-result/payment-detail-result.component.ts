@@ -13,11 +13,7 @@ declare var jQuery:any;
 })
 export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
 
- constructor(private rd: Renderer2,private ngZone:NgZone,public paymentService:PaymentService, private http: HttpService, private events: EventsService,private toast: ToastsManager) {
-    this.events.on('claimsCheckBox',()=>{
-      this.checkAll = false;
-    })
-  }
+ constructor(private rd: Renderer2,private ngZone:NgZone,public paymentService:PaymentService, private http: HttpService, private events: EventsService,private toast: ToastsManager) { }
   checkAll:Boolean=false;
   selectMultiple:Boolean=false;
   lastSelectedIndex:number;

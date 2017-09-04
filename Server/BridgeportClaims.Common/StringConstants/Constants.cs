@@ -6,10 +6,13 @@
         public const string AppIsInDebugMode = "ApplicationIsInDebugMode";
         public const string GetUserByIdAction = "GetUserById";
         public const string ThankYouEmailConfirmedAction = "ThankYouEmailConfirmed";
-        public const string EmailWelcomeActivationTemplateEmailSubject = 
+
+        public const string EmailWelcomeActivationTemplateEmailSubject =
             "Thank you for Registering to BridgeportClaims.com, Please Activate your Email Address";
+
         public const string PasswordResetTemplateEmailSubject =
             "Forgotten Password Assistance from BridgeportClaims.com";
+
         public const string AspNetIdentity = "ASP.NET Identity";
         public const string ConfirmEmailRouteAction = "ConfirmEmailRoute";
         public const string GetRoleByIdAction = "GetRoleById";
@@ -37,5 +40,6 @@
         public const string EpisodeTypesCacheKey = "__EpisodeTypesCacheKey__";
         public const string PaymentChannel = "PaymentChannel";
         public const string PrescriptionBladeCacheKey = "__PrescriptionBladeCacheKey__";
+        public const string CachingProvider = "CachingProvider";
     }
 }

@@ -4,9 +4,11 @@ using System.Net;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Business.Payments;
+using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.DataProviders.Payments;
 
 namespace BridgeportClaims.Web.Controllers
@@ -18,11 +20,35 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IPaymentsDataProvider _paymentsDataProvider;
         private readonly IPaymentsBusiness _paymentsBusiness;
+        private readonly IMemoryCacher _memoryCacher;
 
-        public PaymentsController(IPaymentsDataProvider paymentsDataProvider, IPaymentsBusiness paymentsBusiness)
+        public PaymentsController(
+            IPaymentsDataProvider paymentsDataProvider, 
+            IPaymentsBusiness paymentsBusiness, 
+            IMemoryCacher memoryCacher)
         {
             _paymentsDataProvider = paymentsDataProvider;
             _paymentsBusiness = paymentsBusiness;
+            _memoryCacher = memoryCacher;
+        }
+
+        [HttpPost]
+        [Route("amount-remaining")]
+        public async Task<IHttpActionResult> GetAmountRemaining(AmountRemainingModel model)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var retVal = _paymentsDataProvider.GetAmountRemaining(model.ClaimIds, model.CheckNumber);
+                    return Ok(retVal);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -68,7 +94,7 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
-
+        
         [HttpPost]
         [Route("post-payments")]
         public async Task<IHttpActionResult> PostPayments(PostPaymentsModel model)
@@ -115,5 +141,35 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
             }
         }
+
+        #region Payment Posting Section
+
+        [HttpPost]
+        [Route("begin-payment-posting")]
+        public async Task<IHttpActionResult> BeginPaymentPosting(string sourceConnectionId, string destinationConnectionId)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var model = new UserPaymentPostingSession
+                    {
+                        UserName = User.Identity.Name,
+                        SourceConnectionId = sourceConnectionId,
+                        DestinationConnectionId = destinationConnectionId
+                    };
+                    _memoryCacher.AddItem(model.CacheKey.ToString(), model);
+                    return Ok(model);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+            }
+        }
+
+        #endregion
+
     }
 }

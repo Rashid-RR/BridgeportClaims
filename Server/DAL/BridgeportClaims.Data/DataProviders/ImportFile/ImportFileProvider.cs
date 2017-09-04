@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Common.Config;
@@ -23,13 +24,13 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 			_memoryCacher = memoryCacher;
 		}
 
-		public void DeleteImportFile(int importFileId)
+		public async Task DeleteImportFile(int importFileId)
 		{
 			// Remove cached entries
 			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
-			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
+			await DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), async connection =>
 			{
-				DisposableService.Using(() => new SqlCommand("uspDeleteImportFile", connection), cmd => 
+				await DisposableService.Using(() => new SqlCommand("uspDeleteImportFile", connection), async cmd => 
 				{
                     cmd.CommandType = CommandType.StoredProcedure;
 					var importFileIdParam = new SqlParameter
@@ -42,7 +43,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 					cmd.Parameters.Add(importFileIdParam);
 				    if (connection.State != ConnectionState.Open)
 				        connection.Open();
-                    cmd.ExecuteNonQuery();
+                    await cmd.ExecuteNonQueryAsync();
 				});
 			});
 		}

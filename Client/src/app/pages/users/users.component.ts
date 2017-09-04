@@ -125,7 +125,7 @@ export class UsersComponent implements OnInit {
           console.log(err.message);
         })
       } catch (e) {
-        this.toast.warning('A server error has occurred. Please contact your system administrator.');
+        this.toast.error('A server error has occurred. Please contact your system administrator.');
       }
     } else {
       try {
@@ -134,11 +134,11 @@ export class UsersComponent implements OnInit {
           this.toast.success('The user was activated sucessfully.');
         }, error => {
           let err = error.json();
-          this.toast.warning('A server error has occurred. Please contact your system administrator.');
+          this.toast.error('A server error has occurred. Please contact your system administrator.');
           console.log(err.message);
         })
       } catch (e) {
-        this.toast.warning('A server error has occurred. Please contact your system administrator.');
+        this.toast.error('A server error has occurred. Please contact your system administrator.');
       }
     }
   }
@@ -211,7 +211,7 @@ export class UsersComponent implements OnInit {
       }, error => {
         let err = error.json();
 
-        this.toast.warning('A server error has occurred. Please contact your system administrator.');
+        this.toast.error('A server error has occurred. Please contact your system administrator.');
         console.log(err.message);
       })
     } catch (e) {

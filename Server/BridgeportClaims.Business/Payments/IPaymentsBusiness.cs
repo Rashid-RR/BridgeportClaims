@@ -6,7 +6,6 @@ namespace BridgeportClaims.Business.Payments
     {
         bool CheckMultiLinePartialPayments(decimal amountSelected, decimal amountToPost,
             int countOfPrescriptions);
-
         decimal PostPartialPayment(string userId, PaymentInputsModel model);
     }
 }

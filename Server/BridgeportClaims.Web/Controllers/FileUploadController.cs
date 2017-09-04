@@ -96,18 +96,12 @@ namespace BridgeportClaims.Web.Controllers
 					{
 						Logger.Error(ex,
 							$"The file: {fileName}, with the description: {description} was not copied successfully");
-						throw;
-					}
+					    return Content(HttpStatusCode.InternalServerError, ex.GetBaseException().Message);
+                    }
 					finally
 					{
 						file.Value.Dispose();
 					}
-
-
-					// Example.
-					// UploadManager.Upload(stream, fileName, uploadType, description);
-
-					// Keep track of the filename for the response
 					uploadedFiles.Add(fileName);
 				}
 

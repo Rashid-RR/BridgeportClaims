@@ -31,8 +31,7 @@ import {ProfileComponent} from "./pages/profile/profile.component";
 import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager,SignalRService} from "./services/services.barrel";
 import { PayorsComponent } from './pages/payors/payors.component'
 import { ClaimsComponent } from './pages/claim/claim.component';
-import { ClaimSearchComponent,PaymentClaimResultComponent,PaymentDetailedResultComponent,PaymentInputComponent,PaymentInvoiceComponent,
-        PaymentResultComponent,SelectedPaymentDetailedResultComponent } from './components/components.barrel';
+import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
 import { ClaimResultComponent } from './components/claim-result/claim-result.component';
 import { ClaimPaymentComponent } from './components/claim-payment/claim-payment.component';
 import { ClaimImagesComponent } from './components/claim-images/claim-images.component';
@@ -45,13 +44,15 @@ import { DisplayRolesPipe } from './pipes/display-roles.pipe';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
 import { DecimalPipe } from '@angular/common';
-
+import {PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent, PaymentDetailedResultComponent,SelectedPaymentDetailedResultComponent} from "./components/components-barrel"
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import {PaymentService} from "./services/payment-service";
 import { NewFeaturesComponent } from './pages/new-features/new-features.component';
 import { NewPaymentInputComponent } from './pages/new-features/new-payment-input/new-payment-input.component';
+import { ColumnSortDirective } from "./directives/column-sort.directive";
+import { TableSortDirective } from "./directives/table-sort.directive";
 
 
 @Pipe({name: 'safeStyle'})
@@ -83,7 +84,8 @@ export class SafeUrlPipe implements PipeTransform {
     RegisterComponent,
     DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
     SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe, FileUploadComponent, FooterComponent, PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent, PaymentDetailedResultComponent, NewFeaturesComponent, NewPaymentInputComponent,
-    SelectedPaymentDetailedResultComponent
+    SelectedPaymentDetailedResultComponent,
+    ColumnSortDirective, TableSortDirective
   ],
   imports: [
     BrowserModule,
