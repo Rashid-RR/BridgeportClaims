@@ -269,7 +269,7 @@ tr>td:nth-child(7) {
     height: -webkit-calc(100vh - 154px);
     height: -o-calc(100vh - 154px);
     overflow:hidden;
-    overflow-y:scroll;
+    /* overflow-y:scroll; */
 }
 .top-header,.table-body{
     width:99%;

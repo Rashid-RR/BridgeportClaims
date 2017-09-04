@@ -12,3 +12,7 @@
     .scroll-y {
       overflow-y: scroll;
     }
+
+    .wrapper {
+        overflow: hidden !important;
+    }
