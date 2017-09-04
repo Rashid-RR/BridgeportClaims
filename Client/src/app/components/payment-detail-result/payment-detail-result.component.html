@@ -51,10 +51,10 @@
                     </tr>
                 </thead>-->
                 <tbody *ngIf="paymentService.detailedClaimsData" class="overflowable" #prescriptionTable  tabindex="0">
-                    <tr *ngFor="let claim of paymentService.unselected;let i=index" [class.bgBlue]="claim.searchSelected || checkAll" (click)="inv.click()" [id]="'row'+i" [attr.prescription]="claim | json">
+                    <tr *ngFor="let claim of paymentService.detailedClaimsData;let i=index" [class.bgBlue]="claim.selected || checkAll" (click)="inv.click()" [id]="'row'+i" [attr.prescription]="claim | json">
                         <td>
                              <div class="paymentCheckBox"> 
-                                <input type="checkbox" name="check" value="None" (change)="select(claim,$event,i)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [checked]="(claim.searchSelected || checkAll)" (click)="inv.click()" class="claimCheckBox" #inv>
+                                <input type="checkbox" name="check" value="None" (change)="select(claim,$event,i)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [checked]="(claim.selected || checkAll)" (click)="inv.click()" class="claimCheckBox" #inv>
                                  <label [for]="claim.claimId" (click)="inv.click()"></label>
                             </div>
                         </td>

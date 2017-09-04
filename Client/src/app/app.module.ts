@@ -28,7 +28,7 @@ import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModul
 import {ProfileComponent} from "./pages/profile/profile.component";
 
  //services
-import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager} from "./services/services.barrel";
+import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager,SignalRService} from "./services/services.barrel";
 import { PayorsComponent } from './pages/payors/payors.component'
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent,PaymentClaimResultComponent,PaymentDetailedResultComponent,PaymentInputComponent,PaymentInvoiceComponent,
@@ -49,7 +49,7 @@ import { DecimalPipe } from '@angular/common';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentComponent } from './pages/payment/payment.component';
- import {PaymentService} from "./services/payment-service";
+import {PaymentService} from "./services/payment-service";
 import { NewFeaturesComponent } from './pages/new-features/new-features.component';
 import { NewPaymentInputComponent } from './pages/new-features/new-payment-input/new-payment-input.component';
 
@@ -99,6 +99,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [  
     DecimalPipe,DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,
+    SignalRService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

@@ -7,6 +7,8 @@ import {EventsService} from "../../services/events-service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DecimalPipe } from '@angular/common';
 import {LocalStorageService} from 'ng2-webstorage';
+import { DialogService } from "ng2-bootstrap-modal";
+import { ConfirmComponent } from '../../components/confirm.component';
 
 @Component({
   selector: 'app-payment-input',
@@ -21,7 +23,7 @@ export class PaymentInputComponent implements OnInit {
   checkAmount:number = 0;
   constructor(private decimalPipe:DecimalPipe,public paymentService:PaymentService,
     private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager,
-    private localSt:LocalStorageService) {
+    private localSt:LocalStorageService,private dialogService: DialogService) {
     this.form = this.formBuilder.group({
       checkNumber: [null],
       checkAmount: [null],
@@ -49,8 +51,22 @@ export class PaymentInputComponent implements OnInit {
 
   }
   cancel(){
-    this.paymentService.prescriptionSelected=false;
-    this.events.broadcast("disable-links",false);
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Cancel posting",
+      message: "Are you sure? You may lose our progress? Continue?"
+    })
+      .subscribe((isConfirmed) => {
+        //We get dialog result
+        if (isConfirmed) {  
+          this.paymentService.prescriptionSelected=false;
+          this.events.broadcast("disable-links",false);           
+        }
+        else {
+           
+        }
+      });
+
+   
   }
   search(){
  
