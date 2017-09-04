@@ -24,11 +24,9 @@ namespace BridgeportClaims.Web.Providers
         {
             try
             {
-                const string allowedOrigin = "*";
-                context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
                 var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
                 var user = await userManager.FindAsync(context.UserName, context.Password);
-                if (user == null)
+                if (null == user)
                 {
                     context.SetError(InvalidGrant, "The user name or password is incorrect.");
                     return;

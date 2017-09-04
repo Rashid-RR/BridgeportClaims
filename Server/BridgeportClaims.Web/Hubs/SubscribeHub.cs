@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Hubs
 {
-    public class PayHub : Hub
+    public class SubscribeHub : Hub
     {
         public void Subscribe(string customerId)
         {

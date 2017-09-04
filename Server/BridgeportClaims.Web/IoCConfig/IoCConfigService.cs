@@ -56,6 +56,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DateDisplayProvider>().As<IDateDisplayProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();
             // Singletons
+
             builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().SingleInstance();
             builder.Register(c => FluentSessionProvider.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
             builder.Register(c => FluentSessionProvider.GetSession()).As<ISession>().OnActivated(session =>

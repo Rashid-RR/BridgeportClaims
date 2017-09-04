@@ -14,7 +14,7 @@ namespace BridgeportClaims.Common.Caching
 
         public static MemoryCacher Instance => Lazy.Value;
 
-        private MemoryCacher() { }
+        public MemoryCacher() { }
 
         #endregion
 

@@ -26,22 +26,20 @@ namespace BridgeportClaims.Web
     {
         internal static string PublicClientId => "LOCAL AUTHORITY";
         public void Configuration(IAppBuilder app)
-        {   
+        {
+            // Add SignalR to the OWIN pipeline
+            
             var config = new HttpConfiguration();
-            app.Use<BridgeportClaimsMiddleware>();
-            config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());
+            
+            app.MapSignalR();
             var builder = IoCConfigService.Configure();
             var container = builder.Build();
+            app.UseAutofacMiddleware(container);
             var resolver = new AutofacWebApiDependencyResolver(container);
             config.DependencyResolver = resolver;
-            app.UseCors(CorsOptions.AllowAll);
-            var hubConfiguration = new HubConfiguration
-            {
-                EnableJSONP = true,
-                EnableDetailedErrors = true
-            };
-            // Add SignalR to the OWIN pipeline
-            app.MapSignalR(hubConfiguration);
+            
+            app.Use<BridgeportClaimsMiddleware>();
+            config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
             ConfigureWebApi(config);
@@ -51,6 +49,7 @@ namespace BridgeportClaims.Web
             if (ConfigService.AppIsInDebugMode)
                 NHibernateProfiler.Initialize();
             app.UseWebApi(config);
+            app.UseAutofacWebApi(config);
         }
         
         private static void ConfigureOAuthTokenConsumption(IAppBuilder app)
