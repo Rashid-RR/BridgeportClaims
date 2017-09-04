@@ -1,6 +1,6 @@
 <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
     <div class="row">
-        <div class="col-md-1 normal">
+        <div class="col-md-2">
             <div class="form-group">
                 <label>Check #</label>
                 <input class="form-control"   [class.not-allowed]="disableCheckEntry" name="checkNumber" formControlName="checkNumber" (change)="textChange('checkNumber')" (focus)="submitted=false" focus-on  [readonly]="disableCheckEntry">
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="col-sm-3 col-md-3">
+        <div class="col-sm-2 col-md-2">
             <div class="form-group">
                 <label>&nbsp;</label><br/>
                 <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="post()">Post</button>

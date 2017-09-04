@@ -44,7 +44,7 @@ AS BEGIN
 				SELECT SUM([ipm].[AmountPaid]) AmountPaid 
 				FROM dbo.PrescriptionPayment AS [ipm] 
 				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID]) AS pm
-	WHERE  [p].[ClaimID] = 775
+	WHERE  [p].[ClaimID] = @ClaimID
 	ORDER BY CASE WHEN @SortColumn = 'PrescriptionId' AND @SortDirection = 'ASC'
 				THEN [p].[PrescriptionID] END ASC,
 			 CASE WHEN @SortColumn = 'PrescriptionId' AND @SortDirection = 'DESC'
@@ -96,4 +96,5 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
 GO

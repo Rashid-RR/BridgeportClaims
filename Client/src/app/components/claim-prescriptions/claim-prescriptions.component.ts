@@ -1,4 +1,4 @@
-import { Component, OnInit,Renderer2,AfterViewInit,NgZone,HostListener,AfterViewChecked,ElementRef,ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { ClaimManager } from "../../services/claim-manager";
 import { HttpService } from "../../services/http-service";
 import { EventsService } from "../../services/events-service";
@@ -6,22 +6,25 @@ import { Prescription } from "../../models/prescription";
 import { PrescriptionNotes } from "../../models/prescription-notes";
 import swal from "sweetalert2";
 import { DatePipe } from '@angular/common';
-declare var jQuery:any;
-
+import { SortColumnInfo } from "../../directives/table-sort.directive";
+declare var jQuery: any;
 
 @Component({
   selector: 'app-claim-prescriptions',
   templateUrl: './claim-prescriptions.component.html',
   styleUrls: ['./claim-prescriptions.component.css']
 })
-export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,AfterViewInit {
+export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, AfterViewInit {
 
-  checkAll:Boolean=false;
-  selectMultiple:Boolean=false;
-  lastSelectedIndex:number;
-  @ViewChild('prescriptionTable') table:ElementRef;
+  checkAll: Boolean = false;
+  selectMultiple: Boolean = false;
+  lastSelectedIndex: number;
+  @ViewChild('prescriptionTable') table: ElementRef;
+  prescriptions: Prescription[];
+  sortColumn: SortColumnInfo;
+
   constructor(
-    private rd: Renderer2,private ngZone:NgZone,
+    private rd: Renderer2, private ngZone: NgZone,
     private dp: DatePipe,
     public claimManager: ClaimManager,
     private events: EventsService,
@@ -39,40 +42,42 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
       }, 1000);
     })
     this.cloneTableHeading();
-    
+    this.fetchData();
   }
+
   ngAfterViewInit() {
-    this.rd.listen(this.table.nativeElement,'keydown',($event)=>{
-      if($event.keyCode==16){
+    this.rd.listen(this.table.nativeElement, 'keydown', ($event) => {
+      if ($event.keyCode == 16) {
         this.selectMultiple = true;
       }
     })
-    this.rd.listen(this.table.nativeElement,'keyup',($event)=>{
-      if($event.keyCode==16){
+    this.rd.listen(this.table.nativeElement, 'keyup', ($event) => {
+      if ($event.keyCode == 16) {
         this.selectMultiple = false;
       }
     })
-     
-}
-  activateClaimCheckBoxes(){
+
+  }
+
+  activateClaimCheckBoxes() {
     jQuery('#selectAllCheckBox').click();
   }
 
   ngAfterViewChecked() {
-   /*  this.updateTableHeadingWidth();
-    if (this.claimManager.isPrescriptionsExpanded) {
-      let fixedHeader = document.getElementById('fixed-header');
-      if (fixedHeader.style.position !== 'fixed') {
-        fixedHeader.style.position = 'fixed';
-        // console.log('set fixed header to Fixed');
-      }
-    } else {
-      let fixedHeader = document.getElementById('fixed-header');
-      if (fixedHeader.style.position === 'fixed') {
-        fixedHeader.style.position = 'absolute';
-        // console.log('set fixed header to Absolute');
-      }
-    } */
+    /*  this.updateTableHeadingWidth();
+     if (this.claimManager.isPrescriptionsExpanded) {
+       let fixedHeader = document.getElementById('fixed-header');
+       if (fixedHeader.style.position !== 'fixed') {
+         fixedHeader.style.position = 'fixed';
+         // console.log('set fixed header to Fixed');
+       }
+     } else {
+       let fixedHeader = document.getElementById('fixed-header');
+       if (fixedHeader.style.position === 'fixed') {
+         fixedHeader.style.position = 'absolute';
+         // console.log('set fixed header to Absolute');
+       }
+     } */
   }
 
   cloneTableHeading() {
@@ -85,7 +90,6 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
   cloneBoxHeader() {
     let cln = document.getElementById
   }
-
 
   updateTableHeadingWidth() {
     setTimeout(() => {
@@ -100,58 +104,58 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
       } else {
         if (mainTable) {
           let tableWidth = mainTable.clientWidth.toString();
-          try{
+          try {
             fixedMaxHeader.style.width = tableWidth + 'px';
-          }catch(e){}
+          } catch (e) { }
         }
       }
     }, 500)
   }
-  clicked(){
-     
+  clicked() {
+
   }
 
-  uncheckMain(){
-    jQuery("input#selectAllCheckBox").attr({"checked":false})
+  uncheckMain() {
+    jQuery("input#selectAllCheckBox").attr({ "checked": false })
   }
-  select(p:any,$event,index){
+  select(p: any, $event, index) {
     p.selected = $event.target.checked;
-     if(!$event.target.checked){
-      this.checkAll=false;
+    if (!$event.target.checked) {
+      this.checkAll = false;
       this.uncheckMain();
     }
-    if(this.selectMultiple){
-        for(var i=this.lastSelectedIndex;i<index;i++){
-            try{
-              let p = jQuery('#row'+i).attr('prescription');
-              let prescription = JSON.parse(p);
-              let data = this.claimManager.selectedClaim.prescriptions.find(pres=>pres.prescriptionId==prescription.prescriptionId);// .get(prescription.prescriptionId);
-              data.selected = true;
-            }catch(e){}
-        }
+    if (this.selectMultiple) {
+      for (var i = this.lastSelectedIndex; i < index; i++) {
+        try {
+          let p = jQuery('#row' + i).attr('prescription');
+          let prescription = JSON.parse(p);
+          let data = this.claimManager.selectedClaim.prescriptions.find(pres => pres.prescriptionId == prescription.prescriptionId);// .get(prescription.prescriptionId);
+          data.selected = true;
+        } catch (e) { }
+      }
     }
     this.lastSelectedIndex = index;
-}
+  }
   setSelected(p: any, s: Boolean) {
     p.selected = !p.selected;
-    if(!p.selected){
-      this.checkAll=false;
+    if (!p.selected) {
+      this.checkAll = false;
       this.uncheckMain();
     }
   }
-  selectAllCheckBox($event){    
-    this.checkAll =  $event.target.checked;
-    if(this.checkAll){
-      this.claimManager.selectedClaim.prescriptions.forEach(c=>{
+  selectAllCheckBox($event) {
+    this.checkAll = $event.target.checked;
+    if (this.checkAll) {
+      this.claimManager.selectedClaim.prescriptions.forEach(c => {
         c.selected = true;
       })
-    }else{
-      this.claimManager.selectedClaim.prescriptions.forEach(c=>{
+    } else {
+      this.claimManager.selectedClaim.prescriptions.forEach(c => {
         c.selected = false;
       });
       this.uncheckMain();
-    }   
- }
+    }
+  }
 
   showNotes(prescriptionId: Number) {
     this.claimManager.loading = true;
@@ -206,5 +210,25 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked,Aft
     }).catch(swal.noop)
   }
 
+  onSortColumn(info: SortColumnInfo) {
+    this.sortColumn = info;
+    this.fetchData();
+  }
+
+  fetchData() {
+    let page = 1;
+    let page_size = 20;
+    let sort: string = 'prescriptionId';
+    let sort_dir: 'asc' | 'desc' = 'asc';
+    if (this.sortColumn) {
+      sort = this.sortColumn.column;
+      sort_dir = this.sortColumn.dir;
+    }
+    this.http.getPrescriptions(this.claimManager.selectedClaim.claimId, sort, sort_dir,
+      page, page_size).map(p => p.json())
+      .subscribe(results => {
+        this.prescriptions = results;
+      });
+  }
 
 }

@@ -9,10 +9,12 @@ AS
 		 , pp.AmountPaid
 		 , pp.DatePosted
 		 , pp.PrescriptionID
-		 , CAST(NULL AS INT) ClaimID
+		 , c.ClaimID
 		 , pp.CreatedOnUTC
 		 , pp.UpdatedOnUTC
-	FROM   dbo.PrescriptionPayment AS pp
+	FROM   dbo.PrescriptionPayment AS pp 
+		   INNER JOIN dbo.Prescription AS p ON p.PrescriptionID = pp.PrescriptionID
+		   INNER JOIN dbo.Claim AS c ON c.ClaimID = p.ClaimID
 	UNION ALL
 	SELECT PaymentID = cp.ClaimPaymentID
 		 , cp.CheckNumber

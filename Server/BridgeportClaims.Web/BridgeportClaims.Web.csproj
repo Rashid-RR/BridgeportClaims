@@ -487,6 +487,7 @@
     <Compile Include="IoCConfig\IoCConfigService.cs" />
     <Compile Include="Middleware\BridgeportClaimsMiddleware.cs" />
     <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
+    <Compile Include="Models\AmountRemainingModel.cs" />
     <Compile Include="Models\ClaimsSearchViewModel.cs" />
     <Compile Include="Models\CreateRoleBindingModel.cs" />
     <Compile Include="Models\ForgotPasswordViewModel.cs" />

@@ -23,6 +23,8 @@
                 <app-payment-detail-result></app-payment-detail-result>
             </div>
         </div>
+    <div class="col-sm-12 claim-col" *ngIf="paymentService.prescriptionSelected">
+         <app-payment-detail-result></app-payment-detail-result>
     </div>
     <div class="col-md-1 claim-col"  style="width:5%;text-align:center;padding:2px;"  *ngIf="paymentService.prescriptionSelected">             
         

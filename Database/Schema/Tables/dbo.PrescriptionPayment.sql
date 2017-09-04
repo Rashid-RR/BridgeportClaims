@@ -16,5 +16,5 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [pkPrescriptionPaymentID] PRIMARY KEY CLUSTERED  ([PrescriptionPaymentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [FK__Prescript__Presc__26A5A303] FOREIGN KEY ([PrescriptionID]) REFERENCES [dbo].[Prescription] ([PrescriptionID])
+ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [fkPrescriptionPaymentPrescriptionIDPrescriptionPrescriptionID] FOREIGN KEY ([PrescriptionID]) REFERENCES [dbo].[Prescription] ([PrescriptionID])
 GO
