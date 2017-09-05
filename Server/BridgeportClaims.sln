@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3303B691
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Excel", "Utilities\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj", "{DF854117-1C14-4F92-935D-A740DDED79DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Business", "BridgeportClaims.Business\BridgeportClaims.Business.csproj", "{ECBBFBD1-DBAB-486B-A50B-7B2DE864F29F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Business", "Core\BridgeportClaims.Business\BridgeportClaims.Business.csproj", "{ECBBFBD1-DBAB-486B-A50B-7B2DE864F29F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{4ABD8A8B-F305-4353-B286-94BAFFC6C5E4}"
 EndProject

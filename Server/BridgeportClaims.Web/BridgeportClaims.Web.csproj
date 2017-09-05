@@ -326,11 +326,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
+    <ProjectReference Include="..\Core\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
       <Project>{ecbbfbd1-dbab-486b-a50b-7b2de864f29f}</Project>
       <Name>BridgeportClaims.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+    <ProjectReference Include="..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
       <Name>BridgeportClaims.Common</Name>
     </ProjectReference>
@@ -342,7 +342,7 @@
       <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
+    <ProjectReference Include="..\Utilities\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
       <Project>{df854117-1c14-4f92-935d-a740dded79df}</Project>
       <Name>BridgeportClaims.Excel</Name>
     </ProjectReference>
