@@ -113,6 +113,9 @@
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin, Version=1.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.2.2\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
@@ -278,10 +281,9 @@
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Handlers\CancelledTaskBugWorkaroundMessageHandler.cs" />
-    <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\MessageHub.cs" />
     <Compile Include="Hubs\SubscribeHub.cs" />
     <Compile Include="Hubs\PostingHub.cs" />
-    <Compile Include="Hubs\ClockHub.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\EmailType.cs" />
     <Compile Include="Infrastructure\MultipartFormDataMemoryStreamProvider.cs" />
@@ -323,6 +325,8 @@
     <Compile Include="Providers\BridgeportClaimsJwtFormat.cs" />
     <Compile Include="SignalR\ChannelEvent.cs" />
     <Compile Include="Hubs\PaymentHub.cs" />
+    <Compile Include="SignalR\HubContextProvider.cs" />
+    <Compile Include="SignalR\IHubContextProvider.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
