@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders.ImportFiles

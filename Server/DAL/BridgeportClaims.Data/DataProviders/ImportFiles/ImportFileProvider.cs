@@ -6,7 +6,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.Disposable;
@@ -14,6 +13,7 @@ using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
+using BridgeportClaims.Excel.Adapters;
 using NLog;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
@@ -48,15 +48,16 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 	        if (null != oldestLakeFileName)
 	            fullFilePath = Path.Combine(Path.GetTempPath(), oldestLakeFileName);
 	        File.WriteAllBytes(fullFilePath, tuple.Item2);
-	    }
+	        var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(fullFilePath);
+        }
 
-		public async Task DeleteImportFile(int importFileId)
+		public void DeleteImportFile(int importFileId)
 		{
 			// Remove cached entries
 			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
-			await DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), async connection =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
 			{
-				await DisposableService.Using(() => new SqlCommand("uspDeleteImportFile", connection), async cmd => 
+				DisposableService.Using(() => new SqlCommand("uspDeleteImportFile", connection), cmd => 
 				{
                     cmd.CommandType = CommandType.StoredProcedure;
 					var importFileIdParam = new SqlParameter
@@ -69,12 +70,12 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 					cmd.Parameters.Add(importFileIdParam);
 				    if (connection.State != ConnectionState.Open)
 				        connection.Open();
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.ExecuteNonQuery();
 				});
 			});
 		}
 
-	    private Tuple<string, byte[]> GetOldestLakerFileBytes()
+	    private static Tuple<string, byte[]> GetOldestLakerFileBytes()
 	    {
 	        return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), conn =>
 	        {
@@ -232,5 +233,5 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 				size = byteCount.ToString(CultureInfo.InvariantCulture) + " Bytes";
 			return size;
 		}
-	}
+    }
 }

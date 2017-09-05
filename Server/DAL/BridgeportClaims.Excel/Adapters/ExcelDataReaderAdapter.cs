@@ -1,7 +1,7 @@
-﻿using System.Data;
-using System.IO;
-using BridgeportClaims.Common.Disposable;
+﻿using System.IO;
+using System.Data;
 using ExcelDataReader;
+using BridgeportClaims.Common.Disposable;
 
 namespace BridgeportClaims.Excel.Adapters
 {
@@ -13,5 +13,15 @@ namespace BridgeportClaims.Excel.Adapters
 				var result = reader.AsDataSet();
 				return result.Tables[0];
 			});
+
+	    public static DataTable ReadExcelFileIntoDataTable(string fullFilePath)
+	    {
+	        return DisposableService.Using(() => File.Open(fullFilePath, FileMode.Open, FileAccess.Read), stream =>
+	        {
+	            var excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+	            var result = excelReader.AsDataSet();
+	            return result.Tables[0];
+	        });
+	    }
 	}
 }
