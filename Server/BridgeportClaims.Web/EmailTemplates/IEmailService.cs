@@ -4,7 +4,7 @@ using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using Microsoft.AspNet.Identity;
 
-namespace BridgeportClaims.Web.Email
+namespace BridgeportClaims.Web.EmailTemplates
 {
     public interface IEmailService : IIdentityMessageService
     {

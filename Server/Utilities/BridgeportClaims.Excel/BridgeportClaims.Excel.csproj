@@ -55,5 +55,11 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{61afc490-da0f-4f71-ab27-427e64fbf7d0}</Project>
+      <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

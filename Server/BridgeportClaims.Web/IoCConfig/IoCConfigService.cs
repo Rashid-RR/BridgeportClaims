@@ -26,6 +26,7 @@ using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
 using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
+using BridgeportClaims.Web.EmailTemplates;
 
 namespace BridgeportClaims.Web.IoCConfig
 {

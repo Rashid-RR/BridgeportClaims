@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Web.Email.Models;
+using BridgeportClaims.Web.EmailTemplates;
 using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Email

@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.CsvReader"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{03550A53-4FF1-4D62-AE38-5CDBA6DD7B66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj", "{61AFC490-DA0F-4F71-AB27-427E64FBF7D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{0E70AD77-202B-411B-B724-98C63D0A6407}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E70AD77-202B-411B-B724-98C63D0A6407}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E70AD77-202B-411B-B724-98C63D0A6407}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61AFC490-DA0F-4F71-AB27-427E64FBF7D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61AFC490-DA0F-4F71-AB27-427E64FBF7D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61AFC490-DA0F-4F71-AB27-427E64FBF7D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61AFC490-DA0F-4F71-AB27-427E64FBF7D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -70,6 +76,7 @@ Global
 		{DF854117-1C14-4F92-935D-A740DDED79DF} = {4ABD8A8B-F305-4353-B286-94BAFFC6C5E4}
 		{ECBBFBD1-DBAB-486B-A50B-7B2DE864F29F} = {03550A53-4FF1-4D62-AE38-5CDBA6DD7B66}
 		{0E70AD77-202B-411B-B724-98C63D0A6407} = {4ABD8A8B-F305-4353-B286-94BAFFC6C5E4}
+		{61AFC490-DA0F-4F71-AB27-427E64FBF7D0} = {03550A53-4FF1-4D62-AE38-5CDBA6DD7B66}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6EA9ABD7-C4BC-41BB-A799-C6EDBD09AAC8}

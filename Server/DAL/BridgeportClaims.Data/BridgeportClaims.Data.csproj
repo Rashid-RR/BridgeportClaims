@@ -150,6 +150,10 @@
     <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{61afc490-da0f-4f71-ab27-427e64fbf7d0}</Project>
+      <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj">
       <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
       <Name>BridgeportClaims.Entities</Name>
