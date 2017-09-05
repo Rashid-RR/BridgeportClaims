@@ -16,3 +16,7 @@
         cursor: not-allowed;
         text-decoration: none;
     }
+
+    .wrapper {
+        overflow: hidden !important;
+    }
