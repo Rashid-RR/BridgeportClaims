@@ -276,6 +276,11 @@ tbody>tr:hover td::selection {
 }
 
 /*SORT*/
-.fa-unsorted:before, .fa-sort:before {
-    padding-right: 1rem;
+.fa-unsorted:before, .fa-sort:before,
+.fa-sort-up:before, .fa-sort-asc:before,
+.fa-sort-down:before, .fa-sort-desc:before {
+    padding-right: 0.6rem;
+}
+.fa.rotate.fa-exchange {
+    margin-left: 0;
 }
