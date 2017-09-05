@@ -1,4 +1,4 @@
-CREATE TABLE [etl].[StagedLakerFile]
+CREATE TABLE [etl].[StagedLakerFileBackup]
 (
 [RowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [2] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -153,20 +153,6 @@ CREATE TABLE [etl].[StagedLakerFile]
 [151] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [152] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [153] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[154] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PayorID] [int] NULL,
-[AcctPayableID] [int] NULL,
-[AdjustorID] [int] NULL,
-[PatientID] [int] NULL,
-[InvoiceID] [int] NULL,
-[ClaimID] [int] NULL,
-[PrescriptionID] [int] NULL,
-[PharmacyID] [int] NULL
+[154] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
-WITH
-(
-DATA_COMPRESSION = ROW
-)
-GO
-ALTER TABLE [etl].[StagedLakerFile] ADD CONSTRAINT [pkStagedLakerFile] PRIMARY KEY CLUSTERED  ([RowID]) WITH (FILLFACTOR=100, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO

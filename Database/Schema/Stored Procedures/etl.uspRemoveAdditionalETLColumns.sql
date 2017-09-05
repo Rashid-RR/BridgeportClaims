@@ -7,9 +7,10 @@ GO
 	Create Date:	7/20/2017
 	Description:	Removes columns from the staging tables after ordinal position 154
 	Sample Execute:
-					EXEC etl.uspRemoveAdditionalETLColumns 'etl.StagedLakerFile20170712'
+					EXEC etl.uspRemoveAdditionalETLColumns 'etl.StagedLakerFile', 1
 */
 CREATE PROC [etl].[uspRemoveAdditionalETLColumns] @TableName SYSNAME -- Includes Schema Name
+	, @DebugOnly BIT = 0
 AS BEGIN
 	SET NOCOUNT ON;
 	DECLARE @Name SYSNAME, @SQLStatement NVARCHAR(1000)
@@ -20,13 +21,17 @@ AS BEGIN
 	WHERE [t].[name] = PARSENAME(@TableName, 1)
 			AND CONVERT(VARCHAR,[c].[column_id]) != [c].[name]
 			AND [s].[name] = PARSENAME(@TableName, 2)
+			AND [c].[name] != 'RowID'
 	OPEN [C];
 	FETCH NEXT FROM [C] INTO @Name
 	WHILE @@FETCH_STATUS = 0
 		BEGIN
 			SET @SQLStatement = N'ALTER TABLE ' + QUOTENAME(PARSENAME(@TableName, 2)) + 
 					'.' + QUOTENAME(PARSENAME(@TableName, 1)) + ' DROP COLUMN ' + QUOTENAME(@Name)
-			EXEC [sys].[sp_executesql] @SQLStatement
+			IF @DebugOnly = 1
+				PRINT @SQLStatement
+			ELSE
+				EXEC [sys].[sp_executesql] @SQLStatement
 			FETCH NEXT FROM [C] INTO @Name
 		END
 	CLOSE [C]
