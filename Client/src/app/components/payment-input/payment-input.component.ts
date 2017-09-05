@@ -104,7 +104,7 @@ export class PaymentInputComponent implements OnInit {
           prescriptions.push(p.prescriptionId);
           payments.push({prescriptionId:p.prescriptionId,amount:p.invoicedAmount});
         }
-    })
+    });
     //this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
     var form  = this.form.value;
     form.prescriptionIds = prescriptions;
