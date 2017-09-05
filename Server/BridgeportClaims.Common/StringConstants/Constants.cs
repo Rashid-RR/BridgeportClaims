@@ -37,5 +37,6 @@
         public const string EpisodeTypesCacheKey = "__EpisodeTypesCacheKey__";
         public const string PaymentChannel = "PaymentChannel";
         public const string PrescriptionBladeCacheKey = "__PrescriptionBladeCacheKey__";
+        public const string LakeFileNameStartsWithString = "Billing_Claim_File_";
     }
 }

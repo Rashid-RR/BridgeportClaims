@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.IO;
 using BridgeportClaims.Data.Dtos;
 
-namespace BridgeportClaims.Data.DataProviders.ImportFile
+namespace BridgeportClaims.Data.DataProviders.ImportFiles
 {
     public interface IImportFileProvider
     {
+        void ProcessOldestLakerFile();
         void DeleteImportFile(int importFileId);
         IList<ImportFileDto> GetImportFileDtos();
         void MarkFileProcessed(string fileName);

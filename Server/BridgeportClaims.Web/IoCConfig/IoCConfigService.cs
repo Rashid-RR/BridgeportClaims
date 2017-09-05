@@ -17,7 +17,7 @@ using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.DataProviders.UserRoles;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
-using BridgeportClaims.Data.DataProviders.ImportFile;
+using BridgeportClaims.Data.DataProviders.ImportFiles;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Data.DataProviders.UserOptions;
 using BridgeportClaims.Data.DataProviders.DateDisplay;

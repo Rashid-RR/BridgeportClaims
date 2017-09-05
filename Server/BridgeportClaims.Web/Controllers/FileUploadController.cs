@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Data.DataProviders.ImportFile;
+using BridgeportClaims.Data.DataProviders.ImportFiles;
 using BridgeportClaims.Web.Infrastructure;
 
 namespace BridgeportClaims.Web.Controllers

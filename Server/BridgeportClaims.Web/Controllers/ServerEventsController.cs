@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Data.DataProviders.ImportFile;
+using BridgeportClaims.Data.DataProviders.ImportFiles;
 using BridgeportClaims.Data.DataProviders.Payments;
 
 namespace BridgeportClaims.Web.Controllers
