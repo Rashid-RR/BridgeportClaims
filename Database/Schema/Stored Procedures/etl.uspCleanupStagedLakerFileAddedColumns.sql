@@ -89,6 +89,14 @@ AS BEGIN
 		(
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'AcctPayableID'
+				  AND [t].[object_id] = @Obj
+		)
+			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN AcctPayableID
+		IF EXISTS
+		(
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
 			WHERE [c].[name] = 'StageID'
 				  AND [t].[object_id] = OBJECT_ID(N'dbo.Payor', N'U')
 		)
@@ -138,6 +146,7 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
+
 
 
 GO

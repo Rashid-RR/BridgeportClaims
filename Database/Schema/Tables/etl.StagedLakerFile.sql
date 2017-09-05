@@ -163,10 +163,4 @@ CREATE TABLE [etl].[StagedLakerFile]
 [PrescriptionID] [int] NULL,
 [PharmacyID] [int] NULL
 ) ON [PRIMARY]
-WITH
-(
-DATA_COMPRESSION = ROW
-)
-GO
-ALTER TABLE [etl].[StagedLakerFile] ADD CONSTRAINT [pkStagedLakerFile] PRIMARY KEY CLUSTERED  ([RowID]) WITH (FILLFACTOR=100, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO

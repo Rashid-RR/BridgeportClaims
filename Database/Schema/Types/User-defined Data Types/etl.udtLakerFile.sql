@@ -1,4 +1,4 @@
-CREATE TABLE [etl].[StagedLakerFileBackup20170904]
+CREATE TYPE [etl].[udtLakerFile] AS TABLE
 (
 [RowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [2] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -154,5 +154,5 @@ CREATE TABLE [etl].[StagedLakerFileBackup20170904]
 [152] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [153] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [154] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-) ON [PRIMARY]
+)
 GO
