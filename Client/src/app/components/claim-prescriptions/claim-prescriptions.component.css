@@ -280,6 +280,8 @@ tbody>tr:hover td::selection {
 .fa-sort-up:before, .fa-sort-asc:before,
 .fa-sort-down:before, .fa-sort-desc:before {
     padding-right: 0.6rem;
+    font-size: 1.4rem;
+    color: #666;
 }
 .fa.rotate.fa-exchange {
     margin-left: 0;
