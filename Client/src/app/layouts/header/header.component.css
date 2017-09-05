@@ -10,10 +10,12 @@
 .ver {
     position: absolute;
     top: 15px;
-    width: 100%;
+    width: 50%;
     text-align: center;
     color: #b33a3a;
     z-index: 999999;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 @media screen and (max-width: 767px) {
