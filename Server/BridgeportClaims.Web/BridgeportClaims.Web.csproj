@@ -256,7 +256,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutomapperStartup.cs" />
-    <Compile Include="App_Start\NHibernateProfilerBootstrapper.cs" />
     <Compile Include="Attributes\DenyActionAttribute.cs" />
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
     <Compile Include="Controllers\CacheController.cs" />

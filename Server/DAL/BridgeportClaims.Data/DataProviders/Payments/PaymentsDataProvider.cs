@@ -258,7 +258,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 						 const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
 						 var culture = CultureInfo.CreateSpecificCulture("en-US");
 						 retVal.AmountRemaining = decimal.TryParse(amountRemainingParam.Value.ToString(), style, culture, out decimal d)
-							 ? d : default(decimal);
+							 ? d : default;
 						 return retVal;
 					 });
 

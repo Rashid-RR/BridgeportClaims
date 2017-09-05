@@ -48,7 +48,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 	        if (null != oldestLakeFileName)
 	            fullFilePath = Path.Combine(Path.GetTempPath(), oldestLakeFileName);
 	        File.WriteAllBytes(fullFilePath, tuple.Item2);
-	        var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(fullFilePath);
+	        var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(tuple.Item2);
         }
 
 		public void DeleteImportFile(int importFileId)

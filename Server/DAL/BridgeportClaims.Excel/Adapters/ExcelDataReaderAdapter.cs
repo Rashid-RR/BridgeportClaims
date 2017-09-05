@@ -18,7 +18,7 @@ namespace BridgeportClaims.Excel.Adapters
 	    {
 	        return DisposableService.Using(() => File.Open(fullFilePath, FileMode.Open, FileAccess.Read), stream =>
 	        {
-	            var excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+	            var excelReader = ExcelReaderFactory.CreateBinaryReader(stream);
 	            var result = excelReader.AsDataSet();
 	            return result.Tables[0];
 	        });
