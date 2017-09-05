@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{254DFF99-C62
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Entities", "DAL\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj", "{499BF3D9-D035-4CF0-82DA-7DD823956A98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "BridgeportClaims.Common\BridgeportClaims.Common.csproj", "{8079BC13-DE39-4CB9-8929-E47BE08E52CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj", "{8079BC13-DE39-4CB9-8929-E47BE08E52CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Data", "DAL\BridgeportClaims.Data\BridgeportClaims.Data.csproj", "{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3303B691-F45F-404D-B6DA-ECEFDF74E5D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Excel", "DAL\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj", "{DF854117-1C14-4F92-935D-A740DDED79DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Excel", "Utilities\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj", "{DF854117-1C14-4F92-935D-A740DDED79DF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Business", "BridgeportClaims.Business\BridgeportClaims.Business.csproj", "{ECBBFBD1-DBAB-486B-A50B-7B2DE864F29F}"
 EndProject
