@@ -4,8 +4,6 @@ using System.Net;
 using System.Web.Http;
 using System.Threading.Tasks;
 using BridgeportClaims.Business.LakerFileProcess;
-using BridgeportClaims.Data.DataProviders.ImportFiles;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 
@@ -33,8 +31,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
-                    var lakerFileName = _lakerFileProcessor.ProcessOldestLakerFile();
-
+                    _lakerFileProcessor.ProcessOldestLakerFile();
                     return Ok();
                 });
             }

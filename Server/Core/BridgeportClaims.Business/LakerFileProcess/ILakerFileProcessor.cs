@@ -2,6 +2,6 @@
 {
     public interface ILakerFileProcessor
     {
-        string ProcessOldestLakerFile();
+        void ProcessOldestLakerFile();
     }
 }

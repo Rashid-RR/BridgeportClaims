@@ -267,7 +267,22 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			});
 		}
 
-		public static string GetFileSize(double byteCount)
+	    public void EtlLakerFile()
+	    {
+	        DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
+	        {
+	            DisposableService.Using(() => new SqlCommand("etl.uspProcessLakerFile", connection), cmd =>
+	            {
+	                cmd.CommandType = CommandType.StoredProcedure;
+	                cmd.CommandTimeout = 600; // 10 Minutes.
+	                if (connection.State != ConnectionState.Open)
+	                    connection.Open();
+	                cmd.ExecuteNonQuery();
+	            });
+	        });
+        }
+
+	    public static string GetFileSize(double byteCount)
 		{
 			var size = "0 Bytes";
 			if (byteCount >= 1073741824.0)
