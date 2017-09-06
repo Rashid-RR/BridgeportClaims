@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Web.Http;
 using System.Threading.Tasks;
+using BridgeportClaims.Business.LakerFileProcess;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
@@ -15,11 +16,11 @@ namespace BridgeportClaims.Web.Controllers
     public class LakerAutomationController : ApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IImportFileProvider _importFileProvider;
+        private readonly ILakerFileProcessor _lakerFileProcessor;
 
-        public LakerAutomationController(IImportFileProvider importFileProvider)
+        public LakerAutomationController(ILakerFileProcessor lakerFileProcessor)
         {
-            _importFileProvider = importFileProvider;
+            _lakerFileProcessor = lakerFileProcessor;
         }
 
         [HttpPost]
@@ -32,7 +33,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
-                    _importFileProvider.ProcessOldestLakerFile();
+                    var lakerFileName = _lakerFileProcessor.ProcessOldestLakerFile();
 
                     return Ok();
                 });

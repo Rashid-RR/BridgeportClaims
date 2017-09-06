@@ -5,16 +5,15 @@ using LumenWorks.Framework.IO.Csv;
 
 namespace BridgeportClaims.CsvReader.CsvReaders
 {
-    public class CsvReaderProvider
+    public class CsvReaderProvider : ICsvReaderProvider
     {
-        public void ReadCsvFile(string fullFilePath)
-        {
-            DisposableService.Using(() => new CachedCsvReader(
-                new StreamReader(fullFilePath), true), csv =>
+        public DataTable ReadCsvFile(string fullFilePath) => DisposableService.Using(() 
+            => new CachedCsvReader(
+            new StreamReader(fullFilePath), false, '\t'), csv =>
             {
                 var table = new DataTable();
                 table.Load(csv);
+                return table;
             });
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -13,10 +14,9 @@ using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
-using BridgeportClaims.Excel.Adapters;
-using NLog;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using BridgeportClaims.CsvReader.CsvReaders;
 
 namespace BridgeportClaims.Data.DataProviders.ImportFiles
 {
@@ -25,14 +25,48 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		private readonly IMemoryCacher _memoryCacher;
 	    private readonly IRepository<ImportFile> _importFileRepository;
 	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+	    private readonly ICsvReaderProvider _csvReaderProvider;
 
-        public ImportFileProvider(IMemoryCacher memoryCacher, IRepository<ImportFile> importFileRepository)
+        public ImportFileProvider(IMemoryCacher memoryCacher, 
+            IRepository<ImportFile> importFileRepository, 
+            ICsvReaderProvider csvReaderProvider)
 		{
 		    _memoryCacher = memoryCacher;
 		    _importFileRepository = importFileRepository;
+		    _csvReaderProvider = csvReaderProvider;
 		}
 
-	    public void ProcessOldestLakerFile()
+	    public void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false)
+	    {
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            DisposableService.Using(() => new SqlCommand("etl.uspStageNewLakerFile"), command =>
+	            {
+	                var udt = new SqlParameter
+	                {
+	                    ParameterName = "@Base",
+	                    TypeName = "etl.udtLakerFile",
+	                    Direction = ParameterDirection.Input,
+                        Value = dataTable,
+                        SqlDbType = SqlDbType.Structured
+	                };
+                    command.CommandType = CommandType.StoredProcedure;
+	                command.Parameters.Add(udt);
+	                command.Parameters.Add(new SqlParameter
+	                {
+	                    ParameterName = "@DebugOnly",
+	                    SqlDbType = SqlDbType.Bit,
+	                    DbType = DbType.Boolean,
+	                    Value = debugOnly
+                    });
+	                if (conn.State != ConnectionState.Open)
+	                    conn.Open();
+	                command.ExecuteNonQuery();
+	            });
+	        });
+	    }
+
+	    public string GetLakerFileTemporaryPath(Tuple<string, byte[]> tuple)
 	    {
 	        var methodName = MethodBase.GetCurrentMethod().Name;
 	        if (cs.AppIsInDebugMode)
@@ -41,17 +75,30 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                 .Where(f => null != f.FileName && f.FileName.StartsWith(c.LakeFileNameStartsWithString))
                 .OrderBy(f => f.CreatedOnUtc)
                 .Select(f => f.FileName).FirstOrDefault();
-	        if (!oldestLakeFileName.IsNotNullOrWhiteSpace()) return;
-	        var tuple = GetOldestLakerFileBytes();
-	        if (null == tuple || tuple.Item1 != oldestLakeFileName) return;
+	        if (!oldestLakeFileName.IsNotNullOrWhiteSpace()) return string.Empty;
+	        if (null == tuple || tuple.Item1 != oldestLakeFileName) return string.Empty;
 	        var fullFilePath = string.Empty;
 	        if (null != oldestLakeFileName)
 	            fullFilePath = Path.Combine(Path.GetTempPath(), oldestLakeFileName);
 	        File.WriteAllBytes(fullFilePath, tuple.Item2);
-	        var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(tuple.Item2);
-        }
+	        if (File.Exists(fullFilePath))
+	            return fullFilePath;
+	        throw new IOException($"Error. Unable to save the Laker CSV file to {fullFilePath}");
+	    }
 
-		public void DeleteImportFile(int importFileId)
+	    public DataTable RetreiveDataTableFromLatestLakerFile(string fullFilePathOfLatestLakerFile)
+	    {
+	        if (fullFilePathOfLatestLakerFile.IsNullOrWhiteSpace())
+	            throw new Exception("The full file path to the latest Laker CSV doesn't exist.");
+            var dt = _csvReaderProvider.ReadCsvFile(fullFilePathOfLatestLakerFile);
+	        if (null == dt) throw new Exception($"Could not read CSV into Data Table from {fullFilePathOfLatestLakerFile}");
+	        // Cleanup temporary file.
+	        if (File.Exists(fullFilePathOfLatestLakerFile))
+	            File.Delete(fullFilePathOfLatestLakerFile);
+	        return dt;
+	    }
+
+	    public void DeleteImportFile(int importFileId)
 		{
 			// Remove cached entries
 			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
@@ -75,7 +122,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			});
 		}
 
-	    private static Tuple<string, byte[]> GetOldestLakerFileBytes()
+	    public Tuple<string, byte[]> GetOldestLakerFileBytes()
 	    {
 	        return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), conn =>
 	        {

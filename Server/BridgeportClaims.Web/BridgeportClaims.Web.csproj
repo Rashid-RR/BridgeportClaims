@@ -346,6 +346,10 @@
       <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
+      <Project>{0E70AD77-202B-411B-B724-98C63D0A6407}</Project>
+      <Name>BridgeportClaims.CsvReader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
       <Project>{df854117-1c14-4f92-935d-a740dded79df}</Project>
       <Name>BridgeportClaims.Excel</Name>
