@@ -11,7 +11,7 @@ import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-
+declare var $:any
 @Injectable()
 export class PaymentService {
   private claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
@@ -20,14 +20,14 @@ export class PaymentService {
   prescriptionSelected: Boolean = false;
 
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
-    this.events.on("postPaymentPrescriptionReturnDtos",data=>{
+    this.events.on('postPaymentPrescriptionReturnDtos',data=>{
           data.prescriptions.forEach(d=>{
              var prescription = this.claimsDetail.get(d.prescriptionId);
             if(prescription){
               prescription.outstanding= d.outstanding;
             }
-           })
-    })
+           });
+    });
   }
 
 
@@ -47,8 +47,7 @@ export class PaymentService {
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
             const res: Array<PaymentClaim> = result;
-            console.log(res);
-            this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
+             this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
             result.forEach(claim => {
               const c = new PaymentClaim(claim.claimId, claim.claimNumber, claim.patientName, claim.payor, claim.numberOfPrescriptions);
               if(result.length==1){
@@ -99,6 +98,11 @@ export class PaymentService {
         return claim.selected;
     });
   }
+  get unselected(){
+    return this.claimsDetail.toArray().filter(claim => {
+        return !claim.selected;
+    });
+  }
   get amountSelected(){
      let amount = 0;
      this.selected.forEach(detailedPaymentClaim => {
@@ -140,6 +144,40 @@ export class PaymentService {
     this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
   }
 
+  unSelectAllPrescriptions(){
+    this.claimsDetail.asImmutable().toArray().forEach(c => {
+      c.selected = false;
+      c.filterSelected = false;
+      c.searchSelected = false;
+   });
+   $('input#claimsCheckBox').prop('checked', false);
+   this.events.broadcast('claimsCheckBox',false);
+  }
+  moveSelectedPrescriptions(){
+    this.claimsDetail.asImmutable().toArray().forEach(c => {
+      if(c.searchSelected && !c.selected)
+        c.selected = true;
+        c.filterSelected = false;
+        c.searchSelected = false;
+   });
+  }
+  moveUnselectedPrescriptions(){
+    this.claimsDetail.asImmutable().toArray().forEach(c => {
+      if(c.filterSelected && c.selected)
+        c.selected = false;
+        c.filterSelected = false;
+        c.searchSelected = false;
+      });
+  }
+  selectAllPrescriptions(){
+    this.claimsDetail.asImmutable().toArray().forEach(c => {
+       c.selected = true;
+       c.filterSelected = false;
+       c.searchSelected = false;
+    }); 
+    $('input#claimsCheckBox').prop('checked', false);
+    this.events.broadcast('claimsCheckBox',false);
+  }
   getPaymentClaimDataByIds(ids: Array<Number>= []) {
     if (ids.length > 0) {
       this.loading = true;

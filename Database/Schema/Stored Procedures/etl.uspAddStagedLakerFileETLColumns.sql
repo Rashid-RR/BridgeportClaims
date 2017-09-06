@@ -80,10 +80,10 @@ AS BEGIN
 	    (
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'PharmacyID'
+			WHERE [c].[name] = 'NABP'
 				  AND [t].[object_id] = @Obj
 		)
-			ALTER TABLE [etl].[StagedLakerFile] ADD [PharmacyID] INTEGER NULL
+			ALTER TABLE [etl].[StagedLakerFile] ADD NABP VARCHAR(7) NULL
 		/****************************************************************************
 		Now, we're going to move on to the import tables themselves, and permanently add Columns for the Import
 		****************************************************************************/
@@ -168,6 +168,7 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
+
 
 
 GO

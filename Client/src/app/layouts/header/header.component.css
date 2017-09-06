@@ -7,3 +7,22 @@
     line-height: 50px;
     margin-right: 15px;
 }
+.ver {
+    position: absolute;
+    top: 15px;
+    width: 50%;
+    text-align: center;
+    color: #b33a3a;
+    z-index: 999999;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+
+@media screen and (max-width: 767px) {
+    .ver {
+        top: 40px;
+    }
+}

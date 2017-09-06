@@ -47,17 +47,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=4.6.1.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.1\lib\net45\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Owin, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Owin.4.1.0\lib\net45\Autofac.Integration.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Autofac.Integration.SignalR, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.SignalR2.4.0.0\lib\net45\Autofac.Integration.SignalR.dll</HintPath>
-    </Reference>
-    <Reference Include="Autofac.Integration.WebApi, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\packages\Autofac.WebApi2.4.0.1\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
+    <Reference Include="Autofac.Integration.WebApi, Version=4.1.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.WebApi2.4.1.0\lib\net45\Autofac.Integration.WebApi.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.WebApi.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.WebApi2.Owin.4.0.0\lib\net45\Autofac.Integration.WebApi.Owin.dll</HintPath>
@@ -161,7 +158,7 @@
       <HintPath>..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.11\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -251,13 +248,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.6.4.js" />
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutomapperStartup.cs" />
-    <Compile Include="App_Start\NHibernateProfilerBootstrapper.cs" />
     <Compile Include="Attributes\DenyActionAttribute.cs" />
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
     <Compile Include="Controllers\CacheController.cs" />
@@ -267,6 +268,7 @@
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
+    <Compile Include="Controllers\LakerAutomationController.cs" />
     <Compile Include="Controllers\NewFeaturesController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
@@ -279,6 +281,9 @@
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Handlers\CancelledTaskBugWorkaroundMessageHandler.cs" />
+    <Compile Include="Hubs\MessageHub.cs" />
+    <Compile Include="Hubs\SubscribeHub.cs" />
+    <Compile Include="Hubs\PostingHub.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\EmailType.cs" />
     <Compile Include="Infrastructure\MultipartFormDataMemoryStreamProvider.cs" />
@@ -291,11 +296,13 @@
     <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Email\Models\EmailViewModel.cs" />
     <Compile Include="Models\PaymentsSearchModel.cs" />
+    <Compile Include="Models\PostedPaymentViewModel.cs" />
     <Compile Include="Models\PostPaymentsModel.cs" />
     <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\RoleReturnModel.cs" />
     <Compile Include="Models\SaveEpisodeModel.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
+    <Compile Include="Models\UserPaymentPostingSession.cs" />
     <Compile Include="Models\UsersInRoleModel.cs" />
     <Compile Include="Providers\BridgeportClaimOAuthProvider.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
@@ -305,7 +312,7 @@
     <Compile Include="Email\EmailService.cs" />
     <Compile Include="Email\EmailTemplateProviders\IEmailTemplateProvider.cs" />
     <Compile Include="Email\EmailTemplateProviders\EmailTemplateProvider.cs" />
-    <Compile Include="Email\IEmailService.cs" />
+    <Compile Include="EmailTemplates\IEmailService.cs" />
     <Compile Include="Email\Models\EmailModel.cs" />
     <Compile Include="Infrastructure\ApplicationDbContext.cs" />
     <Compile Include="Infrastructure\ApplicationUser.cs" />
@@ -317,16 +324,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\BridgeportClaimsJwtFormat.cs" />
     <Compile Include="SignalR\ChannelEvent.cs" />
-    <Compile Include="SignalR\PaymentHub.cs" />
+    <Compile Include="Hubs\PaymentHub.cs" />
+    <Compile Include="SignalR\HubContextProvider.cs" />
+    <Compile Include="SignalR\IHubContextProvider.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
+    <ProjectReference Include="..\Core\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
       <Project>{ecbbfbd1-dbab-486b-a50b-7b2de864f29f}</Project>
       <Name>BridgeportClaims.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
-      <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
+    <ProjectReference Include="..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{61afc490-da0f-4f71-ab27-427e64fbf7d0}</Project>
       <Name>BridgeportClaims.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
@@ -337,7 +346,11 @@
       <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
+    <ProjectReference Include="..\Utilities\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
+      <Project>{0E70AD77-202B-411B-B724-98C63D0A6407}</Project>
+      <Name>BridgeportClaims.CsvReader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
       <Project>{df854117-1c14-4f92-935d-a740dded79df}</Project>
       <Name>BridgeportClaims.Excel</Name>
     </ProjectReference>

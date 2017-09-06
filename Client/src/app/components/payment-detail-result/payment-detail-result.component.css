@@ -1,3 +1,12 @@
+.claim-info.row,.col-sm-12.claim-col.expanded{
+    margin:0px;
+    padding:0px;   
+    overflow: hidden;     
+}
+.box-body{
+    padding:0px; 
+    border: 2px solid lightgray;
+}
 .table-responsive {
     position: relative;
     overflow-x: hidden;
@@ -13,7 +22,7 @@
 
 table {
     table-layout: fixed;
-    width: 99% !important;
+    width: 100% !important;
     overflow-x: hidden;
 }
 
@@ -42,36 +51,9 @@ tr>td {
 
 tr>th:first-child,
 tr>td:first-child {
-    max-width: 5%;
+    width: 5%;
     font-size: 8pt;
 }
-
-
-/* tr>th:nth-child(2),
-tr>td:nth-child(2) {
-    max-width: 5%;
-}
-
-tr>th:nth-child(3),
-tr>td:nth-child(3) {
-    max-width: 7%;
-}
-
-tr>th:nth-child(4),
-tr>td:nth-child(4) {
-    max-width: 27%;
-}
-
-tr>th:nth-child(5),
-tr>td:nth-child(5) {
-    max-width: 18%;
-}
-
-tr>th:nth-child(6),
-tr>td:nth-child(6) {
-    max-width: 7%;
-}
-*/
 
 td>a.label {
     font-size: 1.2rem;
@@ -228,7 +210,7 @@ tr>th:nth-child(6),
 tr>td:nth-child(6),
 tr>th:nth-child(3),
 tr>td:nth-child(3) {
-    max-width: 19%;
+    width: 20.5%;
     text-align: left !important;
 }
 
@@ -244,12 +226,12 @@ tr>th:nth-child(8),
 tr>td:nth-child(8),
 tr>th:nth-child(9),
 tr>td:nth-child(9) {
-    max-width: 6%;
+    width: 6%;
 }
 
 tr>th:last-child,
 tr>td:last-child {
-    max-width: 17%;
+    width: 18%;
     font-size: 1.4rem;
     line-height: 1.5rem;
 }
@@ -269,7 +251,7 @@ tr>td:nth-child(7) {
     height: -webkit-calc(100vh - 154px);
     height: -o-calc(100vh - 154px);
     overflow:hidden;
-    overflow-y:scroll;
+    /* overflow-y:scroll; */
 }
 .top-header,.table-body{
     width:99%;

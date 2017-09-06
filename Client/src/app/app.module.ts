@@ -28,7 +28,7 @@ import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModul
 import {ProfileComponent} from "./pages/profile/profile.component";
 
  //services
-import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager} from "./services/services.barrel";
+import {HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager,SignalRService} from "./services/services.barrel";
 import { PayorsComponent } from './pages/payors/payors.component'
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
@@ -44,16 +44,11 @@ import { DisplayRolesPipe } from './pipes/display-roles.pipe';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
 import { DecimalPipe } from '@angular/common';
-
+import {PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent, PaymentDetailedResultComponent,SelectedPaymentDetailedResultComponent} from "./components/components-barrel"
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentComponent } from './pages/payment/payment.component';
-import { PaymentInvoiceComponent } from './components/payment-invoice/payment-invoice.component';
-import { PaymentInputComponent } from './components/payment-input/payment-input.component';
-import { PaymentResultComponent } from './components/payment-result/payment-result.component';
 import {PaymentService} from "./services/payment-service";
-import { PaymentClaimResultComponent } from './components/payment-claim-result/payment-claim-result.component';
-import { PaymentDetailedResultComponent } from './components/payment-detail-result/payment-detail-result.component';
 import { NewFeaturesComponent } from './pages/new-features/new-features.component';
 import { NewPaymentInputComponent } from './pages/new-features/new-payment-input/new-payment-input.component';
 import { ColumnSortDirective } from "./directives/column-sort.directive";
@@ -89,6 +84,7 @@ export class SafeUrlPipe implements PipeTransform {
     RegisterComponent,
     DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
     SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe, FileUploadComponent, FooterComponent, PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent, PaymentDetailedResultComponent, NewFeaturesComponent, NewPaymentInputComponent,
+    SelectedPaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective
   ],
   imports: [
@@ -105,6 +101,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [  
     DecimalPipe,DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,
+    SignalRService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

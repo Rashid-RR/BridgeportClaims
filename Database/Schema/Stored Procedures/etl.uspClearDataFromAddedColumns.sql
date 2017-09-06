@@ -19,7 +19,7 @@ AS BEGIN
 		 , InvoiceID = NULL
 		 , ClaimID = NULL
 		 , PrescriptionID = NULL
-		 , PharmacyID = NULL
-		 , PaymentID = NULL
+		 , NABP = NULL
+		 , AcctPayableID = NULL
 END
 GO

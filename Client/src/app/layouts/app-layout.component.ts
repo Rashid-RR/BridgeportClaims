@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, ViewContainerRef, AfterViewInit} from "@angular/core";
-import {Router} from "@angular/router";
+import {Router,NavigationEnd} from "@angular/router";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {ProfileManager} from "../services/profile-manager"
 import {AuthGuard} from "../services/auth.guard"
@@ -14,7 +14,7 @@ import { EventsService } from "../services/events-service";
 export class AppLayoutComponent implements OnInit, AfterViewInit {
   buildSha: '';
   buildDate: '';
-
+  currentURL ='';
   @ViewChild('toastContainer', { read: ViewContainerRef }) toastVcr: ViewContainerRef;
   constructor(
     private router: Router,
@@ -54,7 +54,14 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
       }
     });
     
-
+    this.currentURL = this.router.url;
+      console.log(this.router.url);
+      this.router.events.subscribe(ev=>{
+        if(ev instanceof NavigationEnd){
+          console.log(this.router.url);
+          this.currentURL = this.router.url;          
+        }
+      });
   }
   adjustSideBar(status){
     this.guard.isLoggedIn.subscribe(r=>{

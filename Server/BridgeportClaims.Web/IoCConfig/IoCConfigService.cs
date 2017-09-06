@@ -4,6 +4,7 @@ using System.Web;
 using System.Data;
 using System.Reflection;
 using Autofac.Integration.WebApi;
+using BridgeportClaims.Business.LakerFileProcess;
 using BridgeportClaims.Web.Email;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Business.Payments;
@@ -17,7 +18,7 @@ using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.DataProviders.UserRoles;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
-using BridgeportClaims.Data.DataProviders.ImportFile;
+using BridgeportClaims.Data.DataProviders.ImportFiles;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Data.DataProviders.UserOptions;
 using BridgeportClaims.Data.DataProviders.DateDisplay;
@@ -26,6 +27,8 @@ using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
 using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
+using BridgeportClaims.Web.EmailTemplates;
+using BridgeportClaims.CsvReader.CsvReaders;
 
 namespace BridgeportClaims.Web.IoCConfig
 {
@@ -44,7 +47,9 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<PrescriptionNoteTypesDataProvider>().As<IPrescriptionNoteTypesDataProvider>().InstancePerRequest();
             builder.RegisterType<EmailModelGenerator>().As<IEmailModelGenerator>().InstancePerRequest();
             builder.RegisterType<EpisodesDataProvider>().As<IEpisodesDataProvider>().InstancePerRequest();
+            builder.RegisterType<LakerFileProcessor>().As<ILakerFileProcessor>().InstancePerRequest();
             builder.RegisterType<AspNetUsersProvider>().As<IAspNetUsersProvider>().InstancePerRequest();
+            builder.RegisterType<CsvReaderProvider>().As<ICsvReaderProvider>().InstancePerRequest();
             builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
             
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
@@ -56,6 +61,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DateDisplayProvider>().As<IDateDisplayProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();
             // Singletons
+
             builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().SingleInstance();
             builder.Register(c => FluentSessionProvider.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
             builder.Register(c => FluentSessionProvider.GetSession()).As<ISession>().OnActivated(session =>

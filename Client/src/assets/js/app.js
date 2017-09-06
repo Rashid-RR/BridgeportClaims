@@ -26,7 +26,7 @@ if (typeof jQuery === "undefined") {
  *              way to organize our code.
  */
 $.AdminLTE = {};
-$.widget.bridge('uibutton', $.ui.button);
+
 /* --------------------
  * - AdminLTE Options -
  * --------------------
@@ -235,7 +235,7 @@ function _init() {
   'use strict';
   /* Layout
    * ======
-   * Fixes the layout height in case min-height fails.
+   * Fixes the layout height in case height fails.
    *
    * @type Object
    * @usage $.AdminLTE.layout.activate()
@@ -247,8 +247,7 @@ function _init() {
       var _this = this;
       _this.fix();
       _this.fixSidebar();
-      $('body, html').css('height', '100%');
-      $('.wrapper').css('height', '100%');
+      $('body, html, .wrapper').css('height', 'auto');
       $(window, ".wrapper").resize(function () {
         _this.fix();
         _this.fixSidebar();
@@ -258,21 +257,21 @@ function _init() {
       // Remove overflow from .wrapper if layout-boxed exists
       $(".layout-boxed > .wrapper").css('overflow', 'hidden');
       //Get window height and the wrapper height
-      var footer_height = $('.main-footer').outerHeight() || 0; 
+      var footer_height = $('.main-footer').outerHeight() || 0;
       var neg = $('.main-header').outerHeight() + footer_height;
       var window_height = $(window).height();
       var sidebar_height = $(".sidebar").height() || 0;
-       //Set the min-height of the content and sidebar based on the
+      //Set the height of the content and sidebar based on the
       //the height of the document.
       if ($("body").hasClass("fixed")) {
-        $(".content-wrapper, .right-side").css('min-height', window_height - footer_height);
+        $(".content-wrapper, .right-side").css('height', window_height - footer_height);
       } else {
         var postSetWidth;
         if (window_height >= sidebar_height) {
-          $(".content-wrapper, .right-side").css('min-height', window_height - neg);
+          $(".content-wrapper, .right-side").css('height', window_height - neg);
           postSetWidth = window_height - neg;
         } else {
-          $(".content-wrapper, .right-side").css('min-height', sidebar_height);
+          $(".content-wrapper, .right-side").css('height', sidebar_height);
           postSetWidth = sidebar_height;
         }
 
@@ -280,7 +279,7 @@ function _init() {
         var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
         if (typeof controlSidebar !== "undefined") {
           if (controlSidebar.height() > postSetWidth)
-            $(".content-wrapper, .right-side").css('min-height', controlSidebar.height());
+            $(".content-wrapper, .right-side").css('height', controlSidebar.height());
         }
 
       }
@@ -535,7 +534,7 @@ function _init() {
       });
     },
     _fixForContent: function (sidebar) {
-      $(".content-wrapper, .right-side").css('min-height',sidebar.height());
+      $(".content-wrapper, .right-side").css('height', sidebar.height());
     }
   };
 
