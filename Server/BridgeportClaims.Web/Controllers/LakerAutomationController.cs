@@ -31,7 +31,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
-                    _lakerFileProcessor.ProcessOldestLakerFile();
+                    var fileName = _lakerFileProcessor.ProcessOldestLakerFile();
                     return Ok();
                 });
             }

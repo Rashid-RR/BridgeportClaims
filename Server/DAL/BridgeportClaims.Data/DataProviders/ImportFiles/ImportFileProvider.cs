@@ -40,7 +40,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 	    {
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
-	            DisposableService.Using(() => new SqlCommand("etl.uspStageNewLakerFile"), command =>
+	            DisposableService.Using(() => new SqlCommand("etl.uspStageNewLakerFile", conn), command =>
 	            {
 	                var udt = new SqlParameter
 	                {
