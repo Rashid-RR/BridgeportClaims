@@ -9,7 +9,7 @@ GO
 	Sample Execute:
 					EXEC etl.uspPrepareNewStagedLakerFile
 */
-CREATE PROC [etl].[uspPrepareNewStagedLakerFile]
+CREATE PROC [etl].[uspStageNewLakerFile]
 (
 	@Base [etl].[udtLakerFile] READONLY,
 	@DebugOnly BIT = 0
