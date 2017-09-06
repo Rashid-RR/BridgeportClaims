@@ -42,5 +42,6 @@
         public const string PrescriptionBladeCacheKey = "__PrescriptionBladeCacheKey__";
         public const string CachingProvider = "CachingProvider";
         public const string LakeFileNameStartsWithString = "Billing_Claim_File_";
+        public const string NoLakerFilesToImportToast = "No Laker Files were found to import.";
     }
 }

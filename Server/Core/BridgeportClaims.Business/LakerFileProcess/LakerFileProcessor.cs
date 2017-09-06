@@ -2,6 +2,7 @@
 using BridgeportClaims.Business.BackgroundWork;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Business.LakerFileProcess
 {
@@ -19,6 +20,8 @@ namespace BridgeportClaims.Business.LakerFileProcess
         {
             // First, grab the bytes of the file from the database.
             var tuple = _importFileProvider.GetOldestLakerFileBytes();
+            if (null == tuple)
+                return c.NoLakerFilesToImportToast;
             // Which we'll return if this whole process is successful.
             var lakerFileName = tuple.Item1;
             // Take the file bytes, and save them to a temporary path in Windows

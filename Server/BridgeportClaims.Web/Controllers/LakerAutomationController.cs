@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using BridgeportClaims.Business.LakerFileProcess;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 
 namespace BridgeportClaims.Web.Controllers
@@ -29,10 +30,13 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
+                    var toastType = "Success";
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
                     var fileName = _lakerFileProcessor.ProcessOldestLakerFile();
-                    return Ok();
+                    if (fileName == c.NoLakerFilesToImportToast)
+                        toastType = "Info";
+                    return Ok(new {toastType, message = fileName});
                 });
             }
             catch (Exception ex)
