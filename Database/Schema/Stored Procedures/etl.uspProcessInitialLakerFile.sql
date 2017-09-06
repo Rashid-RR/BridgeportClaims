@@ -583,9 +583,9 @@ AS BEGIN
 	WHERE	[p].[RowNumber] = 1
 	SET @RowCountCheck = @@ROWCOUNT
 
-	CREATE TABLE #ProcessPharmacy ([PharmacyID] INT, DenseRank INT NOT NULL, ETLRowID VARCHAR(50) NOT NULL)
-	INSERT #ProcessPharmacy ([PharmacyID],[DenseRank],ETLRowID)
-	SELECT p.PharmacyNABP
+	CREATE TABLE #ProcessPharmacy ([NABP] VARCHAR(7) NOT NULL, DenseRank INT NOT NULL, ETLRowID VARCHAR(50) NOT NULL)
+	INSERT #ProcessPharmacy (NABP,[DenseRank],ETLRowID)
+	SELECT p.NABP
 			, [i].[DenseRank]
 			, [s].[RowID]
 	FROM   [etl].[StagedLakerFile] AS s
@@ -595,19 +595,19 @@ AS BEGIN
 	WITH WindowingMagicCTE AS
 	(
 		SELECT ph.ETLRowID
-				, PharmacyID = MIN(ph.[PharmacyID]) OVER (
+				, NABP = MIN(ph.NABP) OVER (
 						PARTITION BY ph.[DenseRank] ORDER BY ph.[DenseRank]
 						ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING)
-		FROM   #ProcessPharmacy AS ph WHERE ph.[PharmacyID] IS NOT NULL AND ph.ETLRowID IS NOT NULL
+		FROM   #ProcessPharmacy AS ph WHERE ph.[NABP] IS NOT NULL AND ph.ETLRowID IS NOT NULL
 	)
 	UPDATE [s]
-	SET    [s].[PharmacyID] = [c].[PharmacyID]
+	SET    [s].NABP = [c].NABP
 	FROM   [WindowingMagicCTE] AS c
 			INNER JOIN [etl].[StagedLakerFile] AS s WITH (TABLOCKX) ON [c].[ETLRowID] = [s].[RowID]
 	SET @RowCountCheck = @@ROWCOUNT
 			
 	-- Pharmacy QA Check
-	IF @RowCountCheck != (SELECT COUNT(DISTINCT s.PharmacyID) FROM [etl].[StagedLakerFile] AS s)
+	IF @RowCountCheck != (SELECT COUNT(DISTINCT s.NABP) FROM [etl].[StagedLakerFile] AS s)
 		BEGIN
 			IF @@TRANCOUNT > 0
 				ROLLBACK;

@@ -27,7 +27,7 @@ AS BEGIN
 		   [s].[InvoiceID] = [b].[InvoiceID],
 		   [s].[ClaimID] = [b].[ClaimID],
 		   [s].[PrescriptionID] = [b].[PrescriptionID],
-		   [s].[PharmacyID] = [b].[PharmacyID]
+		   [s].[NABP] = [b].[NABP]
 	FROM   [etl].[StagedLakerFile] AS [s]
 		   INNER JOIN [etl].[StagedLakerFileBackup] AS [b] ON [b].[RowID] = [s].[RowID]
 
@@ -131,7 +131,7 @@ AS BEGIN
 	,[slf].[134],[slf].[135],[slf].[136],[slf].[137],[slf].[138],[slf].[139],[slf].[140],[slf].[141],[slf].[142]
 	,[slf].[143],[slf].[144],[slf].[145],[slf].[146],[slf].[147],[slf].[148],[slf].[149],[slf].[150],[slf].[151]
 	,[slf].[152],[slf].[153],[slf].[154],[slf].[PayorID],[slf].[AcctPayableID],[slf].[AdjustorID],[slf].[PatientID]
-	,[slf].[InvoiceID],[slf].[ClaimID],[slf].[PrescriptionID],[slf].[PharmacyID]
+	,[slf].[InvoiceID],[slf].[ClaimID],[slf].[PrescriptionID],[slf].NABP
 	FROM [etl].[StagedLakerFile] AS [slf]
 	LEFT JOIN [etl].[StagedLakerFileBackup] AS [slfb] ON [slfb].[RowID] = [slf].[RowID]
 	WHERE [slfb].[RowID] IS NULL
@@ -945,28 +945,28 @@ AS BEGIN
 	[PostalCode] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[DispType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	RowID VARCHAR(50) NOT NULL)
-	INSERT [#PharmacyUpdate] ([PharmacyID],[NABP],[NPI],[PharmacyName],[Address1],[Address2],[City],[StateID],[PostalCode],[DispType],[RowID])
-	SELECT  p.[PharmacyID],[p].[89],[p].[90],[p].[91],[p].[92],[p].[93],[p].[94],[us].[StateID],[p].[96],util.udfTrimLeadingZeros([p].[97]),[p].[RowID]
+	INSERT [#PharmacyUpdate] ([NABP],[NPI],[PharmacyName],[Address1],[Address2],[City],[StateID],[PostalCode],[DispType],[RowID])
+	SELECT  [p].[89],[p].[90],[p].[91],[p].[92],[p].[93],[p].[94],[us].[StateID],[p].[96],util.udfTrimLeadingZeros([p].[97]),[p].[RowID]
 	FROM	[etl].[StagedLakerFile] AS [p] LEFT JOIN [dbo].[UsState] AS [us] ON [us].[StateCode] = [p].[95]
-	WHERE	[p].[PharmacyID] IS NOT NULL
+	WHERE	[p].NABP IS NOT NULL
 
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
 	SELECT @UTCNow = SYSUTCDATETIME();
 
 	WITH PharmaciesUpdateCTE AS
 	(
-		SELECT	[p].[PharmacyID],[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
+		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
 		FROM	[dbo].[Pharmacy] AS [p]
 		EXCEPT
-		SELECT	[p].[PharmacyID],[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],[p].[DispType]
+		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],[p].[DispType]
 		FROM	[#PharmacyUpdate] AS [p]
 
 		UNION
     
-		SELECT	[p].[PharmacyID],[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],[p].[DispType]
+		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],[p].[DispType]
 		FROM	[#PharmacyUpdate] AS [p]
 		EXCEPT
-		SELECT	[p].[PharmacyID],[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
+		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
 		FROM	[dbo].[Pharmacy] AS [p]
 	)
 	UPDATE [p]
@@ -981,7 +981,7 @@ AS BEGIN
 		 , [p].[DispType] = [c].[DispType]
 		 , [p].[UpdatedOnUTC] = @UTCNow
 	FROM   [dbo].[Pharmacy] AS [p]
-		   INNER JOIN [PharmaciesUpdateCTE] AS [c] ON [p].[PharmacyID] = [c].[PharmacyID]
+		   INNER JOIN [PharmaciesUpdateCTE] AS [c] ON [p].NABP = [c].NABP
 	SET @RowCountCheck = @@ROWCOUNT
 
 	IF @RowCountCheck != (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
