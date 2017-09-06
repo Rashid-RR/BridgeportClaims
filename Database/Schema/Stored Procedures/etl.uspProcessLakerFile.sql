@@ -582,105 +582,36 @@ AS BEGIN
 	********************************************************************************************/
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
 	SELECT @UTCNow = SYSUTCDATETIME();
+	DECLARE @SQL NVARCHAR(4000)
+	SET @SQL = N'ALTER TABLE dbo.Invoice ADD PrescriptionID INT NULL';
+	EXECUTE sys.sp_executesql @SQL;
 
-	CREATE TABLE #Invoice (Amount MONEY,InvoiceNumber VARCHAR(8000),InvoiceDate VARCHAR(8000),[PayorID] INT NOT NULL
-									,[ClaimID] INT NOT NULL, RowNumber INT NOT NULL, DenseRank INT NOT NULL, ETLRowID VARCHAR(50) NOT NULL)
-	INSERT INTO [#Invoice] ([Amount],[InvoiceNumber],[InvoiceDate],[PayorID],[ClaimID],RowNumber,[DenseRank],[ETLRowID])
-	SELECT 
-		0 -- Have to check on Mapping of Amount
-		, n.[4],n.[5],n.[PayorID],n.[ClaimID]
-		,ROW_NUMBER() OVER (PARTITION BY n.[4],n.[5],n.[PayorID],n.[ClaimID] ORDER BY n.[4]) RowID
-		,DENSE_RANK() OVER (ORDER BY n.[4],n.[5],n.[PayorID],n.[ClaimID]) DenseRank
-		,n.[RowID]
-	FROM   [#New] AS n LEFT JOIN [dbo].[Invoice] AS [i] ON [InvoiceNumber] = [n].[4]
-	WHERE  1 = 1
-			AND n.[ClaimID] IS NOT NULL
-			AND n.[4] IS NOT NULL
-			AND n.[5] IS NOT NULL
-			AND n.[PayorID] IS NOT NULL
-			AND i.[InvoiceID] IS NULL
+	SET @SQL =
+	N'WITH MissingInvoicesCTE ( InvoiceNumber, InvoiceDate, RowID, PrescriptionID )
+	AS ( SELECT slf.[4]
+				, slf.[5]
+				, slf.RowID
+				, slf.PrescriptionID
+			FROM   etl.StagedLakerFile AS slf
+			WHERE slf.[4] IS NOT NULL
+				AND slf.[5] IS NOT NULL
+				AND slf.PrescriptionID IS NOT NULL
+		)
+	INSERT dbo.Invoice (InvoiceNumber, InvoiceDate, Amount, ETLRowID, PrescriptionID)
+	SELECT c.InvoiceNumber
+			, c.InvoiceDate
+			, 0
+			, c.RowID
+			, c.PrescriptionID
+	FROM   MissingInvoicesCTE AS c
+			LEFT JOIN dbo.Invoice AS i ON i.InvoiceNumber = c.InvoiceNumber AND i.InvoiceDate = c.InvoiceDate
+			LEFT JOIN dbo.Prescription AS p ON p.InvoiceID = i.InvoiceID
+	WHERE  i.InvoiceID IS NULL
+			AND p.PrescriptionID IS NULL'
+	EXECUTE sys.sp_executesql @SQL
 
-	-- Actual Invoices Import
-	INSERT [dbo].[Invoice] ([InvoiceNumber],[InvoiceDate],[Amount]
-	,[PayorID],[ClaimID],[CreatedOnUTC],[UpdatedOnUTC])
-	SELECT [InvoiceNumber],[InvoiceDate],0,[PayorID],[ClaimID],@UTCNow,@UTCNow
-	FROM [#Invoice] AS [i]
-	WHERE [RowNumber] = 1
-	SET @RowCountCheck = @@ROWCOUNT;
-
-	IF (SELECT COUNT(*) FROM [dbo].[Invoice] AS [i] WHERE [CreatedOnUTC] = @UTCNow) != @RowCountCheck
-		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The new Invoice records imported count does not match the rows affected for inserted Invoices', 16, 1) WITH NOWAIT
-			RETURN
-		END
-	
-	UPDATE s SET [s].[InvoiceID] = i.[InvoiceID]
-	FROM   #New AS s WITH ( TABLOCKX )
-		   INNER JOIN [dbo].[Invoice] AS [i] ON [InvoiceNumber] = [s].[4]
-	WHERE 1 = 1 -- Moving around SQL Prompt (normally a bad practice)
-	SET @RowCountCheck = @@ROWCOUNT
-
-	UPDATE	[slf] SET [slf].[InvoiceID] = [n].[InvoiceID]
-	FROM	[etl].[StagedLakerFile] AS [slf]
-			INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
-	WHERE	[slf].[4] IS NOT NULL
-			AND [slf].[5] IS NOT NULL
-	IF @RowCountCheck != @@ROWCOUNT
-		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The Updated Invoice ID''s in the StagedLakerFile does not match the count of updated Invoice ID''s in #New', 16, 1) WITH NOWAIT
-			RETURN
-		END
-	
-	CREATE TABLE #InvoiceUpdate ([InvoiceID] INT NOT NULL,
-	[InvoiceNumber] VARCHAR(100) NOT NULL,[InvoiceDate] DATE NOT NULL,[Amount] MONEY NOT NULL
-	,[PayorID] INT NOT NULL,[ClaimID] INT NOT NULL)
-	INSERT #InvoiceUpdate ([InvoiceID],[InvoiceNumber],[InvoiceDate],[Amount],[PayorID],[ClaimID])
-	SELECT [s].[InvoiceID],s.[4],s.[5],0,s.[PayorID],s.[ClaimID]
-	FROM   [etl].[StagedLakerFile] AS s
-	WHERE  s.[4] IS NOT NULL
-		   AND s.[5] IS NOT NULL
-		   AND s.[InvoiceID] IS NOT NULL
-
-	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
-
-	WITH UpdatedInvoicesCTE AS
-	(
-		SELECT	[InvoiceID],[InvoiceNumber],[InvoiceDate],[Amount],[PayorID],[ClaimID]
-		FROM	[#InvoiceUpdate] AS [i]
-		EXCEPT
-		SELECT [InvoiceID],[InvoiceNumber],[InvoiceDate],[Amount],[PayorID],[ClaimID]
-		FROM   [dbo].[Invoice] AS [i]
-
-		UNION
-    
-		SELECT [InvoiceID],[InvoiceNumber],[InvoiceDate],[Amount],[PayorID],[ClaimID]
-		FROM   [dbo].[Invoice] AS [i]
-		EXCEPT
-		SELECT	[InvoiceID],[InvoiceNumber],[InvoiceDate],[Amount],[PayorID],[ClaimID]
-		FROM	[#InvoiceUpdate] AS [i]
-	)
-	UPDATE [i] SET [InvoiceNumber] = [c].[InvoiceNumber],
-				   [InvoiceDate] = [c].[InvoiceDate],
-				   [Amount] = [c].[Amount],
-				   [PayorID] = [c].[PayorID],
-				   [ClaimID] = [c].[ClaimID],
-				   [UpdatedOnUTC] = @UTCNow
-	FROM   [UpdatedInvoicesCTE] AS [c]
-		   INNER JOIN [dbo].[Invoice] AS [i] ON i.[InvoiceID] = [c].[InvoiceID]
-	SET @UpdatedRowCount = @@ROWCOUNT
-
-	IF @UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Invoice] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
-		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Invoice Records didn''t match', 16, 1) WITH NOWAIT
-			RETURN
-		END
+	SET @SQL = N'ALTER TABLE dbo.Invoice DROP COLUMN PrescriptionID';
+	EXECUTE sys.sp_executesql @SQL
 
 	/********************************************************************************************
 	Import New Prescriptions
@@ -951,7 +882,7 @@ AS BEGIN
 
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
 	SELECT @UTCNow = SYSUTCDATETIME();
-
+	
 	WITH PharmaciesUpdateCTE AS
 	(
 		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
@@ -982,7 +913,7 @@ AS BEGIN
 	FROM   [dbo].[Pharmacy] AS [p]
 		   INNER JOIN [PharmaciesUpdateCTE] AS [c] ON [p].NABP = [c].NABP
 	SET @RowCountCheck = @@ROWCOUNT
-
+	
 	IF @RowCountCheck != (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
 		BEGIN
 			IF @@TRANCOUNT > 0

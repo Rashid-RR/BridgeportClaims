@@ -7,7 +7,9 @@ GO
 	Create Date:	9/4/2017
 	Description:	Prepares the etl.StagedLakerFile for importing
 	Sample Execute:
-					EXEC etl.uspPrepareNewStagedLakerFile
+					DECLARE @Base [etl].[udtLakerFile]
+					INSERT @Base (RowID) SELECT TOP (6582) NEWID() FROM sys.all_columns
+					EXEC [etl].[uspStageNewLakerFile] @Base, 1
 */
 CREATE PROC [etl].[uspStageNewLakerFile]
 (
@@ -174,4 +176,5 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
 GO

@@ -1,4 +1,4 @@
-CREATE TABLE [etl].[StagedLakerFile]
+CREATE TABLE [dbo].[T]
 (
 [RowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [2] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -153,14 +153,6 @@ CREATE TABLE [etl].[StagedLakerFile]
 [151] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [152] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [153] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[154] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PayorID] [int] NULL,
-[AcctPayableID] [int] NULL,
-[AdjustorID] [int] NULL,
-[PatientID] [int] NULL,
-[InvoiceID] [int] NULL,
-[ClaimID] [int] NULL,
-[PrescriptionID] [int] NULL,
-[NABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[154] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
