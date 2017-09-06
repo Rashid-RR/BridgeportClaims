@@ -32,7 +32,7 @@ AS BEGIN
 			AND s.PatientID IS NOT NULL
 			AND s.ClaimID IS NOT NULL
 			AND s.PrescriptionID IS NOT NULL
-			AND EXISTS (SELECT * FROM etl.StagedLakerFileBackup AS iiis WHERE iiis.PharmacyID IS NOT NULL)
+			AND EXISTS (SELECT * FROM etl.StagedLakerFileBackup AS iiis WHERE iiis.NABP IS NOT NULL)
 			AND EXISTS (SELECT * FROM etl.StagedLakerFileBackup AS iiiis WHERE iiiis.InvoiceID IS NOT NULL)
 			AND EXISTS (SELECT * FROM etl.StagedLakerFileBackup AS iiiiis WHERE iiiiis.AdjustorID IS NOT NULL))
 			BEGIN
@@ -99,7 +99,7 @@ AS BEGIN
 			AND s.PatientID IS NOT NULL
 			AND s.ClaimID IS NOT NULL
 			AND s.PrescriptionID IS NOT NULL
-			AND EXISTS (SELECT * FROM etl.StagedLakerFileBackup AS iiis WHERE iiis.PharmacyID IS NOT NULL)
+			AND EXISTS (SELECT * FROM etl.StagedLakerFileBackup AS iiis WHERE iiis.NABP IS NOT NULL)
 			AND EXISTS (SELECT * FROM etl.StagedLakerFileBackup AS iiiis WHERE iiiis.InvoiceID IS NOT NULL)
 			AND EXISTS (SELECT * FROM etl.StagedLakerFileBackup AS iiiiis WHERE iiiiis.AdjustorID IS NOT NULL))
 			BEGIN

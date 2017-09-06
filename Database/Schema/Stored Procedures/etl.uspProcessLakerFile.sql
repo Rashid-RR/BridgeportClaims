@@ -104,7 +104,7 @@ AS BEGIN
 	[147] [varchar](8000) NULL,[148] [varchar](8000) NULL,[149] [varchar](8000) NULL,[150] [varchar](8000) NULL,
 	[151] [varchar](8000) NULL,[152] [varchar](8000) NULL,[153] [varchar](8000) NULL,[154] [varchar](8000) NULL,
 	[PayorID] [int] NULL,[AcctPayableID] [int] NULL,[AdjustorID] [int] NULL,[PatientID] [int] NULL,
-	[InvoiceID] [int] NULL,[ClaimID] [int] NULL,[PrescriptionID] [int] NULL,[PharmacyID] [int] NULL)
+	[InvoiceID] [int] NULL,[ClaimID] [int] NULL,[PrescriptionID] [int] NULL,[NABP] VARCHAR(7) NULL)
 	INSERT [#New] ([RowID],[2],[3],[4],[5],[6],[7],[8],[9],[10],[11],[12],[13],[14],[15],[16]
 	,[17],[18],[19],[20],[21],[22],[23],[24],[25],[26],[27],[28],[29],[30],[31],[32],[33],[34],[35]
 	,[36],[37],[38],[39],[40],[41],[42],[43],[44],[45],[46],[47],[48],[49],[50],[51],[52],[53],[54],[55],[56],[57]
@@ -113,7 +113,7 @@ AS BEGIN
 	,[100],[101],[102],[103],[104],[105],[106],[107],[108],[109],[110],[111],[112],[113],[114],[115],[116],[117],[118],
 	[119],[120],[121],[122],[123],[124],[125],[126],[127],[128],[129],[130],[131],[132],[133],[134],[135],[136],[137]
 	,[138],[139],[140],[141],[142],[143],[144],[145],[146],[147],[148],[149],[150],[151],[152],[153],[154],[PayorID]
-	,[AcctPayableID],[AdjustorID],[PatientID],[InvoiceID],[ClaimID],[PrescriptionID],[PharmacyID])
+	,[AcctPayableID],[AdjustorID],[PatientID],[InvoiceID],[ClaimID],[PrescriptionID],[NABP])
 	SELECT [slf].[RowID],[slf].[2],[slf].[3],[slf].[4],[slf].[5],[slf].[6],[slf].[7]
 	,[slf].[8],[slf].[9],[slf].[10],[slf].[11],[slf].[12],[slf].[13],[slf].[14],[slf].[15],[slf].[16],[slf].[17]
 	,[slf].[18],[slf].[19],[slf].[20],[slf].[21],[slf].[22],[slf].[23],[slf].[24],[slf].[25],[slf].[26],[slf].[27]
@@ -916,26 +916,25 @@ AS BEGIN
 			RETURN
 		END
 		
-	UPDATE n SET n.[PharmacyID] = p.[PharmacyID]
+	UPDATE n SET n.[NABP] = p.[NABP]
 	FROM   [#New] AS [n]
-		   INNER JOIN [dbo].[Pharmacy] AS [p] ON [p].[NPI] = [n].[90]
+		   INNER JOIN [dbo].[Pharmacy] AS [p] ON [p].[NABP] = [n].[89]
 	SET @RowCountCheck = @@ROWCOUNT
 
-	UPDATE [slf] SET [slf].[PharmacyID] = [n].[PharmacyID]
+	UPDATE [slf] SET [slf].[NABP] = [n].[NABP]
 	FROM   [etl].[StagedLakerFile] AS [slf]
 		   INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
 	IF @@ROWCOUNT != @RowCountCheck
 		BEGIN
 			IF @@TRANCOUNT > 0
 				ROLLBACK
-			RAISERROR(N'Error. The same number of #New Pharmacy ID''s updated does not match the number of StagedLakerFile Pharmacy ID''s Updated.', 16, 1) WITH NOWAIT
+			RAISERROR(N'Error. The same number of #New Pharmacy NABP''s updated does not match the number of StagedLakerFile Pharmacy NABP''s Updated.', 16, 1) WITH NOWAIT
 			RETURN
 		END
 	
 	CREATE TABLE #PharmacyUpdate
 	(
-	[PharmacyID] [int] NOT NULL,
-	[NABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[NABP] [varchar] (7) NOT NULL,
 	[NPI] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PharmacyName] [varchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Address1] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
