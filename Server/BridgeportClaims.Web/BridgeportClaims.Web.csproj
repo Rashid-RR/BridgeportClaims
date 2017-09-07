@@ -236,6 +236,9 @@
     </Content>
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
     <Content Include="packages.config" />
+    <Content Include="EmailTemplates\LakerImportStatus.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-BridgeportClaimsStaging - FTP.pubxml" />
