@@ -26,13 +26,17 @@ export class PaymentScriptService {
   }
 addScripts() {    
         let claimsHTML = '';
-        this.paymentService.claimsData.forEach(claim => {            
+        this.paymentService.claimsData.forEach(claim => {     
+            let numberOfPrescriptions = claim.numberOfPrescriptions>0 ?
+            ` <a class="label label-info bg-darkblue" style="cursor: not-allowed;">
+                    `+claim.numberOfPrescriptions+`
+                </a>`  : claim.numberOfPrescriptions;
             claimsHTML = claimsHTML + `
                 <tr>
                     <td>`+ claim.claimNumber + `</td>
                     <td>`+ claim.patientName + `</td>
                     <td>`+ claim.payor + `</td>
-                    <td>`+ claim.numberOfPrescriptions + `</td>              
+                    <td>`+ numberOfPrescriptions + `</td>              
                 </tr>`;
         });
         let claimNumber = this.inputs[0] || '',firstName = this.inputs[1] || '',lastName = this.inputs[2] || '',rxDate = this.inputs[3] || '',invoiceNumber = this.inputs[4] || '';
@@ -41,7 +45,7 @@ addScripts() {
                                 <div class="box bottom-0">
                                     <div class="box-body payment-input">
                                         <form role="form" autocomplete="off" autocapitalize="none" autocomplete="off">
-                                            <div class="row">
+                                            <div class="row" style="margin-left:2px;">
                                                 <div class="col-md-2">
                                                     <div class="form-group">
                                                         <label>Claim #</label>

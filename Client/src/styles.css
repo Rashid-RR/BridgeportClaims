@@ -38,7 +38,7 @@
         margin-right: 7px;
     }
     
-    .swal2-modal.paymeny-modal .swal2-content.panel-body-bg {
+    .swal2-modal.paymeny-modal .swal2-content .panel-body-bg {
         background: #fbeede;
     }       
     .swal2-modal.paymeny-modal .swal2-content .bg-darkRed {
@@ -132,12 +132,7 @@
         text-align: center;
     }
     
-    .swal2-modal.paymeny-modal .swal2-content tr>th:first-child,
-    .swal2-modal.paymeny-modal .swal2-content tr>td:first-child {
-        width: 5%;
-        font-size: 8pt;
-    }
-    
+ 
     .swal2-modal.paymeny-modal .swal2-content td>a.label {
         font-size: 1.2rem;
     }
@@ -315,6 +310,11 @@
         max-height: -o-calc(100% - 56px);
         overflow-y: scroll;
     } 
+    .swal2-modal.paymeny-modal .swal2-content .top-header table{
+        background: #fff;
+        height:99%;
+    }
     .wrapper {
         overflow: hidden !important;
     }
+    
