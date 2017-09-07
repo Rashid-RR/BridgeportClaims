@@ -614,6 +614,135 @@ AS BEGIN
 	EXECUTE sys.sp_executesql @SQL
 
 	/********************************************************************************************
+	Begin Pharmacy Section
+	********************************************************************************************/
+	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
+	SELECT @UTCNow = SYSUTCDATETIME();
+
+	CREATE TABLE #Pharmacy
+		(
+			[89] [varchar] (500) NOT NULL,
+			[90] [varchar] (8000) NULL,
+			[91] [varchar] (8000) NULL,
+			[92] [varchar] (8000) NULL,
+			[93] [varchar] (8000) NULL,
+			[94] [varchar] (8000) NULL,
+			[StateID] [int] NULL,
+			[96] [varchar] (8000) NULL,
+			[97] [varchar] (8000) NULL,
+			[RowNumber] [int] NULL,
+			[DenseRank] [int] NULL,
+			ETLRowID VARCHAR(50) NOT NULL,
+			INDEX idxTempPharmacyImport NONCLUSTERED ([89])
+		)
+	INSERT INTO [#Pharmacy] ([89],[90],[91],[92],[93],[94],[StateID],[96],[97],[RowNumber],[DenseRank],ETLRowID)
+	SELECT [s].[89],[s].[90],[s].[91],[s].[92],[s].[93],[s].[94],[us].[StateID],[s].[96],[s].[97]
+		,ROW_NUMBER() OVER (PARTITION BY [s].[89],[s].[90],[s].[91],[s].[92],[s].[93],[s].[94],[us].[StateID],[s].[96],[s].[97] ORDER BY [s].[89]) RowID
+		,DENSE_RANK() OVER (ORDER BY [s].[89],[s].[90],[s].[91],[s].[92],[s].[93],[s].[94],[us].[StateID],[s].[96],[s].[97]) DenseRank, 
+		[s].[RowID]
+	FROM [etl].[#New] AS [s]
+			LEFT JOIN [dbo].[UsState] AS [us] ON [us].[StateCode] = [s].[95]
+	WHERE [s].[89] IS NOT NULL
+			OR [s].[90] IS NOT NULL
+			OR [s].[91] IS NOT NULL
+			OR [s].[92] IS NOT NULL
+			OR [s].[93] IS NOT NULL
+			OR [s].[94] IS NOT NULL
+			OR [us].[StateID] IS NOT NULL
+			OR [s].[96] IS NOT NULL
+			OR [s].[97] IS NOT NULL
+
+	INSERT INTO [dbo].[Pharmacy] ([NABP],[NPI],[PharmacyName],[Address1],[Address2],[City],[StateID],[PostalCode],[DispType], [ETLRowID], [CreatedOnUTC], [UpdatedOnUTC])
+	SELECT	[p].[89],[p].[90],[p].[91],[p].[92],[p].[93],[p].[94],[p].[StateID],[p].[96],util.udfTrimLeadingZeros([p].[97]),[p].[ETLRowID], @UTCNow, @UTCNow
+	FROM	[#Pharmacy] AS [p] LEFT JOIN [dbo].[Pharmacy] AS ph ON [ph].[NABP] = [p].[89]
+	WHERE	[p].[RowNumber] = 1 AND ph.[NABP] IS NULL
+	SET @RowCountCheck = @@ROWCOUNT
+
+	IF (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck
+		BEGIN
+			IF @@TRANCOUNT > 0
+				ROLLBACK
+			RAISERROR(N'Error. Could not import the same amount of Pharmacies that we should have', 16, 1) WITH NOWAIT
+			RETURN
+		END
+		
+	UPDATE n SET n.[NABP] = p.[NABP]
+	FROM   [#New] AS [n]
+		   INNER JOIN [dbo].[Pharmacy] AS [p] ON [p].[NABP] = [n].[89]
+	SET @RowCountCheck = @@ROWCOUNT
+
+	UPDATE [slf] SET [slf].[NABP] = [n].[NABP]
+	FROM   [etl].[StagedLakerFile] AS [slf]
+		   INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
+	IF @@ROWCOUNT != @RowCountCheck
+		BEGIN
+			IF @@TRANCOUNT > 0
+				ROLLBACK
+			RAISERROR(N'Error. The same number of #New Pharmacy NABP''s updated does not match the number of StagedLakerFile Pharmacy NABP''s Updated.', 16, 1) WITH NOWAIT
+			RETURN
+		END
+	
+	CREATE TABLE #PharmacyUpdate
+	(
+	[NABP] [varchar] (7) NOT NULL,
+	[NPI] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[PharmacyName] [varchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Address1] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Address2] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[City] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[StateID] [int] NULL,
+	[PostalCode] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[DispType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	RowID VARCHAR(50) NOT NULL)
+	INSERT [#PharmacyUpdate] ([NABP],[NPI],[PharmacyName],[Address1],[Address2],[City],[StateID],[PostalCode],[DispType],[RowID])
+	SELECT  [p].[89],[p].[90],[p].[91],[p].[92],[p].[93],[p].[94],[us].[StateID],[p].[96],util.udfTrimLeadingZeros([p].[97]),[p].[RowID]
+	FROM	[etl].[StagedLakerFile] AS [p] LEFT JOIN [dbo].[UsState] AS [us] ON [us].[StateCode] = [p].[95]
+	WHERE	[p].NABP IS NOT NULL
+
+	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
+	SELECT @UTCNow = SYSUTCDATETIME();
+	
+	WITH PharmaciesUpdateCTE AS
+	(
+		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
+		FROM	[dbo].[Pharmacy] AS [p]
+		EXCEPT
+		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],[p].[DispType]
+		FROM	[#PharmacyUpdate] AS [p]
+
+		UNION
+    
+		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],[p].[DispType]
+		FROM	[#PharmacyUpdate] AS [p]
+		EXCEPT
+		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
+		FROM	[dbo].[Pharmacy] AS [p]
+	)
+	UPDATE [p]
+	SET    [p].[NABP] = [c].[NABP]
+		 , [p].[NPI] = [c].[NPI]
+		 , [p].[PharmacyName] = [c].[PharmacyName]
+		 , [p].[Address1] = [c].[Address1]
+		 , [p].[Address2] = [c].[Address2]
+		 , [p].[City] = [c].[City]
+		 , [p].[StateID] = [c].[StateID]
+		 , [p].[PostalCode] = [c].[PostalCode]
+		 , [p].[DispType] = [c].[DispType]
+		 , [p].[UpdatedOnUTC] = @UTCNow
+	FROM   [dbo].[Pharmacy] AS [p]
+		   INNER JOIN [PharmaciesUpdateCTE] AS [c] ON [p].NABP = [c].NABP
+	SET @RowCountCheck = @@ROWCOUNT
+	
+	IF @RowCountCheck != (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
+		BEGIN
+			IF @@TRANCOUNT > 0
+				ROLLBACK
+			RAISERROR(N'Error. The Updated Pharmacies does not match the actual number of records in the database where Pharmacies were updated', 16, 1) WITH NOWAIT
+			RETURN
+		END
+
+
+	/********************************************************************************************
 	Import New Prescriptions
 	********************************************************************************************/
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
@@ -793,134 +922,6 @@ AS BEGIN
 			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Prescription Records didn''t match', 16, 1) WITH NOWAIT
 			RETURN
 		END
-	
-	/********************************************************************************************
-	Begin Pharmacy Section
-	********************************************************************************************/
-	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
-
-	CREATE TABLE #Pharmacy
-		(
-			[89] [varchar] (500) NOT NULL,
-			[90] [varchar] (8000) NULL,
-			[91] [varchar] (8000) NULL,
-			[92] [varchar] (8000) NULL,
-			[93] [varchar] (8000) NULL,
-			[94] [varchar] (8000) NULL,
-			[StateID] [int] NULL,
-			[96] [varchar] (8000) NULL,
-			[97] [varchar] (8000) NULL,
-			[RowNumber] [int] NULL,
-			[DenseRank] [int] NULL,
-			ETLRowID VARCHAR(50) NOT NULL,
-			INDEX idxTempPharmacyImport NONCLUSTERED ([89])
-		)
-	INSERT INTO [#Pharmacy] ([89],[90],[91],[92],[93],[94],[StateID],[96],[97],[RowNumber],[DenseRank],ETLRowID)
-	SELECT [s].[89],[s].[90],[s].[91],[s].[92],[s].[93],[s].[94],[us].[StateID],[s].[96],[s].[97]
-		,ROW_NUMBER() OVER (PARTITION BY [s].[89],[s].[90],[s].[91],[s].[92],[s].[93],[s].[94],[us].[StateID],[s].[96],[s].[97] ORDER BY [s].[89]) RowID
-		,DENSE_RANK() OVER (ORDER BY [s].[89],[s].[90],[s].[91],[s].[92],[s].[93],[s].[94],[us].[StateID],[s].[96],[s].[97]) DenseRank, 
-		[s].[RowID]
-	FROM [etl].[#New] AS [s]
-			LEFT JOIN [dbo].[UsState] AS [us] ON [us].[StateCode] = [s].[95]
-	WHERE [s].[89] IS NOT NULL
-			OR [s].[90] IS NOT NULL
-			OR [s].[91] IS NOT NULL
-			OR [s].[92] IS NOT NULL
-			OR [s].[93] IS NOT NULL
-			OR [s].[94] IS NOT NULL
-			OR [us].[StateID] IS NOT NULL
-			OR [s].[96] IS NOT NULL
-			OR [s].[97] IS NOT NULL
-
-	INSERT INTO [dbo].[Pharmacy] ([NABP],[NPI],[PharmacyName],[Address1],[Address2],[City],[StateID],[PostalCode],[DispType], [ETLRowID], [CreatedOnUTC], [UpdatedOnUTC])
-	SELECT	[p].[89],[p].[90],[p].[91],[p].[92],[p].[93],[p].[94],[p].[StateID],[p].[96],util.udfTrimLeadingZeros([p].[97]),[p].[ETLRowID], @UTCNow, @UTCNow
-	FROM	[#Pharmacy] AS [p] LEFT JOIN [dbo].[Pharmacy] AS ph ON [ph].[NABP] = [p].[89]
-	WHERE	[p].[RowNumber] = 1 AND ph.[NABP] IS NULL
-	SET @RowCountCheck = @@ROWCOUNT
-
-	IF (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck
-		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. Could not import the same amount of Pharmacies that we should have', 16, 1) WITH NOWAIT
-			RETURN
-		END
-		
-	UPDATE n SET n.[NABP] = p.[NABP]
-	FROM   [#New] AS [n]
-		   INNER JOIN [dbo].[Pharmacy] AS [p] ON [p].[NABP] = [n].[89]
-	SET @RowCountCheck = @@ROWCOUNT
-
-	UPDATE [slf] SET [slf].[NABP] = [n].[NABP]
-	FROM   [etl].[StagedLakerFile] AS [slf]
-		   INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
-	IF @@ROWCOUNT != @RowCountCheck
-		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The same number of #New Pharmacy NABP''s updated does not match the number of StagedLakerFile Pharmacy NABP''s Updated.', 16, 1) WITH NOWAIT
-			RETURN
-		END
-	
-	CREATE TABLE #PharmacyUpdate
-	(
-	[NABP] [varchar] (7) NOT NULL,
-	[NPI] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[PharmacyName] [varchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Address1] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[Address2] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[City] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[StateID] [int] NULL,
-	[PostalCode] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[DispType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	RowID VARCHAR(50) NOT NULL)
-	INSERT [#PharmacyUpdate] ([NABP],[NPI],[PharmacyName],[Address1],[Address2],[City],[StateID],[PostalCode],[DispType],[RowID])
-	SELECT  [p].[89],[p].[90],[p].[91],[p].[92],[p].[93],[p].[94],[us].[StateID],[p].[96],util.udfTrimLeadingZeros([p].[97]),[p].[RowID]
-	FROM	[etl].[StagedLakerFile] AS [p] LEFT JOIN [dbo].[UsState] AS [us] ON [us].[StateCode] = [p].[95]
-	WHERE	[p].NABP IS NOT NULL
-
-	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
-	
-	WITH PharmaciesUpdateCTE AS
-	(
-		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
-		FROM	[dbo].[Pharmacy] AS [p]
-		EXCEPT
-		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],[p].[DispType]
-		FROM	[#PharmacyUpdate] AS [p]
-
-		UNION
-    
-		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],[p].[DispType]
-		FROM	[#PharmacyUpdate] AS [p]
-		EXCEPT
-		SELECT	[p].[NABP],[p].[NPI],[p].[PharmacyName],[p].[Address1],[p].[Address2],[p].[City],[p].[StateID],[p].[PostalCode],p.[DispType]
-		FROM	[dbo].[Pharmacy] AS [p]
-	)
-	UPDATE [p]
-	SET    [p].[NABP] = [c].[NABP]
-		 , [p].[NPI] = [c].[NPI]
-		 , [p].[PharmacyName] = [c].[PharmacyName]
-		 , [p].[Address1] = [c].[Address1]
-		 , [p].[Address2] = [c].[Address2]
-		 , [p].[City] = [c].[City]
-		 , [p].[StateID] = [c].[StateID]
-		 , [p].[PostalCode] = [c].[PostalCode]
-		 , [p].[DispType] = [c].[DispType]
-		 , [p].[UpdatedOnUTC] = @UTCNow
-	FROM   [dbo].[Pharmacy] AS [p]
-		   INNER JOIN [PharmaciesUpdateCTE] AS [c] ON [p].NABP = [c].NABP
-	SET @RowCountCheck = @@ROWCOUNT
-	
-	IF @RowCountCheck != (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
-		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The Updated Pharmacies does not match the actual number of records in the database where Pharmacies were updated', 16, 1) WITH NOWAIT
-			RETURN
-		END
 
 	/********************************************************************************************
 	Begin AcctPayable Section
@@ -953,22 +954,5 @@ AS BEGIN
 	
 	IF @@TRANCOUNT > 0
 		RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT
-
-
-	IF @Success = 1 
-		BEGIN
-			DECLARE @DBNAME SYSNAME = DB_NAME()
-
-			EXEC [util].[uspIndexOptimize] @Databases = @DBNAME
-								 , @FragmentationLow = NULL
-								 , @FragmentationMedium = 'INDEX_REORGANIZE,INDEX_REBUILD_ONLINE,INDEX_REBUILD_OFFLINE'
-								 , @FragmentationHigh = 'INDEX_REBUILD_ONLINE,INDEX_REBUILD_OFFLINE'
-								 , @FragmentationLevel1 = 5
-								 , @FragmentationLevel2 = 30
-								 , @LogToTable = 'N'
-								 , @UpdateStatistics = 'ALL'
-								 , @Indexes = 'ALL_INDEXES'
-			DBCC CHECKDB 
-		END
 END
 GO

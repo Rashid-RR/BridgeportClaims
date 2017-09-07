@@ -106,17 +106,6 @@ AS BEGIN
 				RAISERROR(N'Second sanity check failed. The StagedLakerFile table doesn''t have the important ID''s populated.', 16, 1) WITH NOWAIT
 				RETURN
 			END
-			
-		-- Finally, now that we know that both the StagedLakerFile and 
-		-- the StagedLakerFileBackup tables are full of important ID's, make sure that the former
-		-- has more records than the later. Otherwise, we've gone outside of this process somehow.
-		IF (@StagedLakerFileRecordCount <= @StagedLakerFileBackupRecordCount)
-			BEGIN
-				IF @@TRANCOUNT > 0
-					ROLLBACK
-				RAISERROR(N'Third sanity check failed. The StagedLakerFile table doesn''t have more records than the StagedLakerFileBackup table.', 16, 1) WITH NOWAIT
-				RETURN
-			END
 
 		SET @FileDate = CONVERT(VARCHAR(20), dtme.udfGetLocalDateTime(SYSUTCDATETIME()) ,112)
 
