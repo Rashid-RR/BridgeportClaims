@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Threading.Tasks;
 using BridgeportClaims.Business.LakerFileProcess;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 
 namespace BridgeportClaims.Web.Controllers
@@ -31,8 +32,15 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
-                    _lakerFileProcessor.ProcessOldestLakerFile();
-                    return Ok();
+                    var fileName = _lakerFileProcessor.ProcessOldestLakerFile();
+                    string msg;
+                    if (fileName == c.NoLakerFilesToImportToast)
+                        msg = c.NoLakerFilesToImportToast;
+                    else
+                        msg = $"The Laker file import process has been started for \"{fileName}\"." +
+                              $" It will take a few minutes.... So we'll send you an email when " +
+                              $"it's done.";
+                    return Ok(new { message = msg});
                 });
             }
             catch (Exception ex)
