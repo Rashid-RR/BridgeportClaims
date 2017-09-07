@@ -52,6 +52,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 					};
 					command.CommandType = CommandType.StoredProcedure;
 					command.Parameters.Add(udt);
+				    command.CommandTimeout = 600; // 10 minutes.
 					command.Parameters.Add(new SqlParameter
 					{
 						ParameterName = "@DebugOnly",
@@ -122,11 +123,11 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			});
 		}
 
-        /// <summary>
-        /// Finds the bytes of a Laker file in the database (if one exists).
-        /// Needs to handle it gracefully if none exists.
-        /// </summary>
-        /// <returns></returns>
+		/// <summary>
+		/// Finds the bytes of a Laker file in the database (if one exists).
+		/// Needs to handle it gracefully if none exists.
+		/// </summary>
+		/// <returns></returns>
 		public Tuple<string, byte[]> GetOldestLakerFileBytes()
 		{
 			return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), conn =>
@@ -134,6 +135,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 				return DisposableService.Using(() => new SqlCommand("dbo.uspGetOldestLakerFileBytes", conn), cmd =>
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
+				    cmd.CommandTimeout = 90; // 90 seconds, instead of 30
 					if (conn.State != ConnectionState.Open)
 						conn.Open();
 					return DisposableService.Using(cmd.ExecuteReader, sqlDataReader =>

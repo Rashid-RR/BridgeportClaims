@@ -30,13 +30,17 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var toastType = "Success";
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
                     var fileName = _lakerFileProcessor.ProcessOldestLakerFile();
+                    string msg;
                     if (fileName == c.NoLakerFilesToImportToast)
-                        toastType = "Info";
-                    return Ok(new {toastType, message = fileName});
+                        msg = c.NoLakerFilesToImportToast;
+                    else
+                        msg = $"The Laker file import process has been started for \"{fileName}\"." +
+                              $" It will take a few minutes.... So we'll send you an email when " +
+                              $"it's done.";
+                    return Ok(new { message = msg});
                 });
             }
             catch (Exception ex)

@@ -26,16 +26,18 @@ namespace BridgeportClaims.Business.LakerFileProcess
             var lakerFileName = tuple.Item1;
             // Take the file bytes, and save them to a temporary path in Windows
             var fullLakerFileTemporaryPath = _importFileProvider.GetLakerFileTemporaryPath(tuple);
-            // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
-            var dataTable = _importFileProvider.RetreiveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
-            // Import the new file, into the new Staged Laker File that will be imported into the database
-            _importFileProvider.LakerImportFileProcedureCall(dataTable);
-            // Finally, use the newly imported file, to Upsert the database.
             BackgroundWorkerProvider.Run((s, e) =>
             {
+                // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
+                var dataTable = _importFileProvider.RetreiveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
+                // Import the new file, into the new Staged Laker File that will be imported into the database
+                _importFileProvider.LakerImportFileProcedureCall(dataTable);
+                // Finally, use the newly imported file, to Upsert the database.
                 if (cs.AppIsInDebugMode)
                     Logger.Info("In the belly of the beast, Background worker process.");
                 _importFileProvider.EtlLakerFile();
+                // And finally, mark the file processed.
+                _importFileProvider.MarkFileProcessed(lakerFileName);
                 e.Result = lakerFileName;
             }, (s, e) =>
             {
