@@ -5,7 +5,7 @@
                 <h3 class="box-title">Payments</h3>
             </div>
             <div class="box-body">
-                <div class="row" *ngIf="paymentService.prescriptionSelected">
+               <div class="row">
                     <div class="col-sm-12" id="accordion">
                         <div class="box bottom-0">
                             <div class="box-body payment-input">
@@ -14,7 +14,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" *ngIf="!paymentService.prescriptionSelected">
+                <!-- <div class="row"  *ngIf="!paymentService.prescriptionSelected">
                     <div class="col-sm-12" id="accordion">
                         <div class="box">
                             <div class="box-body payment-invoice">
@@ -22,28 +22,16 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div class="row">
                     <div class="col-sm-12" id="accordion">
                         <div class="box">
                             <div class="box-header bg-head-box">
                                 <h4 class="box-title text-center panel-head">
-                                    <u *ngIf="!paymentService.prescriptionSelected"><img src="assets/img/iconClaims.png"> Claims</u>
-                                    <u *ngIf="paymentService.prescriptionSelected"><img src="assets/img/iconPrescriptions.png"> Prescriptions</u>
+                                     <u><img src="assets/img/iconPrescriptions.png"> Prescriptions</u>
                                 </h4>
-                                <span  class="tally pull-right"  *ngIf="!paymentService.prescriptionSelected && paymentService.claimsData.length>0" style="margin-right:250px;">
-                                    <span>
-                                        <span style="font-size:13pt">
-                                            {{paymentService.claimsData.length}}
-                                            </span> Record{{paymentService.claimsData.length>1 ? 's':''}} found
-                                    </span>
-                                    <span class="label bg-darkblue" *ngIf="paymentService.claimsDataCount" style="margin-left:20px;font-size:9pt">
-                                        <span style="font-size:11pt">
-                                            {{paymentService.claimsDataCount}}
-                                        </span> Row{{paymentService.claimsDataCount>1 ? 's':''}} selected
-                                    </span>
-                                </span>
-                                <span  class="tally pull-right"  *ngIf="paymentService.prescriptionSelected && paymentService.detailedClaimsData.length>0" style="margin-right:250px;">
+                                
+                                <span  class="tally pull-right" style="margin-right:250px;">
                                     <span>
                                         <span style="font-size:13pt">
                                             {{paymentService.detailedClaimsData.length}}
@@ -55,11 +43,8 @@
                                         </span> Row{{paymentService.detailedClaimsDataCount>1 ? 's':''}} selected
                                     </span>
                                 </span>
-                                <div class="box-tools pull-right" *ngIf="!paymentService.prescriptionSelected">
-                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="viewClaims()" *ngIf="paymentService.claimsData.length>0" style="margin-left:auto;margin-right:auto;">View Prescriptions</button>
-                                </div>
-                                <div class="box-tools pull-right" *ngIf="paymentService.prescriptionSelected">
-                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentService.prescriptionSelected=false" style="margin-left:auto;margin-right:auto;"><i class="fa fa-arrow-left"></i> Back to Claims</button>
+                                <div class="box-tools pull-right">
+                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentScriptService.addScripts([])" style="margin-left:auto;margin-right:auto;"><i class="fa fa-plus"></i> Add Scripts</button>
                                 </div>
                             </div>
                             <div class="box-body claims payment-result panel-body-bg">

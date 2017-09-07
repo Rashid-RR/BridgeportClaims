@@ -5,19 +5,18 @@
     display: inline-block;
     color: #fff;
     line-height: 50px;
-    margin-right: 15px;
 }
-.ver {
-    position: absolute;
+.ver a,.ver a:active,.ver a:hover {
+    /* position: absolute;
     top: 15px;
     width: 100%;
-    text-align: center;
-    color: #b33a3a;
-    z-index: 999999;
+     */
+    color: #b33a3a !important;
+   /*  z-index: 99; */
 }
 
 @media screen and (max-width: 767px) {
-    .ver {
+    /* .ver {
         top: 40px;
-    }
+    } */
 }
