@@ -217,7 +217,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
 
   fetchData() {
     let page = 1;
-    let page_size = 20;
+    let page_size = 500;
     let sort: string = 'prescriptionId';
     let sort_dir: 'asc' | 'desc' = 'asc';
     if (this.sortColumn) {

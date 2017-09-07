@@ -17,6 +17,7 @@
         text-decoration: none;
     }
 
+<<<<<<< HEAD
     .swal2-modal.paymeny-modal {
         padding:10px;
     }
@@ -315,3 +316,8 @@
         max-height: -o-calc(100% - 56px);
         overflow-y: scroll;
     } 
+=======
+    .wrapper {
+        overflow: hidden !important;
+    }
+>>>>>>> 317fdacc6d4f6d91383985270be113d05e02a909

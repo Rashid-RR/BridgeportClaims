@@ -1,28 +1,54 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using BridgeportClaims.Common.Caching;
-using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Entities.DomainModels;
+using NLog;
 using c = BridgeportClaims.Common.StringConstants.Constants;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
-namespace BridgeportClaims.Data.DataProviders.ImportFile
+namespace BridgeportClaims.Data.DataProviders.ImportFiles
 {
 	public class ImportFileProvider : IImportFileProvider
 	{
 		private readonly IMemoryCacher _memoryCacher;
+	    private readonly IRepository<ImportFile> _importFileRepository;
+	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-		public ImportFileProvider(IMemoryCacher memoryCacher)
+        public ImportFileProvider(IMemoryCacher memoryCacher, IRepository<ImportFile> importFileRepository)
 		{
-			_memoryCacher = memoryCacher;
+		    _memoryCacher = memoryCacher;
+		    _importFileRepository = importFileRepository;
 		}
+
+	    public void ProcessOldestLakerFile()
+	    {
+	        var methodName = MethodBase.GetCurrentMethod().Name;
+	        if (cs.AppIsInDebugMode)
+	            Logger.Info($"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
+            var oldestLakeFileName = _importFileRepository.GetMany(x => !x.Processed)
+                .Where(f => null != f.FileName && f.FileName.StartsWith(c.LakeFileNameStartsWithString))
+                .OrderBy(f => f.CreatedOnUtc)
+                .Select(f => f.FileName).FirstOrDefault();
+	        if (!oldestLakeFileName.IsNotNullOrWhiteSpace()) return;
+	        var tuple = GetOldestLakerFileBytes();
+	        if (null == tuple || tuple.Item1 != oldestLakeFileName) return;
+	        var fullFilePath = string.Empty;
+	        if (null != oldestLakeFileName)
+	            fullFilePath = Path.Combine(Path.GetTempPath(), oldestLakeFileName);
+	        File.WriteAllBytes(fullFilePath, tuple.Item2);
+	    }
 
 		public async Task DeleteImportFile(int importFileId)
 		{
@@ -47,6 +73,35 @@ namespace BridgeportClaims.Data.DataProviders.ImportFile
 				});
 			});
 		}
+
+	    private Tuple<string, byte[]> GetOldestLakerFileBytes()
+	    {
+	        return DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), conn =>
+	        {
+	            return DisposableService.Using(() => new SqlCommand("dbo.uspGetOldestLakerFileBytes", conn), cmd =>
+	            {
+                    cmd.CommandType = CommandType.StoredProcedure;
+	                if (conn.State != ConnectionState.Open)
+	                    conn.Open();
+	                return DisposableService.Using(cmd.ExecuteReader, sqlDataReader =>
+	                {
+	                    byte[] bytes = null;
+	                    string fileName = null;
+	                    var fileBytesOrdinal = sqlDataReader.GetOrdinal("FileBytes");
+	                    var fileNameOrdinal = sqlDataReader.GetOrdinal("FileName");
+	                    while (sqlDataReader.Read())
+	                    {
+	                        if (!sqlDataReader.IsDBNull(fileBytesOrdinal))
+	                            bytes = (byte[]) sqlDataReader["FileBytes"];
+                            if (!sqlDataReader.IsDBNull(fileNameOrdinal))
+                                fileName = sqlDataReader.GetString(fileNameOrdinal);
+                            return new Tuple<string, byte[]>(fileName, bytes);
+                        }
+	                    return null;
+                    });
+                });
+	        });
+	    }
 
 		public IList<ImportFileDto> GetImportFileDtos()
 		{

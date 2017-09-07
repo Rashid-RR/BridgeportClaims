@@ -29,12 +29,6 @@ addScripts() {
         this.paymentService.claimsData.forEach(claim => {            
             claimsHTML = claimsHTML + `
                 <tr>
-                    <!--<td> &nbsp;
-                        <div class="paymentCheckBox" style="visibility:hidden;"> 
-                        <input type="checkbox" name="check" value="None"  id="`+claim.claimId+`" class="claimCheckBox">
-                            <label for="`+claim.claimId+`" id="`+claim.claimId+`" class="claimCheckBox"></label>
-                        </div>
-                    </td>-->
                     <td>`+ claim.claimNumber + `</td>
                     <td>`+ claim.patientName + `</td>
                     <td>`+ claim.payor + `</td>
@@ -127,10 +121,7 @@ addScripts() {
                                             <div class="table-responsive top-header scroll-y">
                                                 <table class="table no-margin table-striped">
                                                     <thead class="overflowable" id="fixed-thead">
-                                                        <tr>                                                          
-                                                            <!--<th>
-                                                                &nbsp;
-                                                            </th>-->
+                                                        <tr>                                                           
                                                             <th>Claim #</th>
                                                             <th>Patient Name</th>                        
                                                             <th>Payor</th>

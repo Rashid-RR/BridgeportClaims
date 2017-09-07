@@ -3,11 +3,12 @@ using System.IO;
 using System.Threading.Tasks;
 using BridgeportClaims.Data.Dtos;
 
-namespace BridgeportClaims.Data.DataProviders.ImportFile
+namespace BridgeportClaims.Data.DataProviders.ImportFiles
 {
     public interface IImportFileProvider
     {
-        Task DeleteImportFile(int importFileId);
+        void ProcessOldestLakerFile();
+        void DeleteImportFile(int importFileId);
         IList<ImportFileDto> GetImportFileDtos();
         void MarkFileProcessed(string fileName);
         void SaveFileToDatabase(Stream stream, string fileName, string fileExtension, 
