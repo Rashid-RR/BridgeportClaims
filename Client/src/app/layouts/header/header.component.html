@@ -16,30 +16,34 @@
         </a>
         <!-- Top right menu items, also check if user is logged in-->
         <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav" *ngIf="!profileManager.profile">
-                <li><a [routerLink]="'/register'">Register</a></li>
-                <li><a [routerLink]="'/login'">Login</a></li>
-            </ul>
-            <li class="display-date">{{ date | date }}</li>
-            <li class="display-date" *ngIf="profileManager.profile && allowed">
-                <a style="cursor:pointer" (click)="clearCache()">Clear Cache</a>
-            </li>
-            <ul class="nav navbar-nav" *ngIf="profileManager.profile">
-                <li routerLinkActive="active" *ngIf="profileManager.profile">
-                    <!--[routerLink]="'/profile'"-->
-                     <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">My Account</a>
+            <ul class="nav navbar-nav">
+                <ng-container  *ngIf="!profileManager.profile">
+                    <li><a [routerLink]="'/register'">Register</a></li>
+                    <li><a [routerLink]="'/login'">Login</a></li>
+                </ng-container>
+                <li class="ver">
+                    <a style="cursor:pointer;" (click)="logout()" class="navbar-link">
+                        Version 5.0
+                    </a>
                 </li>
-                <li routerLinkActive="active" *ngIf="profileManager.profile">
-                    <!--[routerLink]="'/profile'"-->
-                    <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>
-                </li>
-                <li routerLinkActive="active" *ngIf="profileManager.profile">
-                    <a style="cursor:pointer;" (click)="logout()" class="navbar-link" [class.disabled]="disableLinks">Logout</a>
-                </li>
+                <li class="display-date">{{ date | date }}</li>
+                <ng-container *ngIf="profileManager.profile">
+                    <li class="display-date" *ngIf="allowed">
+                        <a style="cursor:pointer" (click)="clearCache()">Clear Cache</a>
+                    </li>
+                    <li routerLinkActive="/main/profile">
+                        <!--[routerLink]="'/profile'"-->
+                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">My Account</a>
+                    </li>
+                    <li routerLinkActive="/main/profile">
+                        <!--[routerLink]="'/profile'"-->
+                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>
+                    </li>
+                    <li routerLinkActive="active">
+                        <a style="cursor:pointer;" (click)="logout()" class="navbar-link" [class.disabled]="disableLinks">Logout</a>
+                    </li>
+                </ng-container>
             </ul>
         </div>
-
     </nav>
-
 </header>
-<p class="ver">Version 5.0</p>

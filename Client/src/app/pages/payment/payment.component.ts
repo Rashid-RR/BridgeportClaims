@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {PaymentService} from "../../services/payment-service";
+import {PaymentService,PaymentScriptService} from "../../services/services.barrel";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
@@ -9,7 +9,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 })
 export class PaymentComponent implements OnInit {
 
-  constructor(public paymentService:PaymentService,private toast:ToastsManager) { }
+  constructor(public paymentScriptService:PaymentScriptService,public paymentService:PaymentService,private toast:ToastsManager) { }
 
   ngOnInit() {
 

@@ -1,8 +1,5 @@
 <div class="row claim-info"  style="overflow:hidden;">
-    <div class="col-sm-12 claim-col" *ngIf="!paymentService.prescriptionSelected"  style="overflow:hidden;">
-         <app-payment-claim-result></app-payment-claim-result>
-    </div>
-    <div class="col-sm-12 claim-col" *ngIf="paymentService.prescriptionSelected" style="overflow:hidden;">
+    <div class="col-sm-12 claim-col" style="overflow:hidden;">
          <app-payment-detail-result></app-payment-detail-result>
     </div>
 </div>

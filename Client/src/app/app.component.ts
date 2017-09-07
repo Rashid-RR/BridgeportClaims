@@ -3,7 +3,7 @@ import {Http,Headers} from "@angular/http";
 import { Router,NavigationEnd,ActivatedRoute } from '@angular/router';
 import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
 
-import {HttpService,SignalRService} from "./services/services.barrel";
+import {HttpService} from "./services/services.barrel";
 import {ProfileManager} from "./services/profile-manager";
 import {UserProfile} from "./models/profile";
 import {EventsService} from "./services/events-service";
@@ -18,8 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   activeToast:Toast;
   t:any;
   constructor(
-    private http:HttpService,
-    private signalR:SignalRService,
+    private http:HttpService, 
     private events: EventsService,
     private profileManager: ProfileManager,
     private toast: ToastsManager,

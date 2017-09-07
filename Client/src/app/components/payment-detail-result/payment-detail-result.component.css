@@ -271,3 +271,7 @@ tr>td:nth-child(7) {
     max-height: -o-calc(100% - 56px);
     overflow-y: scroll;
 } 
+.top-header table{
+    background: #fff;
+    height:99%;
+}
