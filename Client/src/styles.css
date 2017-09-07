@@ -310,6 +310,22 @@
         max-height: -o-calc(100% - 56px);
         overflow-y: scroll;
     } 
+    .swal2-modal.paymeny-modal .swal2-content .close-button i{
+        color:white;
+    }
+    .swal2-modal.paymeny-modal .swal2-content .close-button{
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            -moz-border-radius:50%;
+            -webkit-border-radius:50%;
+            -o-border-radius:50%;
+            position: absolute;
+            right: -20px;
+            top: -32px;
+            z-index: 9;
+            background: red;
+    }
     .swal2-modal.paymeny-modal .swal2-content .top-header table{
         background: #fff;
         height:99%;

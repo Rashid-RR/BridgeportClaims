@@ -40,7 +40,8 @@ addScripts() {
                 </tr>`;
         });
         let claimNumber = this.inputs[0] || '',firstName = this.inputs[1] || '',lastName = this.inputs[2] || '',rxDate = this.inputs[3] || '',invoiceNumber = this.inputs[4] || '';
-         let html = `<div class="row">
+         let html = `<button class="close-button"><i class="fa fa-times"></i></button>
+                        <div class="row">
                             <div class="col-sm-12" id="accordion">
                                 <div class="box bottom-0">
                                     <div class="box-body payment-input">
@@ -99,7 +100,7 @@ addScripts() {
                         <div class="col-sm-12" id="accordion">
                             <div class="box">
                                 <div class="box-header bg-head-box">
-                                    <h4 class="box-title text-center panel-head">
+                                    <h4 class="box-title pull-left text-center panel-head">
                                         <u><img src="assets/img/iconClaims.png"> Claims</u>
                                     </h4>
                                     <span  class="tally pull-right" style="margin-right:250px;">
@@ -157,14 +158,17 @@ addScripts() {
           preConfirm: function () {
             return new Promise(function (resolve) {
               resolve([
-                window['jQuery']('#claimNumber').val(),
-                window['jQuery']('#firstName').val(),
-                window['jQuery']('#lastName').val(),
-                window['jQuery']('#datepicker').val(),
-                window['jQuery']('#invoiceNumber').val()
+                $('#claimNumber').val(),
+                $('#firstName').val(),
+                $('#lastName').val(),
+                $('#datepicker').val(),
+                $('#invoiceNumber').val()
               ])
             })
           },
+          onOpen: function () {
+            $('#claimNumber').focus()
+          }
         }).then(inputs => {
             if (inputs[0] == '' && inputs[1] == '' && inputs[2] == '' && inputs[3] == '' && inputs[4] == '') {
                 this.inputs=inputs;
@@ -183,20 +187,36 @@ addScripts() {
             }
             console.log(inputs);
         }).catch(swal.noop);
-        window['jQuery']('#datepicker').datepicker({
+        $('#datepicker').datepicker({
             autoclose: true
         });
-        window['jQuery']("#datemask").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-        window['jQuery']("[inputs-mask]").inputmask();
-        $(".search-claims").click(()=>{
-            console.log("Click confirm...")
+        $("#datemask").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+        $("[inputs-mask]").inputmask();
+        $(".search-claims").click(()=>{ 
             swal.clickConfirm();
         });
         $(".clear-inputs").click(()=>{
-            console.log("Clear button confirm...")
+            this.paymentService.clearClaimsData();
+            $('#claimNumber').val('');
+            $('#firstName').val('');
+            $('#lastName').val();
+            $('#datepicker').val('');
+            $('#invoiceNumber').val('');
+            swal.clickCancel();
+            this.inputs=[];
+            this.addScripts();
         });
         $(".refresh-search").click(()=>{
+            swal.clickConfirm();
             console.log("Refresh button confirm...")
+        });
+        $(".close-button").click(()=>{
+            swal.clickCancel();
+        });
+        $("input.form-control").keypress((e)=>{
+            var key = e.which; if(key == 13){
+                swal.clickConfirm();
+            }
         });
     }     
 }
