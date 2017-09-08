@@ -1,15 +1,77 @@
-.history{
-    cursor:pointer;
-    color:white;
+.history {
+    cursor: pointer;
+    color: white;
     padding-top: 2px;
     padding-bottom: 2px;
 }
-li.disabled  a.history {
+
+li.disabled a.history {
     cursor: not-allowed;
     text-decoration: none;
 }
+
 .loader {
     text-align: center;
     padding-right: 10px;
     padding-top: 3rem;
+}
+
+
+/*Tab*/
+
+.tab {
+    position: fixed;
+    width: 450px;
+    min-height: 250px;
+    top: 50%;
+    right: -450px;
+    background: #46a6d6;
+    z-index: 10;
+    color: #fff;
+    border-radius: 6px 0 0 6px;
+}
+
+#tab-btn {
+    position: absolute;
+    top: 94px;
+    left: -103px;
+    background: #46a6d6;
+    cursor: pointer;
+    transform: rotate(-90deg);
+    padding: 1rem 2rem;
+    color: #fff;
+    border-radius: 6px 6px 0 0;
+    font-size: 1.5em;
+}
+
+.table-header {
+    border-bottom: 1px solid #fff;
+    margin: 0 0 1rem 0;
+}
+
+.table-header>div {
+    text-align: center;
+    padding: 1rem 0;
+    border-right: 1px solid #fff;
+}
+
+.table-header>div:last-child {
+    border-right: none;
+}
+
+.table-content {
+    margin: 0;
+}
+
+.table-content:last-child {
+    margin-bottom: 1rem;
+}
+
+.table-content>div {
+    text-align: center;
+    padding: 0.25rem 0;
+}
+
+.table-content>div:last-child {
+
 }
