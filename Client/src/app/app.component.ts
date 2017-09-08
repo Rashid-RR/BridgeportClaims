@@ -3,7 +3,7 @@ import {Http,Headers} from "@angular/http";
 import { Router,NavigationEnd,ActivatedRoute } from '@angular/router';
 import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
 
-import {HttpService} from "./services/http-service";
+import {HttpService} from "./services/services.barrel";
 import {ProfileManager} from "./services/profile-manager";
 import {UserProfile} from "./models/profile";
 import {EventsService} from "./services/events-service";

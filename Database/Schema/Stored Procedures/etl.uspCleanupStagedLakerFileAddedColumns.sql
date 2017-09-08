@@ -81,10 +81,19 @@ AS BEGIN
 		(
 			SELECT * FROM [sys].[columns] AS [c]
 			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
-			WHERE [c].[name] = 'PharmacyID'
+			WHERE [c].[name] = 'NABP'
 				  AND [t].[object_id] = @Obj
 		)
-			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN PharmacyID
+			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN NABP
+		IF EXISTS
+		(
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'AcctPayableID'
+				  AND [t].[object_id] = @Obj
+		)
+			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN AcctPayableID
+		-- Legacy Columns
 		IF EXISTS
 		(
 			SELECT * FROM [sys].[columns] AS [c]
@@ -93,6 +102,14 @@ AS BEGIN
 				  AND [t].[object_id] = OBJECT_ID(N'dbo.Payor', N'U')
 		)
 			ALTER TABLE dbo.[Payor] DROP COLUMN StageID
+		IF EXISTS
+		(
+			SELECT * FROM [sys].[columns] AS [c]
+			INNER JOIN [sys].[tables] AS [t] ON [t].[object_id] = [c].[object_id]
+			WHERE [c].[name] = 'PharmacyID'
+				  AND [t].[object_id] = @Obj
+		)
+			ALTER TABLE [etl].[StagedLakerFile] DROP COLUMN PharmacyID
 		IF EXISTS
 		(
 			SELECT * FROM [sys].[columns] AS [c]
@@ -138,6 +155,8 @@ AS BEGIN
 		THROW;
 	END CATCH
 END
+
+
 
 
 GO

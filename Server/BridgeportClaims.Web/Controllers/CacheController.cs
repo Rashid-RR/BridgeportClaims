@@ -25,8 +25,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return await Task.Run(()
-                    =>
+                return await Task.Run(() =>
                 {
                     _cache.DeleteAll();
                     return Ok(new {message = "Cache cleared successfully."});

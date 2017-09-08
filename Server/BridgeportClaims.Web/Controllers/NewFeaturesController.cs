@@ -10,6 +10,7 @@ using NLog;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using BridgeportClaims.Business.Models;
+using BridgeportClaims.Web.Hubs;
 
 namespace BridgeportClaims.Web.Controllers
 {

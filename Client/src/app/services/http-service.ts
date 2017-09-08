@@ -333,8 +333,8 @@ export class HttpService {
        }
   }
   getPrescriptions(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
-    page: Number= 1, pageSize: Number = 20) {
-    // api/prescriptions/sort/?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=20
+    page: Number= 1, pageSize: Number = 500) {
+    // api/prescriptions/sort/?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=500
     let params = new URLSearchParams();
     params.append('claimId', claimId.toString());
     if (sort) {

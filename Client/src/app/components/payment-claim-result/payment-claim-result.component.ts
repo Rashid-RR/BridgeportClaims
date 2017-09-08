@@ -25,6 +25,7 @@ export class PaymentClaimResultComponent implements OnInit,AfterViewInit {
   }
 
   ngOnInit() {
+    this.events.broadcast("disable-links",false);
   }
 
   ngAfterViewInit() {
