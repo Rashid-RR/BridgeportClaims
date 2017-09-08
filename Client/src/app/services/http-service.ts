@@ -53,6 +53,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  importLakerFile(id: String): Observable<Response> {
+    return this.http.post(this.baseUrl + '/laker/process?', {},{ headers: this.headers })
+    .catch(err => {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
   updateProfile(data): Observable<Response> {
     const s = this.http.patch(this.baseUrl + '/users', data)

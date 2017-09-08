@@ -8,6 +8,7 @@ import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';
 
 const URL = 'http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/api/fileupload/upload';
+const noLaker:String ="No Laker Files were found to import.";
 
 @Component({
   selector: 'app-file-upload',
@@ -34,7 +35,7 @@ export class FileUploadComponent implements OnInit,AfterViewChecked {
       this.uploaderCsv =  new FileUploader({ url: '/api/fileupload/upload', headers: headers });
       this.uploaderCsv.onCompleteItem = this.onItemUploadComplete.bind(this);
 
-      this.uploaderExcel =  new FileUploader({ url: '/api/fileupload/upload', headers: headers });
+      this.uploaderExcel =  new FileUploader({ url: '/api/fileupload/upload', headers: headers,additionalParameter:[{test:'This one is excel'}] });
       this.uploaderExcel.onCompleteItem = this.onItemUploadComplete.bind(this);
   }
   onItemUploadComplete(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) {
@@ -83,6 +84,33 @@ export class FileUploadComponent implements OnInit,AfterViewChecked {
             this.loading = false;          
             this.getFiles();
           },error=>{
+            this.loading = false;
+          });
+        }
+        else {
+           
+        }
+      });
+  }
+  importLaker(file:ImportFile){
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Process Laker File",
+      message: "You are about to import the Laker File "+file.fileName+" into the Payment table in the database. Would you like to proceed?"
+    })
+      .subscribe((isConfirmed) => {
+        //We get dialog result
+        if (isConfirmed) {
+          this.loading = true;        
+          this.http.importLakerFile(file.fileName).single().map(r=>{return r.json()}).subscribe(res=>{      
+            if (res.message == noLaker){
+              this.toast.info(res.message);
+            }else{
+              this.toast.info(res.message, null,{toastLife: 10000});
+            }
+            this.loading = false;
+            this.getFiles();
+          },error=>{
+            this.toast.info(error.message);
             this.loading = false;
           });
         }
