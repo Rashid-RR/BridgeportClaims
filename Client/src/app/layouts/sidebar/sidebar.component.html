@@ -14,7 +14,7 @@
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
       <li>
-        <a  [routerLink]="!disableLinks ? '/main/private'  : []" [class.disabled]="disableLinks">
+        <a [routerLink]="!disableLinks ? '/main/private'  : []" [class.disabled]="disableLinks">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
       </li>
@@ -25,7 +25,7 @@
             </a>
         </li>       -->
       <li>
-        <a [routerLink]="!disableLinks ? '/main/users'  : []" *ngIf="allowed"  [class.disabled]="disableLinks">
+        <a [routerLink]="!disableLinks ? '/main/users'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
               <i class="fa fa-user fa-fw"></i> 
               <span>Users</span>
             </a>
@@ -58,7 +58,7 @@
         <i class="fa fa-history"></i> HISTORY
       </li>
       <ng-container *ngIf="!claimManager.loadingHistory">
-        <li *ngFor="let claim of claimManager.claimHistory"  [class.disabled]="disableLinks">
+        <li *ngFor="let claim of claimManager.claimHistory" [class.disabled]="disableLinks">
           <a class="history" (click)="goToClaim(claim.claimId)">
               <i class="fa fa-check-square-o"></i> 
               <span *ngIf="claim.name">{{claim.name}}</span>
@@ -77,3 +77,21 @@
   </section>
   <!-- /.sidebar -->
 </aside>
+
+<div id="tab" class="tab" [@slideInOut]="tabState">
+  <div class="tab-content">
+    <div class="row table-header">
+      <div class="col-xs-4">Patient Name</div>
+      <div class="col-xs-4">Rx. Date</div>
+      <div class="col-xs-4">Amt. Posted</div>
+    </div>
+    <!-- <div *ngFor="" class="row table-content">
+      <div class="col-xs-4">{{}}</div>
+      <div class="col-xs-4">{{}}</div>
+      <div class="col-xs-4">{{}}</div>
+    </div> -->
+  </div>
+  <div id="tab-btn" (click)="toggleTab()" >
+    <span>MY ACCOUNT</span>
+  </div>
+</div>
