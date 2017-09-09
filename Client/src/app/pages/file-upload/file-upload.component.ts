@@ -86,100 +86,97 @@ export class FileUploadComponent implements OnInit,AfterViewChecked {
           },error=>{
             this.loading = false;
           });
-        }
-        else {
-           
-        }
-      });
+        } else {
+      }
+    });
   }
-  importLaker(file:ImportFile){
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Process Laker File",
-      message: "You are about to import the Laker File "+file.fileName+" into the Payment table in the database. Would you like to proceed?"
+  importLaker(file: ImportFile) {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Process Laker File',
+      message: 'You are about to import the Laker File ' + file.fileName +
+        ' into the database. Would you like to proceed?'
     })
       .subscribe((isConfirmed) => {
-        //We get dialog result
+        // We get dialog result
         if (isConfirmed) {
-          this.loading = true;        
+          this.loading = true;
           this.http.importLakerFile(file.fileName).single().map(r=>{return r.json()}).subscribe(res=>{      
-            if (res.message == noLaker){
+            if (res.message == noLaker) {
               this.toast.info(res.message);
-            }else{
+            } else {
               this.toast.info(res.message, null,{toastLife: 10000});
             }
             this.loading = false;
             this.getFiles();
-          },error=>{
+          }, error => {
             this.toast.info(error.message);
             this.loading = false;
           });
-        }
-        else {
-           
-        }
-      });
+        } else {
+      }
+    });
   }
-  process(file:ImportFile){
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Process Payment",
-      message: "You are about to import the Payment File "+file.fileName+" into the Payment table in the database. Would you like to proceed?"
+  process(file: ImportFile) {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Process Payment',
+      message: 'You are about to import the Payment File '  + file.fileName + ' into the Payment table ' +
+        'in the database. Would you like to proceed?'
     })
       .subscribe((isConfirmed) => {
-        //We get dialog result
+        // We get dialog result
         if (isConfirmed) {
-          this.loading = true;        
-          this.http.importFile(file.fileName).single().map(r=>{return r.json()}).subscribe(res=>{      
+          this.loading = true;
+          this.http.importFile(file.fileName).single().map(r => { return r.json(); }).subscribe(res => {
             this.toast.success(res.message);
             this.loading = false;
             this.getFiles();
-          },error=>{
+          }, error => {
             this.loading = false;
           });
-        }
-        else {
-           
-        }
-      });
+        } else {
+      }
+    });
   }
   ngAfterViewChecked() {
     this.updateTableHeadingWidth();
-     let fixedHeader = document.getElementById('fixed-header');
+     const fixedHeader = document.getElementById('fixed-header');
       if (fixedHeader.style.position !== 'fixed') {
         fixedHeader.style.position = 'fixed';
         // console.log('set fixed header to Fixed');
-      }    
+      }
   }
 
   cloneTableHeading() {
-    let cln = document.getElementById('fixed-thead').cloneNode(true);
-    let fixedHeader = document.getElementById('fixed-header');
+    const cln = document.getElementById('fixed-thead').cloneNode(true);
+    const fixedHeader = document.getElementById('fixed-header');
     fixedHeader.appendChild(cln);
     this.updateTableHeadingWidth();
   }
 
   cloneBoxHeader() {
-    let cln = document.getElementById
+    const cln = document.getElementById;
   }
 
 
   updateTableHeadingWidth() {
     setTimeout(() => {
-      let fixedHeader = document.getElementById('fixed-header');
-      let fixedMaxHeader = document.getElementById('fixed-max-header');
-      let mainTable = document.getElementById('maintable');
+      const fixedHeader = document.getElementById('fixed-header');
+      const fixedMaxHeader = document.getElementById('fixed-max-header');
+      const mainTable = document.getElementById('maintable');
       if (fixedHeader) {
         if (mainTable) {
-          let tableWidth = mainTable.clientWidth.toString();
+          const tableWidth = mainTable.clientWidth.toString();
           fixedHeader.style.width = tableWidth + 'px';
         }
       } else {
         if (mainTable) {
-          let tableWidth = mainTable.clientWidth.toString();
-          try{
+          const tableWidth = mainTable.clientWidth.toString();
+          // tslint:disable-next-line:one-line
+          try {
             fixedMaxHeader.style.width = tableWidth + 'px';
-          }catch(e){}
+          } catch (e) { }
         }
       }
-    }, 500)
+    }, 500);
   }
 }
