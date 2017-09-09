@@ -26,14 +26,17 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		private readonly IRepository<ImportFile> _importFileRepository;
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 		private readonly ICsvReaderProvider _csvReaderProvider;
+	    private readonly IRepository<ImportFileType> _importFileTypeRepository;
 
 		public ImportFileProvider(IMemoryCacher memoryCacher, 
 			IRepository<ImportFile> importFileRepository, 
-			ICsvReaderProvider csvReaderProvider)
+			ICsvReaderProvider csvReaderProvider, 
+            IRepository<ImportFileType> importFileTypeRepository)
 		{
 			_memoryCacher = memoryCacher;
 			_importFileRepository = importFileRepository;
 			_csvReaderProvider = csvReaderProvider;
+		    _importFileTypeRepository = importFileTypeRepository;
 		}
 
 		public void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false)
@@ -265,8 +268,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 						sqlCommand.Parameters.Add("@FileSize", SqlDbType.VarChar,
 							fileSize.Length).Value = fileSize;
 						sqlCommand.Parameters.Add("@ImportFileTypeID", SqlDbType.Int, 1).Value =
-							fileExtension == ".csv" ? 1 : 2; // TODO: Make this dynamic.
-						sqlCommand.Parameters.Add("@Processed", SqlDbType.Bit).Value = false;
+						    GetImportFileTypeIdByFileName(fileName);
+                        sqlCommand.Parameters.Add("@Processed", SqlDbType.Bit).Value = false;
 						if (connection.State != ConnectionState.Open)
 							connection.Open();
 						sqlCommand.ExecuteNonQuery();
@@ -274,7 +277,23 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			});
 		}
 
-		public void EtlLakerFile()
+	    private int GetImportFileTypeIdByFileName(string fileName)
+	    {
+	        string code;
+	        // Laker Import	    LI
+	        // Payment Import   PI
+	        // Other            OT
+	        if (fileName.StartsWith("Billing_Claim_File_"))
+	            code = c.LakerImportImportFileTypeCode;
+	        else if (fileName.EndsWith("Payments.xlsx"))
+	            code = c.PaymentImportFileTypeCode;
+	        else
+	            code = c.OtherImportFileTypeCode;
+	        var result = _importFileTypeRepository.GetSingleOrDefault(x => x.Code == code);
+	        return result.ImportFileTypeId;
+	    }
+
+	    public void EtlLakerFile()
 		{
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
@@ -302,5 +321,5 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 				size = byteCount.ToString(CultureInfo.InvariantCulture) + " Bytes";
 			return size;
 		}
-	}
+    }
 }
