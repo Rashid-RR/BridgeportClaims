@@ -257,7 +257,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 					connection),
 					sqlCommand =>
 					{
-						sqlCommand.CommandType = CommandType.Text;
+                        var tuple = GetImportFileTypeIdAndProcessedBoolByFileName(fileName);
+                        sqlCommand.CommandType = CommandType.Text;
 						sqlCommand.Parameters.Add("@FileBytes", SqlDbType.VarBinary, file.Length).Value = file;
 						sqlCommand.Parameters.Add("@FileName", SqlDbType.NVarChar, fileName.Length).Value = fileName;
 						if (fileExtension.IsNullOrWhiteSpace())
@@ -267,9 +268,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 						var fileSize = GetFileSize(file.Length);
 						sqlCommand.Parameters.Add("@FileSize", SqlDbType.VarChar,
 							fileSize.Length).Value = fileSize;
-						sqlCommand.Parameters.Add("@ImportFileTypeID", SqlDbType.Int, 1).Value =
-						    GetImportFileTypeIdByFileName(fileName);
-                        sqlCommand.Parameters.Add("@Processed", SqlDbType.Bit).Value = false;
+					    sqlCommand.Parameters.Add("@ImportFileTypeID", SqlDbType.Int, 1).Value = tuple.Item1;
+					    sqlCommand.Parameters.Add("@Processed", SqlDbType.Bit).Value = tuple.Item2;
 						if (connection.State != ConnectionState.Open)
 							connection.Open();
 						sqlCommand.ExecuteNonQuery();
@@ -277,9 +277,10 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			});
 		}
 
-	    private int GetImportFileTypeIdByFileName(string fileName)
+	    private Tuple<int, bool> GetImportFileTypeIdAndProcessedBoolByFileName(string fileName)
 	    {
 	        string code;
+	        var processed = false;
 	        // Laker Import	    LI
 	        // Payment Import   PI
 	        // Other            OT
@@ -288,9 +289,12 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 	        else if (fileName.EndsWith("Payments.xlsx"))
 	            code = c.PaymentImportFileTypeCode;
 	        else
+	        {
 	            code = c.OtherImportFileTypeCode;
+	            processed = true;
+	        }
 	        var result = _importFileTypeRepository.GetSingleOrDefault(x => x.Code == code);
-	        return result.ImportFileTypeId;
+	        return new Tuple<int, bool>(result.ImportFileTypeId, processed);
 	    }
 
 	    public void EtlLakerFile()
