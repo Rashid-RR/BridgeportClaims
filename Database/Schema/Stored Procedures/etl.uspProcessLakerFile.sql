@@ -926,7 +926,8 @@ AS BEGIN
 	/********************************************************************************************
 	Begin AcctPayable Section
 	********************************************************************************************/
-	INSERT INTO [dbo].[AcctPayable] ([CheckNumber],[CheckDate],[AmountPaid],[ClaimID],[InvoiceID],[CreatedOnUTC],[UpdatedOnUTC],[ETLRowID])
+	--  Stop this insanity
+	/*INSERT INTO [dbo].[AcctPayable] ([CheckNumber],[CheckDate],[AmountPaid],[ClaimID],[InvoiceID],[CreatedOnUTC],[UpdatedOnUTC],[ETLRowID])
 	SELECT [s].[6]
 		 , [s].[7]
 		 , 0
@@ -938,14 +939,14 @@ AS BEGIN
 	FROM   [etl].[StagedLakerFile] AS [s]
 	WHERE  1 = 1
 		   AND [s].[InvoiceID] IS NOT NULL
-		   AND [s].[6] IS NOT NULL
+		   AND [s].[6] IS NOT NULL*/
 	   
 	DECLARE @Success BIT = 0
 	IF @@TRANCOUNT > 0
 		BEGIN
 			IF @@ERROR = 0
 				BEGIN
-					COMMIT
+					ROLLBACK -- COMMIT
 					SET @Success = 1
 				END
 			ELSE
@@ -955,4 +956,5 @@ AS BEGIN
 	IF @@TRANCOUNT > 0
 		RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT
 END
+
 GO
