@@ -188,7 +188,7 @@ AS BEGIN
 
 		IF @@TRANCOUNT > 0
 			BEGIN
-				COMMIT
+				ROLLBACK --COMMIT
 				SET @PrntMsg = 'Transaction Count: ' + CONVERT(NVARCHAR, @@TRANCOUNT)
 				PRINT @PrntMsg
 			END
@@ -214,4 +214,5 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
 GO

@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   activeToast:Toast;
   t:any;
   constructor(
-    private http:HttpService, 
+    private http:HttpService,
     private events: EventsService,
     private profileManager: ProfileManager,
     private toast: ToastsManager,

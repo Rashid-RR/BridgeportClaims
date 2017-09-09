@@ -23,7 +23,12 @@ namespace BridgeportClaims.Web.Email.EmailTemplateProviders
                     : "PasswordReset";
             var razorFile = emailViewModel.EmailModelEnum == EmailModelEnum.WelcomeActivation
                 ? "WelcomeActivation.cshtml"
-                : "PasswordReset.cshtml";
+                : emailViewModel.EmailModelEnum == EmailModelEnum.LakerImportStatus
+                    ? "LakerImportStatus.cshtml"
+                    : emailViewModel.EmailModelEnum == EmailModelEnum.PasswordReset
+                        ? "PasswordReset.cshtml"
+                        : throw new Exception("Could not find valid email model");
+
             var config = new TemplateServiceConfiguration
             {
                 Language = Language.CSharp,
