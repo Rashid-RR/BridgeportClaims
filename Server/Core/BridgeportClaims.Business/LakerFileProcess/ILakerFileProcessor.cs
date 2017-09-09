@@ -1,7 +1,9 @@
-﻿namespace BridgeportClaims.Business.LakerFileProcess
+﻿using System;
+
+namespace BridgeportClaims.Business.LakerFileProcess
 {
     public interface ILakerFileProcessor
     {
-        string ProcessOldestLakerFile();
+        Tuple<string, string> ProcessOldestLakerFile();
     }
 }

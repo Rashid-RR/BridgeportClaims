@@ -4,6 +4,7 @@
     {
         Unknown,
         WelcomeActivation,
-        PasswordReset
+        PasswordReset,
+        LakerImportStatus
     }
 }
