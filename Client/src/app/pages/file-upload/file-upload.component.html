@@ -80,7 +80,7 @@
                             <div>
                                 Queue progress Csv files:
                                 <div class="progress" style="">
-                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploaderCsv.progress + '%' }"></div>
+                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploaderCsv?.progress + '%' }"></div>
                                 </div>
                             </div>
                             <button type="button" class="btn btn-success btn-s" (click)="uploaderCsv.uploadAll()" [disabled]="!uploaderCsv.getNotUploadedItems().length">

@@ -18,9 +18,9 @@ const noLaker: String = "No Laker Files were found to import.";
 })
 export class FileUploadComponent implements OnInit, AfterViewChecked {
 
-  public uploaderCsv: FileUploader;
-  public uploaderExcel: FileUploader;
-  public uploaderMisc: FileUploader;
+  public uploaderCsv: FileUploader = new FileUploader({});
+  public uploaderExcel: FileUploader = new FileUploader({});
+  public uploaderMisc: FileUploader = new FileUploader({});
 
   public hasBaseDropZoneOver = false;
   public hasAnotherDropZoneOver = false;

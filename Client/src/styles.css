@@ -20,3 +20,13 @@
     .wrapper {
         overflow: hidden !important;
     }
+    .overlay{
+        width: 100vw !important;
+        height: 100vh !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .overlay img{
+        margin-top:  -50px !important;
+    }
