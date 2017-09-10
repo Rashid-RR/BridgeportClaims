@@ -19,9 +19,11 @@ export class PaymentScriptService {
     inputs:Array<any>=[];
   constructor(private dp: DatePipe,
     private paymentService: PaymentService, private events: EventsService, private router: Router, private toast: ToastsManager) {
-        this.events.on('payment-updated',()=>{
+        this.events.on('payment-updated',(b:Boolean)=>{
             swal.clickConfirm();
-            this.addScripts();
+            if(b){
+                 this.addScripts();
+            }
         });
   }
 addScripts() {    
@@ -32,7 +34,7 @@ addScripts() {
                     `+claim.numberOfPrescriptions+`
                 </a>`  : claim.numberOfPrescriptions;
             claimsHTML = claimsHTML + `
-                <tr>
+                <tr id="`+claim.claimId+`" class="claimRow">
                     <td>`+ claim.claimNumber + `</td>
                     <td>`+ claim.patientName + `</td>
                     <td>`+ claim.payor + `</td>
@@ -117,7 +119,7 @@ addScripts() {
                                         </span>` : '')+`
                                     </span>                                               
                                     <div class="box-tools pull-right">
-                                        <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="viewClaims()"  style="margin-left:auto;margin-right:auto;">View Prescriptions</button>
+                                        <button class="btn bg-darkblue view-prescriptions btn-flat btn-small" type="button"  style="margin-left:auto;margin-right:auto;">View Prescriptions</button>
                                     </div>                                                
                                 </div>
                                 <div class="box-body claims payment-result panel-body-bg">
@@ -185,13 +187,14 @@ addScripts() {
                 this.paymentService.search(d,false);
                 this.inputs=inputs;
             }
-            console.log(inputs);
+        //    console.log(inputs);
         }).catch(swal.noop);
         $('#datepicker').datepicker({
             autoclose: true
         });
-        $("#datemask").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+        $("#datepicker").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
         $("[inputs-mask]").inputmask();
+        $("[data-mask]").inputmask();
         $(".search-claims").click(()=>{ 
             swal.clickConfirm();
         });
@@ -208,7 +211,6 @@ addScripts() {
         });
         $(".refresh-search").click(()=>{
             swal.clickConfirm();
-            console.log("Refresh button confirm...")
         });
         $(".close-button").click(()=>{
             swal.clickCancel();
@@ -218,5 +220,49 @@ addScripts() {
                 swal.clickConfirm();
             }
         });
-    }     
+        $("button.view-prescriptions").click((e)=>{
+            this.viewClaims();
+        });
+        let ps = this;
+        $(".claimRow").click(function(){  
+            let row =  $(this)[0];
+             let claimId = row.id;
+             ps.updateTable(parseInt(claimId));             
+        });
+    } 
+    viewClaims(){
+        let selectedClaims = [];
+        var rows = $('tr.bgBlue');
+        for (var i = 0; i < rows.length; i++) {
+            var id =rows[i].id;
+            selectedClaims.push(id);
+        }
+        if (selectedClaims.length == 0) {
+          this.toast.warning('Please select one or more claims in order to view prescriptions.');
+        }else{
+            swal.clickCancel();
+            swal({ 
+                title: "",
+                width: window.innerWidth * 3.9 / 4 + "px",
+                html: "Searching claims... <br/> <img src='assets/1.gif'>",
+                showConfirmButton: false
+            }); 
+            this.paymentService.prescriptionSelected=true
+            this.paymentService.clearClaimsDetail();
+            this.paymentService.getPaymentClaimDataByIds(selectedClaims);
+        }
+      }
+    updateTable(claimId:Number){
+        let data = this.paymentService.rawClaimsData.get(claimId);
+         if(data){        
+            if($("tr#"+claimId).hasClass("bgBlue")){
+                $("tr#"+claimId).removeClass("bgBlue");
+                data.selected = false
+            }else{
+                $("tr#"+claimId).addClass("bgBlue"); 
+                data.selected = true
+            }
+            this.paymentService.rawClaimsData.set(claimId,data);
+        }
+    }
 }

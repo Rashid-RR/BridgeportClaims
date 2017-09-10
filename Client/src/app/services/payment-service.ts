@@ -63,7 +63,7 @@ export class PaymentService {
             console.log(error);
           } catch (e) { }
         }, () => {
-          this.events.broadcast('payment-updated');
+          this.events.broadcast('payment-updated',true);
         });
     }
   }
@@ -196,12 +196,13 @@ export class PaymentService {
               this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
             });
           }
+         this.events.broadcast('payment-updated',false);
         }, err => {
           this.loading = false;
           console.log(err);
           const error = err.json();
+          this.events.broadcast('payment-updated',true);
         }, () => {
-          this.events.broadcast('payment-updated');
         });
     }
   }
