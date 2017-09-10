@@ -24,7 +24,7 @@ export class SignalRService {
 
     this.hub = this.connection.createHubProxy("clockHub");
      console.log(this.hub,this.connection);
-     this.hub.on('setRealTime', ( message)=> {
+     this.hub.on('setRealTime', (message)=> {
       console.log( message);
     });
     /* this.connection.start()

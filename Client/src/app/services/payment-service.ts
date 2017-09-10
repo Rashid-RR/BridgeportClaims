@@ -20,14 +20,14 @@ export class PaymentService {
   prescriptionSelected: Boolean = false;
 
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
-    this.events.on("postPaymentPrescriptionReturnDtos",data=>{
+    this.events.on('postPaymentPrescriptionReturnDtos',data=>{
           data.prescriptions.forEach(d=>{
              var prescription = this.claimsDetail.get(d.prescriptionId);
             if(prescription){
               prescription.outstanding= d.outstanding;
             }
-           })
-    })
+           });
+    });
   }
 
 

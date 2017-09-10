@@ -6,13 +6,21 @@
     color: #fff;
     line-height: 50px;
 }
-.ver a,.ver a:active,.ver a:hover {
-    /* position: absolute;
+li a{
+    cursor: pointer;
+}
+.ver {
+    position: absolute;
     top: 15px;
-    width: 100%;
-     */
-    color: #b33a3a !important;
-   /*  z-index: 99; */
+    width: 50%;
+    text-align: center;
+    color: #b33a3a;
+    z-index: 999999;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    transform: translateX(-50%);
 }
 
 @media screen and (max-width: 767px) {

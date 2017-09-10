@@ -26,47 +26,48 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 			_memoryCacher = memoryCacher;
 		}
 
-	    public decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber)
-	    {
-	        var outputParam = new SqlParameter
-	        {
-	            ParameterName = "AmountRemaining",
-	            DbType = DbType.Decimal,
-	            SqlDbType = SqlDbType.Money,
-	            Direction = ParameterDirection.Output
-	        };
-            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            DisposableService.Using(() => new SqlCommand("dbo.uspGetAmountRemaining", conn), cmd =>
-	            {
-	                cmd.CommandType = CommandType.StoredProcedure;
-	                cmd.CommandTimeout = 30;
-	                var param = new SqlParameter
-	                {
-	                    ParameterName = "@ClaimIDs",
-	                    SqlDbType = SqlDbType.Structured,
-	                    Direction = ParameterDirection.Input
-	                };
-	                
-	                var nextParam = new SqlParameter
-	                {
-	                    DbType = DbType.String,
-	                    SqlDbType = SqlDbType.VarChar,
-	                    Direction = ParameterDirection.Input,
-	                    ParameterName = "@CheckNumber"
-                    };
-	                cmd.Parameters.Add(param);
-                    cmd.Parameters.Add(outputParam);
-                    cmd.Parameters.Add(nextParam);
-	                if (conn.State != ConnectionState.Open)
-	                    conn.Open();
-	                cmd.ExecuteNonQuery();
-	            });
-	        });
-	        return decimal.TryParse(outputParam.Value?.ToString(), out decimal d) ? d : new decimal();
-        }
+		public decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber)
+		{
+			var outputParam = new SqlParameter
+			{
+				ParameterName = "AmountRemaining",
+				DbType = DbType.Decimal,
+				SqlDbType = SqlDbType.Money,
+				Direction = ParameterDirection.Output
+			};
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				DisposableService.Using(() => new SqlCommand("[dbo].[uspGetAmountRemaining]", conn), cmd =>
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandTimeout = 30;
+					var param = new SqlParameter
+					{
+						ParameterName = "@ClaimIDs",
+						SqlDbType = SqlDbType.Structured,
+						Direction = ParameterDirection.Input,
+						TypeName = "dbo.udtPrescriptionID"
+					};
+					
+					var nextParam = new SqlParameter
+					{
+						DbType = DbType.String,
+						SqlDbType = SqlDbType.VarChar,
+						Direction = ParameterDirection.Input,
+						ParameterName = "@CheckNumber"
+					};
+					cmd.Parameters.Add(param);
+					cmd.Parameters.Add(outputParam);
+					cmd.Parameters.Add(nextParam);
+					if (conn.State != ConnectionState.Open)
+						conn.Open();
+					cmd.ExecuteNonQuery();
+				});
+			});
+			return decimal.TryParse(outputParam.Value?.ToString(), out decimal d) ? d : new decimal();
+		}
 
-	    public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
+		public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
 		{
 			var delimitedClaimIds = string.Join(c.Comma, claimIds);
 			var claimIdParam = new SqlParameter {ParameterName = "ClaimIDs", Value = delimitedClaimIds, DbType = DbType.String };
@@ -258,7 +259,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 						 const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
 						 var culture = CultureInfo.CreateSpecificCulture("en-US");
 						 retVal.AmountRemaining = decimal.TryParse(amountRemainingParam.Value.ToString(), style, culture, out decimal d)
-							 ? d : default(decimal);
+							 ? d : default;
 						 return retVal;
 					 });
 

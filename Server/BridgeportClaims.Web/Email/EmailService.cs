@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Web.Email.Models;
+using BridgeportClaims.Web.EmailTemplates;
 using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Email
@@ -84,17 +85,20 @@ namespace BridgeportClaims.Web.Email
 
         public async Task SendAsync(IdentityMessage message)
         {
-            // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
+            // This is so wrong. We're using the Full Name for the Email Subject, 
+            // and the Absolute Activation Uri for the Email body.
             const string resetPassword = "resetpassword";
             if (null != message?.Body?.ToLower().Contains(resetPassword) &&
                 message.Body.ToLower().Contains(resetPassword))
             {
-                await SendEmail<EmailTemplateProvider>(message.Destination, message.Subject, message.Body, EmailModelEnum.PasswordReset);
+                await SendEmail<EmailTemplateProvider>(message.Destination, 
+                    message.Subject, message.Body, EmailModelEnum.PasswordReset);
             }
             else
             {
                 // ReSharper disable once PossibleNullReferenceException
-                await SendEmail<EmailTemplateProvider>(message.Destination, message.Subject, message.Body, EmailModelEnum.WelcomeActivation);
+                await SendEmail<EmailTemplateProvider>(message.Destination, 
+                    message.Subject, message.Body, EmailModelEnum.WelcomeActivation);
             }
         }
     }

@@ -4,7 +4,6 @@ using System.Net;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Business.Payments;

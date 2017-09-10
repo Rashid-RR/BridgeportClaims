@@ -49,25 +49,24 @@ export class SelectedPaymentDetailedResultComponent implements OnInit,AfterViewI
         if($event.keyCode==16){
           this.selectMultiple = true;
         }
-      })
-      this.rd.listen(this.table.nativeElement,'keyup',($event)=>{
-        if($event.keyCode==16){
+      });
+      this.rd.listen(this.table.nativeElement, 'keyup',($event)=>{
+        if ($event.keyCode == 16) {
           this.selectMultiple = false;
         }
-      })
-       
+      });
   }
-  claimsCheckBox($event){    
-     this.checkAll =  $event.target.checked; 
+  claimsCheckBox($event) {
+     this.checkAll =  $event.target.checked;
      if(this.checkAll){
-       this.paymentService.claimsDetail.forEach(c=>{
+       this.paymentService.claimsDetail.forEach(c => {
          c.filterSelected = true;
-       })
+       });
      }else{
        this.paymentService.claimsDetail.forEach(c=>{
          c.filterSelected = false;
        });
-     }   
+     }
   }
 
 }

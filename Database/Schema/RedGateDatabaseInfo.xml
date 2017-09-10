@@ -57,7 +57,7 @@
     <DataWriteAllFilesInOneDirectory>True</DataWriteAllFilesInOneDirectory>
   </WriteToFileOptions>
   <DataFileSet>
-    <Count>16</Count>
+    <Count>17</Count>
     <DataFile>dbo.AspNetRoles_Data.sql</DataFile>
     <DataFile>dbo.Gender_Data.sql</DataFile>
     <DataFile>dbo.UsState_Data.sql</DataFile>
@@ -74,5 +74,6 @@
     <DataFile>util.ImportFileType_Data.sql</DataFile>
     <DataFile>dtme.TimeZone_Data.sql</DataFile>
     <DataFile>etl.LatestStagedLakerFileLoaded_Data.sql</DataFile>
+    <DataFile>dbo.ImportedEpisodes_Data.sql</DataFile>
   </DataFileSet>
 </DatabaseInformation>

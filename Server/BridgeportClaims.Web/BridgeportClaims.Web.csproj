@@ -113,6 +113,9 @@
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Owin, Version=1.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Owin.1.2.2\lib\net45\Microsoft.AspNet.SignalR.Owin.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
     </Reference>
@@ -222,49 +225,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\1.gif" />
-    <Content Include="assets\BridgeportClaims Dashboard Screenshot.jpg" />
-    <Content Include="assets\Claim_Icon_Design.png" />
-    <Content Include="assets\css\animate.css" />
-    <Content Include="assets\css\font-awesome.css" />
-    <Content Include="assets\css\font-awesome.min.css" />
-    <Content Include="assets\css\simple-line-icons.css" />
-    <Content Include="assets\css\simple-sidebar.css" />
-    <Content Include="assets\css\skin-black.css" />
-    <Content Include="assets\css\style.css" />
-    <Content Include="assets\favicon.png" />
-    <Content Include="assets\file-upload-blue.png" />
-    <Content Include="assets\file-upload-green.png" />
-    <Content Include="assets\file-upload.png" />
-    <Content Include="assets\fonts\fontawesome-webfont.svg" />
-    <Content Include="assets\fonts\Simple-Line-Icons.svg" />
-    <Content Include="assets\img\ajax-loader.gif" />
-    <Content Include="assets\img\iconClaims.png" />
-    <Content Include="assets\img\iconepisodes.png" />
-    <Content Include="assets\img\iconImages.png" />
-    <Content Include="assets\img\iconnotes.png" />
-    <Content Include="assets\img\iconpayments.png" />
-    <Content Include="assets\img\iconPrescriptions.png" />
-    <Content Include="assets\img\iconScripts.png" />
-    <Content Include="assets\img\Laker_File_Upload.jpg" />
-    <Content Include="assets\img\name_type.png" />
-    <Content Include="assets\img\Payment_File_Upload.jpg" />
-    <Content Include="assets\js\app.js" />
-    <Content Include="assets\js\blob-util.js" />
-    <Content Include="assets\js\bootstrap-notify.min.js" />
-    <Content Include="assets\js\jquery-resolve.js" />
-    <Content Include="assets\js\moment.min.js" />
-    <Content Include="assets\js\sockjs-1.1.1.min.js" />
-    <Content Include="assets\js\stickyfill.min.js" />
-    <Content Include="assets\logo\Color All.gif" />
-    <Content Include="assets\logo\Color All.jpg" />
-    <Content Include="assets\logo\Color All.png" />
-    <Content Include="assets\logo\Color Logo.gif" />
-    <Content Include="assets\logo\Color Logo.jpg" />
-    <Content Include="assets\logo\Color Logo.png" />
-    <Content Include="assets\style.css" />
-    <Content Include="assets\Users_Icon_Design.png" />
-    <Content Include="boxed-bg.7799dece2c79854f63f0.jpg" />
     <Content Include="EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -275,158 +235,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
-    <Content Include="favicon.ico" />
-    <Content Include="fontawesome-webfont.2641fadf03fdf2cba0a7.svg" />
-    <Content Include="glyphicons-halflings-regular.89889688147bd7575d63.svg" />
-    <Content Include="index.html" />
-    <Content Include="inline.98a29b776d2ea26e8a95.bundle.js" />
-    <Content Include="main.69c4455a2934174594c5.bundle.js" />
     <Content Include="packages.config" />
-    <Content Include="assets\css\font-awesome.css.map" />
-    <Content Include="assets\fonts\fontawesome-webfont.eot" />
-    <Content Include="assets\fonts\fontawesome-webfont.ttf" />
-    <Content Include="assets\fonts\fontawesome-webfont.woff" />
-    <Content Include="assets\fonts\fontawesome-webfont.woff2" />
-    <Content Include="assets\fonts\FontAwesome.otf" />
-    <Content Include="assets\fonts\Simple-Line-Icons.eot" />
-    <Content Include="assets\fonts\Simple-Line-Icons.ttf" />
-    <Content Include="assets\fonts\Simple-Line-Icons.woff" />
-    <Content Include="assets\fonts\Simple-Line-Icons.woff2" />
-    <Content Include="assets\json\invoice.json" />
-    <Content Include="assets\logo\Color All.pdf" />
-    <Content Include="assets\logo\Color All.psd" />
-    <Content Include="assets\logo\Color Logo.eps" />
-    <Content Include="assets\logo\Color Logo.pdf" />
-    <Content Include="assets\logo\Color Logo.psd" />
-    <Content Include="assets\scss\bootstrap_custom\_breadcrumb.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_buttons.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_card.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_dropdown.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_input-group.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_nav.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_navbar.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_progress.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_tables.scss" />
-    <Content Include="assets\scss\bootstrap_custom\_tags.scss" />
-    <Content Include="assets\scss\bootstrap_src\bootstrap-flex.scss" />
-    <Content Include="assets\scss\bootstrap_src\bootstrap-grid.scss" />
-    <Content Include="assets\scss\bootstrap_src\bootstrap-reboot.scss" />
-    <Content Include="assets\scss\bootstrap_src\bootstrap.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_alert.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_background-variant.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_border-radius.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_breakpoints.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_buttons.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_cards.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_clearfix.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_float.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_forms.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_gradients.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_grid-framework.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_grid.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_hover.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_image.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_list-group.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_lists.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_nav-divider.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_navbar-align.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_pagination.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_progress.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_reset-filter.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_reset-text.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_resize.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_screen-reader.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_size.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_tab-focus.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_table-row.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_tag.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_text-emphasis.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_text-hide.scss" />
-    <Content Include="assets\scss\bootstrap_src\mixins\_text-truncate.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_align.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_background.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_borders.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_clearfix.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_display.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_flex.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_float.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_screenreaders.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_spacing.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_text.scss" />
-    <Content Include="assets\scss\bootstrap_src\utilities\_visibility.scss" />
-    <Content Include="assets\scss\bootstrap_src\_alert.scss" />
-    <Content Include="assets\scss\bootstrap_src\_animation.scss" />
-    <Content Include="assets\scss\bootstrap_src\_breadcrumb.scss" />
-    <Content Include="assets\scss\bootstrap_src\_button-group.scss" />
-    <Content Include="assets\scss\bootstrap_src\_buttons.scss" />
-    <Content Include="assets\scss\bootstrap_src\_card.scss" />
-    <Content Include="assets\scss\bootstrap_src\_carousel.scss" />
-    <Content Include="assets\scss\bootstrap_src\_close.scss" />
-    <Content Include="assets\scss\bootstrap_src\_code.scss" />
-    <Content Include="assets\scss\bootstrap_src\_custom-forms.scss" />
-    <Content Include="assets\scss\bootstrap_src\_custom.scss" />
-    <Content Include="assets\scss\bootstrap_src\_dropdown.scss" />
-    <Content Include="assets\scss\bootstrap_src\_forms.scss" />
-    <Content Include="assets\scss\bootstrap_src\_grid.scss" />
-    <Content Include="assets\scss\bootstrap_src\_images.scss" />
-    <Content Include="assets\scss\bootstrap_src\_input-group.scss" />
-    <Content Include="assets\scss\bootstrap_src\_jumbotron.scss" />
-    <Content Include="assets\scss\bootstrap_src\_list-group.scss" />
-    <Content Include="assets\scss\bootstrap_src\_media.scss" />
-    <Content Include="assets\scss\bootstrap_src\_mixins.scss" />
-    <Content Include="assets\scss\bootstrap_src\_modal.scss" />
-    <Content Include="assets\scss\bootstrap_src\_nav.scss" />
-    <Content Include="assets\scss\bootstrap_src\_navbar.scss" />
-    <Content Include="assets\scss\bootstrap_src\_normalize.scss" />
-    <Content Include="assets\scss\bootstrap_src\_pagination.scss" />
-    <Content Include="assets\scss\bootstrap_src\_popover.scss" />
-    <Content Include="assets\scss\bootstrap_src\_print.scss" />
-    <Content Include="assets\scss\bootstrap_src\_progress.scss" />
-    <Content Include="assets\scss\bootstrap_src\_reboot.scss" />
-    <Content Include="assets\scss\bootstrap_src\_responsive-embed.scss" />
-    <Content Include="assets\scss\bootstrap_src\_tables.scss" />
-    <Content Include="assets\scss\bootstrap_src\_tags.scss" />
-    <Content Include="assets\scss\bootstrap_src\_tooltip.scss" />
-    <Content Include="assets\scss\bootstrap_src\_type.scss" />
-    <Content Include="assets\scss\bootstrap_src\_utilities.scss" />
-    <Content Include="assets\scss\bootstrap_src\_variables.scss" />
-    <Content Include="assets\scss\core\navigation\_disabled.scss" />
-    <Content Include="assets\scss\core\navigation\_sidebar.scss" />
-    <Content Include="assets\scss\core\navigation\_top.scss" />
-    <Content Include="assets\scss\core\_animate.scss" />
-    <Content Include="assets\scss\core\_aside.scss" />
-    <Content Include="assets\scss\core\_avatars.scss" />
-    <Content Include="assets\scss\core\_breadcrumb-menu.scss" />
-    <Content Include="assets\scss\core\_buttons.scss" />
-    <Content Include="assets\scss\core\_callout.scss" />
-    <Content Include="assets\scss\core\_charts.scss" />
-    <Content Include="assets\scss\core\_footer.scss" />
-    <Content Include="assets\scss\core\_grid.scss" />
-    <Content Include="assets\scss\core\_layout.scss" />
-    <Content Include="assets\scss\core\_loading.scss" />
-    <Content Include="assets\scss\core\_mixins.scss" />
-    <Content Include="assets\scss\core\_mobile.scss" />
-    <Content Include="assets\scss\core\_navigation.scss" />
-    <Content Include="assets\scss\core\_others.scss" />
-    <Content Include="assets\scss\core\_switches.scss" />
-    <Content Include="assets\scss\core\_temp.scss" />
-    <Content Include="assets\scss\core\_typography.scss" />
-    <Content Include="assets\scss\core\_utilities-border.scss" />
-    <Content Include="assets\scss\core\_widgets.scss" />
-    <Content Include="assets\scss\style.scss" />
-    <Content Include="assets\scss\vendors\chart.js\chart.scss" />
-    <Content Include="assets\scss\vendors\_vendors.scss" />
-    <Content Include="assets\scss\_bootstrap-variables.scss" />
-    <Content Include="assets\scss\_custom-variables.scss" />
-    <Content Include="assets\scss\_custom.scss" />
-    <Content Include="fontawesome-webfont.1dc35d25e61d819a9c35.ttf" />
-    <Content Include="fontawesome-webfont.25a32416abee198dd821.eot" />
-    <Content Include="fontawesome-webfont.c8ddf1e5e5bf3682bc7b.woff" />
-    <Content Include="fontawesome-webfont.e6cf7c6ec7c2d6f670ae.woff2" />
-    <Content Include="glyphicons-halflings-regular.448c34a56d699c29117a.woff2" />
-    <Content Include="glyphicons-halflings-regular.e18bbf611f2a2e43afc0.ttf" />
-    <Content Include="glyphicons-halflings-regular.f4769f9bdb7466be6508.eot" />
-    <Content Include="glyphicons-halflings-regular.fa2772327f55d8198301.woff" />
+    <Content Include="EmailTemplates\LakerImportStatus.cshtml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Properties\PublishProfiles\BridgeportClaims - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\BridgeportClaims-BridgeportClaimsStaging - FTP.pubxml" />
@@ -439,25 +251,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
-    <Content Include="polaris%402x.78fe5012ba83d554949a.png" />
-    <Content Include="polyfills.6c182cc68624efb5c090.bundle.js" />
-    <Content Include="scripts.040ad98c144ad373638f.bundle.js" />
-    <Content Include="Scripts\jquery-1.6.4.js" />
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.2.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
-    <Content Include="styles.e81fbab8eb2b0b2cbc77.bundle.css" />
-    <Content Include="vendor.e7386b4150aeca2fc4b9.bundle.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\AutomapperStartup.cs" />
-    <Compile Include="App_Start\NHibernateProfilerBootstrapper.cs" />
     <Compile Include="Attributes\DenyActionAttribute.cs" />
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
+    <Compile Include="BackgroundWork\BackgroundWorkerProvider.cs" />
     <Compile Include="Controllers\CacheController.cs" />
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
@@ -478,10 +280,9 @@
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Handlers\CancelledTaskBugWorkaroundMessageHandler.cs" />
-    <Compile Include="Hubs\ChatHub.cs" />
+    <Compile Include="Hubs\MessageHub.cs" />
     <Compile Include="Hubs\SubscribeHub.cs" />
     <Compile Include="Hubs\PostingHub.cs" />
-    <Compile Include="Hubs\ClockHub.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\EmailType.cs" />
     <Compile Include="Infrastructure\MultipartFormDataMemoryStreamProvider.cs" />
@@ -523,15 +324,17 @@
     <Compile Include="Providers\BridgeportClaimsJwtFormat.cs" />
     <Compile Include="SignalR\ChannelEvent.cs" />
     <Compile Include="Hubs\PaymentHub.cs" />
+    <Compile Include="SignalR\HubContextProvider.cs" />
+    <Compile Include="SignalR\IHubContextProvider.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
+    <ProjectReference Include="..\Core\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
       <Project>{ecbbfbd1-dbab-486b-a50b-7b2de864f29f}</Project>
       <Name>BridgeportClaims.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
-      <Project>{8079bc13-de39-4cb9-8929-e47be08e52cf}</Project>
+    <ProjectReference Include="..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{61afc490-da0f-4f71-ab27-427e64fbf7d0}</Project>
       <Name>BridgeportClaims.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
@@ -542,7 +345,11 @@
       <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
       <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
+    <ProjectReference Include="..\Utilities\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
+      <Project>{0E70AD77-202B-411B-B724-98C63D0A6407}</Project>
+      <Name>BridgeportClaims.CsvReader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
       <Project>{df854117-1c14-4f92-935d-a740dded79df}</Project>
       <Name>BridgeportClaims.Excel</Name>
     </ProjectReference>

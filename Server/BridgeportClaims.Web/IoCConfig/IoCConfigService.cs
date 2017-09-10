@@ -4,6 +4,7 @@ using System.Web;
 using System.Data;
 using System.Reflection;
 using Autofac.Integration.WebApi;
+using BridgeportClaims.Business.LakerFileProcess;
 using BridgeportClaims.Web.Email;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Business.Payments;
@@ -26,6 +27,8 @@ using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
 using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
+using BridgeportClaims.Web.EmailTemplates;
+using BridgeportClaims.CsvReader.CsvReaders;
 
 namespace BridgeportClaims.Web.IoCConfig
 {
@@ -44,7 +47,9 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<PrescriptionNoteTypesDataProvider>().As<IPrescriptionNoteTypesDataProvider>().InstancePerRequest();
             builder.RegisterType<EmailModelGenerator>().As<IEmailModelGenerator>().InstancePerRequest();
             builder.RegisterType<EpisodesDataProvider>().As<IEpisodesDataProvider>().InstancePerRequest();
+            builder.RegisterType<LakerFileProcessor>().As<ILakerFileProcessor>().InstancePerRequest();
             builder.RegisterType<AspNetUsersProvider>().As<IAspNetUsersProvider>().InstancePerRequest();
+            builder.RegisterType<CsvReaderProvider>().As<ICsvReaderProvider>().InstancePerRequest();
             builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
             
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
