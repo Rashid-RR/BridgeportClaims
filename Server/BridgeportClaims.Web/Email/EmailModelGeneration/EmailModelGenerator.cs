@@ -11,7 +11,6 @@ namespace BridgeportClaims.Web.Email.EmailModelGeneration
 {
     public class EmailModelGenerator : IEmailModelGenerator
     {
-
         public EmailModel GenerateEmailModelFromTemplate<TTemplate>(EmailViewModel model)
             where TTemplate : IEmailTemplateProvider, new()
         {
@@ -24,12 +23,15 @@ namespace BridgeportClaims.Web.Email.EmailModelGeneration
                 case EmailModelEnum.WelcomeActivation:
                     subject = c.EmailWelcomeActivationTemplateEmailSubject;
                     break;
+                case EmailModelEnum.LakerImportStatus:
+                    subject = c.LakerImportStatus;
+                    break;
                 case EmailModelEnum.Unknown:
                     break;
                 default:
                     throw new InstanceNotFoundException("Cannot determine the emailEnum enum type.");
             }
-            
+
             var template = new TTemplate();
             var sourceEmailAddress = cs.GetAppSetting("SourceEmailAddress");
             var sourceEmailPassword = cs.GetAppSetting("EmailPassword");

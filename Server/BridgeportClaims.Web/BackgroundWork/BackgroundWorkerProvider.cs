@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace BridgeportClaims.Business.BackgroundWork
+namespace BridgeportClaims.Web.BackgroundWork
 {
     public static class BackgroundWorkerProvider
     {

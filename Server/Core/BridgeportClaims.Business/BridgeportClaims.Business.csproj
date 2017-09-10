@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundWork\BackgroundWorkerProvider.cs" />
     <Compile Include="LakerFileProcess\ILakerFileProcessor.cs" />
     <Compile Include="LakerFileProcess\LakerFileProcessor.cs" />
     <Compile Include="Models\PaymentInputsModel.cs" />

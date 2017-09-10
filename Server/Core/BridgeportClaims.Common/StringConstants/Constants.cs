@@ -2,6 +2,9 @@
 {
     public static class Constants
     {
+        public const string OtherImportFileTypeCode = "OT";
+        public const string LakerImportImportFileTypeCode = "LI";
+        public const string PaymentImportFileTypeCode = "PI";
         public const string DbConnStrName = "BridgeportClaimsConnectionString";
         public const string AppIsInDebugMode = "ApplicationIsInDebugMode";
         public const string GetUserByIdAction = "GetUserById";
@@ -43,5 +46,6 @@
         public const string CachingProvider = "CachingProvider";
         public const string LakeFileNameStartsWithString = "Billing_Claim_File_";
         public const string NoLakerFilesToImportToast = "No Laker Files were found to import.";
+        public const string LakerImportStatus = "The Laker Import Process has Completed.";
     }
 }
