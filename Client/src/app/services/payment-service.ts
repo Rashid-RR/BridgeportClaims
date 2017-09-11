@@ -14,7 +14,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 declare var $:any
 @Injectable()
 export class PaymentService {
-  private claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
+  claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
   claimsDetail: Immutable.OrderedMap<Number, DetailedPaymentClaim> = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   loading: Boolean = false;
   prescriptionSelected: Boolean = false;
