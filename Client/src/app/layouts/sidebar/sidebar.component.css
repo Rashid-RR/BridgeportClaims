@@ -25,7 +25,7 @@ li.disabled a.history {
     min-height: 250px;
     top: 50%;
     right: -450px;
-    background: #46a6d6;
+    background: #414772;
     z-index: 10;
     color: #fff;
     border-radius: 6px 0 0 6px;
@@ -36,7 +36,7 @@ li.disabled a.history {
     width: 50px;
     top: 41px;
     left: -50px;
-    background: #46a6d6;
+    background: #414772;
     cursor: pointer;
     padding: 1rem 2rem;
     color: #fff;
