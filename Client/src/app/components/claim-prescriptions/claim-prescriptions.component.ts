@@ -58,7 +58,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     })
 
   }
-
+  log(y){
+    console.log(y);
+  }
   activateClaimCheckBoxes() {
     jQuery('#selectAllCheckBox').click();
   }
@@ -144,6 +146,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     }
   }
   selectAllCheckBox($event) {
+    console.log(76757);
     this.checkAll = $event.target.checked;
     if (this.checkAll) {
       this.claimManager.selectedClaim.prescriptions.forEach(c => {

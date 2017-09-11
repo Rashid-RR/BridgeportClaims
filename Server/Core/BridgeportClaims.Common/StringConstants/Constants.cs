@@ -2,6 +2,9 @@
 {
     public static class Constants
     {
+        public const string OtherImportFileTypeCode = "OT";
+        public const string LakerImportImportFileTypeCode = "LI";
+        public const string PaymentImportFileTypeCode = "PI";
         public const string DbConnStrName = "BridgeportClaimsConnectionString";
         public const string AppIsInDebugMode = "ApplicationIsInDebugMode";
         public const string GetUserByIdAction = "GetUserById";

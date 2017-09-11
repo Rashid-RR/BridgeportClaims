@@ -25,7 +25,7 @@ li.disabled a.history {
     min-height: 250px;
     top: 50%;
     right: -450px;
-    background: #46a6d6;
+    background: #414772;
     z-index: 10;
     color: #fff;
     border-radius: 6px 0 0 6px;
@@ -33,15 +33,25 @@ li.disabled a.history {
 
 #tab-btn {
     position: absolute;
-    top: 94px;
-    left: -103px;
-    background: #46a6d6;
+    width: 50px;
+    top: 41px;
+    left: -50px;
+    background: #414772;
     cursor: pointer;
-    transform: rotate(-90deg);
     padding: 1rem 2rem;
     color: #fff;
-    border-radius: 6px 6px 0 0;
-    font-size: 1.5em;
+    border-radius: 6px 0 0 6px;
+    font-size: 1.3em;
+}
+#tab-btn > span {
+    word-wrap: break-word;
+    font-family: monospace;
+    line-height: 15px;
+    display: block;
+}
+#tab-btn > span > span {
+    height: 16px;
+    display: block;
 }
 
 .table-header {
