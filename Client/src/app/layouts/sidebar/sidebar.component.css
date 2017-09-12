@@ -33,25 +33,19 @@ li.disabled a.history {
 
 #tab-btn {
     position: absolute;
-    width: 50px;
-    top: 41px;
-    left: -50px;
+    top: 110px;
+    left: -118px;
     background: #414772;
     cursor: pointer;
+    -webkit-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
     padding: 1rem 2rem;
     color: #fff;
-    border-radius: 6px 0 0 6px;
-    font-size: 1.3em;
-}
-#tab-btn > span {
-    word-wrap: break-word;
-    font-family: monospace;
-    line-height: 15px;
-    display: block;
-}
-#tab-btn > span > span {
-    height: 16px;
-    display: block;
+    border-radius: 6px 6px 0 0;
+    font-size: 1.5em;
+    letter-spacing: 1px;
 }
 
 .table-header {
