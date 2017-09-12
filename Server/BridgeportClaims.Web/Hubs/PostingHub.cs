@@ -23,7 +23,7 @@ namespace BridgeportClaims.Web.Hubs
             var model = _memoryCacher.GetItem(cacheKey) as UserPaymentPostingSession;
             if (null == model)
                 throw new ArgumentNullException(nameof(model));
-            Clients.Client(model.DestinationConnectionId).postPayment(model);
+            Clients.Client(154.ToString()).postPayment(model); // TODO: Remove or replace. 154 is a hard-coded destination connection ID.
         }
     }
 }

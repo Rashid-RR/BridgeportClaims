@@ -294,6 +294,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 	            processed = true;
 	        }
 	        var result = _importFileTypeRepository.GetSingleOrDefault(x => x.Code == code);
+            if (null == result)
+                throw new Exception("Error. The util.ImportFileType table does not have any records WHERE Code == 'OT'.");
 	        return new Tuple<int, bool>(result.ImportFileTypeId, processed);
 	    }
 
