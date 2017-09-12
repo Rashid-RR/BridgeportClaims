@@ -6,6 +6,9 @@ import {PaymentService} from "../../services/payment-service";
 import {EventsService} from "../../services/events-service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DecimalPipe } from '@angular/common';
+import {LocalStorageService} from 'ng2-webstorage';
+import { DialogService } from "ng2-bootstrap-modal";
+import { ConfirmComponent } from '../../components/confirm.component';
 
 @Component({
   selector: 'app-payment-input',
@@ -18,7 +21,9 @@ export class PaymentInputComponent implements OnInit {
   submitted: boolean = false;
   disableCheckEntry: boolean = false;
   checkAmount:number = 0;
-  constructor(private decimalPipe:DecimalPipe,public paymentService:PaymentService,private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager) {
+  constructor(private decimalPipe:DecimalPipe,public paymentService:PaymentService,
+    private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager,
+    private localSt:LocalStorageService,private dialogService: DialogService) {
     this.form = this.formBuilder.group({
       checkNumber: [null],
       checkAmount: [null],
@@ -46,8 +51,22 @@ export class PaymentInputComponent implements OnInit {
 
   }
   cancel(){
-    this.paymentService.prescriptionSelected=false;
-    this.events.broadcast("disable-links",false);
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Cancel posting",
+      message: "Are you sure? You may lose our progress? Continue?"
+    })
+      .subscribe((isConfirmed) => {
+        //We get dialog result
+        if (isConfirmed) {  
+          this.paymentService.prescriptionSelected=false;
+          this.events.broadcast("disable-links",false);           
+        }
+        else {
+           
+        }
+      });
+
+   
   }
   search(){
  
@@ -79,11 +98,13 @@ export class PaymentInputComponent implements OnInit {
   }
   post(){
     var prescriptions=[];
+    var payments = [];
     this.paymentService.detailedClaimsData.forEach(p=>{
         if(p.selected){
-          prescriptions.push(p.prescriptionId)
+          prescriptions.push(p.prescriptionId);
+          payments.push({prescriptionId:p.prescriptionId,amount:p.invoicedAmount});
         }
-    })
+    });
     //this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
     var form  = this.form.value;
     form.prescriptionIds = prescriptions;
@@ -91,9 +112,13 @@ export class PaymentInputComponent implements OnInit {
     form.amountToPost = form.amountToPost !==null ? Number(form.amountToPost.replace(",","")).toFixed(2) :(0).toFixed(2);
     form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
     form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
-    if(form.amountToPost==0 || form.amountToPost==null){
+    if(form.checkAmount > form.amountToPost){      
+      this.localSt.store("partial-payment",payments);
+      this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
+    }else if(form.amountToPost==0 || form.amountToPost==null){
       this.toast.warning("You need to specify amount to post");
-    }else if(form.amountToPost==form.amountSelected){
+    }else if((form.amountToPost==form.checkAmount && form.amountToPost==form.amountSelected) 
+    || (form.amountToPost==form.amountSelected && this.paymentService.selected.length==1)){
       this.paymentService.post(form);
     }else if(this.paymentService.selected.length>1){
       this.toast.warning("Multi-line, partial payments are not supported at this time. Please correct to continue...");
