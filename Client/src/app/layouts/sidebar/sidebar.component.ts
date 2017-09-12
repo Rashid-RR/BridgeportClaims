@@ -1,4 +1,4 @@
-import { Component, OnInit, trigger, state, style, transition, animate } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
 import { EventsService } from "../../services/events-service";
 import { ProfileManager } from "../../services/profile-manager";
 import { ClaimManager } from "../../services/claim-manager";
@@ -8,24 +8,11 @@ import { Router } from "@angular/router";
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
-  animations: [
-    trigger('slideInOut', [
-      state('out', style({
-        transform: 'translate3d(-100%, 0, 0) translateY(-50%)'
-      })),
-      state('in', style({
-        transform: 'translate3d(0, 0, 0) translateY(-50%)'
-      })),
-      transition('in => out', animate('400ms ease-in-out')),
-      transition('out => in', animate('400ms ease-in-out'))
-    ]),
-  ]
+  styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
 
   disableLinks = false;
-  tabState = 'in';
 
   constructor(
     private http: HttpService,
@@ -62,10 +49,6 @@ export class SidebarComponent implements OnInit {
         this.router.navigate(['/main/claims']);
       }
     }
-  }
-
-  toggleTab() {
-    this.tabState = this.tabState === 'out' ? 'in' : 'out';
   }
 
 }

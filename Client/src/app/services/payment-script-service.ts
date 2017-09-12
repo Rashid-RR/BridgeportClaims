@@ -167,7 +167,7 @@ export class PaymentScriptService {
             swal({
             title: '',
             customClass:'paymeny-modal',
-            width: window.innerWidth * 3.9 / 4 + "px",
+            width: window.innerWidth * 3.7 / 4 + "px",
             html: html,
             showConfirmButton:false,
             showLoaderOnConfirm: true,
