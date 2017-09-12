@@ -134,6 +134,7 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<DiaryMap>();
 					m.FluentMappings.Add<DiaryTypeMap>();
 					m.FluentMappings.Add<ImportFileMap>();
+				    m.FluentMappings.Add<ImportFileTypeMap>();
 					m.FluentMappings.Add<PayorMap>();
 					m.FluentMappings.Add<PrescriptionMap>();
 					m.FluentMappings.Add<PrescriptionNoteMap>();

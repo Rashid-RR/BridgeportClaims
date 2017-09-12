@@ -9,16 +9,29 @@ namespace BridgeportClaims.Common.Caching
     public abstract class CachingProviderBase
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        protected CachingProviderBase() { }
 
         protected MemoryCache Cache = new MemoryCache(c.CachingProvider);
         private static readonly object Semaphore  = new object();
+        private readonly DateTimeOffset _defaultExpiry;
+
+        protected CachingProviderBase()
+        {
+            _defaultExpiry = DateTimeOffset.UtcNow.AddDays(14);
+        }
 
         protected virtual void AddItem(string key, object value)
         {
             lock (Semaphore)
             {
-                Cache.Add(key, value, DateTimeOffset.MaxValue);
+                Cache.Add(key, value, _defaultExpiry);
+            }
+        }
+
+        protected virtual void UpdateItem(string key, object value)
+        {
+            lock (Semaphore)
+            {
+                Cache.Set(key, value, _defaultExpiry);
             }
         }
 
