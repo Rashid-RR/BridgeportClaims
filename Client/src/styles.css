@@ -1,6 +1,13 @@
     /* You can add global styles to this file, and also import other style files */
     /*Toastr Global positioning*/
 
+    .main-header{
+        position:fixed;
+        width:100%;    
+    }
+    .content-wrapper{
+        margin-top: 50px;
+    }
     #toast-container {
         top: 70px !important;
     }
