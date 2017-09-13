@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Entities.ViewModels;
+using BridgeportClaims.Web.Models;
 
 namespace BridgeportClaims.Web
 {
@@ -8,12 +9,12 @@ namespace BridgeportClaims.Web
     {
         public static void Configure()
         {
-            // var config = new MapperConfiguration(cfg => cfg.CreateMap<Payor, PayorViewModel>());
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Payor, PayorViewModel>()
                     .ForMember(dest => dest.State,
                         x => x.MapFrom(src => src.UsState.StateCode));
+                cfg.CreateMap<UserPaymentPostingSession, PaymentPostingViewModel>();
             });
         }
     }
