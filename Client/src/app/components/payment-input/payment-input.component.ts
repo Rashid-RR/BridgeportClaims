@@ -120,7 +120,7 @@ export class PaymentInputComponent implements OnInit {
     }else if((form.amountToPost==form.checkAmount && form.amountToPost==form.amountSelected) 
     || (form.amountToPost==form.amountSelected && this.paymentService.selected.length==1)){
       this.paymentService.post(form);
-    }else if(this.paymentService.selected.length>1){
+    }else if(this.paymentService.selected.length>1 && form.amountToPost!=form.amountSelected){
       this.toast.warning("Multi-line, partial payments are not supported at this time. Please correct to continue...");
     }else{
       this.paymentService.post(form);

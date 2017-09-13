@@ -25,7 +25,8 @@
     }
 
     .swal2-modal.paymeny-modal {
-        padding:10px;
+        padding:5px 10px !important; 
+        padding-left:15px!important; 
     }
     .swal2-modal.paymeny-modal .swal2-content .bg-head-box {
         background: #992727;
@@ -74,11 +75,37 @@
         box-shadow: none;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content label{
-        font-size: 14px;
+    .swal2-modal.paymeny-modal .swal2-title{
+        display: none;
+    }
+    .swal2-modal.paymeny-modal .swal2-content label,
+    .swal2-modal.paymeny-modal .swal2-content .form-group button
+    {
+        font-size: 12px;
+    }  
+    .swal2-modal.paymeny-modal .swal2-content label
+    {
         line-height: 1.42857143;
         color: #333;
         background-color: #fff;
+    }  
+    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-2
+    {
+        width:16% !important;
+    }  
+    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3
+    {
+        width:27% !important;
+    }  
+    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-2,
+    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,
+    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-1
+    {
+        padding-left:0px !important;
+    }  
+    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,
+    {
+        padding-right:0px !important;
     }  
     .swal2-modal.paymeny-modal .swal2-content .tally, .swal2-modal.paymeny-modal .swal2-content .tally *{
         color:white;
@@ -292,10 +319,10 @@
         margin-bottom:1px;
     }
     .swal2-modal.paymeny-modal .swal2-content .expanded{
-        height: calc(100vh - 194px);
-        height: -moz-calc(100vh - 194px);
-        height: -webkit-calc(100vh - 194px);
-        height: -o-calc(100vh - 194px);
+        height: calc(100vh - 455px);
+        height: -moz-calc(100vh - 455px);
+        height: -webkit-calc(100vh - 455px);
+        height: -o-calc(100vh - 455px);
         overflow:hidden;
         overflow-y:scroll;
     }
@@ -328,8 +355,8 @@
             -webkit-border-radius:50%;
             -o-border-radius:50%;
             position: absolute;
-            right: -20px;
-            top: -32px;
+            right: -15px;
+            top: -5px;
             z-index: 9;
             background: red;
     }
