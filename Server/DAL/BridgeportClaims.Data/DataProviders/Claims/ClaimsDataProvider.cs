@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.StoredProcedureExecutors;
@@ -20,14 +19,11 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	{
 		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
 		private readonly ISessionFactory _factory;
-	    private readonly IMemoryCacher _cache;
 	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ClaimsDataProvider(ISessionFactory factory,
-			IStoredProcedureExecutor storedProcedureExecutor, IMemoryCacher cache)
+        public ClaimsDataProvider(ISessionFactory factory, IStoredProcedureExecutor storedProcedureExecutor)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
-		    _cache = cache;
 		    _factory = factory;
 		}
 

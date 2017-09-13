@@ -4,11 +4,14 @@ using System.Net;
 using System.Web.Http;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.DataProviders.Payments;
+using NHibernate.Cache;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -144,21 +147,48 @@ namespace BridgeportClaims.Web.Controllers
         #region Payment Posting Section
 
         [HttpPost]
-        [Route("begin-payment-posting")]
-        public async Task<IHttpActionResult> BeginPaymentPosting(string sourceConnectionId, string destinationConnectionId)
+        [Route("payment-posting")]
+        public async Task<IHttpActionResult> PaymentPosting([FromBody] UserPaymentPostingSession model)
         {
             try
             {
                 return await Task.Run(() =>
                 {
-                    var model = new UserPaymentPostingSession
+                    if (null == model)
+                        throw new ArgumentNullException(nameof(model));
+                    if (null != model.LastAmountRemaining && model.AmountRemaining <= 0)
+                        throw new Exception(
+                            $"The 'LastAmountRemaining' field cannot be zero or negative. You passed in {model.LastAmountRemaining}");
+                    if (null == model.SessionId || !_memoryCacher.Contains(model.SessionId))
                     {
-                        UserName = User.Identity.Name,
-                        SourceConnectionId = sourceConnectionId,
-                        DestinationConnectionId = destinationConnectionId
-                    };
-                    _memoryCacher.AddItem(model.CacheKey.ToString(), model);
-                    return Ok(model);
+                        model.UserName = User.Identity.Name;
+                        model.SessionId = model.CacheKey;
+                        _memoryCacher.AddItem(model.CacheKey, model);
+                        var vm = Mapper.Map<UserPaymentPostingSession, PaymentPostingViewModel>(model);
+                        return Ok(vm);
+                    }
+                    else
+                    {
+                        var existingModel = _memoryCacher.GetItem(model.CacheKey, false) as UserPaymentPostingSession;
+                        if (null == existingModel)
+                            throw new CacheException(
+                                $"Error, tried to retrieve an object from cache that isn't there. Cache key {model.CacheKey}");
+                        existingModel.UserName = User.Identity.Name;
+                        // Make sure that the Prescription ID(s) do not already exist within the cached object.
+                        var prescriptionIdExists = (from e in existingModel.PaymentPostings
+                                    join m in model.PaymentPostings on e.PrescriptionId equals m.PrescriptionId
+                                    select e).Any();
+                        if (prescriptionIdExists)
+                            throw new Exception("Error. There are one or more Prescription Id's passed in that already exist.");
+                        existingModel.CheckNumber = model.CheckNumber;
+                        existingModel.CheckAmount = model.CheckAmount;
+                        existingModel.AmountSelected = model.AmountSelected;
+                        existingModel.PaymentPostings.AddRange(model.PaymentPostings);
+                        existingModel.UserName = User.Identity.Name;
+                        _memoryCacher.UpdateItem(model.CacheKey, model);
+                        var vm = Mapper.Map<UserPaymentPostingSession, PaymentPostingViewModel>(existingModel);
+                        return Ok(vm);
+                    }
                 });
             }
             catch (Exception ex)
