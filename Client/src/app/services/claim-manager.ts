@@ -2,6 +2,7 @@
 import { UUID } from "angular2-uuid";
 import * as Immutable from "immutable";
 import { Observable } from "rxjs/Observable";
+import { Subject } from 'rxjs/Subject';
 import { Claim } from "../models/claim"
 import { Prescription } from "../models/prescription"
 import { ClaimNote } from "../models/claim-note"
@@ -16,6 +17,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class ClaimManager {
+  onClaimIdChanged = new Subject<Number>();
   private claims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   private history: Array<Claim> = [];
   selected: Number;
@@ -102,6 +104,7 @@ export class ClaimManager {
           if (addHistory) {
             this.addHistory(result.claimId);
           }
+          this.onClaimIdChanged.next(this.selected);
         }
       }, err => {
         this.loading = false;

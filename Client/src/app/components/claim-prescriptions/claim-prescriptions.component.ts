@@ -43,6 +43,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     })
     this.cloneTableHeading();
     this.fetchData();
+    this.claimManager.onClaimIdChanged.subscribe(() => {
+      this.fetchData();
+    });
   }
 
   ngAfterViewInit() {
