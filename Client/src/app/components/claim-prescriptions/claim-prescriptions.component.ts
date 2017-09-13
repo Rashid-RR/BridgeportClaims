@@ -43,6 +43,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     })
     this.cloneTableHeading();
     this.fetchData();
+    this.claimManager.onClaimIdChanged.subscribe(() => {
+      this.fetchData();
+    });
   }
 
   ngAfterViewInit() {
@@ -58,7 +61,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     })
 
   }
-  log(y){
+  log(y) {
     console.log(y);
   }
   activateClaimCheckBoxes() {
