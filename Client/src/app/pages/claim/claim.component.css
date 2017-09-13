@@ -145,4 +145,12 @@ app-claim-prescriptions{
 }
 .no-padding{
     padding:0px;
+    background:transparent !important;
+}
+.transparent{
+    background:transparent !important;
+    color:white !important;
+}
+.transparent i{
+    color:white !important;
 }
