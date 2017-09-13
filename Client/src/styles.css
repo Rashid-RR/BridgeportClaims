@@ -27,6 +27,7 @@
     .swal2-modal.paymeny-modal {
         padding:5px 10px !important; 
         padding-left:15px!important; 
+        margin-top:154px !important;
     }
     .swal2-modal.paymeny-modal .swal2-content .bg-head-box {
         background: #992727;
@@ -319,10 +320,10 @@
         margin-bottom:1px;
     }
     .swal2-modal.paymeny-modal .swal2-content .expanded{
-        height: calc(100vh - 455px);
-        height: -moz-calc(100vh - 455px);
-        height: -webkit-calc(100vh - 455px);
-        height: -o-calc(100vh - 455px);
+        height: calc(100vh - 330px);
+        height: -moz-calc(100vh - 330px);
+        height: -webkit-calc(100vh - 330px);
+        height: -o-calc(100vh - 330px);
         overflow:hidden;
         overflow-y:scroll;
     }
