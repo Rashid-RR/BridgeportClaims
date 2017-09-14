@@ -22,7 +22,9 @@ export class PaymentScriptService {
     constructor(private dp: DatePipe, private ngZone:NgZone,
         private paymentService: PaymentService, private events: EventsService, private router: Router, private toast: ToastsManager) {
             this.events.on('payment-updated',(b:Boolean)=>{
-                swal.clickConfirm();
+                try{
+                    swal.clickConfirm();
+                }catch(e){}
                 if(b){
                     this.addScripts();
                 }

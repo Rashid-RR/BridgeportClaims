@@ -4,11 +4,13 @@ import {Router} from "@angular/router";
 import {HttpService} from "../../services/http-service";
 import {PaymentService} from "../../services/payment-service";
 import {EventsService} from "../../services/events-service";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { DecimalPipe } from '@angular/common';
+import {PaymentPosting} from "../../models/payment-posting";
+import {PaymentPostingPrescription} from "../../models/payment-posting-prescription";
+import {ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {DecimalPipe } from '@angular/common';
 import {LocalStorageService} from 'ng2-webstorage';
-import { DialogService } from "ng2-bootstrap-modal";
-import { ConfirmComponent } from '../../components/confirm.component';
+import {DialogService } from "ng2-bootstrap-modal";
+import {ConfirmComponent } from '../../components/confirm.component';
 
 @Component({
   selector: 'app-payment-input',
@@ -21,6 +23,7 @@ export class PaymentInputComponent implements OnInit {
   submitted: boolean = false;
   disableCheckEntry: boolean = false;
   checkAmount:number = 0;
+  paymentPosting:PaymentPosting= new PaymentPosting();
   constructor(private decimalPipe:DecimalPipe,public paymentService:PaymentService,
     private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager,
     private localSt:LocalStorageService,private dialogService: DialogService) {
@@ -101,28 +104,41 @@ export class PaymentInputComponent implements OnInit {
     var payments = [];
     this.paymentService.detailedClaimsData.forEach(p=>{
         if(p.selected){
-          prescriptions.push(p.prescriptionId);
-          payments.push({prescriptionId:p.prescriptionId,amount:p.invoicedAmount});
+          this.paymentPosting.payments = this.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,p.invoicedAmount,p.prescriptionId))
+          prescriptions.push({
+              patientName: p.patientName,
+              rxDate: p.rxDate,
+              amountPosted: p.invoicedAmount,
+              prescriptionId: p.prescriptionId
+          });
+          payments.push({
+            patientName: p.patientName,
+            rxDate: p.rxDate,
+            amountPosted: p.invoicedAmount,
+            prescriptionId: p.prescriptionId
+          });
         }
     });
     //this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
     var form  = this.form.value;
-    form.prescriptionIds = prescriptions;
+    form.paymentPostings = this.paymentPosting.paymentPostings;
     form.amountRemaining = undefined;
     form.amountToPost = form.amountToPost !==null ? Number(form.amountToPost.replace(",","")).toFixed(2) :(0).toFixed(2);
     form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
     form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
-    if(form.checkAmount > form.amountToPost){      
+    this.paymentPosting.checkAmount = Number(Number(form.checkAmount.replace(",","")).toFixed(2));
+    this.paymentPosting.amountSelected = form.amountSelected;
+    this.paymentPosting.checkNumber = form.checkNumber;
+    form.lastAmountRemaining=this.paymentPosting.lastAmountRemaining;;
+    form.sessionId=this.paymentPosting.sessionId;
+    if(this.paymentService.selected.length>1 && form.amountToPost!=form.amountSelected){
+      this.toast.warning("Multi-line, partial payments are not supported at this time. Please correct to continue...");
+    }else if(form.checkAmount > form.amountToPost){      
       this.localSt.store("partial-payment",payments);
       this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
     }else if(form.amountToPost==0 || form.amountToPost==null){
       this.toast.warning("You need to specify amount to post");
-    }else if((form.amountToPost==form.checkAmount && form.amountToPost==form.amountSelected) 
-    || (form.amountToPost==form.amountSelected && this.paymentService.selected.length==1)){
-      this.paymentService.post(form);
-    }else if(this.paymentService.selected.length>1 && form.amountToPost!=form.amountSelected){
-      this.toast.warning("Multi-line, partial payments are not supported at this time. Please correct to continue...");
-    }else{
+    }else {
       this.paymentService.post(form);
     }
   }
