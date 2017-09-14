@@ -11,7 +11,7 @@ li a{
     cursor: pointer;
 }
 .ver {
-    position: absolute;
+    position: fixed;
     top: 15px;
     width: 50%;
     text-align: center;

@@ -1,6 +1,12 @@
     /* You can add global styles to this file, and also import other style files */
     /*Toastr Global positioning*/
-
+    .main-header{
+        position:fixed;
+        width:100%;    
+    }
+    .content-wrapper{
+        margin-top: 50px;
+    }
     #toast-container {
         top: 70px !important;
     }
@@ -21,11 +27,22 @@
         overflow: hidden !important;
     }
     .overlay{
-        width: 100vw !important;
         height: 100vh !important;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    body.sidebar-collapse .overlay{
+        width: calc(100vw - 49px)!important;
+        width: -o-calc(100vw - 49px)!important;
+        width: -webkit-calc(100vw - 49px)!important;
+        width: -moz-calc(100vw - 49px)!important;
+    }
+    body:not(.sidebar-collapse) .overlay{
+        width: calc(100vw - 230px)!important;
+        width: -o-calc(100vw - 230px)!important;
+        width: -webkit-calc(100vw - 230px)!important;
+        width: -moz-calc(100vw - 230px)!important;
     }
     .overlay img{
         margin-top:  -50px !important;
