@@ -130,6 +130,14 @@ export class HttpService {
     });
     return s;
   }
+  paymentPosting(data: any) {
+    const s = this.http.post(this.baseUrl + '/payment/payment-posting', data, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
   getDetailedPaymentClaim(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/claims-script-details', data, { headers: this.headers })
     .catch(err =>  {

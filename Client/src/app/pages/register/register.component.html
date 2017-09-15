@@ -1,61 +1,65 @@
-<div class="row">
-    <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 ">
-        <div class="login-logo">
-            <img [src]="'assets/logo/Color All.png'" style="width:150px" class="img-square">
-        </div> 
-    </div>
-</div>
-<div class="row" *ngIf="!registered">
-    <div class="col-lg-12"> 
-        <div class="box center-form no-border">
-            <div class="box-body">       
-                <form role="form"  [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
-                    <h4>Please complete form to register</h4>
-                        <div class="form-group">
-                            <input class="form-control"  name="Email" class="form-control" placeholder="Email address" formControlName="Email" (focus)="submitted=false" required focus-on>
-                            <p class="text-danger form-control-static" *ngIf="form.get('Email').errors && submitted">Email is required</p>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control"  name="firstname" class="form-control" placeholder="Firstname" formControlName="firstname" (focus)="submitted=false" required focus-on>
-                            <p class="text-danger form-control-static" *ngIf="form.get('firstname').errors && submitted">Firstname is required</p>
-                        </div>
-                        <div class="form-group">
-                            <input class="form-control"  name="lastname" class="form-control" placeholder="Lastname" formControlName="lastname" (focus)="submitted=false" required focus-on>
-                            <p class="text-danger form-control-static" *ngIf="form.get('lastname').errors && submitted">Lastname is required</p>
-                        </div>                                
-                        <div class="form-group">
-                                <input type="password" name="Password" class="form-control bottom" placeholder="Password"  formControlName="Password" required (focus)="submitted=false">
-                                <p class="text-danger form-control-static" *ngIf="form.get('Password').errors && submitted">
-                                    {{this.form.get('Password').getError('required') ? 'Password is required': 'Password validation creteria'}}
-                                </p>
-                        </div>
-                        <div class="form-group">
-                                <input type="password" name="password" class="form-control bottom" placeholder="Repeat password"  formControlName="ConfirmPassword" required (focus)="submitted=false">
-                                <p class="text-danger form-control-static" *ngIf="form.get('ConfirmPassword').errors && submitted">
-                                    Repeated password does not match password entry
-                                </p>
-                        </div>                                
-                        <div class="form-group">
-                            <span class="help-block"><a [routerLink]="'/recover-lost-password'">Forgotten password?</a></span>
-                        </div>
-                        <button class="btn btn-primary btn-block" type="submit" (click)="register()">Register</button>
-                    </form>
-                </div>
-                <div class="overlay" *ngIf="submitted" style="text-align:center;">
-                    <img src="assets/1.gif">
+<div class="box no-border">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 ">
+                <div class="login-logo">
+                    <img [src]="'assets/logo/Color All.png'" style="width:150px" class="img-square">
                 </div> 
             </div>
         </div>
-    </div>
-    <div class="row" *ngIf="registered">
-        <div class="row">
-            <div class="col-md-12">&nbsp;</div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-md-offset-4">
-                <div class="alert alert-success">
-                    <strong>Success!</strong> An email has been sent for you to verifiy your email address.
+        <div class="row" *ngIf="!registered">
+            <div class="col-lg-12"> 
+                <div class="box center-form no-border">
+                    <div class="box-body">       
+                        <form role="form"  [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
+                            <h4>Please complete form to register</h4>
+                            <div class="form-group">
+                                <input class="form-control"  name="Email" class="form-control" placeholder="Email address" formControlName="Email" (focus)="submitted=false" required focus-on>
+                                <p class="text-danger form-control-static" *ngIf="form.get('Email').errors && submitted">Email is required</p>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control"  name="firstname" class="form-control" placeholder="Firstname" formControlName="firstname" (focus)="submitted=false" required focus-on>
+                                <p class="text-danger form-control-static" *ngIf="form.get('firstname').errors && submitted">Firstname is required</p>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control"  name="lastname" class="form-control" placeholder="Lastname" formControlName="lastname" (focus)="submitted=false" required focus-on>
+                                <p class="text-danger form-control-static" *ngIf="form.get('lastname').errors && submitted">Lastname is required</p>
+                            </div>                                
+                            <div class="form-group">
+                                    <input type="password" name="Password" class="form-control bottom" placeholder="Password"  formControlName="Password" required (focus)="submitted=false">
+                                    <p class="text-danger form-control-static" *ngIf="form.get('Password').errors && submitted">
+                                        {{this.form.get('Password').getError('required') ? 'Password is required': 'Password validation creteria'}}
+                                    </p>
+                            </div>
+                            <div class="form-group">
+                                    <input type="password" name="password" class="form-control bottom" placeholder="Repeat password"  formControlName="ConfirmPassword" required (focus)="submitted=false">
+                                    <p class="text-danger form-control-static" *ngIf="form.get('ConfirmPassword').errors && submitted">
+                                        Repeated password does not match password entry
+                                    </p>
+                            </div>                                
+                            <div class="form-group">
+                                <span class="help-block"><a [routerLink]="'/recover-lost-password'">Forgotten password?</a></span>
+                            </div>
+                            <button class="btn btn-primary btn-block" type="submit" (click)="register()">Register</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>    
+        <div class="row" *ngIf="registered">
+            <div class="row">
+                <div class="col-md-12">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-md-offset-4">
+                    <div class="alert alert-success">
+                        <strong>Success!</strong> An email has been sent for you to verifiy your email address.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" *ngIf="submitted" style="text-align:center;">
+            <img src="assets/1.gif"><br/>
+    </div> 
+</div>

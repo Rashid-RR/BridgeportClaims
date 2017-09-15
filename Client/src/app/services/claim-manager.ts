@@ -3,6 +3,7 @@ import { UUID } from "angular2-uuid";
 import * as Immutable from "immutable";
 import { Observable } from "rxjs/Observable";
 import { Claim } from "../models/claim"
+import { Subject } from 'rxjs/Subject';
 import { Prescription } from "../models/prescription"
 import { ClaimNote } from "../models/claim-note"
 import { PrescriptionNoteType } from "../models/prescription-note-type";
@@ -16,11 +17,12 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
 export class ClaimManager {
+  onClaimIdChanged = new Subject<Number>();
   private claims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   private history: Array<Claim> = [];
   selected: Number;
   loading: Boolean = false;
-  loadingHistory:Boolean=false;
+  loadingHistory: Boolean = false;
   private notetypes: Array<any> = [];
   private prescriptionNotetypes: Array<PrescriptionNoteType> = [];
   private episodeNoteTypes: Array<EpisodeNoteType> = []
@@ -34,27 +36,27 @@ export class ClaimManager {
   isPaymentsExpanded: boolean;
   isImagesExpanded: boolean;
 
-  constructor(private auth:AuthGuard,private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
+  constructor(private auth: AuthGuard, private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     this.getHistory();
-    this.events.on("loadHistory",()=>{
+    this.events.on("loadHistory", () => {
       this.getHistory();
     })
   }
 
   getHistory() {
-    this.auth.isLoggedIn.single().subscribe(res=>{     
-      if(res == true){
-        this.loadingHistory=true;
+    this.auth.isLoggedIn.single().subscribe(res => {
+      if (res == true) {
+        this.loadingHistory = true;
         this.http.getHistory().single().map(r => { return r.json() }).subscribe(res => {
           this.history = res as Array<Claim>;
-          this.loadingHistory=false;
+          this.loadingHistory = false;
         }, error => {
-          this.loadingHistory=false;
+          this.loadingHistory = false;
         });
       }
     }, error => {
-      this.loadingHistory=false;
-     });
+      this.loadingHistory = false;
+    });
   }
 
   get claimHistory(): Array<Claim> {
@@ -102,6 +104,7 @@ export class ClaimManager {
           if (addHistory) {
             this.addHistory(result.claimId);
           }
+          this.onClaimIdChanged.next(this.selected);
         }
       }, err => {
         this.loading = false;

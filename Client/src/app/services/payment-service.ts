@@ -72,12 +72,12 @@ export class PaymentService {
           this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      this.http.postPayment(data).map(res => { return res.json(); })
+      this.http.paymentPosting(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
            this.toast.success(result.toastMessage);
            this.events.broadcast('payment-amountRemaining',result.amountRemaining);
-           this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
+           //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
         }, err => {
           this.loading = false;
           try {
