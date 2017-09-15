@@ -61,7 +61,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     })
 
   }
-  log(y){
+  log(y) {
     console.log(y);
   }
   activateClaimCheckBoxes() {

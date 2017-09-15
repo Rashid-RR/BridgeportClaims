@@ -54,6 +54,10 @@ import { NewPaymentInputComponent } from './pages/new-features/new-payment-input
 import { ColumnSortDirective } from "./directives/column-sort.directive";
 import { TableSortDirective } from "./directives/table-sort.directive";
 
+import {VgCoreModule} from 'videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgBufferingModule} from 'videogular2/buffering';
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -97,7 +101,11 @@ export class SafeUrlPipe implements PipeTransform {
     HttpModule,
     RoutingModule,
     FileUploadModule,
-    Ng2Webstorage
+    Ng2Webstorage,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule
   ],
   providers: [  
     DecimalPipe,DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,
