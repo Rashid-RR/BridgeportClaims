@@ -187,6 +187,36 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("finalize-posting")]
+        public async Task<IHttpActionResult> FinalizePosting(string sessionId)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    if (sessionId.IsNullOrWhiteSpace())
+                        throw new Exception("Error. The sessionId parameter passed in cannot be null or empty.");
+                    if (!_memoryCacher.Contains(sessionId))
+                        throw new Exception($"Error. The Session Id {sessionId} cannot be found in memory.");
+                    var model = _memoryCacher.GetItem(sessionId, false) as UserPaymentPostingSession;
+                    if (null == model)
+                        throw new Exception($"Error. The model cannot be found from Session Id: {sessionId}");
+                    if (null == model.PaymentPostings?.Count || model.PaymentPostings.Count <= 0)
+                        throw new Exception($"Error. There are no payment postings associated with this session (Id {sessionId}).");
+                    // TODO: call the database, now with this model.
+                    var num = model.PaymentPostings.Count;
+                    var plural = num > 1 ? "s" : string.Empty;
+                    return Ok(new {message = $"The {num} payment{plural} posted successfully."});
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
         [Route("payment-posting")]
         public async Task<IHttpActionResult> PaymentPosting([FromBody] UserPaymentPostingSession model)
         {
