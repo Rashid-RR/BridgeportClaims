@@ -75,9 +75,13 @@ export class PaymentService {
       this.http.paymentPosting(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
-           this.toast.success(result.toastMessage);
+          this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
            this.events.broadcast('payment-amountRemaining',result);
            //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
+           result.paymentPostings.forEach(prescription=>{
+             this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
+             this.claimsDetail.get(prescription.prescriptionId).selected = false;
+           })
         }, err => {
           this.loading = false;
           try {
@@ -189,7 +193,8 @@ export class PaymentService {
         }
         this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
         this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();
-       this.events.broadcast('payment-updated',false);
+        this.events.broadcast('payment-updated',false);
+        this.events.broadcast('payment-closed',false);
       }, err => {
         this.loading = false;
         console.log(err);
@@ -210,7 +215,7 @@ export class PaymentService {
         }        
         this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
         this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();        
-       this.events.broadcast('payment-suspense',false);
+        this.events.broadcast('payment-suspense',false);
       }, err => {
         this.loading = false;
         console.log(err);

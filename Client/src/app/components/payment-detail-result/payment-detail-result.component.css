@@ -246,10 +246,10 @@ tr>td:nth-child(7) {
     height:60px;
 }
 .expanded{
-    height: calc(100vh - 154px);
-    height: -moz-calc(100vh - 154px);
-    height: -webkit-calc(100vh - 154px);
-    height: -o-calc(100vh - 154px);
+    height: calc(100vh - 244px);
+    height: -moz-calc(100vh - 244px);
+    height: -webkit-calc(100vh - 244px);
+    height: -o-calc(100vh - 244px);
     overflow:hidden;
     /* overflow-y:scroll; */
 }

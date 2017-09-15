@@ -45,36 +45,35 @@ export class PaymentInputComponent implements OnInit {
         });
         this.paymentPosting = new PaymentPosting();
     });
+    this.events.on("payment-closed",a=>{
+        this.form.patchValue({
+          checkNumber: null,
+          checkAmount: Number(0).toFixed(2),
+          amountSelected: Number(0).toFixed(2),
+          amountToPost: null,
+          amountRemaining: null
+        });
+        this.paymentPosting = new PaymentPosting();
+    });
     this.events.on("payment-amountRemaining",a=>{
          this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(a.amountRemaining),"1.2-2"));
          let c=Number(this.form.get('checkAmount').value.replace(",","")).toFixed(2);
          let checkAmount  = Number(c);
          this.paymentPosting.sessionId=a.sessionId;
-         this.paymentPosting.checkAmount=a.checkAmount;
-         this.paymentPosting.checkNumber=a.checkNumber;
+         this.paymentPosting.checkAmount=form.checkAmount;
+         this.paymentPosting.checkNumber=form.checkNumber;
          console.log(checkAmount-(a.amountRemaining as number));
          var form: any={};
          this.paymentPosting.lastAmountRemaining = a.amountRemaining
          form.paymentPostings = this.paymentPosting.paymentPostings;
          form.lastAmountRemaining = a.amountRemaining;
          form.sessionId = this.paymentPosting.sessionId;
-         form.checkAmount = this.paymentPosting.checkAmount;
-         form.checkNumber = this.paymentPosting.checkNumber;
+         /* form.checkAmount = this.paymentPosting.checkAmount;
+         form.checkNumber = this.paymentPosting.checkNumber; */
          form.amountSelected = this.paymentPosting.amountSelected;
          console.log(form);
          if (a.amountRemaining == 0) {
-          let disposable = this.dialogService.addDialog(ConfirmComponent, {
-            title: "Permanently Save Payment",
-            message: "Your payments are ready for saving. Would you like to save now?"
-          })
-            .subscribe((isConfirmed) => {
-              if (isConfirmed) {  
-                this.paymentService.finalizePosting({sessionId:this.paymentPosting.sessionId});
-              }
-              else {
-                 
-              }
-            });
+          this.finalizePosting();
          }else if (a.amountRemaining <= 0) {
           this.events.broadcast("disable-links",false);
           this.paymentService.prescriptionSelected = false; 
@@ -88,6 +87,21 @@ export class PaymentInputComponent implements OnInit {
   }
   ngOnInit() {
 
+  }
+
+  finalizePosting(){
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Permanently Save Payment",
+      message: "Your payments are ready for saving. Would you like to permanently save now?"
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {  
+          this.paymentService.finalizePosting({sessionId:this.paymentPosting.sessionId});
+        }
+        else {
+           
+        }
+      });
   }
   cancel(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
@@ -154,26 +168,30 @@ export class PaymentInputComponent implements OnInit {
         }
     });
     //this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
-    var form  = this.form.value;
-    form.paymentPostings = this.paymentPosting.paymentPostings;
-    form.amountRemaining = undefined;
-    form.amountToPost = form.amountToPost !==null ? Number(form.amountToPost.replace(",","")).toFixed(2) :(0).toFixed(2);
-    form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
-    form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
-    this.paymentPosting.checkAmount = Number(Number(form.checkAmount.replace(",","")).toFixed(2));
-    form.amountSelected = this.paymentPosting.amountSelected ;
-    this.paymentPosting.checkNumber = form.checkNumber;
-    form.lastAmountRemaining=this.paymentPosting.lastAmountRemaining;
-    form.sessionId=this.paymentPosting.sessionId;
-    if(this.paymentService.selected.length>1 && form.amountToPost!=form.amountSelected){
-      this.toast.warning("Multi-line, partial payments are not supported at this time. Please correct to continue...");
-    }else if(form.checkAmount > form.amountToPost){      
-      this.localSt.store("partial-payment",payments);
-      this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
-    }else if(form.amountToPost==0 || form.amountToPost==null){
-      this.toast.warning("You need to specify amount to post");
-    }else {
-      this.paymentService.post(form);
+    if(this.paymentPosting.lastAmountRemaining == 0){
+      this.finalizePosting();
+    }else{
+      var form  = this.form.value;
+      form.paymentPostings = this.paymentPosting.paymentPostings;
+      form.amountRemaining = undefined;
+      form.amountToPost = form.amountToPost !==null ? Number(form.amountToPost.replace(",","")).toFixed(2) :(0).toFixed(2);
+      form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
+      form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
+      this.paymentPosting.checkAmount = Number(Number(form.checkAmount.replace(",","")).toFixed(2));
+      form.amountSelected = this.paymentPosting.amountSelected ;
+      this.paymentPosting.checkNumber = form.checkNumber;
+      form.lastAmountRemaining=this.paymentPosting.lastAmountRemaining;
+      form.sessionId=this.paymentPosting.sessionId;
+      if(this.paymentService.selected.length>1 && form.amountToPost!=form.amountSelected){
+        this.toast.warning("Multi-line, partial payments are not supported at this time. Please correct to continue...");
+      }else if(form.checkAmount > form.amountToPost){      
+        this.localSt.store("partial-payment",payments);
+        this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
+      }else if(form.amountToPost==0 || form.amountToPost==null){
+        this.toast.warning("You need to specify amount to post");
+      }else {
+        this.paymentService.post(form);
+      }
     }
   }
   get amountRemaining():Number{
