@@ -70,11 +70,15 @@
             <div class="col-xs-4">Rx. Date</div>
             <div class="col-xs-4">Amt. Posted</div>
         </div>
-        <!-- <div *ngFor="" class="row table-content">
-        <div class="col-xs-4">{{}}</div>
-        <div class="col-xs-4">{{}}</div>
-        <div class="col-xs-4">{{}}</div>
-      </div> -->
+        <div class="row posted-content">
+            <div class="col-xs-12">
+                <div *ngFor="let post of paymentService.paymentPosting.paymentPostings" class="row table-content">
+                    <div class="col-xs-4">{{post.patientName}}</div>
+                    <div class="col-xs-4">{{post.rxDate | date:"shortDate"}}</div>
+                    <div class="col-xs-4">{{post.amountPosted | currency:'USD':true:'1.2-2'}}</div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="tab-btn" (click)="toggleTab()">
         <span>POSTED PYMTS</span>

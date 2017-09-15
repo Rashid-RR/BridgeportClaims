@@ -168,8 +168,15 @@ textarea {
 .table-header>div:last-child {
     border-right: none;
 }
-
-.table-content {
+.posted-content{
+    max-height:250px;
+    overflow:hidden;
+}
+.posted-content .col-xs-12{
+    max-height:250px;
+    overflow-y: scroll;
+}
+.table-content,.posted-content {
     margin: 0;
 }
 

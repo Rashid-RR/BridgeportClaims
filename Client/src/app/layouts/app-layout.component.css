@@ -4,4 +4,5 @@
  }
  .content-wrapper.no-overflow {
     overflow: hidden;
+    max-height: 90vh;
  }

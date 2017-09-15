@@ -10,13 +10,16 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
+import {PaymentPosting} from "../models/payment-posting";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
 declare var $:any
 @Injectable()
 export class PaymentService {
   claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
   claimsDetail: Immutable.OrderedMap<Number, DetailedPaymentClaim> = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   loading: Boolean = false;
+  paymentPosting:PaymentPosting= new PaymentPosting();
   prescriptionSelected: Boolean = false;
 
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
