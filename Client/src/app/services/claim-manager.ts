@@ -1,19 +1,18 @@
 
-import { UUID } from "angular2-uuid";
-import * as Immutable from "immutable";
-import { Observable } from "rxjs/Observable";
+import { UUID } from 'angular2-uuid';
+import * as Immutable from 'immutable';
+import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Claim } from "../models/claim"
-import { Subject } from 'rxjs/Subject';
-import { Prescription } from "../models/prescription"
-import { ClaimNote } from "../models/claim-note"
-import { PrescriptionNoteType } from "../models/prescription-note-type";
-import { EpisodeNoteType } from "../models/episode-note-type";
-import { Injectable } from "@angular/core";
-import { HttpService } from "./http-service";
-import { AuthGuard } from "./auth.guard";
-import { EventsService } from "./events-service";
-import { Router } from "@angular/router";
+import { Claim } from '../models/claim';
+import { Prescription } from '../models/prescription';
+import { ClaimNote } from '../models/claim-note';
+import { PrescriptionNoteType } from '../models/prescription-note-type';
+import { EpisodeNoteType } from '../models/episode-note-type';
+import { Injectable } from '@angular/core';
+import { HttpService } from './http-service';
+import { AuthGuard } from './auth.guard';
+import { EventsService } from './events-service';
+import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Injectable()
