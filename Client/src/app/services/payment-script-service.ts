@@ -212,7 +212,9 @@ export class PaymentScriptService {
             $("[inputs-mask]").inputmask();
             $("[data-mask]").inputmask();
             $(".search-claims").click(()=>{ 
-                swal.clickConfirm();
+                try{
+                    swal.clickConfirm();
+                }catch(e){}
             });
             $(".clear-inputs").click(()=>{
                 this.paymentService.clearClaimsData();
@@ -221,19 +223,27 @@ export class PaymentScriptService {
                 $('#lastName').val();
                 $('#datepicker').val('');
                 $('#invoiceNumber').val('');
-                swal.clickCancel();
+                try{
+                    swal.clickCancel();
+                }catch(e){}
                 this.inputs=[];
                 this.addScripts();
             });
             $(".refresh-search").click(()=>{
-                swal.clickConfirm();
+                try{
+                   swal.clickConfirm();
+                }catch(e){}
             });
             $(".close-button").click(()=>{
-                swal.clickCancel();
+                try{
+                    swal.clickCancel();
+                }catch(e){}
             });
             $("input.form-control").keypress((e)=>{
                 var key = e.which; if(key == 13){
-                    swal.clickConfirm();
+                    try{
+                        swal.clickConfirm();
+                    }catch(e){}
                 }
             });
             $("button.view-prescriptions").click((e)=>{
@@ -264,7 +274,9 @@ export class PaymentScriptService {
             if (selectedClaims.length == 0) {
             this.toast.warning('Please select one or more claims in order to view prescriptions.');
             }else{
-                swal.clickCancel();
+                try{
+                    swal.clickCancel();
+                }catch(e){}
                 swal({ 
                     title: "",
                     width: (window.innerWidth - 460) + "px",
