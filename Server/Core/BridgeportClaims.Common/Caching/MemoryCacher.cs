@@ -27,9 +27,14 @@ namespace BridgeportClaims.Common.Caching
             base.AddItem(key, value);
         }
 
+        public new virtual void UpdateItem(string key, object value)
+        {
+            base.UpdateItem(key, value);
+        }
+
         public virtual object GetItem(string key)
         {
-            return base.GetItem(key, true);//Remove default is true because it's Global Cache!
+            return base.GetItem(key, true); // Remove default is true because it's Global Cache!
         }
 
         public new virtual object GetItem(string key, bool remove)
@@ -97,7 +102,7 @@ namespace BridgeportClaims.Common.Caching
                 MemoryCache.Remove(key);
         }
 
-        public bool Contains(string key) => MemoryCache.Contains(key);
+        public bool Contains(string key) => null != GetItem(key, false); // MemoryCache.Contains(key); // TODO: HACK. Figure this out.
 
         public void DeleteAll()
         {

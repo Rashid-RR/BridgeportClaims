@@ -43,6 +43,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     })
     this.cloneTableHeading();
     this.fetchData();
+    this.claimManager.onClaimIdChanged.subscribe(() => {
+      this.fetchData();
+    });
   }
 
   ngAfterViewInit() {
@@ -220,9 +223,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
 
   fetchData() {
     let page = 1;
-    let page_size = 500;
-    let sort: string = 'prescriptionId';
-    let sort_dir: 'asc' | 'desc' = 'asc';
+    let page_size = 1000;
+    let sort: string = 'RxDate';
+    let sort_dir: 'asc' | 'desc' = 'desc';
     if (this.sortColumn) {
       sort = this.sortColumn.column;
       sort_dir = this.sortColumn.dir;
