@@ -355,8 +355,8 @@
             -webkit-border-radius:50%;
             -o-border-radius:50%;
             position: absolute;
-            right: -15px;
-            top: -5px;
+            right: -4px;
+            top: -4px;
             z-index: 9;
             background: red;
     }
