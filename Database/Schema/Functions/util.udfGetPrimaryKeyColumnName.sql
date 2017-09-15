@@ -7,7 +7,7 @@ GO
 	Date:				7/13/2015
 	Description:		This Function Returns the Primary Key Column name for a table.
 	Example Execute:
-						SELECT util.udfGetPrimaryKeyColumnName('dbo.Claim') PkName
+						SELECT util.udfGetPrimaryKeyColumnName('util.ImportFile') PkName
 */
 CREATE FUNCTION [util].[udfGetPrimaryKeyColumnName] ( @TableName sysname )
 RETURNS NVARCHAR(100)
@@ -19,8 +19,10 @@ BEGIN
 	SET @RetVal =
 	(SELECT  i.COLUMN_NAME
 	FROM    INFORMATION_SCHEMA.KEY_COLUMN_USAGE i
-	WHERE   OBJECTPROPERTY(OBJECT_ID(i.CONSTRAINT_NAME), 'IsPrimaryKey') = 1
-			AND i.TABLE_NAME = PARSENAME(@TableName, 1))
+	WHERE   OBJECTPROPERTY(OBJECT_ID(i.TABLE_SCHEMA + '.' + i.CONSTRAINT_NAME), 'IsPrimaryKey') = 1
+			AND i.TABLE_NAME = PARSENAME(@TableName, 1)
+			AND i.TABLE_SCHEMA = PARSENAME(@TableName, 2)
+			)
 	RETURN @RetVal
 END
 GO

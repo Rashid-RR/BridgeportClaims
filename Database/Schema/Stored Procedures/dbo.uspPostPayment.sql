@@ -69,25 +69,6 @@ AS BEGIN
 					WITH NOWAIT
 				RETURN;
 			END
-		-- Leave this Audit Insert for a while. Match the CreatedOnUTC and UpdatedOnUTC
-	    INSERT dbo.PostPaymentAudit
-	    (
-	        PrescriptionID,
-	        CheckNumber,
-	        CheckAmount,
-	        AmountSelected,
-	        AmountToPost,
-			CreatedOnUTC,
-			UpdatedOnUTC
-	    )
-		SELECT p.PrescriptionID,
-			   @CheckNumber,
-			   @CheckAmount,
-			   @AmountSelected,
-			   @AmountToPost,
-			   @Now,
-			   @Now
-		FROM @PrescriptionIDs AS p
 
 		-- Do something arbitrary for the @AmountRemaining OUTPUT param
 		SET @AmountRemaining = ISNULL(@CheckAmount, 0.00) - ISNULL(@AmountToPost, 0.00)
@@ -121,6 +102,7 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
 
 
 GO
