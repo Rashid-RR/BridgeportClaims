@@ -5,7 +5,6 @@ import { UUID } from 'angular2-uuid';
 export class PaymentPosting {
     checkNumber:any;
 	checkAmount:Number
-	amountSelected: Number;
 	lastAmountRemaining: Number;
 	sessionId: UUID;
     payments: Immutable.OrderedMap<Number, PaymentPostingPrescription> = Immutable.OrderedMap<Number, PaymentPostingPrescription>();    
@@ -16,6 +15,14 @@ export class PaymentPosting {
 
     get paymentPostings():Array<PaymentPostingPrescription>{
         return this.payments.asImmutable().toArray();
+    }
+
+    get amountSelected():Number{
+        let amount = 0;
+        this.paymentPostings.forEach(prescription=>{
+            amount=amount+Number(prescription.amountPosted);
+        })
+        return amount;
     }
    
 }

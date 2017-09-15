@@ -76,7 +76,7 @@ export class PaymentService {
         .subscribe((result: any) => {
           this.loading = false;
            this.toast.success(result.toastMessage);
-           this.events.broadcast('payment-amountRemaining',result.amountRemaining);
+           this.events.broadcast('payment-amountRemaining',result);
            //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
         }, err => {
           this.loading = false;
@@ -177,6 +177,48 @@ export class PaymentService {
     }); 
     $('input#claimsCheckBox').prop('checked', false);
     this.events.broadcast('claimsCheckBox',false);
+  }
+  finalizePosting(data:any){
+    this.loading = true;
+    this.http.finalizePosting(data).map(res => { return res.json(); })
+      .subscribe(result => {
+        this.loading = false;
+        console.log(result);
+        if (result.message) {
+          this.toast.success(result.message);
+        }
+        this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
+        this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();
+       this.events.broadcast('payment-updated',false);
+      }, err => {
+        this.loading = false;
+        console.log(err);
+        if (err.message) {
+          this.toast.error(err.message);
+        }
+        this.events.broadcast('payment-updated',true);
+      }, () => {
+      });
+  }
+  paymentToSuspense(data:any){
+    this.loading = true;
+    this.http.paymentToSuspense(data).map(res => { return res.json(); })
+      .subscribe(result => {
+        this.loading = false;
+        if (result.message) {
+          this.toast.success(result.message);
+        }        
+        this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
+        this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();        
+       this.events.broadcast('payment-suspense',false);
+      }, err => {
+        this.loading = false;
+        console.log(err);
+        if (err.message) {
+          this.toast.error(err.message);
+        }
+      }, () => {
+      });
   }
   getPaymentClaimDataByIds(ids: Array<Number>= []) {
     if (ids.length > 0) {

@@ -138,6 +138,22 @@ export class HttpService {
     });
     return s;
   }
+  paymentToSuspense(data: any) {
+    const s = this.http.post(this.baseUrl + '/payment/to-suspense/', data, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+  finalizePosting(data: any) {
+    const s = this.http.post(this.baseUrl + '/payment/finalize-posting/?sessionId='+data.sessionId, {}, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
   getDetailedPaymentClaim(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/claims-script-details', data, { headers: this.headers })
     .catch(err =>  {
