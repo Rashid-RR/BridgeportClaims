@@ -102,6 +102,7 @@
     <Compile Include="Dtos\PrescriptionNoteSaveDto.cs" />
     <Compile Include="Dtos\PrescriptionNotesDto.cs" />
     <Compile Include="Dtos\PrescriptionNoteTypesDto.cs" />
+    <Compile Include="Dtos\PrescriptionPaymentsDto.cs" />
     <Compile Include="Dtos\PrescriptionPostingAmountsDto.cs" />
     <Compile Include="Mappings\AcctPayableMap.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
