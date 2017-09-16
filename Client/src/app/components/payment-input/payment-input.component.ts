@@ -149,33 +149,29 @@ export class PaymentInputComponent implements OnInit {
     return true;
   }
   post(){
-    var prescriptions=[];
     var payments = [];
+    var form  = this.form.value;
+    form.amountRemaining = undefined;
+    form.amountToPost = form.amountToPost !==null ? Number(form.amountToPost.replace(",","")).toFixed(2) :(0).toFixed(2);
+    
     this.paymentService.detailedClaimsData.forEach(p=>{
         if(p.selected){
-          this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,p.invoicedAmount,p.prescriptionId))
-          prescriptions.push({
-              patientName: p.patientName,
-              rxDate: p.rxDate,
-              amountPosted: p.invoicedAmount,
-              prescriptionId: p.prescriptionId
-          });
+          this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,p.invoicedAmount,p.prescriptionId))       
           payments.push({
             patientName: p.patientName,
             rxDate: p.rxDate,
-            amountPosted: p.invoicedAmount,
-            prescriptionId: p.prescriptionId
+            amountPosted: form.amountToPost,
+            prescriptionId: p.prescriptionId,
+            invoiceAmount:p.invoicedAmount
           });
         }
     });
+
+    form.paymentPostings = payments;
     //this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
     if(this.paymentService.paymentPosting.lastAmountRemaining == 0){
       this.finalizePosting();
     }else{
-      var form  = this.form.value;
-      form.paymentPostings = payments;
-      form.amountRemaining = undefined;
-      form.amountToPost = form.amountToPost !==null ? Number(form.amountToPost.replace(",","")).toFixed(2) :(0).toFixed(2);
       form.amountSelected = Number(form.amountSelected.replace(",","")).toFixed(2);
       form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
       this.paymentService.paymentPosting.checkAmount = Number(Number(form.checkAmount.replace(",","")).toFixed(2));
