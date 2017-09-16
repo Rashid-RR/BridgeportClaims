@@ -228,6 +228,25 @@ export class PaymentService {
       }, () => {
       });
   }
+  deletePayment(data:any){
+    this.loading = true;
+    this.http.deletePayment(data).map(res => { return res.json(); })
+      .subscribe(result => {
+        this.loading = false;
+        this.paymentPosting.payments = this.paymentPosting.payments.delete(data.prescriptionId);
+        console.log(result);
+        if (result.message) {
+          this.toast.success(result.message);
+        }
+      }, err => {
+        this.loading = false;
+        console.log(err);
+        if (err.message) {
+          this.toast.error(err.message);
+        }
+      }, () => {
+      });
+  }
   getPaymentClaimDataByIds(ids: Array<Number>= []) {
     if (ids.length > 0) {
       this.loading = true;
