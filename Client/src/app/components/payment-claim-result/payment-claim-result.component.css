@@ -222,10 +222,10 @@ tr>th:first-child .paymentCheckBox label {
     height:60px;
 }
 .expanded{
-    height: calc(100vh - 254px);
-    height: -moz-calc(100vh - 254px);
-    height: -webkit-calc(100vh - 254px);
-    height: -o-calc(100vh - 254px);
+    height: calc(100vh - 224px);
+    height: -moz-calc(100vh - 224px);
+    height: -webkit-calc(100vh - 224px);
+    height: -o-calc(100vh - 224px);
     overflow:hidden;
     overflow-y:scroll;
 }
