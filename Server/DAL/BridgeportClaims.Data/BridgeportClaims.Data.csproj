@@ -70,6 +70,7 @@
     <Compile Include="DataProviders\ImportFiles\ImportFileProvider.cs" />
     <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
+    <Compile Include="Dtos\PrescriptionPaymentsDto.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\UserOptions\DbccUserOptionsProvider.cs" />

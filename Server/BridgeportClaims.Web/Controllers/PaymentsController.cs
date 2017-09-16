@@ -54,6 +54,24 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("payments-blade")]
+        public async Task<IHttpActionResult> GetPrescriptionPayments(int claimId, string sort, string sortDirection, int page,
+            int pageSize, string secondSort = null, string secondSortDirection = null)
+        {
+            try
+            {
+                return await Task.Run(() => Ok(
+                    _paymentsDataProvider.GetPrescriptionPaymentsDtos(claimId, sort, sortDirection, page, pageSize,
+                        secondSort, secondSortDirection)));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("claims-script-details")]
         public async Task<IHttpActionResult> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
         {
