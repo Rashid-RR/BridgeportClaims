@@ -10,6 +10,7 @@ using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Common.Caching;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Payments;
 using NHibernate.Cache;
 
@@ -213,6 +214,33 @@ namespace BridgeportClaims.Web.Controllers
             {
                 Logger.Error(ex);
                 return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("delete-posting")]
+        public async Task<IHttpActionResult> DeletePosting(string sessionId, int prescriptionId)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    if (sessionId.IsNullOrWhiteSpace())
+                        throw new ArgumentNullException(nameof(sessionId));
+                    if (prescriptionId <= 0)
+                        throw new Exception($"Error. The prescription Id {prescriptionId} is invalid.");
+                    var existingModel = _memoryCacher.GetItem(sessionId, false) as UserPaymentPostingSession;
+                    if (null == existingModel)
+                        throw new Exception("Error. The existing model could not be retrieved from cache.");
+                    existingModel.PaymentPostings.RemoveAll(x => x.PrescriptionId == prescriptionId);
+                    _memoryCacher.UpdateItem(sessionId, existingModel);
+                    return Ok(new { message = "The payment posting record was removed successfully." });
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
             }
         }
 
