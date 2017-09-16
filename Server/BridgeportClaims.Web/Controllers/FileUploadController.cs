@@ -104,7 +104,6 @@ namespace BridgeportClaims.Web.Controllers
 					}
 					uploadedFiles.Add(fileName);
 				}
-
 				return Ok(new {message = "Successfully Uploaded: " + string.Join(", ", uploadedFiles)});
 			}
 			catch (Exception ex)
