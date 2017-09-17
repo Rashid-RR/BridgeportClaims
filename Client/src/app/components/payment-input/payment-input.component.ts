@@ -107,7 +107,7 @@ export class PaymentInputComponent implements OnInit {
   cancel(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Cancel posting",
-      message: "Are you sure? You may lose our progress? Continue?"
+      message: "Are you sure you want to cancel "+this.paymentService.paymentPosting.paymentPostings.length+" posting"+(this.paymentService.paymentPosting.paymentPostings.length>1 ? 's':'')+"?"
     })
       .subscribe((isConfirmed) => {
         //We get dialog result

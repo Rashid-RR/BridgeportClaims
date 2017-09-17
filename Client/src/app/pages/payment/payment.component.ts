@@ -58,7 +58,7 @@ export class PaymentComponent implements OnInit {
   deletePayment(prescription:PaymentPostingPrescription,sessionId:UUID){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Delete Payment",
-      message: "Are you sure you wish to remove this Payment Posting for "+prescription.patientName+" of "+prescription.amountPosted+"?"
+      message: "Are you sure you wish to remove this Payment Posting for "+prescription.patientName+" of $"+prescription.amountPosted+"?"
     })
     .subscribe((isConfirmed) => {
         //We get dialog result
