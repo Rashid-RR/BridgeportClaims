@@ -1,25 +1,25 @@
 export class Payment{
   checkAmt:any;
-  checkany:any;
+  checkNumber:any;
   rxDate:Date;
   prescriptionPaymentId:any;
 	prescriptionId: any;
 	postedDate: Date;
 	rxany:any ;
-	invoiceany:any;
-  constructor(checkAmt:any,checkany:any,rxDate:Date,
+	invoiceNumber:any;
+  constructor(checkAmt:any,checkNumber:any,rxDate:Date,
     prescriptionPaymentId:any,
     prescriptionId: any,
     postedDate: Date,
     rxany:any ,
-    invoiceany:any){
-      this.checkany=checkany;
+    invoiceNumber:any){
+      this.checkNumber=checkNumber;
       this.checkAmt=checkAmt;
       this.rxDate=rxDate;
       this.prescriptionPaymentId=prescriptionPaymentId;
       this.prescriptionId =prescriptionId 
       this.postedDate = postedDate;
       this.rxany=  rxany;
-      this.invoiceany= invoiceany;
+      this.invoiceNumber= invoiceNumber;
   }
 }
