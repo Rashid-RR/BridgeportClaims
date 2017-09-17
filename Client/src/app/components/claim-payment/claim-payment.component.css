@@ -166,7 +166,7 @@ tbody>tr:hover td::selection {
 }
 
 .top-header {
-    width: 98%;
+    width: 96%;
     height: 43px;
     position: absolute;
     overflow: hidden;
@@ -174,7 +174,7 @@ tbody>tr:hover td::selection {
 
 .table-body {
     position: absolute;
-    width: 98%;
+    width: 96%;
     top: 43px;
     height: calc(100% - 43px);
     overflow-y: scroll;
