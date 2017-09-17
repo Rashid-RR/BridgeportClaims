@@ -29,6 +29,7 @@ using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
+using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 
 namespace BridgeportClaims.Web.IoCConfig
 {
@@ -51,6 +52,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<AspNetUsersProvider>().As<IAspNetUsersProvider>().InstancePerRequest();
             builder.RegisterType<CsvReaderProvider>().As<ICsvReaderProvider>().InstancePerRequest();
             builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
+            builder.RegisterType<PrescriptionPaymentProvider>().As<IPrescriptionPaymentProvider>().InstancePerRequest();
             
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();

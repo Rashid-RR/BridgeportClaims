@@ -70,6 +70,8 @@
     <Compile Include="DataProviders\ImportFiles\ImportFileProvider.cs" />
     <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionPayments\IPrescriptionPaymentProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionPayments\PrescriptionPaymentProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\UserOptions\DbccUserOptionsProvider.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Mappings\PrescriptionNoteMappingMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteTypeMap.cs" />
     <Compile Include="Mappings\PrescriptionPaymentMap.cs" />
+    <Compile Include="Mappings\SuspenseMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
     <Compile Include="Mappings\Views\VwPaymentMap.cs" />
     <Compile Include="Mappings\Views\VwPrescriptionNoteMap.cs" />

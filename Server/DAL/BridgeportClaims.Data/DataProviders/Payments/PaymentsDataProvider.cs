@@ -101,6 +101,65 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             ImportDataTableIntoDb(newDt);
         }
 
+        public void PrescriptionPostings(string checkNumber, decimal checkAmount, int claimId, decimal amountSelected,
+            bool hasSuspense)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                DisposableService.Using(() => new SqlCommand("dbo.uspInsertPaymentPostings", conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var checkNumberParam = cmd.CreateParameter();
+                    checkNumberParam.Direction = ParameterDirection.Input;
+                    checkNumberParam.ParameterName = "CheckNumber";
+                    checkNumberParam.DbType = DbType.StringFixedLength;
+                    checkNumberParam.SqlDbType = SqlDbType.VarChar;
+                    checkNumberParam.Size = 155;
+                    checkNumberParam.Value = checkNumber;
+                    cmd.Parameters.Add(checkNumberParam);
+                    var checkAmountParam = cmd.CreateParameter();
+                    checkAmountParam.Direction = ParameterDirection.Input;
+                    checkAmountParam.ParameterName = "CheckAmount";
+                    checkAmountParam.DbType = DbType.Decimal;
+                    checkAmountParam.SqlDbType = SqlDbType.Money;
+                    checkAmountParam.Value = checkAmount;
+                    cmd.Parameters.Add(checkAmountParam);
+                    var claimIdParam = cmd.CreateParameter();
+                    claimIdParam.Direction = ParameterDirection.Input;
+                    claimIdParam.Value = claimId;
+                    claimIdParam.DbType = DbType.Int32;
+                    claimIdParam.SqlDbType = SqlDbType.Int;
+                    claimIdParam.ParameterName = "ClaimID";
+                    cmd.Parameters.Add(claimIdParam);
+                    var amountSelectedParam = cmd.CreateParameter();
+                    amountSelectedParam.Direction = ParameterDirection.Input;
+                    amountSelectedParam.Value = amountSelected;
+                    amountSelectedParam.SqlDbType = SqlDbType.Money;
+                    amountSelectedParam.DbType = DbType.Decimal;
+                    amountSelectedParam.ParameterName = "AmountSelected";
+                    cmd.Parameters.Add(amountSelectedParam);
+                    var hasSuspenseParam = cmd.CreateParameter();
+                    hasSuspenseParam.Direction = ParameterDirection.Input;
+                    hasSuspenseParam.Value = hasSuspense;
+                    hasSuspenseParam.DbType = DbType.Boolean;
+                    hasSuspenseParam.SqlDbType = SqlDbType.Bit;
+                    hasSuspenseParam.ParameterName = "HasSuspense";
+                    cmd.Parameters.Add(hasSuspenseParam);
+                    /*
+                    
+	
+	@HasSuspense BIT,
+	@SuspenseAmountRemaining MONEY,
+	@ToSuspenseNoteText VARCHAR(255),
+	@AmountToPost MONEY,
+	@UserID NVARCHAR(128),
+	@PaymentPostings dbo.udtPaymentPosting READONLY
+                     */
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    cmd.ExecuteNonQuery();
+                });
+            });
+
         public IList<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
             string direction, int pageNumber, int pageSize, string secondarySortColumn, string secondaryDirection) => DisposableService.Using(()
             => new SqlConnection(cs.GetDbConnStr()), conn =>

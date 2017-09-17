@@ -16,6 +16,7 @@ namespace BridgeportClaims.Entities.DomainModels
             Episode = new List<Episode>();
             Invoice = new List<Invoice>();
             Prescription = new List<Prescription>();
+            Suspense = new List<Suspense>();
         }
         [Required]
         public virtual int ClaimId { get; set; }
@@ -49,5 +50,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual IList<Episode> Episode { get; set; }
         public virtual IList<Invoice> Invoice { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
+        public virtual IList<Suspense> Suspense { get; set; }
     }
 }
