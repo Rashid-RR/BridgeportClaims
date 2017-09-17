@@ -20,6 +20,7 @@ export class ClaimPaymentComponent implements OnInit {
   sortColumn:Array<SortColumnInfo>=[];
   payments:Array<Payment>=[];
   editing:Boolean=false;
+  editingPaymentId:any;
   form:FormGroup;
   constructor(
     private rd: Renderer2, private ngZone: NgZone,
@@ -32,6 +33,16 @@ export class ClaimPaymentComponent implements OnInit {
     private http: HttpService
   ) { 
     this.fetchData();
+    this.form = this.formBuilder.group({
+      checkAmt:[null],
+      checkNumber:[null],
+      rxDate:[null],
+      prescriptionPaymentId:[null],
+      prescriptionId:[null],
+      postedDate:[null],
+      rxNumber:[null],
+      invoiceNumber:[null]
+  });
     this.claimManager.onClaimIdChanged.subscribe(() => {
       this.fetchData();
     });
@@ -58,20 +69,54 @@ export class ClaimPaymentComponent implements OnInit {
 
   update(payment:Payment){
     this.editing=true;
+    this.editingPaymentId = payment.prescriptionPaymentId
     this.form = this.formBuilder.group({
         checkAmt:[payment.checkAmt],
-        checkany:[payment.checkany],
+        checkNumber:[payment.checkNumber],
         rxDate:[payment.rxDate],
         prescriptionPaymentId:[payment.prescriptionPaymentId],
         prescriptionId:[payment.prescriptionId],
         postedDate:[payment.postedDate],
         rxNumber:[payment.rxNumber],
-        invoiceAmount:[payment.invoiceAmount]
+        invoiceNumber:[payment.invoiceNumber]
     });
   }
 
   savePayment(){
 
+  }
+  checkNumber($event){
+
+  }
+  textChange(controlName:string){
+    /* if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
+      this.form.get(controlName).setValue(null);
+    }else{
+      switch(controlName){
+        case 'checkAmount':
+        case 'amountToPost':
+          var val = this.form.get(controlName).value.replace(",",'');
+          this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.2-2"));
+        break;
+        default:
+        break;
+
+      }
+    } */
+  }
+  cancel(){
+    this.editing = false;
+    this.editingPaymentId = undefined;
+    this.form.patchValue({
+      checkAmt:[null],
+      checkNumber:[null],
+      rxDate:[null],
+      prescriptionPaymentId:[null],
+      prescriptionId:[null],
+      postedDate:[null],
+      rxNumber:[null],
+      invoiceNumber:[null]
+    })
   }
 
   del(payment:Payment){

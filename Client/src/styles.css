@@ -27,6 +27,8 @@
         overflow: hidden !important;
     }
     .overlay{
+        position: fixed;
+        top:0px;
         height: 100vh !important;
         display: flex;
         align-items: center;

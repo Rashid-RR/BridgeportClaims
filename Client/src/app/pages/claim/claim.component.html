@@ -135,7 +135,7 @@
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-grey btn-sm" (click)="expand(true,5,'script-notes')" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body panel-body-bg">
+                            <div class="box-body panel-body-bg" [class.expanded]="expanded">
                                 <app-claim-script-note></app-claim-script-note>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-grey btn-sm" (click)="expand(true,6,'payments')" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body panel-body-bg">
+                            <div class="box-body panel-body-bg" [class.expanded]="expanded">
                                 <app-claim-payment></app-claim-payment>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                                     <button type="button" *ngIf="!expanded" class="btn btn-flat bg-grey btn-sm" (click)="expand(true,7,'images')" title="Expand blade"><i class="fa fa-expand"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body panel-body-bg">
+                            <div class="box-body panel-body-bg" [class.expanded]="expanded">
                                 <app-claim-images></app-claim-images>
                             </div>
                         </div>
