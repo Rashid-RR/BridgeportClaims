@@ -12,6 +12,7 @@ import { EventsService } from './events-service';
 import { Router } from '@angular/router';
 import {PaymentPosting} from "../models/payment-posting";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { SortColumnInfo } from "../directives/table-sort.directive";
 
 declare var $:any
 @Injectable()
@@ -21,7 +22,8 @@ export class PaymentService {
   loading: Boolean = false;
   paymentPosting:PaymentPosting= new PaymentPosting();
   prescriptionSelected: Boolean = false;
-
+  sortColumn: SortColumnInfo;
+  lastPrescriptionIds: Array<Number>=[];
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     this.events.on('postPaymentPrescriptionReturnDtos',data=>{
           data.prescriptions.forEach(d=>{
@@ -36,6 +38,11 @@ export class PaymentService {
 
   clearClaimsDetail() {
     this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
+  }
+
+  onSortColumn(info: SortColumnInfo) {
+    this.sortColumn = info;
+    this.getPaymentClaimDataByIds(this.lastPrescriptionIds);
   }
   search(data, addHistory = true) {
     if (data.claimNumber == null && data.firstName == null && data.lastName == null && data.rxDate == null && data.invoiceNumber == null) {
@@ -248,10 +255,19 @@ export class PaymentService {
       });
   }
   getPaymentClaimDataByIds(ids: Array<Number>= []) {
-    if (ids.length > 0) {
+      let page = 1;
+      let page_size = 1000;
+      let sort: string = 'RxDate';
+      let sort_dir: 'asc' | 'desc' = 'desc';
+      if (this.sortColumn) {
+        sort = this.sortColumn.column;
+        sort_dir = this.sortColumn.dir;
+      }
+      if (ids.length > 0) {
       this.loading = true;
-      this.http.getDetailedPaymentClaim(ids).map(res => { return res.json(); })
+      this.http.getDetailedPaymentClaim(ids,sort,sort_dir,page,page_size).map(res => { return res.json(); })
         .subscribe(result => {
+          this.lastPrescriptionIds = ids;
           this.loading = false;
           if (result.length < 1) {
           this.toast.info('No records were found from your search');
