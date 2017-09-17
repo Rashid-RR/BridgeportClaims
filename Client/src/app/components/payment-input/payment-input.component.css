@@ -1,7 +1,13 @@
 .col-sm-2,
 .col-md-1 {
     padding-left: 2px;
-    padding-right: 2px;
+    padding-right: 0px;
+}
+.col-md-2 {
+    width: 16%;
+}
+.col-sm-2.w20 {
+    width: 20%;
 }
 
 .bg-darkRed {

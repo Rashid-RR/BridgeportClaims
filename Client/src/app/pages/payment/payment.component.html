@@ -46,7 +46,7 @@
                                 </span>
                                 </span>
                                 <div class="box-tools pull-right">
-                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentScriptService.addScripts([])" style="margin-left:auto;margin-right:auto;"><i class="fa fa-plus"></i> Add Scripts</button>
+                                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="paymentScriptService.addScripts([])" style="margin-left:auto;margin-right:2.5em;"><i class="fa fa-plus"></i> Add Scripts</button>
                                 </div>
                             </div>
                             <div class="box-body claims payment-result panel-body-bg">
@@ -67,15 +67,21 @@
     <div class="tab-content">
         <div class="row table-header">
             <div class="col-xs-4">Patient Name</div>
-            <div class="col-xs-4">Rx. Date</div>
-            <div class="col-xs-4">Amt. Posted</div>
+            <div class="col-xs-3">Rx. Date</div>
+            <div class="col-xs-3">Amt. Posted</div>
+            <div class="col-xs-2">&nbsp;</div>
         </div>
         <div class="row posted-content">
             <div class="col-xs-12">
                 <div *ngFor="let post of paymentService.paymentPosting.paymentPostings" class="row table-content">
                     <div class="col-xs-4">{{post.patientName}}</div>
-                    <div class="col-xs-4">{{post.rxDate | date:"shortDate"}}</div>
-                    <div class="col-xs-4">{{post.amountPosted | currency:'USD':true:'1.2-2'}}</div>
+                    <div class="col-xs-3">{{post.rxDate | date:"shortDate"}}</div>
+                    <div class="col-xs-3">{{post.amountPosted | currency:'USD':true:'1.2-2'}}</div>
+                    <div class="col-xs-2">
+                        <button type="button" class="btn btn-danger btn-xs" (click)="deletePayment(post,paymentService.paymentPosting.sessionId)">
+                            <span class="glyphicon glyphicon-trash"></span> Delete
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
