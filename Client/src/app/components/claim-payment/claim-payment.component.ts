@@ -143,7 +143,7 @@ export class ClaimPaymentComponent implements OnInit {
   del(payment:Payment){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Delete payment",
-      message: ""
+      message: "Are you sure you wish to remove this Payment  for Invoice Number: "+payment.invoiceNumber+" of "+payment.checkAmt+"?"
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
