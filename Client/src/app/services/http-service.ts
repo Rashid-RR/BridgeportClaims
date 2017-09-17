@@ -353,4 +353,28 @@ export class HttpService {
     });
     return s;
   }
+
+  getPayments(claimId: Number, sort: String = 'RxDate', sortDir: 'asc' | 'desc' = 'desc',
+    secondSort: String = 'RxNumber', secondSortDir: 'asc' | 'desc' = 'asc',
+    page: Number= 1, pageSize: Number = 500) {
+    //api/payment/payments-blade?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=500
+    let params = new URLSearchParams();
+    params.append('claimId', claimId.toString());
+    params.append('sort', sort.toString());
+    params.append('sortDirection', sortDir.toUpperCase());
+    params.append('secondSort', secondSort.toString());
+    params.append('secondSortDirection', secondSortDir.toUpperCase());
+    if (page >= 1) {
+      params.append('page', page.toString());
+    }
+    params.append('pageSize', pageSize.toString());
+    let options = new RequestOptions({ params: params, headers: this.headers });
+    const s = this.http.post(this.baseUrl + '/payment/payments-blade/', '', options)
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+
 }
