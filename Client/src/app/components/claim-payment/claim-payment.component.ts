@@ -9,6 +9,7 @@ import { ConfirmComponent } from '../../components/confirm.component';
 import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
 import { DialogService } from "ng2-bootstrap-modal";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+declare var $:any;
 
 @Component({
   selector: 'app-claim-payment',
@@ -26,7 +27,7 @@ export class ClaimPaymentComponent implements OnInit {
     private rd: Renderer2, private ngZone: NgZone,
     private dp: DatePipe,
     private formBuilder: FormBuilder,
-    public claimManager: ClaimManager,
+    public  claimManager: ClaimManager,
     private events: EventsService,
     private dialogService: DialogService,
     private toast: ToastsManager,
@@ -34,14 +35,11 @@ export class ClaimPaymentComponent implements OnInit {
   ) { 
     this.fetchData();
     this.form = this.formBuilder.group({
-      checkAmt:[null],
+      amountPaid:[null],
       checkNumber:[null],
-      rxDate:[null],
       prescriptionPaymentId:[null],
       prescriptionId:[null],
-      postedDate:[null],
-      rxNumber:[null],
-      invoiceNumber:[null]
+      datePosted:[null],
   });
     this.claimManager.onClaimIdChanged.subscribe(() => {
       this.fetchData();
@@ -70,23 +68,49 @@ export class ClaimPaymentComponent implements OnInit {
   update(payment:Payment){
     this.editing=true;
     this.editingPaymentId = payment.prescriptionPaymentId
+    let checkAmt = Number(payment.checkAmt).toFixed(2);
+    let postedDate = this.dp.transform(payment.postedDate, "shortDate");
+    let rxDate = this.dp.transform(payment.rxDate, "shortDate");
     this.form = this.formBuilder.group({
-        checkAmt:[payment.checkAmt],
+        amountPaid:[checkAmt],
         checkNumber:[payment.checkNumber],
-        rxDate:[payment.rxDate],
         prescriptionPaymentId:[payment.prescriptionPaymentId],
         prescriptionId:[payment.prescriptionId],
-        postedDate:[payment.postedDate],
-        rxNumber:[payment.rxNumber],
-        invoiceNumber:[payment.invoiceNumber]
+        datePosted:[postedDate],        
     });
   }
-
-  savePayment(){
-
+  saveButtonClick(){
+      var btn = $("#savePaymentButton");
+      if(btn.length>0){
+        $("#savePaymentButton").click();
+      }
   }
-  checkNumber($event){
-
+  savePayment(payment:Payment){
+    if(this.form.get('amountPaid').value && this.form.get('checkNumber').value && this.form.get('datePosted').value ){
+      this.claimManager.loading = true
+      this.http.updatePrescriptionPayment(this.form.value).map(r=>{return r.json()}).single().subscribe(res=>{              
+          this.toast.success(res.message);
+          //this.removePayment(payment);
+          this.claimManager.loading = false;
+          payment.postedDate = this.form.get('datePosted').value;
+          payment.checkAmt = this.form.get('amountPaid').value;
+          payment.checkNumber = this.form.get('checkNumber').value;
+          this.cancel();
+      },error=>{                          
+        this.toast.error(error.message);
+        this.claimManager.loading = false;
+      });
+    }else{
+      this.toast.warning("You must fill amount paid, check Number and date posted to continue");
+    }
+  }
+  validateNumber($event){
+    $event = ($event) ? $event : window.event;
+    var charCode = ($event.which) ? $event.which : $event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode!=44 && charCode!=46) {
+        return false;
+    }
+    return true;
   }
   textChange(controlName:string){
     /* if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
@@ -108,15 +132,12 @@ export class ClaimPaymentComponent implements OnInit {
     this.editing = false;
     this.editingPaymentId = undefined;
     this.form.patchValue({
-      checkAmt:[null],
+      amountPaid:[null],
       checkNumber:[null],
-      rxDate:[null],
       prescriptionPaymentId:[null],
       prescriptionId:[null],
-      postedDate:[null],
-      rxNumber:[null],
-      invoiceNumber:[null]
-    })
+      datePosted:[null],
+    });
   }
 
   del(payment:Payment){
