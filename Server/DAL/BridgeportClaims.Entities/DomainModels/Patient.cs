@@ -8,7 +8,10 @@ namespace BridgeportClaims.Entities.DomainModels
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Patient
     {
-        public Patient() { Claim = new List<Claim>(); }
+        public Patient()
+        {
+            Claim = new List<Claim>();
+        }
         [Required]
         public virtual int PatientId { get; set; }
         public virtual UsState UsState { get; set; }
