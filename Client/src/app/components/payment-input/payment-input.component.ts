@@ -112,8 +112,20 @@ export class PaymentInputComponent implements OnInit {
       .subscribe((isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {  
+          this.paymentService.loading = true;
           this.paymentService.prescriptionSelected=false;
-          this.events.broadcast("disable-links",false);           
+          this.events.broadcast("disable-links",false);
+          this.http.cancelPayment(this.paymentService.paymentPosting.sessionId)
+          .map(r=>{return r.json()}).single().subscribe(res=>{              
+            this.toast.success(res.message);
+            this.paymentService.loading = false;
+            this.events.broadcast("payment-closed",true);
+            this.disableCheckEntry = false;
+            //this.paymentService.paymentPosting = new PaymentPosting();
+        },error=>{                          
+          this.toast.error(error.message);
+          this.paymentService.loading = false;
+        }); 
         }
         else {
            

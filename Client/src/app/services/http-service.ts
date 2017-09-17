@@ -435,4 +435,11 @@ export class HttpService {
     });
     return s;
   }
+  cancelPayment(sessionId:UUID): Observable<Response> {
+    return this.http.post(this.baseUrl + '/payment/cancel-posting/?sessionId='+sessionId, {}, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 }
