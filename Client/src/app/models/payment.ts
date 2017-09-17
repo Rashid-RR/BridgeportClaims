@@ -1,5 +1,5 @@
 export class Payment{
-  checkAmount:any;
+  checkAmt:any;
   checkany:any;
   rxDate:Date;
   prescriptionPaymentId:any;
@@ -7,14 +7,14 @@ export class Payment{
 	postedDate: Date;
 	rxany:any ;
 	invoiceany:any;
-  constructor(checkAmount:any,checkany:any,rxDate:Date,
+  constructor(checkAmt:any,checkany:any,rxDate:Date,
     prescriptionPaymentId:any,
     prescriptionId: any,
     postedDate: Date,
     rxany:any ,
     invoiceany:any){
       this.checkany=checkany;
-      this.checkAmount=checkAmount;
+      this.checkAmt=checkAmt;
       this.rxDate=rxDate;
       this.prescriptionPaymentId=prescriptionPaymentId;
       this.prescriptionId =prescriptionId 
