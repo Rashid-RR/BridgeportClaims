@@ -189,7 +189,10 @@ export class PaymentInputComponent implements OnInit {
         }/* else if(form.checkAmount > form.amountToPost){      
           this.localSt.store("partial-payment",payments);
           this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
-        } */else if(form.amountToPost==0 || form.amountToPost==null){
+        } */
+        else if(form.amountToPost==0 || form.checkAmount){
+          this.toast.warning("The amount to post you specified is greater than the check amount. Please correct to proceed");
+        }else if(form.amountToPost > form.amountToPost==null){
           this.toast.warning("You need to specify amount to post");
         }else {
           this.paymentService.post(form);
