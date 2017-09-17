@@ -272,6 +272,7 @@
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
+    <Compile Include="Controllers\PrescriptionPaymentsController.cs" />
     <Compile Include="Controllers\PrescriptionsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\ServerEventsController.cs" />
@@ -299,9 +300,11 @@
     <Compile Include="Models\PaymentsSearchModel.cs" />
     <Compile Include="Models\PostedPaymentViewModel.cs" />
     <Compile Include="Models\PostPaymentsModel.cs" />
+    <Compile Include="Models\PrescriptionPaymentViewModel.cs" />
     <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\RoleReturnModel.cs" />
     <Compile Include="Models\SaveEpisodeModel.cs" />
+    <Compile Include="Models\SuspenseViewModel.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\UserPaymentPostingSession.cs" />
     <Compile Include="Models\UsersInRoleModel.cs" />

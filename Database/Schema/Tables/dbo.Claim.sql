@@ -6,18 +6,18 @@ CREATE TABLE [dbo].[Claim]
 [IsFirstParty] [bit] NOT NULL,
 [ClaimNumber] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [PreviousClaimNumber] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[PersonCode] [int] NULL,
+[PersonCode] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PayorID] [int] NOT NULL,
 [AdjusterID] [int] NULL,
 [JurisdictionStateID] [int] NULL,
 [RelationCode] [tinyint] NULL,
 [TermDate] [datetime2] NULL,
-[UniqueClaimNumber] AS ([ClaimNumber]+isnull('-'+CONVERT([char](2),[PersonCode],(0)),'')),
 [PatientID] [int] NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL,
-[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[UniqueClaimNumber] AS (([ClaimNumber]+'-')+isnull([PersonCode],''))
 ) ON [PRIMARY]
 WITH
 (

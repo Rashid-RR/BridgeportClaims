@@ -88,6 +88,7 @@
     <Compile Include="DomainModels\PrescriptionNoteMapping.cs" />
     <Compile Include="DomainModels\PrescriptionNoteType.cs" />
     <Compile Include="DomainModels\PrescriptionPayment.cs" />
+    <Compile Include="DomainModels\Suspense.cs" />
     <Compile Include="DomainModels\UsState.cs" />
     <Compile Include="DomainModels\Views\VwPayment.cs" />
     <Compile Include="DomainModels\Views\VwPrescriptionNote.cs" />

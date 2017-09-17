@@ -9,6 +9,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual int PrescriptionPaymentId { get; set; }
         [Required]
         public virtual Prescription Prescription { get; set; }
+        public virtual AspNetUsers UserId { get; set; }
         [Required]
         [StringLength(50)]
         public virtual string CheckNumber { get; set; }

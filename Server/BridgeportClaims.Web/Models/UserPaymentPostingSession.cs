@@ -7,6 +7,7 @@ namespace BridgeportClaims.Web.Models
 {
     public class UserPaymentPostingSession
     {
+        private const decimal Zero = 0.00m;
         public string SessionId { get; set; }
         public string CacheKey => SessionId.IsNotNullOrWhiteSpace() ? SessionId : GetGuidString();
         public UserPaymentPostingSession()
@@ -18,7 +19,7 @@ namespace BridgeportClaims.Web.Models
         public string CheckNumber { get; set; }
         public decimal CheckAmount { get; set; }
         public decimal AmountSelected { get; set; }
-        public decimal AmountsToPost => PaymentPostings?.Sum(x => x.AmountPosted) ?? 0.00m;
+        public decimal AmountsToPost => PaymentPostings?.Sum(x => x.AmountPosted) ?? Zero;
         public decimal AmountRemaining => CheckAmount - AmountsToPost;
         public decimal? LastAmountRemaining { get; set; }
         public bool HasSuspense => null != SuspenseAmountRemaining;

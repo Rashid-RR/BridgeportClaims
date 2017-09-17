@@ -3,7 +3,7 @@
         <div class="table-responsive top-header scroll-y">
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
-                    <tr>
+                    <tr><!-- (tableSort)="paymentService.onSortColumn($event)" #myTable='table-sort'>-->
                         <th>
                             <!-- <span *ngIf="!checkAll" class="pull-left">Check All</span>
                             <span *ngIf="checkAll"  class="pull-left">Uncheck All</span>
@@ -14,14 +14,14 @@
                                     <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
                             </div>&nbsp;<i class="fa rotate fa-exchange"></i>
                         </th>
-                        <th>Claim #</th>
-                        <th>Patient Name</th>
-                        <th>Rx Date</th>
-                        <th>Rx #</th>
-                        <th>Label Name</th>
-                        <th>Inv Amt</th>
-                        <th>Outstanding</th>
-                        <th>Payor</th>
+                        <th><!--  columnSort="claimNumber" [sort-table]="myTable"> -->Claim #</th>
+                        <th><!-- columnSort="patientName" [sort-table]="myTable">-->Patient Name</th>
+                        <th><!-- columnSort="rxDate" [sort-table]="myTable">-->Rx Date</th>
+                        <th><!-- columnSort="rxNumber" [sort-table]="myTable">-->Rx #</th>
+                        <th><!-- columnSort="labelName" [sort-table]="myTable">-->Label Name</th>
+                        <th><!-- columnSort="invoicedAmount" [sort-table]="myTable">-->Inv Amt</th>
+                        <th><!-- columnSort="outstanding" [sort-table]="myTable">-->Outstanding</th>
+                        <th><!-- columnSort="payor" [sort-table]="myTable">-->Payor</th>
                     </tr>
                 </thead>
             </table>

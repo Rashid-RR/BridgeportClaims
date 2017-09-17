@@ -153,7 +153,6 @@ th {
     flex-grow: 1;
 }
 
-
 /* Perscription Checkbox Style */
 
 .perscriptionCheckBox {
@@ -270,7 +269,7 @@ tbody>tr:hover td::selection {
 .table-body {
     position: absolute;
     width: 98%;
-    top: 56px;
+    top: 33px;
     height: calc(100% - 56px);
     overflow-y: scroll;
 }
@@ -295,4 +294,9 @@ thead span {
 
 .fa.rotate.fa-exchange {
     margin-left: 0;
+}
+
+/*Unnecessary-space*/
+.table>thead>tr>th[_ngcontent-c9] {
+    border-bottom: 0px;
 }

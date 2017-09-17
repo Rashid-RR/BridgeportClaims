@@ -130,8 +130,52 @@ export class HttpService {
     });
     return s;
   }
-  getDetailedPaymentClaim(data: any) {
-    const s = this.http.post(this.baseUrl + '/payment/claims-script-details', data, { headers: this.headers })
+  deletePayment(data: any) {
+    const s = this.http.post(this.baseUrl + '/payment/delete-posting/?sessionId='+data.sessionId+'&prescriptionId='+data.prescriptionId,{}, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+  paymentPosting(data: any) {
+    const s = this.http.post(this.baseUrl + '/payment/payment-posting', data, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+  paymentToSuspense(data: any) {
+    const s = this.http.post(this.baseUrl + '/payment/to-suspense/', data, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+  finalizePosting(data: any) {
+    const s = this.http.post(this.baseUrl + '/payment/finalize-posting/?sessionId='+data.sessionId, {}, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+  getDetailedPaymentClaim(data: any, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
+  page: Number= 1, pageSize: Number = 500) {
+    // api/payment/claims-script-details?sort=RxDate&sortDirection=DESC&page=1&pageSize=500
+    let params = new URLSearchParams();
+    if (sort) {
+      params.append('sort', sort.toString());
+      params.append('sortDirection', sortDir.toUpperCase());
+    }
+    if (page >= 1) {
+      params.append('page', page.toString());
+    }
+    params.append('pageSize', pageSize.toString());
+    let options = new RequestOptions({ params: params, headers: this.headers });
+    const s = this.http.post(this.baseUrl + '/payment/claims-script-details', data, options)
     .catch(err =>  {
     this.handleResponseError(err);
       return Observable.throw(err);
@@ -347,6 +391,28 @@ export class HttpService {
     params.append('pageSize', pageSize.toString());
     let options = new RequestOptions({ params: params, headers: this.headers });
     const s = this.http.post(this.baseUrl + '/prescriptions/sort/', '', options)
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+  getPayments(claimId: Number, sort: String = 'RxDate', sortDir: 'asc' | 'desc' = 'desc',
+    secondSort: String = 'RxNumber', secondSortDir: 'asc' | 'desc' = 'asc',
+    page: Number= 1, pageSize: Number = 500) {
+    //api/payment/payments-blade?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=500
+    let params = new URLSearchParams();
+    params.append('claimId', claimId.toString());
+    params.append('sort', sort.toString());
+    params.append('sortDirection', sortDir.toUpperCase());
+    params.append('secondSort', secondSort.toString());
+    params.append('secondSortDirection', secondSortDir.toUpperCase());
+    if (page >= 1) {
+      params.append('page', page.toString());
+    }
+    params.append('pageSize', pageSize.toString());
+    let options = new RequestOptions({ params: params, headers: this.headers });
+    const s = this.http.post(this.baseUrl + '/payment/payments-blade/', '', options)
     .catch(err =>  {
     this.handleResponseError(err);
       return Observable.throw(err);

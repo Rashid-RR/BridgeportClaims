@@ -7,16 +7,19 @@ GO
 	Create Date:	8/23/2017
 	Description:	The Prescription 
 	Sample Execute:
-					EXEC etl.uspAddMissingInvoices
+					EXEC etl.uspAddMissingInvoices 1
 */
-CREATE PROC [etl].[uspAddMissingInvoices]
+CREATE PROC [etl].[uspAddMissingInvoices] @DebugOnly BIT = 0
 AS BEGIN
 	SET NOCOUNT ON;
 	DECLARE @SQL NVARCHAR(1000);
 	BEGIN TRY
 		BEGIN TRAN
-		SET @SQL = N'ALTER TABLE dbo.Invoice ADD PrescriptionID INT NULL';
-		EXECUTE sys.sp_executesql @SQL;
+		SET @SQL = N'ALTER TABLE dbo.Invoice ADD PrescriptionID INT NULL;';
+		IF @DebugOnly = 1
+			PRINT @SQL;
+		ELSE
+			EXECUTE sys.sp_executesql @SQL;
 
 		SET @SQL =
 	  N'WITH MissingInvoicesCTE ( InvoiceNumber, InvoiceDate, RowID, PrescriptionID )
@@ -39,17 +42,23 @@ AS BEGIN
 			   LEFT JOIN dbo.Invoice AS i ON i.InvoiceNumber = c.InvoiceNumber AND i.InvoiceDate = c.InvoiceDate
 			   LEFT JOIN dbo.Prescription AS p ON p.InvoiceID = i.InvoiceID
 		WHERE  i.InvoiceID IS NULL
-			   AND p.PrescriptionID IS NULL'
-		EXECUTE sys.sp_executesql @SQL
+			   AND p.PrescriptionID IS NULL';
+		IF @DebugOnly = 1
+			PRINT @SQL;
+		ELSE
+			EXECUTE sys.sp_executesql @SQL;
 
 		SET @SQL = N'ALTER TABLE dbo.Invoice DROP COLUMN PrescriptionID';
-		EXECUTE sys.sp_executesql @SQL
-		IF @@TRANCOUNT > 0
-			ROLLBACK
+		IF @DebugOnly = 1
+			PRINT @SQL;
+		ELSE
+			EXECUTE sys.sp_executesql @SQL;
+		IF (@@TRANCOUNT > 0)
+			COMMIT;
 	END TRY
     BEGIN CATCH
-		IF @@TRANCOUNT > 0
-			ROLLBACK
+		IF (@@TRANCOUNT > 0)
+			ROLLBACK;
 		DECLARE @ErrSeverity INT = ERROR_SEVERITY()
 			, @ErrState INT = ERROR_STATE()
 			, @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()

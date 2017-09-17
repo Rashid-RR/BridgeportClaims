@@ -129,7 +129,12 @@ textarea {
     position: fixed;
     width: 450px;
     min-height: 250px;
+    height: calc(90vh - 50px);
+    height: -webkit-calc(90vh - 50px);
+    height: -o-calc(90vh - 50px);
+    height: -moz-calc(90vh - 50px);
     top: 50%;
+    margin-top:50px;
     right: -450px;
     background: #414772;
     z-index: 10;
@@ -168,8 +173,21 @@ textarea {
 .table-header>div:last-child {
     border-right: none;
 }
-
-.table-content {
+.posted-content{
+    height: calc(90vh - 100px);
+    height: -webkit-calc(90vh - 100px);
+    height: -o-calc(90vh - 100px);
+    height: -moz-calc(90vh - 100px);
+    overflow:hidden;
+}
+.posted-content .col-xs-12{    
+    max-height: calc(90vh - 100px);
+    max-height: -webkit-calc(90vh - 100px);
+    max-height: -o-calc(90vh - 100px);
+    max-height: -moz-calc(90vh - 100px);
+    overflow-y: scroll;
+}
+.table-content,.posted-content {
     margin: 0;
 }
 

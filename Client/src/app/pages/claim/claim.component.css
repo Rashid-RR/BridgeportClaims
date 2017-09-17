@@ -136,3 +136,21 @@ app-claim-prescriptions{
     height: -moz-calc(100vh - 154px);
     height: -webkit-calc(100vh - 154px);
 }
+.expand-blade{
+    width:20px;
+    height:20px;
+}
+.add-btn{
+    height:32px;
+}
+.no-padding{
+    padding:0px;
+    background:transparent !important;
+}
+.transparent{
+    background:transparent !important;
+    color:white !important;
+}
+.transparent i{
+    color:white !important;
+}

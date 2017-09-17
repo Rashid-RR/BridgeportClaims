@@ -1,5 +1,4 @@
 ﻿using System;
-using NLog;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
