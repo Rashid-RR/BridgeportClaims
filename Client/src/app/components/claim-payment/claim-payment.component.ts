@@ -5,6 +5,10 @@ import { HttpService } from "../../services/http-service";
 import { Payment } from "../../models/payment";
 import { EventsService } from "../../services/events-service";
 import { DatePipe } from '@angular/common';
+import { ConfirmComponent } from '../../components/confirm.component';
+import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
+import { DialogService } from "ng2-bootstrap-modal";
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-claim-payment',
@@ -15,11 +19,16 @@ export class ClaimPaymentComponent implements OnInit {
 
   sortColumn:Array<SortColumnInfo>=[];
   payments:Array<Payment>=[];
+  editing:Boolean=false;
+  form:FormGroup;
   constructor(
     private rd: Renderer2, private ngZone: NgZone,
     private dp: DatePipe,
+    private formBuilder: FormBuilder,
     public claimManager: ClaimManager,
     private events: EventsService,
+    private dialogService: DialogService,
+    private toast: ToastsManager,
     private http: HttpService
   ) { 
     this.fetchData();
@@ -44,10 +53,56 @@ export class ClaimPaymentComponent implements OnInit {
     if(this.sortColumn.length>2){
       this.sortColumn=[this.sortColumn[this.sortColumn.length-2],this.sortColumn[this.sortColumn.length-1]];
     }
-    console.log(this.sortColumn);
     this.fetchData();
   }
 
+  update(payment:Payment){
+    this.editing=true;
+    this.form = this.formBuilder.group({
+        checkAmt:[payment.checkAmt],
+        checkany:[payment.checkany],
+        rxDate:[payment.rxDate],
+        prescriptionPaymentId:[payment.prescriptionPaymentId],
+        prescriptionId:[payment.prescriptionId],
+        postedDate:[payment.postedDate],
+        rxNumber:[payment.rxNumber],
+        invoiceAmount:[payment.invoiceAmount]
+    });
+  }
+
+  savePayment(){
+
+  }
+
+  del(payment:Payment){
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Delete payment",
+      message: ""
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.claimManager.loading = true
+          this.http.deletePrescriptionPayment(payment.prescriptionPaymentId).map(r=>{return r.json()}).single().subscribe(res=>{              
+              this.toast.success(res.message);
+              this.removePayment(payment);
+              this.claimManager.loading = false;
+          },error=>{                          
+            this.toast.error(error.message);
+            this.claimManager.loading = false;
+          });
+        }
+        else {}
+      });
+  }
+
+  removePayment(payment)
+  {
+    for(var i=0;i<this.payments.length;i++){
+      if(payment.prescriptionPaymentId == this.payments[i].prescriptionPaymentId && this.payments[i].prescriptionId == payment.prescriptionId){
+        this.payments.splice( i, 1 );
+      }
+    }    
+  } 
   fetchData() {
     let page = 1;
     let page_size = 1000;
@@ -66,7 +121,6 @@ export class ClaimPaymentComponent implements OnInit {
     this.http.getPayments(this.claimManager.selectedClaim.claimId, sort, sort_dir,sort2, sort_dir2,
       page, page_size).map(p => p.json())
       .subscribe(results => {
-        console.log(results);
         this.payments = results;
       });
   }

@@ -130,6 +130,22 @@ export class HttpService {
     });
     return s;
   }
+  deletePrescriptionPayment(prescriptionPaymentId: any) {
+    const s = this.http.post(this.baseUrl + '/prescription-payments/delete/?prescriptionPaymentId='+prescriptionPaymentId, {}, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
+  updatePrescriptionPayment(data: any) {
+    const s = this.http.post(this.baseUrl + '/prescription-payments/update', data, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
   getDetailedPaymentClaim(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/claims-script-details', data, { headers: this.headers })
     .catch(err =>  {

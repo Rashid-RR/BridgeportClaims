@@ -26,10 +26,10 @@
                 <td>{{pay.rxDate  | date:"shortDate"}}</td>    
                 <td>{{pay.invoiceNumber}}</td>       
                 <td>
-                    <button type="button" class="btn btn-primary btn-xs">
+                    <button type="button" class="btn btn-primary btn-xs" (click)="update(pay)">
                         <span class="glyphicon glyphicon-edit"></span> Edit
                     </button>
-                    <button type="button" class="btn btn-danger btn-xs">
+                    <button type="button" class="btn btn-danger btn-xs" (click)="del(pay)">
                         <span class="glyphicon glyphicon-trash"></span> Delete
                     </button>  
                 </td>       
