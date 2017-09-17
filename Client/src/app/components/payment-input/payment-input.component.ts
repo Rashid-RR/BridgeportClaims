@@ -177,9 +177,9 @@ export class PaymentInputComponent implements OnInit {
       if(this.paymentService.paymentPosting.lastAmountRemaining == 0){
         this.finalizePosting();
       }else{
-        form.amountSelected = Number((form.amountSelected || 0).replace(",","")).toFixed(2);
+        form.amountSelected = Number((form.amountSelected || "0").replace(",","")).toFixed(2);
         form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
-        this.paymentService.paymentPosting.checkAmount = Number(Number((form.checkAmount || 0).replace(",","")).toFixed(2));
+        this.paymentService.paymentPosting.checkAmount = Number(Number((form.checkAmount || "0").replace(",","")).toFixed(2));
         form.amountSelected = this.paymentService.paymentPosting.amountSelected ;
         this.paymentService.paymentPosting.checkNumber = form.checkNumber;
         form.lastAmountRemaining=this.paymentService.paymentPosting.lastAmountRemaining;
@@ -190,9 +190,10 @@ export class PaymentInputComponent implements OnInit {
           this.localSt.store("partial-payment",payments);
           this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
         } */
-        else if(form.amountToPost==0 || form.checkAmount){
+        else if(Number(form.amountToPost) > Number(form.checkAmount)){
+          console.log(Number(form.amountToPost) > Number(form.checkAmount));
           this.toast.warning("The amount to post you specified is greater than the check amount. Please correct to proceed");
-        }else if(form.amountToPost > form.amountToPost==null){
+        }else if(form.amountToPost==0 || form.amountToPost==null){
           this.toast.warning("You need to specify amount to post");
         }else {
           this.paymentService.post(form);
