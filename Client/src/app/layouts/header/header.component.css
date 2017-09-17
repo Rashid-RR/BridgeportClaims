@@ -6,26 +6,27 @@
     color: #fff;
     line-height: 50px;
 }
-li a{
+
+li a {
     cursor: pointer;
 }
+
 .ver {
-    /*position: absolute;
+    position: fixed;
     top: 15px;
-    width: 50%; */
+    width: 50%;
     text-align: center;
     color: #b33a3a;
     z-index: 999999;
-   /* left: 50%;
-     -webkit-transform: translateX(-50%);
-    -ms-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    transform: translateX(-50%); */
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
 }
 
 .ver a.navbar-link,.ver a.navbar-link:active,.ver a.navbar-link:hover,.ver a.navbar-link:link{
     color: #b33a3a !important;
 }
+
 @media screen and (max-width: 767px) {
     /* .ver {
         top: 40px;
