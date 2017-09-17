@@ -136,6 +136,7 @@
     <Compile Include="Mappings\PrescriptionNoteMappingMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteTypeMap.cs" />
     <Compile Include="Mappings\PrescriptionPaymentMap.cs" />
+    <Compile Include="Mappings\SuspenseMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
     <Compile Include="Mappings\Views\VwPaymentMap.cs" />
     <Compile Include="Mappings\Views\VwPrescriptionNoteMap.cs" />

@@ -3,21 +3,22 @@ using FluentNHibernate.Mapping;
 
 namespace BridgeportClaims.Data.Mappings
 {
-    public class PrescriptionPaymentMap : ClassMap<PrescriptionPayment>
+    public class SuspenseMap : ClassMap<Suspense>
     {
-        public PrescriptionPaymentMap()
+        public SuspenseMap()
         {
-            Table("PrescriptionPayment");
+            Table("Suspense");
             Schema("dbo");
-            DynamicUpdate();
             SchemaAction.None();
+            DynamicUpdate();
             LazyLoad();
-            Id(x => x.PrescriptionPaymentId).GeneratedBy.Identity().Column("PrescriptionPaymentID");
-            References(x => x.Prescription).Column("PrescriptionID");
+            Id(x => x.SuspenseId).GeneratedBy.Identity().Column("SuspenseID");
+            References(x => x.Claim).Column("ClaimID");
             References(x => x.UserId).Column("UserID");
             Map(x => x.CheckNumber).Column("CheckNumber").Not.Nullable().Length(50);
-            Map(x => x.AmountPaid).Column("AmountPaid").Not.Nullable().Precision(19).Scale(4);
-            Map(x => x.DatePosted).Column("DatePosted");
+            Map(x => x.AmountRemaining).Column("AmountRemaining").Not.Nullable().Precision(19).Scale(4);
+            Map(x => x.SuspenseDate).Column("SuspenseDate").Not.Nullable();
+            Map(x => x.NoteText).Column("NoteText").Length(255);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
