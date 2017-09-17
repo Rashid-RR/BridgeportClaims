@@ -98,11 +98,22 @@ namespace BridgeportClaims.Common.Caching
 
         public void DeleteIfExists(string key)
         {
-            if (MemoryCache.Contains(key))
-                MemoryCache.Remove(key);
+            if (Contains(key))
+                GetItem(key, true);
+            if (Contains(key))
+                throw new Exception("The cache still has an item inside of it when it shouldn't.");
         }
 
-        public bool Contains(string key) => null != GetItem(key, false); // MemoryCache.Contains(key); // TODO: HACK. Figure this out.
+        /// <summary>
+        /// Stupid default MemoryCache.Contains method DELETE'S the object!!!
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public bool Contains(string key)
+        {
+            var item = GetItem(key, false);
+            return null != item;
+        }
 
         public void DeleteAll()
         {

@@ -14,6 +14,7 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.PrescriptionPaymentId).GeneratedBy.Identity().Column("PrescriptionPaymentID");
             References(x => x.Prescription).Column("PrescriptionID");
+            References(x => x.UserId).Column("UserID");
             Map(x => x.CheckNumber).Column("CheckNumber").Not.Nullable().Length(50);
             Map(x => x.AmountPaid).Column("AmountPaid").Not.Nullable().Precision(19).Scale(4);
             Map(x => x.DatePosted).Column("DatePosted");
