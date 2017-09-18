@@ -13,5 +13,6 @@ namespace BridgeportClaims.Data.Dtos
         public string RxNumber { get; set; }
         public DateTime RxDate { get; set; }
         public string InvoiceNumber { get; set; }
+        public bool IsReversed { get; set; }
     }
 }
