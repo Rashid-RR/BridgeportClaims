@@ -5,5 +5,6 @@
         public string SessionId { get; set; }
         public decimal AmountToSuspense { get; set; }
         public string NoteText { get; set; }
+        public int ClaimId { get; set; }
     }
 }

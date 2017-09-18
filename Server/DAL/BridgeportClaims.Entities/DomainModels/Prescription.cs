@@ -14,8 +14,11 @@ namespace BridgeportClaims.Entities.DomainModels
             PrescriptionNoteMapping = new List<PrescriptionNoteMapping>();
             PrescriptionPayment = new List<PrescriptionPayment>();
         }
+        [Required]
         public virtual int PrescriptionId { get; set; }
+        [Required]
         public virtual Claim Claim { get; set; }
+        [Required]
         public virtual Pharmacy Pharmacy { get; set; }
         public virtual Invoice Invoice { get; set; }
         [Required]
@@ -85,6 +88,8 @@ namespace BridgeportClaims.Entities.DomainModels
         [StringLength(50)]
         public virtual string ETLRowID { get; set; }
         public virtual float? AWP { get; set; }
+        public virtual DateTime? ReversedDate { get; set; }
+        public virtual bool IsReversed { get; set; }
         public virtual IList<PrescriptionNoteMapping> PrescriptionNoteMapping { get; set; }
         public virtual IList<PrescriptionPayment> PrescriptionPayment { get; set; }
     }

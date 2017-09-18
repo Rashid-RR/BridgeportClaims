@@ -53,6 +53,8 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             Map(x => x.ETLRowID).Column("ETLRowID").Length(50);
             Map(x => x.AWP).Column("AWP").Precision(53);
+            Map(x => x.ReversedDate).Column("ReversedDate");
+            Map(x => x.IsReversed).Column("IsReversed");
             HasMany(x => x.PrescriptionNoteMapping).KeyColumn("PrescriptionID");
             HasMany(x => x.PrescriptionPayment).KeyColumn("PrescriptionID");
         }
