@@ -3,14 +3,14 @@
       <div class="table-responsive top-header scroll-y">
         <table class="table no-margin table-striped">
           <thead class="overflowable">
-            <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'>
+            <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'  [class.rows6]="!allowed">
               <th columnSort="postedDate" [sort-table]="myTable"> Posted Date</th>
               <th columnSort="checkNumber" [sort-table]="myTable">Check Num</th>
               <th columnSort="amountPaid" [sort-table]="myTable">Check Amount</th>
               <th columnSort="rxNumber" [sort-table]="myTable">Rx Num</th>
               <th columnSort="rxDate" [sort-table]="myTable">Rx Date</th>
               <th columnSort="invoiceNumber" [sort-table]="myTable"> Inv Num</th>
-              <th>
+              <th *ngIf="allowed">
                 &nbsp;                
               </th>
             </tr>
@@ -21,11 +21,11 @@
         <div class="table-responsive table-body scroll-y">
           <table class="table no-margin table-striped" id="maintable">
             <tbody class="overflowable" #paymentsTable tabindex="0">
-              <tr *ngFor="let pay of payments">
+              <tr *ngFor="let pay of payments" [class.rows6]="!allowed">
                 <ng-container *ngIf="editingPaymentId==pay.prescriptionPaymentId">
                   <td>
                     <div class="input-group">
-                      <input class="form-control" name="datePosted" formControlName="datePosted" (change)="textChange('datePosted')" (focus)="submitted=false">
+                      <input class="form-control" name="datePosted" formControlName="datePosted" (change)="textChange('datePosted')" (focus)="submitted=false" id="datepicker" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask>
                     </div>
                   </td>
                   <td>
@@ -57,7 +57,7 @@
                       <input class="form-control" name="invoiceNumber" [(ngModel)]="pay.invoiceNumber" [ngModelOptions]="{standalone: true}" disabled>
                     </div>
                   </td>
-                  <td>
+                  <td *ngIf="allowed">
                     <button type="button" class="btn btn-primary btn-xs" (click)="savePayment(pay)" id="savePaymentButton">
                         <span class="glyphicon glyphicon-edit"></span> Save
                     </button>
@@ -73,13 +73,13 @@
                   <td>{{pay.rxNumber}}</td>
                   <td>{{pay.rxDate | date:"shortDate"}}</td>
                   <td>{{pay.invoiceNumber}}</td>
-                  <td>
+                  <td *ngIf="allowed">
                     <button type="button" class="btn btn-primary btn-xs" (click)="update(pay)">
-                            <span class="glyphicon glyphicon-edit"></span> Edit
-                        </button>
+                        <span class="glyphicon glyphicon-edit"></span> Edit
+                    </button>
                     <button type="button" class="btn btn-danger btn-xs" (click)="del(pay)">
-                            <span class="glyphicon glyphicon-trash"></span> Delete
-                        </button>
+                        <span class="glyphicon glyphicon-trash"></span> Delete
+                    </button>
                   </td>
                 </ng-container>
               </tr>

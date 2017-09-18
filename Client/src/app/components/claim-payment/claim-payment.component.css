@@ -40,38 +40,53 @@ tr>td {
     text-align: center;
 }
 
-tr>th:first-child,
-tr>td:first-child,
-tr>th:nth-child(2),
-tr>td:nth-child(2),
-tr>th:nth-child(3),
-tr>td:nth-child(3),
-tr>th:nth-child(4),
-tr>td:nth-child(4),
-tr>th:nth-child(5),
-tr>td:nth-child(5),
-tr>th:nth-child(6),
-tr>td:nth-child(6) {
+tr:not(.rows6)>th:first-child,
+tr:not(.rows6)>td:first-child,
+tr:not(.rows6)>th:nth-child(2),
+tr:not(.rows6)>td:nth-child(2),
+tr:not(.rows6)>th:nth-child(3),
+tr:not(.rows6)>td:nth-child(3),
+tr:not(.rows6)>th:nth-child(4),
+tr:not(.rows6)>td:nth-child(4),
+tr:not(.rows6)>th:nth-child(5),
+tr:not(.rows6)>td:nth-child(5),
+tr:not(.rows6)>th:nth-child(6),
+tr:not(.rows6)>td:nth-child(6) {
     max-width: 12%;
 }
 
-tr>th:nth-child(7),
-tr>td:nth-child(7) {
+tr:not(.rows6)>th:nth-child(7),
+tr:not(.rows6)>td:nth-child(7) {
     max-width: 28%; 
     text-align: right;
     word-wrap: normal;
 }
 
-tr>td:last-child {
+tr:not(.rows6)>td:last-child {
     font-size: 1.4rem;
     font-weight: bold;
     line-height: 1.5rem;
 }
 
-tr>th:last-child,
-tr>td:last-child,
+tr:not(.rows6)>th:last-child,
+tr:not(.rows6)>td:last-child,
 {
     text-align: right !important;
+}
+
+tr.rows6>th:first-child,
+tr.rows6>td:first-child,
+tr.rows6>th:nth-child(2),
+tr.rows6>td:nth-child(2),
+tr.rows6>th:nth-child(3),
+tr.rows6>td:nth-child(3),
+tr.rows6>th:nth-child(4),
+tr.rows6>td:nth-child(4),
+tr.rows6>th:nth-child(5),
+tr.rows6>td:nth-child(5),
+tr.rows6>th:nth-child(6),
+tr.rows6>td:nth-child(6) {
+    max-width: 16.6666667% !important;
 }
 
 td>a.label {
