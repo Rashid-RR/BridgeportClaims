@@ -4,11 +4,12 @@ import { ClaimManager } from "../../services/claim-manager";
 import { HttpService } from "../../services/http-service";
 import { Payment } from "../../models/payment";
 import { EventsService } from "../../services/events-service";
-import { DatePipe } from '@angular/common';
+import { DatePipe,DecimalPipe } from '@angular/common';
 import { ConfirmComponent } from '../../components/confirm.component';
 import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
 import { DialogService } from "ng2-bootstrap-modal";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ProfileManager } from "../../services/profile-manager";
 declare var $:any;
 
 @Component({
@@ -30,7 +31,9 @@ export class ClaimPaymentComponent implements OnInit {
     public  claimManager: ClaimManager,
     private events: EventsService,
     private dialogService: DialogService,
+    private profileManager: ProfileManager,
     private toast: ToastsManager,
+    private decimalPipe: DecimalPipe,
     private http: HttpService
   ) { 
     this.fetchData();
@@ -78,6 +81,14 @@ export class ClaimPaymentComponent implements OnInit {
         prescriptionId:[payment.prescriptionId],
         datePosted:[postedDate],        
     });
+    setTimeout(()=>{
+      $('#datepicker').datepicker({
+        autoclose: true
+      });
+      $("#datepicker").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+      $("[inputs-mask]").inputmask();
+      $("[data-mask]").inputmask();
+    },500);
   }
   saveButtonClick(){
       var btn = $("#savePaymentButton");
@@ -113,12 +124,11 @@ export class ClaimPaymentComponent implements OnInit {
     return true;
   }
   textChange(controlName:string){
-    /* if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
+    if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
       this.form.get(controlName).setValue(null);
     }else{
       switch(controlName){
-        case 'checkAmount':
-        case 'amountToPost':
+        case 'amountPaid':
           var val = this.form.get(controlName).value.replace(",",'');
           this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.2-2"));
         break;
@@ -126,7 +136,10 @@ export class ClaimPaymentComponent implements OnInit {
         break;
 
       }
-    } */
+    }
+  }
+  get allowed(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
   }
   cancel(){
     this.editing = false;
