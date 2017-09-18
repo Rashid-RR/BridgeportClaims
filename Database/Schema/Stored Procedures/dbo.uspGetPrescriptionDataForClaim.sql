@@ -36,6 +36,7 @@ AS BEGIN
 						   FROM   [dbo].[PrescriptionNoteMapping] AS [pnm]
 						   WHERE  [pnm].[PrescriptionID] = [p].[PrescriptionID]
 					   )
+		 , p.IsReversed
 	FROM   [dbo].[Prescription] AS [p]
 		   INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
 		   INNER JOIN [dbo].[Payor] AS [py] ON [py].[PayorID] = [c].[PayorID]
@@ -96,5 +97,4 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
-
 GO

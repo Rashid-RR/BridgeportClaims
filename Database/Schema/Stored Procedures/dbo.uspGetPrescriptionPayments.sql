@@ -32,6 +32,7 @@ AS BEGIN
 		 , RxNumber = [p].[RxNumber]
 		 , RxDate = [p].[DateFilled]
 		 , InvoiceNumber = [i].[InvoiceNumber]
+		 , p.IsReversed
 	FROM   [dbo].[Prescription] AS [p]
 		   INNER JOIN dbo.PrescriptionPayment AS pp ON pp.PrescriptionID = p.PrescriptionID
 		   LEFT JOIN dbo.Invoice AS i ON i.InvoiceID = p.InvoiceID

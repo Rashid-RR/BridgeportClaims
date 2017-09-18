@@ -5,7 +5,6 @@ CREATE TABLE [dbo].[Episode]
 [Note] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [EpisodeTypeID] [int] NULL,
 [Role] [varchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[Type] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ResolvedUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AcquiredUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AssignedUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -13,7 +12,7 @@ CREATE TABLE [dbo].[Episode]
 [Status] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedDateUTC] [datetime2] NULL,
 [Description] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[ResolvedDate] [datetime2] NULL,
+[ResolvedDateUTC] [datetime2] NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -25,7 +24,13 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [pkEpisode] PRIMARY KEY CLUSTERED  ([EpisodeID]) WITH (DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeClaimID] ON [dbo].[Episode] ([ClaimID]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeAcquiredUserID] ON [dbo].[Episode] ([AcquiredUserID]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxEpisodeAssignedUserID] ON [dbo].[Episode] ([AssignedUserID]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxEpisodeClaimIDEpisodeTypeIDIncludeAll] ON [dbo].[Episode] ([ClaimID], [EpisodeTypeID]) INCLUDE ([AcquiredUserID], [AssignedUserID], [CreatedDateUTC], [CreatedOnUTC], [Description], [EpisodeID], [Note], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxEpisodeResolvedUserID] ON [dbo].[Episode] ([ResolvedUserID]) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeAcquiredUserIDAspNetUsersID] FOREIGN KEY ([AcquiredUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

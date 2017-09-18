@@ -41,7 +41,9 @@ CREATE TABLE [dbo].[Prescription]
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL,
 [ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[AWP] AS ([Quantity]*[AWPUnit])
+[AWP] AS ([Quantity]*[AWPUnit]),
+[ReversedDate] [datetime2] NULL,
+[IsReversed] AS (CONVERT([bit],case  when [ReversedDate] IS NOT NULL then (1) else (0) end,(0)))
 ) ON [PRIMARY]
 WITH
 (
