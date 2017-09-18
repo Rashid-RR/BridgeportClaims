@@ -76,13 +76,13 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("claims-script-details")]
-        public async Task<IHttpActionResult> GetClaimsWithPrescriptionDetails(int claimId)
+        public async Task<IHttpActionResult> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
         {
             try
             {
                 return await Task.Run(() =>
                 {
-                    var claimsWithScripts = _paymentsDataProvider.GetClaimsWithPrescriptionDetails(claimId);
+                    var claimsWithScripts = _paymentsDataProvider.GetClaimsWithPrescriptionDetails(claimIds);
                     return Ok(claimsWithScripts);
                 });
             }

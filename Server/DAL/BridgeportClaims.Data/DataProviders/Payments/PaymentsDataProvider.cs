@@ -67,9 +67,9 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             return decimal.TryParse(outputParam.Value?.ToString(), out decimal d) ? d : new decimal();
         }
 
-        public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(int claimId)
+        public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
         {
-            var delimitedClaimIds = claimId.ToString(); // string.Join(c.Comma, claimIds);
+            var delimitedClaimIds = string.Join(c.Comma, claimIds);
             var claimIdParam = new SqlParameter
             {
                 ParameterName = "ClaimIDs",
