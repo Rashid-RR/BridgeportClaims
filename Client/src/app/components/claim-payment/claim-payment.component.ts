@@ -19,7 +19,7 @@ declare var $:any;
 })
 export class ClaimPaymentComponent implements OnInit {
 
-  sortColumn:Array<SortColumnInfo>=[];
+  sortColumn:SortColumnInfo;
   payments:Array<Payment>=[];
   editing:Boolean=false;
   editingPaymentId:any;
@@ -54,17 +54,8 @@ export class ClaimPaymentComponent implements OnInit {
      
   }
 
-  onSortColumn(info: SortColumnInfo) {
-    if(this.sortColumn.length==2 && this.sortColumn[1].column==info.column){
-      this.sortColumn[1].dir=info.dir;
-    }else if(this.sortColumn.length==1 && this.sortColumn[0].column==info.column){
-      this.sortColumn[0].dir=info.dir;
-    }else {
-      this.sortColumn.push(info);
-    }
-    if(this.sortColumn.length>2){
-      this.sortColumn=[this.sortColumn[this.sortColumn.length-2],this.sortColumn[this.sortColumn.length-1]];
-    }
+  onSortColumn(info: SortColumnInfo) {   
+    this.sortColumn = info;
     this.fetchData();
   }
 
@@ -104,7 +95,7 @@ export class ClaimPaymentComponent implements OnInit {
           //this.removePayment(payment);
           this.claimManager.loading = false;
           payment.postedDate = this.form.get('datePosted').value;
-          payment.checkAmt = this.form.get('amountPaid').value !==null ? this.form.get('amountPaid').value.replace(",","") : 0;          
+          payment.checkAmt = this.form.get('amountPaid').value !==null ? this.form.get('amountPaid').value.replace(",","") : 0;
           payment.checkNumber = this.form.get('checkNumber').value;
           this.cancel();
       },error=>{                          
@@ -156,7 +147,7 @@ export class ClaimPaymentComponent implements OnInit {
   del(payment:Payment){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Delete payment",
-      message: "Are you sure you wish to remove this Payment  for Invoice Number: "+payment.invoiceNumber+" of "+payment.checkAmt+"?"
+      message: "Are you sure you wish to remove this Payment  for Invoice Number: "+payment.invoiceNumber+" of $"+payment.checkAmt+"?"
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
@@ -186,18 +177,12 @@ export class ClaimPaymentComponent implements OnInit {
     let page = 1;
     let page_size = 1000;
     let sort: string = 'RxDate';
-    let sort_dir: 'asc' | 'desc' = 'desc'; 
-    let sort2: string = 'RxNumber';
-    let sort_dir2: 'asc' | 'desc' = 'asc';
-    if (this.sortColumn[0]) {
-      sort = this.sortColumn[0].column;
-      sort_dir = this.sortColumn[0].dir;
+    let sort_dir: 'asc' | 'desc' = 'desc';
+    if (this.sortColumn) {
+      sort = this.sortColumn.column;
+      sort_dir = this.sortColumn.dir;
     }
-    if (this.sortColumn[1]) {
-      sort2 = this.sortColumn[1].column;
-      sort_dir2 = this.sortColumn[1].dir;
-    }
-    this.http.getPayments(this.claimManager.selectedClaim.claimId, sort, sort_dir,sort2, sort_dir2,
+    this.http.getPayments(this.claimManager.selectedClaim.claimId,sort, sort_dir,
       page, page_size).map(p => p.json())
       .subscribe(results => {
         this.payments = results;
