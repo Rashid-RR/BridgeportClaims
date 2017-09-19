@@ -413,16 +413,17 @@ export class HttpService {
     });
     return s;
   }
-  getPayments(claimId: Number, sort: String = 'RxDate', sortDir: 'asc' | 'desc' = 'desc',
-    secondSort: String = 'RxNumber', secondSortDir: 'asc' | 'desc' = 'asc',
-    page: Number= 1, pageSize: Number = 500) {
+  getPayments(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
+  page: Number= 1, pageSize: Number = 500) {
     //api/payment/payments-blade?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=500
     let params = new URLSearchParams();
     params.append('claimId', claimId.toString());
-    params.append('sort', sort.toString());
-    params.append('sortDirection', sortDir.toUpperCase());
-    params.append('secondSort', secondSort.toString());
-    params.append('secondSortDirection', secondSortDir.toUpperCase());
+    if (sort) {
+      params.append('sort', sort.toString());
+      params.append('sortDirection', sortDir.toUpperCase());
+      params.append('secondSort', 'RxNumber');
+      params.append('secondSortDirection', 'ASC');
+    }
     if (page >= 1) {
       params.append('page', page.toString());
     }

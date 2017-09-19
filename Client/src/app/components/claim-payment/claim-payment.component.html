@@ -4,12 +4,24 @@
         <table class="table no-margin table-striped">
           <thead class="overflowable">
             <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'  [class.rows6]="!allowed">
-              <th columnSort="postedDate" [sort-table]="myTable"> Posted Date</th>
-              <th columnSort="checkNumber" [sort-table]="myTable">Check Num</th>
-              <th columnSort="amountPaid" [sort-table]="myTable">Check Amount</th>
-              <th columnSort="rxNumber" [sort-table]="myTable">Rx Num</th>
-              <th columnSort="rxDate" [sort-table]="myTable">Rx Date</th>
-              <th columnSort="invoiceNumber" [sort-table]="myTable"> Inv Num</th>
+              <th>
+                <span columnSort="postedDate" [sort-table]="myTable"> Posted Date</span>
+              </th>
+              <th>
+                <span columnSort="checkNumber" [sort-table]="myTable">Check Num</span>
+              </th>
+              <th>
+                <span columnSort="CheckAmt" [sort-table]="myTable">Check Amount</span>
+              </th>
+              <th>
+                <span columnSort="rxNumber" [sort-table]="myTable">Rx Num</span>
+              </th>
+              <th>
+                <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>
+              </th>
+              <th>
+                <span columnSort="invoiceNumber" [sort-table]="myTable"> Inv Num</span>
+              </th>
               <th *ngIf="allowed">
                 &nbsp;                
               </th>
