@@ -371,7 +371,6 @@ export class HttpService {
   }
 
   getPayments(claimId: Number, sort: String = 'RxDate', sortDir: 'asc' | 'desc' = 'desc',
-    secondSort: String = 'RxNumber', secondSortDir: 'asc' | 'desc' = 'asc',
     page: Number= 1, pageSize: Number = 500) {
     //api/payment/payments-blade?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=500
     let params = new URLSearchParams();
