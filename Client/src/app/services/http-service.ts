@@ -376,10 +376,12 @@ export class HttpService {
     //api/payment/payments-blade?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=500
     let params = new URLSearchParams();
     params.append('claimId', claimId.toString());
-    params.append('sort', sort.toString());
-    params.append('sortDirection', sortDir.toUpperCase());
-    params.append('secondSort', secondSort.toString());
-    params.append('secondSortDirection', secondSortDir.toUpperCase());
+    if (sort) {
+      params.append('sort', sort.toString());
+      params.append('sortDirection', sortDir.toUpperCase());
+      params.append('secondSort', 'RxNumber');
+      params.append('secondSortDirection', 'ASC');
+    }
     if (page >= 1) {
       params.append('page', page.toString());
     }
