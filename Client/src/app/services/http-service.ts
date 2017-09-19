@@ -421,9 +421,10 @@ export class HttpService {
     if (sort) {
       params.append('sort', sort.toString());
       params.append('sortDirection', sortDir.toUpperCase());
-      params.append('secondSort', 'RxNumber');
-      params.append('secondSortDirection', 'ASC');
     }
+
+    params.append('secondSort', 'null');
+    params.append('secondSortDirection', 'null');
     if (page >= 1) {
       params.append('page', page.toString());
     }
