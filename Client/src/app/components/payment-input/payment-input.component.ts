@@ -274,7 +274,7 @@ export class PaymentInputComponent implements OnInit {
       .subscribe((isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {  
-          this.paymentService.paymentToSuspense({sessionId:this.paymentService.paymentPosting.sessionId,amountToSuspense:amountToSuspend,noteText:text});             
+          this.paymentService.paymentToSuspense({sessionId:this.paymentService.paymentPosting.sessionId,amountToSuspense:amountToSuspend,noteText:text,claimId:this.paymentService.claimsDetail.toArray()[0].claimId});
         }
         else {
            

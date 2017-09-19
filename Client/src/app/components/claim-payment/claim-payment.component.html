@@ -21,7 +21,7 @@
         <div class="table-responsive table-body scroll-y">
           <table class="table no-margin table-striped" id="maintable">
             <tbody class="overflowable" #paymentsTable tabindex="0">
-              <tr *ngFor="let pay of payments" [class.rows6]="!allowed">
+              <tr *ngFor="let pay of payments" [class.rows6]="!allowed" [class.isReversed]="pay.isReversed">
                 <ng-container *ngIf="editingPaymentId==pay.prescriptionPaymentId">
                   <td>
                     <div class="input-group">

@@ -5,13 +5,14 @@ export class Payment{
   prescriptionPaymentId:any;
 	prescriptionId: any;
 	postedDate: Date;
-	rxany:any ;
+	rxNumber:any;
+	isReversed:Boolean;
 	invoiceNumber:any;
   constructor(checkAmt:any,checkNumber:any,rxDate:Date,
     prescriptionPaymentId:any,
     prescriptionId: any,
     postedDate: Date,
-    rxany:any ,
+    rxNumber:any ,isReversed:Boolean,
     invoiceNumber:any){
       this.checkNumber=checkNumber;
       this.checkAmt=checkAmt;
@@ -19,7 +20,8 @@ export class Payment{
       this.prescriptionPaymentId=prescriptionPaymentId;
       this.prescriptionId =prescriptionId 
       this.postedDate = postedDate;
-      this.rxany=  rxany;
+      this.rxNumber=  rxNumber;
+      this.isReversed = isReversed;
       this.invoiceNumber= invoiceNumber;
   }
 }

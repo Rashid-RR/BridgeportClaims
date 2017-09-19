@@ -39,12 +39,12 @@ export class PaymentScriptService {
                     </a>`  : claim.numberOfPrescriptions;
                 claimsHTML = claimsHTML + `
                     <tr id="`+claim.claimId+`" class="claimRow">
-                        <td  style="width:19%">
-                           <!--  <div class="paymentCheckBox"> 
+                        <!--<td  style="width:19%">
+                            <div class="paymentCheckBox"> 
                                 <input type="checkbox" name="check" class="claimCheckBox" id="row`+claim.claimId+`" value="None">
                                 <label for="row`+claim.claimId+`"></label>
-                            </div> -->
-                        </td>
+                            </div>
+                        </td>-->
                         <td>`+ claim.claimNumber + `</td>
                         <td>`+ claim.patientName + `</td>
                         <td>`+ claim.payor + `</td>
@@ -139,12 +139,12 @@ export class PaymentScriptService {
                                                     <table class="table no-margin table-striped">
                                                         <thead class="overflowable" id="fixed-thead">
                                                             <tr>  
-                                                                <th style="width:19%">
+                                                                <!--<th style="width:19%">
                                                                     <div class="paymentCheckBox checkAll"> 
                                                                         <input type="checkbox" id="claimsCheckBox" name="check" value="None">
                                                                         <label for="claimsCheckBox"></label> 
                                                                     </div>&nbsp;<i class="fa rotate fa-exchange" id="claimsCheckBox"></i>
-                                                                </th>                                                         
+                                                                </th>-->                                                    
                                                                 <th>Claim #</th>
                                                                 <th>Patient Name</th>                        
                                                                 <th>Payor</th>
@@ -272,7 +272,7 @@ export class PaymentScriptService {
                 selectedClaims.push(id);
             }
             if (selectedClaims.length == 0) {
-            this.toast.warning('Please select one or more claims in order to view prescriptions.');
+            this.toast.warning('Please select one claim in order to view prescriptions.');
             }else{
                 try{
                     swal.clickCancel();
@@ -311,25 +311,36 @@ export class PaymentScriptService {
         }
         updateTable(claimId:Number,checkAll){
             let data = this.paymentService.rawClaimsData.get(claimId);
-            if(data){        
-                    if($("tr#"+claimId).hasClass("bgBlue") || checkAll===false){                        
-                        this.ngZone.run(()=>{
-                            $("tr#"+claimId).removeClass("bgBlue");
-                        });    data.selected = false                       
-                        this.ngZone.run(()=>{
-                           // $("input#row"+claimId).attr("checked",false); 
-                            $("input#claimsCheckBox").attr("checked",false); 
-                        });
-                    }else{                        
-                        this.ngZone.run(()=>{
-                            $("tr#"+claimId).addClass("bgBlue"); 
-                        });
-                        data.selected = true                        
-                        this.ngZone.run(()=>{
-                            //$("input#row"+claimId).attr("checked",true);
-                        });
+            this.paymentService.rawClaimsData.forEach(claim=>{   
+                setTimeout(()=>{
+                    if(claim.claimId == claimId){                        
+                        if(data){   
+                            if($("tr#"+claimId).hasClass("bgBlue") || checkAll===false){                        
+                                this.ngZone.run(()=>{
+                                    $("tr#"+claimId).removeClass("bgBlue");
+                                });    data.selected = false                       
+                                this.ngZone.run(()=>{
+                                // $("input#row"+claimId).attr("checked",false); 
+                                    $("input#claimsCheckBox").attr("checked",false); 
+                                });
+                            }else{                        
+                                this.ngZone.run(()=>{
+                                    $("tr#"+claimId).addClass("bgBlue"); 
+                                });
+                                data.selected = true                        
+                                this.ngZone.run(()=>{
+                                    //$("input#row"+claimId).attr("checked",true);
+                                });
+                            }
+                            this.paymentService.rawClaimsData.set(claimId,data);
+                        }
+                    }else{
+                        $("tr#"+claim.claimId).removeClass("bgBlue");
+                        claim.selected = false;
+                        //$("input#row"+claim.claimId).attr("checked",false);
+                        this.paymentService.claims = this.paymentService.claims.set(claim.claimId,claim);
                     }
-                this.paymentService.rawClaimsData.set(claimId,data);
-            }
+                },100)
+            });
         }
     }
