@@ -275,13 +275,13 @@ export class PaymentService {
           if (Object.prototype.toString.call(result) === '[object Array]') {
             const res: Array<DetailedPaymentClaim> = result;
             this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
-            var i=0;
+            //var i=0; //test
             result.forEach(claim => {
-               claim.isReversed = i%2== 0 ? true : false;
+              // claim.isReversed = i%2== 0 ? true : false; //test
               const c = new DetailedPaymentClaim(claim.prescriptionId, claim.claimId, claim.claimNumber, claim.patientName,
                 claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName, claim.outstanding, claim.invoicedAmount, claim.payor,claim.isReversed);
               this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
-              i++;
+              //i++;//meant for test
             });
           }
          this.events.broadcast('payment-updated',false);
