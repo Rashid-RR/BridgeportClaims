@@ -378,13 +378,14 @@ export class HttpService {
     if (sort) {
       params.append('sort', sort.toString());
       params.append('sortDirection', sortDir.toUpperCase());
-      params.append('secondSort', 'RxNumber');
-      params.append('secondSortDirection', 'ASC');
     }
+    params.append('secondSort', 'null');
+    params.append('secondSortDirection', 'null');
     if (page >= 1) {
       params.append('page', page.toString());
     }
     params.append('pageSize', pageSize.toString());
+    console.log(params);
     let options = new RequestOptions({ params: params, headers: this.headers });
     const s = this.http.post(this.baseUrl + '/payment/payments-blade/', '', options)
     .catch(err =>  {
