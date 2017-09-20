@@ -43,6 +43,7 @@ export class PaymentInputComponent implements OnInit {
           amountRemaining: null
         });
         this.paymentService.paymentPosting = new PaymentPosting();
+        this.disableCheckEntry = false;
     });
     this.events.on("payment-closed",a=>{
         this.form.patchValue({
@@ -53,6 +54,7 @@ export class PaymentInputComponent implements OnInit {
           amountRemaining: null
         });
         this.paymentService.paymentPosting = new PaymentPosting();
+        this.disableCheckEntry = false;
     });
     this.events.on("payment-amountRemaining",a=>{
          this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(a.amountRemaining),"1.2-2"));
