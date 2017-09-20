@@ -54,11 +54,9 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
       }
     });
     
-    this.currentURL = this.router.url;
-      console.log(this.router.url);
+    this.currentURL = this.router.url; 
       this.router.events.subscribe(ev=>{
-        if(ev instanceof NavigationEnd){
-          console.log(this.router.url);
+        if(ev instanceof NavigationEnd){ 
           this.currentURL = this.router.url;          
         }
       });

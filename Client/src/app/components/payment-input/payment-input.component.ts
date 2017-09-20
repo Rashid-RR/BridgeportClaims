@@ -173,11 +173,13 @@ export class PaymentInputComponent implements OnInit {
       
       this.paymentService.detailedClaimsData.forEach(p=>{
           if(p.selected){
-            this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,form.amountToPost,p.prescriptionId))       
+            let amountToPost = this.paymentService.selected.length>1 ? p.invoicedAmount : form.amountToPost;
+            console.log(amountToPost,form);
+            this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,amountToPost,p.prescriptionId))       
             payments.push({
               patientName: p.patientName,
               rxDate: p.rxDate,
-              amountPosted: form.amountToPost,
+              amountPosted: amountToPost,
               prescriptionId: p.prescriptionId,
               invoiceAmount:p.invoicedAmount
             });
@@ -189,13 +191,14 @@ export class PaymentInputComponent implements OnInit {
       if(this.paymentService.paymentPosting.lastAmountRemaining == 0){
         this.finalizePosting();
       }else{
-        form.amountSelected = Number((form.amountSelected || "0").replace(",","")).toFixed(2);
-        form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
-        this.paymentService.paymentPosting.checkAmount = Number(Number((form.checkAmount || "0").replace(",","")).toFixed(2));
-        form.amountSelected = this.paymentService.paymentPosting.amountSelected ;
+        console.log(String(form.checkAmount));
+        form.amountSelected = Number((String(this.paymentService.amountSelected) || "0").replace(",","")).toFixed(2);
+        form.checkAmount =  Number(String(form.checkAmount).replace(",","")).toFixed(2); 
+        this.paymentService.paymentPosting.checkAmount = Number(this.paymentService.paymentPosting.checkAmount) ? this.paymentService.paymentPosting.checkAmount : Number(Number((form.checkAmount || "0").replace(",","")).toFixed(2));
         this.paymentService.paymentPosting.checkNumber = form.checkNumber;
         form.lastAmountRemaining=this.paymentService.paymentPosting.lastAmountRemaining;
         form.sessionId=this.paymentService.paymentPosting.sessionId;
+        //console.log(form.amountToPost,form.amountSelected,this.paymentService.paymentPosting.amountSelected,this.paymentService.amountSelected);
         if(this.paymentService.selected.length>1 && form.amountToPost!=form.amountSelected){
           this.toast.warning('Multi-line payments are not permitted for posting unless the "Amount Selected" is equal to the "Amount To Post"');
         }/* else if(form.checkAmount > form.amountToPost){      
