@@ -64,7 +64,7 @@ export class PaymentInputComponent implements OnInit {
          this.paymentService.paymentPosting.sessionId=a.sessionId;
          this.paymentService.paymentPosting.checkAmount=form.checkAmount;
          this.paymentService.paymentPosting.checkNumber=form.checkNumber;
-         console.log(checkAmount-(a.amountRemaining as number));
+         //console.log(checkAmount-(a.amountRemaining as number));
          this.paymentService.paymentPosting.lastAmountRemaining = a.amountRemaining
          form.paymentPostings = this.paymentService.paymentPosting.paymentPostings;
          form.lastAmountRemaining = a.amountRemaining;
@@ -72,7 +72,7 @@ export class PaymentInputComponent implements OnInit {
          /* form.checkAmount = this.paymentService.paymentPosting.checkAmount;
          form.checkNumber = this.paymentService.paymentPosting.checkNumber; */
          form.amountSelected = this.paymentService.paymentPosting.amountSelected;
-         console.log(form);
+         //console.log(form);
          if (a.amountRemaining == 0) {
           this.finalizePosting();
          }else if (a.amountRemaining <= 0) {
@@ -173,7 +173,7 @@ export class PaymentInputComponent implements OnInit {
       
       this.paymentService.detailedClaimsData.forEach(p=>{
           if(p.selected){
-            this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,p.invoicedAmount,p.prescriptionId))       
+            this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,form.amountToPost,p.prescriptionId))       
             payments.push({
               patientName: p.patientName,
               rxDate: p.rxDate,
@@ -203,7 +203,7 @@ export class PaymentInputComponent implements OnInit {
           this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
         } */
         else if(Number(form.amountToPost) > Number(form.checkAmount)){
-          console.log(Number(form.amountToPost) > Number(form.checkAmount));
+          //console.log(Number(form.amountToPost) > Number(form.checkAmount));
           this.toast.warning("The amount to post you specified is greater than the check amount. Please correct to proceed");
         }else if(form.amountToPost==0 || form.amountToPost==null){
           this.toast.warning("You need to specify amount to post");

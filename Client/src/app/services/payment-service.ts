@@ -11,6 +11,7 @@ import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
 import {PaymentPosting} from "../models/payment-posting";
+import {PaymentPostingPrescription} from '../models/payment-posting-prescription'
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 
@@ -91,6 +92,8 @@ export class PaymentService {
            result.paymentPostings.forEach(prescription=>{
              this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
              this.claimsDetail.get(prescription.prescriptionId).selected = false;
+             let posting  = prescription as PaymentPostingPrescription;
+             this.paymentPosting.payments = this.paymentPosting.payments.set(prescription.prescriptionId,posting);
            })
         }, err => {
           this.loading = false;
