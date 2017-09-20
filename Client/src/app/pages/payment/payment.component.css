@@ -128,13 +128,13 @@ textarea {
 .tab {
     position: fixed;
     width: 450px;
-    min-height: 250px;
-    height: calc(90vh - 50px);
-    height: -webkit-calc(90vh - 50px);
-    height: -o-calc(90vh - 50px);
-    height: -moz-calc(90vh - 50px);
-    top: 50%;
-    margin-top:50px;
+    min-height: 150px;
+    height: calc(100vh - 165px);
+    height: -webkit-calc(100vh - 165px);
+    height: -o-calc(100vh - 165px);
+    height: -moz-calc(100vh - 165px);
+    top: 164px;
+    /* margin-top:50px; */
     right: -450px;
     background: #414772;
     z-index: 10;
@@ -174,17 +174,17 @@ textarea {
     border-right: none;
 }
 .posted-content{
-    height: calc(90vh - 100px);
-    height: -webkit-calc(90vh - 100px);
-    height: -o-calc(90vh - 100px);
-    height: -moz-calc(90vh - 100px);
+    height: calc(100vh - 165px);
+    height: -webkit-calc(100vh - 165px);
+    height: -o-calc(100vh - 165px);
+    height: -moz-calc(100vh - 165px);
     overflow:hidden;
 }
 .posted-content .col-xs-12{    
-    max-height: calc(90vh - 100px);
-    max-height: -webkit-calc(90vh - 100px);
-    max-height: -o-calc(90vh - 100px);
-    max-height: -moz-calc(90vh - 100px);
+    max-height: calc(90vh - 180px);
+    max-height: -webkit-calc(90vh - 180px);
+    max-height: -o-calc(90vh - 180px);
+    max-height: -moz-calc(90vh - 180px);
     overflow-y: scroll;
 }
 .table-content,.posted-content {

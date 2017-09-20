@@ -13,10 +13,10 @@ import { PaymentPostingPrescription} from "../../models/payment-posting-prescrip
   animations: [
     trigger('slideInOut', [
       state('out', style({
-        transform: 'translate3d(-100%, 0, 0) translateY(-50%)'
+        transform: 'translate3d(-100%, 0, 0)'
       })),
       state('in', style({
-        transform: 'translate3d(0, 0, 0) translateY(-50%)'
+        transform: 'translate3d(0, 0, 0)'
       })),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out'))
