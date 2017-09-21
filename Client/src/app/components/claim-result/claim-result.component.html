@@ -3,7 +3,7 @@
         <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
             <address>
           Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}<br>
-          DOB: {{claim.date | date:'shortDate'}}<br>
+          DOB: {{claim.dateOfBirth | date:'shortDate'}}<br>
           Gender: {{claim.gender}}<br>
           Carrier: {{claim.carrier}}<br/>
           Adjustor : {{claim.adjustor}}<br>
@@ -16,7 +16,7 @@
             <address>
           Claim #: {{claim.claimNumber}}<br>
           Injury Date: {{claim.injuryDate}}<br>
-          Adjustor Fax : {{claim.adjustorFaxNumber}}<br>
+          Adjustor Fax : {{claim.adjustorFaxNumber || claim.adjustorPhoneNumber}}<br>
         </address>
             <br/><br/><br/><br/><br/>
             <!--

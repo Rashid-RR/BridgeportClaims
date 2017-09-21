@@ -83,7 +83,7 @@ export class ClaimManager {
           let res: Array<Claim> = result;
           this.claims = Immutable.OrderedMap<Number, Claim>();
           result.forEach(claim => {
-            var c = new Claim(claim.claimId, claim.claimNumber, claim.dateEntered, claim.injuryDate, claim.gender,
+            var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorPhoneNumber
               , claim.name, claim.firstName, claim.lastName);
             this.claims = this.claims.set(claim.claimId, c);
@@ -95,6 +95,12 @@ export class ClaimManager {
             , result.name, result.firstName, result.lastName);
           this.claims = this.claims.set(result.claimId, c);
           let claim = this.claims.get(result.claimId);
+          c.dateOfBirth = result.dateOfBirth;
+          c.adjustor = result.adjustor;
+          c.adjustorPhoneNumber = result.adjustorPhoneNumber;
+          c.eligibilityTermDate = result.eligibilityTermDate;
+          c.dateEntered = result.dateEntered;
+          c.gender = result.gender;
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);
           claim.setEpisodes(result.episodes);
@@ -175,6 +181,12 @@ export class ClaimManager {
       this.http.getClaimsData({ claimId: id }).map(res => { return res.json() })
         .subscribe(result => {
           this.loading = false;
+          claim.dateOfBirth = result.dateOfBirth;
+          claim.adjustor = result.adjustor;
+          claim.adjustorPhoneNumber = result.adjustorPhoneNumber;
+          claim.eligibilityTermDate = result.eligibilityTermDate;
+          claim.dateEntered = result.dateEntered;
+          claim.gender = result.gender;
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);
           claim.setEpisodes(result.episodes);
