@@ -86,8 +86,8 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
         return false;
     }
   }
-   ngAfterViewInit() {
+  ngAfterViewInit() {
     this.toast.setRootViewContainerRef(this.toastVcr);
- }
+  }
 
 }

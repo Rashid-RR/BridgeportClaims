@@ -87,7 +87,7 @@ export class LoginComponent implements OnInit {
     var user = localStorage.getItem("user");  
      if(user!==null){
       this._location.back();
-    }     
+    }
   }
 
 

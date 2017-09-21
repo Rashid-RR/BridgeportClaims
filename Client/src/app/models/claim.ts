@@ -19,6 +19,7 @@ export class Claim {
     adjustor:String;
     adjustorPhoneNumber:String;
     dateEntered:Date;
+    eligibilityTermDate:Date;
     adjustorFaxNumber:String;
     private prescription:Array<Prescription> = [];
     private prescriptionNote:Array<PrescriptionNotes> = [];
@@ -27,13 +28,14 @@ export class Claim {
     claimNote:ClaimNote;
     editing:Boolean=false;
 constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
-    gender:String,carrier:String,adjustor:String,adjustorPhoneNumber:String,dateEntered:Date,adjustorFaxNumber:String,name?:String,firstName?:String,lastName?:String){
+    gender:String,carrier:String,adjustor:String,adjustorPhoneNumber:String,dateEntered:Date,adjustorFaxNumber:String,name?:String,firstName?:String,lastName?:String,eligibilityTermDate?:Date){
     this.claimId = claimId;
     this.firstName = firstName;
     this.lastName = lastName;
     this.name = name;
     this.claimNumber = claimNumber;
     this.dateOfBirth = dateOfBirth ;
+    console.log(this.dateOfBirth,dateOfBirth);
     this.injuryDate = injuryDate ;
     this.gender = gender;
     this.carrier = carrier;
@@ -41,6 +43,7 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
     this.adjustorPhoneNumber = adjustorPhoneNumber;
     this.dateEntered = dateEntered;
     this.adjustorFaxNumber = adjustorFaxNumber;
+    this.eligibilityTermDate = eligibilityTermDate;
   }
 
   setPrescription(prescription:Array<Prescription>){
