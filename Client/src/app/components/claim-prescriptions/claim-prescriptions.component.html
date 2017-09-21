@@ -12,10 +12,10 @@
                             </div>&nbsp;<i class="fa rotate fa-exchange" (click)="checkAllFields.click()"></i>
                         </th>
                         <th>
-                            <span columnSort="rxNumber" [sort-table]="myTable">Rx #</span>
+                            <span columnSort="invoiceDate" [sort-table]="myTable">Inv Date</span>
                         </th>
                         <th>
-                            <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>
+                            <span columnSort="invoiceNumber" [sort-table]="myTable">Inv #</span>
                         </th>
                         <th>
                             <span columnSort="labelName" [sort-table]="myTable">Label Name</span>
@@ -24,10 +24,10 @@
                             <span columnSort="billTo" [sort-table]="myTable">Bill To</span>
                         </th>
                         <th>
-                            <span columnSort="invoiceDate" [sort-table]="myTable">Inv Date</span>
+                            <span columnSort="rxNumber" [sort-table]="myTable">Rx #</span>
                         </th>
                         <th>
-                            <span columnSort="invoiceNumber" [sort-table]="myTable">Inv #</span>
+                            <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>
                         </th>
                         <th>
                             <span columnSort="invoiceAmount" [sort-table]="myTable">Inv Amt</span>
@@ -58,12 +58,12 @@
                                     <label [for]="prescription.prescriptionId" (click)="inv.click()"></label>
                                 </div>
                             </td>
-                            <td>{{prescription.rxNumber}}</td>
-                            <td>{{prescription.rxDate | date:"shortDate"}}</td>
-                            <td>{{prescription.labelName}}</td>
-                            <td>{{prescription.billTo}}</td>
                             <td>{{prescription.invoiceDate | date:"shortDate"}}</td>
                             <td>{{prescription.invoiceNumber}}</td>
+                            <td>{{prescription.labelName}}</td>
+                            <td>{{prescription.billTo}}</td>
+                            <td>{{prescription.rxNumber}}</td>
+                            <td>{{prescription.rxDate | date:"shortDate"}}</td>
                             <td class="text-right">{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
                             <td class="text-right">{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
                             <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
