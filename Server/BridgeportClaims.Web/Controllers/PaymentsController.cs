@@ -242,9 +242,6 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                if (null != model.LastAmountRemaining && model.AmountRemaining <= 0)
-                    throw new Exception(
-                        $"The 'LastAmountRemaining' field cannot be zero or negative. You passed in {model.LastAmountRemaining}");
                 if (null == model.SessionId || !_memoryCacher.Contains(model.SessionId))
                 {
                     model.UserName = User.Identity.Name;
