@@ -190,7 +190,7 @@ export class HttpService {
       params.append('page', page.toString());
     }
     params.append('pageSize', pageSize.toString());
-    let options = new RequestOptions({ params: params, headers: this.headers });
+    let options = new RequestOptions({headers: this.headers });
     const s = this.http.post(this.baseUrl + '/payment/claims-script-details', data, options)
     .catch(err =>  {
     this.handleResponseError(err);
