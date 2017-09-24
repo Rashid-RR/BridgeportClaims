@@ -92,6 +92,13 @@ export class PaymentInputComponent implements OnInit {
     this.paymentService.paymentPosting = new PaymentPosting();
   }
 
+  updateAmountRemaining(){
+    let amnt = this.form.get("checkAmount").value;    
+    let amount = Number(amnt.replace(new RegExp(",", "gi"),""))
+    this.form.get('amountRemaining').setValue(this.decimalPipe.transform(amount,"1.2-2"));
+    this.paymentService.paymentPosting.lastAmountRemaining = Number(amount.toFixed(2));    
+  }
+
   finalizePosting(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Permanently Save Payment",
@@ -145,8 +152,11 @@ export class PaymentInputComponent implements OnInit {
       switch(controlName){
         case 'checkAmount':
         case 'amountToPost':
-          var val = this.form.get(controlName).value.replace(",",'');
+          var val = this.form.get(controlName).value.replace(new RegExp(",", "gi"),'');
           this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.2-2"));
+          if(controlName=='checkAmount'){
+            this.updateAmountRemaining();
+          }
         break;
         default:
         break;
