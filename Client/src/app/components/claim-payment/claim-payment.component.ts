@@ -95,7 +95,7 @@ export class ClaimPaymentComponent implements OnInit {
           //this.removePayment(payment);
           this.claimManager.loading = false;
           payment.postedDate = this.form.get('datePosted').value;
-          payment.checkAmt = this.form.get('amountPaid').value !==null ? this.form.get('amountPaid').value.replace(",","") : 0;
+          payment.checkAmt = this.form.get('amountPaid').value !==null ? this.form.get('amountPaid').value.replace(new RegExp(",", "gi"),"") : 0;
           payment.checkNumber = this.form.get('checkNumber').value;
           this.cancel();
       },error=>{                          
@@ -120,7 +120,7 @@ export class ClaimPaymentComponent implements OnInit {
     }else{
       switch(controlName){
         case 'amountPaid':
-          var val = this.form.get(controlName).value.replace(",",'');
+          var val = this.form.get(controlName).value.replace(new RegExp(",", "gi"),"");
           this.form.get(controlName).setValue(this.decimalPipe.transform(val,"1.2-2"));
         break;
         default:

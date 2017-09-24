@@ -58,11 +58,11 @@ export class PaymentInputComponent implements OnInit {
     });
     this.events.on("payment-amountRemaining",a=>{
          this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(a.amountRemaining),"1.2-2"));
-         let c=Number(this.form.get('checkAmount').value.replace(",","")).toFixed(2);
+         let c=Number(this.form.get('checkAmount').value.replace(new RegExp(",", "gi"),"")).toFixed(2);
          let checkAmount  = Number(c);
          var form: any={};
          form = this.form.value;
-         form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2);          
+         form.checkAmount = Number(form.checkAmount.replace(new RegExp(",", "gi"),"")).toFixed(2);          
          this.paymentService.paymentPosting.sessionId=a.sessionId;
          this.paymentService.paymentPosting.checkAmount=form.checkAmount;
          this.paymentService.paymentPosting.checkNumber=form.checkNumber;
@@ -171,7 +171,7 @@ export class PaymentInputComponent implements OnInit {
           this.toast.warning('The Check Amount field is mandatory in order to save the payment posting.');
     }else{
       form.amountRemaining = undefined;
-      form.amountToPost = form.amountToPost !==null ? Number((form.amountToPost || 0).replace(",","")).toFixed(2) :(0).toFixed(2);
+      form.amountToPost = form.amountToPost !==null ? Number((form.amountToPost || 0).replace(new RegExp(",", "gi"),"")).toFixed(2) :(0).toFixed(2);
       
       this.paymentService.detailedClaimsData.forEach(p=>{
           if(p.selected){
@@ -194,9 +194,9 @@ export class PaymentInputComponent implements OnInit {
         this.finalizePosting();
       }else{
         console.log(String(form.checkAmount));
-        form.amountSelected = Number((String(this.paymentService.amountSelected) || "0").replace(",","")).toFixed(2);
-        form.checkAmount =  Number(String(form.checkAmount).replace(",","")).toFixed(2); 
-        this.paymentService.paymentPosting.checkAmount = Number(this.paymentService.paymentPosting.checkAmount) ? this.paymentService.paymentPosting.checkAmount : Number(Number((form.checkAmount || "0").replace(",","")).toFixed(2));
+        form.amountSelected = Number((String(this.paymentService.amountSelected) || "0").replace(new RegExp(",", "gi"),"")).toFixed(2);
+        form.checkAmount =  Number(String(form.checkAmount).replace(new RegExp(",", "gi"),"")).toFixed(2); 
+        this.paymentService.paymentPosting.checkAmount = Number(this.paymentService.paymentPosting.checkAmount) ? this.paymentService.paymentPosting.checkAmount : Number(Number((form.checkAmount || "0").replace(new RegExp(",", "gi"),"")).toFixed(2));
         this.paymentService.paymentPosting.checkNumber = form.checkNumber;
         form.lastAmountRemaining=this.paymentService.paymentPosting.lastAmountRemaining;
         form.sessionId=this.paymentService.paymentPosting.sessionId;
@@ -219,15 +219,15 @@ export class PaymentInputComponent implements OnInit {
     }
   }
   get amountRemaining():Number{
-    var checkAmount = Number(this.form.get('checkAmount').value.replace(",",""));
-    var amountSelected = Number(this.form.get('amountSelected').value.replace(",",""));
+    var checkAmount = Number(this.form.get('checkAmount').value.replace(new RegExp(",", "gi"),""));
+    var amountSelected = Number(this.form.get('amountSelected').value.replace(new RegExp(",", "gi"),""));
     var amount =  Number((checkAmount ? checkAmount : 0)  - amountSelected);
     return amount;
   }
   tosuspense(noteText: String = ""){
     var form  = this.form.value;
-    form.checkAmount = Number(form.checkAmount.replace(",","")).toFixed(2); 
-    var amountSelected = Number(this.form.get('amountSelected').value.replace(",",""));
+    form.checkAmount = Number(form.checkAmount.replace(new RegExp(",", "gi"),"")).toFixed(2); 
+    var amountSelected = Number(this.form.get('amountSelected').value.replace(new RegExp(",", "gi"),""));
     form.lastAmountRemaining=this.paymentService.paymentPosting.lastAmountRemaining;
     if (this.form.get('checkNumber').value == null)
       this.toast.warning('The Check # field is mandatory in order to conclude the payment posting process.');

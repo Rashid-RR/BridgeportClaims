@@ -38,6 +38,7 @@ export class ClaimManager {
 
   constructor(private auth: AuthGuard, private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     this.getHistory();
+    //console.log(("fs.sdfds,dsfds.fdsf,dsfd.sdfds,sdfds".replace(new RegExp(",", "gi"),""))); test
     this.events.on("loadHistory", () => {
       this.getHistory();
     })
