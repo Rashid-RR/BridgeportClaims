@@ -227,7 +227,7 @@ tr>th:first-child .paymentCheckBox label {
     height: -webkit-calc(100vh - 254px);
     height: -o-calc(100vh - 254px);
     overflow:hidden;
-    overflow-y:scroll;
+    overflow-y:auto;
 }
 .top-header,.table-body{
     width:99%;
