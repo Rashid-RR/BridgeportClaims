@@ -39,7 +39,7 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-			    return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+			    return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
 		}
 
@@ -58,7 +58,7 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-			    return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+			    return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
 		}
 
@@ -96,7 +96,7 @@ namespace BridgeportClaims.Web.Controllers
 					{
 						Logger.Error(ex,
 							$"The file: {fileName}, with the description: {description} was not copied successfully");
-					    return Content(HttpStatusCode.InternalServerError, ex.GetBaseException().Message);
+					    return Content(HttpStatusCode.NotAcceptable, ex.GetBaseException().Message);
                     }
 					finally
 					{
@@ -110,7 +110,7 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-				return Content(HttpStatusCode.InternalServerError, ex.GetBaseException().Message);
+				return Content(HttpStatusCode.NotAcceptable, ex.GetBaseException().Message);
 			}
 		}
 	}

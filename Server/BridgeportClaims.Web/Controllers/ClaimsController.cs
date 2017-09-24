@@ -26,8 +26,8 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				if (model.ClaimId == 0)
-					return InternalServerError(new Exception("Error, cannot pass in a Claim ID value of zero."));
+				if (0 == model.ClaimId)
+					throw new Exception("Error, cannot pass in a Claim ID value of zero.");
 				if (null != model.ClaimId) return GetClaimsDataByClaimId(model.ClaimId.Value);
 
 				// Search terms passed, so we're at least performing a search first to see if multiple results appear.
@@ -40,7 +40,7 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-				return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+				return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
 			}
 		}
 
