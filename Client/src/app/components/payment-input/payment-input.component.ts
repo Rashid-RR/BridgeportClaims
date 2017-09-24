@@ -203,13 +203,14 @@ export class PaymentInputComponent implements OnInit {
       if(this.paymentService.paymentPosting.lastAmountRemaining == 0){
         this.finalizePosting();
       }else{
-        console.log(String(form.checkAmount));
+
         form.amountSelected = Number((String(this.paymentService.amountSelected) || "0").replace(new RegExp(",", "gi"),"")).toFixed(2);
         form.checkAmount =  Number(String(form.checkAmount).replace(new RegExp(",", "gi"),"")).toFixed(2); 
         this.paymentService.paymentPosting.checkAmount = Number(this.paymentService.paymentPosting.checkAmount) ? this.paymentService.paymentPosting.checkAmount : Number(Number((form.checkAmount || "0").replace(new RegExp(",", "gi"),"")).toFixed(2));
         this.paymentService.paymentPosting.checkNumber = form.checkNumber;
         form.lastAmountRemaining=this.paymentService.paymentPosting.lastAmountRemaining;
         form.sessionId=this.paymentService.paymentPosting.sessionId;
+        //console.log(Number(form.amountToPost), Number(form.checkAmount))
         //console.log(form.amountToPost,form.amountSelected,this.paymentService.paymentPosting.amountSelected,this.paymentService.amountSelected);
         if(this.paymentService.selected.length>1 && form.amountToPost!=form.amountSelected){
           this.toast.warning('Multi-line payments are not permitted for posting unless the "Amount Selected" is equal to the "Amount To Post"');
@@ -217,9 +218,11 @@ export class PaymentInputComponent implements OnInit {
           this.localSt.store("partial-payment",payments);
           this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
         } */
-        else if(Number(form.amountToPost) > Number(form.checkAmount)){
+        else if(this.paymentService.selected.length==0){
+          this.toast.warning('You cannot post a payment without selecting any prescriptions!');
+        }else if(Number(form.amountToPost) > Number(form.checkAmount)){
           //console.log(Number(form.amountToPost) > Number(form.checkAmount));
-          this.toast.warning("The amount to post you specified is greater than the check amount. Please correct to proceed");
+          this.toast.warning("You may not post monies that exceed the total check amount;");
         }else if(form.amountToPost==0 || form.amountToPost==null){
           this.toast.warning("You need to specify amount to post");
         }else {
@@ -239,13 +242,16 @@ export class PaymentInputComponent implements OnInit {
     form.checkAmount = Number(form.checkAmount.replace(new RegExp(",", "gi"),"")).toFixed(2); 
     var amountSelected = Number(this.form.get('amountSelected').value.replace(new RegExp(",", "gi"),""));
     form.lastAmountRemaining=this.paymentService.paymentPosting.lastAmountRemaining;
-    if (this.form.get('checkNumber').value == null)
+    form.amountToPost = form.amountToPost !==null ? Number((form.amountToPost || 0).replace(new RegExp(",", "gi"),"")).toFixed(2) :(0).toFixed(2);
+    if (this.form.get('checkNumber').value == null || this.form.get('checkNumber').value == 0)
       this.toast.warning('The Check # field is mandatory in order to conclude the payment posting process.');
     else if (form.checkAmount == null || form.checkAmount == 0)
           this.toast.warning('The Check Amount field is mandatory in order to conclude the payment posting process.');
     else if (this.paymentService.selected.length>0 || amountSelected > 0)
           this.toast.warning('You have selected '+this.paymentService.selected.length+' row'+(this.paymentService.selected.length>1 ? 's' : '')+' prescriptions. You cannot associate any prescriptions to an Amount that you are suspending. Please uncheck all prescriptions and retry.');
-    else{
+    else if(Number(form.amountToPost) > Number(form.checkAmount)){
+          this.toast.warning('You cannot post a payment without selecting any prescriptions. You must send any monies without prescriptions to suspense.');
+    }else{
       var width = window.innerWidth * 1.799 / 3;
       let amountToSuspend = (form.amountToPost != null && form.amountToPost > 0) ? form.amountToPost : form.checkAmount;
       
