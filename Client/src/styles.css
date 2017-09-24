@@ -324,7 +324,7 @@
         height: -webkit-calc(100vh - 330px);
         height: -o-calc(100vh - 330px);
         overflow:hidden;
-        overflow-y:scroll;
+        overflow-y:auto;
     }
     .swal2-modal.paymeny-modal .swal2-content .top-header,.table-body{
         width:99%;
