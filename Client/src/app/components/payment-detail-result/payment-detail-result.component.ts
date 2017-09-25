@@ -25,7 +25,7 @@ export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
   }
   select(p:any,$event,index){
       p.selected = $event.target.checked
-      if(!$event.target.checked){
+      if(!$event.target.checked || !p.isReversed){
         this.checkAll=false;
       }
       if(this.selectMultiple){
@@ -34,7 +34,7 @@ export class PaymentDetailedResultComponent implements OnInit,AfterViewInit {
                 let p = jQuery('#row'+i).attr('prescription');
                 let prescription = JSON.parse(p);
                 let data = this.paymentService.rawDetailedClaimsData.get(prescription.prescriptionId);
-                data.selected = true;
+                data.isReversed ? data.selected = true : data.selected=false;
               }catch(e){}
           }
       }
