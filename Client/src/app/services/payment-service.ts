@@ -192,7 +192,7 @@ export class PaymentService {
             this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
             result.forEach(claim => {
               const c = new DetailedPaymentClaim(claim.prescriptionId, claim.claimId, claim.claimNumber, claim.patientName,
-                claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName, claim.outstanding, claim.invoicedAmount, claim.payor);
+                claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName, claim.outstanding, claim.invoicedAmount, claim.payor,claim.isReversed);
               this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
             });
           }
