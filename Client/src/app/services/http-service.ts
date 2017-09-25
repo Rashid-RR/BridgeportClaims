@@ -344,7 +344,7 @@ export class HttpService {
         , 1500; });
         this.router.navigate(['/login']);
         this.events.broadcast('logout', true);
-        } else if (res.status == 460) {
+        } else if (res.status == 406) {
           let err = res.json();
         this.toast.error(err.message);
         } else if (res.status == 500) {
