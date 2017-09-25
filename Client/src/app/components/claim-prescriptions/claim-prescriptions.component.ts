@@ -89,7 +89,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     /* let cln = document.getElementById('fixed-thead').cloneNode(true);
     let fixedHeader = document.getElementById('fixed-header');
     fixedHeader.appendChild(cln);
-    this.updateTableHeadingWidth(); */
+    this.updateTableHeadingWidth();*/
   }
 
   cloneBoxHeader() {
