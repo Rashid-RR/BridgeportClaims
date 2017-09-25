@@ -125,7 +125,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
   select(p: any, $event, index) {
     p.selected = $event.target.checked;
-    if (!$event.target.checked) {
+    if (!$event.target.checked || !p.isReversed) {
       this.checkAll = false;
       this.uncheckMain();
     }
@@ -135,7 +135,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
           let p = jQuery('#row' + i).attr('prescription');
           let prescription = JSON.parse(p);
           let data = this.claimManager.selectedClaim.prescriptions.find(pres => pres.prescriptionId == prescription.prescriptionId);// .get(prescription.prescriptionId);
-          data.selected = true;
+          data.isReversed ? data.selected = true : data.selected=false;
         } catch (e) { }
       }
     }
@@ -143,17 +143,18 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
   setSelected(p: any, s: Boolean) {
     p.selected = !p.selected;
-    if (!p.selected) {
+    if (!p.selected || !p.isReversed) {
       this.checkAll = false;
       this.uncheckMain();
     }
   }
   selectAllCheckBox($event) {
-    console.log(76757);
-    this.checkAll = $event.target.checked;
+     this.checkAll = $event.target.checked;
     if (this.checkAll) {
       this.claimManager.selectedClaim.prescriptions.forEach(c => {
-        c.selected = true;
+        if (!c.isReversed) {
+          c.selected = true;
+        }
       })
     } else {
       this.claimManager.selectedClaim.prescriptions.forEach(c => {
