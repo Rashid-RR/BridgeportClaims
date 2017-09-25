@@ -344,8 +344,11 @@ export class HttpService {
         , 1500; });
         this.router.navigate(['/login']);
         this.events.broadcast('logout', true);
-       } else if (res.status == 500) {
-        this.toast.error('A server error was detected. Please contact your system administrator.');
+        } else if (res.status == 460) {
+          let err = res.json();
+        this.toast.error(err.message);
+        } else if (res.status == 500) {
+          this.toast.error('A server error was detected. Please contact your system administrator.');
        }
   }
   getPrescriptions(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
