@@ -49,9 +49,9 @@
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #prescriptionTable tabindex="0">
                     <ng-container *ngIf="prescriptions">
-                        <tr *ngFor="let prescription of prescriptions;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json" (click)="setSelected(prescription,prescription.selected)" [class.isReversed]="prescription.isReversed">
+                        <tr *ngFor="let prescription of prescriptions;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json" (click)="!prescription.isReversed? setSelected(prescription,prescription.selected) : ''" [class.isReversed]="prescription.isReversed">
                             <td>
-                                <div class="perscriptionCheckBox" [style.display]="!claim.isReversed ? 'block': 'none'">
+                                <div class="perscriptionCheckBox" [style.display]="!prescription.isReversed ? 'block': 'none'">
                                     <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName"
                                         [checked]="(prescription.selected || checkAll)" (change)="select(prescription,$event,i)"
                                         #inv>
