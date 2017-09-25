@@ -71,7 +71,7 @@ namespace BridgeportClaims.Web.Controllers
         protected IHttpActionResult GetErrorResult(IdentityResult result)
         {
             if (null == result)
-                return InternalServerError();
+                throw new ArgumentNullException(nameof(result));
             if (result.Succeeded) return null;
             if (result.Errors != null)
             {

@@ -52,7 +52,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -70,7 +70,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -89,7 +89,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -114,7 +114,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
         
@@ -161,7 +161,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -200,7 +200,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -230,7 +230,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -242,9 +242,6 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                if (null != model.LastAmountRemaining && model.AmountRemaining <= 0)
-                    throw new Exception(
-                        $"The 'LastAmountRemaining' field cannot be zero or negative. You passed in {model.LastAmountRemaining}");
                 if (null == model.SessionId || !_memoryCacher.Contains(model.SessionId))
                 {
                     model.UserName = User.Identity.Name;
@@ -274,7 +271,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -291,7 +288,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -313,7 +310,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -340,7 +337,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 

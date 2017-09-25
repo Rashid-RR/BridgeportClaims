@@ -42,7 +42,7 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-				return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
 
@@ -57,7 +57,7 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-			    return Content(HttpStatusCode.InternalServerError, new { message = ex.Message });
+			    return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
 		}
 	}

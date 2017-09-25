@@ -351,7 +351,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var user = await AppUserManager.FindByIdAsync(id);
                 if (null == user)
-                    return Content(HttpStatusCode.InternalServerError,
+                    return Content(HttpStatusCode.NotAcceptable,
                         new {message = "Error. The user was not found."});
                 _memoryCacher.DeleteIfExists(id);
                 _memoryCacher.DeleteIfExists(user.UserName);
@@ -361,7 +361,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.InternalServerError, new {message = ex.Message});
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
         
