@@ -164,10 +164,6 @@ tbody>tr:hover {
     color: #000;
 }
 
-tbody>tr.isReversed {
-    background: #F89FA0 !important;
-}
-
 tbody>tr:hover td,
 tbody>tr:hover td::selection {
     color: #000;

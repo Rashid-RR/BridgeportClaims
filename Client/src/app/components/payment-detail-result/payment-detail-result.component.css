@@ -274,6 +274,3 @@ tr>td:nth-child(7) {
 .top-header table{
     height:99%;
 }
-tbody>tr.isReversed {
-    background: #F89FA0 !important;
-}

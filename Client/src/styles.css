@@ -387,3 +387,10 @@
     .overlay img{
         margin-top:  -50px !important;
     }
+
+    tbody>tr.isReversed,
+    tbody>tr.isReversed:hover,
+    tbody>tr.isReversed:hover td,
+    tbody>tr.isReversed:hover td::selection {
+        color: red !important;
+    }
