@@ -7,11 +7,12 @@ export class Payment{
 	postedDate: Date;
 	rxNumber:any ;
 	invoiceNumber:any;
+	isReversed:Boolean;
   constructor(checkAmt:any,checkNumber:any,rxDate:Date,
     prescriptionPaymentId:any,
     prescriptionId: any,
     postedDate: Date,
-    rxNumber:any ,
+    rxNumber:any ,isReversed:Boolean,
     invoiceNumber:any){
       this.checkNumber=checkNumber;
       this.checkAmt=checkAmt;
@@ -21,5 +22,6 @@ export class Payment{
       this.postedDate = postedDate;
       this.rxNumber=  rxNumber;
       this.invoiceNumber= invoiceNumber;
+      this.isReversed = isReversed;
   }
 }
