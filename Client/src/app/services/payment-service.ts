@@ -291,7 +291,7 @@ export class PaymentService {
         }, err => {
           this.loading = false;
           console.log(err);
-          const error = err.json();
+          //const error = err.json();
           this.events.broadcast('payment-updated',true);
         }, () => {
         });
