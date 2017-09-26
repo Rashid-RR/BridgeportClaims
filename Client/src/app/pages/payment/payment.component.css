@@ -129,11 +129,11 @@ textarea {
     position: fixed;
     width: 450px;
     min-height: 150px;
-    height: calc(100vh - 165px);
-    height: -webkit-calc(100vh - 165px);
-    height: -o-calc(100vh - 165px);
-    height: -moz-calc(100vh - 165px);
-    top: 164px;
+    height: calc(100vh - 219px);
+    height: -webkit-calc(100vh - 219px);
+    height: -o-calc(100vh - 219px);
+    height: -moz-calc(100vh - 219px);
+    top: 218px;
     /* margin-top:50px; */
     right: -450px;
     background: #222d32;
@@ -174,17 +174,17 @@ textarea {
     border-right: none;
 }
 .posted-content{
-    height: calc(100vh - 165px);
-    height: -webkit-calc(100vh - 165px);
-    height: -o-calc(100vh - 165px);
-    height: -moz-calc(100vh - 165px);
+    height: calc(100vh - 219px);
+    height: -webkit-calc(100vh - 219px);
+    height: -o-calc(100vh - 219px);
+    height: -moz-calc(100vh - 219px);
     overflow:hidden;
 }
 .posted-content .col-xs-12{    
-    max-height: calc(90vh - 180px);
-    max-height: -webkit-calc(90vh - 180px);
-    max-height: -o-calc(90vh - 180px);
-    max-height: -moz-calc(90vh - 180px);
+    max-height: calc(90vh - 224px);
+    max-height: -webkit-calc(90vh - 224px);
+    max-height: -o-calc(90vh - 224px);
+    max-height: -moz-calc(90vh - 224px);
     overflow-y: scroll;
     background: transparent;
     border:none;
