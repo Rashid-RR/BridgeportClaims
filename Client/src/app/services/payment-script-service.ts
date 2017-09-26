@@ -59,25 +59,25 @@ export class PaymentScriptService {
                                         <div class="box-body payment-input">
                                             <form role="form" autocomplete="off" autocapitalize="none" autocomplete="off">
                                                 <div class="row" style="margin-left:2px;">
-                                                    <div class="col-md-2">
+                                                    <div class="search-col">
                                                         <div class="form-group">
                                                             <label>Claim #</label>
                                                             <input class="form-control" id="claimNumber" value="`+claimNumber+`" type="text" focus-on>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-2">
+                                                    <div class="search-col">
                                                         <div class="form-group">
                                                             <label>First Name</label>
                                                             <input class="form-control" id="firstName"  value="`+firstName+`" type="text">
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-2">
+                                                    <div class="search-col">
                                                         <div class="form-group">
                                                             <label>Last Name</label>
                                                             <input class="form-control" id="lastName"  value="`+lastName+`" type="text" focus-on>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-2">
+                                                    <div class="search-col">
                                                         <div class="form-group">
                                                             <label>Rx Date</label>
                                                             <div class="input-group date">
@@ -88,13 +88,13 @@ export class PaymentScriptService {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-2 col-md-1">
+                                                    <div class="search-col">
                                                         <div class="form-group">
                                                             <label>Invoice #</label>
                                                             <input class="form-control" id="invoiceNumber"   value="`+invoiceNumber+`" type="text" focus-on>
                                                         </div>
                                                     </div>                                                    
-                                                    <div class="col-sm-2 col-md-3">
+                                                    <div class="search-col">
                                                         <div class="form-group">
                                                             <label>&nbsp;</label><br/>
                                                             <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button">Search</button>
@@ -169,7 +169,7 @@ export class PaymentScriptService {
             swal({
             title: '',
             customClass:'paymeny-modal',
-            width: (window.innerWidth - 460) + "px",
+            //width: (window.innerWidth - 460) + "px",
             html: html,
             showConfirmButton:false,
             showLoaderOnConfirm: true,
