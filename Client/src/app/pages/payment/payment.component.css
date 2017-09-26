@@ -192,7 +192,6 @@ textarea {
 .table-content,.posted-content {
     margin: 0;
 }
-
 .table-content:last-child {
     margin-bottom: 1rem;
 }
