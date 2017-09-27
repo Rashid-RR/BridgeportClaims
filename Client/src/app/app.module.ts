@@ -52,11 +52,6 @@ import { PaymentService} from "./services/payment-service";
 import { ColumnSortDirective } from "./directives/column-sort.directive";
 import { TableSortDirective } from "./directives/table-sort.directive";
 
-import {VgCoreModule} from 'videogular2/core';
-import {VgControlsModule} from 'videogular2/controls';
-import {VgOverlayPlayModule} from 'videogular2/overlay-play';
-import {VgBufferingModule} from 'videogular2/buffering';
-
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) {}
@@ -99,11 +94,7 @@ export class SafeUrlPipe implements PipeTransform {
     HttpModule,
     RoutingModule,
     FileUploadModule,
-    Ng2Webstorage,
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule
+    Ng2Webstorage
   ],
   providers: [  
     DecimalPipe,DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,

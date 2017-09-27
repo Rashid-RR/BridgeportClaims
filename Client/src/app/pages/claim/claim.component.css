@@ -1,3 +1,20 @@
+@import url('https://fonts.googleapis.com/css?family=Cambay:400,700');
+
+*:not(.fa){
+  font-family: 'Cambay', sans-serif !important;
+  line-height: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Cambay', sans-serif !important;
+  font-weight: 700;
+}
+
 .row.data {
     font-size: 9.6pt;
 }
@@ -34,7 +51,7 @@ th {
 .results-no {
     color: #fff;
     padding-right: 1rem;
-    font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Cambay', sans-serif !important;
     font-size: 20px;
     font-weight: 600;
     text-shadow: 2px 2px 3px #000;
@@ -123,7 +140,7 @@ textarea {
 }
 .tally{
     color:white;font-size:10pt;
-    font-family: "Comic Sans MS";
+    font-family: 'Cambay', sans-serif !important;
     display:block;
 }
 app-claim-prescriptions{
