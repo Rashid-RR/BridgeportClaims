@@ -1,7 +1,43 @@
-.full-height{
-    height:100vh;
+.full-height {
+    height: 100vh;
+    width: 100%;
+    background: url('/src/assets/img/private-bg.png') no-repeat;
+    background-size: cover;
 }
-.full-height vg-player{
-    height:98%;
-    width:100%;
+#private-nav {
+    width: 100%;
+}
+#private-nav ul {
+    text-align: center;
+    margin-top: 4rem;
+}
+#private-nav  ul li {
+    display: inline-block;
+    min-width: 205px;
+    min-height: 60px;
+    background-size: contain;
+    border: 1px solid #555;
+    cursor: pointer;
+    margin: 0 2rem;
+}
+
+#private-nav  ul li:hover {
+    -webkit-box-shadow: 1px 1px 8px 1px #444;
+    box-shadow: 1px 1px 8px 1px #333;
+}
+
+li.dashboard {
+    background: url('/src/assets/img/private-1.png') no-repeat;
+}
+li.claims {
+    background: url('/src/assets/img/private-2.png') no-repeat;
+}
+li.payments {
+    background: url('/src/assets/img/private-3.png') no-repeat;
+}
+li.file-uploads {
+    background: url('/src/assets/img/private-4.png') no-repeat;
+}
+li.user-management {
+    background: url('/src/assets/img/private-5.png') no-repeat;
 }

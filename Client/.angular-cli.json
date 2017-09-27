@@ -32,8 +32,7 @@
         "../node_modules/sweetalert2/dist/sweetalert2.min.css",
         "assets/css/animate.css",
         "assets/css/skin-black.css",
-        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
-        "../node_modules/videogular2/fonts/videogular.css",        
+        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",  
         "styles.css"
       ],
       "scripts": [
