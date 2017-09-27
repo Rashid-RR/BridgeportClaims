@@ -1,57 +1,73 @@
     /* You can add global styles to this file, and also import other style files */
     /*Toastr Global positioning*/
-    .main-header{
-        position:fixed;
-        width:100%;    
+
+    .main-header {
+      position: fixed;
+      width: 100%;
     }
-    .content-wrapper{
-        margin-top: 50px;
+
+    .content-wrapper {
+      margin-top: 50px;
     }
+
     #toast-container {
-        top: 70px !important;
+      top: 70px !important;
     }
 
     .table-striped>tbody>tr:nth-of-type(odd) {
-        background-color: #d9d9d9;
+      background-color: #d9d9d9;
     }
 
     .scroll-y {
       overflow-y: scroll;
     }
-    li.disabled , a.disabled {
-        cursor: not-allowed;
-        text-decoration: none;
+
+    li.disabled,
+    a.disabled {
+      cursor: not-allowed;
+      text-decoration: none;
     }
 
     .wrapper {
-        overflow: hidden !important;
+      overflow: hidden !important;
     }
-    .overlay{
-        position: fixed;
-        top:0px;
-        height: 100vh !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100% !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    body.sidebar-collapse .overlay{
-        width: calc(100vw - 49px)!important;
+
+    .overlay>img {
+      position: fixed;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+
+    body.sidebar-collapse .overlay {
+      /* width: calc(100vw - 49px)!important;
         width: -o-calc(100vw - 49px)!important;
         width: -webkit-calc(100vw - 49px)!important;
-        width: -moz-calc(100vw - 49px)!important;
+        width: -moz-calc(100vw - 49px)!important; */
     }
-    body:not(.sidebar-collapse) .overlay{
-        width: calc(100vw - 230px)!important;
+
+    body:not(.sidebar-collapse) .overlay {
+      /* width: calc(100vw - 230px)!important;
         width: -o-calc(100vw - 230px)!important;
         width: -webkit-calc(100vw - 230px)!important;
-        width: -moz-calc(100vw - 230px)!important;
+        width: -moz-calc(100vw - 230px)!important; */
     }
-    .overlay img{
-        margin-top:  -50px !important;
-    }
+
     tbody>tr.isReversed,
     tbody>tr.isReversed:hover,
     tbody>tr.isReversed:hover td,
     tbody>tr.isReversed:hover td::selection {
-        color: red !important;
+      color: red !important;
     }
