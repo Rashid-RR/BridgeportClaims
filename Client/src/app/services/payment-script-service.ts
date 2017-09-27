@@ -39,12 +39,6 @@ export class PaymentScriptService {
                     </a>`  : claim.numberOfPrescriptions;
                 claimsHTML = claimsHTML + `
                     <tr id="`+claim.claimId+`" class="claimRow">
-                        <!--<td  style="width:19%">
-                            <div class="paymentCheckBox"> 
-                                <input type="checkbox" name="check" class="claimCheckBox" id="row`+claim.claimId+`" value="None">
-                                <label for="row`+claim.claimId+`"></label>
-                            </div>
-                        </td>-->
                         <td>`+ claim.claimNumber + `</td>
                         <td>`+ claim.patientName + `</td>
                         <td>`+ claim.payor + `</td>
@@ -138,13 +132,7 @@ export class PaymentScriptService {
                                                 <div class="table-responsive top-header scroll-y">
                                                     <table class="table no-margin table-striped">
                                                         <thead class="overflowable" id="fixed-thead">
-                                                            <tr>  
-                                                                <!--<th style="width:19%">
-                                                                    <div class="paymentCheckBox checkAll"> 
-                                                                        <input type="checkbox" id="claimsCheckBox" name="check" value="None">
-                                                                        <label for="claimsCheckBox"></label> 
-                                                                    </div>&nbsp;<i class="fa rotate fa-exchange" id="claimsCheckBox"></i>
-                                                                </th>-->                                                    
+                                                            <tr>                                                  
                                                                 <th>Claim #</th>
                                                                 <th>Patient Name</th>                        
                                                                 <th>Payor</th>

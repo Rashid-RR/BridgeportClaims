@@ -321,7 +321,7 @@
 
     .swal2-modal.paymeny-modal .swal2-content tr>th,
     .swal2-modal.paymeny-modal .swal2-content tr>td {
-      width: 100%;
+      font-size: 1.3rem;
       text-align: center;
     }
 
@@ -571,4 +571,24 @@
     tbody>tr.isReversed:hover td,
     tbody>tr.isReversed:hover td::selection {
       color: red !important;
+    }
+
+    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(1),
+    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(1)
+     {
+      text-align: left !important;
+    }
+    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(1),
+    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(1)
+    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(4),
+    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(4)
+     {
+      width:15% !important;
+    }
+    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(2),
+    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(2),
+    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(3),
+    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(3)
+     {
+      width:35% !important;
     }

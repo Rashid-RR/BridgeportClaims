@@ -29,7 +29,6 @@ constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Da
   }
 
   setSelected(s:Boolean){
-      console.log("Works...");
       this.selected = s==undefined? true : s;
   }
 }
