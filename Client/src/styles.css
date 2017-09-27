@@ -1,142 +1,154 @@
     /* You can add global styles to this file, and also import other style files */
     /*Toastr Global positioning*/
-    .main-header{
-        position:fixed;
-        width:100%;    
+
+    .main-header {
+      position: fixed;
+      width: 100%;
     }
-    .content-wrapper{
-        margin-top: 50px;
+
+    .content-wrapper {
+      margin-top: 50px;
     }
+
     #toast-container {
-        top: 70px !important;
+      top: 70px !important;
     }
 
     .table-striped>tbody>tr:nth-of-type(odd) {
-        background-color: #d9d9d9;
+      background-color: #d9d9d9;
     }
 
     .scroll-y {
       overflow-y: scroll;
     }
-    li.disabled , a.disabled {
-        cursor: not-allowed;
-        text-decoration: none;
+
+    li.disabled,
+    a.disabled {
+      cursor: not-allowed;
+      text-decoration: none;
     }
 
     .swal2-modal.paymeny-modal {
-        padding:5px 10px !important; 
-        padding-left:15px!important; 
-        margin-top:154px !important;
+      padding: 5px 10px !important;
+      padding-left: 15px!important;
+      margin-top: 154px !important;
     }
+
     .swal2-modal.paymeny-modal .swal2-content .bg-head-box {
-        background: #992727;
-        z-index: 3;
+      background: #992727;
+      z-index: 3;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .panel-head {
-        color: #fff;
+      color: #fff;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .panel-head u {
-        text-decoration: none;
+      text-decoration: none;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .panel-head img {
-        vertical-align: -5px;
-        margin-right: 7px;
+      vertical-align: -5px;
+      margin-right: 7px;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .panel-body-bg {
-        background: #fbeede;
-    }       
+      background: #fbeede;
+    }
+
     .swal2-modal.paymeny-modal .swal2-content .bg-darkRed {
-        background: #992727;
-        color: #fff;
+      background: #992727;
+      color: #fff;
     }
 
     .swal2-modal.paymeny-modal .swal2-content .bg-darkblue {
-        background-color: #414772;
-        color: #fff;
+      background-color: #414772;
+      color: #fff;
     }
-    .swal2-modal.paymeny-modal .swal2-content .not-allowed,.not-allowed .form-control{
-        cursor: not-allowed;
+
+    .swal2-modal.paymeny-modal .swal2-content .not-allowed,
+    .not-allowed .form-control {
+      cursor: not-allowed;
     }
 
     .swal2-modal.paymeny-modal .swal2-content .bg-DarkGreen {
-        background: #084205;
-        color: #fff;
-    }
-    .swal2-modal.paymeny-modal .swal2-content .bg-fullWhite {
-        background: #fff;
-        color: #992727;
-    }
-    
-    .swal2-modal.paymeny-modal .swal2-content .bg-fullWhite:hover {
-        box-shadow: none;
+      background: #084205;
+      color: #fff;
     }
 
-    .swal2-modal.paymeny-modal .swal2-title{
-        display: none;
+    .swal2-modal.paymeny-modal .swal2-content .bg-fullWhite {
+      background: #fff;
+      color: #992727;
     }
+
+    .swal2-modal.paymeny-modal .swal2-content .bg-fullWhite:hover {
+      box-shadow: none;
+    }
+
+    .swal2-modal.paymeny-modal .swal2-title {
+      display: none;
+    }
+
     .swal2-modal.paymeny-modal .swal2-content label,
-    .swal2-modal.paymeny-modal .swal2-content .form-group button
-    {
-        font-size: 12px;
-    }  
-    .swal2-modal.paymeny-modal .swal2-content label
-    {
-        line-height: 1.42857143;
-        color: #333;
-        background-color: #fff;
-    }  
-    .swal2-modal.paymeny-modal .swal2-content .payment-input form div.row{
-        display:flex;
-        flex-wrap: wrap;
+    .swal2-modal.paymeny-modal .swal2-content .form-group button {
+      font-size: 12px;
     }
-    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col{
-        width:33%;
-        display:block;
-        position: relative;        
-        flex-direction: row;
-        padding-right: 10px;
-        padding-left: 0px;
+
+    .swal2-modal.paymeny-modal .swal2-content label {
+      line-height: 1.42857143;
+      color: #333;
+      background-color: #fff;
     }
-    @media (min-width: 0px) {       
-        .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
-        .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2)
-        {
-            width:27.5% !important;
-        }
-        .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:last-child
-        {
-            width:44% !important;
-        }
-        .swal2-modal.paymeny-modal .swal2-content .expanded{
-            height: calc(100vh - 400px) !important;
-            height: -moz-calc(100vh - 400px) !important;
-            height: -webkit-calc(100vh - 400px) !important;
-            height: -o-calc(100vh - 400px) !important;
-        }
+
+    .swal2-modal.paymeny-modal .swal2-content .payment-input form div.row {
+      display: flex;
+      flex-wrap: wrap;
     }
+
+    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col {
+      width: 33%;
+      display: block;
+      position: relative;
+      flex-direction: row;
+      padding-right: 10px;
+      padding-left: 0px;
+    }
+
+    @media (min-width: 0px) {
+      .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
+      .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2) {
+        width: 27.5% !important;
+      }
+      .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:last-child {
+        width: 44% !important;
+      }
+      .swal2-modal.paymeny-modal .swal2-content .expanded {
+        height: calc(100vh - 400px) !important;
+        height: -moz-calc(100vh - 400px) !important;
+        height: -webkit-calc(100vh - 400px) !important;
+        height: -o-calc(100vh - 400px) !important;
+      }
+    }
+
     @media (min-width: 1280px) {
-        .swal2-modal.paymeny-modal {
-              width: calc(100% - 460px) !important;
-              width: -o-calc(100% - 460px) !important;
-              width: -moz-calc(100% - 460px) !important;
-              width: -webkit-calc(100% - 460px) !important;
-        }
-        .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col{
-            width:14% !important;
-        }
-        .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:last-child{
-            width:29% !important;
-        }
-        .swal2-modal.paymeny-modal .swal2-content .expanded{
-            height: calc(100vh - 330px) !important;
-            height: -moz-calc(100vh - 330px) !important;
-            height: -webkit-calc(100vh - 330px) !important;
-            height: -o-calc(100vh - 330px) !important;
-        }
+      .swal2-modal.paymeny-modal {
+        width: calc(100% - 460px) !important;
+        width: -o-calc(100% - 460px) !important;
+        width: -moz-calc(100% - 460px) !important;
+        width: -webkit-calc(100% - 460px) !important;
+      }
+      .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col {
+        width: 14% !important;
+      }
+      .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:last-child {
+        width: 29% !important;
+      }
+      .swal2-modal.paymeny-modal .swal2-content .expanded {
+        height: calc(100vh - 330px) !important;
+        height: -moz-calc(100vh - 330px) !important;
+        height: -webkit-calc(100vh - 330px) !important;
+        height: -o-calc(100vh - 330px) !important;
+      }
     }
     /* .swal2-modal.paymeny-modal .swal2-content .payment-input form div:nth-child(1),
     .swal2-modal.paymeny-modal .swal2-content .payment-input form div:nth-child(2),
@@ -195,300 +207,325 @@
             padding-left: 15px;
         }
     } */
+
     .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-2,
     .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,
-    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-1
-    {
-        padding-left:0px !important;
-    }  
-    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,
-    {
-        padding-right:0px !important;
-    }  
-    .swal2-modal.paymeny-modal .swal2-content .tally, .swal2-modal.paymeny-modal .swal2-content .tally *{
-        color:white;
-        font-size:10pt !important;
-        font-family: "Comic Sans MS";       
-        display: flex;
-        flex-direction: row;
+    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-1 {
+      padding-left: 0px !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .claim-info.row,.col-sm-12.claim-col.expanded{
-        margin:0px;
-        padding:0px;   
-        overflow: hidden;     
+    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,
+    {
+      padding-right: 0px !important;
     }
-    .swal2-modal.paymeny-modal .swal2-content .box-body{
-        padding:0px; 
-        border: 2px solid lightgray;
+
+    .swal2-modal.paymeny-modal .swal2-content .tally,
+    .swal2-modal.paymeny-modal .swal2-content .tally * {
+      color: white;
+      font-size: 10pt !important;
+      font-family: "Comic Sans MS";
+      display: flex;
+      flex-direction: row;
     }
+
+    .swal2-modal.paymeny-modal .swal2-content .claim-info.row,
+    .col-sm-12.claim-col.expanded {
+      margin: 0px;
+      padding: 0px;
+      overflow: hidden;
+    }
+
+    .swal2-modal.paymeny-modal .swal2-content .box-body {
+      padding: 0px;
+      border: 2px solid lightgray;
+    }
+
     .swal2-modal.paymeny-modal .swal2-content .table-responsive {
-        position: relative;
-        overflow-x: hidden;
+      position: relative;
+      overflow-x: hidden;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content #fixed-header {
-        position: absolute;
-        top: 43px;
-        background: #fbeede;
-        z-index: 2;
-        padding: 1.6rem 0;
+      position: absolute;
+      top: 43px;
+      background: #fbeede;
+      z-index: 2;
+      padding: 1.6rem 0;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content table {
-        table-layout: fixed;
-        width: 100% !important;
-        overflow-x: hidden;
+      table-layout: fixed;
+      width: 100% !important;
+      overflow-x: hidden;
     }
-    
-    .swal2-modal.paymeny-modal .swal2-content  thead,
+
+    .swal2-modal.paymeny-modal .swal2-content thead,
     .swal2-modal.paymeny-modal .swal2-content tbody {
-        overflow-y: hidden !important;
+      overflow-y: hidden !important;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content td,
     .swal2-modal.paymeny-modal .swal2-content th {
-        word-wrap: break-word;
-        padding-left: 2px !important;
-        font-size: 1.4rem;
-        padding-right: 2px !important;
+      word-wrap: break-word;
+      padding-left: 2px !important;
+      font-size: 1.4rem;
+      padding-right: 2px !important;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content textarea {
-        resize: vertical;
+      resize: vertical;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tr>th,
     .swal2-modal.paymeny-modal .swal2-content tr>td {
-        width: 100%;
-        text-align: center;
+      width: 100%;
+      text-align: center;
     }
-    
- 
+
     .swal2-modal.paymeny-modal .swal2-content td>a.label {
-        font-size: 1.2rem;
+      font-size: 1.2rem;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content table {
-        display: flex;
-        flex-direction: column;
-        overflow: auto;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tbody,
     .swal2-modal.paymeny-modal .swal2-content thead {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 0;
-        flex-shrink: 0;
-        overflow-y: scroll;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 0;
+      flex-shrink: 0;
+      overflow-y: scroll;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tbody.overflowable,
     .swal2-modal.paymeny-modal .swal2-content thead.overflowable {
-        flex-grow: 1;
-        flex-shrink: 1;
+      flex-grow: 1;
+      flex-shrink: 1;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tr {
-        display: flex;
-        flex-direction: row;
-        flex-grow: 1;
-        flex-shrink: 0;
+      display: flex;
+      flex-direction: row;
+      flex-grow: 1;
+      flex-shrink: 0;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content td,
     .swal2-modal.paymeny-modal .swal2-content th {
-        display: block;
-        flex-direction: column;
-        flex-shrink: 1;
-        flex-grow: 1;
+      display: block;
+      flex-direction: column;
+      flex-shrink: 1;
+      flex-grow: 1;
     }
-    
-    
     /*  Checkbox Style */
-    
+
     .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox {
-        position: relative;
-        margin: -2px 5px;
+      position: relative;
+      margin: -2px 5px;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox label {
-        width: 15px;
-        height: 15px;
-        cursor: pointer;
-        position: absolute;
-        top: 2px;
-        left: 0px;
-        background: #fcfff4;
-        background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-        background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-        border-radius: 4px;
-        box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+      position: absolute;
+      top: 2px;
+      left: 0px;
+      background: #fcfff4;
+      background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+      background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+      border-radius: 4px;
+      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox label:after {
-        content: '';
-        width: 9px;
-        height: 6px;
-        position: absolute;
-        top: 4px;
-        left: 3px;
-        border: 2px solid #333;
-        border-top: none;
-        border-right: none;
-        background: transparent;
-        opacity: 0;
-        -webkit-transform: rotate(-45deg);
-        transform: rotate(-45deg);
+      content: '';
+      width: 9px;
+      height: 6px;
+      position: absolute;
+      top: 4px;
+      left: 3px;
+      border: 2px solid #333;
+      border-top: none;
+      border-right: none;
+      background: transparent;
+      opacity: 0;
+      -webkit-transform: rotate(-45deg);
+      transform: rotate(-45deg);
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
-        transform: rotate(-90deg);
-        margin-top: 5px;
-        position: absolute;
-        margin-left: 2px;
+      transform: rotate(-90deg);
+      margin-top: 5px;
+      position: absolute;
+      margin-left: 2px;
     }
-    
+
     @media screen and (max-width: 300px) {
-        .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
-            margin-left: 2px;
-        }
+      .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
+        margin-left: 2px;
+      }
     }
-    
+
     @media screen and (min-width: 300px) {
-        .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
-            margin-left: 7px;
-        }
+      .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
+        margin-left: 7px;
+      }
     }
 
     .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox label:hover::after {
-        opacity: 0.5;
+      opacity: 0.5;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox input[type=checkbox] {
-        position: absolute;
-        z-index: 9;
-        opacity: 0;
-        width: 15px;
-        height: 15px;
-        margin: 0px;
-        cursor: pointer;
-        left: 0px;
-        top: 2px;
+      position: absolute;
+      z-index: 9;
+      opacity: 0;
+      width: 15px;
+      height: 15px;
+      margin: 0px;
+      cursor: pointer;
+      left: 0px;
+      top: 2px;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox input[type=checkbox]:checked+label:after {
-        opacity: 1;
+      opacity: 1;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content .bg-darkblue {
-        background-color: #414772 !important;
+      background-color: #414772 !important;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tbody>tr.bgBlue {
-        background: #56a1ff !important;
-        color: white;
+      background: #56a1ff !important;
+      color: white;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tbody>tr.bgBlue td {
-        color: white;
+      color: white;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tbody>tr.bgBlue td::selection,
     .swal2-modal.paymeny-modal .swal2-content tbody>tr.bgBlue td a::selection {
-        background: transparent !important;
+      background: transparent !important;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tbody>tr:hover {
-        background: #b6f1ff !important;
-        cursor: pointer;
-        color: #000;
+      background: #b6f1ff !important;
+      cursor: pointer;
+      color: #000;
     }
-    
+
     .swal2-modal.paymeny-modal .swal2-content tbody>tr:hover td,
     .swal2-modal.paymeny-modal .swal2-content tbody>tr:hover td::selection {
-        color: #000;
+      color: #000;
     }
-    .swal2-modal.paymeny-modal .swal2-content .claim-col{
-        height:60px;
+
+    .swal2-modal.paymeny-modal .swal2-content .claim-col {
+      height: 60px;
     }
-    .swal2-modal.paymeny-modal .swal2-content .box{
-        margin-bottom:1px;
+
+    .swal2-modal.paymeny-modal .swal2-content .box {
+      margin-bottom: 1px;
     }
-    .swal2-modal.paymeny-modal .swal2-content .expanded{
-        height: calc(100vh - 330px);
-        height: -moz-calc(100vh - 330px);
-        height: -webkit-calc(100vh - 330px);
-        height: -o-calc(100vh - 330px);
-        overflow:hidden;
-        overflow-y:auto;
+
+    .swal2-modal.paymeny-modal .swal2-content .expanded {
+      height: calc(100vh - 330px);
+      height: -moz-calc(100vh - 330px);
+      height: -webkit-calc(100vh - 330px);
+      height: -o-calc(100vh - 330px);
+      overflow: hidden;
+      overflow-y: auto;
     }
-    .swal2-modal.paymeny-modal .swal2-content .top-header,.table-body{
-        width:99%;
+
+    .swal2-modal.paymeny-modal .swal2-content .top-header,
+    .table-body {
+      width: 99%;
     }
-    
-    .swal2-modal.paymeny-modal .swal2-content .top-header{
-        height:56px;
-        position: absolute;
-        overflow: hidden;
+
+    .swal2-modal.paymeny-modal .swal2-content .top-header {
+      height: 56px;
+      position: absolute;
+      overflow: hidden;
     }
-    .swal2-modal.paymeny-modal .swal2-content .table-body{
-        position: absolute;
-        top:56px;
-        max-height: calc(100% - 56px);
-        max-height: -moz-calc(100% - 56px);
-        max-height: -webkit-calc(100% - 56px);
-        max-height: -o-calc(100% - 56px);
-        overflow-y: scroll;
-    } 
-    .swal2-modal.paymeny-modal .swal2-content .close-button i{
-        color:white;
+
+    .swal2-modal.paymeny-modal .swal2-content .table-body {
+      position: absolute;
+      top: 56px;
+      max-height: calc(100% - 56px);
+      max-height: -moz-calc(100% - 56px);
+      max-height: -webkit-calc(100% - 56px);
+      max-height: -o-calc(100% - 56px);
+      overflow-y: scroll;
     }
-    .swal2-modal.paymeny-modal .swal2-content .close-button{
-            width:32px;
-            height:32px;
-            border-radius:50%;
-            -moz-border-radius:50%;
-            -webkit-border-radius:50%;
-            -o-border-radius:50%;
-            position: absolute;
-            right: -4px;
-            top: -4px;
-            z-index: 9;
-            background: red;
+
+    .swal2-modal.paymeny-modal .swal2-content .close-button i {
+      color: white;
     }
-    .swal2-modal.paymeny-modal .swal2-content .top-header table{
-        height:99%;
+
+    .swal2-modal.paymeny-modal .swal2-content .close-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      -o-border-radius: 50%;
+      position: absolute;
+      right: -4px;
+      top: -4px;
+      z-index: 9;
+      background: red;
     }
+
+    .swal2-modal.paymeny-modal .swal2-content .top-header table {
+      height: 99%;
+    }
+
     .wrapper {
-        overflow: hidden !important;
+      overflow: hidden !important;
     }
-    .overlay{
-        height: 100vh !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      height: 100% !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    body.sidebar-collapse .overlay{
-        width: calc(100vw - 49px)!important;
+
+    .overlay>img {
+      position: fixed;
+      top: 50%;
+      -ms-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+
+    body.sidebar-collapse .overlay {
+      /* width: calc(100vw - 49px)!important;
         width: -o-calc(100vw - 49px)!important;
         width: -webkit-calc(100vw - 49px)!important;
-        width: -moz-calc(100vw - 49px)!important;
+        width: -moz-calc(100vw - 49px)!important; */
     }
-    body:not(.sidebar-collapse) .overlay{
-        width: calc(100vw - 230px)!important;
+
+    body:not(.sidebar-collapse) .overlay {
+      /* width: calc(100vw - 230px)!important;
         width: -o-calc(100vw - 230px)!important;
         width: -webkit-calc(100vw - 230px)!important;
-        width: -moz-calc(100vw - 230px)!important;
-    }
-    .overlay img{
-        margin-top:  -50px !important;
+        width: -moz-calc(100vw - 230px)!important; */
     }
 
     tbody>tr.isReversed,
     tbody>tr.isReversed:hover,
     tbody>tr.isReversed:hover td,
     tbody>tr.isReversed:hover td::selection {
-        color: red !important;
+      color: red !important;
     }
