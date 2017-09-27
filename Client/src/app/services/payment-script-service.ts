@@ -148,7 +148,7 @@ export class PaymentScriptService {
                                                                 <th>Claim #</th>
                                                                 <th>Patient Name</th>                        
                                                                 <th>Payor</th>
-                                                                <th># of Prescriptions</th>
+                                                                <th>Scripts</th>
                                                             </tr>
                                                         </thead>
                                                     </table>
@@ -195,7 +195,7 @@ export class PaymentScriptService {
                 }else{
                     swal({ 
                             title: "",
-                            width: (window.innerWidth - 460) + "px",
+                            //width: (window.innerWidth - 460) + "px",
                             html: "Searching claims... <br/> <img src='assets/1.gif'>",
                             showConfirmButton: false
                         });              
@@ -279,7 +279,7 @@ export class PaymentScriptService {
                 }catch(e){}
                 swal({ 
                     title: "",
-                    width: (window.innerWidth - 460) + "px",
+                    //width: (window.innerWidth - 460) + "px",
                     html: "Searching claims... <br/> <img src='assets/1.gif'>",
                     showConfirmButton: false
                 }); 

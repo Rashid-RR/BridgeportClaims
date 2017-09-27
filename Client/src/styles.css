@@ -101,6 +101,22 @@
         padding-right: 10px;
         padding-left: 0px;
     }
+    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
+    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2)
+    {
+        width:27.5% !important;
+    }
+    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:last-child
+    {
+        width:44% !important;
+    }
+    .swal2-modal.paymeny-modal .swal2-content .expanded{
+        height: calc(100vh - 400px) !important;
+        height: -moz-calc(100vh - 400px) !important;
+        height: -webkit-calc(100vh - 400px) !important;
+        height: -o-calc(100vh - 400px) !important;
+    }
+    /*
     @media (min-width: 0px) {       
         .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
         .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2)
@@ -110,7 +126,7 @@
         .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:last-child
         {
             width:44% !important;
-        }
+        } 
         .swal2-modal.paymeny-modal .swal2-content .expanded{
             height: calc(100vh - 400px) !important;
             height: -moz-calc(100vh - 400px) !important;
@@ -130,7 +146,7 @@
         }
         .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:last-child{
             width:29% !important;
-        }
+        } 
         .swal2-modal.paymeny-modal .swal2-content .expanded{
             height: calc(100vh - 330px) !important;
             height: -moz-calc(100vh - 330px) !important;
@@ -138,7 +154,7 @@
             height: -o-calc(100vh - 330px) !important;
         }
     }
-    /* .swal2-modal.paymeny-modal .swal2-content .payment-input form div:nth-child(1),
+     .swal2-modal.paymeny-modal .swal2-content .payment-input form div:nth-child(1),
     .swal2-modal.paymeny-modal .swal2-content .payment-input form div:nth-child(2),
     .swal2-modal.paymeny-modal .swal2-content .payment-input form div:nth-child(3),
     .swal2-modal.paymeny-modal .swal2-content .payment-input form div:nth-child(4),
@@ -195,6 +211,9 @@
             padding-left: 15px;
         }
     } */
+    .swal2-container{
+        margin-left:-220px;
+    }
     .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-2,
     .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,
     .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-1
