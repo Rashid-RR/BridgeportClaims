@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="box">
+            <!-- Page Title -->
+            <div class="page-title">
+                <h3>Diary</h3>
+            </div>
+            <div class="box-body">
+                <!-- Input Form -->
+                <div class="row">
+                    <div class="col-sm-12" id="accordion">
+                        <div class="box bottom-0">
+                            <div class="box-body diary-input">
+                                <app-diary-input></app-diary-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Diary Results -->
+                <div class="row">
+                    <div class="col-sm-12" id="accordion">
+                        <div class="box">
+                            <div class="box-header">
+                                <span class="blade-title panel-head">
+                                    <i class="fa fa-book" aria-hidden="true"></i> Diary
+                                </span>
+                                <span class="total pull-right">
+                                    <span *ngIf="ds.diaryData"><span style="font-size:13pt">{{ds.diaryData}}</span> Record{{ds.diaryData>1 ? 's':''}} found</span>
+                                </span>
+                            </div>
+                            <div class="box-body diary-results">
+                                <app-diary-results></app-diary-results>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
