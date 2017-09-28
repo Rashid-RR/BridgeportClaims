@@ -17,11 +17,11 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
         private readonly IMemoryCacher _memoryCacher;
 
         public ClaimNotesDataProvider(IStoredProcedureExecutor storedProcedureExecutor, 
-            IRepository<ClaimNoteType> claimNoteTypeRepositor, IMemoryCacher memoryCacher)
+            IRepository<ClaimNoteType> claimNoteTypeRepositor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
             _claimNoteTypeRepository = claimNoteTypeRepositor;
-            _memoryCacher = memoryCacher;
+            _memoryCacher = MemoryCacher.Instance;
         }
 
         public IList<KeyValuePair<int, string>> GetClaimNoteTypes()

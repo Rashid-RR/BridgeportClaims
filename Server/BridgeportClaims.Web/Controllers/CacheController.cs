@@ -14,9 +14,9 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IMemoryCacher _cache;
 
-        public CacheController(IMemoryCacher cache)
+        public CacheController()
         {
-            _cache = cache;
+            _cache = MemoryCacher.Instance;
         }
 
         [HttpPost]

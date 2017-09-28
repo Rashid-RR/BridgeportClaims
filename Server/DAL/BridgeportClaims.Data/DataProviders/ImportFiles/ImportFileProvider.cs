@@ -28,12 +28,12 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		private readonly ICsvReaderProvider _csvReaderProvider;
 	    private readonly IRepository<ImportFileType> _importFileTypeRepository;
 
-		public ImportFileProvider(IMemoryCacher memoryCacher, 
+		public ImportFileProvider(
 			IRepository<ImportFile> importFileRepository, 
 			ICsvReaderProvider csvReaderProvider, 
             IRepository<ImportFileType> importFileTypeRepository)
 		{
-			_memoryCacher = memoryCacher;
+		    _memoryCacher = MemoryCacher.Instance;
 			_importFileRepository = importFileRepository;
 			_csvReaderProvider = csvReaderProvider;
 		    _importFileTypeRepository = importFileTypeRepository;
@@ -105,7 +105,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		public void DeleteImportFile(int importFileId)
 		{
 			// Remove cached entries
-			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
+			_memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
 			{
 				DisposableService.Using(() => new SqlCommand("uspDeleteImportFile", connection), cmd => 
@@ -213,7 +213,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		public void MarkFileProcessed(string fileName)
 		{
 			// Remove cached entries
-			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
+			_memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
 			const string sql = @"UPDATE i SET i.Processed = 1 FROM util.ImportFile AS i WHERE i.[FileName] = @FileName;";
 			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
 			{
@@ -239,7 +239,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			string fileDescription)
 		{
 			// Remove cached entries
-			_memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
+			_memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
 			byte[] file = null;
 			DisposableService.Using(() => new BinaryReader(stream), reader =>
 			{

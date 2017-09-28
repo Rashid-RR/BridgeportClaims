@@ -26,15 +26,15 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IPaymentsDataProvider _paymentsDataProvider;
         private readonly IPaymentsBusiness _paymentsBusiness;
         private readonly IMemoryCacher _memoryCacher;
+        private static readonly UserPaymentPostingSession Shell = null;
 
         public PaymentsController(
             IPaymentsDataProvider paymentsDataProvider, 
-            IPaymentsBusiness paymentsBusiness, 
-            IMemoryCacher memoryCacher)
+            IPaymentsBusiness paymentsBusiness)
         {
             _paymentsDataProvider = paymentsDataProvider;
             _paymentsBusiness = paymentsBusiness;
-            _memoryCacher = memoryCacher;
+            _memoryCacher = MemoryCacher.Instance;
         }
 
         [HttpPost]
@@ -185,7 +185,9 @@ namespace BridgeportClaims.Web.Controllers
                     if (model.SessionId.IsNotNullOrWhiteSpace() && _memoryCacher.Contains(model.SessionId))
                     {
                         // Now we are removing this item from memory.
-                        var existingModel = _memoryCacher.GetItem(model.SessionId, true) as UserPaymentPostingSession;
+                        var existingModel = _memoryCacher.AddOrGetExisting(model.SessionId, 
+                            () => new UserPaymentPostingSession());
+                        _memoryCacher.Delete(model.SessionId);
                         if (null == existingModel)
                             throw new Exception("Error. The model retrieved from cache is null.");
                         // TODO: pass the model values and the session
@@ -216,7 +218,7 @@ namespace BridgeportClaims.Web.Controllers
                         throw new Exception("Error. The sessionId parameter passed in cannot be null or empty.");
                     if (!_memoryCacher.Contains(sessionId))
                         throw new Exception($"Error. The Session Id {sessionId} cannot be found in memory.");
-                    var model = _memoryCacher.GetItem(sessionId, false) as UserPaymentPostingSession;
+                    var model = _memoryCacher.AddOrGetExisting(sessionId, () => Shell);
                     if (null == model)
                         throw new Exception($"Error. The model cannot be found from Session Id: {sessionId}");
                     if (null == model.PaymentPostings?.Count || model.PaymentPostings.Count <= 0)
@@ -267,10 +269,10 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     model.UserName = User.Identity.Name;
                     model.SessionId = model.CacheKey;
-                    _memoryCacher.AddItem(model.CacheKey, model);
+                    _memoryCacher.AddOrGetExisting(model.CacheKey, () => model);
                     return await ReturnMappedViewModel(model);
                 }
-                var existingModel = _memoryCacher.GetItem(model.CacheKey, false) as UserPaymentPostingSession;
+                var existingModel = _memoryCacher.AddOrGetExisting(model.CacheKey, () => Shell);
                 if (null == existingModel)
                     throw new CacheException(
                         $"Error, tried to retrieve an object from cache that isn't there. Cache key {model.CacheKey}");
@@ -324,7 +326,7 @@ namespace BridgeportClaims.Web.Controllers
                     var methodName = MethodBase.GetCurrentMethod().Name;
                     if (!_memoryCacher.Contains(sessionId))
                         Logger.Info($"The {methodName} method was called with no objects stored into session from ID {sessionId}.");
-                    _memoryCacher.DeleteIfExists(sessionId);
+                    _memoryCacher.Delete(sessionId);
                     return Ok(new {message = "The posted payments stored into cache have been cleared successfully."});
                 });
             }
@@ -347,7 +349,7 @@ namespace BridgeportClaims.Web.Controllers
                         throw new ArgumentNullException(nameof(sessionId));
                     if (prescriptionId <= 0)
                         throw new Exception($"Error. The prescription Id {prescriptionId} is invalid.");
-                    var existingModel = _memoryCacher.GetItem(sessionId, false) as UserPaymentPostingSession;
+                    var existingModel = _memoryCacher.AddOrGetExisting(sessionId, () => Shell);
                     if (null == existingModel)
                         throw new Exception("Error. The existing model could not be retrieved from cache.");
                     existingModel.PaymentPostings.RemoveAll(x => x.PrescriptionId == prescriptionId);

@@ -13,10 +13,10 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes
         private readonly IRepository<PrescriptionNoteType> _repository;
         private readonly IMemoryCacher _memoryCacher;
 
-        public PrescriptionNoteTypesDataProvider(IRepository<PrescriptionNoteType> repository, IMemoryCacher memoryCacher)
+        public PrescriptionNoteTypesDataProvider(IRepository<PrescriptionNoteType> repository)
         {
             _repository = repository;
-            _memoryCacher = memoryCacher;
+            _memoryCacher = MemoryCacher.Instance;
         }
 
         public IList<PrescriptionNoteTypesDto> GetPrescriptionNoteTypes()

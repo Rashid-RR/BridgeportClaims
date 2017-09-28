@@ -19,14 +19,6 @@ namespace BridgeportClaims.Common.Caching
             _defaultExpiry = DateTimeOffset.UtcNow.AddDays(14);
         }
 
-        protected virtual void AddItem(string key, object value)
-        {
-            lock (Semaphore)
-            {
-                Cache.Add(key, value, _defaultExpiry);
-            }
-        }
-
         protected virtual void UpdateItem(string key, object value)
         {
             lock (Semaphore)
@@ -41,27 +33,6 @@ namespace BridgeportClaims.Common.Caching
             {
                 if (Cache.Contains(key))
                     Cache.Remove(key);
-            }
-        }
-
-        protected virtual object GetItem(string key, bool remove)
-        {
-            lock (Semaphore)
-            {
-                var value = Cache[key];
-
-                if (null == value)
-                {
-                    Logger.Info($"No item in the cache with the key \"{key}\"");
-                    return null;
-                }
-                if (remove)
-                    RemoveItem(key); // Not that you need another lock, just a check to see if it exists first.
-                else
-                {
-                    WriteToLog($"The CachingProvider does not contain the cache key: {key}");
-                }
-                return value;
             }
         }
 

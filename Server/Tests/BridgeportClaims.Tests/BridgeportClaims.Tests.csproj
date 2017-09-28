@@ -59,6 +59,7 @@
     <Compile Include="AuthenticationTests.cs" />
     <Compile Include="Caching\MemoryCacherTests.cs" />
     <Compile Include="Dtos\DtosTests.cs" />
+    <Compile Include="Payments\PaymentsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BridgeportClaims.Web\BridgeportClaims.Web.csproj">
+      <Project>{7b61bc98-9190-4576-9858-81279d5d2b47}</Project>
+      <Name>BridgeportClaims.Web</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{61afc490-da0f-4f71-ab27-427e64fbf7d0}</Project>
       <Name>BridgeportClaims.Common</Name>

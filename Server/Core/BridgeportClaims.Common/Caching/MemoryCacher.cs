@@ -10,13 +10,12 @@ namespace BridgeportClaims.Common.Caching
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class MemoryCacher : CachingProviderBase, IMemoryCacher
     {
-        #region Singleton 
+        #region Singleton
+
         private static readonly Lazy<MemoryCacher> Lazy =
             new Lazy<MemoryCacher>(() => new MemoryCacher());
 
         public static MemoryCacher Instance => Lazy.Value;
-
-        public MemoryCacher() { }
 
         #endregion
 
@@ -24,24 +23,9 @@ namespace BridgeportClaims.Common.Caching
 
         public string GetPaymentPostingCacheKey(string userId) => $"__PaymentPosting__{userId}__";
 
-        public new virtual void AddItem(string key, object value)
-        {
-            base.AddItem(key, value);
-        }
-
         public new virtual void UpdateItem(string key, object value)
         {
             base.UpdateItem(key, value);
-        }
-
-        public virtual object GetItem(string key)
-        {
-            return base.GetItem(key, true); // Remove default is true because it's Global Cache!
-        }
-
-        public new virtual object GetItem(string key, bool remove)
-        {
-            return base.GetItem(key, remove);
         }
 
         #endregion
@@ -94,33 +78,33 @@ namespace BridgeportClaims.Common.Caching
             }
             catch
             {
-                DeleteIfExists(key);
+                Delete(key);
                 throw;
             }
         }
 
-        public void DeleteIfExists(string key)
-        {
-            _cache.Remove(key);
-            /*if (Contains(key))
-                GetItem(key, true);
-            if (Contains(key))
-                throw new Exception("The cache still has an item inside of it when it shouldn't.");*/
-        }
+        /// <summary>
+        /// Works if you use AddOrGetExisting
+        /// </summary>
+        /// <param name="key"></param>
+        public void Delete(string key) => _cache.Remove(key);
+        
 
         /// <summary>
-        /// Stupid default MemoryCache.Contains method DELETE'S the object!!!
+        /// Works if you use AddOrGetExisting
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
         public bool Contains(string key) => _cache.Contains(key);
 
-
+        /// <summary>
+        /// Works either way.
+        /// </summary>
         public void DeleteAll()
         {
             // A snapshot of keys is taken to avoid enumerating collection during changes.
             var keys = _cache.Select(c => c.Key).ToList();
-            keys.ForEach(DeleteIfExists);
+            keys.ForEach(Delete);
         }
     }
 }

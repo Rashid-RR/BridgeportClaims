@@ -8,10 +8,11 @@ namespace BridgeportClaims.Web.Hubs
     public class PostingHub : Hub
     {
         private readonly IMemoryCacher _memoryCacher;
+        private static readonly UserPaymentPostingSession Shell = null;
 
-        public PostingHub(IMemoryCacher memoryCacher)
+        public PostingHub()
         {
-            _memoryCacher = memoryCacher;
+            _memoryCacher = MemoryCacher.Instance;
         }
 
         /// <summary>
@@ -20,7 +21,7 @@ namespace BridgeportClaims.Web.Hubs
         /// <param name="cacheKey"></param>
         public void PostedPayment(string cacheKey)
         {
-            var model = _memoryCacher.GetItem(cacheKey) as UserPaymentPostingSession;
+            var model = _memoryCacher.AddOrGetExisting(cacheKey, () => Shell);
             if (null == model)
                 throw new ArgumentNullException(nameof(model));
             Clients.Client(154.ToString()).postPayment(model); // TODO: Remove or replace. 154 is a hard-coded destination connection ID.

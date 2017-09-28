@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using BridgeportClaims.Common.Caching;
+using BridgeportClaims.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BridgeportClaims.Tests.Caching
@@ -42,7 +43,6 @@ namespace BridgeportClaims.Tests.Caching
 
             Assert.AreEqual(testValue, value.Value);
         }
-
 
         /// <summary>
         /// Test that for subsequent calls the value is only generated once, and after that
@@ -95,7 +95,7 @@ namespace BridgeportClaims.Tests.Caching
 
             Assert.AreEqual(1, valueGeneratedTimes, "Value should be generated only once.");
 
-            _cache.DeleteIfExists(testkey);
+            _cache.Delete(testkey);
 
             var value3 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value3.Value);
@@ -144,7 +144,7 @@ namespace BridgeportClaims.Tests.Caching
             Assert.AreEqual(testValue2, value2get2.Value);
 
             // Invalidation should affect only the right key-value-pair.
-            _cache.DeleteIfExists(testkey1);
+            _cache.Delete(testkey1);
 
             var value1get3 = await _cache.AddOrGetExisting(testkey1, buildValue1Func);
             var value2get3 = await _cache.AddOrGetExisting(testkey2, buildValue2Func);
@@ -347,7 +347,7 @@ namespace BridgeportClaims.Tests.Caching
             firstValueFactoryStarted.WaitOne();
 
             // While the first value get is still running, invalidate the value.
-            _cache.DeleteIfExists(key);
+            _cache.Delete(key);
 
             // Second get from the cache can now begin.
             // Because the first (still uncompleted) value was invalidated, cacheUserTask2's fetch should start a new value generation.

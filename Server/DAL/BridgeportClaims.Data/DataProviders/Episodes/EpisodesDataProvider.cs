@@ -19,10 +19,10 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		private readonly IRepository<EpisodeType> _episodeTypeRepository;
 	    private readonly IMemoryCacher _memoryCacher;
 
-		public EpisodesDataProvider(IRepository<EpisodeType> episodeTypeRepository, IMemoryCacher memoryCacher)
+		public EpisodesDataProvider(IRepository<EpisodeType> episodeTypeRepository)
 		{
 		    _episodeTypeRepository = episodeTypeRepository;
-		    _memoryCacher = memoryCacher;
+		    _memoryCacher = MemoryCacher.Instance;
 		}
 
 		public void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string noteText, int? episodeTypeId)
