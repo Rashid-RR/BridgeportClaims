@@ -18,7 +18,9 @@
                         <td>{{episode.type}}</td>
                         <td>{{episode.note}}</td>
                         <td>
-                            <button type="button" class="btn btn-flat bg-darkRed btn-sm pull-right" (click)="edit(episode.episodeId,episode.type)" title="Edit Episode">Edit</button>
+                            <button type="button" class="btn btn-flat bg-darkRed btn-sm pull-right" (click)="edit(episode.episodeId,episode.type)" title="Edit Episode">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            Edit</button>
                         </td>
                     </tr>
                 </tbody>

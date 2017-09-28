@@ -234,3 +234,11 @@ tr:nth-of-type(odd) {
 tr:nth-of-type(even) {
   background: #fff8ef !important;
 }
+
+/************btn-color*************/
+
+.bg-darkRed {
+    background: #992727;
+    border: 1px solid #992727;
+    color: #fff;
+}
