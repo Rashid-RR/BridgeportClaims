@@ -34,6 +34,9 @@ export class PaymentInputComponent implements OnInit {
       amountToPost: [null],
       amountRemaining: [null]
     });
+    this.events.on("claimId-updated",a=>{
+        this.getAmountRemaining();
+    });
     this.events.on("payment-suspense",a=>{
         this.form.patchValue({
           checkNumber: null,
@@ -91,7 +94,21 @@ export class PaymentInputComponent implements OnInit {
   ngOnInit() {
     this.paymentService.paymentPosting = new PaymentPosting();
   }
+  getAmountRemaining(){
+    let checkNumber =  this.form.get('checkNumber').value;
+    let amnt = this.form.get("checkAmount").value;  
+    let amount = Number(amnt.replace(new RegExp(",", "gi"),""))      
+    if(amount>0 && checkNumber && !this.disableCheckEntry && this.paymentService.claimsDetail.toArray()[0]){
+      this.http.existingPostPayment({checkNumber:checkNumber,claimId:this.paymentService.claimsDetail.toArray()[0].claimId}).map(p => p.json())
+        .subscribe(data => {
+          let amountRemaining = amount-data.message;
+          this.form.get('amountRemaining').setValue(this.decimalPipe.transform(amountRemaining,"1.2-2"));
+          this.paymentService.paymentPosting.lastAmountRemaining = Number(amountRemaining.toFixed(2));    
+        },err=>{
 
+        });
+      }
+  }
   updateAmountRemaining(){
     let amnt = this.form.get("checkAmount").value;    
     let amount = Number(amnt.replace(new RegExp(",", "gi"),""))
@@ -162,6 +179,9 @@ export class PaymentInputComponent implements OnInit {
         break;
 
       }
+      if(controlName=='checkAmount' || controlName=='checkNumber'){
+        this.getAmountRemaining();
+      }
     }
   }
   checkNumber($event){
@@ -223,6 +243,9 @@ export class PaymentInputComponent implements OnInit {
         }else if(Number(form.amountToPost) > Number(form.checkAmount)){
           //console.log(Number(form.amountToPost) > Number(form.checkAmount));
           this.toast.warning("You may not post monies that exceed the total check amount;");
+        }else if((Number(form.lastAmountRemaining) - Number(form.amountToPost))<0){
+          //console.log(Number(form.amountToPost) > Number(form.checkAmount));
+          this.toast.warning("Error. You may not post an amount that puts the \"Amount Remaining\" for this check into the negative.");
         }else if(form.amountToPost==0 || form.amountToPost==null){
           this.toast.warning("You need to specify amount to post");
         }else {

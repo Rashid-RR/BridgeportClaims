@@ -130,6 +130,14 @@ export class HttpService {
     });
     return s;
   }
+  existingPostPayment(data: any) {
+    const s = this.http.post(this.baseUrl + '/payment/get-existing-posted-payments/?checkNumber='+data.checkNumber+'&claimId='+data.claimId, data, { headers: this.headers })
+    .catch(err =>  {
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
   deletePayment(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/delete-posting/?sessionId='+data.sessionId+'&prescriptionId='+data.prescriptionId,{}, { headers: this.headers })
     .catch(err =>  {

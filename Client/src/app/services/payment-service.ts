@@ -90,8 +90,10 @@ export class PaymentService {
            this.events.broadcast('payment-amountRemaining',result);
            //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
            result.paymentPostings.forEach(prescription=>{
-             this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
-             this.claimsDetail.get(prescription.prescriptionId).selected = false;
+             try{
+                 this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
+                this.claimsDetail.get(prescription.prescriptionId).selected = false;
+             }catch(e){}
              let posting  = prescription as PaymentPostingPrescription;
              this.paymentPosting.payments = this.paymentPosting.payments.set(prescription.prescriptionId,posting);
            })
@@ -288,6 +290,7 @@ export class PaymentService {
             });
           }
          this.events.broadcast('payment-updated',false);
+         this.events.broadcast('claimId-updated',false);
         }, err => {
           this.loading = false;
           console.log(err);
