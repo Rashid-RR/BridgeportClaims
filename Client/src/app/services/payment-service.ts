@@ -91,7 +91,7 @@ export class PaymentService {
            //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
            result.paymentPostings.forEach(prescription=>{
              try{
-                 this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
+                this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
                 this.claimsDetail.get(prescription.prescriptionId).selected = false;
              }catch(e){}
              let posting  = prescription as PaymentPostingPrescription;
@@ -202,7 +202,7 @@ export class PaymentService {
     this.http.finalizePosting(data).map(res => { return res.json(); })
       .subscribe(result => {
         this.loading = false;
-        console.log(result);
+        //console.log(result);
         if (result.message) {
           this.toast.success(result.message);
         }
@@ -246,7 +246,7 @@ export class PaymentService {
       .subscribe(result => {
         this.loading = false;
         this.paymentPosting.payments = this.paymentPosting.payments.delete(data.prescriptionId);
-        console.log(result);
+        //console.log(result);
         if (result.message) {
           this.toast.success(result.message);
         }
