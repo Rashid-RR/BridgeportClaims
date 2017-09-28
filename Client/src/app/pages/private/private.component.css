@@ -27,17 +27,17 @@
 }
 
 li.dashboard {
-    background: url('/src/assets/img/private-1.png') no-repeat;
+    background: url('/assets/img/private-1.png') no-repeat;
 }
 li.claims {
-    background: url('/src/assets/img/private-2.png') no-repeat;
+    background: url('/assets/img/private-2.png') no-repeat;
 }
 li.payments {
-    background: url('/src/assets/img/private-3.png') no-repeat;
+    background: url('/assets/img/private-3.png') no-repeat;
 }
 li.file-uploads {
-    background: url('/src/assets/img/private-4.png') no-repeat;
+    background: url('/assets/img/private-4.png') no-repeat;
 }
 li.user-management {
-    background: url('/src/assets/img/private-5.png') no-repeat;
+    background: url('/assets/img/private-5.png') no-repeat;
 }

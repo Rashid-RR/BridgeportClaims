@@ -15,10 +15,10 @@ namespace BridgeportClaims.Data.DataProviders.DateDisplay
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IMemoryCacher _memoryCacher;
 
-        public DateDisplayProvider(ISessionFactory factory, IMemoryCacher memoryCacher)
+        public DateDisplayProvider(ISessionFactory factory)
         {
             _factory = factory;
-            _memoryCacher = memoryCacher;
+            _memoryCacher = MemoryCacher.Instance;
         }
 
         public string GetDateDisplay()

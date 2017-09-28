@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Cambay:400,700');
-
-*:not(.fa){
+*:not(.fa) {
   font-family: 'Cambay', sans-serif !important;
   line-height: normal;
 }
@@ -16,158 +15,173 @@ h6 {
 }
 
 .row.data {
-    font-size: 9.6pt;
+  font-size: 9.6pt;
 }
 
 .row.data .box {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 .box {
-    border: 1.5px solid #d2d6de;
+  border: 1.5px solid #d2d6de;
 }
 
 .box .box-body {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 .box-header.with-border,
 .box .box-body>.row:first-child {
-    position: relative;
-    z-index: 3;
-    background: #fff;
+  position: relative;
+  z-index: 3;
+  background: #fff;
 }
 
 #fixed-box-header {
-    z-index: 2;
+  z-index: 2;
 }
 
 td,
 th {
-    padding-bottom: 1px !important;
-    padding-top: 1px !important;
+  padding-bottom: 1px !important;
+  padding-top: 1px !important;
 }
 
 .results-no {
-    color: #fff;
-    padding-right: 1rem;
-    font-family: 'Cambay', sans-serif !important;
-    font-size: 20px;
-    font-weight: 600;
-    text-shadow: 2px 2px 3px #000;
+  color: #fff;
+  padding-right: 1rem;
+  font-family: 'Cambay', sans-serif !important;
+  font-size: 20px;
+  font-weight: 600;
+  text-shadow: 2px 2px 3px #000;
 }
 
 .fittoSreen .box-body {
-    height: 180px;
-    overflow-y: scroll;
+  height: 180px;
+  overflow-y: scroll;
 }
 
 .fittoSreen .box-body.claims {
-    height: 250px;
+  height: 250px;
 }
 
 .swal2-modal {
-    width: 900px !important;
-    min-width: 900px !important;
+  width: 900px !important;
+  min-width: 900px !important;
 }
 
 textarea {
-    resize: vertical;
+  resize: vertical;
 }
 
 .bg-head-box {
-    background: #992727;
-    z-index: 3;
+  background: #992727;
+  z-index: 3;
 }
 
 .panel-head {
-    color: #fff;
+  color: #fff;
 }
 
 .panel-head u {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .panel-head img {
-    vertical-align: -5px;
-    margin-right: 7px;
+  vertical-align: -5px;
+  margin-right: 7px;
 }
 
 .panel-body-bg {
-    background: #fbeede;
+  background: #fbeede;
 }
 
 .bg-darkRed {
-    background: #992727;
-    color: #fff;
+  background: #992727;
+  color: #fff;
 }
 
 .bg-fullWhite {
-    background: #fff;
-    color: #992727;
+  background: #fff;
+  color: #992727;
 }
 
 .bg-fullWhite:hover {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .bg-darkblue {
-    background-color: #414772;
-    color: #fff;
-    font-size: 14px;
+  background-color: #414772;
+  color: #fff;
+  font-size: 14px;
+}
+
+.bg-vdarkgrey {
+  background-color: #111d21 !important;
+  color: #fff;
 }
 
 .bg-grey {
-    background: #E2E2E2;
-    padding: 5px;
-    min-width: 35px;
-    text-align: center;
+  background: #E2E2E2;
+  padding: 5px;
+  min-width: 35px;
+  text-align: center;
 }
 
 .bg-grey i {
-    font-size: 20px;
-    vertical-align: -5px;
-    color: #992727;
+  font-size: 20px;
+  vertical-align: -5px;
+  color: #992727;
 }
 
-.sticky{
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0; 
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }
+
 .display-none {
-    display: none
+  display: none
 }
-.tally{
-    color:white;font-size:10pt;
-    font-family: 'Cambay', sans-serif !important;
-    display:block;
+
+.tally {
+  color: white;
+  font-size: 10pt;
+  font-family: 'Cambay', sans-serif !important;
+  display: block;
 }
-app-claim-prescriptions{
-    height:100%;
-    position: relative;
-    display: block;
+
+app-claim-prescriptions {
+  height: 100%;
+  position: relative;
+  display: block;
 }
-.expanded{
-    height: calc(100vh - 154px);
-    height: -moz-calc(100vh - 154px);
-    height: -webkit-calc(100vh - 154px);
+
+.expanded {
+  height: calc(100vh - 154px);
+  height: -moz-calc(100vh - 154px);
+  height: -webkit-calc(100vh - 154px);
 }
-.expand-blade{
-    width:20px;
-    height:20px;
+
+.expand-blade {
+  width: 20px;
+  height: 20px;
 }
-.add-btn{
-    height:32px;
+
+.add-btn {
+  height: 32px;
 }
-.no-padding{
-    padding:0px;
-    background:transparent !important;
+
+.no-padding {
+  padding: 0px;
+  background: transparent !important;
 }
-.transparent{
-    background:transparent !important;
-    color:white !important;
+
+.transparent {
+  background: transparent !important;
+  color: white !important;
 }
-.transparent i{
-    color:white !important;
+
+.transparent i {
+  color: white !important;
 }

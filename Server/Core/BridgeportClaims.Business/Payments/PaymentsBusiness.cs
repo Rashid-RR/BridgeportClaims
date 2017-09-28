@@ -8,7 +8,7 @@ namespace BridgeportClaims.Business.Payments
     {
         private readonly IMemoryCacher _cache;
 
-        public PaymentsBusiness(IMemoryCacher cache) => _cache = cache;
+        public PaymentsBusiness() => _cache = MemoryCacher.Instance;
 
         public bool CheckMultiLinePartialPayments(decimal amountSelected, decimal amountToPost,
             int countOfPrescriptions) => amountSelected == amountToPost || countOfPrescriptions <= 1;

@@ -20,10 +20,10 @@ namespace BridgeportClaims.Data.DataProviders.Payments
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
         private readonly IMemoryCacher _memoryCacher;
 
-        public PaymentsDataProvider(IStoredProcedureExecutor storedProcedureExecutor, IMemoryCacher memoryCacher)
+        public PaymentsDataProvider(IStoredProcedureExecutor storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
-            _memoryCacher = memoryCacher;
+            _memoryCacher = MemoryCacher.Instance;
         }
 
         public decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber)
@@ -86,7 +86,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
         public void ImportPaymentFile(string fileName)
         {
             // Remove cached entries
-            _memoryCacher.DeleteIfExists(c.ImportFileDatabaseCachingKey);
+            _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
             var fileBytes = GetBytesFromDb(fileName);
             if (null == fileBytes)
                 throw new ArgumentNullException($"Error. The File \"{fileName}\" does not Exist in the Database");

@@ -1,12 +1,12 @@
-﻿using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BridgeportClaims.Data.Repositories;
+using Moq;
 
-namespace BridgeportClaims.DataIntegrations.Tests.ClaimNotes
+namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
 {
     /// <summary> 
     /// Integration tests with the database, to not true Unit Tests. These 
@@ -138,7 +138,7 @@ namespace BridgeportClaims.DataIntegrations.Tests.ClaimNotes
         #endregion
 
         [TestMethod]
-        public void EnsureThatTheTestUserMatchesWhatWeGetBackFromTheMockedCall()
+        public void EnsureThatTheTestUserIdsMatchesWhatWeGetBackFromTheMockedCall()
         {
             // Arrange. 
             var userRepository = new Mock<IRepository<AspNetUsers>>();
@@ -149,8 +149,7 @@ namespace BridgeportClaims.DataIntegrations.Tests.ClaimNotes
 
             // Assert. 
             // Not working 
-            // Assert.AreEqual(retreivedUser, User); 
-            Assert.AreEqual(false, false);
+            Assert.AreEqual(retreivedUser.Id, User.Id);
         }
 
         [TestMethod]
