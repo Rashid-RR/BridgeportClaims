@@ -1,3 +1,7 @@
+.box-header {
+  padding: 10px 10px 5px 10px;
+}
+
 .table-responsive {
   overflow-x: hidden;
 }
@@ -36,8 +40,8 @@ textarea {
 }
 
 .view-btn {
-    padding-bottom: 2px;
-    top: 2px;
-    position: relative;
-    border-radius: .25em;
+  padding-bottom: 2px;
+  top: 2px;
+  position: relative;
+  border-radius: .25em;
 }

@@ -1,14 +1,21 @@
-.table-responsive{
-    overflow-x: hidden;
+.box-header {
+  padding: 10px 10px 5px 10px;
 }
-    table{
-    table-layout:fixed;
-    width:99% !important;
-    overflow-x: hidden;
+
+.table-responsive {
+  overflow-x: hidden;
 }
-td,th{
-    font-size:9pt;
-    word-wrap: break-word;
-    padding-left:2px !important;
-    padding-right:2px  !important;
+
+table {
+  table-layout: fixed;
+  width: 99% !important;
+  overflow-x: hidden;
+}
+
+td,
+th {
+  font-size: 9pt;
+  word-wrap: break-word;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
 }

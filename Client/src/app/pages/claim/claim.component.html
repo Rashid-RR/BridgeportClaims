@@ -5,7 +5,7 @@
                     <h3 class="box-title">Bridgeport Claims</h3>
                 </div>
                 <div class="box-body" style="padding-top:0px;">
-                    <div class="row" *ngIf="!expanded">
+                    <div class="row search" *ngIf="!expanded">
                         <div class="col-sm-12" id="accordion" >
                             <app-claim-search></app-claim-search>
                         </div>
@@ -36,7 +36,7 @@
                                         <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm" (click)="expand(true,1,'claims')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button>
                                     </div>
                                 </div>
-                                <div class="box-body claims panel-body-bg">
+                                <div class="box-body claims panel-body-bg claims">
                                     <app-claim-result [expand]="expand" [minimize]="minimize"></app-claim-result>
                                 </div>
                             </div>
@@ -57,11 +57,11 @@
                                             <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" (click)="addNote()" *ngIf="!claimManager.selectedClaim.claimNotes"><img src="assets/img/add.png" class="add-btn"/></button>
                                             <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)" *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note"><img src="assets/img/edit.png" class="add-btn"/></button>
                                         </div>
-                                        <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm" (click)="minimize('notes')" title="Minimize"><i class="fa fa-minus"></i></button>
-                                        <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm" (click)="expand(true,2,'notes')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button> &nbsp;&nbsp;&nbsp;
+                                        <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right" (click)="minimize('notes')" title="Minimize"><i class="fa fa-minus"></i></button>
+                                        <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right" (click)="expand(true,2,'notes')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button> &nbsp;&nbsp;&nbsp;
                                     </div>
                                 </div>
-                                <div class="box-body panel-body-bg">
+                                <div class="box-body panel-body-bg notes">
                                     <app-claim-note></app-claim-note>
                                 </div>
                             </div>
@@ -70,8 +70,8 @@
                                     <h4 class="box-title text-center panel-head">
                                         <u><img src="assets/img/iconepisodes.png">Episodes</u>
                                     </h4>
-                                    <span  class="tally pull-right"  *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.episodes.length>0" style="margin-right:150px;">
-                                        <span>
+                                    <span class="tally pull-right" *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.episodes.length>0" style="margin-right:150px;">
+                                        <span style="margin-right: 1rem;">
                                             <span style="font-size:13pt">
                                                 {{claimManager.selectedClaim.episodes.length}}
                                                 </span> Record{{claimManager.selectedClaim.episodes.length>1 ? 's':''}} found
@@ -81,11 +81,11 @@
                                         <div class="btn-group" data-toggle="btn-toggle">
                                             <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" title="New Episode" (click)="episode()"><img src="assets/img/add.png" class="add-btn"/></button>
                                         </div>
-                                        <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm" (click)="minimize('episodes')" title="Minimize"><i class="fa fa-minus"></i></button>
-                                        <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm" (click)="expand(true,3,'episodes')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button> &nbsp;&nbsp;&nbsp;
+                                        <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right" (click)="minimize('episodes')" title="Minimize"><i class="fa fa-minus"></i></button>
+                                        <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right" (click)="expand(true,3,'episodes')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button> &nbsp;&nbsp;&nbsp;
                                     </div>
                                 </div>
-                                <div class="box-body panel-body-bg">
+                                <div class="box-body panel-body-bg episodes">
                                     <app-claim-episode></app-claim-episode>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@
                                         <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm" id="pres-max" (click)="expand(true,4,'prescriptions')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button>
                                     </div>
                                 </div>
-                                <div class="box-body panel-body-bg" [class.expanded]="expanded">
+                                <div class="box-body panel-body-bg prescriptions" [class.expanded]="expanded">
                                     <app-claim-prescriptions [class.open]=""></app-claim-prescriptions>
                                 </div>
                                 <div class="box-footer display-none">
@@ -135,7 +135,7 @@
                                         <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm" (click)="expand(true,5,'script-notes')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button>
                                     </div>
                                 </div>
-                                <div class="box-body panel-body-bg">
+                                <div class="box-body panel-body-bg script-note">
                                     <app-claim-script-note></app-claim-script-note>
                                 </div>
                             </div>
@@ -156,7 +156,7 @@
                                         <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm" (click)="expand(true,6,'payments')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button>
                                     </div>
                                 </div>
-                                <div class="box-body panel-body-bg" [class.expanded]="expanded">
+                                <div class="box-body panel-body-bg payment" [class.expanded]="expanded">
                                     <app-claim-payment></app-claim-payment>
                                 </div>
                             </div>
@@ -170,7 +170,7 @@
                                         <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm" (click)="expand(true,7,'images')" title="Expand blade"><img src="assets/img/maximize.png" class="expand-blade"/></button>
                                     </div>
                                 </div>
-                                <div class="box-body panel-body-bg" [class.expanded]="expanded">
+                                <div class="box-body panel-body-bg images" [class.expanded]="expanded">
                                     <app-claim-images></app-claim-images>
                                 </div>
                             </div>
