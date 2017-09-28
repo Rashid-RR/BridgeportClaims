@@ -48,6 +48,7 @@ namespace BridgeportClaims.Web.Controllers
 
 		[HttpGet]
 		[Route("getepisodetypes")]
+        [AllowAnonymous] // TODO: HACK: Front-end keeps throwing 401's from this.
 		public async Task<IHttpActionResult> GetEpisodeTypes()
 		{
 			try

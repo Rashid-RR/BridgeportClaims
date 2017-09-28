@@ -235,6 +235,27 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("get-existing-posted-payments")]
+        public async Task<IHttpActionResult> GetExistingPostedPayments(string checkNumber, int claimId)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    // TODO: Pull this from the database
+                    var ran = new Random();
+                    var retVal = ran.Next(1, 8);
+                    return Ok(new {message = retVal});
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("payment-posting")]
         public async Task<IHttpActionResult> PaymentPosting([FromBody] UserPaymentPostingSession model)
         {

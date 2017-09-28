@@ -190,11 +190,11 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 
 							// Claim Episodes
 							var episodes = session.CreateSQLQuery(
-								  @"SELECT EpisodeId = [e].[EpisodeID]
+                                  @"SELECT EpisodeId = [e].[EpisodeID]
 										 , [Date] = [e].[CreatedDateUTC]
 										 , [By] = [u].[FirstName] + ' ' + [u].[LastName]
-										 , [e].[Note]
-										 , [Type] = [et].[TypeName]
+                                         , [e].[Role]										 
+                                         , [e].[Note]
 									FROM   [dbo].[Episode] AS [e] 
 											INNER JOIN [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [e].[AssignedUserID]
 											LEFT JOIN [dbo].[EpisodeType] AS [et] ON [et].[EpisodeTypeID] = [e].[EpisodeTypeID]

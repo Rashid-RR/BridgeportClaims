@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.Caching;
 using System.Threading.Tasks;
 
 namespace BridgeportClaims.Common.Caching
@@ -11,8 +10,8 @@ namespace BridgeportClaims.Common.Caching
         void UpdateItem(string key, object value);
         object GetItem(string key);
         object GetItem(string key, bool remove);
-        Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory, CacheItemPolicy policy = null);
-        T AddOrGetExisting<T>(string key, Func<T> valueFactory, CacheItemPolicy policy = null);
+        Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory);
+        T AddOrGetExisting<T>(string key, Func<T> valueFactory);
         void DeleteIfExists(string key);
         bool Contains(string key);
         void DeleteAll();

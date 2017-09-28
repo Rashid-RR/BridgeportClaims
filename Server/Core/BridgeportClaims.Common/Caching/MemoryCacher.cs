@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using BridgeportClaims.Common.Helpers;
 
 namespace BridgeportClaims.Common.Caching
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public class MemoryCacher : CachingProviderBase, IMemoryCacher
     {
         #region Singleton 
@@ -44,17 +46,19 @@ namespace BridgeportClaims.Common.Caching
 
         #endregion
 
-        private MemoryCache MemoryCache { get; } = MemoryCache.Default;
-        private CacheItemPolicy DefaultPolicy { get; } = new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.UtcNow.AddDays(5) };
+        private MemoryCache _cache { get; } = MemoryCache.Default;
+        private CacheItemPolicy _defaultPolicy { get; } = new CacheItemPolicy();
 
-        public async Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory, CacheItemPolicy policy = null)
+        public async Task<T> AddOrGetExisting<T>(string key, Func<Task<T>> valueFactory)
         {
-            var useThisPolicy = policy ?? DefaultPolicy;
-            var asyncLazyValue = new AsyncLazy<T>(valueFactory);
-            var existingValue = (AsyncLazy<T>)MemoryCache.AddOrGetExisting(key, asyncLazyValue, useThisPolicy);
 
-            if (null != existingValue)
+            var asyncLazyValue = new AsyncLazy<T>(valueFactory);
+            var existingValue = (AsyncLazy<T>)_cache.AddOrGetExisting(key, asyncLazyValue, _defaultPolicy);
+
+            if (existingValue != null)
+            {
                 asyncLazyValue = existingValue;
+            }
 
             try
             {
@@ -62,7 +66,7 @@ namespace BridgeportClaims.Common.Caching
 
                 // The awaited Task has completed. Check that the task still is the same version
                 // that the cache returns (i.e. the awaited task has not been invalidated during the await).    
-                if (asyncLazyValue != MemoryCache.AddOrGetExisting(key, new AsyncLazy<T>(valueFactory), DefaultPolicy))
+                if (asyncLazyValue != _cache.AddOrGetExisting(key, new AsyncLazy<T>(valueFactory), _defaultPolicy))
                 {
                     // The awaited value is no more the most recent one.
                     // Get the most recent value with a recursive call.
@@ -73,17 +77,16 @@ namespace BridgeportClaims.Common.Caching
             catch (Exception)
             {
                 // Task object for the given key failed with exception. Remove the task from the cache.
-                MemoryCache.Remove(key);
+                _cache.Remove(key);
                 // Re throw the exception to be handled by the caller.
                 throw;
             }
         }
 
-        public T AddOrGetExisting<T>(string key, Func<T> valueFactory, CacheItemPolicy policy = null)
+        public T AddOrGetExisting<T>(string key, Func<T> valueFactory)
         {
-            var useThisPolicy = policy ?? DefaultPolicy;
             var newValue = new Lazy<T>(valueFactory);
-            var oldValue = MemoryCache.AddOrGetExisting(key, newValue, useThisPolicy) as Lazy<T>;
+            var oldValue = _cache.AddOrGetExisting(key, newValue, _defaultPolicy) as Lazy<T>;
 
             try
             {
@@ -98,10 +101,11 @@ namespace BridgeportClaims.Common.Caching
 
         public void DeleteIfExists(string key)
         {
-            if (Contains(key))
+            _cache.Remove(key);
+            /*if (Contains(key))
                 GetItem(key, true);
             if (Contains(key))
-                throw new Exception("The cache still has an item inside of it when it shouldn't.");
+                throw new Exception("The cache still has an item inside of it when it shouldn't.");*/
         }
 
         /// <summary>
@@ -109,16 +113,13 @@ namespace BridgeportClaims.Common.Caching
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public bool Contains(string key)
-        {
-            var item = GetItem(key, false);
-            return null != item;
-        }
+        public bool Contains(string key) => _cache.Contains(key);
+
 
         public void DeleteAll()
         {
             // A snapshot of keys is taken to avoid enumerating collection during changes.
-            var keys = MemoryCache.Select(c => c.Key).ToList();
+            var keys = _cache.Select(c => c.Key).ToList();
             keys.ForEach(DeleteIfExists);
         }
     }
