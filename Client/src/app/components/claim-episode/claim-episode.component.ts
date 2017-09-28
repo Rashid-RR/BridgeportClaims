@@ -13,7 +13,7 @@ export class ClaimEpisodeComponent implements OnInit {
 
   ngOnInit() {
   }
-  getTypeName(id: number): string {
+ /* getTypeName(id: number): string {
     // find in list for item to get name!!
     if (id) {
       let item =this.claimManager.EpisodeNoteTypes.find(p => p.episodeTypeId == id);
@@ -23,8 +23,20 @@ export class ClaimEpisodeComponent implements OnInit {
       return 'not found';
     }
     return 'not specified';
+  }*/
+
+  getTypeName(id: number): string {
+    // find in list for item to get name!!
+    if (id) {
+      let item =this.claimManager.EpisodeNoteTypes.find(p => p.episodeRoleId == id);
+      if (item) {
+        return item.episodeRoleName;
+      }
+      return 'not found';
+    }
+    return 'not specified';
   }
-  edit(id:Number,type:String){
+  edit(id:Number,type:String,role:String){
       this.events.broadcast("edit-episode",id,type);    
   }
 
