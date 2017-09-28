@@ -1,43 +1,43 @@
 .table-responsive {
-    position: relative;
-    overflow-x: hidden;
+  position: relative;
+  overflow-x: hidden;
 }
 
 #fixed-header {
-    position: fixed;
-    top: 43px;
-    background: #fbeede;
-    z-index: 2;
-    padding: 1.6rem 0;
+  position: fixed;
+  top: 43px;
+  background: #fbeede;
+  z-index: 2;
+  padding: 1.6rem 0;
 }
 
 table {
-    table-layout: fixed;
-    width: 99% !important;
-    overflow-x: hidden;
+  table-layout: fixed;
+  width: 99% !important;
+  overflow-x: hidden;
 }
 
 thead,
 tbody {
-    overflow-y: hidden !important;
+  overflow-y: hidden !important;
 }
 
 td,
 th {
-    font-size: 9pt;
-    word-wrap: break-word;
-    padding-left: 2px !important;
-    padding-right: 2px !important;
+  font-size: 9pt;
+  word-wrap: break-word;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
 }
 
 textarea {
-    resize: vertical;
+  resize: vertical;
 }
 
 tr>th,
 tr>td {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 tr:not(.rows6)>th:first-child,
@@ -52,26 +52,26 @@ tr:not(.rows6)>th:nth-child(5),
 tr:not(.rows6)>td:nth-child(5),
 tr:not(.rows6)>th:nth-child(6),
 tr:not(.rows6)>td:nth-child(6) {
-    max-width: 12%;
+  max-width: 12%;
 }
 
 tr:not(.rows6)>th:nth-child(7),
 tr:not(.rows6)>td:nth-child(7) {
-    max-width: 28%; 
-    text-align: right;
-    word-wrap: normal;
+  max-width: 28%;
+  text-align: right;
+  word-wrap: normal;
 }
 
 tr:not(.rows6)>td:last-child {
-    font-size: 1.4rem;
-    font-weight: bold;
-    line-height: 1.5rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1.5rem;
 }
 
 tr:not(.rows6)>th:last-child,
 tr:not(.rows6)>td:last-child,
 {
-    text-align: right !important;
+  text-align: right !important;
 }
 
 tr.rows6>th:first-child,
@@ -86,119 +86,124 @@ tr.rows6>th:nth-child(5),
 tr.rows6>td:nth-child(5),
 tr.rows6>th:nth-child(6),
 tr.rows6>td:nth-child(6) {
-    max-width: 16.6666667% !important;
+  max-width: 16.6666667% !important;
 }
 
 td>a.label {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 table {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 tbody,
 thead {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 0;
-    flex-shrink: 0;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+  overflow-y: scroll;
 }
 
 tbody.overflowable,
 thead.overflowable {
-    flex-grow: 1;
-    flex-shrink: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 tr {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
 td,
 th {
-    display: block;
-    flex-direction: column;
-    flex-shrink: 1;
-    flex-grow: 1;
+  display: block;
+  flex-direction: column;
+  flex-shrink: 1;
+  flex-grow: 1;
 }
 
-
 .bg-darkblue {
-    background-color: #414772 !important;
+  background-color: #414772 !important;
+}
+
+.bg-vdarkgrey {
+  background-color: #111d21 !important;
+  color: #fff;
 }
 
 .fa.rotate {
-    transform: rotate(-90deg);
-    margin-top: 5px;
-    position: absolute;
-    margin-left: 2px;
+  transform: rotate(-90deg);
+  margin-top: 5px;
+  position: absolute;
+  margin-left: 2px;
 }
 
 @media screen and (max-width: 300px) {
-    .fa.rotate {
-        margin-left: 2px;
-    }
+  .fa.rotate {
+    margin-left: 2px;
+  }
 }
 
 @media screen and (min-width: 300px) {
-    .fa.rotate {
-        margin-left: 25px;
-    }
+  .fa.rotate {
+    margin-left: 25px;
+  }
 }
 
 tbody>tr.bgBlue td::selection,
 tbody>tr.bgBlue td a::selection {
-    background: transparent !important;
+  background: transparent !important;
 }
 
 tbody>tr:hover {
-    background: #b6f1ff !important;
-    cursor: pointer;
-    color: #000;
+  background: #b6f1ff !important;
+  cursor: pointer;
+  color: #000;
 }
 
 tbody>tr:hover td,
 tbody>tr:hover td::selection {
-    color: #000;
+  color: #000;
 }
 
 .row.invoice-info,
 .row.invoice-info .invoice-col {
-    height: 100% !important;
-    position: relative;
-    display: block;
+  height: 100% !important;
+  position: relative;
+  display: block;
 }
 
 .invoice-col {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .top-header {
-    width: 96%;
-    height: 43px;
-    position: absolute;
-    overflow: hidden;
+  width: 96%;
+  height: 43px;
+  position: absolute;
+  overflow: hidden;
 }
 
 .table-body {
-    position: absolute;
-    width: 96%;
-    top: 43px;
-    height: calc(100% - 43px);
-    overflow-y: scroll;
+  position: absolute;
+  width: 96%;
+  top: 43px;
+  height: calc(100% - 43px);
+  overflow-y: scroll;
 }
+
 
 /*SORT*/
 
 thead span {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .fa-unsorted:before,
@@ -207,20 +212,25 @@ thead span {
 .fa-sort-asc:before,
 .fa-sort-down:before,
 .fa-sort-desc:before {
-    padding-right: 0.6rem;
-    font-size: 1.4rem;
-    color: #666;
+  padding-right: 0.6rem;
+  font-size: 1.4rem;
+  color: #666;
 }
+
 
 /*Unnecessary-space*/
+
 .table>thead>tr>th[_ngcontent-c9] {
-    border-bottom: 0px;
+  border-bottom: 0px;
 }
 
+
 /*TEMPORARY ROW COLOR CHANGE*/
+
 tr:nth-of-type(odd) {
-    background: #fbeede !important;
+  background: #fbeede !important;
 }
+
 tr:nth-of-type(even) {
-    background: #fff8ef !important;
+  background: #fff8ef !important;
 }

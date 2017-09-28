@@ -1,31 +1,43 @@
 .table-responsive {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 table {
-    table-layout: fixed;
-    width: 99% !important;
-    overflow-x: hidden;
+  table-layout: fixed;
+  width: 99% !important;
+  overflow-x: hidden;
 }
 
 td,
 th {
-    padding-bottom: 8px !important;
-    padding-top: 3px !important;
-    font-size: 9pt;
-    word-wrap: break-word;
+  padding-bottom: 8px !important;
+  padding-top: 3px !important;
+  font-size: 9pt;
+  word-wrap: break-word;
 }
 
 tr.active,
 tr.active td {
-    background: lightblue !important;
+  background: lightblue !important;
 }
 
 textarea {
-    resize: vertical;
+  resize: vertical;
 }
 
 .bg-darkblue {
-    background-color: #414772;
-    color: #fff;
+  background-color: #414772;
+  color: #fff;
+}
+
+.bg-vdarkgrey {
+  background-color: #111d21 !important;
+  color: #fff;
+}
+
+.view-btn {
+    padding-bottom: 2px;
+    top: 2px;
+    position: relative;
+    border-radius: .25em;
 }

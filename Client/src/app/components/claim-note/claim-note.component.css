@@ -1,35 +1,44 @@
 .table-responsive {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
 table {
-    table-layout: fixed;
-    width: 99% !important;
-    overflow-x: hidden;
+  table-layout: fixed;
+  width: 99% !important;
+  overflow-x: hidden;
 }
 
 td,
 th {
-    font-size: 12pt;
-    word-wrap: break-word;
-    padding-left: 2px !important;
-    padding-right: 2px !important;
+  font-size: 12pt;
+  word-wrap: break-word;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
 }
 
 .red {
-    color: red;
+  color: red;
 }
 
 textarea {
-    resize: vertical;
+  resize: vertical;
 }
 
 .label-info-container {
-    text-align: center;
-    margin-bottom: 1rem;
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
 .bg-darkblue {
-    background-color: #414772 !important;
-    color: #fff;
+  background-color: #414772 !important;
+  color: #fff;
+}
+
+.bg-vdarkgrey {
+  background-color: #111d21 !important;
+  color: #fff;
+}
+
+.note-type {
+    padding-bottom: 0;
 }
