@@ -14,12 +14,20 @@ h6 {
   font-weight: 700;
 }
 
+.box-header {
+  padding: 10px 10px 5px 10px;
+}
+
 .row.data {
   font-size: 9.6pt;
 }
 
 .row.data .box {
   margin-bottom: 0px;
+}
+
+.row.search {
+  margin-bottom: 0;
 }
 
 .box {
@@ -35,6 +43,7 @@ h6 {
   position: relative;
   z-index: 3;
   background: #fff;
+  margin-bottom: 1rem;
 }
 
 #fixed-box-header {
@@ -184,4 +193,10 @@ app-claim-prescriptions {
 
 .transparent i {
   color: white !important;
+}
+
+.panel-body-bg.prescriptions,
+.panel-body-bg.payment {
+  overflow: hidden !important;
+  padding-bottom: 0;
 }

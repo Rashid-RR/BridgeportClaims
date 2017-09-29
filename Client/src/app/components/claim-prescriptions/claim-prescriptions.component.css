@@ -1,3 +1,7 @@
+.box-header {
+  padding: 10px 10px 5px 10px;
+}
+
 .table-responsive {
   position: relative;
   overflow-x: hidden;
@@ -280,7 +284,7 @@ tbody>tr:hover td::selection {
   position: absolute;
   width: 98%;
   top: 33px;
-  height: calc(100% - 56px);
+  height: calc(100% - 33px);
   overflow-y: scroll;
 }
 

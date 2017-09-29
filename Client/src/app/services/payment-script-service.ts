@@ -108,23 +108,10 @@ export class PaymentScriptService {
                             <div class="box">
                                 <div class="box-header bg-head-box">
                                     <h4 class="box-title pull-left text-center panel-head">
-                                        <u><img src="assets/img/iconClaims.png"> Claims</u>
-                                    </h4>
-                                    <span  class="tally pull-right" style="margin-right:250px;">
-                                        <span>
-                                            <span style="font-size:13pt">
-                                            `+(this.paymentService.claimsData.length)+` &nbsp; 
-                                            </span> Record`+(this.paymentService.claimsData.length>1 ? 's':'')+` found
-                                        </span>
-                                        `+/* (this.paymentService.claimsDataCount ? `
-                                        <span class="label bg-darkblue" style="margin-left:20px;font-size:9pt">
-                                            <span style="font-size:11pt">
-                                                `+this.paymentService.claimsDataCount+` 
-                                            </span> Row `+(this.paymentService.claimsDataCount>1 ? 's':'')+` selected
-                                        </span>` : '')+ */`
-                                    </span>                                               
+                                        <u><img src="assets/img/iconClaims.png"> Claim Results</u>
+                                    </h4>                                               
                                     <div class="box-tools pull-right">
-                                        <button class="btn bg-darkblue view-prescriptions btn-flat btn-small" type="button"  style="margin-left:auto;margin-right:auto;">View Prescriptions</button>
+                                        <button class="btn white-border view-prescriptions btn-flat btn-small" type="button" style="margin-left:auto;margin-right:auto;"><i class="fa fa-eye" aria-hidden="true"></i> Show Scripts</button>
                                     </div>                                                
                                 </div>
                                 <div class="box-body claims payment-result panel-body-bg">

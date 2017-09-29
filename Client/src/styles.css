@@ -592,3 +592,20 @@
      {
       width:35% !important;
     }
+
+    .white-border {
+      background: transparent;
+      border: 1px solid #fff;
+      -webkit-border-radius: 3px !important;
+      -moz-border-radius: 3px !important;
+      -o-border-radius: 3px !important;
+      border-radius: 3px !important;
+      color: #fff;
+    }
+    .white-border > i {
+      margin-right: 1rem;
+    }
+    .white-border:hover {
+      background: #832121;
+      color: #fff;
+    }
