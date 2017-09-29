@@ -1,7 +1,7 @@
 .full-height {
     height: 100vh;
     width: 100%;
-    background: url('/src/assets/img/private-bg.png') no-repeat;
+    background: url('/assets/img/private-bg.png') no-repeat;
     background-size: cover;
 }
 #private-nav {
