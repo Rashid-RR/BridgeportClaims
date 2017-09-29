@@ -35,7 +35,7 @@ export class PaymentInputComponent implements OnInit {
       amountRemaining: [null]
     });
     this.events.on("claimId-updated",a=>{
-        this.getAmountRemaining();
+        //this.getAmountRemaining();
     });
     this.events.on("payment-suspense",a=>{
         this.form.patchValue({
@@ -180,7 +180,7 @@ export class PaymentInputComponent implements OnInit {
 
       }
       if(controlName=='checkAmount' || controlName=='checkNumber'){
-        this.getAmountRemaining();
+        //this.getAmountRemaining();
       }
     }
   }
