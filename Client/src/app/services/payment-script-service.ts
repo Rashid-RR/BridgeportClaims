@@ -31,15 +31,18 @@ export class PaymentScriptService {
             });
     }
     addScripts() {  
-        let claimId =  this.paymentService.claimsDetail.toArray()[0] ?   this.paymentService.claimsDetail.toArray()[0].claimId :'';
-        let claimsHTML = '';
+        let claimIds : Array<any>=[];
+          this.paymentService.claimsDetail.toArray().forEach(c=>{
+              claimIds.push(c.claimId);
+          })
+         let claimsHTML = '';
         this.paymentService.claimsData.forEach(claim => {   
             let numberOfPrescriptions = claim.numberOfPrescriptions>0 ?
             ` <a class="label label-info bg-darkblue" style="cursor: not-allowed;">
                     `+claim.numberOfPrescriptions+`
                 </a>`  : claim.numberOfPrescriptions;
             claimsHTML = claimsHTML + `
-                <tr id="`+claim.claimId+`" class="claimRow`+(claimId ==claim.claimId ? ' bgBlue' :'')+`">
+                <tr id="`+claim.claimId+`" class="claimRow`+(claimIds.includes(claim.claimId) ? ' bgBlue' :'')+`">
                     <td>`+ claim.claimNumber + `</td>
                     <td>`+ claim.patientName + `</td>
                     <td>`+ claim.payor + `</td>
@@ -310,12 +313,12 @@ export class PaymentScriptService {
                         }
                         this.paymentService.rawClaimsData.set(claimId,data);
                     }
-                }else{
+                }/* else{
                     $("tr#"+claim.claimId).removeClass("bgBlue");
                     claim.selected = false;
                     //$("input#row"+claim.claimId).attr("checked",false);
                     this.paymentService.claims = this.paymentService.claims.set(claim.claimId,claim);
-                }
+                } */
             },100)
         });
     }
