@@ -242,3 +242,13 @@ textarea {
 .add-btn:hover {
     background: #892222;
 }
+
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}

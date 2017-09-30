@@ -39,7 +39,7 @@ export class PaymentScriptService {
                     `+claim.numberOfPrescriptions+`
                 </a>`  : claim.numberOfPrescriptions;
             claimsHTML = claimsHTML + `
-                <tr id="`+claim.claimId+`" class="claimRow`+(claimId ==claim.claimId ? ' bgBlue' :'')+`">
+                <tr id="`+claim.claimId+`" class="clr-change claimRow`+(claimId ==claim.claimId ? ' bgBlue' :'')+`">
                     <td>`+ claim.claimNumber + `</td>
                     <td>`+ claim.patientName + `</td>
                     <td>`+ claim.payor + `</td>

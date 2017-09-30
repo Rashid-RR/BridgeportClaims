@@ -20,6 +20,17 @@ th {
   padding-right: 12px !important;
 }
 
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}
+
+
 .red {
   color: red;
 }

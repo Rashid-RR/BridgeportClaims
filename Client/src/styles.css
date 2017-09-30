@@ -18,6 +18,14 @@
       background-color: #d9d9d9;
     }
 
+    .table-striped>tbody>tr.clr-change:nth-child(even) {
+        background-color: #fbeede;
+    }
+
+    .table-striped>tbody>tr.clr-change:nth-child(odd) {
+        background-color: #fff8ef;
+    }
+
     .scroll-y {
       overflow-y: auto;
     }
