@@ -232,6 +232,7 @@ export class PaymentService {
         this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
         this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();        
         this.events.broadcast('payment-suspense',false);
+        this.events.broadcast("disable-links",false);
       }, err => {
         this.loading = false;
         console.log(err);
