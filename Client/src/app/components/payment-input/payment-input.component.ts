@@ -44,6 +44,7 @@ export class PaymentInputComponent implements OnInit {
         });
         this.paymentService.paymentPosting = new PaymentPosting();
         this.disableCheckEntry = false;
+        this.events.broadcast("disable-links",false);
     });
     this.events.on("payment-closed",a=>{
         this.form.patchValue({

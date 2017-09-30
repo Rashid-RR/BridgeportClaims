@@ -210,6 +210,7 @@ export class PaymentService {
         this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();
         this.events.broadcast('payment-updated',false);
         this.events.broadcast('payment-closed',false);
+        this.events.broadcast("disable-links",false);
       }, err => {
         this.loading = false;
         console.log(err);
