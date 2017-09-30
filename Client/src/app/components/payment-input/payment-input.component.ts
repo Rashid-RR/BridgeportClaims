@@ -11,6 +11,9 @@ import {DecimalPipe } from '@angular/common';
 import {LocalStorageService} from 'ng2-webstorage';
 import {DialogService } from "ng2-bootstrap-modal";
 import {ConfirmComponent } from '../../components/confirm.component';
+import * as Immutable from 'immutable';
+ import { DetailedPaymentClaim } from '../../models/detailed-payment-claim';
+import { PaymentClaim } from '../../models/payment-claim';
 import swal from "sweetalert2";
 
 @Component({
@@ -117,7 +120,7 @@ export class PaymentInputComponent implements OnInit {
   cancel(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Cancel posting",
-      message: "Are you sure you want to cancel "+this.paymentService.paymentPosting.paymentPostings.length+" posting"+(this.paymentService.paymentPosting.paymentPostings.length>1 ? 's':'')+"?"
+      message: "Are you sure you want to cancel "+this.paymentService.paymentPosting.paymentPostings.length+" posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+"?"
     })
       .subscribe((isConfirmed) => {
         //We get dialog result
@@ -131,6 +134,9 @@ export class PaymentInputComponent implements OnInit {
             this.paymentService.loading = false;
             this.events.broadcast("payment-closed",true);
             this.disableCheckEntry = false;
+            this.paymentService.claims = Immutable.OrderedMap<Number, PaymentClaim>();
+            this.paymentService.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
+            
             //this.paymentService.paymentPosting = new PaymentPosting();
         },error=>{                          
           this.toast.error(error.message);
@@ -189,6 +195,7 @@ export class PaymentInputComponent implements OnInit {
             let amountToPost = this.paymentService.selected.length>1 ? p.invoicedAmount : form.amountToPost;
             //console.log(amountToPost,form);
             //this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,amountToPost,p.prescriptionId))       
+            console.log(p);
             payments.push({
               patientName: p.patientName,
               rxDate: p.rxDate,

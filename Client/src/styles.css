@@ -23,8 +23,8 @@
     }
 
     li.disabled,
-    a.disabled {
-      cursor: not-allowed;
+    a.disabled,a.disabled:active,a.disabled:hover {
+      cursor: not-allowed !important;
       text-decoration: none;
     }
 
