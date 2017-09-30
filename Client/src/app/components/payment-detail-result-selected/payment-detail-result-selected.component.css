@@ -74,7 +74,7 @@ thead {
   flex-direction: column;
   flex-grow: 0;
   flex-shrink: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 tbody.overflowable,
@@ -282,5 +282,5 @@ tr>td:nth-child(7) {
   max-height: -moz-calc(100% - 56px);
   max-height: -webkit-calc(100% - 56px);
   max-height: -o-calc(100% - 56px);
-  overflow-y: scroll;
+  overflow-y: auto;
 }

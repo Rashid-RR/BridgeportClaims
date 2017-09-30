@@ -137,7 +137,7 @@ thead {
   flex-direction: column;
   flex-grow: 0;
   flex-shrink: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 tbody.overflowable,
@@ -285,7 +285,7 @@ tbody>tr:hover td::selection {
   width: 98%;
   top: 33px;
   height: calc(100% - 33px);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 

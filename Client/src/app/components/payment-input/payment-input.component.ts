@@ -34,9 +34,6 @@ export class PaymentInputComponent implements OnInit {
       amountToPost: [null],
       amountRemaining: [null]
     });
-    this.events.on("claimId-updated",a=>{
-        //this.getAmountRemaining();
-    });
     this.events.on("payment-suspense",a=>{
         this.form.patchValue({
           checkNumber: null,
@@ -94,21 +91,7 @@ export class PaymentInputComponent implements OnInit {
   ngOnInit() {
     this.paymentService.paymentPosting = new PaymentPosting();
   }
-  getAmountRemaining(){
-    let checkNumber =  this.form.get('checkNumber').value;
-    let amnt = this.form.get("checkAmount").value;  
-    let amount = Number(amnt.replace(new RegExp(",", "gi"),""))      
-    if(amount>0 && checkNumber && !this.disableCheckEntry && this.paymentService.claimsDetail.toArray()[0]){
-      this.http.existingPostPayment({checkNumber:checkNumber,claimId:this.paymentService.claimsDetail.toArray()[0].claimId}).map(p => p.json())
-        .subscribe(data => {
-          let amountRemaining = amount-data.message;
-          this.form.get('amountRemaining').setValue(this.decimalPipe.transform(amountRemaining,"1.2-2"));
-          this.paymentService.paymentPosting.lastAmountRemaining = Number(amountRemaining.toFixed(2));    
-        },err=>{
-
-        });
-      }
-  }
+  
   updateAmountRemaining(){
     let amnt = this.form.get("checkAmount").value;    
     let amount = Number(amnt.replace(new RegExp(",", "gi"),""))
@@ -178,9 +161,6 @@ export class PaymentInputComponent implements OnInit {
         default:
         break;
 
-      }
-      if(controlName=='checkAmount' || controlName=='checkNumber'){
-        //this.getAmountRemaining();
       }
     }
   }

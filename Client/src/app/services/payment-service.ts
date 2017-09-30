@@ -290,7 +290,6 @@ export class PaymentService {
             });
           }
          this.events.broadcast('payment-updated',false);
-         this.events.broadcast('claimId-updated',false);
         }, err => {
           this.loading = false;
           console.log(err);

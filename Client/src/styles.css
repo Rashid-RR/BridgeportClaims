@@ -19,7 +19,7 @@
     }
 
     .scroll-y {
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     li.disabled,
@@ -341,7 +341,7 @@
       flex-direction: column;
       flex-grow: 0;
       flex-shrink: 0;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     .swal2-modal.paymeny-modal .swal2-content tbody.overflowable,
@@ -504,7 +504,7 @@
       max-height: -moz-calc(100% - 56px);
       max-height: -webkit-calc(100% - 56px);
       max-height: -o-calc(100% - 56px);
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     .swal2-modal.paymeny-modal .swal2-content .close-button i {

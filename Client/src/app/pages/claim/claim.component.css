@@ -67,7 +67,7 @@ th {
 
 .fittoSreen .box-body {
   height: 180px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .fittoSreen .box-body.claims {
