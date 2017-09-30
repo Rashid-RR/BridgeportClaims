@@ -154,7 +154,7 @@ textarea {
   height: -webkit-calc(100vh - 249px);
   height: -o-calc(100vh - 249px);
   height: -moz-calc(100vh - 249px);
-  top: 248px;
+  top: 271px;
   /* margin-top:50px; */
   right: -450px;
   background: #222d32;
@@ -165,7 +165,7 @@ textarea {
 
 #tab-btn {
   position: absolute;
-  top: 110px;
+  top: 119px;
   left: -117px;
   background: #222d32;
   cursor: pointer;
