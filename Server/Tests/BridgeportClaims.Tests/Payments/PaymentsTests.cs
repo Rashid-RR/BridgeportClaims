@@ -93,7 +93,7 @@ namespace BridgeportClaims.Tests.Payments
                     new PaymentPosting
                     {
                         AmountPosted = 300,
-                        InvoiceAmount = 200,
+                        CurrentOutstanding = 200,
                         PatientName = "RadCliff",
                         PrescriptionId = 4444
                     }

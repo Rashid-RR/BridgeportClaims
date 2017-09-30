@@ -177,8 +177,6 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     if (null == model)
                         throw new ArgumentNullException(nameof(model));
-                    if (0 == model.ClaimId)
-                        throw new Exception($"Error. Zero or NULL is not a valid Claim Id.");
                     string msg;
                     var cultureFormattedSuspenseAmount =
                         model.AmountToSuspense.ToString("C", new CultureInfo("en-US"));
@@ -190,7 +188,7 @@ namespace BridgeportClaims.Web.Controllers
                         _memoryCacher.Delete(model.SessionId);
                         if (null == existingModel)
                             throw new Exception("Error. The model retrieved from cache is null.");
-                        // TODO: pass the model values and the session
+                        // TODO: pass the model values and the session to the database.
                         msg = $"{existingModel.PaymentPostings.Count} payment{(existingModel.PaymentPostings.Count > 1 ? "s" : string.Empty)}" +
                               $" posted, and {cultureFormattedSuspenseAmount} to suspense have been saved successfully.";
                     }
@@ -235,28 +233,7 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
-
-        [HttpPost]
-        [Route("get-existing-posted-payments")]
-        public async Task<IHttpActionResult> GetExistingPostedPayments(string checkNumber, int claimId)
-        {
-            try
-            {
-                return await Task.Run(() =>
-                {
-                    // TODO: Pull this from the database
-                    var ran = new Random();
-                    var retVal = ran.Next(1, 8);
-                    return Ok(new {message = retVal});
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
+        
         [HttpPost]
         [Route("payment-posting")]
         public async Task<IHttpActionResult> PaymentPosting([FromBody] UserPaymentPostingSession model)
@@ -277,12 +254,6 @@ namespace BridgeportClaims.Web.Controllers
                     throw new CacheException(
                         $"Error, tried to retrieve an object from cache that isn't there. Cache key {model.CacheKey}");
                 existingModel.UserName = User.Identity.Name;
-                // Make sure that the Prescription ID(s) do not already exist within the cached object.
-                var prescriptionIdExists = existingModel.PaymentPostings.Join(model.PaymentPostings,
-                    e => e.PrescriptionId, m => m.PrescriptionId, (e, m) => e).Any();
-                if (prescriptionIdExists)
-                    throw new Exception(
-                        "Error. There are one or more Prescription Id's passed in that already exist.");
                 existingModel.CheckNumber = model.CheckNumber;
                 existingModel.CheckAmount = model.CheckAmount;
                 existingModel.AmountSelected = model.AmountSelected;
