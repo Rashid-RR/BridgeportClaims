@@ -22,15 +22,15 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [pkEpisode] PRIMARY KEY CLUSTERED  ([EpisodeID]) WITH (DATA_COMPRESSION = ROW) ON [PRIMARY]
+ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [pkEpisode] PRIMARY KEY CLUSTERED  ([EpisodeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeAcquiredUserID] ON [dbo].[Episode] ([AcquiredUserID]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeAcquiredUserID] ON [dbo].[Episode] ([AcquiredUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeAssignedUserID] ON [dbo].[Episode] ([AssignedUserID]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeAssignedUserID] ON [dbo].[Episode] ([AssignedUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeClaimIDEpisodeTypeIDIncludeAll] ON [dbo].[Episode] ([ClaimID], [EpisodeTypeID]) INCLUDE ([AcquiredUserID], [AssignedUserID], [CreatedDateUTC], [CreatedOnUTC], [Description], [EpisodeID], [Note], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeClaimIDEpisodeTypeIDIncludeAll] ON [dbo].[Episode] ([ClaimID], [EpisodeTypeID]) INCLUDE ([AcquiredUserID], [AssignedUserID], [CreatedDateUTC], [CreatedOnUTC], [Description], [EpisodeID], [Note], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeResolvedUserID] ON [dbo].[Episode] ([ResolvedUserID]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeResolvedUserID] ON [dbo].[Episode] ([ResolvedUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeAcquiredUserIDAspNetUsersID] FOREIGN KEY ([AcquiredUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

@@ -18,6 +18,8 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[Suspense] ADD CONSTRAINT [pkSuspense] PRIMARY KEY CLUSTERED  ([SuspenseID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxSuspenseClaimIDUserIDIncludeAll] ON [dbo].[Suspense] ([ClaimID], [UserID]) INCLUDE ([AmountRemaining], [CheckNumber], [CreatedOnUTC], [NoteText], [SuspenseDate], [SuspenseID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Suspense] ADD CONSTRAINT [fkSuspenseClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[Suspense] ADD CONSTRAINT [fkSuspenseUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])

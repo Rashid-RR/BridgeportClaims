@@ -50,7 +50,7 @@ AS BEGIN
 	IF OBJECT_ID(N'tempdb..#PatientDupes') IS NOT NULL
 		DROP TABLE #PatientDupes
 	IF OBJECT_ID(N'tempdb..#Claim ') IS NOT NULL
-		DROP TABLE #Claim 
+		DROP TABLE #Claim
 	IF OBJECT_ID(N'tempdb..#ClaimUpdate') IS NOT NULL
 		DROP TABLE #ClaimUpdate
 	IF OBJECT_ID(N'tempdb..#Invoice') IS NOT NULL
@@ -592,7 +592,7 @@ AS BEGIN
 				, slf.[5]
 				, slf.RowID
 				, slf.PrescriptionID
-			FROM   etl.StagedLakerFile AS slf
+			FROM  etl.StagedLakerFile AS slf
 			WHERE slf.[4] IS NOT NULL
 				AND slf.[5] IS NOT NULL
 				AND slf.PrescriptionID IS NOT NULL
@@ -609,6 +609,17 @@ AS BEGIN
 	WHERE  i.InvoiceID IS NULL
 			AND p.PrescriptionID IS NULL'
 	EXECUTE sys.sp_executesql @SQL
+
+	SET @SQL= N'UPDATE op SET op.InvoiceID = iip.InvoiceID
+					FROM dbo.Prescription AS op
+					INNER JOIN
+						(SELECT i.PrescriptionID, i.InvoiceID
+						 FROM dbo.Invoice AS i
+							LEFT JOIN dbo.Prescription AS p ON p.InvoiceID=i.InvoiceID
+								AND p.PrescriptionID=i.PrescriptionID
+						 WHERE i.PrescriptionID IS NOT NULL AND p.PrescriptionID IS NULL) AS iip 
+							ON iip.PrescriptionID=op.PrescriptionID';
+	EXECUTE sys.sp_executesql @SQL;
 
 	SET @SQL = N'ALTER TABLE dbo.Invoice DROP COLUMN PrescriptionID';
 	EXECUTE sys.sp_executesql @SQL
@@ -946,7 +957,7 @@ AS BEGIN
 		BEGIN
 			IF @@ERROR = 0
 				BEGIN
-					ROLLBACK -- COMMIT
+					COMMIT
 					SET @Success = 1
 				END
 			ELSE
@@ -956,5 +967,4 @@ AS BEGIN
 	IF @@TRANCOUNT > 0
 		RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT
 END
-
 GO
