@@ -274,3 +274,13 @@ tr>td:nth-child(7) {
 .top-header table{
     height:99%;
 }
+
+/*ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}
