@@ -292,7 +292,8 @@ export class PaymentService {
               // claim.isReversed = i%2== 0 ? true : false; //test
               const c = new DetailedPaymentClaim(claim.prescriptionId, claim.claimId, claim.claimNumber, claim.patientName,
                 claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName, claim.outstanding, claim.invoicedAmount, claim.payor,claim.isReversed);
-              this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
+                c.selected = result.length ==1  && !claim.isReversed ? true : false;
+                this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
               //i++;//meant for test
             });
           }
