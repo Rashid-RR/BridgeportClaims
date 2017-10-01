@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using BridgeportClaims.Common.Caching;
-using BridgeportClaims.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BridgeportClaims.Tests.Caching
@@ -235,7 +234,7 @@ namespace BridgeportClaims.Tests.Caching
                 valueFactoryCalledTimes++;
                 return Task.Factory.StartNew(() =>
                 {
-                    Thread.Sleep(10);
+                    Thread.Sleep(5);
                     if (valueFactoryCalledTimes != -9999)
                     {
                         // Throw always

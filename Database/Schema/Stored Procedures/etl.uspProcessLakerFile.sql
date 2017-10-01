@@ -50,7 +50,7 @@ AS BEGIN
 	IF OBJECT_ID(N'tempdb..#PatientDupes') IS NOT NULL
 		DROP TABLE #PatientDupes
 	IF OBJECT_ID(N'tempdb..#Claim ') IS NOT NULL
-		DROP TABLE #Claim 
+		DROP TABLE #Claim
 	IF OBJECT_ID(N'tempdb..#ClaimUpdate') IS NOT NULL
 		DROP TABLE #ClaimUpdate
 	IF OBJECT_ID(N'tempdb..#Invoice') IS NOT NULL
@@ -136,8 +136,10 @@ AS BEGIN
 	LEFT JOIN [etl].[StagedLakerFileBackup] AS [slfb] ON [slfb].[RowID] = [slf].[RowID]
 	WHERE [slfb].[RowID] IS NULL
 
-	DECLARE @RowCountCheck INT, @NewRowsImported INT, @UpdatedRowCount INT
-	DECLARE @UTCNow DATETIME2 = SYSUTCDATETIME()
+	DECLARE @RowCountCheck INT
+		  ,	@NewRowsImported INT
+		  , @UpdatedRowCount INT
+		  , @UTCNow DATETIME2 = dtme.udfGetUtcDate();
 	/********************************************************************************************
 	Import New Payors
 	********************************************************************************************/
@@ -200,7 +202,7 @@ AS BEGIN
 	GROUP BY [s].[PayorID],s.[42],s.[43],s.[44],s.[45],s.[46],us.[StateID],s.[48],s.[49],s.[50]
 
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 
 	WITH UpdatedPayorsCTE AS
 	(
@@ -243,7 +245,7 @@ AS BEGIN
 	Import New Adjustors
 	********************************************************************************************/
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 	CREATE TABLE #Adjustor (PayorID INT NOT NULL, AdjustorName VARCHAR(255) NOT NULL, RowNumber INT NOT NULL, 
 								DenseRank INT NOT NULL, ETLRowID VARCHAR(50) NOT NULL)
 	INSERT [#Adjustor] ([PayorID],[AdjustorName],[RowNumber],[DenseRank],[ETLRowID])
@@ -297,7 +299,7 @@ AS BEGIN
 	Import New Patients
 	********************************************************************************************/
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 
 	CREATE TABLE #Patient ([DateOfBirth] [varchar] (8000) NULL,[LastName] [varchar] (8000) NULL,[FirstName] [varchar] (8000) NULL,
 	[Address1] [varchar] (8000) NULL,[Address2] [varchar] (8000) NULL,[City] [varchar] (8000) NULL,
@@ -391,7 +393,7 @@ AS BEGIN
 	HAVING COUNT(*) > 1
 
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 
 	WITH UpdatedPatientsCTE AS
 	(
@@ -445,7 +447,7 @@ AS BEGIN
 	Import New Claims
 	********************************************************************************************/
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 	-- Ensure that we are chalk full of Patient ID's and 
 	IF EXISTS
 	(
@@ -538,7 +540,7 @@ AS BEGIN
 	FROM   [etl].[StagedLakerFile] AS s
 
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 
 	WITH UpdatedClaimsCTE AS
 	(
@@ -581,7 +583,7 @@ AS BEGIN
 	Import New Invoices
 	********************************************************************************************/
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 	DECLARE @SQL NVARCHAR(4000)
 	SET @SQL = N'ALTER TABLE dbo.Invoice ADD PrescriptionID INT NULL';
 	EXECUTE sys.sp_executesql @SQL;
@@ -592,7 +594,7 @@ AS BEGIN
 				, slf.[5]
 				, slf.RowID
 				, slf.PrescriptionID
-			FROM   etl.StagedLakerFile AS slf
+			FROM  etl.StagedLakerFile AS slf
 			WHERE slf.[4] IS NOT NULL
 				AND slf.[5] IS NOT NULL
 				AND slf.PrescriptionID IS NOT NULL
@@ -610,6 +612,17 @@ AS BEGIN
 			AND p.PrescriptionID IS NULL'
 	EXECUTE sys.sp_executesql @SQL
 
+	SET @SQL= N'UPDATE op SET op.InvoiceID = iip.InvoiceID
+					FROM dbo.Prescription AS op
+					INNER JOIN
+						(SELECT i.PrescriptionID, i.InvoiceID
+						 FROM dbo.Invoice AS i
+							LEFT JOIN dbo.Prescription AS p ON p.InvoiceID=i.InvoiceID
+								AND p.PrescriptionID=i.PrescriptionID
+						 WHERE i.PrescriptionID IS NOT NULL AND p.PrescriptionID IS NULL) AS iip 
+							ON iip.PrescriptionID=op.PrescriptionID';
+	EXECUTE sys.sp_executesql @SQL;
+
 	SET @SQL = N'ALTER TABLE dbo.Invoice DROP COLUMN PrescriptionID';
 	EXECUTE sys.sp_executesql @SQL
 
@@ -617,7 +630,7 @@ AS BEGIN
 	Begin Pharmacy Section
 	********************************************************************************************/
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 
 	CREATE TABLE #Pharmacy
 		(
@@ -700,7 +713,7 @@ AS BEGIN
 	WHERE	[p].NABP IS NOT NULL
 
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 	
 	WITH PharmaciesUpdateCTE AS
 	(
@@ -746,7 +759,7 @@ AS BEGIN
 	Import New Prescriptions
 	********************************************************************************************/
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 
 	-- Actual Prescription Import
 	INSERT INTO [dbo].[Prescription] ([ClaimID],[DateSubmitted],[RxNumber],[DateFilled],[RefillDate],[RefillNumber],[MONY],
@@ -799,7 +812,7 @@ AS BEGIN
 	EXEC(N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN [PrescriptionID] INTEGER NULL')
 
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
-	SELECT @UTCNow = SYSUTCDATETIME();
+	SELECT @UTCNow = dtme.udfGetUtcDate();
 
 	CREATE TABLE #PrescriptionUpdate (
 		[PrescriptionID] [int] NOT NULL,
@@ -946,7 +959,7 @@ AS BEGIN
 		BEGIN
 			IF @@ERROR = 0
 				BEGIN
-					ROLLBACK -- COMMIT
+					COMMIT
 					SET @Success = 1
 				END
 			ELSE
@@ -956,5 +969,4 @@ AS BEGIN
 	IF @@TRANCOUNT > 0
 		RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT
 END
-
 GO

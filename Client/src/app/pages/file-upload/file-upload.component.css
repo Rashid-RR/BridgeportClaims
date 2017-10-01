@@ -42,4 +42,12 @@ tbody>tr:hover td,tbody>tr:hover td::selection{
     font-family: "Comic Sans MS";
     display:block;
 }
+/* ROW COLOR CHANGE*/
 
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}

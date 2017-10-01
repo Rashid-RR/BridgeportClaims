@@ -30,15 +30,16 @@ AS BEGIN
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
-		DECLARE @Now DATETIME2 = SYSUTCDATETIME(), @RowCount INTEGER;
-		DECLARE @DatePosted DATE = CAST(dtme.udfGetLocalDateTime(@Now) AS DATE);
+		DECLARE @UTCNow DATETIME2 = dtme.udfGetUtcDate()
+			  , @RowCount INTEGER;
+		DECLARE @DatePosted DATE = CAST(dtme.udfGetLocalDate() AS DATE);
 
 		-- Full Payment.
 		IF @AmountSelected = @AmountToPost
 			BEGIN
 				INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, PrescriptionID,
 						CreatedOnUTC, UpdatedOnUTC)
-				SELECT @CheckNumber, p.BilledAmount, @DatePosted, p.PrescriptionID, @Now, @Now
+				SELECT @CheckNumber, p.BilledAmount, @DatePosted, p.PrescriptionID, @UTCNow, @UTCNow
 				FROM @PrescriptionIDs AS pd
 					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID = pd.PrescriptionID
 				SET @RowCount = @@ROWCOUNT
@@ -57,7 +58,7 @@ AS BEGIN
 			BEGIN
 				INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, PrescriptionID,
 					 CreatedOnUTC, UpdatedOnUTC)
-				SELECT @CheckNumber, @AmountToPost, @DatePosted, p.PrescriptionID, @Now, @Now
+				SELECT @CheckNumber, @AmountToPost, @DatePosted, p.PrescriptionID, @UTCNow, @UTCNow
 				FROM @PrescriptionIDs AS pd
 					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID=pd.PrescriptionID
 			END
@@ -69,25 +70,6 @@ AS BEGIN
 					WITH NOWAIT
 				RETURN;
 			END
-		-- Leave this Audit Insert for a while. Match the CreatedOnUTC and UpdatedOnUTC
-	    INSERT dbo.PostPaymentAudit
-	    (
-	        PrescriptionID,
-	        CheckNumber,
-	        CheckAmount,
-	        AmountSelected,
-	        AmountToPost,
-			CreatedOnUTC,
-			UpdatedOnUTC
-	    )
-		SELECT p.PrescriptionID,
-			   @CheckNumber,
-			   @CheckAmount,
-			   @AmountSelected,
-			   @AmountToPost,
-			   @Now,
-			   @Now
-		FROM @PrescriptionIDs AS p
 
 		-- Do something arbitrary for the @AmountRemaining OUTPUT param
 		SET @AmountRemaining = ISNULL(@CheckAmount, 0.00) - ISNULL(@AmountToPost, 0.00)
@@ -121,6 +103,7 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
 
 
 GO

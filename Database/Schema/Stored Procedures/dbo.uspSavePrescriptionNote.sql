@@ -23,7 +23,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Now DATETIME2 = SYSDATETIME(),
+	DECLARE @UTCNow DATETIME2 = dtme.udfGetUtcDate(),
 			@OutputPrescriptionNoteID INTEGER
 	
 	DECLARE @PrescriptionNoteMergeChangeResult TABLE (ChangeType VARCHAR(10) NOT NULL, PrescriptionNoteID INTEGER NOT NULL)
@@ -58,7 +58,7 @@ BEGIN
 		UPDATE SET [tgt].[PrescriptionNoteTypeID] = [src].[PrescriptionNoteTypeID],
 					[tgt].[NoteText] = [src].[NoteText],
 					[tgt].[EnteredByUserID] = [src].[EnteredByUserID],
-					[tgt].[UpdatedOnUTC] = @Now
+					[tgt].[UpdatedOnUTC] = @UTCNow
 	OUTPUT $action, Inserted.[PrescriptionNoteID] INTO @PrescriptionNoteMergeChangeResult ([ChangeType], [PrescriptionNoteID]);
 
 	IF NOT EXISTS (SELECT * FROM @PrescriptionNoteMergeChangeResult AS [pnmcr])
@@ -80,7 +80,7 @@ BEGIN
 		INSERT ([PrescriptionID], [PrescriptionNoteID])
 		VALUES ([src].[PrescriptionID], [src].[PrescriptionNoteID])
 	WHEN MATCHED THEN
-		UPDATE SET [tgt].[UpdatedOnUTC] = @Now
+		UPDATE SET [tgt].[UpdatedOnUTC] = @UTCNow
 	WHEN NOT MATCHED BY SOURCE AND [tgt].[PrescriptionNoteID] = @OutputPrescriptionNoteID
 	 THEN DELETE;
 END

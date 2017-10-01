@@ -107,7 +107,7 @@ AS BEGIN
 				RETURN
 			END
 
-		SET @FileDate = CONVERT(VARCHAR(20), dtme.udfGetLocalDateTime(SYSUTCDATETIME()) ,112)
+		SET @FileDate = CONVERT(VARCHAR(20), dtme.udfGetLocalDate() ,112)
 
 		DECLARE @TodaysLakerFileBackupName VARCHAR(255) = '[etl].[StagedLakerFileBackup' + @FileDate + ']'
 

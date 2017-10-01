@@ -70,6 +70,17 @@ tr>td:first-child {
   padding-left: 1rem !important;
 }
 
+/*ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}
+
+
 tr>th:nth-child(2),
 tr>td:nth-child(2) {
   max-width: 24%;

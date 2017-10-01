@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Threading;
+﻿using System.Collections.Generic;
 using BridgeportClaims.Common.Caching;
-using BridgeportClaims.Web.Email;
 using BridgeportClaims.Web.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
