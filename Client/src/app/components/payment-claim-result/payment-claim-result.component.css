@@ -269,3 +269,12 @@ tr>th:first-child .paymentCheckBox label {
   max-height: -o-calc(100% - 56px);
   overflow-y: auto;
 }
+/*ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}

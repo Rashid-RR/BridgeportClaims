@@ -70,7 +70,7 @@ tr>td:first-child {
   padding-left: 1rem !important;
 }
 
-/*TEMPORARY ROW COLOR CHANGE*/
+/*ROW COLOR CHANGE*/
 
 tr:nth-of-type(odd) {
   background: #fbeede !important;

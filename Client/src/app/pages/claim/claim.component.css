@@ -200,3 +200,13 @@ app-claim-prescriptions {
   overflow: hidden !important;
   padding-bottom: 0;
 }
+
+/*ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}
