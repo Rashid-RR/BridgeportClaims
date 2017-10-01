@@ -71,7 +71,7 @@ export class PaymentComponent implements OnInit {
     .subscribe((isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {  
-          this.paymentService.deletePayment({sessionId:this.paymentService.paymentPosting.sessionId,prescriptionId:prescription.prescriptionId});             
+          this.paymentService.deletePayment({sessionId:this.paymentService.paymentPosting.sessionId,id:prescription.id,prescriptionId:prescription.prescriptionId});             
         }
         else {
            

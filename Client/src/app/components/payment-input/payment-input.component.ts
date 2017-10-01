@@ -193,8 +193,6 @@ export class PaymentInputComponent implements OnInit {
       this.paymentService.detailedClaimsData.forEach(p=>{
           if(p.selected){
             let amountToPost = this.paymentService.selected.length>1 ? p.invoicedAmount : form.amountToPost;
-            //console.log(amountToPost,form);
-            //this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,amountToPost,p.prescriptionId))                   
             payments.push({
               patientName: p.patientName,
               rxDate: p.rxDate,

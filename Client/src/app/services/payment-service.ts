@@ -96,7 +96,7 @@ export class PaymentService {
                 this.claimsDetail.get(prescription.prescriptionId).selected = false;
              }catch(e){}
              let posting  = prescription as PaymentPostingPrescription;
-             this.paymentPosting.payments = this.paymentPosting.payments.set(prescription.prescriptionId,posting);
+             this.paymentPosting.payments = this.paymentPosting.payments.set(prescription.id,posting);
            })
         }, err => {
           this.loading = false;
@@ -248,11 +248,10 @@ export class PaymentService {
     this.http.deletePayment(data).map(res => { return res.json(); })
       .subscribe(result => {
         this.loading = false;
-        this.paymentPosting.payments = this.paymentPosting.payments.delete(data.prescriptionId);
+        this.paymentPosting.payments = this.paymentPosting.payments.delete(data.id);
         //console.log(result);
         if (result.message) {
           this.toast.success(result.message);
-          result.amountRemaining = 1104.4;
           if(result.amountRemaining){
             let data = {amountRemaining:result.amountRemaining,sessionId:this.paymentPosting.sessionId};
             this.events.broadcast('payment-amountRemaining',data);
