@@ -30,7 +30,7 @@ export class PaymentService {
           data.prescriptions.forEach(d=>{
              var prescription = this.claimsDetail.get(d.prescriptionId);
             if(prescription){
-              prescription.outstanding = (prescription.invoicedAmount+Number(d.outstanding));
+              prescription.outstanding = Number(d.outstanding);
             }
            });
     });
@@ -91,8 +91,8 @@ export class PaymentService {
            //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
            result.paymentPostings.forEach(prescription=>{
              try{
-                //this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
-                this.claimsDetail.get(prescription.prescriptionId).outstanding = this.claimsDetail.get(prescription.prescriptionId).invoicedAmount+prescription.outstanding;
+                this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
+                //this.claimsDetail.get(prescription.prescriptionId).outstanding = this.claimsDetail.get(prescription.prescriptionId).invoicedAmount+prescription.outstanding;
                 this.claimsDetail.get(prescription.prescriptionId).selected = false;
              }catch(e){}
              let posting  = prescription as PaymentPostingPrescription;

@@ -198,7 +198,7 @@ export class PaymentInputComponent implements OnInit {
               rxDate: p.rxDate,
               amountPosted: amountToPost,
               prescriptionId: p.prescriptionId,
-              invoiceAmount:p.invoicedAmount
+              currentOutstanding:p.outstanding
             });
           }
       });
