@@ -105,8 +105,8 @@ export class PaymentInputComponent implements OnInit {
 
   finalizePosting(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Permanently Save Payment",
-      message: "Your payments are ready for saving. Would you like to permanently save now?"
+      title: "Permanently Save Posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':''),
+      message: "Your posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+" are ready for saving. Would you like to permanently save now?"
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {  
