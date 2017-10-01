@@ -310,7 +310,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("delete-posting")]
-        public async Task<IHttpActionResult> DeletePosting(string sessionId, int prescriptionId)
+        public async Task<IHttpActionResult> DeletePosting(string sessionId, int prescriptionId, int id)
         {
             try
             {
@@ -326,7 +326,7 @@ namespace BridgeportClaims.Web.Controllers
                     var prescriptionIdPassedInExistsInCache = existingModel.PaymentPostings.Any(x => x.PrescriptionId == prescriptionId);
                     if (!prescriptionIdPassedInExistsInCache)
                         throw new Exception($"Error. The prescription Id {prescriptionId} doesn't exist in cache.");
-                    existingModel.PaymentPostings.RemoveAll(x => x.PrescriptionId == prescriptionId);
+                    existingModel.PaymentPostings.RemoveAll(x => x.PrescriptionId == prescriptionId && x.Id == id);
                     _memoryCacher.UpdateItem(sessionId, existingModel);
                     return Ok(new
                     {
