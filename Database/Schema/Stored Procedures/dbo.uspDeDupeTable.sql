@@ -33,7 +33,7 @@ AS BEGIN
 				RETURN
 			END
 		
-		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME()
+		DECLARE @UtcNow DATETIME2 = dtme.udfGetUtcDate()
 			   ,@PrntMsg VARCHAR(1000)
 			   ,@RowCount INT
 			   ,@FkTableSchema SYSNAME

@@ -48,6 +48,20 @@ AS BEGIN
 		ELSE
 			EXECUTE sys.sp_executesql @SQL;
 
+		SET @SQL= N'UPDATE op SET op.InvoiceID = iip.InvoiceID
+					FROM dbo.Prescription AS op
+					INNER JOIN
+						(SELECT i.PrescriptionID, i.InvoiceID
+						 FROM dbo.Invoice AS i
+							LEFT JOIN dbo.Prescription AS p ON p.InvoiceID=i.InvoiceID
+								AND p.PrescriptionID=i.PrescriptionID
+						 WHERE i.PrescriptionID IS NOT NULL AND p.PrescriptionID IS NULL) AS iip 
+							ON iip.PrescriptionID=op.PrescriptionID';
+		IF @DebugOnly = 1
+			PRINT @SQL;
+		ELSE
+			EXECUTE sys.sp_executesql @SQL;
+
 		SET @SQL = N'ALTER TABLE dbo.Invoice DROP COLUMN PrescriptionID';
 		IF @DebugOnly = 1
 			PRINT @SQL;
@@ -73,4 +87,5 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
 GO

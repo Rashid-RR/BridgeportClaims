@@ -323,9 +323,16 @@ namespace BridgeportClaims.Web.Controllers
                     var existingModel = _memoryCacher.AddOrGetExisting(sessionId, () => Shell);
                     if (null == existingModel)
                         throw new Exception("Error. The existing model could not be retrieved from cache.");
+                    var prescriptionIdPassedInExistsInCache = existingModel.PaymentPostings.Any(x => x.PrescriptionId == prescriptionId);
+                    if (!prescriptionIdPassedInExistsInCache)
+                        throw new Exception($"Error. The prescription Id {prescriptionId} doesn't exist in cache.");
                     existingModel.PaymentPostings.RemoveAll(x => x.PrescriptionId == prescriptionId);
                     _memoryCacher.UpdateItem(sessionId, existingModel);
-                    return Ok(new { message = "The payment posting record was removed successfully." });
+                    return Ok(new
+                    {
+                        message = "The payment posting record was removed successfully.",
+                        amountRemaining = existingModel.AmountRemaining
+                    });
                 });
             }
             catch (Exception ex)

@@ -18,7 +18,7 @@ CREATE PROC [dbo].[uspAddOrUpdateClaimNote]
 )
 AS BEGIN
 	SET NOCOUNT ON;
-	DECLARE @UTCNow DATETIME2 = SYSUTCDATETIME()
+	DECLARE @UTCNow DATETIME2 = dtme.udfGetUtcDate();
 	
 	IF EXISTS
 		(

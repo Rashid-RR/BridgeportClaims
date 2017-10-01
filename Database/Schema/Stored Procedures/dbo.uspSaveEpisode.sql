@@ -21,7 +21,7 @@ CREATE PROC [dbo].[uspSaveEpisode]
 AS 
 BEGIN
 	SET NOCOUNT ON;
-	DECLARE @UTCNow DATETIME2 = SYSUTCDATETIME()
+	DECLARE @UTCNow DATETIME2 = dtme.udfGetUtcDate();
 	IF @ClaimID IS NULL
 		BEGIN
 			RAISERROR(N'Error. The ClaimID is a required arguement, and was not supplied', 16, 1) WITH NOWAIT

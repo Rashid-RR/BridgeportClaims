@@ -17,6 +17,8 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [pkPrescriptionPaymentID] PRIMARY KEY CLUSTERED  ([PrescriptionPaymentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentPrescriptionIDUserIDIncludeAll] ON [dbo].[PrescriptionPayment] ([PrescriptionID], [UserID]) INCLUDE ([AmountPaid], [CheckNumber], [CreatedOnUTC], [DatePosted], [PrescriptionPaymentID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [fkPrescriptionPaymentPrescriptionIDPrescriptionPrescriptionID] FOREIGN KEY ([PrescriptionID]) REFERENCES [dbo].[Prescription] ([PrescriptionID])
 GO
 ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [fkPrescriptionPaymentUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])

@@ -30,6 +30,7 @@ AS BEGIN
 			 , InvoicedAmount = [pr].[BilledAmount]
 			 , Outstanding = [pr].[BilledAmount] - ISNULL([ot].[AmountPaid], 0)
 			 , Payor = [py].[GroupName]
+			 , pr.IsReversed
 		FROM   [dbo].[Claim] AS [c]
 			   INNER JOIN STRING_SPLIT(@ClaimIDs, ',') AS [ss] ON [ss].[value] = [c].[ClaimID]
 			   INNER JOIN [dbo].[Payor] AS [py] ON [py].[PayorID] = [c].[PayorID]
@@ -61,4 +62,5 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
+
 GO

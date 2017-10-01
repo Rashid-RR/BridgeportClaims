@@ -15,7 +15,7 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[ClaimImage] ADD CONSTRAINT [pkClaimImage] PRIMARY KEY CLUSTERED  ([ClaimImageID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxClaimImageClaimIDClaimClaimIDIncludeAll] ON [dbo].[ClaimImage] ([ClaimID]) INCLUDE ([ClaimImageID], [ClaimImageTypeID], [CreatedOnUTC], [DateReceived], [UpdatedOnUTC]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxClaimImageClaimIDClaimClaimIDIncludeAll] ON [dbo].[ClaimImage] ([ClaimID]) INCLUDE ([ClaimImageID], [ClaimImageTypeID], [CreatedOnUTC], [DateReceived], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[ClaimImage] ADD CONSTRAINT [fkClaimImageClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
