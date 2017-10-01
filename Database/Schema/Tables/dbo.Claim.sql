@@ -13,11 +13,11 @@ CREATE TABLE [dbo].[Claim]
 [RelationCode] [tinyint] NULL,
 [TermDate] [datetime2] NULL,
 [PatientID] [int] NOT NULL,
+[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[UniqueClaimNumber] AS (([ClaimNumber]+'-')+isnull([PersonCode],'')),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimUpdatedOnUTC] DEFAULT (sysutcdatetime()),
-[DataVersion] [timestamp] NOT NULL,
-[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[UniqueClaimNumber] AS (([ClaimNumber]+'-')+isnull([PersonCode],''))
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (

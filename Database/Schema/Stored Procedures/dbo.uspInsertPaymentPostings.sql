@@ -13,9 +13,6 @@ GO
 CREATE PROC [dbo].[uspInsertPaymentPostings]
 (
 	@CheckNumber VARCHAR(155),
-	@CheckAmount MONEY,
-	@ClaimID INT,
-	@AmountSelected MONEY,
 	@HasSuspense BIT,
 	@SuspenseAmountRemaining MONEY,
 	@ToSuspenseNoteText VARCHAR(255),
@@ -24,29 +21,33 @@ CREATE PROC [dbo].[uspInsertPaymentPostings]
 	@PaymentPostings dbo.udtPaymentPosting READONLY
 )
 AS BEGIN
+	DECLARE @PrntMsg NVARCHAR(100)
 	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
-		DECLARE @Now DATETIME2 = SYSUTCDATETIME();
+		DECLARE @UTCNow DATETIME2 = dtme.udfGetUtcDate()
+			  , @LocalNow DATETIME2 = dtme.udfGetLocalDate();
+		DECLARE @LocalNowDateOnly DATE = CAST(@LocalNow AS DATE);
 
 		INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, PrescriptionID,
 		CreatedOnUTC, UpdatedOnUTC, UserID)
 		
 		SELECT  @CheckNumber CheckNumber,
 				@AmountToPost AmountPaid,
-				CAST(dtme.udfGetLocalDateTime(@Now) AS DATE),
+				@LocalNowDateOnly,
 				p.PrescriptionID,
-				@Now CreatedOnUTC,
-				@Now UpdatedOnUTC,
+				@UTCNow CreatedOnUTC,
+				@UTCNow UpdatedOnUTC,
 				@UserID UserID
-		FROM @PaymentPostings AS p
+		FROM @PaymentPostings AS p;
 
 		IF (@HasSuspense = 1)
 			BEGIN
-				INSERT dbo.Suspense(ClaimID, CheckNumber, AmountRemaining, SuspenseDate, NoteText,
+				INSERT dbo.Suspense(CheckNumber, AmountRemaining, SuspenseDate, NoteText,
 					CreatedOnUTC, UpdatedOnUTC)
-				SELECT @ClaimID, @CheckNumber, @SuspenseAmountRemaining, @Now, @ToSuspenseNoteText,
-					@Now, @Now
+				SELECT @CheckNumber, @SuspenseAmountRemaining, @LocalNowDateOnly, @ToSuspenseNoteText,
+					@UTCNow, @UTCNow
 			END
 
 		IF (@@TRANCOUNT > 0)
@@ -55,12 +56,15 @@ AS BEGIN
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-				
+			
         DECLARE @ErrSeverity INT = ERROR_SEVERITY()
             , @ErrState INT = ERROR_STATE()
-            , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
+            , @ErrProc NVARCHAR(4000) = ERROR_PROCEDURE()
             , @ErrLine INT = ERROR_LINE()
-            , @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
+            , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
+		
+		SET @PrntMsg = N'Error Line: ' + CONVERT(NVARCHAR, @ErrLine)
+		PRINT @PrntMsg
 
         RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
 			@ErrSeverity,		-- Severity

@@ -37,13 +37,13 @@ CREATE TABLE [dbo].[Prescription]
 [GPIGenName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [TheraClass] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [InvoiceID] [int] NULL,
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionCreatedOnUTC] DEFAULT (sysutcdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOnUTC] DEFAULT (sysutcdatetime()),
-[DataVersion] [timestamp] NOT NULL,
 [ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AWP] AS ([Quantity]*[AWPUnit]),
 [ReversedDate] [datetime2] NULL,
-[IsReversed] AS (CONVERT([bit],case  when [ReversedDate] IS NOT NULL then (1) else (0) end,(0)))
+[IsReversed] AS (CONVERT([bit],case  when [ReversedDate] IS NOT NULL then (1) else (0) end,(0))),
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOnUTC] DEFAULT (sysutcdatetime()),
+[DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
 (

@@ -19,7 +19,7 @@ AS BEGIN
 	SET NOCOUNT ON;
 	BEGIN TRY
 		BEGIN TRAN;
-		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME()
+		DECLARE @UtcNow DATETIME2 = dtme.udfGetUtcDate()
 			   ,@MagicNumberOfHistoryToKeep TINYINT = 25
 			   ,@PrntMsg VARCHAR(1000)
 			   ,@RowCount INT
