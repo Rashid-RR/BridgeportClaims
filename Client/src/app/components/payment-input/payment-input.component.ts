@@ -295,8 +295,9 @@ export class PaymentInputComponent implements OnInit {
     }
     
   }
-  confirmSuspense(amountToSuspend:Number,text:String){      
-      this.paymentService.paymentToSuspense({sessionId:this.paymentService.paymentPosting.sessionId,amountToSuspense:amountToSuspend,noteText:text});        
+  confirmSuspense(amountToSuspend:Number,text:String){ 
+    var form  = this.form.value;    
+      this.paymentService.paymentToSuspense({checkNumber:form.checkNumber,sessionId:this.paymentService.paymentPosting.sessionId,amountToSuspense:amountToSuspend,noteText:text});        
   }
 
 }
