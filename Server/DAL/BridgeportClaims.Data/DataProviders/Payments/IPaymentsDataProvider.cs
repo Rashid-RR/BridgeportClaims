@@ -9,7 +9,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
         decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber);
         void ImportPaymentFile(string fileName);
         void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
-            string toSuspenseNoteText, decimal amountToPost, string userId, IList<PaymentPostingDto> paymentPostings);
+            string toSuspenseNoteText, decimal? amountToPost, string userId, IList<PaymentPostingDto> paymentPostings);
         IList<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
             string direction, int pageNumber, int pageSize, string secondarySortColumn, string secondaryDirection);
         IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds);

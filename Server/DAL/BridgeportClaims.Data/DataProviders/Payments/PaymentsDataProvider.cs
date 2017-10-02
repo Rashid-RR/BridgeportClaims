@@ -103,7 +103,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
         }
 
         public void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
-                    string toSuspenseNoteText, decimal amountToPost, string userId, IList<PaymentPostingDto> paymentPostings)
+                    string toSuspenseNoteText, decimal? amountToPost, string userId, IList<PaymentPostingDto> paymentPostings)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("dbo.uspInsertPaymentPostings", conn), cmd =>

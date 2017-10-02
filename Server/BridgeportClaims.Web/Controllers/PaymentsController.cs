@@ -166,7 +166,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        #region Payment Posting Section
+        #region New Payment Posting Section
 
         [HttpPost]
         [Route("to-suspense")]
@@ -183,18 +183,29 @@ namespace BridgeportClaims.Web.Controllers
                         model.AmountToSuspense.ToString("C", new CultureInfo("en-US"));
                     if (model.SessionId.IsNotNullOrWhiteSpace() && _memoryCacher.Contains(model.SessionId))
                     {
-                        // Now we are removing this item from memory.
-                        var existingModel = _memoryCacher.AddOrGetExisting(model.SessionId, 
-                            () => new UserPaymentPostingSession());
-                        _memoryCacher.Delete(model.SessionId);
+                        var existingModel = _memoryCacher.AddOrGetExisting(model.SessionId, () => Shell);
                         if (null == existingModel)
                             throw new Exception("Error. The model retrieved from cache is null.");
-                        // TODO: pass the model values and the session to the database.
-                        msg = $"{existingModel.PaymentPostings.Count} payment{(existingModel.PaymentPostings.Count > 1 ? "s" : string.Empty)}" +
-                              $" posted, and {cultureFormattedSuspenseAmount} to suspense have been saved successfully.";
+                        // Add the suspense items to the existing model.
+                        existingModel.SuspenseAmountRemaining = model.AmountToSuspense;
+                        existingModel.ToSuspenseNoteText = model.NoteText;
+                        msg =
+                            $"{existingModel.PaymentPostings.Count} payment{(existingModel.PaymentPostings.Count > 1 ? "s" : string.Empty)}" +
+                            $" posted, and {cultureFormattedSuspenseAmount} to suspense have been saved successfully.";
+                        // Database Call.
+                        FinalizePaymentPostingDbCall(existingModel);
                     }
                     else
-                        msg = $"The amount of {cultureFormattedSuspenseAmount} has been saved to suspense successfully.";
+                    {
+                        var userId = User.Identity.GetUserId();
+                        // Database call.
+                        _paymentsDataProvider.PrescriptionPostings(model.CheckNumber, true, model.AmountToSuspense,
+                            model.NoteText, null, userId, null);
+                        msg =
+                            $"The amount of {cultureFormattedSuspenseAmount} has been saved to suspense successfully.";
+                    }
+                    // Final Cleanup.
+                    _memoryCacher.Delete(model.SessionId);
                     return Ok(new { message = msg });
                 });
             }
@@ -203,6 +214,16 @@ namespace BridgeportClaims.Web.Controllers
                 Logger.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
+        }
+
+        private void FinalizePaymentPostingDbCall(UserPaymentPostingSession model)
+        {
+            var userId = User.Identity.GetUserId();
+            if (userId.IsNullOrWhiteSpace())
+                throw new Exception("Could not locate a User Id for the Logged In User.");
+            var list = Mapper.Map<IList<PaymentPosting>, IList<PaymentPostingDto>>(model.PaymentPostings);
+            _paymentsDataProvider.PrescriptionPostings(model.CheckNumber, model.HasSuspense, model.SuspenseAmountRemaining,
+                model.ToSuspenseNoteText, model.AmountsToPost, userId, list);
         }
 
         [HttpPost]
@@ -222,12 +243,10 @@ namespace BridgeportClaims.Web.Controllers
                         throw new Exception($"Error. The model cannot be found from Session Id: {sessionId}");
                     if (null == model.PaymentPostings?.Count || model.PaymentPostings.Count <= 0)
                         throw new Exception($"Error. There are no payment postings associated with this session (Id {sessionId}).");
-                    var userId = User.Identity.GetUserId();
-                    if (userId.IsNullOrWhiteSpace())
-                        throw new Exception("Could not locate a User Id for the Logged In User.");
-                    var list = Mapper.Map<IList<PaymentPosting>, IList<PaymentPostingDto>>(model.PaymentPostings);
-                    _paymentsDataProvider.PrescriptionPostings(model.CheckNumber, model.HasSuspense, model.SuspenseAmountRemaining,
-                        model.ToSuspenseNoteText, model.AmountsToPost, userId, list);
+                    // Database Call
+                    FinalizePaymentPostingDbCall(model);
+                    // Final Cleanup.
+                    _memoryCacher.Delete(model.SessionId);
                     var num = model.PaymentPostings.Count;
                     var plural = num != 1 ? "s" : string.Empty;
                     return Ok(new {message = $"The {num} payment{plural} posted successfully."});
