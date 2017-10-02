@@ -106,7 +106,7 @@ export class PaymentInputComponent implements OnInit {
   finalizePosting(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Permanently Save Posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':''),
-      message: "Your posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+" are ready for saving. Would you like to permanently save now?"
+      message: "Your  "+this.paymentService.paymentPosting.paymentPostings.length+" posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+" are ready for saving. Would you like to permanently save now?"
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {  
@@ -230,7 +230,8 @@ export class PaymentInputComponent implements OnInit {
           this.toast.warning("You may not post monies that exceed the total check amount;");
         }else if((Number(form.lastAmountRemaining) - Number(form.amountToPost))<0){
           //console.log(Number(form.amountToPost) > Number(form.checkAmount));
-          this.toast.warning("Error. You may not post an amount that puts the \"Amount Remaining\" for this check into the negative.");
+          this.toast.warning("Error. You may not post an amount that puts the \"Amount Remaining\" for this check into the negative.", null,
+          {toastLife: 10000});
         }else if(form.amountToPost==0 || form.amountToPost==null){
           this.toast.warning("You need to specify amount to post");
         }else {
@@ -295,8 +296,9 @@ export class PaymentInputComponent implements OnInit {
     }
     
   }
-  confirmSuspense(amountToSuspend:Number,text:String){      
-      this.paymentService.paymentToSuspense({sessionId:this.paymentService.paymentPosting.sessionId,amountToSuspense:amountToSuspend,noteText:text});        
+  confirmSuspense(amountToSuspend:Number,text:String){ 
+    var form  = this.form.value;    
+      this.paymentService.paymentToSuspense({checkNumber:form.checkNumber,sessionId:this.paymentService.paymentPosting.sessionId,amountToSuspense:amountToSuspend,noteText:text});        
   }
 
 }
