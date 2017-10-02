@@ -59,6 +59,7 @@
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Expressions\ExpressionHelper.cs" />
     <Compile Include="Expressions\ExpressionReplacer.cs" />
+    <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\NullableExtensions.cs" />
     <Compile Include="Extensions\QueryExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

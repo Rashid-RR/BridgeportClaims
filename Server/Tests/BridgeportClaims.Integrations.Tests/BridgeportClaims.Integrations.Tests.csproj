@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataTests\ClaimNotes\ClaimNotesTests.cs" />
+    <Compile Include="DataTests\PaymentPostings\PaymentPostingsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

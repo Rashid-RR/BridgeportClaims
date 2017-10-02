@@ -14,6 +14,7 @@ using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Payments;
+using Microsoft.AspNet.Identity;
 using NHibernate.Cache;
 
 namespace BridgeportClaims.Web.Controllers
@@ -221,9 +222,14 @@ namespace BridgeportClaims.Web.Controllers
                         throw new Exception($"Error. The model cannot be found from Session Id: {sessionId}");
                     if (null == model.PaymentPostings?.Count || model.PaymentPostings.Count <= 0)
                         throw new Exception($"Error. There are no payment postings associated with this session (Id {sessionId}).");
-                    // TODO: call the database, now with this model.
+                    var userId = User.Identity.GetUserId();
+                    if (userId.IsNullOrWhiteSpace())
+                        throw new Exception("Could not locate a User Id for the Logged In User.");
+                    var list = Mapper.Map<IList<PaymentPosting>, IList<PaymentPostingDto>>(model.PaymentPostings);
+                    _paymentsDataProvider.PrescriptionPostings(model.CheckNumber, model.HasSuspense, model.SuspenseAmountRemaining,
+                        model.ToSuspenseNoteText, model.AmountsToPost, userId, list);
                     var num = model.PaymentPostings.Count;
-                    var plural = num > 1 ? "s" : string.Empty;
+                    var plural = num != 1 ? "s" : string.Empty;
                     return Ok(new {message = $"The {num} payment{plural} posted successfully."});
                 });
             }

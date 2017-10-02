@@ -9,6 +9,7 @@ using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Excel.Adapters;
 using BridgeportClaims.Common.DataTables;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using c = BridgeportClaims.Common.StringConstants.Constants;
@@ -101,8 +102,8 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             ImportDataTableIntoDb(newDt);
         }
 
-        public void PrescriptionPostings(string checkNumber, decimal checkAmount, int claimId, decimal amountSelected,
-            bool hasSuspense)
+        public void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
+                    string toSuspenseNoteText, decimal amountToPost, string userId, IList<PaymentPostingDto> paymentPostings)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("dbo.uspInsertPaymentPostings", conn), cmd =>
@@ -110,50 +111,55 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     cmd.CommandType = CommandType.StoredProcedure;
                     var checkNumberParam = cmd.CreateParameter();
                     checkNumberParam.Direction = ParameterDirection.Input;
-                    checkNumberParam.ParameterName = "CheckNumber";
-                    checkNumberParam.DbType = DbType.StringFixedLength;
+                    checkNumberParam.ParameterName = "@CheckNumber";
+                    checkNumberParam.DbType = DbType.AnsiStringFixedLength;
                     checkNumberParam.SqlDbType = SqlDbType.VarChar;
                     checkNumberParam.Size = 155;
                     checkNumberParam.Value = checkNumber;
                     cmd.Parameters.Add(checkNumberParam);
-                    var checkAmountParam = cmd.CreateParameter();
-                    checkAmountParam.Direction = ParameterDirection.Input;
-                    checkAmountParam.ParameterName = "CheckAmount";
-                    checkAmountParam.DbType = DbType.Decimal;
-                    checkAmountParam.SqlDbType = SqlDbType.Money;
-                    checkAmountParam.Value = checkAmount;
-                    cmd.Parameters.Add(checkAmountParam);
-                    var claimIdParam = cmd.CreateParameter();
-                    claimIdParam.Direction = ParameterDirection.Input;
-                    claimIdParam.Value = claimId;
-                    claimIdParam.DbType = DbType.Int32;
-                    claimIdParam.SqlDbType = SqlDbType.Int;
-                    claimIdParam.ParameterName = "ClaimID";
-                    cmd.Parameters.Add(claimIdParam);
-                    var amountSelectedParam = cmd.CreateParameter();
-                    amountSelectedParam.Direction = ParameterDirection.Input;
-                    amountSelectedParam.Value = amountSelected;
-                    amountSelectedParam.SqlDbType = SqlDbType.Money;
-                    amountSelectedParam.DbType = DbType.Decimal;
-                    amountSelectedParam.ParameterName = "AmountSelected";
-                    cmd.Parameters.Add(amountSelectedParam);
                     var hasSuspenseParam = cmd.CreateParameter();
                     hasSuspenseParam.Direction = ParameterDirection.Input;
                     hasSuspenseParam.Value = hasSuspense;
                     hasSuspenseParam.DbType = DbType.Boolean;
                     hasSuspenseParam.SqlDbType = SqlDbType.Bit;
-                    hasSuspenseParam.ParameterName = "HasSuspense";
+                    hasSuspenseParam.ParameterName = "@HasSuspense";
                     cmd.Parameters.Add(hasSuspenseParam);
-                    /*
-                    
-	
-	@HasSuspense BIT,
-	@SuspenseAmountRemaining MONEY,
-	@ToSuspenseNoteText VARCHAR(255),
-	@AmountToPost MONEY,
-	@UserID NVARCHAR(128),
-	@PaymentPostings dbo.udtPaymentPosting READONLY
-                     */
+                    var suspenseAmountRemainingParam = cmd.CreateParameter();
+                    suspenseAmountRemainingParam.Direction = ParameterDirection.Input;
+                    suspenseAmountRemainingParam.ParameterName = "@SuspenseAmountRemaining";
+                    suspenseAmountRemainingParam.DbType = DbType.Decimal;
+                    suspenseAmountRemainingParam.SqlDbType = SqlDbType.Money;
+                    suspenseAmountRemainingParam.Value = (object)suspenseAmountRemaining ?? DBNull.Value;
+                    cmd.Parameters.Add(suspenseAmountRemainingParam);
+                    var toSuspenseNoteTextParam = cmd.CreateParameter();
+                    toSuspenseNoteTextParam.Value = (object) toSuspenseNoteText ?? DBNull.Value;
+                    toSuspenseNoteTextParam.Direction = ParameterDirection.Input;
+                    toSuspenseNoteTextParam.DbType = DbType.AnsiStringFixedLength;
+                    toSuspenseNoteTextParam.Size = 255;
+                    toSuspenseNoteTextParam.SqlDbType = SqlDbType.VarChar;
+                    toSuspenseNoteTextParam.ParameterName = "@ToSuspenseNoteText";
+                    var amountToPostParam = cmd.CreateParameter();
+                    amountToPostParam.Direction = ParameterDirection.Input;
+                    amountToPostParam.Value = amountToPost;
+                    amountToPostParam.DbType = DbType.Decimal;
+                    amountToPostParam.SqlDbType = SqlDbType.Money;
+                    amountToPostParam.ParameterName = "@ToSuspenseNoteText";
+                    cmd.Parameters.Add(amountToPostParam);
+                    var userIdParam = cmd.CreateParameter();
+                    userIdParam.Value = userId;
+                    userIdParam.ParameterName = "@UserID";
+                    userIdParam.DbType = DbType.StringFixedLength;
+                    userIdParam.SqlDbType = SqlDbType.NVarChar;
+                    userIdParam.Size = 128;
+                    userIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(userIdParam);
+                    var paymentPostingsParam = cmd.CreateParameter();
+                    paymentPostingsParam.Direction = ParameterDirection.Input;
+                    paymentPostingsParam.SqlDbType = SqlDbType.Structured;
+                    paymentPostingsParam.Value = paymentPostings.ToDataTable();
+                    paymentPostingsParam.ParameterName = "@PaymentPostings";
+                    paymentPostingsParam.TypeName = "dbo.udtPaymentPosting";
+                    cmd.Parameters.Add(paymentPostingsParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
@@ -176,7 +182,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 cmd.Parameters.Add(claimIdParam);
                 var sortColumnParam = cmd.CreateParameter();
                 sortColumnParam.ParameterName = "SortColumn";
-                sortColumnParam.DbType = DbType.StringFixedLength;
+                sortColumnParam.DbType = DbType.AnsiStringFixedLength;
                 sortColumnParam.SqlDbType = SqlDbType.VarChar;
                 sortColumnParam.Direction = ParameterDirection.Input;
                 sortColumnParam.Value = sortColumn;
@@ -184,7 +190,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 cmd.Parameters.Add(sortColumnParam);
                 var sortDirectionParam = cmd.CreateParameter();
                 sortDirectionParam.ParameterName = "SortDirection";
-                sortDirectionParam.DbType = DbType.StringFixedLength;
+                sortDirectionParam.DbType = DbType.AnsiStringFixedLength;
                 sortDirectionParam.SqlDbType = SqlDbType.VarChar;
                 sortDirectionParam.Direction = ParameterDirection.Input;
                 sortDirectionParam.Value = direction;
@@ -206,7 +212,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 cmd.Parameters.Add(pageSizeParam);
                 var secondarySortColumnParam = cmd.CreateParameter();
                 secondarySortColumnParam.ParameterName = "SecondarySortColumn";
-                secondarySortColumnParam.DbType = DbType.StringFixedLength;
+                secondarySortColumnParam.DbType = DbType.AnsiStringFixedLength;
                 secondarySortColumnParam.SqlDbType = SqlDbType.VarChar;
                 secondarySortColumnParam.Size = 50;
                 secondarySortColumnParam.Direction = ParameterDirection.Input;
@@ -214,7 +220,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 cmd.Parameters.Add(secondarySortColumnParam);
                 var secondarySortDirectionParam = cmd.CreateParameter();
                 secondarySortDirectionParam.ParameterName = "SecondarySortDirection";
-                secondarySortDirectionParam.DbType = DbType.StringFixedLength;
+                secondarySortDirectionParam.DbType = DbType.AnsiStringFixedLength;
                 secondarySortDirectionParam.SqlDbType = SqlDbType.VarChar;
                 secondarySortDirectionParam.Size = 5;
                 secondarySortDirectionParam.Direction = ParameterDirection.Input;

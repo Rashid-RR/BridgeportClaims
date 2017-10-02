@@ -30,6 +30,7 @@ using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
+using BridgeportClaims.Data.DataProviders.Utilities;
 
 namespace BridgeportClaims.Web.IoCConfig
 {
@@ -59,6 +60,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ClaimNotesDataProvider>().As<IClaimNotesDataProvider>().InstancePerRequest();
             builder.RegisterType<PaymentsBusiness>().As<IPaymentsBusiness>().InstancePerRequest();
             builder.RegisterType<PaymentsDataProvider>().As<IPaymentsDataProvider>().InstancePerRequest();
+            builder.RegisterType<UtilitiesProvider>().As<IUtilitiesProvider>().InstancePerRequest();
             builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
             builder.RegisterType<DateDisplayProvider>().As<IDateDisplayProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();

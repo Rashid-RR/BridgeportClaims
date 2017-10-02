@@ -86,6 +86,8 @@
     <Compile Include="DataProviders\PrescriptionNotes\PrescriptionNotesDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionNoteTypes\IPrescriptionNoteTypesDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionNoteTypes\PrescriptionNoteTypesDataProvider.cs" />
+    <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
+    <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Dtos\AcctPayableDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
+    <Compile Include="Dtos\PaymentPostingDto.cs" />
     <Compile Include="Dtos\PostPaymentPrescriptionReturnDto.cs" />
     <Compile Include="Dtos\PostPaymentReturnDto.cs" />
     <Compile Include="Dtos\PrescriptionDto.cs" />
