@@ -230,7 +230,8 @@ export class PaymentInputComponent implements OnInit {
           this.toast.warning("You may not post monies that exceed the total check amount;");
         }else if((Number(form.lastAmountRemaining) - Number(form.amountToPost))<0){
           //console.log(Number(form.amountToPost) > Number(form.checkAmount));
-          this.toast.warning("Error. You may not post an amount that puts the \"Amount Remaining\" for this check into the negative.");
+          this.toast.warning("Error. You may not post an amount that puts the \"Amount Remaining\" for this check into the negative.", null,
+          {toastLife: 10000});
         }else if(form.amountToPost==0 || form.amountToPost==null){
           this.toast.warning("You need to specify amount to post");
         }else {

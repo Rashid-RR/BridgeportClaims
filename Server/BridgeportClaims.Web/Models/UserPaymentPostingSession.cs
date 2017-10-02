@@ -15,7 +15,7 @@ namespace BridgeportClaims.Web.Models
             Id = Guid.NewGuid();
             PaymentPostings = new List<PaymentPosting>();
         }
-        public string UserName { get; set; }
+        public string UserId { get; set; }
         public string CheckNumber { get; set; }
         public decimal CheckAmount { get; set; }
         public decimal AmountSelected { get; set; }
