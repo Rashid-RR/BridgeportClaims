@@ -178,14 +178,22 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     if (null == model)
                         throw new ArgumentNullException(nameof(model));
+                    if (model.AmountToSuspense == 0)
+                        throw new Exception("Error, cannot add a zero or empty dollar amount to suspense.");
+                    if (model.CheckNumber.IsNullOrWhiteSpace())
+                        throw new Exception("Error. Must provide a valid check number.");
                     string msg;
                     var cultureFormattedSuspenseAmount =
                         model.AmountToSuspense.ToString("C", new CultureInfo("en-US"));
+                    var userId = User.Identity.GetUserId();
+                    if (null == userId)
+                        throw new Exception("Error. Could not find the authenticated user Id.");
                     if (model.SessionId.IsNotNullOrWhiteSpace() && _memoryCacher.Contains(model.SessionId))
                     {
                         var existingModel = _memoryCacher.AddOrGetExisting(model.SessionId, () => Shell);
                         if (null == existingModel)
                             throw new Exception("Error. The model retrieved from cache is null.");
+                        existingModel.UserId = userId;
                         // Add the suspense items to the existing model.
                         existingModel.SuspenseAmountRemaining = model.AmountToSuspense;
                         existingModel.ToSuspenseNoteText = model.NoteText;
@@ -194,18 +202,18 @@ namespace BridgeportClaims.Web.Controllers
                             $" posted, and {cultureFormattedSuspenseAmount} to suspense have been saved successfully.";
                         // Database Call.
                         FinalizePaymentPostingDbCall(existingModel);
+                        // Final Cleanup.
+                        _memoryCacher.Delete(model.SessionId);
                     }
                     else
                     {
-                        var userId = User.Identity.GetUserId();
                         // Database call.
                         _paymentsDataProvider.PrescriptionPostings(model.CheckNumber, true, model.AmountToSuspense,
                             model.NoteText, null, userId, null);
                         msg =
                             $"The amount of {cultureFormattedSuspenseAmount} has been saved to suspense successfully.";
+                        // Nothing in memory so nothing to clean up.
                     }
-                    // Final Cleanup.
-                    _memoryCacher.Delete(model.SessionId);
                     return Ok(new { message = msg });
                 });
             }
@@ -269,7 +277,6 @@ namespace BridgeportClaims.Web.Controllers
                     throw new ArgumentNullException(nameof(model));
                 if (null == model.SessionId || !_memoryCacher.Contains(model.SessionId))
                 {
-                    model.UserName = User.Identity.Name;
                     model.SessionId = model.CacheKey;
                     _memoryCacher.AddOrGetExisting(model.CacheKey, () => model);
                     return await ReturnMappedViewModel(model);
@@ -278,12 +285,10 @@ namespace BridgeportClaims.Web.Controllers
                 if (null == existingModel)
                     throw new CacheException(
                         $"Error, tried to retrieve an object from cache that isn't there. Cache key {model.CacheKey}");
-                existingModel.UserName = User.Identity.Name;
                 existingModel.CheckNumber = model.CheckNumber;
                 existingModel.CheckAmount = model.CheckAmount;
                 existingModel.AmountSelected = model.AmountSelected;
                 existingModel.PaymentPostings.AddRange(model.PaymentPostings);
-                existingModel.UserName = User.Identity.Name;
                 _memoryCacher.UpdateItem(model.CacheKey, model);
                 return await ReturnMappedViewModel(existingModel);
             }

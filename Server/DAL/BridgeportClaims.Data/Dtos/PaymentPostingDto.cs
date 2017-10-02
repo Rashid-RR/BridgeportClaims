@@ -6,5 +6,6 @@ namespace BridgeportClaims.Data.Dtos
     public class PaymentPostingDto
     {
         public int PrescriptionID { get; set; }
+        public decimal AmountPosted { get; set; }
     }
 }

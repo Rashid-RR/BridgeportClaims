@@ -18,7 +18,9 @@ namespace BridgeportClaims.Web
                 cfg.CreateMap<UserPaymentPostingSession, PaymentPostingViewModel>();
                 cfg.CreateMap<PaymentPosting, PaymentPostingDto>()
                     .ForMember(dest => dest.PrescriptionID,
-                        x => x.MapFrom(src => src.PrescriptionId));
+                        x => x.MapFrom(src => src.PrescriptionId))
+                    .ForMember(dest => dest.AmountPosted,
+                        x => x.MapFrom(src => src.AmountPosted));
             });
         }
     }

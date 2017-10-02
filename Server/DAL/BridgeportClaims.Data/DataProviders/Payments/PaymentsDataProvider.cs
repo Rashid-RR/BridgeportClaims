@@ -129,7 +129,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     suspenseAmountRemainingParam.ParameterName = "@SuspenseAmountRemaining";
                     suspenseAmountRemainingParam.DbType = DbType.Decimal;
                     suspenseAmountRemainingParam.SqlDbType = SqlDbType.Money;
-                    suspenseAmountRemainingParam.Value = (object)suspenseAmountRemaining ?? DBNull.Value;
+                    suspenseAmountRemainingParam.Value = (object) suspenseAmountRemaining ?? DBNull.Value;
                     cmd.Parameters.Add(suspenseAmountRemainingParam);
                     var toSuspenseNoteTextParam = cmd.CreateParameter();
                     toSuspenseNoteTextParam.Value = (object) toSuspenseNoteText ?? DBNull.Value;
@@ -138,12 +138,13 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     toSuspenseNoteTextParam.Size = 255;
                     toSuspenseNoteTextParam.SqlDbType = SqlDbType.VarChar;
                     toSuspenseNoteTextParam.ParameterName = "@ToSuspenseNoteText";
+                    cmd.Parameters.Add(toSuspenseNoteTextParam);
                     var amountToPostParam = cmd.CreateParameter();
                     amountToPostParam.Direction = ParameterDirection.Input;
-                    amountToPostParam.Value = amountToPost;
+                    amountToPostParam.Value = (object)amountToPost ?? DBNull.Value;
                     amountToPostParam.DbType = DbType.Decimal;
                     amountToPostParam.SqlDbType = SqlDbType.Money;
-                    amountToPostParam.ParameterName = "@ToSuspenseNoteText";
+                    amountToPostParam.ParameterName = "@AmountToPost";
                     cmd.Parameters.Add(amountToPostParam);
                     var userIdParam = cmd.CreateParameter();
                     userIdParam.Value = userId;
@@ -156,7 +157,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     var paymentPostingsParam = cmd.CreateParameter();
                     paymentPostingsParam.Direction = ParameterDirection.Input;
                     paymentPostingsParam.SqlDbType = SqlDbType.Structured;
-                    paymentPostingsParam.Value = paymentPostings.ToDataTable();
+                    paymentPostingsParam.Value = paymentPostings?.ToDataTable();
                     paymentPostingsParam.ParameterName = "@PaymentPostings";
                     paymentPostingsParam.TypeName = "dbo.udtPaymentPosting";
                     cmd.Parameters.Add(paymentPostingsParam);
