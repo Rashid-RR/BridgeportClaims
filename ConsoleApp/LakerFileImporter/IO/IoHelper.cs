@@ -4,7 +4,7 @@ namespace LakerFileImporter.IO
 {
     public class IoHelper
     {
-        public string GetMe()
+        public string BrowseDirectoryToLocateFile()
         {
             return "fuck you!";
         }

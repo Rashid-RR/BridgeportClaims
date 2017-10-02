@@ -32,7 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Web.4.5.0\lib\net35\NLog.Web.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigService\ConfigService.cs" />
+    <Compile Include="DAL\ImportFileProvider\Dtos\ImportFileDto.cs" />
+    <Compile Include="DAL\ImportFileProvider\ImportFileProvider.cs" />
+    <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="IO\IoHelper.cs" />
     <Compile Include="ProgramRunner\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,6 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

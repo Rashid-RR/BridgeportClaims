@@ -1,4 +1,5 @@
 ﻿using System;
+using LakerFileImporter.DAL.ImportFileProvider;
 using LakerFileImporter.IO;
 
 namespace LakerFileImporter.ProgramRunner
@@ -7,8 +8,9 @@ namespace LakerFileImporter.ProgramRunner
     {
         public static void Main(string[] args)
         {
-            var str = new IoHelper().GetMe();
-            Console.WriteLine(str);
+            var importFileProvider = new ImportFileProvider();
+            var files = importFileProvider.GetImportFileDtos();
+
             Console.ReadLine();
         }
     }
