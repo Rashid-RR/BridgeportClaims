@@ -132,7 +132,7 @@ export class HttpService {
   }
   
   deletePayment(data: any) {
-    const s = this.http.post(this.baseUrl + '/payment/delete-posting/?sessionId='+data.sessionId+'&prescriptionId='+data.prescriptionId,{}, { headers: this.headers })
+    const s = this.http.post(this.baseUrl + '/payment/delete-posting/?sessionId='+data.sessionId+'&prescriptionId='+data.prescriptionId+'&id='+data.id,{}, { headers: this.headers })
     .catch(err =>  {
     this.handleResponseError(err);
       return Observable.throw(err);

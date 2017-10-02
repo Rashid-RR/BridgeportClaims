@@ -105,8 +105,8 @@ export class PaymentInputComponent implements OnInit {
 
   finalizePosting(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Permanently Save Payment",
-      message: "Your payments are ready for saving. Would you like to permanently save now?"
+      title: "Permanently Save Posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':''),
+      message: "Your posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+" are ready for saving. Would you like to permanently save now?"
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {  
@@ -193,14 +193,12 @@ export class PaymentInputComponent implements OnInit {
       this.paymentService.detailedClaimsData.forEach(p=>{
           if(p.selected){
             let amountToPost = this.paymentService.selected.length>1 ? p.invoicedAmount : form.amountToPost;
-            //console.log(amountToPost,form);
-            //this.paymentService.paymentPosting.payments = this.paymentService.paymentPosting.payments.set(p.prescriptionId, new PaymentPostingPrescription(p.patientName,p.rxDate,amountToPost,p.prescriptionId))                   
             payments.push({
               patientName: p.patientName,
               rxDate: p.rxDate,
               amountPosted: amountToPost,
               prescriptionId: p.prescriptionId,
-              invoiceAmount:p.invoicedAmount
+              currentOutstanding:p.outstanding
             });
           }
       });
@@ -263,17 +261,18 @@ export class PaymentInputComponent implements OnInit {
           this.toast.warning('You cannot post a payment without selecting any prescriptions. You must send any monies without prescriptions to suspense.');
     }else{
       var width = window.innerWidth * 1.799 / 3;
-      let amountToSuspend = (form.amountToPost != null && form.amountToPost > 0) ? form.amountToPost : form.checkAmount;
+      let amountToSuspend = (form.lastAmountRemaining != null && form.lastAmountRemaining > 0) ? form.lastAmountRemaining : 0;
       
-      if(form.lastAmountRemaining==0){
-        this.confirmSuspense(amountToSuspend,'');  
-      }else{
+       let amount = this.decimalPipe.transform(Number(amountToSuspend),"1.2-2")        
         swal({
-          title: 'Claim Note',
+          title: 'Postings To Suspense',
           width: width + 'px',
           html:
-          `<div class="form-group">
-                  <label id="noteTextLabel">Suspense Note (Optional):</label>
+          `<p>
+            Are you ready to post `+this.paymentService.paymentPosting.paymentPostings.length+` posting`+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+` and an amount of $`+amount+` to suspense?
+          </p>
+          <div class="form-group">
+                  <label id="noteTextLabel">You may optionally enter a suspense note below:</label>
                   <textarea class="form-control"  id="noteText" rows="5" cols="5"  style="resize: vertical;font-size:12pt;">`+ noteText + `</textarea>
               </div>
             `,
@@ -293,24 +292,11 @@ export class PaymentInputComponent implements OnInit {
         }).then((result) => {
           this.confirmSuspense(amountToSuspend,result[0]);    
         });
-      }      
     }
     
   }
-  confirmSuspense(amountToSuspend:Number,text:String){
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Suspense postings",
-      message: "Are you sure you are ready to post "+this.paymentService.paymentPosting.paymentPostings.length+" posting"+(this.paymentService.paymentPosting.paymentPostings.length>1 ? 's':'')+" and an amount of "+amountToSuspend+" to suspense?"
-    })
-      .subscribe((isConfirmed) => {
-        //We get dialog result
-        if (isConfirmed) {  
-          this.paymentService.paymentToSuspense({sessionId:this.paymentService.paymentPosting.sessionId,amountToSuspense:amountToSuspend,noteText:text});
-        }
-        else {
-           
-        }
-      });
+  confirmSuspense(amountToSuspend:Number,text:String){      
+      this.paymentService.paymentToSuspense({sessionId:this.paymentService.paymentPosting.sessionId,amountToSuspense:amountToSuspend,noteText:text});        
   }
 
 }

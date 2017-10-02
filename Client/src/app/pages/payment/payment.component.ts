@@ -1,5 +1,6 @@
 import { Component, OnInit, trigger, state, style, transition, animate } from '@angular/core';
 import { PaymentService, PaymentScriptService } from "../../services/services.barrel";
+import {EventsService} from "../../services/events-service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
@@ -28,7 +29,14 @@ export class PaymentComponent implements OnInit {
   tabState = 'in';
 
   constructor(public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
-    private dialogService: DialogService, private toast: ToastsManager) { }
+    private dialogService: DialogService, private toast: ToastsManager,private events:EventsService) {
+      this.events.on("payment-suspense",a=>{
+          this.tabState = "in";
+      });
+      this.events.on("payment-closed",a=>{
+          this.tabState = "in";
+      });
+     }
 
   ngOnInit() {
 
@@ -63,7 +71,7 @@ export class PaymentComponent implements OnInit {
     .subscribe((isConfirmed) => {
         //We get dialog result
         if (isConfirmed) {  
-          this.paymentService.deletePayment({sessionId:this.paymentService.paymentPosting.sessionId,prescriptionId:prescription.prescriptionId});             
+          this.paymentService.deletePayment({sessionId:this.paymentService.paymentPosting.sessionId,id:prescription.id,prescriptionId:prescription.prescriptionId});             
         }
         else {
            
