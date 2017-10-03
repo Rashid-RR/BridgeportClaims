@@ -38,6 +38,9 @@
     <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.Web.4.5.0\lib\net35\NLog.Web.dll</HintPath>
     </Reference>
+    <Reference Include="ServiceStack.Text, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ServiceStack.Text.4.5.14\lib\net45\ServiceStack.Text.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -50,10 +53,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClientCaller\ApiClient.cs" />
+    <Compile Include="Business\Driver.cs" />
     <Compile Include="ConfigService\ConfigService.cs" />
     <Compile Include="DAL\ImportFileProvider\Dtos\ImportFileDto.cs" />
     <Compile Include="DAL\ImportFileProvider\ImportFileProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
+    <Compile Include="Helpers\FileDateParsingHelper.cs" />
     <Compile Include="IO\IoHelper.cs" />
     <Compile Include="ProgramRunner\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

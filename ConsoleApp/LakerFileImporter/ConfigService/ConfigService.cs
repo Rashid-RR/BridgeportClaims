@@ -5,9 +5,9 @@ using c = LakerFileImporter.StringConstants.Constants;
 
 namespace LakerFileImporter.ConfigService
 {
-    public static class ConfigService
+    internal static class ConfigService
     {
-        public static NameValueCollection GetAllAppSettings()
+        internal static NameValueCollection GetAllAppSettings()
         {
             var collection = new NameValueCollection();
             foreach (var configItemKey in cm.AppSettings.AllKeys)
@@ -15,12 +15,12 @@ namespace LakerFileImporter.ConfigService
             return collection;
         }
 
-        public static string GetAppSetting(string key) => cm.AppSettings[key];
+        internal static string GetAppSetting(string key) => cm.AppSettings[key];
 
-        public static string GetDbConnStr() 
+        internal static string GetDbConnStr() 
             => cm.ConnectionStrings[c.DbConnStrName].ConnectionString;
 
-        public static bool AppIsInDebugMode
+        internal static bool AppIsInDebugMode
             => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode));
     }
 }

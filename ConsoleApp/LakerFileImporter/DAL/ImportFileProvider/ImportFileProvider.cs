@@ -4,18 +4,19 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using LakerFileImporter.DAL.ImportFileProvider.Dtos;
 using LakerFileImporter.Disposable;
 using cs = LakerFileImporter.ConfigService.ConfigService;
+using c = LakerFileImporter.StringConstants.Constants;
 using NLog;
-using LakerFileImporter.DAL.Dtos;
 
 namespace LakerFileImporter.DAL.ImportFileProvider
 {
-    public class ImportFileProvider
+    internal class ImportFileProvider
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public IList<ImportFileDto> GetImportFileDtos()
+        internal IList<ImportFileDto> GetImportFileDtos()
         {
             try
             {
@@ -53,9 +54,10 @@ namespace LakerFileImporter.DAL.ImportFileProvider
                                     };
                                     if (!reader.IsDBNull(fileExtensionOrdinal))
                                         file.FileExtension = reader.GetString(fileExtensionOrdinal);
-                                    files.Add(file);
+                                    if (file.FileType == c.LakerFileTypeName)
+                                        files.Add(file);
                                 }
-                                var retList = files.OrderByDescending(x => x.CreatedOn).ToList();
+                                var retList = files.ToList();
                                 return retList;
                             });
                         });
@@ -68,7 +70,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
             }
         }
 
-        public void MarkFileProcessed(string fileName)
+        internal void MarkFileProcessed(string fileName)
         {
             try
             {
@@ -102,7 +104,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
         }
 
 
-        public static string GetFileSize(double byteCount)
+        internal static string GetFileSize(double byteCount)
         {
             try
             {
