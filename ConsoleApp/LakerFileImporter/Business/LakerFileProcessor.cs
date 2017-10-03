@@ -23,8 +23,7 @@ namespace LakerFileImporter.Business
             {
                 var importFileProvider = new ImportFileProvider();
                 var dbFiles = importFileProvider.GetImportFileDtos();
-                var lastProcessedFile = dbFiles?.Where(x => x.Processed)
-                    .OrderByDescending(x => x.LakerFileDate).FirstOrDefault();
+                var lastProcessedFile = dbFiles?.OrderByDescending(x => x.LakerFileDate).FirstOrDefault();
                 // Now, find the latest, possible file in the directory, and use 
                 // the file found in the database above to see if it's new or not.
                 var ioHelper = new IoHelper();

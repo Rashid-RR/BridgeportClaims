@@ -16,7 +16,9 @@ namespace LakerFileImporter.IO
             try
             {
                 var directoryInfo = new DirectoryInfo(cs.GetAppSetting(c.LakerFilePathKey));
-                var files = directoryInfo.GetFiles().OrderByDescending(p => p.CreationTime)
+                var files = directoryInfo.GetFiles()
+                    .Where(x => x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
+                    .OrderByDescending(p => p.CreationTime)
                     .Take(Convert.ToInt32(cs.GetAppSetting(c.LakerFileTopNumberKey))).ToList();
                 // Now traverse the top, however many files to find the latest.
                 var newFiles = files.Select(s => new FileDateParsingHelper
