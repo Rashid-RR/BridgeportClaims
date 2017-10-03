@@ -221,6 +221,8 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
 
   fetchData() {
+  this.prescriptions=null
+  this.claimManager.loadingPrescription = true;
     let page = 1;
     let page_size = 1000;
     let sort: string = 'RxDate';
@@ -233,6 +235,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
       page, page_size).map(p => p.json())
       .subscribe(results => {
         this.prescriptions = results;
+        this.claimManager.loadingPrescription = false;
       });
   }
 

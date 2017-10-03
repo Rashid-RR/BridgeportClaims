@@ -21,6 +21,7 @@ export class PaymentService {
   claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
   claimsDetail: Immutable.OrderedMap<Number, DetailedPaymentClaim> = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   loading: Boolean = false;
+  loadingPayment: Boolean = false;
   paymentPosting:PaymentPosting= new PaymentPosting();
   prescriptionSelected: Boolean = false;
   sortColumn: SortColumnInfo;
@@ -285,6 +286,8 @@ export class PaymentService {
           this.toast.info('No records were found from your search');
           }
           if (Object.prototype.toString.call(result) === '[object Array]') {
+
+          this.loadingPayment = true;
             const res: Array<DetailedPaymentClaim> = result;
             this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
             //var i=0; //test
@@ -296,9 +299,11 @@ export class PaymentService {
                 this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
               //i++;//meant for test
             });
+            this.loadingPayment = false;
           }
          this.events.broadcast('payment-updated',false);
         }, err => {
+        this.loadingPayment = false;
           this.loading = false;
           console.log(err);
           //const error = err.json();
