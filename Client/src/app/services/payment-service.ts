@@ -88,7 +88,6 @@ export class PaymentService {
         .subscribe((result: any) => {
           this.loading = false;
           this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
-           this.events.broadcast('payment-amountRemaining',result);
            //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
            result.paymentPostings.forEach(prescription=>{
              try{
@@ -98,7 +97,8 @@ export class PaymentService {
              }catch(e){}
              let posting  = prescription as PaymentPostingPrescription;
              this.paymentPosting.payments = this.paymentPosting.payments.set(prescription.id,posting);
-           })
+           });
+           setTimeout(()=>{this.events.broadcast('payment-amountRemaining',result)},200);           
         }, err => {
           this.loading = false;
           try {

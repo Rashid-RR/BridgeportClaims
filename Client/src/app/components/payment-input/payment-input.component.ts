@@ -16,6 +16,7 @@ import * as Immutable from 'immutable';
 import { PaymentClaim } from '../../models/payment-claim';
 import swal from "sweetalert2";
 
+
 @Component({
   selector: 'app-payment-input',
   templateUrl: './payment-input.component.html',
@@ -106,7 +107,7 @@ export class PaymentInputComponent implements OnInit {
   finalizePosting(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Permanently Save Posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':''),
-      message: "Your  "+this.paymentService.paymentPosting.paymentPostings.length+" posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+" are ready for saving. Would you like to permanently save now?"
+      message: "Your  "+(this.paymentService.paymentPosting.paymentPostings.length)+" posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+" are ready for saving. Would you like to permanently save now?"
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {  

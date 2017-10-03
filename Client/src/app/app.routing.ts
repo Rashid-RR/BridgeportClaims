@@ -25,7 +25,8 @@ import { ProfileComponent } from "./pages/profile/profile.component";
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { PaymentComponent } from './pages/payment/payment.component';
- 
+import { DiaryComponent } from './pages/diary/diary.component';
+
 export const routes: Routes = [
   {
     path: '',
@@ -87,6 +88,10 @@ export const routes: Routes = [
           {
             path: 'fileupload',
             component: FileUploadComponent
+          },
+          {
+            path: 'diary',
+            component: DiaryComponent
           }
         ]
       },

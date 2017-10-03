@@ -26,9 +26,11 @@ import {Error404Component} from "./pages/error404/error404.component";
 import {RoutingModule} from "./app.routing";
 import {RouterModule, ActivatedRouteSnapshot,RouterStateSnapshot,PreloadAllModules} from "@angular/router";
 import {ProfileComponent} from "./pages/profile/profile.component";
-
+import { DiaryInputComponent } from './components/diary-input/diary-input.component';
+import { DiaryResultsComponent } from './components/diary-results/diary-results.component';
+import { DiaryComponent } from './pages/diary/diary.component';
  //services
-import { HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager,PaymentScriptService} from "./services/services.barrel";
+import { DiaryService,HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager,PaymentScriptService} from "./services/services.barrel";
 import { PayorsComponent } from './pages/payors/payors.component'
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
@@ -82,7 +84,8 @@ export class SafeUrlPipe implements PipeTransform {
     DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent,ProfileComponent,
     SidebarComponent, PrivateComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent, ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent, UsersComponent,ChangePasswordComponent, ConfirmEmailComponent,FilterUserPipe, FileUploadComponent, FooterComponent, PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent, PaymentDetailedResultComponent,
     SelectedPaymentDetailedResultComponent,
-    ColumnSortDirective, TableSortDirective
+    ColumnSortDirective, TableSortDirective,
+    DiaryComponent, DiaryInputComponent, DiaryResultsComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +101,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [  
     DecimalPipe,DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,
-    PaymentScriptService,
+    PaymentScriptService,DiaryService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

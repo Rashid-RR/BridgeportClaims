@@ -6,6 +6,7 @@ import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
 import { UUID } from 'angular2-uuid';
 import { PaymentPostingPrescription} from "../../models/payment-posting-prescription";
+import {DatePipe} from "@angular/common"
 
 @Component({
   selector: 'app-payment',
@@ -29,7 +30,7 @@ export class PaymentComponent implements OnInit {
   tabState = 'in';
 
   constructor(public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
-    private dialogService: DialogService, private toast: ToastsManager,private events:EventsService) {
+    private dialogService: DialogService, private toast: ToastsManager,private events:EventsService,private dp:DatePipe) {
       this.events.on("payment-suspense",a=>{
           this.tabState = "in";
       });
@@ -77,6 +78,12 @@ export class PaymentComponent implements OnInit {
            
         }
     });
+  }
+
+  formatDate(input:String){
+    let d=input.toString().substring(0,10)
+    let date = this.dp.transform(d,"MM/dd/y");
+    return date;
   }
   
 }

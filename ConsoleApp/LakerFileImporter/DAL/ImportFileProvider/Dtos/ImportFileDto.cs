@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using LakerFileImporter.Helpers;
 
-namespace LakerFileImporter.DAL.Dtos
+namespace LakerFileImporter.DAL.ImportFileProvider.Dtos
 {
 	[Serializable]
-	public sealed class ImportFileDto
+	internal sealed class ImportFileDto
 	{
 		[Required]
 		public int ImportFileId { get; set; }
@@ -22,5 +23,7 @@ namespace LakerFileImporter.DAL.Dtos
 		public bool Processed { get; set; }
 		[Required]
 		public DateTime? CreatedOn { get; set; }
+
+		public DateTime LakerFileDate => FileDateParsingHelper.GetDateTimeParsedFromFileName(FileName);
 	}
 }

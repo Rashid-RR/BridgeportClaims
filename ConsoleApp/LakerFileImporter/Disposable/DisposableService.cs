@@ -2,9 +2,9 @@
 
 namespace LakerFileImporter.Disposable
 {
-    public static class DisposableService
+    internal static class DisposableService
     {
-        public static TResult Using<TDisposable, TResult>(Func<TDisposable> factory,
+        internal static TResult Using<TDisposable, TResult>(Func<TDisposable> factory,
             Func<TDisposable, TResult> map) where TDisposable : IDisposable
         {
             using (var disposable = factory())
@@ -13,7 +13,7 @@ namespace LakerFileImporter.Disposable
             }
         }
 
-        public static void Using<TDisposable>(Func<TDisposable> factory,
+        internal static void Using<TDisposable>(Func<TDisposable> factory,
             Action<TDisposable> map) where TDisposable : IDisposable
         {
             using (var disposable = factory())

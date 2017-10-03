@@ -29,6 +29,9 @@ export class PaymentScriptService {
                     this.addScripts();
                 }
             });
+            this.events.on("payment-closed",a=>{
+                this.inputs = [];
+            });
     }
     addScripts() {  
         let claimIds : Array<any>=[];
