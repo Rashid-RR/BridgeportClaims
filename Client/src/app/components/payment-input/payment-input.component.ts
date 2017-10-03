@@ -16,6 +16,7 @@ import * as Immutable from 'immutable';
 import { PaymentClaim } from '../../models/payment-claim';
 import swal from "sweetalert2";
 
+
 @Component({
   selector: 'app-payment-input',
   templateUrl: './payment-input.component.html',
