@@ -82,7 +82,7 @@ export class PaymentComponent implements OnInit {
 
   formatDate(input:String){
     let d=input.toString().substring(0,10)
-    let date = this.dp.transform(d,"y/MM/dd");
+    let date = this.dp.transform(d,"MM/dd/y");
     return date;
   }
   
