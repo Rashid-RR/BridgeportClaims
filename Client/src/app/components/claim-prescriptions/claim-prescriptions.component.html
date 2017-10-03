@@ -48,6 +48,15 @@
         <div class="table-responsive table-body scroll-y">
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #prescriptionTable tabindex="0">
+
+<ng-container *ngIf="prescriptions.loadingHistory">
+        <li class="loader">
+          <a>
+              <img src="assets/img/ajax-loader.gif">
+            </a>
+        </li>
+      </ng-container>
+
                     <ng-container *ngIf="prescriptions">
                         <tr *ngFor="let prescription of prescriptions;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json" (click)="setSelected(prescription,prescription.selected)"  [class.isReversed]="prescription.isReversed">
                             <td>

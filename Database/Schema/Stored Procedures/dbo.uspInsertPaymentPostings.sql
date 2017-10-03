@@ -34,7 +34,7 @@ AS BEGIN
 		CreatedOnUTC, UpdatedOnUTC, UserID)
 		
 		SELECT  @CheckNumber CheckNumber,
-				@AmountToPost AmountPaid,
+				p.AmountPosted AmountPaid,
 				@LocalNowDateOnly,
 				p.PrescriptionID,
 				@UTCNow CreatedOnUTC,
@@ -44,10 +44,10 @@ AS BEGIN
 
 		IF (@HasSuspense = 1)
 			BEGIN
-				INSERT dbo.Suspense(CheckNumber, AmountRemaining, SuspenseDate, NoteText,
+				INSERT dbo.Suspense(CheckNumber, AmountRemaining, SuspenseDate, NoteText, UserID,
 					CreatedOnUTC, UpdatedOnUTC)
 				SELECT @CheckNumber, @SuspenseAmountRemaining, @LocalNowDateOnly, @ToSuspenseNoteText,
-					@UTCNow, @UTCNow
+					@UserID, @UTCNow, @UTCNow
 			END
 
 		IF (@@TRANCOUNT > 0)
