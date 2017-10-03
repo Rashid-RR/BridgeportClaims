@@ -48,7 +48,7 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
 import { DecimalPipe } from '@angular/common';
 import { PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
-  PaymentDetailedResultComponent,SelectedPaymentDetailedResultComponent} from './components/components-barrel';
+  PaymentDetailedResultComponent} from './components/components-barrel';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentComponent } from './pages/payment/payment.component';
@@ -89,7 +89,6 @@ export class SafeUrlPipe implements PipeTransform {
      UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, FilterUserPipe, FileUploadComponent, FooterComponent,
      PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
      PaymentDetailedResultComponent,
-    SelectedPaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent
   ],
