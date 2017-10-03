@@ -30,7 +30,7 @@ import { DiaryInputComponent } from './components/diary-input/diary-input.compon
 import { DiaryResultsComponent } from './components/diary-results/diary-results.component';
 import { DiaryComponent } from './pages/diary/diary.component';
  //services
-import { HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager,PaymentScriptService} from "./services/services.barrel";
+import { DiaryService,HttpService,AuthGuard,ProfileManager,EventsService,ClaimManager,PaymentScriptService} from "./services/services.barrel";
 import { PayorsComponent } from './pages/payors/payors.component'
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
@@ -101,7 +101,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [  
     DecimalPipe,DatePipe,HttpService,ProfileManager,EventsService,AuthGuard, ClaimManager,PaymentService,
-    PaymentScriptService,
+    PaymentScriptService,DiaryService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
