@@ -13,8 +13,8 @@ namespace LakerFileImporter.ProgramRunner
 
             try
             {
-                var driver = new Driver();
-                driver.RunApplicationAsync();
+                var driver = new LakerFileProcessor();
+                driver.UploadAndProcessLakerFileIfNecessary();
                 Console.ReadLine();
             }
             catch (TaskCanceledException ex)

@@ -26,7 +26,7 @@ namespace LakerFileImporter.IO
                 }).ToList();
                 if (newFiles.Count < 1)
                     return null;
-                var newestFullFileName = newFiles.OrderByDescending(x => x.FileNameExtractedDate).FirstOrDefault();
+                var newestFullFileName = newFiles.OrderByDescending(x => x.LakerFileDate).FirstOrDefault();
                 return newestFullFileName;
             }
             catch (Exception ex)

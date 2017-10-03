@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Threading.Tasks;
+using LakerFileImporter.Disposable;
+using NLog;
 using ServiceStack.Text;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 using c = LakerFileImporter.StringConstants.Constants;
@@ -11,48 +14,84 @@ namespace LakerFileImporter.ApiClientCaller
     internal class ApiClient
     {
         private readonly string _apiHostName = cs.GetAppSetting(c.FileUploadApiHostNameKey);
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private const string AccessToken = "access_token";
+        private const string Message = "message";
 
         internal async Task<string> GetAuthenticationBearerTokenAsync()
         {
-            var authUrl = cs.GetAppSetting(c.AuthenticationApiUrlKey);
-            var client = new HttpClient();
-            var dictionary = new Dictionary<string, string>
+            try
             {
-                {"username", cs.GetAppSetting(c.AuthenticationUserNameKey)},
-                {"password", cs.GetAppSetting(c.AuthenticationPasswordKey)},
-                {"grant_type", "password"}
-            };
-            var request =
-                new HttpRequestMessage(HttpMethod.Post, _apiHostName + authUrl)
+                var authUrl = cs.GetAppSetting(c.AuthenticationApiUrlKey);
+                var client = new HttpClient();
+                var dictionary = new Dictionary<string, string>
                 {
-                    Content = new FormUrlEncodedContent(dictionary)
+                    {"username", cs.GetAppSetting(c.AuthenticationUserNameKey)},
+                    {"password", cs.GetAppSetting(c.AuthenticationPasswordKey)},
+                    {"grant_type", "password"}
                 };
-            var result = await client.SendAsync(request);
-            if (!result.IsSuccessStatusCode)
-                return null;
-            var jsonString = await result.Content.ReadAsStringAsync();
-            var jObj = JsonObject.Parse(jsonString);
-            var token = jObj.Get<string>(AccessToken);
-            return token;
+                var request =
+                    new HttpRequestMessage(HttpMethod.Post, _apiHostName + authUrl)
+                    {
+                        Content = new FormUrlEncodedContent(dictionary)
+                    };
+                var result = await client.SendAsync(request);
+                if (!result.IsSuccessStatusCode)
+                    return null;
+                var jsonString = await result.Content.ReadAsStringAsync();
+                var jObj = JsonObject.Parse(jsonString);
+                var token = jObj.Get<string>(AccessToken);
+                return token;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
         }
 
 
         internal async Task<bool> UploadFileToApiAsync(byte[] bytes, string fileName, string token)
         {
-            var apiUrlPath = cs.GetAppSetting(c.FileUploadApiUrlKey);
-            var bearerToken = "Bearer " + token;
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Authorization", bearerToken);
-            using (var content = new MultipartFormDataContent())
+            try
             {
-                var fileContent = new ByteArrayContent(bytes);
-                fileContent.Headers.ContentDisposition =
-                    new ContentDispositionHeaderValue("attachment") {FileName = fileName};
-                content.Add(fileContent);
-                var result = await client.PostAsync(_apiHostName + apiUrlPath, content);
-                return result.IsSuccessStatusCode;
+                var apiUrlPath = cs.GetAppSetting(c.FileUploadApiUrlKey);
+                var bearerToken = $"Bearer {token}";
+                var client = new HttpClient();
+                client.DefaultRequestHeaders.Add("Authorization", bearerToken);
+                return await DisposableService.Using(() => new MultipartFormDataContent(), async content =>
+                {
+                    var fileContent = new ByteArrayContent(bytes);
+                    fileContent.Headers.ContentDisposition =
+                        new ContentDispositionHeaderValue("attachment") {FileName = fileName};
+                    content.Add(fileContent);
+                    var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", content);
+                    return result.IsSuccessStatusCode;
+                });
             }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
+        }
+
+        internal async Task<bool> ProcessLakerFileToApiAsync(string newLakerFileName, string token)
+        {
+            var bearerToken = $"Bearer {token}";
+            var apiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+            client.DefaultRequestHeaders.Add("Content-Type", "application/json");
+            client.DefaultRequestHeaders.Add("Authorization", bearerToken);
+            var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", null);
+            if (!result.IsSuccessStatusCode)
+                return false;
+            var jsonString = await result.Content.ReadAsStringAsync();
+            var jObj = JsonObject.Parse(jsonString);
+            var message = jObj.Get<string>(Message);
+            Logger.Info(message);
+            return !string.IsNullOrWhiteSpace(message) && !message.ToLower().Contains("error");
         }
     }
 }

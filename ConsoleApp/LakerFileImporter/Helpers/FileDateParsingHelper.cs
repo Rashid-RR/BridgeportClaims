@@ -6,7 +6,7 @@ namespace LakerFileImporter.Helpers
     internal class FileDateParsingHelper
     {
         internal string FileName { get; set; }
-        internal DateTime FileNameExtractedDate => GetDateTimeParsedFromFileName(FileName);
+        internal DateTime LakerFileDate => GetDateTimeParsedFromFileName(FileName);
         internal string FullFileName { get; set; }
         internal static DateTime GetDateTimeParsedFromFileName(string fileName)
         {

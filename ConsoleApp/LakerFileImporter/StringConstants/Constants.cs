@@ -12,5 +12,6 @@
         public const string AuthenticationApiUrlKey = "AuthenticationApiUrl";
         public const string AuthenticationUserNameKey = "AuthenticationUserName";
         public const string AuthenticationPasswordKey = "AuthenticationPassword";
+        public const string LakerFileProcessingApiUrlKey = "LakerFileProcessingApiUrl";
     }
 }

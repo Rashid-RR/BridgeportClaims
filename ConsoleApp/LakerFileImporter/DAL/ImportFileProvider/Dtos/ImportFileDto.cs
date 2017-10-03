@@ -24,6 +24,6 @@ namespace LakerFileImporter.DAL.ImportFileProvider.Dtos
 		[Required]
 		public DateTime? CreatedOn { get; set; }
 
-		public DateTime FileNameExtractedDate => FileDateParsingHelper.GetDateTimeParsedFromFileName(FileName);
+		public DateTime LakerFileDate => FileDateParsingHelper.GetDateTimeParsedFromFileName(FileName);
 	}
 }

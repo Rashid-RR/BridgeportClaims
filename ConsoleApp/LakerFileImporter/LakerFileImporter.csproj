@@ -54,7 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiClientCaller\ApiClient.cs" />
-    <Compile Include="Business\Driver.cs" />
+    <Compile Include="Business\LakerFileProcessor.cs" />
+    <Compile Include="Business\LakerFileProcessResult.cs" />
     <Compile Include="ConfigService\ConfigService.cs" />
     <Compile Include="DAL\ImportFileProvider\Dtos\ImportFileDto.cs" />
     <Compile Include="DAL\ImportFileProvider\ImportFileProvider.cs" />
