@@ -1,0 +1,32 @@
+<form role="form" [formGroup]="diaryForm" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Start Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input class="form-control pull-right" id="startDate" name="startDate" formControlName="startDate" (change)="textChange('fromDate')" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>End Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input class="form-control pull-right" id="endDate" name="endDate" formControlName="endDate" (change)="textChange('toDate')" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-2 col-md-2">
+            <div class="form-group">
+                <label>&nbsp;</label><br/>
+                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="refresh()">Refresh</button> </div>
+        </div>
+    </div>
+</form>
