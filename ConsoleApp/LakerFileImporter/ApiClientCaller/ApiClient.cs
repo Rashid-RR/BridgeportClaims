@@ -20,10 +20,11 @@ namespace LakerFileImporter.ApiClientCaller
 
         internal async Task<string> GetAuthenticationBearerTokenAsync()
         {
+            var client = new HttpClient();
+            var authUrl = cs.GetAppSetting(c.AuthenticationApiUrlKey);
+            var request = new HttpRequestMessage(HttpMethod.Post, _apiHostName + authUrl);
             try
             {
-                var authUrl = cs.GetAppSetting(c.AuthenticationApiUrlKey);
-                var client = new HttpClient();
                 var provider = new SensitiveStringsProvider();
                 var password = provider.GetAuthenticatedPassword().ToUnsecureString();
                 var dictionary = new Dictionary<string, string>
@@ -32,11 +33,7 @@ namespace LakerFileImporter.ApiClientCaller
                     {"password", password},
                     {"grant_type", "password"}
                 };
-                var request =
-                    new HttpRequestMessage(HttpMethod.Post, _apiHostName + authUrl)
-                    {
-                        Content = new FormUrlEncodedContent(dictionary)
-                    };
+                request.Content = new FormUrlEncodedContent(dictionary);
                 var result = await client.SendAsync(request);
                 if (!result.IsSuccessStatusCode)
                     return null;
@@ -50,22 +47,28 @@ namespace LakerFileImporter.ApiClientCaller
                 Logger.Error(ex);
                 throw;
             }
+            finally
+            {
+                client.Dispose();
+                request.Dispose();
+            }
         }
 
 
         internal async Task<bool> UploadFileToApiAsync(byte[] bytes, string fileName, string token)
         {
             var content = new MultipartFormDataContent();
+            var fileContent = new ByteArrayContent(bytes);
+            var client = new HttpClient();
             try
             {
                 var apiUrlPath = cs.GetAppSetting(c.FileUploadApiUrlKey);
                 var bearerToken = $"Bearer {token}";
-                var client = new HttpClient();
                 client.DefaultRequestHeaders.Add("Authorization", bearerToken);
-                var fileContent = new ByteArrayContent(bytes);
                 fileContent.Headers.ContentDisposition =
                     new ContentDispositionHeaderValue("attachment") {FileName = fileName};
                 content.Add(fileContent);
+                client.DefaultRequestHeaders.TryAddWithoutValidation("Accept", "appplication/json");
                 var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", content);
                 return result.IsSuccessStatusCode;
             }
@@ -77,21 +80,22 @@ namespace LakerFileImporter.ApiClientCaller
             finally
             {
                 content.Dispose();
+                fileContent.Dispose();
+                client.Dispose();
             }
         }
 
         internal async Task<bool> ProcessLakerFileToApiAsync(string newLakerFileName, string token)
         {
+            var apiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
+            var req = new HttpRequestMessage(HttpMethod.Post, $"{_apiHostName}{apiUrlPath}");
+            var client = new HttpClient();
             try
             {
                 var bearerToken = $"Bearer {token}";
-                var apiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
-                var client = new HttpClient();
-
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.DefaultRequestHeaders.Add("Content-Type", "application/json");
-                client.DefaultRequestHeaders.Add("Authorization", bearerToken);
-                var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", null);
+                req.Headers.TryAddWithoutValidation("Accept", "application/json");
+                req.Headers.TryAddWithoutValidation("Authorization", bearerToken);
+                var result = await client.SendAsync(req);
                 if (!result.IsSuccessStatusCode)
                     return false;
                 var jsonString = await result.Content.ReadAsStringAsync();
@@ -104,6 +108,11 @@ namespace LakerFileImporter.ApiClientCaller
             {
                 Logger.Error(ex);
                 throw;
+            }
+            finally
+            {
+                req.Dispose();
+                client.Dispose();
             }
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using LakerFileImporter.Business;
-using LakerFileImporter.Security;
 using NLog;
 
 namespace LakerFileImporter.ProgramRunner
@@ -11,10 +10,8 @@ namespace LakerFileImporter.ProgramRunner
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static void Main(string[] args)
         {
-
             try
             {
-                var provider = new SensitiveStringsProvider();
                 var driver = new LakerFileProcessor();
                 var result = driver.UploadAndProcessLakerFileIfNecessary().GetAwaiter().GetResult();
                 switch (result)
@@ -31,13 +28,12 @@ namespace LakerFileImporter.ProgramRunner
                     case LakerFileProcessResult.LakerFileFailedToProcess:
                         Logger.Info("Laker file failed to process.");
                         break;
-                    case LakerFileProcessResult.LakerFileProcessedSuccessfully:
-                        Logger.Info("The Laker file processed successfully.");
+                    case LakerFileProcessResult.LakerFileProcessStartedSuccessfully:
+                        Logger.Info("The Laker file process started successfully.");
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                Console.ReadLine();
             }
             catch (TaskCanceledException ex)
             {
