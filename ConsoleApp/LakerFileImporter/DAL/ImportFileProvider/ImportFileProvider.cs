@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using LakerFileImporter.DAL.ImportFileProvider.Dtos;
 using LakerFileImporter.Disposable;
+using LakerFileImporter.Security;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 using c = LakerFileImporter.StringConstants.Constants;
 using NLog;
@@ -21,7 +22,10 @@ namespace LakerFileImporter.DAL.ImportFileProvider
             try
             {
                 var files = new List<ImportFileDto>();
-                return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
+                var provider = new SensitiveStringsProvider();
+                var connStr = provider.GetDbConnString().ToUnsecureString();
+
+                return DisposableService.Using(() => new SqlConnection(connStr), connection =>
                 {
                     return DisposableService.Using(() => new SqlCommand("dbo.uspGetImportFile", connection),
                         sqlCommand =>

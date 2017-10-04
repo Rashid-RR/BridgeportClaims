@@ -22,6 +22,7 @@ export class ClaimPaymentComponent implements OnInit {
   sortColumn:SortColumnInfo;
   payments:Array<Payment>=[];
   editing:Boolean=false;
+  loadingPayment: Boolean = false;
   editingPaymentId:any;
   form:FormGroup;
   constructor(
@@ -45,6 +46,7 @@ export class ClaimPaymentComponent implements OnInit {
       datePosted:[null],
   });
     this.claimManager.onClaimIdChanged.subscribe(() => {
+    //  console.log("loader");
       this.fetchData();
     });
     
@@ -174,6 +176,8 @@ export class ClaimPaymentComponent implements OnInit {
     }    
   } 
   fetchData() {
+  this.payments=null;
+  this.claimManager.loadingPayment=true;
     let page = 1;
     let page_size = 1000;
     let sort: string = 'RxDate';
@@ -182,10 +186,14 @@ export class ClaimPaymentComponent implements OnInit {
       sort = this.sortColumn.column;
       sort_dir = this.sortColumn.dir;
     }
+     this.loadingPayment = true;
     this.http.getPayments(this.claimManager.selectedClaim.claimId,sort, sort_dir,
       page, page_size).map(p => p.json())
       .subscribe(results => {
+      // console.log("loader close");
         this.payments = results;
+        this.loadingPayment = false;
+        this.claimManager.loadingPayment=false;
       });
   }
 

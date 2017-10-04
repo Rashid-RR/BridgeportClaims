@@ -51,7 +51,7 @@ tr>td {
 
 tr>th:first-child,
 tr>td:first-child {
-    width: 5%;
+    width: 2%;
     font-size: 8pt;
 }
 
@@ -207,15 +207,22 @@ tbody>tr:hover td::selection {
 }
 
 tr>th:nth-child(6),
-tr>td:nth-child(6),
+tr>td:nth-child(6){
+    width: 19.5%;
+    text-align: left !important;
+}
 tr>th:nth-child(3),
 tr>td:nth-child(3) {
-    width: 20.5%;
+    width: 17.5%;
     text-align: left !important;
 }
 
 tr>th:nth-child(2),
-tr>td:nth-child(2),
+tr>td:nth-child(2){
+    width: 10%;
+}
+
+
 tr>th:nth-child(4),
 tr>td:nth-child(4),
 tr>th:nth-child(5),

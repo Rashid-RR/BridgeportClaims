@@ -23,6 +23,8 @@ export class ClaimManager {
   selected: Number;
   loading: Boolean = false;
   loadingHistory: Boolean = false;
+  loadingPayment: Boolean = false;
+  loadingPrescription: Boolean = false;
   private notetypes: Array<any> = [];
   private prescriptionNotetypes: Array<PrescriptionNoteType> = [];
   private episodeNoteTypes: Array<EpisodeNoteType> = []
@@ -193,6 +195,7 @@ export class ClaimManager {
           claim.setEpisodes(result.episodes);
           claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
           claim.setPrescriptionNotes(result.prescriptionNotes);
+          
         }, err => {
           this.loading = false;
           console.log(err);

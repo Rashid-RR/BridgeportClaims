@@ -1,5 +1,6 @@
 <div class="row invoice-info">
     <div class="col-sm-12 invoice-col">
+
       <div class="table-responsive top-header scroll-y">
         <table class="table no-margin table-striped">
           <thead class="overflowable">
@@ -33,6 +34,13 @@
         <div class="table-responsive table-body scroll-y">
           <table class="table no-margin table-striped" id="maintable">
             <tbody class="overflowable" #paymentsTable tabindex="0">
+              <ng-container *ngIf="claimManager.loadingPrescription">
+                <div class="loader" style="align-self: center;  margin-top: 30px;">
+                  <a>
+                      <img src="assets/img/Spinner.gif">
+                    </a>
+                </div>
+            </ng-container>
               <tr *ngFor="let pay of payments" [class.rows6]="!allowed" [class.isReversed]="pay.isReversed">
                 <ng-container *ngIf="editingPaymentId==pay.prescriptionPaymentId">
                   <td>

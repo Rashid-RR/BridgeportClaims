@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Net.Http;
 using System.Threading.Tasks;
-using LakerFileImporter.Disposable;
+using LakerFileImporter.Security;
 using NLog;
 using ServiceStack.Text;
 using cs = LakerFileImporter.ConfigService.ConfigService;
@@ -24,10 +24,12 @@ namespace LakerFileImporter.ApiClientCaller
             {
                 var authUrl = cs.GetAppSetting(c.AuthenticationApiUrlKey);
                 var client = new HttpClient();
+                var provider = new SensitiveStringsProvider();
+                var password = provider.GetAuthenticatedPassword().ToUnsecureString();
                 var dictionary = new Dictionary<string, string>
                 {
                     {"username", cs.GetAppSetting(c.AuthenticationUserNameKey)},
-                    {"password", cs.GetAppSetting(c.AuthenticationPasswordKey)},
+                    {"password", password},
                     {"grant_type", "password"}
                 };
                 var request =
@@ -53,45 +55,56 @@ namespace LakerFileImporter.ApiClientCaller
 
         internal async Task<bool> UploadFileToApiAsync(byte[] bytes, string fileName, string token)
         {
+            var content = new MultipartFormDataContent();
             try
             {
                 var apiUrlPath = cs.GetAppSetting(c.FileUploadApiUrlKey);
                 var bearerToken = $"Bearer {token}";
                 var client = new HttpClient();
                 client.DefaultRequestHeaders.Add("Authorization", bearerToken);
-                return await DisposableService.Using(() => new MultipartFormDataContent(), async content =>
-                {
-                    var fileContent = new ByteArrayContent(bytes);
-                    fileContent.Headers.ContentDisposition =
-                        new ContentDispositionHeaderValue("attachment") {FileName = fileName};
-                    content.Add(fileContent);
-                    var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", content);
-                    return result.IsSuccessStatusCode;
-                });
+                var fileContent = new ByteArrayContent(bytes);
+                fileContent.Headers.ContentDisposition =
+                    new ContentDispositionHeaderValue("attachment") {FileName = fileName};
+                content.Add(fileContent);
+                var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", content);
+                return result.IsSuccessStatusCode;
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 throw;
             }
+            finally
+            {
+                content.Dispose();
+            }
         }
 
         internal async Task<bool> ProcessLakerFileToApiAsync(string newLakerFileName, string token)
         {
-            var bearerToken = $"Bearer {token}";
-            var apiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.Add("Accept", "application/json");
-            client.DefaultRequestHeaders.Add("Content-Type", "application/json");
-            client.DefaultRequestHeaders.Add("Authorization", bearerToken);
-            var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", null);
-            if (!result.IsSuccessStatusCode)
-                return false;
-            var jsonString = await result.Content.ReadAsStringAsync();
-            var jObj = JsonObject.Parse(jsonString);
-            var message = jObj.Get<string>(Message);
-            Logger.Info(message);
-            return !string.IsNullOrWhiteSpace(message) && !message.ToLower().Contains("error");
+            try
+            {
+                var bearerToken = $"Bearer {token}";
+                var apiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
+                var client = new HttpClient();
+
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("Content-Type", "application/json");
+                client.DefaultRequestHeaders.Add("Authorization", bearerToken);
+                var result = await client.PostAsync($"{_apiHostName}{apiUrlPath}", null);
+                if (!result.IsSuccessStatusCode)
+                    return false;
+                var jsonString = await result.Content.ReadAsStringAsync();
+                var jObj = JsonObject.Parse(jsonString);
+                var message = jObj.Get<string>(Message);
+                Logger.Info(message);
+                return !string.IsNullOrWhiteSpace(message) && !message.ToLower().Contains("error");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
         }
     }
 }

@@ -45,6 +45,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,6 +65,9 @@
     <Compile Include="IO\IoHelper.cs" />
     <Compile Include="ProgramRunner\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\Encryptor.cs" />
+    <Compile Include="Security\SensitiveStringsProvider.cs" />
+    <Compile Include="Security\UnsecureExtensions.cs" />
     <Compile Include="StringConstants\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
