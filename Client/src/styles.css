@@ -40,6 +40,10 @@
       padding: 5px 10px !important;
       padding-left: 15px!important;
       margin-top: 174px !important;
+      width:calc(100vw - 780px) !important;
+      width:-webkit-calc(100vw - 780px) !important;
+      width:-moz-calc(100vw - 780px) !important;
+      width:-o-calc(100vw - 780px) !important;
     }
 
     .swal2-modal.paymeny-modal .swal2-content .bg-head-box {

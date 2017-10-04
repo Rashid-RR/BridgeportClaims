@@ -151,7 +151,7 @@ export class PaymentScriptService {
         swal({
         title: '',
         customClass:'paymeny-modal',
-        //width: (window.innerWidth - 460) + "px",
+        //width: (window.innerWidth - 770) + "px",
         html: html,
         showConfirmButton:false,
         showLoaderOnConfirm: true,
@@ -177,7 +177,7 @@ export class PaymentScriptService {
             }else{
                 swal({ 
                         title: "",
-                        //width: (window.innerWidth - 460) + "px",
+                        //width: (window.innerWidth - 740) + "px",
                         html: "Searching claims... <br/> <img src='assets/1.gif'>",
                         showConfirmButton: false
                     });              
