@@ -99,6 +99,7 @@
     <Compile Include="StringConstants\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AppStaging.config" />
     <None Include="App.config" />
     <None Include="LakerFileImporter_TemporaryKey.pfx" />
     <None Include="packages.config" />
