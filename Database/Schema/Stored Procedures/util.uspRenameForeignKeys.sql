@@ -27,6 +27,7 @@ AS BEGIN
 		WITH ForeignKeysCTE AS
 		(
 			SELECT  SourceTable = FK.TABLE_NAME
+				   ,SourceTableSchema = FK.TABLE_SCHEMA
 				   ,SourceFkColumn = CU.COLUMN_NAME
 				   ,DestinationTable = PK.TABLE_NAME
 				   ,DestinationPkColumn = PT.COLUMN_NAME
@@ -56,7 +57,8 @@ AS BEGIN
 			   ,c.DestinationTable
 			   ,c.DestinationPkColumn
 			   ,c.FkName
-			   ,'EXEC sys.sp_rename ''' + c.FkName + ''', ''fk' + c.NewFkName + ''''
+			   ,'EXEC sys.sp_rename ''' + c.SourceTableSchema + '.' + c.FkName + 
+					''', ''fk' + c.NewFkName + ''', ''OBJECT'''
 		FROM    ForeignKeysCTE c
 		IF (SELECT COUNT(*) FROM @Data AS d) < 1
 			BEGIN
