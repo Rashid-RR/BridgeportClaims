@@ -64,6 +64,7 @@
     <Compile Include="DomainModels\AspNetUserRoles.cs" />
     <Compile Include="DomainModels\AspNetUsers.cs" />
     <Compile Include="DomainModels\Claim.cs" />
+    <Compile Include="DomainModels\ClaimFlex2.cs" />
     <Compile Include="DomainModels\ClaimImage.cs" />
     <Compile Include="DomainModels\ClaimImageType.cs" />
     <Compile Include="DomainModels\ClaimNote.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="DomainModels\ClaimPayment.cs" />
     <Compile Include="DomainModels\ClaimsUserHistory.cs" />
     <Compile Include="DomainModels\Diary.cs" />
-    <Compile Include="DomainModels\DiaryType.cs" />
     <Compile Include="DomainModels\Episode.cs" />
     <Compile Include="DomainModels\EpisodeLink.cs" />
     <Compile Include="DomainModels\EpisodeLinkType.cs" />

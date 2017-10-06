@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Claims;
+using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Web.Models;
 using NLog;
 
@@ -48,5 +50,38 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			return	Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId));
 		}
+
+	    [HttpPost]
+	    [Route("set-flex2")]
+	    public async Task<IHttpActionResult> SetClaimFlex2(int claimId, int claimFlex2Id)
+	    {
+	        try
+	        {
+	            return await Task.Run(() =>
+	            {
+	                var msg = string.Empty;
+	                var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id);
+                    switch(operation)
+                    {
+                        case Operation.Add:
+                            msg = "The claim's Flex2 was added successfully.";
+                            break;
+                        case Operation.Update:
+                            msg = "The claim's Flex2 was updated successfully.";
+                            break;
+                        case Operation.Delete:
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+	                return Ok(new {message = msg});
+	            });
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+	    }
 	}
 }

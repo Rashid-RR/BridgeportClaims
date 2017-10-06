@@ -17,6 +17,7 @@ namespace BridgeportClaims.Data.Mappings
             References(x => x.Adjustor).Column("AdjusterID");
             References(x => x.UsState).Column("JurisdictionStateID");
             References(x => x.Patient).Column("PatientID");
+            References(x => x.ClaimFlex2).Column("ClaimFlex2ID");
             Map(x => x.PolicyNumber).Column("PolicyNumber").Length(255);
             Map(x => x.DateOfInjury).Column("DateOfInjury");
             Map(x => x.IsFirstParty).Column("IsFirstParty").Not.Nullable();

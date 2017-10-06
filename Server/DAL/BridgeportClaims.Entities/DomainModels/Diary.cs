@@ -7,11 +7,15 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int DiaryId { get; set; }
-        public virtual DiaryType DiaryType { get; set; }
-        public virtual AspNetUsers AspNetUsers { get; set; }
-        public virtual Claim Claim { get; set; }
         [Required]
-        public virtual string NoteText { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
+        [Required]
+        public virtual PrescriptionNote PrescriptionNote { get; set; }
+        [Required]
+        public virtual DateTime FollowUpDate { get; set; }
+        public virtual DateTime? DateResolved { get; set; }
+        [Required]
+        public virtual DateTime CreatedDate { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
