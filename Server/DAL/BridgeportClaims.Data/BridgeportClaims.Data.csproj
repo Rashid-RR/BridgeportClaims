@@ -89,6 +89,7 @@
     <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
     <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />
+    <Compile Include="Dtos\ClaimFlex2Dto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Dtos\PrescriptionNoteTypesDto.cs" />
     <Compile Include="Dtos\PrescriptionPaymentsDto.cs" />
     <Compile Include="Dtos\PrescriptionPostingAmountsDto.cs" />
+    <Compile Include="Enums\Operation.cs" />
     <Compile Include="Mappings\AcctPayableMap.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
     <Compile Include="Mappings\AspNetRolesMap.cs" />
@@ -116,6 +118,7 @@
     <Compile Include="Mappings\AspNetUserLoginsMap.cs" />
     <Compile Include="Mappings\AspNetUserRolesMap.cs" />
     <Compile Include="Mappings\AspNetUsersMap.cs" />
+    <Compile Include="Mappings\ClaimFlex2Map.cs" />
     <Compile Include="Mappings\ClaimImageMap.cs" />
     <Compile Include="Mappings\ClaimImageTypeMap.cs" />
     <Compile Include="Mappings\ClaimMap.cs" />
@@ -124,7 +127,6 @@
     <Compile Include="Mappings\ClaimPaymentMap.cs" />
     <Compile Include="Mappings\ClaimsUserHistoryMap.cs" />
     <Compile Include="Mappings\DiaryMap.cs" />
-    <Compile Include="Mappings\DiaryTypeMap.cs" />
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />
@@ -149,12 +151,12 @@
     <Compile Include="Mappings\Views\VwImportFileMap.cs" />
     <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StoredProcedureExecutors\BaseRepository.cs" />
+    <Compile Include="SessionFactory\StoredProcedureExecutors\BaseRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="SessionFactory\FluentSessionProvider.cs" />
-    <Compile Include="StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
-    <Compile Include="StoredProcedureExecutors\StoredProcedureExecutor.cs" />
+    <Compile Include="SessionFactory\StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
+    <Compile Include="SessionFactory\StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">

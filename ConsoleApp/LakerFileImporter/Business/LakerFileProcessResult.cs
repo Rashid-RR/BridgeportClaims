@@ -6,6 +6,6 @@
         NoLakerFileProcessingNecessary,
         LakerFileFailedToUpload,
         LakerFileFailedToProcess,
-        LakerFileProcessedSuccessfully
+        LakerFileProcessStartedSuccessfully
     }
 }

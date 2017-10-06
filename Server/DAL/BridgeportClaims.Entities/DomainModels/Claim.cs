@@ -24,6 +24,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual Adjustor Adjustor { get; set; }
         public virtual UsState UsState { get; set; }
         public virtual Patient Patient { get; set; }
+        public virtual ClaimFlex2 ClaimFlex2 { get; set; }
         [StringLength(255)]
         public virtual string PolicyNumber { get; set; }
         public virtual DateTime? DateOfInjury { get; set; }

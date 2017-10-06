@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Data.Enums;
+using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 using NHibernate;
@@ -20,10 +23,14 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
 		private readonly ISessionFactory _factory;
 	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+	    private readonly IRepository<Claim> _claimRepository;
+	    private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
 
-        public ClaimsDataProvider(ISessionFactory factory, IStoredProcedureExecutor storedProcedureExecutor)
+        public ClaimsDataProvider(ISessionFactory factory, IStoredProcedureExecutor storedProcedureExecutor, IRepository<Claim> claimRepository, IRepository<ClaimFlex2> claimFlex2Repository)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
+		    _claimRepository = claimRepository;
+		    _claimFlex2Repository = claimFlex2Repository;
 		    _factory = factory;
 		}
 
@@ -140,15 +147,32 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 					{
 						try
 						{
-
-							var claimDto = session.Query<Patient>()
-								.Join(session.Query<Claim>(), p => p.PatientId, c => c.Patient.PatientId,
-									(p, c) => new { p, c })
-								.Where(w => w.c.ClaimId == claimId)
-								.Select(w => new ClaimDto
-								{
-									ClaimId = w.c.ClaimId,
-									Name = w.p.FirstName + " " + w.p.LastName,
+						    var claimDto = (from p in session.Query<Patient>()
+						        join c in session.Query<Claim>() on p.PatientId equals c.ClaimId
+						        where c.ClaimId == claimId
+						        select new ClaimDto
+						        {
+						            ClaimId = c.ClaimId,
+						            Name = p.FirstName + " " + p.LastName,
+						            Address1 = p.Address1,
+						            Address2 = p.Address2,
+						            Adjustor = null == c.Adjustor ? null : c.Adjustor.AdjustorName,
+						            AdjustorPhoneNumber = null == c.Adjustor ? null : c.Adjustor.PhoneNumber,
+						            Carrier = null == c.Payor ? null : c.Payor.GroupName,
+						            City = p.City,
+						            StateAbbreviation = null == p.UsState ? null : p.UsState.StateCode,
+						            PostalCode = p.PostalCode,
+						            Flex2 = null != c.ClaimFlex2 ? c.ClaimFlex2.Flex2 : string.Empty,
+						            Gender = null == p.Gender ? null : p.Gender.GenderName,
+						            DateOfBirth = p.DateOfBirth,
+						            EligibilityTermDate = c.TermDate,
+						            PatientPhoneNumber = p.PhoneNumber,
+						            DateEntered = c.DateOfInjury,
+						            ClaimNumber = c.ClaimNumber
+						        }).SingleOrDefault();
+								/*{
+									ClaimId = c.ClaimId,
+									Name = p.FirstName + " " + w.p.LastName,
 									Address1 = w.p.Address1,
 									Address2 = w.p.Address2,
 									Adjustor = null == w.c.Adjustor ? null : w.c.Adjustor.AdjustorName,
@@ -160,7 +184,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									#pragma warning disable IDE0031 // Use null propagation
 									StateAbbreviation = null == w.p.UsState ? null : w.p.UsState.StateCode,
 									PostalCode = w.p.PostalCode,
-									Flex2 = "PIP", // TODO: remove hard-coded
+									Flex2 = "PIP",
 									#pragma warning disable IDE0031 // Use null propagation
 									Gender = null == w.p.Gender ? null : w.p.Gender.GenderName,
 									#pragma warning restore IDE0031 // Use null propagation
@@ -169,9 +193,19 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									PatientPhoneNumber = w.p.PhoneNumber,
 									DateEntered = w.c.DateOfInjury,
 									ClaimNumber = w.c.ClaimNumber
-								}).ToFuture().SingleOrDefault();
+								}
+                            ).}ToFuture().SingleOrDefault();*/
 							if (null == claimDto)
 								return null;
+                            // ClaimFlex2 Drop-Down Values
+						    var claimFlex2Dto = session.CreateSQLQuery("SELECT ClaimFlex2ID ClaimFlex2Id, Flex2 FROM dbo.ClaimFlex2")
+						        .SetMaxResults(100)
+						        .SetResultTransformer(Transformers.AliasToBean(typeof(ClaimFlex2Dto)))
+						        .List<ClaimFlex2Dto>();
+						    if (null != claimFlex2Dto)
+						    {
+						        claimDto.ClaimFlex2s = claimFlex2Dto;
+						    }
 							// Claim Note
 							var claimNoteDto = session.CreateSQLQuery(
 									@"SELECT cnt.[TypeName] NoteType, [cn]. [NoteText]
@@ -187,7 +221,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							{
 								claimDto.ClaimNotes = claimNoteDto;
 							}
-
 							// Claim Episodes
 							var episodes = session.CreateSQLQuery(
                                   @"SELECT EpisodeId = [e].[EpisodeID]
@@ -250,6 +283,18 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						}
 					});
 			});
-		}   
+		}
+
+	    public Operation AddOrUpdateFlex2(int claimId, int claimFlex2Id)
+	    {
+	        var claim = _claimRepository.Get(claimId);
+	        if (null == claim)
+	            throw new ArgumentNullException(nameof(claim));
+            var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
+	        claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
+            var op = null == claim.ClaimFlex2 ? Operation.Add : Operation.Update;
+	        _claimRepository.Update(claim);
+            return op;
+	    }
 	}
 }

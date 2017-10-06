@@ -44,7 +44,7 @@ namespace LakerFileImporter.Business
                 var succeededProcessing = await apiClient.ProcessLakerFileToApiAsync(newLakerFileName, token);
                 return !succeededProcessing
                     ? LakerFileProcessResult.LakerFileFailedToProcess
-                    : LakerFileProcessResult.LakerFileProcessedSuccessfully;
+                    : LakerFileProcessResult.LakerFileProcessStartedSuccessfully;
             }
             catch (Exception ex)
             {

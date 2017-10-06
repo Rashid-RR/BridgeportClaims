@@ -24,6 +24,7 @@ namespace BridgeportClaims.Data.Dtos
 		public string PostalCode { get; set; }
 		public string PatientPhoneNumber { get; set; }
 		public DateTime? DateEntered { get; set; }
+        public IList<ClaimFlex2Dto> ClaimFlex2s { get; set; }
 		public IList<ClaimNoteDto> ClaimNotes { get; set; }
 		public IList<EpisodeDto> Episodes { get;set;}
 		public IList<PrescriptionDto> Prescriptions { get; set; }
