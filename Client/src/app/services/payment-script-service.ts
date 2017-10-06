@@ -158,9 +158,9 @@ export class PaymentScriptService {
         preConfirm: function () {
             return new Promise(function (resolve) {
             resolve([
-                $('#lastName').val(),
-                $('#firstName').val(),
                 $('#claimNumber').val(),
+                $('#firstName').val(),
+                $('#lastName').val(),
                 $('#datepicker').val(),
                 $('#invoiceNumber').val()
             ])
