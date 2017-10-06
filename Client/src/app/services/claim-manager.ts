@@ -122,34 +122,34 @@ export class ClaimManager {
           //console.log(error);
         } catch (e) { }
       }, () => {
-        this.events.broadcast("claim-updated")
+        this.events.broadcast("claim-updated");
+      this.http.getNotetypes().map(res => { return res.json() })
+        .subscribe((result: Array<any>) => {
+          // console.log("Claim Notes",result)
+          this.notetypes = result;
+        }, err => {
+          this.loading = false;
+          //let error = err.json();
+        })
+      this.http.getPrescriptionNotetypes().map(res => { return res.json() })
+        .subscribe((result: Array<any>) => {
+          // console.log("Prescription Notes", result)
+          this.prescriptionNotetypes = result;
+        }, err => {
+          this.loading = false;
+          //console.log(err);
+          //let error = err.json();
+        })
+      this.http.getEpisodesNoteTypes().map(res => { return res.json() })
+        .subscribe((result: Array<any>) => {
+          // console.log("Episode Notes", result)
+          this.episodeNoteTypes = result;
+        }, err => {
+          this.loading = false;
+          console.log(err);
+          let error = err.json();
+        });
       })
-    this.http.getNotetypes().map(res => { return res.json() })
-      .subscribe((result: Array<any>) => {
-        // console.log("Claim Notes",result)
-        this.notetypes = result;
-      }, err => {
-        this.loading = false;
-        //let error = err.json();
-      })
-    this.http.getPrescriptionNotetypes().map(res => { return res.json() })
-      .subscribe((result: Array<any>) => {
-        // console.log("Prescription Notes", result)
-        this.prescriptionNotetypes = result;
-      }, err => {
-        this.loading = false;
-        //console.log(err);
-        //let error = err.json();
-      })
-    this.http.getEpisodesNoteTypes().map(res => { return res.json() })
-      .subscribe((result: Array<any>) => {
-        // console.log("Episode Notes", result)
-        this.episodeNoteTypes = result;
-      }, err => {
-        this.loading = false;
-        console.log(err);
-        let error = err.json();
-      });
   }
 
   get dataSize() {

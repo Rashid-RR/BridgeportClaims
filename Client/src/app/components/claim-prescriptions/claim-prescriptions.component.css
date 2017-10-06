@@ -47,7 +47,7 @@ tr>td {
 
 tr>th:first-child,
 tr>td:first-child {
-  max-width: 6%;
+  max-width: 4%;
 }
 
 tr>th:nth-child(2),
@@ -57,7 +57,7 @@ tr>td:nth-child(2) {
 
 tr>th:nth-child(3),
 tr>td:nth-child(3) {
-  max-width: 5%;
+  max-width: 3%;
 }
 
 tr>th:nth-child(4),
@@ -94,7 +94,10 @@ tr>th:nth-child(10),
 tr>td:nth-child(10) {
   max-width: 8%;
 }
-
+tr>th:nth-child(11),
+tr>td:nth-child(11) {
+  max-width: 4%;
+}
 tr>th:last-child,
 tr>td:last-child {
   text-align: center;
@@ -325,4 +328,13 @@ thead span {
 
 .table>thead>tr>th[_ngcontent-c9] {
   border-bottom: 0px;
+}
+
+
+td .btn-group button.dropdown-toggle.status{
+  color:black !important;
+  background: transparent  !important;
+}
+td .btn-group.open .dropdown-toggle{
+  box-shadow: none;
 }

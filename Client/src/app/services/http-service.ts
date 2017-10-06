@@ -389,12 +389,14 @@ export class HttpService {
         , 1500; });
         this.router.navigate(['/login']);
         this.events.broadcast('logout', true);
-       } else if (res.status == 406) {
+      } else if (res.status == 406) {
          let err = res.json();
         this.toast.error(err.message);
-       } else if (res.status == 500) {
+      } else if (res.status == 500) {
         this.toast.error('A server error was detected. Please contact your system administrator.');
-       }
+      }else if (res.status == 0 || res.status == 504) {
+        this.toast.error('Cannot reach the server. Please check your network connection.');
+      }
   }
   getPrescriptions(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
     page: Number= 1, pageSize: Number = 500) {

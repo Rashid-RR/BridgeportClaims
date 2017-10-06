@@ -60,10 +60,10 @@ export class PaymentScriptService {
                                     <div class="box-body payment-input">
                                         <form role="form" autocomplete="off" autocapitalize="none" autocomplete="off">
                                             <div class="row" style="margin-left:2px;">
-                                                <div class="search-col">
+                                               <div class="search-col">
                                                     <div class="form-group">
-                                                        <label>Claim #</label>
-                                                        <input class="form-control" id="claimNumber" value="`+claimNumber+`" type="text" focus-on>
+                                                        <label>Last Name</label>
+                                                        <input class="form-control" id="lastName"  value="`+lastName+`" type="text" focus-on>
                                                     </div>
                                                 </div>
                                                 <div class="search-col">
@@ -71,13 +71,13 @@ export class PaymentScriptService {
                                                         <label>First Name</label>
                                                         <input class="form-control" id="firstName"  value="`+firstName+`" type="text">
                                                     </div>
-                                                </div>
+                                                </div> 
                                                 <div class="search-col">
                                                     <div class="form-group">
-                                                        <label>Last Name</label>
-                                                        <input class="form-control" id="lastName"  value="`+lastName+`" type="text" focus-on>
+                                                        <label>Claim #</label>
+                                                        <input class="form-control" id="claimNumber" value="`+claimNumber+`" type="text" focus-on>
                                                     </div>
-                                                </div>
+                                                </div>                                            
                                                 <div class="search-col">
                                                     <div class="form-group">
                                                         <label>Rx Date</label>
