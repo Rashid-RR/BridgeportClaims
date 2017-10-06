@@ -291,9 +291,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	        if (null == claim)
 	            throw new ArgumentNullException(nameof(claim));
             var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
-	        claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
             var op = null == claim.ClaimFlex2 ? Operation.Add : Operation.Update;
-	        _claimRepository.Update(claim);
+	        claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
+            _claimRepository.Update(claim);
             return op;
 	    }
 	}
