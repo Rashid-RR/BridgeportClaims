@@ -15,6 +15,7 @@ CREATE TABLE [dbo].[Claim]
 [PatientID] [int] NOT NULL,
 [ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [UniqueClaimNumber] AS (([ClaimNumber]+'-')+isnull([PersonCode],'')),
+[ClaimFlex2ID] [int] NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfClaimUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -37,6 +38,8 @@ GO
 CREATE NONCLUSTERED INDEX [idxClaimPayorIDIncludes] ON [dbo].[Claim] ([PayorID]) INCLUDE ([AdjusterID], [ClaimID], [ClaimNumber], [CreatedOnUTC], [DateOfInjury], [IsFirstParty], [JurisdictionStateID], [PersonCode], [PolicyNumber], [PreviousClaimNumber], [RelationCode], [TermDate], [UniqueClaimNumber], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimAdjusterIDAdjustorAdjustorID] FOREIGN KEY ([AdjusterID]) REFERENCES [dbo].[Adjustor] ([AdjustorID])
+GO
+ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimClaimFlex2IDClaimFlex2ClaimFlex2ID] FOREIGN KEY ([ClaimFlex2ID]) REFERENCES [dbo].[ClaimFlex2] ([ClaimFlex2ID])
 GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimJurisdictionStateIDUsStateStateID] FOREIGN KEY ([JurisdictionStateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO
