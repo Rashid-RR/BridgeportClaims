@@ -38,6 +38,7 @@
                         <th>
                             <span columnSort="outstanding" [sort-table]="myTable">Outstanding</span>
                         </th>
+                        <th>Status</th>
                         <th>
                             <span columnSort="noteCount" [sort-table]="myTable">Note(s)</span>
                         </th>
@@ -76,6 +77,20 @@
                             <td class="text-right">{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
                             <td class="text-right">{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
                             <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
+                            <td>
+                                <div class="btn-group status">
+                                    <button type="button" class="btn btn-box-tool dropdown-toggle status" data-toggle="dropdown">
+                                        Status <i class="fa fa-sort"></i>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="active"><a [routerLink]="[]">Status</a></li>
+                                        <li><a [routerLink]="[]">Value 2</a></li>
+                                        <li><a [routerLink]="[]">Value 3</a></li>
+                                        <li><a [routerLink]="[]">Value 4</a></li>
+                                        <li><a [routerLink]="[]">Value 5</a></li>
+                                    </ul>
+                                </div>
+                            </td>
                             <td *ngIf="prescription.noteCount"><a class="label label-info bg-vdarkgrey" (click)="showNotes(prescription.prescriptionId)">{{prescription.noteCount}}</a></td>
                             <td *ngIf="!prescription.noteCount">{{prescription.noteCount}}</td>
                         </tr>

@@ -460,7 +460,11 @@
     tbody>tr.isReversed,
     tbody>tr.isReversed:hover,
     tbody>tr.isReversed:hover td,
-    tbody>tr.isReversed:hover td::selection {
+    tbody>tr.isReversed:hover td::selection,
+    tbody>tr.isReversed td .btn-group button.dropdown-toggle.status,
+    tbody>tr.isReversed:hover td .btn-group button.dropdown-toggle.status,
+    tbody>tr.isReversed:hover td .btn-group button.dropdown-toggle.status,
+    tbody>tr.isReversed:hover td::selection .btn-group button.dropdown-toggle.status{
       color: red !important;
     }
 
