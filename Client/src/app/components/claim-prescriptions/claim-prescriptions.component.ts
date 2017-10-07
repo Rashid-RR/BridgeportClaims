@@ -69,27 +69,11 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
 
   ngAfterViewChecked() {
-    /*  this.updateTableHeadingWidth();
-     if (this.claimManager.isPrescriptionsExpanded) {
-       let fixedHeader = document.getElementById('fixed-header');
-       if (fixedHeader.style.position !== 'fixed') {
-         fixedHeader.style.position = 'fixed';
-         // console.log('set fixed header to Fixed');
-       }
-     } else {
-       let fixedHeader = document.getElementById('fixed-header');
-       if (fixedHeader.style.position === 'fixed') {
-         fixedHeader.style.position = 'absolute';
-         // console.log('set fixed header to Absolute');
-       }
-     } */
+ 
   }
 
   cloneTableHeading() {
-    /* let cln = document.getElementById('fixed-thead').cloneNode(true);
-    let fixedHeader = document.getElementById('fixed-header');
-    fixedHeader.appendChild(cln);
-    this.updateTableHeadingWidth();*/
+    
   }
 
   cloneBoxHeader() {
