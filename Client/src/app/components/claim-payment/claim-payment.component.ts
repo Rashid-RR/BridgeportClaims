@@ -20,7 +20,6 @@ declare var $:any;
 export class ClaimPaymentComponent implements OnInit {
 
   sortColumn:SortColumnInfo;
-  payments:Array<Payment>=[];
   editing:Boolean=false;
   loadingPayment: Boolean = false;
   editingPaymentId:any;
@@ -37,7 +36,6 @@ export class ClaimPaymentComponent implements OnInit {
     private decimalPipe: DecimalPipe,
     private http: HttpService
   ) { 
-    this.fetchData();
     this.form = this.formBuilder.group({
       amountPaid:[null],
       checkNumber:[null],
@@ -47,7 +45,7 @@ export class ClaimPaymentComponent implements OnInit {
   });
     this.claimManager.onClaimIdChanged.subscribe(() => {
     //  console.log("loader");
-      this.fetchData();
+     // this.fetchData();
     });
     
   }
@@ -169,14 +167,13 @@ export class ClaimPaymentComponent implements OnInit {
 
   removePayment(payment)
   {
-    for(var i=0;i<this.payments.length;i++){
-      if(payment.prescriptionPaymentId == this.payments[i].prescriptionPaymentId && this.payments[i].prescriptionId == payment.prescriptionId){
-        this.payments.splice( i, 1 );
+    for(var i=0;i<this.claimManager.selectedClaim.payments.length;i++){
+      if(payment.prescriptionPaymentId == this.claimManager.selectedClaim.payments[i].prescriptionPaymentId && this.claimManager.selectedClaim.payments[i].prescriptionId == payment.prescriptionId){
+        this.claimManager.selectedClaim.payments.splice( i, 1 );
       }
     }    
   } 
   fetchData() {
-  this.payments=null;
   this.claimManager.loadingPayment=true;
     let page = 1;
     let page_size = 1000;
@@ -191,7 +188,7 @@ export class ClaimPaymentComponent implements OnInit {
       page, page_size).map(p => p.json())
       .subscribe(results => {
       // console.log("loader close");
-        this.payments = results;
+        this.claimManager.selectedClaim.setPayment(results);
         this.loadingPayment = false;
         this.claimManager.loadingPayment=false;
       });

@@ -41,7 +41,7 @@
                     </a>
                 </div>
             </ng-container>
-              <tr *ngFor="let pay of payments" [class.rows6]="!allowed" [class.isReversed]="pay.isReversed">
+              <tr *ngFor="let pay of claimManager.selectedClaim.payments" [class.rows6]="!allowed" [class.isReversed]="pay.isReversed">
                 <ng-container *ngIf="editingPaymentId==pay.prescriptionPaymentId">
                   <td>
                     <div class="input-group">
