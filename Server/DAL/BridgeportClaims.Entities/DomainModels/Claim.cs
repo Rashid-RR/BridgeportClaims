@@ -10,15 +10,14 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         public Claim()
         {
+            AcctPayable = new List<AcctPayable>();
             ClaimImage = new List<ClaimImage>();
             ClaimNote = new List<ClaimNote>();
-            Diary = new List<Diary>();
+            ClaimPayment = new List<ClaimPayment>();
+            ClaimsUserHistory = new List<ClaimsUserHistory>();
             Episode = new List<Episode>();
-            Invoice = new List<Invoice>();
             Prescription = new List<Prescription>();
-            Suspense = new List<Suspense>();
         }
-        [Required]
         public virtual int ClaimId { get; set; }
         public virtual Payor Payor { get; set; }
         public virtual Adjustor Adjustor { get; set; }
@@ -35,9 +34,12 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string ClaimNumber { get; set; }
         [StringLength(255)]
         public virtual string PreviousClaimNumber { get; set; }
-        public virtual int? PersonCode { get; set; }
+        [StringLength(2)]
+        public virtual string PersonCode { get; set; }
         public virtual byte? RelationCode { get; set; }
         public virtual DateTime? TermDate { get; set; }
+        [StringLength(50)]
+        public virtual string ETLRowID { get; set; }
         [Required]
         [StringLength(258)]
         public virtual string UniqueClaimNumber { get; set; }
@@ -45,12 +47,12 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
+        public virtual IList<AcctPayable> AcctPayable { get; set; }
         public virtual IList<ClaimImage> ClaimImage { get; set; }
         public virtual IList<ClaimNote> ClaimNote { get; set; }
-        public virtual IList<Diary> Diary { get; set; }
+        public virtual IList<ClaimPayment> ClaimPayment { get; set; }
+        public virtual IList<ClaimsUserHistory> ClaimsUserHistory { get; set; }
         public virtual IList<Episode> Episode { get; set; }
-        public virtual IList<Invoice> Invoice { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
-        public virtual IList<Suspense> Suspense { get; set; }
     }
 }
