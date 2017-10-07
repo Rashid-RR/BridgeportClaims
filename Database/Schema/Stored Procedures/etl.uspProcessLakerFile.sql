@@ -968,5 +968,9 @@ AS BEGIN
 	
 	IF @@TRANCOUNT > 0
 		RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT
+
+	-- Reversed Prescriptions
+	EXEC dbo.uspDissolveReversedPrescriptions
 END
+
 GO

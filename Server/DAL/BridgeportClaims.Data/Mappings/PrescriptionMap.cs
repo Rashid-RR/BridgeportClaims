@@ -16,6 +16,7 @@ namespace BridgeportClaims.Data.Mappings
             References(x => x.Claim).Column("ClaimID");
             References(x => x.Pharmacy).Column("PharmacyNABP");
             References(x => x.Invoice).Column("InvoiceID");
+            References(x => x.PrescriptionStatus).Column("PrescriptionStatusID");
             Map(x => x.RxNumber).Column("RxNumber").Not.Nullable().Length(100);
             Map(x => x.DateSubmitted).Column("DateSubmitted").Not.Nullable();
             Map(x => x.DateFilled).Column("DateFilled").Not.Nullable();

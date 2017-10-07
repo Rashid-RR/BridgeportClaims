@@ -27,6 +27,7 @@ namespace BridgeportClaims.Data.Dtos
         public IList<ClaimFlex2Dto> ClaimFlex2s { get; set; }
 		public IList<ClaimNoteDto> ClaimNotes { get; set; }
 		public IList<EpisodeDto> Episodes { get;set;}
+        public IList<PrescriptionStatusDto> PrescriptionStatuses { get; set; }
 		public IList<PrescriptionDto> Prescriptions { get; set; }
 		public IList<PrescriptionNotesDto> PrescriptionNotes { get; set; }
 		public IList<AcctPayableDto> AcctPayables { get; set; }

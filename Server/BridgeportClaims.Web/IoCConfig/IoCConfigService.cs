@@ -30,6 +30,7 @@ using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
+using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.DataProviders.Utilities;
 
 namespace BridgeportClaims.Web.IoCConfig
@@ -51,6 +52,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<EpisodesDataProvider>().As<IEpisodesDataProvider>().InstancePerRequest();
             builder.RegisterType<LakerFileProcessor>().As<ILakerFileProcessor>().InstancePerRequest();
             builder.RegisterType<AspNetUsersProvider>().As<IAspNetUsersProvider>().InstancePerRequest();
+            builder.RegisterType<PrescriptionsProvider>().As<IPrescriptionsProvider>().InstancePerRequest();
             builder.RegisterType<CsvReaderProvider>().As<ICsvReaderProvider>().InstancePerRequest();
             builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionPaymentProvider>().As<IPrescriptionPaymentProvider>().InstancePerRequest();
