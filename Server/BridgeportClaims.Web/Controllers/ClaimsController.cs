@@ -63,13 +63,13 @@ namespace BridgeportClaims.Web.Controllers
 	                var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id);
                     switch(operation)
                     {
-                        case Operation.Add:
+                        case EntityOperation.Add:
                             msg = "The claim's Flex2 was added successfully.";
                             break;
-                        case Operation.Update:
+                        case EntityOperation.Update:
                             msg = "The claim's Flex2 was updated successfully.";
                             break;
-                        case Operation.Delete:
+                        case EntityOperation.Delete:
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();

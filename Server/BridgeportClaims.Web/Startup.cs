@@ -106,6 +106,7 @@ namespace BridgeportClaims.Web
             config.Formatters.RemoveAt(0);
             config.Formatters.Insert(0, new ServiceStackTextFormatter());
             JsConfig.EmitCamelCaseNames = true;
+            JsConfig.IncludeNullValues = true;
 
             // Configure Web API to use only bearer token authentication.
             config.SuppressDefaultHostAuthentication();

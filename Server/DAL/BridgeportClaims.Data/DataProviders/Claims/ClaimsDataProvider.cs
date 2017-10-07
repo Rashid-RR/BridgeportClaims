@@ -86,21 +86,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			return retVal;
 		}
 
-        // A unique, cache key creator, based on the parameters that are passed in. Putting a hold on this for now, as I saw
-        // no noticeable performance improvement. Speed of light in C# memory, and speed of light in SQL Server memory.
-	    /*private static string ConstructPrescriptionCacheKey(int claimId, string sort, string direction, int page, int pageSize)
-	    {
-            // start with the cache key.
-	        var cacheKey = c.PrescriptionBladeCacheKey;
-	        cacheKey += $"claimdId={claimId}__sort={sort}__direction={direction}__page={page}__pageSize={pageSize}__";
-	        return cacheKey;
-	    }*/
-
 	    public IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page,
 	        int pageSize)
 	    {
-	        if (cs.AppIsInDebugMode)
-	            Logger.Info("Pulling Prescription data from the database...");
 	        var claimIdParam = new SqlParameter
 	        {
 	            ParameterName = "ClaimID",
@@ -162,7 +150,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						            City = p.City,
 						            StateAbbreviation = null == p.UsState ? null : p.UsState.StateCode,
 						            PostalCode = p.PostalCode,
-						            Flex2 = null != c.ClaimFlex2 ? c.ClaimFlex2.Flex2 : string.Empty,
+						            Flex2 = null != c.ClaimFlex2 ? c.ClaimFlex2.Flex2 : null,
 						            Gender = null == p.Gender ? null : p.Gender.GenderName,
 						            DateOfBirth = p.DateOfBirth,
 						            EligibilityTermDate = c.TermDate,
@@ -251,9 +239,17 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetResultTransformer(Transformers.AliasToBean(typeof(AcctPayableDto)))
 								.List<AcctPayableDto>();
 							claimDto.AcctPayables = acctPayableDtos;
+                            // Prescription Statuses
+						    var prescriptionStatuses = session.CreateSQLQuery("SELECT ps.PrescriptionStatusID PrescriptionStatusId, ps.StatusName FROM dbo.PrescriptionStatus AS ps")
+						        .SetMaxResults(100)
+						        .SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionStatusDto)))
+						        .List<PrescriptionStatusDto>();
+						    if (null != prescriptionStatuses)
+						    {
+						        claimDto.PrescriptionStatuses = prescriptionStatuses;
+						    }
 							// Claim Prescriptions
-							claimDto.Prescriptions = 
-								GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 1000)?.ToList();
+							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 1000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
 									@"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
@@ -285,14 +281,15 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			});
 		}
 
-	    public Operation AddOrUpdateFlex2(int claimId, int claimFlex2Id)
+	    public EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id)
 	    {
 	        var claim = _claimRepository.Get(claimId);
 	        if (null == claim)
 	            throw new ArgumentNullException(nameof(claim));
             var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
-            var op = null == claim.ClaimFlex2 ? Operation.Add : Operation.Update;
+            var op = null == claim.ClaimFlex2 ? EntityOperation.Add : EntityOperation.Update;
 	        claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
+            claim.UpdatedOnUtc = DateTime.UtcNow;
             _claimRepository.Update(claim);
             return op;
 	    }

@@ -21,6 +21,7 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         public virtual Pharmacy Pharmacy { get; set; }
         public virtual Invoice Invoice { get; set; }
+        public virtual PrescriptionStatus PrescriptionStatus { get; set; }
         [Required]
         [StringLength(100)]
         public virtual string RxNumber { get; set; }

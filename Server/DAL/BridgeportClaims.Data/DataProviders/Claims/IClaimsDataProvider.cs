@@ -11,6 +11,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
         IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page,
             int pageSize);
         ClaimDto GetClaimsDataByClaimId(int claimId);
-        Operation AddOrUpdateFlex2(int claimId, int claimFlex2Id);
+        EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id);
     }
 }

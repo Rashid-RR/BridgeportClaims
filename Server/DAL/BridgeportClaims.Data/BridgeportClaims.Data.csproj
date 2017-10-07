@@ -72,6 +72,8 @@
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\IPrescriptionPaymentProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\PrescriptionPaymentProvider.cs" />
+    <Compile Include="DataProviders\Prescriptions\IPrescriptionsProvider.cs" />
+    <Compile Include="DataProviders\Prescriptions\PrescriptionsProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\UserOptions\DbccUserOptionsProvider.cs" />
@@ -110,7 +112,8 @@
     <Compile Include="Dtos\PrescriptionNoteTypesDto.cs" />
     <Compile Include="Dtos\PrescriptionPaymentsDto.cs" />
     <Compile Include="Dtos\PrescriptionPostingAmountsDto.cs" />
-    <Compile Include="Enums\Operation.cs" />
+    <Compile Include="Dtos\PrescriptionStatusDto.cs" />
+    <Compile Include="Enums\EntityOperation.cs" />
     <Compile Include="Mappings\AcctPayableMap.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
     <Compile Include="Mappings\AspNetRolesMap.cs" />
@@ -143,6 +146,7 @@
     <Compile Include="Mappings\PrescriptionNoteMappingMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteTypeMap.cs" />
     <Compile Include="Mappings\PrescriptionPaymentMap.cs" />
+    <Compile Include="Mappings\PrescriptionStatusMap.cs" />
     <Compile Include="Mappings\SuspenseMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
     <Compile Include="Mappings\Views\VwPaymentMap.cs" />

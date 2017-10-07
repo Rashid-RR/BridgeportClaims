@@ -1,6 +1,6 @@
 ﻿namespace BridgeportClaims.Data.Enums
 {
-    public enum Operation
+    public enum EntityOperation
     {
         Add,
         Update,
