@@ -54,3 +54,8 @@ tr:nth-of-type(odd) {
 tr:nth-of-type(even) {
   background: #fff8ef !important;
 }
+
+.btn-group.flex2.open .dropdown-toggle,.btn-group.flex2 .dropdown-toggle{
+  color:black !important;
+  box-shadow: none;
+}

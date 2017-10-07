@@ -14,6 +14,8 @@ import { AuthGuard } from './auth.guard';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {DialogService } from "ng2-bootstrap-modal";
+import {ConfirmComponent } from '../components/confirm.component';
 
 @Injectable()
 export class ClaimManager {
@@ -38,7 +40,8 @@ export class ClaimManager {
   isPaymentsExpanded: boolean;
   isImagesExpanded: boolean;
 
-  constructor(private auth: AuthGuard, private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
+  constructor(private auth: AuthGuard, private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager,
+    private dialogService: DialogService) {
     this.getHistory();
     //console.log(("fs.sdfds,dsfds.fdsf,dsfd.sdfds,sdfds".replace(new RegExp(",", "gi"),""))); test
     this.events.on("loadHistory", () => {
@@ -88,14 +91,14 @@ export class ClaimManager {
           result.forEach((claim) => {
             var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorPhoneNumber
-              , claim.name, claim.firstName, claim.lastName);
+              , claim.name, claim.firstName, claim.lastName,result.flex2);
             this.claims = this.claims.set(claim.claimId, c);
           })
         } else/*   if(result.name) */ {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorPhoneNumber
-            , result.name, result.firstName, result.lastName);
+            , result.name, result.firstName, result.lastName,result.flex2);
           c.dateOfBirth = result.dateOfBirth;
           c.adjustor = result.adjustor;
           c.adjustorPhoneNumber = result.adjustorPhoneNumber;
@@ -109,6 +112,7 @@ export class ClaimManager {
           claim.setEpisodes(result.episodes);
           claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
           claim.setPrescriptionNotes(result.prescriptionNotes);
+          claim.setFlex2(result.claimFlex2s);
           this.selected = result.claimId;
           if (addHistory) {
             this.addHistory(result.claimId);
@@ -195,7 +199,7 @@ export class ClaimManager {
           claim.setEpisodes(result.episodes);
           claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
           claim.setPrescriptionNotes(result.prescriptionNotes);
-          
+          claim.setFlex2(result.claimFlex2s);
         }, err => {
           this.loading = false;
           console.log(err);
@@ -210,6 +214,34 @@ export class ClaimManager {
   }
   get selectedClaim(): Claim {
     return this.claims.get(this.selected)
+  }
+
+  changeFlex2(claim:Claim,flex:any){
+      //call any associated API
+      let disposable = this.dialogService.addDialog(ConfirmComponent, {
+        title: "Save Flex 2 for claim #"+claim.claimNumber,
+        message: "Would you like to change the Flex2 value to "+(flex.flex2)+"?"
+      })
+        .subscribe((isConfirmed) => {
+          if (isConfirmed) {  
+            this.loading = true;
+            this.http.saveFlex2({claimId:claim.claimId,claimFlex2Id:flex.claimFlex2Id}).map(r=>{return r.json()}).subscribe(result=>{              
+              if (result.message) {
+                this.toast.success(result.message);
+                claim.flex2 = flex.flex2;
+              }
+              this.loading = false;
+            },err=>{
+              if (err.message) {
+                this.toast.success(err.message);
+              }
+              this.loading = false;
+            });
+          }
+          else {
+             
+          }
+        });
   }
 
 

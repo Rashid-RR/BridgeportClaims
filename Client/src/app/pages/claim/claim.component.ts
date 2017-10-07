@@ -7,7 +7,8 @@ import swal from "sweetalert2";
 import { ClaimNote } from "../../models/claim-note"
 import { Episode } from "../../models/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-declare var jQuery:any
+declare var $:any
+
 @Component({
   selector: 'app-claim',
   templateUrl: './claim.component.html',
@@ -82,7 +83,7 @@ export class ClaimsComponent implements OnInit {
   }
 
   ngOnInit() {
-    //window['jQuery']('body').addClass('sidebar-collapse');
+    //$('body').addClass('sidebar-collapse');
     this.events.on("edit-episode", (id: Number,type:String) => {
       this.episode(id,type);
     })
@@ -101,10 +102,10 @@ export class ClaimsComponent implements OnInit {
       prescriptionNoteTypeIds = prescriptionNoteTypeIds + '<option value="' + note.prescriptionNoteTypeId + '"' + (note.prescriptionNoteTypeId == TypeId ? "selected" : "") + '>' + note.typeName + '</option>';
     });
     var selectedPrecriptions = '';
-    var checkboxes = window['jQuery']('.pescriptionCheck');
+    var checkboxes = $('.pescriptionCheck');
     for (var i = 0; i < checkboxes.length; i++) {
-      if (window['jQuery']("#" + checkboxes[i].id).is(':checked')) {
-        selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex;font-size:11pt;">' + window['jQuery']("#" + checkboxes[i].id).attr("labelName") + '</span> &nbsp; ';
+      if ($("#" + checkboxes[i].id).is(':checked')) {
+        selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex;font-size:11pt;">' + $("#" + checkboxes[i].id).attr("labelName") + '</span> &nbsp; ';
         selectedNotes.push(Number(checkboxes[i].id));
       }
     }
@@ -129,6 +130,26 @@ export class ClaimsComponent implements OnInit {
                       <h4 class="text-green">Prescriptions</h4>
                       `+ selectedPrecriptions + `              
                   </div>
+                  <div class="row">
+                    <div class="col-sm-6 col-md-6  col-lg-6">
+                      <div class="form-group">
+                          <label>Follow-up Date</label>
+                          <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input class="form-control pull-right"  type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
+                          </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6  col-md-6  col-lg-6">
+                      <div class="form-group">
+                          <label>&nbsp;</label><br/>
+                        <button class="btn bg-primary btn-flat btn-small add-to-diary" type="button" style="color:white">Add to Diary</button>
+                        <button class="btn btn-default btn-flat btn-small remove-from-diary" type="button">Remove from Diary</button>                      
+                      </div>
+                    </div>
+                  </div>
             `,
         showCancelButton: true,
         showLoaderOnConfirm: true,
@@ -136,26 +157,27 @@ export class ClaimsComponent implements OnInit {
         preConfirm: function () {
           return new Promise(function (resolve) {
             resolve([
-              window['jQuery']('#prescriptionNoteTypeId').val(),
-              window['jQuery']('#noteText').val()
+              $('#prescriptionNoteTypeId').val(),
+              $('#noteText').val(),
+              $('#datepicker').val(),
             ])
           })
         },
         onOpen: function () {
-          window['jQuery']('#prescriptionNoteTypeId').focus()
+          $('#prescriptionNoteTypeId').focus()
         }
       }).then((result) => {
         if (result[0] == "") {
           this.toast.warning('Please select a note type in order to save your note.');
           setTimeout(() => {
             this.addPrescriptionNote(result[1], result[0]);
-            window['jQuery']('#claimNoteTypeLabel').css({ "color": "red" })
+            $('#claimNoteTypeLabel').css({ "color": "red" })
           }, 200)
         } else if (result[1] == "") {
           this.toast.warning('A blank note cannot be saved.');
           setTimeout(() => {
             this.addPrescriptionNote(result[1], result[0]);
-            window['jQuery']('#noteTextLabel').css({ "color": "red" })
+            $('#noteTextLabel').css({ "color": "red" })
           }, 200)
         } else {
           swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false })
@@ -178,7 +200,23 @@ export class ClaimsComponent implements OnInit {
               }, 200)
             })
         }
-      }).catch(swal.noop)
+      }).catch(swal.noop);
+      $('#datepicker').datepicker({
+          autoclose: true
+      });
+      $("#datepicker").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+      $("[inputs-mask]").inputmask();
+      $("[data-mask]").inputmask();
+      $(".add-to-diary").click(()=>{ 
+        if (!$('#datepicker').val()) {
+          this.toast.warning('Please add a Follow-up Date before adding to the Diary');
+          }else{
+            console.log("Awaiting API",$('#datepicker').val());
+          }
+      });
+      $(".remove-from-diary").click(()=>{ 
+        console.log("Awaiting API to remove");
+      });
     } else {
       this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length>0 ? 
         this.toast.warning('Please select at least one prescription.'):
@@ -226,20 +264,20 @@ export class ClaimsComponent implements OnInit {
       preConfirm: function () {
         return new Promise(function (resolve) {
           resolve([
-            window['jQuery']('#note').val(),
-            window['jQuery']('#episodeTypeId').val()
+            $('#note').val(),
+            $('#episodeTypeId').val()
           ])
         })
       },
       onOpen: function () {
-        window['jQuery']('#note').focus()
+        $('#note').focus()
       }
     }).then((result) => {
       if (result[0] == "") {
         this.toast.warning('A blank note cannot be saved.');
         setTimeout(() => {
           this.episode(result[0]);
-          window['jQuery']('#noteTextLabel').css({ "color": "red" })
+          $('#noteTextLabel').css({ "color": "red" })
         }, 200)
       } else {
         swal({ title: "", html: "Saving episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false });
@@ -299,20 +337,20 @@ export class ClaimsComponent implements OnInit {
       preConfirm: function () {
         return new Promise(function (resolve) {
           resolve([
-            window['jQuery']('#noteTypeId').val(),
-            window['jQuery']('#noteText').val()
+            $('#noteTypeId').val(),
+            $('#noteText').val()
           ])
         })
       },
       onOpen: function () {
-        window['jQuery']('#noteTypeId').focus()
+        $('#noteTypeId').focus()
       }
     }).then((result) => {
       if (result[1] == "") {
         this.toast.warning('Note Text is required!');
         setTimeout(() => {
           this.addNote(result[1], result[0]);
-          window['jQuery']('#noteTextLabel').css({ "color": "red" })
+          $('#noteTextLabel').css({ "color": "red" })
         }, 200)
       } else {
         swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false })
