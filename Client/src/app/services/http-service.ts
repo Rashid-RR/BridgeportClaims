@@ -450,4 +450,11 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  saveFlex2(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/claims/set-flex2/?claimId='+data.claimId+'&claimFlex2Id='+data.claimFlex2Id, data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 }
