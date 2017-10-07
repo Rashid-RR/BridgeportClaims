@@ -457,4 +457,11 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  updatePrescriptionStatus(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/prescriptions/set-status/?prescriptionId='+data.prescriptionId+'&prescriptionStatusId='+data.prescriptionStatusId, data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 }
