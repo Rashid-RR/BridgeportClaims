@@ -9,7 +9,7 @@ GO
 	Sample Execute:
 					EXEC dbo.uspDissolveReturnPrescriptions
 */
-CREATE PROC [dbo].[uspDissolveReturnPrescriptions]
+CREATE PROC [dbo].[uspDissolveReversedPrescriptions]
 AS BEGIN
 	SET NOCOUNT ON;
 	BEGIN TRY
