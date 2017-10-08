@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Data.Repositories;
@@ -22,15 +23,17 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	{
 		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
 		private readonly ISessionFactory _factory;
-	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-	    private readonly IRepository<Claim> _claimRepository;
+	    private readonly IPaymentsDataProvider _paymentsDataProvider;
+        private readonly IRepository<Claim> _claimRepository;
 	    private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
 
-        public ClaimsDataProvider(ISessionFactory factory, IStoredProcedureExecutor storedProcedureExecutor, IRepository<Claim> claimRepository, IRepository<ClaimFlex2> claimFlex2Repository)
+        public ClaimsDataProvider(ISessionFactory factory, IStoredProcedureExecutor storedProcedureExecutor, 
+            IRepository<Claim> claimRepository, IRepository<ClaimFlex2> claimFlex2Repository, IPaymentsDataProvider paymentsDataProvider)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
 		    _claimRepository = claimRepository;
 		    _claimFlex2Repository = claimFlex2Repository;
+		    _paymentsDataProvider = paymentsDataProvider;
 		    _factory = factory;
 		}
 
@@ -248,8 +251,13 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						    {
 						        claimDto.PrescriptionStatuses = prescriptionStatuses;
 						    }
-							// Claim Prescriptions
-							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 1000)?.ToList();
+                            // Payments
+                            // RxDate&sortDirection=DESC&page=1&pageSize=1000&secondSort=RxNumber&secondSortDirection=ASC.
+						    var payments = _paymentsDataProvider.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, 5000, "RxNumber", "ASC");
+						    if (null != payments)
+						        claimDto.Payments = payments;
+                            // Claim Prescriptions
+                            claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 1000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
 									@"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
