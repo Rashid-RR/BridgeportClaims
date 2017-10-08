@@ -13,9 +13,8 @@ using BridgeportClaims.Entities.DomainModels;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
-using NLog;
 using c = BridgeportClaims.Common.StringConstants.Constants;
-using cs = BridgeportClaims.Common.Config.ConfigService;
+
 
 namespace BridgeportClaims.Data.DataProviders.Claims
 {

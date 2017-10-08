@@ -43,7 +43,7 @@
       <HintPath>..\..\packages\NHibernate.4.1.1.4000\lib\net40\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.4.4.11\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -64,6 +64,8 @@
     <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\DateDisplay\DateDisplayProvider.cs" />
     <Compile Include="DataProviders\DateDisplay\IDateDisplayProvider.cs" />
+    <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />
+    <Compile Include="DataProviders\Diaries\IDiaryProvider.cs" />
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
     <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
     <Compile Include="DataProviders\ImportFiles\IImportFileProvider.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
+    <Compile Include="Dtos\DiariesDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
