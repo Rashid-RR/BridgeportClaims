@@ -5,6 +5,7 @@ import {PrescriptionNotes} from "./prescription-notes";
 import {ClaimNote} from "./claim-note";
 import {Episode} from "./episode";
 import {ClaimFlex2} from "./claim-flex2";
+import {PrescriptionStatuses} from "./prescription-statuses";
 
  
 export class Claim {
@@ -28,6 +29,7 @@ export class Claim {
     private payment:Array<Payment> = [];
     private episode:Array<Episode> = [];
     private claimFlex2s:Array<ClaimFlex2> = [];
+    private prescriptionStatus:Array<PrescriptionStatuses> = [];
     claimNote:ClaimNote;
     editing:Boolean=false;
 constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
@@ -84,6 +86,14 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
   setPrescriptionNotes(prescriptionNotes:Array<PrescriptionNotes>){
       if(prescriptionNotes){
         this.prescriptionNote = prescriptionNotes
+      }
+  }
+  get prescriptionStatuses():Array<PrescriptionStatuses>{
+      return this.prescriptionStatus;
+  }
+  setPrescriptionStatuses(prescriptionStatuses:Array<PrescriptionStatuses>){
+      if(prescriptionStatuses){
+        this.prescriptionStatus = prescriptionStatuses
       }
   }
   get prescriptionNotes():Array<PrescriptionNotes>{

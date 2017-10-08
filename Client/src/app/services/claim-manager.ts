@@ -114,6 +114,7 @@ export class ClaimManager {
           claim.setPrescriptionNotes(result.prescriptionNotes);
           claim.setFlex2(result.claimFlex2s);
           this.selected = result.claimId;
+          claim.setPrescriptionStatuses(result.prescriptionStatuses);
           if (addHistory) {
             this.addHistory(result.claimId);
           }
@@ -200,9 +201,9 @@ export class ClaimManager {
           claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
           claim.setPrescriptionNotes(result.prescriptionNotes);
           claim.setFlex2(result.claimFlex2s);
+          claim.setPrescriptionStatuses(result.prescriptionStatuses);
         }, err => {
           this.loading = false;
-          console.log(err);
           let error = err.json();
         }, () => {
           this.events.broadcast("claim-updated");
@@ -217,12 +218,11 @@ export class ClaimManager {
   }
 
   changeFlex2(claim:Claim,flex:any){
-      //call any associated API
       let disposable = this.dialogService.addDialog(ConfirmComponent, {
         title: "Save Flex 2 for claim #"+claim.claimNumber,
         message: "Would you like to change the Flex2 value to "+(flex.flex2)+"?"
       })
-        .subscribe((isConfirmed) => {
+      .subscribe((isConfirmed) => {
           if (isConfirmed) {  
             this.loading = true;
             this.http.saveFlex2({claimId:claim.claimId,claimFlex2Id:flex.claimFlex2Id}).map(r=>{return r.json()}).subscribe(result=>{              
@@ -238,10 +238,30 @@ export class ClaimManager {
               this.loading = false;
             });
           }
-          else {
-             
-          }
-        });
+      });
+  }
+  changePrescriptionStatus(prescription:Prescription,status:any){
+      let disposable = this.dialogService.addDialog(ConfirmComponent, {
+        title: "Change status for Prescription #"+prescription.prescriptionId,
+        message: "Would you like to change the status to "+(status.statusName)+"?"
+      })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {  
+          this.loading = true;
+          this.http.updatePrescriptionStatus({prescriptionId:prescription.prescriptionId,prescriptionStatusId:status.prescriptionStatusId}).map(r=>{return r.json()}).subscribe(result=>{              
+            if (result.message) {
+              this.toast.success(result.message);
+              prescription.status = status.statusName;
+            }
+            this.loading = false;
+          },err=>{
+            if (err.message) {
+              this.toast.success(err.message);
+            }
+            this.loading = false;
+          });
+        }
+      });
   }
 
 

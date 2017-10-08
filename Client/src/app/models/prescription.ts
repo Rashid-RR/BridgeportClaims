@@ -12,8 +12,9 @@ export class Prescription {
     prescriptionId:Number;
     noteCount:Number;
     isReversed:Boolean;
+    status:String;
 constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Date,
-    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number,prescriptionId:Number,noteCount:Number,isReversed?:Boolean,selected:Boolean=false){
+    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number,prescriptionId:Number,noteCount:Number,isReversed?:Boolean,status?:String,selected:Boolean=false){
     this.rxNumber = rxNumber;
     this.labelName = labelName;
     this.invoiceNumber = invoiceNumber;
@@ -25,9 +26,9 @@ constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Da
     this.selected=selected;
     this.prescriptionId = prescriptionId;
     this.noteCount = noteCount;
-    this.isReversed=isReversed
+    this.isReversed=isReversed;
+    this.status=status;
   }
-
   setSelected(s:Boolean){
       this.selected = s==undefined? true : s;
   }

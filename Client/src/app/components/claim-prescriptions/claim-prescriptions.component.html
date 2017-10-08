@@ -79,15 +79,11 @@
                             <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
                             <td>
                                 <div class="btn-group status">
-                                    <button type="button" class="btn btn-box-tool dropdown-toggle status" data-toggle="dropdown">
-                                        Status <i class="fa fa-sort"></i>
+                                    <button type="button" class="btn btn-box-tool dropdown-toggle status" data-toggle="dropdown" style="color:black !important;">
+                                        {{prescription.status || 'Not Set'}} <i class="fa fa-sort"></i>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li class="active"><a [routerLink]="[]">Status</a></li>
-                                        <li><a [routerLink]="[]">Value 2</a></li>
-                                        <li><a [routerLink]="[]">Value 3</a></li>
-                                        <li><a [routerLink]="[]">Value 4</a></li>
-                                        <li><a [routerLink]="[]">Value 5</a></li>
+                                        <li *ngFor="let status of claimManager.selectedClaim.prescriptionStatuses;" [class.active]="status.statusName==claimManager.selectedClaim.status" (click)="claimManager.changePrescriptionStatus(prescription,status)"><a [routerLink]="[]">{{status.statusName}}</a></li>
                                     </ul>
                                 </div>
                             </td>
