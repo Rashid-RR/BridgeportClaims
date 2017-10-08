@@ -2,33 +2,34 @@ td,
 th {
     text-align: center;
 }
-
 tr>th:first-child,
-tr>td:first-child {
-    width: 15%;
+tr>td:first-child{
+    width:8%;
 }
-
 tr>th:nth-child(2),
-tr>td:nth-child(2) {
-    width: 15%;
-}
-
+tr>td:nth-child(2),
 tr>th:nth-child(3),
-tr>td:nth-child(3) {
-    width: 20%;
-}
-
+tr>td:nth-child(3),
 tr>th:nth-child(4),
-tr>td:nth-child(4) {
-    width: 15%;
+tr>td:nth-child(4){
+    width: 10%;
 }
-
 tr>th:nth-child(5),
 tr>td:nth-child(5) {
-    width: 15%;
+    width: 12%;
 }
 
 tr>th:nth-child(6),
-tr>td:nth-child(6) {
-    width: 20%;
+tr>td:nth-child(6){
+    width: 50%;
 }
+
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+    background: #fbeede !important;
+  }
+  
+  tr:nth-of-type(even) {
+    background: #fff8ef !important;
+  }

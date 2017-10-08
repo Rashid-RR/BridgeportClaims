@@ -20,7 +20,6 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   selectMultiple: Boolean = false;
   lastSelectedIndex: number;
   @ViewChild('prescriptionTable') table: ElementRef;
-  prescriptions: Prescription[];
   sortColumn: SortColumnInfo;
 
   constructor(
@@ -42,10 +41,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
       }, 1000);
     })
     this.cloneTableHeading();
-    this.fetchData();
-    this.claimManager.onClaimIdChanged.subscribe(() => {
+    /* this.claimManager.onClaimIdChanged.subscribe(() => {
       this.fetchData();
-    });
+    }); */
   }
 
   ngAfterViewInit() {
@@ -205,7 +203,6 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
 
   fetchData() {
-  this.prescriptions=null
   this.claimManager.loadingPrescription = true;
     let page = 1;
     let page_size = 1000;
@@ -217,8 +214,8 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     }
     this.http.getPrescriptions(this.claimManager.selectedClaim.claimId, sort, sort_dir,
       page, page_size).map(p => p.json())
-      .subscribe(results => {
-        this.prescriptions = results;
+      .subscribe(results => {      
+        this.claimManager.selectedClaim.setPrescription(results);
         this.claimManager.loadingPrescription = false;
       });
   }
