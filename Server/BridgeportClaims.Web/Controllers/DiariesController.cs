@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Diaries;
+using BridgeportClaims.Web.Models;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -21,22 +22,18 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get")]
-        public async Task<IHttpActionResult> GetDiaries(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sort, string sortDirection, int page, int pageSize)
+        public IHttpActionResult GetDiaries(DiariesViewModel model)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var results = _diaryProvider.GetDiaries(isDefaultSort, startDate, endDate,
-                        sort, sortDirection, page, pageSize);
-                    return Ok(results);
-                });
+                var results = _diaryProvider.GetDiaries(model.IsDefaultSort, model.StartDate, model.EndDate,
+                    model.Sort, model.SortDirection, model.Page, model.PageSize);
+                return Ok(results);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
     }
