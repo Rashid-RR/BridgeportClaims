@@ -137,54 +137,29 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 					{
 						try
 						{
-						    var claimDto = (from p in session.Query<Patient>()
-						        join c in session.Query<Claim>() on p.PatientId equals c.ClaimId
-						        where c.ClaimId == claimId
-						        select new ClaimDto
+						    var claimDto = session.Query<Patient>()
+						        .Join(session.Query<Claim>(), p => p.PatientId, c => c.ClaimId, (p, c) => new {p, c})
+						        .Where(cl => cl.c.ClaimId == claimId)
+						        .Select(s => new ClaimDto
 						        {
-						            ClaimId = c.ClaimId,
-						            Name = p.FirstName + " " + p.LastName,
-						            Address1 = p.Address1,
-						            Address2 = p.Address2,
-						            Adjustor = null == c.Adjustor ? null : c.Adjustor.AdjustorName,
-						            AdjustorPhoneNumber = null == c.Adjustor ? null : c.Adjustor.PhoneNumber,
-						            Carrier = null == c.Payor ? null : c.Payor.GroupName,
-						            City = p.City,
-						            StateAbbreviation = null == p.UsState ? null : p.UsState.StateCode,
-						            PostalCode = p.PostalCode,
-						            Flex2 = null != c.ClaimFlex2 ? c.ClaimFlex2.Flex2 : null,
-						            Gender = null == p.Gender ? null : p.Gender.GenderName,
-						            DateOfBirth = p.DateOfBirth,
-						            EligibilityTermDate = c.TermDate,
-						            PatientPhoneNumber = p.PhoneNumber,
-						            DateEntered = c.DateOfInjury,
-						            ClaimNumber = c.ClaimNumber
+						            ClaimId = s.c.ClaimId,
+						            Name = s.p.FirstName + " " + s.p.LastName,
+						            Address1 = s.p.Address1,
+						            Address2 = s.p.Address2,
+						            Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
+						            AdjustorPhoneNumber = null == s.c.Adjustor ? null : s.c.Adjustor.PhoneNumber,
+						            Carrier = null == s.c.Payor ? null : s.c.Payor.GroupName,
+						            City = s.p.City,
+						            StateAbbreviation = null == s.p.UsState ? null : s.p.UsState.StateCode,
+						            PostalCode = s.p.PostalCode,
+						            Flex2 = null != s.c.ClaimFlex2 ? s.c.ClaimFlex2.Flex2 : null,
+						            Gender = null == s.p.Gender ? null : s.p.Gender.GenderName,
+						            DateOfBirth = s.p.DateOfBirth,
+						            EligibilityTermDate = s.c.TermDate,
+						            PatientPhoneNumber = s.p.PhoneNumber,
+						            DateEntered = s.c.DateOfInjury,
+						            ClaimNumber = s.c.ClaimNumber
 						        }).SingleOrDefault();
-								/*{
-									ClaimId = c.ClaimId,
-									Name = p.FirstName + " " + w.p.LastName,
-									Address1 = w.p.Address1,
-									Address2 = w.p.Address2,
-									Adjustor = null == w.c.Adjustor ? null : w.c.Adjustor.AdjustorName,
-									#pragma warning disable IDE0031 // Use null propagationAdjustorFaxNumber = null == w.c.Adjustor ? null : w.c.Adjustor.FaxNumber,
-									AdjustorPhoneNumber = null == w.c.Adjustor ? null : w.c.Adjustor.PhoneNumber,
-									#pragma warning disable IDE0031 // Use null propagation
-									Carrier = null == w.c.Payor ? null : w.c.Payor.GroupName,
-									City = w.p.City,
-									#pragma warning disable IDE0031 // Use null propagation
-									StateAbbreviation = null == w.p.UsState ? null : w.p.UsState.StateCode,
-									PostalCode = w.p.PostalCode,
-									Flex2 = "PIP",
-									#pragma warning disable IDE0031 // Use null propagation
-									Gender = null == w.p.Gender ? null : w.p.Gender.GenderName,
-									#pragma warning restore IDE0031 // Use null propagation
-									DateOfBirth = w.p.DateOfBirth,
-									EligibilityTermDate = w.c.TermDate,
-									PatientPhoneNumber = w.p.PhoneNumber,
-									DateEntered = w.c.DateOfInjury,
-									ClaimNumber = w.c.ClaimNumber
-								}
-                            ).}ToFuture().SingleOrDefault();*/
 							if (null == claimDto)
 								return null;
                             // ClaimFlex2 Drop-Down Values
@@ -193,9 +168,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						        .SetResultTransformer(Transformers.AliasToBean(typeof(ClaimFlex2Dto)))
 						        .List<ClaimFlex2Dto>();
 						    if (null != claimFlex2Dto)
-						    {
 						        claimDto.ClaimFlex2s = claimFlex2Dto;
-						    }
 							// Claim Note
 							var claimNoteDto = session.CreateSQLQuery(
 									@"SELECT cnt.[TypeName] NoteType, [cn]. [NoteText]
@@ -208,9 +181,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetResultTransformer(Transformers.AliasToBean(typeof(ClaimNoteDto)))
 								.List<ClaimNoteDto>();
 							if (null != claimNoteDto)
-							{
 								claimDto.ClaimNotes = claimNoteDto;
-							}
 							// Claim Episodes
 							var episodes = session.CreateSQLQuery(
                                   @"SELECT EpisodeId = [e].[EpisodeID]
@@ -247,11 +218,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						        .SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionStatusDto)))
 						        .List<PrescriptionStatusDto>();
 						    if (null != prescriptionStatuses)
-						    {
 						        claimDto.PrescriptionStatuses = prescriptionStatuses;
-						    }
                             // Payments
-                            // RxDate&sortDirection=DESC&page=1&pageSize=1000&secondSort=RxNumber&secondSortDirection=ASC.
 						    var payments = _paymentsDataProvider.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, 5000, "RxNumber", "ASC");
 						    if (null != payments)
 						        claimDto.Payments = payments;
@@ -259,16 +227,18 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                             claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 1000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
-									@"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
+                                    @"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
 													, [PrescriptionNoteId] = [a].[PrescriptionNoteId]
+                                                    , a.DateFilled RxDate
+													, a.RxNumber
 													, [Date] = [a].[DateFilled]
 													, [Type] = [a].[PrescriptionNoteType]
 													, [EnteredBy] = [a].[NoteAuthor]
 													, [Note] = [a].[NoteText]
 													, [NoteUpdatedOn] = [a].[NoteUpdatedOn]
 												FROM [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
-												WHERE[a].[ClaimID] = :ClaimID
-												ORDER BY[a].[NoteUpdatedOn] ASC")
+												WHERE [a].[ClaimID] = :ClaimID
+												ORDER BY a.DateFilled DESC, a.RxNumber ASC")
 								.SetInt32("ClaimID", claimId)
 								.SetMaxResults(1000)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))

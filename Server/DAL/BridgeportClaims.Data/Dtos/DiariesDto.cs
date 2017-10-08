@@ -7,6 +7,7 @@ namespace BridgeportClaims.Data.Dtos
     {
         public int DiaryId { get; set; }
         public int ClaimId { get; set; }
+        public int PrescriptionNoteId { get; set; }
         public string Owner { get; set; }
         public DateTime Created { get; set; }
         public DateTime FollowUpDate { get; set; }
