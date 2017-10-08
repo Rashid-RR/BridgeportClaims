@@ -23,3 +23,13 @@ tr>th:nth-child(6),
 tr>td:nth-child(6){
     width: 50%;
 }
+
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+    background: #fbeede !important;
+  }
+  
+  tr:nth-of-type(even) {
+    background: #fff8ef !important;
+  }
