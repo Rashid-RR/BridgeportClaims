@@ -213,9 +213,44 @@ export class ClaimsComponent implements OnInit {
       $(".add-to-diary").click(()=>{ 
         if (!$('#datepicker').val()) {
             this.toast.warning('Please add a Follow-up Date before adding to the Diary');
-          }else{
-            //console.log("Awaiting API",$('#datepicker').val());
-          }
+        }else if ($('#prescriptionNoteTypeId').val() == "") {
+          this.toast.warning('Please select a note type in order to save your note.');
+          setTimeout(() => {
+            //this.addPrescriptionNote($('#noteText').val(),$('#prescriptionNoteTypeId').val());
+            $('#claimNoteTypeLabel').css({ "color": "red" })
+          }, 200)
+        } else if ($('#noteText').val() == "") {
+          this.toast.warning('A blank note cannot be saved.');
+          setTimeout(() => {
+            //this.addPrescriptionNote($('#noteText').val(), $('#prescriptionNoteTypeId').val());
+            $('#noteTextLabel').css({ "color": "red" })
+          }, 200)
+        } else {
+          swal.close();
+          setTimeout(() => {
+            swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false });
+          }, 200)
+          let followUpDate = $("#datepicker").val();
+          this.http.savePrescriptionNote(
+            {
+              claimId: this.claimManager.selectedClaim.claimId,
+              noteText: $('#noteText').val(),
+              followUpDate:followUpDate,
+              prescriptionNoteTypeId: Number($('#noteText').val()),
+              prescriptions: selectedNotes,
+              prescriptionNoteId: prescriptionNoteId
+            }).single().subscribe(res => {
+              let result = res.json()
+              swal.close();
+              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+              this.toast.success(result.message);
+            }, error => {
+              setTimeout(() => {
+                this.addPrescriptionNote($('#noteText').val(), $('#prescriptionNoteTypeId').val());
+                this.toast.error('A server error has occurred. Please contact your system administrator.');
+              }, 200)
+            })
+        }
       });
       $(".remove-from-diary").click(()=>{ 
          //console.log("Awaiting API to remove");
@@ -226,6 +261,8 @@ export class ClaimsComponent implements OnInit {
         this.toast.warning('No prescriptions are present to save a prescription note.');
     }
   }
+
+  savePrescriptionNote(result:Array<any>,followUpDate?:any){}
 
   episode(id?: Number, TypeId?: String) {
     var episode: Episode;

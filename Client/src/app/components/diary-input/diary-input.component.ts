@@ -1,8 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 // Services
 import { DiaryService } from '../../services/diary.service';
+declare var $:any;
 
 @Component({
   selector: 'app-diary-input',
@@ -12,20 +13,14 @@ import { DiaryService } from '../../services/diary.service';
 export class DiaryInputComponent implements OnInit, AfterViewInit {
 
   diaryForm: FormGroup;
-
+  startDate: String;
+  endDate: String;
   constructor(
     private ds: DiaryService,
+    private toast: ToastsManager,
     private fb: FormBuilder
   ) {
-    this.diaryForm = this.fb.group({
-      isDefaultSort: [true],
-      startDate: [null],
-      endDate: [null],
-      sort: ["InsuranceCarrier"],
-      sortDirection: ["ASC"],
-      page: [1],
-      pageSize: [5000]
-  }); 
+      
   }
 
   ngOnInit() {
@@ -33,26 +28,27 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     // Date picker
-    window['jQuery']('#startDate').datepicker({
+    $('#startDate').datepicker({
       autoclose: true
     });
-    window['jQuery']('#endDate').datepicker({
+    $('#endDate').datepicker({
       autoclose: true
     });
-    window['jQuery']('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
-    window['jQuery']('[data-mask]').inputmask();
-  }
-
-  textChange(controlName: string) {
-    if (this.diaryForm.get(controlName).value === 'undefined' || this.diaryForm.get(controlName).value === '') {
-      this.diaryForm.get(controlName).setValue(null);
-    }
+    $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
+    $('[data-mask]').inputmask();
   }
 
   search() {
-    this.ds.data.startDate =this.diaryForm.value.startDate
-    this.ds.data.endDate =this.diaryForm.value.endDate
-    this.ds.search();
+    this.startDate = $('#startDate').val();
+    this.endDate = $('#endDate').val(); 
+    console.log(this.startDate,this.endDate);
+    if(this.startDate && this.endDate){
+      this.ds.data.startDate =this.startDate
+      this.ds.data.endDate = this.endDate
+      this.ds.search();
+    }else{
+        this.toast.warning("Ensure you select both start date and end date");
+    }
   }
 
 }

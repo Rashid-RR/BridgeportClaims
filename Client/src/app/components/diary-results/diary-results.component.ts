@@ -1,4 +1,4 @@
-import { Component, OnInit,ViewContainerRef } from '@angular/core';
+import {Component, OnInit,ViewContainerRef } from '@angular/core';
 import {DiaryService,HttpService} from "../../services/services.barrel";
 import {Diary} from "../../models/diary";
 import {Claim} from "../../models/claim";
