@@ -20,6 +20,22 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("remove")]
+        public IHttpActionResult RemoveDiary(int prescriptionNoteId)
+        {
+            try
+            {
+                _diaryProvider.RemoveDiary(prescriptionNoteId);
+                return Ok(new {message = "The diary entry was removed successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("get")]
         public IHttpActionResult GetDiaries(DiariesViewModel model)
         {
