@@ -67,11 +67,11 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
 
   ngAfterViewChecked() {
- 
+
   }
 
   cloneTableHeading() {
-    
+
   }
 
   cloneBoxHeader() {
@@ -134,7 +134,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
      this.checkAll = $event.target.checked;
     if (this.checkAll) {
       this.claimManager.selectedClaim.prescriptions.forEach(c => {
-        c.selected = true;        
+        c.selected = true;
       })
     } else {
       this.claimManager.selectedClaim.prescriptions.forEach(c => {
@@ -159,13 +159,13 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     let notesHTML = '';
     notes.forEach(note => {
 
-      let noteDate = this.dp.transform(note.date, "shortDate");
+      let noteDate = this.dp.transform(note.rxDate, "shortDate");
       notesHTML = notesHTML + `
             <tr>
               <td>`+ noteDate + `</td>
               <td>`+ note.type + `</td>
               <td>`+ note.enteredBy + `</td>
-              <td style="white-space: pre-wrap;">`+ note.note + `</td>               
+              <td style="white-space: pre-wrap;">`+ note.note + `</td>
             </tr>`;
     })
     let html = `<div class="row invoice-info">
@@ -174,7 +174,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
                   <table class="table no-margin table-striped">
                     <thead>
                     <tr>
-                      <th>Date</th>
+                      <th>Rx Date</th>
                       <th>Type</th>
                       <th>By</th>
                       <th width="75%">Notes</th>
@@ -214,7 +214,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     }
     this.http.getPrescriptions(this.claimManager.selectedClaim.claimId, sort, sort_dir,
       page, page_size).map(p => p.json())
-      .subscribe(results => {      
+      .subscribe(results => {
         this.claimManager.selectedClaim.setPrescription(results);
         this.claimManager.loadingPrescription = false;
       });
