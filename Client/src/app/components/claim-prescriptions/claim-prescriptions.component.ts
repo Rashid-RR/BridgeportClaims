@@ -3,7 +3,7 @@ import { ClaimManager } from "../../services/claim-manager";
 import { HttpService } from "../../services/http-service";
 import { EventsService } from "../../services/events-service";
 import { Prescription } from "../../models/prescription";
-import { PrescriptionNotes } from "../../models/prescription-notes";
+import { PrescriptionNote } from "../../models/prescription-note";
 import swal from "sweetalert2";
 import { DatePipe } from '@angular/common';
 import { SortColumnInfo } from "../../directives/table-sort.directive";
@@ -147,19 +147,19 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   showNotes(prescriptionId: Number) {
     this.claimManager.loading = true;
     this.http.getPrescriptionNotes(prescriptionId).single().subscribe(res => {
-      let notes: Array<PrescriptionNotes> = res.json();
+      let notes: Array<PrescriptionNote> = res.json();
       this.displayNotes(notes);
     }, error => {
       this.claimManager.loading = false;
     });
   }
 
-  displayNotes(notes: Array<PrescriptionNotes>) {
+  displayNotes(notes: Array<PrescriptionNote>) {
 
     let notesHTML = '';
     notes.forEach(note => {
 
-      let noteDate = this.dp.transform(note.date, "shortDate");
+      let noteDate = this.dp.transform(note.rxDate, "shortDate");
       notesHTML = notesHTML + `
             <tr>
               <td>`+ noteDate + `</td>
@@ -174,7 +174,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
                   <table class="table no-margin table-striped">
                     <thead>
                     <tr>
-                      <th>Date</th>
+                      <th>Rx Date</th>
                       <th>Type</th>
                       <th>By</th>
                       <th width="75%">Notes</th>

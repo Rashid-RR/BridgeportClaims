@@ -22,7 +22,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private events: EventsService,
     private profileManager: ProfileManager,
     private toast: ToastsManager,
-    private vcr: ViewContainerRef,private route:ActivatedRoute
+    private vcr: ViewContainerRef,private route:ActivatedRoute,
+    public viewContainerRef:ViewContainerRef
   ) {
     this.toast.setRootViewContainerRef(vcr);
   }

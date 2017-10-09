@@ -63,7 +63,7 @@
         <div class="table-responsive table-body">
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #diaryTable tabindex="0">
-                    <tr *ngFor="let diary of diaryService.diaryList;">
+                    <tr *ngFor="let diary of diaryService.diaryList;" (click)="showNote(diary)">
                         <td>{{diary.owner}}</td>
                         <td>{{diary.created  | date:"shortDate"}}</td>
                         <td>{{diary.followUpDate | date:"shortDate"}}</td>

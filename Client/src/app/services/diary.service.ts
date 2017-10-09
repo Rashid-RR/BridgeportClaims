@@ -40,6 +40,7 @@ export class DiaryService {
     this.data.sortDirection = info.dir;
     this.search();
   }
+  
   search(){
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');

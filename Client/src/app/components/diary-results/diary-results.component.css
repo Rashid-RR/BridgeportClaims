@@ -86,3 +86,7 @@ tr:nth-of-type(even) {
 .top-header table{
     height:99%;
 }
+tbody>tr:hover {
+    background: #b6f1ff !important;
+    cursor: pointer;
+  }

@@ -13,7 +13,7 @@
           </tr>
         </thead>
         <tbody *ngIf="claimManager.selectedClaim">
-          <tr *ngFor="let pNotes of claimManager.selectedClaim.prescriptionNotes" (click)="openScriptNotesModal(pNotes.type, pNotes.date, pNotes.enteredBy, pNotes.note)">
+          <tr *ngFor="let pNotes of claimManager.selectedClaim.prescriptionNotes" (click)="openScriptNotesModal(pNotes)">
             <td>{{pNotes.rxDate | date:"shortDate"}}</td>
             <td>{{pNotes.rxNumber}}</td>
             <td>{{pNotes.noteUpdatedOn | date:"shortDate"}}</td>

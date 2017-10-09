@@ -3,3 +3,4 @@ export * from './payment-input/payment-input.component';
 export * from './payment-detail-result/payment-detail-result.component';
 export * from './payment-claim-result/payment-claim-result.component';
 export * from './payment-result/payment-result.component';
+export * from './diary-script-note-window/diary-script-note-window.component';

@@ -10,7 +10,7 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from './components/confirm.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import {Ng2Webstorage} from 'ng2-webstorage';
-
+import {WindowsInjetor,WindowBackdrop,BootstrapWindowContainer} from "./components/ng-window";
 // Layouts 
 import {HeaderComponent} from './layouts/header/header.component';
 import {AppLayoutComponent} from './layouts/app-layout.component';
@@ -48,14 +48,14 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
 import { DecimalPipe } from '@angular/common';
 import { PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
-  PaymentDetailedResultComponent} from './components/components-barrel';
+  PaymentDetailedResultComponent,DiaryScriptNoteWindowComponent} from './components/components-barrel';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { PaymentService} from './services/payment-service';
 import { ColumnSortDirective } from './directives/column-sort.directive';
 import { TableSortDirective } from './directives/table-sort.directive';
-
+ 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
   constructor(private sanitized: DomSanitizer) {}
@@ -74,6 +74,8 @@ export class SafeUrlPipe implements PipeTransform {
 @NgModule({
   declarations: [
     AppComponent,
+    WindowBackdrop,
+    BootstrapWindowContainer,
     ConfirmComponent,
     AppLayoutComponent,
     Error404Component,
@@ -90,7 +92,7 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
-    DiaryComponent, DiaryInputComponent, DiaryResultsComponent
+    DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent
   ],
   imports: [
     BrowserModule,
@@ -106,13 +108,13 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [
     DecimalPipe, DatePipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
-    PaymentScriptService, DiaryService,
+    PaymentScriptService, DiaryService,WindowsInjetor,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
     }],
   entryComponents: [
-        ConfirmComponent
+      ConfirmComponent,BootstrapWindowContainer,WindowBackdrop,DiaryScriptNoteWindowComponent,AppComponent
   ],
   bootstrap: [AppComponent]
 })

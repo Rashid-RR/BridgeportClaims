@@ -1,7 +1,7 @@
 // profile.ts
 import {Prescription} from "./prescription";
 import {Payment} from "./payment";
-import {PrescriptionNotes} from "./prescription-notes";
+import {PrescriptionNote} from "./prescription-note";
 import {ClaimNote} from "./claim-note";
 import {Episode} from "./episode";
 import {ClaimFlex2} from "./claim-flex2";
@@ -25,7 +25,7 @@ export class Claim {
     adjustorFaxNumber:String;
     flex2:String;
     private prescription:Array<Prescription> = [];
-    private prescriptionNote:Array<PrescriptionNotes> = [];
+    private prescriptionNote:Array<PrescriptionNote> = [];
     private payment:Array<Payment> = [];
     private episode:Array<Episode> = [];
     private claimFlex2s:Array<ClaimFlex2> = [];
@@ -83,7 +83,7 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
   get getFlex2():Array<ClaimFlex2>{
       return this.claimFlex2s;
   }
-  setPrescriptionNotes(prescriptionNotes:Array<PrescriptionNotes>){
+  setPrescriptionNotes(prescriptionNotes:Array<PrescriptionNote>){
       if(prescriptionNotes){
         this.prescriptionNote = prescriptionNotes
       }
@@ -96,7 +96,7 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
         this.prescriptionStatus = prescriptionStatuses
       }
   }
-  get prescriptionNotes():Array<PrescriptionNotes>{
+  get prescriptionNotes():Array<PrescriptionNote>{
       return this.prescriptionNote;
   }
   setClaimNotes(claimNote:ClaimNote){

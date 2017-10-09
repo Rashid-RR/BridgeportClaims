@@ -1,4 +1,4 @@
-export class PrescriptionNotes{
+export class PrescriptionNote{
    
     enteredBy:String;
     type:String;
@@ -6,7 +6,9 @@ export class PrescriptionNotes{
     noteUpdatedOn:Date;
     rxDate:Date;
     rxNumber:Number;
-      constructor(noteUpdatedOn:Date,enteredBy:String,type:String,note:String,rxDate:Date,rxNumber:Number){
+    prescriptionNoteId:Number;
+      constructor(prescriptionNoteId:Number,noteUpdatedOn:Date,enteredBy:String,type:String,note:String,rxDate:Date,rxNumber:Number){
+          this.prescriptionNoteId = prescriptionNoteId;
           this.noteUpdatedOn = noteUpdatedOn;
           this.type = type;
           this.enteredBy = enteredBy;
