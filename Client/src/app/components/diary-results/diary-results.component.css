@@ -90,3 +90,30 @@ tbody>tr:hover {
     background: #b6f1ff !important;
     cursor: pointer;
   }
+  /*SORT*/
+
+thead span {
+    cursor: pointer;
+}
+
+.fa-unsorted:before,
+.fa-sort:before,
+.fa-sort-up:before,
+.fa-sort-asc:before,
+.fa-sort-down:before,
+.fa-sort-desc:before {
+    padding-right: 0.6rem;
+    font-size: 1.4rem;
+    color: #666;
+}
+
+.fa.rotate.fa-exchange {
+    margin-left: 0;
+}
+
+
+/*Unnecessary-space*/
+
+.table>thead>tr>th[_ngcontent-c9] {
+    border-bottom: 0px;
+}

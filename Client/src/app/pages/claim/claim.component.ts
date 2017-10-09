@@ -212,13 +212,13 @@ export class ClaimsComponent implements OnInit {
       $("[data-mask]").inputmask();
       $(".add-to-diary").click(()=>{ 
         if (!$('#datepicker').val()) {
-          this.toast.warning('Please add a Follow-up Date before adding to the Diary');
+            this.toast.warning('Please add a Follow-up Date before adding to the Diary');
           }else{
-            console.log("Awaiting API",$('#datepicker').val());
+            //console.log("Awaiting API",$('#datepicker').val());
           }
       });
       $(".remove-from-diary").click(()=>{ 
-        console.log("Awaiting API to remove");
+         //console.log("Awaiting API to remove");
       });
     } else {
       this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length>0 ? 
