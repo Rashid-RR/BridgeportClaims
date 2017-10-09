@@ -31,7 +31,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 								var notes = session.CreateSQLQuery(
 										@"SELECT  [p].[ClaimID] ClaimId
 												, [p].[PrescriptionNoteId] PrescriptionNoteId
-												, [p].[NoteUpdatedOn] [Date]
+												, [p].[NoteUpdatedOn] [RxDate]
 												, [p].[PrescriptionNoteType] [Type]
 												, [p].[NoteAuthor] EnteredBy
 												, [p].[NoteText] [Note]
