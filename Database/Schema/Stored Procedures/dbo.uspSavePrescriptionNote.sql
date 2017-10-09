@@ -14,7 +14,8 @@ CREATE PROC [dbo].[uspSavePrescriptionNote]
 (
 	@ClaimID INT,
 	@PrescriptionNoteTypeID INT,
-	@NoteText VARCHAR(8000), 
+	@NoteText VARCHAR(8000),
+	@FollowUpDate DATE,
 	@EnteredByUserID NVARCHAR(128),
 	@PrescriptionNoteID INT = NULL,
 	@Prescription dbo.udtPrescriptionID READONLY
@@ -24,16 +25,19 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @UTCNow DATETIME2 = dtme.udfGetUtcDate(),
-			@OutputPrescriptionNoteID INTEGER
-	
+			@OutputPrescriptionNoteID INTEGER;
+	DECLARE @LocalNowDate DATEtime = dtme.udfGetLocalDate();
+
 	DECLARE @PrescriptionNoteMergeChangeResult TABLE (ChangeType VARCHAR(10) NOT NULL, PrescriptionNoteID INTEGER NOT NULL)
 
 	-- Testing
-	/*DECLARE @ClaimID INT = 95
+	/*BEGIN TRAN; -- COMMIT -- ROLLBACK
+	DECLARE @ClaimID INT = 95
 		  , @PrescriptionNoteTypeID INT = 3
 		  , @NoteText VARCHAR(8000) = 'I am a baffled'
-		  , @EnteredByUserID NVARCHAR(128) = '70a2ef1c-4077-461d-bb24-078d0e965c29'
+		  , @EnteredByUserID NVARCHAR(128) = (SELECT TOP (1) u.ID FROM dbo.AspNetUsers AS u)
 		  , @PrescriptionNoteID INT --= -4
+		  , @FollowUpDate DATE = '10/19/2017'
 	DECLARE @Prescription dbo.udtPrescriptionID
 	INSERT @Prescription ( [PrescriptionID] )
 	VALUES ( 993),(994),(995),(996),(1013),(1000)*/
@@ -83,5 +87,18 @@ BEGIN
 		UPDATE SET [tgt].[UpdatedOnUTC] = @UTCNow
 	WHEN NOT MATCHED BY SOURCE AND [tgt].[PrescriptionNoteID] = @OutputPrescriptionNoteID
 	 THEN DELETE;
+
+	IF @FollowUpDate IS NOT NULL
+		BEGIN
+			MERGE dbo.Diary AS tgt
+			USING (SELECT @OutputPrescriptionNoteID PrescriptionNoteID) AS src
+				ON tgt.PrescriptionNoteID = src.PrescriptionNoteID
+			WHEN NOT MATCHED BY TARGET THEN
+				INSERT (AssignedToUserID, PrescriptionNoteID, FollowUpDate, DateResolved, CreatedDate, CreatedOnUTC, UpdatedOnUTC)
+				VALUES (@EnteredByUserID, src.PrescriptionNoteID, @FollowUpDate, NULL, @LocalNowDate, @UTCNow, @UTCNow)
+			WHEN MATCHED THEN
+				UPDATE SET tgt.AssignedToUserID = @EnteredByUserID, tgt.UpdatedOnUTC = @UTCNow, tgt.FollowUpDate = @FollowUpDate,
+					tgt.CreatedDate = @LocalNowDate;
+		END
 END
 GO
