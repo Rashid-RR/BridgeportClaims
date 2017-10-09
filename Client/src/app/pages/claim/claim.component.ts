@@ -130,23 +130,25 @@ export class ClaimsComponent implements OnInit {
                       <h4 class="text-green">Prescriptions</h4>
                       `+ selectedPrecriptions + `              
                   </div>
-                  <div class="row">
-                    <div class="col-sm-6 col-md-6  col-lg-6">
-                      <div class="form-group">
-                          <label>Follow-up Date</label>
-                          <div class="input-group date">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
+                  <div class="calendar">
+                    <div class="row">
+                      <div class="col-sm-8 col-sm-offset-2" style="padding-left:0px;padding-right:0px;">
+                        <div class="form-group">
+                            <label>Follow-up Date</label>
+                            <div class="input-group date">
+                              <div class="input-group-addon">
+                                  <i class="fa fa-calendar"></i>
+                              </div>
+                              <input class="form-control pull-right"  type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
                             </div>
-                            <input class="form-control pull-right"  type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
-                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-sm-6  col-md-6  col-lg-6">
-                      <div class="form-group">
-                          <label>&nbsp;</label><br/>
-                        <button class="btn bg-primary btn-flat btn-small add-to-diary" type="button" style="color:white">Add to Diary</button>
-                        <button class="btn btn-default btn-flat btn-small remove-from-diary" type="button">Remove from Diary</button>                      
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>&nbsp;</label><br/>
+                          <button class="btn bg-primary btn-flat btn-small add-to-diary" type="button" style="color:white">Add to Diary</button>
+                          <button class="btn btn-default btn-flat btn-small remove-from-diary" type="button">Remove from Diary</button>                      
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -154,6 +156,7 @@ export class ClaimsComponent implements OnInit {
         showCancelButton: true,
         showLoaderOnConfirm: true,
         confirmButtonText: "Save",
+        customClass:'prescription-modal',
         preConfirm: function () {
           return new Promise(function (resolve) {
             resolve([

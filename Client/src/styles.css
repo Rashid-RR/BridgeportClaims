@@ -511,3 +511,15 @@
     {
       z-index:999999 !important;
     }
+    .swal2-modal.prescription-modal{
+      width:600px !important;
+  }
+    .swal2-modal.prescription-modal .calendar{
+        position: absolute;;
+        width:50%;
+        bottom:-85px;
+        right:15px;
+    }
+    .swal2-modal.prescription-modal .swal2-buttonswrapper{
+        text-align:left !important;
+    }
