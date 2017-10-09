@@ -115,7 +115,7 @@ export class ClaimManager {
           claim.setFlex2(result.claimFlex2s);
           this.selected = result.claimId;
           claim.setPrescriptionStatuses(result.prescriptionStatuses);
-          if (addHistory) {
+          if (addHistory && result.claimId) {
             this.addHistory(result.claimId);
           }
           this.onClaimIdChanged.next(this.selected);
@@ -207,7 +207,7 @@ export class ClaimManager {
           let error = err.json();
         }, () => {
           this.events.broadcast("claim-updated");
-          if (addHistory) {
+          if (addHistory && id) {
             this.addHistory(id);
           }
         })
