@@ -4,15 +4,19 @@
       <table class="table no-margin table-striped">
         <thead>
           <tr>
-            <th width="10%">Date</th>
-            <th width="8%">Type</th>
-            <th width="10%">By</th>
+            <th>Rx Date</th>
+            <th>Rx Number</th>
+            <th>Updated</th>
+            <th>Type</th>
+            <th>By</th>
             <th>Notes</th>
           </tr>
         </thead>
         <tbody *ngIf="claimManager.selectedClaim">
           <tr *ngFor="let pNotes of claimManager.selectedClaim.prescriptionNotes" (click)="openScriptNotesModal(pNotes.type, pNotes.date, pNotes.enteredBy, pNotes.note)">
-            <td>{{pNotes.date | date:"shortDate"}}</td>
+            <td>{{pNotes.rxDate | date:"shortDate"}}</td>
+            <td>{{pNotes.rxNumber}}</td>
+            <td>{{pNotes.noteUpdatedOn | date:"shortDate"}}</td>
             <td>{{pNotes.type}}</td>
             <td>{{pNotes.enteredBy}}</td>
             <td>{{pNotes.note}}</td>

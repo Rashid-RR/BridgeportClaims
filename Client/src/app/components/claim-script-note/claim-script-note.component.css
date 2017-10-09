@@ -27,25 +27,28 @@ th {
 }
 
 tr>th:first-child,
-tr>td:first-child {
-  width: 8%;
-  padding-left: 12px !important;
+tr>td:first-child,
+tr>th:nth-child(3),
+tr>td:nth-child(3) {
+  width: 9%;
+  padding-left: 2px !important;
 }
 
 tr>th:nth-child(2),
-tr>td:nth-child(2) {
+tr>td:nth-child(2){
+  width:10%;
+}
+tr>th:nth-child(4),
+tr>td:nth-child(4),
+tr>th:nth-child(5),
+tr>td:nth-child(5) {
   width: 12%;
 }
 
-tr>th:nth-child(3),
-tr>td:nth-child(3) {
-  width: 14%;
-}
-
-tr>th:nth-child(4),
-tr>td:nth-child(4) {
-  width: 66%;
-  padding-right: 12px !important;
+tr>th:nth-child(6),
+tr>td:nth-child(6) {
+  width: 48%;
+  padding-right: 2px !important;
 }
 
 /* ROW COLOR CHANGE*/
