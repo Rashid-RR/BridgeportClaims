@@ -257,7 +257,14 @@ th {
         margin-left: 25px;
     }
 }
+tbody>tr.bgBlue {
+    background: #56a1ff !important;
+    color: white;
+}
 
+tbody>tr.bgBlue td {
+    color: white;
+}
 tbody>tr.bgBlue td::selection,
 tbody>tr.bgBlue td a::selection {
     background: transparent !important;
