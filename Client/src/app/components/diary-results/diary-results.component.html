@@ -1,16 +1,60 @@
-<div class="row diary-info">
-    <div class="col-sm-12 claim-col">
+<div class="row claim-info">
+    <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
         <!-- Table Header -->
         <div class="table-responsive top-header">
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
-                    <tr>
-                        <th>Created</th>
-                        <th>Follow-up Date</th>
-                        <th>Type</th>
-                        <th>RxDate</th>
-                        <th>Insurance Carrier</th>
-                        <th>Diary Note</th>
+                    <tr (tableSort)="diaryService.onSortColumn($event)" #myTable='table-sort'>
+                        <th>
+                            <span columnSort="owner" [sort-table]="myTable">
+                                Owner
+                            </span>
+                        </th>
+                        <th>
+                            <span columnSort="created" [sort-table]="myTable">
+                                Created
+                            </span>
+                        </th>
+                        <th>
+                            <span columnSort="followUpDate" [sort-table]="myTable">
+                                Follow-up Date
+                            </span>
+                        </th>
+                        <th>
+                            <span columnSort="patientName" [sort-table]="myTable">
+                                Patient Name
+                            </span>
+                        </th>
+                        <th>
+                            <span columnSort="claimNumber" [sort-table]="myTable">
+                                Claim Number
+                            </span>
+                        </th>
+                        <th>
+                            <span columnSort="type" [sort-table]="myTable">
+                                Type
+                            </span>
+                        </th>
+                        <th>
+                            <span columnSort="rxNumber" [sort-table]="myTable">
+                                Rx Number
+                            </span>                            
+                        </th>
+                        <th>
+                            <span columnSort="rxDate" [sort-table]="myTable">
+                                RxDate
+                            </span>                            
+                        </th>
+                        <th>
+                            <span columnSort="insuranceCarrier" [sort-table]="myTable">    
+                                Insurance Carrier
+                            </span>
+                        </th>
+                        <th>
+                            <span columnSort="diaryNote" [sort-table]="myTable">  
+                              Diary Note
+                            </span>
+                        </th>
                     </tr>
                 </thead>
             </table>
@@ -19,29 +63,17 @@
         <div class="table-responsive table-body">
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #diaryTable tabindex="0">
-                    <tr>
-                        <td>8/18/17</td>
-                        <td>8/22/17</td>
-                        <td>Med Records</td>
-                        <td>6/15/17</td>
-                        <td>Progressive</td>
-                        <td>Left VM with Dr's Office</td>
-                    </tr>
-                    <tr>
-                        <td>8/16/17</td>
-                        <td>8/22/17</td>
-                        <td>Med Records</td>
-                        <td>6/15/17</td>
-                        <td>Progressive</td>
-                        <td>Left VM with Dr's Office</td>
-                    </tr>
-                    <tr>
-                        <td>8/15/17</td>
-                        <td>8/22/17</td>
-                        <td>Med Records</td>
-                        <td>6/15/17</td>
-                        <td>Progressive</td>
-                        <td>Left VM with Dr's Office</td>
+                    <tr *ngFor="let diary of diaryService.diaryList;">
+                        <td>{{diary.owner}}</td>
+                        <td>{{diary.created  | date:"shortDate"}}</td>
+                        <td>{{diary.followUpDate | date:"shortDate"}}</td>
+                        <td>{{diary.patientName}}</td>
+                        <td>{{diary.claimNumber}}</td>
+                        <td>{{diary.type}}</td>
+                        <td>{{diary.rxNumber}}</td>
+                        <td>{{diary.rxDate | date:"shortDate"}}</td>
+                        <td>{{diary.insuranceCarrier}}</td>
+                        <td>{{diary.diaryNote}}</td>
                     </tr>
                 </tbody>
             </table>

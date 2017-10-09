@@ -8,12 +8,10 @@
     border: 1.5px solid #d2d6de;
     margin-bottom: 2rem;
 }
-
 .box .box-body {
     overflow-x: hidden;
 }
-
-.box-header {
+.bg-head-box {
     background: #992727;
     z-index: 3;
     color: #fff;

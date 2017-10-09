@@ -335,4 +335,5 @@ td .btn-group button.dropdown-toggle.status{
 }
 td .btn-group.open .dropdown-toggle{
   box-shadow: none;
+  z-index:99;
 }

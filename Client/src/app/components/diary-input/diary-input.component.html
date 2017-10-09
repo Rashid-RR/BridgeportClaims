@@ -18,7 +18,7 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input class="form-control pull-right" id="endDate" name="endDate" formControlName="endDate" (change)="textChange('toDate')" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                    <input class="form-control pull-right"  id="endDate" name="endDate" formControlName="endDate" (change)="textChange('toDate')" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="col-sm-2 col-md-2">
             <div class="form-group">
                 <label>&nbsp;</label><br/>
-                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="refresh()">Refresh</button> </div>
+                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button> </div>
         </div>
     </div>
 </form>

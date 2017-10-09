@@ -18,9 +18,14 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder
   ) {
     this.diaryForm = this.fb.group({
+      isDefaultSort: [true],
       startDate: [null],
-      endDate: [null]
-    });
+      endDate: [null],
+      sort: ["InsuranceCarrier"],
+      sortDirection: ["ASC"],
+      page: [1],
+      pageSize: [5000]
+  }); 
   }
 
   ngOnInit() {
@@ -44,7 +49,10 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     }
   }
 
-  refresh() {
+  search() {
+    this.ds.data.startDate =this.diaryForm.value.startDate
+    this.ds.data.endDate =this.diaryForm.value.endDate
+    this.ds.search();
   }
 
 }

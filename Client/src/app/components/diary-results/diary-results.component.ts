@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DiaryService} from "../../services/services.barrel";
 
 @Component({
   selector: 'app-diary-results',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DiaryResultsComponent implements OnInit {
 
-  constructor() { }
+  constructor(public diaryService:DiaryService) {
+    
+   }
 
   ngOnInit() {
   }
