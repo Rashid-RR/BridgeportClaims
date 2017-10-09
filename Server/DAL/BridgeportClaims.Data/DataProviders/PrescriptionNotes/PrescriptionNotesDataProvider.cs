@@ -90,6 +90,9 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 				                        {Value = dto.PrescriptionNoteId.Value};
 				                cmd.Parameters.Add(prescriptionNoteIdSqlParameter);
 				            }
+				            var diaryFollowUpDateParameter = new SqlParameter("@FollowUpDate", SqlDbType.Date)
+				                {Value = dto.IsDiaryEntry ? dto.FollowUpDate : (object) DBNull.Value};
+				            cmd.Parameters.Add(diaryFollowUpDateParameter);
 				            var dt = CreateDataTable(dto.Prescriptions);
 				            var prescriptionSqlParameter = new SqlParameter("@Prescription", SqlDbType.Structured)
 				                {Value = dt};
