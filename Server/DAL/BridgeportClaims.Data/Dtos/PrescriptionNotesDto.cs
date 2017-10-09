@@ -7,7 +7,8 @@ namespace BridgeportClaims.Data.Dtos
     {
         public int ClaimId { get; set; }
         public int PrescriptionNoteId { get; set; }
-        public DateTime? Date { get; set; }
+        public DateTime RxDate { get; set; }
+        public string RxNumber { get; set; }
         public string Type { get; set; }
         public string EnteredBy { get; set; }
         public string Note { get; set; }

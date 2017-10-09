@@ -193,7 +193,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 											INNER JOIN [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [e].[AssignedUserID]
 											LEFT JOIN [dbo].[EpisodeType] AS [et] ON [et].[EpisodeTypeID] = [e].[EpisodeTypeID]
 									WHERE  [e].[ClaimID] = :ClaimID")
-								.SetMaxResults(1000)
+								.SetMaxResults(5000)
 								.SetInt32("ClaimID", claimId)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(EpisodeDto)))
 								.List<EpisodeDto>();
@@ -224,14 +224,13 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						    if (null != payments)
 						        claimDto.Payments = payments;
                             // Claim Prescriptions
-                            claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 1000)?.ToList();
+                            claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
                                     @"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
 													, [PrescriptionNoteId] = [a].[PrescriptionNoteId]
                                                     , a.DateFilled RxDate
 													, a.RxNumber
-													, [Date] = [a].[DateFilled]
 													, [Type] = [a].[PrescriptionNoteType]
 													, [EnteredBy] = [a].[NoteAuthor]
 													, [Note] = [a].[NoteText]
@@ -240,7 +239,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 												WHERE [a].[ClaimID] = :ClaimID
 												ORDER BY a.DateFilled DESC, a.RxNumber ASC")
 								.SetInt32("ClaimID", claimId)
-								.SetMaxResults(1000)
+								.SetMaxResults(5000)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
 								.List<PrescriptionNotesDto>();
 							claimDto.PrescriptionNotes = prescriptionNotesDtos;
