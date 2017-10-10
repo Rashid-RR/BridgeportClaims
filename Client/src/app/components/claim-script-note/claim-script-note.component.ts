@@ -59,7 +59,7 @@ export class ClaimScriptNoteComponent implements OnInit {
       onOpen: function () {
         window['jQuery']('#note').focus()
       }
-    })
+    }).catch(swal.noop)
   }
 
 }

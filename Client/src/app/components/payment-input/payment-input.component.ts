@@ -293,7 +293,7 @@ export class PaymentInputComponent implements OnInit {
           }
         }).then((result) => {
           this.confirmSuspense(amountToSuspend,result[0]);    
-        });
+        }).catch(swal.noop);
     }
     
   }

@@ -183,7 +183,7 @@ export class ClaimsComponent implements OnInit {
             $('#noteTextLabel').css({ "color": "red" })
           }, 200)
         } else {
-          swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false })
+          swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
@@ -228,7 +228,7 @@ export class ClaimsComponent implements OnInit {
         } else {
           swal.close();
           setTimeout(() => {
-            swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false });
+            swal({ title: "", html: "Adding note to Diary... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
           }, 200)
           let followUpDate = $("#datepicker").val();
           this.http.savePrescriptionNote(
@@ -262,7 +262,6 @@ export class ClaimsComponent implements OnInit {
     }
   }
 
-  savePrescriptionNote(result:Array<any>,followUpDate?:any){}
 
   episode(id?: Number, TypeId?: String) {
     var episode: Episode;
@@ -320,7 +319,7 @@ export class ClaimsComponent implements OnInit {
           $('#noteTextLabel').css({ "color": "red" })
         }, 200)
       } else {
-        swal({ title: "", html: "Saving episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false });
+        swal({ title: "", html: "Saving episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
         let TypeId = result[1];
         this.http.saveEpisode(
           {
@@ -393,7 +392,8 @@ export class ClaimsComponent implements OnInit {
           $('#noteTextLabel').css({ "color": "red" })
         }, 200)
       } else {
-        swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false })
+        swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
+        .catch(swal.noop)
 
         console.log({
           claimId: this.claimManager.selectedClaim.claimId,

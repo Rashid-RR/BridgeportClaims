@@ -180,7 +180,7 @@ export class PaymentScriptService {
                         //width: (window.innerWidth - 740) + "px",
                         html: "Searching claims... <br/> <img src='assets/1.gif'>",
                         showConfirmButton: false
-                    });              
+                    }).catch(swal.noop);              
                 let d = {claimNumber:inputs[0] || null,firstName:inputs[1]  || null,lastName:inputs[2] || null,rxDate:inputs[3] || null,invoiceNumber:inputs[4] || null}
                 this.paymentService.search(d,false);
                 this.inputs=inputs;
@@ -264,7 +264,7 @@ export class PaymentScriptService {
                 //width: (window.innerWidth - 460) + "px",
                 html: "Searching claims... <br/> <img src='assets/1.gif'>",
                 showConfirmButton: false
-            }); 
+            }).catch(swal.noop); 
             this.paymentService.prescriptionSelected=true
             this.paymentService.clearClaimsDetail();
             this.paymentService.getPaymentClaimDataByIds(selectedClaims);
