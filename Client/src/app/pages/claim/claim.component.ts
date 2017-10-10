@@ -236,7 +236,7 @@ export class ClaimsComponent implements OnInit {
               claimId: this.claimManager.selectedClaim.claimId,
               noteText: $('#noteText').val(),
               followUpDate:followUpDate,
-              prescriptionNoteTypeId: Number($('#noteText').val()),
+              prescriptionNoteTypeId: Number($('#prescriptionNoteTypeId').val()),
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
             }).single().subscribe(res => {

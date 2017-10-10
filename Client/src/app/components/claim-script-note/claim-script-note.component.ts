@@ -41,7 +41,7 @@ export class ClaimScriptNoteComponent implements OnInit {
           <div class="row">
             <div class="col-xs-4">` + rxDate + `</div>
             <div class="col-xs-4">` + note.rxNumber + `</div>
-            <div class="col-xs-4">` + {noteUpdatedOn} + `</div>
+            <div class="col-xs-4">` + noteUpdatedOn + `</div>
             <div class="col-xs-4 label label-info">` + note.type + `</div>
             <div class="col-xs-4">` + note.enteredBy + `</div>
           </div>
