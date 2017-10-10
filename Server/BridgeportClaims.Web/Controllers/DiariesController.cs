@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Diaries;
 using BridgeportClaims.Web.Models;
@@ -18,6 +17,22 @@ namespace BridgeportClaims.Web.Controllers
         public DiariesController(IDiaryProvider diaryProvider)
         {
             _diaryProvider = diaryProvider;
+        }
+
+        [HttpPost]
+        [Route("remove")]
+        public IHttpActionResult RemoveDiary(int prescriptionNoteId)
+        {
+            try
+            {
+                _diaryProvider.RemoveDiary(prescriptionNoteId);
+                return Ok(new {message = "The diary entry was removed successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

@@ -8,5 +8,7 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
     {
         IList<DiariesDto> GetDiaries(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
             string sortColumn, string sortDirection, int pageNumber, int pageSize);
+
+        void RemoveDiary(int diaryId);
     }
 }

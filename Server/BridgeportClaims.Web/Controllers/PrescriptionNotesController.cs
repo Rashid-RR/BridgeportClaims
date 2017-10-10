@@ -54,7 +54,8 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     _prescriptionNotesDataProvider.AddOrUpdatePrescriptionNote(
                         dto, User.Identity.GetUserId());
-                    return Ok(new {message = "The Prescription Note was Saved Successfully"});
+                    return Ok(new {message = $"The {(dto.IsDiaryEntry ? "diary entry and " : string.Empty)}prescription note " +
+                                             $"{(!dto.IsDiaryEntry ? "was" : "were")} saved successfully"});
                 });
             }
             catch (Exception ex)

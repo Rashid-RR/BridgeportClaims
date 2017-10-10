@@ -68,5 +68,20 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                 new List<SqlParameter> { isDefaultSortParam, startDateParam, endDateParam, sortColumnParam, sortDirectionParam, pageNumberParam, pageSizeParam })?.ToList();
             return retVal;
         }
+
+        public void RemoveDiary(int prescriptionNoteId)
+        {
+            _storedProcedureExecutor.ExecuteNoResultStoredProcedure(
+                "EXECUTE dbo.uspUpdateDiary @PrescriptionNoteID = :PrescriptionNoteID",
+                new List<SqlParameter>
+                {
+                    new SqlParameter
+                    {
+                        ParameterName = "PrescriptionNoteID",
+                        DbType = DbType.Int32,
+                        Value = prescriptionNoteId
+                    }
+                });
+        }
     }
 }
