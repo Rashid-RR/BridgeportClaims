@@ -59,6 +59,8 @@ CREATE NONCLUSTERED INDEX [idxPrescriptionInvoiceIDIncludes] ON [dbo].[Prescript
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionPharmacyNABP] ON [dbo].[Prescription] ([PharmacyNABP]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionReversedDateIncludes] ON [dbo].[Prescription] ([ReversedDate]) INCLUDE ([BilledAmount], [ClaimID], [DateFilled], [InvoiceID], [LabelName], [PharmacyNABP], [PrescriptionID], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionInvoiceIDInvoiceInvoiceID] FOREIGN KEY ([InvoiceID]) REFERENCES [dbo].[Invoice] ([InvoiceID])
