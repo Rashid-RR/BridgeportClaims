@@ -40,15 +40,14 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
 
   search() {
     this.startDate = $('#startDate').val();
-    this.endDate = $('#endDate').val(); 
-    console.log(this.startDate,this.endDate);
-    if(this.startDate && this.endDate){
-      this.ds.data.startDate =this.startDate
-      this.ds.data.endDate = this.endDate
+    this.endDate = $('#endDate').val();
+    //if(this.startDate && this.endDate){
+      this.ds.data.startDate = this.startDate || null
+      this.ds.data.endDate = this.endDate || null
       this.ds.search();
-    }else{
+   /*  }else{
         this.toast.warning("Ensure you select both start date and end date");
-    }
+    } */
   }
 
 }
