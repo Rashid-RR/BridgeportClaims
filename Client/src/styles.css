@@ -523,3 +523,7 @@
     .swal2-modal.prescription-modal .swal2-buttonswrapper{
         text-align:left !important;
     }
+
+    dialog-wrapper .modal-dialog .modal-content{
+      overflow-y: auto !important;
+    }
