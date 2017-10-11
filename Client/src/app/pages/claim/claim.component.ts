@@ -7,6 +7,7 @@ import swal from "sweetalert2";
 import { ClaimNote } from "../../models/claim-note"
 import { Episode } from "../../models/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {Router} from "@angular/router";
 declare var $:any
 
 @Component({
@@ -41,6 +42,7 @@ export class ClaimsComponent implements OnInit {
   expandedBlade: Number = 0;
 
   constructor(
+    private router:Router,
     public claimManager: ClaimManager,
     private http: HttpService,
     private events: EventsService,
@@ -93,6 +95,12 @@ export class ClaimsComponent implements OnInit {
     this.events.on("expand", (...args) => {
       this.expand(args[0], args[1], args[2]);
     })
+    this.router.routerState.root.queryParams.subscribe(params => {
+        if(params['claimId']){
+          this.claimManager.search({claimId:params['claimId']});
+          
+        }
+    });
   }
 
   addPrescriptionNote(text: String = "", TypeId?: String, prescriptionNoteId: any = null) {

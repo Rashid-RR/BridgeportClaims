@@ -65,7 +65,6 @@ export class DiaryService {
           } catch (e) { }
         }, () => {
           this.events.broadcast('diary-list-updated');
-          console.log(this.diaries.toArray());
         });
     }
   }

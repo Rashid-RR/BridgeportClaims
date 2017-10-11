@@ -5,6 +5,9 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { HttpService } from "../../services/http-service"
 import { PrescriptionNote } from "../../models/prescription-note"
 import { DatePipe,DecimalPipe } from '@angular/common';
+import { Router } from '@angular/router';
+import {WindowsInjetor,CustomPosition,Size,WindowConfig} from "../ng-window";
+import {DiaryScriptNoteWindowComponent} from "../../components/components-barrel";
 
 @Component({
   selector: 'app-claim-script-note',
@@ -17,10 +20,34 @@ export class ClaimScriptNoteComponent implements OnInit {
     public claimManager: ClaimManager,
     private http: HttpService,
     private dp: DatePipe,
-    private toast: ToastsManager
+    private router: Router,
+    private toast: ToastsManager,
+    private myInjector: WindowsInjetor
   ) { }
 
   ngOnInit() {
+    this.router.routerState.root.queryParams.subscribe(params => {
+        if(params['prescriptionNoteId']){
+          let prescriptionNoteId = params['prescriptionNoteId'];
+          let note:PrescriptionNote = this.claimManager.selectedClaim.prescriptionNotes.find((r:PrescriptionNote)=>r.prescriptionNoteId==prescriptionNoteId);
+          if(note){
+              this.showNoteWindow(note);
+          }
+        }
+    });
+  }
+  showNoteWindow(note:PrescriptionNote){
+    let config = new WindowConfig("Prescription Note", new Size(250, 600))  //height, width
+    config.position=new CustomPosition(50+Math.random()*200, 100)//left,top
+    config.minusTop = 91;      
+    config.centerInsideParent=false;
+    var temp={}
+    config.forAny=[temp];
+    config.openAsMaximize=false;
+    this.myInjector.openWindow( DiaryScriptNoteWindowComponent,config)
+    .then((win:DiaryScriptNoteWindowComponent) => {       
+      win.showNote(note);
+    })
   }
 
   openScriptNotesModal(note:PrescriptionNote) {
