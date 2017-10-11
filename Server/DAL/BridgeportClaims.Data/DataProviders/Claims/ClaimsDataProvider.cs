@@ -197,7 +197,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetInt32("ClaimID", claimId)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(EpisodeDto)))
 								.List<EpisodeDto>();
-							claimDto.Episodes = episodes;
+						    if (null != episodes)
+						        claimDto.Episodes = episodes.OrderByDescending(x => x.Date).ToList();
 							var acctPayableDtos = session.CreateSQLQuery(
 							  @"SELECT [Date] = [p].[DatePosted]
 									 , [p].[CheckNumber]
