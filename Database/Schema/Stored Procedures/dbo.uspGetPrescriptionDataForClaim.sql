@@ -32,6 +32,7 @@ AS BEGIN
 		 , InvoiceDate = [i].[InvoiceDate]
 		 , InvoiceNumber = [i].[InvoiceNumber]
 		 , Outstanding = [p].[BilledAmount] - [pm].[AmountPaid]
+		 , [Status] = ps.StatusName
 		 , NoteCount = (   SELECT COUNT(*)
 						   FROM   [dbo].[PrescriptionNoteMapping] AS [pnm]
 						   WHERE  [pnm].[PrescriptionID] = [p].[PrescriptionID]
@@ -41,6 +42,7 @@ AS BEGIN
 		   INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
 		   INNER JOIN [dbo].[Payor] AS [py] ON [py].[PayorID] = [c].[PayorID]
 		   LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
+		   LEFT JOIN dbo.PrescriptionStatus AS ps ON ps.PrescriptionStatusID = p.PrescriptionStatusID
 		   OUTER APPLY (
 				SELECT SUM([ipm].[AmountPaid]) AmountPaid 
 				FROM dbo.PrescriptionPayment AS [ipm] 

@@ -8,7 +8,7 @@ GO
 	Description:	Runs a DBCC CHECKIDENT to reseed a table to the last PK value used,
 					or to the value explicitly passed in.
 	Sample Execute:
-					EXEC util.uspReseedTable 'schema_name.table_name', 50000
+					EXEC util.uspReseedTable 'dbo.Diary', NULL, 1
 */
 CREATE PROC [util].[uspReseedTable]
 (
@@ -29,11 +29,12 @@ AS BEGIN
 		CASE WHEN @SeedValue IS NULL THEN
 		'MAX(' + util.udfGetPrimaryKeyColumnName(@FullyQualifiedName) +
 		 N') FROM ' + @FullyQualifiedName ELSE CONVERT(NVARCHAR, (@SeedValue - 1)) END;
-	SET @SQLStatement += N'; IF @MaxID IS NOT NULL BEGIN DBCC CHECKIDENT(''' +
+	SET @SQLStatement += N'; IF @MaxID IS NULL SET @MaxID = 0; IF @MaxID IS NOT NULL BEGIN DBCC CHECKIDENT(''' +
 		@FullyQualifiedName + N''', RESEED, @MaxID) END;'
 	IF @DebugOnly = 1
 		PRINT @SQLStatement
 	ELSE
 		EXECUTE sys.sp_executesql @SQLStatement
 END
+
 GO

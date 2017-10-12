@@ -2,13 +2,12 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-
 /*
 	Author:			Jordan Gurney
 	Create Date:	10/8/2017
 	Description:	Proc that returns the grid results for the Diary page.
 	Sample Execute:
-					EXEC dbo.uspGetDiaries 0, '3/1/2017', '12/31/2017', 'InsuranceCarrier', 'ASC', 1, 5000
+					EXEC [dbo].[uspGetDiaries] 0, NULL, NULL, 'FollowUpDate', 'DESC', 1, 5000
 */
 CREATE PROC [dbo].[uspGetDiaries]
 (
@@ -22,29 +21,53 @@ CREATE PROC [dbo].[uspGetDiaries]
 )
 AS BEGIN
 	SET NOCOUNT ON;
-	SELECT          d.DiaryID DiaryId
-				  , c.ClaimID ClaimId
-				  , pn.PrescriptionNoteID PrescriptionNoteId
-				  , [Owner]          = u.FirstName + ' ' + u.LastName
-				  , [Created]        = d.CreatedDate
+	SET XACT_ABORT ON;
+	DECLARE @One INT = 1;
+	CREATE TABLE #Diaries
+		([DiaryId] [int] NOT NULL PRIMARY KEY,
+		[ClaimId] [int] NOT NULL,
+		[PrescriptionNoteId] [int] NOT NULL,
+		[Owner] [nvarchar](500) NOT NULL,
+		[Created] [date] NOT NULL,
+		[FollowUpDate] [date] NOT NULL,
+		[PatientName] [varchar](500) NOT NULL,
+		[ClaimNumber] [varchar](255) NOT NULL,
+		[Type] [varchar](255) NOT NULL,
+		[RxNumber] [varchar](100) NOT NULL,
+		[RxDate] [datetime2](7) NOT NULL,
+		[InsuranceCarrier] [varchar](255) NOT NULL,
+		[DiaryNote] [varchar](8000) NOT NULL)
+	INSERT #Diaries
+		(DiaryId,ClaimId,PrescriptionNoteId,[Owner],Created,FollowUpDate,PatientName
+		,ClaimNumber,[Type],RxNumber,RxDate,InsuranceCarrier,DiaryNote)
+	SELECT          DiaryId            = d.DiaryID
+				  , ClaimId            = c.ClaimID
+				  , PrescriptionNoteId = pn.PrescriptionNoteID
+				  , [Owner]            = u.FirstName + ' ' + u.LastName
+				  , [Created]          = d.CreatedDate
 				  , d.FollowUpDate
-				  , [PatientName]    = pat.LastName + ', ' + pat.FirstName
+				  , [PatientName]      = pat.LastName + ', ' + pat.FirstName
 				  , c.ClaimNumber
-				  , [Type]           = pnt.TypeName
+				  , [Type]             = pnt.TypeName
 				  , p.RxNumber
-				  , RxDate           = p.DateFilled
-				  , InsuranceCarrier = pay.GroupName
-				  , DiaryNote        = pn.NoteText
-	FROM            dbo.Diary                   AS d
-		INNER JOIN  dbo.AspNetUsers             AS u ON u.ID = d.AssignedToUserID
-		INNER JOIN  dbo.PrescriptionNote        AS pn ON pn.PrescriptionNoteID = d.PrescriptionNoteID
-		INNER JOIN  dbo.PrescriptionNoteType    AS pnt ON pnt.PrescriptionNoteTypeID = pn.PrescriptionNoteTypeID
-		INNER JOIN  dbo.PrescriptionNoteMapping AS pnm ON pnm.PrescriptionNoteID = pn.PrescriptionNoteID
-		INNER JOIN  dbo.Prescription            AS p ON p.PrescriptionID = pnm.PrescriptionID
-		INNER JOIN  dbo.Claim                   AS c ON c.ClaimID = p.ClaimID
-		INNER JOIN  dbo.Patient                 AS pat ON pat.PatientID = c.PatientID
-		INNER JOIN  dbo.Payor                   AS pay ON pay.PayorID = c.PayorID
-	WHERE (d.FollowUpDate BETWEEN @StartDate AND @EndDate) OR (@StartDate IS NULL AND @EndDate IS NULL)
+				  , RxDate             = p.DateFilled
+				  , InsuranceCarrier   = pay.GroupName
+				  , DiaryNote          = pn.NoteText
+	FROM            dbo.Diary                                                   AS d
+		INNER JOIN  dbo.AspNetUsers                                             AS u ON u.ID = d.AssignedToUserID
+		INNER JOIN  dbo.PrescriptionNote                                        AS pn ON pn.PrescriptionNoteID = d.PrescriptionNoteID
+		INNER JOIN  dbo.PrescriptionNoteType                                    AS pnt ON pnt.PrescriptionNoteTypeID = pn.PrescriptionNoteTypeID
+		CROSS APPLY
+					(   SELECT TOP (@One)
+								pnm.PrescriptionID
+						FROM    dbo.PrescriptionNoteMapping AS pnm
+						WHERE   pnm.PrescriptionNoteID = pn.PrescriptionNoteID) AS pnm
+		INNER JOIN  dbo.Prescription AS p ON p.PrescriptionID = pnm.PrescriptionID
+		INNER JOIN  dbo.Claim        AS c ON c.ClaimID = p.ClaimID
+		INNER JOIN  dbo.Patient      AS pat ON pat.PatientID = c.PatientID
+		INNER JOIN  dbo.Payor        AS pay ON pay.PayorID = c.PayorID
+	WHERE (d.FollowUpDate >= @StartDate OR @StartDate IS NULL) 
+		AND (d.FollowUpDate <= @EndDate OR @EndDate IS NULL)
 	ORDER BY CASE WHEN @SortColumn = 'DiaryId' AND @SortDirection = 'ASC'
 				THEN d.DiaryID END ASC,
 			CASE WHEN @SortColumn = 'DiaryId' AND @SortDirection = 'DESC'
@@ -93,5 +116,19 @@ AS BEGIN
 				THEN d.FollowUpDate END ASC
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
+	SELECT d.DiaryId
+         , d.ClaimId
+         , d.PrescriptionNoteId
+         , d.[Owner]
+         , d.Created
+         , d.FollowUpDate
+         , d.PatientName
+         , d.ClaimNumber
+         , d.[Type]
+         , d.RxNumber
+         , d.RxDate
+         , d.InsuranceCarrier
+         , d.DiaryNote 
+	FROM #Diaries AS d
 END
 GO
