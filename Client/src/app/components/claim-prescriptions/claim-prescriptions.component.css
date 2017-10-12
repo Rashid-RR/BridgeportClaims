@@ -257,20 +257,25 @@ th {
         margin-left: 25px;
     }
 }
-tbody>tr.bgBlue {
+tbody>tr td .btn-group.status button{
+    color:black;
+    background: transparent; 
+    font-size: 7.5pt;
+    font-family: 'Cambay', sans-serif !important;
+}
+tbody>tr.bgBlue{
     background: #56a1ff !important;
     color: white;
 }
-
-tbody>tr.bgBlue td {
-    color: white;
+tbody>tr.bgBlue td .btn-group.status button{
+    color:white;
 }
 tbody>tr.bgBlue td::selection,
 tbody>tr.bgBlue td a::selection {
-    background: transparent !important;
+    background: #56a1ff !important;
 }
 
-tbody>tr:hover {
+tbody>tr:hover,tbody>tr:hover td .btn-group.status button {
     background: #b6f1ff !important;
     cursor: pointer;
     color: #000;
@@ -336,12 +341,6 @@ thead span {
     border-bottom: 0px;
 }
 
-td .btn-group button.dropdown-toggle.status {
-    color: black !important;
-    background: transparent !important;
-}
-
 td .btn-group.open .dropdown-toggle {
     box-shadow: none;
-    z-index: 99;
 }

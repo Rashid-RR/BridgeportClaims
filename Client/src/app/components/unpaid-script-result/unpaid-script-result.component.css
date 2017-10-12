@@ -1,0 +1,120 @@
+td,
+th {
+    text-align: center;
+    font-size: 9pt;
+    font-family: 'Cambay', sans-serif !important;
+}
+tr>th:first-child,
+tr>td:first-child,
+tr>th:nth-child(3),
+tr>td:nth-child(3)
+{
+    width:9%;
+}
+tr>th:nth-child(2),
+tr>td:nth-child(2),
+tr>th:nth-child(5),
+tr>td:nth-child(5),
+tr>th:nth-child(8),
+tr>td:nth-child(8){
+    width:5%;
+}
+tr>th:nth-child(4),
+tr>td:nth-child(4),
+tr>th:nth-child(6),
+tr>td:nth-child(6),
+tr>th:nth-child(7),
+tr>td:nth-child(7),
+tr>th:nth-child(9), 
+tr>td:nth-child(9)
+{
+    width: 6.5%;
+}
+
+tr>th:nth-child(10),
+tr>td:nth-child(10),
+tr>th:nth-child(11),
+tr>td:nth-child(11),
+tr>th:nth-child(12),
+tr>td:nth-child(12),
+tr>th:last-child,
+tr>td:last-child{
+    width: 9.5%;
+}
+
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+    background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+    background: #fff8ef !important;
+}
+.claim-info.row,.col-sm-12.claim-col.expanded{
+    margin:0px;
+    padding:0px;   
+    overflow: hidden;     
+}
+.claim-col{
+    height:60px;
+}
+.expanded{
+    height: calc(100vh - 230px);
+    height: -moz-calc(100vh - 230px);
+    height: -webkit-calc(100vh - 230px);
+    height: -o-calc(100vh - 230px);
+    overflow:hidden;
+}
+.top-header,.table-body{
+    width:99%;
+}
+
+.top-header{
+    height:56px;
+    position: absolute;
+    overflow: hidden;
+}
+.table-body{
+    position: absolute;
+    top:56px;
+    max-height: calc(100% - 70px);
+    max-height: -moz-calc(100% - 70px);
+    max-height: -webkit-calc(100% - 70px);
+    max-height: -o-calc(100% - 70px);
+    overflow-y: auto;
+} 
+.top-header table{
+    height:99%;
+}
+tbody>tr:hover {
+    background: #b6f1ff !important;
+    cursor: pointer;
+  }
+  /*SORT*/
+
+thead span {
+    cursor: pointer;
+}
+
+.fa-unsorted:before,
+.fa-sort:before,
+.fa-sort-up:before,
+.fa-sort-asc:before,
+.fa-sort-down:before,
+.fa-sort-desc:before {
+    padding-right: 0.6rem;
+    font-size: 1.4rem;
+    color: #666;
+}
+
+.fa.rotate.fa-exchange {
+    margin-left: 0;
+}
+
+
+/*Unnecessary-space*/
+
+.table>thead>tr>th[_ngcontent-c9] {
+    border-bottom: 0px;
+}

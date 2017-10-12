@@ -456,7 +456,7 @@
         width: -webkit-calc(100vw - 230px)!important;
         width: -moz-calc(100vw - 230px)!important; */
     }
-
+  
     tbody>tr.isReversed,
     tbody>tr.isReversed:hover,
     tbody>tr.isReversed:hover td,
@@ -510,9 +510,7 @@
       display: flex;
       margin-top: -7px;
     }
-    .btn-group.flex2.open,
     .btn-group.flex2.open .dropdown-menu,
-    .btn-group.status.open,
     .btn-group.status.open .dropdown-menu
     {
       z-index:999999 !important;

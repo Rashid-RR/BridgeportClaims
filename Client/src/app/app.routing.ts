@@ -26,6 +26,7 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { DiaryComponent } from './pages/diary/diary.component';
+import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 
 export const routes: Routes = [
   {
@@ -72,6 +73,10 @@ export const routes: Routes = [
           {
             path: 'payors',
             component: PayorsComponent
+          },
+          {
+            path: 'unpaid-scripts',
+            component: UnpaidScriptComponent
           },
           {
             path: 'users',
