@@ -25,7 +25,7 @@
     .table-striped>tbody>tr.clr-change:nth-child(odd) {
         background-color: #fff8ef;
     }
-
+    
     .scroll-y {
       overflow-y: auto;
     }
@@ -456,17 +456,6 @@
         width: -webkit-calc(100vw - 230px)!important;
         width: -moz-calc(100vw - 230px)!important; */
     }
-  
-    tbody>tr.isReversed,
-    tbody>tr.isReversed:hover,
-    tbody>tr.isReversed:hover td,
-    tbody>tr.isReversed:hover td::selection,
-    tbody>tr.isReversed td .btn-group button.dropdown-toggle.status,
-    tbody>tr.isReversed:hover td .btn-group button.dropdown-toggle.status,
-    tbody>tr.isReversed:hover td .btn-group button.dropdown-toggle.status,
-    tbody>tr.isReversed:hover td::selection .btn-group button.dropdown-toggle.status{
-      color: red !important;
-    }
 
     .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(1),
     .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(1)
@@ -504,6 +493,14 @@
       background: #832121;
       color: #fff;
     }
+
+    tbody>tr.isReversed,
+    tbody>tr.isReversed:hover,
+    tbody>tr.isReversed:hover td,
+    tbody>tr.isReversed:hover td::selection,
+    tbody>tr.isReversed td .btn-group button.dropdown-toggle.status{
+      color: red !important;
+    }
     .btn-group.flex2,
     .btn-group.status{
       position: absolute;
@@ -516,8 +513,8 @@
       z-index:999999 !important;
     }
     .swal2-modal.prescription-modal{
-      width:600px !important;
-  }
+        width:600px !important;
+    }
     .swal2-modal.prescription-modal .calendar{
         position: absolute;;
         width:50%;
