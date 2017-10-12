@@ -504,6 +504,12 @@
       background: #832121;
       color: #fff;
     }
+    .btn-group.flex2,
+    .btn-group.status{
+      position: absolute;
+      display: flex;
+      margin-top: -7px;
+    }
     .btn-group.flex2.open,
     .btn-group.flex2.open .dropdown-menu,
     .btn-group.status.open,
