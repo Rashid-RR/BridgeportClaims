@@ -22,7 +22,7 @@ export class DiaryService {
       sort: "InsuranceCarrier",
       sortDirection: "ASC",
       page: 1,
-      pageSize: 500
+      pageSize: 5000
     }; 
     this.search();
   }

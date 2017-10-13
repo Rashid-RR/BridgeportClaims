@@ -167,7 +167,7 @@ export class PaymentScriptService {
             })
         },
         onOpen: function () {
-            $('#claimNumber').focus()
+            $('#lastName').focus()
         }
         }).then(inputs => {
             if (inputs[0] == '' && inputs[1] == '' && inputs[2] == '' && inputs[3] == '' && inputs[4] == '') {

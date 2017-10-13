@@ -29,9 +29,10 @@ import {ProfileComponent} from './pages/profile/profile.component';
 import { DiaryInputComponent } from './components/diary-input/diary-input.component';
 import { DiaryResultsComponent } from './components/diary-results/diary-results.component';
 import { DiaryComponent } from './pages/diary/diary.component';
+import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
  // services
 import { DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, 
-  PaymentScriptService} from './services/services.barrel';
+  PaymentScriptService,UnpaidScriptService} from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
@@ -48,7 +49,7 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
 import { DecimalPipe } from '@angular/common';
 import { PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
-  PaymentDetailedResultComponent,DiaryScriptNoteWindowComponent} from './components/components-barrel';
+  PaymentDetailedResultComponent,DiaryScriptNoteWindowComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent} from './components/components-barrel';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentComponent } from './pages/payment/payment.component';
@@ -92,7 +93,8 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
-    DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent
+    DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +110,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [
     DecimalPipe, DatePipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
-    PaymentScriptService, DiaryService,WindowsInjetor,
+    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

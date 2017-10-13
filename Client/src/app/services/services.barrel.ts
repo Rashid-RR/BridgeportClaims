@@ -7,4 +7,5 @@ export * from "./auth.guard";
 export * from "./signalr-service"
 export * from "./payment-service"
 export * from "./diary.service"
+export * from "./unpaid-script.service"
 export * from "./payment-script-service"
