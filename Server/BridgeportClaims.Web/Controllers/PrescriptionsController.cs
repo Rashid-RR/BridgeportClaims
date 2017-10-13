@@ -25,6 +25,8 @@ namespace BridgeportClaims.Web.Controllers
             _prescriptionsProvider = prescriptionsProvider;
         }
 
+        [HttpPost]
+        [Route("unpaid")]
         public IHttpActionResult GetUnpaidScripts(UnpaidScriptsViewModel model)
         {
             try

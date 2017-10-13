@@ -62,13 +62,13 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             var sortParam = new SqlParameter
             {
                 ParameterName = "SortColumn",
-                DbType = DbType.AnsiString,
+                DbType = DbType.String,
                 Value = sort
             };
             var sortDirectionParam = new SqlParameter
             {
                 ParameterName = "SortDirection",
-                DbType = DbType.AnsiString,
+                DbType = DbType.String,
                 Value = sortDirection
             };
             var pageParam = new SqlParameter
@@ -84,7 +84,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 DbType = DbType.Int32
             };
             var results = _executor.ExecuteMultiResultStoredProcedure<UnpaidScriptsDto>(
-                "EXECUTE [dbo].[uspGetUnpaidScripts] @StartDate = :StartDate, @EndDate = :EndDate, " +
+                "EXECUTE [dbo].[uspGetUnpaidScripts] @IsDefaultSort = :IsDefaultSort, @StartDate = :StartDate, @EndDate = :EndDate, " +
                 "@SortColumn = :SortColumn, @SortDirection = :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize",
                 new List<SqlParameter>
                 {
