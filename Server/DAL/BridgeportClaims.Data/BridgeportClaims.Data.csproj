@@ -116,6 +116,7 @@
     <Compile Include="Dtos\PrescriptionPaymentsDto.cs" />
     <Compile Include="Dtos\PrescriptionPostingAmountsDto.cs" />
     <Compile Include="Dtos\PrescriptionStatusDto.cs" />
+    <Compile Include="Dtos\UnpaidScriptsDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />
     <Compile Include="Mappings\AcctPayableMap.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
