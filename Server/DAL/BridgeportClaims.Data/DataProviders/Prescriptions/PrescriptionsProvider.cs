@@ -38,54 +38,56 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             return op;
         }
 
-        public IList<UnpaidScriptsDto> GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate, 
+        public IList<UnpaidScriptsDto> GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
             string sort, string sortDirection, int page, int pageSize)
         {
-            IList<SqlParameter> list = new List<SqlParameter>();
-            var isDefaultSortParam = new SqlParameter("@IsDefaultSort", SqlDbType.Int);
-            isDefaultSortParam.Value = isDefaultSortParam;
-            list.Add(isDefaultSortParam);
-           /*var startDateParam = new SqlParameter
+            var isDefaultSortParam = new SqlParameter
             {
-                ParameterName = "StartDate",
-                DbType = DbType.Date,
-                Value = startDate
+                ParameterName = "IsDefaultSort",
+                Value = isDefaultSort,
+                DbType = DbType.Boolean
             };
-            var endDateParam = new SqlParameter
-            {
-                ParameterName = "EndDate",
-                Value = endDate,
-                DbType = DbType.Date
-            };
-            var sortParam = new SqlParameter
-            {
-                ParameterName = "SortColumn",
-                DbType = DbType.String,
-                Value = sort
-            };
-            var sortDirectionParam = new SqlParameter
-            {
-                ParameterName = "SortDirection",
-                DbType = DbType.String,
-                Value = sortDirection
-            };
-            var pageParam = new SqlParameter
-            {
-                ParameterName = "PageNumber",
-                DbType = DbType.Int32,
-                Value = page
-            };
-            var pageSizeParam = new SqlParameter
-            {
-                ParameterName = "PageSize",
-                Value = pageSize,
-                DbType = DbType.Int32
-            };*/
+            var startDateParam = new SqlParameter
+             {
+                 ParameterName = "StartDate",
+                 DbType = DbType.Date,
+                 Value = startDate
+             };
+             var endDateParam = new SqlParameter
+             {
+                 ParameterName = "EndDate",
+                 Value = endDate,
+                 DbType = DbType.Date
+             };
+             var sortParam = new SqlParameter
+             {
+                 ParameterName = "SortColumn",
+                 DbType = DbType.String,
+                 Value = sort
+             };
+             var sortDirectionParam = new SqlParameter
+             {
+                 ParameterName = "SortDirection",
+                 DbType = DbType.String,
+                 Value = sortDirection
+             };
+             var pageParam = new SqlParameter
+             {
+                 ParameterName = "PageNumber",
+                 DbType = DbType.Int32,
+                 Value = page
+             };
+             var pageSizeParam = new SqlParameter
+             {
+                 ParameterName = "PageSize",
+                 Value = pageSize,
+                 DbType = DbType.Int32
+             };
             var results = _executor.ExecuteMultiResultStoredProcedure<UnpaidScriptsDto>(
                 "EXECUTE [dbo].[uspGetUnpaidScripts] @IsDefaultSort = :IsDefaultSort, @StartDate = :StartDate, @EndDate = :EndDate, " +
                 "@SortColumn = :SortColumn, @SortDirection = :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize",
-                list)?.ToList();
-                return results;
+                new List<SqlParameter> {isDefaultSortParam, startDateParam, endDateParam, sortParam, sortDirectionParam, pageParam, pageSizeParam})?.ToList();
+            return results;
         }
     }
 }
