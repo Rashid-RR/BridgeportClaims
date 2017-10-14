@@ -42,6 +42,12 @@
                   <span>Diary</span>
                 </a>
          </li>
+         <li>
+          <a [routerLink]="!disableLinks ? '/main/unpaid-scripts' : []" [class.disabled]="disableLinks">            
+                <i class="fa fa-money"></i> 
+                <span>Unpaid Scriipts</span>
+              </a>
+        </li>
          <li class="header" style="color:white;font-size:14pt">
             <i class="fa fa-shield"></i>
             <span>ADMINISTRATION</span>
@@ -56,12 +62,6 @@
         <a [routerLink]="!disableLinks ? '/main/users'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
               <i class="fa fa-user fa-fw"></i> 
               <span>Users</span>
-            </a>
-      </li>
-      <li>
-        <a [routerLink]="!disableLinks ? '/main/unpaid-scripts' : []" [class.disabled]="disableLinks">            
-              <i class="fa fa-money"></i> 
-              <span>Unpaid Scriipts</span>
             </a>
       </li>
       <li class="header" style="color:white;font-size:14pt">
