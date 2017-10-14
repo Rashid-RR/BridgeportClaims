@@ -37,7 +37,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 Direction = ParameterDirection.Output
             };
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
+            {   
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspGetAmountRemaining]", conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -239,7 +239,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     var checkAmtOrdinal = reader.GetOrdinal("CheckAmt");
                     var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
                     var rxDateOrdinal = reader.GetOrdinal("RxDate");
-                    var invoiceNumberOrdinal = reader.GetOrdinal("InvoiceNumber");
                     while (reader.Read())
                     {
                         var record = new PrescriptionPaymentsDto
@@ -249,12 +248,11 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                             PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
                             PrescriptionPaymentId = reader.GetInt32(prescriptionPaymentIdOrdinal),
                             RxDate = reader.GetDateTime(rxDateOrdinal),
-                            RxNumber = reader.GetString(rxNumberOrdinal)
+                            RxNumber = reader.GetString(rxNumberOrdinal),
+
                         };
                         if (!reader.IsDBNull(postedDateOrdinal))
                             record.PostedDate = reader.GetDateTime(postedDateOrdinal);
-                        if (!reader.IsDBNull(invoiceNumberOrdinal))
-                            record.InvoiceNumber = reader.GetString(invoiceNumberOrdinal);
                         retVal.Add(record);
                     }
                     return retVal;

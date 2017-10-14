@@ -6,6 +6,8 @@ namespace BridgeportClaims.Data.Dtos
     [Serializable]
     public class UnpaidScriptsDto
     {
+        public string Owner { get; set; }
+        public DateTime? Created { get; set; }
         [Required]
         public int PrescriptionId { get; set; }
         [Required]

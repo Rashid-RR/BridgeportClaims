@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
+using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Prescriptions
 {
@@ -40,54 +42,118 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
 
         public IList<UnpaidScriptsDto> GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
             string sort, string sortDirection, int page, int pageSize)
-        {
-            var isDefaultSortParam = new SqlParameter
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                ParameterName = "IsDefaultSort",
-                Value = isDefaultSort,
-                DbType = DbType.Boolean
-            };
-            var startDateParam = new SqlParameter
-             {
-                 ParameterName = "StartDate",
-                 DbType = DbType.Date,
-                 Value = startDate
-             };
-             var endDateParam = new SqlParameter
-             {
-                 ParameterName = "EndDate",
-                 Value = endDate,
-                 DbType = DbType.Date
-             };
-             var sortParam = new SqlParameter
-             {
-                 ParameterName = "SortColumn",
-                 DbType = DbType.String,
-                 Value = sort
-             };
-             var sortDirectionParam = new SqlParameter
-             {
-                 ParameterName = "SortDirection",
-                 DbType = DbType.String,
-                 Value = sortDirection
-             };
-             var pageParam = new SqlParameter
-             {
-                 ParameterName = "PageNumber",
-                 DbType = DbType.Int32,
-                 Value = page
-             };
-             var pageSizeParam = new SqlParameter
-             {
-                 ParameterName = "PageSize",
-                 Value = pageSize,
-                 DbType = DbType.Int32
-             };
-            var results = _executor.ExecuteMultiResultStoredProcedure<UnpaidScriptsDto>(
-                "EXECUTE [dbo].[uspGetUnpaidScripts] @IsDefaultSort = :IsDefaultSort, @StartDate = :StartDate, @EndDate = :EndDate, " +
-                "@SortColumn = :SortColumn, @SortDirection = :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize",
-                new List<SqlParameter> {isDefaultSortParam, startDateParam, endDateParam, sortParam, sortDirectionParam, pageParam, pageSizeParam})?.ToList();
-            return results;
-        }
+                return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetUnpaidScripts]", conn), cmd =>
+                    {
+                        return DisposableService.Using(cmd.ExecuteReader, reader =>
+                        {
+                            var isDefaultSortParam = new SqlParameter
+                            {
+                                ParameterName = "@IsDefaultSort",
+                                Value = isDefaultSort,
+                                DbType = DbType.Boolean,
+                                SqlDbType = SqlDbType.Bit,
+                                Direction = ParameterDirection.Input
+                            };
+                            var startDateParam = new SqlParameter
+                            {
+                                ParameterName = "@StartDate",
+                                DbType = DbType.Date,
+                                Value = startDate,
+                                SqlDbType = SqlDbType.Date,
+                                Direction = ParameterDirection.Input
+                            };
+                            var endDateParam = new SqlParameter
+                            {
+                                ParameterName = "@EndDate",
+                                Value = endDate,
+                                DbType = DbType.Date,
+                                Direction = ParameterDirection.Input,
+                                SqlDbType = SqlDbType.Date
+                            };
+                            var sortParam = new SqlParameter
+                            {
+                                ParameterName = "@SortColumn",
+                                DbType = DbType.String,
+                                Value = sort,
+                                Direction= ParameterDirection.Input,
+                                SqlDbType = SqlDbType.NVarChar
+                            };
+                            var sortDirectionParam = new SqlParameter
+                            {
+                                ParameterName = "@SortDirection",
+                                DbType = DbType.String,
+                                Value = sortDirection,
+                                SqlDbType = SqlDbType.VarChar,
+                                Direction = ParameterDirection.Input
+                            };
+                            var pageParam = new SqlParameter
+                            {
+                                ParameterName = "@PageNumber",
+                                DbType = DbType.Int32,
+                                Value = page,
+                                Direction = ParameterDirection.Input,
+                                SqlDbType = SqlDbType.Int
+                            };
+                            var pageSizeParam = new SqlParameter
+                            {
+                                ParameterName = "@PageSize",
+                                Value = pageSize,
+                                DbType = DbType.Int32,
+                                SqlDbType = SqlDbType.Int
+                            };
+                            cmd.Parameters.Add(isDefaultSortParam);
+                            cmd.Parameters.Add(startDateParam);
+                            cmd.Parameters.Add(endDateParam);
+                            cmd.Parameters.Add(sortParam);
+                            cmd.Parameters.Add(sortDirectionParam);
+                            cmd.Parameters.Add(pageParam);
+                            cmd.Parameters.Add(pageSizeParam);
+                            IList <UnpaidScriptsDto> retVal = new List<UnpaidScriptsDto>();
+                            var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionId");
+                            var claimIdOrdinal = reader.GetOrdinal("ClaimId");
+                            var ownerOrdinal = reader.GetOrdinal("Owner");
+                            var patientNameOrdinal = reader.GetOrdinal("PatientName");
+                            var claimNumberOrdinal = reader.GetOrdinal("ClaimNumber");
+                            var invoiceNumberOrdinal = reader.GetOrdinal("InvoiceNumber");
+                            var invDateOrdinal = reader.GetOrdinal("InvDate");
+                            var invAmtOrdinal = reader.GetOrdinal("InvAmt");
+                            var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
+                            var rxDateOrdinal = reader.GetOrdinal("RxDate");
+                            var labelNameOrdinal = reader.GetOrdinal("LabelName");
+                            var insuranceCarrierOrdinal = reader.GetOrdinal("InsuranceCarrier");
+                            var pharmacyStateOrdinal = reader.GetOrdinal("PharmacyState");
+                            var adjustorNameOrdinal = reader.GetOrdinal("AdjustorName");
+                            var adjustorPhoneOrdinal = reader.GetOrdinal("AdjustorPhone");
+                            if (conn.State != ConnectionState.Open)
+                                conn.Open();
+                            while (reader.Read())
+                            {
+                                var record = new UnpaidScriptsDto
+                                {
+                                    PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
+                                    ClaimId = reader.GetInt32(claimIdOrdinal),
+                                    Owner = reader.IsDBNull(ownerOrdinal) ? null : reader.GetString(ownerOrdinal),
+                                    PatientName = reader.GetString(patientNameOrdinal),
+                                    ClaimNumber = reader.GetString(claimNumberOrdinal),
+                                    InvoiceNumber = reader.GetString(invoiceNumberOrdinal),
+                                    InvoiceDate = reader.GetDateTime(invDateOrdinal),
+                                    InvAmt = reader.GetDecimal(invAmtOrdinal),
+                                    RxNumber = reader.GetString(rxNumberOrdinal),
+                                    RxDate = reader.GetDateTime(rxDateOrdinal),
+                                    LabelName = reader.GetString(labelNameOrdinal),
+                                    InsuranceCarrier = reader.GetString(insuranceCarrierOrdinal),
+                                    PharmacyState = reader.GetString(pharmacyStateOrdinal),
+                                    AdjustorName = reader.GetString(adjustorNameOrdinal),
+                                    AdjustorPhone = reader.GetString(adjustorPhoneOrdinal)
+
+                                };
+                                retVal.Add(record);
+                            }
+                            return retVal;
+                        });
+                    });
+            });
     }
 }
