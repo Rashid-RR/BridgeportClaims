@@ -15,6 +15,7 @@ export class UnpaidScriptComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.us.search();
   }
 
 }

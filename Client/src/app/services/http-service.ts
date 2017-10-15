@@ -394,8 +394,10 @@ export class HttpService {
         this.toast.error(err.message);
       } else if (res.status == 500) {
         this.toast.error('A server error was detected. Please contact your system administrator.');
+        this.events.broadcast("loading-error",true);
       }else if (res.status == 0 || res.status == 504) {
         this.toast.error('Cannot reach the server. Please check your network connection.');
+        this.events.broadcast("loading-error",true);
       }
   }
   getPrescriptions(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
@@ -466,6 +468,13 @@ export class HttpService {
   }
   diaryList(data:any): Observable<Response> {
     return this.http.post(this.baseUrl + '/diary/get', data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  unpaidScriptsList(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/prescriptions/unpaid', data, { headers: this.headers })
     .catch(err =>  {
       this.handleResponseError(err);
         return Observable.throw(err);

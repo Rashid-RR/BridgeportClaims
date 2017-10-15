@@ -23,8 +23,7 @@ export class DiaryService {
       sortDirection: "ASC",
       page: 1,
       pageSize: 5000
-    }; 
-    this.search();
+    };
   }
 
   refresh() {

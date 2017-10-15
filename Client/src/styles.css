@@ -525,6 +525,6 @@
         text-align:left !important;
     }
 
-    dialog-wrapper .modal-dialog .modal-content{
+    .ngPopup .modal-dialog .modal-content{
       overflow-y: auto !important;
     }

@@ -19,7 +19,7 @@
                 Adjustor Fax : {{claim.adjustorFaxNumber || claim.adjustorPhoneNumber}}<br>
                 Flex 2: <div class="btn-group flex2">
                     <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                        {{claim.flex2 || 'Not Set'}} <i class="fa fa-sort"></i>
+                        {{claim.flex2}} <i class="fa fa-sort"></i>
                     </button>
                     <ul class="dropdown-menu" role="menu">
                         <li *ngFor="let flex of claim.getFlex2;" [class.active]="flex.flex2==claim.flex2" (click)="claimManager.changeFlex2(claim,flex)"><a style="cursor:pointer;">{{flex.flex2}}</a></li>

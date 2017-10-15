@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../../services/http-service";
+import { EventsService } from "../../services/events-service";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { User } from "../../models/user";
@@ -18,7 +19,7 @@ export class UsersComponent implements OnInit {
   users: Array<User> = [];
   pageNumber: number;
   pageSize: number = 5;
-  loading: boolean;
+  loading: boolean=false;
   userRole = 'User';
   adminRole = 'Admin';
   isAdmin = undefined;
@@ -27,6 +28,7 @@ export class UsersComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
   constructor(
+    private events: EventsService,
     private http: HttpService,
     private formBuilder: FormBuilder,
     private dialogService: DialogService,
@@ -51,6 +53,9 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.events.on("loading-error",(v)=>{
+        this.loading = false;
+    });
   }
 
   getUsers(pageNumber: number) {
@@ -71,8 +76,12 @@ export class UsersComponent implements OnInit {
         this.users.push(element);
       });
       this.pageNumber = pageNumber;
+      this.loading = false;
     }, err => {
-      //console.log(err);
+      this.loading = false;
+    },()=>{
+      console.log("test..");
+      this.loading = false;
     })
   }
 

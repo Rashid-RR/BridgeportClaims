@@ -12,9 +12,12 @@ export class DiaryComponent implements OnInit {
 
   constructor(
     private ds: DiaryService
-  ) { }
+  ) { 
+    
+  }
 
   ngOnInit() {
+    this.ds.search();
   }
 
 }

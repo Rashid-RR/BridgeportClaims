@@ -19,8 +19,8 @@ export class UnpaidScriptService {
       isDefaultSort: true,
       startDate: null,
       endDate: null,
-      sort: "InsuranceCarrier",
-      sortDirection: "ASC",
+      sort: 'created',
+      sortDirection: 'DESC',
       page: 1,
       pageSize: 5000
     }; 
@@ -45,8 +45,24 @@ export class UnpaidScriptService {
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');
     } else {
-      //this.loading = true;
-       
+      this.loading = true;
+       this.http.unpaidScriptsList(this.data).map(res => { return res.json(); })
+        .subscribe((result: any) => {
+          this.loading = false;
+          this.unpaidscripts= Immutable.OrderedMap<Number, UnpaidScript>(); 
+          result.forEach((script:UnpaidScript)=>{
+            try{
+                this.unpaidscripts = this.unpaidscripts.set(script.claimId,script);
+            }catch(e){}           
+          });          
+        }, err => {
+          this.loading = false;
+          try {
+            const error = err.json(); 
+          } catch (e) { }
+        }, () => {
+          this.events.broadcast('unpaid-script-list-updated');
+        }); 
     }
   }
 
