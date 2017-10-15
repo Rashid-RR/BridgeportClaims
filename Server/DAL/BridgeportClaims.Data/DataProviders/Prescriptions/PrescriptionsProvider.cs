@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
@@ -103,6 +104,8 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                                 DbType = DbType.Int32,
                                 SqlDbType = SqlDbType.Int
                             };
+                            //if (conn.State != ConnectionState.Open)
+                                conn.Open();
                             cmd.Parameters.Add(isDefaultSortParam);
                             cmd.Parameters.Add(startDateParam);
                             cmd.Parameters.Add(endDateParam);
@@ -126,32 +129,40 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                             var pharmacyStateOrdinal = reader.GetOrdinal("PharmacyState");
                             var adjustorNameOrdinal = reader.GetOrdinal("AdjustorName");
                             var adjustorPhoneOrdinal = reader.GetOrdinal("AdjustorPhone");
-                            if (conn.State != ConnectionState.Open)
-                                conn.Open();
-                            while (reader.Read())
+                            try
                             {
-                                var record = new UnpaidScriptsDto
+                                while (reader.Read())
                                 {
-                                    PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
-                                    ClaimId = reader.GetInt32(claimIdOrdinal),
-                                    Owner = reader.IsDBNull(ownerOrdinal) ? null : reader.GetString(ownerOrdinal),
-                                    PatientName = reader.GetString(patientNameOrdinal),
-                                    ClaimNumber = reader.GetString(claimNumberOrdinal),
-                                    InvoiceNumber = reader.GetString(invoiceNumberOrdinal),
-                                    InvoiceDate = reader.GetDateTime(invDateOrdinal),
-                                    InvAmt = reader.GetDecimal(invAmtOrdinal),
-                                    RxNumber = reader.GetString(rxNumberOrdinal),
-                                    RxDate = reader.GetDateTime(rxDateOrdinal),
-                                    LabelName = reader.GetString(labelNameOrdinal),
-                                    InsuranceCarrier = reader.GetString(insuranceCarrierOrdinal),
-                                    PharmacyState = reader.GetString(pharmacyStateOrdinal),
-                                    AdjustorName = reader.GetString(adjustorNameOrdinal),
-                                    AdjustorPhone = reader.GetString(adjustorPhoneOrdinal)
+                                    var record = new UnpaidScriptsDto
+                                    {
+                                        PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
+                                        ClaimId = reader.GetInt32(claimIdOrdinal),
+                                        Owner = reader.IsDBNull(ownerOrdinal) ? null : reader.GetString(ownerOrdinal),
+                                        PatientName = reader.GetString(patientNameOrdinal),
+                                        ClaimNumber = reader.GetString(claimNumberOrdinal),
+                                        InvoiceNumber = reader.GetString(invoiceNumberOrdinal),
+                                        InvoiceDate = reader.GetDateTime(invDateOrdinal),
+                                        InvAmt = reader.GetDecimal(invAmtOrdinal),
+                                        RxNumber = reader.GetString(rxNumberOrdinal),
+                                        RxDate = reader.GetDateTime(rxDateOrdinal),
+                                        LabelName = reader.GetString(labelNameOrdinal),
+                                        InsuranceCarrier = reader.GetString(insuranceCarrierOrdinal),
+                                        PharmacyState = reader.GetString(pharmacyStateOrdinal),
+                                        AdjustorName = reader.GetString(adjustorNameOrdinal),
+                                        AdjustorPhone = reader.GetString(adjustorPhoneOrdinal)
 
-                                };
-                                retVal.Add(record);
+                                    };
+                                    retVal.Add(record);
+                                }
+                                return retVal;
                             }
-                            return retVal;
+                            catch
+                            {
+                                throw new Exception("Cannot connect to the database.");
+                            }
+                            {
+                                conn.Dispose();
+                            }
                         });
                     });
             });
