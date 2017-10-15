@@ -8,6 +8,7 @@ import { DatePipe,DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import {WindowsInjetor,CustomPosition,Size,WindowConfig} from "../ng-window";
 import {DiaryScriptNoteWindowComponent} from "../../components/components-barrel";
+declare var  $:any; 
 
 @Component({
   selector: 'app-claim-script-note',
@@ -37,8 +38,15 @@ export class ClaimScriptNoteComponent implements OnInit {
     });
   }
   showNoteWindow(note:PrescriptionNote){
+    let win = $("body:not(.sidebar-collapse)");
+    var minusLeft = 50,x=0,y=0;
+    if(win.length>0){
+        minusLeft = 230;
+    }
+    x=(window.innerWidth - 580)/2+minusLeft;
+    y = (window.innerHeight - 250)/2;
     let config = new WindowConfig("Prescription Note", new Size(250, 600))  //height, width
-    config.position=new CustomPosition(50+Math.random()*200, 100)//left,top
+    config.position=new CustomPosition(x, y)//left,top
     config.minusTop = 91;      
     config.centerInsideParent=false;
     var temp={}
