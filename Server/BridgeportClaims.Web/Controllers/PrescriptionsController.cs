@@ -5,6 +5,7 @@ using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Enums;
+using BridgeportClaims.Web.Models;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -22,6 +23,23 @@ namespace BridgeportClaims.Web.Controllers
         {
             _claimsDataProvider = claimsDataProvider;
             _prescriptionsProvider = prescriptionsProvider;
+        }
+
+        [HttpPost]
+        [Route("unpaid")]
+        public IHttpActionResult GetUnpaidScripts(UnpaidScriptsViewModel model)
+        {
+            try
+            {
+                var list = _prescriptionsProvider.GetUnpaidScripts(model.IsDefaultSort, model.StartDate, model.EndDate,
+                    model.Sort, model.SortDirection, model.Page, model.PageSize);
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

@@ -307,6 +307,8 @@
     <Compile Include="Models\RoleReturnModel.cs" />
     <Compile Include="Models\SaveEpisodeModel.cs" />
     <Compile Include="Models\SuspenseViewModel.cs" />
+    <Compile Include="Models\UnpaidScriptsDto.cs" />
+    <Compile Include="Models\UnpaidScriptsViewModel.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
     <Compile Include="Models\UserPaymentPostingSession.cs" />
     <Compile Include="Models\UsersInRoleModel.cs" />

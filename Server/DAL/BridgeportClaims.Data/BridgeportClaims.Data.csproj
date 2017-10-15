@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="D:\Jordan\Development\VSO\ImportFileProviderB.cs" />
     <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
@@ -69,7 +70,6 @@
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
     <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
     <Compile Include="DataProviders\ImportFiles\IImportFileProvider.cs" />
-    <Compile Include="DataProviders\ImportFiles\ImportFileProvider.cs" />
     <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\IPrescriptionPaymentProvider.cs" />
@@ -116,6 +116,7 @@
     <Compile Include="Dtos\PrescriptionPaymentsDto.cs" />
     <Compile Include="Dtos\PrescriptionPostingAmountsDto.cs" />
     <Compile Include="Dtos\PrescriptionStatusDto.cs" />
+    <Compile Include="Dtos\UnpaidScriptsDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />
     <Compile Include="Mappings\AcctPayableMap.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
