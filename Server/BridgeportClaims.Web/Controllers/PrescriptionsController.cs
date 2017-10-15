@@ -31,8 +31,9 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_prescriptionsProvider.GetUnpaidScripts(model.IsDefaultSort, model.StartDate, model.EndDate,
-                    model.Sort, model.SortDirection, model.Page, model.PageSize));
+                var list = _prescriptionsProvider.GetUnpaidScripts(model.IsDefaultSort, model.StartDate, model.EndDate,
+                    model.Sort, model.SortDirection, model.Page, model.PageSize);
+                return Ok(list);
             }
             catch (Exception ex)
             {
