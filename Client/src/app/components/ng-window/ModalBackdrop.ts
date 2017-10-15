@@ -14,12 +14,13 @@ import {global} from "./utils";
         '[style.left]': 'left',
         '[style.right]': 'right',
         '[style.bottom]': 'bottom',
+        '[style.background-color]': 'backgroundColor'
         // '[hidden]':'!dialog.config.BlockParentUI',
 
         //  '[style.z-index]': "BackdropZindex"
 
     },
-    template: '<div [hidden]="!dialog.config.BlockParentUI"  [style.position]="position" [style.z-index]="BackdropZindex" class="in modal-backdrop my" #modalBackdrop></div>'
+    template: '<div  [style.position]="position" [style.z-index]="BackdropZindex" [style.background-color]="backgroundColor" class="in modal-backdrop my" #modalBackdrop></div>'
 })
 export class WindowBackdrop {
     public position: string;
@@ -29,11 +30,12 @@ export class WindowBackdrop {
     public left: string;
     public right: string;
     public bottom: string;
+    public backgroundColor: string;
     BackdropZindex: number;
 
     constructor(public dialog: WindowInstance) {
         this.BackdropZindex = global.MaxZIndex++;
-
+        this.backgroundColor = 'white';
         //if (!dialog.inElement) {
             this.position = this.width = this.height = null;
             this.top = this.left = this.right = this.bottom = null;

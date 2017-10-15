@@ -1,17 +1,17 @@
 <div class="container-fluid" *ngIf="note">
     <b>
-      <div class="row heading">
+      <div class="row heading" style="text-align:center;">
       <div class="col-xs-2">Rx Date</div>
       <div class="col-xs-2" style="padding-left:0px;">Rx Number</div>
       <div class="col-xs-2">Updated</div>
       <div class="col-xs-3">Note Type</div>
       <div class="col-xs-3">By</div>
     </div></b>
-    <div class="row">
+    <div class="row" style="text-align:center;">
       <div class="col-xs-2"> {{note.rxDate | date:"shortDate"}} </div>
       <div class="col-xs-2" style="padding-left:0px;"> {{note.rxNumber}} </div>
       <div class="col-xs-2"> {{note.noteUpdatedOn| date:"shortDate"}} </div>
-      <div class="col-xs-3 label label-info"> {{note.type}} </div>
+      <div class="col-xs-3"> <div class="label label-info" style="padding:3px 5px;">{{note.type}}</div></div>
       <div class="col-xs-3"> {{note.enteredBy}} </div>
     </div>
   </div>

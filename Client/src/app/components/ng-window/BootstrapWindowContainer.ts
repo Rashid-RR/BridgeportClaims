@@ -200,7 +200,8 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
         if (!this.dialogInstance.config.canMaximize)
             return;
         var x=0,y=0;            
-
+        $(".ngPopup .titleBar .iconGroup").css({"margin-top":"0px"});
+        $(".ngPopup .titleBar .iconGroup span").css({"color":"lightgrey"});
         let win = $("body:not(.sidebar-collapse)");
         if (!this.MaxmizeStatus )
         {
@@ -283,6 +284,8 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
         {
 
             $(".ngPopup .modal-content").css({"padding":"0px"});
+            $(".ngPopup .titleBar .iconGroup").css({"margin-top":"7px"});
+            $(".ngPopup .titleBar .iconGroup span").css({"color":"black"});
             if (this.MaxmizeStatus)
             {
 
@@ -311,6 +314,8 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
         else//return from minimize
         {
             $(".ngPopup .modal-content").css({"padding":"15px"});
+            $(".ngPopup .titleBar .iconGroup").css({"margin-top":"0px"});
+            $(".ngPopup .titleBar .iconGroup span").css({"color":"lightgrey"});
             global.MaxZIndex++
             this.dialogInstance.config.position.top = this._originalTop;
             this.dialogInstance.config.position.left = this._originalLeft;
