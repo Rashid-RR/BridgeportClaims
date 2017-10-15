@@ -46,8 +46,7 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
         }    
         try {
             let us = JSON.parse(user);
-            //console.log(this.profileManager.userProfile(us.userName));
-            if(childRoute.url[0].path == 'users'){
+             if(childRoute.url[0].path == 'users' || childRoute.url[0].path == 'fileupload'){
               var allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin')>-1);
                 return Observable.of(allowed)
             }else{
