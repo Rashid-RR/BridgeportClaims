@@ -134,11 +134,13 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                                 InsuranceCarrier = reader.GetString(insuranceCarrierOrdinal),
                                 PharmacyState = reader.GetString(pharmacyStateOrdinal),
                                 AdjustorName = !reader.IsDBNull(adjustorNameOrdinal)
-                                            ? reader.GetString(adjustorNameOrdinal)
-                                            : string.Empty,
+                                    ? reader.GetString(adjustorNameOrdinal)
+                                    : string.Empty,
                                 AdjustorPhone = !reader.IsDBNull(adjustorPhoneOrdinal)
+                                    ? reader.GetString(adjustorPhoneOrdinal)
+                                    : string.Empty
+                            };
                             retVal.Add(record);
-                            ///conn.Close();
                         }
                         return retVal;
                     });
