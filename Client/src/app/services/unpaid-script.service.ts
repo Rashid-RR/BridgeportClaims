@@ -19,8 +19,8 @@ export class UnpaidScriptService {
       isDefaultSort: true,
       startDate: null,
       endDate: null,
-      sort: 'created',
-      sortDirection: 'DESC',
+      sort: 'RxDate',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 5000
     }; 
@@ -37,7 +37,7 @@ export class UnpaidScriptService {
   onSortColumn(info: SortColumnInfo) {
     this.data.isDefaultSort = false;
     this.data.sort = info.column;
-    this.data.sortDirection = info.dir;
+    this.data.sortDirection = info.dir.toUpperCase();
     this.search();
   }
   

@@ -49,7 +49,7 @@
                     </tr>
                 </thead>
             </table>
-        </div>
+        </div><br/>
         <div class="table-responsive table-body scroll-y">           
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #prescriptionTable tabindex="0">
@@ -80,7 +80,7 @@
                             <td class="text-right">{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
                             <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
                             <td>
-                                <div class="btn-group status">
+                                <div class="btn-group status" [style.margin-left]="!prescription.status? '2%' : '0px'">
                                     <button type="button" class="btn btn-box-tool dropdown-toggle status" data-toggle="dropdown">
                                         {{prescription.status}} <i class="fa fa-sort"></i>
                                     </button>

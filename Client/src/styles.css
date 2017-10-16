@@ -504,7 +504,7 @@
     .btn-group.flex2,
     .btn-group.status{
       position: absolute;
-      display: flex;
+      display: inline-flex;
       margin-top: -7px;
     }
     .btn-group.flex2.open .dropdown-menu,
