@@ -8,7 +8,7 @@ using NLog;
 namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
-    [Route("api/kpi")]
+    [RoutePrefix("api/kpi")]
     public class KpiController : BaseApiController
     {
         private readonly IKpiProvider _kpiProvider;
