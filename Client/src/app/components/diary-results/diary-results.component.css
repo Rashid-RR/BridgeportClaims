@@ -66,11 +66,15 @@ tr:nth-of-type(even) {
     overflow:hidden;
 }
 .top-header,.table-body{
-    width:99%;
+    width:98%;
 }
 
 .top-header{
     height:56px;
+    width: calc(98% - 15px);
+    width: -webkit-calc(98% - 15px);
+    width: -o-calc(98% - 15px);
+    width: -moz-calc(98% - 15px);
     position: absolute;
     overflow: hidden;
 }
