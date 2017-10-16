@@ -90,7 +90,8 @@ tr>th:nth-child(11),
 tr>td:nth-child(11) {
     text-align: center;
     width: 8%;
-}tr>th:nth-child(11),
+}
+tr>th:nth-child(11),
 tr>td:nth-child(11) {
     display:flex;
 }
