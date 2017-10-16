@@ -19,8 +19,8 @@ export class UnpaidScriptService {
       isDefaultSort: true,
       startDate: null,
       endDate: null,
-      sort: 'created',
-      sortDirection: 'DESC',
+      sort: 'RxDate',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 5000
     }; 
