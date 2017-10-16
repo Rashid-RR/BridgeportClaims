@@ -37,7 +37,7 @@ export class UnpaidScriptService {
   onSortColumn(info: SortColumnInfo) {
     this.data.isDefaultSort = false;
     this.data.sort = info.column;
-    this.data.sortDirection = info.dir;
+    this.data.sortDirection = info.dir.toUpperCase();
     this.search();
   }
   

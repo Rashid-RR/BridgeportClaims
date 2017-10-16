@@ -43,9 +43,7 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
     //if(this.startDate && this.endDate){
       this.us.data.startDate = this.startDate || null
       this.us.data.endDate = this.endDate || null
-      if(this.us.data.endDate){
-        this.us.data.endDate.toUpperCase();
-      }
+      
       this.us.search();
    /*  }else{
         this.toast.warning("Ensure you select both start date and end date");
