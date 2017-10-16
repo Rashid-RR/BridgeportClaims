@@ -16,8 +16,9 @@ export class UnpaidScript {
     rxDate:Date;
     rxNumber:String;
     invAmt:String;  
+    pharmacyState:String;  
 constructor(claimId:Number,prescriptionId:Number,claimNumber:Number,invAmt:Number,invoiceNumber:String,created:Date,owner:String,
-    insuranceCarrier:String,labelName:String,adjustorName:String,adjustorPhone:String,invoiceDate:Date,rxDate:Date,rxNumber:String,patientName:String){
+    insuranceCarrier:String,labelName:String,adjustorName:String,adjustorPhone:String,invoiceDate:Date,rxDate:Date,rxNumber:String,patientName:String,pharmacyState:String){
     this.prescriptionId = prescriptionId;
     this.claimId = claimId;
     this.insuranceCarrier = insuranceCarrier;
@@ -32,6 +33,7 @@ constructor(claimId:Number,prescriptionId:Number,claimNumber:Number,invAmt:Numbe
     this.owner = owner;
     this.rxNumber = rxNumber;
     this.invoiceNumber = invoiceNumber;
+    this.pharmacyState = pharmacyState;
   }
 
 }
