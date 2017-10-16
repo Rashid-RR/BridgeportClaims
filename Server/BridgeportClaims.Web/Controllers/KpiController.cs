@@ -27,8 +27,8 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var month = DateTime.Now.Month;
-                    var year = DateTime.Now.Year;
+                    var month = DateTime.UtcNow.ToLocalTime().Month;
+                    var year = DateTime.UtcNow.ToLocalTime().Year;
                     var results = _kpiProvider.GetPaymentTotalsDtos(month, year);
                     return Ok(results);
                 });
