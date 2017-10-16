@@ -1,32 +1,31 @@
 // unpaid-script.ts
-
  
 export class UnpaidScript {
     claimId:Number;
-    scriptId:Number;
+    prescriptionId:Number;
     owner:String;
     patientName:String;
     insuranceCarrier:String;
     labelName:String;
     claimNumber:Number;
-    adjustor:String;
-    adjustorPhoneNumber:String;
+    adjustorName:String;
+    adjustorPhone:String;
     created:Date;
     invoiceDate:Date;
     invoiceNumber:String;
     rxDate:Date;
     rxNumber:String;
-    invoiceAmount:String;  
-constructor(claimId:Number,scriptId:Number,claimNumber:Number,invoiceAmount:Number,invoiceNumber:String,created:Date,owner:String,
-    insuranceCarrier:String,labelName:String,adjustor:String,adjustorPhoneNumber:String,invoiceDate:Date,rxDate:Date,rxNumber:String,patientName:String){
-    this.scriptId = scriptId;
+    invAmt:String;  
+constructor(claimId:Number,prescriptionId:Number,claimNumber:Number,invAmt:Number,invoiceNumber:String,created:Date,owner:String,
+    insuranceCarrier:String,labelName:String,adjustorName:String,adjustorPhone:String,invoiceDate:Date,rxDate:Date,rxNumber:String,patientName:String){
+    this.prescriptionId = prescriptionId;
     this.claimId = claimId;
     this.insuranceCarrier = insuranceCarrier;
     this.labelName = labelName;
     this.patientName = patientName;
     this.claimNumber = claimNumber;
-    this.adjustor= adjustor;
-    this.adjustorPhoneNumber = adjustorPhoneNumber;
+    this.adjustorName= adjustorName;
+    this.adjustorPhone = adjustorPhone;
     this.created = created;
     this.invoiceDate = invoiceDate;
     this.rxDate = rxDate;

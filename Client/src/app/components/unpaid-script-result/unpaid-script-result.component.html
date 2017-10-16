@@ -24,7 +24,7 @@
                             <span columnSort="invoiceDate" [sort-table]="myTable">Inv Date</span>
                         </th>
                         <th>
-                            <span columnSort="invoiceAmount" [sort-table]="myTable">Inv Amt</span>
+                            <span columnSort="invAmt" [sort-table]="myTable">Inv Amt</span>
                         </th>
                         <th>
                             <span columnSort="rxNumber" [sort-table]="myTable">Rx #</span>                            
@@ -39,10 +39,10 @@
                             <span columnSort="insuranceCarrier" [sort-table]="myTable">Insurance Carrier</span>
                         </th>
                         <th>
-                            <span columnSort="adjustor" [sort-table]="myTable">Adjustor Name</span>
+                            <span columnSort="adjustorName" [sort-table]="myTable">Adjustor Name</span>
                         </th>
                         <th>
-                            <span columnSort="adjustorPhoneNumber" [sort-table]="myTable">Adjustor Phone</span>
+                            <span columnSort="adjustorPhone" [sort-table]="myTable">Adjustor Phone</span>
                         </th>
                     </tr>
                 </thead>
@@ -58,14 +58,14 @@
                         <td>{{unpaidScript.patientName}}</td>
                         <td>{{unpaidScript.claimNumber}}</td>
                         <td>{{unpaidScript.invoiceNumber}}</td>
-                        <td>{{unpaidScript.invoiceAmount}}</td>
-                        <td>{{unpaidScript.invoiceDate}}</td>
+                        <td>{{unpaidScript.invAmt  | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{unpaidScript.invoiceDate | date:"shortDate"}}</td>
                         <td>{{unpaidScript.rxNumber}}</td>
                         <td>{{unpaidScript.rxDate | date:"shortDate"}}</td>
                         <td>{{unpaidScript.labelName}}</td>
                         <td>{{unpaidScript.insuranceCarrier}}</td>
-                        <td>{{unpaidScript.adjustor}}</td>
-                        <td>{{unpaidScript.adjustorPhoneNumber}}</td>
+                        <td>{{unpaidScript.adjustorName}}</td>
+                        <td>{{unpaidScript.adjustorPhone}}</td>
                     </tr>
                 </tbody>
             </table>
