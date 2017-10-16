@@ -43,7 +43,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetUnpaidScripts]", conn), cmd =>
                 {
                     var isDefaultSortParam = cmd.CreateParameter();
-                    isDefaultSortParam.ParameterName = "IsDefaultSort";
+                    isDefaultSortParam.ParameterName = "@IsDefaultSort";
                     isDefaultSortParam.Value = isDefaultSort;
                     isDefaultSortParam.DbType = DbType.Boolean;
                     isDefaultSortParam.SqlDbType = SqlDbType.Bit;
@@ -117,28 +117,22 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         {
                             var record = new UnpaidScriptsDto
                             {
-                                PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
-                                ClaimId = reader.GetInt32(claimIdOrdinal),
+                                PrescriptionId = !reader.IsDBNull(prescriptionIdOrdinal) ? reader.GetInt32(prescriptionIdOrdinal) : 0,
+                                ClaimId = !reader.IsDBNull(claimIdOrdinal) ? reader.GetInt32(claimIdOrdinal) : 0,
                                 Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
-                                Created = !reader.IsDBNull(createdOrdinal)
-                                    ? reader.GetDateTime(createdOrdinal)
-                                    : DateTime.UtcNow,
-                                PatientName = reader.GetString(patientNameOrdinal),
-                                ClaimNumber = reader.GetString(claimNumberOrdinal),
-                                InvoiceNumber = reader.GetString(invoiceNumberOrdinal),
-                                InvoiceDate = reader.GetDateTime(invDateOrdinal),
-                                InvAmt = reader.GetDecimal(invAmtOrdinal),
-                                RxNumber = reader.GetString(rxNumberOrdinal),
-                                RxDate = reader.GetDateTime(rxDateOrdinal),
-                                LabelName = reader.GetString(labelNameOrdinal),
-                                InsuranceCarrier = reader.GetString(insuranceCarrierOrdinal),
-                                PharmacyState = reader.GetString(pharmacyStateOrdinal),
-                                AdjustorName = !reader.IsDBNull(adjustorNameOrdinal)
-                                    ? reader.GetString(adjustorNameOrdinal)
-                                    : string.Empty,
-                                AdjustorPhone = !reader.IsDBNull(adjustorPhoneOrdinal)
-                                    ? reader.GetString(adjustorPhoneOrdinal)
-                                    : string.Empty
+                                Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow,
+                                PatientName = !reader.IsDBNull(patientNameOrdinal) ? reader.GetString(patientNameOrdinal) : string.Empty,
+                                ClaimNumber = !reader.IsDBNull(claimNumberOrdinal) ? reader.GetString(claimNumberOrdinal) : string.Empty,
+                                InvoiceNumber = !reader.IsDBNull(invoiceNumberOrdinal) ? reader.GetString(invoiceNumberOrdinal) : string.Empty,
+                                InvoiceDate = !reader.IsDBNull(invDateOrdinal) ? reader.GetDateTime(invDateOrdinal) : new DateTime(),
+                                InvAmt = !reader.IsDBNull(invAmtOrdinal) ? reader.GetDecimal(invAmtOrdinal) : 0.00m,
+                                RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
+                                RxDate = !reader.IsDBNull(rxDateOrdinal) ? reader.GetDateTime(rxDateOrdinal) : new DateTime(),
+                                LabelName = !reader.IsDBNull(labelNameOrdinal) ? reader.GetString(labelNameOrdinal) : string.Empty,
+                                InsuranceCarrier = !reader.IsDBNull(insuranceCarrierOrdinal) ? reader.GetString(insuranceCarrierOrdinal) : string.Empty,
+                                PharmacyState = !reader.IsDBNull(pharmacyStateOrdinal) ? reader.GetString(pharmacyStateOrdinal) : string.Empty,
+                                AdjustorName = !reader.IsDBNull(adjustorNameOrdinal) ? reader.GetString(adjustorNameOrdinal) : string.Empty,
+                                AdjustorPhone = !reader.IsDBNull(adjustorPhoneOrdinal) ? reader.GetString(adjustorPhoneOrdinal) : string.Empty
                             };
                             retVal.Add(record);
                         }
