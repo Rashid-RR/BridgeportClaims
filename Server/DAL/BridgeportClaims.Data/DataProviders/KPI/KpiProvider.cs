@@ -30,7 +30,7 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                         {
                             var paymentTotals = session
                                 .CreateSQLQuery(@"SELECT  DatePosted = CONVERT(DATE, pp.DatePosted)
-                                , SUM(pp.AmountPaid) Totals
+                                , SUM(pp.AmountPaid) TotalPosted
                                 FROM    dbo.PrescriptionPayment AS pp
                                 WHERE YEAR(CONVERT(DATE, pp.DatePosted)) = :Year
                             AND MONTH(CONVERT(DATE, pp.DatePosted)) = :Month
