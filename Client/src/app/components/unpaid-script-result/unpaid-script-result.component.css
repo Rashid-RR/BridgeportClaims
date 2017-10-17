@@ -11,6 +11,33 @@ tr>td:nth-child(3)
 {
     width:9%;
 }
+.btn-group.status
+{
+    width:8% !important;
+}
+tr>th:first-child,
+tr>td:first-child{
+    display: flex;
+    text-align: left !important;
+}
+tbody>tr td .btn-group.status button{
+    color:black;
+    background: transparent; 
+    font-size: 7.5pt;
+    font-family: 'Cambay', sans-serif !important;
+}
+tbody>tr.bgBlue{
+    background: #56a1ff !important;
+    color: white;
+}
+tbody>tr.bgBlue td .btn-group.status button{
+    color:white;
+}
+tbody>tr:hover,tbody>tr:hover td .btn-group.status button {
+    background: #b6f1ff !important;
+    cursor: pointer;
+    color: #000;
+}
 tr>th:nth-child(2),
 tr>td:nth-child(2),
 tr>th:nth-child(5),
@@ -71,7 +98,7 @@ tr:nth-of-type(even) {
 }
 
 .top-header{
-    height:56px;
+    height:46px;
     width: calc(98% - 15px);
     width: -webkit-calc(98% - 15px);
     width: -o-calc(98% - 15px);
@@ -81,11 +108,11 @@ tr:nth-of-type(even) {
 }
 .table-body{
     position: absolute;
-    top:56px;
-    max-height: calc(100% - 70px);
-    max-height: -moz-calc(100% - 70px);
-    max-height: -webkit-calc(100% - 70px);
-    max-height: -o-calc(100% - 70px);
+    top:40px;
+    max-height: calc(100% - 80px);
+    max-height: -moz-calc(100% - 80px);
+    max-height: -webkit-calc(100% - 80px);
+    max-height: -o-calc(100% - 80px);
     overflow-y: auto;
     overflow-x: hidden;
 } 
@@ -122,4 +149,7 @@ thead span {
 
 .table>thead>tr>th[_ngcontent-c9] {
     border-bottom: 0px;
+}
+td .btn-group.open .dropdown-toggle {
+    box-shadow: none;
 }

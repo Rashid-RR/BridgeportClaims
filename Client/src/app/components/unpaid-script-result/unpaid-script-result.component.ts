@@ -19,7 +19,17 @@ export class UnpaidScriptResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-  
+    
+  }
+  next(){
+      this.uss.data.page++;
+      this.uss.search();
+  }
+  prev(){
+    if(this.uss.data.page>1){
+      this.uss.data.page--;
+      this.uss.search();
+    }
   }
  
 
