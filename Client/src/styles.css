@@ -425,7 +425,7 @@
     }
 
     .overlay {
-      position: absolute;
+      position: fixed;
       top: 0;
       bottom: 0;
       height: 100% !important;
@@ -443,20 +443,23 @@
       transform: translateY(-50%);
     }
 
-    body.sidebar-collapse .overlay {
-      /* width: calc(100vw - 49px)!important;
+    body.sidebar-collapse .overlay{
+      /*  width: calc(100vw - 49px)!important;
         width: -o-calc(100vw - 49px)!important;
         width: -webkit-calc(100vw - 49px)!important;
         width: -moz-calc(100vw - 49px)!important; */
+     
     }
 
     body:not(.sidebar-collapse) .overlay {
-      /* width: calc(100vw - 230px)!important;
+     /*  width: calc(100vw - 230px)!important;
         width: -o-calc(100vw - 230px)!important;
         width: -webkit-calc(100vw - 230px)!important;
         width: -moz-calc(100vw - 230px)!important; */
     }
-
+     body:not(.sidebar-collapse) .overlay>img {
+      left: 45%;
+  }
     .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(1),
     .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(1)
      {
