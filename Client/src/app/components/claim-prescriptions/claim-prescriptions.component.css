@@ -88,13 +88,10 @@ tr>th:nth-child(10),
 tr>td:nth-child(10),
 tr>th:nth-child(11),
 tr>td:nth-child(11) {
-    text-align: center;
     width: 8%;
+    display: flex;
 }
-tr>th:nth-child(11),
-tr>td:nth-child(11) {
-    display:flex;
-}
+ 
 
 tr>th:last-child,
 tr>td:last-child {
@@ -297,10 +294,10 @@ tbody>tr:hover td::selection {
 }
 
 .top-header {
-    width: calc(98% - 15px);
-    width: -webkit-calc(98% - 15px);
-    width: -o-calc(98% - 15px);
-    width: -moz-calc(98% - 15px);
+    width: 98%;
+    width: 98%;
+    width: 98%;
+    width: 98%;
     height: 56px;
     position: absolute;
     overflow: hidden;
@@ -308,10 +305,10 @@ tbody>tr:hover td::selection {
 
 .table-body {
     position: absolute;
-    min-width: calc(98% - 15px);
-    min-width: -webkit-calc(98% - 15px);
-    min-width: -o-calc(98% - 15px);
-    min-width: -moz-calc(98% - 15px);
+    min-width: 98%;
+    min-width: 98%;
+    min-width: 98%;
+    min-width: 98%;
     width: 98%;
     top: 33px;
     height: calc(100% - 33px);

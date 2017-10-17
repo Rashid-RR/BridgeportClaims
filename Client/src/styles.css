@@ -506,11 +506,19 @@
       position: absolute;
       display: inline-flex;
       margin-top: -7px;
+      width: 7.5%;
+    }
+    .btn-group.flex2 button,
+    .btn-group.status button{
+       width: 100%;
+       text-align: center;
     }
     .btn-group.flex2.open .dropdown-menu,
     .btn-group.status.open .dropdown-menu
     {
       z-index:999999 !important;
+      min-width: 70px;
+      font-size: 10px;
     }
     .swal2-modal.prescription-modal{
         width:600px !important;
