@@ -536,6 +536,7 @@
         text-align:left !important;
     }
 
-    .ngPopup .modal-dialog .modal-content{
-      overflow-y: auto !important;
+    .ngPopup .modal-dialog .modal-content,
+    .modal-dialog .modal-content{
+      overflow-y: hidden !important;
     }
