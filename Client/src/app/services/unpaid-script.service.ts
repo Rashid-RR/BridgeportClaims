@@ -41,20 +41,33 @@ export class UnpaidScriptService {
     this.search();
   }
   
-  search(){
+  search(next:Boolean=false,prev:Boolean=false){
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-       this.http.unpaidScriptsList(this.data).map(res => { return res.json(); })
+      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+      if(next){
+        data.page++;
+      }
+      if(prev && data.page>1){
+        data.page--;
+      }
+       this.http.unpaidScriptsList(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
           this.unpaidscripts= Immutable.OrderedMap<Number, UnpaidScript>(); 
           result.forEach((script:UnpaidScript)=>{
             try{
-                this.unpaidscripts = this.unpaidscripts.set(script.claimId,script);
+              this.unpaidscripts = this.unpaidscripts.set(script.claimId,script);
             }catch(e){}           
-          });          
+          }); 
+          if(next){
+            this.data.page++;
+          }
+          if(prev && this.data.page !=data.page){
+            this.data.page--;
+          }         
         }, err => {
           this.loading = false;
           try {
