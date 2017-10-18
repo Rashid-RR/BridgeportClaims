@@ -98,8 +98,6 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         IList<UnpaidScriptsDto> retVal = new List<UnpaidScriptsDto>();
                         var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionId");
                         var claimIdOrdinal = reader.GetOrdinal("ClaimId");
-                        var ownerOrdinal = reader.GetOrdinal("Owner");
-                        var createdOrdinal = reader.GetOrdinal("Created");
                         var patientNameOrdinal = reader.GetOrdinal("PatientName");
                         var claimNumberOrdinal = reader.GetOrdinal("ClaimNumber");
                         var invoiceNumberOrdinal = reader.GetOrdinal("InvoiceNumber");
@@ -117,10 +115,8 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         {
                             var record = new UnpaidScriptsDto
                             {
-                                PrescriptionId = !reader.IsDBNull(prescriptionIdOrdinal) ? reader.GetInt32(prescriptionIdOrdinal) : 0,
-                                ClaimId = !reader.IsDBNull(claimIdOrdinal) ? reader.GetInt32(claimIdOrdinal) : 0,
-                                Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
-                                Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow,
+                                PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
+                                ClaimId = reader.GetInt32(claimIdOrdinal),
                                 PatientName = !reader.IsDBNull(patientNameOrdinal) ? reader.GetString(patientNameOrdinal) : string.Empty,
                                 ClaimNumber = !reader.IsDBNull(claimNumberOrdinal) ? reader.GetString(claimNumberOrdinal) : string.Empty,
                                 InvoiceNumber = !reader.IsDBNull(invoiceNumberOrdinal) ? reader.GetString(invoiceNumberOrdinal) : string.Empty,

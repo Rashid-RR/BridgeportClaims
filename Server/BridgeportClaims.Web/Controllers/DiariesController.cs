@@ -42,7 +42,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var results = _diaryProvider.GetDiaries(model.IsDefaultSort, model.StartDate, model.EndDate,
-                    model.Sort, model.SortDirection, model.Page, model.PageSize);
+                    model.Sort, model.SortDirection, model.Page, model.PageSize, model.Closed);
                 return Ok(results);
             }
             catch (Exception ex)

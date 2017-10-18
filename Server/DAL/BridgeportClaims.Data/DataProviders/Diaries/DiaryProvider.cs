@@ -18,7 +18,7 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
         }
 
         public IList<DiariesDto> GetDiaries(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sortColumn, string sortDirection, int pageNumber, int pageSize)
+            string sortColumn, string sortDirection, int pageNumber, int pageSize, bool closed)
         {
             var isDefaultSortParam = new SqlParameter
             {
@@ -62,10 +62,16 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                 DbType = DbType.Int32,
                 Value = pageSize
             };
+            var closedParam = new SqlParameter
+            {
+                ParameterName = "Closed",
+                Value = closed,
+                DbType = DbType.Boolean
+            };
             var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<DiariesDto>(
                 "EXECUTE dbo.uspGetDiaries @IsDefaultSort = :IsDefaultSort, @StartDate = :StartDate," +
-                "@EndDate = :EndDate, @SortColumn = :SortColumn, @SortDirection = :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize",
-                new List<SqlParameter> { isDefaultSortParam, startDateParam, endDateParam, sortColumnParam, sortDirectionParam, pageNumberParam, pageSizeParam })?.ToList();
+                "@EndDate = :EndDate, @SortColumn = :SortColumn, @SortDirection = :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize, @Closed = :Closed",
+                new List<SqlParameter> { isDefaultSortParam, startDateParam, endDateParam, sortColumnParam, sortDirectionParam, pageNumberParam, pageSizeParam, closedParam })?.ToList();
             return retVal;
         }
 

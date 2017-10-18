@@ -3,12 +3,10 @@
 namespace BridgeportClaims.Data.Dtos
 {
     [Serializable]
-    public class UnpaidScriptsDto
+    public sealed class UnpaidScriptsDto
     {
         public int PrescriptionId { get; set; }
         public int ClaimId { get; set; }
-        public string Owner { get; set; }
-        public DateTime? Created { get; set; }
         public string PatientName { get; set; }
         public string ClaimNumber { get; set; }
         public string InvoiceNumber { get; set; }

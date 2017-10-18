@@ -13,5 +13,6 @@ namespace BridgeportClaims.Data.Dtos
         public string EnteredBy { get; set; }
         public string Note { get; set; }
         public DateTime? NoteUpdatedOn { get; set; }
+        public bool HasDiaryEntry { get; set; }
     }
 }
