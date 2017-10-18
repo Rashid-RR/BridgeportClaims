@@ -228,17 +228,20 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
-									@"SELECT DISTINCT [ClaimId] = [a].[ClaimID]
-													, [PrescriptionNoteId] = [a].[PrescriptionNoteId]
-													, a.DateFilled RxDate
-													, a.RxNumber
-													, [Type] = [a].[PrescriptionNoteType]
-													, [EnteredBy] = [a].[NoteAuthor]
-													, [Note] = [a].[NoteText]
-													, [NoteUpdatedOn] = [a].[NoteUpdatedOn]
-												FROM [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
-												WHERE [a].[ClaimID] = :ClaimID
-												ORDER BY a.DateFilled DESC, a.RxNumber ASC")
+                                     @"SELECT DISTINCT
+                                                    [ClaimId]              = [a].[ClaimID]
+                                                    , [PrescriptionNoteId] = [a].[PrescriptionNoteID]
+                                                    , RxDate               = a.DateFilled
+                                                    , a.RxNumber
+                                                    , [Type]               = [a].[PrescriptionNoteType]
+                                                    , [EnteredBy]          = [a].[NoteAuthor]
+                                                    , [Note]               = [a].[NoteText]
+                                                    , [NoteUpdatedOn]      = [a].[NoteUpdatedOn]
+		                                            , HasDiaryEntry		   = CAST(CASE WHEN d.DiaryID IS NOT NULL THEN 1 ELSE 0 END AS BIT)
+                                        FROM        [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
+			                                        LEFT JOIN dbo.Diary AS d ON d.PrescriptionNoteID = a.PrescriptionNoteID
+                                        WHERE       [a].[ClaimID] = 775
+                                        ORDER BY    a.DateFilled DESC, a.RxNumber ASC")
 								.SetInt32("ClaimID", claimId)
 								.SetMaxResults(5000)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
