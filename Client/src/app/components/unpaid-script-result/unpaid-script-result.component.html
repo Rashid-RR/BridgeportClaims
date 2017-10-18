@@ -2,7 +2,7 @@
     <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
         <!-- Table Header -->
         <div class="table-responsive top-header">
-            <table class="table no-margin table-striped" border=1>
+            <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="uss.onSortColumn($event)" #myTable='table-sort'>
                         <!-- <th>
@@ -50,7 +50,7 @@
         </div>
         <!-- Table Body -->
         <div class="table-responsive table-body">
-            <table class="table no-margin table-striped" id="maintable" border=1>
+            <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #unpaidScriptTable tabindex="0">
                     <tr *ngFor="let unpaidScript of uss.unpaidScriptList;">
                        <!--  <td>
