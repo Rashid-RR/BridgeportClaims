@@ -2,15 +2,15 @@
     <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
         <!-- Table Header -->
         <div class="table-responsive top-header">
-            <table class="table no-margin table-striped">
+            <table class="table no-margin table-striped" border=1>
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="uss.onSortColumn($event)" #myTable='table-sort'>
-                        <th>
+                        <!-- <th>
                             <span columnSort="owner" [sort-table]="myTable">Owner</span>
                         </th>
                         <th>
                             <span columnSort="created" [sort-table]="myTable">Created</span>
-                        </th>
+                        </th> -->
                         <th>
                             <span columnSort="patientName" [sort-table]="myTable">Patient Name</span>
                         </th>
@@ -53,7 +53,7 @@
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #unpaidScriptTable tabindex="0">
                     <tr *ngFor="let unpaidScript of uss.unpaidScriptList;">
-                        <td>
+                       <!--  <td>
                             <div class="btn-group status">
                                 <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
                                     {{unpaidScript.owner}} <i class="fa fa-sort pull-right"></i>
@@ -64,7 +64,7 @@
                                     <li><a>Owner 3</a></li>
                                 </ul>
                             </div>
-                        </td>
+                        </td> -->
                         <td>{{unpaidScript.created  | date:"shortDate"}}</td>
                         <td>{{unpaidScript.patientName}}</td>
                         <td>{{unpaidScript.claimNumber}}</td>
