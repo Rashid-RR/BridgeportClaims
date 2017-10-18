@@ -11,5 +11,6 @@ namespace BridgeportClaims.Web.Models
         public string SortDirection { get; set; }
         public int Page { get; set; }
         public int PageSize { get; set; }
+        public bool Closed { get; set; }
     }
 }

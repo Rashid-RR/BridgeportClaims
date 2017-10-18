@@ -239,8 +239,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                                                     , [NoteUpdatedOn]      = [a].[NoteUpdatedOn]
 		                                            , HasDiaryEntry		   = CAST(CASE WHEN d.DiaryID IS NOT NULL THEN 1 ELSE 0 END AS BIT)
                                         FROM        [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
-			                                        LEFT JOIN dbo.Diary AS d ON d.PrescriptionNoteID = a.PrescriptionNoteID
-                                        WHERE       [a].[ClaimID] = 775
+			                                        LEFT JOIN dbo.Diary AS d ON d.PrescriptionNoteID = a.PrescriptionNoteID AND d.DateResolved IS NULL
+                                        WHERE       [a].[ClaimID] = :ClaimID
                                         ORDER BY    a.DateFilled DESC, a.RxNumber ASC")
 								.SetInt32("ClaimID", claimId)
 								.SetMaxResults(5000)
