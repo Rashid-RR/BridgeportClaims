@@ -8,6 +8,7 @@
             <th>Rx Number</th>
             <th>Updated</th>
             <th>Type</th>
+            <th>Has Diary</th>
             <th>By</th>
             <th>Notes</th>
           </tr>
@@ -18,6 +19,7 @@
             <td>{{pNotes.rxNumber}}</td>
             <td>{{pNotes.noteUpdatedOn | date:"shortDate"}}</td>
             <td>{{pNotes.type}}</td>
+            <td><img src="assets/img/if_Book_edit_33543.png" width="24px" *ngIf="pNotes.hasDiaryEntry"/></td>
             <td>{{pNotes.enteredBy}}</td>
             <td>{{pNotes.note}}</td>
           </tr>

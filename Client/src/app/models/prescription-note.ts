@@ -7,7 +7,8 @@ export class PrescriptionNote{
     rxDate:Date;
     rxNumber:Number;
     prescriptionNoteId:Number;
-      constructor(prescriptionNoteId:Number,noteUpdatedOn:Date,enteredBy:String,type:String,note:String,rxDate:Date,rxNumber:Number){
+    hasDiaryEntry:boolean;
+      constructor(prescriptionNoteId:Number,noteUpdatedOn:Date,enteredBy:String,type:String,note:String,rxDate:Date,rxNumber:Number,hasDiaryEntry:boolean){
           this.prescriptionNoteId = prescriptionNoteId;
           this.noteUpdatedOn = noteUpdatedOn;
           this.type = type;
@@ -15,5 +16,6 @@ export class PrescriptionNote{
           this.note = note;
           this.rxDate = rxDate;
           this.rxNumber = rxNumber;
+          this.hasDiaryEntry = hasDiaryEntry;
       }
 }

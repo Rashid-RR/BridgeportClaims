@@ -40,15 +40,20 @@ tr>td:nth-child(2){
 }
 tr>th:nth-child(4),
 tr>td:nth-child(4),
-tr>th:nth-child(5),
-tr>td:nth-child(5) {
+tr>th:nth-child(6),
+tr>td:nth-child(6) {
   width: 12%;
 }
 
-tr>th:nth-child(6),
-tr>td:nth-child(6) {
-  width: 48%;
+tr>th:nth-child(7),
+tr>td:nth-child(7) {
+  width: 40%;
   padding-right: 2px !important;
+}
+
+tr>th:nth-child(5),
+tr>td:nth-child(5){
+  width: 8%;
 }
 
 /* ROW COLOR CHANGE*/

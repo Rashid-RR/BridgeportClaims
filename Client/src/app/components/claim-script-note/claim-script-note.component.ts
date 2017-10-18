@@ -67,18 +67,18 @@ export class ClaimScriptNoteComponent implements OnInit {
       html:
         `<div class="container-fluid">
           <div class="row heading">
-            <div class="col-xs-4">Rx Date</div>
-            <div class="col-xs-4">Rx Number</div>
-            <div class="col-xs-4">Updated</div>
-            <div class="col-xs-4">Note Type</div>
-            <div class="col-xs-4">By</div>
+            <div class="col-xs-2">Rx Date</div>
+            <div class="col-xs-2">Rx Number</div>
+            <div class="col-xs-2">Updated</div>
+            <div class="col-xs-2">Note Type</div>
+            <div class="col-xs-3">By</div>
           </div>
           <div class="row">
-            <div class="col-xs-4">` + rxDate + `</div>
-            <div class="col-xs-4">` + note.rxNumber + `</div>
-            <div class="col-xs-4">` + noteUpdatedOn + `</div>
-            <div class="col-xs-4 label label-info">` + note.type + `</div>
-            <div class="col-xs-4">` + note.enteredBy + `</div>
+            <div class="col-xs-2">` + rxDate + `</div>
+            <div class="col-xs-2">` + note.rxNumber + `</div>
+            <div class="col-xs-2">` + noteUpdatedOn + `</div>
+            <div class="col-xs-2 label label-info">` + note.type + `</div>
+            <div class="col-xs-3">` + note.enteredBy + `</div>
           </div>
         </div>
         <div class="form-group" style="margin-top: 1.2rem;">
@@ -89,11 +89,25 @@ export class ClaimScriptNoteComponent implements OnInit {
       showCancelButton: true,
       showCloseButton: true,
       showLoaderOnConfirm: true,
-      showConfirmButton: false,
-      cancelButtonText: "Dismiss",
+      showConfirmButton: note.hasDiaryEntry,
+      confirmButtonText:'Remove from Diary',
+      //confirmButtonColor: '#992727',
+      focusCancel: true,
+      cancelButtonText: "Done",
       onOpen: function () {
-        window['jQuery']('#note').focus()
+         
       }
+    }).then((result)=>{
+        swal({ title: "", html: "Saving changes... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
+        .catch(swal.noop);
+        this.http.removeFromDiary(note.prescriptionNoteId)
+        .map(res => { return res.json() }).subscribe(res => { 
+            swal.close();
+            this.toast.success(res.message);
+            note.hasDiaryEntry = false;
+        },err=>{
+          this.toast.error(err.message);
+        })
     }).catch(swal.noop)
   }
 
