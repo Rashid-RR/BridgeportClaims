@@ -41,3 +41,15 @@ li.file-uploads {
 li.user-management {
     background: url('/assets/img/private-5.png') no-repeat;
 }
+
+#container {
+	min-width: calc(90vw - 210px);
+	min-width: -moz-calc(90vw - 210px);
+	min-width: -webkit-calc(90vw - 210px);
+	min-width: -o-calc(90vw - 210px);
+	max-width: 90vw;
+	margin: 0 auto;
+}
+.highcharts-drilldown-data-label text, .highcharts-drilldown-axis-label {
+    text-decoration: none !important;
+}

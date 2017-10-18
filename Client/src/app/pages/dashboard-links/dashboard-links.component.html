@@ -3,11 +3,16 @@
         <div id="private-nav">
             <ul>
                 <li class="diaries" routerLink="/main/diary"></li>
-                <li class="user-management" routerLink="/main/users"></li>
+                <li class="user-management" routerLink="/main/users" *ngIf="allowed"></li>
                 <li class="claims" routerLink="/main/claims"></li>
-                <li class="file-uploads" routerLink="/main/fileupload"></li>
+                <li class="file-uploads" routerLink="/main/fileupload" *ngIf="allowed"></li>
                 <li class="payments" routerLink="/main/payments"></li>
             </ul>
+        </div>
+        <div class="row" *ngIf="allowed">
+            <div class="col-md-12 full-height">
+                <div id="container"></div>
+            </div>
         </div>
     </div>
 </div>
