@@ -14,13 +14,13 @@ import {global} from "./utils";
         '[style.left]': 'left',
         '[style.right]': 'right',
         '[style.bottom]': 'bottom',
-        '[style.background-color]': 'backgroundColor'
-        // '[hidden]':'!dialog.config.BlockParentUI',
+        '[style.background-color]': 'backgroundColor',
+        //'[hidden]':'dialog.config.BlockParentUI',
 
         //  '[style.z-index]': "BackdropZindex"
 
     },
-    template: '<div  [style.position]="position" [style.z-index]="BackdropZindex" [style.background-color]="backgroundColor" class="in modal-backdrop my" #modalBackdrop></div>'
+    template: '<div [hidden]="!dialog.config.BlockParentUI" [style.position]="position" [style.z-index]="BackdropZindex" [style.background-color]="backgroundColor" class="in modal-backdrop my" #modalBackdrop></div>'
 })
 export class WindowBackdrop {
     public position: string;
