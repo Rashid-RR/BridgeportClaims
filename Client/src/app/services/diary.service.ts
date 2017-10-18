@@ -19,6 +19,7 @@ export class DiaryService {
       isDefaultSort: true,
       startDate: null,
       endDate: null,
+      closed:false,
       sort: "InsuranceCarrier",
       sortDirection: "ASC",
       page: 1,

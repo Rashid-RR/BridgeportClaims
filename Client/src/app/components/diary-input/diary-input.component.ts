@@ -15,6 +15,9 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
   diaryForm: FormGroup;
   startDate: String;
   endDate: String;
+  open:Boolean=false;
+  closed:Boolean=false;
+  isClosed:Boolean=false;
   constructor(
     private ds: DiaryService,
     private toast: ToastsManager,
@@ -38,9 +41,13 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     $('[data-mask]').inputmask();
   }
 
+  setClosed(value){
+    this.isClosed=value;
+  }
   search() {
     this.startDate = $('#startDate').val();
     this.endDate = $('#endDate').val();
+    this.ds.data.closed=this.isClosed;
     //if(this.startDate && this.endDate){
       this.ds.data.startDate = this.startDate || null
       this.ds.data.endDate = this.endDate || null

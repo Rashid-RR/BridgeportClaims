@@ -154,8 +154,7 @@ export class ClaimsComponent implements OnInit {
                       <div class="col-sm-12">
                         <div class="form-group">
                             <label>&nbsp;</label><br/>
-                          <button class="btn bg-primary btn-flat btn-small add-to-diary" type="button" style="color:white">Add to Diary</button>
-                          <button class="btn btn-default btn-flat btn-small remove-from-diary" type="button">Remove from Diary</button>                      
+                          <button class="btn bg-primary btn-flat btn-small add-to-diary" type="button" style="color:white">Add to Diary</button>                          
                         </div>
                       </div>
                     </div>

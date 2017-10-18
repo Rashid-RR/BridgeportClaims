@@ -50,7 +50,7 @@
         </div>
         <!-- Table Body -->
         <div class="table-responsive table-body">
-            <table class="table no-margin table-striped" id="maintable">
+            <table class="table no-margin table-striped" id="maintable" border=1>
                 <tbody class="overflowable" #unpaidScriptTable tabindex="0">
                     <tr *ngFor="let unpaidScript of uss.unpaidScriptList;">
                        <!--  <td>
@@ -64,8 +64,8 @@
                                     <li><a>Owner 3</a></li>
                                 </ul>
                             </div>
-                        </td> -->
-                        <td>{{unpaidScript.created  | date:"shortDate"}}</td>
+                        </td>
+                        <td>{{unpaidScript.created  | date:"shortDate"}}</td>-->
                         <td>{{unpaidScript.patientName}}</td>
                         <td>{{unpaidScript.claimNumber}}</td>
                         <td>{{unpaidScript.invoiceNumber}}</td>

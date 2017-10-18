@@ -22,7 +22,22 @@
                 </div>
             </div>
         </div>
-
+        <div class="col-md-1 no-padding">
+            <div class="form-group green">
+                <label>&nbsp;</label><br/>
+                <input type="radio" id="f-option" name="selector" value="false"  [(ngModel)]="open" (ngModelChange)="setClosed(false)">
+                <label for="f-option" class="check-label">Open</label>                
+                <div class="check"></div>
+            </div>
+        </div>
+        <div class="col-md-1 no-padding">
+            <div class="form-group red">
+                <label>&nbsp;</label><br/>
+                <input type="radio" id="f-option1" name="selector" value="true" [(ngModel)]="closed" (ngModelChange)="setClosed(true)">
+                <label for="f-option1" class="check-label">Closed</label>                
+                <div class="check"></div>
+            </div>
+        </div>
         <div class="col-sm-2 col-md-2">
             <div class="form-group">
                 <label>&nbsp;</label><br/>
