@@ -16,7 +16,7 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
   diaryForm: FormGroup;
   startDate: String;
   endDate: String;
-  open:Boolean=false;
+  open:boolean=true;
   closed:Boolean=false;
   isClosed:Boolean=false;
   constructor(
@@ -45,6 +45,7 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
 
   setClosed(value){
     this.isClosed=value;
+    this.search();
   }
   search() {
     let startDate = this.dp.transform($('#startDate').val(), "dd/M/yyyy");

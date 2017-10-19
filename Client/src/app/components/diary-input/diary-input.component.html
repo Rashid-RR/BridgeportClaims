@@ -18,14 +18,14 @@
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input class="form-control pull-right" id="endDate" name="endDate" type="text"  [(ngModel)]="endDate"  (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                    <input class="form-control pull-right" id="endDate" name="endDate" type="text" [(ngModel)]="endDate"  (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
                 </div>
             </div>
         </div>
         <div class="col-md-1 no-padding">
             <div class="form-group green">
                 <label>&nbsp;</label><br/>
-                <input type="radio" id="f-option" name="selector" value="false"  [(ngModel)]="open" (ngModelChange)="setClosed(false)">
+                <input type="radio" id="f-option" name="selector" ([ngModel])="open" (change)="setClosed(false)" [checked]="open"/>
                 <label for="f-option" class="check-label">Open</label>                
                 <div class="check"></div>
             </div>
@@ -33,7 +33,7 @@
         <div class="col-md-1 no-padding">
             <div class="form-group red">
                 <label>&nbsp;</label><br/>
-                <input type="radio" id="f-option1" name="selector" value="true" [(ngModel)]="closed" (ngModelChange)="setClosed(true)">
+                <input type="radio" id="f-option1" name="selector" ([ngModel])="closed" (change)="setClosed(true)"/>
                 <label for="f-option1" class="check-label">Closed</label>                
                 <div class="check"></div>
             </div>
@@ -41,7 +41,8 @@
         <div class="col-sm-2 col-md-2">
             <div class="form-group">
                 <label>&nbsp;</label><br/>
-                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button> </div>
+                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button>                 
+            </div>
         </div>
     </div>
 </form>
