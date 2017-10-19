@@ -282,7 +282,7 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
         //  tempPositionminimize
         if (!this.MinimizeStatus)
         {
-
+            this.dialogInstance.config.BlockParentUI=false; 
             $(".ngPopup .modal-content").css({"padding":"0px"});
             $(".ngPopup .titleBar .iconGroup").css({"margin-top":"7px"});
             $(".ngPopup .titleBar .iconGroup span").css({"color":"black"});
@@ -316,6 +316,7 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
             $(".ngPopup .modal-content").css({"padding":"15px"});
             $(".ngPopup .titleBar .iconGroup").css({"margin-top":"0px"});
             $(".ngPopup .titleBar .iconGroup span").css({"color":"lightgrey"});
+            this.dialogInstance.config.BlockParentUI=true; 
             global.MaxZIndex++
             this.dialogInstance.config.position.top = this._originalTop;
             this.dialogInstance.config.position.left = this._originalLeft;
