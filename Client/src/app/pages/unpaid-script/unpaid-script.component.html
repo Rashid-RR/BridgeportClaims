@@ -20,7 +20,7 @@
                                     <i class="fa fa-money" aria-hidden="true"></i> Unpaid Scripts
                                 </span>
                                 <span class="total pull-right">
-                                    <span *ngIf="us.pageStart"> {{us.pageStart+ " to "+us.pageEnd}}</span>
+                                    <span *ngIf="us.pageStart" style="margin-right:100px;"> {{us.pageStart+ " to "+us.pageEnd}}</span>
                                     <span *ngIf="us.unpaidScriptList.length>0"><span style="font-size:13pt">{{us.unpaidScriptList.length}}</span> Record{{us.unpaidScriptList.length>1 ? 's':''}} found</span>
                                 </span>
                             </div>

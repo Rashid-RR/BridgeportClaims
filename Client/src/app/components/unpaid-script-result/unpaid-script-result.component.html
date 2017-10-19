@@ -81,10 +81,12 @@
                 </tbody>
             </table>
         </div>
-        <div class="btn-group pull-right" style="position:absolute;right:30px;bottom:5px;">
-                <button type="button" class="transparent btn btn-flat btn-info btn-sm" (click)="prev()">Prev</button>
-                <button type="button" class="transparent btn btn-flat btn-sm">{{uss.data.page}}</button>
-            <button type="button" class="transparent btn btn-flat btn-info btn-sm" (click)="next()">Next</button>
+        <div class="btn-group pagination-row">
+            <button type="button" class="transparent btn btn-flat btn-sm" (click)="first()">First</button>
+            <button type="button" class="transparent btn btn-flat btn-sm" (click)="prev()">Prev</button>
+            <button type="button" class="transparent btn btn-flat selected btn-sm">   {{uss.data.page}}</button>
+            <button type="button" class="transparent btn btn-flat btn-sm" (click)="next()">Next</button>
+            <button type="button" class="transparent btn btn-flat btn-sm" (click)="last()">Last</button>
         </div>
     </div>
 </div>

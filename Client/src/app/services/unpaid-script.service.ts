@@ -30,7 +30,9 @@ export class UnpaidScriptService {
   refresh() {
 
   }
-
+  get pages():Array<any>{
+    return new Array(this.data.page);
+  }
   get pageStart(){
       return this.unpaidScriptList.length>1 ? ((this.data.page-1)*this.data.pageSize)+1 : null;
   }
@@ -47,12 +49,15 @@ export class UnpaidScriptService {
     this.search();
   }
   
-  search(next:Boolean=false,prev:Boolean=false){
+  search(next:Boolean=false,prev:Boolean=false,first:Boolean=false,last:Boolean=false){
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+      if(first){
+        data.page=1;
+      }
       if(next){
         data.page++;
       }
