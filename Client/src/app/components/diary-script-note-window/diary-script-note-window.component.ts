@@ -16,7 +16,6 @@ export class DiaryScriptNoteWindowComponent implements OnInit {
 
   ngOnInit() {
     this.dialog.config.BlockParentUI=true; 
-    $(".ngPopup.in").css({"left":"30%"});
   }
   showNote(note){
     this.note = note;

@@ -162,8 +162,12 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
         this.compZIndex = global.MaxZIndex;
 
         this.dialogInstance = dialogInstance;
-
-
+        let win = $("body:not(.sidebar-collapse)");
+        if(win.length==0){
+         this.dialogInstance.config.position.left=this.dialogInstance.config.position.left-50
+        }else{
+            this.dialogInstance.config.position.left=this.dialogInstance.config.position.left-250
+        }
     }
 
 
@@ -564,7 +568,7 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
 
 
     onDrag(dragEvent: DragEvent)
-    {        
+    {     
     }
     onDrag1(dragEvent: DragEvent)
     {        
@@ -572,8 +576,8 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
 
     public onDragStart(event: Event)
     {
-        this._originalWidth = this.dialogInstance.config.size.width;
-        this._originalHeight = this.dialogInstance.config.size.height;
+       // this._originalWidth = this.dialogInstance.config.size.width;
+       // this._originalHeight = this.dialogInstance.config.size.height;
         this._originalLeft = this.dialogInstance.config.position.left;
         this._originalTop = this.dialogInstance.config.position.top;
         //  this.resizeStart.next(event);
