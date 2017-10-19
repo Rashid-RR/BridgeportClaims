@@ -1,6 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { PrescriptionNote } from "../../models/prescription-note"
-
+import {WindowInstance} from "../ng-window/WindowInstance"; 
 
 declare var  $:any; 
 @Component({
@@ -11,10 +11,11 @@ declare var  $:any;
 export class DiaryScriptNoteWindowComponent implements OnInit {
 
   note:PrescriptionNote;
-  constructor(){
+  constructor(public dialog: WindowInstance){
    }
 
   ngOnInit() {
+    this.dialog.config.BlockParentUI=true; 
     $(".ngPopup.in").css({"left":"30%"});
   }
   showNote(note){
