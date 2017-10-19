@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { DatePipe } from '@angular/common';
 // Services
 import { DiaryService } from '../../services/diary.service';
 declare var $:any;
@@ -20,6 +21,7 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
   isClosed:Boolean=false;
   constructor(
     private ds: DiaryService,
+    private dp: DatePipe,
     private toast: ToastsManager,
     private fb: FormBuilder
   ) {
@@ -45,12 +47,12 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     this.isClosed=value;
   }
   search() {
-    this.startDate = $('#startDate').val();
-    this.endDate = $('#endDate').val();
+    let startDate = this.dp.transform($('#startDate').val(), "dd/M/yyyy");
+    let endDate = this.dp.transform($('#endDate').val(), "dd/M/yyyy");
     this.ds.data.closed=this.isClosed;
     //if(this.startDate && this.endDate){
-      this.ds.data.startDate = this.startDate || null
-      this.ds.data.endDate = this.endDate || null
+      this.ds.data.startDate = startDate || null
+      this.ds.data.endDate = endDate || null
       this.ds.search();
    /*  }else{
         this.toast.warning("Ensure you select both start date and end date");

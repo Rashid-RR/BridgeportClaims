@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { DatePipe } from '@angular/common';
 // Services
 import { UnpaidScriptService } from '../../services/unpaid-script.service';
 declare var $:any;
@@ -12,11 +13,12 @@ declare var $:any;
 })
 export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
 
-  startDate: String;
-  endDate: String;
+  startDate: string;
+  endDate: string;
   constructor(
     private us: UnpaidScriptService,
     private toast: ToastsManager,
+    private dp: DatePipe,
     private fb: FormBuilder
   ) {
       
@@ -38,11 +40,12 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-    this.startDate = $('#startDate').val();
-    this.endDate = $('#endDate').val();
+    let startDate = this.dp.transform($('#startDate').val(), "dd/M/yyyy");
+    let endDate = this.dp.transform($('#endDate').val(), "dd/M/yyyy");
+ 
     //if(this.startDate && this.endDate){
-      this.us.data.startDate = this.startDate || null
-      this.us.data.endDate = this.endDate || null
+      this.us.data.startDate = startDate || null
+      this.us.data.endDate = endDate || null
       
       this.us.search();
    /*  }else{
