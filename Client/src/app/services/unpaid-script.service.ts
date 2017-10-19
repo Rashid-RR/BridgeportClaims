@@ -31,6 +31,12 @@ export class UnpaidScriptService {
 
   }
 
+  get pageStart(){
+      return this.unpaidScriptList.length>1 ? ((this.data.page-1)*this.data.pageSize)+1 : null;
+  }
+  get pageEnd(){
+    return this.unpaidScriptList.length>1 ? (this.data.page)*this.data.pageSize : null;
+  }
   get unpaidScriptList():Array<UnpaidScript>{
     return this.unpaidscripts.toArray();
   }
