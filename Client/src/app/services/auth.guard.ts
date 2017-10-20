@@ -55,42 +55,7 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
           } catch (error) {
             return Observable.of(false);
           }
-    }
-  /*canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        var user = localStorage.getItem("user");      
-        if (user === null || user.length == 0) { return Observable.of(false);}    
-          var shouldActivate:Boolean = false;
-          try {
-
-            let us = JSON.parse(user);
-            //console.log(this.profileManager.userProfile(us.userName));
-            var userLoggedIn = this.http.userFromId(us.id).single()
-            .catch(err =>  { 
-              this.handleResponseError(err);
-              return Observable.throw(err);
-            })
-            
-            return userLoggedIn.map(r=>{
-              var user =  r.json();
-              if(childRoute.url[0].path == 'users'){
-                return (user.roles && (user.roles instanceof Array) && user.roles.indexOf('Admin')>-1);
-              }else{
-                return true;
-              }          
-            });      
-          } catch (error) {
-            return Observable.of(false);           
-          }
-           
-          
-    }
-    handleResponseError(res:Response){
-        if(res.status == 401) {     
-          this.toast.info('An invalid login was detected. Please log in again.');             
-          this.router.navigate(['/login']);
-          this.events.broadcast("logout", true);
-        }
-    }*/
+    }  
     get isLoggedIn():Observable<boolean>{
       
       var user = localStorage.getItem("user");  

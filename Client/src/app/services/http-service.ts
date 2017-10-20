@@ -16,6 +16,7 @@ import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 export class HttpService {
   baseUrl = '/api';
   activeToast: Toast;
+  errorToast: Toast;
   token: String;
   constructor(private router: Router, private http: Http, private events: EventsService, private toast: ToastsManager) {
   }
@@ -379,24 +380,38 @@ export class HttpService {
   handleResponseError(res: Response) {
       if(res.status == 401) {
         if(this.activeToast && this.activeToast.timeoutId){
-          this.toast.dismissToast(this.activeToast);
-        }
-        setTimeout(() => {
+          this.activeToast.message = 'An invalid login was detected. Please log in again.';
+        }else{
           this.toast.info('An invalid login was detected. Please log in again.', null,
-           {toastLife: 10000}).then((toast: Toast) => {
+            {toastLife: 10000}).then((toast: Toast) => {
               this.activeToast = toast;
           })
-        , 1500; });
+        }
         this.router.navigate(['/login']);
         this.events.broadcast('logout', true);
       } else if (res.status == 406) {
          let err = res.json();
         this.toast.error(err.message);
       } else if (res.status == 500) {
-        this.toast.error('A server error was detected. Please contact your system administrator.');
+        if(this.errorToast && this.errorToast.timeoutId){
+          this.errorToast.message='A server error was detected. Please contact your system administrator.';
+        }else{
+          this.toast.error('A server error was detected. Please contact your system administrator.', null,
+          {toastLife: 10000}).then((toast: Toast) => {
+            this.errorToast = toast;
+          });
+        }
         this.events.broadcast("loading-error",true);
       }else if (res.status == 0 || res.status == 504) {
-        this.toast.error('Cannot reach the server. Please check your network connection.');
+        if(this.errorToast){
+          //this.toast.dismissToast(this.errorToast);
+          this.errorToast.message='Cannot reach the server. Please check your network connection.';
+        }else{
+          this.toast.error('Cannot reach the server. Please check your network connection.', null,
+          {toastLife: 10000}).then((toast: Toast) => {
+            this.errorToast = toast;
+          });
+        }
         this.events.broadcast("loading-error",true);
       }
   }
