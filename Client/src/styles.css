@@ -528,9 +528,9 @@
     }
     .swal2-modal.prescription-modal .calendar{
         position: absolute;;
-        width:50%;
-        bottom:-85px;
-        right:15px;
+        width:40%;
+        bottom:-73px;
+        right:0px;
     }
     .swal2-modal.prescription-modal .swal2-buttonswrapper{
         text-align:left !important;

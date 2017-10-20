@@ -134,13 +134,13 @@ export class ClaimsComponent implements OnInit {
                       <label id="noteTextLabel">Note Text</label>
                       <textarea class="form-control"  id="noteText"  rows="5" cols="5" style="resize: vertical;">`+ text + `</textarea>
                   </div>
-                  <div style="text-align:left">
+                  <div style="text-align:left;width:56%;height:auto;">
                       <h4 class="text-green">Prescriptions</h4>
                       `+ selectedPrecriptions + `              
                   </div>
                   <div class="calendar">
                     <div class="row">
-                      <div class="col-sm-8 col-sm-offset-2" style="padding-left:0px;padding-right:0px;">
+                      <div class="col-sm-12" style="padding-left:0px;">
                         <div class="form-group">
                             <label>Follow-up Date</label>
                             <div class="input-group date">
@@ -153,8 +153,8 @@ export class ClaimsComponent implements OnInit {
                       </div>
                       <div class="col-sm-12">
                         <div class="form-group">
-                            <label>&nbsp;</label><br/>
-                          <button class="btn bg-primary btn-flat btn-small add-to-diary" type="button" style="color:white">Add to Diary</button>                          
+                          <br>
+                          <button class="btn bg-primary btn-flat pull-right btn-md add-to-diary" type="button" style="color:white">Add to Diary</button>                          
                         </div>
                       </div>
                     </div>
