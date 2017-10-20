@@ -52,7 +52,7 @@ li a {
         -o-text-overflow: clip;
         text-overflow: clip;
         white-space: pre;
-        text-shadow: 1px 1px 0 rgba(140,140,140,0.6) , -1px -1px 1px rgba(0,0,0,0.67) ;   
+        text-shadow: 1px 1px 0 rgba(255, 254, 254, 0.6) , -1px -1px 1px rgba(75, 69, 69, 0.67) ;   
         position: fixed;
         top: 20px;
         width: auto;
