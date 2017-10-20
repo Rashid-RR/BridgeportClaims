@@ -39,43 +39,25 @@ li a {
     } */
 }
 
-ver1{
-    display: inline-block;
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    float: none;
-    z-index: auto;
-    width: auto;
-    height: auto;
-    position: static;
-    cursor: default;
-    opacity: 1;
-    margin: 0;
-    padding: 0;
-    overflow: visible;
-    border: none;
-    -webkit-border-radius: 0;
-    border-radius: 0;
-    font: normal 70px/1 "Aladin", Helvetica, sans-serif;
-    color: rgba(48,48,48,1);
-    text-align: center;
-    text-transform: normal;
-    -o-text-overflow: clip;
-    text-overflow: clip;
-    white-space: pre;
-    background: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    text-shadow: 1px 1px 0 rgba(140,140,140,0.6) , -1px -1px 1px rgba(0,0,0,0.67) ;
-    -webkit-transition: none;
-    -moz-transition: none;
-    -o-transition: none;
-    transition: none;
-    -webkit-transform: none;
-    transform: none;
-    -webkit-transform-origin: 50% 50% 0;
-    transform-origin: 50% 50% 0;
+.ver1 {
+        display: inline-block;
+        -webkit-box-sizing: content-box;
+        -moz-box-sizing: content-box;
+        box-sizing: content-box;
+        border: none;
+        font: normal 15px/1 "Aladin", Helvetica, sans-serif;
+        color: rgb(238, 232, 232);
+        text-align: center;
+        text-transform: normal;
+        -o-text-overflow: clip;
+        text-overflow: clip;
+        white-space: pre;
+        text-shadow: 1px 1px 0 rgba(140,140,140,0.6) , -1px -1px 1px rgba(0,0,0,0.67) ;   
+        position: fixed;
+        top: 20px;
+        width: auto;
+        z-index: 999999;
+        left: 40%;   
 }
 .ver2 {
     -webkit-box-sizing: content-box;
@@ -137,7 +119,7 @@ ver1{
     z-index: 999999;
     left: -20%;
     position: absolute;
-    content: "Version 6.6";
+    content: "Version 6.7";
     border: none;
     font: normal 13px/0 "Nova Flat", Helvetica, sans-serif;
     color: rgb(165, 151, 151);
