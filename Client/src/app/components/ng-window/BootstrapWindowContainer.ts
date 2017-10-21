@@ -273,6 +273,9 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
             this.dialogInstance.config.position.left = this._originalLeft;
             this.dialogInstance.config.size.width = this._originalWidth;
             this.dialogInstance.config.size.height = this._originalHeight;
+            $(".ngPopup").css("bottom","unset");
+            $(".ngPopup").css("top",(window.innerHeight / 2));
+            $("#taskbar").css("display","none");
         }
 
         this.MaxmizeStatus = !this.MaxmizeStatus;
@@ -290,12 +293,12 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
             $(".ngPopup .modal-content").css({"padding":"0px"});
             $(".ngPopup .titleBar .iconGroup").css({"margin-top":"7px"});
             $(".ngPopup .titleBar .iconGroup span").css({"color":"black"});
+           debugger;
             if (this.MaxmizeStatus)
             {
-
                 this.dialogInstance.config.size.width = 200;
                 this.dialogInstance.config.size.height = 1;
-                this.dialogInstance.config.position.top = this._originalTop;
+              //  this.dialogInstance.config.position.top = this._originalTop;
                 this.dialogInstance.config.position.left = this._originalLeft;
                 this.MaxmizeStatus = false;
             }
@@ -309,6 +312,10 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
                 this.dialogInstance.config.size.width = 200;
                 this.dialogInstance.config.size.height = 1
             }
+            $(".ngPopup").css("position","fixed");
+            $(".ngPopup").css("bottom",0);
+            $(".ngPopup").css("top","unset");
+            $("#taskbar").css("display","block");
             //توسيط الشاشة
             // this.dialogInstance.config.position.top = (window.innerHeight / 2 - this.tempSize.height / 2)
             // this.dialogInstance.config.position.left = (window.innerWidth / 2 - this.tempSize.width / 2)
@@ -326,6 +333,9 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
             this.dialogInstance.config.position.left = this._originalLeft;
             this.dialogInstance.config.size.width = this._originalWidth;
             this.dialogInstance.config.size.height = this._originalHeight;
+            $(".ngPopup").css("bottom","unset");
+            $(".ngPopup").css("top",(window.innerHeight / 2));
+            $("#taskbar").css("display","none");
         }
 
         this.MinimizeStatus = !this.MinimizeStatus;
