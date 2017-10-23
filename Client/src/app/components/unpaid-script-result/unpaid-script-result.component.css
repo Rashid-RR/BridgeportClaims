@@ -157,7 +157,7 @@ td .btn-group.open .dropdown-toggle {
     bottom:15px;
     background: -webkit-linear-gradient(top, #fff 0%, #eeedec 40%, #faf6e9 100%);
     background: linear-gradient(to bottom, #fff 0%, #eeedec 40%, #faf6e9 100%);
-    padding:5px 3px;
+    padding:5px 35px;
     width: 288px;
     border-radius:10px;
     text-align: center;
