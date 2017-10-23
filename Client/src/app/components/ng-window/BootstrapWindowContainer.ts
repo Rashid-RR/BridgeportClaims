@@ -168,6 +168,8 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
         }else{
             this.dialogInstance.config.position.left=this.dialogInstance.config.position.left-250
         }
+        this.dialogInstance.config.BlockParentUI=true; 
+
     }
 
 
@@ -274,7 +276,7 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
             this.dialogInstance.config.size.width = this._originalWidth;
             this.dialogInstance.config.size.height = this._originalHeight;
             $(".ngPopup").css("bottom","unset");
-            $(".ngPopup").css("top",(window.innerHeight / 2));
+            $(".ngPopup").css("top",(window.innerHeight / 2)-50);
             $("#taskbar").css("display","none");
         }
 
@@ -334,7 +336,7 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
             this.dialogInstance.config.size.width = this._originalWidth;
             this.dialogInstance.config.size.height = this._originalHeight;
             $(".ngPopup").css("bottom","unset");
-            $(".ngPopup").css("top",(window.innerHeight / 2));
+            $(".ngPopup").css("top",(window.innerHeight / 2)-50);
             $("#taskbar").css("display","none");
         }
 
