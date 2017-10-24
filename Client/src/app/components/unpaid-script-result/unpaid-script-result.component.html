@@ -82,9 +82,9 @@
             </table>
         </div>
         <div class="btn-group pagination-row">
-            <button type="button" class="btn btn-default  btn-md" (click)="prev()">Prev</button>
+            <button type="button" class="btn btn-default  btn-md" [disabled]="uss.data.page<=1" (click)="prev()">Prev</button>
             <button type="button" class="btn btn-default  selected btn-md">   {{uss.data.page}}</button>
-            <button type="button" class="btn btn-default  btn-md" (click)="next()">Next</button><!-- 
+            <button type="button" class="btn btn-default  btn-md" [disabled]="uss.end" (click)="next()">Next</button><!-- 
             <button type="button" class="btn btn-md" (click)="last()">Last</button> -->
         </div>
     </div>
