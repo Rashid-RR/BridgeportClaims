@@ -37,7 +37,11 @@ export class UnpaidScriptService {
       return this.unpaidScriptList.length>1 ? ((this.data.page-1)*this.data.pageSize)+1 : null;
   }
   get pageEnd(){
-    return this.unpaidScriptList.length>1 ? (this.data.page)*this.data.pageSize : null;
+    return this.unpaidScriptList.length>1 ? (this.data.pageSize>this.unpaidScriptList.length ? ((this.data.page-1)*this.data.pageSize)+this.unpaidScriptList.length : (this.data.page)*this.data.pageSize) : null;
+  }
+
+  get end():Boolean{
+    return this.pageStart && this.data.pageSize>this.unpaidScriptList.length;
   }
   get unpaidScriptList():Array<UnpaidScript>{
     return this.unpaidscripts.toArray();
@@ -70,7 +74,7 @@ export class UnpaidScriptService {
           this.unpaidscripts= Immutable.OrderedMap<Number, UnpaidScript>(); 
           result.forEach((script:UnpaidScript)=>{
             try{
-              this.unpaidscripts = this.unpaidscripts.set(script.claimId,script);
+              this.unpaidscripts = this.unpaidscripts.set(script.prescriptionId,script);
             }catch(e){}           
           }); 
           if(next){
