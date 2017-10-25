@@ -1,3 +1,4 @@
+/*
 .switch {
   position: relative;
   display: inline-block;
@@ -45,7 +46,7 @@ input:checked + .slider:before {
   transform: translateX(22px);
 }
 
-/* Rounded sliders */
+
 .slider.round {
   border-radius: 34px;
 }
@@ -77,7 +78,7 @@ input:checked + .slider:before {
   width: 100%;
   height: 100%;
   cursor: pointer;
-}
+}*/
 
 .btn-circle {
   width: 30px;
@@ -150,4 +151,125 @@ input.faChkSqr:checked:after {
 
 input.faChkSqr:after {
   content: '\f096';
+}
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}
+
+
+/**
+ * Checkbox Five
+ */
+.checkboxFive {
+	width: 25px;
+  margin-left: 25px;
+	position: relative;
+}
+/**
+ * Create the box for the checkbox
+ */
+ .checkboxFive div {
+	cursor: pointer;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	top: 0;
+  	left: 0;
+	background: #eee;
+	border:1px solid #ddd;
+}
+
+/**
+ * Display the tick inside the checkbox
+ */
+ .checkboxFive div:after {
+	opacity: 0.0;
+	content: '';
+	position: absolute;
+	width: 17px;
+	height: 8px;
+	background: transparent;
+	top: 6px;
+	left: 3px;
+	border: 3px solid #333;
+	border-top: none;
+	border-right: none;
+
+	transform: rotate(-45deg);
+}
+
+/**
+ * Create the hover event of the tick
+ */
+ .checkboxFive div:hover::after {
+	opacity: 0.5;
+}
+
+/**
+ * Create the checkbox state for the tick
+ */
+.checkboxFive input[type=checkbox]:checked + div:after {
+	opacity: 1;
+}
+
+/**
+ * Checkbox Six
+ */
+ .checkboxSix {
+  width: 25px;
+  margin-top: 5px;
+  margin-left: 45px;
+	position: relative;
+}
+/**
+ * Create the box for the checkbox
+ */
+ .checkboxSix label {
+	cursor: pointer;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	top: 0;
+  	left: 0;
+	background: #eee;
+	border:1px solid #ddd;
+}
+
+/**
+ * Display the tick inside the checkbox
+ */
+ .checkboxSix label:after {
+	opacity: 0.0;
+	content: '';
+	position: absolute;
+	width: 17px;
+	height: 8px;
+	background: transparent;
+	top: 6px;
+	left: 3px;
+	border: 3px solid #333;
+	border-top: none;
+	border-right: none;
+
+	transform: rotate(-45deg);
+}
+
+/**
+ * Create the hover event of the tick
+ */
+ .checkboxSix label:hover::after {
+	opacity: 0.5;
+}
+
+/**
+ * Create the checkbox state for the tick
+ */
+.checkboxSix input[type=checkbox]:checked + label:after {
+	opacity: 1;
 }

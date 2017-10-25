@@ -69,7 +69,7 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                 DbType = DbType.Boolean
             };
             var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<DiariesDto>(
-                "EXECUTE dbo.uspGetDiaries @IsDefaultSort = :IsDefaultSort, @StartDate = :StartDate," +
+                "EXECUTE [dbo].[uspGetDiaries] @IsDefaultSort = :IsDefaultSort, @StartDate = :StartDate," +
                 "@EndDate = :EndDate, @SortColumn = :SortColumn, @SortDirection = :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize, @Closed = :Closed",
                 new List<SqlParameter> { isDefaultSortParam, startDateParam, endDateParam, sortColumnParam, sortDirectionParam, pageNumberParam, pageSizeParam, closedParam })?.ToList();
             return retVal;
