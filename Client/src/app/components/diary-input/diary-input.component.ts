@@ -60,4 +60,19 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     } */
   }
 
+  clearText(){
+    this.ds.owner=null;
+    this.ds.diaryNote=null;
+  }
+  clearDates(){
+    $('#startDate').val('');
+    $('#endDate').val(''); 
+  }
+  reset(){
+    $('#startDate').val('');
+    $('#endDate').val('');
+    this.ds.owner=null;
+    this.ds.diaryNote=null;
+  }
+
 }
