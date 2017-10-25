@@ -273,3 +273,15 @@ tr:nth-of-type(even) {
 .checkboxSix input[type=checkbox]:checked + label:after {
 	opacity: 1;
 }
+
+.left5 {
+  margin-left: 5px;
+}
+
+.right5 {
+  margin-right: 15px;
+}
+
+.white {
+  color: #ffffff;
+}
