@@ -12,9 +12,9 @@ namespace BridgeportClaims.Web.BackgroundWork
             DisposableService.Using(() => new BackgroundWorker(), backgroundWorker =>
             {
                 backgroundWorker.DoWork += doWork;
-                if (completed != null)
+                if (null != completed)
                     backgroundWorker.RunWorkerCompleted += completed;
-                if (progressChanged != null)
+                if (null != progressChanged)
                 {
                     backgroundWorker.WorkerReportsProgress = true;
                     backgroundWorker.ProgressChanged += progressChanged;
