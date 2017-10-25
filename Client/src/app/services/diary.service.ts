@@ -23,7 +23,7 @@ export class DiaryService {
       sort: "InsuranceCarrier",
       sortDirection: "ASC",
       page: 1,
-      pageSize: 5000
+      pageSize: 500
     };
   }
 
@@ -41,12 +41,20 @@ export class DiaryService {
     this.search();
   }
   
-  search(){
+  search(next:Boolean=false,prev:Boolean=false){
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      this.http.diaryList(this.data).map(res => { return res.json(); })
+      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+       
+      if(next){
+        data.page++;
+      }
+      if(prev && data.page>1){
+        data.page--;
+      }
+      this.http.diaryList(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
           this.diaries= Immutable.OrderedMap<Number, Diary>(); 
@@ -55,6 +63,12 @@ export class DiaryService {
                 this.diaries = this.diaries.set(diary.diaryId,diary);
             }catch(e){}           
           });
+          if(next){
+            this.data.page++;
+          }
+          if(prev && this.data.page !=data.page){
+            this.data.page--;
+          }   
           setTimeout(()=>{
             //this.events.broadcast('payment-amountRemaining',result)
           },200);           
@@ -67,6 +81,19 @@ export class DiaryService {
           this.events.broadcast('diary-list-updated');
         });
     }
+  }
+  get pages():Array<any>{
+    return new Array(this.data.page);
+  }
+  get pageStart(){
+      return this.diaryList.length>1 ? ((this.data.page-1)*this.data.pageSize)+1 : null;
+  }
+  get pageEnd(){
+    return this.diaryList.length>1 ? (this.data.pageSize>this.diaryList.length ? ((this.data.page-1)*this.data.pageSize)+this.diaryList.length : (this.data.page)*this.data.pageSize) : null;
+  }
+
+  get end():Boolean{
+    return this.pageStart && this.data.pageSize>this.diaryList.length;
   }
 
 }

@@ -53,15 +53,12 @@ export class UnpaidScriptService {
     this.search();
   }
   
-  search(next:Boolean=false,prev:Boolean=false,first:Boolean=false,last:Boolean=false){
+  search(next:Boolean=false,prev:Boolean=false){
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
-      if(first){
-        data.page=1;
-      }
+      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing      
       if(next){
         data.page++;
       }

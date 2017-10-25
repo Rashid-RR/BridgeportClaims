@@ -26,18 +26,7 @@ export class DiaryResultsComponent implements OnInit {
   //this.showNoteWindow(new PrescriptionNote(12,new Date(),"Josephat","Very Long Type","Let's say we wanted to implement an AJAX search feature in which every keypress in a text field will automatically perform a search and update the page with the results. How would this look? Well we would have an Observable subscribed to events coming from an input field, and on every change of input we want to perform some HTTP request, which is also an Observable we subscribe to. What we end up with is an Observable of an Observable.",new Date(),12312423)); */
   }
   showNote(diary:Diary){
-    window.open("#/main/claims?claimId="+diary.claimId+"&prescriptionNoteId="+diary.prescriptionNoteId, "_blank");
-    /* this.diaryService.loading = true;
-    this.http.getClaimsData({claimId:diary.claimId}).map(r=>{return r.json()})
-    .subscribe((claim:Claim)=>{
-      this.diaryService.loading = false;
-      let note:PrescriptionNote = claim.prescriptionNotes.find((r:PrescriptionNote)=>r.prescriptionNoteId==diary.prescriptionNoteId);
-      if(note){
-          this.showNoteWindow(note);
-      }
-    },error=>{
-      this.diaryService.loading = false;
-    }) */
+    window.open("#/main/claims?claimId="+diary.claimId+"&prescriptionNoteId="+diary.prescriptionNoteId, "_blank");     
   }
 
   showNoteWindow(note:PrescriptionNote){
@@ -53,5 +42,13 @@ export class DiaryResultsComponent implements OnInit {
       win.showNote(note);
     })
   }
+  next(){ 
+    this.diaryService.search(true);
+  }
+  prev(){ 
+      this.diaryService.search(false,true);
+  }
+
+
 
 }

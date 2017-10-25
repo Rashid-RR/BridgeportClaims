@@ -80,12 +80,14 @@ tr:nth-of-type(even) {
 }
 .table-body{
     position: absolute;
-    top:56px;
-    max-height: calc(100% - 70px);
-    max-height: -moz-calc(100% - 70px);
-    max-height: -webkit-calc(100% - 70px);
-    max-height: -o-calc(100% - 70px);
+    top:40px;
+    height: calc(100% - 110px);
+    max-height: calc(100% - 110px);
+    max-height: -moz-calc(100% - 110px);
+    max-height: -webkit-calc(100% - 110px);
+    max-height: -o-calc(100% - 110px);
     overflow-y: auto;
+    overflow-x: hidden;
 } 
 .top-header table{
     height:99%;
@@ -120,4 +122,27 @@ thead span {
 
 .table>thead>tr>th[_ngcontent-c9] {
     border-bottom: 0px;
+}
+.pagination-row{
+    position:absolute;
+    right: calc(50% - 144px);
+    bottom:15px;
+    background: -webkit-linear-gradient(top, #fff 0%, #eeedec 40%, #faf6e9 100%);
+    background: linear-gradient(to bottom, #fff 0%, #eeedec 40%, #faf6e9 100%);
+    padding:5px 35px;
+    width: 288px;
+    border-radius:10px;
+    text-align: center;
+}
+ .pagination-row button{
+    margin:5px;
+    /* background:transparent; */
+    font-family: 'Cambay', sans-serif !important;
+    line-height: normal;
+    vertical-align:middle;
+    width:60px;
+    font-weight: 700;
+    padding:4px 10px 1px 10px;
+    font-size: 13px;
+    text-anchor: middle;
 }

@@ -24,16 +24,8 @@ export class UnpaidScriptResultsComponent implements OnInit {
   next(){ 
       this.uss.search(true);
   }
-  first(){ 
-    this.uss.search(false,false);
-}
   prev(){ 
       this.uss.search(false,true);
   }
-
-  last(){
-    
-  }
- 
-
+  
 }

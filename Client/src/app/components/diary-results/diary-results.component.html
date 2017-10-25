@@ -78,5 +78,10 @@
                 </tbody>
             </table>
         </div>
+        <div class="btn-group pagination-row">
+            <button type="button" class="btn btn-default  btn-md" [disabled]="diaryService.data.page<=1" (click)="prev()">Prev</button>
+            <button type="button" class="btn btn-default  selected btn-md">   {{diaryService.data.page}}</button>
+            <button type="button" class="btn btn-default  btn-md" [disabled]="diaryService.end" (click)="next()">Next</button>
+        </div>
     </div>
 </div>
