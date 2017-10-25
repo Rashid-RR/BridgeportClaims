@@ -264,7 +264,6 @@
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
-    <Compile Include="Controllers\DisplayController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
