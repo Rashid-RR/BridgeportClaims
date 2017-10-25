@@ -18,7 +18,7 @@ namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
     [RoutePrefix("api/laker")]
-    public class LakerAutomationController : ApiController
+    public class LakerAutomationController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly ILakerFileProcessor _lakerFileProcessor;
@@ -54,8 +54,8 @@ namespace BridgeportClaims.Web.Controllers
                     {
                         ProcessBackgroundLakerImport(tuple.Item1, tuple.Item2, userEmail);
                         msg = $"The Laker file import process has been started for \"{tuple.Item1}\"." +
-                              $" It will take a few minutes.... So we'll send you an email when " +
-                              $"it's done.";
+                              " It will take a few minutes.... So we'll send you an email when " +
+                              "it's done.";
                     }
                     return Ok(new { message = msg});
                 });
