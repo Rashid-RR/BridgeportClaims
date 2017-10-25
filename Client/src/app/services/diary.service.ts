@@ -14,6 +14,8 @@ export class DiaryService {
   loading: Boolean = false; 
   diaries: Immutable.OrderedMap<Number, Diary> = Immutable.OrderedMap<Number, Diary>();
   data:any={};
+  owner:String;
+  diaryNote:String;
   constructor(private http: HttpService,private formBuilder: FormBuilder, private events: EventsService, private toast: ToastsManager) { 
     this.data ={
       isDefaultSort: true,

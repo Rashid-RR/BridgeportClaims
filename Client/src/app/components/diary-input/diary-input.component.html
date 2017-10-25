@@ -50,13 +50,13 @@
         <div class="col-md-2" style="padding-left: 35px;">
             <div class="form-group">
                 <label>Owner name</label>                    
-                <input class="form-control" name="owner" type="text" [(ngModel)]="owner" (focus)="submitted=false" focus-on>
+                <input class="form-control" name="owner" type="text" [(ngModel)]="ds.owner" (focus)="submitted=false" focus-on>
             </div> 
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label>Diary Text Contains</label>                    
-                <textarea style="height:35px" class="form-control" name="text" [(ngModel)]="text" (focus)="submitted=false"  row="1" focus-on></textarea>
+                <textarea style="height:35px" class="form-control" name="text" [(ngModel)]="ds.diaryNote" (focus)="submitted=false"  row="1" focus-on></textarea>
             </div> 
         </div>
         <div class="col-sm-3 col-md-3 flex">

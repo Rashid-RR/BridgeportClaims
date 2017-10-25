@@ -47,6 +47,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { DisplayRolesPipe } from './pipes/display-roles.pipe';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
+import { DiariesFilterPipe } from './components/diary-results/diary-filter.pipe';
 import { DecimalPipe } from '@angular/common';
 import { PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
   PaymentDetailedResultComponent,DiaryScriptNoteWindowComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent} from './components/components-barrel';
@@ -89,7 +90,7 @@ export class SafeUrlPipe implements PipeTransform {
     DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent, ProfileComponent,
     SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
      ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
-     UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, FilterUserPipe, FileUploadComponent, FooterComponent,
+     UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, FilterUserPipe,DiariesFilterPipe, FileUploadComponent, FooterComponent,
      PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
