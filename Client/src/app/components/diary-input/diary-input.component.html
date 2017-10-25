@@ -22,6 +22,15 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-3 col-md-2 flex">
+            <div class="form-group">
+                <label>&nbsp;</label><br/>
+                <span>
+                   <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button>  &nbsp;
+                    <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="clear()">Clear Dates</button>                 
+                </span>
+            </div>
+        </div>
         <div class="col-md-1 no-padding">
             <div class="form-group green">
                 <label>&nbsp;</label><br/>
@@ -30,7 +39,7 @@
                 <div class="check"></div>
             </div>
         </div>
-        <div class="col-md-1 no-padding">
+        <div class="col-md-1 no-padding red">
             <div class="form-group red">
                 <label>&nbsp;</label><br/>
                 <input type="radio" id="f-option1" name="selector" ([ngModel])="closed" (change)="setClosed(true)"/>
@@ -38,10 +47,25 @@
                 <div class="check"></div>
             </div>
         </div>
-        <div class="col-sm-2 col-md-2">
+        <div class="col-md-2" style="padding-left: 35px;">
+            <div class="form-group">
+                <label>Owner name</label>                    
+                <input class="form-control" name="owner" type="text" [(ngModel)]="owner" (focus)="submitted=false" focus-on>
+            </div> 
+        </div>
+        <div class="col-md-3" style="padding-right: 5px;padding-left: 5px;">
+            <div class="form-group">
+                <label>Diary Text Contains</label>                    
+                <textarea style="height:35px" class="form-control" name="text" [(ngModel)]="text" (focus)="submitted=false"  row="1" focus-on></textarea>
+            </div> 
+        </div>
+        <div class="col-sm-3 col-md-2 flex">
             <div class="form-group">
                 <label>&nbsp;</label><br/>
-                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button>                 
+                <span>
+                    <button class="color-palette btn bg-blue btn-flat btn-small" type="button" (click)="clearText()">Clear Text Search(es)</button>  &nbsp;
+                    <button class="color-palette btn bg-defualt btn-flat btn-small" type="button" (click)="reset()">Reset All</button>                 
+                </span>
             </div>
         </div>
     </div>
