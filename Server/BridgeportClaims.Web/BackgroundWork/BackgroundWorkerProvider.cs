@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using BridgeportClaims.Common.Disposable;
 
 namespace BridgeportClaims.Web.BackgroundWork
 {
@@ -8,18 +9,18 @@ namespace BridgeportClaims.Web.BackgroundWork
             RunWorkerCompletedEventHandler completed = null,
             ProgressChangedEventHandler progressChanged = null)
         {
-            using (var backgroundWorker = new BackgroundWorker())
+            DisposableService.Using(() => new BackgroundWorker(), backgroundWorker =>
             {
                 backgroundWorker.DoWork += doWork;
-                if (completed != null)
+                if (null != completed)
                     backgroundWorker.RunWorkerCompleted += completed;
-                if (progressChanged != null)
+                if (null != progressChanged)
                 {
                     backgroundWorker.WorkerReportsProgress = true;
                     backgroundWorker.ProgressChanged += progressChanged;
                 }
                 backgroundWorker.RunWorkerAsync();
-            }
+            });
         }
     }
 }

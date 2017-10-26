@@ -180,7 +180,8 @@ li a {
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     border: none;
-    font: normal normal bold 16px/normal "Atomic Age", Helvetica, sans-serif;
+    font: normal normal bold 16px/normal "Arial", Helvetica, sans-serif;
+    letter-spacing: 3px;
     color: rgb(64, 126, 196);
     text-align: center;
     -o-text-overflow: clip;

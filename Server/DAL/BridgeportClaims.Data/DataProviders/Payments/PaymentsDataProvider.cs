@@ -86,8 +86,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 
         public void ImportPaymentFile(string fileName)
         {
-            // Remove cached entries
-            _memoryCacher.Delete(c.ImportFileDatabaseCachingKey);
             var fileBytes = GetBytesFromDb(fileName);
             if (null == fileBytes)
                 throw new ArgumentNullException($"Error. The File \"{fileName}\" does not Exist in the Database");

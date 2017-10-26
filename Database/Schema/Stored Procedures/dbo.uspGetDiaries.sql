@@ -7,7 +7,7 @@ GO
 	Create Date:	10/8/2017
 	Description:	Proc that returns the grid results for the Diary page.
 	Sample Execute:
-					EXEC [dbo].[uspGetDiaries] 0, NULL, NULL, 'FollowUpDate', 'DESC', 1, 5000
+					EXEC [dbo].[uspGetDiaries] 1, NULL, NULL, 'DiaryId', 'ASC', 2, 50, 0
 */
 CREATE PROC [dbo].[uspGetDiaries]
 (
@@ -17,12 +17,17 @@ CREATE PROC [dbo].[uspGetDiaries]
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
-	@PageSize INTEGER
+	@PageSize INTEGER,
+	@Closed BIT
 )
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
-	DECLARE @One INT = 1;
+	DECLARE @One SMALLINT = 1, 
+			@Zero SMALLINT = 0,
+			@True BIT = CONVERT(BIT, 1),
+			@False BIT = CONVERT(BIT, 0);
+
 	CREATE TABLE #Diaries
 		([DiaryId] [int] NOT NULL PRIMARY KEY,
 		[ClaimId] [int] NOT NULL,
@@ -43,21 +48,22 @@ AS BEGIN
 	SELECT          DiaryId            = d.DiaryID
 				  , ClaimId            = c.ClaimID
 				  , PrescriptionNoteId = pn.PrescriptionNoteID
-				  , [Owner]            = u.FirstName + ' ' + u.LastName
-				  , [Created]          = d.CreatedDate
+				  , [Owner]			   = u.FirstName + ' ' + u.LastName
+				  , Created			   = d.CreatedDate
 				  , d.FollowUpDate
-				  , [PatientName]      = pat.LastName + ', ' + pat.FirstName
+				  , PatientName        = pat.LastName + ', ' + pat.FirstName
 				  , c.ClaimNumber
 				  , [Type]             = pnt.TypeName
 				  , p.RxNumber
 				  , RxDate             = p.DateFilled
 				  , InsuranceCarrier   = pay.GroupName
 				  , DiaryNote          = pn.NoteText
-	FROM            dbo.Diary                                                   AS d
-		INNER JOIN  dbo.AspNetUsers                                             AS u ON u.ID = d.AssignedToUserID
-		INNER JOIN  dbo.PrescriptionNote                                        AS pn ON pn.PrescriptionNoteID = d.PrescriptionNoteID
-		INNER JOIN  dbo.PrescriptionNoteType                                    AS pnt ON pnt.PrescriptionNoteTypeID = pn.PrescriptionNoteTypeID
-		CROSS APPLY
+	FROM            dbo.Diary					AS d
+		INNER JOIN  dbo.AspNetUsers             AS u ON u.ID = d.AssignedToUserID
+		INNER JOIN  dbo.PrescriptionNote        AS pn ON pn.PrescriptionNoteID = d.PrescriptionNoteID
+		INNER JOIN  dbo.PrescriptionNoteType	AS pnt ON pnt.PrescriptionNoteTypeID = pn.PrescriptionNoteTypeID
+		CROSS APPLY -- Must have at least one mapping to a prescription. Order doesn't matter, 
+					-- all rows should lead back to the same script.
 					(   SELECT TOP (@One)
 								pnm.PrescriptionID
 						FROM    dbo.PrescriptionNoteMapping AS pnm
@@ -68,59 +74,14 @@ AS BEGIN
 		INNER JOIN  dbo.Payor        AS pay ON pay.PayorID = c.PayorID
 	WHERE (d.FollowUpDate >= @StartDate OR @StartDate IS NULL) 
 		AND (d.FollowUpDate <= @EndDate OR @EndDate IS NULL)
-	ORDER BY CASE WHEN @SortColumn = 'DiaryId' AND @SortDirection = 'ASC'
-				THEN d.DiaryID END ASC,
-			CASE WHEN @SortColumn = 'DiaryId' AND @SortDirection = 'DESC'
-				THEN d.DiaryID END DESC,
-			CASE WHEN @SortColumn = 'Owner' AND @SortDirection = 'ASC'
-				THEN u.FirstName + ' ' + u.LastName END ASC,
-			CASE WHEN @SortColumn = 'Owner' AND @SortDirection = 'DESC'
-				THEN u.FirstName + ' ' + u.LastName END DESC,
-			CASE WHEN @SortColumn = 'Created' AND @SortDirection = 'ASC'
-				THEN d.CreatedDate END ASC,
-			CASE WHEN @SortColumn = 'Created' AND @SortDirection = 'DESC'
-				THEN d.CreatedDate END DESC,
-			CASE WHEN @SortColumn = 'FollowUpDate' AND @SortDirection = 'ASC'
-				THEN d.FollowUpDate END ASC,
-			CASE WHEN @SortColumn = 'FollowUpDate' AND @SortDirection = 'DESC'
-				THEN d.FollowUpDate END DESC,
-			CASE WHEN @SortColumn = 'PatientName' AND @SortDirection = 'ASC'
-				THEN pat.LastName + ', ' + pat.FirstName END ASC,
-			CASE WHEN @SortColumn = 'PatientName' AND @SortDirection = 'DESC'
-				THEN pat.LastName + ', ' + pat.FirstName END DESC,
-			CASE WHEN @SortColumn = 'ClaimNumber' AND @SortDirection = 'ASC'
-				THEN c.ClaimNumber END ASC,
-			CASE WHEN @SortColumn = 'ClaimNumber' AND @SortDirection = 'DESC'
-				THEN c.ClaimNumber END DESC,
-			CASE WHEN @SortColumn = 'Type' AND @SortDirection = 'ASC'
-				THEN pnt.TypeName END ASC,
-			CASE WHEN @SortColumn = 'Type' AND @SortDirection = 'DESC'
-				THEN pnt.TypeName END DESC,
-			CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'ASC'
-				THEN p.RxNumber END ASC,
-			CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'DESC'
-				THEN p.RxNumber END DESC,
-			CASE WHEN @SortColumn = 'RxDate' AND @SortDirection = 'ASC'
-				THEN p.DateFilled END ASC,
-			CASE WHEN @SortColumn = 'RxDate' AND @SortDirection = 'DESC'
-				THEN p.DateFilled END DESC,
-			CASE WHEN @SortColumn = 'InsuranceCarrier' AND @SortDirection = 'ASC'
-				THEN pay.GroupName END ASC,
-			CASE WHEN @SortColumn = 'InsuranceCarrier' AND @SortDirection = 'DESC'
-				THEN pay.GroupName END DESC,
-			CASE WHEN @SortColumn = 'DiaryNote' AND @SortDirection = 'ASC'
-				THEN pn.NoteText END ASC,
-			CASE WHEN @SortColumn = 'DiaryNote' AND @SortDirection = 'DESC'
-				THEN pn.NoteText END DESC,
-			CASE WHEN @IsDefaultSort = 1
-				THEN d.FollowUpDate END ASC
-	OFFSET @PageSize * (@PageNumber - 1) ROWS
-	FETCH NEXT @PageSize ROWS ONLY;
+		AND @One = CASE WHEN @Closed = @False AND d.DateResolved IS NULL THEN @One
+					 WHEN @Closed = @True AND d.DateResolved IS NOT NULL THEN @One
+					 ELSE @Zero END
 	SELECT d.DiaryId
          , d.ClaimId
          , d.PrescriptionNoteId
-         , d.[Owner]
-         , d.Created
+		 , d.[Owner]
+		 , d.Created
          , d.FollowUpDate
          , d.PatientName
          , d.ClaimNumber
@@ -130,5 +91,53 @@ AS BEGIN
          , d.InsuranceCarrier
          , d.DiaryNote 
 	FROM #Diaries AS d
+	ORDER BY CASE WHEN @SortColumn = 'DiaryId' AND @SortDirection = 'ASC'
+				THEN d.DiaryID END ASC,
+			CASE WHEN @SortColumn = 'DiaryId' AND @SortDirection = 'DESC'
+				THEN d.DiaryID END DESC,
+			CASE WHEN @SortColumn = 'Owner' AND @SortDirection = 'ASC'
+				THEN d.[Owner] END ASC,
+			CASE WHEN @SortColumn = 'Owner' AND @SortDirection = 'DESC'
+				THEN d.[Owner] END DESC,
+			CASE WHEN @SortColumn = 'Created' AND @SortDirection = 'ASC'
+				THEN d.Created END ASC,
+			CASE WHEN @SortColumn = 'Created' AND @SortDirection = 'DESC'
+				THEN d.Created END DESC,
+			CASE WHEN @SortColumn = 'FollowUpDate' AND @SortDirection = 'ASC'
+				THEN d.FollowUpDate END ASC,
+			CASE WHEN @SortColumn = 'FollowUpDate' AND @SortDirection = 'DESC'
+				THEN d.FollowUpDate END DESC,
+			CASE WHEN @SortColumn = 'PatientName' AND @SortDirection = 'ASC'
+				THEN d.PatientName END ASC,
+			CASE WHEN @SortColumn = 'PatientName' AND @SortDirection = 'DESC'
+				THEN d.PatientName END DESC,
+			CASE WHEN @SortColumn = 'ClaimNumber' AND @SortDirection = 'ASC'
+				THEN d.ClaimNumber END ASC,
+			CASE WHEN @SortColumn = 'ClaimNumber' AND @SortDirection = 'DESC'
+				THEN d.ClaimNumber END DESC,
+			CASE WHEN @SortColumn = 'Type' AND @SortDirection = 'ASC'
+				THEN d.[Type] END ASC,
+			CASE WHEN @SortColumn = 'Type' AND @SortDirection = 'DESC'
+				THEN d.[Type] END DESC,
+			CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'ASC'
+				THEN d.RxNumber END ASC,
+			CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'DESC'
+				THEN d.RxNumber END DESC,
+			CASE WHEN @SortColumn = 'RxDate' AND @SortDirection = 'ASC'
+				THEN d.RxDate END ASC,
+			CASE WHEN @SortColumn = 'RxDate' AND @SortDirection = 'DESC'
+				THEN d.RxDate END DESC,
+			CASE WHEN @SortColumn = 'InsuranceCarrier' AND @SortDirection = 'ASC'
+				THEN d.InsuranceCarrier END ASC,
+			CASE WHEN @SortColumn = 'InsuranceCarrier' AND @SortDirection = 'DESC'
+				THEN d.InsuranceCarrier END DESC,
+			CASE WHEN @SortColumn = 'DiaryNote' AND @SortDirection = 'ASC'
+				THEN d.DiaryNote END ASC,
+			CASE WHEN @SortColumn = 'DiaryNote' AND @SortDirection = 'DESC'
+				THEN d.DiaryNote END DESC,
+			CASE WHEN @IsDefaultSort = 1
+				THEN d.FollowUpDate END ASC
+	OFFSET @PageSize * (@PageNumber - 1) ROWS
+	FETCH NEXT @PageSize ROWS ONLY;
 END
 GO

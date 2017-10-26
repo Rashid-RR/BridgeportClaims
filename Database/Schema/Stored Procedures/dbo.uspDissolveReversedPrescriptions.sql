@@ -45,7 +45,7 @@ AS BEGIN
 							WHERE	nonr.DateFilled=p.DateFilled AND nonr.NDC=p.NDC AND nonr.RxNumber=p.RxNumber
 									AND p.PharmacyNABP=nonr.PharmacyNABP AND nonr.LabelName=p.LabelName
 									AND nonr.DateFilled=p.DateFilled AND ((p.BilledAmount+nonr.BilledAmount) = 0)
-									AND((p.PayIngrCost+nonr.PayIngrCost) = 0) AND p.PrescriberNPI=nonr.PrescriberNPI
+									AND((p.PayIngrCost+nonr.PayIngrCost) = 0) AND ISNULL(p.PrescriberNPI,'')=ISNULL(nonr.PrescriberNPI,'')
 							ORDER BY nonr.DateSubmitted ASC) AS nr;
 		SET @TotalRows = @@ROWCOUNT;
 		SET @PrntMsg = N'Updating ' + CONVERT(NVARCHAR, @TotalRows) + ' rows.';
@@ -134,5 +134,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 
 GO

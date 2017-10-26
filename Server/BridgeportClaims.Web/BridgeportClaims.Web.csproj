@@ -264,13 +264,11 @@
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
-    <Compile Include="Controllers\DisplayController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
     <Compile Include="Controllers\KpiController.cs" />
     <Compile Include="Controllers\LakerAutomationController.cs" />
-    <Compile Include="Controllers\NewFeaturesController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
