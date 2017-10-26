@@ -70,8 +70,8 @@ AS BEGIN
 	)
 	SELECT u.PrescriptionId
 		 , u.ClaimId
-		 , 'Jordan Gurney' [Owner]
-		 , CONVERT(DATETIME, '1/13/2017') [Created]
+		 , '' [Owner]
+		 , CONVERT(DATETIME, dtme.udfGetLocalDate()) [Created]
 		 , u.PatientName
 		 , u.ClaimNumber
 		 , u.InvoiceNumber
@@ -146,30 +146,7 @@ AS BEGIN
 				  THEN u.AdjustorPhone END ASC,
 			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'AdjustorPhone' AND @SortDirection = 'DESC'
 				  THEN u.AdjustorPhone END DESC
+			OFFSET @PageSize * (@PageNumber - 1) ROWS
+			FETCH NEXT @PageSize ROWS ONLY;
 END
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-UPDATE c SET c.TermDate = DATEADD(YEAR,100,c.TermDate) FROM dbo.Claim AS c WHERE c.TermDate IS NOT NULL
-COMMIT
 GO

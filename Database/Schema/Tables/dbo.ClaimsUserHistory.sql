@@ -14,7 +14,7 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[ClaimsUserHistory] ADD CONSTRAINT [pkClaimsUserHistory] PRIMARY KEY CLUSTERED  ([ClaimsUserHistoryID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxClaimsUserHistoryClaimIDUserIDIncludeAll] ON [dbo].[ClaimsUserHistory] ([ClaimID], [UserID]) INCLUDE ([ClaimsUserHistoryID], [CreatedOnUTC], [UpdatedOnUTC]) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxClaimsUserHistoryClaimIDUserIDIncludeAll] ON [dbo].[ClaimsUserHistory] ([ClaimID], [UserID]) INCLUDE ([ClaimsUserHistoryID], [CreatedOnUTC], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[ClaimsUserHistory] ADD CONSTRAINT [fkClaimsUserHistoryClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO

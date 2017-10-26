@@ -705,7 +705,7 @@ AS BEGIN
 	[City] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[StateID] [int] NULL,
 	[PostalCode] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[DispType] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[DispType] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	RowID VARCHAR(50) NOT NULL)
 	INSERT [#PharmacyUpdate] ([NABP],[NPI],[PharmacyName],[Address1],[Address2],[City],[StateID],[PostalCode],[DispType],[RowID])
 	SELECT  [p].[89],[p].[90],[p].[91],[p].[92],[p].[93],[p].[94],[us].[StateID],[p].[96],util.udfTrimLeadingZeros([p].[97]),[p].[RowID]
@@ -972,5 +972,6 @@ AS BEGIN
 	-- Reversed Prescriptions
 	EXEC dbo.uspDissolveReversedPrescriptions
 END
+
 
 GO
