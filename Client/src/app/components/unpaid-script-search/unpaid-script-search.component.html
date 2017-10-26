@@ -22,11 +22,14 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-sm-2 col-md-2">
+        <div class="col-sm-3 col-md-2 flex">
             <div class="form-group">
                 <label>&nbsp;</label><br/>
-                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button> </div>
-        </div>
+                <span>
+                    <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button>  &nbsp;
+                    <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="clearDates()">Clear Dates</button>                 
+                </span>
+            </div>
+        </div> 
     </div>
 </form>

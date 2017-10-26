@@ -52,5 +52,8 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
         this.toast.warning("Ensure you select both start date and end date");
     } */
   }
-
+  clearDates(){
+    $('#startDate').val('');
+    $('#endDate').val(''); 
+  }
 }
