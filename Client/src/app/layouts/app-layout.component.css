@@ -4,5 +4,8 @@
  }
  .content-wrapper.no-overflow {
     overflow: hidden;
-    max-height: 95vh;
+    max-height: calc(100vh -50px);
+    max-height: -o-calc(100vh -50px);
+    max-height: -webkit-calc(100vh -50px);
+    max-height: -moz-calc(100vh -50px);
  }

@@ -6,8 +6,9 @@ import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
-
 import { Diary } from '../models/diary';
+import {DiariesFilterPipe} from "../components/diary-results/diary-filter.pipe"
+
 @Injectable()
 export class DiaryService {
 
@@ -16,7 +17,9 @@ export class DiaryService {
   data:any={};
   owner:String;
   diaryNote:String;
-  constructor(private http: HttpService,private formBuilder: FormBuilder, private events: EventsService, private toast: ToastsManager) { 
+  constructor(private http: HttpService,private formBuilder: FormBuilder,
+      private dp:DiariesFilterPipe,
+     private events: EventsService, private toast: ToastsManager) { 
     this.data ={
       isDefaultSort: true,
       startDate: null,
@@ -35,6 +38,9 @@ export class DiaryService {
 
   get diaryList():Array<Diary>{
     return this.diaries.toArray();
+  }
+  get diaryFilterSize():Array<Diary>{
+    return  this.dp.transform(this.diaries.toArray(), this.diaryNote,this.owner);
   }
   onSortColumn(info: SortColumnInfo) {
     this.data.isDefaultSort = false;

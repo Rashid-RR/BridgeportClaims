@@ -110,7 +110,7 @@ export class SafeUrlPipe implements PipeTransform {
     Ng2Webstorage
   ],
   providers: [
-    DecimalPipe, DatePipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
+    DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
     PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,
     {
       provide: LocationStrategy,
