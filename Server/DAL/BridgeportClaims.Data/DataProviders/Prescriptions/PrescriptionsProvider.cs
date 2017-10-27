@@ -41,6 +41,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
         {
             return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
+
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetUnpaidScripts]", conn), cmd =>
                 {
                     var isDefaultSortParam = cmd.CreateParameter();
@@ -98,11 +99,13 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                     cmd.Parameters.Add(pageParam);
                     cmd.Parameters.Add(pageSizeParam);
                     cmd.Parameters.Add(totalRowsParam);
+                    IList<UnpaidScriptResultDto> retValResults = new List<UnpaidScriptResultDto>();
+                    var retVal = new UnpaidScriptsDto();
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
-                    return DisposableService.Using(cmd.ExecuteReader, reader =>
+                    DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
-                        IList<UnpaidScriptResultDto> retValResults = new List<UnpaidScriptResultDto>();
+                        
                         var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionId");
                         var claimIdOrdinal = reader.GetOrdinal("ClaimId");
                         var patientNameOrdinal = reader.GetOrdinal("PatientName");
@@ -139,13 +142,10 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                             };
                             retValResults.Add(record);
                         }
-                        var retVal = new UnpaidScriptsDto
-                        {
-                            UnpaidScriptResults = retValResults,
-                            TotalRowCount = totalRowsParam.Value as int? ?? default(int)
-                        };
-                        return retVal;
                     });
+                    retVal.UnpaidScriptResults = retValResults;
+                    retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
+                    return retVal;
                 });
             });
         }
