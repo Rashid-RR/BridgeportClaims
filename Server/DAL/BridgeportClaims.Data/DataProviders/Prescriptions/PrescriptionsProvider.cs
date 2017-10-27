@@ -11,6 +11,7 @@ using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Prescriptions
 {
+    [System.Runtime.InteropServices.Guid("0028E4FF-0EE4-44FA-AF9C-3AFE551D7CAE")]
     public class PrescriptionsProvider : IPrescriptionsProvider
     {
         private readonly IRepository<Prescription> _prescriptionRepository;
@@ -35,7 +36,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             return op;
         }
 
-        public IList<UnpaidScriptsDto> GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
+        public UnpaidScriptsDto GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
             string sort, string sortDirection, int page, int pageSize)
         {
             return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
@@ -83,6 +84,11 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                     pageSizeParam.Value = pageSize;
                     pageSizeParam.DbType = DbType.Int32;
                     pageSizeParam.SqlDbType = SqlDbType.Int;
+                    var totalRowsParam = cmd.CreateParameter();
+                    totalRowsParam.ParameterName = "@TotalRows";
+                    totalRowsParam.DbType = DbType.Int32;
+                    totalRowsParam.SqlDbType = SqlDbType.Int;
+                    totalRowsParam.Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add(isDefaultSortParam);
                     cmd.Parameters.Add(startDateParam);
@@ -91,11 +97,14 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                     cmd.Parameters.Add(sortDirectionParam);
                     cmd.Parameters.Add(pageParam);
                     cmd.Parameters.Add(pageSizeParam);
+                    cmd.Parameters.Add(totalRowsParam);
+                    IList<UnpaidScriptResultDto> retValResults = new List<UnpaidScriptResultDto>();
+                    var retVal = new UnpaidScriptsDto();
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
-                    return DisposableService.Using(cmd.ExecuteReader, reader =>
+                    DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
-                        IList<UnpaidScriptsDto> retVal = new List<UnpaidScriptsDto>();
+                        
                         var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionId");
                         var claimIdOrdinal = reader.GetOrdinal("ClaimId");
                         var patientNameOrdinal = reader.GetOrdinal("PatientName");
@@ -113,7 +122,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         
                         while (reader.Read())
                         {
-                            var record = new UnpaidScriptsDto
+                            var record = new UnpaidScriptResultDto
                             {
                                 PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
                                 ClaimId = reader.GetInt32(claimIdOrdinal),
@@ -130,10 +139,12 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                                 AdjustorName = !reader.IsDBNull(adjustorNameOrdinal) ? reader.GetString(adjustorNameOrdinal) : string.Empty,
                                 AdjustorPhone = !reader.IsDBNull(adjustorPhoneOrdinal) ? reader.GetString(adjustorPhoneOrdinal) : string.Empty
                             };
-                            retVal.Add(record);
+                            retValResults.Add(record);
                         }
-                        return retVal;
                     });
+                    retVal.UnpaidScriptResults = retValResults;
+                    retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
+                    return retVal;
                 });
             });
         }
