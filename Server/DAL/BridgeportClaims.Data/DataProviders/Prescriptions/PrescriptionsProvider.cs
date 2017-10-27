@@ -41,7 +41,6 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
         {
             return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetUnpaidScripts]", conn), cmd =>
                 {
                     var isDefaultSortParam = cmd.CreateParameter();
