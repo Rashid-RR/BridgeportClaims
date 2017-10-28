@@ -79,8 +79,8 @@ AS BEGIN
 		INNER JOIN  dbo.Pharmacy		AS ph ON p.PharmacyNABP = ph.NABP
 		INNER JOIN  dbo.UsState			AS us ON ph.StateID = us.StateID
 		LEFT JOIN   dbo.Adjustor		AS a ON c.AdjusterID = a.AdjustorID
-	WHERE           (p.DateFilled >= @iStartDate OR @iStartDate IS NULL)  -- TODO: find out which date we are really filtering on.
-					AND (p.DateFilled <= @iEndDate OR @iEndDate IS NULL)
+	WHERE           (i.InvoiceDate >= @iStartDate OR @iStartDate IS NULL)
+					AND (i.InvoiceDate <= @iEndDate OR @iEndDate IS NULL)
 					AND 1 = CASE WHEN ph.StateID != @MI AND DATEDIFF(DAY, i.InvoiceDate, @LocalDate) > @NonMichiganThreshold THEN 1
 									WHEN ph.StateID = @MI AND DATEDIFF(DAY, i.InvoiceDate, @LocalDate) > @MichiganThreshold THEN 1
 									ELSE 0
@@ -188,4 +188,5 @@ AS BEGIN
 			OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 			FETCH NEXT @iPageSize ROWS ONLY;
 END
+
 GO

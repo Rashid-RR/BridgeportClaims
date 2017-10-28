@@ -21,7 +21,7 @@
                                 </span>
                                 <span class="total pull-right">
                                     <span *ngIf="us.pageStart" style="margin-right:100px;"> {{us.pageStart+ " to "+us.pageEnd}}</span>
-                                    <span *ngIf="us.unpaidScriptList.length>0"><span style="font-size:13pt">{{us.unpaidScriptList.length}}</span> Record{{us.unpaidScriptList.length>1 ? 's':''}} found</span>
+                                    <span *ngIf="us.unpaidScriptList.length>0"><span style="font-size:13pt">{{us.totalRowCount}}</span> Record{{us.totalRowCount>1 ? 's':''}} found</span>
                                 </span>
                             </div>
                             <div class="box-body unpaid-script-results">

@@ -14,6 +14,7 @@ export class UnpaidScriptService {
   loading: Boolean = false; 
   unpaidscripts: Immutable.OrderedMap<Number, UnpaidScript> = Immutable.OrderedMap<Number, UnpaidScript>();
   data:any={};
+  totalRowCount:Number;
   constructor(private http: HttpService,private formBuilder: FormBuilder, private events: EventsService, private toast: ToastsManager) { 
     this.data ={
       isDefaultSort: true,
@@ -68,8 +69,9 @@ export class UnpaidScriptService {
        this.http.unpaidScriptsList(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
+          this.totalRowCount = result.totalRowCount;
           this.unpaidscripts= Immutable.OrderedMap<Number, UnpaidScript>(); 
-          result.forEach((script:UnpaidScript)=>{
+          result.unpaidScriptResults.forEach((script:UnpaidScript)=>{
             try{
               this.unpaidscripts = this.unpaidscripts.set(script.prescriptionId,script);
             }catch(e){}           
