@@ -21,7 +21,7 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
     private dp: DatePipe,
     private fb: FormBuilder
   ) {
-      
+
   }
 
   ngOnInit() {
@@ -40,20 +40,14 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-    let startDate = this.dp.transform($('#startDate').val(), "dd/M/yyyy");
-    let endDate = this.dp.transform($('#endDate').val(), "dd/M/yyyy");
- 
-    //if(this.startDate && this.endDate){
-      this.us.data.startDate = startDate || null
-      this.us.data.endDate = endDate || null
-      
-      this.us.search();
-   /*  }else{
-        this.toast.warning("Ensure you select both start date and end date");
-    } */
+    let startDate = this.dp.transform($('#startDate').val(), "dd/MM/yyyy");
+    let endDate = this.dp.transform($('#endDate').val(), "dd/MM/yyyy");
+    this.us.data.startDate = startDate || null
+    this.us.data.endDate = endDate || null
+    this.us.search();
   }
   clearDates(){
     $('#startDate').val('');
-    $('#endDate').val(''); 
+    $('#endDate').val('');
   }
 }

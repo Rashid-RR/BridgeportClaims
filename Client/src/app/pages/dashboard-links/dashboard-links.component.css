@@ -26,22 +26,24 @@
     box-shadow: 1px 1px 8px 1px #333;
 }
 
-li.diaries {
-    background: url('/assets/img/private-1.png') no-repeat;
-}
 li.claims {
-    background: url('/assets/img/private-2.png') no-repeat;
+    background: url('/assets/img/claims-btn.png') no-repeat;
+}
+li.diaries {
+    background: url('/assets/img/diaries-btn.png') no-repeat;
+}
+li.unpaid-scripts {
+    background: url('/assets/img/unpaid-scripts-btn.png') no-repeat;
 }
 li.payments {
-    background: url('/assets/img/private-3.png') no-repeat;
+    background: url('/assets/img/payments-btn.png') no-repeat;
 }
 li.file-uploads {
-    background: url('/assets/img/private-4.png') no-repeat;
+    background: url('/assets/img/file-uploads-btn.png') no-repeat;
 }
 li.user-management {
-    background: url('/assets/img/private-5.png') no-repeat;
+    background: url('/assets/img/user-management-btn.png') no-repeat;
 }
-
 #container {
 	min-width: calc(90vw - 210px);
 	min-width: -moz-calc(90vw - 210px);
