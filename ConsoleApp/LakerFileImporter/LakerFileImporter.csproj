@@ -96,6 +96,7 @@
     <Compile Include="Logging\LoggingService.cs" />
     <Compile Include="ProgramRunner\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\CompiledSecurityProvider.cs" />
     <Compile Include="Security\Encryptor.cs" />
     <Compile Include="Security\SensitiveStringsProvider.cs" />
     <Compile Include="Security\UnsecureExtensions.cs" />
@@ -106,7 +107,6 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="LakerFileImporter_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

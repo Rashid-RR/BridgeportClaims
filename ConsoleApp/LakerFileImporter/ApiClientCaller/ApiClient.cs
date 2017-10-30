@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Net.Http;
@@ -6,7 +7,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using LakerFileImporter.Logging;
 using LakerFileImporter.Security;
-using NLog;
 using ServiceStack.Text;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 using c = LakerFileImporter.StringConstants.Constants;
@@ -27,8 +27,7 @@ namespace LakerFileImporter.ApiClientCaller
             var request = new HttpRequestMessage(HttpMethod.Post, _apiHostName + authUrl);
             try
             {
-                var provider = new SensitiveStringsProvider();
-                var password = provider.GetAuthenticatedPassword().ToUnsecureString();
+                var password = CompiledSecurityProvider.GetBridgeportClaimsSiteUserPassword();
                 var dictionary = new Dictionary<string, string>
                 {
                     {"username", cs.GetAppSetting(c.AuthenticationUserNameKey)},

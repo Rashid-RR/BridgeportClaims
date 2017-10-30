@@ -7,7 +7,6 @@ namespace LakerFileImporter.Security
     public class SensitiveStringsProvider
     {
         public SecureString GetDbConnString() => Encryptor.DecryptString(cs.GetDbConnStr());
-
         public SecureString GetAuthenticatedPassword() => Encryptor.DecryptString(cs.GetAppSetting(c.AuthenticationPasswordKey));
 
         public string EncryptAuthenticatedPassword() => Encryptor.EncryptString(

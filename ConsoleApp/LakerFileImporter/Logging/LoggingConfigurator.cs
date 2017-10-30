@@ -10,8 +10,6 @@ namespace LakerFileImporter.Logging
     {
         public static void ConfigureNLog()
         {
-            var sensitiveStringsProvider = new SensitiveStringsProvider();
-
             // Step 1. Create configuration object 
             var config = new LoggingConfiguration();
 
@@ -19,7 +17,7 @@ namespace LakerFileImporter.Logging
             var dbTarget = new DatabaseTarget();
             config.AddTarget("Database", dbTarget);
 
-            dbTarget.ConnectionString = sensitiveStringsProvider.GetDbConnString()?.ToUnsecureString();
+            dbTarget.ConnectionString = CompiledSecurityProvider.GetConnectionString();
             dbTarget.CommandType = CommandType.StoredProcedure;
             dbTarget.CommandText = "[dbo].[uspNLogInsert]";
             dbTarget.Name = "db";
