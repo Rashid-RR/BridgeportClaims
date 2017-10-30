@@ -22,7 +22,8 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -91,6 +92,8 @@
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Helpers\FileDateParsingHelper.cs" />
     <Compile Include="IO\IoHelper.cs" />
+    <Compile Include="Logging\LoggingConfigurator.cs" />
+    <Compile Include="Logging\LoggingService.cs" />
     <Compile Include="ProgramRunner\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\Encryptor.cs" />
@@ -100,7 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="AppStaging.config" />
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="LakerFileImporter_TemporaryKey.pfx" />
     <None Include="packages.config" />
   </ItemGroup>
