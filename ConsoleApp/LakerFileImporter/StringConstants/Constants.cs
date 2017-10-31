@@ -13,5 +13,6 @@
         public const string AuthenticationUserNameKey = "AuthenticationUserName";
         public const string AuthenticationPasswordKey = "AuthenticationPassword";
         public const string LakerFileProcessingApiUrlKey = "LakerFileProcessingApiUrl";
+        public const string MonthFolderFormatKey = "MonthFolderFormat";
     }
 }

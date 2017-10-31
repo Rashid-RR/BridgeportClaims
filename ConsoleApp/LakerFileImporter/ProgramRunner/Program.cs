@@ -1,35 +1,45 @@
 ﻿using System;
+using System.Reflection;
+using cs = LakerFileImporter.ConfigService.ConfigService;
 using System.Threading.Tasks;
 using LakerFileImporter.Business;
-using NLog;
+using LakerFileImporter.Logging;
 
 namespace LakerFileImporter.ProgramRunner
 {
     public class Program
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         public static void Main(string[] args)
         {
+            var loggingService = LoggingService.Instance;
+            var logger = loggingService.Logger;
             try
             {
+                if (cs.AppIsInDebugMode)
+                {
+                    var now = DateTime.Now.ToString("G");
+                    var methodName = MethodBase.GetCurrentMethod().Name;
+                    logger.Info($"Entered the {methodName} method on {now}");
+                }
                 var driver = new LakerFileProcessor();
                 var result = driver.UploadAndProcessLakerFileIfNecessary().GetAwaiter().GetResult();
+                if (!cs.AppIsInDebugMode) return;
                 switch (result)
                 {
                     case LakerFileProcessResult.NoFilesFoundInFileDirectory:
-                        Logger.Info("No Laker files where found in the local file directory.");
+                        logger.Info("No Laker files where found in the local file directory.");
                         break;
                     case LakerFileProcessResult.NoLakerFileProcessingNecessary:
-                        Logger.Info("No Laker file processing is necessary.");
+                        logger.Info("No Laker file processing is necessary.");
                         break;
                     case LakerFileProcessResult.LakerFileFailedToUpload:
-                        Logger.Info("Laker file failed to upload.");
+                        logger.Info("Laker file failed to upload.");
                         break;
                     case LakerFileProcessResult.LakerFileFailedToProcess:
-                        Logger.Info("Laker file failed to process.");
+                        logger.Info("Laker file failed to process.");
                         break;
                     case LakerFileProcessResult.LakerFileProcessStartedSuccessfully:
-                        Logger.Info("The Laker file process started successfully.");
+                        logger.Info("The Laker file process started successfully.");
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -37,12 +47,12 @@ namespace LakerFileImporter.ProgramRunner
             }
             catch (TaskCanceledException ex)
             {
-                Logger.Error(ex);
+                logger.Error(ex);
                 throw;
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                logger.Error(ex);
                 throw;
             }
         }

@@ -37,15 +37,16 @@
                     <li routerLinkActive="active" [class.disabled]="disableLinks">
                         <a style="cursor:pointer;" (click)="!disableLinks ? logout() : ''" class="navbar-link" [class.disabled]="disableLinks">Logout</a>
                     </li>
-                    <p class="ver4">Version 6.75</p>
+                    <!-- here is a version number in ng- containor because in this containor all things are disply when user are logeed in -->
+                    <p class="ver3">Version 6.77</p>
                 </ng-container>
             </ul>
         </div>
     </nav>
-<!-- 
+<!--
     <p class="ver">Version 6.5</p>
     <p class="ver1">Version 6.6</p>-->
-    
-<!-- 
+
+<!--
     <p class="ver3">Version 6.8</p>
     <p class="ver4">Version 6.8</p>-->

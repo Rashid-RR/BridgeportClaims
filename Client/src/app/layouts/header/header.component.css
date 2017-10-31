@@ -52,12 +52,12 @@ li a {
         -o-text-overflow: clip;
         text-overflow: clip;
         white-space: pre;
-        text-shadow: 1px 1px 0 rgba(255, 254, 254, 0.6) , -1px -1px 1px rgba(75, 69, 69, 0.67) ;   
+        text-shadow: 1px 1px 0 rgba(255, 254, 254, 0.6) , -1px -1px 1px rgba(75, 69, 69, 0.67) ;
         position: fixed;
         top: 20px;
         width: auto;
         z-index: 999999;
-        left: 40%;   
+        left: 40%;
 }
 .ver2 {
     -webkit-box-sizing: content-box;
@@ -76,7 +76,7 @@ li a {
     z-index: 999999;
     left: 40%;
   }
-  
+
   .ver2::before {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -109,7 +109,7 @@ li a {
     -webkit-transform:  scaleY(-1)  ;
     transform:  scaleY(-1)  ;
   }
-  
+
   .ver2::after {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
@@ -148,16 +148,15 @@ li a {
     top: 20px;
     width: auto;
     z-index: 999999;
-    left: 40%;
   }
-  
+
   .ver3::after {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
-    box-sizing: content-box;    
+    box-sizing: content-box;
     height:auto;
     position: absolute;
-    content: "";    
+    content: "";
     border: none;
     font: normal 16px/normal Arial, Helvetica, sans-serif;
     color: rgba(0,0,0,0.9);
@@ -196,8 +195,24 @@ li a {
     width: auto;
     z-index: 999999;
   }
-  
-  @media screen and (min-width: 300px) {        
+  @media screen and (min-width: 300px) {
+    .ver3 {
+        left: calc(100% - 710px);
+        left: -o-calc(100% - 710px);
+        left: -webkit-calc(100% - 710px);
+        left: -moz-calc(100% - 710px);
+    }
+  }
+
+  @media screen and (min-width: 1300px) {
+    .ver3 {
+        left: calc(50% - 65px);
+        left: -o-calc(50% - 65px);
+        left: -webkit-calc(50% - 65px);
+        left: -moz-calc(50% - 65px);
+    }
+  }
+  @media screen and (min-width: 300px) {
     .ver4 {
         left: calc(100% - 710px);
         left: -o-calc(100% - 710px);
@@ -206,7 +221,7 @@ li a {
     }
   }
 
-  @media screen and (min-width: 1300px) {        
+  @media screen and (min-width: 1300px) {
     .ver4 {
         left: calc(50% - 65px);
         left: -o-calc(50% - 65px);

@@ -3,6 +3,8 @@ using System.Security.Cryptography;
 using System.Security;
 using System.Text;
 using System.Runtime.InteropServices;
+using LakerFileImporter.Logging;
+using NLog;
 
 namespace LakerFileImporter.Security
 {

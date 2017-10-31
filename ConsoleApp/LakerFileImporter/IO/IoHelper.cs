@@ -15,7 +15,9 @@ namespace LakerFileImporter.IO
         {
             try
             {
-                var directoryInfo = new DirectoryInfo(cs.GetAppSetting(c.LakerFilePathKey));
+                var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
+                var monthFolderDirectory = DateTime.Now.ToString(monthFolderFormat);
+                var directoryInfo = new DirectoryInfo(Path.Combine(cs.GetAppSetting(c.LakerFilePathKey), monthFolderDirectory));
                 var files = directoryInfo.GetFiles()
                     .Where(x => x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
                     .OrderByDescending(p => p.CreationTime)

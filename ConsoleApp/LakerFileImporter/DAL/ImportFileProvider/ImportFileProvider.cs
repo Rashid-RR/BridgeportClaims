@@ -4,8 +4,10 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using LakerFileImporter.DAL.ImportFileProvider.Dtos;
 using LakerFileImporter.Disposable;
+using LakerFileImporter.Logging;
 using LakerFileImporter.Security;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 using c = LakerFileImporter.StringConstants.Constants;
@@ -15,16 +17,27 @@ namespace LakerFileImporter.DAL.ImportFileProvider
 {
     internal class ImportFileProvider
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LoggingService.Instance.Logger;
 
         internal IList<ImportFileDto> GetImportFileDtos()
+        {
+            var files = GetImportFileDtosInternal();
+            if (!cs.AppIsInDebugMode) return files;
+            var methodName = MethodBase.GetCurrentMethod().Name;
+            var now = DateTime.Now.ToString("G");
+            var fileCount = files?.Count;
+            Logger.Info(null == fileCount
+                ? $"The database query for uploaded Laker Files did not return any results in method {methodName} on {now}."
+                : $"The Laker file database query found a total of {fileCount} files in method {methodName} on {now}.");
+            return files;
+        }
+
+        private static IList<ImportFileDto> GetImportFileDtosInternal()
         {
             try
             {
                 var files = new List<ImportFileDto>();
-                var provider = new SensitiveStringsProvider();
-                var connStr = provider.GetDbConnString().ToUnsecureString();
-
+                var connStr = CompiledSecurityProvider.GetConnectionString();
                 return DisposableService.Using(() => new SqlConnection(connStr), connection =>
                 {
                     return DisposableService.Using(() => new SqlCommand("dbo.uspGetImportFile", connection),
@@ -78,6 +91,13 @@ namespace LakerFileImporter.DAL.ImportFileProvider
         {
             try
             {
+                if (cs.AppIsInDebugMode)
+                {
+                    var methodName = MethodBase.GetCurrentMethod().Name;
+                    var now = DateTime.Now.ToString("G");
+                    Logger.Info("Now marking the file has having been successfully processed. " +
+                                $"TODO: store the results of the outcome in the database. This was logged in {methodName} on {now}.");
+                }
                 // Remove cached entries
                 const string sql = @"UPDATE i SET i.Processed = 1 FROM " +
                                    "util.ImportFile AS i WHERE i.[FileName] = @FileName;";
