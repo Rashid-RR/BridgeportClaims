@@ -80,7 +80,7 @@ export class PaymentInputComponent implements OnInit {
          form.checkNumber = this.paymentService.paymentPosting.checkNumber; */
          form.amountSelected = this.paymentService.paymentPosting.amountSelected;
          //console.log(form);
-         if (a.amountRemaining == 0) {
+         if (a.amountRemaining == 0 && this.paymentService.paymentPosting.sessionId) {
           this.finalizePosting();
          }else if (a.amountRemaining <= 0) {
           this.events.broadcast("disable-links",false);
@@ -206,7 +206,7 @@ export class PaymentInputComponent implements OnInit {
 
       form.paymentPostings = payments;
       //this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
-      if(this.paymentService.paymentPosting.lastAmountRemaining == 0){
+      if(this.paymentService.paymentPosting.lastAmountRemaining == 0 && this.paymentService.paymentPosting.sessionId){
         this.finalizePosting();
       }else{
 
@@ -233,7 +233,7 @@ export class PaymentInputComponent implements OnInit {
           //console.log(Number(form.amountToPost) > Number(form.checkAmount));
           this.toast.warning("Error. You may not post an amount that puts the \"Amount Remaining\" for this check into the negative.", null,
           {toastLife: 10000});
-        }else if(form.amountToPost==0 || form.amountToPost==null){
+        }else if(form.amountToPost==0 || form.amuontToPost==null){
           this.toast.warning("You need to specify amount to post");
         }else {
           this.paymentService.post(form);
