@@ -5,6 +5,6 @@ namespace BridgeportClaims.Data.DataProviders.KPI
 {
     public interface IKpiProvider
     {
-        IList<PaymentTotalsDto> GetPaymentTotalsDtos(int month, int year);
+        IList<PaymentTotalsDto> GetPaymentTotalsDtos();
     }
 }

@@ -19,7 +19,7 @@ namespace BridgeportClaims.Data.DataProviders.KPI
             _factory = factory;
         }
 
-        public IList<PaymentTotalsDto> GetPaymentTotalsDtos(int month, int year)
+        public IList<PaymentTotalsDto> GetPaymentTotalsDtos()
         {
             return DisposableService.Using(() => _factory.OpenSession(), session =>
             {
@@ -29,14 +29,14 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                         try
                         {
                             var paymentTotals = session
-                                .CreateSQLQuery(@"SELECT  DatePosted = CONVERT(DATE, pp.DatePosted)
-                                , SUM(pp.AmountPaid) TotalPosted
-                                FROM    dbo.PrescriptionPayment AS pp
-                                WHERE YEAR(CONVERT(DATE, pp.DatePosted)) = :Year
-                            AND MONTH(CONVERT(DATE, pp.DatePosted)) = :Month
-                            GROUP BY CONVERT(DATE, pp.DatePosted)
-                            ORDER BY DatePosted ASC").SetInt32("Month", month)
-                                .SetInt32("Year", year)
+                                .CreateSQLQuery(  @"DECLARE @Today DATE = CONVERT(DATE, dtme.udfGetLocalDate())
+                                                    DECLARE @TwentyOneDaysAgo DATE =  DATEADD(DAY, -21, @Today)
+                                                    SELECT      DatePosted  = pp.DatePosted
+                                                              , TotalPosted = SUM(pp.AmountPaid)
+                                                    FROM        dbo.PrescriptionPayment AS pp
+                                                    WHERE       pp.DatePosted BETWEEN @TwentyOneDaysAgo AND @Today
+                                                    GROUP BY    pp.DatePosted
+                                                    ORDER BY    DatePosted ASC")
                                 .SetMaxResults(5000)
                                 .SetResultTransformer(Transformers.AliasToBean(typeof(PaymentTotalsDto)))
                                 .List<PaymentTotalsDto>();
