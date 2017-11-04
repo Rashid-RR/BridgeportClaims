@@ -27,6 +27,9 @@ import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { DiaryComponent } from './pages/diary/diary.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
+import { ReportComponent } from './pages/report/report.component';
+import { ReportListComponent } from './pages/report-list/report-list.component';
+import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
 
 export const routes: Routes = [
   {
@@ -69,6 +72,25 @@ export const routes: Routes = [
           {
             path: 'profile',
             component: ProfileComponent
+          },
+          {
+            path: 'reports',
+            component: ReportComponent,
+            children:[
+              {
+                  path: '',
+                  redirectTo: 'list',
+                  pathMatch: 'full',
+              },
+              {
+                path: 'list',
+                component:ReportListComponent
+              },
+              {
+                path: 'sample',
+                component:ReportSampleComponent
+              }
+            ] 
           },
           {
             path: 'payors',

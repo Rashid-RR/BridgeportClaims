@@ -57,6 +57,9 @@ import { PaymentComponent } from './pages/payment/payment.component';
 import { PaymentService} from './services/payment-service';
 import { ColumnSortDirective } from './directives/column-sort.directive';
 import { TableSortDirective } from './directives/table-sort.directive';
+import { ReportComponent } from './pages/report/report.component';
+import { ReportListComponent } from './pages/report-list/report-list.component';
+import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
  
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -86,7 +89,7 @@ export class SafeUrlPipe implements PipeTransform {
     LoginComponent,
     MainComponent,
     PasswordResetComponent,
-    RegisterComponent,
+    RegisterComponent, ReportComponent,
     DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent, ProfileComponent,
     SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
      ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
@@ -95,7 +98,7 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent
   ],
   imports: [
     BrowserModule,
