@@ -46,7 +46,7 @@ export class DashboardLinksComponent implements OnInit ,AfterViewInit{
         })
         var chart = Highcharts.chart('container', {      
             title: {
-                text: 'Revenue From Last 13 Days'
+                text: 'Revenue From Last 21 Days'
             },
             chart: {
               type: 'column'
