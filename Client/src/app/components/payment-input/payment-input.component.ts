@@ -216,6 +216,7 @@ export class PaymentInputComponent implements OnInit {
         this.paymentService.paymentPosting.checkNumber = form.checkNumber;
         form.lastAmountRemaining=this.paymentService.paymentPosting.lastAmountRemaining;
         form.sessionId=this.paymentService.paymentPosting.sessionId;
+        form.amuontToPost = Number.parseFloat(form.amuontToPost);
         //console.log(Number(form.amountToPost), Number(form.checkAmount))
         //console.log(form.amountToPost,form.amountSelected,this.paymentService.paymentPosting.amountSelected,this.paymentService.amountSelected);
         if(this.paymentService.selected.length>1 && form.amountToPost!=form.amountSelected){
@@ -238,6 +239,7 @@ export class PaymentInputComponent implements OnInit {
         }else {
           this.paymentService.post(form);
         }
+        console.log(form);
       }
     }
   }
