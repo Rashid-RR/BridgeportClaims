@@ -153,16 +153,16 @@ td .btn-group.open .dropdown-toggle {
 
 .pagination-row{
     position:absolute;
-    right: calc(50% - 144px);
+    right: calc(50% - 214px);
     bottom:15px;
     background: -webkit-linear-gradient(top, #fff 0%, #eeedec 40%, #faf6e9 100%);
     background: linear-gradient(to bottom, #fff 0%, #eeedec 40%, #faf6e9 100%);
     padding:5px 35px;
-    width: 288px;
+    width: 428px;
     border-radius:10px;
     text-align: center;
 }
- .pagination-row button{
+ .pagination-row button:not(.goto){
     margin:5px;
     /* background:transparent; */
     font-family: 'Cambay', sans-serif !important;
@@ -173,6 +173,22 @@ td .btn-group.open .dropdown-toggle {
     padding:4px 10px 1px 10px;
     font-size: 13px;
     text-anchor: middle;
+}
+
+.pagination-row button.goto,.pagination-row  .input-group .form-control{
+    margin:5px;
+    /* background:transparent; */
+    font-family: 'Cambay', sans-serif !important;
+    line-height: normal;
+    vertical-align:middle; 
+    font-weight: 700;
+    padding:4px 10px 1px 10px;
+    font-size: 13px;
+    text-anchor: middle;
+}
+
+.pagination-row  .input-group .form-control{
+    height:28px;
 }
 /*.pagination-row button:hover,.pagination-row button.selected{
     box-shadow: inset 0px 1px 1px white, 1px 1px 1px rgba(0, 0, 0, 0.75);

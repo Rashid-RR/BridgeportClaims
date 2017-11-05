@@ -6,6 +6,7 @@ import {PrescriptionNote} from "../../models/prescription-note";
 import {DiaryScriptNoteWindowComponent} from "../../components/components-barrel";
 import {WindowsInjetor,CustomPosition,Size,WindowConfig} from "../ng-window";
 import {Router} from "@angular/router";
+import { Toast,ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
   selector: 'app-diary-results',
@@ -13,8 +14,10 @@ import {Router} from "@angular/router";
   styleUrls: ['./diary-results.component.css']
 })
 export class DiaryResultsComponent implements OnInit {
+  goToPage:any;
+  activeToast: Toast;
   constructor(private _router:Router,public diaryService:DiaryService,private http:HttpService,
-    private myInjector: WindowsInjetor,public viewContainerRef:ViewContainerRef) {
+    private myInjector: WindowsInjetor,public viewContainerRef:ViewContainerRef, private toast: ToastsManager) {
       
   }
 
@@ -47,6 +50,29 @@ export class DiaryResultsComponent implements OnInit {
   }
   prev(){ 
       this.diaryService.search(false,true);
+  }
+
+  goto(){ 
+    let page = Number.parseInt(this.goToPage);
+    if(!this.goToPage || isNaN(page)){ 
+      if(this.activeToast && this.activeToast.timeoutId){
+        this.activeToast.message =  'Invalid page number entered'
+      }else{
+        this.toast.warning('Invalid page number entered').then((toast: Toast) => {
+            this.activeToast = toast;
+        })
+      }
+    }else if(page >0 && ((this.diaryService.totalPages && page<=this.diaryService.totalPages) || this.diaryService.totalPages==null)){
+      this.diaryService.search(false,false,page);
+    }else{
+      if(this.activeToast && this.activeToast.timeoutId){
+        this.activeToast.message = 'Page number entered is out of range'
+      }else{
+        this.toast.warning('Page number entered is out of range').then((toast: Toast) => {
+            this.activeToast = toast;
+        })
+      } 
+    }
   }
 
 

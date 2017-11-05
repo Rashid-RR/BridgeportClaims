@@ -17,6 +17,7 @@ export class DiaryService {
   data:any={};
   owner:String;
   diaryNote:String;
+  totalRowCount:number;
   constructor(private http: HttpService,private formBuilder: FormBuilder,
       private dp:DiariesFilterPipe,
      private events: EventsService, private toast: ToastsManager) { 
@@ -35,7 +36,12 @@ export class DiaryService {
   refresh() {
 
   }
-
+  get totalPages(){
+    return this.totalRowCount ? Math.ceil(this.totalRowCount/this.data.pageSize): null;
+  }
+  /* get totalPages(){
+    return this.totalRowCount ? Math.ceil(this.totalRowCount/this.data.pageSize): null;
+  } */
   get diaryList():Array<Diary>{
     return this.diaries.toArray();
   }
@@ -49,7 +55,7 @@ export class DiaryService {
     this.search();
   }
   
-  search(next:Boolean=false,prev:Boolean=false){
+  search(next:Boolean=false,prev:Boolean=false,page:number = undefined){
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');
     } else {
@@ -61,7 +67,10 @@ export class DiaryService {
       }
       if(prev && data.page>1){
         data.page--;
-      }
+      }   
+      if(page){
+        data.page=page;
+      } 
       this.http.diaryList(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
@@ -76,7 +85,10 @@ export class DiaryService {
           }
           if(prev && this.data.page !=data.page){
             this.data.page--;
-          }   
+          }      
+          if(page){
+            this.data.page=page;
+          } 
           setTimeout(()=>{
             //this.events.broadcast('payment-amountRemaining',result)
           },200);           

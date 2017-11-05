@@ -14,7 +14,7 @@ export class UnpaidScriptService {
   loading: Boolean = false; 
   unpaidscripts: Immutable.OrderedMap<Number, UnpaidScript> = Immutable.OrderedMap<Number, UnpaidScript>();
   data:any={};
-  totalRowCount:Number;
+  totalRowCount:number;
   constructor(private http: HttpService,private formBuilder: FormBuilder, private events: EventsService, private toast: ToastsManager) { 
     this.data ={
       isDefaultSort: true,
@@ -40,6 +40,9 @@ export class UnpaidScriptService {
   get pageEnd(){
     return this.unpaidScriptList.length>1 ? (this.data.pageSize>this.unpaidScriptList.length ? ((this.data.page-1)*this.data.pageSize)+this.unpaidScriptList.length : (this.data.page)*this.data.pageSize) : null;
   }
+  get totalPages(){
+    return this.totalRowCount ? Math.ceil(this.totalRowCount/this.data.pageSize): null;
+  }
 
   get end():Boolean{
     return this.pageStart && this.data.pageSize>this.unpaidScriptList.length;
@@ -54,7 +57,7 @@ export class UnpaidScriptService {
     this.search();
   }
   
-  search(next:Boolean=false,prev:Boolean=false){
+  search(next:Boolean=false,prev:Boolean=false,page:number=undefined){
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');
     } else {
@@ -65,6 +68,9 @@ export class UnpaidScriptService {
       }
       if(prev && data.page>1){
         data.page--;
+      }
+      if(page && page >0 && page<=this.totalPages){
+        data.page=page;
       }
        this.http.unpaidScriptsList(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
@@ -81,7 +87,10 @@ export class UnpaidScriptService {
           }
           if(prev && this.data.page !=data.page){
             this.data.page--;
-          }         
+          }     
+          if(page){
+            this.data.page=page;
+          }    
         }, err => {
           this.loading = false;
           try {

@@ -83,8 +83,14 @@
         </div>
         <div class="btn-group pagination-row">
             <button type="button" class="btn btn-default  btn-md" [disabled]="uss.data.page<=1" (click)="prev()">Prev</button>
-            <button type="button" class="btn btn-default  selected btn-md">   {{uss.data.page}}</button>
+            <button type="button" class="btn btn-default  selected btn-md">   {{uss.data.page}} of {{uss.totalPages}}</button>
             <button type="button" class="btn btn-default  btn-md" [disabled]="uss.end" (click)="next()">Next</button>
+            <div class="input-group" style="width:134px">
+                <input class="form-control" [attr.placeholder]="uss.data.page" [(ngModel)]="goToPage">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
