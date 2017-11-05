@@ -189,7 +189,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
         </div>`;
     this.claimManager.loading = false;
     swal({
-      title: 'Claim Note',
+      title: 'Prescrption Note' +(notes.length>1 ? "s" : ""),
       width: window.innerWidth * 3 / 4 + "px",
       html: html
     }).then(success => {
