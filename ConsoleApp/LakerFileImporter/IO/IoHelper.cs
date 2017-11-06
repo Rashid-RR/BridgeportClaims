@@ -17,7 +17,10 @@ namespace LakerFileImporter.IO
             {
                 var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
                 var monthFolderDirectory = DateTime.Now.ToString(monthFolderFormat);
-                var directoryInfo = new DirectoryInfo(Path.Combine(cs.GetAppSetting(c.LakerFilePathKey), monthFolderDirectory));
+                var pathWithMonthDirectory = Path.Combine(cs.GetAppSetting(c.LakerFilePathKey), monthFolderDirectory);
+                if (!Directory.Exists(pathWithMonthDirectory))
+                    Directory.CreateDirectory(pathWithMonthDirectory);
+                var directoryInfo = new DirectoryInfo(pathWithMonthDirectory);
                 var files = directoryInfo.GetFiles()
                     .Where(x => x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
                     .OrderByDescending(p => p.CreationTime)
