@@ -8,6 +8,7 @@ import { ClaimNote } from "../../models/claim-note"
 import { Episode } from "../../models/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {Router} from "@angular/router";
+import { DatePipe,DecimalPipe } from '@angular/common';
 declare var $:any
 
 @Component({
@@ -45,6 +46,7 @@ export class ClaimsComponent implements OnInit {
     private router:Router,
     public claimManager: ClaimManager,
     private http: HttpService,
+    private dp: DatePipe,
     private events: EventsService,
     private toast: ToastsManager
   ) { }
@@ -237,7 +239,8 @@ export class ClaimsComponent implements OnInit {
           setTimeout(() => {
             swal({ title: "", html: "Adding note to Diary... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
           }, 200)
-          let followUpDate = $("#datepicker").val();
+          //let followUpDate = $("#datepicker").val();
+          let followUpDate  = this.dp.transform($("#datepicker").val(),"dd/MM/yyyy");
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
