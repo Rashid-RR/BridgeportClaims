@@ -35,6 +35,9 @@ export class EventsService {
 
     this.listeners[name].push(listener);
   }
+  flash(name){
+    this.listeners[name] = [];
+  }
 
   broadcast(name, ...args) {
     this.eventsSubject.next({

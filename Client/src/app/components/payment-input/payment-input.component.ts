@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy } from '@angular/core';
 import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {HttpService} from "../../services/http-service";
@@ -22,12 +22,15 @@ import swal from "sweetalert2";
   templateUrl: './payment-input.component.html',
   styleUrls: ['./payment-input.component.css']
 })
-export class PaymentInputComponent implements OnInit {
+export class PaymentInputComponent implements OnInit,OnDestroy {
 
   form: FormGroup;
   submitted: boolean = false;
   disableCheckEntry: boolean = false;
   checkAmount:number = 0;
+  paymentamountRemaining:any
+  paymentSuspense:any;
+  paymentClosed:any;
   constructor(private decimalPipe:DecimalPipe,public paymentService:PaymentService,
     private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager,
     private localSt:LocalStorageService,private dialogService: DialogService) {
@@ -38,7 +41,10 @@ export class PaymentInputComponent implements OnInit {
       amountToPost: [null],
       amountRemaining: [null]
     });
-    this.events.on("payment-suspense",a=>{
+  }
+  ngOnInit() {
+      this.paymentService.paymentPosting = new PaymentPosting();
+      this.paymentSuspense =  this.events.on("payment-suspense",a=>{
         this.form.patchValue({
           checkNumber: null,
           checkAmount: Number(0).toFixed(2),
@@ -50,7 +56,7 @@ export class PaymentInputComponent implements OnInit {
         this.disableCheckEntry = false;
         this.events.broadcast("disable-links",false);
     });
-    this.events.on("payment-closed",a=>{
+    this.paymentClosed =this.events.on("payment-closed",a=>{
         this.form.patchValue({
           checkNumber: null,
           checkAmount: Number(0).toFixed(2),
@@ -61,40 +67,44 @@ export class PaymentInputComponent implements OnInit {
         this.paymentService.paymentPosting = new PaymentPosting();
         this.disableCheckEntry = false;
     });
-    this.events.on("payment-amountRemaining",a=>{
-         this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(a.amountRemaining),"1.2-2"));
-         let c=Number(this.form.get('checkAmount').value.replace(new RegExp(",", "gi"),"")).toFixed(2);
-         let checkAmount  = Number(c);
-         var form: any={};
-         form = this.form.value;
-         form.checkAmount = Number(form.checkAmount.replace(new RegExp(",", "gi"),"")).toFixed(2);          
-         this.paymentService.paymentPosting.sessionId=a.sessionId;
-         this.paymentService.paymentPosting.checkAmount=form.checkAmount;
-         this.paymentService.paymentPosting.checkNumber=form.checkNumber;
-         //console.log(checkAmount-(a.amountRemaining as number));
-         this.paymentService.paymentPosting.lastAmountRemaining = a.amountRemaining
-         form.paymentPostings = this.paymentService.paymentPosting.paymentPostings;
-         form.lastAmountRemaining = a.amountRemaining;
-         form.sessionId = this.paymentService.paymentPosting.sessionId;
-         /* form.checkAmount = this.paymentService.paymentPosting.checkAmount;
-         form.checkNumber = this.paymentService.paymentPosting.checkNumber; */
-         form.amountSelected = this.paymentService.paymentPosting.amountSelected;
-         //console.log(form);
-         if (a.amountRemaining == 0 && this.paymentService.paymentPosting.sessionId) {
-          this.finalizePosting();
-         }else if (a.amountRemaining <= 0) {
+    this.paymentamountRemaining = this.events.on("payment-amountRemaining",a=>{
+        this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(a.amountRemaining),"1.2-2"));
+        let c=Number(this.form.get('checkAmount').value.replace(new RegExp(",", "gi"),"")).toFixed(2);
+        let checkAmount  = Number(c);
+        var form: any={};
+        form = this.form.value;
+        form.checkAmount = Number(form.checkAmount.replace(new RegExp(",", "gi"),"")).toFixed(2);          
+        this.paymentService.paymentPosting.sessionId=a.sessionId;
+        this.paymentService.paymentPosting.checkAmount=form.checkAmount;
+        this.paymentService.paymentPosting.checkNumber=form.checkNumber;
+        //console.log(checkAmount-(a.amountRemaining as number));
+        this.paymentService.paymentPosting.lastAmountRemaining = a.amountRemaining
+        form.paymentPostings = this.paymentService.paymentPosting.paymentPostings;
+        form.lastAmountRemaining = a.amountRemaining;
+        form.sessionId = this.paymentService.paymentPosting.sessionId;
+        /* form.checkAmount = this.paymentService.paymentPosting.checkAmount;
+        form.checkNumber = this.paymentService.paymentPosting.checkNumber; */
+        form.amountSelected = this.paymentService.paymentPosting.amountSelected;
+        //console.log(form);
+        if (a.amountRemaining == 0 && this.paymentService.paymentPosting.sessionId) {
+          console.log(a.lastUpdatedTimeStamp);
+          this.finalizePosting("Came from event");
+        }else if (a.amountRemaining <= 0) {
           this.events.broadcast("disable-links",false);
           this.paymentService.prescriptionSelected = false; 
         }else if(checkAmount-(a.amountRemaining as number)>0){
-           this.disableCheckEntry = true;
-           this.events.broadcast("disable-links",true);
-         }
-         this.paymentService.unSelectAllPrescriptions();
-         this.form.get('amountToPost').setValue(null);         
+          this.disableCheckEntry = true;
+          this.events.broadcast("disable-links",true);
+        }
+        this.paymentService.unSelectAllPrescriptions();
+        this.form.get('amountToPost').setValue(null);         
     })
   }
-  ngOnInit() {
-    this.paymentService.paymentPosting = new PaymentPosting();
+  ngOnDestroy(){
+    this.events.flash("payment-amountRemaining");
+     /*  this.paymentamountRemaining.unsubscribe();
+      this.paymentClosed.unsubscribe();
+      this.paymentSuspense.unsubscribe(); */
   }
   
   updateAmountRemaining(){
@@ -104,19 +114,22 @@ export class PaymentInputComponent implements OnInit {
     this.paymentService.paymentPosting.lastAmountRemaining = Number(amount.toFixed(2));    
   }
 
-  finalizePosting(){
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Permanently Save Posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':''),
-      message: "Your  "+(this.paymentService.paymentPosting.paymentPostings.length)+" posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+" are ready for saving. Would you like to permanently save now?"
-    })
-      .subscribe((isConfirmed) => {
-        if (isConfirmed) {  
-          this.paymentService.finalizePosting({sessionId:this.paymentService.paymentPosting.sessionId});
-        }
-        else {
-           
-        }
-      });
+  finalizePosting(txt){
+    console.log(txt); 
+    if(this.paymentService.paymentPosting.sessionId && this.paymentService.paymentPosting.sessionId !==null){
+      let disposable = this.dialogService.addDialog(ConfirmComponent, {
+        title: "Permanently Save Posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':''),
+        message: "Your  "+(this.paymentService.paymentPosting.paymentPostings.length)+" posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':'')+" are ready for saving. Would you like to permanently save now?"
+      })
+        .subscribe((isConfirmed) => {
+          if (isConfirmed) {  
+            this.paymentService.finalizePosting({sessionId:this.paymentService.paymentPosting.sessionId});
+          }
+          else {
+            
+          }
+        });
+    }
   }
   cancel(){
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
@@ -207,7 +220,7 @@ export class PaymentInputComponent implements OnInit {
       form.paymentPostings = payments;
       //this.form.get('amountRemaining').setValue(this.decimalPipe.transform(Number(this.amountRemaining),"1.2-2"));
       if(this.paymentService.paymentPosting.lastAmountRemaining == 0 && this.paymentService.paymentPosting.sessionId){
-        this.finalizePosting();
+        this.finalizePosting("Came from posting");
       }else{
 
         form.amountSelected = Number((String(this.paymentService.amountSelected) || "0").replace(new RegExp(",", "gi"),"")).toFixed(2);
