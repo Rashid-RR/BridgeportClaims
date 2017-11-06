@@ -74,8 +74,9 @@ export class DiaryService {
       this.http.diaryList(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
           this.loading = false;
+          this.totalRowCount = result.totalRowCount;
           this.diaries= Immutable.OrderedMap<Number, Diary>(); 
-          result.forEach((diary:Diary)=>{
+          result.diaryResults.forEach((diary:Diary)=>{
             try{
                 this.diaries = this.diaries.set(diary.diaryId,diary);
             }catch(e){}           
