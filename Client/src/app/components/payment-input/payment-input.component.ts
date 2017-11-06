@@ -101,9 +101,8 @@ export class PaymentInputComponent implements OnInit,OnDestroy {
   }
   ngOnDestroy(){
     this.events.flash("payment-amountRemaining");
-     /*  this.paymentamountRemaining.unsubscribe();
-      this.paymentClosed.unsubscribe();
-      this.paymentSuspense.unsubscribe(); */
+    this.events.flash("payment-closed");
+    this.events.flash("payment-suspense");
   }
   
   updateAmountRemaining(){
