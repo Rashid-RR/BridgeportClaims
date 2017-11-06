@@ -26,9 +26,7 @@ namespace BridgeportClaims.Data.Repositories
         public TEntity Load(object id) => Session.Load<TEntity>(id);
 
         public void Save(TEntity value)
-        {
-            Session.Save(value);
-        }
+            => Session.Save(value);
 
         public void SaveOrUpdateMany(IEnumerable<TEntity> values)
         {
@@ -37,26 +35,18 @@ namespace BridgeportClaims.Data.Repositories
         }
 
         public void SaveOrUpdate(TEntity value)
-        {
-            Session.SaveOrUpdate(value);
-        }
+            => Session.SaveOrUpdate(value);
 
         public void Update(TEntity value)
-        {
-            Session.Update(value);
-        }
+            => Session.Update(value);
 
         public void Delete(TEntity value)
-        {
-            Session.Delete(value);
-        }
-
+            => Session.Delete(value);
+        
         public IEnumerable<TEntity> GetMany(Expression<Func<TEntity, bool>> predicate)
             => Session.Query<TEntity>().Where(predicate);
 
-
         public IEnumerable<TEntity> GetAll() => Session.Query<TEntity>();
-
 
         public IEnumerable<TEntity> GetTop(int top) => Session.Query<TEntity>().Select(q => q).Take(top);
     }

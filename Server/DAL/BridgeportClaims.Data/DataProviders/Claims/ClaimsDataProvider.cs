@@ -246,7 +246,30 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetMaxResults(5000)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
 								.List<PrescriptionNotesDto>();
-							claimDto.PrescriptionNotes = prescriptionNotesDtos;
+						    var scriptNotesDtos = prescriptionNotesDtos?.GroupBy(r => new
+						        {
+						            r.ClaimId,
+						            r.PrescriptionNoteId,
+						            r.Type,
+						            r.EnteredBy,
+						            r.Note,
+						            r.NoteUpdatedOn,
+						            r.HasDiaryEntry
+						        }).Select(gcs => new ScriptNoteDto
+						        {
+						            ClaimId = gcs.Key.ClaimId,
+						            Scripts = gcs.Select(x => new ScriptDto {RxNumber = x.RxNumber, RxDate = x.RxDate})
+						                .OrderByDescending(x => x.RxDate)
+						                .ThenBy(x => x.RxNumber)
+						                .ToList(),
+						            EnteredBy = gcs.Key.EnteredBy,
+						            HasDiaryEntry = gcs.Key.HasDiaryEntry,
+						            Note = gcs.Key.Note,
+						            NoteUpdatedOn = gcs.Key.NoteUpdatedOn,
+						            PrescriptionNoteId = gcs.Key.PrescriptionNoteId,
+						            Type = gcs.Key.Type
+						        }).ToList();
+							claimDto.PrescriptionNotes = scriptNotesDtos;
 							if (tx.IsActive)
 								tx.Commit();
 							return claimDto;

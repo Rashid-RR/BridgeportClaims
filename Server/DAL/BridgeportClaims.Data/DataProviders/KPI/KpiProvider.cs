@@ -29,14 +29,7 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                         try
                         {
                             var paymentTotals = session
-                                .CreateSQLQuery(  @"DECLARE @Today DATE = CONVERT(DATE, dtme.udfGetLocalDate())
-                                                    DECLARE @TwentyOneDaysAgo DATE =  DATEADD(DAY, -21, @Today)
-                                                    SELECT      DatePosted  = pp.DatePosted
-                                                              , TotalPosted = SUM(pp.AmountPaid)
-                                                    FROM        dbo.PrescriptionPayment AS pp
-                                                    WHERE       pp.DatePosted BETWEEN @TwentyOneDaysAgo AND @Today
-                                                    GROUP BY    pp.DatePosted
-                                                    ORDER BY    DatePosted ASC")
+                                .CreateSQLQuery(@"SELECT DatePosted, TotalPosted FROM rpt.udfGetLastTwentyOneDaysRevenue()")
                                 .SetMaxResults(5000)
                                 .SetResultTransformer(Transformers.AliasToBean(typeof(PaymentTotalsDto)))
                                 .List<PaymentTotalsDto>();
