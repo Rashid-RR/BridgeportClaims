@@ -116,5 +116,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.SSH\BridgeportClaims.SSH.csproj">
+      <Project>{cf2ed7fe-1750-40c4-92a9-ca000589ec30}</Project>
+      <Name>BridgeportClaims.SSH</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

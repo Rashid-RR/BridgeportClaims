@@ -101,6 +101,7 @@
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\DiariesDto.cs" />
+    <Compile Include="Dtos\DiaryResultDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />

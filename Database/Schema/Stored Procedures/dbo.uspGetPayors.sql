@@ -24,11 +24,13 @@ AS BEGIN
          , p.FaxNumber
          , p.Notes
          , p.Contact
-         , p.CreatedOn
-         , p.UpdatedOn
+         , CreatedOn = p.CreatedOnUTC
+         , UpdatedOn = p.UpdatedOnUTC
     FROM dbo.Payor p LEFT JOIN dbo.UsState us ON us.StateID = p.BillToStateID
     ORDER BY p.PayorID
     OFFSET @PageSize * (@PageNumber - 1) ROWS
     FETCH NEXT @PageSize ROWS ONLY;
 END
+
+
 GO
