@@ -46,7 +46,7 @@ export class ReportSampleComponent implements OnInit ,AfterViewInit{
           })
           var chart = Highcharts.chart('container', {      
               title: {
-                  text: 'Revenue From Last 21 Days'
+                  text: 'Revenue From Last '+this.data.length+' Days'
               },
               chart: {
                 type: 'column'
