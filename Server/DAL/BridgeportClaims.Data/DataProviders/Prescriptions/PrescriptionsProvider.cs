@@ -38,8 +38,8 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
 
         public UnpaidScriptsDto GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
             string sort, string sortDirection, int page, int pageSize)
-            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-               {
+                => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+                {
                     return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetUnpaidScripts]", conn), cmd =>
                     {
                         var isDefaultSortParam = cmd.CreateParameter();
@@ -144,6 +144,6 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
                         return retVal;
                     });
-              });
+                });
         }
 }
