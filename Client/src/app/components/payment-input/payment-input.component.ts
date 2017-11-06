@@ -87,8 +87,7 @@ export class PaymentInputComponent implements OnInit,OnDestroy {
         form.amountSelected = this.paymentService.paymentPosting.amountSelected;
         //console.log(form);
         if (a.amountRemaining == 0 && this.paymentService.paymentPosting.sessionId) {
-          console.log(a.lastUpdatedTimeStamp);
-          this.finalizePosting("Came from event");
+           this.finalizePosting("Came from event");
         }else if (a.amountRemaining <= 0) {
           this.events.broadcast("disable-links",false);
           this.paymentService.prescriptionSelected = false; 
@@ -115,7 +114,6 @@ export class PaymentInputComponent implements OnInit,OnDestroy {
   }
 
   finalizePosting(txt){
-    console.log(txt); 
     if(this.paymentService.paymentPosting.sessionId && this.paymentService.paymentPosting.sessionId !==null){
       let disposable = this.dialogService.addDialog(ConfirmComponent, {
         title: "Permanently Save Posting"+(this.paymentService.paymentPosting.paymentPostings.length!=1 ? 's':''),
@@ -252,8 +250,7 @@ export class PaymentInputComponent implements OnInit,OnDestroy {
         }else {
           this.paymentService.post(form);
         }
-        console.log(form);
-      }
+       }
     }
   }
   get amountRemaining():Number{
