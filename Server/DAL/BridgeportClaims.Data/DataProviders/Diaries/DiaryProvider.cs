@@ -36,10 +36,10 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                     startDateParam.DbType = DbType.Date;
                     startDateParam.SqlDbType = SqlDbType.Date;
                     startDateParam.ParameterName = "@StartDate";
-                    startDateParam.Value = startDate;
+                    startDateParam.Value = startDate ?? (object) DBNull.Value;
                     cmd.Parameters.Add(startDateParam);
                     var endDateParam = cmd.CreateParameter();
-                    endDateParam.Value = endDate;
+                    endDateParam.Value = endDate ?? (object) DBNull.Value;
                     endDateParam.ParameterName = "@EndDate";
                     endDateParam.DbType = DbType.Date;
                     endDateParam.SqlDbType = SqlDbType.Date;
@@ -95,7 +95,7 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                     {
                         var diaryIdOrdinal = reader.GetOrdinal("DiaryId");
                         var claimIdOrdinal = reader.GetOrdinal("ClaimId");
-                        var prescriptionNoteIdOrdinal = reader.GetOrdinal("PrescriptionId");
+                        var prescriptionNoteIdOrdinal = reader.GetOrdinal("PrescriptionNoteId");
                         var ownerOrdinal = reader.GetOrdinal("Owner");
                         var createdOrdinal = reader.GetOrdinal("Created");
                         var followUpDateOrdinal = reader.GetOrdinal("FollowUpDate");
