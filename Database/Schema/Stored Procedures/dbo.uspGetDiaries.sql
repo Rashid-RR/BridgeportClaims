@@ -18,7 +18,8 @@ CREATE PROC [dbo].[uspGetDiaries]
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
-	@Closed BIT
+	@Closed BIT,
+	@TotalRows INTEGER OUTPUT
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -77,6 +78,9 @@ AS BEGIN
 		AND @One = CASE WHEN @Closed = @False AND d.DateResolved IS NULL THEN @One
 					 WHEN @Closed = @True AND d.DateResolved IS NOT NULL THEN @One
 					 ELSE @Zero END
+
+	SELECT @TotalRows = COUNT(*) FROM #Diaries
+
 	SELECT d.DiaryId
          , d.ClaimId
          , d.PrescriptionNoteId
