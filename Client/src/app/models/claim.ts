@@ -6,6 +6,7 @@ import {ClaimNote} from "./claim-note";
 import {Episode} from "./episode";
 import {ClaimFlex2} from "./claim-flex2";
 import {PrescriptionStatuses} from "./prescription-statuses";
+import * as Immutable from 'immutable';
 
  
 export class Claim {
@@ -25,7 +26,8 @@ export class Claim {
     adjustorFaxNumber:String;
     flex2:String;
     private prescription:Array<Prescription> = [];
-    private prescriptionNote:Array<PrescriptionNote> = [];
+    //private prescriptionNote:Array<PrescriptionNote> = [];
+    private prescriptionNote:Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();
     private payment:Array<Payment> = [];
     private episode:Array<Episode> = [];
     private claimFlex2s:Array<ClaimFlex2> = [];
@@ -85,7 +87,20 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
   }
   setPrescriptionNotes(prescriptionNotes:Array<PrescriptionNote>){
       if(prescriptionNotes){
-        this.prescriptionNote = prescriptionNotes
+          prescriptionNotes.forEach(note=>{ 
+            let n = this.prescriptionNote.get(note.prescriptionNoteId);
+            if(note.scripts){
+                note.scripts.forEach(script=>{ 
+                    if(!note.rxDate || (note.rxDate && new Date(note.rxDate).getTime()<new Date(script.rxDate).getTime())){
+                        note.rxDate = script.rxDate;
+                        note.rxNumber = script.rxNumber;
+                    }
+                })
+            }
+            if(!n || n.rxDate.getTime()<note.rxDate.getTime()){
+                this.prescriptionNote = this.prescriptionNote.set(note.prescriptionNoteId, note); 
+            }             
+          })
       }
   }
   get prescriptionStatuses():Array<PrescriptionStatuses>{
@@ -97,7 +112,7 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
       }
   }
   get prescriptionNotes():Array<PrescriptionNote>{
-      return this.prescriptionNote;
+      return this.prescriptionNote.toArray();
   }
   setClaimNotes(claimNote:ClaimNote){
       if(claimNote){
