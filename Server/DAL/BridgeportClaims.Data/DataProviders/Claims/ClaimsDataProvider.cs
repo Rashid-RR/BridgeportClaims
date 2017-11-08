@@ -138,28 +138,28 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						try
 						{
 							var claimDto = session.Query<Patient>()
-							    .Join(session.Query<Claim>(), p => p.PatientId, c => c.Patient.PatientId, (p, c) => new {p, c})
-							    .Where(w => w.c.ClaimId == claimId)
-							    .Select(s => new ClaimDto
-							    {
-							        ClaimId = s.c.ClaimId,
-							        Name = s.p.FirstName + " " + s.p.LastName,
-							        Address1 = s.p.Address1,
-							        Address2 = s.p.Address2,
-							        Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
-							        AdjustorPhoneNumber = null == s.c.Adjustor ? null : s.c.Adjustor.PhoneNumber,
-							        Carrier = null == s.c.Payor ? null : s.c.Payor.GroupName,
-							        City = s.p.City,
-							        StateAbbreviation = null == s.p.UsState ? null : s.p.UsState.StateCode,
-							        PostalCode = s.p.PostalCode,
-							        Flex2 = null != s.c.ClaimFlex2 ? s.c.ClaimFlex2.Flex2 : null,
-							        Gender = null == s.p.Gender ? null : s.p.Gender.GenderName,
-							        DateOfBirth = s.p.DateOfBirth,
-							        EligibilityTermDate = s.c.TermDate,
-							        PatientPhoneNumber = s.p.PhoneNumber,
-							        DateEntered = s.c.DateOfInjury,
-							        ClaimNumber = s.c.ClaimNumber
-							    }).SingleOrDefault();
+								.Join(session.Query<Claim>(), p => p.PatientId, c => c.Patient.PatientId, (p, c) => new {p, c})
+								.Where(w => w.c.ClaimId == claimId)
+								.Select(s => new ClaimDto
+								{
+									ClaimId = s.c.ClaimId,
+									Name = s.p.FirstName + " " + s.p.LastName,
+									Address1 = s.p.Address1,
+									Address2 = s.p.Address2,
+									Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
+									AdjustorPhoneNumber = null == s.c.Adjustor ? null : s.c.Adjustor.PhoneNumber,
+									Carrier = null == s.c.Payor ? null : s.c.Payor.GroupName,
+									City = s.p.City,
+									StateAbbreviation = null == s.p.UsState ? null : s.p.UsState.StateCode,
+									PostalCode = s.p.PostalCode,
+									Flex2 = null != s.c.ClaimFlex2 ? s.c.ClaimFlex2.Flex2 : null,
+									Gender = null == s.p.Gender ? null : s.p.Gender.GenderName,
+									DateOfBirth = s.p.DateOfBirth,
+									EligibilityTermDate = s.c.TermDate,
+									PatientPhoneNumber = s.p.PhoneNumber,
+									DateEntered = s.c.DateOfInjury,
+									ClaimNumber = s.c.ClaimNumber
+								}).SingleOrDefault();
 							if (null == claimDto)
 								return null;
 							// ClaimFlex2 Drop-Down Values
@@ -197,8 +197,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetInt32("ClaimID", claimId)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(EpisodeDto)))
 								.List<EpisodeDto>();
-						    if (null != episodes)
-						        claimDto.Episodes = episodes.OrderByDescending(x => x.Date).ToList();
+							if (null != episodes)
+								claimDto.Episodes = episodes.OrderByDescending(x => x.Date).ToList();
 							var acctPayableDtos = session.CreateSQLQuery(
 							  @"SELECT [Date] = [p].[DatePosted]
 									 , [p].[CheckNumber]
@@ -228,48 +228,49 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
-                                     @"SELECT DISTINCT
-                                                    [ClaimId]              = [a].[ClaimID]
-                                                    , [PrescriptionNoteId] = [a].[PrescriptionNoteID]
-                                                    , RxDate               = a.DateFilled
-                                                    , a.RxNumber
-                                                    , [Type]               = [a].[PrescriptionNoteType]
-                                                    , [EnteredBy]          = [a].[NoteAuthor]
-                                                    , [Note]               = [a].[NoteText]
-                                                    , [NoteUpdatedOn]      = [a].[NoteUpdatedOn]
-		                                            , HasDiaryEntry		   = CAST(CASE WHEN d.DiaryID IS NOT NULL THEN 1 ELSE 0 END AS BIT)
-                                        FROM        [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
-			                                        LEFT JOIN dbo.Diary AS d ON d.PrescriptionNoteID = a.PrescriptionNoteID AND d.DateResolved IS NULL
-                                        WHERE       [a].[ClaimID] = :ClaimID
-                                        ORDER BY    a.DateFilled DESC, a.RxNumber ASC")
+									 @"SELECT DISTINCT
+													[ClaimId]              = [a].[ClaimID]
+													, [PrescriptionNoteId] = [a].[PrescriptionNoteID]
+													, RxDate               = a.DateFilled
+													, a.RxNumber
+													, [Type]               = [a].[PrescriptionNoteType]
+													, [EnteredBy]          = [a].[NoteAuthor]
+													, [Note]               = [a].[NoteText]
+													, [NoteUpdatedOn]      = [a].[NoteUpdatedOn]
+													, HasDiaryEntry		   = CAST(CASE WHEN d.DiaryID IS NOT NULL THEN 1 ELSE 0 END AS BIT)
+										FROM        [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
+													LEFT JOIN dbo.Diary AS d ON d.PrescriptionNoteID = a.PrescriptionNoteID AND d.DateResolved IS NULL
+										WHERE       [a].[ClaimID] = :ClaimID
+										ORDER BY    a.DateFilled DESC, a.RxNumber ASC")
 								.SetInt32("ClaimID", claimId)
 								.SetMaxResults(5000)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
 								.List<PrescriptionNotesDto>();
-						    var scriptNotesDtos = prescriptionNotesDtos?.GroupBy(r => new
-						        {
-						            r.ClaimId,
-						            r.PrescriptionNoteId,
-						            r.Type,
-						            r.EnteredBy,
-						            r.Note,
-						            r.NoteUpdatedOn,
-						            r.HasDiaryEntry
-						        }).Select(gcs => new ScriptNoteDto
-						        {
-						            ClaimId = gcs.Key.ClaimId,
-						            Scripts = gcs.Select(x => new ScriptDto {RxNumber = x.RxNumber, RxDate = x.RxDate})
-						                .OrderByDescending(x => x.RxDate)
-						                .ThenBy(x => x.RxNumber)
-						                .ToList(),
-						            EnteredBy = gcs.Key.EnteredBy,
-						            HasDiaryEntry = gcs.Key.HasDiaryEntry,
-						            Note = gcs.Key.Note,
-						            NoteUpdatedOn = gcs.Key.NoteUpdatedOn,
-						            PrescriptionNoteId = gcs.Key.PrescriptionNoteId,
-						            Type = gcs.Key.Type
-						        }).ToList();
-							claimDto.PrescriptionNotes = scriptNotesDtos;
+							var scriptNotesDtos = prescriptionNotesDtos?.GroupBy(r => new
+								{
+									r.ClaimId,
+									r.PrescriptionNoteId,
+									r.Type,
+									r.EnteredBy,
+									r.Note,
+									r.NoteUpdatedOn,
+									r.HasDiaryEntry
+								}).Select(gcs => new ScriptNoteDto
+								{
+									ClaimId = gcs.Key.ClaimId,
+									Scripts = gcs.Select(x => new ScriptDto {RxNumber = x.RxNumber, RxDate = x.RxDate})
+										.OrderByDescending(x => x.RxDate)
+										.ThenBy(x => x.RxNumber)
+										.ToList(),
+									EnteredBy = gcs.Key.EnteredBy,
+									HasDiaryEntry = gcs.Key.HasDiaryEntry,
+									Note = gcs.Key.Note,
+									NoteUpdatedOn = gcs.Key.NoteUpdatedOn,
+									PrescriptionNoteId = gcs.Key.PrescriptionNoteId,
+									Type = gcs.Key.Type
+								}).ToList();
+							// TODO: Once 
+							claimDto.PrescriptionNotes = prescriptionNotesDtos;
 							if (tx.IsActive)
 								tx.Commit();
 							return claimDto;
