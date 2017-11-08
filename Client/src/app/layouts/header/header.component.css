@@ -45,19 +45,20 @@ li a {
         -moz-box-sizing: content-box;
         box-sizing: content-box;
         border: none;
-        font: normal 15px/1 "Aladin", Helvetica, sans-serif;
-        color: rgb(238, 232, 232);
+        font: normal 30px/1 "Cigno MF", Helvetica, sans-serif, italic;
+        color: rgb(170, 174, 193);
         text-align: center;
         text-transform: normal;
         -o-text-overflow: clip;
         text-overflow: clip;
         white-space: pre;
-        text-shadow: 1px 1px 0 rgba(255, 254, 254, 0.6) , -1px -1px 1px rgba(75, 69, 69, 0.67) ;
+        /* text-shadow: 1px 1px 0 rgba(255, 254, 254, 0.6) , -1px -1px 1px rgba(75, 69, 69, 0.67) ; */
         position: fixed;
         top: 20px;
         width: auto;
         z-index: 999999;
-        left: 40%;
+        left: 50%;
+        letter-spacing: 10%;
 }
 .ver2 {
     -webkit-box-sizing: content-box;
@@ -74,7 +75,7 @@ li a {
     top: 20px;
     width: auto;
     z-index: 999999;
-    left: 40%;
+    left: 50%;
   }
 
   .ver2::before {
