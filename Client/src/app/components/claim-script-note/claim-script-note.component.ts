@@ -61,24 +61,37 @@ export class ClaimScriptNoteComponent implements OnInit {
   openScriptNotesModal(note:PrescriptionNote) {
     let noteUpdatedOn = this.dp.transform(note.noteUpdatedOn, "shortDate");
     let rxDate = this.dp.transform(note.rxDate, "shortDate");
-     
+     let scripts:String='';
+     note.scripts.forEach(s=>{
+      let rxDate = this.dp.transform(s.rxDate, "shortDate");
+       scripts+=`<div class="col-xs-6">
+                    <div class="info-box bg-green" style="min-height:50px">
+                      <div class="info-box-content" style="margin-left:0px !important;padding:0px">
+                        <span class="info-box-text">`+rxDate+`</span>
+                        <span class="info-box-number">`+s.rxNumber+`</span>
+                      </div>
+                    </div>
+                </div>`;
+     })
     swal({
       title: 'Script Note',
       html:
         `<div class="container-fluid">
           <div class="row heading">
-            <div class="col-xs-2">Rx Date</div>
-            <div class="col-xs-2">Rx Number</div>
+            <div class="col-xs-5">Rx Date(s) and Rx Number(s)</div>
             <div class="col-xs-2">Updated</div>
             <div class="col-xs-2">Note Type</div>
-            <div class="col-xs-3">By</div>
+            <div class="col-xs-2">By</div>
           </div>
           <div class="row">
-            <div class="col-xs-2">` + rxDate + `</div>
-            <div class="col-xs-2">` + note.rxNumber + `</div>
+            <div class="col-xs-5">
+              <div class="row">
+                ` + scripts+ 
+                `</div>
+            </div>
             <div class="col-xs-2">` + noteUpdatedOn + `</div>
             <div class="col-xs-2 label label-info">` + note.type + `</div>
-            <div class="col-xs-3">` + note.enteredBy + `</div>
+            <div class="col-xs-2">` + note.enteredBy + `</div>
           </div>
         </div>
         <div class="form-group" style="margin-top: 1.2rem;">

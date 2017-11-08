@@ -89,13 +89,9 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
       if(prescriptionNotes){
           prescriptionNotes.forEach(note=>{ 
             let n = this.prescriptionNote.get(note.prescriptionNoteId);
-            if(note.scripts){
-                note.scripts.forEach(script=>{ 
-                    if(!note.rxDate || (note.rxDate && new Date(note.rxDate).getTime()<new Date(script.rxDate).getTime())){
-                        note.rxDate = script.rxDate;
-                        note.rxNumber = script.rxNumber;
-                    }
-                })
+            if(note.scripts && note.scripts.length>0){
+                note.rxDate = note.scripts[0].rxDate;
+                note.rxNumber = note.scripts[0].rxNumber;
             }
             if(!n || n.rxDate.getTime()<note.rxDate.getTime()){
                 this.prescriptionNote = this.prescriptionNote.set(note.prescriptionNoteId, note); 

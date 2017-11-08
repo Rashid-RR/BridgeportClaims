@@ -74,3 +74,10 @@ tr:nth-of-type(even) {
 .invoice-col {
   padding-right: 5px;
 }
+
+.info-box.bg-green{
+    min-height:50px;
+}
+.info-box.bg-green .info-box-content{
+  margin-left:0px !important;
+}
