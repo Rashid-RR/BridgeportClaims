@@ -1,12 +1,12 @@
 import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
-import { ClaimManager } from "../../services/claim-manager";
-import { HttpService } from "../../services/http-service";
-import { EventsService } from "../../services/events-service";
-import { Prescription } from "../../models/prescription";
-import { PrescriptionNote } from "../../models/prescription-note";
-import swal from "sweetalert2";
+import { ClaimManager } from '../../services/claim-manager';
+import { HttpService } from '../../services/http-service';
+import { EventsService } from '../../services/events-service';
+import { Prescription } from '../../models/prescription';
+import { PrescriptionNote } from '../../models/prescription-note';
+import swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
-import { SortColumnInfo } from "../../directives/table-sort.directive";
+import { SortColumnInfo } from '../../directives/table-sort.directive';
 declare var jQuery: any;
 
 @Component({
@@ -31,7 +31,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   ) { }
 
   ngOnInit() {
-    this.events.on("claim-updated", () => {
+    this.events.on('claim-updated', () => {
       setTimeout(() => {
         window['jQuery']('input[type="checkbox"].flat-red, input[type="radio"].flat-red')
           .iCheck({
@@ -39,11 +39,8 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
             radioClass: 'iradio_flat-green'
           });
       }, 1000);
-    })
+    });
     this.cloneTableHeading();
-    /* this.claimManager.onClaimIdChanged.subscribe(() => {
-      this.fetchData();
-    }); */
   }
 
   ngAfterViewInit() {
@@ -75,22 +72,22 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
 
   cloneBoxHeader() {
-    let cln = document.getElementById
+    const cln = document.getElementById;
   }
 
   updateTableHeadingWidth() {
     setTimeout(() => {
-      let fixedHeader = document.getElementById('fixed-header');
-      let fixedMaxHeader = document.getElementById('fixed-max-header');
-      let mainTable = document.getElementById('maintable');
+      const fixedHeader = document.getElementById('fixed-header');
+      const fixedMaxHeader = document.getElementById('fixed-max-header');
+      const mainTable = document.getElementById('maintable');
       if (fixedHeader) {
         if (mainTable) {
-          let tableWidth = mainTable.clientWidth.toString();
+          const tableWidth = mainTable.clientWidth.toString();
           fixedHeader.style.width = tableWidth + 'px';
         }
       } else {
         if (mainTable) {
-          let tableWidth = mainTable.clientWidth.toString();
+          const tableWidth = mainTable.clientWidth.toString();
           try {
             fixedMaxHeader.style.width = tableWidth + 'px';
           } catch (e) { }
@@ -103,7 +100,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
 
   uncheckMain() {
-    jQuery("input#selectAllCheckBox").attr({ "checked": false })
+    jQuery('input#selectAllCheckBox').attr({ 'checked': false })
   }
   select(p: any, $event, index) {
     p.selected = $event.target.checked;
@@ -112,11 +109,12 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
       this.uncheckMain();
     }
     if (this.selectMultiple) {
-      for (var i = this.lastSelectedIndex; i < index; i++) {
+      for (let i = this.lastSelectedIndex; i < index; i++) {
         try {
-          let p = jQuery('#row' + i).attr('prescription');
-          let prescription = JSON.parse(p);
-          let data = this.claimManager.selectedClaim.prescriptions.find(pres => pres.prescriptionId == prescription.prescriptionId);// .get(prescription.prescriptionId);
+          const p = jQuery('#row' + i).attr('prescription');
+          const prescription = JSON.parse(p);
+          const data = this.claimManager.selectedClaim.prescriptions.find(pres =>
+            pres.prescriptionId == prescription.prescriptionId);
           data.selected = true;
         } catch (e) { }
       }
@@ -135,7 +133,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     if (this.checkAll) {
       this.claimManager.selectedClaim.prescriptions.forEach(c => {
         c.selected = true;
-      })
+      });
     } else {
       this.claimManager.selectedClaim.prescriptions.forEach(c => {
         c.selected = false;
@@ -147,7 +145,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   showNotes(prescriptionId: Number) {
     this.claimManager.loading = true;
     this.http.getPrescriptionNotes(prescriptionId).single().subscribe(res => {
-      let notes: Array<PrescriptionNote> = res.json();
+      const notes: Array<PrescriptionNote> = res.json();
       this.displayNotes(notes);
     }, error => {
       this.claimManager.loading = false;
@@ -159,16 +157,16 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     let notesHTML = '';
     notes.forEach(note => {
 
-      let noteDate = this.dp.transform(note.rxDate, "shortDate");
+      const noteDate = this.dp.transform(note.rxDate, 'shortDate');
       notesHTML = notesHTML + `
             <tr>
-              <td>`+ noteDate + `</td>
-              <td>`+ note.type + `</td>
-              <td>`+ note.enteredBy + `</td>
+              <td>` + noteDate + `</td>
+              <td>` + note.type + `</td>
+              <td>` + note.enteredBy + `</td>
               <td style="white-space: pre-wrap;">`+ note.note + `</td>
             </tr>`;
-    })
-    let html = `<div class="row invoice-info">
+    });
+    const html = `<div class="row invoice-info">
               <div class="col-sm-12 invoice-col" style="text-align:left;font-size:10pt">
                 <div class="table-responsive">
                   <table class="table no-margin table-striped">
@@ -181,7 +179,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
                     </tr>
                     </thead>
                     <tbody>
-                    `+ notesHTML + `
+                    ` + notesHTML + `
                     </tbody>
                   </table>
                 </div>
@@ -189,12 +187,12 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
         </div>`;
     this.claimManager.loading = false;
     swal({
-      title: 'Prescrption Note' +(notes.length>1 ? "s" : ""),
-      width: window.innerWidth * 3 / 4 + "px",
+      title: 'Prescription Note' + (notes.length > 1 ? 's' : ''),
+      width: window.innerWidth * 3 / 4 + 'px',
       html: html
     }).then(success => {
 
-    }).catch(swal.noop)
+    }).catch(swal.noop);
   }
 
   onSortColumn(info: SortColumnInfo) {
@@ -204,9 +202,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
 
   fetchData() {
   this.claimManager.loadingPrescription = true;
-    let page = 1;
-    let page_size = 1000;
-    let sort: string = 'RxDate';
+    const page = 1;
+    const page_size = 1000;
+    let sort = 'RxDate';
     let sort_dir: 'asc' | 'desc' = 'desc';
     if (this.sortColumn) {
       sort = this.sortColumn.column;
@@ -219,5 +217,4 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
         this.claimManager.loadingPrescription = false;
       });
   }
-
 }
