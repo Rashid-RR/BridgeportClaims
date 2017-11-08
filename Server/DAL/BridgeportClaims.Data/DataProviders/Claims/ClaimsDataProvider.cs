@@ -269,8 +269,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									PrescriptionNoteId = gcs.Key.PrescriptionNoteId,
 									Type = gcs.Key.Type
 								}).ToList();
-							// TODO: Once 
-							claimDto.PrescriptionNotes = prescriptionNotesDtos;
+							claimDto.PrescriptionNotes = scriptNotesDtos;
 							if (tx.IsActive)
 								tx.Commit();
 							return claimDto;
