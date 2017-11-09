@@ -45,7 +45,7 @@ li a {
         -moz-box-sizing: content-box;
         box-sizing: content-box;
         border: none;
-        font: normal 30px/1 "Cigno MF", Helvetica, sans-serif, italic;
+        font: normal 20px/1 "Cigno MF", Helvetica, sans-serif, italic;
         color: rgb(170, 174, 193);
         text-align: center;
         text-transform: normal;
@@ -57,7 +57,7 @@ li a {
         top: 20px;
         width: auto;
         z-index: 999999;
-        left: 50%;
+        left: calc(50% - 65px);
         letter-spacing: 10%;
 }
 .ver2 {
