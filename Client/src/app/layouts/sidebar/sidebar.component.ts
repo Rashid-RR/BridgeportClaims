@@ -4,6 +4,7 @@ import { ProfileManager } from "../../services/profile-manager";
 import { ClaimManager } from "../../services/claim-manager";
 import { HttpService } from "../../services/http-service";
 import { Router } from "@angular/router";
+declare var $:any;
 
 @Component({
   selector: 'app-sidebar',
@@ -13,11 +14,10 @@ import { Router } from "@angular/router";
 export class SidebarComponent implements OnInit {
 
   disableLinks = false;
-
   constructor(
     private http: HttpService,
     private events: EventsService,
-    private router: Router,
+    public router: Router,
     private profileManager: ProfileManager,
     public claimManager: ClaimManager
   ) { }
@@ -27,6 +27,15 @@ export class SidebarComponent implements OnInit {
     this.events.on("disable-links", (status: boolean) => {
       this.disableLinks = status;
     });
+  }
+  
+  claimsActive(){
+    if(this.router.url.indexOf('/main/claims')>-1){
+      this.events.broadcast("clear-claims",true);
+      this.events.broadcast("disable-links",false);
+    }else if(!this.disableLinks){
+      this.router.navigate(['/main/claims']);
+    }   
   }
 
   get userName() {
