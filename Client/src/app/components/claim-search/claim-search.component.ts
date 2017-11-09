@@ -24,6 +24,9 @@ export class ClaimSearchComponent implements OnInit {
   }
   ngOnInit() {
 
+    this.events.on("clear-claims", (status: boolean) => {
+      this.form.reset();
+    });
   }
 
  textChange(controlName:string){

@@ -1,4 +1,3 @@
-
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
 import { Observable } from 'rxjs/Observable';
@@ -14,8 +13,8 @@ import { AuthGuard } from './auth.guard';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import {DialogService } from "ng2-bootstrap-modal";
-import {ConfirmComponent } from '../components/confirm.component';
+import { DialogService } from "ng2-bootstrap-modal";
+import { ConfirmComponent } from '../components/confirm.component';
 
 @Injectable()
 export class ClaimManager {
@@ -45,7 +44,11 @@ export class ClaimManager {
     this.getHistory();
     this.events.on("loadHistory", () => {
       this.getHistory();
-    })
+    });
+    this.events.on("clear-claims", (status: boolean) => {
+      this.selected = undefined;
+      this.claims = Immutable.OrderedMap<Number, Claim>();
+    });
   }
 
   getHistory() {
@@ -264,6 +267,4 @@ export class ClaimManager {
         }
       });
   }
-
-
 }
