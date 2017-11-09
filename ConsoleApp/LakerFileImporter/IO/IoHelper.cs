@@ -18,8 +18,15 @@ namespace LakerFileImporter.IO
                 var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
                 var monthFolderDirectory = DateTime.Now.ToString(monthFolderFormat);
                 var pathWithMonthDirectory = Path.Combine(cs.GetAppSetting(c.LakerFilePathKey), monthFolderDirectory);
+                if (string.IsNullOrWhiteSpace(pathWithMonthDirectory))
+                    throw new Exception(
+                        "Something went wrong with the month directory path. It was not populated correctly. It is null or empty.");
                 if (!Directory.Exists(pathWithMonthDirectory))
+                {
                     Directory.CreateDirectory(pathWithMonthDirectory);
+                    if (cs.AppIsInDebugMode)
+                        Logger.Info($"Created new Directory {pathWithMonthDirectory} because it didn't exist.");
+                }
                 var directoryInfo = new DirectoryInfo(pathWithMonthDirectory);
                 var files = directoryInfo.GetFiles()
                     .Where(x => x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))

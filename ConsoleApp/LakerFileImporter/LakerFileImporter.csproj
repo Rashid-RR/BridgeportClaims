@@ -65,7 +65,10 @@
       <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.Web.4.5.0\lib\net35\NLog.Web.dll</HintPath>
+      <HintPath>..\packages\NLog.Web.4.5.1\lib\net35\NLog.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <HintPath>..\packages\SSH.NET.2016.1.0\lib\net40\Renci.SshNet.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=4.5.14.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ServiceStack.Text.4.5.14\lib\net45\ServiceStack.Text.dll</HintPath>
@@ -100,6 +103,7 @@
     <Compile Include="Security\Encryptor.cs" />
     <Compile Include="Security\SensitiveStringsProvider.cs" />
     <Compile Include="Security\UnsecureExtensions.cs" />
+    <Compile Include="SftpProxy\SftpProxyProvider.cs" />
     <Compile Include="StringConstants\Constants.cs" />
   </ItemGroup>
   <ItemGroup>

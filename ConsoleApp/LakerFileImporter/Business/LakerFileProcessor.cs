@@ -8,6 +8,7 @@ using LakerFileImporter.IO;
 using LakerFileImporter.ApiClientCaller;
 using LakerFileImporter.DAL.ImportFileProvider;
 using LakerFileImporter.Logging;
+using LakerFileImporter.SftpProxy;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 
 namespace LakerFileImporter.Business
@@ -30,15 +31,22 @@ namespace LakerFileImporter.Business
                     Logger.Info($"Entered the {methodName} method on {now}");
                 var importFileProvider = new ImportFileProvider();
                 var dbFiles = importFileProvider.GetImportFileDtos();
-                var lastProcessedFile = dbFiles?.OrderByDescending(x => x.LakerFileDate).FirstOrDefault();
+                var lastProcessedFile = dbFiles?.Where(p => p.Processed).OrderByDescending(x => x.LakerFileDate).FirstOrDefault();
+                // Ok, so now we have the latest file that has been processed in the database.
                 if (null != lastProcessedFile && cs.AppIsInDebugMode)
                     Logger.Info($"The last processed Laker file in the Database was {lastProcessedFile.FileName}. Recording this from method {methodName} on {now}.");
-                // Now, find the latest, possible file in the directory, and use 
-                // the file found in the database above to see if it's new or not.
+               
+                // Now, let's find the latest possible file in the local directory, so that we know whether or
+                // not we need to download a new file from the SFTP directory.
                 var ioHelper = new IoHelper();
                 var newestFileInLocalDirectory = ioHelper.BrowseDirectoryToLocateFile();
 
-                if (null == newestFileInLocalDirectory)
+                // Now, whether we found a file in the local directory or not, we need to engage the SFTP location to download
+                // a file that could be newer, and continue on from there.
+                var sftpProxyProvider = new SftpProxyProvider();
+                var absoluteNewestFile = sftpProxyProvider.GetLatestFileFromFilePathOrSftp(newestFileInLocalDirectory);
+
+                if (null == absoluteNewestFile)
                 {
                     if (cs.AppIsInDebugMode)
                         Logger.Info("No file was found in the directory to process. You might want to make sure we're pointing to the right place. " +
@@ -46,16 +54,16 @@ namespace LakerFileImporter.Business
                     return LakerFileProcessResult.NoFilesFoundInFileDirectory; // If no file is found in the directory to process, return no.
                 }
                 if (cs.AppIsInDebugMode)
-                    Logger.Info($"The newest file found in the local directory is {newestFileInLocalDirectory.FullFileName}. This was recorded in the {methodName} method on {now}.");
+                    Logger.Info($"The newest file found in the local directory is {absoluteNewestFile.FullFileName}. This was recorded in the {methodName} method on {now}.");
                 var newLakerFileNeededForProcessing =
-                    null == lastProcessedFile || newestFileInLocalDirectory.LakerFileDate > lastProcessedFile.LakerFileDate;
+                    null == lastProcessedFile || absoluteNewestFile.LakerFileDate > lastProcessedFile.LakerFileDate;
                 if (!newLakerFileNeededForProcessing)
                     return LakerFileProcessResult.NoLakerFileProcessingNecessary;
                 // Upload and process Laker File on Server.
                 var apiClient = new ApiClient();
-                var bytes = File.ReadAllBytes(newestFileInLocalDirectory.FullFileName);
+                var bytes = File.ReadAllBytes(absoluteNewestFile.FullFileName);
                 var token = await apiClient.GetAuthenticationBearerTokenAsync();
-                var newLakerFileName = newestFileInLocalDirectory.FileName;
+                var newLakerFileName = absoluteNewestFile.FileName;
                 var succeededUpload = await apiClient.UploadFileToApiAsync(bytes, newLakerFileName, token);
                 if (!succeededUpload)
                     return LakerFileProcessResult.LakerFileFailedToUpload;
