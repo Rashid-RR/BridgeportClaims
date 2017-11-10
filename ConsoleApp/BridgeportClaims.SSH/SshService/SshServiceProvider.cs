@@ -1,19 +1,31 @@
-﻿using BridgeportClaims.SSH.Disposable;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BridgeportClaims.SSH.Disposable;
 using Renci.SshNet;
+using Renci.SshNet.Sftp;
 
 namespace BridgeportClaims.SSH.SshService
 {
-    public class SshServiceProvider
+    public static class SshServiceProvider
     {
-        public void TraverseSshDirectory(string host, string userName, string password, string sftpFilePath)
+        public static IList<SftpFile> TraverseSshDirectory(ConnectionInfo connectionInfo, string sftpFilePath)
         {
-            var connectionInfo = new ConnectionInfo(host, 22, userName, new PasswordAuthenticationMethod(userName, password));
-            DisposableService.Using(() => new SftpClient(connectionInfo), client =>
+            return DisposableService.Using(() => new SftpClient(connectionInfo), client =>
             {
+                if (null == client)
+                    return null;
                 client.Connect();
-                var directory =  client.ListDirectory(sftpFilePath);
-                client.Disconnect();
+                return client.ListDirectory(sftpFilePath)?.ToList();
             });
+        }
+
+        public static ConnectionInfo GetConnectionInfo(string host, string userName, string password,
+            int? port, string sftpFilePath)
+        {
+            var connectionInfo = null != port
+                ? new ConnectionInfo(host, port.Value, userName, new PasswordAuthenticationMethod(userName, password))
+                : new ConnectionInfo(host, userName, new PasswordAuthenticationMethod(userName, password));
+            return connectionInfo;
         }
     }
 }

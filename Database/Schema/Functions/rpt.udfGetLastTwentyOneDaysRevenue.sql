@@ -16,18 +16,20 @@ RETURNS @Table TABLE
 AS
 BEGIN
     DECLARE @Today DATE = CONVERT(DATE, dtme.udfGetLocalDate())
-    DECLARE @TwentyOneDaysAgo DATE = DATEADD(DAY, -21, @Today)
+    DECLARE @TwentyOneDaysAgo DATE = DATEADD(DAY, -20, @Today), 
+			@TwentyOne TINYINT = 21
 
 	DECLARE @Days TABLE (DatePosted DATE NOT NULL PRIMARY KEY)
 
 	INSERT @Days (DatePosted)
-	SELECT  c.DateID
-	FROM    dtme.Calendar AS c
-	WHERE   c.DateID BETWEEN @TwentyOneDaysAgo AND @Today
-
-	INSERT @Table (DatePosted, TotalPosted)
+	SELECT		TOP (@TwentyOne) c.DateID
+	FROM		dtme.Calendar AS c
+	WHERE		c.IsWeekend = 0
+				AND c.DateID <= @Today
+	ORDER BY	c.DateID DESC
+	INSERT		@Table (DatePosted, TotalPosted)
 	SELECT      d.DatePosted
-			  , ISNULL(p.TotalPosted, 0.00)
+			  , ISNULL(p.TotalPosted, 0.00) 
 	FROM        @Days                         AS d
 		LEFT JOIN
 				(   SELECT      DatePosted  = pp.DatePosted
