@@ -21,8 +21,6 @@ namespace LakerFileImporter.ProgramRunner
                     var methodName = MethodBase.GetCurrentMethod().Name;
                     logger.Info($"Entered the {methodName} method on {now}");
                 }
-                
-
                 var driver = new LakerFileProcessor();
                 var result = driver.UploadAndProcessLakerFileIfNecessary().GetAwaiter().GetResult();
                 if (!cs.AppIsInDebugMode) return;
