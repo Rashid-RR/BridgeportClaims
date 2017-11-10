@@ -62,17 +62,23 @@ export class ClaimScriptNoteComponent implements OnInit {
     let noteUpdatedOn = this.dp.transform(note.noteUpdatedOn, "shortDate");
     let rxDate = this.dp.transform(note.rxDate, "shortDate");
      let scripts:String='';
+     let perow = Math.ceil(note.scripts.length/2), i=0;     
+     scripts+=note.scripts.length>1 ? `<div class="col-xs-6">` : `<div class="col-xs-12">`;
      note.scripts.forEach(s=>{
-      let rxDate = this.dp.transform(s.rxDate, "shortDate");
-       scripts+=`<div class="col-xs-6">
-                    <div class="info-box bg-green" style="min-height:50px">
-                      <div class="info-box-content" style="margin-left:0px !important;padding:0px">
-                        <span class="info-box-text">`+rxDate+`</span>
-                        <span class="info-box-number">`+s.rxNumber+`</span>
-                      </div>
+        let rxDate = this.dp.transform(s.rxDate, "shortDate");       
+        if(i==perow){
+          scripts+=`</div>
+                    <div class="col-xs-6">`;
+        }
+        scripts+=`<div class="info-box bg-green" style="min-height:50px">
+                    <div class="info-box-content" style="margin-left:0px !important;padding:0px">
+                      <span class="info-box-text">`+rxDate+`</span>
+                      <span class="info-box-number">`+s.rxNumber+`</span>
                     </div>
-                </div>`;
-     })
+                  </div>`; 
+        i++;
+     });
+     scripts+=`</div>`;
     swal({
       title: 'Script Note',
       html:
