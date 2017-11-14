@@ -274,6 +274,7 @@
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
     <Compile Include="Controllers\PrescriptionPaymentsController.cs" />
     <Compile Include="Controllers\PrescriptionsController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\ServerEventsController.cs" />
     <Compile Include="Controllers\TestChecksController.cs" />

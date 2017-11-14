@@ -78,6 +78,8 @@
     <Compile Include="DataProviders\PrescriptionPayments\PrescriptionPaymentProvider.cs" />
     <Compile Include="DataProviders\Prescriptions\IPrescriptionsProvider.cs" />
     <Compile Include="DataProviders\Prescriptions\PrescriptionsProvider.cs" />
+    <Compile Include="DataProviders\Reports\IReportsDataProvider.cs" />
+    <Compile Include="DataProviders\Reports\ReportsDataProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\UserOptions\DbccUserOptionsProvider.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="DataProviders\PrescriptionNoteTypes\PrescriptionNoteTypesDataProvider.cs" />
     <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
     <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
+    <Compile Include="Dtos\AccountsReceivableDto.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />
     <Compile Include="Dtos\ClaimFlex2Dto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
