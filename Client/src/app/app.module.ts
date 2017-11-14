@@ -32,7 +32,7 @@ import { DiaryComponent } from './pages/diary/diary.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
  // services
 import { DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, 
-  PaymentScriptService,UnpaidScriptService} from './services/services.barrel';
+  PaymentScriptService,UnpaidScriptService,AccountReceivableService,ReportLoaderService} from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
@@ -50,7 +50,9 @@ import { FilterUserPipe } from './pages/users/filter-user.pipe';
 import { DiariesFilterPipe } from './components/diary-results/diary-filter.pipe';
 import { DecimalPipe } from '@angular/common';
 import { PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
-  PaymentDetailedResultComponent,DiaryScriptNoteWindowComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent} from './components/components-barrel';
+        PaymentDetailedResultComponent,DiaryScriptNoteWindowComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent,
+        AccountReceivableSearchComponent,AccountReceivableResultComponent
+    } from './components/components-barrel';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentComponent } from './pages/payment/payment.component';
@@ -60,6 +62,7 @@ import { TableSortDirective } from './directives/table-sort.directive';
 import { ReportComponent } from './pages/report/report.component';
 import { ReportListComponent } from './pages/report-list/report-list.component';
 import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
+import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
  
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -98,7 +101,7 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -114,7 +117,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [
     DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
-    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,
+    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 // Services
 import { UnpaidScriptService } from "../../services/unpaid-script.service";
 

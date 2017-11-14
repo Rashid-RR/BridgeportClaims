@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ReportLoaderService } from "../../services/services.barrel";
 
 @Component({
   selector: 'app-report-list',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportListComponent implements OnInit {
 
-  constructor() { }
+  constructor(public reportloader:ReportLoaderService) { }
 
   ngOnInit() {
+    this.reportloader.current = 'List';
+    this.reportloader.currentURL = 'list';
   }
 
 }

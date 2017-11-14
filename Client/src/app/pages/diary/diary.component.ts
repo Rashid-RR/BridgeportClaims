@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-
 // Services
 import { DiaryService } from "../../services/diary.service";
 

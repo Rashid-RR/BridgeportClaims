@@ -509,4 +509,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  
+  accountReceivable(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/reports/accounts-receivable', data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+
 }

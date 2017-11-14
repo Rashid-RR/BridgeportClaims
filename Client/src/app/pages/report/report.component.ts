@@ -1,5 +1,7 @@
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import { Router,NavigationEnd,UrlTree } from '@angular/router';
+// Services
+import { ReportLoaderService } from "../../services/services.barrel";
 
 @Component({
   selector: 'app-report',
@@ -9,7 +11,7 @@ import { Router,NavigationEnd,UrlTree } from '@angular/router';
 export class ReportComponent implements OnInit ,OnDestroy{
 
   location:String='';
-  constructor(private router:Router) { 
+  constructor(private router:Router,public reportloader:ReportLoaderService) { 
 
   }
 

@@ -30,6 +30,7 @@ import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.compo
 import { ReportComponent } from './pages/report/report.component';
 import { ReportListComponent } from './pages/report-list/report-list.component';
 import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
+import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
 
 export const routes: Routes = [
   {
@@ -85,6 +86,14 @@ export const routes: Routes = [
               {
                 path: 'list',
                 component:ReportListComponent
+              },
+              {
+                path: 'revenue',
+                component:ReportSampleComponent
+              },
+              {
+                path: 'account-receivable',
+                component:ReportAccountReceivableComponent
               },
               {
                 path: 'sample',

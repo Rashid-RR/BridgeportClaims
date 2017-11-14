@@ -1,0 +1,54 @@
+.page-title h3 {
+    margin: 0;
+    padding: 10px 0 0 10px;
+    font-weight: 400;
+}
+
+.box {
+    border: 1.5px solid #d2d6de;
+    margin-bottom: 2rem;
+}
+.box .box-body {
+    overflow-x: hidden;
+}
+.bg-head-box {
+    background: #992727;
+    z-index: 3;
+    color: #fff;
+}
+
+.blade-title {
+    font-size: 18px;
+}
+
+.blade-title i {
+    margin-right: 10px;
+}
+
+.total {
+    display: block;
+}
+
+.diary-results {
+    background: #fbeede;
+}
+
+.left5 {
+    margin-left: 5px;
+}
+
+.right5 {
+    margin-right: 15px;
+}
+
+.white {
+    color: #ffffff;
+}
+.transparent {
+    background: transparent !important;
+    color: white !important;
+}
+.not-allowed,
+.not-allowed .form-control {
+  cursor: not-allowed;
+}
