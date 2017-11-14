@@ -4,12 +4,12 @@
         <div class="table-responsive top-header">
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
-                    <tr (tableSort)="ar.onSortColumn($event)" #myTable='table-sort'>
+                    <tr  #myTable='table-sort' (tableSort)="ar.onSortColumn($event)">
                       <th><span>&nbsp;</span></th>  
                       <th *ngFor="let column of ar.columns;">
-                            <span columnSort="column" [sort-table]="myTable">
+                            <!-- <span columnSort="column" [sort-table]="myTable"> -->
                                 {{ar.capitalizeFirstLetter(column)}}
-                            </span>
+                            <!-- </span> -->
                         </th>
                     </tr>
                 </thead>
