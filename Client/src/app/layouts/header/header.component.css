@@ -43,7 +43,7 @@ li a {
         box-sizing: content-box;
         border: none;
         font: normal 20px/1 "Cigno MF", Helvetica, sans-serif, italic;
-        color: rgb(170, 174, 193);
+
         text-align: center;
         text-transform: normal;
         -o-text-overflow: clip;
@@ -63,19 +63,19 @@ li a {
     box-sizing: content-box;
     position: relative;
     border: none;
-    font: normal 13px/1 "Nova Flat", Helvetica, sans-serif;
-    color: rgb(241, 233, 233);
+    font: normal 15px/1 "Nova Flat", Helvetica, sans-serif;
+    color: #C3CDFF;
     text-align: center;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
+    /*-o-text-overflow: ellipsis;
+    text-overflow: ellipsis;*/
     position: fixed;
-    top: 20px;
+    top: 0px;
     width: auto;
     z-index: 999999;
     left: 50%;
   }
 
-  .ver2::before {
+ /* .ver2::before {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
@@ -129,7 +129,7 @@ li a {
     transform:  scaleY(-0.5) translateY(-20%) ;
     -webkit-transform-origin: 50% 0 0;
     transform-origin: 50% 0 0;
-  }
+  }*/
   .ver3 {
     -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
