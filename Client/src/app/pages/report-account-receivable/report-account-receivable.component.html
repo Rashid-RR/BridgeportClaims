@@ -8,9 +8,6 @@
                     <i class="fa fa-filter white" aria-hidden="true"></i>
                     </h4>
                 </a>
-                <div class="pull-right box-tools"> 
-                     <img src="assets/img/export_to_excel_new3.png" class="transparent not-allowed" height="60px"  data-toggle="tooltip" title="Export to Excel" style="margin-top:-16px;"/> 
-                </div>
             </div>
             <div class="box-body panel-collapse collapse out bg-light-maroon"  style="padding: 0px 15px;" id="collapseOne">
                 <app-account-receivable-search></app-account-receivable-search>
@@ -26,11 +23,9 @@
                 <span class="blade-title panel-head">
                     <i class="fa fa-book" aria-hidden="true"></i> Account Receivable Entries
                 </span>
-                <!-- <span class="total pull-right">
-                    <span *ngIf="ar.diaryFilterSize.length>0 && ar.diaryFilterSize.length!=ar.report.length"><span style="font-size:13pt">{{ar.diaryFilterSize.length}}</span> Record{{ar.diaryFilterSize.length>1 ? 's':''}} filtered</span>
-                    &nbsp;&nbsp; &nbsp;<span *ngIf="ar.pageStart  && ar.diaryFilterSize.length==ar.report.length" style="margin-right:100px;"> {{ar.pageStart+ " to "+ar.pageEnd}}</span>
-                    <span *ngIf="ar.report.length>0"><span style="font-size:13pt">{{ar.totalRowCount}}</span> Record{{ar.totalRowCount>1 ? 's':''}} found</span>
-                </span> -->
+                <div class="pull-right box-tools">
+                    <img src="assets/img/export_to_excel_new3.png" class="transparent not-allowed" height="60px"  data-toggle="tooltip" title="Export to Excel" style="margin-top:-16px;"/> 
+               </div>
             </div>
             <div class="box-body diary-results">
                 <app-account-receivable-result></app-account-receivable-result>
