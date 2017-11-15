@@ -1,6 +1,6 @@
 <div class="row search">
     <div class="col-sm-12" id="accordion">
-        <div class="box no-border box-solid bg-green-gradient" style="padding: 0px;margin-bottom:0rem;">
+        <div class="box no-border box-solid" style="padding: 0px;margin-bottom:0rem;">
             <div class="box-header bg-head-box">
                 <a class="blade-title panel-head" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
                     <h4 class="panel-title"   data-toggle="tooltip" title="Click to open/close calendar">
@@ -9,12 +9,10 @@
                     </h4>
                 </a>
                 <div class="pull-right box-tools"> 
-                <button type="button" class="transparent btn btn-flat bg-gray btn-sm not-allowed" data-toggle="tooltip" title="Export to Excel" style="margin-top:-21px;">
-                    <img src="assets/img/export_to_excel_new3.png" height="60px"/>
-                </button> 
+                     <img src="assets/img/export_to_excel_new3.png" class="transparent not-allowed" height="60px"  data-toggle="tooltip" title="Export to Excel" style="margin-top:-11px;"/> 
+                </div>
             </div>
-            </div>
-            <div class="box-body"  style="padding: 0px 15px;" id="collapseOne" class="panel-collapse collapse out">
+            <div class="box-body panel-collapse collapse out bg-light-maroon"  style="padding: 0px 15px;" id="collapseOne">
                 <app-account-receivable-search></app-account-receivable-search>
             </div>
         </div>

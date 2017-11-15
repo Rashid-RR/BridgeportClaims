@@ -27,8 +27,7 @@ export class AccountReceivableService {
     this.search();
   }
   setColumns(data:Object){
-    this.columns = Object.keys(data);
-    console.log(this.columns);
+    this.columns = Object.keys(data); 
   }
   capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -48,7 +47,6 @@ export class AccountReceivableService {
       } 
       this.http.accountReceivable(data).map(res => { return res.json(); })
         .subscribe((result: Array<any>) => {
-          console.log(result);
           this.reportLoader.loading = false; 
           this.report= result; 
           if(result.length>0){
