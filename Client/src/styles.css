@@ -79,7 +79,7 @@
     }
 
     .swal2-modal.paymeny-modal .swal2-content .not-allowed,
-    .not-allowed .form-control {
+    .not-allowed .form-control,a.not-allowed {
       cursor: not-allowed;
     }
 
