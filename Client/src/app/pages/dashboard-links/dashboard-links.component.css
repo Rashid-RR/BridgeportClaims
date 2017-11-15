@@ -44,6 +44,9 @@ li.file-uploads {
 li.user-management {
     background: url('/assets/img/user-management-btn.png') no-repeat;
 }
+li.reports {
+    background: url('/assets/img/report.png') no-repeat;
+}
 #container {
 	min-width: calc(90vw - 210px);
 	min-width: -moz-calc(90vw - 210px);

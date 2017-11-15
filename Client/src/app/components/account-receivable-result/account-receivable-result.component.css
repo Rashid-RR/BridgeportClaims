@@ -51,10 +51,10 @@ tr:nth-of-type(even) {
 }
  
 .expanded{
-    height: calc(100vh - 270px);
-    height: -moz-calc(100vh - 270px);
-    height: -webkit-calc(100vh - 270px);
-    height: -o-calc(100vh - 270px);
+    height: calc(100vh - 240px);
+    height: -moz-calc(100vh - 240px);
+    height: -webkit-calc(100vh - 240px);
+    height: -o-calc(100vh - 240px);
     overflow:hidden;
 }
 .top-header,.table-body{

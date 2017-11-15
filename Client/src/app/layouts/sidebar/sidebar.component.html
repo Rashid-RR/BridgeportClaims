@@ -32,9 +32,9 @@
       </li>
       <li  routerLinkActive="active">
           <a [routerLink]="!disableLinks ? '/main/diary' : []" [class.disabled]="disableLinks">            
-                <i class="fa fa-book" aria-hidden="true"></i>
-                <span>Diary</span>
-              </a>
+            <i class="fa fa-book" aria-hidden="true"></i>
+            <span>Diaries</span>
+          </a>
        </li>
        <li  routerLinkActive="active">
         <a [routerLink]="!disableLinks ? '/main/unpaid-scripts' : []" [class.disabled]="disableLinks">            
@@ -61,13 +61,13 @@
          <li  routerLinkActive="active">
             <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks">            
                 <i class="fa fa-upload"></i> 
-                <span>File Upload</span>
+                <span>File Uploads</span>
             </a>
         </li>
         <li  routerLinkActive="active">
         <a [routerLink]="!disableLinks ? '/main/users'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
               <i class="fa fa-user fa-fw"></i> 
-              <span>Users</span>
+              <span>User Management</span>
             </a>
       </li>
       <li class="header" style="color:white;font-size:14pt">

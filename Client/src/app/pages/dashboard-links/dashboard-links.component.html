@@ -6,8 +6,9 @@
                 <li class="diaries" routerLink="/main/diary"></li>
                 <li class="unpaid-scripts" routerLink="/main/unpaid-scripts"></li>
                 <li class="payments" routerLink="/main/payments"></li>
+                <li class="reports" routerLink="/main/users" *ngIf="allowed"></li>
                 <li class="file-uploads" routerLink="/main/fileupload" *ngIf="allowed"></li>
-                <li class="user-management" routerLink="/main/users" *ngIf="allowed"></li>
+                <li class="user-management" routerLink="/main/users" *ngIf="allowed"></li>                
             </ul>
         </div>
         <div class="row" *ngIf="allowed">
