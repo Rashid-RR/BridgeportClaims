@@ -5,15 +5,14 @@ th {
     font-family: 'Cambay', sans-serif !important;
 }
 tr>th:first-child,
-tr>td:first-child{
-    width:3%;
-}
+tr>td:first-child,
 tr>th:nth-child(2),
-tr>td:nth-child(2),
-tr>th:nth-child(3),
-tr>td:nth-child(3){
-    width:13%;
+tr>td:nth-child(2){
+    width:11%;
 }
+
+tr>th:nth-child(3),
+tr>td:nth-child(3),
 tr>th:nth-child(4),
 tr>td:nth-child(4),
 tr>th:nth-child(5),
@@ -30,9 +29,13 @@ tr>th:nth-child(10),
 tr>td:nth-child(10),
 tr>th:nth-child(11), 
 tr>td:nth-child(11),
+tr>th:nth-child(12), 
+tr>td:nth-child(12),
+tr>th:nth-child(13), 
+tr>td:nth-child(13),
 tr>th:last-child,
 tr>td:last-child{
-    width: 7%;
+    width: 6.5%;
 }
 
 /* ROW COLOR CHANGE*/
@@ -82,7 +85,7 @@ tr:nth-of-type(even) {
     overflow-x: hidden;
 } 
 .top-header table{
-    height:99%;
+    height:100%;
 }
 tbody>tr:hover {
     background: #b6f1ff !important;

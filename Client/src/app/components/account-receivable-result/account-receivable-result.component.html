@@ -4,11 +4,10 @@
         <div class="table-responsive top-header">
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
-                    <tr  #myTable='table-sort' (tableSort)="ar.onSortColumn($event)">
-                      <th><span>&nbsp;</span></th>  
+                    <tr  #myTable='table-sort' (tableSort)="ar.onSortColumn($event)"> 
                       <th *ngFor="let column of ar.columns;">
                             <!-- <span columnSort="column" [sort-table]="myTable"> -->
-                                {{ar.capitalizeFirstLetter(column)}}
+                                {{(column == 'monthBilled' ? 'Month Billed' : (column == 'totalInvoiced' ? 'Total Invoiced' : ar.capitalizeFirstLetter(column)))}}
                             <!-- </span> -->
                         </th>
                     </tr>
@@ -19,8 +18,7 @@
         <div class="table-responsive table-body">
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #diaryTable tabindex="0">
-                    <tr *ngFor="let r of ar.report;let i=index;">
-                        <td>{{(i+1)}}</td>
+                    <tr *ngFor="let r of ar.report;let i=index;"> 
                       <ng-container *ngFor="let column of ar.columns;">
                           <td *ngIf="column=='monthBilled'">{{r[column]}}</td>
                           <td *ngIf="column!=='monthBilled'">{{r[column] | currency:'USD':true:'1.2-2'}}</td>

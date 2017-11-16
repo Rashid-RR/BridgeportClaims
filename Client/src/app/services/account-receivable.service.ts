@@ -30,7 +30,9 @@ export class AccountReceivableService {
     this.columns = Object.keys(data); 
   }
   capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    let str = string.slice(1).replace(/[0-9]/g, '');
+    let num = string.slice(1).replace(/[A-Za-z]/g, '');
+    return string.charAt(0).toUpperCase() + str+' '+num;
   }
   search(next:Boolean=false,prev:Boolean=false,page:number = undefined){     
       this.reportLoader.loading = true;
