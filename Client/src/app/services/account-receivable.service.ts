@@ -20,7 +20,11 @@ export class AccountReceivableService {
 
   }   
   runReport(){
-    this.toast.info('Hold tight... this will take several seconds');
+    this.toast.info('Hold tight... this will take several seconds...');
+    this.search();
+  }
+  export(){
+    this.toast.info('Hold tight... your report and Excel are generating....');
     this.search();
   }
   onSortColumn(info: SortColumnInfo) {
@@ -36,6 +40,16 @@ export class AccountReceivableService {
     let str = string.slice(1).replace(/[0-9]/g, '');
     let num = string.slice(1).replace(/[A-Za-z]/g, '');
     return string.charAt(0).toUpperCase() + str+' '+num;
+  }
+  getExport(data:any){
+    this.reportLoader.loading = true;
+    this.http.getExport(data).map(res => { return res.json(); })
+    .subscribe((result: Array<any>) => {
+      this.reportLoader.loading = false; 
+    }, error => {
+      this.reportLoader.loading = false; 
+      this.events.broadcast('account-receivable-report-updated');
+    });    
   }
   search(next:Boolean=false,prev:Boolean=false,page:number = undefined){     
       this.reportLoader.loading = true;
