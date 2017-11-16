@@ -518,7 +518,7 @@ export class HttpService {
       });
   }
   getExport(data:any): Observable<Response> {
-    return this.http.post(this.baseUrl + '/reports/accounts-receivable', data, { headers: this.headers })
+    return this.http.post(this.baseUrl + '/reports/export', data, { headers: this.headers })
     .catch(err =>  {
       this.handleResponseError(err);
         return Observable.throw(err);
