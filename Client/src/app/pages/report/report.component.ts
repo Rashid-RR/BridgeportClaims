@@ -16,12 +16,7 @@ export class ReportComponent implements OnInit ,OnDestroy{
   }
 
   ngOnInit() {
-      this.router.events.subscribe(res=>{
-          if(res instanceof NavigationEnd){
-            let tree:UrlTree = this.router.parseUrl(this.router.url);
-            console.log(tree);
-          }
-      })
+       
   }
   ngOnDestroy(){
       

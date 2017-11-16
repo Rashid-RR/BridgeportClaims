@@ -1,7 +1,6 @@
 import { Component, OnInit,AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
-import { ProfileManager } from '../../services/profile-manager';
-import { EventsService } from '../../services/events-service';
+import { ProfileManager, ReportLoaderService, EventsService } from '../../services/services.barrel';
 import { DatePipe,DecimalPipe } from '@angular/common';
 declare var Highcharts:any; 
 
@@ -18,11 +17,13 @@ export class ReportSampleComponent implements OnInit ,AfterViewInit{
       private http: HttpService,
       private events: EventsService,
       private dp: DatePipe,
+      private reportLoader:ReportLoaderService,
       private profileManager: ProfileManager
     ) { }
   
     ngAfterViewInit() { 
       if(this.allowed){
+        this.reportLoader.loading = true;
         this.http.revenueByMonth({}).map(r=>{return r.json()}).subscribe((res:Array<{datePosted:Date,totalPosted:Number}>)=>{
           let drilldown:any=[];
           res.forEach(r=>{
@@ -91,12 +92,15 @@ export class ReportSampleComponent implements OnInit ,AfterViewInit{
                 series:drilldown     
               }
           });
+          this.reportLoader.loading = false;
         },error=>{
-            
+          this.reportLoader.loading = false;
         })
       }
     }
     ngOnInit() { 
+      this.reportLoader.current ='Revenue From Last 21 Days';
+      this.reportLoader.currentURL ='revenue';
        
     }
   
