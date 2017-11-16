@@ -19,7 +19,10 @@ export class AccountReceivableService {
   constructor(private http: HttpService,private events: EventsService, private toast: ToastsManager,public reportLoader:ReportLoaderService) { 
 
   }   
-
+  runReport(){
+    this.toast.info('Hold tight... this will take several seconds');
+    this.search();
+  }
   onSortColumn(info: SortColumnInfo) {
     this.data.isDefaultSort = false;
     this.data.sort = info.column;

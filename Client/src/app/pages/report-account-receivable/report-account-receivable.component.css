@@ -48,6 +48,10 @@
     background: transparent !important;
     color: white !important;
 }
+.btn-green {
+    background: #006136 !important;
+    color: white !important;
+}
 .not-allowed,
 .not-allowed .form-control {
   cursor: not-allowed;
