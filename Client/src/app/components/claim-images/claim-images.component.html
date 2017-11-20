@@ -4,19 +4,23 @@
             <table class="table no-margin table-striped">
               <thead>
               <tr>
-                <th>Date</th>
-                <th>Rx Num</th>
+                <th>Created</th>
                 <th>Type</th>
+                <th>Rx Date</th>
+                <th>Rx Number</th>
                 <th>File</th>
               </tr>
               </thead>
               <tbody>
-              <!--<tr *ngFor="let pay of claimManager.selectedClaim.payments">
-                <td>{{pay.date  | date:"shortDate"}}</td>
-                <td>{{pay.checkNumber}}</td>
-                <td>{{pay.RxNum}}</td>
-                <td>{{pay.checkAmount}}</td>               
-              </tr>-->
+                  <tr *ngFor="let image of claimManager.selectedClaim.images" (click)="openAttachment(image)">
+                    <td>{{image.created  | date:"shortDate"}}</td>
+                    <td>{{image.type}}</td>
+                    <td>{{image.rxDate | date:"shortDate"}}</td>
+                    <td>{{image.rxNumber}}</td>
+                    <td>
+                      <a [routerLink]="image.file">{{image.file}}</a>
+                    </td>               
+                  </tr>
               </tbody>
             </table>
           </div>
