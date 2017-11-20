@@ -20,11 +20,11 @@ export class AccountReceivableService {
 
   }   
   runReport(){
-    this.toast.info('Hold tight... this will take several seconds...');
+    //this.toast.info('Hold tight... this will take several seconds...');
     this.search();
   }
   export(){
-    this.toast.info('Hold tight... your report and Excel are generating....');
+    //this.toast.info('Hold tight... your report and Excel are generating....');
     this.search();
   }
   onSortColumn(info: SortColumnInfo) {
