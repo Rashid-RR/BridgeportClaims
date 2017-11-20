@@ -72,7 +72,7 @@ li a {
     top: 0px;
     width: auto;
     z-index: 999999;
-    left: 50%;
+    left: calc(50% - 86.24);
   }
 
  /* .ver2::before {
