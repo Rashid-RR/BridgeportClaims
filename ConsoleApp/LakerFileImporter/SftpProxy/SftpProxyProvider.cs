@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Reflection;
 using BridgeportClaims.SSH.SshService;
 using LakerFileImporter.Disposable;
 using LakerFileImporter.Helpers;
 using LakerFileImporter.Logging;
+using LakerFileImporter.Security;
 using NLog;
 using Renci.SshNet;
 using cs = LakerFileImporter.ConfigService.ConfigService;
@@ -99,7 +99,7 @@ namespace LakerFileImporter.SftpProxy
         {
             var host = cs.GetAppSetting(c.SftpHostKey);
             var userName = cs.GetAppSetting(c.SftpUserNameKey);
-            var password = cs.GetAppSetting(c.SftpPasswordKey);
+            var password = new CompiledSecurityProvider().RawLakerSftpPassword;
             var path = cs.GetAppSetting(c.SftpRemoteSitePathKey);
             var port = cs.GetAppSetting(c.SftpPortKey);
             var portInt = !string.IsNullOrWhiteSpace(port) ? Convert.ToInt32(port) : (int?) null;

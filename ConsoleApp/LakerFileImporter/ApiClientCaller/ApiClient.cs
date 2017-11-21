@@ -27,7 +27,7 @@ namespace LakerFileImporter.ApiClientCaller
             var request = new HttpRequestMessage(HttpMethod.Post, _apiHostName + authUrl);
             try
             {
-                var password = CompiledSecurityProvider.GetBridgeportClaimsSiteUserPassword();
+                var password = new CompiledSecurityProvider().RawBridgeportClaimsSiteUserPassword;
                 var dictionary = new Dictionary<string, string>
                 {
                     {"username", cs.GetAppSetting(c.AuthenticationUserNameKey)},

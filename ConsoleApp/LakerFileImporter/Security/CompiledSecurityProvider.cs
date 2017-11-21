@@ -1,15 +1,12 @@
 ﻿namespace LakerFileImporter.Security
 {
-    internal static class CompiledSecurityProvider
+    internal class CompiledSecurityProvider
     {
-        internal static string GetConnectionString()
-        {
-            return "Server=jdgdb1.database.windows.net;Database=BridgeportClaims;User ID=bridgeportclaimslakerimporter;Password=v9fy!QBRM@;Trusted_Connection=False;";
-        }
+        internal string RawConnectionString
+            => "Server=jdgdb1.database.windows.net;Database=BridgeportClaims;User ID=bridgeportclaimslakerimporter;Password=v9fy!QBRM@;Trusted_Connection=False;";
 
-        internal static string GetBridgeportClaimsSiteUserPassword()
-        {
-            return "Binah9991010";
-        }
+        internal string RawBridgeportClaimsSiteUserPassword => "Binah9991010";
+
+        internal string RawLakerSftpPassword => "B171!or11";
     }
 }
