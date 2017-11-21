@@ -19,5 +19,6 @@
         public const string SftpPasswordKey = "SftpPassword";
         public const string SftpRemoteSitePathKey = "SftpRemoteSitePath";
         public const string SftpPortKey = "SftpPort";
+        public const string ProcessSftpKey = "ProcessSftp";
     }
 }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Disposable\DisposableService.cs" />
+    <Compile Include="Models\SftpConnectionModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SshService\SshServiceProvider.cs" />
   </ItemGroup>

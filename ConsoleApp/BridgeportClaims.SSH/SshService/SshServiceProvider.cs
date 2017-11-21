@@ -3,31 +3,38 @@ using System.Linq;
 using BridgeportClaims.SSH.Disposable;
 using Renci.SshNet;
 using Renci.SshNet.Sftp;
+using BridgeportClaims.SSH.Models;
 
 namespace BridgeportClaims.SSH.SshService
 {
     public static class SshServiceProvider
     {
-        public static IList<SftpFile> TraverseSshDirectory(ConnectionInfo connectionInfo, string sftpFilePath)
+        private static IList<SftpFile> ListSshFiles(ConnectionInfo connectionInfo, string remoteSftpFilePath)
         {
             return DisposableService.Using(() => new SftpClient(connectionInfo), client =>
             {
                 if (null == client)
                     return null;
                 client.Connect();
-                return client.ListDirectory(sftpFilePath)?.ToList();
+                var ftpDirectoryListing = client.ListDirectory(remoteSftpFilePath)?.ToList();
+                // TODO: var remoteDirectory = // TODO:  $"{path}/{sftpFileName}";
+                // TODO: var downloadedFile = File.OpenRead(remoteDirectory + sftpFileName.FileName);
+                // TODO: client.DownloadFile(remoteDirectory, downloadedFile);
 
-
-
+                return ftpDirectoryListing;
             });
         }
 
-        public static ConnectionInfo GetConnectionInfo(string host, string userName, string password,
-            int? port, string sftpFilePath)
+        public static void ProcessSftpOperation(SftpConnectionModel model, string remoteSftpFilePath, string localSftpDownloadDirectoryFullPath)
         {
-            var connectionInfo = null != port
-                ? new ConnectionInfo(host, port.Value, userName, new PasswordAuthenticationMethod(userName, password))
-                : new ConnectionInfo(host, userName, new PasswordAuthenticationMethod(userName, password));
+            var sftpFiles = ListSshFiles(GetConnectionInfo(model), localSftpDownloadDirectoryFullPath);
+        }
+
+        public static ConnectionInfo GetConnectionInfo(SftpConnectionModel model)
+        {
+            var connectionInfo = null != model.Port
+                ? new ConnectionInfo(model.Host, model.Port.Value, model.UserName, new PasswordAuthenticationMethod(model.UserName, model.Password))
+                : new ConnectionInfo(model.Host, model.UserName, new PasswordAuthenticationMethod(model.UserName, model.Password));
             return connectionInfo;
         }
     }
