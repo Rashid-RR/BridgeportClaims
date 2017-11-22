@@ -12,22 +12,20 @@ namespace LakerFileImporter.IO
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        internal string LocalFullFilePathWithMonthYearFolder
+        internal static string GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime date)
         {
-            get
-            {
-                var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
-                var monthFolderDirectory = DateTime.Now.ToString(monthFolderFormat);
-                var pathWithMonthDirectory = Path.Combine(cs.GetAppSetting(c.LakerFilePathKey), monthFolderDirectory);
-                return pathWithMonthDirectory;
-            }
+            var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
+            var monthFolderDirectory = date.ToString(monthFolderFormat);
+            var pathWithMonthDirectory = Path.Combine(cs.GetAppSetting(c.LakerFilePathKey), monthFolderDirectory);
+            return pathWithMonthDirectory;
         }
-        
+
         internal bool CreateMonthAndYearFolderIfNecessary()
         {
             try
             {
-                var pathWithMonthDirectory = LocalFullFilePathWithMonthYearFolder;
+                // Create a folder
+                var pathWithMonthDirectory = GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now);
                 if (string.IsNullOrWhiteSpace(pathWithMonthDirectory))
                     throw new Exception(
                         "Something went wrong with the month directory path. It was not populated correctly. It is null or empty.");
@@ -48,9 +46,9 @@ namespace LakerFileImporter.IO
         {
             try
             {
-                var directoryInfo = new DirectoryInfo(LocalFullFilePathWithMonthYearFolder);
+                var directoryInfo = new DirectoryInfo(GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now));
                 var files = directoryInfo.GetFiles()
-                    .Where(x => x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
+                    .Where(x => !string.IsNullOrWhiteSpace(x.Name) && x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
                     .OrderByDescending(p => p.CreationTime)
                     .Take(Convert.ToInt32(cs.GetAppSetting(c.FileProcessorTopNumberKey))).ToList();
                 // Now traverse the top, however many files to find the latest.
