@@ -107,7 +107,6 @@
     <Compile Include="StringConstants\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="AppStaging.config" />
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>

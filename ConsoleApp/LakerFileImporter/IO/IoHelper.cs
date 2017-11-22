@@ -52,7 +52,7 @@ namespace LakerFileImporter.IO
                 var files = directoryInfo.GetFiles()
                     .Where(x => x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
                     .OrderByDescending(p => p.CreationTime)
-                    .Take(Convert.ToInt32(cs.GetAppSetting(c.LakerFileTopNumberKey))).ToList();
+                    .Take(Convert.ToInt32(cs.GetAppSetting(c.FileProcessorTopNumberKey))).ToList();
                 // Now traverse the top, however many files to find the latest.
                 var newFiles = files.Select(s => new FileDateParsingHelper
                 {

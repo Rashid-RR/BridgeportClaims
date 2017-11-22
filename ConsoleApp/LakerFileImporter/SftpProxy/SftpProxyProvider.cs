@@ -27,7 +27,9 @@ namespace LakerFileImporter.SftpProxy
             // This includes the month and year folder.
             var localDirectoryDownloadFullPath = new IoHelper().LocalFullFilePathWithMonthYearFolder;
             // Process SFTP Operation
-            SshServiceProvider.ProcessSftpOperation(SftpConnectionModel, sftpRemoteSitePath, localDirectoryDownloadFullPath);
+            int ti;
+            var fileProcessorTopNumber = int.TryParse(cs.GetAppSetting(c.FileProcessorTopNumberKey), out ti) ? ti : 10;
+            SshServiceProvider.ProcessSftpOperation(SftpConnectionModel, sftpRemoteSitePath, localDirectoryDownloadFullPath, fileProcessorTopNumber);
         }
 
         private static SftpConnectionModel SftpConnectionModel
