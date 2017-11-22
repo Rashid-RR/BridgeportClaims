@@ -17,7 +17,7 @@ namespace LakerFileImporter.Logging
             var dbTarget = new DatabaseTarget();
             config.AddTarget("Database", dbTarget);
 
-            dbTarget.ConnectionString = CompiledSecurityProvider.GetConnectionString();
+            dbTarget.ConnectionString = new CompiledSecurityProvider().RawConnectionString;
             dbTarget.CommandType = CommandType.StoredProcedure;
             dbTarget.CommandText = "[dbo].[uspNLogInsert]";
             dbTarget.Name = "db";

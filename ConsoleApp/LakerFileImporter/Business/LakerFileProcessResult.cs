@@ -3,6 +3,7 @@
     internal enum LakerFileProcessResult
     {
         NoFilesFoundInFileDirectory,
+        MonthYearFolderCouldNotBeCreatedInLocalDirectory,
         NoLakerFileProcessingNecessary,
         LakerFileFailedToUpload,
         LakerFileFailedToProcess,

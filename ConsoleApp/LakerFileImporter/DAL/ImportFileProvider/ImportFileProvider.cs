@@ -37,7 +37,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
             try
             {
                 var files = new List<ImportFileDto>();
-                var connStr = CompiledSecurityProvider.GetConnectionString();
+                var connStr = new CompiledSecurityProvider().RawConnectionString;
                 return DisposableService.Using(() => new SqlConnection(connStr), connection =>
                 {
                     return DisposableService.Using(() => new SqlCommand("dbo.uspGetImportFile", connection),

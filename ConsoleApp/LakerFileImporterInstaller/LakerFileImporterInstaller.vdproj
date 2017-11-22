@@ -21,6 +21,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_1F891A22801B041C6899B61F8DEA1437"
+        "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5D09FEC9FBD5B96C71CB7588D7479392"
         "OwnerKey" = "8:_7460E1585D7C380E81E7FDB9F440D02F"
         "MsmSig" = "8:_UNDEFINED"
@@ -33,25 +39,37 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_7453DC53FE1ADE8513293EA7EDD2815A"
+        "MsmKey" = "8:_63DAC724C4129F3EE2941AD9A2020950"
         "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_7460E1585D7C380E81E7FDB9F440D02F"
-        "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
+        "OwnerKey" = "8:_1F891A22801B041C6899B61F8DEA1437"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_7460E1585D7C380E81E7FDB9F440D02F"
-        "OwnerKey" = "8:_7453DC53FE1ADE8513293EA7EDD2815A"
+        "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_A82B6D075A3920A4AF4AF87FB3704E26"
+        "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D3DF7BBE7ABAF0A08179238FFE203E77"
+        "OwnerKey" = "8:_63DAC724C4129F3EE2941AD9A2020950"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D3DF7BBE7ABAF0A08179238FFE203E77"
         "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -64,13 +82,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5D09FEC9FBD5B96C71CB7588D7479392"
+        "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
+        "OwnerKey" = "8:_63DAC724C4129F3EE2941AD9A2020950"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,13 +106,25 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_7453DC53FE1ADE8513293EA7EDD2815A"
+        "OwnerKey" = "8:_1F891A22801B041C6899B61F8DEA1437"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_7460E1585D7C380E81E7FDB9F440D02F"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_5D09FEC9FBD5B96C71CB7588D7479392"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D3DF7BBE7ABAF0A08179238FFE203E77"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -115,6 +145,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -131,6 +169,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -160,6 +214,37 @@
         }
         "File"
         {
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1F891A22801B041C6899B61F8DEA1437"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_1F891A22801B041C6899B61F8DEA1437"
+                    {
+                    "Name" = "8:NLog.Web.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:NLog.Web.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BF21A4EC79BE45EAB4B383EBB955EEBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5D09FEC9FBD5B96C71CB7588D7479392"
             {
             "AssemblyRegister" = "3:1"
@@ -191,20 +276,20 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_7453DC53FE1ADE8513293EA7EDD2815A"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_63DAC724C4129F3EE2941AD9A2020950"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:BridgeportClaims.SSH, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_7453DC53FE1ADE8513293EA7EDD2815A"
+                    "_63DAC724C4129F3EE2941AD9A2020950"
                     {
-                    "Name" = "8:NLog.Web.dll"
+                    "Name" = "8:BridgeportClaims.SSH.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:NLog.Web.dll"
+            "SourcePath" = "8:BridgeportClaims.SSH.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BF21A4EC79BE45EAB4B383EBB955EEBB"
@@ -267,6 +352,37 @@
                     }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BF21A4EC79BE45EAB4B383EBB955EEBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D3DF7BBE7ABAF0A08179238FFE203E77"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:Renci.SshNet, Version=2016.1.0.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_D3DF7BBE7ABAF0A08179238FFE203E77"
+                    {
+                    "Name" = "8:Renci.SshNet.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:Renci.SshNet.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BF21A4EC79BE45EAB4B383EBB955EEBB"
@@ -382,15 +498,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:LakerFileImporterInstaller"
-        "ProductCode" = "8:{1FA108BD-2ED3-49DA-9C12-4F817C2CA3D6}"
-        "PackageCode" = "8:{90F4DD5B-713D-48A1-8D78-05C8185CC5E6}"
+        "ProductCode" = "8:{007D9A4F-A09E-4B7F-B190-67F92D8416B9}"
+        "PackageCode" = "8:{E14E9AD3-E07A-4F7A-B340-6375B525ABC6}"
         "UpgradeCode" = "8:{65E2D214-C8D1-4AD6-BB42-81013104A8C8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
-        "DetectNewerInstalledVersion" = "11:TRUE"
+        "RemovePreviousVersions" = "11:TRUE"
+        "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:BridgeportClaims"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"

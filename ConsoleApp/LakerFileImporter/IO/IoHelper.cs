@@ -11,23 +11,44 @@ namespace LakerFileImporter.IO
     internal class IoHelper
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        internal FileDateParsingHelper BrowseDirectoryToLocateFile()
+
+        internal string LocalFullFilePathWithMonthYearFolder
         {
-            try
+            get
             {
                 var monthFolderFormat = cs.GetAppSetting(c.MonthFolderFormatKey);
                 var monthFolderDirectory = DateTime.Now.ToString(monthFolderFormat);
                 var pathWithMonthDirectory = Path.Combine(cs.GetAppSetting(c.LakerFilePathKey), monthFolderDirectory);
+                return pathWithMonthDirectory;
+            }
+        }
+        
+        internal bool CreateMonthAndYearFolderIfNecessary()
+        {
+            try
+            {
+                var pathWithMonthDirectory = LocalFullFilePathWithMonthYearFolder;
                 if (string.IsNullOrWhiteSpace(pathWithMonthDirectory))
                     throw new Exception(
                         "Something went wrong with the month directory path. It was not populated correctly. It is null or empty.");
-                if (!Directory.Exists(pathWithMonthDirectory))
-                {
-                    Directory.CreateDirectory(pathWithMonthDirectory);
-                    if (cs.AppIsInDebugMode)
-                        Logger.Info($"Created new Directory {pathWithMonthDirectory} because it didn't exist.");
-                }
-                var directoryInfo = new DirectoryInfo(pathWithMonthDirectory);
+                if (Directory.Exists(pathWithMonthDirectory)) return true;
+                Directory.CreateDirectory(pathWithMonthDirectory);
+                if (cs.AppIsInDebugMode)
+                    Logger.Info($"Created new Directory {pathWithMonthDirectory} because it didn't exist.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return false;
+            }
+    }
+
+        internal FileDateParsingHelper BrowseDirectoryToLocateFile()
+        {
+            try
+            {
+                var directoryInfo = new DirectoryInfo(LocalFullFilePathWithMonthYearFolder);
                 var files = directoryInfo.GetFiles()
                     .Where(x => x.Name.StartsWith("Billing_Claim_File_") && x.Name.EndsWith(".csv"))
                     .OrderByDescending(p => p.CreationTime)

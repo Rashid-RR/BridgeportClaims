@@ -21,6 +21,6 @@ namespace LakerFileImporter.ConfigService
             => cm.ConnectionStrings[c.DbConnStrName].ConnectionString;
 
         internal static bool AppIsInDebugMode
-            => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode));
+            => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode)?.ToLower());
     }
 }
