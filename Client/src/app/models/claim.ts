@@ -1,6 +1,7 @@
 // profile.ts
 import {Prescription} from "./prescription";
 import {Payment} from "./payment";
+import {ClaimImage} from "./claim-image";
 import {PrescriptionNote} from "./prescription-note";
 import {ClaimNote} from "./claim-note";
 import {Episode} from "./episode";
@@ -29,6 +30,7 @@ export class Claim {
     //private prescriptionNote:Array<PrescriptionNote> = [];
     private prescriptionNote:Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();
     private payment:Array<Payment> = [];
+    private image:Array<ClaimImage> = [];
     private episode:Array<Episode> = [];
     private claimFlex2s:Array<ClaimFlex2> = [];
     private prescriptionStatus:Array<PrescriptionStatuses> = [];
@@ -69,53 +71,61 @@ constructor(claimId:Number,claimNumber:Number,dateOfBirth:Date,injuryDate:Date,
   get payments():Array<Payment>{
       return this.payment
   }
-  setEpisodes(episodes:Array<Episode>){
-      if(episodes){
-        this.episode = episodes;
-      }
-  }
-  get episodes():Array<Episode>{
-      return this.episode;
-  }
-  setFlex2(claimFlex2s:Array<ClaimFlex2>){
-      if(claimFlex2s){
-        this.claimFlex2s = claimFlex2s;
-      }
-  }
-  get getFlex2():Array<ClaimFlex2>{
-      return this.claimFlex2s;
-  }
-  setPrescriptionNotes(prescriptionNotes:Array<PrescriptionNote>){
-      if(prescriptionNotes){
-          prescriptionNotes.forEach(note=>{ 
-            let n = this.prescriptionNote.get(note.prescriptionNoteId);
-            if(note.scripts && note.scripts.length>0){
-                note.rxDate = note.scripts[0].rxDate;
-                note.rxNumber = note.scripts[0].rxNumber;
-            }
-            if(!n || n.rxDate.getTime()<note.rxDate.getTime()){
-                this.prescriptionNote = this.prescriptionNote.set(note.prescriptionNoteId, note); 
-            }             
-          })
-      }
-  }
-  get prescriptionStatuses():Array<PrescriptionStatuses>{
-      return this.prescriptionStatus;
-  }
-  setPrescriptionStatuses(prescriptionStatuses:Array<PrescriptionStatuses>){
-      if(prescriptionStatuses){
-        this.prescriptionStatus = prescriptionStatuses
-      }
-  }
-  get prescriptionNotes():Array<PrescriptionNote>{
-      return this.prescriptionNote.toArray();
-  }
-  setClaimNotes(claimNote:ClaimNote){
-      if(claimNote){
-        this.claimNote = claimNote;
-      }
-  }
-  get claimNotes():ClaimNote{
-      return this.claimNote;
-  }
+  setImages(images:Array<ClaimImage>){
+    if(images){
+      this.image = images
+    }
+    }
+    get images():Array<ClaimImage>{
+        return this.image
+    }
+    setEpisodes(episodes:Array<Episode>){
+        if(episodes){
+            this.episode = episodes;
+        }
+    }
+    get episodes():Array<Episode>{
+        return this.episode;
+    }
+    setFlex2(claimFlex2s:Array<ClaimFlex2>){
+        if(claimFlex2s){
+            this.claimFlex2s = claimFlex2s;
+        }
+    }
+    get getFlex2():Array<ClaimFlex2>{
+        return this.claimFlex2s;
+    }
+    setPrescriptionNotes(prescriptionNotes:Array<PrescriptionNote>){
+        if(prescriptionNotes){
+            prescriptionNotes.forEach(note=>{ 
+                let n = this.prescriptionNote.get(note.prescriptionNoteId);
+                if(note.scripts && note.scripts.length>0){
+                    note.rxDate = note.scripts[0].rxDate;
+                    note.rxNumber = note.scripts[0].rxNumber;
+                }
+                if(!n || n.rxDate.getTime()<note.rxDate.getTime()){
+                    this.prescriptionNote = this.prescriptionNote.set(note.prescriptionNoteId, note); 
+                }             
+            })
+        }
+    }
+    get prescriptionStatuses():Array<PrescriptionStatuses>{
+        return this.prescriptionStatus;
+    }
+    setPrescriptionStatuses(prescriptionStatuses:Array<PrescriptionStatuses>){
+        if(prescriptionStatuses){
+            this.prescriptionStatus = prescriptionStatuses
+        }
+    }
+    get prescriptionNotes():Array<PrescriptionNote>{
+        return this.prescriptionNote.toArray();
+    }
+    setClaimNotes(claimNote:ClaimNote){
+        if(claimNote){
+            this.claimNote = claimNote;
+        }
+    }
+    get claimNotes():ClaimNote{
+        return this.claimNote;
+    }
 }

@@ -62,7 +62,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
       });
   }
   adjustSideBar(status){
-    this.guard.isLoggedIn.subscribe(r=>{
+    this.guard.isLoggedIn.single().subscribe(r=>{
        if(!r){
         window['jQuery']('body').removeClass('sidebar-mini');
         window['jQuery']('body').addClass('sidebar-collapse');
