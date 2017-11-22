@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   form: FormGroup;
   submitted: boolean = false;
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  returnURL:String;
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpService,
@@ -55,7 +56,26 @@ export class LoginComponent implements OnInit {
             localStorage.setItem("user", JSON.stringify(res));
             this.profileManager.profile = new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles);
             this.profileManager.setProfile(new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles));
+           if(this.returnURL){
+             let url = this.returnURL.split('?');
+             let p={};
+             if(url[1]){
+              console.log(url[1]);
+              let params = url[1].split('&');
+              if(params.length>0){
+                console.log(params);
+                params.forEach(pr=>{
+                  let par = pr.split('=');
+                  console.log(pr,par);
+                    p[par[0]]=par[1];
+                })
+              }
+            }
+             console.log(p)
+             this.router.navigate([url[0]],{queryParams:p});
+           }else{
             this.router.navigate(['/main/private']);
+           }
             this.events.broadcast('login', true);
             this.toast.success('Welcome back');
             this.events.broadcast("loadHistory",[]);
@@ -88,6 +108,14 @@ export class LoginComponent implements OnInit {
      if(user!==null){
       this._location.back();
     }
+    this.router.routerState.root.queryParams.subscribe(params => {
+      if(params['returnURL']){
+        this.returnURL = decodeURIComponent(params['returnURL']);
+        console.log(this.returnURL);
+      }
+       
+
+    });
   }
 
 

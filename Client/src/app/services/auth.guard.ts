@@ -3,7 +3,7 @@
  CanActivate method of this class is used in the app routing module to determine if user has access before letting in
  */
 import {Injectable} from "@angular/core";
-import {ActivatedRouteSnapshot,RouterStateSnapshot, CanActivate,CanActivateChild, Resolve, Router} from "@angular/router";
+import {ActivatedRouteSnapshot,ActivatedRoute,RouterStateSnapshot, CanActivate,CanActivateChild, Resolve, Router} from "@angular/router";
 
 import {HttpService} from "../services/http-service";
 import {UserProfile} from "../models/profile";
@@ -15,7 +15,8 @@ import 'rxjs/add/operator/first' // in imports
 @Injectable()
 export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfile>{
 
-  constructor(private events: EventsService,private router: Router,private profileManager:ProfileManager) {
+  returnURL:String='';
+  constructor(private activeRoute:ActivatedRoute,private events: EventsService,private router: Router,private profileManager:ProfileManager) {
     this.events.on("logout", immediately=>{
         this.profileManager.profile=undefined;
         localStorage.removeItem("user");  
@@ -23,24 +24,27 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
     }); 
     
   }
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> {
-      return this.isLoggedIn.map(e => {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):Observable<boolean> {      
+      this.returnURL = state.url;
+       return this.isLoggedIn.map(e => {
           if (e) {
              return true;               
           }else {
-            this.router.navigate(['/login']);
+            console.log("Onr",this.returnURL);
+            this.router.navigate(['/login'],{queryParams:{'returnURL':this.returnURL}});
             return false;
           }
-        }).catch((e) => {
-            console.log(e);
-            this.router.navigate(['/login']);
-            return Observable.of(false);
+        }).catch((e) => {  
+          this.router.navigate(['/login'],{queryParams:{'returnURL':this.returnURL}});
+          return Observable.of(false);
         });      
     }
-    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        var user = localStorage.getItem("user");      
+    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {        
+      this.returnURL = state.url;
+      var user = localStorage.getItem("user");      
         if (user === null || user.length == 0) {
-            this.router.navigate(['/login']);
+          console.log("Here too",this.returnURL);
+          this.router.navigate(['/login'],{queryParams:{'returnURL':this.returnURL}});
             this.events.broadcast("logout", true);
             return Observable.of(false);
         }    
@@ -57,7 +61,6 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
           }
     }  
     get isLoggedIn():Observable<boolean>{
-      
       var user = localStorage.getItem("user");  
        if (user === null || user.length == 0) { return Observable.of(false);}    
         try {
