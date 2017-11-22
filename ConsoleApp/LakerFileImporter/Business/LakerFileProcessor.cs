@@ -8,6 +8,7 @@ using LakerFileImporter.IO;
 using LakerFileImporter.ApiClientCaller;
 using LakerFileImporter.DAL.ImportFileProvider;
 using LakerFileImporter.Logging;
+using LakerFileImporter.SftpProxy;
 using cs = LakerFileImporter.ConfigService.ConfigService;
 using c = LakerFileImporter.StringConstants.Constants;
 
@@ -53,9 +54,19 @@ namespace LakerFileImporter.Business
                 var processSftp = false;
                 if (!string.IsNullOrWhiteSpace(processSftpValue))
                     processSftp = Convert.ToBoolean(processSftpValue);
-                if (processSftp)
+                if (!processSftp)
+                {
+                    if (cs.AppIsInDebugMode)
+                        Logger.Info(
+                            "We are NOT doing any SFTP processing because the flag in the App.Config told us not to.");
+                }
+                else
                 {
                     // Do any necessary SFTP downloading...
+                    if (cs.AppIsInDebugMode)
+                        Logger.Info("Ok, beginning SFTP operation(s)...");
+                    var proxyProvider = new SftpProxyProvider();
+                    proxyProvider.ProcessSftpOperation();
                 }
 
                 // Now that we've downloaded all SFTP files, we can simply traverse the local directory for the latest file (as we were originally doing) -

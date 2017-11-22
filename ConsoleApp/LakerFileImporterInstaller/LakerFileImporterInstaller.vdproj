@@ -15,12 +15,6 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_105C022DF2F9A12AC8A0ED632D147DD6"
-        "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -45,6 +39,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_63DAC724C4129F3EE2941AD9A2020950"
+        "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7460E1585D7C380E81E7FDB9F440D02F"
         "OwnerKey" = "8:_1F891A22801B041C6899B61F8DEA1437"
         "MsmSig" = "8:_UNDEFINED"
@@ -64,7 +64,7 @@
         "Entry"
         {
         "MsmKey" = "8:_D3DF7BBE7ABAF0A08179238FFE203E77"
-        "OwnerKey" = "8:_105C022DF2F9A12AC8A0ED632D147DD6"
+        "OwnerKey" = "8:_63DAC724C4129F3EE2941AD9A2020950"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -83,6 +83,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_1D98A124E59C4DD0845E932FC8BBDA6B"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_63DAC724C4129F3EE2941AD9A2020950"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -113,12 +119,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_5D09FEC9FBD5B96C71CB7588D7479392"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_105C022DF2F9A12AC8A0ED632D147DD6"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -176,6 +176,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -206,37 +214,6 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_105C022DF2F9A12AC8A0ED632D147DD6"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BridgeportClaims.SSH, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_105C022DF2F9A12AC8A0ED632D147DD6"
-                    {
-                    "Name" = "8:BridgeportClaims.SSH.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:BridgeportClaims.SSH.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_BF21A4EC79BE45EAB4B383EBB955EEBB"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1F891A22801B041C6899B61F8DEA1437"
             {
             "AssemblyRegister" = "3:1"
@@ -282,6 +259,37 @@
                     }
                 }
             "SourcePath" = "8:System.IO.Compression.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_BF21A4EC79BE45EAB4B383EBB955EEBB"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_63DAC724C4129F3EE2941AD9A2020950"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BridgeportClaims.SSH, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_63DAC724C4129F3EE2941AD9A2020950"
+                    {
+                    "Name" = "8:BridgeportClaims.SSH.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:BridgeportClaims.SSH.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_BF21A4EC79BE45EAB4B383EBB955EEBB"
@@ -491,12 +499,12 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:LakerFileImporterInstaller"
         "ProductCode" = "8:{007D9A4F-A09E-4B7F-B190-67F92D8416B9}"
-        "PackageCode" = "8:{DE4B09FC-206E-4BFB-B998-AD8E21CABFA4}"
+        "PackageCode" = "8:{E14E9AD3-E07A-4F7A-B340-6375B525ABC6}"
         "UpgradeCode" = "8:{65E2D214-C8D1-4AD6-BB42-81013104A8C8}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
-        "DetectNewerInstalledVersion" = "11:TRUE"
+        "DetectNewerInstalledVersion" = "11:FALSE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:BridgeportClaims"

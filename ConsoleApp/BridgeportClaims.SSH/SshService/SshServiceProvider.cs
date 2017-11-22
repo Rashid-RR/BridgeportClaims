@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using BridgeportClaims.SSH.Disposable;
 using Renci.SshNet;
@@ -9,7 +10,7 @@ namespace BridgeportClaims.SSH.SshService
 {
     public static class SshServiceProvider
     {
-        private static IList<SftpFile> ListSshFiles(ConnectionInfo connectionInfo, string remoteSftpFilePath)
+        private static IList<SftpFile> ListLastTenSshFiles(ConnectionInfo connectionInfo, string remoteSftpFilePath)
         {
             return DisposableService.Using(() => new SftpClient(connectionInfo), client =>
             {
@@ -17,17 +18,31 @@ namespace BridgeportClaims.SSH.SshService
                     return null;
                 client.Connect();
                 var ftpDirectoryListing = client.ListDirectory(remoteSftpFilePath)?.ToList();
-                // TODO: var remoteDirectory = // TODO:  $"{path}/{sftpFileName}";
-                // TODO: var downloadedFile = File.OpenRead(remoteDirectory + sftpFileName.FileName);
-                // TODO: client.DownloadFile(remoteDirectory, downloadedFile);
-
-                return ftpDirectoryListing;
+                return ftpDirectoryListing?.Where(f => !string.IsNullOrWhiteSpace(f.Name) &&
+                                          f.Name.ToLower().StartsWith("billing_claim_file_"))
+                    .OrderByDescending(f => f.Name).Take(10).ToList();
             });
         }
 
         public static void ProcessSftpOperation(SftpConnectionModel model, string remoteSftpFilePath, string localSftpDownloadDirectoryFullPath)
         {
-            var sftpFiles = ListSshFiles(GetConnectionInfo(model), localSftpDownloadDirectoryFullPath);
+            var connectionInfo = GetConnectionInfo(model);
+            var lastTenSftpFiles = ListLastTenSshFiles(GetConnectionInfo(model), remoteSftpFilePath);
+            DisposableService.Using(() => new SftpClient(connectionInfo), client =>
+            {
+                client.Connect();
+                foreach (var sftpFile in lastTenSftpFiles)
+                {
+                    var fullLocalFileName = Path.Combine(localSftpDownloadDirectoryFullPath, sftpFile.Name);
+                    if (File.Exists(fullLocalFileName))
+                        continue;
+
+                    DisposableService.Using<Stream>(() => File.Create(fullLocalFileName), fileStream =>
+                    {
+                        client.DownloadFile(remoteSftpFilePath + "/" + sftpFile.Name, fileStream);
+                    });
+                }
+            });
         }
 
         public static ConnectionInfo GetConnectionInfo(SftpConnectionModel model)
