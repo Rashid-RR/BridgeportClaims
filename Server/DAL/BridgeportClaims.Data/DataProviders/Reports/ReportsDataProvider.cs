@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -10,6 +11,68 @@ namespace BridgeportClaims.Data.DataProviders.Reports
 {
     public class ReportsDataProvider : IReportsDataProvider
     {
+        private static string GetGroupNameSqlQuery(string groupName)
+            => $@"DECLARE @GroupName VARCHAR(255) = '{groupName}'
+                  SELECT p.GroupName FROM dbo.Payor AS p
+                  WHERE  p.GroupName LIKE '%' + @GroupName + '%'";
+
+        private static string GetPharmacyNameSqlQuery(string pharmacyName)
+            => $@"DECLARE @PharmacyName VARCHAR(60) = '{pharmacyName}'
+                  SELECT P.PharmacyName FROM dbo.Pharmacy AS p
+                  WHERE p.PharmacyName LIKE '%' + @PharmacyName + '%'";
+
+        public IList<PharmacyNameDto> GetPharmacyNames(string pharmacyName)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                return DisposableService.Using(() => new SqlCommand(GetPharmacyNameSqlQuery(pharmacyName), conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.Text;
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    return DisposableService.Using(cmd.ExecuteReader, reader =>
+                    {
+                        var pharmacyNameOrdinal = reader.GetOrdinal("PharmacyName");
+                        IList<PharmacyNameDto> retVal = new List<PharmacyNameDto>();
+                        while (reader.Read())
+                        {
+                            var pharmacyNameDto = new PharmacyNameDto
+                            {
+                                PharmacyName = !reader.IsDBNull(pharmacyNameOrdinal) ? reader.GetString(pharmacyNameOrdinal) : string.Empty
+                            };
+                            if (null != pharmacyNameDto.PharmacyName && pharmacyNameDto.PharmacyName.IsNotNullOrWhiteSpace())
+                                retVal.Add(pharmacyNameDto);
+                        }
+                        return retVal;
+                    });
+                });
+            });
+
+        public IList<GroupNameDto> GetGroupNames(string groupName)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                return DisposableService.Using(() => new SqlCommand(GetGroupNameSqlQuery(groupName), conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.Text;
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    return DisposableService.Using(cmd.ExecuteReader, reader =>
+                    {
+                        var groupNameOrdinal = reader.GetOrdinal("GroupName");
+                        IList<GroupNameDto> retVal = new List<GroupNameDto>();
+                        while (reader.Read())
+                        {
+                            var groupNameDto = new GroupNameDto
+                            {
+                                GroupName = !reader.IsDBNull(groupNameOrdinal) ? reader.GetString(groupNameOrdinal) : string.Empty
+                            };
+                            if (null != groupNameDto.GroupName && groupNameDto.GroupName.IsNotNullOrWhiteSpace())
+                                retVal.Add(groupNameDto);
+                        }
+                        return retVal;
+                    });
+                });
+            });
+
         public IList<AccountsReceivableDto> GetAccountsReceivableReport()
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -17,7 +80,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     var startDateParam = cmd.CreateParameter();
-                    startDateParam.Value = new DateTime(2017, 1, 1);
+                    startDateParam.Value = new DateTime(DateTime.Now.Year, 1, 1);
                     startDateParam.DbType = DbType.Date;
                     startDateParam.SqlDbType = SqlDbType.Date;
                     startDateParam.Direction = ParameterDirection.Input;
