@@ -25,6 +25,8 @@ namespace LakerFileImporter.ApiClientCaller
             var client = new HttpClient();
             var authUrl = cs.GetAppSetting(c.AuthenticationApiUrlKey);
             var request = new HttpRequestMessage(HttpMethod.Post, _apiHostName + authUrl);
+            var methodName = MethodBase.GetCurrentMethod().Name;
+            var now = DateTime.Now.ToString("G");
             try
             {
                 var password = new CompiledSecurityProvider().RawBridgeportClaimsSiteUserPassword;
@@ -42,13 +44,13 @@ namespace LakerFileImporter.ApiClientCaller
                 var jObj = JsonObject.Parse(jsonString);
                 var token = jObj.Get<string>(AccessToken);
                 if (string.IsNullOrWhiteSpace(token) || !cs.AppIsInDebugMode) return token;
-                var methodName = MethodBase.GetCurrentMethod().Name;
-                var now = DateTime.Now.ToString("G");
+                
                 Logger.Info($"Successfully retrieved an authentication bearer token from method {methodName} on {now}.");
                 return token;
             }
             catch (Exception ex)
             {
+                Logger.Info($"Did not successfully retreive an Authentication bearer token from method {methodName} on {now}.");
                 Logger.Error(ex);
                 throw;
             }

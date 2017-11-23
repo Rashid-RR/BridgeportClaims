@@ -10,24 +10,25 @@ namespace BridgeportClaims.SSH.SshService
 {
     public static class SshServiceProvider
     {
-        private static IList<SftpFile> ListLastTenSshFiles(ConnectionInfo connectionInfo, string remoteSftpFilePath)
+        private static IList<SftpFile> ListLastTenSshFiles(ConnectionInfo connectionInfo, string remoteSftpFilePath, int fileProcessorTopNumber)
         {
             return DisposableService.Using(() => new SftpClient(connectionInfo), client =>
             {
                 if (null == client)
                     return null;
                 client.Connect();
+
                 var ftpDirectoryListing = client.ListDirectory(remoteSftpFilePath)?.ToList();
                 return ftpDirectoryListing?.Where(f => !string.IsNullOrWhiteSpace(f.Name) &&
                                           f.Name.ToLower().StartsWith("billing_claim_file_"))
-                    .OrderByDescending(f => f.Name).Take(10).ToList();
+                    .OrderByDescending(f => f.Name).Take(fileProcessorTopNumber).ToList();
             });
         }
 
-        public static void ProcessSftpOperation(SftpConnectionModel model, string remoteSftpFilePath, string localSftpDownloadDirectoryFullPath)
+        public static void ProcessSftpOperation(SftpConnectionModel model, string remoteSftpFilePath, string localSftpDownloadDirectoryFullPath, int fileProcessorTopNumber)
         {
             var connectionInfo = GetConnectionInfo(model);
-            var lastTenSftpFiles = ListLastTenSshFiles(GetConnectionInfo(model), remoteSftpFilePath);
+            var lastTenSftpFiles = ListLastTenSshFiles(GetConnectionInfo(model), remoteSftpFilePath, fileProcessorTopNumber);
             DisposableService.Using(() => new SftpClient(connectionInfo), client =>
             {
                 client.Connect();
@@ -45,7 +46,7 @@ namespace BridgeportClaims.SSH.SshService
             });
         }
 
-        public static ConnectionInfo GetConnectionInfo(SftpConnectionModel model)
+        private static ConnectionInfo GetConnectionInfo(SftpConnectionModel model)
         {
             var connectionInfo = null != model.Port
                 ? new ConnectionInfo(model.Host, model.Port.Value, model.UserName, new PasswordAuthenticationMethod(model.UserName, model.Password))

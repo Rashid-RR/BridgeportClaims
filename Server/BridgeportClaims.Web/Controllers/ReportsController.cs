@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Reports;
-using NLog;
+using BridgeportClaims.Web.Models;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -20,11 +21,41 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("accounts-receivable")]
-        public IHttpActionResult GetAccountsReceivableReport()
+        public IHttpActionResult GetAccountsReceivableReport(AccountsReceivableViewModel model)
         {
             try
             {
-                return Ok(_reportsDataProvider.GetAccountsReceivableReport());
+                return Ok(_reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("group-name")]
+        public IHttpActionResult GetGroupNameAutoSuggest(string groupName)
+        {
+            try
+            {
+                return Ok(_reportsDataProvider.GetGroupNames(groupName));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("pharmacy-name")]
+        public IHttpActionResult GetPharmacyNameAutoSuggest(string pharmacyName)
+        {
+            try
+            {
+                return Ok(_reportsDataProvider.GetPharmacyNames(pharmacyName));
             }
             catch (Exception ex)
             {

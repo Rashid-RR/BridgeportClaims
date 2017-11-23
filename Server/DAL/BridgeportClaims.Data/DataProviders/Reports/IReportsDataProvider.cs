@@ -5,6 +5,8 @@ namespace BridgeportClaims.Data.DataProviders.Reports
 {
     public interface IReportsDataProvider
     {
-        IList<AccountsReceivableDto> GetAccountsReceivableReport();
+        IList<PharmacyNameDto> GetPharmacyNames(string pharmacyName);
+        IList<GroupNameDto> GetGroupNames(string groupName);
+        IList<AccountsReceivableDto> GetAccountsReceivableReport(string groupName, string pharmacyName);
     }
 }

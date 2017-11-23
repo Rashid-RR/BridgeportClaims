@@ -15,7 +15,7 @@ namespace LakerFileImporter.SftpProxy
     {
         private static readonly Logger Logger = LoggingService.Instance.Logger;
 
-            internal void ProcessSftpOperation()
+        internal void ProcessSftpOperation()
         {
             var methodName = MethodBase.GetCurrentMethod().Name;
             var className = GetType().Name;
@@ -25,9 +25,10 @@ namespace LakerFileImporter.SftpProxy
 
             var sftpRemoteSitePath = cs.GetAppSetting(c.SftpRemoteSitePathKey);
             // This includes the month and year folder.
-            var localDirectoryDownloadFullPath = new IoHelper().LocalFullFilePathWithMonthYearFolder;
+            var localDirectoryDownloadFullPath = IoHelper.GetFullLocalFilePathPlusMonthYearFolderByDate(DateTime.Now);
             // Process SFTP Operation
-            SshServiceProvider.ProcessSftpOperation(SftpConnectionModel, sftpRemoteSitePath, localDirectoryDownloadFullPath);
+            var fileProcessorTopNumber = int.TryParse(cs.GetAppSetting(c.FileProcessorTopNumberKey), out int ti) ? ti : 10;
+            SshServiceProvider.ProcessSftpOperation(SftpConnectionModel, sftpRemoteSitePath, localDirectoryDownloadFullPath, fileProcessorTopNumber);
         }
 
         private static SftpConnectionModel SftpConnectionModel

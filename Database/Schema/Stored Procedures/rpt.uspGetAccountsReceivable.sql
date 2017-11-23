@@ -9,7 +9,12 @@ GO
 	Sample Execute:
 					EXEC rpt.uspGetAccountsReceivable '1/1/2017'
 */
-CREATE PROCEDURE [rpt].[uspGetAccountsReceivable] @StartDate DATE
+CREATE PROCEDURE [rpt].[uspGetAccountsReceivable]
+(
+	@StartDate DATE,
+	@GroupName VARCHAR(255),
+	@PharmacyName VARCHAR(60)
+)
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
@@ -26,7 +31,8 @@ AS BEGIN
 		   ,@Oct TINYINT = 10
 		   ,@Nov TINYINT = 11
 		   ,@Dec TINYINT = 12
-
+		   ,@Looper TINYINT = 1
+	
 	DECLARE @StartYear INT = 2017 -- TODO: HACK, FIX.
 	DECLARE @TimeIntervalLength INT = 12 -- TODO: HACK, FIX.
 
@@ -202,36 +208,10 @@ AS BEGIN
 	UNION ALL
 	SELECT u.PrescriptionID, @Nov, u.Nov FROM #Unpivoted AS u WHERE U.Nov IS NOT NULL
 	UNION ALL
-	SELECT u.PrescriptionID, @Dec, u.[Dec] FROM #Unpivoted AS u WHERE U.[Dec] IS NOT NULL
+	SELECT u.PrescriptionID, @Dec, u.[Dec] FROM #Unpivoted AS u WHERE U.[Dec] IS NOT NULL;
 
 	-- #Unpivoted has dissovled and column-combined #PrescriptionTotals, which can give me SUM's of when
 	-- all of the payments were made.
-
-	SELECT  '01-17' AS MonthBilled,
-			pvt.[01-17]
-          , pvt.[02-17]
-          , pvt.[03-17]
-          , pvt.[04-17]
-          , pvt.[05-17]
-          , pvt.[06-17]
-          , pvt.[07-17]
-          , pvt.[08-17]
-          , pvt.[09-17]
-          , pvt.[10-17]
-          , pvt.[11-17]
-          , pvt.[12-17]
-	FROM
-			(   SELECT          MonthDay = FORMAT(o.DatePosted, 'MM-yy')
-							  , pp.AmountPaid
-				FROM
-								(   SELECT  pt.PrescriptionID, DatePosted = DATEFROMPARTS(2017, pt.CalendarMonth, 1)
-									FROM    #PrescriptionTotals AS pt
-									WHERE	pt.CalendarMonth = 3
-								) AS o
-				INNER JOIN  dbo.PrescriptionPayment AS pp ON pp.PrescriptionID = o.PrescriptionID) AS SourceTable
-	PIVOT
-	(   SUM(AmountPaid)
-		FOR MonthDay IN ([01-17],[02-17],[03-17],[04-17],[05-17],[06-17],[07-17],[08-17],[09-17],[10-17],[11-17],[12-17])) AS pvt;
 	
 	WITH TotalsGroupsCTE AS
 	(
@@ -242,39 +222,71 @@ AS BEGIN
 	)
 	INSERT #Master ( MonthBilled,CalendarMonth,TotalInvoiced,Jan17,Feb17,Mar17,Apr17,May17
 						,Jun17,Jul17,Aug17,Sep17,Oct17,Nov17,Dec17)
+	SELECT   c.CalendarMonthNameShort
+			,c.CalendarMonth
+			,ISNULL(T.TotalInvoiced, 0.00),0,0,0,0,0,0,0,0,0,0,0,0
+	FROM     @CalendarMonths AS c
+			 LEFT JOIN TotalsGroupsCTE AS t ON t.CalendarMonth = c.CalendarMonth
+			 LEFT JOIN #PrescriptionTotals AS p ON p.CalendarMonth = c.CalendarMonth
+	GROUP BY c.CalendarMonthNameShort
+		   , c.CalendarMonth
+		   , t.TotalInvoiced;
 
-	SELECT          c.CalendarMonthNameShort
-              , c.CalendarMonth
-              , ISNULL(t.TotalInvoiced, 0.00)
-              , ISNULL((SELECT SUM(Jan) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 1 AND j.Jan > 0), 0.00)
-              , ISNULL((SELECT SUM(Feb) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 2 AND j.Feb > 0), 0.00)
-              , ISNULL((SELECT SUM(Mar) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 3 AND j.Mar > 0), 0.00)
-              , ISNULL((SELECT SUM(Apr) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 4 AND j.Apr > 0), 0.00)
-              , ISNULL((SELECT SUM(May) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 5 AND j.May > 0), 0.00)
-              , ISNULL((SELECT SUM(Jun) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 6 AND j.Jun > 0), 0.00)
-              , ISNULL((SELECT SUM(Jul) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 7 AND j.Jul > 0), 0.00)
-              , ISNULL((SELECT SUM(Aug) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 8 AND j.Aug > 0), 0.00)
-              , ISNULL((SELECT SUM(Sep) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 9 AND j.Sep > 0), 0.00)
-              , ISNULL((SELECT SUM(Oct) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 10 AND j.Oct > 0), 0.00)
-              , ISNULL((SELECT SUM(Nov) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 11 AND j.Nov > 0), 0.00)
-              , ISNULL((SELECT SUM([Dec]) FROM [#Unpivoted] j 
-					INNER JOIN #PrescriptionTotals p ON p.PrescriptionID = j.PrescriptionID WHERE j.CalendarMonth = 12 AND [Dec] > 0), 0.00)
-FROM            @CalendarMonths     AS c
-    LEFT JOIN   TotalsGroupsCTE     AS t ON t.CalendarMonth = c.CalendarMonth
-    LEFT JOIN   #PrescriptionTotals AS p ON p.CalendarMonth = c.CalendarMonth
-GROUP BY c.CalendarMonthNameShort, c.CalendarMonth, t.TotalInvoiced
-	
+	-- Run through Pivot magic 12 times, rather than writing 12, wasteful, PIVOT statements (Have you tried them!!??!!? They're Painful!)
+	WHILE (@Looper <= @Dec)
+		BEGIN
+			WITH PivotCTE AS
+			(
+				SELECT  @Looper CalendarMonth
+					  , pvt.[01-17] 'Jan17'
+					  , pvt.[02-17] 'Feb17'
+					  , pvt.[03-17] 'Mar17'
+					  , pvt.[04-17] 'Apr17'
+					  , pvt.[05-17] 'May17'
+					  , pvt.[06-17] 'Jun17'
+					  , pvt.[07-17] 'Jul17'
+					  , pvt.[08-17] 'Aug17'
+					  , pvt.[09-17] 'Sep17'
+					  , pvt.[10-17] 'Oct17'
+					  , pvt.[11-17] 'Nov17'
+					  , pvt.[12-17] 'Dec17'
+				FROM
+						(   SELECT          MonthDay = FORMAT(pp.DatePosted, 'MM-yy')
+										  , pp.AmountPaid
+							FROM
+											(   SELECT  pt.PrescriptionID, DatePosted = DATEFROMPARTS(2017, pt.CalendarMonth, 1)
+												FROM    #PrescriptionTotals AS pt
+												WHERE	pt.CalendarMonth = @Looper
+											) AS o
+							INNER JOIN  dbo.PrescriptionPayment AS pp ON pp.PrescriptionID = o.PrescriptionID) AS SourceTable
+				PIVOT
+				(   SUM(AmountPaid)
+					FOR MonthDay IN ([01-17],[02-17],[03-17],[04-17],[05-17],[06-17],[07-17],[08-17],[09-17],[10-17],[11-17],[12-17])) AS pvt
+			)
+			UPDATE m SET				  
+				   m.Jan17 = ISNULL(p.Jan17, 0.00)
+				 , m.Feb17 = ISNULL(p.Feb17, 0.00)
+				 , m.Mar17 = ISNULL(p.Mar17, 0.00)
+				 , m.Apr17 = ISNULL(p.Apr17, 0.00)
+				 , m.May17 = ISNULL(p.May17, 0.00)
+				 , m.Jun17 = ISNULL(p.Jun17, 0.00)
+				 , m.Jul17 = ISNULL(p.Jul17, 0.00)
+				 , m.Aug17 = ISNULL(p.Aug17, 0.00)
+				 , m.Sep17 = ISNULL(p.Sep17, 0.00)
+				 , m.Oct17 = ISNULL(p.Oct17, 0.00)
+				 , m.Nov17 = ISNULL(p.Nov17, 0.00)
+				 , m.Dec17 = ISNULL(p.Dec17, 0.00)
+			FROM   #Master AS m INNER JOIN PivotCTE AS p ON p.CalendarMonth = m.CalendarMonth
+			IF @@ROWCOUNT NOT IN (1, 0) -- We're in a time warp!!!!! Loooppp!!!
+				BEGIN
+					IF @@TRANCOUNT > 0
+						ROLLBACK
+					RAISERROR(N'Nope, nope, nope, we can only update 12 records.', 16, 1) WITH NOWAIT
+					RETURN
+				END
+			-- Continue Loop
+			SET @Looper += 1
+		END
 	SELECT m.MonthBilled
          , m.TotalInvoiced
          , m.Jan17
@@ -288,9 +300,11 @@ GROUP BY c.CalendarMonthNameShort, c.CalendarMonth, t.TotalInvoiced
          , m.Sep17
          , m.Oct17
          , m.Nov17
-         , m.Dec17 FROM #Master AS m
+         , m.Dec17 
+	FROM #Master AS m
 	ORDER BY m.CalendarMonth ASC
 
 
 END
+
 GO

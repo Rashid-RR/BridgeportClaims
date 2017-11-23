@@ -5,7 +5,7 @@
         public const string DbConnStrName = "BridgeportClaimsConnectionString";
         public const string AppIsInDebugMode = "ApplicationIsInDebugMode";
         public const string LakerFilePathKey = "LakerFilePath";
-        public const string LakerFileTopNumberKey = "LakerFileTopNumber";
+        public const string FileProcessorTopNumberKey = "FileProcessorTopNumber";
         public const string LakerFileTypeName = "Laker Import";
         public const string FileUploadApiHostNameKey = "FileUploadApiHostName";
         public const string FileUploadApiUrlKey = "FileUploadApiUrl";
