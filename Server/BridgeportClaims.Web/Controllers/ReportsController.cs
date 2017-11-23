@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Reports;
+using BridgeportClaims.Web.Models;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -20,11 +21,11 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("accounts-receivable")]
-        public IHttpActionResult GetAccountsReceivableReport()
+        public IHttpActionResult GetAccountsReceivableReport(AccountsReceivableViewModel model)
         {
             try
             {
-                return Ok(_reportsDataProvider.GetAccountsReceivableReport());
+                return Ok(_reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName));
             }
             catch (Exception ex)
             {

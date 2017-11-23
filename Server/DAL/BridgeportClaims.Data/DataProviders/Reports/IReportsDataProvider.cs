@@ -7,6 +7,6 @@ namespace BridgeportClaims.Data.DataProviders.Reports
     {
         IList<PharmacyNameDto> GetPharmacyNames(string pharmacyName);
         IList<GroupNameDto> GetGroupNames(string groupName);
-        IList<AccountsReceivableDto> GetAccountsReceivableReport();
+        IList<AccountsReceivableDto> GetAccountsReceivableReport(string groupName, string pharmacyName);
     }
 }

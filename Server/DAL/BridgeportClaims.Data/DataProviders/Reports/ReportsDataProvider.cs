@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
@@ -42,7 +43,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                             if (null != pharmacyNameDto.PharmacyName && pharmacyNameDto.PharmacyName.IsNotNullOrWhiteSpace())
                                 retVal.Add(pharmacyNameDto);
                         }
-                        return retVal;
+                        return retVal.OrderBy(x => x.PharmacyName).ToList();
                     });
                 });
             });
@@ -68,17 +69,18 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                             if (null != groupNameDto.GroupName && groupNameDto.GroupName.IsNotNullOrWhiteSpace())
                                 retVal.Add(groupNameDto);
                         }
-                        return retVal;
+                        return retVal.OrderBy(x => x.GroupName).ToList();
                     });
                 });
             });
 
-        public IList<AccountsReceivableDto> GetAccountsReceivableReport()
+        public IList<AccountsReceivableDto> GetAccountsReceivableReport(string groupName, string pharmacyName)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("rpt.uspGetAccountsReceivable", conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 120; // 2 minutes.
                     var startDateParam = cmd.CreateParameter();
                     startDateParam.Value = new DateTime(DateTime.Now.Year, 1, 1);
                     startDateParam.DbType = DbType.Date;
@@ -86,6 +88,22 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     startDateParam.Direction = ParameterDirection.Input;
                     startDateParam.ParameterName = "@StartDate";
                     cmd.Parameters.Add(startDateParam);
+                    var groupNameParam = cmd.CreateParameter();
+                    groupNameParam.Direction = ParameterDirection.Input;
+                    groupNameParam.DbType = DbType.AnsiStringFixedLength;
+                    groupNameParam.SqlDbType = SqlDbType.VarChar;
+                    groupNameParam.Size = 60;
+                    groupNameParam.ParameterName = "@GroupName";
+                    groupNameParam.Value = groupName.IsNotNullOrWhiteSpace() ? groupName : (object) DBNull.Value;
+                    cmd.Parameters.Add(groupNameParam);
+                    var pharmacyNameParam = cmd.CreateParameter();
+                    pharmacyNameParam.Direction = ParameterDirection.Input;
+                    pharmacyNameParam.Value = pharmacyName.IsNotNullOrWhiteSpace() ? pharmacyName : (object) DBNull.Value;
+                    pharmacyNameParam.DbType = DbType.AnsiStringFixedLength;
+                    pharmacyNameParam.SqlDbType = SqlDbType.VarChar;
+                    pharmacyNameParam.Size = 255;
+                    pharmacyNameParam.ParameterName = "@PharmacyName";
+                    cmd.Parameters.Add(pharmacyNameParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     return DisposableService.Using(cmd.ExecuteReader, reader =>
