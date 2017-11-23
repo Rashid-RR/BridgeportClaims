@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {HttpService} from "../../services/http-service"
 declare var $:any
 @Component({
   selector: 'app-account-receivable-search',
@@ -7,11 +8,24 @@ declare var $:any
 })
 export class AccountReceivableSearchComponent implements OnInit {
 
-  constructor() { }
+  groupName:any
+  autoCompleteGroupName:string;
+  constructor(public http:HttpService) {
+    this.autoCompleteGroupName = this.http.baseUrl + "/reports/group-name/?groupName=:keyword";
+    
+   }
 
   ngOnInit() {
     //The Calender
-    $("#calendar").datepicker();
+   // $("#calendar").datepicker();
+  }
+
+  myListFormatter(data: any): string {
+    console.log(data);
+    return "";
+  }
+  searchGroups(){
+    
   }
 
 }

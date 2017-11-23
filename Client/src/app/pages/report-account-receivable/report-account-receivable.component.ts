@@ -14,7 +14,7 @@ export class ReportAccountReceivableComponent implements OnInit {
   ngOnInit() {
     this.reportloader.current = 'Account Receivable';
     this.reportloader.currentURL = 'account-receivable';
-    this.ar.search();
+    //this.ar.search();
   }
 
 }

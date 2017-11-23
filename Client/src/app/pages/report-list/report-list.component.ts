@@ -13,6 +13,7 @@ export class ReportListComponent implements OnInit {
   ngOnInit() {
     this.reportloader.current = 'List';
     this.reportloader.currentURL = 'list';
+    this.reportloader.loading = false;
   }
 
 }

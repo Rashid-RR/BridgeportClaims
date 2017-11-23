@@ -10,6 +10,8 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from './components/confirm.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import {Ng2Webstorage} from 'ng2-webstorage';
+import { AutoCompleteModule } from './auto-complete';
+
 import {WindowsInjetor,WindowBackdrop,BootstrapWindowContainer} from "./components/ng-window";
 // Layouts 
 import {HeaderComponent} from './layouts/header/header.component';
@@ -105,6 +107,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   imports: [
     BrowserModule,
+    AutoCompleteModule,
     BrowserAnimationsModule,
     ToastModule.forRoot(),
     BootstrapModalModule,
