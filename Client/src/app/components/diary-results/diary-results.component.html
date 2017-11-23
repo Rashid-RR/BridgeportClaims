@@ -83,7 +83,7 @@
             <button type="button" class="btn btn-default  selected btn-md">   {{diaryService.data.page}}  of {{diaryService.totalPages}}</button>
             <button type="button" class="btn btn-default  btn-md" [disabled]="diaryService.end" (click)="next()">Next</button>
             <div class="input-group" style="width:134px">
-                <input class="form-control" [attr.placeholder]="diaryService.data.page" [(ngModel)]="goToPage">
+                <input class="form-control" [attr.placeholder]="diaryService.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)" (keyup.enter)="goto()" [disabled]="diaryService.totalPages==1">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
                 </div>

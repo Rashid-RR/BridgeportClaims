@@ -55,26 +55,32 @@ export class DiaryResultsComponent implements OnInit {
   goto(){ 
     let page = Number.parseInt(this.goToPage);
     if(!this.goToPage || isNaN(page)){ 
-      if(this.activeToast && this.activeToast.timeoutId){
+      /* if(this.activeToast && this.activeToast.timeoutId){
         this.activeToast.message =  'Invalid page number entered'
-      }else{
-        this.toast.warning('Invalid page number entered').then((toast: Toast) => {
-            this.activeToast = toast;
-        })
-      }
+        }else{
+          this.toast.warning('Invalid page number entered').then((toast: Toast) => {
+              this.activeToast = toast;
+          })
+      }*/
     }else if(page >0 && ((this.diaryService.totalPages && page<=this.diaryService.totalPages) || this.diaryService.totalPages==null)){
       this.diaryService.search(false,false,page);
     }else{
       if(this.activeToast && this.activeToast.timeoutId){
-        this.activeToast.message = 'Page number entered is out of range'
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and '+this.diaryService.totalPages
       }else{
-        this.toast.warning('Page number entered is out of range').then((toast: Toast) => {
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and '+this.diaryService.totalPages).then((toast: Toast) => {
             this.activeToast = toast;
         })
       } 
     }
   }
 
-
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if ((event.keyCode != 8 && !pattern.test(inputChar))/*  || (Number(inputChar)>this.diaryService.totalPages || Number(inputChar)<1) */) {
+      event.preventDefault();
+    }
+  }
 
 }

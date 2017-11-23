@@ -29,21 +29,15 @@ export class UnpaidScriptResultsComponent implements OnInit {
   }
   goto(){ 
     let page = Number.parseInt(this.goToPage);
-    if(!this.goToPage || isNaN(page)){ 
-      if(this.activeToast && this.activeToast.timeoutId){
-        this.activeToast.message =  'Invalid page number entered'
-      }else{
-        this.toast.warning('Invalid page number entered').then((toast: Toast) => {
-            this.activeToast = toast;
-        })
-      }
+    if(!this.goToPage){ 
+       
     }else if(page >0 && page<=this.uss.totalPages){
       this.uss.search(false,false,page);
     }else{
       if(this.activeToast && this.activeToast.timeoutId){
-        this.activeToast.message = 'Page number entered is out of range'
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and '+this.uss.totalPages
       }else{
-        this.toast.warning('Page number entered is out of range').then((toast: Toast) => {
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and '+this.uss.totalPages).then((toast: Toast) => {
             this.activeToast = toast;
         })
       } 
@@ -51,6 +45,13 @@ export class UnpaidScriptResultsComponent implements OnInit {
   }
   prev(){ 
       this.uss.search(false,true);
+  }
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if ((event.keyCode != 8 && !pattern.test(inputChar)) || (Number(inputChar)>this.uss.totalPages || Number(inputChar)<1)) {
+      event.preventDefault();
+    }
   }
   
 }
