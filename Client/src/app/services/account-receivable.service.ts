@@ -19,7 +19,9 @@ export class AccountReceivableService {
   autoCompleteGroupName:string;
   autoCompletePharmacyName:string;
   groupName:any;
+  groupNameParameter:any;
   pharmacyName:any;
+  pharmacyNameParameter:any;
   public filteredList: any[] = [];
   public pharmacyList: any[] = [];
 
@@ -38,15 +40,19 @@ export class AccountReceivableService {
     }else{
       let item = this.filteredList.find(l=>l.groupName==this.groupName);
       let ph = this.pharmacyList.find(l=>l.pharmacyName==this.pharmacyName);
-      if(item){
-        this.data.groupName = this.groupName        
+       if(item){
+        this.groupNameParameter = this.groupName        
+      }else{
+        this.groupNameParameter = undefined;
       }
       if(ph){
-        this.data.pharmacyName = this.pharmacyName  
+        this.pharmacyNameParameter = this.pharmacyName  
+      }else{
+        this.pharmacyNameParameter = undefined;
       }
-      if(this.groupName && this.filteredList.length>0 && item){
+      if(this.groupName && this.filteredList.length>0 && !item){
         this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');
-      }else if(this.pharmacyName && this.pharmacyList.length>0 && ph){
+      }else if(this.pharmacyName && this.pharmacyList.length>0 && !ph){
         this.toast.warning('Please clear the Pharmacy Name field or Search for a Pharmacy Name and pick from the drop down list');
       }else {
         this.search();      
@@ -94,6 +100,12 @@ export class AccountReceivableService {
       if(page){
         data.page=page;
       } 
+      if(this.groupNameParameter){
+        data.groupName=this.groupNameParameter;
+      } 
+      if(this.pharmacyNameParameter){
+        data.pharmacyName=this.pharmacyNameParameter;
+      }  
       console.log(data);
       this.http.accountReceivable(data).map(res => { return res.json(); })
         .subscribe((result: Array<any>) => {
@@ -110,7 +122,7 @@ export class AccountReceivableService {
           }      
           if(page){
             this.data.page=page;
-          }           
+          }          
         }, err => {
           this.reportLoader.loading = false;
           try {

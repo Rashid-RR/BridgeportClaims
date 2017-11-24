@@ -222,10 +222,10 @@ export class AutoCompleteComponent implements OnInit {
                     this.selectOne(this.filteredList[0]);
                 }
                 var wevent = document.createEvent('Event');
-                if(this.source.indexOf("group-name")){
+                if(this.source.indexOf("group-name")>-1){
                   wevent.initEvent('filteredList', true, true);
                   wevent['filteredList']=this.filteredList; 
-                }else if(this.source.indexOf("pharmacy-name")){
+                }else if(this.source.indexOf("pharmacy-name")>-1){
                   wevent.initEvent('pharmacyList', true, true);
                   wevent['pharmacyList']=this.filteredList; 
                 } 

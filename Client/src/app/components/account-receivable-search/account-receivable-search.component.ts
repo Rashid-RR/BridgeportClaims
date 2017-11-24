@@ -13,10 +13,10 @@ export class AccountReceivableSearchComponent implements OnInit {
   constructor(public http:HttpService,private renderer: Renderer2,public ar:AccountReceivableService,public reportloader:ReportLoaderService) {
     this.filteredListChange = this.renderer.listen('window', 'filteredList', (event) => {
       this.ar.filteredList = event['filteredList'];
-    });
+     });
     this.pharmacyListChange = this.renderer.listen('window', 'pharmacyList', (event) => {
       this.ar.pharmacyList = event['pharmacyList'];
-    });
+     });
    }
 
   ngOnInit() {
