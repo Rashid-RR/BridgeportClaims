@@ -16,7 +16,7 @@ export class AutoCompleteModule {
   static forRoot() {
     return {
       ngModule: AutoCompleteModule,
-      providers: [AutoComplete]
+      providers:[]// [{provide: AutoComplete, useValue: window['AutoComplete']}]
     }
   }
  }

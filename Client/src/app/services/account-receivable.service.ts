@@ -8,7 +8,7 @@ import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { Diary } from '../models/diary';
- 
+  
 @Injectable()
 export class AccountReceivableService {
  
@@ -16,12 +16,28 @@ export class AccountReceivableService {
   data:any={};
   columns:Array<String>=[];
   totalRowCount:number;
-  constructor(private http: HttpService,private events: EventsService, private toast: ToastsManager,public reportLoader:ReportLoaderService) { 
+  autoCompleteGroupName:string;
+  groupName:any;
+  public filteredList: any[] = [];
 
+  constructor(private http: HttpService,private events: EventsService, private toast: ToastsManager,public reportLoader:ReportLoaderService,
+    ) { 
+    this.autoCompleteGroupName = this.http.baseUrl + "/reports/group-name/?groupName=:keyword";    
+    
   }   
   runReport(){
     //this.toast.info('Hold tight... this will take several seconds...');
-    this.search();
+      this.data.groupName = this.groupName
+    if(this.groupName && this.filteredList.length==0){
+      this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');
+    }else{
+      let item = this.filteredList.find(l=>l.groupName==this.groupName);
+      if(!this.groupName || (this.filteredList.length>0 && item)){
+         this.search();
+      }else{
+        this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');        
+      }
+    }
   }
   export(){
     //this.toast.info('Hold tight... your report and Excel are generating....');
@@ -64,6 +80,7 @@ export class AccountReceivableService {
       if(page){
         data.page=page;
       } 
+      console.log(data);
       this.http.accountReceivable(data).map(res => { return res.json(); })
         .subscribe((result: Array<any>) => {
           this.reportLoader.loading = false; 

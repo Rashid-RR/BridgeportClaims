@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from "@angular/core";
 import {AutoComplete} from "./auto-complete";
-import {HttpService} from "../services/http-service"
+import {HttpService,AccountReceivableService} from "../services/services.barrel"
 /**
  * show a selected date in monthly calendar
  * Each filteredList item has the following property in addition to data itself
@@ -39,7 +39,7 @@ import {HttpService} from "../services/http-service"
       </li>
     </ul>
   </div>`,
-  providers: [AutoComplete],
+  providers: [AutoComplete,AccountReceivableService],
   styles: [`
   @keyframes slideDown {
     0% {
@@ -126,10 +126,10 @@ export class AutoCompleteComponent implements OnInit {
   dropdownVisible: boolean = false;
   isLoading: boolean = false;
 
-  filteredList: any[] = [];
   minCharsEntered: boolean = false;
   itemIndex: number = null;
   keyword: string;
+  public filteredList: any[] = [];
 
   isSrcArr(): boolean {
     return (this.source.constructor.name === "Array");
@@ -141,6 +141,7 @@ export class AutoCompleteComponent implements OnInit {
   constructor(
     elementRef: ElementRef,
     public autoComplete: AutoComplete,
+    public ar: AccountReceivableService,
     private http:HttpService,
   ) {
     this.el = elementRef.nativeElement;
@@ -212,9 +213,18 @@ export class AutoCompleteComponent implements OnInit {
       if (this.service && this.method) {
             this.autoComplete.getRemoteData(keyword,this.http.headers).subscribe(resp => {
                 this.filteredList = resp ? (<any>resp) : [];
+                
                 if (this.maxNumList) {
-                  this.filteredList = this.filteredList.slice(0, this.maxNumList);
+                  this.filteredList = this.filteredList.slice(0, this.maxNumList);                  
                 }
+                  //select if only one result is returned
+                if (this.filteredList.length==1) {
+                    this.selectOne(this.filteredList[0]);
+                }
+                var wevent = document.createEvent('Event');
+                wevent.initEvent('filteredList', true, true);
+                wevent['filteredList']=this.filteredList; 
+                window.dispatchEvent(wevent);
               },
               error => null,
               () => this.isLoading = false // complete
@@ -231,7 +241,7 @@ export class AutoCompleteComponent implements OnInit {
 
             this.filteredList = resp;
             if (this.maxNumList) {
-              this.filteredList = this.filteredList.slice(0, this.maxNumList);
+              this.filteredList = this.filteredList.slice(0, this.maxNumList);              
             }
           },
           error => null,
