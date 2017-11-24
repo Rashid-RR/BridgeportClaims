@@ -41,12 +41,12 @@ export class AccountReceivableService {
       let item = this.filteredList.find(l=>l.groupName==this.groupName);
       let ph = this.pharmacyList.find(l=>l.pharmacyName==this.pharmacyName);
        if(item){
-        this.groupNameParameter = this.groupName        
+        this.groupNameParameter = this.groupName.groupName ?  this.groupName.groupName :  this.groupName;
       }else{
         this.groupNameParameter = undefined;
       }
       if(ph){
-        this.pharmacyNameParameter = this.pharmacyName  
+        this.pharmacyNameParameter = this.pharmacyName.pharmacyName ? this.pharmacyName.pharmacyName : this.pharmacyName;
       }else{
         this.pharmacyNameParameter = undefined;
       }
