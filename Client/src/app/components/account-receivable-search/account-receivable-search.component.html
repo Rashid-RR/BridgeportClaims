@@ -6,12 +6,12 @@
                     <input class="form-control" type="text" auto-complete [(ngModel)]="ar.groupName" name="groupName" [source]="ar.autoCompleteGroupName" [service]="1" [method]="1" min-chars="2" list-formatter="groupName" [http-method]="'post'" [no-match-found-text]="'No Group Names Found'">                     
                 </div>
             </div>
-           <!--  <div class="col-md-3">
+            <div class="col-md-3">
                 <div class="form-group">
-                    <label>End Date</label>
-                    <input class="form-control" id="endDate" name="endDate" type="text"  [(ngModel)]="endDate"  (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                    <label>Pharmacy Name</label> 
+                    <input class="form-control" type="text" auto-complete [(ngModel)]="ar.pharmacyName" name="pharmacyName" [source]="ar.autoCompletePharmacyName" [service]="1" [method]="1" min-chars="2" list-formatter="pharmacyName" [http-method]="'post'" [no-match-found-text]="'No Pharmacy Names Found'">                     
                 </div>
-            </div> -->
+            </div>
             <div class="col-sm-3 col-md-2 flex">
                 <div class="form-group">
                     <label>&nbsp;</label><br/>

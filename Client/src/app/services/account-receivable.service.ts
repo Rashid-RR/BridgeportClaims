@@ -17,12 +17,16 @@ export class AccountReceivableService {
   columns:Array<String>=[];
   totalRowCount:number;
   autoCompleteGroupName:string;
+  autoCompletePharmacyName:string;
   groupName:any;
+  pharmacyName:any;
   public filteredList: any[] = [];
+  public pharmacyList: any[] = [];
 
   constructor(private http: HttpService,private events: EventsService, private toast: ToastsManager,public reportLoader:ReportLoaderService,
     ) { 
     this.autoCompleteGroupName = this.http.baseUrl + "/reports/group-name/?groupName=:keyword";    
+    this.autoCompletePharmacyName = this.http.baseUrl + "/reports/pharmacy-name/?pharmacyName=:keyword";    
     
   }   
   runReport(){
