@@ -31,15 +31,25 @@ export class AccountReceivableService {
   }   
   runReport(){
     //this.toast.info('Hold tight... this will take several seconds...');
-      this.data.groupName = this.groupName
     if(this.groupName && this.filteredList.length==0){
       this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');
+    }else if(this.pharmacyName && this.pharmacyList.length==0){
+      this.toast.warning('Please clear the Pharmacy Name field or Search for a Pharmacy Name and pick from the drop down list');
     }else{
       let item = this.filteredList.find(l=>l.groupName==this.groupName);
-      if(!this.groupName || (this.filteredList.length>0 && item)){
-         this.search();
-      }else{
-        this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');        
+      let ph = this.pharmacyList.find(l=>l.pharmacyName==this.pharmacyName);
+      if(item){
+        this.data.groupName = this.groupName        
+      }
+      if(ph){
+        this.data.pharmacyName = this.pharmacyName  
+      }
+      if(this.groupName && this.filteredList.length>0 && item){
+        this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');
+      }else if(this.pharmacyName && this.pharmacyList.length>0 && ph){
+        this.toast.warning('Please clear the Pharmacy Name field or Search for a Pharmacy Name and pick from the drop down list');
+      }else {
+        this.search();      
       }
     }
   }

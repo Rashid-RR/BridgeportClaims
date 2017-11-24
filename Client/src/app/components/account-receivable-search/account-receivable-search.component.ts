@@ -8,10 +8,14 @@ declare var $:any
 })
 export class AccountReceivableSearchComponent implements OnInit {
  
-  private hashChange:Function;
+  private filteredListChange:Function;
+  private pharmacyListChange:Function;
   constructor(public http:HttpService,private renderer: Renderer2,public ar:AccountReceivableService,public reportloader:ReportLoaderService) {
-    this.hashChange = this.renderer.listen('window', 'filteredList', (event) => {
+    this.filteredListChange = this.renderer.listen('window', 'filteredList', (event) => {
       this.ar.filteredList = event['filteredList'];
+    });
+    this.pharmacyListChange = this.renderer.listen('window', 'pharmacyList', (event) => {
+      this.ar.pharmacyList = event['pharmacyList'];
     });
    }
 
