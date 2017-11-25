@@ -10,7 +10,7 @@ import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from './components/confirm.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import {Ng2Webstorage} from 'ng2-webstorage';
-import { AutoCompleteModule } from './auto-complete';
+import { AutoCompleteModule} from './auto-complete';
 
 import {WindowsInjetor,WindowBackdrop,BootstrapWindowContainer} from "./components/ng-window";
 // Layouts 
@@ -120,7 +120,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [
     DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
-    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,
+    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,    
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
@@ -130,4 +130,6 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+  
+}

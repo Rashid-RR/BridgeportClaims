@@ -5,7 +5,10 @@
 .bg-darkRed {
     background: #992727;
     color: #fff;
-  }
+}
+form{
+    background: #ffffff;
+}
 form .col-md-2.flex{
     width:165px;
     padding-right:2px;

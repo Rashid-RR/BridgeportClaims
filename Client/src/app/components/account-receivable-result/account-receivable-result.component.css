@@ -47,7 +47,8 @@ tr:nth-of-type(odd) {
 tr:nth-of-type(even) {
     background: #fff8ef !important;
 }
-.claim-info.row,.col-sm-12.expanded{
+
+.row,.col-sm-12.expanded{
     margin:0px;
     padding:0px;   
     overflow: hidden;     

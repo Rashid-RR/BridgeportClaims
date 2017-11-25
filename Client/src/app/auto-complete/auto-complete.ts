@@ -2,8 +2,7 @@ import { Injectable, Optional } from "@angular/core";
 import { Http, Response } from "@angular/http";
 import { Observable } from "rxjs";
 import "rxjs/add/operator/map";
-import {HttpService} from "../services/http-service"
-
+ 
 /**
  * provides auto-complete related utility functions
  */
@@ -16,8 +15,9 @@ export class AutoComplete {
   public httpMethod:string="post";
   public headers:any;
   public body:any;
+  public filteredList: any[] = [];
 
-  constructor(@Optional() private http: Http) {
+  constructor( @Optional() private http: Http) {
     // ...
   }
 
@@ -56,12 +56,11 @@ export class AutoComplete {
    * return remote data from the given source and options, and data path
    */
   getRemoteData(keyword: string,headers?:any): Observable<Response> {
-    if (typeof this.source !== 'string') {
-      throw "Invalid type of source, must be a string. e.g. http://www.google.com?q=:my_keyword";
+     if (typeof this.source !== 'string') {
+      throw "Invalid type of source, must be a string. e.g. https://bridgeportclaims.com?q=:my_keyword";
     } else if (!this.http) {
       throw "Http is required.";
     }
-    console.log(headers,this.httpMethod);
     let matches = this.source.match(/:[a-zA-Z_]+/);
     if (matches === null) {
       throw "Replacement word is missing.";
@@ -80,7 +79,7 @@ export class AutoComplete {
           let paths = this.pathToData.split(".");
           paths.forEach(prop => list = list[prop]);
         }
-
+        this.filteredList = list; 
         return list;
       });
   };

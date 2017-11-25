@@ -1,6 +1,6 @@
 .small-box h4{
     width:calc(100% - 103px);
-    overflow-x: hidden;
+    overflow: hidden;
 }
 .row.list a.col-xs-3 {
     height:129px;

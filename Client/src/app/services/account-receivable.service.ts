@@ -8,7 +8,7 @@ import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { Diary } from '../models/diary';
- 
+  
 @Injectable()
 export class AccountReceivableService {
  
@@ -16,12 +16,48 @@ export class AccountReceivableService {
   data:any={};
   columns:Array<String>=[];
   totalRowCount:number;
-  constructor(private http: HttpService,private events: EventsService, private toast: ToastsManager,public reportLoader:ReportLoaderService) { 
+  autoCompleteGroupName:string;
+  autoCompletePharmacyName:string;
+  groupName:any;
+  groupNameParameter:any;
+  pharmacyName:any;
+  pharmacyNameParameter:any;
+  public filteredList: any[] = [];
+  public pharmacyList: any[] = [];
 
+  constructor(private http: HttpService,private events: EventsService, private toast: ToastsManager,public reportLoader:ReportLoaderService,
+    ) { 
+    this.autoCompleteGroupName = this.http.baseUrl + "/reports/group-name/?groupName=:keyword";    
+    this.autoCompletePharmacyName = this.http.baseUrl + "/reports/pharmacy-name/?pharmacyName=:keyword";    
+    
   }   
   runReport(){
     //this.toast.info('Hold tight... this will take several seconds...');
-    this.search();
+    if(this.groupName && this.filteredList.length==0){
+      this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');
+    }else if(this.pharmacyName && this.pharmacyList.length==0){
+      this.toast.warning('Please clear the Pharmacy Name field or Search for a Pharmacy Name and pick from the drop down list');
+    }else{
+      let item = this.filteredList.find(l=>l.groupName==this.groupName);
+      let ph = this.pharmacyList.find(l=>l.pharmacyName==this.pharmacyName);
+       if(item){
+        this.groupNameParameter = this.groupName.groupName ?  this.groupName.groupName :  this.groupName;
+      }else{
+        this.groupNameParameter = undefined;
+      }
+      if(ph){
+        this.pharmacyNameParameter = this.pharmacyName.pharmacyName ? this.pharmacyName.pharmacyName : this.pharmacyName;
+      }else{
+        this.pharmacyNameParameter = undefined;
+      }
+      if(this.groupName && this.filteredList.length>0 && !item){
+        this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');
+      }else if(this.pharmacyName && this.pharmacyList.length>0 && !ph){
+        this.toast.warning('Please clear the Pharmacy Name field or Search for a Pharmacy Name and pick from the drop down list');
+      }else {
+        this.search();      
+      }
+    }
   }
   export(){
     //this.toast.info('Hold tight... your report and Excel are generating....');
@@ -64,6 +100,13 @@ export class AccountReceivableService {
       if(page){
         data.page=page;
       } 
+      if(this.groupNameParameter){
+        data.groupName=this.groupNameParameter;
+      } 
+      if(this.pharmacyNameParameter){
+        data.pharmacyName=this.pharmacyNameParameter;
+      }  
+      console.log(data);
       this.http.accountReceivable(data).map(res => { return res.json(); })
         .subscribe((result: Array<any>) => {
           this.reportLoader.loading = false; 
@@ -79,7 +122,7 @@ export class AccountReceivableService {
           }      
           if(page){
             this.data.page=page;
-          }           
+          }          
         }, err => {
           this.reportLoader.loading = false;
           try {

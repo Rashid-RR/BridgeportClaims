@@ -1,3 +1,9 @@
+.account-receivable-results {
+    background: #fbeede;
+}
+.account-receivable-results app-account-receivable-search form{
+    background: #ffffff;
+}
 .page-title h3 {
     margin: 0;
     padding: 10px 0 0 10px;
