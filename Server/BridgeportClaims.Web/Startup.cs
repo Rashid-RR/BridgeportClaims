@@ -1,5 +1,6 @@
 ﻿using Owin;
 using System;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 using Autofac.Integration.WebApi;
 using BridgeportClaims.Common.Config;
@@ -29,7 +30,7 @@ namespace BridgeportClaims.Web
             // Add SignalR to the OWIN pipeline
             
             var config = new HttpConfiguration();
-            
+            config.Formatters.Add(new BinaryMediaTypeFormatter());
             app.MapSignalR();
             var builder = IoCConfigService.Configure();
             var container = builder.Build();
