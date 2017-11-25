@@ -279,7 +279,9 @@
     <Compile Include="Controllers\ServerEventsController.cs" />
     <Compile Include="Controllers\TestChecksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="CustomActionResults\FileResult.cs" />
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
+    <Compile Include="Formatters\BinaryMediaTypeFormatter.cs" />
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Handlers\CancelledTaskBugWorkaroundMessageHandler.cs" />
     <Compile Include="Hubs\MessageHub.cs" />

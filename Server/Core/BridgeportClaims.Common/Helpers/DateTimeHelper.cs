@@ -56,7 +56,7 @@ namespace BridgeportClaims.Common.Helpers
         {
             if (value >= OaDateMaxAsDouble || value <= OaDateMinAsDouble)
                 throw new ArgumentException("Invalid OA Date");
-            long millis = (long)(value * MillisPerDay + (value >= 0 ? 0.5 : -0.5));
+            var millis = (long)(value * MillisPerDay + (value >= 0 ? 0.5 : -0.5));
 
             // The interesting thing here is when you have a value like 12.5 it all positive 12 days and 12 hours from 01/01/1899
             // However if you a value of -12.25 it is minus 12 days but still positive 6 hours, almost as though you meant -11.75 all negative

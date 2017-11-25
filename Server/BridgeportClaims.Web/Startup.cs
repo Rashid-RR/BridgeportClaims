@@ -29,7 +29,7 @@ namespace BridgeportClaims.Web
             // Add SignalR to the OWIN pipeline
             
             var config = new HttpConfiguration();
-            
+            config.Formatters.Add(new BinaryMediaTypeFormatter());
             app.MapSignalR();
             var builder = IoCConfigService.Configure();
             var container = builder.Build();

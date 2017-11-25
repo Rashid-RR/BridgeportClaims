@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using BridgeportClaims.Common.Helpers;
 
 namespace BridgeportClaims.Common.Extensions
 {
@@ -20,6 +21,17 @@ namespace BridgeportClaims.Common.Extensions
                 table.Rows.Add(row);
             }
             return table;
+        }
+
+        public static DataTable CopyToDataTable<T>(this IEnumerable<T> source)
+        {
+            return new ObjectShredder<T>().Shred(source, null, null);
+        }
+
+        public static DataTable CopyToGenericDataTable<T>(this IEnumerable<T> source,
+            DataTable table, LoadOption? options)
+        {
+            return new ObjectShredder<T>().Shred(source, table, options);
         }
     }
 }
