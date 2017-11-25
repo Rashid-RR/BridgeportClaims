@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { Response } from '@angular/http/src/static_response';
-import { Http, RequestOptions, Headers, URLSearchParams } from '@angular/http';
+import { Http, RequestOptions,ResponseContentType, Headers, URLSearchParams } from '@angular/http';
 import { UUID } from 'angular2-uuid';
 import {Router} from '@angular/router';
 import {EventsService} from './events-service';
@@ -523,7 +523,9 @@ export class HttpService {
       });
   }
   getExport(data:any): Observable<Response> {
-    return this.http.post(this.baseUrl + '/reports/export', data, { headers: this.headers })
+    let headers = this.headers;
+    headers.append('accept','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    return this.http.post(this.baseUrl + '/reports/excel-export', data, {responseType: ResponseContentType.Blob, headers: headers })
     .catch(err =>  {
       this.handleResponseError(err);
         return Observable.throw(err);

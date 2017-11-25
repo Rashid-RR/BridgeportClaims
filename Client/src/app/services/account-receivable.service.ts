@@ -3,12 +3,14 @@ import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ReportLoaderService } from './report-loader.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { Diary } from '../models/diary';
-  
+import { Response } from '@angular/http/src/static_response';
+import * as FileSaver from 'file-saver'; 
+
 @Injectable()
 export class AccountReceivableService {
  
@@ -105,8 +107,7 @@ export class AccountReceivableService {
       } 
       if(this.pharmacyNameParameter){
         data.pharmacyName=this.pharmacyNameParameter;
-      }  
-      console.log(data);
+      }
       this.http.accountReceivable(data).map(res => { return res.json(); })
         .subscribe((result: Array<any>) => {
           this.reportLoader.loading = false; 
@@ -131,6 +132,53 @@ export class AccountReceivableService {
         }, () => {
           this.events.broadcast('account-receivable-report-updated');
         }); 
+  }
+  exportFile(next:Boolean=false,prev:Boolean=false,page:number = undefined){     
+      this.reportLoader.loading = true;
+      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+       
+      if(next){
+        data.page++;
+      }
+      if(prev && data.page>1){
+        data.page--;
+      }   
+      if(page){
+        data.page=page;
+      } 
+      if(this.groupNameParameter){
+        data.groupName=this.groupNameParameter;
+      } 
+      if(this.pharmacyNameParameter){
+        data.pharmacyName=this.pharmacyNameParameter;
+      }
+      this.http.getExport(data)
+        /* .map(response => {
+          let fileBlob = response.blob();
+            let blob = new Blob([fileBlob], { 
+              type: response.headers.get('content-type') // must match the Accept type
+            });
+            return fileBlob;
+        }) */
+        .subscribe((result) => {
+          this.reportLoader.loading = false;   
+          this.downloadFile(result);
+          //console.log(result);
+        }, err => {
+          this.reportLoader.loading = false;
+          try {
+            const error = err.json(); 
+          } catch (e) { }
+        }); 
+  }
+  downloadFile(data: Response){
+    let blob = new Blob([data.blob()], { 
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // must match the Accept type
+   }); 
+   let filename = data.headers.get('content-disposition').replace('attachment; filename=','');;
+   FileSaver.saveAs(blob, filename);
+    /* var url= window.URL.createObjectURL(blob);
+    window.open(url); */
   }
 
 }
