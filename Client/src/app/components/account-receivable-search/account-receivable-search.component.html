@@ -1,26 +1,24 @@
-<form role="form"  autocomplete="off" autocapitalize="none" autocomplete="off"><!--  (keyup.enter)="search()"> -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Group Name</label> 
-                    <input class="form-control" type="text" auto-complete [(ngModel)]="ar.groupName" name="groupName" [source]="ar.autoCompleteGroupName" [service]="1" [method]="1" min-chars="2" list-formatter="groupName" [http-method]="'post'" [no-match-found-text]="'No Group Names Found'">                     
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>Pharmacy Name</label> 
-                    <input class="form-control" type="text" auto-complete [(ngModel)]="ar.pharmacyName" name="pharmacyName" [source]="ar.autoCompletePharmacyName" [service]="1" [method]="1" min-chars="2" list-formatter="pharmacyName" [http-method]="'post'" [no-match-found-text]="'No Pharmacy Names Found'">                     
-                </div>
-            </div>
-            <div class="col-sm-3 col-md-2 flex">
-                <div class="form-group">
-                    <label>&nbsp;</label><br/>
-                    <span>
-                        <!-- <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button>  &nbsp; -->
-                        <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="ar.groupName=null">Clear Group Name</button>                 
-                        <img height="35px"  (click)="ar.runReport()" src="assets/img/run-report.png" title="Run Report" data-toggle="tooltip" style="cursor:pointer;"/>
-                    </span>
-                </div>
-            </div> 
+<form role="form" class="row" autocomplete="off" autocapitalize="none" autocomplete="off"><!--  (keyup.enter)="search()"> -->
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Group Name </label> 
+            <input class="form-control" type="text" [z-index]="'99999999'" auto-complete [(ngModel)]="ar.groupName" name="groupName" [source]="ar.autoCompleteGroupName" [service]="1" [method]="1" min-chars="2" list-formatter="groupName" [http-method]="'post'" [no-match-found-text]="'No Group Names Found'">                     
         </div>
-    </form>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <label>Pharmacy Name</label> 
+            <input class="form-control" type="text" [z-index]="'99999999'" auto-complete [(ngModel)]="ar.pharmacyName" name="pharmacyName" [source]="ar.autoCompletePharmacyName" [service]="1" [method]="1" min-chars="2" list-formatter="pharmacyName" [http-method]="'post'" [no-match-found-text]="'No Pharmacy Names Found'">                     
+        </div>
+    </div>
+    <div class="col-sm-3 col-md-2 flex">
+        <div class="form-group">
+            <label>&nbsp;</label><br/>
+            <span>
+                <!-- <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button>  &nbsp; -->
+                <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="ar.groupName=null">Clear Group Name</button>                 
+                <img height="35px"  (click)="ar.runReport()" src="assets/img/run-report.png" title="Run Report" data-toggle="tooltip" style="cursor:pointer;"/>
+            </span>
+        </div>
+    </div> 
+</form>

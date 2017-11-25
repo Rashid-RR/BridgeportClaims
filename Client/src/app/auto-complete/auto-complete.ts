@@ -57,7 +57,7 @@ export class AutoComplete {
    */
   getRemoteData(keyword: string,headers?:any): Observable<Response> {
      if (typeof this.source !== 'string') {
-      throw "Invalid type of source, must be a string. e.g. http://www.google.com?q=:my_keyword";
+      throw "Invalid type of source, must be a string. e.g. https://bridgeportclaims.com?q=:my_keyword";
     } else if (!this.http) {
       throw "Http is required.";
     }
