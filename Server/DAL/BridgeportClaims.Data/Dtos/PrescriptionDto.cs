@@ -18,5 +18,8 @@ namespace BridgeportClaims.Data.Dtos
         public string Status { get; set; }
         public int NoteCount { get; set; }
         public bool IsReversed { get; set; }
+        public string Prescriber { get; set; }
+        public string PrescriberNpi { get; set; }
+        public string PharmacyName { get; set; }
     }
 }
