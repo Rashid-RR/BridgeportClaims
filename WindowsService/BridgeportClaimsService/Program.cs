@@ -1,4 +1,5 @@
 ﻿using System.ServiceProcess;
+using System.Threading;
 
 namespace BridgeportClaimsService
 {
@@ -9,6 +10,11 @@ namespace BridgeportClaimsService
         /// </summary>
         private static void Main()
         {
+#if DEBUG
+            var service = new BridgeportClaimsWindowsService();
+            service.OnDebug();
+            Thread.Sleep(Timeout.Infinite);
+#endif
             var servicesToRun = new ServiceBase[]
             {
                 new BridgeportClaimsWindowsService()
