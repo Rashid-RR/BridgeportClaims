@@ -1,6 +1,6 @@
 ﻿namespace BridgeportClaimsService
 {
-    partial class Service1
+    partial class BridgeportClaimsWindowsService
     {
         /// <summary> 
         /// Required designer variable.
