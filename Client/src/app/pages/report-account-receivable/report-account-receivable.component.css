@@ -76,5 +76,8 @@
     font: normal 110px/0 "Nova Flat", Helvetica, sans-serif;
     color: rgb(150, 59, 59);
     text-align: center;
+}
 
+.clickable{
+    cursor: pointer;
 }
