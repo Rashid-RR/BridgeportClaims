@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:BridgeportClaimsService.Setup"
+"ProjectName" = "8:BridgeportClaimsService.FileWatcherServiceSetup"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -15,14 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_BC7AD919EAC7420B8E2E355FFF723CD3"
+        "MsmKey" = "8:_FBA4247A4666498EBA27C0006D78101A"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_BC7AD919EAC7420B8E2E355FFF723CD3"
+        "OwnerKey" = "8:_FBA4247A4666498EBA27C0006D78101A"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -65,31 +65,31 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_2A75786AF4BA4B23B17AF7DE142FF77B"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_C5CD0A994B9C4EAB9B2F88E498F2D446"
             {
-            "Name" = "8:Primary output from BridgeportClaimsService.ServiceHost (Active)"
+            "Name" = "8:Primary output from BridgeportClaimsService.FileWatcherService (Active)"
             "Condition" = "8:"
-            "Object" = "8:_BC7AD919EAC7420B8E2E355FFF723CD3"
-            "FileType" = "3:2"
-            "InstallAction" = "3:1"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_15081B56_8D99_4FB7_8AC4_E4F8E050F1E9"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_54EA6481697147C98D134BE3228123D8"
-            {
-            "Name" = "8:Primary output from BridgeportClaimsService.ServiceHost (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_BC7AD919EAC7420B8E2E355FFF723CD3"
+            "Object" = "8:_FBA4247A4666498EBA27C0006D78101A"
             "FileType" = "3:2"
             "InstallAction" = "3:4"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_8B08998B_C1FB_4B86_963C_613B050FAACB"
+            "Identifier" = "8:_E1C823A5_975B_4D3A_BF0A_FFB2E616F4E6"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_E792E4BAB6BC4EA68E09E171296F3B3E"
+            {
+            "Name" = "8:Primary output from BridgeportClaimsService.FileWatcherService (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_FBA4247A4666498EBA27C0006D78101A"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_46AAD521_7C90_4F3D_9C41_B23F3936B47F"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -171,9 +171,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Bridgeport Claims Windows Service"
+        "ProductName" = "8:File Watcher Windows Service"
         "ProductCode" = "8:{D23292D6-2F21-44B5-94D9-00C70C4AD20D}"
-        "PackageCode" = "8:{CC3D9A49-2D00-42A6-B4E3-FAD0CA62F904}"
+        "PackageCode" = "8:{773F6E56-7FFD-4B51-98B5-95E84367B183}"
         "UpgradeCode" = "8:{5B984254-694D-408B-9B35-6960731611DB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -184,7 +184,7 @@
         "Manufacturer" = "8:Bridgeport Claims"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Bridgeport Claims Windows Service"
+        "Title" = "8:File Watcher Windows Service"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Bridgeport Claims"
         "Keywords" = "8:"
@@ -692,7 +692,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BC7AD919EAC7420B8E2E355FFF723CD3"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FBA4247A4666498EBA27C0006D78101A"
             {
             "SourcePath" = "8:..\\BridgeportClaimsService\\obj\\Release\\BridgeportClaimsService.exe"
             "TargetName" = "8:"
