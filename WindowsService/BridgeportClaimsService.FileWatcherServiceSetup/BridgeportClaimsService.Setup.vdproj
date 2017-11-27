@@ -15,14 +15,14 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_FBA4247A4666498EBA27C0006D78101A"
+        "MsmKey" = "8:_098170BE34BC4894BA0B1FD08EA36C49"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_FBA4247A4666498EBA27C0006D78101A"
+        "OwnerKey" = "8:_098170BE34BC4894BA0B1FD08EA36C49"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -74,6 +74,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -81,31 +89,31 @@
     {
         "CustomAction"
         {
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_C5CD0A994B9C4EAB9B2F88E498F2D446"
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B56257A018DE445E918ECBF7C76B275D"
             {
             "Name" = "8:Primary output from BridgeportClaimsService.FileWatcherService (Active)"
             "Condition" = "8:"
-            "Object" = "8:_FBA4247A4666498EBA27C0006D78101A"
-            "FileType" = "3:2"
-            "InstallAction" = "3:4"
-            "Arguments" = "8:"
-            "EntryPoint" = "8:"
-            "Sequence" = "3:1"
-            "Identifier" = "8:_E1C823A5_975B_4D3A_BF0A_FFB2E616F4E6"
-            "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:"
-            }
-            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_E792E4BAB6BC4EA68E09E171296F3B3E"
-            {
-            "Name" = "8:Primary output from BridgeportClaimsService.FileWatcherService (Active)"
-            "Condition" = "8:"
-            "Object" = "8:_FBA4247A4666498EBA27C0006D78101A"
+            "Object" = "8:_098170BE34BC4894BA0B1FD08EA36C49"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
-            "Identifier" = "8:_46AAD521_7C90_4F3D_9C41_B23F3936B47F"
+            "Identifier" = "8:_D6E9B278_B2B8_4049_A05B_330169121828"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_F5BFBF72A4C14898877CB1A3C31D7880"
+            {
+            "Name" = "8:Primary output from BridgeportClaimsService.FileWatcherService (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_098170BE34BC4894BA0B1FD08EA36C49"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_D4264170_ED4C_47AF_9953_3D43EFA13D0A"
             "InstallerClass" = "11:TRUE"
             "CustomActionData" = "8:"
             }
@@ -189,7 +197,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:File Watcher Windows Service"
         "ProductCode" = "8:{D23292D6-2F21-44B5-94D9-00C70C4AD20D}"
-        "PackageCode" = "8:{773F6E56-7FFD-4B51-98B5-95E84367B183}"
+        "PackageCode" = "8:{BDD6183B-8799-4754-84B0-14E2A03DB8DA}"
         "UpgradeCode" = "8:{5B984254-694D-408B-9B35-6960731611DB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -708,7 +716,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FBA4247A4666498EBA27C0006D78101A"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_098170BE34BC4894BA0B1FD08EA36C49"
             {
             "SourcePath" = "8:..\\BridgeportClaimsService.FileWatcherService\\obj\\Release\\BridgeportClaimsService.FileWatcherService.exe"
             "TargetName" = "8:"
