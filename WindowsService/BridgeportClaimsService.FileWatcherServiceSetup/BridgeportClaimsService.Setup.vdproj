@@ -33,7 +33,7 @@
         "DisplayName" = "8:Debug"
         "IsDebugOnly" = "11:TRUE"
         "IsReleaseOnly" = "11:FALSE"
-        "OutputFilename" = "8:Debug\\BridgeportClaimsService.Setup.msi"
+        "OutputFilename" = "8:Debug\\BridgeportClaimsService.FileWatcherServiceSetup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -43,13 +43,21 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\BridgeportClaimsService.Setup.msi"
+        "OutputFilename" = "8:Release\\BridgeportClaimsService.FileWatcherServiceSetup.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -59,6 +67,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
     }
     "Deployable"
@@ -694,7 +710,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_FBA4247A4666498EBA27C0006D78101A"
             {
-            "SourcePath" = "8:..\\BridgeportClaimsService\\obj\\Release\\BridgeportClaimsService.exe"
+            "SourcePath" = "8:..\\BridgeportClaimsService.FileWatcherService\\obj\\Release\\BridgeportClaimsService.FileWatcherService.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1A27F71C15674114BE008EC144A94569"

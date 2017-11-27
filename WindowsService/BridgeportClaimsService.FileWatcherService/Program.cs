@@ -1,4 +1,5 @@
 ﻿using System.ServiceProcess;
+using System.Threading;
 
 namespace BridgeportClaimsService.FileWatcherService
 {
