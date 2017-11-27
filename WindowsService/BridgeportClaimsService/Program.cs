@@ -8,7 +8,7 @@ namespace BridgeportClaimsService
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        private static void Main()
+        internal static void Main()
         {
 #if DEBUG
             var service = new BridgeportClaimsWindowsService();

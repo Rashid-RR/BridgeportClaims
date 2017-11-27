@@ -40,6 +40,7 @@
             // BridgeportClaimsWindowsServiceInstaller
             // 
             this.BridgeportClaimsWindowsServiceInstaller.ServiceName = "Bridgeport Claims Windows Service";
+            this.BridgeportClaimsWindowsServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
