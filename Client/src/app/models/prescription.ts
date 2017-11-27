@@ -13,8 +13,12 @@ export class Prescription {
     noteCount:Number;
     isReversed:Boolean;
     status:String;
+    prescriber:String;
+    prescriberNpi:String;
+    pharmacyName:String;
 constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Date,
-    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number,prescriptionId:Number,noteCount:Number,isReversed?:Boolean,status?:String,selected:Boolean=false){
+    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number,prescriptionId:Number,noteCount:Number,isReversed?:Boolean,status?:String,selected:Boolean=false,
+    prescriber?:String,prescriberNpi?:String,pharmacyName?:String){
     this.rxNumber = rxNumber;
     this.labelName = labelName;
     this.invoiceNumber = invoiceNumber;
@@ -28,6 +32,9 @@ constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Da
     this.noteCount = noteCount;
     this.isReversed=isReversed;
     this.status=status;
+    this.prescriber = prescriber;
+    this.prescriberNpi = prescriberNpi;
+    this.pharmacyName = pharmacyName;
   }
   setSelected(s:Boolean){
       this.selected = s==undefined? true : s;

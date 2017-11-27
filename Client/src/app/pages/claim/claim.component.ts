@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component,ViewContainerRef, OnInit, HostListener } from '@angular/core';
 import { HttpService } from "../../services/http-service"
 import { EventsService } from "../../services/events-service"
 import { ClaimManager } from "../../services/claim-manager";
@@ -7,7 +7,7 @@ import swal from "sweetalert2";
 import { ClaimNote } from "../../models/claim-note"
 import { Episode } from "../../models/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import {Router} from "@angular/router";
+ import {Router} from "@angular/router";
 import { DatePipe,DecimalPipe } from '@angular/common';
 declare var $:any
 
@@ -47,9 +47,12 @@ export class ClaimsComponent implements OnInit {
     public claimManager: ClaimManager,
     private http: HttpService,
     private dp: DatePipe,
+    private vcr: ViewContainerRef,
     private events: EventsService,
-    private toast: ToastsManager
-  ) { }
+     private toast: ToastsManager
+  ) {
+     
+   }
 
   expand(expanded: Boolean, expandedBlade: Number, table: string) {
     this.expanded = expanded;

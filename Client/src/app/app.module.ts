@@ -120,7 +120,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [
     DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
-    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,    
+    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

@@ -11,11 +11,11 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { AuthGuard } from './auth.guard';
 import { EventsService } from './events-service';
-import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+ import { Router } from '@angular/router';
+import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../components/confirm.component';
-
+declare var $:any
 @Injectable()
 export class ClaimManager {
   onClaimIdChanged = new Subject<Number>();
@@ -38,6 +38,7 @@ export class ClaimManager {
   isScriptNotesExpanded: boolean;
   isPaymentsExpanded: boolean;
   isImagesExpanded: boolean;
+  activeToast: Toast;
 
   constructor(private auth: AuthGuard, private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager,
     private dialogService: DialogService) {
@@ -67,6 +68,28 @@ export class ClaimManager {
     });
   }
 
+  showDetails(prescription:Prescription){
+    this.toast.info('Prescriber: '+prescription.prescriber+
+    "<br> Prescriber NPI"+prescription.prescriberNpi+
+    "<br> Pharmacy Name"+prescription.pharmacyName,
+     null,
+    {toastLife: 10988000,showCloseButton:true,enableHTML:true,positionClass : 'toast-top-center'}).then((toast: Toast) => {
+      //$(".toast-top-right").addClass('toast-top-center')
+      
+      let toasts:Array<HTMLElement>=$('.toast-message');
+      console.log(toasts,toast);
+        for(var i =0;i<toasts.length;i++){
+            let msg = toasts[i];
+            //msg.parentNode.parentNode.({magin:'auto'});
+            if(msg.innerHTML==toast.message){
+              msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
+              msg.parentNode.parentElement.style.position = 'fixed';
+            }
+        }
+        this.activeToast = toast;
+    })
+  }
+    
   get claimHistory(): Array<Claim> {
     return this.history;
   }
