@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.ServiceProcess;
 
 namespace BridgeportClaimsService.FileWatcherService
@@ -18,12 +17,12 @@ namespace BridgeportClaimsService.FileWatcherService
 
         protected override void OnStart(string[] args)
         {
-            File.Create(AppDomain.CurrentDomain.BaseDirectory + "OnStart.txt");
+            File.Create(@"C:\Users\Public\Documents\OnStart.txt");
         }
 
         protected override void OnStop()
         {
-            File.Create(AppDomain.CurrentDomain.BaseDirectory + "OnStop.txt");
+            File.Create(@"C:\Users\Public\Documents\OnStop.txt");
         }
     }
 }

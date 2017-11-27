@@ -41,6 +41,7 @@
             // 
             this.BridgeportClaimsWindowsServiceInstaller.ServiceName = "Bridgeport Claims Windows Service";
             this.BridgeportClaimsWindowsServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.BridgeportClaimsWindowsServiceInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.BridgeportClaimsWindowsServiceInstaller_AfterInstall);
             // 
             // ProjectInstaller
             // 
