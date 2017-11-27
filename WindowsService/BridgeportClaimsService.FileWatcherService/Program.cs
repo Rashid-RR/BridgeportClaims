@@ -10,17 +10,11 @@ namespace BridgeportClaimsService.FileWatcherService
         /// </summary>
         internal static void Main()
         {
-#if DEBUG
-            var service = new BridgeportClaimsWindowsService();
-            service.OnDebug();
-            Thread.Sleep(Timeout.Infinite);
-#else
             var servicesToRun = new ServiceBase[]
             {
                 new BridgeportClaimsWindowsService()
             };
             ServiceBase.Run(servicesToRun);
-#endif
         }
     }
 }
