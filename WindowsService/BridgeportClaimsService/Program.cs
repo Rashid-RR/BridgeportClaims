@@ -14,12 +14,13 @@ namespace BridgeportClaimsService
             var service = new BridgeportClaimsWindowsService();
             service.OnDebug();
             Thread.Sleep(Timeout.Infinite);
-#endif
+#else
             var servicesToRun = new ServiceBase[]
             {
                 new BridgeportClaimsWindowsService()
             };
             ServiceBase.Run(servicesToRun);
+#endif
         }
     }
 }
