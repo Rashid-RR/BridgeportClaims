@@ -89,5 +89,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.FileWatcherBusiness\BridgeportClaims.FileWatcherBusiness.csproj">
+      <Project>{c78b5475-efa9-4698-9e69-15771a0585c5}</Project>
+      <Name>BridgeportClaims.FileWatcherBusiness</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
