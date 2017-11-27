@@ -8,10 +8,8 @@ namespace BridgeportClaimsService.FileWatcherService
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        internal static void Main()
+        private static void Main()
         {
-            var service = new BridgeportClaimsWindowsService();
-            service.OnDebug();
             var servicesToRun = new ServiceBase[]
             {
                 new BridgeportClaimsWindowsService()
