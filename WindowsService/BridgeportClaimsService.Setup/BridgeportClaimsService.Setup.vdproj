@@ -171,7 +171,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:BridgeportClaimsService.Setup"
+        "ProductName" = "8:Bridgeport Claims Windows Service"
         "ProductCode" = "8:{D23292D6-2F21-44B5-94D9-00C70C4AD20D}"
         "PackageCode" = "8:{28808EC9-A3F7-444B-A446-1801921FC943}"
         "UpgradeCode" = "8:{5B984254-694D-408B-9B35-6960731611DB}"
@@ -184,7 +184,7 @@
         "Manufacturer" = "8:Default Company Name"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:BridgeportClaimsService.Setup"
+        "Title" = "8:Bridgeport Claims Windows Service"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Bridgeport Claims"
         "Keywords" = "8:"
