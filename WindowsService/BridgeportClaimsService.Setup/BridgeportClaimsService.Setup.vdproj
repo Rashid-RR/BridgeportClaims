@@ -173,7 +173,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Bridgeport Claims Windows Service"
         "ProductCode" = "8:{D23292D6-2F21-44B5-94D9-00C70C4AD20D}"
-        "PackageCode" = "8:{28808EC9-A3F7-444B-A446-1801921FC943}"
+        "PackageCode" = "8:{CC3D9A49-2D00-42A6-B4E3-FAD0CA62F904}"
         "UpgradeCode" = "8:{5B984254-694D-408B-9B35-6960731611DB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -181,7 +181,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
         "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Default Company Name"
+        "Manufacturer" = "8:Bridgeport Claims"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Bridgeport Claims Windows Service"
@@ -694,7 +694,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BC7AD919EAC7420B8E2E355FFF723CD3"
             {
-            "SourcePath" = "8:..\\BridgeportClaimsService\\obj\\Debug\\BridgeportClaimsService.exe"
+            "SourcePath" = "8:..\\BridgeportClaimsService\\obj\\Release\\BridgeportClaimsService.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1A27F71C15674114BE008EC144A94569"
