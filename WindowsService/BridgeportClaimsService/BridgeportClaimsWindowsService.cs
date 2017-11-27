@@ -2,8 +2,7 @@
 using System.IO;
 using System.ServiceProcess;
 
-
-namespace BridgeportClaimsService
+namespace BridgeportClaimsService.FileWatcherService
 {
     public partial class BridgeportClaimsWindowsService : ServiceBase
     {

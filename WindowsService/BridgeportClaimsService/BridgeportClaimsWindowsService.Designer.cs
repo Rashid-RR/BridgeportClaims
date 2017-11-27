@@ -1,4 +1,4 @@
-﻿namespace BridgeportClaimsService
+﻿namespace BridgeportClaimsService.FileWatcherService
 {
     partial class BridgeportClaimsWindowsService
     {

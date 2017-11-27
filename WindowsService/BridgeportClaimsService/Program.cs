@@ -1,7 +1,6 @@
 ﻿using System.ServiceProcess;
-using System.Threading;
 
-namespace BridgeportClaimsService
+namespace BridgeportClaimsService.FileWatcherService
 {
     internal static class Program
     {

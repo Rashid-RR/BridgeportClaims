@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{8983C929-2C54-4E90-A804-BE9C2B28B90D}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>BridgeportClaimsService</RootNamespace>
-    <AssemblyName>BridgeportClaimsService</AssemblyName>
+    <RootNamespace>BridgeportClaimsService.FileWatcherService</RootNamespace>
+    <AssemblyName>BridgeportClaimsService.FileWatcherService</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
