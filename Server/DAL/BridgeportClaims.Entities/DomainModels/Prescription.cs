@@ -16,9 +16,7 @@ namespace BridgeportClaims.Entities.DomainModels
         }
         [Required]
         public virtual int PrescriptionId { get; set; }
-        [Required]
         public virtual Claim Claim { get; set; }
-        [Required]
         public virtual Pharmacy Pharmacy { get; set; }
         public virtual Invoice Invoice { get; set; }
         public virtual PrescriptionStatus PrescriptionStatus { get; set; }
@@ -82,15 +80,13 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string GPIGenName { get; set; }
         [StringLength(255)]
         public virtual string TheraClass { get; set; }
+        public virtual float? AWP { get; set; }
+        public virtual DateTime? ReversedDate { get; set; }
+        public virtual bool? IsReversed { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-        [StringLength(50)]
-        public virtual string ETLRowID { get; set; }
-        public virtual float? AWP { get; set; }
-        public virtual DateTime? ReversedDate { get; set; }
-        public virtual bool IsReversed { get; set; }
         public virtual IList<PrescriptionNoteMapping> PrescriptionNoteMapping { get; set; }
         public virtual IList<PrescriptionPayment> PrescriptionPayment { get; set; }
     }

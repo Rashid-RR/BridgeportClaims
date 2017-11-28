@@ -96,7 +96,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
         private Claim Claim => new Claim
         {
             Adjustor = Adjustor,
-            ClaimImage = null,
+            Image = null,
             Payor = Payors.FirstOrDefault(),
             ClaimNote = new List<ClaimNote>
             {
@@ -117,7 +117,6 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
                         ClaimNoteTypeId = 3,
                         CreatedOnUtc = _now,
                         UpdatedOnUtc = _now
-
                     }
                 }
             }

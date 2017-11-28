@@ -38,7 +38,11 @@ AS BEGIN
 						   WHERE  [pnm].[PrescriptionID] = [p].[PrescriptionID]
 					   )
 		 , p.IsReversed
+		 , Prescriber = ISNULL(p.Prescriber, '')
+		 , PrescriberNpi = ISNULL(p.PrescriberNPI, '')
+		 , PharmacyName = ISNULL(ph.PharmacyName, '')
 	FROM   [dbo].[Prescription] AS [p]
+		   INNER JOIN dbo.Pharmacy AS ph ON ph.NABP = p.PharmacyNABP
 		   INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
 		   INNER JOIN [dbo].[Payor] AS [py] ON [py].[PayorID] = [c].[PayorID]
 		   LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]

@@ -50,12 +50,11 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Strength).Column("Strength").Length(255);
             Map(x => x.GPIGenName).Column("GPIGenName").Length(255);
             Map(x => x.TheraClass).Column("TheraClass").Length(255);
-            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
-            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
-            Map(x => x.ETLRowID).Column("ETLRowID").Length(50);
             Map(x => x.AWP).Column("AWP").Precision(53);
             Map(x => x.ReversedDate).Column("ReversedDate");
             Map(x => x.IsReversed).Column("IsReversed");
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.PrescriptionNoteMapping).KeyColumn("PrescriptionID");
             HasMany(x => x.PrescriptionPayment).KeyColumn("PrescriptionID");
         }

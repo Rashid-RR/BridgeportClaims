@@ -20,31 +20,31 @@
       </li>
       <!--<li>
             <a  [routerLink]="'/main/payors'">
-              <i class="fa fa-user fa-fw"></i> 
+              <i class="fa fa-user fa-fw"></i>
               <span>Payors</span>
             </a>
-        </li>       -->        
+        </li>       -->
       <li routerLinkActive="active" (click)="claimsActive()">
           <a [routerLink]="[]" [class.disabled]="disableLinks">
-            <i class="fa fa-credit-card fa-fw"></i> 
+            <i class="fa fa-credit-card fa-fw"></i>
             <span>Claims</span>
           </a>
       </li>
       <li  routerLinkActive="active">
-          <a [routerLink]="!disableLinks ? '/main/diary' : []" [class.disabled]="disableLinks">            
+          <a [routerLink]="!disableLinks ? '/main/diary' : []" [class.disabled]="disableLinks">
             <i class="fa fa-book" aria-hidden="true"></i>
             <span>Diaries</span>
           </a>
        </li>
        <li  routerLinkActive="active">
-        <a [routerLink]="!disableLinks ? '/main/unpaid-scripts' : []" [class.disabled]="disableLinks">            
-              <i class="fa fa-money"></i> 
+        <a [routerLink]="!disableLinks ? '/main/unpaid-scripts' : []" [class.disabled]="disableLinks">
+              <i class="fa fa-file-text-o"></i>
               <span>Unpaid Scripts</span>
             </a>
       </li>
       <li  routerLinkActive="active">
-            <a [routerLink]="!disableLinks ? '/main/payments' : []" [class.disabled]="disableLinks">            
-                  <i class="fa fa-money"></i> 
+            <a [routerLink]="!disableLinks ? '/main/payments' : []" [class.disabled]="disableLinks">
+                  <i class="fa fa-money"></i>
                   <span>Payments</span>
                 </a>
         </li>
@@ -54,19 +54,19 @@
         </li>
         <li  routerLinkActive="active">
             <a [routerLink]="!disableLinks ? '/main/reports'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
-                <i class="fa fa-bar-chart fa-fw"></i> 
+                <i class="fa fa-bar-chart fa-fw"></i>
                 <span>Reports</span>
             </a>
         </li>
          <li  routerLinkActive="active">
-            <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks">            
-                <i class="fa fa-upload"></i> 
+            <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks">
+                <i class="fa fa-upload"></i>
                 <span>File Uploads</span>
             </a>
         </li>
         <li  routerLinkActive="active">
         <a [routerLink]="!disableLinks ? '/main/users'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
-              <i class="fa fa-user fa-fw"></i> 
+              <i class="fa fa-user fa-fw"></i>
               <span>User Management</span>
             </a>
       </li>
@@ -76,7 +76,7 @@
       <ng-container *ngIf="!claimManager.loadingHistory">
         <li *ngFor="let claim of claimManager.claimHistory" [class.disabled]="disableLinks">
           <a class="history" (click)="goToClaim(claim.claimId)">
-              <i class="fa fa-check-square-o"></i> 
+              <i class="fa fa-check-square-o"></i>
               <span *ngIf="claim.name">{{claim.name}}</span>
               <span *ngIf="!claim.name">{{claim.firstName+" "+claim.lastName}}</span>
             </a>

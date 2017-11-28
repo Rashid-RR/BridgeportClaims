@@ -1,5 +1,6 @@
-﻿using System.ServiceProcess;
-using System.Threading;
+﻿using System;
+using System.ServiceProcess;
+using BridgeportClaims.FileWatcherBusiness.Logging;
 
 namespace BridgeportClaimsService.FileWatcherService
 {
@@ -10,11 +11,21 @@ namespace BridgeportClaimsService.FileWatcherService
         /// </summary>
         private static void Main()
         {
-            var servicesToRun = new ServiceBase[]
+            var loggingService = LoggingService.Instance;
+            var logger = loggingService.Logger;
+            try
             {
-                new BridgeportClaimsWindowsService()
-            };
-            ServiceBase.Run(servicesToRun);
+                var servicesToRun = new ServiceBase[]
+                {
+                    new BridgeportClaimsWindowsService()
+                };
+                ServiceBase.Run(servicesToRun);
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex);
+                throw;
+            }
         }
     }
 }
