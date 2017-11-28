@@ -138,8 +138,6 @@
     <Compile Include="Mappings\AspNetUserRolesMap.cs" />
     <Compile Include="Mappings\AspNetUsersMap.cs" />
     <Compile Include="Mappings\ClaimFlex2Map.cs" />
-    <Compile Include="Mappings\ClaimImageMap.cs" />
-    <Compile Include="Mappings\ClaimImageTypeMap.cs" />
     <Compile Include="Mappings\ClaimMap.cs" />
     <Compile Include="Mappings\ClaimNoteMap.cs" />
     <Compile Include="Mappings\ClaimNoteTypeMap.cs" />
@@ -151,6 +149,8 @@
     <Compile Include="Mappings\EpisodeMap.cs" />
     <Compile Include="Mappings\EpisodeTypeMap.cs" />
     <Compile Include="Mappings\GenderMap.cs" />
+    <Compile Include="Mappings\ImageMap.cs" />
+    <Compile Include="Mappings\ImageTypeMap.cs" />
     <Compile Include="Mappings\ImportFileMap.cs" />
     <Compile Include="Mappings\ImportFileTypeMap.cs" />
     <Compile Include="Mappings\InvoiceMap.cs" />

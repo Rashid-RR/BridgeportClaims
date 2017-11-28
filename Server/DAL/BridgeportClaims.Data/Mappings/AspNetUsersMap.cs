@@ -16,6 +16,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.FirstName).Column("FirstName").Not.Nullable().Length(100);
             Map(x => x.LastName).Column("LastName").Not.Nullable().Length(100);
             Map(x => x.RegisteredDate).Column("RegisteredDate").Not.Nullable();
+            Map(x => x.UserName).Column("UserName").Not.Nullable().Length(256);
             Map(x => x.Email).Column("Email").Length(256);
             Map(x => x.EmailConfirmed).Column("EmailConfirmed").Not.Nullable();
             Map(x => x.PasswordHash).Column("PasswordHash").Length(4000);
@@ -26,13 +27,15 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.LockoutEndDateUtc).Column("LockoutEndDateUtc");
             Map(x => x.LockoutEnabled).Column("LockoutEnabled").Not.Nullable();
             Map(x => x.AccessFailedCount).Column("AccessFailedCount").Not.Nullable().Precision(10);
-            Map(x => x.UserName).Column("UserName").Not.Nullable().Length(256);
             HasMany(x => x.AspNetUserClaims).KeyColumn("UserID");
             HasMany(x => x.AspNetUserLogins).KeyColumn("UserID");
             HasMany(x => x.AspNetUserRoles).KeyColumn("UserID");
             HasMany(x => x.ClaimNote).KeyColumn("EnteredByUserID");
-            HasMany(x => x.Diary).KeyColumn("EnteredByUserID");
+            HasMany(x => x.ClaimsUserHistory).KeyColumn("UserID");
+            HasMany(x => x.Diary).KeyColumn("AssignedToUserID");
             HasMany(x => x.PrescriptionNote).KeyColumn("EnteredByUserID");
+            HasMany(x => x.PrescriptionPayment).KeyColumn("UserID");
+            HasMany(x => x.Suspense).KeyColumn("UserID");
         }
     }
 }

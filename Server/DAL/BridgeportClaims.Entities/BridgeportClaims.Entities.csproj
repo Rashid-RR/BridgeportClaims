@@ -65,8 +65,6 @@
     <Compile Include="DomainModels\AspNetUsers.cs" />
     <Compile Include="DomainModels\Claim.cs" />
     <Compile Include="DomainModels\ClaimFlex2.cs" />
-    <Compile Include="DomainModels\ClaimImage.cs" />
-    <Compile Include="DomainModels\ClaimImageType.cs" />
     <Compile Include="DomainModels\ClaimNote.cs" />
     <Compile Include="DomainModels\ClaimNoteType.cs" />
     <Compile Include="DomainModels\ClaimPayment.cs" />
@@ -77,6 +75,8 @@
     <Compile Include="DomainModels\EpisodeLinkType.cs" />
     <Compile Include="DomainModels\EpisodeType.cs" />
     <Compile Include="DomainModels\Gender.cs" />
+    <Compile Include="DomainModels\Image.cs" />
+    <Compile Include="DomainModels\ImageType.cs" />
     <Compile Include="DomainModels\ImportFile.cs" />
     <Compile Include="DomainModels\ImportFileType.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
