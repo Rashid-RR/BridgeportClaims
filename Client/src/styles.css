@@ -545,7 +545,9 @@
     .modal-dialog .modal-content{
       overflow-y: hidden !important;
     }
-    app-claim-result *{
-      font-family: Hack;
-      font-size: 12px;
+    *:not(.fa):not(.glyphicon){
+      font-family: 'Cambay', sans-serif !important; 
+    }
+    app-claim-result *:not(.fa){
+       font-size: 14px;
     }
