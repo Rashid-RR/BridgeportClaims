@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using BridgeportClaims.FileWatcherBusiness.Extensions;
 using BridgeportClaims.FileWatcherBusiness.Logging;
@@ -8,9 +9,10 @@ using cm = BridgeportClaims.FileWatcherBusiness.ConfigService.ConfigService;
 
 namespace BridgeportClaims.FileWatcherBusiness.Providers
 {
+    [SuppressMessage("ReSharper", "PrivateFieldCanBeConvertedToLocalVariable")]
     public class FileWatcherProvider
     {
-        private FileSystemWatcher _fileWatcher;
+        private readonly FileSystemWatcher _fileWatcher;
         private static readonly Logger Logger = LoggingService.Instance.Logger;
 
         public FileWatcherProvider()
@@ -20,6 +22,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             _fileWatcher.Deleted += _fileWatcher_Deleted;
             _fileWatcher.Changed += _fileWatcher_Changed;
             _fileWatcher.EnableRaisingEvents = true;
+            _fileWatcher.IncludeSubdirectories = true;
         }
 
         private static string GetFileLocation()
@@ -39,6 +42,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
         private static void _fileWatcher_Created(object sender, FileSystemEventArgs e)
         {
             
+
         }
 
         private static void _fileWatcher_Changed(object sender, FileSystemEventArgs e)

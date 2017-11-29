@@ -11,6 +11,12 @@ namespace BridgeportClaimsService.FileWatcherService
         /// </summary>
         private static void Main()
         {
+            #if DEBUG
+
+            var service = new BridgeportClaimsWindowsService();
+            service.OnDebug();
+
+            #endif
             var loggingService = LoggingService.Instance;
             var logger = loggingService.Logger;
             try
