@@ -20,7 +20,7 @@ namespace BridgeportClaimsService.FileWatcherService
 
         protected override void OnStart(string[] args)
         {
-            _fileWatcherProvider.
+            File.Create(@"C:\Users\Public\Documents\OnStart.txt");
         }
 
         protected override void OnStop()
