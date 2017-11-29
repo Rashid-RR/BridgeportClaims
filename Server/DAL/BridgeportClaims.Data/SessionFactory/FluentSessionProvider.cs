@@ -123,6 +123,7 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<cnm>();
 					m.FluentMappings.Add<ClaimNoteTypeMap>();
 					m.FluentMappings.Add<EpisodeMap>();
+				    m.FluentMappings.Add<VwDocumentIndexMap>();
 					m.FluentMappings.Add<EpisodeTypeMap>();
 					m.FluentMappings.Add<EpisodeLinkMap>();
 					m.FluentMappings.Add<EpisodeLinkTypeMap>();

@@ -92,6 +92,7 @@
     <Compile Include="DomainModels\PrescriptionStatus.cs" />
     <Compile Include="DomainModels\Suspense.cs" />
     <Compile Include="DomainModels\UsState.cs" />
+    <Compile Include="DomainModels\Views\VwDocumentIndex.cs" />
     <Compile Include="DomainModels\Views\VwPayment.cs" />
     <Compile Include="DomainModels\Views\VwPrescriptionNote.cs" />
     <Compile Include="DomainModels\Views\VwClaimInfo.cs" />
