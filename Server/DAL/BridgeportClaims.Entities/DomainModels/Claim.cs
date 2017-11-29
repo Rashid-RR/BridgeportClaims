@@ -14,8 +14,8 @@ namespace BridgeportClaims.Entities.DomainModels
             ClaimNote = new List<ClaimNote>();
             ClaimPayment = new List<ClaimPayment>();
             ClaimsUserHistory = new List<ClaimsUserHistory>();
+            DocumentIndex = new List<DocumentIndex>();
             Episode = new List<Episode>();
-            Image = new List<Image>();
             Prescription = new List<Prescription>();
         }
         public virtual int ClaimId { get; set; }
@@ -49,8 +49,8 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual IList<ClaimNote> ClaimNote { get; set; }
         public virtual IList<ClaimPayment> ClaimPayment { get; set; }
         public virtual IList<ClaimsUserHistory> ClaimsUserHistory { get; set; }
+        public virtual IList<DocumentIndex> DocumentIndex { get; set; }
         public virtual IList<Episode> Episode { get; set; }
-        public virtual IList<Image> Image { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
     }
 }

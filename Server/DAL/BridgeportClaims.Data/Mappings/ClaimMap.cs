@@ -34,7 +34,7 @@ namespace BridgeportClaims.Data.Mappings
             HasMany(x => x.ClaimPayment).KeyColumn("ClaimID");
             HasMany(x => x.ClaimsUserHistory).KeyColumn("ClaimID");
             HasMany(x => x.Episode).KeyColumn("ClaimID");
-            HasMany(x => x.Image).KeyColumn("ClaimID");
+            HasMany(x => x.DocumentIndex).KeyColumn("ClaimID");
             HasMany(x => x.Prescription).KeyColumn("ClaimID");
         }
     }

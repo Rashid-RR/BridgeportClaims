@@ -70,13 +70,14 @@
     <Compile Include="DomainModels\ClaimPayment.cs" />
     <Compile Include="DomainModels\ClaimsUserHistory.cs" />
     <Compile Include="DomainModels\Diary.cs" />
+    <Compile Include="DomainModels\Document.cs" />
+    <Compile Include="DomainModels\DocumentIndex.cs" />
+    <Compile Include="DomainModels\DocumentType.cs" />
     <Compile Include="DomainModels\Episode.cs" />
     <Compile Include="DomainModels\EpisodeLink.cs" />
     <Compile Include="DomainModels\EpisodeLinkType.cs" />
     <Compile Include="DomainModels\EpisodeType.cs" />
     <Compile Include="DomainModels\Gender.cs" />
-    <Compile Include="DomainModels\Image.cs" />
-    <Compile Include="DomainModels\ImageType.cs" />
     <Compile Include="DomainModels\ImportFile.cs" />
     <Compile Include="DomainModels\ImportFileType.cs" />
     <Compile Include="DomainModels\Invoice.cs" />

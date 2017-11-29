@@ -115,8 +115,9 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<AspNetUserRolesMap>();
 					m.FluentMappings.Add<AspNetUsersMap>();
 					m.FluentMappings.Add<AspNetRolesMap>();
-					m.FluentMappings.Add<ImageMap>();
-					m.FluentMappings.Add<ImageTypeMap>();
+					m.FluentMappings.Add<DocumentMap>();
+				    m.FluentMappings.Add<DocumentIndexMap>();
+					m.FluentMappings.Add<DocumentTypeMap>();
 					m.FluentMappings.Add<AcctPayableMap>();
 					m.FluentMappings.Add<ClaimMap>();
 					m.FluentMappings.Add<cnm>();

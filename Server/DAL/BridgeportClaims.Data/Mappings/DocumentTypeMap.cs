@@ -3,21 +3,21 @@ using FluentNHibernate.Mapping;
 
 namespace BridgeportClaims.Data.Mappings
 {
-    public class ImageTypeMap : ClassMap<ImageType>
+    public class DocumentTypeMap : ClassMap<DocumentType>
     {
-        public ImageTypeMap()
+        public DocumentTypeMap()
         {
-            Table("ImageType");
+            Table("DocumentType");
             Schema("dbo");
-            SchemaAction.None();
             DynamicUpdate();
+            SchemaAction.None();
             LazyLoad();
-            Id(x => x.ImageTypeId).GeneratedBy.Assigned().Column("ImageTypeID");
+            Id(x => x.DocumentTypeId).GeneratedBy.Assigned().Column("DocumentTypeID");
             Map(x => x.TypeName).Column("TypeName").Not.Nullable().Length(255);
             Map(x => x.Code).Column("Code").Not.Nullable().Unique().Length(10);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
-            HasMany(x => x.Image).KeyColumn("ImageTypeID");
+            HasMany(x => x.DocumentIndex).KeyColumn("DocumentTypeID");
         }
     }
 }

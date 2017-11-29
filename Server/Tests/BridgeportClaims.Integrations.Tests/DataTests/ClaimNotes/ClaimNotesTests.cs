@@ -96,7 +96,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
         private Claim Claim => new Claim
         {
             Adjustor = Adjustor,
-            Image = null,
+            DocumentIndex = null,
             Payor = Payors.FirstOrDefault(),
             ClaimNote = new List<ClaimNote>
             {

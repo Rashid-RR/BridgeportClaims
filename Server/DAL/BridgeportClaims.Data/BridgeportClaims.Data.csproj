@@ -144,13 +144,14 @@
     <Compile Include="Mappings\ClaimPaymentMap.cs" />
     <Compile Include="Mappings\ClaimsUserHistoryMap.cs" />
     <Compile Include="Mappings\DiaryMap.cs" />
+    <Compile Include="Mappings\DocumentIndexMap.cs" />
+    <Compile Include="Mappings\DocumentMap.cs" />
+    <Compile Include="Mappings\DocumentTypeMap.cs" />
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />
     <Compile Include="Mappings\EpisodeTypeMap.cs" />
     <Compile Include="Mappings\GenderMap.cs" />
-    <Compile Include="Mappings\ImageMap.cs" />
-    <Compile Include="Mappings\ImageTypeMap.cs" />
     <Compile Include="Mappings\ImportFileMap.cs" />
     <Compile Include="Mappings\ImportFileTypeMap.cs" />
     <Compile Include="Mappings\InvoiceMap.cs" />

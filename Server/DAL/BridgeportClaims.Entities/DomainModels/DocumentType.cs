@@ -6,13 +6,14 @@ using System.Diagnostics.CodeAnalysis;
 namespace BridgeportClaims.Entities.DomainModels
 {
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
-    public class ImageType
+    public class DocumentType
     {
-        public ImageType()
+        public DocumentType()
         {
-            Image = new List<Image>();
+            DocumentIndex = new List<DocumentIndex>();
         }
-        public virtual byte ImageTypeId { get; set; }
+        [Required]
+        public virtual byte DocumentTypeId { get; set; }
         [Required]
         [StringLength(255)]
         public virtual string TypeName { get; set; }
@@ -23,6 +24,8 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-        public virtual IList<Image> Image { get; set; }
+        [Required]
+        public virtual DateTime DataVersion { get; set; }
+        public virtual IList<DocumentIndex> DocumentIndex { get; set; }
     }
 }
