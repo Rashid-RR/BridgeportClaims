@@ -9,7 +9,7 @@ GO
 	Sample Execute:
 					EXEC etl.uspProcessLakerFile
 */
-CREATE PROC [etl].[uspProcessLakerFile]
+CREATE PROC [etl].[uspProcessLakerFile] @FileName NVARCHAR(255)
 AS BEGIN
 	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 	SET DEADLOCK_PRIORITY HIGH;
@@ -971,7 +971,14 @@ AS BEGIN
 
 	-- Reversed Prescriptions
 	EXEC dbo.uspDissolveReversedPrescriptions
+
+	-- Update the last Laker file loaded
+	UPDATE  [l]
+	SET     [l].[LastFileNameLoaded] = @FileName
+	FROM    [etl].[LatestStagedLakerFileLoaded] AS [l]
+	WHERE	1 = 1
+
+	-- Do the indexing and create a new database work
+	EXECUTE util.uspDefragIndexesAndBackupDatabase
 END
-
-
 GO

@@ -5,20 +5,20 @@ GO
 /*
 	Author:			Jordan Gurney
 	Create Date:	11/29/2017
-	Description:	CRUD Proc for Deleting in table [dbo].[Document]
+	Description:	CRUD Proc for Deleting in table [dbo].[DocumentIndex]
 	Sample Execute:
-					EXEC [dbo].[uspDocumentDelete] 
+					EXEC [dbo].[uspDocumentIndexDelete] 
 */
-CREATE PROC [dbo].[uspDocumentDelete]
+CREATE PROC [dbo].[uspDocumentIndexDelete]
 	@DocumentID INT
-AS BEGIN
+AS 
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
 	
 		DELETE
-		FROM   [dbo].[Document]
+		FROM   [dbo].[DocumentIndex]
 		WHERE  [DocumentID] = @DocumentID
 	
 		IF (@@TRANCOUNT > 0)
@@ -41,5 +41,4 @@ AS BEGIN
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
-END
 GO

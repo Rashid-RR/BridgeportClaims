@@ -4,20 +4,13 @@ SET ANSI_NULLS ON
 GO
 /*
 	Author:			Jordan Gurney
-	Create Date:	11/28/2017
+	Create Date:	11/29/2017
 	Description:	CRUD Proc Updating the table [dbo].[Document]
 	Sample Execute:
 					EXEC [dbo].[uspDocumentUpdate] 
 */
 CREATE PROC [dbo].[uspDocumentUpdate]
     @DocumentID INT,
-    @ClaimID INT,
-    @DocumentTypeID TINYINT,
-    @RxDate DATETIME2,
-    @RxNumber VARCHAR(100),
-    @InvoiceNumber VARCHAR(100),
-    @InjuryDate DATETIME2,
-    @AttorneyName VARCHAR(255),
     @FileName VARCHAR(1000),
     @Extension VARCHAR(50),
     @FileSize VARCHAR(50),
@@ -29,20 +22,17 @@ CREATE PROC [dbo].[uspDocumentUpdate]
     @FileUrl NVARCHAR(4000),
     @CreatedOnUTC DATETIME2,
     @UpdatedOnUTC DATETIME2
-AS 
+AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
 	
 		UPDATE [dbo].[Document]
-		SET    [ClaimID] = @ClaimID, [DocumentTypeID] = @DocumentTypeID,
-			   [RxDate] = @RxDate, [RxNumber] = @RxNumber, [InvoiceNumber] = @InvoiceNumber, [InjuryDate]
-			   = @InjuryDate, [AttorneyName] = @AttorneyName, [FileName] = @FileName, [Extension] = @Extension,
-			   [FileSize] = @FileSize, [CreationTimeLocal] = @CreationTimeLocal, [LastAccessTimeLocal]
-			   = @LastAccessTimeLocal, [LastWriteTimeLocal] = @LastWriteTimeLocal, [DirectoryName] = 
-			   @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [CreatedOnUTC] = 
-			   @CreatedOnUTC, [UpdatedOnUTC] = @UpdatedOnUTC
+		SET    [FileName] = @FileName, [Extension] = @Extension, [FileSize] = @FileSize, [CreationTimeLocal] = @CreationTimeLocal,
+			 [LastAccessTimeLocal] = @LastAccessTimeLocal, [LastWriteTimeLocal] = @LastWriteTimeLocal, [DirectoryName]
+			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [CreatedOnUTC] = @CreatedOnUTC,
+			   [UpdatedOnUTC] = @UpdatedOnUTC
 		WHERE  [DocumentID] = @DocumentID
 	
 		IF (@@TRANCOUNT > 0)
@@ -65,4 +55,5 @@ AS
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
+END
 GO

@@ -5,20 +5,19 @@ GO
 /*
 	Author:			Jordan Gurney
 	Create Date:	11/29/2017
-	Description:	CRUD Proc inserting into [dbo].[Document]
+	Description:	CRUD Proc Updating the table [dbo].[DocumentIndex]
 	Sample Execute:
-					EXEC [dbo].[uspDocumentInsert]
+					EXEC [dbo].[uspDocumentIndexUpdate] 
 */
-CREATE PROC [dbo].[uspDocumentInsert]
-    @FileName VARCHAR(1000),
-    @Extension VARCHAR(50),
-    @FileSize VARCHAR(50),
-    @CreationTimeLocal DATETIME2,
-    @LastAccessTimeLocal DATETIME2,
-    @LastWriteTimeLocal DATETIME2,
-    @DirectoryName VARCHAR(255),
-    @FullFilePath NVARCHAR(4000),
-    @FileUrl NVARCHAR(4000),
+CREATE PROC [dbo].[uspDocumentIndexUpdate]
+    @DocumentID INT,
+    @ClaimID INT,
+    @DocumentTypeID TINYINT,
+    @RxDate DATETIME2,
+    @RxNumber VARCHAR(100),
+    @InvoiceNumber VARCHAR(100),
+    @InjuryDate DATETIME2,
+    @AttorneyName VARCHAR(255),
     @CreatedOnUTC DATETIME2,
     @UpdatedOnUTC DATETIME2
 AS 
@@ -27,11 +26,12 @@ AS
 	BEGIN TRY
 		BEGIN TRAN;
 	
-		INSERT INTO [dbo].[Document] ([FileName], [Extension], [FileSize], [CreationTimeLocal], [LastAccessTimeLocal],
-		 [LastWriteTimeLocal], [DirectoryName], [FullFilePath], [FileUrl], [CreatedOnUTC], [UpdatedOnUTC])
-		SELECT @FileName, @Extension, @FileSize, @CreationTimeLocal, @LastAccessTimeLocal, @LastWriteTimeLocal,
-		 @DirectoryName, @FullFilePath, @FileUrl, @CreatedOnUTC, @UpdatedOnUTC
-
+		UPDATE [dbo].[DocumentIndex]
+		SET    [ClaimID] = @ClaimID, [DocumentTypeID] = @DocumentTypeID, [RxDate] = @RxDate, [RxNumber] = @RxNumber, 
+				[InvoiceNumber] = @InvoiceNumber, [InjuryDate] = @InjuryDate, [AttorneyName] = @AttorneyName, 
+				[CreatedOnUTC] = @CreatedOnUTC, [UpdatedOnUTC] = @UpdatedOnUTC
+		WHERE  [DocumentID] = @DocumentID
+	
 		IF (@@TRANCOUNT > 0)
 			COMMIT
 	END TRY
