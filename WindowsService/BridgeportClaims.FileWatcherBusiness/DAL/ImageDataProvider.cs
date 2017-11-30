@@ -10,63 +10,50 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
     {
         private readonly string _dbConnStr = cm.GetDbConnStr();
 
-        internal void DeleteImageFile(string fileName) =>
+        internal int InsertDocument(string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
-                DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentInsert]", conn), cmd =>
+                return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentInsert]", conn), cmd =>
                 {
-                    var claimIdParam = cmd.CreateParameter();
-                    claimIdParam.Direction = ParameterDirection.Input;
-                    claimIdParam.DbType = DbType.Int32;
-                    claimIdParam.SqlDbType = SqlDbType.Int;
-                    claimIdParam.ParameterName = "@ClaimID";
-                    claimIdParam.Value = DBNull.Value;
-                    cmd.Parameters.Add(claimIdParam);
-                    var documentTypeIdParam = cmd.CreateParameter();
-                    documentTypeIdParam.Direction = ParameterDirection.Input;
-                    documentTypeIdParam.DbType = DbType.Byte;
-                    documentTypeIdParam.SqlDbType = SqlDbType.TinyInt;
-                    documentTypeIdParam.ParameterName = "@DocumentTypeID";
-                    documentTypeIdParam.Value = DBNull.Value;
-                    cmd.Parameters.Add(documentTypeIdParam);
-                    var rxDateParam = cmd.CreateParameter();
-                    rxDateParam.Direction = ParameterDirection.Input;
-                    rxDateParam.DbType = DbType.DateTime2;
-                    rxDateParam.SqlDbType = SqlDbType.DateTime2;
-                    rxDateParam.ParameterName = "@RxDate";
-                    rxDateParam.Value = DBNull.Value;
-                    cmd.Parameters.Add(rxDateParam);
-                    var rxNumberParam = cmd.CreateParameter();
-                    rxNumberParam.SqlDbType = SqlDbType.VarChar;
-                    rxNumberParam.Size = 100;
-                    rxNumberParam.ParameterName = "@RxNumber";
-                    rxNumberParam.Value = DBNull.Value;
-                    rxNumberParam.Direction = ParameterDirection.Input;
-                    rxNumberParam.DbType = DbType.AnsiStringFixedLength;
-                    cmd.Parameters.Add(rxNumberParam);
-                    var invoiceNumberParam = cmd.CreateParameter();
-                    invoiceNumberParam.Direction = ParameterDirection.Input;
-                    invoiceNumberParam.SqlDbType = SqlDbType.VarChar;
-                    invoiceNumberParam.Size = 100;
-                    invoiceNumberParam.DbType = DbType.AnsiStringFixedLength;
-                    invoiceNumberParam.ParameterName = "@InvoiceNumber";
-                    invoiceNumberParam.Value = DBNull.Value;
-                    cmd.Parameters.Add(invoiceNumberParam);
-                    var injuryDateParam = cmd.CreateParameter();
-                    injuryDateParam.Direction = ParameterDirection.Input;
-                    injuryDateParam.DbType = DbType.DateTime2;
-                    injuryDateParam.SqlDbType = SqlDbType.DateTime2;
-                    injuryDateParam.ParameterName = "@InjuryDate";
-                    injuryDateParam.Value = DBNull.Value;
-                    cmd.Parameters.Add(injuryDateParam);
-                    var attorneyNameParam = cmd.CreateParameter();
-                    attorneyNameParam.Size = 255;
-                    attorneyNameParam.SqlDbType = SqlDbType.VarChar;
-                    attorneyNameParam.DbType = DbType.AnsiStringFixedLength;
-                    attorneyNameParam.Direction = ParameterDirection.Input;
-                    attorneyNameParam.ParameterName = "@AttorneyName";
-                    attorneyNameParam.Value = DBNull.Value;
-                    cmd.Parameters.Add(attorneyNameParam);
+                    var fileNameParam = cmd.CreateParameter();
+                    fileNameParam.Direction = ParameterDirection.Input;
+                    fileNameParam.DbType = DbType.AnsiStringFixedLength;
+                    fileNameParam.SqlDbType = SqlDbType.VarChar;
+                    fileNameParam.ParameterName = "@FileName";
+                    fileNameParam.Size = 1000;
+                    fileNameParam.Value = fileName ?? (object) DBNull.Value;
+                    cmd.Parameters.Add(fileNameParam);
+                    var extensionParam = cmd.CreateParameter();
+                    extensionParam.Direction = ParameterDirection.Input;
+                    extensionParam.DbType = DbType.AnsiStringFixedLength;
+                    extensionParam.SqlDbType = SqlDbType.VarChar;
+                    extensionParam.ParameterName = "@Extension";
+                    extensionParam.Value = extension ?? (object) DBNull.Value;
+                    extensionParam.Size = 50;
+                    cmd.Parameters.Add(extensionParam);
+                    var fileSizeParam = cmd.CreateParameter();
+                    fileSizeParam.Direction = ParameterDirection.Input;
+                    fileSizeParam.DbType = DbType.AnsiStringFixedLength;
+                    fileSizeParam.SqlDbType = SqlDbType.VarChar;
+                    fileSizeParam.Size = 50;
+                    fileSizeParam.ParameterName = "@FileSize";
+                    fileSizeParam.Value = fileSize ?? (object) DBNull.Value;
+                    cmd.Parameters.Add(fileSizeParam);
+                    var creationTimeParam = cmd.CreateParameter();
+                    creationTimeParam.DbType = DbType.DateTime2;
+                    creationTimeParam.SqlDbType = SqlDbType.DateTime2;
+                    creationTimeParam.Direction = ParameterDirection.Input;
+                    creationTimeParam.ParameterName = "@CreationTimeLocal";
+                    creationTimeParam.Value = creationTime;
+                    cmd.Parameters.Add(creationTimeParam);
+                    var lastAccessTimeParam = cmd.CreateParameter();
+                    lastAccessTimeParam.DbType = DbType.DateTime2;
+                    lastAccessTimeParam.SqlDbType = SqlDbType.DateTime2;
+                    lastAccessTimeParam.Direction = ParameterDirection.Input;
+                    lastAccessTimeParam.ParameterName = "@LastAccessTimeLocal";
+                    lastAccessTimeParam.Value = lastAccessTime;
+                    cmd.Parameters.Add(lastAccessTimeParam);
+                    return 1;
                 });
             });
     }

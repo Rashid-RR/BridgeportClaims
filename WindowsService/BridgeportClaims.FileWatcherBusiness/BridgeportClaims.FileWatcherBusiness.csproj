@@ -48,6 +48,7 @@
     <Compile Include="DAL\ImageDataProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="IO\IoHelper.cs" />
     <Compile Include="Logging\LoggingConfigurator.cs" />
     <Compile Include="Logging\LoggingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
