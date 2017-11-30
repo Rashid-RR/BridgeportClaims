@@ -977,8 +977,5 @@ AS BEGIN
 	SET     [l].[LastFileNameLoaded] = @FileName
 	FROM    [etl].[LatestStagedLakerFileLoaded] AS [l]
 	WHERE	1 = 1
-
-	-- Do the indexing and create a new database work
-	EXECUTE util.uspDefragIndexesAndBackupDatabase
 END
 GO
