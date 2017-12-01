@@ -2,8 +2,7 @@ import {AfterViewInit,Renderer2, Component,OnDestroy, OnInit, ViewContainerRef} 
 import {Http,Headers} from "@angular/http";
 import { Router,NavigationEnd,ActivatedRoute } from '@angular/router';
 import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
-
-import {HttpService} from "./services/services.barrel";
+import {HttpService,SignalRService} from "./services/services.barrel";
 import {ProfileManager} from "./services/profile-manager";
 import {UserProfile} from "./models/profile";
 import {EventsService} from "./services/events-service";
@@ -22,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private events: EventsService,
     private profileManager: ProfileManager,
     private toast: ToastsManager,
+    private signalR: SignalRService,
     private vcr: ViewContainerRef,private route:ActivatedRoute,
     public viewContainerRef:ViewContainerRef
   ) {
@@ -32,19 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
     
   }
   ngOnInit() {
-    var user = localStorage.getItem("user");
-    /* setTimeout(()=>{
-      this.t = this.toast.warning('Please select at least one prescription 1',null,{maxShown:1,toastLife:10000}).then((toast:Toast)=>{
-        this.activeToast = toast;
-    })},1000);
-   
-    this.t = this.toast.info('Please select at least one prescription 2',null,{maxShown:1,toastLife:10000}).then((toast:Toast)=>{
-        this.activeToast = toast;
-    })
-    
-    this.t = this.toast.error('Please select at least one prescription 3',null,{maxShown:1,toastLife:10000}).then((toast:Toast)=>{
-        this.activeToast = toast;
-    }) */
+    var user = localStorage.getItem("user"); 
     if (user !== null && user.length > 0) {
       try {
         let us = JSON.parse(user);
@@ -58,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.http.userFromId(us.id).single().subscribe( res => {
                 //console.log(res);
                 this.profileManager.profile.roles = res.json().roles;
+                this.signalR.connect();
             },(error)=>{
               //console.log(error)
             });
@@ -69,6 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.events.on("logout",(v)=>{
       this.profileManager.clearUsers();
       this.profileManager.profile=undefined;
+      this.signalR.connection.stop();
     }) 
     
   }

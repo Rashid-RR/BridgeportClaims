@@ -74,7 +74,7 @@ export class ClaimManager {
     '<br> Prescriber NPI: ' + prescription.prescriberNpi +
     '<br> Pharmacy Name: ' + prescription.pharmacyName,
      null,
-    {toastLife: 10988000, showCloseButton: true, enableHTML: true, positionClass : 'toast-top-center'}).then((toast: Toast) => {
+    {toastLife: 10000, showCloseButton: true, enableHTML: true, positionClass : 'toast-top-center'}).then((toast: Toast) => {
       //$(".toast-top-right").addClass('toast-top-center')
 
       const toasts: Array<HTMLElement > = $('.toast-message');

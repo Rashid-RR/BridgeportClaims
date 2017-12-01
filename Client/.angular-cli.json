@@ -61,6 +61,7 @@
         "../node_modules/highcharts/modules/drilldown.js",
         "assets/js/app.js",
         "../node_modules/sweetalert2/dist/sweetalert2.min.js",
+        "../node_modules/signalr/jquery.signalR.js",
         "../node_modules/admin-lte/dist/js/demo.js"
       ],
       "environmentSource": "environments/environment.ts",

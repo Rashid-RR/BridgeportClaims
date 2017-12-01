@@ -58,12 +58,18 @@
                 <span>Reports</span>
             </a>
         </li>
-         <li  routerLinkActive="active">
-            <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks">
-                <i class="fa fa-upload"></i>
-                <span>File Uploads</span>
-            </a>
-        </li>
+        <li  routerLinkActive="active">
+           <a [routerLink]="!disableLinks ? '/main/unindexed-images' : []" *ngIf="allowed" [class.disabled]="disableLinks">
+               <i class="fa fa-file-pdf-o"></i>
+               <span>Unindexed Images</span>
+           </a>
+       </li>
+       <li  routerLinkActive="active">
+          <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks">
+              <i class="fa fa-upload"></i>
+              <span>File Uploads</span>
+          </a>
+      </li>
         <li  routerLinkActive="active">
         <a [routerLink]="!disableLinks ? '/main/users'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
               <i class="fa fa-user fa-fw"></i>

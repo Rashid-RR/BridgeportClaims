@@ -11,7 +11,7 @@ import { ConfirmComponent } from './components/confirm.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import {Ng2Webstorage} from 'ng2-webstorage';
 import { AutoCompleteModule} from './auto-complete';
-
+import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr';
 import {WindowsInjetor,WindowBackdrop,BootstrapWindowContainer} from "./components/ng-window";
 // Layouts 
 import {HeaderComponent} from './layouts/header/header.component';
@@ -33,8 +33,8 @@ import { DiaryResultsComponent } from './components/diary-results/diary-results.
 import { DiaryComponent } from './pages/diary/diary.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
  // services
-import { DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, 
-  PaymentScriptService,UnpaidScriptService,AccountReceivableService,ReportLoaderService} from './services/services.barrel';
+import { SignalRService,DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, 
+  PaymentScriptService,UnpaidScriptService,AccountReceivableService,ReportLoaderService,DocumentManagerService} from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { ClaimSearchComponent } from './components/claim-search/claim-search.component';
@@ -53,7 +53,8 @@ import { DiariesFilterPipe } from './components/diary-results/diary-filter.pipe'
 import { DecimalPipe } from '@angular/common';
 import { PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
         PaymentDetailedResultComponent,DiaryScriptNoteWindowComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent,
-        AccountReceivableSearchComponent,AccountReceivableResultComponent
+        AccountReceivableSearchComponent,AccountReceivableResultComponent,
+        UnindexedImageFilterComponent,UnindexedImageListComponent
     } from './components/components-barrel';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
@@ -65,6 +66,7 @@ import { ReportComponent } from './pages/report/report.component';
 import { ReportListComponent } from './pages/report-list/report-list.component';
 import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
 import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
+import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
  
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -81,6 +83,15 @@ export class SafeUrlPipe implements PipeTransform {
     return this.sanitized.bypassSecurityTrustUrl(value);
   }
 }
+export function createConfig(): SignalRConfiguration {
+  const c = new SignalRConfiguration();
+  c.hubName = 'Ng2SignalRHub';
+  c.qs = { user: 'donald' };
+  c.url = 'http://ng2-signalr-backend.azurewebsites.net/';
+  c.logging = true;
+  return c;
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -103,13 +114,14 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent
   ],
   imports: [
     BrowserModule,
     AutoCompleteModule,
     BrowserAnimationsModule,
     ToastModule.forRoot(),
+    SignalRModule.forRoot(createConfig),
     BootstrapModalModule,
     FormsModule,
     ReactiveFormsModule,
@@ -120,7 +132,8 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   providers: [
     DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
-    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,
+    PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,SignalRService,
+    DocumentManagerService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

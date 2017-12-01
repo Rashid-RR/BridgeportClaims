@@ -39,6 +39,8 @@
     "zone.js": "^0.8.4",
     "highcharts": "6.0.1",
     "@types/file-saver":"*",
+    "signalr":"2.2.2",
+    "ng2-signalr":"2.1.1",
     "file-saver":"*"
   },
   "devDependencies": {
