@@ -1,8 +1,13 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using BridgeportClaims.FileWatcherBusiness.Dto;
+using BridgeportClaims.FileWatcherBusiness.URL;
 
 namespace BridgeportClaims.FileWatcherBusiness.IO
 {
-    internal static class IoHelper
+    public static class IoHelper
     {
         internal static string GetFileSize(double byteCount)
         {
@@ -16,6 +21,27 @@ namespace BridgeportClaims.FileWatcherBusiness.IO
             else if (byteCount > 0 && byteCount < 1024.0)
                 size = byteCount.ToString(CultureInfo.InvariantCulture) + " Bytes";
             return size;
+        }
+
+        public static IEnumerable<DocumentDto> TraverseDirectories(string path)
+        {
+            var files = Directory.EnumerateFiles(path, "*.pdf", SearchOption.AllDirectories).ToList();
+            if (!files.Any())
+                return null;
+            return files.Select(file => new FileInfo(file))
+                .Select(f => new DocumentDto
+                {
+                    CreationTimeLocal = f.CreationTime,
+                    DirectoryName = f.DirectoryName,
+                    Extension = f.Extension,
+                    FileName = f.Name,
+                    FileSize = GetFileSize(f.Length),
+                    FileUrl = UrlHelper.GetUrlFromFullFileName(f.FullName),
+                    FullFilePath = f.FullName,
+                    LastAccessTimeLocal = f.LastAccessTime,
+                    LastWriteTimeLocal = f.LastWriteTime
+                })
+                .AsEnumerable();
         }
     }
 }

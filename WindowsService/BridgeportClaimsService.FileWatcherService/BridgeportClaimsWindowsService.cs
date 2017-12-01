@@ -6,11 +6,10 @@ namespace BridgeportClaimsService.FileWatcherService
 {
     public partial class BridgeportClaimsWindowsService : ServiceBase
     {
-        private readonly FileWatcherProvider _fileWatcherProvider;
+        private FileWatcherProvider _fileWatcherProvider;
         public BridgeportClaimsWindowsService()
         {
             InitializeComponent();
-            _fileWatcherProvider = new FileWatcherProvider();
         }
 
         internal void OnDebug()
@@ -20,12 +19,11 @@ namespace BridgeportClaimsService.FileWatcherService
 
         protected override void OnStart(string[] args)
         {
-            File.Create(@"C:\Users\Public\Documents\OnStart.txt");
+            _fileWatcherProvider = new FileWatcherProvider();
         }
 
         protected override void OnStop()
         {
-            File.Create(@"C:\Users\Public\Documents\OnStop.txt");
         }
     }
 }
