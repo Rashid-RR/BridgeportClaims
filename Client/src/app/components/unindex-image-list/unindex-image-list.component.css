@@ -1,0 +1,7 @@
+.expanded{
+    height: calc(100vh - 270px);
+    height: -moz-calc(100vh - 270px);
+    height: -webkit-calc(100vh - 270px);
+    height: -o-calc(100vh - 270px);
+    overflow:hidden;
+}

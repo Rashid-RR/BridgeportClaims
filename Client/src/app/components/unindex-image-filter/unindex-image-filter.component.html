@@ -1,3 +1,24 @@
-<p>
-  unindex-image-filter works!
-</p>
+<form role="form"  autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
+  <div class="row">
+      <div class="col-md-3">
+          <div class="form-group">
+              <label>Date</label>
+              <div class="input-group date">
+                  <div class="input-group-addon">
+                      <i class="fa fa-calendar"></i>
+                  </div>
+                  <input class="form-control pull-right" id="date" name="date" type="text" [(ngModel)]="date" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+              </div>
+          </div>
+      </div>
+      <div class="col-sm-3 col-md-2 flex">
+          <div class="form-group">
+              <label>&nbsp;</label><br/>
+              <span>
+                 <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button>  &nbsp;
+                  <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="clearDates()">Clear Date</button>                 
+              </span>
+          </div>
+      </div> 
+  </div>
+</form>

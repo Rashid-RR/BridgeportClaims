@@ -12,9 +12,7 @@ import { DocumentItem } from '../models/document';
 export class DocumentManagerService {
     loading: Boolean = false; 
     documents: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
-    data:any={};
-    owner:String;
-    diaryNote:String;
+    data:any={}; 
     totalRowCount:number;
     constructor(private http: HttpService,private formBuilder: FormBuilder, 
         private events: EventsService, private toast: ToastsManager) { 
@@ -27,7 +25,26 @@ export class DocumentManagerService {
         };
         this.search();
     }
+    get pages():Array<any>{
+      return new Array(this.data.page);
+    }
+    documentList():Array<DocumentItem>{
+      return this.documents.toArray();
 
+    }
+    get pageStart(){
+        return this.documentList.length>1 ? ((this.data.page-1)*this.data.pageSize)+1 : null;
+    }
+    get pageEnd(){
+      return this.documentList.length>1 ? (this.data.pageSize>this.documentList.length ? ((this.data.page-1)*this.data.pageSize)+this.documentList.length : (this.data.page)*this.data.pageSize) : null;
+    }
+    get totalPages(){
+      return this.totalRowCount ? Math.ceil(this.totalRowCount/this.data.pageSize): null;
+    }
+  
+    get end():Boolean{
+      return this.pageStart && this.data.pageSize>this.documentList.length;
+    }
     search(next:Boolean=false,prev:Boolean=false,page:number = undefined){
         if (!this.data) {
           this.toast.warning('Please populate at least one search field.');
