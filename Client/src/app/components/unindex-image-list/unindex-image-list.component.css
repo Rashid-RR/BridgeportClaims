@@ -78,7 +78,9 @@ tbody>.products-list>.item:hover {
 .pagination-row  .input-group .form-control{
     height:28px;
 }
-
+.table-body.grid{
+    top:2px;
+}
 .flex-row{ 
     display: flex;
     flex-direction: row;
@@ -88,10 +90,12 @@ tbody>.products-list>.item:hover {
     text-align: center;
     width:100px;
     margin:2.5px;
+    padding:5px;
     border:1px solid #ddd;
     display: flex;
     flex-direction: column;
     max-width:100px; 
+    cursor: pointer;
 }
 .flex-row .file,
 .flex-row .caption {
