@@ -66,6 +66,7 @@
     <Compile Include="DataProviders\DateDisplay\IDateDisplayProvider.cs" />
     <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />
     <Compile Include="DataProviders\Diaries\IDiaryProvider.cs" />
+    <Compile Include="DataProviders\Documents\DocumentsProvider.cs" />
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
     <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
     <Compile Include="DataProviders\ImportFiles\IImportFileProvider.cs" />
