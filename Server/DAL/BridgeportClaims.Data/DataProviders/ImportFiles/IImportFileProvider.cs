@@ -16,6 +16,6 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
         IList<ImportFileDto> GetImportFileDtos();
         void MarkFileProcessed(string fileName);
         void SaveFileToDatabase(Stream stream, string fileName, string fileExtension, string fileDescription);
-        void EtlLakerFile();
+        void EtlLakerFile(string fileName);
     }
 }

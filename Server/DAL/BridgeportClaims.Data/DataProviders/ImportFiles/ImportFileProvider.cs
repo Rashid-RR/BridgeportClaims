@@ -286,14 +286,22 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 	        return new Tuple<int, bool>(result.ImportFileTypeId, processed);
 	    }
 
-	    public void EtlLakerFile()
+	    public void EtlLakerFile(string fileName)
 		{
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
 			{
 				DisposableService.Using(() => new SqlCommand("etl.uspProcessLakerFile", connection), cmd =>
 				{
+				    var fileNameParam = cmd.CreateParameter();
+                    fileNameParam.Direction= ParameterDirection.Input;
+				    fileNameParam.Value = fileName ?? (object) DBNull.Value;
+				    fileNameParam.ParameterName = "@FileName";
+                    fileNameParam.DbType = DbType.AnsiStringFixedLength;
+				    fileNameParam.SqlDbType = SqlDbType.NVarChar;
+				    fileNameParam.Size = 255;
+                    cmd.Parameters.Add(fileNameParam);
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.CommandTimeout = 600; // 10 Minutes.
+					cmd.CommandTimeout = 1200; // 20 Minutes.
 					if (connection.State != ConnectionState.Open)
 						connection.Open();
 					cmd.ExecuteNonQuery();

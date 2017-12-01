@@ -30,6 +30,7 @@ using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
 using BridgeportClaims.Data.DataProviders.Diaries;
+using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.KPI;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
@@ -61,6 +62,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
             builder.RegisterType<ReportsDataProvider>().As<IReportsDataProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionPaymentProvider>().As<IPrescriptionPaymentProvider>().InstancePerRequest();
+            builder.RegisterType<DocumentsProvider>().As<IDocumentsProvider>().InstancePerRequest();
             
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();

@@ -264,6 +264,7 @@
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
+    <Compile Include="Controllers\DocumentsController.cs" />
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
@@ -309,6 +310,7 @@
     <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\RoleReturnModel.cs" />
     <Compile Include="Models\SaveEpisodeModel.cs" />
+    <Compile Include="Models\DocumentViewModel.cs" />
     <Compile Include="Models\SuspenseViewModel.cs" />
     <Compile Include="Models\UnpaidScriptsDto.cs" />
     <Compile Include="Models\UnpaidScriptsViewModel.cs" />

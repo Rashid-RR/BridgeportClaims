@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceProcess;
 using BridgeportClaims.FileWatcherBusiness.Logging;
+using System.Threading;
 
 namespace BridgeportClaimsService.FileWatcherService
 {
@@ -11,6 +12,11 @@ namespace BridgeportClaimsService.FileWatcherService
         /// </summary>
         private static void Main()
         {
+            #if DEBUG
+            var service = new BridgeportClaimsWindowsService();
+            service.OnDebug();
+            Thread.Sleep(Timeout.Infinite);
+            #else
             var loggingService = LoggingService.Instance;
             var logger = loggingService.Logger;
             try
@@ -26,6 +32,7 @@ namespace BridgeportClaimsService.FileWatcherService
                 logger.Error(ex);
                 throw;
             }
+            #endif
         }
     }
 }

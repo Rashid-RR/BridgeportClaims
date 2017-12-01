@@ -79,7 +79,7 @@ namespace BridgeportClaims.Web.Controllers
                 // Finally, use the newly imported file, to Upsert the database.
                 if (cs.AppIsInDebugMode)
                     Logger.Info("In the belly of the beast, Background worker process.");
-                _importFileProvider.EtlLakerFile();
+                _importFileProvider.EtlLakerFile(lakerFileName);
                 // And finally, mark the file processed.
                 _importFileProvider.MarkFileProcessed(lakerFileName);
                 e.Result = lakerFileName;

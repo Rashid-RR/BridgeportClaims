@@ -1,10 +1,12 @@
-﻿using System.IO;
-using System.ServiceProcess;
+﻿using System.ServiceProcess;
+using BridgeportClaims.FileWatcherBusiness.Providers;
+using BridgeportClaims.FileWatcherBusiness.Proxy;
 
 namespace BridgeportClaimsService.FileWatcherService
 {
     public partial class BridgeportClaimsWindowsService : ServiceBase
     {
+        private FileWatcherProvider _fileWatcherProvider;
         public BridgeportClaimsWindowsService()
         {
             InitializeComponent();
@@ -17,12 +19,13 @@ namespace BridgeportClaimsService.FileWatcherService
 
         protected override void OnStart(string[] args)
         {
-            File.Create(@"C:\Users\Public\Documents\OnStart.txt");
+            var proxyProvider = new ProxyProvider();
+            proxyProvider.InitializeFirstFileTraversalIfNecessary();
+            _fileWatcherProvider = new FileWatcherProvider();
         }
 
         protected override void OnStop()
         {
-            File.Create(@"C:\Users\Public\Documents\OnStop.txt");
         }
     }
 }

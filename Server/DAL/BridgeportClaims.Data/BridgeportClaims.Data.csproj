@@ -66,6 +66,8 @@
     <Compile Include="DataProviders\DateDisplay\IDateDisplayProvider.cs" />
     <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />
     <Compile Include="DataProviders\Diaries\IDiaryProvider.cs" />
+    <Compile Include="DataProviders\Documents\DocumentsProvider.cs" />
+    <Compile Include="DataProviders\Documents\IDocumentsProvider.cs" />
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
     <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
     <Compile Include="DataProviders\ImportFiles\IImportFileProvider.cs" />
@@ -105,6 +107,8 @@
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\DiariesDto.cs" />
     <Compile Include="Dtos\DiaryResultDto.cs" />
+    <Compile Include="Dtos\DocumentResultDto.cs" />
+    <Compile Include="Dtos\DocumentsDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
@@ -144,13 +148,14 @@
     <Compile Include="Mappings\ClaimPaymentMap.cs" />
     <Compile Include="Mappings\ClaimsUserHistoryMap.cs" />
     <Compile Include="Mappings\DiaryMap.cs" />
+    <Compile Include="Mappings\DocumentIndexMap.cs" />
+    <Compile Include="Mappings\DocumentMap.cs" />
+    <Compile Include="Mappings\DocumentTypeMap.cs" />
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />
     <Compile Include="Mappings\EpisodeTypeMap.cs" />
     <Compile Include="Mappings\GenderMap.cs" />
-    <Compile Include="Mappings\ImageMap.cs" />
-    <Compile Include="Mappings\ImageTypeMap.cs" />
     <Compile Include="Mappings\ImportFileMap.cs" />
     <Compile Include="Mappings\ImportFileTypeMap.cs" />
     <Compile Include="Mappings\InvoiceMap.cs" />
@@ -165,6 +170,7 @@
     <Compile Include="Mappings\PrescriptionStatusMap.cs" />
     <Compile Include="Mappings\SuspenseMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
+    <Compile Include="Mappings\Views\VwDocumentIndexMap.cs" />
     <Compile Include="Mappings\Views\VwPaymentMap.cs" />
     <Compile Include="Mappings\Views\VwPrescriptionNoteMap.cs" />
     <Compile Include="Mappings\Views\VwClaimInfoMap.cs" />

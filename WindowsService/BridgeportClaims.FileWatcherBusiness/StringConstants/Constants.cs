@@ -5,5 +5,7 @@
         public const string DbConnStrName = "BridgeportClaimsConnectionString";
         public const string AppIsInDebugMode = "ApplicationIsInDebugMode";
         public const string FileLocationKey = "ScannedLocation";
+        public const string PerformInitialDirectoryTraversalKey = "PerformInitialDirectoryTraversal";
+        public const string ImagesRootDomainNameKey = "ImagesRootDomainName";
     }
 }

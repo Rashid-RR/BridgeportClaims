@@ -1,9 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Data.Dtos
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public class PaymentPostingDto
+    [Serializable]
+    public sealed class PaymentPostingDto
     {
         public int PrescriptionID { get; set; }
         public decimal AmountPosted { get; set; }
