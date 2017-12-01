@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using BridgeportClaims.FileWatcherBusiness.Dto;
 using BridgeportClaims.FileWatcherBusiness.URL;
+using c = BridgeportClaims.FileWatcherBusiness.StringConstants.Constants;
+using cs = BridgeportClaims.FileWatcherBusiness.ConfigService.ConfigService;
 
 namespace BridgeportClaims.FileWatcherBusiness.IO
 {
@@ -23,9 +25,10 @@ namespace BridgeportClaims.FileWatcherBusiness.IO
             return size;
         }
 
-        public static IEnumerable<DocumentDto> TraverseDirectories(string path)
+        public static IEnumerable<DocumentDto> TraverseDirectories(string path, string rootDomain)
         {
             var files = Directory.EnumerateFiles(path, "*.pdf", SearchOption.AllDirectories).ToList();
+            var pathToRemove = cs.GetAppSetting(c.FileLocationKey);
             if (!files.Any())
                 return null;
             return files.Select(file => new FileInfo(file))
@@ -36,7 +39,7 @@ namespace BridgeportClaims.FileWatcherBusiness.IO
                     Extension = f.Extension,
                     FileName = f.Name,
                     FileSize = GetFileSize(f.Length),
-                    FileUrl = UrlHelper.GetUrlFromFullFileName(f.FullName),
+                    FileUrl = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove),
                     FullFilePath = f.FullName,
                     LastAccessTimeLocal = f.LastAccessTime,
                     LastWriteTimeLocal = f.LastWriteTime

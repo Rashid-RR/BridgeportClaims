@@ -1,6 +1,6 @@
-﻿using System.IO;
-using System.ServiceProcess;
+﻿using System.ServiceProcess;
 using BridgeportClaims.FileWatcherBusiness.Providers;
+using BridgeportClaims.FileWatcherBusiness.Proxy;
 
 namespace BridgeportClaimsService.FileWatcherService
 {
@@ -19,6 +19,8 @@ namespace BridgeportClaimsService.FileWatcherService
 
         protected override void OnStart(string[] args)
         {
+            var proxyProvider = new ProxyProvider();
+            proxyProvider.InitializeFirstFileTraversalIfNecessary();
             _fileWatcherProvider = new FileWatcherProvider();
         }
 

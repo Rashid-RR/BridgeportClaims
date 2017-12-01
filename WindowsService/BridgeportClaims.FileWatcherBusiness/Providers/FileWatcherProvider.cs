@@ -59,7 +59,9 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                     return; //ignore directories, only process files
                 var f = new FileInfo(e.FullPath);
                 var fileSize = IoHelper.GetFileSize(f.Length);
-                var url = UrlHelper.GetUrlFromFullFileName(f.FullName);
+                var pathToRemove = cs.GetAppSetting(c.FileLocationKey);
+                var rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
+                var url = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove);
                 var documentId = _imageDataProvider.InsertDocument(f.Name, f.Extension, fileSize, f.CreationTime,
                     f.LastAccessTime, f.LastWriteTime, f.DirectoryName, f.FullName, url);
                 if (!cs.AppIsInDebugMode) return;
@@ -84,7 +86,9 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                     return; //ignore directories, only process files
                 var f = new FileInfo(e.FullPath);
                 var fileSize = IoHelper.GetFileSize(f.Length);
-                var url = UrlHelper.GetUrlFromFullFileName(f.FullName);
+                var pathToRemove = cs.GetAppSetting(c.FileLocationKey);
+                var rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
+                var url = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove);
                 var documentId = _imageDataProvider.GetDocumentIdByDocumentName(f.Name);
                 _imageDataProvider.UpdateDocument(documentId, f.Name, f.Extension, fileSize, f.CreationTime, f.LastAccessTime, 
                     f.LastWriteTime, f.DirectoryName, f.FullName, url);
