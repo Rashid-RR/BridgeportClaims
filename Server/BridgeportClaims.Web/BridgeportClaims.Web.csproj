@@ -310,6 +310,7 @@
     <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\RoleReturnModel.cs" />
     <Compile Include="Models\SaveEpisodeModel.cs" />
+    <Compile Include="Models\SortableViewModel.cs" />
     <Compile Include="Models\SuspenseViewModel.cs" />
     <Compile Include="Models\UnpaidScriptsDto.cs" />
     <Compile Include="Models\UnpaidScriptsViewModel.cs" />

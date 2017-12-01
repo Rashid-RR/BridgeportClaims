@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using NLog;
+using System;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Documents;
-using NLog;
+using BridgeportClaims.Web.Models;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -14,16 +12,20 @@ namespace BridgeportClaims.Web.Controllers
     public class DocumentsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly DocumentsProvider _documentsProvider;
+        private readonly IDocumentsProvider _documentsProvider;
+
+        public DocumentsController(IDocumentsProvider documentsProvider)
+        {
+            _documentsProvider = documentsProvider;
+        }
 
         [HttpPost]
-        [Route("remove")]
-        public IHttpActionResult RemoveDiary(int prescriptionNoteId)
+        [Route("get")]
+        public IHttpActionResult GetDocuments(SortableViewModel model)
         {
             try
             {
-                _diaryProvider.RemoveDiary(prescriptionNoteId);
-                return Ok(new { message = "The diary entry was removed successfully." });
+                return Ok(_documentsProvider.GetDocuments(model.Sort, model.SortDirection, model.Page, model.PageSize));
             }
             catch (Exception ex)
             {
