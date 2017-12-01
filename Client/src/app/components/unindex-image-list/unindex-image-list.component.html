@@ -1,16 +1,78 @@
 <div class="row claim-info">
   <div class="col-sm-12 expanded" style="overflow:hidden;">
-
-      <div class="btn-group pagination-row">
-          <button type="button" class="btn btn-default  btn-md" [disabled]="ds.data.page<=1" (click)="prev()">Prev</button>
-          <button type="button" class="btn btn-default  selected btn-md">   {{ds.data.page}} of {{ds.totalPages}}</button>
-          <button type="button" class="btn btn-default  btn-md" [disabled]="ds.end" (click)="next()">Next</button>
-          <div class="input-group" style="width:134px">
-              <input class="form-control" [attr.placeholder]="ds.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)" (keyup.enter)="goto()">
-              <div class="input-group-btn">
-                  <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
-              </div>
+    <div class="table-responsive top-header" *ngIf="ds.display=='list'">
+      <ul class="products-list product-list-in-box">
+        <li class="item row">
+          <div class="col-md-1">
+            &nbsp;
           </div>
+          <div class="col-md-2">
+            Name
+          </div>
+          <div class="col-md-1">
+            Size
+          </div>
+          <div class="col-md-2">
+            Created
+          </div>
+          <div class="col-md-2">
+            Last Accessed
+          </div>
+          <div class="col-md-2">
+            Last Write
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="table-responsive table-body"  *ngIf="ds.display=='list'">
+      <ul class="products-list product-list-in-box">
+        <li class="item row" *ngFor="let file of ds.documentList">
+          <div class="col-md-1">
+            <i class="fa fa-file-pdf-o text-red"></i>
+          </div>
+          <div class="col-md-2">
+            {{file.fileName}}
+          </div>
+          <div class="col-md-1">
+            {{file.fileSize}}
+          </div>
+          <div class="col-md-2">
+            {{file.creationTimeLocal | date : 'mediumDate'}} {{file.creationTimeLocal | date : 'mediumTime'}}
+          </div>
+          <div class="col-md-2">
+            {{file.lastAccessTimeLocal | date : 'mediumDate'}} {{file.lastAccessTimeLocal | date : 'mediumTime'}}
+          </div>
+          <div class="col-md-2">
+            {{file.lastWriteTimeLocal | date : 'mediumDate'}} {{file.lastWriteTimeLocal | date : 'mediumTime'}}
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="table-responsive table-body grid"  *ngIf="ds.display=='grid'">
+          <div class="row">
+            <div class="col-md-12 flex-row">
+                <div class="file" *ngFor="let file of ds.documentList">
+                  <div class="card-body">
+                    <i class="fa fa-3x text-red fa-file-pdf-o"></i>
+                  </div>
+                  <div class="caption">
+                    {{file.fileName}}
+                  </div>
+                </div>
+            </div>
+          </div>
+    </div>
+    <div class="btn-group pagination-row">
+      <button type="button" class="btn btn-default  btn-md" [disabled]="ds.data.page<=1" (click)="prev()">Prev</button>
+      <button type="button" class="btn btn-default  selected btn-md"> {{ds.data.page}} of {{ds.totalPages}}</button>
+      <button type="button" class="btn btn-default  btn-md" [disabled]="ds.end" (click)="next()">Next</button>
+      <div class="input-group" style="width:134px">
+        <input class="form-control" [attr.placeholder]="ds.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)" (keyup.enter)="goto()">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
+        </div>
       </div>
+    </div>
   </div>
 </div>

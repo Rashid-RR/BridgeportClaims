@@ -13,6 +13,7 @@ export class DocumentManagerService {
     loading: Boolean = false; 
     documents: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
     data:any={}; 
+    display:string='list';
     totalRowCount:number;
     constructor(private http: HttpService,private formBuilder: FormBuilder, 
         private events: EventsService, private toast: ToastsManager) { 
@@ -28,9 +29,8 @@ export class DocumentManagerService {
     get pages():Array<any>{
       return new Array(this.data.page);
     }
-    documentList():Array<DocumentItem>{
+    get documentList():Array<DocumentItem>{
       return this.documents.toArray();
-
     }
     get pageStart(){
         return this.documentList.length>1 ? ((this.data.page-1)*this.data.pageSize)+1 : null;
@@ -39,10 +39,11 @@ export class DocumentManagerService {
       return this.documentList.length>1 ? (this.data.pageSize>this.documentList.length ? ((this.data.page-1)*this.data.pageSize)+this.documentList.length : (this.data.page)*this.data.pageSize) : null;
     }
     get totalPages(){
-      return this.totalRowCount ? Math.ceil(this.totalRowCount/this.data.pageSize): null;
+      return this.totalRowCount ? Math.ceil(this.totalRowCount/this.data.pageSize): 0;
     }
   
     get end():Boolean{
+      console.log(this.documentList);
       return this.pageStart && this.data.pageSize>this.documentList.length;
     }
     search(next:Boolean=false,prev:Boolean=false,page:number = undefined){

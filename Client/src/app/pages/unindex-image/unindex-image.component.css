@@ -27,6 +27,7 @@
 
 .total {
     display: block;
+    margin-right:60px; 
 }
 
 .diary-results {
@@ -43,4 +44,12 @@
 
 .white {
     color: #ffffff;
+}
+.documents{
+    padding-top:0px;
+    padding-bottom:5px;
+}
+.transparent,.transparent:hover{
+    background: transparent;
+    color:white
 }
