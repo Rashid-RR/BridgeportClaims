@@ -10,13 +10,20 @@ namespace BridgeportClaims.Data.DataProviders.Documents
 {
     public class DocumentsProvider : IDocumentsProvider
     {
-        public DocumentsDto GetDocuments(string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+        public DocumentsDto GetDocuments(DateTime? date, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                return DisposableService.Using(() => new SqlCommand("", conn), cmd =>
+                return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocuments]", conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     var retVal = new DocumentsDto();
+                    var dateParam = cmd.CreateParameter();
+                    dateParam.Direction = ParameterDirection.Input;
+                    dateParam.SqlDbType = SqlDbType.Date;
+                    dateParam.DbType = DbType.Date;
+                    dateParam.Value = date ?? (object) DBNull.Value;
+                    dateParam.ParameterName = "@Date";
+                    cmd.Parameters.Add(dateParam);
                     var sortColumnParam = cmd.CreateParameter();
                     sortColumnParam.Direction = ParameterDirection.Input;
                     sortColumnParam.SqlDbType = SqlDbType.VarChar;

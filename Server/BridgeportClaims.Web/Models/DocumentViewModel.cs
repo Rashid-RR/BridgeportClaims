@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 namespace BridgeportClaims.Web.Models
 {
     [Serializable]
-    public sealed class SortableViewModel
+    public sealed class DocumentViewModel
     {
+        public DateTime? Date { get; set; }
         [Required]
         [StringLength(50)]
         public string Sort { get; set; }

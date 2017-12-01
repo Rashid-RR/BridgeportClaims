@@ -21,11 +21,11 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get")]
-        public IHttpActionResult GetDocuments(SortableViewModel model)
+        public IHttpActionResult GetDocuments(DocumentViewModel model)
         {
             try
             {
-                return Ok(_documentsProvider.GetDocuments(model.Sort, model.SortDirection, model.Page, model.PageSize));
+                return Ok(_documentsProvider.GetDocuments(model.Date, model.Sort, model.SortDirection, model.Page, model.PageSize));
             }
             catch (Exception ex)
             {
