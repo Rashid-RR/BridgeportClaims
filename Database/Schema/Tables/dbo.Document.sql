@@ -7,9 +7,9 @@ CREATE TABLE [dbo].[Document]
 [CreationTimeLocal] [datetime2] NOT NULL,
 [LastAccessTimeLocal] [datetime2] NOT NULL,
 [LastWriteTimeLocal] [datetime2] NOT NULL,
-[DirectoryName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DirectoryName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [FullFilePath] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[FileUrl] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FileUrl] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL

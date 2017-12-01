@@ -19,21 +19,24 @@ CREATE PROC [dbo].[uspDocumentInsert]
     @DirectoryName VARCHAR(255),
     @FullFilePath NVARCHAR(4000),
     @FileUrl NVARCHAR(4000),
-    @CreatedOnUTC DATETIME2,
-    @UpdatedOnUTC DATETIME2
-AS 
+	@DocumentID INT OUTPUT
+AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
+
+		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
 	
 		INSERT INTO [dbo].[Document] ([FileName], [Extension], [FileSize], [CreationTimeLocal], [LastAccessTimeLocal],
 		 [LastWriteTimeLocal], [DirectoryName], [FullFilePath], [FileUrl], [CreatedOnUTC], [UpdatedOnUTC])
 		SELECT @FileName, @Extension, @FileSize, @CreationTimeLocal, @LastAccessTimeLocal, @LastWriteTimeLocal,
-		 @DirectoryName, @FullFilePath, @FileUrl, @CreatedOnUTC, @UpdatedOnUTC
+		 @DirectoryName, @FullFilePath, @FileUrl, @UtcNow, @UtcNow
+
+		SELECT @DocumentID = SCOPE_IDENTITY();
 
 		IF (@@TRANCOUNT > 0)
-			COMMIT
+			COMMIT;
 	END TRY
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
@@ -52,4 +55,5 @@ AS
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
+END
 GO
