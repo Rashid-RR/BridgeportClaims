@@ -31,6 +31,7 @@ import { ReportComponent } from './pages/report/report.component';
 import { ReportListComponent } from './pages/report-list/report-list.component';
 import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
 import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
+import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 
 export const routes: Routes = [
   {
@@ -104,6 +105,10 @@ export const routes: Routes = [
           {
             path: 'payors',
             component: PayorsComponent
+          },
+          {
+            path: 'unindexed-images',
+            component:UnindexedImageComponent
           },
           {
             path: 'unpaid-scripts',

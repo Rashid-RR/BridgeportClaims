@@ -547,6 +547,7 @@
     }
     *:not(.fa):not(.glyphicon){
       font-family: 'Cambay', sans-serif !important; 
+      font-size: 14px;
     }
     app-claim-result *:not(.fa){
        font-size: 14px;

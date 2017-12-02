@@ -10,4 +10,5 @@ export * from "./diary.service"
 export * from "./report-loader.service"
 export * from "./account-receivable.service"
 export * from "./unpaid-script.service"
-export * from "./payment-script-service"
+export * from "./payment-script-service";
+export * from "./document-manager.service";
