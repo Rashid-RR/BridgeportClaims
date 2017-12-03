@@ -15,8 +15,8 @@ export class SignalRService {
     messages: { msgFrom: string, msg: string }[] = [];
     loading = false;
     constructor(private _ngZone: NgZone) {
-        const fileref = document.createElement('script')
-        fileref.setAttribute('type', 'text/javascript')
+        const fileref = document.createElement('script');
+        fileref.setAttribute('type', 'text/javascript');
         fileref.setAttribute('src', 'signalr/hubs');
         $('body').append(fileref);
         this.connection = $.connection;
@@ -53,8 +53,10 @@ export class SignalRService {
     }
     // method for sending message
     broadcastMessage(hub: string, method: string, msg: any) {
-        // invoke method by its name using proxy
-        const proxy = this.proxies.find(p => p.id == hub);
-        proxy.value.invoke(method, msg);
+        this._ngZone.run(() => {
+            // invoke method by its name using proxy
+            const proxy = this.proxies.find(p => p.id == hub);
+            proxy.value.invoke(method, msg);
+        });
     }
 }
