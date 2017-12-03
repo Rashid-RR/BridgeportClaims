@@ -60,12 +60,16 @@
   <ItemGroup>
     <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
+    <Compile Include="DataProviders\ClaimSearches\IClaimSearchProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\DateDisplay\DateDisplayProvider.cs" />
     <Compile Include="DataProviders\DateDisplay\IDateDisplayProvider.cs" />
     <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />
     <Compile Include="DataProviders\Diaries\IDiaryProvider.cs" />
+    <Compile Include="DataProviders\DocumentIndexes\DocumentIndexProvider.cs" />
+    <Compile Include="DataProviders\DocumentIndexes\IDocumentIndexProvider.cs" />
     <Compile Include="DataProviders\Documents\DocumentsProvider.cs" />
     <Compile Include="DataProviders\Documents\IDocumentsProvider.cs" />
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
@@ -107,8 +111,10 @@
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\DiariesDto.cs" />
     <Compile Include="Dtos\DiaryResultDto.cs" />
+    <Compile Include="Dtos\DocumentClaimSearchResultDto.cs" />
     <Compile Include="Dtos\DocumentResultDto.cs" />
     <Compile Include="Dtos\DocumentsDto.cs" />
+    <Compile Include="Dtos\DocumentTypeDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />

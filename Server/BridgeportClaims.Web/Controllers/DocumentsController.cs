@@ -2,6 +2,7 @@
 using System;
 using System.Net;
 using System.Web.Http;
+using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Web.Models;
 
@@ -13,10 +14,27 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IDocumentsProvider _documentsProvider;
+        private readonly IClaimSearchProvider _claimSearchProvider;
 
-        public DocumentsController(IDocumentsProvider documentsProvider)
+        public DocumentsController(IDocumentsProvider documentsProvider, IClaimSearchProvider claimSearchProvider)
         {
             _documentsProvider = documentsProvider;
+            _claimSearchProvider = claimSearchProvider;
+        }
+
+        [HttpPost]
+        [Route("claim-search")]
+        public IHttpActionResult GetClaimResult(string searchText)
+        {
+            try
+            {
+                return Ok(_claimSearchProvider.GetDocumentClaimSearchResults(searchText));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

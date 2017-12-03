@@ -29,7 +29,9 @@ using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
+using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Diaries;
+using BridgeportClaims.Data.DataProviders.DocumentIndexes;
 using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.KPI;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
@@ -63,6 +65,8 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ReportsDataProvider>().As<IReportsDataProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionPaymentProvider>().As<IPrescriptionPaymentProvider>().InstancePerRequest();
             builder.RegisterType<DocumentsProvider>().As<IDocumentsProvider>().InstancePerRequest();
+            builder.RegisterType<DocumentIndexProvider>().As<IDocumentIndexProvider>().InstancePerRequest();
+            builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();
             
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
@@ -74,8 +78,8 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
             builder.RegisterType<DateDisplayProvider>().As<IDateDisplayProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();
+            
             // Singletons
-
             builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().SingleInstance();
             builder.Register(c => FluentSessionProvider.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
             builder.Register(c => FluentSessionProvider.GetSession()).As<ISession>().OnActivated(session =>

@@ -10,6 +10,35 @@ namespace BridgeportClaims.Data.DataProviders.Documents
 {
     public class DocumentsProvider : IDocumentsProvider
     {
+        public IList<DocumentTypeDto> GetDocumentTypes() =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                return DisposableService.Using(() => new SqlCommand("SELECT [dt].[DocumentTypeID] DocumentTypeId, [dt].[TypeName] FROM [dbo].[DocumentType] AS [dt]", conn), cmd =>
+                    {
+                        IList<DocumentTypeDto> types = new List<DocumentTypeDto>();
+                        cmd.CommandType = CommandType.Text;
+                        if (conn.State != ConnectionState.Open)
+                            conn.Open();
+                        DisposableService.Using(cmd.ExecuteReader, reader =>
+                        {
+                            var documentTypeIdOrdinal = reader.GetOrdinal("DocumentTypeId");
+                            var typeNameOrdinal = reader.GetOrdinal("TypeName");
+                            while (reader.Read())
+                            {
+                                var documentTypeDto = new DocumentTypeDto
+                                {
+                                    DocumentTypeId = reader.GetByte(documentTypeIdOrdinal),
+                                    TypeName = reader.GetString(typeNameOrdinal)
+                                };
+                                types.Add(documentTypeDto);
+                            }
+                        });
+                        if (conn.State != ConnectionState.Closed)
+                            conn.Close();
+                        return types;
+                    });
+            });
+
         public DocumentsDto GetDocuments(DateTime? date, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -92,7 +121,9 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     });
                     retVal.DocumentResults = retValResults;
                     retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
-                    conn.Close();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+                    retVal.DocumentTypes = GetDocumentTypes();
                     return retVal;
                 });
             });
