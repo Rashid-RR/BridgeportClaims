@@ -32,6 +32,7 @@ import { ReportListComponent } from './pages/report-list/report-list.component';
 import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
 import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
+import { SignalrDemoComponent } from './pages/signalr-demo/signalr-demo.component';
 
 export const routes: Routes = [
   {
@@ -105,6 +106,10 @@ export const routes: Routes = [
           {
             path: 'payors',
             component: PayorsComponent
+          },
+          {
+            path: 'signalr-demo',
+            component: SignalrDemoComponent
           },
           {
             path: 'unindexed-images',

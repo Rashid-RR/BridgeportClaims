@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
             this.events.broadcast('login', true);
             this.toast.success('Welcome back');
             this.events.broadcast("loadHistory",[]);
-            this.signalR.connect();
+            //this.signalR.connect();
           }, err => console.log(err))
         }, (requestError) => {
           this.submitted = false;

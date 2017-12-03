@@ -1,4 +1,6 @@
-
+.sidebar-toggle:before{
+    content:'';
+}
 .nav.navbar-nav {
     float: right;
 }

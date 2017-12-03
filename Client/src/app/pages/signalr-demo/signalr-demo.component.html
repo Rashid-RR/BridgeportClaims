@@ -1,0 +1,47 @@
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">SignalR Chat Demo</h3>
+      </div>
+      <div class="box-body" [class.chat]="nameset" id="chat-box">
+        <div class="row" *ngIf="!nameset">
+          <div class="col-md-offset-3 col-md-6">
+            <div class="form-group">
+              <div class="input-group">
+                <input name="name" class="form-control" placeholder="Please Enter your name" [(ngModel)]="name"  (keyup.enter)="checkName()" focus>
+                <div class="input-group-btn">
+                  <button class="btn btn-md btn-primary" (click)="checkName()">Continue</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="nameset">
+          <div class="item" *ngFor="let m of signalR.messages">
+            <img src="assets/img/male-shadow-circle-64.png" alt="user image">
+            <p class="message">
+              <a class="name">
+                  {{m.msgFrom}}
+              </a>
+              {{m.msg}}
+            </p>
+          </div>
+        </ng-container>
+      </div>
+      <div class="overlay text-center" *ngIf="signalR.loading">
+          <img src="assets/1.gif"><br>Sending ...
+      </div>
+      <div class="box-footer" *ngIf="nameset">
+        <div class="input-group">
+          <input class="form-control" name="message"  id="message" placeholder="Type message..." [(ngModel)]="message"  (keyup.enter)="send()" focus>
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-success" (click)="send()">
+              Send <i class="fa fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

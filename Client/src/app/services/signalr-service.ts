@@ -1,54 +1,58 @@
 import { Resolve } from '@angular/router';
-import { SignalR,BroadcastEventListener, SignalRConnection } from 'ng2-signalr';
-import { Injectable } from '@angular/core'; 
+import { Injectable, Inject } from "@angular/core";
+import { Subject } from "rxjs/Subject";
+import { Observable } from "rxjs/Observable";
 import * as Rx from "rxjs/Rx";
-declare var $:any;
-// 1. if you want your component code to be testable, it is best to use a route resolver and make the connection there
+declare var $: any;
 
 @Injectable()
 export class SignalRService {
-    connection:SignalRConnection;
-    onMessageSent$:BroadcastEventListener<any>;
-    constructor(private _signalR: SignalR)  { 
-      
-    }
-    connect(){
-        this._signalR.connect().then((c) => {
-            this.connection=c as SignalRConnection;
-            this.onMessageSent$ = new BroadcastEventListener<any>('ON_MESSAGE_SENT');            
-            this.connection.listen(this.onMessageSent$);
+
+    //signalR connection reference
+    private connection: any;
+    //signalR proxy reference
+    private proxies: { id: string, value: any }[] = [];
+    messages: { msgFrom: string, msg: string }[] = [];
+    loading:boolean=false;
+    constructor() {
+        var fileref = document.createElement('script')
+        fileref.setAttribute("type", "text/javascript")
+        fileref.setAttribute("src", 'signalr/hubs');
+        $('body').append(fileref);
+        this.connection = $.connection;
+        this.connection.hub.start().done(() => {
+
         });
     }
 
-    listen(){
-        this.onMessageSent$.subscribe((chatMessage: any) => {
-            console.log(chatMessage);
-     });
+    connect(hub: string) {
+        let proxy = this.proxies.find(p => p.id == hub);
+        console.log($.connection.documentsHub);
+        if (!proxy || !proxy.value) {
+            proxy = { id: hub, value: this.connection[hub] };
+            this.proxies.push(proxy);
+            this.start(proxy.value);
+        }
+    }
+
+    start(hub: any) {
+        hub.client.receiveMessage = (msgFrom, msg) => this.onMessageReceived(msgFrom, msg);
+        this.connection.hub.start().then(t => { 
+        });
+    }
+    private onMessageReceived(msgFrom: string, msg: string) {
+        this.messages.push({msgFrom:msgFrom,msg:msg});
+        console.log('New message received from ' + msgFrom,msg);
+    }
+
+    getProxy(hub: string) {
+        let proxy = this.proxies.find(p => p.id == hub);
+        return proxy
+    }
+    //method for sending message
+    broadcastMessage(hub: string, method: string, msg: any) {
+        //invoke method by its name using proxy 
+        let proxy = this.proxies.find(p => p.id == hub);
+        proxy.value.invoke(method, msg);
     }
 }
-/* 
-// 2. use the resolver to resolve 'connection' when navigation to the your page/component
-import { Route } from '@angular/router';
-import { DocumentationComponent } from './index';
-import { ConnectionResolver } from './documentation.route.resolver';
-
-export const DocumentationRoutes: Route[] = [
-    {
-        path: 'documentation',
-    component: DocumentationComponent,
-     resolve: { connection: ConnectionResolver }
-    }
-];
- */
-/* // 3. then inside your component
- export class ChatComponent {
-  private _connection: SignalRConnection;
-
-  constructor(route: ActivatedRoute) {    
-  }
-  
-  ngOnInit() {
-      this.connection = this.route.snapshot.data['connection'];
-  }
-  
-}     */

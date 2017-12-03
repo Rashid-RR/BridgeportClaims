@@ -11,7 +11,7 @@ import { ConfirmComponent } from './components/confirm.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import {Ng2Webstorage} from 'ng2-webstorage';
 import { AutoCompleteModule} from './auto-complete';
-import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr';
+/* import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr'; */
 import {WindowsInjetor,WindowBackdrop,BootstrapWindowContainer} from "./components/ng-window";
 // Layouts 
 import {HeaderComponent} from './layouts/header/header.component';
@@ -33,7 +33,7 @@ import { DiaryResultsComponent } from './components/diary-results/diary-results.
 import { DiaryComponent } from './pages/diary/diary.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
  // services
-import { SignalRService,DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, 
+import { SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, 
   PaymentScriptService,UnpaidScriptService,AccountReceivableService,ReportLoaderService,DocumentManagerService} from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
@@ -67,6 +67,7 @@ import { ReportListComponent } from './pages/report-list/report-list.component';
 import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
 import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
+import { SignalrDemoComponent } from './pages/signalr-demo/signalr-demo.component';
  
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -83,14 +84,15 @@ export class SafeUrlPipe implements PipeTransform {
     return this.sanitized.bypassSecurityTrustUrl(value);
   }
 }
-export function createConfig(): SignalRConfiguration {
+ 
+/* export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
-  c.hubName = 'Ng2SignalRHub';
-  c.qs = { user: 'donald' };
-  c.url = 'http://ng2-signalr-backend.azurewebsites.net/';
+  c.hubName = 'DocumentsHub';
+  //c.qs = { user: 'donald' };
+  //c.url = 'https://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/';
   c.logging = true;
   return c;
-}
+} */
 
 @NgModule({
   declarations: [
@@ -114,17 +116,17 @@ export function createConfig(): SignalRConfiguration {
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, SignalrDemoComponent
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AutoCompleteModule,
     BrowserAnimationsModule,
     ToastModule.forRoot(),
-    SignalRModule.forRoot(createConfig),
+    /* SignalRModule.forRoot(createConfig), */
     BootstrapModalModule,
-    FormsModule,
-    ReactiveFormsModule,
     HttpModule,
     RoutingModule,
     FileUploadModule,
@@ -133,7 +135,7 @@ export function createConfig(): SignalRConfiguration {
   providers: [
     DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
     PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,SignalRService,
-    DocumentManagerService,
+    DocumentManagerService, 
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

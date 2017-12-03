@@ -46,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.http.userFromId(us.id).single().subscribe( res => {
                 //console.log(res);
                 this.profileManager.profile.roles = res.json().roles;
-                this.signalR.connect();
+                //this.signalR.connect();
             },(error)=>{
               //console.log(error)
             });
@@ -58,7 +58,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.events.on("logout",(v)=>{
       this.profileManager.clearUsers();
       this.profileManager.profile=undefined;
-      this.signalR.connection.stop();
+      //this.signalR.connection.stop();
     }) 
     
   }

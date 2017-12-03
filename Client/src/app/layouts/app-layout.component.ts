@@ -22,7 +22,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
     private toast: ToastsManager,
     private guard:AuthGuard,
     private events: EventsService,
-    private localSt:LocalStorageService
+    private  localSt:LocalStorageService
   ) {
 
   }
