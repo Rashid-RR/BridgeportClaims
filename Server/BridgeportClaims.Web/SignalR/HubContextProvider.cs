@@ -8,15 +8,9 @@ namespace BridgeportClaims.Web.SignalR
     {
         private readonly IConnectionManager _connectionManager;
 
-        public HubContextProvider(ConnectionConfiguration hubConfiguration)
-        {
-            _connectionManager = hubConfiguration.Resolver.Resolve<IConnectionManager>();
-        }
+        public HubContextProvider(ConnectionConfiguration hubConfiguration) => _connectionManager = hubConfiguration.Resolver.Resolve<IConnectionManager>();
 
         public IHubContext<THubClient> GetHubContext<THub>()
-                where THub : Hub<THubClient>
-        {
-            return _connectionManager.GetHubContext<THub, THubClient>();
-        }
+                where THub : Hub<THubClient> => _connectionManager.GetHubContext<THub, THubClient>();
     }
 }

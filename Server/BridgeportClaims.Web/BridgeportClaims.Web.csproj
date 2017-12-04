@@ -290,9 +290,6 @@
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Handlers\CancelledTaskBugWorkaroundMessageHandler.cs" />
     <Compile Include="Hubs\DocumentsHub.cs" />
-    <Compile Include="Hubs\MessageHub.cs" />
-    <Compile Include="Hubs\SubscribeHub.cs" />
-    <Compile Include="Hubs\PostingHub.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\EmailType.cs" />
     <Compile Include="Infrastructure\MultipartFormDataMemoryStreamProvider.cs" />
@@ -342,11 +339,9 @@
     <Compile Include="Models\UserReturnModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\BridgeportClaimsJwtFormat.cs" />
-    <Compile Include="SignalR\ChannelEvent.cs" />
-    <Compile Include="Hubs\PaymentHub.cs" />
     <Compile Include="SignalR\HubContextProvider.cs" />
     <Compile Include="SignalR\IHubContextProvider.cs" />
-    <Compile Include="SignalR\SignalRChatHub.cs" />
+    <Compile Include="SignalR\SignalRBase.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
