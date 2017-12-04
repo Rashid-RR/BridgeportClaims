@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[DocumentIndex]
 (
-[DocumentID] [int] NOT NULL IDENTITY(1, 1),
+[DocumentID] [int] NOT NULL,
 [ClaimID] [int] NOT NULL,
 [DocumentTypeID] [tinyint] NOT NULL,
 [RxDate] [datetime2] NULL,

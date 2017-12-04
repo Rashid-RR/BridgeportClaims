@@ -17,23 +17,23 @@ CREATE PROC [dbo].[uspDocumentIndexUpdate]
     @RxNumber VARCHAR(100),
     @InvoiceNumber VARCHAR(100),
     @InjuryDate DATETIME2,
-    @AttorneyName VARCHAR(255),
-    @CreatedOnUTC DATETIME2,
-    @UpdatedOnUTC DATETIME2
-AS 
+    @AttorneyName VARCHAR(255)
+AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
+
+		DECLARE @UtcNow DATETIME2 = [dtme].[udfGetLocalDate]();
 	
 		UPDATE [dbo].[DocumentIndex]
 		SET    [ClaimID] = @ClaimID, [DocumentTypeID] = @DocumentTypeID, [RxDate] = @RxDate, [RxNumber] = @RxNumber, 
-				[InvoiceNumber] = @InvoiceNumber, [InjuryDate] = @InjuryDate, [AttorneyName] = @AttorneyName, 
-				[CreatedOnUTC] = @CreatedOnUTC, [UpdatedOnUTC] = @UpdatedOnUTC
+				[InvoiceNumber] = @InvoiceNumber, [InjuryDate] = @InjuryDate, [AttorneyName] = @AttorneyName,
+				[UpdatedOnUTC] = @UtcNow
 		WHERE  [DocumentID] = @DocumentID
 	
 		IF (@@TRANCOUNT > 0)
-			COMMIT
+			COMMIT;
 	END TRY
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
@@ -52,4 +52,5 @@ AS
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
+END
 GO

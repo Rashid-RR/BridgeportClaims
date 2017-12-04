@@ -8,7 +8,7 @@ GO
 	Description:	Proc that returns the grid results for the Documents page.
 	Sample Execute:
 					DECLARE @TotalRows INT
-					EXEC [dbo].[uspGetDocuments] 'CreationTime', 'desc', 1, 500, @TotalRows OUTPUT
+					EXEC [dbo].[uspGetDocuments] '2017-11-24', 'CreationTime', 'desc', 1, 500, @TotalRows OUTPUT
 					SELECT @TotalRows TotalRows
 */
 CREATE PROC [dbo].[uspGetDocuments]
@@ -41,8 +41,9 @@ AS BEGIN
 		[LastWriteTimeLocal],[FullFilePath],[FileUrl])
 	SELECT [d].[DocumentID],[d].[FileName],[d].[Extension],[d].[FileSize],[d].[CreationTimeLocal]
 		,[d].[LastAccessTimeLocal],[d].[LastWriteTimeLocal],[d].[FullFilePath],[d].[FileUrl]
-	FROM [dbo].[Document] AS [d]
-	WHERE @Date IS NULL OR d.DocumentDate = @Date
+	FROM [dbo].[Document] AS [d] LEFT JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
+	WHERE [di].[DocumentID] IS NULL
+		AND (@Date IS NULL OR d.DocumentDate = @Date)
 
 
 	SELECT @TotalRows = COUNT(*) FROM [#Document]

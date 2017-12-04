@@ -11,18 +11,16 @@ GO
 */
 CREATE PROC [dbo].[uspDocumentIndexDelete]
 	@DocumentID INT
-AS 
+AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
 	
-		DELETE
-		FROM   [dbo].[DocumentIndex]
-		WHERE  [DocumentID] = @DocumentID
+		DELETE [dbo].[DocumentIndex] WHERE [DocumentID] = @DocumentID;
 	
 		IF (@@TRANCOUNT > 0)
-			COMMIT
+			COMMIT;
 	END TRY
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
@@ -41,4 +39,5 @@ AS
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
+END
 GO
