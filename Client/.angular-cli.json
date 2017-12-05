@@ -34,7 +34,7 @@
         "assets/css/skin-black.css",
         "assets/css/ngPopupStyle.css",
         "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",  
-        "../node_modules/highcharts/css/highcharts.css",
+        "../node_modules/highcharts/css/highcharts.css", 
         "styles.css"
       ],
       "scripts": [

@@ -553,5 +553,19 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  indexDocument(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/index-document/save', data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  searchDocumentClaim(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/document/claim-search/?searchText='+data.searchText, data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
 }

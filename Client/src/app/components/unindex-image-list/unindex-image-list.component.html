@@ -1,4 +1,4 @@
-<div class="row claim-info">
+<div class="row">
   <div class="col-sm-12 expanded" style="overflow:hidden;">
     <div class="table-responsive top-header" *ngIf="ds.display=='list'">
       <ul class="products-list product-list-in-box">
@@ -26,7 +26,7 @@
     </div>
     <div class="table-responsive table-body"  *ngIf="ds.display=='list'">
       <ul class="products-list product-list-in-box">
-        <li class="item row" *ngFor="let file of ds.documentList">
+        <li class="item row" *ngFor="let file of ds.documentList"  (click)="openFile(file)">
           <div class="col-md-1">
             <i class="fa fa-file-pdf-o text-red"></i>
           </div>
@@ -52,7 +52,7 @@
     <div class="table-responsive table-body grid"  *ngIf="ds.display=='grid'">
           <div class="row">
             <div class="col-md-12 flex-row">
-                <div class="file" *ngFor="let file of ds.documentList" data-toggle="tooltip" [title]="file.fileSize">
+                <div class="file" *ngFor="let file of ds.documentList" data-toggle="tooltip" [title]="file.fileSize" (click)="openFile(file)">
                   <div class="card-body">
                     <i class="fa fa-3x text-red fa-file-pdf-o"></i>
                   </div>

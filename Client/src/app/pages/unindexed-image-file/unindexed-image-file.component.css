@@ -1,0 +1,9 @@
+#docCanvas{
+    width:100%;
+    height:calc(100vh - 110px);
+    border: none;
+}
+.expanded .box-body{
+    height:calc(100vh - 100px);
+    overflow:hidden;
+}

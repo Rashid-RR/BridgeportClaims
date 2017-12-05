@@ -33,6 +33,9 @@ import { ReportSampleComponent } from './pages/report-sample/report-sample.compo
 import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { SignalrDemoComponent } from './pages/signalr-demo/signalr-demo.component';
+import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
+import { IndexFileComponent } from './pages/index-file/index-file.component';
+import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
 
 export const routes: Routes = [
   {
@@ -113,7 +116,30 @@ export const routes: Routes = [
           },
           {
             path: 'unindexed-images',
-            component:UnindexedImageComponent
+            component:UnindexedImageComponent,
+            children:[
+              {
+                  path: '',
+                  redirectTo: 'list',
+                  pathMatch: 'full',
+              },
+              {
+                path: 'list',
+                component:UnindexedImageFileListComponent
+              },
+              {
+                path: 'file',
+                component:UnindexedImageFileComponent
+              },
+              {
+                path: 'new-index',
+                component:IndexFileComponent
+              },
+              {
+                path: 'sample',
+                component:ReportSampleComponent
+              }
+            ] 
           },
           {
             path: 'unpaid-scripts',

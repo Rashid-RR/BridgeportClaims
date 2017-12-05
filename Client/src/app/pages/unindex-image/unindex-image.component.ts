@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-// Services
-import { DocumentManagerService } from "../../services/document-manager.service";
+import { Component, OnInit,AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'app-unindex-image',
-  templateUrl: './unindex-image.component.html',
-  styleUrls: ['./unindex-image.component.css']
+  template: '<router-outlet></router-outlet>'
 })
-export class UnindexedImageComponent implements OnInit {
+export class UnindexedImageComponent implements OnInit,AfterViewInit {
 
-  constructor(public ds:DocumentManagerService) { }
+  constructor() { }
 
   ngOnInit() {
+  }
+  ngAfterViewInit() {
+    
   }
 
 }
