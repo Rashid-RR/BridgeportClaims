@@ -4,8 +4,8 @@
             <div class="box-header">
                 <h3 class="box-title">{{file.fileName}}</h3>
             </div>
-            <div class="box-body">
-                <iframe id="docCanvas" *ngIf="file && file.fileUrl" [src]="sanitize()" allowfullscreen></iframe>
+            <div class="box-body" id="fileCanvas">
+                
             </div>
             <div class="overlay" *ngIf="loading">
                 <img src="assets/1.gif">

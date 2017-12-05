@@ -3,7 +3,7 @@ import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
 import { HttpService } from "../../services/http-service"
 import { DomSanitizer,SafeResourceUrl } from '@angular/platform-browser';
-
+declare var $:any;
 
 @Component({
   selector: 'app-unindexed-image-file',
@@ -19,7 +19,7 @@ export class UnindexedImageFileComponent implements OnInit {
     private router: Router,
     private http: HttpService,private sanitizer:DomSanitizer
   ) { }
-  sanitize():SafeResourceUrl {
+  get sanitize():SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl('assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl);
   }
   ngOnInit() {
@@ -32,31 +32,12 @@ export class UnindexedImageFileComponent implements OnInit {
           this.file = JSON.parse(file) as DocumentItem;
         }
         console.log(window['PDFJS'], this.file);
-        console.log(this.file);
-        /* if(window.location.href.substr(0,21)!=this.file.fileUrl.substr(0,21)){
-          this.file.fileUrl  = this.file.fileUrl.replace("https://","")
-          this.file.fileUrl=this.file.fileUrl.replace("http://","");              
-          this.file.fileUrl=this.file.fileUrl.replace("bridgeportclaims-images.azurewebsites.net","");
-          console.log(this.file.fileUrl);
-        } */
+        console.log(this.file);        
         var docInitParams: any = {};
         docInitParams.url = this.file.fileUrl;
-        console.log("Header", this.http.headers.get('authorization'));
+        //console.log("Header", this.http.headers.get('authorization'));
         docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
-        
-        /*  window['PDFJS'].getDocument(docInitParams).then(function(page) {
-           var viewport = page.getViewport(scale);
-           
-           var canvas:any = document.getElementById('docCanvas');
-           var context = canvas.getContext('2d');
-           canvas.height = viewport.height;
-           canvas.width = viewport.width;              
-           var renderContext = {
-             canvasContext: context,
-             viewport: viewport
-           };
-       
-         });  */
+        $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl+'" allowfullscreen style="width:100%;height:calc(100vh - 110px);border: none;"></iframe>');       
       }
     });
   }
