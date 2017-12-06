@@ -6,6 +6,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from '../../services/document-manager.service';
+import {HttpService} from "../../services/http-service";
 declare var $: any;
 
 @Component({
@@ -20,17 +21,20 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
 
   loading: boolean = false;
   linkClaim: boolean = false;
+  submitted: boolean = false;
   searchText:string='';
   constructor(
     private router: Router,
+    private http: HttpService,
     private formBuilder: FormBuilder,
     private ds: DocumentManagerService,
-    private ngZone:NgZone
+    private ngZone:NgZone, 
+    private toast: ToastsManager
   ) {
     this.form = this.formBuilder.group({
-      documentId: [null],
-      claimId: [null],
-      documentTypeId: [''],
+      documentId: [null, Validators.compose([Validators.required])],
+      claimId: [null, Validators.compose([Validators.required])],
+      documentTypeId: ['', Validators.compose([Validators.required])],
       rxDate: [null],
       rxNumber: [null],
       invoiceNumber: [null],
@@ -57,7 +61,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   }
   claimSelected($event){
     this.form.patchValue({
-      claimId: $event.documentId,
+      claimId: $event.claimId,
       claimNumber:$event.claimNumber,
       firstName :$event.firstName , 
       groupNumber:$event.groupNumber,
@@ -80,6 +84,44 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     });
     $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
     $('[data-mask]').inputmask();
+  }
+  save(){
+    console.log(this.form.value);
+   /*  if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
+      this.form.get('ConfirmPassword').setErrors({"unmatched": "The password and confirmation password do not match."});
+      this.toast.warning( 'The password and confirmation password do not match.');
+    }
+     */
+    if (this.form.valid) {
+      this.submitted = true;      
+      try {
+        this.http.saveDocumentIndex(this.form.value).map(r=>{return r.json()}).subscribe(res => {     
+            this.toast.success(res.message, null,
+            {toastLife: 10000}); 
+            this.submitted = false;
+            this.form.patchValue({
+              claimId: '',
+              claimNumber:'',
+              firstName: '' , 
+              groupNumber:'',
+              documentTypeId:'',
+              lastName:''
+             });
+             this.linkClaim  = false;
+        },requestError => {
+            let err = requestError.json();            
+            this.toast.error(err.Message);
+            this.submitted = false;
+        })
+      } catch (e) {
+          this.submitted = false;
+      } finally {
+
+      }
+    }else{
+      this.submitted = false;      
+       this.toast.warning('Invalid field value(s). Please correct to proceed.');
+    }
   }
 
 }

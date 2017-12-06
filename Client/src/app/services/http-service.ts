@@ -553,7 +553,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
-  indexDocument(data:any): Observable<Response> {
+  saveDocumentIndex(data:any): Observable<Response> {
     return this.http.post(this.baseUrl + '/index-document/save', data, { headers: this.headers })
     .catch(err =>  {
       this.handleResponseError(err);

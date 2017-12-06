@@ -78,7 +78,7 @@ export class DocumentManagerService {
       }
       this.http.getDocuments(data).map(res => { return res.json(); })
         .subscribe((result: any) => {
-          console.log(result);
+          //console.log(result);
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
           this.documents = Immutable.OrderedMap<any, DocumentItem>();
