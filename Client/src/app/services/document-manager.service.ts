@@ -17,8 +17,12 @@ export class DocumentManagerService {
   data: any = {};
   display: string = 'list';
   totalRowCount: number;
+  autoCompleteClaim:string;
+  searchText:string='';
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private events: EventsService, private toast: ToastsManager) {
+      this.autoCompleteClaim = this.http.baseUrl + "/document/claim-search/?searchText=:keyword";    
+      
     this.data = {
       date: null,
       sort: "DocumentID",

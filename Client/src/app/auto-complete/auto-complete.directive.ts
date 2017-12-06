@@ -275,7 +275,7 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
   setToStringFunction(item: any): any {
     if (item && typeof item === "object") {
       let displayVal;
-
+      console.log(item);
       if (typeof this.valueFormatter === 'string') {
         let matches = this.valueFormatter.match(/[a-zA-Z0-9_\$]+/g);
         let formatted = this.valueFormatter;

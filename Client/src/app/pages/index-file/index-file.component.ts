@@ -1,6 +1,6 @@
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit,NgZone, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
@@ -19,10 +19,13 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   form: FormGroup;
 
   loading: boolean = false;
+  linkClaim: boolean = false;
+  searchText:string='';
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private ds: DocumentManagerService
+    private ds: DocumentManagerService,
+    private ngZone:NgZone
   ) {
     this.form = this.formBuilder.group({
       documentId: [null],
@@ -32,7 +35,11 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
       rxNumber: [null],
       invoiceNumber: [null],
       injuryDate: [null],
-      attorneyName: [null],
+      attorneyName: [null], 
+      claimNumber :[null],
+      firstName :[null], 
+      groupNumber :[null],
+      lastName :[null]
     });
   }
 
@@ -42,12 +49,26 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         let file = localStorage.getItem("file-" + params['id']);
         if (file) {
           this.file = JSON.parse(file) as DocumentItem;
-        }
-        console.log(file);
+        } 
         this.form.patchValue({ documentId: this.file.documentId });
         this.ds.loading=false;
       }
     });
+  }
+  claimSelected($event){
+    this.form.patchValue({
+      claimId: $event.documentId,
+      claimNumber:$event.claimNumber,
+      firstName :$event.firstName , 
+      groupNumber:$event.groupNumber,
+      lastName:$event.lastName
+     });
+     setTimeout(()=>{
+      $("#searchText").val(this.searchText);
+     },300);
+  }
+  lastInput($event){
+    this.searchText = $event.target.value;
   }
   ngAfterViewInit() {
     // Date picker
