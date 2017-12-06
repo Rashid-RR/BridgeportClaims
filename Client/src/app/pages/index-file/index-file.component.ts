@@ -96,8 +96,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
       this.submitted = true;      
       try {
         this.http.saveDocumentIndex(this.form.value).map(r=>{return r.json()}).subscribe(res => {     
-            this.toast.success(res.message, null,
-            {toastLife: 10000}); 
+            this.toast.success(res.message); 
             this.submitted = false;
             this.form.patchValue({
               claimId: '',
