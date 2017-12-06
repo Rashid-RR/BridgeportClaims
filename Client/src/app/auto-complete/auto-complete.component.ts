@@ -117,7 +117,6 @@ export class AutoCompleteComponent implements OnInit {
   @Input("select-on-blur") selectOnBlur: boolean = false;
 
   @Output() valueSelected = new EventEmitter();
-  @Output() lastText = new EventEmitter();
   @Output() customSelected = new EventEmitter();
   @Output() textEntered = new EventEmitter();
   @ViewChild('autoCompleteInput') autoCompleteInput: ElementRef;
@@ -272,7 +271,6 @@ export class AutoCompleteComponent implements OnInit {
 
   selectOne(data: any) {
     if (!!data || data === '') { 
-      this.lastText.emit(this.keyword);
       this.valueSelected.emit(data);
     } else {
       this.customSelected.emit(this.keyword);
