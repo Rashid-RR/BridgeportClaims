@@ -50,9 +50,10 @@ export class DocumentManagerService {
   get totalPages() {
     return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : 0;
   }
-
+  get documentTypesList():DocumentType[]{
+    return this.documentTypes.toArray();
+  }
   get end(): Boolean {
-    console.log(this.documentList);
     return this.pageStart && this.data.pageSize > this.documentList.length;
   }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {

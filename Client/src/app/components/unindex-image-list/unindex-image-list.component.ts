@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
 import { DocumentItem } from 'app/models/document';
@@ -18,6 +19,7 @@ export class UnindexedImageListComponent implements OnInit {
     public ds: DocumentManagerService,
     private dp: DatePipe,
     private toast: ToastsManager,
+    private router:Router,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -28,7 +30,8 @@ export class UnindexedImageListComponent implements OnInit {
   }
   openFile(file: DocumentItem) {
     localStorage.setItem("file-"+file.documentId,JSON.stringify(file));
-    window.open("#/main/unindexed-images/file?id="+file.documentId, "_blank");     
+    window.open("#/main/unindexed-images/file?id="+file.documentId, "_blank");    
+    this.router.navigate(["/main/unindexed-images/new-index"],{queryParams:{id:file.documentId}});
   }
   goto() {
     let page = Number.parseInt(this.goToPage);
