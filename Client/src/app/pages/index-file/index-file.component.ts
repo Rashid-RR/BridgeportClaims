@@ -86,7 +86,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     $('[data-mask]').inputmask();
   }
   save(){
-    console.log(this.form.value);
+    //console.log(this.form.value);
    /*  if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
       this.form.get('ConfirmPassword').setErrors({"unmatched": "The password and confirmation password do not match."});
       this.toast.warning( 'The password and confirmation password do not match.');
