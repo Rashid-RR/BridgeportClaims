@@ -52,7 +52,7 @@
     <div class="table-responsive table-body grid"  *ngIf="ds.display=='grid'">
           <div class="row">
             <div class="col-md-12 flex-row">
-                <div class="file" *ngFor="let file of ds.documentList" data-toggle="tooltip" [title]="file.fileSize" (click)="openFile(file)">
+                <div class="file" *ngFor="let file of ds.documentList" [title]="file.fileSize" (click)="openFile(file)">
                   <div class="card-body">
                     <i class="fa fa-3x text-red fa-file-pdf-o"></i>
                   </div>

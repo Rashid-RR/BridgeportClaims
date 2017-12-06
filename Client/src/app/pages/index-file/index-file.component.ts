@@ -44,7 +44,8 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
           this.file = JSON.parse(file) as DocumentItem;
         }
         console.log(file);
-        this.form.patchValue({ documentId: this.file.documentId })
+        this.form.patchValue({ documentId: this.file.documentId });
+        this.ds.loading=false;
       }
     });
   }

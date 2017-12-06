@@ -1,3 +1,8 @@
+.bg-head-box {
+    background: #992727;
+    z-index: 3;
+    color: #fff;
+}
 .panel-head {
     color: #fff;
 }
