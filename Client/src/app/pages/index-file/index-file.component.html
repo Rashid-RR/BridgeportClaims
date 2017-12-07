@@ -1,0 +1,134 @@
+<div class="row">
+    <div class="col-sm-12 expanded">
+        <div class="box">
+            <div class="box-header bg-head-box">
+                <h2 class="box-title text-center panel-head">Indexing</h2>
+            </div>
+            <div class="box-body">
+                <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-2">
+                            <div class="form-group">
+                                <label>Type <span color="red">*</span></label>
+                                <select class="form-control" (focus)="submitted=false" formControlName="documentTypeId">
+                                    <option selected value='' disabled>Select Image Type</option>
+                                    <option *ngFor="let dt of ds.documentTypesList" [value]="dt.documentTypeId">{{dt.typeName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Rx Date</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input class="form-control pull-right" formControlName="rxDate" id="rxDate" name="rxDate" type="text" (focus)="submitted=false"
+                                        data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-2">
+                            <div class="form-group">
+                                <label>Rx Number</label>
+                                <input class="form-control" formControlName="rxNumber" type="text" (focus)="submitted=false">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Invoice Number</label>
+                                <input class="form-control" formControlName="invoiceNumber" type="text" (focus)="submitted=false">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-2">
+                            <div class="form-group">
+                                <label>Injury Date</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input class="form-control pull-right" formControlName="injuryDate" id="injuryDate" name="injuryDate" type="text" (focus)="submitted=false"
+                                        data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Attoney Name</label>
+                                <input class="form-control" formControlName="attorneyName" type="text" (focus)="submitted=false">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            </div>
+                        </div>
+                        <div class="col-md-4 flex">
+                            <div class="form-group">
+                                <button class="color-palette btn bg-DarkGreen btn-block btn-flat  btn-md" *ngIf="!linkClaim" type="button" (click)="linkClaim=true">Link to Claim</button>
+                                <button class="color-palette btn bg-DarkGreen btn-block btn-flat  btn-md" *ngIf="linkClaim" type="button" (click)="linkClaim=false">Unlink Claim</button>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="linkClaim">
+                        <div class="row">
+                            <div class="col-md-8 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>Type Last Name, First Name or Claim Number</label>
+                                    <input class="form-control" [(ngModel)]="ds.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete name="searchText" id="searchText" [source]="ds.autoCompleteClaim" [service]="1" [method]="1" min-chars="2" list-formatter="lastName , firstName - claimNumber" [http-method]="'post'" [no-match-found-text]="'No Claim Found'" (valueChanged)="claimSelected($event)" (keyup)="lastInput($event)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input class="form-control" readonly formControlName="lastName" type="text" (focus)="submitted=false">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input class="form-control" readonly formControlName="firstName" type="text" (focus)="submitted=false">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-md-offset-2">
+                                <div class="form-group">
+                                    <label>Claim #</label>
+                                    <input class="form-control" readonly formControlName="claimNumber" type="text" (focus)="submitted=false">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Group #</label>
+                                    <input class="form-control" readonly formControlName="groupNumber" type="text" (focus)="submitted=false">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                </div>
+                            </div>
+                            <div class="col-md-4 flex">
+                                <div class="form-group">
+                                    <button class="color-palette btn btn-block btn-flat bg-darkRed btn-md" type="button" (click)="save()">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </form>
+            </div>
+            <div class="overlay" *ngIf="ds.loading">
+                <img src="assets/1.gif">
+            </div>
+        </div>
+    </div>
+</div>

@@ -229,7 +229,9 @@ export class AutoCompleteComponent implements OnInit {
                   wevent.initEvent('pharmacyList', true, true);
                   wevent['pharmacyList']=this.filteredList; 
                 } 
-                window.dispatchEvent(wevent);
+                try{
+                  window.dispatchEvent(wevent);
+                }catch(e){}
               },
               error => null,
               () => this.isLoading = false // complete
@@ -268,7 +270,7 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   selectOne(data: any) {
-    if (!!data || data === '') {
+    if (!!data || data === '') { 
       this.valueSelected.emit(data);
     } else {
       this.customSelected.emit(this.keyword);

@@ -68,6 +68,9 @@ import { ReportSampleComponent } from './pages/report-sample/report-sample.compo
 import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { SignalrDemoComponent } from './pages/signalr-demo/signalr-demo.component';
+import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
+import { IndexFileComponent } from './pages/index-file/index-file.component';
+import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
  
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -84,16 +87,6 @@ export class SafeUrlPipe implements PipeTransform {
     return this.sanitized.bypassSecurityTrustUrl(value);
   }
 }
- 
-/* export function createConfig(): SignalRConfiguration {
-  const c = new SignalRConfiguration();
-  c.hubName = 'DocumentsHub';
-  //c.qs = { user: 'donald' };
-  //c.url = 'https://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/';
-  c.logging = true;
-  return c;
-} */
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -116,7 +109,7 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, SignalrDemoComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, SignalrDemoComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent
   ],
   imports: [
     FormsModule,

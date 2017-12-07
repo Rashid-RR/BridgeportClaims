@@ -15,14 +15,14 @@ export class SignalRService {
     messages: { msgFrom: string, msg: string }[] = [];
     loading = false;
     constructor(private _ngZone: NgZone) {
-        const fileref = document.createElement('script');
+       /*  const fileref = document.createElement('script');
         fileref.setAttribute('type', 'text/javascript');
         fileref.setAttribute('src', 'signalr/hubs');
         $('body').append(fileref);
         this.connection = $.connection;
         this.connection.hub.start().done(() => {
 
-        });
+        }); */
     }
 
     connect(hub: string) {

@@ -41,6 +41,8 @@
     "@types/file-saver": "*",
     "signalr": "2.2.2",
     "ng2-signalr": "2.1.1",
+    "@types/pdf": "^0.0.31",
+    "pdfjs-dist": "2.0.185",
     "file-saver": "*"
   },
   "devDependencies": {
