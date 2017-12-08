@@ -1,5 +1,6 @@
 import { Resolve } from '@angular/router';
 import { Injectable, Inject, NgZone } from '@angular/core';
+import { EventsService } from './events-service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import * as Rx from 'rxjs/Rx';
@@ -10,24 +11,27 @@ export class SignalRService {
 
     // signalR connection reference
     private connection: any;
+    public connected: boolean=false;
     // signalR proxy reference
     private proxies: { id: string, value: any }[] = [];
     messages: { msgFrom: string, msg: string }[] = [];
     loading = false;
-    constructor(private _ngZone: NgZone) {
-       /*  const fileref = document.createElement('script');
+    constructor(private events: EventsService,private _ngZone: NgZone) {
+        const fileref = document.createElement('script');
         fileref.setAttribute('type', 'text/javascript');
         fileref.setAttribute('src', 'signalr/hubs');
         $('body').append(fileref);
         this.connection = $.connection;
-        this.connection.hub.start().done(() => {
-
-        }); */
+        this.connection.hub.start().done((r) => {
+            this.connected = true;
+            this.events.broadcast('start-listening-to-signalr',true);
+        });
     }
 
     connect(hub: string) {
         let proxy = this.proxies.find(p => p.id == hub);
-        console.log($.connection.documentsHub);
+        console.log(this.connection[hub]);
+        //console.log($.connection.documentsHub);
         if (!proxy || !proxy.value) {
             proxy = { id: hub, value: this.connection[hub] };
             this.proxies.push(proxy);
@@ -42,7 +46,7 @@ export class SignalRService {
     }
     private onMessageReceived(msgFrom: string, msg: string) {
         this._ngZone.run(() => {
-            this.messages.push({msgFrom: msgFrom, msg: msg});
+            this.messages.push({ msgFrom: msgFrom, msg: msg });
             console.log('New message received from ' + msgFrom, msg);
         });
     }

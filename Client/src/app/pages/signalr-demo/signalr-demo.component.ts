@@ -19,14 +19,13 @@ export class SignalrDemoComponent implements OnInit {
   nameset: boolean = false;
   documentProxy;
   messages: { msgFrom: string, msg: string }[] = [];
-  hub:string='documentsHub';
+  hub:string='DocumentsHub';
   constructor(
     public signalR: SignalRService,
     private toast: ToastsManager
   ) { }
 
   ngOnInit() {
-    console.log($.connection);
     this.signalR.connect(this.hub);
   }
   checkName() {
@@ -47,7 +46,7 @@ export class SignalrDemoComponent implements OnInit {
         console.log("Sent ...");
         this.message = '';
         this.signalR.loading=false;
-      });
+      });      
     }
   }
 

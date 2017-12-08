@@ -36,6 +36,7 @@ import { SignalrDemoComponent } from './pages/signalr-demo/signalr-demo.componen
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
 import { IndexFileComponent } from './pages/index-file/index-file.component';
 import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
+import { SignalrDocmentDemoComponent } from './pages/signalr-docment-demo/signalr-docment-demo.component';
 
 export const routes: Routes = [
   {
@@ -113,6 +114,9 @@ export const routes: Routes = [
           {
             path: 'signalr-demo',
             component: SignalrDemoComponent
+          },{
+            path: 'signalr-doc-demo',
+            component: SignalrDocmentDemoComponent
           },
           {
             path: 'unindexed-images',
