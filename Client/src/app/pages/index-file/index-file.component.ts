@@ -27,7 +27,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     private router: Router,
     private http: HttpService,
     private formBuilder: FormBuilder,
-    private ds: DocumentManagerService,
+    public ds: DocumentManagerService,
     private ngZone:NgZone, 
     private toast: ToastsManager
   ) {

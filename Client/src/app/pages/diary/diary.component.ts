@@ -10,7 +10,7 @@ import { DiaryService } from "../../services/diary.service";
 export class DiaryComponent implements OnInit {
 
   constructor(
-    private ds: DiaryService
+    public ds: DiaryService
   ) { 
     
   }

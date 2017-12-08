@@ -20,7 +20,7 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
   closed:Boolean=false;
   isClosed:Boolean=false;
   constructor(
-    private ds: DiaryService,
+    public ds: DiaryService,
     private dp: DatePipe,
     private toast: ToastsManager,
     private fb: FormBuilder
