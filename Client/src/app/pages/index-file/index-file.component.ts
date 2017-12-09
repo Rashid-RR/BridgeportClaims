@@ -23,11 +23,13 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   linkClaim: boolean = false;
   submitted: boolean = false;
   searchText:string='';
+  documentId:any;
   constructor(
     private router: Router,
     private http: HttpService,
     private formBuilder: FormBuilder,
     public ds: DocumentManagerService,
+    private dp: DatePipe,
     private ngZone:NgZone, 
     private toast: ToastsManager
   ) {
@@ -55,6 +57,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
           this.file = JSON.parse(file) as DocumentItem;
         } 
         this.form.patchValue({ documentId: this.file.documentId });
+        this.documentId = this.file.documentId;
         this.ds.loading=false;
       }
     });
@@ -95,6 +98,9 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     if (this.form.valid) {
       this.submitted = true;      
       try {
+        let data = this.form.value;
+        data.rxDate = this.dp.transform($('#rxDate').val(), "dd/M/yyyy");
+        data.injuryDate = this.dp.transform($('#injuryDate').val(), "dd/M/yyyy");
         this.http.saveDocumentIndex(this.form.value).map(r=>{return r.json()}).subscribe(res => {     
             this.toast.success(res.message); 
             this.submitted = false;
@@ -107,6 +113,9 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
               lastName:''
              });
              this.linkClaim  = false;
+             this.ds.documents = this.ds.documents.delete(this.documentId);
+             this.ds.totalRowCount--;
+             this.router.navigate(['/main/unindexed-images/list']);
         },requestError => {
             let err = requestError.json();            
             this.toast.error(err.Message);
