@@ -27,7 +27,6 @@ export class UnindexedImageFileComponent implements OnInit {
     //console.log(window['PDFJS'], this.file);    
     var docInitParams: any = {};
     docInitParams.url = this.file.fileUrl;
-    //console.log("Header", this.http.headers.get('authorization'));
     docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
     $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl+'" allowfullscreen style="width:100%;height:calc(100vh - 110px);border: none;"></iframe>');
   }

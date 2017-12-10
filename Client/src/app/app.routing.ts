@@ -120,26 +120,7 @@ export const routes: Routes = [
           },
           {
             path: 'unindexed-images',
-            component:UnindexedImageComponent,
-            /* children:[
-              {
-                  path: '',
-                  redirectTo: 'list',
-                  pathMatch: 'full',
-              },
-              {
-                path: 'list',
-                component:UnindexedImageFileListComponent
-              },
-              {
-                path: 'file',
-                component:UnindexedImageFileComponent
-              },
-              {
-                path: 'new-index',
-                component:IndexFileComponent
-              }
-            ]  */
+            component:UnindexedImageComponent,            
           },
           {
             path: 'unpaid-scripts',
