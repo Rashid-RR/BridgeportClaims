@@ -30,9 +30,9 @@ export class UnindexedImageListComponent implements OnInit {
   }
   openFile(file: DocumentItem) {
     this.ds.loading=true;
-    localStorage.setItem("file-"+file.documentId,JSON.stringify(file));
-    window.open("#/main/unindexed-images/file?id="+file.documentId, "_blank");    
-    this.router.navigate(["/main/unindexed-images/new-index"],{queryParams:{id:file.documentId}});
+    this.ds.file = file;
+    this.ds.newIndex = true;   
+    this.ds.loading=false;
   }
   goto() {
     let page = Number.parseInt(this.goToPage);

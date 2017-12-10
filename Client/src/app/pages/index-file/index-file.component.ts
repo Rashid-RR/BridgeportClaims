@@ -1,6 +1,6 @@
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
-import { Component, OnInit,NgZone, AfterViewInit } from '@angular/core';
+import { Component,Input, OnInit,NgZone, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
@@ -16,7 +16,7 @@ declare var $: any;
 })
 export class IndexFileComponent implements OnInit, AfterViewInit {
 
-  file: DocumentItem;
+  @Input() file: DocumentItem;
   form: FormGroup;
 
   loading: boolean = false;
@@ -49,18 +49,10 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit() {
-    this.router.routerState.root.queryParams.subscribe(params => {
-      if (params['id']) {
-        let file = localStorage.getItem("file-" + params['id']);
-        if (file) {
-          this.file = JSON.parse(file) as DocumentItem;
-        } 
-        this.form.patchValue({ documentId: this.file.documentId });
-        this.documentId = this.file.documentId;
-        this.ds.loading=false;
-      }
-    });
+  ngOnInit() {    
+    this.form.patchValue({ documentId: this.file.documentId });
+    this.documentId = this.file.documentId;
+    this.ds.loading=false;
   }
   claimSelected($event){
     this.form.patchValue({
@@ -101,6 +93,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         let data = this.form.value;
         data.rxDate = this.dp.transform($('#rxDate').val(), "dd/M/yyyy");
         data.injuryDate = this.dp.transform($('#injuryDate').val(), "dd/M/yyyy");
+        this.ds.loading = true;
         this.http.saveDocumentIndex(this.form.value).map(r=>{return r.json()}).subscribe(res => {     
             this.toast.success(res.message); 
             this.submitted = false;
@@ -115,11 +108,14 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
              this.linkClaim  = false;
              this.ds.documents = this.ds.documents.delete(this.documentId);
              this.ds.totalRowCount--;
-             this.router.navigate(['/main/unindexed-images/list']);
+             this.ds.newIndex = false;
+             this.ds.file = undefined;
+             this.ds.loading = false;
         },requestError => {
             let err = requestError.json();            
             this.toast.error(err.Message);
             this.submitted = false;
+            this.ds.loading = false;
         })
       } catch (e) {
           this.submitted = false;

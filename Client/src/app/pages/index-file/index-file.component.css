@@ -1,9 +1,12 @@
+.box{
+  margin-bottom:0px;
+}
 .bg-head-box {
     background: #992727;
     z-index: 3;
     color: #fff;
 }
-.panel-head {
+.panel-head,.panel-head a,.panel-head:active,.panel-head:hover {
     color: #fff;
 }
 .panel-head u {
@@ -80,12 +83,12 @@ label.check-label{
     width:4% !important;
   }
   form .col-md-2:not(.flex){
-    width:10.99%;
+    width:13%;
     padding-right:2.5px;
     padding-left:2.5px;
   }
   form .col-md-2.flex{
-    width:165px;
+    width:190px;
     padding-right:2px;
     padding-left:2px;
    }
@@ -94,9 +97,13 @@ label.check-label{
     padding-right:2px;
     padding-left:2px;
    }
+  form .col-md-2.flex .form-group span button{
+    margin-left:5px;
+  }
   form .col-md-2.flex .form-group span{
-   display:flex;
-   flex-direction: row;
+    display:flex;
+    flex-direction: row;
+    
   }
   form .col-md-1:not(.no-padding){
    padding-right:5px;

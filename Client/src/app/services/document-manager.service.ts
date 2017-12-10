@@ -19,6 +19,8 @@ export class DocumentManagerService {
   totalRowCount: number;
   autoCompleteClaim:string;
   searchText:string='';
+  newIndex:boolean=false;
+  file:DocumentItem;
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private events: EventsService, private toast: ToastsManager) {
       this.autoCompleteClaim = this.http.baseUrl + "/document/claim-search/?searchText=:keyword";    
@@ -59,6 +61,10 @@ export class DocumentManagerService {
   }
   get end(): Boolean {
     return this.pageStart && this.data.pageSize > this.documentList.length;
+  }
+  cancel(){
+    this.newIndex = false;
+    this.file = undefined;
   }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.data) {

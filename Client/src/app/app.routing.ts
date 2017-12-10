@@ -121,7 +121,7 @@ export const routes: Routes = [
           {
             path: 'unindexed-images',
             component:UnindexedImageComponent,
-            children:[
+            /* children:[
               {
                   path: '',
                   redirectTo: 'list',
@@ -138,12 +138,8 @@ export const routes: Routes = [
               {
                 path: 'new-index',
                 component:IndexFileComponent
-              },
-              {
-                path: 'sample',
-                component:ReportSampleComponent
               }
-            ] 
+            ]  */
           },
           {
             path: 'unpaid-scripts',
