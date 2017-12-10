@@ -5,11 +5,11 @@
     margin: 0px;  
 }
 .products-list>.item:nth-of-type(odd) {
-    background: #fbeede !important;
+    background: #fbdede !important;
 }
 
 .products-list>.item:nth-of-type(even) {
-    background: #fff8ef !important;
+    background: #ffefef !important;
 }
 .expanded{
     height: calc(100vh - 250px);
@@ -35,8 +35,8 @@
     overflow-y: auto;
     overflow-x: hidden;
 } 
-tbody>.products-list>.item:hover {
-    background: #b6f1ff !important;
+.products-list>.item:hover,.flex-row>.file:hover {
+    background: #ffb6b6 !important;
     cursor: pointer;
   }
 .pagination-row{
