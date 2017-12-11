@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SignalRService } from "../../services/services.barrel";
+import { SignalRService } from '../../services/services.barrel';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { setTimeout } from 'core-js/library/web/timers';
-declare var $:any;
+declare var $: any;
 export class BroadCastMessage{
   constructor(public msgFrom: string, public msg: string) {
   }
@@ -16,10 +16,10 @@ export class SignalrDemoComponent implements OnInit {
 
   message: string;
   name: string;
-  nameset: boolean = false;
+  nameset = false;
   documentProxy;
   messages: { msgFrom: string, msg: string }[] = [];
-  hub:string='DocumentsHub';
+  hub = 'DocumentsHub';
   constructor(
     public signalR: SignalRService,
     private toast: ToastsManager
@@ -34,19 +34,19 @@ export class SignalrDemoComponent implements OnInit {
       this.toast.warning('Enter a name before continuing');
     } else {
       this.nameset = true;
-      setTimeout(()=>{
+      setTimeout(() => {
         $('#message').focus();
-      },100);
+      }, 100);
     }
   }
   send() {
     if (this.message) {
-      this.signalR.loading=true;
-      this.signalR.getProxy(this.hub).value.server.broadCastMessage(this.name,this.message).then(r=>{
-        console.log("Sent ...");
+      this.signalR.loading = true;
+      this.signalR.getProxy(this.hub).value.server.broadCastMessage(this.name, this.message).then(r => {
+        console.log('Sent ...');
         this.message = '';
-        this.signalR.loading=false;
-      });      
+        this.signalR.loading = false;
+      });
     }
   }
 

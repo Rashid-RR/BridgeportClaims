@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
@@ -25,8 +26,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
 		private readonly IRepository<Claim> _claimRepository;
 		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
+	    private readonly IDocumentsProvider _documentsProvider;
 
-		public ClaimsDataProvider(ISessionFactory factory, IStoredProcedureExecutor storedProcedureExecutor, 
+        public ClaimsDataProvider(ISessionFactory factory, IStoredProcedureExecutor storedProcedureExecutor, 
 			IRepository<Claim> claimRepository, IRepository<ClaimFlex2> claimFlex2Repository, IPaymentsDataProvider paymentsDataProvider)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
@@ -270,7 +272,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Type = gcs.Key.Type
 								}).ToList();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
-							if (tx.IsActive)
+
+                            if (tx.IsActive)
 								tx.Commit();
 							return claimDto;
 						}
