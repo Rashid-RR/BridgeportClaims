@@ -39,12 +39,19 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     });
             });
 
-        public DocumentsDto GetDocuments(DateTime? date, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+        public DocumentsDto GetDocuments(bool isIndexed, DateTime? date, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocuments]", conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    var isIndexedParam = cmd.CreateParameter();
+                    isIndexedParam.Direction = ParameterDirection.Input;
+                    isIndexedParam.DbType = DbType.Boolean;
+                    isIndexedParam.SqlDbType = SqlDbType.Bit;
+                    isIndexedParam.Value = isIndexed;
+                    isIndexedParam.ParameterName = "@IsIndexed";
+                    cmd.Parameters.Add(isIndexedParam);
                     var retVal = new DocumentsDto();
                     var dateParam = cmd.CreateParameter();
                     dateParam.Direction = ParameterDirection.Input;
