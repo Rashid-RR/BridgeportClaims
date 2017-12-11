@@ -15,6 +15,7 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
 
   startDate: string;
   endDate: string;
+  submitted:boolean=false;
   constructor(
     private us: UnpaidScriptService,
     private toast: ToastsManager,

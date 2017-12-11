@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,Optional, OnInit } from '@angular/core';
 import {HttpService} from "../../services/http-service";
 import {PaymentService} from "../../services/payment-service";
 import {EventsService} from "../../services/events-service";
@@ -15,7 +15,7 @@ declare var jQuery:any;
 })
 export class PaymentResultComponent implements OnInit {
 
-  constructor(public paymentService:PaymentService, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager) {
+  constructor(@Optional() public paymentService:PaymentService, private http: HttpService, private router: Router, private events: EventsService,private toast: ToastsManager) {
 
    }
 

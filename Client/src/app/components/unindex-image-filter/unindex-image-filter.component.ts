@@ -13,6 +13,8 @@ declare var $:any;
 })
 export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
 
+  date:string;
+  submitted:boolean=false;
   constructor(
     public ds:DocumentManagerService,
     private dp: DatePipe,

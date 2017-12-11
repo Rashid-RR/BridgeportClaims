@@ -10,7 +10,7 @@ import { UnpaidScriptService } from "../../services/unpaid-script.service";
 export class UnpaidScriptComponent implements OnInit {
 
   constructor(
-    private us: UnpaidScriptService
+    public us: UnpaidScriptService
   ) { }
 
   ngOnInit() {

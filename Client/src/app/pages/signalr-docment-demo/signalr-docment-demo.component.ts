@@ -18,10 +18,10 @@ export class SignalrDocmentDemoComponent implements OnInit {
   documents: Immutable.OrderedMap<any, any> = Immutable.OrderedMap<any, any>();
   documentTypes: Immutable.OrderedMap<any, any> = Immutable.OrderedMap<any, any>();
   data: any = {};
-  loading = false;
-  display = 'grid';
+  loading:boolean = false;
+  display:string = 'grid';
   lastUpdated: Date;
-  hub = 'DocumentsHub';
+  hub:string = 'DocumentsHub';
   pollTime:number = 1000 * 60 * 1; // microseconds*seconds*minutes ~ currently after every one minute
   constructor(private signalR: SignalRService, private events: EventsService, private router: Router, private _ngZone: NgZone) {
     this.data = {

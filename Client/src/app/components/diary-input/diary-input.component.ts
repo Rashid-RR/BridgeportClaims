@@ -18,6 +18,7 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
   endDate: String;
   open:boolean=true;
   closed:Boolean=false;
+  submitted:boolean=false;
   isClosed:Boolean=false;
   constructor(
     public ds: DiaryService,

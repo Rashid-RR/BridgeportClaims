@@ -121,8 +121,8 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
     private _originalHeight: number;
     private _originalLeft: number;
     private _originalTop: number;
-    private MaxmizeStatus: boolean = false;
-    private MinimizeStatus: boolean = false;
+    MaxmizeStatus: boolean = false;
+    MinimizeStatus: boolean = false;
     //noinspection JSAnnotator
     private _dragSubscription: Subscription;
     private _isDragging: boolean = false;
