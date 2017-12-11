@@ -21,7 +21,7 @@ export class SignalrDocmentDemoComponent implements OnInit {
   loading = false;
   display = 'grid';
   lastUpdated: Date;
-  hub = 'DocumentsHub';
+  hub: string = 'DocumentsHub';
   pollTime:number = 1000 * 60 * 1; // microseconds*seconds*minutes ~ currently after every one minute
   constructor(private signalR: SignalRService, private events: EventsService, private router: Router, private _ngZone: NgZone) {
     this.data = {
