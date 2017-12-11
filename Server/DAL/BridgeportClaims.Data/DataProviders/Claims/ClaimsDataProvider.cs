@@ -272,7 +272,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Type = gcs.Key.Type
 								}).ToList();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
-
+						    claimDto.Documents = _documentsProvider.GetDocuments(null, "FileName", "DESC", 1, 500);
                             if (tx.IsActive)
 								tx.Commit();
 							return claimDto;
