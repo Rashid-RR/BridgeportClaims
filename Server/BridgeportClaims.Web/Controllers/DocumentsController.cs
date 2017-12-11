@@ -43,7 +43,9 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var results = _documentsProvider.GetDocuments(model.Date, model.Sort, model.SortDirection, model.Page,
+                var isIndexed = model.IsIndexed;
+                var results = _documentsProvider.GetDocuments(isIndexed, model.Date, model.Sort, 
+                    model.SortDirection, model.Page,
                     model.PageSize);
                 return Ok(results);
             }
