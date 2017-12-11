@@ -119,6 +119,7 @@
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
     <Compile Include="Dtos\GroupNameDto.cs" />
+    <Compile Include="Dtos\ImagesDto.cs" />
     <Compile Include="Dtos\ImportFileDto.cs" />
     <Compile Include="Dtos\AcctPayableDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
