@@ -18,16 +18,16 @@ export class SignalrDocmentDemoComponent implements OnInit {
   documents: Immutable.OrderedMap<any, any> = Immutable.OrderedMap<any, any>();
   documentTypes: Immutable.OrderedMap<any, any> = Immutable.OrderedMap<any, any>();
   data: any = {};
-  loading: boolean = false;
-  display: string = 'grid';
+  loading = false;
+  display = 'grid';
   lastUpdated: Date;
-  hub: string = 'DocumentsHub';
-  pollTime:number=1000*60*1; //microseconds*seconds*minutes ~ currently after every one minute
+  hub = 'DocumentsHub';
+  pollTime:number = 1000 * 60 * 1; // microseconds*seconds*minutes ~ currently after every one minute
   constructor(private signalR: SignalRService, private events: EventsService, private router: Router, private _ngZone: NgZone) {
     this.data = {
       date: null,
-      sort: "DocumentID",
-      sortDirection: "ASC",
+      sort: 'DocumentID',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 500
     };
@@ -45,8 +45,8 @@ export class SignalrDocmentDemoComponent implements OnInit {
       this.fetchDocs();
       setInterval(()=>{
         this.fetchDocs();
-      },this.pollTime);
-    })
+      }, this.pollTime);
+    });
   }
 
   fetchDocs() {
@@ -76,9 +76,9 @@ export class SignalrDocmentDemoComponent implements OnInit {
 
   openFile(file: any) {
     this.loading = true;
-    localStorage.setItem("file-" + file.DocumentId, JSON.stringify(file));
-    window.open("#/main/unindexed-images/file?id=" + file.DocumentId, "_blank");
-    this.router.navigate(["/main/unindexed-images/new-index"], { queryParams: { id: file.DocumentId } });
+    localStorage.setItem('file-' + file.DocumentId, JSON.stringify(file));
+    window.open('#/main/unindexed-images/file?id=' + file.DocumentId, '_blank');
+    this.router.navigate(['/main/unindexed-images/new-index'], { queryParams: { id: file.DocumentId } });
   }
 
   get documentList(): Array<any> {
