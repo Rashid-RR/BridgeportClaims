@@ -5,8 +5,6 @@ import { EventsService } from '../../services/events-service';
 import { SignalRService } from '../../services/signalr-service';
 import * as Immutable from 'immutable';
 import { Router } from '@angular/router';
-import { timeInterval } from 'rxjs/operators/timeInterval';
-import { setTimeout, setInterval } from 'core-js/library/web/timers';
 
 @Component({
   selector: 'app-signalr-docment-demo',
