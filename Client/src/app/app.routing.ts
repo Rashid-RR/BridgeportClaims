@@ -20,7 +20,7 @@ import { Error404Component } from './pages/error404/error404.component';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
-import { AuthGuard } from './services/services.barrel';
+import { AuthGuard,SignalRService } from './services/services.barrel';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
@@ -113,10 +113,16 @@ export const routes: Routes = [
           },
           {
             path: 'signalr-demo',
-            component: SignalrDemoComponent
+            component: SignalrDemoComponent,
+            /* resolve: {
+              connected: SignalRService
+            } */
           },{
             path: 'signalr-doc-demo',
-            component: SignalrDocmentDemoComponent
+            component: SignalrDocmentDemoComponent,
+            /* resolve: {
+              connected: SignalRService
+            } */
           },
           {
             path: 'unindexed-images',

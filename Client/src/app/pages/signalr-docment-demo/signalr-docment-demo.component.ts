@@ -16,11 +16,11 @@ export class SignalrDocmentDemoComponent implements OnInit {
   documents: Immutable.OrderedMap<any, any> = Immutable.OrderedMap<any, any>();
   documentTypes: Immutable.OrderedMap<any, any> = Immutable.OrderedMap<any, any>();
   data: any = {};
-  loading:boolean = false;
-  display:string = 'grid';
+  loading: boolean = false;
+  display: string = 'grid';
   lastUpdated: Date;
-  hub:string = 'DocumentsHub';
-  pollTime:number = 1000 * 60 * 1; // microseconds*seconds*minutes ~ currently after every one minute
+  hub: string = 'DocumentsHub';
+  pollTime: number = 120000; // microseconds*seconds*minutes ~ currently after every two minute
   constructor(private signalR: SignalRService, private events: EventsService, private router: Router, private _ngZone: NgZone) {
     this.data = {
       date: null,
@@ -35,39 +35,44 @@ export class SignalrDocmentDemoComponent implements OnInit {
     this.signalR.connect(this.hub);
     if (this.signalR.connected) {
       this.fetchDocs();
-      setInterval(()=>{
-        this.fetchDocs();
-      });
-    }
-    this.events.on('start-listening-to-signalr', () => {
-      this.fetchDocs();
-      setInterval(()=>{
+      setInterval(() => {
         this.fetchDocs();
       }, this.pollTime);
-    });
+    } else {
+      this.events.on('start-listening-to-signalr', () => {
+        this.fetchDocs();
+        setInterval(() => {
+          this.fetchDocs();
+        }, this.pollTime);
+      });
+    }
   }
 
   fetchDocs() {
     this._ngZone.run(() => {
-      this.loading = true;
-    });
-    this.signalR.getProxy(this.hub).value.server.getDocuments(this.data).then(result => {
-       this._ngZone.run(() => {
-        this.documents = Immutable.OrderedMap<any, any>();
-        result.DocumentResults.forEach((doc: any) => {
-          try {
-            this.documents = this.documents.set(doc.DocumentId, doc);
-          } catch (e) { console.log(e); }
-        });
+      this.signalR.loading = true;
+      this.signalR.getProxy(this.hub).value.server.getDocuments(this.data).then(result => {
+        console.log(result);
+        if (result) {
+          this.documents = Immutable.OrderedMap<any, any>();
+          result.DocumentResults.forEach((doc: any) => {
+            try {
+              this.documents = this.documents.set(doc.DocumentId, doc);
+            } catch (e) { console.log(e); }
+          });
+          result.DocumentTypes.forEach((type: any) => {
+            try {
+              this.documentTypes = this.documentTypes.set(type.DocumentTypeId, type);
+            } catch (e) { }
+          });
+        }else{
+          console.log("No data returned...");
+        }
         this.lastUpdated = new Date();
-        this.loading = false;
-      });
-      this._ngZone.run(() => {
-        result.DocumentTypes.forEach((type: any) => {
-          try {
-            this.documentTypes = this.documentTypes.set(type.DocumentTypeId, type);
-          } catch (e) { }
-        });
+        this.signalR.loading = false;
+      }, err => {
+        console.log(err);
+        this.signalR.loading = false;
       });
     });
   }
