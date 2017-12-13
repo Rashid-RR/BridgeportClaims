@@ -66,7 +66,11 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
       $("#searchText").val(this.searchText);
      },300);
   }
+  checkMatch($event){
+    this.ds.exactMatch = $event.target.checked;
+  }
   lastInput($event){
+    console.log($event.target.checked);
     this.searchText = $event.target.value;
   }
   ngAfterViewInit() {
