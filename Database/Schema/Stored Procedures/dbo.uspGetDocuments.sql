@@ -13,7 +13,6 @@ GO
 */
 CREATE PROC [dbo].[uspGetDocuments]
 (
-	@IsIndexed BIT,
 	@Date DATE,
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
@@ -46,8 +45,6 @@ AS BEGIN
 	FROM [dbo].[Document] AS [d] LEFT JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
 	WHERE [di].[DocumentID] IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
-		AND (@IsIndexed IS NULL OR [di].[DocumentID] IS NOT NULL)
-
 
 	SELECT @TotalRows = COUNT(*) FROM [#Document]
 
@@ -93,6 +90,4 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
-
-
 GO
