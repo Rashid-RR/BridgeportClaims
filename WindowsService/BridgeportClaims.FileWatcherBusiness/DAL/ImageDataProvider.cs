@@ -26,7 +26,8 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.Close();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
                 });
             });
 
@@ -59,7 +60,7 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
             });
 
         internal void UpdateDocument(int documentId, string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
-            DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl) =>
+            DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, long byteCount) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentUpdate]", conn), cmd =>
@@ -141,15 +142,23 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     fileUrlParam.SqlDbType = SqlDbType.NVarChar;
                     fileUrlParam.Size = 4000;
                     cmd.Parameters.Add(fileUrlParam);
+                    var byteCountParam = cmd.CreateParameter();
+                    byteCountParam.Direction = ParameterDirection.Input;
+                    byteCountParam.Value = byteCount;
+                    byteCountParam.DbType = DbType.Int64;
+                    byteCountParam.SqlDbType = SqlDbType.BigInt;
+                    byteCountParam.ParameterName = "@ByteCount";
+                    cmd.Parameters.Add(byteCountParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.Close();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
                 });
             });
 
         internal int InsertDocument(string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
-                DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl) =>
+                DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, long byteCount) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentInsert]", conn), cmd =>
@@ -224,6 +233,13 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     fileUrlParam.SqlDbType = SqlDbType.NVarChar;
                     fileUrlParam.Size = 4000;
                     cmd.Parameters.Add(fileUrlParam);
+                    var byteCountParam = cmd.CreateParameter();
+                    byteCountParam.Direction = ParameterDirection.Input;
+                    byteCountParam.Value = byteCount;
+                    byteCountParam.DbType = DbType.Int64;
+                    byteCountParam.SqlDbType = SqlDbType.BigInt;
+                    byteCountParam.ParameterName = "@ByteCount";
+                    cmd.Parameters.Add(byteCountParam);
                     var documentIdParam = cmd.CreateParameter();
                     documentIdParam.ParameterName = "@DocumentID";
                     documentIdParam.Direction = ParameterDirection.Output;
@@ -233,7 +249,8 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.Close();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
                     return documentIdParam.Value as int? ?? default(int);
                 });
             });
@@ -254,7 +271,8 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.Close();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
                 });
             });
     }

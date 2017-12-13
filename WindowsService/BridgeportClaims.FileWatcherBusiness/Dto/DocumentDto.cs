@@ -29,5 +29,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Dto
         [Required]
         [StringLength(4000)]
         public string FileUrl { get; set; }
+        [Required]
+        public long ByteCount { get; set; }
     }
 }

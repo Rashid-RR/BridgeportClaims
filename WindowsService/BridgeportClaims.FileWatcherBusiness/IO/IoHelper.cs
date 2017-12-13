@@ -42,7 +42,8 @@ namespace BridgeportClaims.FileWatcherBusiness.IO
                     FileUrl = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove),
                     FullFilePath = f.FullName,
                     LastAccessTimeLocal = f.LastAccessTime,
-                    LastWriteTimeLocal = f.LastWriteTime
+                    LastWriteTimeLocal = f.LastWriteTime,
+                    ByteCount = f.Length
                 })
                 .AsEnumerable();
         }
