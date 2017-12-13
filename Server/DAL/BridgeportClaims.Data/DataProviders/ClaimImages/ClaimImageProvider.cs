@@ -70,17 +70,19 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                         var typeOrdinal = reader.GetOrdinal("Type");
                         var rxDateOrdinal = reader.GetOrdinal("RxDate");
                         var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
-                        var fileNameOrdianl = reader.GetOrdinal("FileName");
+                        var fileNameOrdinal = reader.GetOrdinal("FileName");
+                        var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
                         while (reader.Read())
                         {
                             var result = new ClaimImageResultDto
                             {
                                 Created = reader.GetDateTime(createdOrdinal),
                                 DocumentId = reader.GetInt32(documentIdOrdinal),
-                                FileName = reader.GetString(fileNameOrdianl),
+                                FileName = reader.GetString(fileNameOrdinal),
                                 RxDate = !reader.IsDBNull(rxDateOrdinal) ? reader.GetDateTime(rxDateOrdinal) : (DateTime?) null,
                                 RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
-                                Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty
+                                Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
+                                FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty
                             };
                             results.Add(result);
                         }
