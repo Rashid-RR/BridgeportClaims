@@ -1,28 +1,55 @@
-  <div class="row invoice-info">
-        <div class="col-sm-12 invoice-col">
-          <div class="table-responsive">
-            <table class="table no-margin table-striped">
-              <thead>
-              <tr>
-                <th>Created</th>
-                <th>Type</th>
-                <th>Rx Date</th>
-                <th>Rx Number</th>
-                <th>File</th>
-              </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let image of claimManager.selectedClaim.images" (click)="openAttachment(image)">
-                    <td>{{image.created  | date:"shortDate"}}</td>
-                    <td>{{image.type}}</td>
-                    <td>{{image.rxDate | date:"shortDate"}}</td>
-                    <td>{{image.rxNumber}}</td>
-                    <td>
-                      <a [routerLink]="image.file">{{image.file}}</a>
-                    </td>               
-                  </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+<div class="row invoice-info">
+  <div class="col-sm-12 invoice-col">
+    <div class="table-responsive">
+      <table class="table no-margin table-striped">
+        <thead class="overflowable">
+          <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'>
+            <th>
+              <span columnSort="creationTimeLocal" [sort-table]="myTable">
+                Created
+              </span>
+            </th>
+            <th>
+              <span columnSort="extension" [sort-table]="myTable">
+                Type
+              </span>
+            </th>
+            <th>
+              <span columnSort="rxDate" [sort-table]="myTable">
+                Rx Date
+              </span>
+            </th>
+            <th>
+              <span columnSort="rxNumber" [sort-table]="myTable">
+                Rx Number
+              </span>
+            </th>
+            <th>
+              <span columnSort="fileName" [sort-table]="myTable">
+                File
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngIf="claimManager.loadingImage">
+              <div class="loader" style="align-self: center;margin-top: 40px;">
+              <a>
+                  <img src="assets/img/Spinner.gif">
+                  </a>
+              </div>
+          </ng-container>
+          <tr *ngFor="let image of claimManager.selectedClaim.images" (click)="openAttachment(image)">
+            <td>{{image.creationTimeLocal | date:"shortDate"}}</td>
+            <td>{{image.extension}}</td>
+            <td>{{image.rxDate | date:"shortDate"}}</td>
+            <td>{{image.rxNumber}}</td>
+            <td>
+              <a [routerLink]="image.fileName">{{image.fileName}}</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+</div>
