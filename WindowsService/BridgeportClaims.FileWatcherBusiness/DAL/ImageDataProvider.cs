@@ -54,7 +54,8 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
-                    conn.Close();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
                     return documentIdParam.Value as int? ?? default(int);
                 });
             });
