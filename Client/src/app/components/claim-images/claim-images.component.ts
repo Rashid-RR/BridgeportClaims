@@ -39,7 +39,6 @@ export class ClaimImagesComponent implements OnInit {
     var data = {
       claimId:this.claimManager.selectedClaim.claimId,
       date: null,
-      isIndexed:true,
       sort: "DocumentID",
       sortDirection: "ASC",
       page: 1,
@@ -49,12 +48,12 @@ export class ClaimImagesComponent implements OnInit {
     let sort_dir: 'asc' | 'desc' = 'desc';
     if (this.sortColumn) {
       data.sort = this.sortColumn.column;
-      data.sortDirection = this.sortColumn.dir;
+      data.sortDirection = this.sortColumn.dir.toUpperCase();
     }
     
-    this.http.getDocuments(data).map(p => p.json())
+    this.http.getSortedImages(data).map(p => p.json())
       .subscribe(results => {
-        this.claimManager.selectedClaim.setImages(results.documentResults);
+        this.claimManager.selectedClaim.setImages(results.claimImages);
         this.claimManager.loadingImage = false;
       },err=>{
         this.claimManager.loadingImage = false;

@@ -553,6 +553,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getSortedImages(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/image/get', data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   saveDocumentIndex(data:any): Observable<Response> {
     return this.http.post(this.baseUrl + '/index-document/save', data, { headers: this.headers })
     .catch(err =>  {
