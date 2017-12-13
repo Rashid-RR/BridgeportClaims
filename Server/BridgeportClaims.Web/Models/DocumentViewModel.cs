@@ -6,8 +6,6 @@ namespace BridgeportClaims.Web.Models
     [Serializable]
     public sealed class DocumentViewModel
     {
-        [Required]
-        public bool IsIndexed { get; set; }
         public DateTime? Date { get; set; }
         [Required]
         [StringLength(50)]
