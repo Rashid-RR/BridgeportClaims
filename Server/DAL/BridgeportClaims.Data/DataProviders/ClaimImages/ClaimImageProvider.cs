@@ -44,7 +44,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                     pageSizeParam.Value = pageSize;
                     pageSizeParam.DbType = DbType.Int32;
                     pageSizeParam.SqlDbType = SqlDbType.Int;
-                    pageSizeParam.ParameterName = "@PageNumber";
+                    pageSizeParam.ParameterName = "@PageSize";
                     cmd.Parameters.Add(pageSizeParam);
                     var totalRowsParam = cmd.CreateParameter();
                     totalRowsParam.Direction = ParameterDirection.Output;
