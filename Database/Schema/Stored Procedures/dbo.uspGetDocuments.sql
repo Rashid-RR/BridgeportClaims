@@ -34,14 +34,15 @@ AS BEGIN
 		[LastAccessTimeLocal] [datetime2] NOT NULL,
 		[LastWriteTimeLocal] [datetime2] NOT NULL,
 		[FullFilePath] [nvarchar] (4000) NOT NULL,
-		[FileUrl] [nvarchar] (4000) NOT NULL
+		[FileUrl] [nvarchar] (4000) NOT NULL,
+		ByteCount BIGINT NOT NULL
 	);
 
 	INSERT [#Document]
 		([DocumentID],[FileName],[Extension],[FileSize],[CreationTimeLocal],[LastAccessTimeLocal],
-		[LastWriteTimeLocal],[FullFilePath],[FileUrl])
+		[LastWriteTimeLocal],[FullFilePath],[FileUrl],[ByteCount])
 	SELECT [d].[DocumentID],[d].[FileName],[d].[Extension],[d].[FileSize],[d].[CreationTimeLocal]
-		,[d].[LastAccessTimeLocal],[d].[LastWriteTimeLocal],[d].[FullFilePath],[d].[FileUrl]
+		,[d].[LastAccessTimeLocal],[d].[LastWriteTimeLocal],[d].[FullFilePath],[d].[FileUrl],[d].[ByteCount]
 	FROM [dbo].[Document] AS [d] LEFT JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
 	WHERE [di].[DocumentID] IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
@@ -66,9 +67,9 @@ AS BEGIN
 			CASE WHEN @SortColumn = 'Extension' AND @SortDirection = 'DESC'
 				THEN d.Extension END DESC,
 			CASE WHEN @SortColumn = 'FileSize' AND @SortDirection = 'ASC'
-				THEN d.FileSize END ASC,
+				THEN d.ByteCount END ASC,
 			CASE WHEN @SortColumn = 'FileSize' AND @SortDirection = 'DESC'
-				THEN d.FileSize END DESC,
+				THEN d.ByteCount END DESC,
 			CASE WHEN @SortColumn = 'CreationTime' AND @SortDirection = 'ASC'
 				THEN d.CreationTimeLocal END ASC,
 			CASE WHEN @SortColumn = 'CreationTime' AND @SortDirection = 'DESC'
@@ -92,5 +93,6 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
 
 GO

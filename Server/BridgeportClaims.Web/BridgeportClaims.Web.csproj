@@ -273,6 +273,7 @@
     <Compile Include="Controllers\EpisodesController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HistoryController.cs" />
+    <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\KpiController.cs" />
     <Compile Include="Controllers\LakerAutomationController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
@@ -300,6 +301,7 @@
     <Compile Include="Models\AccountsReceivableViewModel.cs" />
     <Compile Include="Models\AmountRemainingModel.cs" />
     <Compile Include="Models\ClaimDocumentViewModel.cs" />
+    <Compile Include="Models\ClaimImageViewModel.cs" />
     <Compile Include="Models\ClaimsSearchViewModel.cs" />
     <Compile Include="Models\CreateRoleBindingModel.cs" />
     <Compile Include="Models\DiariesViewModel.cs" />

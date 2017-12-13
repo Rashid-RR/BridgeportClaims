@@ -60,6 +60,8 @@
   <ItemGroup>
     <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\ClaimImages\ClaimImageProvider.cs" />
+    <Compile Include="DataProviders\ClaimImages\IClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\IClaimSearchProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
@@ -105,6 +107,8 @@
     <Compile Include="Dtos\AccountsReceivableDto.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />
     <Compile Include="Dtos\ClaimFlex2Dto.cs" />
+    <Compile Include="Dtos\ClaimImageResultDto.cs" />
+    <Compile Include="Dtos\ClaimImagesDto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
@@ -141,7 +145,6 @@
     <Compile Include="Dtos\UnpaidScriptResultDto.cs" />
     <Compile Include="Dtos\UnpaidScriptsDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />
-    <Compile Include="Mappings\AcctPayableMap.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
     <Compile Include="Mappings\AspNetRolesMap.cs" />
     <Compile Include="Mappings\AspNetUserClaimsMap.cs" />

@@ -1,12 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
-    public sealed class DocumentViewModel
+    public class ClaimImageViewModel
     {
-        public DateTime? Date { get; set; }
+        [Required]
+        public int ClaimId { get; set; }
         [Required]
         [StringLength(50)]
         public string Sort { get; set; }

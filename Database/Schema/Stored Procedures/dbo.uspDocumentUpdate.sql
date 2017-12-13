@@ -19,7 +19,8 @@ CREATE PROC [dbo].[uspDocumentUpdate]
     @LastWriteTimeLocal DATETIME2,
     @DirectoryName VARCHAR(255),
     @FullFilePath NVARCHAR(4000),
-    @FileUrl NVARCHAR(4000)
+    @FileUrl NVARCHAR(4000),
+	@ByteCount BIGINT
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
@@ -31,7 +32,7 @@ AS BEGIN
 		UPDATE [dbo].[Document]
 		SET    [FileName] = @FileName, [Extension] = @Extension, [FileSize] = @FileSize, [CreationTimeLocal] = @CreationTimeLocal,
 			 [LastAccessTimeLocal] = @LastAccessTimeLocal, [LastWriteTimeLocal] = @LastWriteTimeLocal, [DirectoryName]
-			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [UpdatedOnUTC] = @UtcNow
+			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [ByteCount] = @ByteCount, [UpdatedOnUTC] = @UtcNow
 		WHERE  [DocumentID] = @DocumentID
 	
 		IF (@@TRANCOUNT > 0)

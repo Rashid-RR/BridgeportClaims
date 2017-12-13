@@ -5,16 +5,13 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Invoice
     {
         public Invoice()
         {
-            AcctPayable = new List<AcctPayable>();
             Prescription = new List<Prescription>();
         }
-        [Required]
         public virtual int InvoiceId { get; set; }
         [Required]
         [StringLength(100)]
@@ -27,9 +24,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-        [StringLength(50)]
-        public virtual string ETLRowID { get; set; }
-        public virtual IList<AcctPayable> AcctPayable { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
     }
 }

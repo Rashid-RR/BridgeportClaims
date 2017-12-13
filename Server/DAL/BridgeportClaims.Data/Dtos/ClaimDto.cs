@@ -32,6 +32,6 @@ namespace BridgeportClaims.Data.Dtos
 		public IList<ScriptNoteDto> PrescriptionNotes { get; set; }
 		public IList<AcctPayableDto> AcctPayables { get; set; }
 		public IList<PrescriptionPaymentsDto> Payments { get; set; }
-        public DocumentsDto Documents { get; set; }
+        public IList<ClaimImageResultDto> Images { get; set; }
 	}
 }

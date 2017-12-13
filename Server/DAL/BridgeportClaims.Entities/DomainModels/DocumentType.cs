@@ -24,8 +24,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-        [Required]
-        public virtual DateTime DataVersion { get; set; }
         public virtual IList<DocumentIndex> DocumentIndex { get; set; }
     }
 }

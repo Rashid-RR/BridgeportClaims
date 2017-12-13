@@ -935,24 +935,6 @@ AS BEGIN
 			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Prescription Records didn''t match', 16, 1) WITH NOWAIT
 			RETURN
 		END
-
-	/********************************************************************************************
-	Begin AcctPayable Section
-	********************************************************************************************/
-	--  Stop this insanity
-	/*INSERT INTO [dbo].[AcctPayable] ([CheckNumber],[CheckDate],[AmountPaid],[ClaimID],[InvoiceID],[CreatedOnUTC],[UpdatedOnUTC],[ETLRowID])
-	SELECT [s].[6]
-		 , [s].[7]
-		 , 0
-		 , [s].[ClaimID]
-		 , [s].[InvoiceID]
-		 , @UTCNow
-		 , @UTCNow
-		 , [s].[RowID]
-	FROM   [etl].[StagedLakerFile] AS [s]
-	WHERE  1 = 1
-		   AND [s].[InvoiceID] IS NOT NULL
-		   AND [s].[6] IS NOT NULL*/
 	   
 	DECLARE @Success BIT = 0
 	IF @@TRANCOUNT > 0

@@ -63,7 +63,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 var rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
                 var url = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove);
                 var documentId = _imageDataProvider.InsertDocument(f.Name, f.Extension, fileSize, f.CreationTime,
-                    f.LastAccessTime, f.LastWriteTime, f.DirectoryName, f.FullName, url);
+                    f.LastAccessTime, f.LastWriteTime, f.DirectoryName, f.FullName, url, f.Length);
                 if (!cs.AppIsInDebugMode) return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
@@ -91,7 +91,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 var url = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove);
                 var documentId = _imageDataProvider.GetDocumentIdByDocumentName(f.Name);
                 _imageDataProvider.UpdateDocument(documentId, f.Name, f.Extension, fileSize, f.CreationTime, f.LastAccessTime, 
-                    f.LastWriteTime, f.DirectoryName, f.FullName, url);
+                    f.LastWriteTime, f.DirectoryName, f.FullName, url, f.Length);
                 if (!cs.AppIsInDebugMode) return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);

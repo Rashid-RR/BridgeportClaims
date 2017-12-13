@@ -118,7 +118,6 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<DocumentMap>();
 				    m.FluentMappings.Add<DocumentIndexMap>();
 					m.FluentMappings.Add<DocumentTypeMap>();
-					m.FluentMappings.Add<AcctPayableMap>();
 					m.FluentMappings.Add<ClaimMap>();
 					m.FluentMappings.Add<cnm>();
 					m.FluentMappings.Add<ClaimNoteTypeMap>();
