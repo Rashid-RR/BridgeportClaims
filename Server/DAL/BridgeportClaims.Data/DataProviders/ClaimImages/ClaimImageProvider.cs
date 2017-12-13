@@ -10,12 +10,19 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
 {
     public class ClaimImageProvider : IClaimImageProvider
     {
-        public ClaimImagesDto GetClaimImages(string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+        public ClaimImagesDto GetClaimImages(int claimId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetClaimImages]", conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    var claimIdParam = cmd.CreateParameter();
+                    claimIdParam.Value = claimId;
+                    claimIdParam.ParameterName = "@ClaimID";
+                    claimIdParam.Direction = ParameterDirection.Input;
+                    claimIdParam.DbType = DbType.Int32;
+                    claimIdParam.SqlDbType = SqlDbType.Int;
+                    cmd.Parameters.Add(claimIdParam);
                     var sortColumnParam = cmd.CreateParameter();
                     sortColumnParam.Direction = ParameterDirection.Input;
                     sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;

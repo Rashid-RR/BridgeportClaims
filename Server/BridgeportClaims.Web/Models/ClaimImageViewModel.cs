@@ -5,6 +5,8 @@ namespace BridgeportClaims.Web.Models
     public class ClaimImageViewModel
     {
         [Required]
+        public int ClaimId { get; set; }
+        [Required]
         [StringLength(50)]
         public string Sort { get; set; }
         [Required]

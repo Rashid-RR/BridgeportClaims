@@ -4,6 +4,6 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
 {
     public interface IClaimImageProvider
     {
-        ClaimImagesDto GetClaimImages(string sortColumn, string sortDirection, int pageNumber, int pageSize);
+        ClaimImagesDto GetClaimImages(int claimId, string sortColumn, string sortDirection, int pageNumber, int pageSize);
     }
 }

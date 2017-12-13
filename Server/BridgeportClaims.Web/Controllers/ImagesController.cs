@@ -25,7 +25,9 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var results = _claimImageProvider.GetClaimImages(model.Sort, model.SortDirection, model.Page, model.PageSize);
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                var results = _claimImageProvider.GetClaimImages(model.ClaimId, model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(results);
             }
             catch (Exception ex)

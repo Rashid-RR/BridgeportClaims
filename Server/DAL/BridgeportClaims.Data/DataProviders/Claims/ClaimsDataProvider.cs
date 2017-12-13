@@ -277,7 +277,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Type = gcs.Key.Type
 								}).ToList();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
-						    var imageResults = _claimImageProvider.GetClaimImages("Created", "DESC", 1, 500);
+						    var imageResults = _claimImageProvider.GetClaimImages(claimId, "Created", "DESC", 1, 5000);
 						    claimDto.Images = imageResults.ClaimImages;
 							if (tx.IsActive)
 								tx.Commit();
