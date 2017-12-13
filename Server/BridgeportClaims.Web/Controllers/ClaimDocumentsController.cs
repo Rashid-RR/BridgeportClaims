@@ -28,7 +28,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var result = _documentsProvider.GetDocuments(null, model.Sort, model.SortDirection, model.Page, model.PageSize);
+                    var result = _documentsProvider.GetDocuments(true, null, model.Sort, model.SortDirection, model.Page, model.PageSize);
                     result.ClaimId = model.ClaimId;
                     result.DocumentTypes = null;
                     return Ok(result);

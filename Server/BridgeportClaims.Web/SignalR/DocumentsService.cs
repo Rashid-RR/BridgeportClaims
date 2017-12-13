@@ -25,7 +25,7 @@ namespace BridgeportClaims.Web.SignalR
                 if (!_gettingDocuments)
                 {
                     _gettingDocuments = true;
-                    result = _documentsProvider.GetDocuments(model.Date, model.Sort, model.SortDirection,
+                    result = _documentsProvider.GetDocuments(false, model.Date, model.Sort, model.SortDirection,
                         model.Page,
                         model.PageSize);
                     _gettingDocuments = false;

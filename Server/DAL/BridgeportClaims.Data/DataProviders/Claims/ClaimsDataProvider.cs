@@ -26,15 +26,20 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
 		private readonly IRepository<Claim> _claimRepository;
 		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
-	    private readonly IDocumentsProvider _documentsProvider;
+		private readonly IDocumentsProvider _documentsProvider;
 
-        public ClaimsDataProvider(ISessionFactory factory, IStoredProcedureExecutor storedProcedureExecutor, 
-			IRepository<Claim> claimRepository, IRepository<ClaimFlex2> claimFlex2Repository, IPaymentsDataProvider paymentsDataProvider)
+		public ClaimsDataProvider(ISessionFactory factory, 
+			IStoredProcedureExecutor storedProcedureExecutor, 
+			IRepository<Claim> claimRepository, 
+			IRepository<ClaimFlex2> claimFlex2Repository, 
+			IPaymentsDataProvider paymentsDataProvider, 
+			IDocumentsProvider documentsProvider)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
 			_claimRepository = claimRepository;
 			_claimFlex2Repository = claimFlex2Repository;
 			_paymentsDataProvider = paymentsDataProvider;
+			_documentsProvider = documentsProvider;
 			_factory = factory;
 		}
 
@@ -272,8 +277,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Type = gcs.Key.Type
 								}).ToList();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
-
-                            if (tx.IsActive)
+							claimDto.Documents = _documentsProvider.GetDocuments(true, null, "FileName", "DESC", 1, 5000);
+							if (tx.IsActive)
 								tx.Commit();
 							return claimDto;
 						}
