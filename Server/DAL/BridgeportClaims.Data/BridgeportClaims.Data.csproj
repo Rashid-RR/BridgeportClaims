@@ -145,7 +145,6 @@
     <Compile Include="Dtos\UnpaidScriptResultDto.cs" />
     <Compile Include="Dtos\UnpaidScriptsDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />
-    <Compile Include="Mappings\AcctPayableMap.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
     <Compile Include="Mappings\AspNetRolesMap.cs" />
     <Compile Include="Mappings\AspNetUserClaimsMap.cs" />

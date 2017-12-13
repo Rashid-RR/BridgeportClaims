@@ -10,7 +10,6 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         public Claim()
         {
-            AcctPayable = new List<AcctPayable>();
             ClaimNote = new List<ClaimNote>();
             ClaimPayment = new List<ClaimPayment>();
             ClaimsUserHistory = new List<ClaimsUserHistory>();
@@ -18,10 +17,14 @@ namespace BridgeportClaims.Entities.DomainModels
             Episode = new List<Episode>();
             Prescription = new List<Prescription>();
         }
+        [Required]
         public virtual int ClaimId { get; set; }
+        [Required]
         public virtual Payor Payor { get; set; }
         public virtual Adjustor Adjustor { get; set; }
+        [Required]
         public virtual UsState UsState { get; set; }
+        [Required]
         public virtual Patient Patient { get; set; }
         public virtual ClaimFlex2 ClaimFlex2 { get; set; }
         [StringLength(255)]
@@ -45,7 +48,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-        public virtual IList<AcctPayable> AcctPayable { get; set; }
         public virtual IList<ClaimNote> ClaimNote { get; set; }
         public virtual IList<ClaimPayment> ClaimPayment { get; set; }
         public virtual IList<ClaimsUserHistory> ClaimsUserHistory { get; set; }

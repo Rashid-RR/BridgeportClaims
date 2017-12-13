@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="Automappers\IPayorMapper.cs" />
     <Compile Include="Automappers\PayorMapper.cs" />
-    <Compile Include="DomainModels\AcctPayable.cs" />
     <Compile Include="DomainModels\Adjustor.cs" />
     <Compile Include="DomainModels\AspNetRoles.cs" />
     <Compile Include="DomainModels\AspNetUserClaims.cs" />
