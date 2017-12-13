@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
-using BridgeportClaims.Data.DataProviders.Documents;
+using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
@@ -26,21 +26,21 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
 		private readonly IRepository<Claim> _claimRepository;
 		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
-		private readonly IDocumentsProvider _documentsProvider;
+	    private readonly IClaimImageProvider _claimImageProvider;
 
 		public ClaimsDataProvider(ISessionFactory factory, 
 			IStoredProcedureExecutor storedProcedureExecutor, 
 			IRepository<Claim> claimRepository, 
 			IRepository<ClaimFlex2> claimFlex2Repository, 
 			IPaymentsDataProvider paymentsDataProvider, 
-			IDocumentsProvider documentsProvider)
+            IClaimImageProvider claimImageProvider)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
 			_claimRepository = claimRepository;
 			_claimFlex2Repository = claimFlex2Repository;
 			_paymentsDataProvider = paymentsDataProvider;
-			_documentsProvider = documentsProvider;
-			_factory = factory;
+		    _claimImageProvider = claimImageProvider;
+		    _factory = factory;
 		}
 
 		public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
@@ -277,7 +277,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Type = gcs.Key.Type
 								}).ToList();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
-							claimDto.Documents = _documentsProvider.GetDocuments(true, null, "FileName", "DESC", 1, 5000);
+						    var imageResults = _claimImageProvider.GetClaimImages("Created", "DESC", 1, 500);
+						    claimDto.Images = imageResults.ClaimImages;
 							if (tx.IsActive)
 								tx.Commit();
 							return claimDto;

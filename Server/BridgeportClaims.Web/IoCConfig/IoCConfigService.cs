@@ -29,6 +29,7 @@ using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
+using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Diaries;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
@@ -67,6 +68,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DocumentsProvider>().As<IDocumentsProvider>().InstancePerRequest();
             builder.RegisterType<DocumentIndexProvider>().As<IDocumentIndexProvider>().InstancePerRequest();
             builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();
+            builder.RegisterType<ClaimImageProvider>().As<IClaimImageProvider>().InstancePerRequest();
             
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();
