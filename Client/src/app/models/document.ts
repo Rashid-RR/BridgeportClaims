@@ -8,4 +8,6 @@ export interface DocumentItem{
     lastWriteTimeLocal: Date,
     fullFilePath: string;
     fileUrl: string;
+    rxNumber?: number;
+    rxDate?: Date;
 }

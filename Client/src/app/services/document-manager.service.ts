@@ -27,6 +27,7 @@ export class DocumentManagerService {
       
     this.data = {
       date: null,
+      isIndexed:false,
       sort: "DocumentID",
       sortDirection: "ASC",
       page: 1,
