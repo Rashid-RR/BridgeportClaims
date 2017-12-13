@@ -54,6 +54,8 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                     cmd.Parameters.Add(totalRowsParam);
                     var retVal = new ClaimImagesDto();
                     IList<ClaimImageResultDto> results = new List<ClaimImageResultDto>();
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
                     DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
                         var documentIdOrdinal = reader.GetOrdinal("DocumentId");
@@ -76,6 +78,8 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                             results.Add(result);
                         }
                     });
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
                     retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
                     retVal.ClaimImages = results;
                     return retVal;
