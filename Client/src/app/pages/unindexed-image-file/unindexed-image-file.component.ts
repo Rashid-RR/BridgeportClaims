@@ -1,9 +1,11 @@
-import { Component,Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
 import { HttpService } from "../../services/http-service"
-import { DomSanitizer,SafeResourceUrl } from '@angular/platform-browser';
-declare var $:any;
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+
+declare var $: any;
 
 @Component({
   selector: 'app-unindexed-image-file',
@@ -13,21 +15,40 @@ declare var $:any;
 export class UnindexedImageFileComponent implements OnInit {
 
   loading: boolean = false;
-  sanitizedURL:any;
-  @Input() file:DocumentItem
+  sanitizedURL: any;
+  @Input() file: DocumentItem;
+  private sub: any;
   constructor(
     private router: Router,
-    private http: HttpService,private sanitizer:DomSanitizer
+    private route: ActivatedRoute,
+    private http: HttpService, private sanitizer: DomSanitizer
   ) { }
-  get sanitize():SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl('assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl);
+  get sanitize(): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl('assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl);
   }
   ngOnInit() {
     var scale = 1.5;
-    //console.log(window['PDFJS'], this.file);    
+    if (this.file) {
+      this.showFile();
+    } else {
+      this.sub = this.route.params.subscribe(params => {
+        let file = localStorage.getItem('file-' + params['id']);
+        if (file) {
+          this.file = JSON.parse(file) as DocumentItem;
+          this.file.fileUrl = this.file.fileUrl ? this.file.fileUrl : 'https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245302.pdf'; //delete this line once fileUrl is added to images in GetClaimData api
+          this.showFile();
+        }
+      });
+    }
+  }
+  showFile() {
     var docInitParams: any = {};
     docInitParams.url = this.file.fileUrl;
     docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
-    $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl+'" allowfullscreen style="width:100%;height:calc(100vh - 110px);border: none;"></iframe>');
+    $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - 110px);border: none;"></iframe>');
   }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
 }

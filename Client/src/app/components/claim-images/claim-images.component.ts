@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {ClaimManager} from "../../services/claim-manager";
 import {ClaimImage} from "../../models/claim-image";
+import {DocumentItem} from "../../models/document";
 import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
+import {WindowsInjetor,CustomPosition,Size,WindowConfig} from "../ng-window";
+import {UnindexedImageFileComponent} from "../../pages/unindexed-image-file/unindexed-image-file.component";
+declare var  $:any; 
 
 @Component({
   selector: 'app-claim-images',
@@ -15,14 +19,15 @@ export class ClaimImagesComponent implements OnInit {
   sortColumn: SortColumnInfo;
   constructor(
     public claimManager:ClaimManager,
+    private myInjector: WindowsInjetor,
     private http: HttpService) { }
 
   ngOnInit() {
 
   }
   openAttachment(image:ClaimImage){
-    console.log("Open attachmen")
-    window.open('//pathToPDF',"_tab"); 
+    localStorage.setItem('file-' + image.documentId, JSON.stringify(image));
+    window.open('#/main/indexed-image/' + image.documentId, '_blank');    
   }
   onSortColumn(info: SortColumnInfo) {
     this.sortColumn = info;

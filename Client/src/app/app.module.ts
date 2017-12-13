@@ -135,7 +135,8 @@ export class SafeUrlPipe implements PipeTransform {
       useClass: HashLocationStrategy
     }],
   entryComponents: [
-      ConfirmComponent,BootstrapWindowContainer,WindowBackdrop,DiaryScriptNoteWindowComponent,AppComponent
+    UnindexedImageFileComponent,
+    ConfirmComponent,BootstrapWindowContainer,WindowBackdrop,DiaryScriptNoteWindowComponent,AppComponent
   ],
   bootstrap: [AppComponent]
 })

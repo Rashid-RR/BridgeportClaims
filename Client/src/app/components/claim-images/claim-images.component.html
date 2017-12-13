@@ -5,6 +5,9 @@
         <thead class="overflowable">
           <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'>
             <th>
+              &nbsp;
+            </th>
+            <th>
               <span columnSort="created" [sort-table]="myTable">
                 Created
               </span>
@@ -40,6 +43,7 @@
               </div>
           </ng-container>
           <tr *ngFor="let image of claimManager.selectedClaim.images" (click)="openAttachment(image)">
+            <td><i class="fa fa-file-pdf-o text-red"></i></td>
             <td>{{image.created | date:"shortDate"}}</td>
             <td>{{image.type}}</td>
             <td>{{image.rxDate | date:"shortDate"}}</td>
