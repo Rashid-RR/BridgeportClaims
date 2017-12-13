@@ -11,6 +11,7 @@ GO
 */
 CREATE PROC [dbo].[uspGetClaimImages]
 (
+	@ClaimID INTEGER,
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
@@ -42,6 +43,7 @@ AS
 		FROM            [dbo].[Document]      AS [d]
 			INNER JOIN  [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
 			INNER JOIN  [dbo].[DocumentType]  AS [dt] ON [dt].[DocumentTypeID] = [di].[DocumentTypeID]
+		WHERE		[di].[ClaimID] = @ClaimID
 
 		SELECT @TotalRows = COUNT(*) FROM [#Images]
 
@@ -76,6 +78,8 @@ AS
 					THEN [i].[FileName] END ASC,
 				 CASE WHEN @SortColumn = 'FileName' AND @SortDirection = 'DESC'
 					THEN [i].[FileName] END DESC
+			OFFSET @PageSize * (@PageNumber - 1) ROWS
+			FETCH NEXT @PageSize ROWS ONLY;
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT
@@ -97,4 +101,5 @@ AS
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
+
 GO
