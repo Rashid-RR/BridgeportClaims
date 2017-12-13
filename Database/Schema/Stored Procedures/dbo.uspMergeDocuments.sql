@@ -28,14 +28,15 @@ AS BEGIN
                     , [d].[LastWriteTimeLocal]
                     , [d].[DirectoryName]
                     , [d].[FullFilePath]
-                    , [d].[FileUrl] 
+                    , [d].[FileUrl]
+					, [d].[ByteCount]
 				FROM @Documents AS [d]) AS [src]
 				ON [tgt].[FileName] = [src].[FileName]
 		WHEN NOT MATCHED BY TARGET THEN
 			INSERT ([FileName], [Extension], [FileSize], [CreationTimeLocal], [LastAccessTimeLocal], [LastWriteTimeLocal],
-				[DirectoryName], [FullFilePath], [FileUrl], [CreatedOnUTC], [UpdatedOnUTC])
+				[DirectoryName], [FullFilePath], [FileUrl], [ByteCount], [CreatedOnUTC], [UpdatedOnUTC])
 			VALUES ([src].[FileName], [src].[Extension], [src].[FileSize], [src].[CreationTimeLocal], [src].[LastAccessTimeLocal],
-				[src].[LastWriteTimeLocal], [src].[DirectoryName], [src].[FullFilePath], [src].[FileUrl], @UtcNow, @UtcNow)
+				[src].[LastWriteTimeLocal], [src].[DirectoryName], [src].[FullFilePath], [src].[FileUrl], [src].[ByteCount], @UtcNow, @UtcNow)
 		WHEN MATCHED THEN
 			UPDATE SET [tgt].[Extension] = [src].[Extension],
 					   [tgt].[FileSize] = [src].[FileSize],
@@ -45,6 +46,7 @@ AS BEGIN
 					   [tgt].[DirectoryName] = [src].[DirectoryName],
 					   [tgt].[FullFilePath] = [src].[FullFilePath],
 					   [tgt].[FileUrl] = [src].[FileUrl],
+					   [tgt].[ByteCount] = [src].[ByteCount],
 					   [tgt].[UpdatedOnUTC] = @UtcNow
 		WHEN NOT MATCHED BY SOURCE
 			THEN DELETE;

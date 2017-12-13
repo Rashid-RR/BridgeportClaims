@@ -13,13 +13,21 @@ CREATE PROC [dbo].[uspDocumentDelete]
 	@DocumentID INT
 AS BEGIN
 	SET NOCOUNT ON;
+	DECLARE @Msg NVARCHAR(500), @RowCnt INT
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
 	
-		DELETE
-		FROM   [dbo].[Document]
-		WHERE  [DocumentID] = @DocumentID
+		DELETE [dbo].[Document] WHERE [DocumentID] = @DocumentID
+		SET @RowCnt = @@ROWCOUNT
+		IF @RowCnt != 1
+			BEGIN
+				IF (@@TRANCOUNT > 0)
+					ROLLBACK
+				SET @Msg = N'Error, the delete statement removed ' + CONVERT(NVARCHAR, @RowCnt) + ' rows. Not 1 like it should have.'
+				RAISERROR(@Msg, 16, 1) WITH NOWAIT
+				RETURN
+			END
 	
 		IF (@@TRANCOUNT > 0)
 			COMMIT

@@ -19,6 +19,7 @@ CREATE PROC [dbo].[uspDocumentInsert]
     @DirectoryName VARCHAR(255),
     @FullFilePath NVARCHAR(4000),
     @FileUrl NVARCHAR(4000),
+	@ByteCount BIGINT,
 	@DocumentID INT OUTPUT
 AS BEGIN
 	SET NOCOUNT ON;
@@ -29,9 +30,9 @@ AS BEGIN
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
 	
 		INSERT INTO [dbo].[Document] ([FileName], [Extension], [FileSize], [CreationTimeLocal], [LastAccessTimeLocal],
-		 [LastWriteTimeLocal], [DirectoryName], [FullFilePath], [FileUrl], [CreatedOnUTC], [UpdatedOnUTC])
+		 [LastWriteTimeLocal], [DirectoryName], [FullFilePath], [FileUrl], [ByteCount], [CreatedOnUTC], [UpdatedOnUTC])
 		SELECT @FileName, @Extension, @FileSize, @CreationTimeLocal, @LastAccessTimeLocal, @LastWriteTimeLocal,
-		 @DirectoryName, @FullFilePath, @FileUrl, @UtcNow, @UtcNow
+		 @DirectoryName, @FullFilePath, @FileUrl, @ByteCount, @UtcNow, @UtcNow
 
 		SELECT @DocumentID = SCOPE_IDENTITY();
 
