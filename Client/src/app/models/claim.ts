@@ -1,6 +1,6 @@
 // profile.ts
 import { Prescription } from "./prescription";
-import { Payment } from "./payment";
+import { Payment } from "./payment"; 
 import { DocumentItem } from "./document";
 import { DocumentType } from "./document-type";
 import { ClaimImage } from "./claim-image";
@@ -32,7 +32,7 @@ export class Claim {
     //private prescriptionNote:Array<PrescriptionNote> = [];
     private prescriptionNote: Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();
     private payment: Array<Payment> = [];
-    private image: Array<DocumentItem> = [];
+    private image: Array<ClaimImage> = [];
     private documentType: Array<DocumentType> = [];
     private episode: Array<Episode> = [];
     private claimFlex2s: Array<ClaimFlex2> = [];
@@ -74,12 +74,12 @@ export class Claim {
     get payments(): Array<Payment> {
         return this.payment
     }
-    setImages(images: Array<DocumentItem>) {
+    setImages(images: Array<ClaimImage>) {
         if (images) {
             this.image = images
         }
     }
-    get images(): Array<DocumentItem> {
+    get images(): Array<ClaimImage> {
         return this.image
     }
     setDocumentTypes(types: Array<DocumentType>) {

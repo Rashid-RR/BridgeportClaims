@@ -29,16 +29,20 @@ tr:nth-of-type(even) {
   background: #fff8ef !important;
 }
 tr>th:first-child,
-tr>td:first-child,
+tr>td:first-child{
+  width:20px;
+}
 tr>th:nth-child(2),
 tr>td:nth-child(2),
 tr>th:nth-child(3),
-tr>td:nth-child(3)
+tr>td:nth-child(3),
+tr>th:nth-child(4),
+tr>td:nth-child(4)
 {
   width:17%;
 }
-tr>th:nth-child(4),
-tr>td:nth-child(4),
+tr>th:nth-child(6),
+tr>td:nth-child(6),
 tr>th:nth-child(5),
 tr>td:nth-child(5){
   width: 24.5%;

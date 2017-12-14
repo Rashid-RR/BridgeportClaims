@@ -17,13 +17,13 @@ export class DocumentManagerService {
   data: any = {};
   display: string = 'list';
   totalRowCount: number;
-  autoCompleteClaim:string;
   searchText:string='';
   newIndex:boolean=false;
   file:DocumentItem;
+  exactMatch:boolean=false;
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private events: EventsService, private toast: ToastsManager) {
-      this.autoCompleteClaim = this.http.baseUrl + "/document/claim-search/?searchText=:keyword";    
+      
       
     this.data = {
       date: null,
@@ -34,6 +34,9 @@ export class DocumentManagerService {
       pageSize: 500
     };
     this.search();
+  }
+  get autoCompleteClaim():string{
+    return this.http.baseUrl + "/document/claim-search/?exactMatch="+this.exactMatch+"&searchText=:keyword";  
   }
 
   onSortColumn(info: SortColumnInfo) {

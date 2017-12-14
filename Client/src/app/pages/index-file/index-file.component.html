@@ -76,10 +76,16 @@
                     <div class="col-md-3" style="padding-left:2.5px;width: 26%;">
                         <div class="form-group">
                             <label>Type Last Name, First Name or Claim Number</label>
-                            <input class="form-control" [(ngModel)]="ds.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
-                                name="searchText" id="searchText" [source]="ds.autoCompleteClaim" [service]="1" [method]="1"
-                                min-chars="2" list-formatter="lastName , firstName - claimNumber" [http-method]="'post'" [no-match-found-text]="'No Claim Found'"
-                                (valueChanged)="claimSelected($event)" (keyup)="lastInput($event)">
+                            <div class="input-group">
+                                <div class="input-group-addon exactMatchCheckBox">
+                                    <input type="checkbox" name="check" id="exactMatchCheckBox" [checked]="ds.exactMatch" (change)="checkMatch($event)" #inv>
+                                    <label for="exactMatchCheckBox" class="match"></label> <label for="exactMatchCheckBox">Exact Match</label> 
+                                </div>
+                                <input class="form-control" [(ngModel)]="ds.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
+                                    name="searchText" id="searchText" [source]="ds.autoCompleteClaim" [service]="1" [method]="1"
+                                    min-chars="2" list-formatter="lastName , firstName - claimNumber" [http-method]="'post'"
+                                    [no-match-found-text]="'No Claim Found'" (valueChanged)="claimSelected($event)" (keyup)="lastInput($event)">
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-2">

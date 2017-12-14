@@ -125,6 +125,10 @@ export const routes: Routes = [
             } */
           },
           {
+            path: 'indexed-image/:id',
+            component:UnindexedImageFileComponent,            
+          },
+          {
             path: 'unindexed-images',
             component:UnindexedImageComponent,            
           },

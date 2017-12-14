@@ -34,7 +34,7 @@ AS BEGIN
 		[LastWriteTimeLocal] [datetime2] NOT NULL,
 		[FullFilePath] [nvarchar] (4000) NOT NULL,
 		[FileUrl] [nvarchar] (4000) NOT NULL,
-		ByteCount BIGINT NOT NULL
+		[ByteCount] [bigint] NOT NULL
 	);
 
 	INSERT [#Document]
@@ -46,10 +46,18 @@ AS BEGIN
 	WHERE [di].[DocumentID] IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
 
+
 	SELECT @TotalRows = COUNT(*) FROM [#Document]
 
-	SELECT [DocumentId] = d.[DocumentID], d.[FileName], d.[Extension], d.[FileSize], d.[CreationTimeLocal], d.[LastAccessTimeLocal], 
-		d.[LastWriteTimeLocal], d.[FullFilePath], d.[FileUrl]
+	SELECT [DocumentId] = d.DocumentID
+		 , d.[FileName]
+		 , d.Extension
+		 , d.FileSize
+		 , d.CreationTimeLocal
+		 , d.LastAccessTimeLocal
+		 , d.LastWriteTimeLocal
+		 , d.FullFilePath
+		 , d.FileUrl
 	FROM   [#Document] AS [d]
 	ORDER BY CASE WHEN @SortColumn = 'DocumentID' AND @SortDirection = 'ASC'
 				THEN d.DocumentID END ASC,

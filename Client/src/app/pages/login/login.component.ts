@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import {HttpService,SignalRService} from "../../services/services.barrel";
+import {HttpService} from "../../services/services.barrel";
 import { AuthGuard } from "../../services/auth.guard";
 import { ProfileManager } from "../../services/profile-manager";
 import { UserProfile } from "../../models/profile";
@@ -22,7 +22,6 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpService,
-    private signalR: SignalRService,
     private router: Router, private events: EventsService,
     private profileManager: ProfileManager,
     private authGuard: AuthGuard,
@@ -78,8 +77,7 @@ export class LoginComponent implements OnInit {
            }
             this.events.broadcast('login', true);
             this.toast.success('Welcome back');
-            this.events.broadcast("loadHistory",[]);
-            //this.signalR.connect();
+            this.events.broadcast("loadHistory",[]); 
           }, err => console.log(err))
         }, (requestError) => {
           this.submitted = false;

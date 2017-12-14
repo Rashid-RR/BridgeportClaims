@@ -17,5 +17,8 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         [StringLength(1000)]
         public string FileName { get; set; }
+        [Required]
+        [StringLength(500)]
+        public string FileUrl { get; set; }
     }
 }
