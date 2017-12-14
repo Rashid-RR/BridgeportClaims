@@ -34,9 +34,10 @@ export class UnindexedImageFileComponent implements OnInit {
       this.sub = this.route.params.subscribe(params => {
         let file = localStorage.getItem('file-' + params['id']);
         if (file) {
-          this.file = JSON.parse(file) as DocumentItem;
-          this.file.fileUrl = this.file.fileUrl ? this.file.fileUrl : 'https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245302.pdf'; //delete this line once fileUrl is added to images in GetClaimData api
-          this.showFile();
+          try {
+            this.file = JSON.parse(file) as DocumentItem;
+            this.showFile();
+          } catch (e) { }
         }
       });
     }
