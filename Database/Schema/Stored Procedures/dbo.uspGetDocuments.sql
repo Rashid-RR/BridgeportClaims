@@ -13,7 +13,6 @@ GO
 */
 CREATE PROC [dbo].[uspGetDocuments]
 (
-	@IsIndexed BIT,
 	@Date DATE,
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
@@ -35,7 +34,7 @@ AS BEGIN
 		[LastWriteTimeLocal] [datetime2] NOT NULL,
 		[FullFilePath] [nvarchar] (4000) NOT NULL,
 		[FileUrl] [nvarchar] (4000) NOT NULL,
-		ByteCount BIGINT NOT NULL
+		[ByteCount] [bigint] NOT NULL
 	);
 
 	INSERT [#Document]
@@ -46,13 +45,19 @@ AS BEGIN
 	FROM [dbo].[Document] AS [d] LEFT JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
 	WHERE [di].[DocumentID] IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
-		AND (@IsIndexed IS NULL OR [di].[DocumentID] IS NOT NULL)
 
 
 	SELECT @TotalRows = COUNT(*) FROM [#Document]
 
-	SELECT [DocumentId] = d.[DocumentID], d.[FileName], d.[Extension], d.[FileSize], d.[CreationTimeLocal], d.[LastAccessTimeLocal], 
-		d.[LastWriteTimeLocal], d.[FullFilePath], d.[FileUrl]
+	SELECT [DocumentId] = d.DocumentID
+		 , d.[FileName]
+		 , d.Extension
+		 , d.FileSize
+		 , d.CreationTimeLocal
+		 , d.LastAccessTimeLocal
+		 , d.LastWriteTimeLocal
+		 , d.FullFilePath
+		 , d.FileUrl
 	FROM   [#Document] AS [d]
 	ORDER BY CASE WHEN @SortColumn = 'DocumentID' AND @SortDirection = 'ASC'
 				THEN d.DocumentID END ASC,
@@ -93,6 +98,4 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
-
-
 GO
