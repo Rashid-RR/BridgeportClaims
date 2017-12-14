@@ -54,16 +54,7 @@ namespace BridgeportClaims.Web.Hubs
 
         #region Overrides
 
-        public override Task OnConnected()
-        {
-
-        }
-
-        public override Task OnDisconected()
-        {
-
-        }
-
+  
         #endregion
     }
 }
