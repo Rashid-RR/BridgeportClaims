@@ -306,6 +306,7 @@
     <Compile Include="Models\CreateRoleBindingModel.cs" />
     <Compile Include="Models\DiariesViewModel.cs" />
     <Compile Include="Models\DocumentIndexViewModel.cs" />
+    <Compile Include="Models\EditClaimImageViewModel.cs" />
     <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Email\Models\EmailViewModel.cs" />
     <Compile Include="Models\PaymentPosting.cs" />

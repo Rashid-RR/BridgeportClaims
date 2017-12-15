@@ -34,7 +34,7 @@ namespace BridgeportClaims.Web.Controllers
                     var result = _documentIndexProvider.UpsertDocumentIndex(model.DocumentId, model.ClaimId,
                         model.DocumentTypeId, model.RxDate, model.RxNumber,
                         model.InvoiceNumber, model.InjuryDate, model.AttorneyName);
-                    var msg = $"The document was {(result ? "updated" : "inserted")} successfully.";
+                    var msg = $"The image was {(result ? "reindexed" : "indexed")} successfully.";
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Document ID: {model.DocumentId}. {msg}");
                     return Ok(new {message = msg});
