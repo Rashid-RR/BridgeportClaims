@@ -7,6 +7,8 @@ import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from '../../services/document-manager.service';
 import {HttpService} from "../../services/http-service";
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from '../../components/confirm.component';
 declare var $: any;
 
 @Component({
@@ -30,7 +32,8 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     public ds: DocumentManagerService,
     private dp: DatePipe,
-    private ngZone:NgZone, 
+    private ngZone:NgZone,
+    private dialogService: DialogService, 
     private toast: ToastsManager
   ) {
     this.form = this.formBuilder.group({
@@ -63,7 +66,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
       lastName:$event.lastName
      });
      setTimeout(()=>{
-      $("#searchText").val(this.searchText);
+      $("#searchText").val('');
      },300);
   }
   checkMatch($event){
@@ -83,6 +86,17 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     });
     $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
     $('[data-mask]').inputmask();
+  }
+  saveImage(){
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Save Image",
+      message: "Are you sure you would like to save the indexing of this image?"
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+            this.save();
+        }
+      });
   }
   save(){
     //console.log(this.form.value);
@@ -127,8 +141,15 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
 
       }
     }else{
+      let er = '';
+      if(!this.form.get("documentTypeId").valid){
+        er+='* Select a image type from the type dropdown';
+      }
+      if(!this.form.get("claimId").valid){
+        er+='<br/>* Link a claim';
+      }
       this.submitted = false;      
-       this.toast.warning('Invalid field value(s). Please correct to proceed.');
+       this.toast.warning(er,'Please correct the folowing:',{enableHTML:true});
     }
   }
 
