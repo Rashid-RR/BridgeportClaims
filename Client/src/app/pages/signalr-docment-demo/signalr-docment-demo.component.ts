@@ -52,7 +52,6 @@ export class SignalrDocmentDemoComponent implements OnInit {
     this._ngZone.run(() => {
       this.signalR.loading = true;
       this.signalR.getProxy(this.hub).value.server.getDocuments(this.data).then(result => {
-        console.log(result);
         if (result) {
           this.documents = Immutable.OrderedMap<any, any>();
           result.DocumentResults.forEach((doc: any) => {
@@ -70,16 +69,14 @@ export class SignalrDocmentDemoComponent implements OnInit {
         }
         this.lastUpdated = new Date();
         this.signalR.loading = false;
-      }, err => {
-        console.log(err);
+      }, err => { 
         this.signalR.loading = false;
       });
     });
   }
 
   openFile(file: any) {
-    this.loading = true;
-    console.log(file);
+    this.loading = true; 
     if (!file['fileUrl']) {
       file['fileUrl'] = file['FileUrl'];
     }

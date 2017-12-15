@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
             });
           }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     }
     this.events.on("logout",(v)=>{

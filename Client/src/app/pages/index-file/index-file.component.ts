@@ -87,7 +87,6 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     this.ds.exactMatch = $event.target.checked;
   }
   lastInput($event) {
-    console.log($event.target.checked);
     this.searchText = $event.target.value;
   }
   ngAfterViewInit() {
@@ -113,12 +112,6 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
       });
   }
   save() {
-    //console.log(this.form.value);
-    /*  if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
-       this.form.get('ConfirmPassword').setErrors({"unmatched": "The password and confirmation password do not match."});
-       this.toast.warning( 'The password and confirmation password do not match.');
-     }
-      */
     if (this.form.valid) {
       this.submitted = true;
       try {

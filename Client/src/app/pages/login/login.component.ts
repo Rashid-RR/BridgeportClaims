@@ -60,13 +60,10 @@ export class LoginComponent implements OnInit {
              let url = this.returnURL.split('?');
              let p={};
              if(url[1]){
-              console.log(url[1]);
               let params = url[1].split('&');
               if(params.length>0){
-                console.log(params);
                 params.forEach(pr=>{
                   let par = pr.split('=');
-                  console.log(pr,par);
                     p[par[0]]=par[1];
                 })
               }
@@ -78,7 +75,7 @@ export class LoginComponent implements OnInit {
             this.events.broadcast('login', true);
             this.toast.success('Welcome back');
             this.events.broadcast("loadHistory",[]); 
-          }, err => console.log(err))
+          }, err => null)
         }, (requestError) => {
           this.submitted = false;
           let err = requestError.json();
@@ -110,10 +107,7 @@ export class LoginComponent implements OnInit {
     this.router.routerState.root.queryParams.subscribe(params => {
       if(params['returnURL']){
         this.returnURL = decodeURIComponent(params['returnURL']);
-        console.log(this.returnURL);
       }
-       
-
     });
   }
 
