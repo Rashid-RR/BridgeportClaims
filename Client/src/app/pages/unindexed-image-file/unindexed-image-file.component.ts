@@ -16,8 +16,7 @@ export class UnindexedImageFileComponent implements OnInit {
 
   loading: boolean = false;
   sanitizedURL: any;
-  @Input() file: DocumentItem;
-  private sub: any;
+  @Input() file: DocumentItem; 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -31,7 +30,7 @@ export class UnindexedImageFileComponent implements OnInit {
     if (this.file) {
       this.showFile();
     } else {
-      this.sub = this.route.params.subscribe(params => {
+      this.route.params.subscribe(params => {
         let file = localStorage.getItem('file-' + params['id']);
         if (file) {
           try {
@@ -48,8 +47,6 @@ export class UnindexedImageFileComponent implements OnInit {
     docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
     $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - 110px);border: none;"></iframe>');
   }
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+  
 
 }
