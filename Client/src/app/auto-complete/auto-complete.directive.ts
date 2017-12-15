@@ -291,7 +291,7 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
       } else if (typeof this.listFormatter === 'string' && this.listFormatter.match(/^\w+$/)) {
         displayVal = item[this.listFormatter];
       } else {
-        displayVal = item.value;
+        displayVal = item.value || '';
       }
       item.toString = () => displayVal;
     }
