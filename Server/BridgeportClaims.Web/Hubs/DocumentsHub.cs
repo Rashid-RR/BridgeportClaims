@@ -54,7 +54,30 @@ namespace BridgeportClaims.Web.Hubs
 
         #region Overrides
 
-  
+        public override Task OnConnected()
+        {
+            SendMonitoringData("Connected", Context.ConnectionId);
+            return base.OnConnected();
+        }
+
+        public override Task OnReconnected()
+        {
+            SendMonitoringData("Reconnected", Context.ConnectionId);
+            return base.OnReconnected();
+        }
+
+        public override Task OnDisconnected(bool stopCalled)
+        {
+            SendMonitoringData("Disconnected", Context.ConnectionId);
+            return base.OnDisconnected(stopCalled);
+        }
+
+
         #endregion
+
+        public void SendMonitoringData(string eventType, string connectionId)
+        {
+            
+        }
     }
 }
