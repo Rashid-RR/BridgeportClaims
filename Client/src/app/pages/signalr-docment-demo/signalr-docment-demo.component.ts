@@ -65,7 +65,7 @@ export class SignalrDocmentDemoComponent implements OnInit {
               this.documentTypes = this.documentTypes.set(type.DocumentTypeId, type);
             } catch (e) { }
           });
-        }else{
+        } else {
           console.log("No data returned...");
         }
         this.lastUpdated = new Date();
@@ -79,9 +79,15 @@ export class SignalrDocmentDemoComponent implements OnInit {
 
   openFile(file: any) {
     this.loading = true;
-    localStorage.setItem('file-' + file.DocumentId, JSON.stringify(file));
-    window.open('#/main/unindexed-images/file?id=' + file.DocumentId, '_blank');
-    this.router.navigate(['/main/unindexed-images/new-index'], { queryParams: { id: file.DocumentId } });
+    console.log(file);
+    if (!file['fileUrl']) {
+      file['fileUrl'] = file['FileUrl'];
+    }
+    if (!file['fileName']) {
+      file['fileName'] = file['FileName'];
+    }
+    localStorage.setItem('file-' + (file.DocumentId || file.documentId), JSON.stringify(file));
+    window.open('#/main/indexed-image/' + (file.DocumentId || file.documentId), '_blank');
   }
 
   get documentList(): Array<any> {
