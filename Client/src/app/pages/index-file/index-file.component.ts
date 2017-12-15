@@ -1,12 +1,12 @@
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
-import { Component,Input, OnInit,NgZone, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from '../../services/document-manager.service';
-import {HttpService} from "../../services/http-service";
+import { HttpService } from "../../services/http-service";
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 declare var $: any;
@@ -24,16 +24,16 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   loading: boolean = false;
   linkClaim: boolean = false;
   submitted: boolean = false;
-  searchText:string='';
-  documentId:any;
+  searchText: string = '';
+  documentId: any;
   constructor(
     private router: Router,
     private http: HttpService,
     private formBuilder: FormBuilder,
     public ds: DocumentManagerService,
     private dp: DatePipe,
-    private ngZone:NgZone,
-    private dialogService: DialogService, 
+    private ngZone: NgZone,
+    private dialogService: DialogService,
     private toast: ToastsManager
   ) {
     this.form = this.formBuilder.group({
@@ -44,37 +44,38 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
       rxNumber: [null],
       invoiceNumber: [null],
       injuryDate: [null],
-      attorneyName: [null], 
-      claimNumber :[null],
-      firstName :[null], 
-      groupNumber :[null],
-      lastName :[null]
+      attorneyName: [null],
+      claimNumber: [null],
+      firstName: [null],
+      groupNumber: [null],
+      lastName: [null]
     });
   }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.form.patchValue({ documentId: this.file.documentId });
     this.documentId = this.file.documentId;
-    this.ds.loading=false;
+    this.ds.loading = false;
   }
-  claimSelected($event){
-    this.form.patchValue({
-      claimId: $event.claimId,
-      claimNumber:$event.claimNumber,
-      firstName :$event.firstName , 
-      groupNumber:$event.groupNumber,
-      lastName:$event.lastName
-     });
-
-     this.toast.info($event.lastName+" "+$event.firstName+" "+$event.claimNumber+" has been linked",'Claim Linked',{enableHTML:true, positionClass: 'toast-top-center' });
-     setTimeout(()=>{
-      $("#searchText").val('');
-     },300);
+  claimSelected($event) {
+    if ($("#searchText").val() != "" && $event.claimId) {
+      this.form.patchValue({
+        claimId: $event.claimId,
+        claimNumber: $event.claimNumber,
+        firstName: $event.firstName,
+        groupNumber: $event.groupNumber,
+        lastName: $event.lastName
+      });
+      this.toast.info($event.lastName + " " + $event.firstName + " " + $event.claimNumber + " has been linked", 'Claim Linked', { enableHTML: true, positionClass: 'toast-top-center' });
+      setTimeout(() => {
+        $("#searchText").val('');
+      }, 300);
+    }
   }
-  checkMatch($event){
+  checkMatch($event) {
     this.ds.exactMatch = $event.target.checked;
   }
-  lastInput($event){
+  lastInput($event) {
     console.log($event.target.checked);
     this.searchText = $event.target.value;
   }
@@ -89,70 +90,67 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
     $('[data-mask]').inputmask();
   }
-  saveImage(){
+  saveImage() {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Save Image",
       message: "Are you sure you would like to save the indexing of this image?"
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-            this.save();
+          this.save();
         }
       });
   }
-  save(){
+  save() {
     //console.log(this.form.value);
-   /*  if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
-      this.form.get('ConfirmPassword').setErrors({"unmatched": "The password and confirmation password do not match."});
-      this.toast.warning( 'The password and confirmation password do not match.');
-    }
-     */
+    /*  if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
+       this.form.get('ConfirmPassword').setErrors({"unmatched": "The password and confirmation password do not match."});
+       this.toast.warning( 'The password and confirmation password do not match.');
+     }
+      */
     if (this.form.valid) {
-      this.submitted = true;      
+      this.submitted = true;
       try {
         let data = this.form.value;
         data.rxDate = this.dp.transform($('#rxDate').val(), "dd/M/yyyy");
         data.injuryDate = this.dp.transform($('#injuryDate').val(), "dd/M/yyyy");
         this.ds.loading = true;
-        this.http.saveDocumentIndex(this.form.value).map(r=>{return r.json()}).subscribe(res => {     
-            this.toast.success(res.message); 
-            this.submitted = false;
-            this.form.patchValue({
-              claimId: '',
-              claimNumber:'',
-              firstName: '' , 
-              groupNumber:'',
-              documentTypeId:'',
-              lastName:''
-             });
-             this.linkClaim  = false;
-             this.ds.documents = this.ds.documents.delete(this.documentId);
-             this.ds.totalRowCount--;
-             this.ds.newIndex = false;
-             this.ds.file = undefined;
-             this.ds.loading = false;
-        },requestError => {
-            let err = requestError.json();            
-            this.toast.error(err.Message);
-            this.submitted = false;
-            this.ds.loading = false;
+        this.http.saveDocumentIndex(this.form.value).map(r => { return r.json() }).subscribe(res => {
+          this.toast.success(res.message);
+          this.submitted = false;
+          this.form.reset();
+          this.linkClaim = false;
+          this.ds.documents = this.ds.documents.delete(this.documentId);
+          this.ds.totalRowCount--;
+          this.ds.newIndex = false;
+          this.ds.file = undefined;
+          this.ds.loading = false;
+        }, requestError => {
+          let err = requestError.json();
+          this.toast.error(err.Message);
+          this.submitted = false;
+          this.ds.loading = false;
         })
       } catch (e) {
-          this.submitted = false;
+        this.submitted = false;
       } finally {
 
       }
-    }else{
+    } else {
       let er = '';
-      if(!this.form.get("documentTypeId").valid){
-        er+='* Select a image type from the type dropdown';
+      if (!this.form.get("documentTypeId").valid) {
+        er += '* Select a image type from the type dropdown';
       }
-      if(!this.form.get("claimId").valid){
-        er+='<br/>* Link a claim';
+      if (!this.form.get("claimId").valid) {
+        er += '<br/>* Link a claim';
       }
-      this.submitted = false;      
-       this.toast.warning(er,'Please correct the folowing:',{enableHTML:true});
+      this.submitted = false;
+      this.toast.warning(er, 'Please correct the folowing:', { enableHTML: true });
     }
+  }
+  cancel() {
+    this.form.reset();
+    this.ds.cancel();
   }
 
 }
