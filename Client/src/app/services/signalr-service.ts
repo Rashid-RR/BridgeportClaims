@@ -30,12 +30,12 @@ export class SignalRService implements Resolve<boolean> {
                 resolve(true);
             } else {
                 this.connection.hub.start().done((r) => {
-                    console.log("Done connecting...");
+                    //console.log("Done connecting...");
                     this.connected = true;
                     this.events.broadcast('start-listening-to-signalr', true);
                     resolve(true);
                 }).fail(err => {
-                    console.log("Error connecting...");
+                    //console.log("Error connecting...");
                     resolve(false);
                 });
             }
@@ -45,15 +45,15 @@ export class SignalRService implements Resolve<boolean> {
     connect(hub: string) {
         if (!this.connected) {
             this.connection.hub.start().done((r) => {
-                console.log("Done connecting...");
+                //console.log("Done connecting...");
                 this.connected = true;
                 this.events.broadcast('start-listening-to-signalr', true);
             }).fail(err => {
-                console.log("Error connecting...");
+                //console.log("Error connecting...");
             });
         }
         let proxy = this.proxies.find(p => p.id == hub);
-        console.log(this.connection[hub]);
+        //console.log(this.connection[hub]);
         if (!proxy || !proxy.value) {
             proxy = { id: hub, value: this.connection[hub] };
             this.proxies.push(proxy);
@@ -62,11 +62,11 @@ export class SignalRService implements Resolve<boolean> {
     }
 
     start(hub: any) {
-        console.log(this.connected, hub.client);
+        //console.log(this.connected, hub.client);
         hub.client.receiveMessage = (msgFrom, msg) => this.onMessageReceived(msgFrom, msg);        
     }
     private onMessageReceived(msgFrom: string, msg: string) {
-        console.log('New message received from ' + msgFrom, msg);
+        //console.log('New message received from ' + msgFrom, msg);
         this._ngZone.run(() => {
             this.messages.push({ msgFrom: msgFrom, msg: msg });
         });
