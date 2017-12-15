@@ -65,6 +65,8 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
       groupNumber:$event.groupNumber,
       lastName:$event.lastName
      });
+
+     this.toast.info($event.lastName+" "+$event.firstName+" "+$event.claimNumber+" has been linked",'Claim Linked',{enableHTML:true, positionClass: 'toast-top-center' });
      setTimeout(()=>{
       $("#searchText").val('');
      },300);
