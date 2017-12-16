@@ -10,7 +10,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimSearches
 {
     public class ClaimSearchProvider : IClaimSearchProvider
     {
-        public IList<DocumentClaimSearchResultDto> GetDocumentClaimSearchResults(string searchText) =>
+        public IList<DocumentClaimSearchResultDto> GetDocumentClaimSearchResults(string searchText, bool exactMatch, char delimiter) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspClaimTextSearch]", conn), cmd =>
@@ -21,9 +21,24 @@ namespace BridgeportClaims.Data.DataProviders.ClaimSearches
                     searchTextParam.Value = searchText ?? (object) DBNull.Value;
                     searchTextParam.DbType = DbType.AnsiStringFixedLength;
                     searchTextParam.SqlDbType = SqlDbType.VarChar;
-                    searchTextParam.Size = 500;
+                    searchTextParam.Size = 800;
                     searchTextParam.ParameterName = "@SearchText";
                     cmd.Parameters.Add(searchTextParam);
+                    var exactMatchParam = cmd.CreateParameter();
+                    exactMatchParam.Direction = ParameterDirection.Input;
+                    exactMatchParam.DbType = DbType.Boolean;
+                    exactMatchParam.SqlDbType = SqlDbType.Bit;
+                    exactMatchParam.Value = exactMatch;
+                    exactMatchParam.ParameterName = "@ExactMatch";
+                    cmd.Parameters.Add(exactMatchParam);
+                    var delimiterParam = cmd.CreateParameter();
+                    delimiterParam.Value = delimiter;
+                    delimiterParam.ParameterName = "@Delimiter";
+                    delimiterParam.Direction = ParameterDirection.Input;
+                    delimiterParam.DbType = DbType.AnsiStringFixedLength;
+                    delimiterParam.SqlDbType = SqlDbType.Char;
+                    delimiterParam.Size = 1;
+                    cmd.Parameters.Add(delimiterParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     DisposableService.Using(cmd.ExecuteReader, reader =>

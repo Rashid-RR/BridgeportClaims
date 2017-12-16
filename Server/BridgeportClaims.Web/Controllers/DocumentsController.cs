@@ -24,11 +24,11 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("claim-search")]
-        public IHttpActionResult GetClaimResult(string searchText)
+        public IHttpActionResult GetClaimResult(ClaimSearchViewModel model)
         {
             try
             {
-                return Ok(_claimSearchProvider.GetDocumentClaimSearchResults(searchText));
+                return Ok(_claimSearchProvider.GetDocumentClaimSearchResults(model.SearchText, model.ExactMatch, model.Delimiter));
             }
             catch (Exception ex)
             {
