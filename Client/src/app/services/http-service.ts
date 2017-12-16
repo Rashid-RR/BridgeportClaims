@@ -574,5 +574,19 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  updateDocumentIndex(data:any): Observable<Response> {
+    return this.http.put(this.baseUrl + '/image/edit', data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  unindexImage(id:any): Observable<Response> {
+    return this.http.delete(this.baseUrl + '/image/reindex/?documentId='+id,  { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
 }

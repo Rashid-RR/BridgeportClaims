@@ -1,6 +1,6 @@
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
-import { Component, ElementRef, Renderer2, Input, ViewChild, OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
@@ -18,10 +18,8 @@ declare var $: any;
 })
 export class IndexFileComponent implements OnInit, AfterViewInit {
 
-  @Input() file: DocumentItem;
-  @ViewChild('searchField') searchField: ElementRef;
+  @Input() file: DocumentItem; 
   form: FormGroup;
-
   loading: boolean = false;
   linkClaim: boolean = false;
   submitted: boolean = false;
@@ -30,7 +28,6 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private http: HttpService,
-    private rd: Renderer2,
     private formBuilder: FormBuilder,
     public ds: DocumentManagerService,
     private dp: DatePipe,
@@ -70,7 +67,6 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
       });
       this.toast.info($event.lastName + " " + $event.firstName + " " + $event.claimNumber + " has been linked", 'Claim Linked', { enableHTML: true, positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
-          //$(".toast-top-right").addClass('toast-top-center')
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
             const msg = toasts[i];
@@ -91,7 +87,6 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   lastInput($event) {
     this.searchText = $event.target.value;
   }
-  //(valueChanged)="claimSelected($event)"
   ngAfterViewInit() {
     // Date picker
     $('#rxDate').datepicker({
