@@ -12,8 +12,8 @@ CREATE TABLE [dbo].[Document]
 [FileUrl] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [DocumentDate] AS (TRY_CAST(substring([FileName],(4),(8)) AS [date])),
 [ByteCount] [bigint] NOT NULL,
-[CreatedOnUTC] [datetime2] NOT NULL,
-[UpdatedOnUTC] [datetime2] NOT NULL,
+[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentCreatedOnUTC] DEFAULT (sysutcdatetime()),
+[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH

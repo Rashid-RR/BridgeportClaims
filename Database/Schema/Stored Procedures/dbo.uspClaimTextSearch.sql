@@ -8,35 +8,57 @@ GO
 	Description:	Proc that searches the Claim and Patient tables by
 					Last Name, First Name or Claim Number.
 	Sample Execute:
-					EXEC [dbo].[uspClaimTextSearch] 'black'
+					EXEC [dbo].[uspClaimTextSearch] 'black|andREW', 1, '|'
 */
 CREATE PROC [dbo].[uspClaimTextSearch]
-    @SearchText VARCHAR(500)
+(
+    @SearchText VARCHAR(800), 
+	@ExactMatch BIT,
+	@Delimiter CHAR(1)
+)
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
-
+		DECLARE @WildCard CHAR(1) = '%'
 		IF (@SearchText IS NULL)
 			BEGIN
 				IF (@@TRANCOUNT > 0)
 					ROLLBACK;
 				RAISERROR(N'Error. The @SearchText parameter cannot be NULL.', 16, 1) WITH NOWAIT;
-				RETURN;
+				RETURN -1;
 			END
 
-		SELECT          [c].[ClaimID] ClaimId
+		DECLARE @SearchTerms TABLE (ID BIGINT NOT NULL, SearchText VARCHAR(800) NOT NULL)
+		INSERT @SearchTerms ([ID], [SearchText])
+		SELECT  [ItemNumber]
+			  , [Item]
+		FROM    [util].[udfDelimitedSplit](@Delimiter, @SearchText)
+
+		SELECT          ClaimId     = [c].[ClaimID]
 					  , [p].[LastName]
 					  , [p].[FirstName]
 					  , [c].[ClaimNumber]
-					  , [py].[GroupName] GroupNumber
+					  , GroupNumber = [py].[GroupName]
 		FROM            [dbo].[Claim]   AS [c]
-						INNER JOIN  [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
-						INNER JOIN  [dbo].[Payor]   AS [py] ON [py].[PayorID] = [c].[PayorID]
-		WHERE           [p].[FirstName] LIKE '%' + @SearchText + '%'
-						OR  [p].[LastName] LIKE '%' + @SearchText + '%'
-						OR  [c].[ClaimNumber] LIKE '%' + @SearchText + '%'
+			INNER JOIN  [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
+			INNER JOIN  [dbo].[Payor]   AS [py] ON [py].[PayorID] = [c].[PayorID]
+			INNER JOIN  @SearchTerms    AS [st] ON [p].[FirstName] LIKE CONCAT(
+																			IIF(@ExactMatch = 1, '', @WildCard)
+																		  , [st].[SearchText]
+																		  , IIF(@ExactMatch = 1, '', @WildCard))
+												   OR  [p].[LastName] LIKE CONCAT(
+																			   IIF(@ExactMatch = 1, '', @WildCard)
+																			 , [st].[SearchText]
+																			 , IIF(@ExactMatch = 1, '', @WildCard))
+												   OR  [c].[ClaimNumber] LIKE CONCAT(
+																				  IIF(@ExactMatch = 1, '', @WildCard)
+																				, [st].[SearchText]
+																				, IIF(@ExactMatch = 1, '', @WildCard))
+		/*WHERE           [p].[FirstName] LIKE IIF(@ExactMatch = 1, '', '%') + @SearchText + IIF(@ExactMatch = 1, '', '%')
+						OR  [p].[LastName] LIKE IIF(@ExactMatch = 1, '', '%') + @SearchText + IIF(@ExactMatch = 1, '', '%')
+						OR  [c].[ClaimNumber] LIKE IIF(@ExactMatch = 1, '',  '%') + @SearchText + IIF(@ExactMatch = 1, '', '%')*/
 	
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
