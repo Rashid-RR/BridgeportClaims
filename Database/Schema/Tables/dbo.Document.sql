@@ -10,10 +10,10 @@ CREATE TABLE [dbo].[Document]
 [DirectoryName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [FullFilePath] [nvarchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [FileUrl] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[DocumentDate] AS (CONVERT([date],substring([FileName],(4),(8)),(0))),
+[DocumentDate] AS (TRY_CAST(substring([FileName],(4),(8)) AS [date])),
 [ByteCount] [bigint] NOT NULL,
-[CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentCreatedOnUTC] DEFAULT (sysutcdatetime()),
-[UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
+[CreatedOnUTC] [datetime2] NOT NULL,
+[UpdatedOnUTC] [datetime2] NOT NULL,
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
 WITH
@@ -25,5 +25,5 @@ ALTER TABLE [dbo].[Document] ADD CONSTRAINT [pkDocument] PRIMARY KEY CLUSTERED  
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileName] UNIQUE NONCLUSTERED  ([FileName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileUrl] UNIQUE NONCLUSTERED  ([FileUrl]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileUrl] UNIQUE NONCLUSTERED  ([FileUrl]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
