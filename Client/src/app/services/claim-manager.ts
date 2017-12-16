@@ -142,8 +142,8 @@ export class ClaimManager {
           claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
           claim.setPrescriptionNotes(result.prescriptionNotes);
           claim.setFlex2(result.claimFlex2s);
+          claim.setDocumentTypes(result.documentTypes);
           if (result.images) {
-            //claim.setDocumentTypes(result.documents.documentTypes);
             claim.setImages(result.images);
           }
           this.selected = result.claimId;
@@ -235,8 +235,8 @@ export class ClaimManager {
           claim.setPrescriptionNotes(result.prescriptionNotes);
           claim.setFlex2(result.claimFlex2s);
           claim.setPrescriptionStatuses(result.prescriptionStatuses);
+          claim.setDocumentTypes(result.documentTypes);          
           if (result.images) {
-            //claim.setDocumentTypes(result.documents.documentTypes);
             claim.setImages(result.images);
           }
         }, err => {
