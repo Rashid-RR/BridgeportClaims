@@ -10,7 +10,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimSearches
 {
     public class ClaimSearchProvider : IClaimSearchProvider
     {
-        public IList<DocumentClaimSearchResultDto> GetDocumentClaimSearchResults(string searchText, bool exactMatch, char delimiter) =>
+        public IList<DocumentClaimSearchResultDto> GetDocumentClaimSearchResults(string searchText, bool exactMatch, string delimiter) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspClaimTextSearch]", conn), cmd =>

@@ -13,6 +13,6 @@ namespace BridgeportClaims.Web.Models
         public bool ExactMatch { get; set; }
         [Required]
         [StringLength(1)]
-        public char Delimiter { get; set; }
+        public string Delimiter { get; set; }
     }
 }
