@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label>Attoney Name</label>
+                        <label>Attorney Name</label>
                         <input class="form-control" formControlName="attorneyName" type="text" (focus)="submitted=false">
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                             <div class="input-group">
                                 <div class="input-group-addon exactMatchCheckBox">
                                     <input type="checkbox" name="check" id="exactMatchCheckBox" [checked]="ds.exactMatch" (change)="checkMatch($event)" #inv>
-                                    <label for="exactMatchCheckBox" class="match"></label> <label for="exactMatchCheckBox">Exact Match</label> 
+                                    <label for="exactMatchCheckBox" class="match"></label> <label for="exactMatchCheckBox">Exact Match</label>
                                 </div>
                                 <input class="form-control" [(ngModel)]="ds.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
                                     name="searchText" id="searchText" [source]="ds.autoCompleteClaim" [service]="1" [method]="1"
