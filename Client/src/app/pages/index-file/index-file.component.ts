@@ -1,8 +1,8 @@
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
-import { Component, Input, OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Toast,ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from '../../services/document-manager.service';
@@ -18,9 +18,8 @@ declare var $: any;
 })
 export class IndexFileComponent implements OnInit, AfterViewInit {
 
-  @Input() file: DocumentItem;
+  @Input() file: DocumentItem; 
   form: FormGroup;
-
   loading: boolean = false;
   linkClaim: boolean = false;
   submitted: boolean = false;
@@ -58,7 +57,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     this.ds.loading = false;
   }
   claimSelected($event) {
-    if ($("#searchText").val() != "" && $event.claimId) {
+    if (this.searchText && $event.claimId) {
       this.form.patchValue({
         claimId: $event.claimId,
         claimNumber: $event.claimNumber,
@@ -67,20 +66,19 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         lastName: $event.lastName
       });
       this.toast.info($event.lastName + " " + $event.firstName + " " + $event.claimNumber + " has been linked", 'Claim Linked', { enableHTML: true, positionClass: 'toast-top-center' })
-      .then((toast: Toast) => {
-        //$(".toast-top-right").addClass('toast-top-center')
-        const toasts: Array<HTMLElement> = $('.toast-message');
-        for (let i = 0; i < toasts.length; i++) {
-          const msg = toasts[i];
-          if (msg.innerHTML === toast.message) {
-            msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
-            msg.parentNode.parentElement.style.position = 'fixed';
+        .then((toast: Toast) => {
+          const toasts: Array<HTMLElement> = $('.toast-message');
+          for (let i = 0; i < toasts.length; i++) {
+            const msg = toasts[i];
+            if (msg.innerHTML === toast.message) {
+              msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
+              msg.parentNode.parentElement.style.position = 'fixed';
+            }
           }
-        }
-      })
+        })
       setTimeout(() => {
-        $("#searchText").val('');
-      }, 300);
+        this.searchText = undefined;
+      }, 100);
     }
   }
   checkMatch($event) {
@@ -99,6 +97,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     });
     $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
     $('[data-mask]').inputmask();
+
   }
   saveImage() {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
