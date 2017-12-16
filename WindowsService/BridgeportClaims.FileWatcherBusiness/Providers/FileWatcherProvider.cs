@@ -17,7 +17,8 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
     public class FileWatcherProvider
     {
         private readonly FileSystemWatcher _fileWatcher;
-        private static readonly Logger Logger = LoggingService.Instance.Logger;
+        private static readonly LoggingService LoggingService = LoggingService.Instance;
+        private static readonly Logger Logger = LoggingService.Logger;
         private readonly ImageDataProvider _imageDataProvider;
 
         public FileWatcherProvider()
@@ -39,6 +40,12 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
         {
             try
             {
+                if (cs.AppIsInDebugMode)
+                {
+                    var method = MethodBase.GetCurrentMethod().Name;
+                    var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+                    LoggingService.LogDebugMessage(method, now);
+                }
                 var value = cs.GetAppSetting(c.FileLocationKey);
                 return value.IsNotNullOrWhiteSpace() ? value : string.Empty;
             }
@@ -67,7 +74,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 if (!cs.AppIsInDebugMode) return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
-                Logger.Info($"Document ID {documentId} was created from {methodName} method on {now}.");
+                LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was created.");
             }
             catch (Exception ex)
             {
@@ -95,7 +102,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 if (!cs.AppIsInDebugMode) return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
-                Logger.Info($"Document ID {documentId} was updated from {methodName} method on {now}.");
+                LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was updated.");
             }
             catch (Exception ex)
             {
@@ -110,22 +117,20 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             {
                 if (e.FullPath.Right(4) != ".pdf") // This is already, by nature, ignore directories.
                     return;
+                var methodName = MethodBase.GetCurrentMethod().Name;
+                var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 var fileName = Path.GetFileName(e.FullPath);
                 var documentId = _imageDataProvider.GetDocumentIdByDocumentName(fileName);
                 if (documentId != default(int))
                 {
                     _imageDataProvider.DeleteDocument(documentId);
-                    if (cs.AppIsInDebugMode)
-                    {
-                        var methodName = MethodBase.GetCurrentMethod().Name;
-                        var now = DateTime.Now.ToString(LoggingService.TimeFormat);
-                        Logger.Info($"Document ID {documentId} was deleted from {methodName} method on {now}.");
-                    }
+                    if (!cs.AppIsInDebugMode) return;
+                    LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was deleted.");
                 }
                 else
                 {
                     if (cs.AppIsInDebugMode)
-                        Logger.Info($"The document with the name {fileName} was not found in the database.");
+                        LoggingService.LogDebugMessage(methodName, now, $"The document with the name {fileName} was not found in the database.");
                 }
             }
             catch (Exception ex)

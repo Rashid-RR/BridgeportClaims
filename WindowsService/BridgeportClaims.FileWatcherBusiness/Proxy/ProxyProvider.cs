@@ -1,17 +1,20 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Data;
-using BridgeportClaims.FileWatcherBusiness.DAL;
-using BridgeportClaims.FileWatcherBusiness.Extensions;
+using System.Reflection;
 using BridgeportClaims.FileWatcherBusiness.IO;
-using BridgeportClaims.FileWatcherBusiness.StringConstants;
+using BridgeportClaims.FileWatcherBusiness.DAL;
+using BridgeportClaims.FileWatcherBusiness.Logging;
+using BridgeportClaims.FileWatcherBusiness.Extensions;
 using cs = BridgeportClaims.FileWatcherBusiness.ConfigService.ConfigService;
+using c = BridgeportClaims.FileWatcherBusiness.StringConstants.Constants;
 
 namespace BridgeportClaims.FileWatcherBusiness.Proxy
 {
     public class ProxyProvider
     {
         private readonly ImageDataProvider _imageDataProvider;
-        private const string False = "false";
+        private readonly ILogger _logger = LoggingService.Instance.Logger;
 
         public ProxyProvider()
         {
@@ -20,19 +23,41 @@ namespace BridgeportClaims.FileWatcherBusiness.Proxy
 
         public void MergeDocuments(DataTable dt)
         {
-            _imageDataProvider.MergeDocuments(dt);
+            try
+            {
+                _imageDataProvider.MergeDocuments(dt);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                throw;
+            }
         }
 
         public void InitializeFirstFileTraversalIfNecessary()
         {
-            var doInitialFileTraversal = cs.GetAppSetting(Constants.PerformInitialDirectoryTraversalKey);
-            var initial = Convert.ToBoolean(doInitialFileTraversal.IsNotNullOrWhiteSpace() ? doInitialFileTraversal.ToLower() : False);
-            var rootDomain = cs.GetAppSetting(Constants.ImagesRootDomainNameKey);
-            var fileLocation = cs.GetAppSetting(Constants.FileLocationKey);
-            if (!initial) return;
-            var dt = IoHelper.TraverseDirectories(fileLocation, rootDomain)?.ToDataTable();
-            if (null != dt)
-                MergeDocuments(dt);
+            try
+            {
+                var method = MethodBase.GetCurrentMethod().Name;
+                var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+                var doInitialFileTraversal = cs.GetAppSetting(c.PerformInitialDirectoryTraversalKey);
+                var initial = bool.TryParse(doInitialFileTraversal, out bool b) && b;
+                var rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
+                if (rootDomain.IsNullOrWhiteSpace())
+                    throw new Exception($"Error, could not get the root domain from the config file within {method} method on {now}.");
+                var fileLocation = cs.GetAppSetting(c.FileLocationKey);
+                if (fileLocation.IsNullOrWhiteSpace())
+                    throw new Exception($"Error, could not get the file location from the config file within the {method} method on {now}.");
+                if (!initial) return;
+                var dt = IoHelper.TraverseDirectories(fileLocation, rootDomain)?.ToDataTable();
+                if (null != dt)
+                    MergeDocuments(dt);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex);
+                throw;
+            }
         }
     }
 }

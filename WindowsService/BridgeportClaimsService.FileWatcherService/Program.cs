@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ServiceProcess;
-using BridgeportClaims.FileWatcherBusiness.Logging;
 using System.Threading;
+using BridgeportClaims.FileWatcherBusiness.Logging;
 
 namespace BridgeportClaimsService.FileWatcherService
 {
