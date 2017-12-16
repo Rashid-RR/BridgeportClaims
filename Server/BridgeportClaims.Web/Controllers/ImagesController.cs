@@ -18,7 +18,10 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IRepository<DocumentIndex> _documentIndexRepository;
         private readonly IRepository<DocumentType> _documentTypeRepository;
 
-        public ImagesController(IClaimImageProvider claimImageProvider, IRepository<DocumentIndex> documentIndexRepository, IRepository<DocumentType> documentTypeRepository)
+        public ImagesController(
+            IClaimImageProvider claimImageProvider, 
+            IRepository<DocumentIndex> documentIndexRepository, 
+            IRepository<DocumentType> documentTypeRepository)
         {
             _claimImageProvider = claimImageProvider;
             _documentIndexRepository = documentIndexRepository;
@@ -56,8 +59,8 @@ namespace BridgeportClaims.Web.Controllers
                     throw new Exception($"Error, the image could not be found with the Id of {model.DocumentId}.");
                 docIndex.RxDate = model.RxDate;
                 docIndex.RxNumber = model.RxNumber;
-                var type = _documentTypeRepository.GetSingleOrDefault(x => x.TypeName.ToLower() == model.Type);
-                docIndex.DocumentType = type ?? throw new Exception($"Error, could not find a document type with the type name: \"{model.TypeNormal}\"");
+                var docType = _documentTypeRepository.Get(model.DocumentTypeId);
+                docIndex.DocumentType = docType;
                 docIndex.UpdatedOnUtc = DateTime.UtcNow;
                 _documentIndexRepository.Update(docIndex);
                 return Ok(new {message = "The image was updated successfully."});

@@ -14,6 +14,7 @@ using BridgeportClaims.Entities.DomainModels;
 using NHibernate;
 using NHibernate.Linq;
 using NHibernate.Transform;
+using NLog;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
 
@@ -27,8 +28,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		private readonly IRepository<Claim> _claimRepository;
 		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
 	    private readonly IClaimImageProvider _claimImageProvider;
+	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-		public ClaimsDataProvider(ISessionFactory factory, 
+        public ClaimsDataProvider(ISessionFactory factory, 
 			IStoredProcedureExecutor storedProcedureExecutor, 
 			IRepository<Claim> claimRepository, 
 			IRepository<ClaimFlex2> claimFlex2Repository, 
@@ -206,7 +208,15 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.List<EpisodeDto>();
 							if (null != episodes)
 								claimDto.Episodes = episodes.OrderByDescending(x => x.Date).ToList();
-							var acctPayableDtos = session.CreateSQLQuery(
+						    var documentTypes = session.CreateSQLQuery(@"SELECT  DocumentTypeId = [dt].[DocumentTypeID]
+                                                                               , [dt].[TypeName]
+                                                                         FROM    [dbo].[DocumentType] AS [dt]")
+						        .SetMaxResults(5000)
+						        .SetResultTransformer(Transformers.AliasToBean(typeof(DocumentTypeDto)))
+						        .List<DocumentTypeDto>();
+						    if (null != documentTypes)
+						        claimDto.DocumentTypes = documentTypes;
+                            var acctPayableDtos = session.CreateSQLQuery(
 							  @"SELECT [Date] = [p].[DatePosted]
 									 , [p].[CheckNumber]
 									 , [p2].[RxNumber]
@@ -283,9 +293,10 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								tx.Commit();
 							return claimDto;
 						}
-						catch
+						catch (Exception ex)
 						{
-							if (tx.IsActive)
+						    Logger.Error(ex);
+                            if (tx.IsActive)
 								tx.Rollback();
 							throw;
 						}
