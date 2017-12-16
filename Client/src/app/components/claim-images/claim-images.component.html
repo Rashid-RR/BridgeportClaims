@@ -45,15 +45,15 @@
             </ng-container>
             <tr *ngFor="let image of claimManager.selectedClaim.images">
               <ng-container *ngIf="editingDocumentId==image.documentId">
+                  <td (click)="openAttachment(image)">
+                      <i class="fa fa-file-pdf-o text-red"></i>
+                    </td>
+                    <td>{{image.created | date:"shortDate"}}</td>
                 <td>
-                    <i class="fa fa-file-pdf-o text-red"></i>
-                </td>
-                <td> {{image.created | date:"shortDate"}}</td>
-                <td>
-                  
-                    <div class="input-group">
-                        <input class="form-control" name="type" formControlName="type">
-                      </div>
+                  <select class="form-control" formControlName="documentTypeId">
+                    <option *ngFor="let o of claimManager.selectedClaim.documentTypes" [value]="o.documentTypeId">{{o.typeName}}</option>
+                  </select>
+                  &nbsp;
                 </td>
                 <td>
                   <div class="input-group">

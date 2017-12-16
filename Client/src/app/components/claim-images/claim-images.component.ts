@@ -40,7 +40,7 @@ export class ClaimImagesComponent implements OnInit {
     this.form = this.formBuilder.group({
       documentId: [null, Validators.compose([Validators.required])],
       claimId: [null, Validators.compose([Validators.required])],
-      type: [null, Validators.compose([Validators.required])],
+      documentTypeId: [null, Validators.compose([Validators.required])],
       rxDate: [null],
       rxNumber: [null],
     });
@@ -55,8 +55,8 @@ export class ClaimImagesComponent implements OnInit {
     this.fetchData();
   }
 
-  saveImage(image: ClaimImage) {
-    if(this.form.get('type').value ){
+  saveImage(image: any) {
+    if(this.form.get('documentTypeId').valid ){
       this.claimManager.loading = true
       let rxDate  = this.dp.transform($("#datepicker").val(),"dd/MM/yyyy");          
       let data = Object.assign(this.form.value);
@@ -65,8 +65,9 @@ export class ClaimImagesComponent implements OnInit {
           this.toast.success(res.message); 
           this.claimManager.loading = false; 
           image.rxDate = $("#datepicker").val();         
-          image.rxNumber = data.rxNumber         
-          image.type = data.type         
+          image.rxNumber = data.rxNumber;
+          let type = this.claimManager.selectedClaim.documentTypes.find(t=>t.documentTypeId==this.form.get('documentTypeId').value);
+          image.type = type.typeName;
           this.cancel();
       },error=>{                          
         this.toast.error(error.message);
@@ -76,7 +77,7 @@ export class ClaimImagesComponent implements OnInit {
       this.toast.warning("You must fill the type field");
     }
   }
-  reindex(image: ClaimImage) {
+  reindex(image: any) {
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Reindex Image",
       message: "Are you sure you wish to reindex this image?"
@@ -96,23 +97,26 @@ export class ClaimImagesComponent implements OnInit {
         else { }
       });
   }
-  removeImage(image) {
+  removeImage(image:ClaimImage) {
     for (var i = 0; i < this.claimManager.selectedClaim.images.length; i++) {
       if (image.documentId == this.claimManager.selectedClaim.images[i].documentId) {
         this.claimManager.selectedClaim.images.splice(i, 1);
       }
     }
   }
-  update(image: ClaimImage) {
+  update(image: any) {
     this.editing = true;
-    this.editingDocumentId = image.documentId;
+    this.editingDocumentId = image.documentId; 
     this.form.patchValue({
       claimId: this.claimManager.selectedClaim.claimId,
       documentId:image.documentId,
-      type: image.type,
       rxDate: image.rxDate,
       rxNumber: image.rxNumber
     });
+    let type = this.claimManager.selectedClaim.documentTypes.find(t=>t.typeName==image.type)
+    try{
+      this.form.get('documentTypeId').setValue(type.documentTypeId);
+    }catch(e){}    
     setTimeout(()=>{
       $('#datepicker').datepicker({
         autoclose: true
