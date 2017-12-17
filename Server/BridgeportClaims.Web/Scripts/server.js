@@ -80,13 +80,6 @@
         proxies['DocumentsHub'] = this.createHubProxy('DocumentsHub'); 
         proxies['DocumentsHub'].client = { };
         proxies['DocumentsHub'].server = {
-            broadCastExternalMessage: function (msgFrom, msg) {
-            /// <summary>Calls the BroadCastExternalMessage method on the server-side DocumentsHub hub.&#10;Returns a jQuery.Deferred() promise.</summary>
-            /// <param name=\"msgFrom\" type=\"String\">Server side type is System.String</param>
-            /// <param name=\"msg\" type=\"String\">Server side type is System.String</param>
-                return proxies['DocumentsHub'].invoke.apply(proxies['DocumentsHub'], $.merge(["BroadCastExternalMessage"], $.makeArray(arguments)));
-             },
-
             broadCastMessage: function (msgFrom, msg) {
             /// <summary>Calls the BroadCastMessage method on the server-side DocumentsHub hub.&#10;Returns a jQuery.Deferred() promise.</summary>
             /// <param name=\"msgFrom\" type=\"String\">Server side type is System.String</param>
@@ -94,40 +87,28 @@
                 return proxies['DocumentsHub'].invoke.apply(proxies['DocumentsHub'], $.merge(["BroadCastMessage"], $.makeArray(arguments)));
              },
 
-            getDocuments: function (model) {
-            /// <summary>Calls the GetDocuments method on the server-side DocumentsHub hub.&#10;Returns a jQuery.Deferred() promise.</summary>
-            /// <param name=\"model\" type=\"Object\">Server side type is BridgeportClaims.Web.Models.DocumentViewModel</param>
-                return proxies['DocumentsHub'].invoke.apply(proxies['DocumentsHub'], $.merge(["GetDocuments"], $.makeArray(arguments)));
-             },
-
-            joinRoom: function (room) {
-            /// <summary>Calls the JoinRoom method on the server-side DocumentsHub hub.&#10;Returns a jQuery.Deferred() promise.</summary>
-            /// <param name=\"room\" type=\"String\">Server side type is System.String</param>
-                return proxies['DocumentsHub'].invoke.apply(proxies['DocumentsHub'], $.merge(["JoinRoom"], $.makeArray(arguments)));
-             },
-
-            sendMessageToRoom: function (room, message) {
-            /// <summary>Calls the SendMessageToRoom method on the server-side DocumentsHub hub.&#10;Returns a jQuery.Deferred() promise.</summary>
-            /// <param name=\"room\" type=\"String\">Server side type is System.String</param>
-            /// <param name=\"message\" type=\"String\">Server side type is System.String</param>
-                return proxies['DocumentsHub'].invoke.apply(proxies['DocumentsHub'], $.merge(["SendMessageToRoom"], $.makeArray(arguments)));
-             },
-
             sendMonitoringData: function (eventType, connectionId) {
             /// <summary>Calls the SendMonitoringData method on the server-side DocumentsHub hub.&#10;Returns a jQuery.Deferred() promise.</summary>
             /// <param name=\"eventType\" type=\"String\">Server side type is System.String</param>
             /// <param name=\"connectionId\" type=\"String\">Server side type is System.String</param>
                 return proxies['DocumentsHub'].invoke.apply(proxies['DocumentsHub'], $.merge(["SendMonitoringData"], $.makeArray(arguments)));
+             },
+
+            sendNewDocument: function (documentId, fileName, fileSize, created, lastAccess, lastWrite) {
+            /// <summary>Calls the SendNewDocument method on the server-side DocumentsHub hub.&#10;Returns a jQuery.Deferred() promise.</summary>
+            /// <param name=\"documentId\" type=\"Number\">Server side type is System.Int32</param>
+            /// <param name=\"fileName\" type=\"String\">Server side type is System.String</param>
+            /// <param name=\"fileSize\" type=\"String\">Server side type is System.String</param>
+            /// <param name=\"created\" type=\"Object\">Server side type is System.DateTime</param>
+            /// <param name=\"lastAccess\" type=\"Object\">Server side type is System.DateTime</param>
+            /// <param name=\"lastWrite\" type=\"Object\">Server side type is System.DateTime</param>
+                return proxies['DocumentsHub'].invoke.apply(proxies['DocumentsHub'], $.merge(["SendNewDocument"], $.makeArray(arguments)));
              }
         };
 
         proxies['MonitorHub'] = this.createHubProxy('MonitorHub'); 
         proxies['MonitorHub'].client = { };
         proxies['MonitorHub'].server = {
-            hello: function () {
-            /// <summary>Calls the Hello method on the server-side MonitorHub hub.&#10;Returns a jQuery.Deferred() promise.</summary>
-                return proxies['MonitorHub'].invoke.apply(proxies['MonitorHub'], $.merge(["Hello"], $.makeArray(arguments)));
-             }
         };
 
         return proxies;

@@ -7,7 +7,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 namespace BridgeportClaims.Web.Hubs
 {
     [HubName("DocumentsHub")]
-    public class DocumentsHub : Hub
+    public class DocumentsHub : Hub 
     {
         public void BroadCastMessage(string msgFrom, string msg)
         {
