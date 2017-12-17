@@ -10,6 +10,7 @@ using BridgeportClaims.Web.IoCConfig;
 using BridgeportClaims.Web.Middleware;
 using BridgeportClaims.Web.Providers;
 using HibernatingRhinos.Profiler.Appender.NHibernate;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security;

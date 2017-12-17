@@ -6,9 +6,6 @@ namespace BridgeportClaims.Web.Hubs
     [HubName("MonitorHub")]
     public class MonitorHub : Hub
     {
-        public void Hello()
-        {
-            Clients.All.hello();
-        }
+
     }
 }

@@ -252,8 +252,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Scripts\jquery-1.6.4.min.js" />
-    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
