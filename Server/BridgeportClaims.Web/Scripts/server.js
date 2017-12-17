@@ -77,7 +77,7 @@
             registerHubProxies(proxies, false);
         });
 
-        proxies['DocumentsHub'] = this.createHubProxy('DocumentsHub'); 
+        proxies['DocumentsHub'] = this.createHubProxy('documentsHub'); 
         proxies['DocumentsHub'].client = { };
         proxies['DocumentsHub'].server = {
             broadCastMessage: function (msgFrom, msg) {

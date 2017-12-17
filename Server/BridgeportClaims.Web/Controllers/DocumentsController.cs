@@ -4,11 +4,13 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
+using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.SignalR;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "User")]
+    [System.Web.Http.Authorize(Roles = "User")]
     [RoutePrefix("api/document")]
     public class DocumentsController : BaseApiController
     {
@@ -47,6 +49,23 @@ namespace BridgeportClaims.Web.Controllers
                     model.SortDirection, model.Page,
                     model.PageSize);
                 return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("add")]
+        public IHttpActionResult AddSignalRDocument()
+        {
+            try
+            {
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                hubContext.Clients.All.newDocument(50, "jordan.pdf", "50000 PB", DateTime.Now, DateTime.Now, DateTime.Now);
+                return Ok();
             }
             catch (Exception ex)
             {

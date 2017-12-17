@@ -263,6 +263,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\server.js" />
     <Content Include="Web.config">
@@ -302,7 +303,6 @@
     <Compile Include="Formatters\ServiceStackTextFormatter.cs" />
     <Compile Include="Handlers\CancelledTaskBugWorkaroundMessageHandler.cs" />
     <Compile Include="Hubs\DocumentsHub.cs" />
-    <Compile Include="Hubs\MonitorHub.cs" />
     <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
     <Compile Include="Infrastructure\EmailType.cs" />
     <Compile Include="Infrastructure\MultipartFormDataMemoryStreamProvider.cs" />
