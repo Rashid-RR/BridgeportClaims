@@ -110,6 +110,7 @@ export class AutoCompleteComponent implements OnInit {
   @Input("loading-template") loadingTemplate = null;
   @Input("max-num-list") maxNumList: number;
   @Input("show-input-tag") showInputTag: boolean = true;
+  @Input("exactMatch") exactMatch: boolean = true;
   @Input("show-dropdown-on-init") showDropdownOnInit: boolean = false;
   @Input("tab-to-select") tabToSelect: boolean = true;
   @Input("match-formatted") matchFormatted: boolean = false;
@@ -209,11 +210,11 @@ export class AutoCompleteComponent implements OnInit {
 
     } else {                 // remote source
       this.isLoading = true;
-      this.autoComplete.httpMethod = this.httpMethod      
+      this.autoComplete.httpMethod = this.httpMethod;     
+      this.autoComplete.exactMatch = this.exactMatch;      
       if (this.service && this.method) {
             this.autoComplete.getRemoteData(keyword,this.http.headers).subscribe(resp => {
-                this.filteredList = resp ? (<any>resp) : [];
-                
+                this.filteredList = resp ? (<any>resp) : [];                
                 if (this.maxNumList) {
                   this.filteredList = this.filteredList.slice(0, this.maxNumList);                  
                 }

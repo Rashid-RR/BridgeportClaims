@@ -42,6 +42,7 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
   @Input("blank-option-text") blankOptionText: string;
   @Input("no-match-found-text") noMatchFoundText: string;
   @Input("value-formatter") valueFormatter: any;
+  @Input("exactMatch") exactMatch: boolean = true;
   @Input("tab-to-select") tabToSelect: boolean = true;
   @Input("select-on-blur") selectOnBlur: boolean = false;
   @Input("match-formatted") matchFormatted: boolean = false;
@@ -180,6 +181,7 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     component.source = this.source;
     component.service = this.service;
     component.method = this.method;
+    component.exactMatch = this.exactMatch;
     component.httpMethod = this.httpMethod;
     component.placeholder = this.autoCompletePlaceholder;
     component.acceptUserInput = this.acceptUserInput;
