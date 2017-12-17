@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using BridgeportClaims.Data.Dtos;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
 
@@ -32,6 +34,16 @@ namespace BridgeportClaims.Web.Hubs
             return base.OnDisconnected(stopCalled);
         }
 
+
+        #endregion
+
+        #region Documents Methods
+
+        public void SendNewDocument(int documentId, string fileName, string fileSize, DateTime created, DateTime lastAccess, DateTime lastWrite)
+        {
+            var ctx = GlobalHost.ConnectionManager.GetHubContext<MonitorHub>();
+            ctx.Clients.All.newDocument(documentId, fileName, fileSize, created, lastAccess, lastWrite);
+        }
 
         #endregion
 

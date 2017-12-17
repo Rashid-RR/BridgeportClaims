@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <!--Add reference to the JQuery file-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <style>
+        body { background-color: lightblue; }
+    </style>
+    <!-- Add reference to the minified version of the SignarR client library -->
+    <script src="Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <!-- Add reference to the auto-generated proxy file -->
+    <script src="signalr/hubs"></script>
+    <script src="Scripts/server.js"></script>
+    <script type="text/javascript">
+        
+        // Runs once the DOM is loaded.
+        $(document).ready(function () {
+
+            $.connection.hub.logging = true; // REMOVE for production!!!!
+            
+            
+
+            //Get proxy instance using the auto-generated proxy class
+            var documentProxy = $.connection.documentsHub;
+            // Bind the btnClick event when connection to the hub is started
+            $.connection.hub.start();
+            //Callback function which the hub will call when it has finished processing,
+            // is attached to the proxy 
+            documentProxy.server.sendNewDocument(
+                
+                //.client.newDocument = function (documentId, fileName, fileSize, created, lastAccess, lastWrite) {
+                //$('#fileName').append('<strong>' + fileName + '</strong>');
+            };
+        });
+    </script>
+
+    <div>
+        <div style="overflow:hidden;">
+            <div>
+                <ul>
+                    <li>
+                        <div>
+                            &nbsp;
+                        </div>
+                        <div>
+                            Name
+                        </div>
+                        <div>
+                            Size
+                        </div>
+                        <div>
+                            Created
+                        </div>
+                        <div>
+                            Last Accessed
+                        </div>
+                        <div>
+                            Last Write
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                    <li>
+                        <div>
+                            <i class="fa fa-file-pdf-o text-red"></i>
+                        </div>
+                        <div id="fileName">
+                            {{file.fileName}}
+                        </div>
+                        <div>
+                            {{file.fileSize}}
+                        </div>
+                        <div>
+                            {{file.creationTimeLocal | date : 'mediumDate'}} {{file.creationTimeLocal | date : 'mediumTime'}}
+                        </div>
+                        <div>
+                            {{file.lastAccessTimeLocal | date : 'mediumDate'}} {{file.lastAccessTimeLocal | date : 'mediumTime'}}
+                        </div>
+                        <div>
+                            {{file.lastWriteTimeLocal | date : 'mediumDate'}} {{file.lastWriteTimeLocal | date : 'mediumTime'}}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <i class="fa fa-3x text-red fa-file-pdf-o"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

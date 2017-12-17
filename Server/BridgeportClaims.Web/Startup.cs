@@ -9,8 +9,6 @@ using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.IoCConfig;
 using BridgeportClaims.Web.Middleware;
 using BridgeportClaims.Web.Providers;
-using HibernatingRhinos.Profiler.Appender.NHibernate;
-using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security;
@@ -46,8 +44,6 @@ namespace BridgeportClaims.Web
             if (ConfigService.AppIsInDebugMode)
                 app.UseCors(CorsOptions.AllowAll);
             AutomapperStartup.Configure();
-            if (ConfigService.AppIsInDebugMode)
-                NHibernateProfiler.Initialize();
             app.UseWebApi(config);
             app.UseAutofacWebApi(config);
         }
