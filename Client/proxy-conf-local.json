@@ -16,7 +16,7 @@
   "/signalr": {
     "target": "https://localhost:44398",
     "changeOrigin": true,
-    "secure": false,
+    "secure": true,
     "logLevel": "debug",
     "ws":true
   }
