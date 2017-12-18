@@ -72,6 +72,7 @@ import { UnindexedImageFileComponent } from './pages/unindexed-image-file/uninde
 import { IndexFileComponent } from './pages/index-file/index-file.component';
 import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
 import { SignalrDocmentDemoComponent } from './pages/signalr-docment-demo/signalr-docment-demo.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -110,7 +111,7 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, SignalrDemoComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, SignalrDocmentDemoComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, SignalrDemoComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, SignalrDocmentDemoComponent, MainLayoutComponent
   ],
   imports: [
     FormsModule,
