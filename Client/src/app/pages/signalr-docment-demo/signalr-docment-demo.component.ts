@@ -19,7 +19,7 @@ export class SignalrDocmentDemoComponent implements OnInit {
   loading: boolean = false;
   display: string = 'grid';
   lastUpdated: Date;
-  hub: string = 'DocumentsHub';
+  hub: string = 'documentsHub';
   pollTime: number = 600000; // microseconds*seconds*minutes ~ currently after every two minute
   constructor(private signalR: SignalRService, private events: EventsService, private router: Router, private _ngZone: NgZone) {
     this.data = {
@@ -32,20 +32,7 @@ export class SignalrDocmentDemoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.signalR.connect(this.hub);
-    if (this.signalR.connected) {
-      this.fetchDocs();
-      setInterval(() => {
-        this.fetchDocs();
-      }, this.pollTime);
-    } else {
-      this.events.on('start-listening-to-signalr', () => {
-        this.fetchDocs();
-        setInterval(() => {
-          this.fetchDocs();
-        }, this.pollTime);
-      });
-    }
+    this.signalR.connect(this.hub);     
   }
 
   fetchDocs() {

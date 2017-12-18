@@ -45,7 +45,7 @@
             </div>
             <div class="table-responsive table-body" *ngIf="display=='list'">
               <ul class="products-list product-list-in-box">
-                <li class="item row" *ngFor="let file of documentList" (click)="openFile(file)">
+                <li class="item row" *ngFor="let file of signalR.documentItems" (click)="openFile(file)">
                   <div class="col-md-1">
                     <i class="fa fa-file-pdf-o text-red"></i>
                   </div>
@@ -70,7 +70,7 @@
             <div class="table-responsive table-body grid" *ngIf="display=='grid'">
               <div class="row">
                 <div class="col-md-12 flex-row">
-                  <div class="file" *ngFor="let file of documentList" [title]="(file.FileSize || file.fileSize)" (click)="openFile(file)">
+                  <div class="file" *ngFor="let file of signalR.documentItems" [title]="(file.FileSize || file.fileSize)" (click)="openFile(file)">
                     <div class="card-body">
                       <i class="fa fa-3x text-red fa-file-pdf-o"></i>
                     </div>
