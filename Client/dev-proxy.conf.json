@@ -12,5 +12,12 @@
     "secure": false,
     "logLevel": "debug",
     "ws":true
+  },
+  "/signalr": {
+    "target": "https://localhost:3000",
+    "changeOrigin": true,
+    "secure": true,
+    "logLevel": "debug",
+    "ws":true
   }
 }

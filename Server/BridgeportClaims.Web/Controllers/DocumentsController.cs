@@ -59,12 +59,12 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IHttpActionResult AddSignalRDocument()
+        public IHttpActionResult AddSignalRDocument(int documentId)
         {
             try
             {
                 var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
-                hubContext.Clients.All.newDocument(50, "jordan.pdf", "50000 PB", DateTime.Now, DateTime.Now, DateTime.Now);
+                hubContext.Clients.All.newDocument(documentId, $"{Guid.NewGuid()}.pdf", "50000 EB", DateTime.Now, DateTime.Now.AddMinutes(3), DateTime.Now.AddHours(1));
                 return Ok();
             }
             catch (Exception ex)

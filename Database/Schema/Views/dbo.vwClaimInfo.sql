@@ -11,8 +11,8 @@ SELECT [c].[ClaimID]
      , Carrier = [pa].[BillToName]
      , InjuryDate = [c].[DateOfInjury]
 FROM   [dbo].[Claim] AS [c]
-       JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
-       JOIN [dbo].[Payor] AS pa ON [pa].[PayorID] = [c].[PayorID]
+       INNER JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
+       INNER JOIN [dbo].[Payor] AS pa ON [pa].[PayorID] = [c].[PayorID]
 GO
 
 CREATE UNIQUE CLUSTERED INDEX [pkVwClaimInfoClaimID] ON [dbo].[vwClaimInfo] ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]

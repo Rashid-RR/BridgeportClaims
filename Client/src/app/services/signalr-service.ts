@@ -4,7 +4,8 @@ import { EventsService } from './events-service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import * as Rx from 'rxjs/Rx';
-
+import * as Immutable from 'immutable';
+import { DocumentItem } from "../models/document"
 declare var $: any;
 
 @Injectable()
@@ -16,6 +17,7 @@ export class SignalRService implements Resolve<boolean> {
     // signalR proxy reference
     private proxies: { id: string, value: any }[] = [];
     messages: { msgFrom: string, msg: string }[] = [];
+    documents: DocumentItem[] = [];
     loading = false;
     constructor(private events: EventsService, private _ngZone: NgZone) {
         const fileref = document.createElement('script');
@@ -57,16 +59,37 @@ export class SignalRService implements Resolve<boolean> {
         if (!proxy || !proxy.value) {
             proxy = { id: hub, value: this.connection[hub] };
             this.proxies.push(proxy);
-            this.start(proxy.value);
+            this.start(proxy.value, hub);
         }
     }
 
-    start(hub: any) {
-        //console.log(this.connected, hub.client);
-        hub.client.receiveMessage = (msgFrom, msg) => this.onMessageReceived(msgFrom, msg);        
+    start(hub: any, hubname: string) {
+        switch (hubname) {
+            case 'documentsHub':
+                hub.client.newDocument = (...args) => this.onNewDocument(args);
+                break;
+            default:
+                hub.client.receiveMessage = (msgFrom, msg) => this.onMessageReceived(msgFrom, msg);
+                break;
+        }
+
+    }
+    get documentItems(): Array<DocumentItem> {
+        return this.documents;
+    }
+    onNewDocument(args: Array<any>) {
+        let doc: DocumentItem = {
+            documentId: args[0], fileName: args[1], fileSize: args[2],
+            creationTimeLocal: args[3], lastAccessTimeLocal: args[4],
+            lastWriteTimeLocal: args[5], extension: '', fileUrl: '', fullFilePath: ''
+        }
+        console.log(doc);
+        this._ngZone.run(() => {
+            this.documents.push(doc);
+        });
     }
     private onMessageReceived(msgFrom: string, msg: string) {
-        //console.log('New message received from ' + msgFrom, msg);
+        console.log('New message received from ' + msgFrom, msg);
         this._ngZone.run(() => {
             this.messages.push({ msgFrom: msgFrom, msg: msg });
         });
