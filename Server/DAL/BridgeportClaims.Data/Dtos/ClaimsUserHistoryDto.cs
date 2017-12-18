@@ -1,4 +1,6 @@
-﻿namespace BridgeportClaims.Data.Dtos
+﻿using System;
+
+namespace BridgeportClaims.Data.Dtos
 {
     public class ClaimsUserHistoryDto
     {
@@ -7,5 +9,6 @@
         public string Name { get; set; }
         public string InjuryDate { get; set; }
         public string Carrier { get; set; }
+        public DateTime CreatedOnUtc { get; set; }
     }
 }
