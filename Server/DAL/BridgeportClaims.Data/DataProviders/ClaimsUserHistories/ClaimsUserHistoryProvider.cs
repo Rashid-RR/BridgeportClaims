@@ -44,6 +44,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
                     userIdParam.SqlDbType = SqlDbType.NVarChar;
                     userIdParam.ParameterName = "@UserID";
                     userIdParam.Value = userId ?? (object) DBNull.Value;
+                    cmd.Parameters.Add(userIdParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     DisposableService.Using(cmd.ExecuteReader, reader =>
@@ -74,21 +75,6 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
                     return retVal.OrderByDescending(x => x.CreatedOnUtc).Take(maxClaimsLookup).ToList();
                 });
             });
-        /*
-            var maxClaimsLookup = Convert.ToInt32(cs.GetAppSetting(c.MaxClaimsLookupHistoryItemsKey));
-            var claimsUserHistories = _claimsUserHistoryRepository.GetMany(x => x.AspNetUsers.Id == userId)
-                .Join(_vwClaimInfoRepository.GetAll(), h => h.Claim.ClaimId, c => c.ClaimId, (h, c) => new {h, c})
-                .OrderByDescending(w => w.h.CreatedOnUtc)
-                .Select(s => new ClaimsUserHistoryDto
-                {
-                    ClaimId = s.c.ClaimId,
-                    ClaimNumber = s.c.ClaimNumber,
-                    Name = s.c.Name,
-                    InjuryDate = s.c.InjuryDate,
-                    Carrier = s.c.Carrier
-                }).Take(maxClaimsLookup).ToList();
-            return claimsUserHistories;
-        */
 
         public void InsertClaimsUserHistory(string userId, int claimId)
         {
