@@ -16,8 +16,8 @@ export class SignalRService implements Resolve<boolean> {
     public connected: boolean = false;
     // signalR proxy reference
     private proxies: { id: string, value: any }[] = [];
-    messages: { msgFrom: string, msg: string }[] = []; 
-    documents: DocumentItem[]=[];
+    messages: { msgFrom: string, msg: string }[] = [];
+    documents: DocumentItem[] = [];
     loading = false;
     constructor(private events: EventsService, private _ngZone: NgZone) {
         const fileref = document.createElement('script');
@@ -66,27 +66,26 @@ export class SignalRService implements Resolve<boolean> {
     start(hub: any, hubname: string) {
         switch (hubname) {
             case 'documentsHub':
-                hub.client.newDocument = (...args)=>this.onNewDocument(args);
+                hub.client.newDocument = (...args) => this.onNewDocument(args);
                 break;
             default:
                 hub.client.receiveMessage = (msgFrom, msg) => this.onMessageReceived(msgFrom, msg);
                 break;
         }
-        console.log(this.connected, hub.client);
 
     }
-    get documentItems():Array<DocumentItem>{
-            return this.documents;
+    get documentItems(): Array<DocumentItem> {
+        return this.documents;
     }
-    onNewDocument(args:Array<any>) {
+    onNewDocument(args: Array<any>) {
         let doc: DocumentItem = {
             documentId: args[0], fileName: args[1], fileSize: args[2],
             creationTimeLocal: args[3], lastAccessTimeLocal: args[4],
-            lastWriteTimeLocal: args[5], extension:'', fileUrl:'',fullFilePath:''
+            lastWriteTimeLocal: args[5], extension: '', fileUrl: '', fullFilePath: ''
         }
         console.log(doc);
         this._ngZone.run(() => {
-            this.documents.push(doc);       
+            this.documents.push(doc);
         });
     }
     private onMessageReceived(msgFrom: string, msg: string) {
