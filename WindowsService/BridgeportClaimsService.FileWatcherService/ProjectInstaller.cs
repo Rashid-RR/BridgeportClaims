@@ -15,5 +15,10 @@ namespace BridgeportClaimsService.FileWatcherService
         {
             new ServiceController(BridgeportClaimsWindowsServiceInstaller.ServiceName).Start();
         }
+
+        private void BridgeportClaimsWindowsServiceProcessInstaller_AfterInstall(object sender, System.Configuration.Install.InstallEventArgs e)
+        {
+
+        }
     }
 }

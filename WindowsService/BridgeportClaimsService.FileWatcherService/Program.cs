@@ -21,6 +21,7 @@ namespace BridgeportClaimsService.FileWatcherService
             var logger = loggingService.Logger;
             try
             {
+                
                 var servicesToRun = new ServiceBase[]
                 {
                     new BridgeportClaimsWindowsService()

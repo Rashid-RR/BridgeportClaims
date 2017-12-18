@@ -33,9 +33,10 @@
             // 
             // BridgeportClaimsWindowsServiceProcessInstaller
             // 
-            this.BridgeportClaimsWindowsServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalService;
+            this.BridgeportClaimsWindowsServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.User;
             this.BridgeportClaimsWindowsServiceProcessInstaller.Password = null;
             this.BridgeportClaimsWindowsServiceProcessInstaller.Username = null;
+            this.BridgeportClaimsWindowsServiceProcessInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.BridgeportClaimsWindowsServiceProcessInstaller_AfterInstall);
             // 
             // BridgeportClaimsWindowsServiceInstaller
             // 
