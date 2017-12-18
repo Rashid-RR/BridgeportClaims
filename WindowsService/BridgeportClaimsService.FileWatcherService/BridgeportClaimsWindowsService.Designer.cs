@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.ServiceName = "BridgeportClaimsWindowsService";
+            // 
+            // BridgeportClaimsWindowsService
+            // 
+            this.ServiceName = "Bridgeport File Watcher";
+
         }
 
         #endregion
