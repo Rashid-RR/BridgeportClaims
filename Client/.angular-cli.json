@@ -38,7 +38,6 @@
         "styles.css"
       ],
       "scripts": [
-        "../node_modules/admin-lte/plugins/jQuery/jquery-2.2.3.min.js",
         "../node_modules/admin-lte/plugins/jQueryUI/jquery-ui.min.js",
         "../node_modules/admin-lte/bootstrap/js/bootstrap.min.js",
         "assets/js/blob-util.js",
@@ -61,7 +60,6 @@
         "../node_modules/highcharts/modules/drilldown.js",
         "assets/js/app.js",
         "../node_modules/sweetalert2/dist/sweetalert2.min.js",
-        "../node_modules/signalr/jquery.signalR.js",
         "../node_modules/admin-lte/dist/js/demo.js"
       ],
       "environmentSource": "environments/environment.ts",

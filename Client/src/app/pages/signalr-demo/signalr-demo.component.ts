@@ -1,5 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { SignalRService } from '../../services/services.barrel';
+import { EventsService } from '../../services/events-service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { setTimeout } from 'core-js/library/web/timers';
 declare var $: any;
@@ -21,31 +22,16 @@ export class SignalrDemoComponent implements OnInit {
   messages: { msgFrom: string, msg: string }[] = [];
   hub = 'documentsHub';
   constructor(
-    public signalR: SignalRService,
+    public signalR: SignalRService, private events: EventsService,
     private toast: ToastsManager, private _ngZone: NgZone
   ) { }
 
   ngOnInit() {
-    this.signalR.connect(this.hub, (hub: any, hubname: string) => {
-      try {
-        this.start(hub, hubname);
-      } catch (e) {
-        console.log("Hub does not exist")
-      }
-    });    
-  }
-  start(hub: any, hubname: string): void {
-    this.documentProxy = hub;
-    console.log(hub);
-    hub.client.receiveMessage = (msgFrom, msg) => {
-      this.onMessageReceived(msgFrom, msg);
-    };
-  }
-  private onMessageReceived(msgFrom: string, msg: string) {
-    console.log('New message received from ' + msgFrom, msg);
-    this._ngZone.run(() => {
-      this.messages.push({ msgFrom: msgFrom, msg: msg });
-    });
+    this.events.on("new-message", (m: any) => {
+      setTimeout(() => {
+        this.messages.push({ msgFrom: m.msgFrom, msg: m.msg });
+      },50)
+    })
   }
   checkName() {
     console.log(this.name);
@@ -61,14 +47,21 @@ export class SignalrDemoComponent implements OnInit {
   send() {
     if (this.message) {
       this.signalR.loading = true;
-      this.signalR.connection.hub.start().done((r) => {
-        this.documentProxy.server.broadCastMessage(this.name, this.message).then(r => {
-          console.log('Sent ...');
-          this.message = '';
-          this.signalR.loading = false;
-        });
-      });
+      if(!this.signalR.connected){
+          $.connection.hub.start().done(()=>{
+            this.sendMessage();
+          })
+      }else{
+        this.sendMessage();
+      }
     }
+  }
+  sendMessage(){
+    this.signalR.documentProxy.server.broadCastMessage(this.name, this.message).then(r => {
+      console.log('Sent ...');
+      this.message = '';
+      this.signalR.loading = false;
+    });
   }
 
 }

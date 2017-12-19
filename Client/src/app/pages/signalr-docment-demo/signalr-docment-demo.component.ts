@@ -2,7 +2,6 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { DocumentItem } from '../../models/document';
 import { DocumentType } from '../../models/document-type';
 import { EventsService } from '../../services/events-service';
-import { SignalRService } from '../../services/signalr-service';
 import * as Immutable from 'immutable';
 import { Router } from '@angular/router';
 import { setTimeout } from 'core-js/library/web/timers';
@@ -23,7 +22,7 @@ export class SignalrDocmentDemoComponent implements OnInit {
   lastUpdated: Date;
   hub: string = 'documentsHub';
   pollTime: number = 600000; // microseconds*seconds*minutes ~ currently after every two minute
-  constructor(private signalR: SignalRService, private events: EventsService, private router: Router, private _ngZone: NgZone) {
+  constructor(private events: EventsService, private router: Router, private _ngZone: NgZone) {
     this.data = {
       date: null,
       sort: 'DocumentID',
@@ -34,26 +33,13 @@ export class SignalrDocmentDemoComponent implements OnInit {
     documents = this.documentItems;
   }
 
-  ngOnInit() {
-    this.signalR.connect(this.hub, (hub: any, hubname: string) => { 
-      this.start(hub, hubname);
-    });
-  }
-  start(hub: any, hubname: string): void {
-    hub.client.newDocument = (...args) => {
-      this.onNewDocument(args);
-    };
-  }
-  onNewDocument(args: Array<any>) {
-    let doc: DocumentItem = {
-      documentId: args[0], fileName: args[1], fileSize: args[3],
-      creationTimeLocal: args[4], lastAccessTimeLocal: args[5],
-      lastWriteTimeLocal: args[6], extension: args[2], fileUrl: args[8], fullFilePath: args[7]
-    }
-    this._ngZone.run(() => {
-      this.documents.push(doc);
-    });
-  }
+  ngOnInit() {    
+    this.events.on("new-document", (doc: DocumentItem) => {
+      setTimeout(() => {
+        this.documents.push(doc);
+      },50)
+    })
+  }  
   get documentItems(): Array<DocumentItem> {
     return this.documents;
   }

@@ -6,10 +6,11 @@ import { Observable } from 'rxjs/Observable';
 import * as Rx from 'rxjs/Rx';
 import * as Immutable from 'immutable';
 import { DocumentItem } from "../models/document"
+import { setTimeout } from 'core-js/library/web/timers';
 declare var $: any;
 
 @Injectable()
-export class SignalRService implements Resolve<boolean> {
+export class SignalRService {
 
     // signalR connection reference
     connection: any;
@@ -17,50 +18,47 @@ export class SignalRService implements Resolve<boolean> {
     // signalR proxy reference 
     private proxies: { id: string, value: any }[] = [];
     loading = false;
+    documentProxy: any
     constructor(private events: EventsService, private _ngZone: NgZone) {
-        const fileref = document.createElement('script');
+        /* const fileref = document.createElement('script');
         fileref.setAttribute('type', 'text/javascript');
         fileref.setAttribute('src', 'signalr/hubs');
-        $('body').append(fileref);
+        $('body').append(fileref); */
         this.connection = $.connection;
+        this.startConnection();
+
     }
-    resolve(route: ActivatedRouteSnapshot): Promise<boolean> {
-        return new Promise((resolve, reject) => {
-            if (this.connected) {
-                resolve(true);
-            } else {
-                this.connection.hub.start().done((r) => {
-                    //console.log("Done connecting...");
-                    this.connected = true;
-                    this.events.broadcast('start-listening-to-signalr', true);
-                    resolve(true);
-                }).fail(err => {
-                    //console.log("Error connecting...");
-                    resolve(false);
-                });
-            }
-        });
+    startConnection() {
+        this.documentProxy = $.connection.documentsHub;
+        this.connection.hub.start().done();
+        this.connected = true;
+        this.setUpDocumentProxy();
+
     }
 
-    connect(hub: string,callback:(hub:any,name:string)=>void) {
-        if (!this.connected) {
-            this.connection.hub.start().done((r) => {
-                //console.log("Done connecting...");
-                this.connected = true;
-                this.events.broadcast('start-listening-to-signalr', true);
-            }).fail(err => {
-                //console.log("Error connecting...");
-            });
+    setUpDocumentProxy() {
+        this.documentProxy.client.newDocument = (...args) => {
+            this.onNewDocument(args);
         }
-        let proxy = this.proxies.find(p => p.id == hub);
-        //console.log(this.connection[hub]);
-        if (!proxy || !proxy.value) {
-            proxy = { id: hub, value: this.connection[hub] };
-            this.proxies.push(proxy);
-            callback(proxy.value, hub);
-        }else{
-            callback(proxy.value, hub);
+        this.documentProxy.client.receiveMessage = (msgFrom, msg) => {
+            this.onMessageReceived(msgFrom, msg);
         }
+    }
+    private onMessageReceived(msgFrom: string, msg: string) {
+        console.log('New message received from ' + msgFrom, msg);
+        this._ngZone.run(() => {
+            this.events.broadcast("new-message", { msgFrom: msgFrom, msg: msg });
+        });
+    }
+    onNewDocument(args: Array<any>) {
+        let doc: DocumentItem = {
+            documentId: args[0], fileName: args[1], fileSize: args[3],
+            creationTimeLocal: args[4], lastAccessTimeLocal: args[5],
+            lastWriteTimeLocal: args[6], extension: args[2], fileUrl: args[8], fullFilePath: args[7]
+        }
+        this._ngZone.run(() => {
+            this.events.broadcast("new-document", doc);
+        });
     }
 
     getProxy(hub: string) {
