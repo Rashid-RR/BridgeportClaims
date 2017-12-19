@@ -49,6 +49,7 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
   @Input("auto-select-first-item") autoSelectFirstItem: boolean = false;
   @Input("open-on-focus") openOnFocus: boolean = true;
   @Input("re-focus-after-select") reFocusAfterSelect: boolean = true;
+  @Input("drop-down-visible") dropdownVisible: boolean = false;
 
   @Input() ngModel: String;
   @Input('formControlName') formControlName: string;

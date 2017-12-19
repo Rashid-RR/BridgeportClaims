@@ -5,7 +5,9 @@ import { EventsService } from '../../services/events-service';
 import { SignalRService } from '../../services/signalr-service';
 import * as Immutable from 'immutable';
 import { Router } from '@angular/router';
+import { setTimeout } from 'core-js/library/web/timers';
 
+let documents: DocumentItem[];
 @Component({
   selector: 'app-signalr-docment-demo',
   templateUrl: './signalr-docment-demo.component.html',
@@ -13,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class SignalrDocmentDemoComponent implements OnInit {
 
-  documents: Immutable.OrderedMap<any, any> = Immutable.OrderedMap<any, any>();
+  documents: DocumentItem[]=[];
   documentTypes: Immutable.OrderedMap<any, any> = Immutable.OrderedMap<any, any>();
   data: any = {};
   loading: boolean = false;
@@ -29,41 +31,35 @@ export class SignalrDocmentDemoComponent implements OnInit {
       page: 1,
       pageSize: 500
     };
+    documents = this.documentItems;
   }
 
   ngOnInit() {
-    this.signalR.connect(this.hub);     
-  }
-
-  fetchDocs() {
-    this._ngZone.run(() => {
-      this.signalR.loading = true;
-      this.signalR.getProxy(this.hub).value.server.getDocuments(this.data).then(result => {
-        if (result) {
-          this.documents = Immutable.OrderedMap<any, any>();
-          result.DocumentResults.forEach((doc: any) => {
-            try {
-              this.documents = this.documents.set(doc.DocumentId, doc);
-            } catch (e) { console.log(e); }
-          });
-          result.DocumentTypes.forEach((type: any) => {
-            try {
-              this.documentTypes = this.documentTypes.set(type.DocumentTypeId, type);
-            } catch (e) { }
-          });
-        } else {
-          console.log("No data returned...");
-        }
-        this.lastUpdated = new Date();
-        this.signalR.loading = false;
-      }, err => { 
-        this.signalR.loading = false;
-      });
+    this.signalR.connect(this.hub, (hub: any, hubname: string) => { 
+      this.start(hub, hubname);
     });
+  }
+  start(hub: any, hubname: string): void {
+    hub.client.newDocument = (...args) => {
+      this.onNewDocument(args);
+    };
+  }
+  onNewDocument(args: Array<any>) {
+    let doc: DocumentItem = {
+      documentId: args[0], fileName: args[1], fileSize: args[3],
+      creationTimeLocal: args[4], lastAccessTimeLocal: args[5],
+      lastWriteTimeLocal: args[6], extension: args[2], fileUrl: args[8], fullFilePath: args[7]
+    }
+    this._ngZone.run(() => {
+      this.documents.push(doc);
+    });
+  }
+  get documentItems(): Array<DocumentItem> {
+    return this.documents;
   }
 
   openFile(file: any) {
-    this.loading = true; 
+    this.loading = true;
     if (!file['fileUrl']) {
       file['fileUrl'] = file['FileUrl'];
     }
@@ -74,8 +70,8 @@ export class SignalrDocmentDemoComponent implements OnInit {
     window.open('#/main/indexed-image/' + (file.DocumentId || file.documentId), '_blank');
   }
 
-  get documentList(): Array<any> {
-    return this.documents.toArray();
+  get documentList(): Array<DocumentItem> {
+    return this.documents;
   }
 
 }

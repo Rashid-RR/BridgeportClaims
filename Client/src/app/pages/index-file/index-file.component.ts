@@ -18,7 +18,8 @@ declare var $: any;
 })
 export class IndexFileComponent implements OnInit, AfterViewInit {
 
-  @Input() file: DocumentItem; 
+  @Input() file: DocumentItem;
+  dropdownVisible:boolean=false;
   form: FormGroup;
   loading: boolean = false;
   linkClaim: boolean = false;
@@ -78,11 +79,17 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         })
       setTimeout(() => {
         this.searchText = undefined;
+        this.dropdownVisible=false
       }, 100);
     }
   }
   checkMatch($event) {
     this.ds.exactMatch = $event.target.checked;
+    this.ngZone.run(() => {
+      $("#searchText").focus();
+      //$("#searchText").change();
+      //this.dropdownVisible=true;
+    })
   }
   lastInput($event) {
     this.searchText = $event.target.value;

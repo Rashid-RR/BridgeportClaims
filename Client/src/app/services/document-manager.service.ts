@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable,NgZone } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -8,6 +8,7 @@ import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { DocumentItem } from '../models/document';
 import { DocumentType } from '../models/document-type';
+import { SignalRService } from './signalr-service';
 
 @Injectable()
 export class DocumentManagerService {
@@ -16,15 +17,14 @@ export class DocumentManagerService {
   documentTypes: Immutable.OrderedMap<any, DocumentType> = Immutable.OrderedMap<any, DocumentType>();
   data: any = {};
   display: string = 'list';
+  hub: string = 'documentsHub';
   totalRowCount: number;
   searchText:string='';
   newIndex:boolean=false;
   file:DocumentItem;
   exactMatch:boolean=false;
-  constructor(private http: HttpService, private formBuilder: FormBuilder,
-    private events: EventsService, private toast: ToastsManager) {
-      
-      
+  constructor(private http: HttpService,private signalR:SignalRService, private formBuilder: FormBuilder, private _ngZone: NgZone,
+    private events: EventsService, private toast: ToastsManager) {          
     this.data = {
       date: null,
       isIndexed:false,
@@ -34,6 +34,28 @@ export class DocumentManagerService {
       pageSize: 500
     };
     this.search();
+    this.signalR.connect(this.hub, (hub: any, hubname: string) => { 
+      this.start(hub, hubname);
+    });
+  }
+  start(hub: any, hubname: string): void {
+    hub.client.newDocument = (...args) => {
+      this.onNewDocument(args);
+    };
+  }
+  onNewDocument(args: Array<any>) {
+    let doc: DocumentItem = {
+      documentId: args[0], fileName: args[1], fileSize: args[3],
+      creationTimeLocal: args[4], lastAccessTimeLocal: args[5],
+      lastWriteTimeLocal: args[6], extension: args[2], fileUrl: args[8], fullFilePath: args[7]
+    }
+    console.log(doc);
+    this._ngZone.run(() => {
+      if(!this.documents.get(doc.documentId)){
+        this.totalRowCount++;
+      }
+      this.documents = this.documents.set(doc.documentId,doc);
+    });
   }
   get autoCompleteClaim():string{
     return this.http.baseUrl + "/document/claim-search/?exactMatch="+this.exactMatch+"&searchText=:keyword";  
