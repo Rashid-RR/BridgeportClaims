@@ -71,7 +71,7 @@ export class AutoComplete {
     let replacementWord = matches[0];
     let url = this.source.replace(replacementWord, keyword);
     let searchText = '';
-    var regex = new RegExp(/[ ,-;:+]/, "gi"),
+    var regex = new RegExp(/[ ,\-;:+]/, "gi"),
       results = keyword.replace(regex, "|"),
       arr = results.split("|");
     for (var i = 0; i < arr.length; i++) {

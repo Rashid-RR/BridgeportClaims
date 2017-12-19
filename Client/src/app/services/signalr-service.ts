@@ -1,6 +1,7 @@
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable, Inject, NgZone } from '@angular/core';
 import { EventsService } from './events-service';
+import { DocumentManagerService } from './document-manager.service';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import * as Rx from 'rxjs/Rx';
@@ -19,7 +20,7 @@ export class SignalRService implements Resolve<boolean> {
     messages: { msgFrom: string, msg: string }[] = [];
     documents: DocumentItem[] = [];
     loading = false;
-    constructor(private events: EventsService, private _ngZone: NgZone) {
+    constructor(private events: EventsService,private documentManager:DocumentManagerService, private _ngZone: NgZone) {
         const fileref = document.createElement('script');
         fileref.setAttribute('type', 'text/javascript');
         fileref.setAttribute('src', 'signalr/hubs');
@@ -83,9 +84,11 @@ export class SignalRService implements Resolve<boolean> {
             creationTimeLocal: args[3], lastAccessTimeLocal: args[4],
             lastWriteTimeLocal: args[5], extension: '', fileUrl: '', fullFilePath: ''
         }
-        console.log(doc);
+        console.log(this.documentManager.documents);
         this._ngZone.run(() => {
             this.documents.push(doc);
+            this.documentManager.documents=this.documentManager.documents.set(args[0],doc);
+            console.log(this.documentManager.documents);
         });
     }
     private onMessageReceived(msgFrom: string, msg: string) {
