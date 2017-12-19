@@ -101,12 +101,14 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     this.wrapperEl.style.position = "relative";
     this.el.parentElement.insertBefore(this.wrapperEl, this.el.nextSibling);
     this.wrapperEl.appendChild(this.el);
-    this.showDropDown.subscribe((ev) => {
-      console.log(ev);
-       setTimeout(() => {
-         this.showAutoCompleteDropdown(); 
-      },50)
-    })
+    if (this.showDropDown) {
+      this.showDropDown.subscribe((ev) => {
+        setTimeout(() => {
+          this.dropdownJustHidden=false;
+          this.showAutoCompleteDropdown();
+        }, 50)
+      })
+    }
 
     //Check if we were supplied with a [formControlName] and it is inside a [form]
     //else check if we are supplied with a [FormControl] regardless if it is inside a [form] tag
