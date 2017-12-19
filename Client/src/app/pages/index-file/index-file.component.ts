@@ -1,6 +1,7 @@
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
-import { Component, Input, ViewChild, OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Component, EventEmitter,Input, ViewChild, OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
@@ -25,6 +26,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   submitted: boolean = false;
   searchText: string = '';
   documentId: any;
+  showDropDown = new Subject<any>();
   constructor(
     private router: Router,
     private http: HttpService,
@@ -83,6 +85,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   }
   checkMatch($event) {
     this.ds.exactMatch = $event.target.checked;
+    this.showDropDown.next($event.target.checked);
   }
   lastInput($event) {
     this.searchText = $event.target.value;

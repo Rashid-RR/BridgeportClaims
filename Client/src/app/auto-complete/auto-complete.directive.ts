@@ -49,6 +49,8 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
   @Input("auto-select-first-item") autoSelectFirstItem: boolean = false;
   @Input("open-on-focus") openOnFocus: boolean = true;
   @Input("re-focus-after-select") reFocusAfterSelect: boolean = true;
+  @Input("show-dropdown-on-init") showDropdownOnInit: boolean = false;
+  @Input("autocomplete-dropdown-event-emitter") showDropDown:any;
 
   @Input() ngModel: String;
   @Input('formControlName') formControlName: string;
@@ -99,7 +101,12 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     this.wrapperEl.style.position = "relative";
     this.el.parentElement.insertBefore(this.wrapperEl, this.el.nextSibling);
     this.wrapperEl.appendChild(this.el);
-
+    this.showDropDown.subscribe((ev) => {
+      console.log(ev);
+       setTimeout(() => {
+         this.showAutoCompleteDropdown(); 
+      },50)
+    })
 
     //Check if we were supplied with a [formControlName] and it is inside a [form]
     //else check if we are supplied with a [FormControl] regardless if it is inside a [form] tag
@@ -196,6 +203,8 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     component.selectOnBlur = this.selectOnBlur;
     component.matchFormatted = this.matchFormatted;
     component.autoSelectFirstItem = this.autoSelectFirstItem;
+    component.showDropdownOnInit = this.showDropdownOnInit;
+    component.showDropDown = this.showDropDown;
 
     component.valueSelected.subscribe(this.selectNewValue);
     component.textEntered.subscribe(this.enterNewText);

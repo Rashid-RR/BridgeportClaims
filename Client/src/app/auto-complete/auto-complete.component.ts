@@ -1,6 +1,8 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from "@angular/core";
-import {AutoComplete} from "./auto-complete";
-import {HttpService,AccountReceivableService} from "../services/services.barrel"
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
+import { AutoComplete } from "./auto-complete";
+import { Subject } from 'rxjs/Subject';
+import { HttpService, AccountReceivableService } from "../services/services.barrel"
+declare var $: any;
 /**
  * show a selected date in monthly calendar
  * Each filteredList item has the following property in addition to data itself
@@ -39,7 +41,7 @@ import {HttpService,AccountReceivableService} from "../services/services.barrel"
       </li>
     </ul>
   </div>`,
-  providers: [AutoComplete,AccountReceivableService],
+  providers: [AutoComplete, AccountReceivableService],
   styles: [`
   @keyframes slideDown {
     0% {
@@ -100,7 +102,7 @@ export class AutoCompleteComponent implements OnInit {
   @Input("path-to-data") pathToData: string;
   @Input("min-chars") minChars: number = 0;
   @Input("placeholder") placeholder: string;
-  @Input("http-method") httpMethod: string="post";
+  @Input("http-method") httpMethod: string = "post";
   @Input("service") service: any;
   @Input("method") method: any;
   @Input("blank-option-text") blankOptionText: string;
@@ -115,7 +117,8 @@ export class AutoCompleteComponent implements OnInit {
   @Input("tab-to-select") tabToSelect: boolean = true;
   @Input("match-formatted") matchFormatted: boolean = false;
   @Input("auto-select-first-item") autoSelectFirstItem: boolean = false;
-  @Input("select-on-blur") selectOnBlur: boolean = false;
+  @Input("select-on-blur") selectOnBlur: boolean = true;
+  @Input("autocomplete-dropdown-event-emitter") showDropDown = new Subject<any>();
 
   @Output() valueSelected = new EventEmitter();
   @Output() customSelected = new EventEmitter();
@@ -143,7 +146,7 @@ export class AutoCompleteComponent implements OnInit {
     elementRef: ElementRef,
     public autoComplete: AutoComplete,
     public ar: AccountReceivableService,
-    private http:HttpService,
+    private http: HttpService,
   ) {
     this.el = elementRef.nativeElement;
   }
@@ -163,12 +166,12 @@ export class AutoCompleteComponent implements OnInit {
         this.autoCompleteInput.nativeElement.focus()
       }
       if (this.showDropdownOnInit) {
-        this.showDropdownList({target: {value: ''}});
+        this.showDropdownList({ target: { value: '' } });
       }
-    });
+    }); 
   }
 
-  reloadListInDelay = (evt: any): void  => {
+  reloadListInDelay = (evt: any): void => {
     let delayMs = this.isSrcArr() ? 10 : 500;
     let keyword = evt.target.value;
 
@@ -187,7 +190,7 @@ export class AutoCompleteComponent implements OnInit {
 
   findItemFromSelectValue(selectText: string): any {
     let matchingItems = this.filteredList
-                            .filter(item => ('' + item) === selectText);
+      .filter(item => ('' + item) === selectText);
     return matchingItems.length ? matchingItems[0] : null;
   }
 
@@ -203,42 +206,42 @@ export class AutoCompleteComponent implements OnInit {
 
     if (this.isSrcArr()) {    // local source
       this.isLoading = false;
-      this.filteredList = this.autoComplete.filter(this.source, keyword, this.matchFormatted,this.httpMethod);
+      this.filteredList = this.autoComplete.filter(this.source, keyword, this.matchFormatted, this.httpMethod);
       if (this.maxNumList) {
         this.filteredList = this.filteredList.slice(0, this.maxNumList);
       }
 
     } else {                 // remote source
       this.isLoading = true;
-      this.autoComplete.httpMethod = this.httpMethod;     
-      this.autoComplete.exactMatch = this.exactMatch;      
+      this.autoComplete.httpMethod = this.httpMethod;
+      this.autoComplete.exactMatch = this.exactMatch;
       if (this.service && this.method) {
-            this.autoComplete.getRemoteData(keyword,this.http.headers).subscribe(resp => {
-                this.filteredList = resp ? (<any>resp) : [];                
-                if (this.maxNumList) {
-                  this.filteredList = this.filteredList.slice(0, this.maxNumList);                  
-                }
-                  //select if only one result is returned
-                if (this.filteredList.length==1) {
-                    this.selectOne(this.filteredList[0]);
-                }
-                var wevent = document.createEvent('Event');
-                if(this.source.indexOf("group-name")>-1){
-                  wevent.initEvent('filteredList', true, true);
-                  wevent['filteredList']=this.filteredList; 
-                }else if(this.source.indexOf("pharmacy-name")>-1){
-                  wevent.initEvent('pharmacyList', true, true);
-                  wevent['pharmacyList']=this.filteredList; 
-                } 
-                try{
-                  window.dispatchEvent(wevent);
-                }catch(e){}
-              },
-              error => null,
-              () => this.isLoading = false // complete
-            );
+        this.autoComplete.getRemoteData(keyword, this.http.headers).subscribe(resp => {
+          this.filteredList = resp ? (<any>resp) : [];
+          if (this.maxNumList) {
+            this.filteredList = this.filteredList.slice(0, this.maxNumList);
+          }
+          //select if only one result is returned
+          if (this.filteredList.length == 1) {
+            this.selectOne(this.filteredList[0]);
+          }
+          var wevent = document.createEvent('Event');
+          if (this.source.indexOf("group-name") > -1) {
+            wevent.initEvent('filteredList', true, true);
+            wevent['filteredList'] = this.filteredList;
+          } else if (this.source.indexOf("pharmacy-name") > -1) {
+            wevent.initEvent('pharmacyList', true, true);
+            wevent['pharmacyList'] = this.filteredList;
+          }
+          try {
+            window.dispatchEvent(wevent);
+          } catch (e) { }
+        },
+          error => null,
+          () => this.isLoading = false // complete
+        );
 
-      }else if (typeof this.source === "function") {
+      } else if (typeof this.source === "function") {
         // custom function that returns observable
         this.source(keyword).subscribe(
           resp => {
@@ -249,7 +252,7 @@ export class AutoCompleteComponent implements OnInit {
 
             this.filteredList = resp;
             if (this.maxNumList) {
-              this.filteredList = this.filteredList.slice(0, this.maxNumList);              
+              this.filteredList = this.filteredList.slice(0, this.maxNumList);
             }
           },
           error => null,
@@ -258,11 +261,11 @@ export class AutoCompleteComponent implements OnInit {
       } else {
         // remote source
         this.autoComplete.getRemoteData(keyword).subscribe(resp => {
-            this.filteredList = resp ? (<any>resp) : [];
-            if (this.maxNumList) {
-              this.filteredList = this.filteredList.slice(0, this.maxNumList);
-            }
-          },
+          this.filteredList = resp ? (<any>resp) : [];
+          if (this.maxNumList) {
+            this.filteredList = this.filteredList.slice(0, this.maxNumList);
+          }
+        },
           error => null,
           () => this.isLoading = false // complete
         );
@@ -271,7 +274,7 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   selectOne(data: any) {
-    if (!!data || data === '') { 
+    if (!!data || data === '') {
       this.valueSelected.emit(data);
     } else {
       this.customSelected.emit(this.keyword);
