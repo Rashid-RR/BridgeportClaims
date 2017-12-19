@@ -15,7 +15,7 @@ export class DocumentManagerService {
   documents: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
   documentTypes: Immutable.OrderedMap<any, DocumentType> = Immutable.OrderedMap<any, DocumentType>();
   data: any = {};
-  display: string = 'list'; 
+  display: string = 'list';
   totalRowCount: number;
   searchText: string = '';
   newIndex: boolean = false;
@@ -32,16 +32,50 @@ export class DocumentManagerService {
       pageSize: 500
     };
 
-    this.events.on("new-document", (doc: DocumentItem) => {
+    this.events.on("new-image", (doc: DocumentItem) => {
       setTimeout(() => {
         if (!this.documents.get(doc.documentId)) {
           this.totalRowCount++;
         }
+        doc.added = true;
         this.documents = this.documents.set(doc.documentId, doc);
-      },50)
+        this.toast.info(doc.fileName + ' was added...');
+      }, 50);
+      setTimeout(() => {
+        this.documents.get(doc.documentId).added = false;
+      }, 3500)
+    })
+    this.events.on("modified-image", (doc: DocumentItem) => {
+      let document =  this.documents.get(doc.documentId)
+      setTimeout(() => {
+        if (!document) {
+          this.totalRowCount++;
+          doc.added = true;
+        }else{
+          doc.edited = true;
+        }
+        this.documents = this.documents.set(doc.documentId, doc);
+        this.toast.info(doc.fileName + ' was modified...');
+      }, 50);
+      setTimeout(() => {
+        doc.edited = false;
+        doc.added = false;
+        this.documents = this.documents.set(doc.documentId,doc);
+      }, 4000)
+    })
+    this.events.on("deleted-image", (id: any) => {
+      let document =  this.documents.get(id)
+      if (document) {
+        document.deleted = true;
+        this.documents = this.documents.set(id,document);
+        setTimeout(() => {
+          this.toast.info(this.documents.get(id).fileName + ' was deleted...');
+          this.documents = this.documents.delete(id);
+          this.totalRowCount--;
+        }, 4000)
+      }
     })
     this.search();
-
   }
 
   get autoCompleteClaim(): string {

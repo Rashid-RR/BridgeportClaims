@@ -24,9 +24,10 @@
         </li>
       </ul>
     </div>
-    <div class="table-responsive table-body"  *ngIf="ds.display=='list'">
+    <div class="table-responsive table-body" *ngIf="ds.display=='list'">
       <ul class="products-list product-list-in-box">
-        <li class="item row" *ngFor="let file of ds.documentList"  (click)="openFile(file)">
+        <li class="item row" *ngFor="let file of ds.documentList" (click)="openFile(file)" [class.edited]="file.edited" [class.added]="file.added"
+          [class.deleted]="file.deleted">
           <div class="col-md-1">
             <i class="fa fa-file-pdf-o text-red"></i>
           </div>
@@ -49,19 +50,20 @@
       </ul>
     </div>
 
-    <div class="table-responsive table-body grid"  *ngIf="ds.display=='grid'">
-          <div class="row">
-            <div class="col-md-12 flex-row">
-                <div class="file" *ngFor="let file of ds.documentList" [title]="file.fileSize" (click)="openFile(file)">
-                  <div class="card-body">
-                    <i class="fa fa-3x text-red fa-file-pdf-o"></i>
-                  </div>
-                  <div class="caption">
-                    {{file.fileName}}
-                  </div>
-                </div>
+    <div class="table-responsive table-body grid" *ngIf="ds.display=='grid'">
+      <div class="row">
+        <div class="col-md-12 flex-row">
+          <div class="file" *ngFor="let file of ds.documentList" [title]="file.fileSize" (click)="openFile(file)" [class.edited]="file.edited"
+            [class.added]="file.added" [class.deleted]="file.deleted">
+            <div class="card-body">
+              <i class="fa fa-3x text-red fa-file-pdf-o"></i>
+            </div>
+            <div class="caption">
+              {{file.fileName}}
             </div>
           </div>
+        </div>
+      </div>
     </div>
     <div class="btn-group pagination-row">
       <button type="button" class="btn btn-default  btn-md" [disabled]="ds.data.page<=1" (click)="prev()">Prev</button>

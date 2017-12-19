@@ -10,4 +10,7 @@ export interface DocumentItem{
     fileUrl: string;
     rxNumber?: number;
     rxDate?: Date;
+    added?:boolean;
+    edited?:boolean;
+    deleted?:boolean;
 }

@@ -39,6 +39,15 @@
     background: #ffb6b6 !important;
     cursor: pointer;
   }
+.edited{
+      background: lightseagreen;
+  }
+.added{
+     background: lightskyblue;
+ }
+.deleted{
+    background: lightcoral;
+}
 .pagination-row{
     position:absolute;
     right: calc(50% - 214px);

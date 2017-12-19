@@ -40,6 +40,12 @@ export class SignalRService {
         this.documentProxy.client.newDocument = (...args) => {
             this.onNewDocument(args);
         }
+        this.documentProxy.client.modifiedDocument = (...args) => {
+            this.onModifiedDocument(args);
+        }
+        this.documentProxy.client.deletedDocument = (id) => {
+            this.onDeletedDocument(id);
+        }
         this.documentProxy.client.receiveMessage = (msgFrom, msg) => {
             this.onMessageReceived(msgFrom, msg);
         }
@@ -57,7 +63,22 @@ export class SignalRService {
             lastWriteTimeLocal: args[6], extension: args[2], fileUrl: args[8], fullFilePath: args[7]
         }
         this._ngZone.run(() => {
-            this.events.broadcast("new-document", doc);
+            this.events.broadcast("new-image", doc);
+        });
+    }
+    onModifiedDocument(args: Array<any>) {
+        let doc: DocumentItem = {
+            documentId: args[0], fileName: args[1], fileSize: args[3],
+            creationTimeLocal: args[4], lastAccessTimeLocal: args[5],
+            lastWriteTimeLocal: args[6], extension: args[2], fileUrl: args[8], fullFilePath: args[7]
+        }
+        this._ngZone.run(() => {
+            this.events.broadcast("modified-image", doc);
+        });
+    }
+    onDeletedDocument(id:any) {         
+        this._ngZone.run(() => {
+            this.events.broadcast("deleted-image", id);
         });
     }
 
