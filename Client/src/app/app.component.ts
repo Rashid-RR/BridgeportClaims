@@ -2,7 +2,7 @@ import {AfterViewInit,Renderer2, Component,OnDestroy, OnInit, ViewContainerRef} 
 import {Http,Headers} from "@angular/http";
 import { Router,NavigationEnd,ActivatedRoute } from '@angular/router';
 import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
-import {HttpService} from "./services/services.barrel";
+import {HttpService,SignalRService} from "./services/services.barrel";
 import {ProfileManager} from "./services/profile-manager";
 import {UserProfile} from "./models/profile";
 import {EventsService} from "./services/events-service";
@@ -20,6 +20,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private http:HttpService,
     private events: EventsService,
     private profileManager: ProfileManager,
+    private signalR: SignalRService,
     private toast: ToastsManager,
     private vcr: ViewContainerRef,private route:ActivatedRoute,
     public viewContainerRef:ViewContainerRef

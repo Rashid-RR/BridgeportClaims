@@ -2,7 +2,7 @@ CREATE TABLE [dbo].[Claim]
 (
 [ClaimID] [int] NOT NULL IDENTITY(1, 1),
 [PolicyNumber] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[DateOfInjury] [datetime2] NULL,
+[DateOfInjury] [date] NULL,
 [IsFirstParty] [bit] NOT NULL,
 [ClaimNumber] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [PreviousClaimNumber] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

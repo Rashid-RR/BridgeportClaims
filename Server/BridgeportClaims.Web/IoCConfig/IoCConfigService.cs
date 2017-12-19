@@ -39,6 +39,7 @@ using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Data.DataProviders.Utilities;
+using Microsoft.AspNet.SignalR;
 
 namespace BridgeportClaims.Web.IoCConfig
 {
@@ -69,6 +70,10 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DocumentIndexProvider>().As<IDocumentIndexProvider>().InstancePerRequest();
             builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();
             builder.RegisterType<ClaimImageProvider>().As<IClaimImageProvider>().InstancePerRequest();
+
+            // SignalR
+            var hubConfig = new HubConfiguration();
+            builder.RegisterInstance(hubConfig);
             
             builder.RegisterType<ClaimsUserHistoryProvider>().As<IClaimsUserHistoryProvider>().InstancePerRequest();
             builder.RegisterType<AssignUsersToRolesProvider>().As<IAssignUsersToRolesProvider>().InstancePerRequest();

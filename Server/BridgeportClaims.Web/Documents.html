@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <!--Add reference to the JQuery file-->
+    <script src="Scripts/jquery-1.6.4.min.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <style>
+        body {
+            background-color: lightblue;
+        }
+        .row {
+            width: 100px;
+        }
+    </style>
+    <!-- Add reference to the minified version of the SignarR client library -->
+    <script src="Scripts/jquery.signalR-2.2.2.min.js"></script>
+    <!-- Add reference to the auto-generated proxy file -->
+    <script src="Scripts/server.js"></script>
+    <script src="signalr/hubs"></script>
+<script type="text/javascript">
+    jQuery.fn.center = function () {
+        this.css("position","absolute");
+        this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + 
+            $(window).scrollTop()) + "px");
+        this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + 
+            $(window).scrollLeft()) + "px");
+        return this;
+    }
+    var documentProxy;
+    // Runs once the DOM is loaded.
+    $(document).ready(function () {
+        $('#content').center();
+        $.connection.hub.logging = true; // REMOVE for production!!!!
+        //Get proxy instance using the auto-generated proxy class
+        documentProxy = $.connection.documentsHub;
+        // Bind the btnClick event when connection to the hub is started
+        $.connection.hub.start().done();
+        documentProxy.client.newDocument = onNewDocument;
+        function onNewDocument(documentId, fileName, fileSize, created, lastAccess, lastWrite) {
+            $('#docs tr:last').after('<tr><td>' + fileName + '</td><td>' + fileSize + '</td><td>' + created + '</td><td>' + lastAccess + '</td><td>' + lastWrite + '</td></tr>');
+        }
+    });
+</script>
+<div id="content" style="width: 100%; border: 3px solid green; padding: 10px;">
+<table style="width: 100%" id="docs">
+    <tr id="head">
+        <th colspan="1">Name</th>
+        <th colspan="1">Size</th>
+        <th colspan="1">Created</th>
+        <th colspan="1">Last Accessed</th>
+        <th colspan="1">Last Write</th>
+    </tr>
+</table>
+</div>
+</body>
+</html>

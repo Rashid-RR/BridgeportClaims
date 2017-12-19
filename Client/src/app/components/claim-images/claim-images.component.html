@@ -84,8 +84,8 @@
                 <td (click)="openAttachment(image)">{{image.type}}</td>
                 <td (click)="openAttachment(image)">{{image.rxDate | date:"shortDate"}}</td>
                 <td (click)="openAttachment(image)">{{image.rxNumber}}</td>
-                <td (click)="openAttachment(image)">
-                  <a [routerLink]="image.fileName">{{image.fileName}}</a>
+                <td (click)="openAttachment(image)" style="color:rgb(97, 157, 180)">
+                  {{image.fileName}}
                 </td>
                 <td>
                   <button type="button" class="btn btn-primary btn-xs" (click)="update(image)">
