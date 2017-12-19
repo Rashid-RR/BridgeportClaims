@@ -84,7 +84,7 @@
                                 <input class="form-control" [(ngModel)]="ds.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
                                     name="searchText" id="searchText" [source]="ds.autoCompleteClaim" [service]="1" [method]="1"
                                     min-chars="2" list-formatter="lastName , firstName - claimNumber - groupNumber" [http-method]="'post'" [exactMatch]="ds.exactMatch"
-                                    [no-match-found-text]="'No Claim Found'"  [drop-down-visible]="dropdownVisible" (keyup)="lastInput($event)" (valueChanged)="claimSelected($event)">
+                                    [autocomplete-dropdown-event-emitter]="showDropDown" [no-match-found-text]="'No Claim Found'"  (keyup)="lastInput($event)" (valueChanged)="claimSelected($event)">
                             </div>
                         </div>
                     </div>

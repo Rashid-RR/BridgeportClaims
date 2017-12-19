@@ -1,6 +1,8 @@
-import { Component, ElementRef, NgZone, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from "@angular/core";
 import { AutoComplete } from "./auto-complete";
+import { Subject } from 'rxjs/Subject';
 import { HttpService, AccountReceivableService } from "../services/services.barrel"
+declare var $: any;
 /**
  * show a selected date in monthly calendar
  * Each filteredList item has the following property in addition to data itself
@@ -22,7 +24,7 @@ import { HttpService, AccountReceivableService } from "../services/services.barr
            (input)="reloadListInDelay($event)"
            [(ngModel)]="keyword" />
     <!-- dropdown that user can select -->
-    <ul [class.empty]="emptyList">
+    <ul *ngIf="dropdownVisible" [class.empty]="emptyList">
       <li *ngIf="isLoading && loadingTemplate" class="loading" [innerHTML]="loadingTemplate"></li>
       <li *ngIf="isLoading && !loadingTemplate" class="loading">{{loadingText}}</li>
       <li *ngIf="minCharsEntered && !isLoading && !filteredList.length"
@@ -115,8 +117,8 @@ export class AutoCompleteComponent implements OnInit {
   @Input("tab-to-select") tabToSelect: boolean = true;
   @Input("match-formatted") matchFormatted: boolean = false;
   @Input("auto-select-first-item") autoSelectFirstItem: boolean = false;
-  @Input("select-on-blur") selectOnBlur: boolean = false;
-  @Input("drop-down-visible") dropdownVisible: boolean = false;
+  @Input("select-on-blur") selectOnBlur: boolean = true;
+  @Input("autocomplete-dropdown-event-emitter") showDropDown = new Subject<any>();
 
   @Output() valueSelected = new EventEmitter();
   @Output() customSelected = new EventEmitter();
@@ -125,7 +127,7 @@ export class AutoCompleteComponent implements OnInit {
   @ViewChild('autoCompleteContainer') autoCompleteContainer: ElementRef;
 
   el: HTMLElement;           // this component  element `<auto-complete>`
-  //dropdownVisible: boolean = false;
+  dropdownVisible: boolean = false;
   isLoading: boolean = false;
 
   minCharsEntered: boolean = false;
@@ -145,7 +147,6 @@ export class AutoCompleteComponent implements OnInit {
     public autoComplete: AutoComplete,
     public ar: AccountReceivableService,
     private http: HttpService,
-    private zone: NgZone
   ) {
     this.el = elementRef.nativeElement;
   }
@@ -184,7 +185,7 @@ export class AutoCompleteComponent implements OnInit {
   }
 
   hideDropdownList(): void {
-    //this.dropdownVisible = false;
+    this.dropdownVisible = false;
   }
 
   findItemFromSelectValue(selectText: string): any {
@@ -211,35 +212,30 @@ export class AutoCompleteComponent implements OnInit {
       }
 
     } else {                 // remote source
-      this.zone.run(() => {
-        this.isLoading = true;
-      })
+      this.isLoading = true;
       this.autoComplete.httpMethod = this.httpMethod;
       this.autoComplete.exactMatch = this.exactMatch;
       if (this.service && this.method) {
-        console.log("Get it here...", this.exactMatch)
         this.autoComplete.getRemoteData(keyword, this.http.headers).subscribe(resp => {
-          this.zone.run(() => {
-            this.filteredList = resp ? (<any>resp) : [];
-            if (this.maxNumList) {
-              this.filteredList = this.filteredList.slice(0, this.maxNumList);
-            }
-            //select if only one result is returned
-            if (this.filteredList.length == 1) {
-              this.selectOne(this.filteredList[0]);
-            }
-            var wevent = document.createEvent('Event');
-            if (this.source.indexOf("group-name") > -1) {
-              wevent.initEvent('filteredList', true, true);
-              wevent['filteredList'] = this.filteredList;
-            } else if (this.source.indexOf("pharmacy-name") > -1) {
-              wevent.initEvent('pharmacyList', true, true);
-              wevent['pharmacyList'] = this.filteredList;
-            }
-            try {
-              window.dispatchEvent(wevent);
-            } catch (e) { }
-          });
+          this.filteredList = resp ? (<any>resp) : [];
+          if (this.maxNumList) {
+            this.filteredList = this.filteredList.slice(0, this.maxNumList);
+          }
+          //select if only one result is returned
+          if (this.filteredList.length == 1) {
+            this.selectOne(this.filteredList[0]);
+          }
+          var wevent = document.createEvent('Event');
+          if (this.source.indexOf("group-name") > -1) {
+            wevent.initEvent('filteredList', true, true);
+            wevent['filteredList'] = this.filteredList;
+          } else if (this.source.indexOf("pharmacy-name") > -1) {
+            wevent.initEvent('pharmacyList', true, true);
+            wevent['pharmacyList'] = this.filteredList;
+          }
+          try {
+            window.dispatchEvent(wevent);
+          } catch (e) { }
         },
           error => null,
           () => this.isLoading = false // complete
@@ -293,7 +289,7 @@ export class AutoCompleteComponent implements OnInit {
     if (this.selectOnBlur) {
       this.selectOne(this.filteredList[this.itemIndex]);
     }
-    console.log("Blurring...")
+
     this.hideDropdownList();
   };
 

@@ -1,24 +1,24 @@
 import {
-    ComponentFactoryResolver,
-    ComponentRef,
-    Directive,
-    EventEmitter,
-    Host,
-    Input,
-    OnChanges,
-    OnInit,
-    Optional,
-    Output,
-    SimpleChanges,
-    SkipSelf,
-    ViewContainerRef
+  ComponentFactoryResolver,
+  ComponentRef,
+  Directive,
+  EventEmitter,
+  Host,
+  Input,
+  OnChanges,
+  OnInit,
+  Optional,
+  Output,
+  SimpleChanges,
+  SkipSelf,
+  ViewContainerRef
 } from "@angular/core";
-import {AutoCompleteComponent} from "./auto-complete.component";
-import {AbstractControl, ControlContainer, FormControl, FormGroup, FormGroupName} from "@angular/forms";
+import { AutoCompleteComponent } from "./auto-complete.component";
+import { AbstractControl, ControlContainer, FormControl, FormGroup, FormGroupName } from "@angular/forms";
 
 /**
- * display auto-complete section with input and dropdown list when it is clicked
- */
+* display auto-complete section with input and dropdown list when it is clicked
+*/
 @Directive({
   selector: "[auto-complete], [dir-auto-complete]"
 })
@@ -49,7 +49,8 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
   @Input("auto-select-first-item") autoSelectFirstItem: boolean = false;
   @Input("open-on-focus") openOnFocus: boolean = true;
   @Input("re-focus-after-select") reFocusAfterSelect: boolean = true;
-  @Input("drop-down-visible") dropdownVisible: boolean = false;
+  @Input("show-dropdown-on-init") showDropdownOnInit: boolean = false;
+  @Input("autocomplete-dropdown-event-emitter") showDropDown: any;
 
   @Input() ngModel: String;
   @Input('formControlName') formControlName: string;
@@ -77,8 +78,8 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
 
 
   constructor(private resolver: ComponentFactoryResolver,
-              public  viewContainerRef: ViewContainerRef,
-              @Optional() @Host() @SkipSelf() private parentForm: ControlContainer) {
+    public viewContainerRef: ViewContainerRef,
+    @Optional() @Host() @SkipSelf() private parentForm: ControlContainer) {
     this.el = this.viewContainerRef.element.nativeElement;
   }
 
@@ -100,7 +101,15 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     this.wrapperEl.style.position = "relative";
     this.el.parentElement.insertBefore(this.wrapperEl, this.el.nextSibling);
     this.wrapperEl.appendChild(this.el);
-
+    if (this.showDropDown) {
+      this.showDropDown.subscribe((ev) => {
+        console.log("Clicked... ");
+        setTimeout(() => {
+          this.dropdownJustHidden=false;
+          this.showAutoCompleteDropdown();
+        }, 50)
+      })
+    }
 
     //Check if we were supplied with a [formControlName] and it is inside a [form]
     //else check if we are supplied with a [FormControl] regardless if it is inside a [form] tag
@@ -127,19 +136,19 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     // if this element is not an input tag, move dropdown after input tag
     // so that it displays correctly
     this.inputEl = this.el.tagName === "INPUT" ?
-        <HTMLInputElement>this.el : <HTMLInputElement>this.el.querySelector("input");
+      <HTMLInputElement>this.el : <HTMLInputElement>this.el.querySelector("input");
 
     if (this.openOnFocus) {
-        this.inputEl.addEventListener('focus', e => this.showAutoCompleteDropdown(e));
+      this.inputEl.addEventListener('focus', e => this.showAutoCompleteDropdown(e));
     }
 
     if (!this.autocomplete) {
       this.inputEl.setAttribute('autocomplete', 'off');
     }
     this.inputEl.addEventListener('blur', (e) => {
-        this.scheduledBlurHandler = () => {
-          return this.blurHandler(e);
-        };
+      this.scheduledBlurHandler = () => {
+        return this.blurHandler(e);
+      };
     });
     this.inputEl.addEventListener('keydown', e => this.keydownEventHandler(e));
     this.inputEl.addEventListener('input', e => this.inputEventHandler(e));
@@ -197,6 +206,8 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     component.selectOnBlur = this.selectOnBlur;
     component.matchFormatted = this.matchFormatted;
     component.autoSelectFirstItem = this.autoSelectFirstItem;
+    component.showDropdownOnInit = this.showDropdownOnInit;
+    component.showDropDown = this.showDropDown;
 
     component.valueSelected.subscribe(this.selectNewValue);
     component.textEntered.subscribe(this.enterNewText);
@@ -236,15 +247,15 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
       let currentItem: any;
       let hasRevertValue = (typeof this.revertValue !== "undefined");
       if (this.inputEl && hasRevertValue && this.acceptUserInput === false) {
-          currentItem = this.componentRef.instance.findItemFromSelectValue(this.inputEl.value);
+        currentItem = this.componentRef.instance.findItemFromSelectValue(this.inputEl.value);
       }
       this.componentRef.destroy();
       this.componentRef = undefined;
 
       if (this.inputEl && hasRevertValue && this.acceptUserInput === false && currentItem === null) {
-          this.selectNewValue(this.revertValue);
+        this.selectNewValue(this.revertValue);
       } else if (this.inputEl && this.acceptUserInput === true && typeof currentItem === "undefined" && event && event.target.value) {
-          this.enterNewText(event.target.value);
+        this.enterNewText(event.target.value);
       }
     }
     this.dropdownJustHidden = true;
@@ -277,7 +288,7 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
 
   setToStringFunction(item: any): any {
     if (item && typeof item === "object") {
-      let displayVal; 
+      let displayVal;
       if (typeof this.valueFormatter === 'string') {
         let matches = this.valueFormatter.match(/[a-zA-Z0-9_\$]+/g);
         let formatted = this.valueFormatter;
@@ -322,24 +333,24 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     this.valueChanged.emit(val);
     this.hideAutoCompleteDropdown();
     setTimeout(() => {
-        if(this.reFocusAfterSelect){
-          this.inputEl.focus();
-        }
+      if (this.reFocusAfterSelect) {
+        this.inputEl.focus();
+      }
 
-        return this.inputEl;
+      return this.inputEl;
     });
   };
 
   selectCustomValue = (text: string) => {
     this.customSelected.emit(text);
     this.hideAutoCompleteDropdown();
-      setTimeout(() => {
-          if(this.reFocusAfterSelect){
-              this.inputEl.focus();
-          }
+    setTimeout(() => {
+      if (this.reFocusAfterSelect) {
+        this.inputEl.focus();
+      }
 
-          return this.inputEl;
-      });
+      return this.inputEl;
+    });
   };
 
   enterNewText = (value: any) => {
