@@ -16,8 +16,8 @@ namespace BridgeportClaims.Web.Formatters
             JsConfig.DateHandler = DateHandler.ISO8601;
             SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
 
-            SupportedEncodings.Add(new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true));
-            SupportedEncodings.Add(new UnicodeEncoding(bigEndian: false, byteOrderMark: true, throwOnInvalidBytes: true));
+            SupportedEncodings.Add(new UTF8Encoding(false, true));
+            SupportedEncodings.Add(new UnicodeEncoding(false, true, true));
         }
 
         public override bool CanReadType(Type type)
