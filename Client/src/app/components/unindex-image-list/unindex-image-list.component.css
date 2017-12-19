@@ -5,11 +5,11 @@
     margin: 0px;  
 }
 .products-list>.item:nth-of-type(odd) {
-    background: #fbdede !important;
+    background: #fbdede;
 }
 
 .products-list>.item:nth-of-type(even) {
-    background: #ffefef !important;
+    background: #ffefef;
 }
 .expanded{
     height: calc(100vh - 250px);
@@ -39,15 +39,7 @@
     background: #ffb6b6 !important;
     cursor: pointer;
   }
-.edited{
-      background: lightseagreen;
-  }
-.added{
-     background: lightskyblue;
- }
-.deleted{
-    background: lightcoral;
-}
+
 .pagination-row{
     position:absolute;
     right: calc(50% - 214px);
@@ -116,4 +108,19 @@
 }
 .flex-text {
 	flex-grow: 1;
+}
+.products-list>.item.edited,
+.edited
+{
+    background: lightseagreen !important;
+}
+.products-list>.item.added,
+.added
+{
+   background: lightskyblue !important;
+}
+.products-list>.item.deleted,
+.deleted
+{
+  background: lightcoral !important;
 }
