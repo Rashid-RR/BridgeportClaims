@@ -8,7 +8,7 @@ GO
 	Description:	Proc that searches the Claim and Patient tables by
 					Last Name, First Name or Claim Number.
 	Sample Execute:
-					EXEC [dbo].[uspClaimTextSearch] 'black|andREW', 1, '|'
+					EXEC [dbo].[uspClaimTextSearch] 'BLACK|and|TXA0165', 0, '|'
 */
 CREATE PROC [dbo].[uspClaimTextSearch]
 (
@@ -21,7 +21,7 @@ AS BEGIN
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
-		DECLARE @WildCard CHAR(1) = '%'
+		DECLARE @WildCard CHAR(1) = '%', @NewLine CHAR(1) = CHAR(10) + CHAR(13)
 		IF (@SearchText IS NULL)
 			BEGIN
 				IF (@@TRANCOUNT > 0)
@@ -35,31 +35,59 @@ AS BEGIN
 		SELECT  [ItemNumber]
 			  , [Item]
 		FROM    [util].[udfDelimitedSplit](@Delimiter, @SearchText)
+		IF (SELECT COUNT(*) FROM @SearchTerms AS st) = 1
+			BEGIN
+				SELECT          ClaimId     = [c].[ClaimID]
+							  , [p].[LastName]
+							  , [p].[FirstName]
+							  , [c].[ClaimNumber]
+							  , GroupNumber = [py].[GroupName]
+				FROM            [dbo].[Claim]   AS [c]
+					INNER JOIN  [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
+					INNER JOIN  [dbo].[Payor]   AS [py] ON [py].[PayorID] = [c].[PayorID]
+					INNER JOIN  @SearchTerms    AS [st] ON 
+						[p].[FirstName] LIKE CONCAT(IIF(@ExactMatch = 1, '', @WildCard), [st].[SearchText], IIF(@ExactMatch = 1, '', @WildCard))
+						OR  [p].[LastName] LIKE CONCAT(IIF(@ExactMatch = 1, '', @WildCard), [st].[SearchText], IIF(@ExactMatch = 1, '', @WildCard))
+						OR  [c].[ClaimNumber] LIKE CONCAT(IIF(@ExactMatch = 1, '', @WildCard), [st].[SearchText], IIF(@ExactMatch = 1, '', @WildCard))
+			END
+		ELSE
+			BEGIN
+				/* declare variables */
+				DECLARE @SearchTermInternal VARCHAR(800)
+					   ,@SQLStatement NVARCHAR(4000);
+				SET @SQLStatement = N'DECLARE @ExactMatch BIT = ' + CONVERT(NVARCHAR(1), @ExactMatch) + ';' + @NewLine +
+				N'DECLARE @WildCard CHAR(1) = ''%'';' + @NewLine +
+				N'SELECT ClaimId = [c].[ClaimID]
+						, [p].[LastName]
+						, [p].[FirstName]
+						, [c].[ClaimNumber]
+						, GroupNumber = [py].[GroupName]
+				FROM [dbo].[Claim] AS [c]
+					INNER JOIN  [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
+					INNER JOIN  [dbo].[Payor]   AS [py] ON [py].[PayorID] = [c].[PayorID]
+				WHERE 1 = 1 ';
+					  
 
-		SELECT          ClaimId     = [c].[ClaimID]
-					  , [p].[LastName]
-					  , [p].[FirstName]
-					  , [c].[ClaimNumber]
-					  , GroupNumber = [py].[GroupName]
-		FROM            [dbo].[Claim]   AS [c]
-			INNER JOIN  [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
-			INNER JOIN  [dbo].[Payor]   AS [py] ON [py].[PayorID] = [c].[PayorID]
-			INNER JOIN  @SearchTerms    AS [st] ON [p].[FirstName] LIKE CONCAT(
-																			IIF(@ExactMatch = 1, '', @WildCard)
-																		  , [st].[SearchText]
-																		  , IIF(@ExactMatch = 1, '', @WildCard))
-												   OR  [p].[LastName] LIKE CONCAT(
-																			   IIF(@ExactMatch = 1, '', @WildCard)
-																			 , [st].[SearchText]
-																			 , IIF(@ExactMatch = 1, '', @WildCard))
-												   OR  [c].[ClaimNumber] LIKE CONCAT(
-																				  IIF(@ExactMatch = 1, '', @WildCard)
-																				, [st].[SearchText]
-																				, IIF(@ExactMatch = 1, '', @WildCard))
-		/*WHERE           [p].[FirstName] LIKE IIF(@ExactMatch = 1, '', '%') + @SearchText + IIF(@ExactMatch = 1, '', '%')
-						OR  [p].[LastName] LIKE IIF(@ExactMatch = 1, '', '%') + @SearchText + IIF(@ExactMatch = 1, '', '%')
-						OR  [c].[ClaimNumber] LIKE IIF(@ExactMatch = 1, '',  '%') + @SearchText + IIF(@ExactMatch = 1, '', '%')*/
-	
+				DECLARE SearchCrsr CURSOR LOCAL FAST_FORWARD READ_ONLY FOR
+				SELECT st.SearchText FROM @SearchTerms AS st;
+				
+				OPEN SearchCrsr;
+				
+				FETCH NEXT FROM SearchCrsr INTO @SearchTermInternal;
+				
+				WHILE (0 = @@FETCH_STATUS)
+					BEGIN
+						SET @SQLStatement += N' AND (' +
+						N'[p].[FirstName] LIKE CONCAT(IIF(@ExactMatch = 1, '''', @WildCard), ''' + @SearchTermInternal + N''', IIF(@ExactMatch = 1, '''', @WildCard)) ' + @NewLine +
+						N'OR  [p].[LastName] LIKE CONCAT(IIF(@ExactMatch = 1, '''', @WildCard), ''' + @SearchTermInternal + N''', IIF(@ExactMatch = 1, '''', @WildCard)) ' + @NewLine +
+						N'OR  [c].[ClaimNumber] LIKE CONCAT(IIF(@ExactMatch = 1, '''', @WildCard), ''' + @SearchTermInternal + N''', IIF(@ExactMatch = 1, '''', @WildCard))' + N') ' + @NewLine;
+						FETCH NEXT FROM SearchCrsr INTO @SearchTermInternal;
+					END
+				
+				CLOSE SearchCrsr;
+				DEALLOCATE SearchCrsr;
+				EXEC [sys].[sp_executesql] @statement = @SQLStatement;
+			END
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
 	END TRY
