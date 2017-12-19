@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.SignalR;
@@ -59,12 +60,52 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IHttpActionResult AddSignalRDocument(int documentId)
+        public IHttpActionResult AddSignalRDocument(DocumentResultDto dto)
         {
             try
             {
                 var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
-                hubContext.Clients.All.newDocument(documentId, $"{Guid.NewGuid()}.pdf", "50000 EB", DateTime.Now, DateTime.Now.AddMinutes(3), DateTime.Now.AddHours(1));
+                hubContext.Clients.All.newDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
+                    , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath, dto.FileUrl);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("edit")]
+        public IHttpActionResult EditSignalRDocument(DocumentResultDto dto)
+        {
+            try
+            {
+                /* TODO: see if anything that we care about in the document has actually changed, before calling hub method. */
+                if (true) // TODO: conditional upon whether the document change merits an update to the Unindexed Images page.
+                {
+                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                    hubContext.Clients.All.modifiedDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
+                        , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath,
+                        dto.FileUrl);
+                }
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public IHttpActionResult DeleteSignalRDocument(int documentId)
+        {
+            try
+            {
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                hubContext.Clients.All.deletedDocument(documentId);
                 return Ok();
             }
             catch (Exception ex)
