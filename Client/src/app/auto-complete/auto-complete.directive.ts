@@ -103,7 +103,6 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
     this.wrapperEl.appendChild(this.el);
     if (this.showDropDown) {
       this.showDropDown.subscribe((ev) => {
-        console.log("Clicked... ");
         setTimeout(() => {
           this.dropdownJustHidden=false;
           this.showAutoCompleteDropdown();
