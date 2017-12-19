@@ -67,7 +67,7 @@ namespace BridgeportClaims.Web.Controllers
                 var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                 hubContext.Clients.All.newDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
                     , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath, dto.FileUrl);
-                return Ok();
+                return Ok(new {message = "A new document has just been added."});
             }
             catch (Exception ex)
             {
@@ -90,7 +90,7 @@ namespace BridgeportClaims.Web.Controllers
                         , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath,
                         dto.FileUrl);
                 }
-                return Ok();
+                return Ok(new {message = "A document has just been modified."});
             }
             catch (Exception ex)
             {
@@ -100,13 +100,14 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("delete")]
         public IHttpActionResult DeleteSignalRDocument(int documentId)
         {
             try
             {
                 var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                 hubContext.Clients.All.deletedDocument(documentId);
-                return Ok();
+                return Ok(new { message = "A document has just been removed." });
             }
             catch (Exception ex)
             {

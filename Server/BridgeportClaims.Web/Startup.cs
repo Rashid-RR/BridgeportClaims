@@ -95,9 +95,9 @@ namespace BridgeportClaims.Web
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new { id = RouteParameter.Optional }
+                "DefaultApi",
+                "api/{controller}/{action}/{id}",
+                new { id = RouteParameter.Optional }
             );
             config.Filters.Add(new AuthorizeAttribute());
             config.Formatters.RemoveAt(0);
