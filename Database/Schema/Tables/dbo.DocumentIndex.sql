@@ -21,7 +21,7 @@ ALTER TABLE [dbo].[DocumentIndex] ADD CONSTRAINT [pkDocumentIndex] PRIMARY KEY C
 GO
 ALTER TABLE [dbo].[DocumentIndex] ADD CONSTRAINT [fkDocumentIndexClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
-ALTER TABLE [dbo].[DocumentIndex] ADD CONSTRAINT [fkDocumentIndexDocumentIDDocumentDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[Document] ([DocumentID]) ON DELETE CASCADE
+ALTER TABLE [dbo].[DocumentIndex] ADD CONSTRAINT [fkDocumentIndexDocumentIDDocumentDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[Document] ([DocumentID])
 GO
 ALTER TABLE [dbo].[DocumentIndex] ADD CONSTRAINT [fkDocumentIndexDocumentTypeIDDocumentTypeDocumentTypeID] FOREIGN KEY ([DocumentTypeID]) REFERENCES [dbo].[DocumentType] ([DocumentTypeID])
 GO
