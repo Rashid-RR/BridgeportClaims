@@ -3,7 +3,11 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
+using BridgeportClaims.FileWatcherBusiness.ApiProvider;
 using BridgeportClaims.FileWatcherBusiness.DAL;
+using BridgeportClaims.FileWatcherBusiness.Dto;
+using BridgeportClaims.FileWatcherBusiness.Enums;
 using BridgeportClaims.FileWatcherBusiness.Extensions;
 using BridgeportClaims.FileWatcherBusiness.IO;
 using BridgeportClaims.FileWatcherBusiness.Logging;
@@ -69,8 +73,28 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 var pathToRemove = cs.GetAppSetting(c.FileLocationKey);
                 var rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
                 var url = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove);
+                // Database call
                 var documentId = _imageDataProvider.InsertDocument(f.Name, f.Extension, fileSize, f.CreationTime,
                     f.LastAccessTime, f.LastWriteTime, f.DirectoryName, f.FullName, url, f.Length);
+                // Api Call
+                var dto = new DocumentDto
+                {
+                    CreationTimeLocal = f.CreationTime,
+                    DirectoryName = f.DirectoryName,
+                    Extension = f.Extension,
+                    FileName = f.Name,
+                    FileSize = fileSize,
+                    FileUrl = url,
+                    FullFilePath = f.FullName,
+                    LastAccessTimeLocal = f.LastAccessTime,
+                    LastWriteTimeLocal = f.LastWriteTime,
+                    ByteCount = f.Length
+                };
+                var apiClient = new ApiCallerProvider();
+                var token = apiClient.GetAuthenticationBearerTokenAsync().GetAwaiter().GetResult();
+                var succeededApiCall = apiClient.CallSignalRApiMethod(SignalRMethodType.Add, token, dto).GetAwaiter().GetResult();
+                if (!succeededApiCall)
+                    throw new Exception("Error, the API call to \"CallSignalRApiMethod\" failed.");
                 if (!cs.AppIsInDebugMode) return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
