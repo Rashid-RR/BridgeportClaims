@@ -126,7 +126,7 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
                     if (default(int) == documentId)
                         throw new Exception($"Error. The Document Id could not be found in the database from document Id {documentId} " +
                                             $"within {methodName} method on {now}.");
-                    apiUrlPath = cs.GetAppSetting(c.SignalRAddMethodApiUrlKey) + documentId;
+                    apiUrlPath = cs.GetAppSetting(c.SignalRDeleteMethodApiUrlKey) + documentId;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
