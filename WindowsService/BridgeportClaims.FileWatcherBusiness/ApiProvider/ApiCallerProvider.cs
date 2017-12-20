@@ -21,14 +21,8 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
     {
         private readonly string _apiHostName = cs.GetAppSetting(c.ApiHostNameKey);
         private static readonly Logger Logger = LoggingService.Instance.Logger;
-        private readonly ImageDataProvider _imageDataProvider;
         private const string AccessToken = "access_token";
         private const string Message = "message";
-
-        public ApiCallerProvider()
-        {
-            _imageDataProvider = new ImageDataProvider();
-        }
 
         internal async Task<string> GetAuthenticationBearerTokenAsync()
         {
@@ -70,7 +64,7 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
             }
         }
 
-        internal async Task<bool> CallSignalRApiMethod(SignalRMethodType type, string token, DocumentDto dto)
+        internal async Task<bool> CallSignalRApiMethod(SignalRMethodType type, string token, DocumentDto dto, int documentId)
         {
             var methodName = MethodBase.GetCurrentMethod().Name;
             var now = DateTime.Now.ToString(LoggingService.TimeFormat);
@@ -81,7 +75,7 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
             try
             {
                 req.Method = HttpMethod.Post;
-                req.RequestUri = new Uri($"{_apiHostName}{GetApiUrlPath(type, dto.FileName)}");
+                req.RequestUri = new Uri($"{_apiHostName}{GetApiUrlPath(type, documentId)}");
                 var bearerToken = $"Bearer {token}";
                 req.Headers.TryAddWithoutValidation("Accept", "application/json");
                 req.Headers.TryAddWithoutValidation("Authorization", bearerToken);
@@ -115,7 +109,7 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
             }
         }
 
-        private string GetApiUrlPath(SignalRMethodType type, string fileName)
+        private string GetApiUrlPath(SignalRMethodType type, int documentId)
         {
             var methodName = MethodBase.GetCurrentMethod().Name;
             var now = DateTime.Now.ToString(LoggingService.TimeFormat);
@@ -129,11 +123,10 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
                     apiUrlPath = cs.GetAppSetting(c.SignalRModifyMethodApiUrlKey);
                     break;
                 case SignalRMethodType.Delete:
-                    var docId = _imageDataProvider.GetDocumentIdByDocumentName(fileName);
-                    if (default(int) == docId)
-                        throw new Exception($"Error. The Document Id could not be found in the database from FileName {fileName} " +
+                    if (default(int) == documentId)
+                        throw new Exception($"Error. The Document Id could not be found in the database from document Id {documentId} " +
                                             $"within {methodName} method on {now}.");
-                    apiUrlPath = cs.GetAppSetting(c.SignalRAddMethodApiUrlKey) + docId;
+                    apiUrlPath = cs.GetAppSetting(c.SignalRAddMethodApiUrlKey) + documentId;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

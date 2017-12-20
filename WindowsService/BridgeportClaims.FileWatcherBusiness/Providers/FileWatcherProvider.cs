@@ -43,24 +43,30 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             _fileWatcher.IncludeSubdirectories = true;
         }
 
-        private static void CallSignalRApi(SignalRMethodType type, FileInfo fileInfo, string fileSize, string url)
+        private static void CallSignalRApi(SignalRMethodType type, FileInfo fileInfo, string fileSize, string url, int documentId)
         {
-            var dto = new DocumentDto
+            DocumentDto dto = null;
+            if (type != SignalRMethodType.Delete)
             {
-                CreationTimeLocal = fileInfo.CreationTime,
-                DirectoryName = fileInfo.DirectoryName,
-                Extension = fileInfo.Extension,
-                FileName = fileInfo.Name,
-                FileSize = fileSize,
-                FileUrl = url,
-                FullFilePath = fileInfo.FullName,
-                LastAccessTimeLocal = fileInfo.LastAccessTime,
-                LastWriteTimeLocal = fileInfo.LastWriteTime,
-                ByteCount = fileInfo.Length
-            };
+                dto = new DocumentDto
+                {
+                    CreationTimeLocal = fileInfo.CreationTime,
+                    DirectoryName = fileInfo.DirectoryName,
+                    Extension = fileInfo.Extension,
+                    FileName = fileInfo.Name,
+                    FileSize = fileSize,
+                    FileUrl = url,
+                    FullFilePath = fileInfo.FullName,
+                    LastAccessTimeLocal = fileInfo.LastAccessTime,
+                    LastWriteTimeLocal = fileInfo.LastWriteTime,
+                    ByteCount = fileInfo.Length
+                };
+            }
             var apiClient = new ApiCallerProvider();
             var token = apiClient.GetAuthenticationBearerTokenAsync().GetAwaiter().GetResult();
-            var succeededApiCall = apiClient.CallSignalRApiMethod(type, token, dto).GetAwaiter().GetResult();
+            if (token.IsNullOrWhiteSpace())
+                throw new Exception("Error, could not obtain a valid bearer token. Please ensure that the correct username and password are being used.");
+            var succeededApiCall = apiClient.CallSignalRApiMethod(type, token, dto, documentId).GetAwaiter().GetResult();
             if (!succeededApiCall)
                 throw new Exception("Error, the API call to \"CallSignalRApiMethod\" failed.");
         }
@@ -106,7 +112,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
-                CallSignalRApi(SignalRMethodType.Add, fileInfo, fileSize, url);
+                CallSignalRApi(SignalRMethodType.Add, fileInfo, fileSize, url, default(int));
                 if (!cs.AppIsInDebugMode) return;
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was created.");
             }
@@ -143,7 +149,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
-                CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url);
+                CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url, default(int));
                 if (!cs.AppIsInDebugMode) return;
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was updated.");
             }
@@ -179,9 +185,6 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 var fileName = Path.GetFileName(e.FullPath);
-                var fileInfo = new FileInfo(e.FullPath);
-                var fileSize = GetFileSize(fileInfo.Length);
-                var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
                 var documentId = _imageDataProvider.GetDocumentIdByDocumentName(fileName);
                 if (documentId != default(int))
                 {
@@ -196,8 +199,8 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 }
                 // Api Call
                 if (cs.AppIsInDebugMode)
-                    Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
-                CallSignalRApi(SignalRMethodType.Delete, fileInfo, fileSize, url);
+                    Logger.Info($"Starting the API call to add document {fileName} within {methodName} method on {now}.");
+                CallSignalRApi(SignalRMethodType.Delete, null, null, null, documentId);
             }
             catch (Exception ex)
             {
