@@ -125,9 +125,13 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
+                // Ensure that the changed file has at least one changed property worth updating
+                var fileInfo = new FileInfo(e.FullPath);
+                var needsModification = FileWasModified(fileInfo);
+                if (!needsModification)
+                    return; // no modification necessary.
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
-                var fileInfo = new FileInfo(e.FullPath);
                 var fileSize = GetFileSize(fileInfo.Length);
                 var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
                 // Database call
@@ -148,6 +152,22 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 Logger.Error(ex);
                 throw;
             }
+        }
+
+        private bool FileWasModified(FileInfo fileInfo)
+        {
+            var dbDoc = _imageDataProvider.GetDocumentByFileName(fileInfo.Name);
+            var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
+            return dbDoc.FileName != fileInfo.Name ||
+                   dbDoc.Extension != fileInfo.Extension ||
+                   dbDoc.FileSize != GetFileSize(fileInfo.Length) ||
+                   dbDoc.CreationTimeLocal != fileInfo.CreationTime ||
+                   dbDoc.LastAccessTimeLocal != fileInfo.LastAccessTime ||
+                   dbDoc.LastWriteTimeLocal != fileInfo.LastWriteTime ||
+                   dbDoc.DirectoryName != fileInfo.DirectoryName ||
+                   dbDoc.FullFilePath != fileInfo.FullName ||
+                   dbDoc.FileUrl != url ||
+                   dbDoc.ByteCount != fileInfo.Length;
         }
 
         private void _fileWatcher_Deleted(object sender, FileSystemEventArgs e)

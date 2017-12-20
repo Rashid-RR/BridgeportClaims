@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using BridgeportClaims.FileWatcherBusiness.Disposable;
 using BridgeportClaims.FileWatcherBusiness.Dto;
 using cm = BridgeportClaims.FileWatcherBusiness.ConfigService.ConfigService;
@@ -25,16 +27,44 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     fileNameParam.SqlDbType = SqlDbType.VarChar;
                     fileNameParam.ParameterName = "@FileName";
                     cmd.Parameters.Add(fileNameParam);
-                    var retVal = new DocumentDto();
+                    var retVal = new List<DocumentDto>();
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
-
+                        var fileNameOrdinal = reader.GetOrdinal("FileName");
+                        var extensionOrdinal = reader.GetOrdinal("Extension");
+                        var fileSizeOrdinal = reader.GetOrdinal("FileSize");
+                        var creationTimeLocalOrdinal = reader.GetOrdinal("CreationTimeLocal");
+                        var lastAccessTimeLocalOrdinal = reader.GetOrdinal("LastAccessTimeLocal");
+                        var lastWriteTimeLocalOrdinal = reader.GetOrdinal("LastWriteTimeLocal");
+                        var directoryNameOrdinal = reader.GetOrdinal("DirectoryName");
+                        var fullFilePathOrdinal = reader.GetOrdinal("FullFilePath");
+                        var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
+                        var byteCountOrdinal = reader.GetOrdinal("ByteCount");
+                        while (reader.Read())
+                        {
+                            var result = new DocumentDto
+                            {
+                                FileName = !reader.IsDBNull(fileNameOrdinal) ? reader.GetString(fileNameOrdinal) : string.Empty,
+                                Extension = !reader.IsDBNull(extensionOrdinal) ? reader.GetString(extensionOrdinal) : string.Empty,
+                                FileSize = !reader.IsDBNull(fileSizeOrdinal) ? reader.GetString(fileSizeOrdinal) : string.Empty,
+                                CreationTimeLocal = !reader.IsDBNull(creationTimeLocalOrdinal) ? reader.GetDateTime(creationTimeLocalOrdinal) : new DateTime(1900, 1, 1),
+                                LastAccessTimeLocal = !reader.IsDBNull(lastAccessTimeLocalOrdinal) ? reader.GetDateTime(lastAccessTimeLocalOrdinal) : new DateTime(1900, 1, 1),
+                                LastWriteTimeLocal = !reader.IsDBNull(lastWriteTimeLocalOrdinal) ? reader.GetDateTime(lastWriteTimeLocalOrdinal) : new DateTime(1900, 1, 1),
+                                DirectoryName = !reader.IsDBNull(directoryNameOrdinal) ? reader.GetString(directoryNameOrdinal) : string.Empty,
+                                FullFilePath = !reader.IsDBNull(fullFilePathOrdinal) ? reader.GetString(fullFilePathOrdinal) : string.Empty,
+                                FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty,
+                                ByteCount = !reader.IsDBNull(byteCountOrdinal) ? reader.GetInt64(byteCountOrdinal) : default(long)
+                            };
+                            retVal.Add(result);
+                        }
                     });
+                    if (retVal.Count > 1)
+                        throw new Exception($"Error, more than one row was retrieved from the database for file name {fileName}, which should be unique.");
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();
-                    return retVal;
+                    return retVal.Single();
                 });
             });
 
