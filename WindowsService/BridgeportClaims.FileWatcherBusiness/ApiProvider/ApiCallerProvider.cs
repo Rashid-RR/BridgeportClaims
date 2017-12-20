@@ -73,31 +73,15 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
         internal async Task<bool> CallSignalRApiMethod(SignalRMethodType type, string token, DocumentDto dto)
         {
             var methodName = MethodBase.GetCurrentMethod().Name;
-            var now = DateTime.Now.ToString("G");
+            var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+            if (cs.AppIsInDebugMode)
+                Logger.Info($"Now entering the {methodName} method on {now}.");
             var req = new HttpRequestMessage();
             var client = new HttpClient();
             try
             {
-                string apiUrlPath;
-                switch (type)
-                {
-                    case SignalRMethodType.Add:
-                        apiUrlPath = cs.GetAppSetting(c.SignalRAddMethodApiUrlKey);
-                        break;
-                    case SignalRMethodType.Modify:
-                        apiUrlPath = cs.GetAppSetting(c.SignalRModifyMethodApiUrlKey);
-                        break;
-                    case SignalRMethodType.Delete:
-                        var docId = _imageDataProvider.GetDocumentIdByDocumentName(dto.FileName);
-                        if (default(int) == docId)
-                            throw new Exception($"Error. The Document Id could not be found in the database from FileName {dto.FileName}");
-                        apiUrlPath = cs.GetAppSetting(c.SignalRAddMethodApiUrlKey) + docId;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type), type, null);
-                }
                 req.Method = HttpMethod.Post;
-                req.RequestUri = new Uri($"{_apiHostName}{apiUrlPath}");
+                req.RequestUri = new Uri($"{_apiHostName}{GetApiUrlPath(type, dto.FileName)}");
                 var bearerToken = $"Bearer {token}";
                 req.Headers.TryAddWithoutValidation("Accept", "application/json");
                 req.Headers.TryAddWithoutValidation("Authorization", bearerToken);
@@ -129,6 +113,32 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
                 req.Dispose();
                 client.Dispose();
             }
+        }
+
+        private string GetApiUrlPath(SignalRMethodType type, string fileName)
+        {
+            var methodName = MethodBase.GetCurrentMethod().Name;
+            var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+            string apiUrlPath;
+            switch (type)
+            {
+                case SignalRMethodType.Add:
+                    apiUrlPath = cs.GetAppSetting(c.SignalRAddMethodApiUrlKey);
+                    break;
+                case SignalRMethodType.Modify:
+                    apiUrlPath = cs.GetAppSetting(c.SignalRModifyMethodApiUrlKey);
+                    break;
+                case SignalRMethodType.Delete:
+                    var docId = _imageDataProvider.GetDocumentIdByDocumentName(fileName);
+                    if (default(int) == docId)
+                        throw new Exception($"Error. The Document Id could not be found in the database from FileName {fileName} " +
+                                            $"within {methodName} method on {now}.");
+                    apiUrlPath = cs.GetAppSetting(c.SignalRAddMethodApiUrlKey) + docId;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+            return apiUrlPath;
         }
     }
 }

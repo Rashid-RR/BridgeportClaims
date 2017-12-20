@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.FileWatcherBusiness.Disposable;
+using BridgeportClaims.FileWatcherBusiness.Dto;
 using cm = BridgeportClaims.FileWatcherBusiness.ConfigService.ConfigService;
 
 namespace BridgeportClaims.FileWatcherBusiness.DAL
@@ -9,6 +10,33 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
     internal class ImageDataProvider
     {
         private readonly string _dbConnStr = cm.GetDbConnStr();
+
+        internal DocumentDto GetDocumentByFileName(string fileName) =>
+            DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
+            {
+                return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentSelectByFileName]", conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var fileNameParam = cmd.CreateParameter();
+                    fileNameParam.Direction = ParameterDirection.Input;
+                    fileNameParam.Value = fileName ?? (object) DBNull.Value;
+                    fileNameParam.DbType = DbType.AnsiStringFixedLength;
+                    fileNameParam.Size = 1000;
+                    fileNameParam.SqlDbType = SqlDbType.VarChar;
+                    fileNameParam.ParameterName = "@FileName";
+                    cmd.Parameters.Add(fileNameParam);
+                    var retVal = new DocumentDto();
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    DisposableService.Using(cmd.ExecuteReader, reader =>
+                    {
+
+                    });
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+                    return retVal;
+                });
+            });
 
         internal void DeleteDocument(int documentId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>

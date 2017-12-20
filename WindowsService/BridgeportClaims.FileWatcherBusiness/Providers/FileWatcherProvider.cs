@@ -3,7 +3,6 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
-using System.Threading.Tasks;
 using BridgeportClaims.FileWatcherBusiness.ApiProvider;
 using BridgeportClaims.FileWatcherBusiness.DAL;
 using BridgeportClaims.FileWatcherBusiness.Dto;
@@ -24,6 +23,10 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
         private static readonly LoggingService LoggingService = LoggingService.Instance;
         private static readonly Logger Logger = LoggingService.Logger;
         private readonly ImageDataProvider _imageDataProvider;
+        private readonly string _pathToRemove = cs.GetAppSetting(c.FileLocationKey);
+        private readonly string _rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
+
+        private static string GetFileSize(long length) => IoHelper.GetFileSize(length);
 
         public FileWatcherProvider()
         {
@@ -38,6 +41,28 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             _fileWatcher.Changed += _fileWatcher_Changed;
             _fileWatcher.EnableRaisingEvents = true;
             _fileWatcher.IncludeSubdirectories = true;
+        }
+
+        private static void CallSignalRApi(SignalRMethodType type, FileInfo fileInfo, string fileSize, string url)
+        {
+            var dto = new DocumentDto
+            {
+                CreationTimeLocal = fileInfo.CreationTime,
+                DirectoryName = fileInfo.DirectoryName,
+                Extension = fileInfo.Extension,
+                FileName = fileInfo.Name,
+                FileSize = fileSize,
+                FileUrl = url,
+                FullFilePath = fileInfo.FullName,
+                LastAccessTimeLocal = fileInfo.LastAccessTime,
+                LastWriteTimeLocal = fileInfo.LastWriteTime,
+                ByteCount = fileInfo.Length
+            };
+            var apiClient = new ApiCallerProvider();
+            var token = apiClient.GetAuthenticationBearerTokenAsync().GetAwaiter().GetResult();
+            var succeededApiCall = apiClient.CallSignalRApiMethod(type, token, dto).GetAwaiter().GetResult();
+            if (!succeededApiCall)
+                throw new Exception("Error, the API call to \"CallSignalRApiMethod\" failed.");
         }
 
         private static string GetFileLocation()
@@ -68,36 +93,21 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
-                var f = new FileInfo(e.FullPath);
-                var fileSize = IoHelper.GetFileSize(f.Length);
-                var pathToRemove = cs.GetAppSetting(c.FileLocationKey);
-                var rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
-                var url = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove);
-                // Database call
-                var documentId = _imageDataProvider.InsertDocument(f.Name, f.Extension, fileSize, f.CreationTime,
-                    f.LastAccessTime, f.LastWriteTime, f.DirectoryName, f.FullName, url, f.Length);
-                // Api Call
-                var dto = new DocumentDto
-                {
-                    CreationTimeLocal = f.CreationTime,
-                    DirectoryName = f.DirectoryName,
-                    Extension = f.Extension,
-                    FileName = f.Name,
-                    FileSize = fileSize,
-                    FileUrl = url,
-                    FullFilePath = f.FullName,
-                    LastAccessTimeLocal = f.LastAccessTime,
-                    LastWriteTimeLocal = f.LastWriteTime,
-                    ByteCount = f.Length
-                };
-                var apiClient = new ApiCallerProvider();
-                var token = apiClient.GetAuthenticationBearerTokenAsync().GetAwaiter().GetResult();
-                var succeededApiCall = apiClient.CallSignalRApiMethod(SignalRMethodType.Add, token, dto).GetAwaiter().GetResult();
-                if (!succeededApiCall)
-                    throw new Exception("Error, the API call to \"CallSignalRApiMethod\" failed.");
-                if (!cs.AppIsInDebugMode) return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+                var fileInfo = new FileInfo(e.FullPath);
+                var fileSize = GetFileSize(fileInfo.Length);
+                var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
+                // Database call
+                if (cs.AppIsInDebugMode)
+                    Logger.Info($"Starting the database call to insert document {fileInfo.Name} within {methodName} method on {now}.");
+                var documentId = _imageDataProvider.InsertDocument(fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime,
+                    fileInfo.LastAccessTime, fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length);
+                // Api Call
+                if (cs.AppIsInDebugMode)
+                    Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
+                CallSignalRApi(SignalRMethodType.Add, fileInfo, fileSize, url);
+                if (!cs.AppIsInDebugMode) return;
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was created.");
             }
             catch (Exception ex)
@@ -115,17 +125,22 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
-                var f = new FileInfo(e.FullPath);
-                var fileSize = IoHelper.GetFileSize(f.Length);
-                var pathToRemove = cs.GetAppSetting(c.FileLocationKey);
-                var rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
-                var url = UrlHelper.GetUrlFromFullFileName(f.FullName, rootDomain, pathToRemove);
-                var documentId = _imageDataProvider.GetDocumentIdByDocumentName(f.Name);
-                _imageDataProvider.UpdateDocument(documentId, f.Name, f.Extension, fileSize, f.CreationTime, f.LastAccessTime, 
-                    f.LastWriteTime, f.DirectoryName, f.FullName, url, f.Length);
-                if (!cs.AppIsInDebugMode) return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+                var fileInfo = new FileInfo(e.FullPath);
+                var fileSize = GetFileSize(fileInfo.Length);
+                var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
+                // Database call
+                if (cs.AppIsInDebugMode)
+                    Logger.Info($"Starting the database call to insert document {fileInfo.Name} within {methodName} method on {now}.");
+                var documentId = _imageDataProvider.GetDocumentIdByDocumentName(fileInfo.Name);
+                _imageDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime, 
+                    fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length);
+                // Api Call
+                if (cs.AppIsInDebugMode)
+                    Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
+                CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url);
+                if (!cs.AppIsInDebugMode) return;
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was updated.");
             }
             catch (Exception ex)
@@ -144,6 +159,9 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 var fileName = Path.GetFileName(e.FullPath);
+                var fileInfo = new FileInfo(e.FullPath);
+                var fileSize = GetFileSize(fileInfo.Length);
+                var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
                 var documentId = _imageDataProvider.GetDocumentIdByDocumentName(fileName);
                 if (documentId != default(int))
                 {
@@ -156,6 +174,10 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                     if (cs.AppIsInDebugMode)
                         LoggingService.LogDebugMessage(methodName, now, $"The document with the name {fileName} was not found in the database.");
                 }
+                // Api Call
+                if (cs.AppIsInDebugMode)
+                    Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
+                CallSignalRApi(SignalRMethodType.Delete, fileInfo, fileSize, url);
             }
             catch (Exception ex)
             {
