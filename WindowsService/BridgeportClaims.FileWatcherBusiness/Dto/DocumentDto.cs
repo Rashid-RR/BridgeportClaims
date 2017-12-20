@@ -6,6 +6,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Dto
     [Serializable]
     public sealed class DocumentDto
     {
+        public int DocumentId { get; set; }
         [Required]
         [StringLength(1000)]
         public string FileName { get; set; }

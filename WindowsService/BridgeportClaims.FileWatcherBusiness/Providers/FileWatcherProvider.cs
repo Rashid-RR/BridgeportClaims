@@ -50,6 +50,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             {
                 dto = new DocumentDto
                 {
+                    DocumentId = documentId,
                     CreationTimeLocal = fileInfo.CreationTime,
                     DirectoryName = fileInfo.DirectoryName,
                     Extension = fileInfo.Extension,
@@ -112,7 +113,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
-                CallSignalRApi(SignalRMethodType.Add, fileInfo, fileSize, url, default(int));
+                CallSignalRApi(SignalRMethodType.Add, fileInfo, fileSize, url, documentId);
                 if (!cs.AppIsInDebugMode) return;
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was created.");
             }
@@ -149,7 +150,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
-                CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url, default(int));
+                CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url, documentId);
                 if (!cs.AppIsInDebugMode) return;
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was updated.");
             }
