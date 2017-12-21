@@ -17,7 +17,7 @@ namespace BridgeportClaims.Data.DataProviders.Utilities
                     tableNameParm.Direction = ParameterDirection.Input;
                     tableNameParm.Value = tableName;
                     tableNameParm.ParameterName = "@TableName";
-                    tableNameParm.DbType = DbType.AnsiStringFixedLength;
+                    tableNameParm.DbType = DbType.AnsiString;
                     tableNameParm.SqlDbType = SqlDbType.NVarChar;
                     tableNameParm.Size = 128;
                     cmd.Parameters.Add(tableNameParm);

@@ -12,7 +12,6 @@ using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 using NHibernate;
-using NHibernate.Linq;
 using NHibernate.Transform;
 using NLog;
 using c = BridgeportClaims.Common.StringConstants.Constants;

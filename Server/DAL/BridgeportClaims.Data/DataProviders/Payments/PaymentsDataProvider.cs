@@ -110,7 +110,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     var checkNumberParam = cmd.CreateParameter();
                     checkNumberParam.Direction = ParameterDirection.Input;
                     checkNumberParam.ParameterName = "@CheckNumber";
-                    checkNumberParam.DbType = DbType.AnsiStringFixedLength;
+                    checkNumberParam.DbType = DbType.AnsiString;
                     checkNumberParam.SqlDbType = SqlDbType.VarChar;
                     checkNumberParam.Size = 155;
                     checkNumberParam.Value = checkNumber;
@@ -132,7 +132,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     var toSuspenseNoteTextParam = cmd.CreateParameter();
                     toSuspenseNoteTextParam.Value = (object) toSuspenseNoteText ?? DBNull.Value;
                     toSuspenseNoteTextParam.Direction = ParameterDirection.Input;
-                    toSuspenseNoteTextParam.DbType = DbType.AnsiStringFixedLength;
+                    toSuspenseNoteTextParam.DbType = DbType.AnsiString;
                     toSuspenseNoteTextParam.Size = 255;
                     toSuspenseNoteTextParam.SqlDbType = SqlDbType.VarChar;
                     toSuspenseNoteTextParam.ParameterName = "@ToSuspenseNoteText";
@@ -181,7 +181,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 cmd.Parameters.Add(claimIdParam);
                 var sortColumnParam = cmd.CreateParameter();
                 sortColumnParam.ParameterName = "SortColumn";
-                sortColumnParam.DbType = DbType.AnsiStringFixedLength;
+                sortColumnParam.DbType = DbType.AnsiString;
                 sortColumnParam.SqlDbType = SqlDbType.VarChar;
                 sortColumnParam.Direction = ParameterDirection.Input;
                 sortColumnParam.Value = sortColumn;
@@ -189,7 +189,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 cmd.Parameters.Add(sortColumnParam);
                 var sortDirectionParam = cmd.CreateParameter();
                 sortDirectionParam.ParameterName = "SortDirection";
-                sortDirectionParam.DbType = DbType.AnsiStringFixedLength;
+                sortDirectionParam.DbType = DbType.AnsiString;
                 sortDirectionParam.SqlDbType = SqlDbType.VarChar;
                 sortDirectionParam.Direction = ParameterDirection.Input;
                 sortDirectionParam.Value = direction;
@@ -211,7 +211,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 cmd.Parameters.Add(pageSizeParam);
                 var secondarySortColumnParam = cmd.CreateParameter();
                 secondarySortColumnParam.ParameterName = "SecondarySortColumn";
-                secondarySortColumnParam.DbType = DbType.AnsiStringFixedLength;
+                secondarySortColumnParam.DbType = DbType.AnsiString;
                 secondarySortColumnParam.SqlDbType = SqlDbType.VarChar;
                 secondarySortColumnParam.Size = 50;
                 secondarySortColumnParam.Direction = ParameterDirection.Input;
@@ -219,7 +219,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 cmd.Parameters.Add(secondarySortColumnParam);
                 var secondarySortDirectionParam = cmd.CreateParameter();
                 secondarySortDirectionParam.ParameterName = "SecondarySortDirection";
-                secondarySortDirectionParam.DbType = DbType.AnsiStringFixedLength;
+                secondarySortDirectionParam.DbType = DbType.AnsiString;
                 secondarySortDirectionParam.SqlDbType = SqlDbType.VarChar;
                 secondarySortDirectionParam.Size = 5;
                 secondarySortDirectionParam.Direction = ParameterDirection.Input;

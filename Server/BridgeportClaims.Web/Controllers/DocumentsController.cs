@@ -27,25 +27,6 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("get-by-filename")]
-        public async Task<IHttpActionResult> GetDocumentByFileName(string fileName)
-        {
-            try
-            {
-                return await Task.Run(() =>
-                {
-                    var doc = _documentsProvider.GetDocumentByFileName(fileName);
-                    return Ok(doc);
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
-        [HttpPost]
         [Route("claim-search")]
         public IHttpActionResult GetClaimResult(ClaimSearchViewModel model)
         {
@@ -62,14 +43,17 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get")]
-        public IHttpActionResult GetDocuments(DocumentViewModel model)
+        public async Task<IHttpActionResult> GetDocuments(DocumentViewModel model)
         {
             try
             {
-                var results = _documentsProvider.GetDocuments(model.Date, model.Sort, 
-                    model.SortDirection, model.Page,
-                    model.PageSize);
-                return Ok(results);
+                return await Task.Run(() =>
+                {
+                    var results = _documentsProvider.GetDocuments(model.Date, model.FileName, model.Sort,
+                        model.SortDirection, model.Page,
+                        model.PageSize);
+                    return Ok(results);
+                });
             }
             catch (Exception ex)
             {

@@ -296,7 +296,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                     fileNameParam.Direction= ParameterDirection.Input;
 				    fileNameParam.Value = fileName ?? (object) DBNull.Value;
 				    fileNameParam.ParameterName = "@FileName";
-                    fileNameParam.DbType = DbType.AnsiStringFixedLength;
+                    fileNameParam.DbType = DbType.AnsiString;
 				    fileNameParam.SqlDbType = SqlDbType.NVarChar;
 				    fileNameParam.Size = 255;
                     cmd.Parameters.Add(fileNameParam);

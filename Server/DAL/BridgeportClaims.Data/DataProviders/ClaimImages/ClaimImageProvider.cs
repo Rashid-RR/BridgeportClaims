@@ -27,7 +27,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                     sortColumnParam.Direction = ParameterDirection.Input;
                     sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
                     sortColumnParam.ParameterName = "@SortColumn";
-                    sortColumnParam.DbType = DbType.AnsiStringFixedLength;
+                    sortColumnParam.DbType = DbType.AnsiString;
                     sortColumnParam.Size = 50;
                     sortColumnParam.SqlDbType = SqlDbType.VarChar;
                     cmd.Parameters.Add(sortColumnParam);
@@ -36,7 +36,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                     sortDirectionParam.Value = sortDirection ?? (object) DBNull.Value;
                     sortDirectionParam.ParameterName = "@SortDirection";
                     sortDirectionParam.SqlDbType = SqlDbType.VarChar;
-                    sortDirectionParam.DbType = DbType.AnsiStringFixedLength;
+                    sortDirectionParam.DbType = DbType.AnsiString;
                     sortDirectionParam.Size = 5;
                     cmd.Parameters.Add(sortDirectionParam);
                     var pageNumberParam = cmd.CreateParameter();

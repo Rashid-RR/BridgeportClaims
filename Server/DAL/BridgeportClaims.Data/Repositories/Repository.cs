@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using NHibernate;
-using NHibernate.Linq;
 
 namespace BridgeportClaims.Data.Repositories
 {

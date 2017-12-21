@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
@@ -19,12 +20,8 @@ namespace BridgeportClaims.Data.DataProviders.Documents
             _documentRepository = documentRepository;
         }
 
-        public DocumentResultDto GetDocumentByFileName(string fileName)
-        {
-            var doc = _documentRepository.GetSingleOrDefault(x => x.FileName == fileName);
-            if (null == doc)
-                return null;
-            var retVal = new DocumentResultDto
+        public IList<DocumentResultDto> GetDocumentByFileName(string fileName) =>
+            _documentRepository.GetMany(x => x.FileName.Contains(fileName))?.Select(doc => new DocumentResultDto
             {
                 DocumentId = doc.DocumentId,
                 CreationTimeLocal = doc.CreationTimeLocal,
@@ -35,9 +32,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 FullFilePath = doc.FullFilePath,
                 LastAccessTimeLocal = doc.LastAccessTimeLocal,
                 LastWriteTimeLocal = doc.LastWriteTimeLocal
-            };
-            return retVal;
-        }
+            }).ToList();
 
         public IList<DocumentTypeDto> GetDocumentTypes() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
@@ -68,7 +63,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     });
             });
 
-        public DocumentsDto GetDocuments(DateTime? date, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+        public DocumentsDto GetDocuments(DateTime? date, string fileName, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocuments]", conn), cmd =>
@@ -82,11 +77,19 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     dateParam.Value = date ?? (object) DBNull.Value;
                     dateParam.ParameterName = "@Date";
                     cmd.Parameters.Add(dateParam);
+                    var fileNameParam = cmd.CreateParameter();
+                    fileNameParam.Direction = ParameterDirection.Input;
+                    fileNameParam.SqlDbType = SqlDbType.VarChar;
+                    fileNameParam.Size = 1000;
+                    fileNameParam.DbType = DbType.AnsiString;
+                    fileNameParam.Value = fileName ?? (object) DBNull.Value;
+                    fileNameParam.ParameterName = "@FileName";
+                    cmd.Parameters.Add(fileNameParam);
                     var sortColumnParam = cmd.CreateParameter();
                     sortColumnParam.Direction = ParameterDirection.Input;
                     sortColumnParam.SqlDbType = SqlDbType.VarChar;
                     sortColumnParam.Size = 50;
-                    sortColumnParam.DbType = DbType.AnsiStringFixedLength;
+                    sortColumnParam.DbType = DbType.AnsiString;
                     sortColumnParam.ParameterName = "@SortColumn";
                     sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
                     cmd.Parameters.Add(sortColumnParam);
