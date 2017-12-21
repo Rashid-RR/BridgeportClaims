@@ -48,8 +48,6 @@ namespace BridgeportClaims.Data.NHibernate
                     return new UInt32Type();
                 case DbType.UInt64:
                     return new UInt64Type();
-                case DbType.AnsiStringFixedLength:
-                    return NHibernateUtil.GuessType(typeof(AnsiStringFixedLengthSqlType));
                 case DbType.StringFixedLength:
                     return NHibernateUtil.GuessType(typeof(StringFixedLengthSqlType));
                 case DbType.Xml:

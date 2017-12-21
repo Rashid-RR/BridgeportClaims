@@ -12,6 +12,7 @@ namespace BridgeportClaims.Entities.DomainModels
         {
             DocumentIndex = new List<DocumentIndex>();
         }
+        [Required]
         public virtual int DocumentId { get; set; }
         [Required]
         [StringLength(1000)]

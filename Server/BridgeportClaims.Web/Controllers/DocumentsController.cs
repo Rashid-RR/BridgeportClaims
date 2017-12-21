@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
@@ -42,14 +43,17 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get")]
-        public IHttpActionResult GetDocuments(DocumentViewModel model)
+        public async Task<IHttpActionResult> GetDocuments(DocumentViewModel model)
         {
             try
             {
-                var results = _documentsProvider.GetDocuments(model.Date, model.Sort, 
-                    model.SortDirection, model.Page,
-                    model.PageSize);
-                return Ok(results);
+                return await Task.Run(() =>
+                {
+                    var results = _documentsProvider.GetDocuments(model.Date, model.FileName, model.Sort,
+                        model.SortDirection, model.Page,
+                        model.PageSize);
+                    return Ok(results);
+                });
             }
             catch (Exception ex)
             {
@@ -82,20 +86,16 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                /* TODO: see if anything that we care about in the document has actually changed, before calling hub method. */
-                if (true) // TODO: conditional upon whether the document change merits an update to the Unindexed Images page.
-                {
-                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
-                    hubContext.Clients.All.modifiedDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
-                        , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath,
-                        dto.FileUrl);
-                }
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                hubContext.Clients.All.modifiedDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
+                    , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath,
+                    dto.FileUrl);
                 return Ok(new {message = "A document has just been modified."});
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 

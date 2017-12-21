@@ -103,6 +103,7 @@ namespace LakerFileImporter.ApiClientCaller
         {
             var apiUrlPath = cs.GetAppSetting(c.LakerFileProcessingApiUrlKey);
             var req = new HttpRequestMessage(HttpMethod.Post, $"{_apiHostName}{apiUrlPath}");
+
             var client = new HttpClient();
             try
             {

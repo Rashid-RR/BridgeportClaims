@@ -41,8 +41,7 @@ namespace BridgeportClaims.Web
             ConfigureOAuthTokenGeneration(app);
             ConfigureOAuthTokenConsumption(app);
             ConfigureWebApi(config);
-            if (ConfigService.AppIsInDebugMode)
-                app.UseCors(CorsOptions.AllowAll);
+            app.UseCors(CorsOptions.AllowAll);
             AutomapperStartup.Configure();
             app.UseWebApi(config);
             app.UseAutofacWebApi(config);

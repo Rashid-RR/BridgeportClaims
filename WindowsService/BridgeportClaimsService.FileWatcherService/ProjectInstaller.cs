@@ -37,5 +37,15 @@ namespace BridgeportClaimsService.FileWatcherService
         {
 
         }
+
+        private void BridgeportClaimsWindowsServiceInstaller_AfterInstall_1(object sender, System.Configuration.Install.InstallEventArgs e)
+        {
+
+        }
+
+        private void BridgeportClaimsWindowsServiceProcessInstaller_AfterInstall_1(object sender, System.Configuration.Install.InstallEventArgs e)
+        {
+
+        }
     }
 }

@@ -96,7 +96,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     cmd.Parameters.Add(endDateParam);
                     var groupNameParam = cmd.CreateParameter();
                     groupNameParam.Direction = ParameterDirection.Input;
-                    groupNameParam.DbType = DbType.AnsiStringFixedLength;
+                    groupNameParam.DbType = DbType.AnsiString;
                     groupNameParam.SqlDbType = SqlDbType.VarChar;
                     groupNameParam.Size = 60;
                     groupNameParam.ParameterName = "@GroupName";
@@ -105,7 +105,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     var pharmacyNameParam = cmd.CreateParameter();
                     pharmacyNameParam.Direction = ParameterDirection.Input;
                     pharmacyNameParam.Value = pharmacyName.IsNotNullOrWhiteSpace() ? pharmacyName : (object) DBNull.Value;
-                    pharmacyNameParam.DbType = DbType.AnsiStringFixedLength;
+                    pharmacyNameParam.DbType = DbType.AnsiString;
                     pharmacyNameParam.SqlDbType = SqlDbType.VarChar;
                     pharmacyNameParam.Size = 255;
                     pharmacyNameParam.ParameterName = "@PharmacyName";

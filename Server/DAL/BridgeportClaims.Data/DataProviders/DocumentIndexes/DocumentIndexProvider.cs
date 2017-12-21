@@ -66,7 +66,7 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     var rxNumberParam = cmd.CreateParameter();
                     rxNumberParam.Value = rxNumber ?? (object)DBNull.Value;
                     rxNumberParam.ParameterName = "@RxNumber";
-                    rxNumberParam.DbType = DbType.AnsiStringFixedLength;
+                    rxNumberParam.DbType = DbType.AnsiString;
                     rxNumberParam.SqlDbType = SqlDbType.VarChar;
                     rxNumberParam.Size = 100;
                     rxNumberParam.Direction = ParameterDirection.Input;
@@ -74,7 +74,7 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     var invoiceNumberParam = cmd.CreateParameter();
                     invoiceNumberParam.Value = invoiceNumber ?? (object)DBNull.Value;
                     invoiceNumberParam.Direction = ParameterDirection.Input;
-                    invoiceNumberParam.DbType = DbType.AnsiStringFixedLength;
+                    invoiceNumberParam.DbType = DbType.AnsiString;
                     invoiceNumberParam.SqlDbType = SqlDbType.VarChar;
                     invoiceNumberParam.Size = 100;
                     invoiceNumberParam.ParameterName = "@InvoiceNumber";
@@ -88,7 +88,7 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     cmd.Parameters.Add(injuryDateParam);
                     var attorneyNameParam = cmd.CreateParameter();
                     attorneyNameParam.Value = attorneyName ?? (object)DBNull.Value;
-                    attorneyNameParam.DbType = DbType.AnsiStringFixedLength;
+                    attorneyNameParam.DbType = DbType.AnsiString;
                     attorneyNameParam.SqlDbType = SqlDbType.VarChar;
                     attorneyNameParam.Size = 255;
                     attorneyNameParam.ParameterName = "@AttorneyName";

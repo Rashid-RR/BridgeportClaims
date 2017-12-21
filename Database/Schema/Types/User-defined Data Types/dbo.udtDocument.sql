@@ -1,5 +1,6 @@
 CREATE TYPE [dbo].[udtDocument] AS TABLE
 (
+[DocumentID] [int] NOT NULL,
 [FileName] [varchar] (1000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [Extension] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [FileSize] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,

@@ -19,7 +19,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimSearches
                     IList<DocumentClaimSearchResultDto> retVal = new List<DocumentClaimSearchResultDto>();
                     var searchTextParam = cmd.CreateParameter();
                     searchTextParam.Value = searchText ?? (object) DBNull.Value;
-                    searchTextParam.DbType = DbType.AnsiStringFixedLength;
+                    searchTextParam.DbType = DbType.AnsiString;
                     searchTextParam.SqlDbType = SqlDbType.VarChar;
                     searchTextParam.Size = 800;
                     searchTextParam.ParameterName = "@SearchText";
@@ -35,7 +35,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimSearches
                     delimiterParam.Value = delimiter;
                     delimiterParam.ParameterName = "@Delimiter";
                     delimiterParam.Direction = ParameterDirection.Input;
-                    delimiterParam.DbType = DbType.AnsiStringFixedLength;
+                    delimiterParam.DbType = DbType.AnsiString;
                     delimiterParam.SqlDbType = SqlDbType.Char;
                     delimiterParam.Size = 1;
                     cmd.Parameters.Add(delimiterParam);

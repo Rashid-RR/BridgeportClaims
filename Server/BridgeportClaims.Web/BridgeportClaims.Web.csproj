@@ -356,7 +356,6 @@
     <Compile Include="Models\UserReturnModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\BridgeportClaimsJwtFormat.cs" />
-    <Compile Include="SignalR\DocumentsService.cs" />
     <Compile Include="SignalR\HubContextProvider.cs" />
     <Compile Include="SignalR\IHubContextProvider.cs" />
     <Compile Include="SignalR\SignalRBase.cs" />
