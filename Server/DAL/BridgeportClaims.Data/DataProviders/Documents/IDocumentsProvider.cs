@@ -6,6 +6,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
 {
     public interface IDocumentsProvider
     {
+        DocumentResultDto GetDocumentByFileName(string fileName);
         IList<DocumentTypeDto> GetDocumentTypes();
         DocumentsDto GetDocuments(DateTime? date, string sortColumn, string sortDirection, int pageNumber, int pageSize);
     }

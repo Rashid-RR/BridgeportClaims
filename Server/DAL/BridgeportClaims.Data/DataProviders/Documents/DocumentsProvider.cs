@@ -4,12 +4,41 @@ using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Entities.DomainModels;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Documents
 {
     public class DocumentsProvider : IDocumentsProvider
     {
+        private readonly IRepository<Document> _documentRepository;
+
+        public DocumentsProvider(IRepository<Document> documentRepository)
+        {
+            _documentRepository = documentRepository;
+        }
+
+        public DocumentResultDto GetDocumentByFileName(string fileName)
+        {
+            var doc = _documentRepository.GetSingleOrDefault(x => x.FileName == fileName);
+            if (null == doc)
+                return null;
+            var retVal = new DocumentResultDto
+            {
+                DocumentId = doc.DocumentId,
+                CreationTimeLocal = doc.CreationTimeLocal,
+                Extension = doc.Extension,
+                FileName = doc.FileName,
+                FileSize = doc.FileSize,
+                FileUrl = doc.FileUrl,
+                FullFilePath = doc.FullFilePath,
+                LastAccessTimeLocal = doc.LastAccessTimeLocal,
+                LastWriteTimeLocal = doc.LastWriteTimeLocal
+            };
+            return retVal;
+        }
+
         public IList<DocumentTypeDto> GetDocumentTypes() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {

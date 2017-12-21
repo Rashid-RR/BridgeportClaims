@@ -7,8 +7,11 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int DocumentId { get; set; }
+        [Required]
         public virtual Document Document { get; set; }
+        [Required]
         public virtual Claim Claim { get; set; }
+        [Required]
         public virtual DocumentType DocumentType { get; set; }
         public virtual DateTime? RxDate { get; set; }
         [StringLength(100)]

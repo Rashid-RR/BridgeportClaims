@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
@@ -23,6 +24,25 @@ namespace BridgeportClaims.Web.Controllers
         {
             _documentsProvider = documentsProvider;
             _claimSearchProvider = claimSearchProvider;
+        }
+
+        [HttpPost]
+        [Route("get-by-filename")]
+        public async Task<IHttpActionResult> GetDocumentByFileName(string fileName)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var doc = _documentsProvider.GetDocumentByFileName(fileName);
+                    return Ok(doc);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
