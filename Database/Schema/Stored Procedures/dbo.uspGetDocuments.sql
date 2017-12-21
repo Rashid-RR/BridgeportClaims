@@ -8,12 +8,13 @@ GO
 	Description:	Proc that returns the grid results for the Documents page.
 	Sample Execute:
 					DECLARE @TotalRows INT
-					EXEC [dbo].[uspGetDocuments] '2017-11-24', 'CreationTime', 'desc', 1, 500, @TotalRows OUTPUT
+					EXEC [dbo].[uspGetDocuments] '2017-11-24', 'sp201711245300', 'CreationTime', 'desc', 1, 500, @TotalRows OUTPUT
 					SELECT @TotalRows TotalRows
 */
 CREATE PROC [dbo].[uspGetDocuments]
 (
 	@Date DATE,
+	@FileName VARCHAR(1000),
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
@@ -23,6 +24,7 @@ CREATE PROC [dbo].[uspGetDocuments]
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
+	DECLARE @WildCard CHAR(1) = '%';
 	CREATE TABLE #Document
 	(
 		[DocumentID] [int] NOT NULL PRIMARY KEY,
@@ -43,9 +45,10 @@ AS BEGIN
 	SELECT [d].[DocumentID],[d].[FileName],[d].[Extension],[d].[FileSize],[d].[CreationTimeLocal]
 		,[d].[LastAccessTimeLocal],[d].[LastWriteTimeLocal],[d].[FullFilePath],[d].[FileUrl],[d].[ByteCount]
 	FROM [dbo].[Document] AS [d] LEFT JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
-	WHERE [di].[DocumentID] IS NULL
+	WHERE 1 = 1
+		AND [di].[DocumentID] IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
-
+		AND ([d].[FileName] LIKE CONCAT(@WildCard, @FileName, @WildCard) OR @FileName IS NULL)
 
 	SELECT @TotalRows = COUNT(*) FROM [#Document]
 
