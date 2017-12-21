@@ -103,8 +103,9 @@
 	height: auto;
     position: relative;
     overflow: hidden;
-    word-wrap: break-word
-
+    word-wrap: break-word;
+    padding-left: 8px;
+    padding-right: 7px;
 }
 .flex-text {
 	flex-grow: 1;

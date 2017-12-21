@@ -23,7 +23,7 @@ export class UnpaidScriptService {
       sort: 'RxDate',
       sortDirection: 'ASC',
       page: 1,
-      pageSize: 500
+      pageSize: 30
     }; 
     //this.search();
   }

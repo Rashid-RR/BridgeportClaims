@@ -1,6 +1,59 @@
-.text-404 {
-    font-size: 30rem;
-    font-weight: 700;
-    line-height: 24rem;
-    margin-top: 10rem;
+
+* {
+    margin: 0;
+    padding: 0
+}
+.col-md-offset-5{margin-left:41.66666667%}
+.logo span {
+    color: #C83E4D;
+    font-size: 38px;
+    text-transform: capitalize;
+    font-family: "Sigmar One", cursive !important;
+}
+.logo h2 {
+    color: #000;
+    text-transform: capitalize;
+    font-weight: 500;
+    letter-spacing: 2px;
+    font-family: "Poiret One", cursive !important;
+    font-size: 30px; 
+    margin-top: 20px !important;
+    margin-bottom: 10px;
+}
+.timer-mid {
+    padding: 20px;
+}
+.seach_bar {
+    text-transform: capitalize;
+    font-size: 20px;    
+    font-family: "Open Sans Condensed", sans-serif;
+    padding: 20px;
+}
+.seach_bar h2 {
+    color: #000;
+    font-size: 28px;
+    margin-bottom: 19px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #000;
+    font-family: "Libre Baskerville", serif !important; 
+}
+.seach_bar p {
+    font-size: 1.5em;
+    color: #000;
+    font-weight: 300;
+    font-family: "Open Sans Condensed", sans-serif !important;
+}
+.seach_bar p a {
+    color: #C83E4D !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+}
+ 
+.seach_bar span a {
+    font-size: 1em;    
+    font-size: 30px;
+    color: #fff;
+    text-decoration: underline;
+    font-weight: 300;
+    font-family: "open_sansregular" !important;
 }

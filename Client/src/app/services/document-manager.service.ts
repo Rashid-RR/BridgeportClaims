@@ -29,7 +29,7 @@ export class DocumentManagerService {
       sort: "DocumentID",
       sortDirection: "ASC",
       page: 1,
-      pageSize: 500
+      pageSize: 30
     };
 
     this.events.on("new-image", (doc: DocumentItem) => {

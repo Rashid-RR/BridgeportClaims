@@ -20,7 +20,7 @@ import { Error404Component } from './pages/error404/error404.component';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
-import { AuthGuard,SignalRService } from './services/services.barrel';
+import { AuthGuard, SignalRService } from './services/services.barrel';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
@@ -32,11 +32,9 @@ import { ReportListComponent } from './pages/report-list/report-list.component';
 import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
 import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
-import { SignalrDemoComponent } from './pages/signalr-demo/signalr-demo.component';
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
 import { IndexFileComponent } from './pages/index-file/index-file.component';
 import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
-import { SignalrDocmentDemoComponent } from './pages/signalr-docment-demo/signalr-docment-demo.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 
 export const routes: Routes = [
@@ -44,6 +42,10 @@ export const routes: Routes = [
     path: '',
     redirectTo: 'main/private',
     pathMatch: 'full'
+  },
+  {
+    path: '404',
+    component: Error404Component
   },
   {
     path: '',
@@ -70,7 +72,7 @@ export const routes: Routes = [
       },
       {
         path: 'main',
-        component:MainLayoutComponent,
+        component: MainLayoutComponent,
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
         children: [
@@ -85,54 +87,41 @@ export const routes: Routes = [
           {
             path: 'reports',
             component: ReportComponent,
-            children:[
+            children: [
               {
-                  path: '',
-                  redirectTo: 'list',
-                  pathMatch: 'full',
+                path: '',
+                redirectTo: 'list',
+                pathMatch: 'full',
               },
               {
                 path: 'list',
-                component:ReportListComponent
+                component: ReportListComponent
               },
               {
                 path: 'revenue',
-                component:ReportSampleComponent
+                component: ReportSampleComponent
               },
               {
                 path: 'account-receivable',
-                component:ReportAccountReceivableComponent
+                component: ReportAccountReceivableComponent
               },
               {
                 path: 'sample',
-                component:ReportSampleComponent
+                component: ReportSampleComponent
               }
-            ] 
+            ]
           },
           {
             path: 'payors',
             component: PayorsComponent
           },
           {
-            path: 'signalr-demo',
-            component: SignalrDemoComponent,
-            /* resolve: {
-              connected: SignalRService
-            } */
-          },{
-            path: 'signalr-doc-demo',
-            component: SignalrDocmentDemoComponent,
-            /* resolve: {
-              connected: SignalRService
-            } */
-          },
-          {
             path: 'indexed-image/:id',
-            component:UnindexedImageFileComponent,            
+            component: UnindexedImageFileComponent,
           },
           {
             path: 'unindexed-images',
-            component:UnindexedImageComponent,            
+            component: UnindexedImageComponent,
           },
           {
             path: 'unpaid-scripts',
@@ -159,10 +148,6 @@ export const routes: Routes = [
             component: DiaryComponent
           }
         ]
-      },
-      {
-        path: '404',
-        component: Error404Component
       }
     ]
   },

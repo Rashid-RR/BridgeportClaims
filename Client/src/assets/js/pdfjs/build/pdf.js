@@ -13187,7 +13187,7 @@ if (typeof PDFJS === 'undefined' || !PDFJS.compatibilityChecked) {
               try {
                 throw new Error(msg);
               } catch (_) {
-                console.warn(msg);
+                //console.warn(msg);
               }
               _this.unhandledRejections.splice(i);
               i--;

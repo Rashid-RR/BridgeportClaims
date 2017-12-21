@@ -355,7 +355,7 @@ function getPDFFileNameFromURL(url) {
   var defaultFilename = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'document.pdf';
 
   if (isDataSchema(url)) {
-    console.warn('getPDFFileNameFromURL: ' + 'ignoring "data:" URL for performance reasons.');
+    //console.warn('getPDFFileNameFromURL: ' + 'ignoring "data:" URL for performance reasons.');
     return defaultFilename;
   }
   var reURI = /^(?:(?:[^:]+:)?\/\/[^\/]+)?([^?#]*)(\?[^#]*)?(#.*)?$/;
@@ -1575,7 +1575,7 @@ var PDFViewerApplication = {
       }
       pdfDocument.getJavaScript().then(function (javaScript) {
         if (javaScript.length) {
-          console.warn('Warning: JavaScript is not supported');
+          //console.warn('Warning: JavaScript is not supported');
           _this6.fallback(_pdfjsLib.UNSUPPORTED_FEATURES.javaScript);
         }
         var regex = /\bprint\s*\(/;
@@ -1619,7 +1619,7 @@ var PDFViewerApplication = {
         _this6.setTitle(pdfTitle + ' - ' + document.title);
       }
       if (info.IsAcroFormPresent) {
-        console.warn('Warning: AcroForm/XFA is not supported');
+        //console.warn('Warning: AcroForm/XFA is not supported');
         _this6.fallback(_pdfjsLib.UNSUPPORTED_FEATURES.forms);
       }
     });
@@ -2749,7 +2749,7 @@ var PDFLinkService = function () {
         }
       } else {
         if (/^\d+$/.test(hash) && hash <= this.pagesCount) {
-          console.warn('PDFLinkService_setHash: specifying a page number ' + 'directly after the hash symbol (#) is deprecated, ' + ('please use the "#page=' + hash + '" form instead.'));
+          //console.warn('PDFLinkService_setHash: specifying a page number ' + 'directly after the hash symbol (#) is deprecated, ' + ('please use the "#page=' + hash + '" form instead.'));
           this.page = hash | 0;
         }
         dest = unescape(hash);
@@ -3659,7 +3659,7 @@ PDFPrintService.prototype = {
       return size.width === this.pagesOverview[0].width && size.height === this.pagesOverview[0].height;
     }, this);
     if (!hasEqualPageSizes) {
-      console.warn('Not all pages have the same size. The printed ' + 'result may be incorrect!');
+      //console.warn('Not all pages have the same size. The printed ' + 'result may be incorrect!');
     }
     this.pageStyleSheet = document.createElement('style');
     var pageSize = this.pagesOverview[0];
@@ -3753,7 +3753,7 @@ PDFPrintService.prototype = {
 var print = window.print;
 window.print = function print() {
   if (activeService) {
-    console.warn('Ignored window.print() because of a pending print job.');
+    //console.warn('Ignored window.print() because of a pending print job.');
     return;
   }
   ensureOverlay().then(function () {
@@ -3896,7 +3896,7 @@ document.webL10n = function (window, document, undefined) {
       try {
         args = JSON.parse(l10nArgs);
       } catch (e) {
-        console.warn('could not parse arguments for #' + l10nId);
+        //console.warn('could not parse arguments for #' + l10nId);
       }
     }
     return {
@@ -3989,7 +3989,7 @@ document.webL10n = function (window, document, undefined) {
         xhrLoadText(url, function (content) {
           parseRawLines(content, false, callback);
         }, function () {
-          console.warn(url + ' not found.');
+          //console.warn(url + ' not found.');
           callback();
         });
       }
@@ -4070,8 +4070,8 @@ document.webL10n = function (window, document, undefined) {
       var href = link.href;
       this.load = function (lang, callback) {
         parseResource(href, lang, callback, function () {
-          console.warn(href + ' not found.');
-          console.warn('"' + lang + '" resource not found');
+          //console.warn(href + ' not found.');
+          //console.warn('"' + lang + '" resource not found');
           gLanguage = '';
           callback();
         });
@@ -4403,7 +4403,7 @@ document.webL10n = function (window, document, undefined) {
     };
     var index = locales2rules[lang.replace(/-.*$/, '')];
     if (!(index in pluralRules)) {
-      console.warn('plural form unknown for [' + lang + ']');
+      //console.warn('plural form unknown for [' + lang + ']');
       return function () {
         return 'other';
       };
@@ -4434,7 +4434,7 @@ document.webL10n = function (window, document, undefined) {
   function getL10nData(key, args, fallback) {
     var data = gL10nData[key];
     if (!data) {
-      console.warn('#' + key + ' is undefined.');
+      //console.warn('#' + key + ' is undefined.');
       if (!fallback) {
         return null;
       }
@@ -4485,7 +4485,7 @@ document.webL10n = function (window, document, undefined) {
     if (!l10n.id) return;
     var data = getL10nData(l10n.id, l10n.args);
     if (!data) {
-      console.warn('#' + l10n.id + ' is undefined.');
+      //console.warn('#' + l10n.id + ' is undefined.');
       return;
     }
     if (data[gTextProp]) {
@@ -8521,7 +8521,7 @@ var PDFViewer = function () {
         return;
       }
       if (arguments.length > 1 || typeof params === 'number') {
-        console.warn('Call of scrollPageIntoView() with obsolete signature.');
+        //console.warn('Call of scrollPageIntoView() with obsolete signature.');
         var paramObj = {};
         if (typeof params === 'number') {
           paramObj.pageNumber = params;

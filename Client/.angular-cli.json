@@ -34,8 +34,9 @@
         "assets/css/skin-black.css",
         "assets/css/ngPopupStyle.css",
         "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",  
-        "../node_modules/highcharts/css/highcharts.css", 
-        "styles.css"
+        "../node_modules/highcharts/css/highcharts.css",
+        "styles.css",
+        "assets/css/vegas.css"
       ],
       "scripts": [
         "../node_modules/admin-lte/plugins/jQueryUI/jquery-ui.min.js",
@@ -59,6 +60,8 @@
         "../node_modules/highcharts/modules/data.js",
         "../node_modules/highcharts/modules/drilldown.js",
         "assets/js/app.js",
+        "assets/js/vegas.js",
+        "assets/js/jquery.countdownTimer.min.js",
         "../node_modules/sweetalert2/dist/sweetalert2.min.js",
         "../node_modules/admin-lte/dist/js/demo.js"
       ],

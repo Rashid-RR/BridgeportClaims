@@ -140,7 +140,7 @@ export class ClaimImagesComponent implements OnInit {
       sort: "DocumentID",
       sortDirection: "ASC",
       page: 1,
-      pageSize: 500
+      pageSize: 30
     };
     let sort = 'RxDate';
     let sort_dir: 'asc' | 'desc' = 'desc';
