@@ -82,20 +82,16 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                /* TODO: see if anything that we care about in the document has actually changed, before calling hub method. */
-                if (true) // TODO: conditional upon whether the document change merits an update to the Unindexed Images page.
-                {
-                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
-                    hubContext.Clients.All.modifiedDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
-                        , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath,
-                        dto.FileUrl);
-                }
+                var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                hubContext.Clients.All.modifiedDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
+                    , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath,
+                    dto.FileUrl);
                 return Ok(new {message = "A document has just been modified."});
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
