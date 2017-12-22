@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 import { DocumentManagerService } from '../../services/document-manager.service';
 import { HttpService } from "../../services/http-service";
 import { DialogService } from 'ng2-bootstrap-modal';
+import { EventsService } from "../../services/events-service"
 import { ConfirmComponent } from '../../components/confirm.component';
 declare var $: any;
 
@@ -31,6 +32,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private http: HttpService,
+    private events: EventsService,
     private formBuilder: FormBuilder,
     public ds: DocumentManagerService,
     private dp: DatePipe,
@@ -55,6 +57,9 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.events.on("reset-indexing-form",t=>{
+      this.form.reset();
+    })
     this.form.patchValue({ documentId: this.file.documentId });
     this.documentId = this.file.documentId;
     this.ds.loading = false;
