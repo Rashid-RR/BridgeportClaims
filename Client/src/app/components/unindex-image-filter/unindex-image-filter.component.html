@@ -11,6 +11,17 @@
               </div>
           </div>
       </div>
+      <div class="col-md-3">
+          <div class="form-group">
+              <label>File Name</label>
+              <div class="input-group date">
+                  <div class="input-group-addon">
+                      <i class="fa fa-filetext"></i>
+                  </div>
+                  <input class="form-control pull-right" id="fileName" name="fileName" type="text" [(ngModel)]="fileName" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+              </div>
+          </div>
+      </div>
       <div class="col-sm-3 col-md-2 flex">
           <div class="form-group">
               <label>&nbsp;</label><br/>

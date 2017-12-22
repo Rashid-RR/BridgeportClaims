@@ -14,6 +14,7 @@ declare var $:any;
 export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
 
   date:string;
+  fileName:string;
   submitted:boolean=false;
   constructor(
     public ds:DocumentManagerService,
@@ -35,6 +36,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
     let date = this.dp.transform($('#date').val(), "dd/M/yyyy");  
     //if(this.startDate && this.endDate){
       this.ds.data.date = date || null 
+      this.ds.data.fileName = this.fileName || null 
       this.ds.search();
    /*  }else{
         this.toast.warning("Ensure you select both start date and end date");
