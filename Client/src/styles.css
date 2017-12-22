@@ -551,3 +551,7 @@
     app-claim-result *:not(.fa){
        font-size: 14px;
     }
+    .bg-darkblue,.bg-darkblue:hover {
+      background-color: #414772;
+      color: #fff;
+    }
