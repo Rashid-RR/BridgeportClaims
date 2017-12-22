@@ -16,7 +16,7 @@
               <label>File Name</label>
               <div class="input-group date">
                   <div class="input-group-addon">
-                      <i class="fa fa-filetext"></i>
+                      <i class="fa fa-file-text"></i>
                   </div>
                   <input class="form-control pull-right" id="fileName" name="fileName" type="text" [(ngModel)]="fileName" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
               </div>
@@ -26,8 +26,8 @@
           <div class="form-group">
               <label>&nbsp;</label><br/>
               <span>
-                 <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">Search</button>  &nbsp;
-                  <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="clearDates()">Clear Date</button>                 
+                 <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="search()"> <i class="fa fa-search"></i> Search</button>  &nbsp;
+                  <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clearDates()"> <i class="fa fa-eraser"></i> Clear Date</button>                 
               </span>
           </div>
       </div> 

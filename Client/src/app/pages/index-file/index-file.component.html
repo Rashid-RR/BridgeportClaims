@@ -64,9 +64,9 @@
                     <div class="form-group">
                         <label>&nbsp;</label>
                         <span>
-                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="!linkClaim" type="button" (click)="linkClaim=true">Link to Claim</button>
-                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="linkClaim" type="button" (click)="linkClaim=false">Unlink Claim</button>
-                            <button class="color-palette btn bg-darkRed btn-flat  btn-md" type="button" (click)="cancel()">Cancel</button>
+                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="!linkClaim" type="button" (click)="linkClaim=true"> <i class="fa fa-plus-circle"></i>Link to Claim</button>
+                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="linkClaim" type="button" (click)="linkClaim=false"> <i class="fa fa-ban"></i> Unlink Claim</button>
+                            <button class="color-palette btn bg-darkRed btn-flat  btn-md" type="button" (click)="cancel()"> <i class="fa fa-chevron-left"></i>Cancel</button>
                         </span>
                     </div>
                 </div>

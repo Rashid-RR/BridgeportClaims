@@ -98,9 +98,9 @@ export class PaymentScriptService {
                                                 <div class="search-col">
                                                     <div class="form-group">
                                                         <label>&nbsp;</label><br/>
-                                                        <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button">Search</button>
-                                                        <button class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button">Clear</button>
-                                                        <button class="color-palette btn bg-DarkGreen btn-flat btn-small refresh-search" type="button">Refresh</button>
+                                                        <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button"> <i class="fa fa-search"></i> Search</button>
+                                                        <button class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button"> <i class="fa fa-eraser"></i>  Clear</button>
+                                                        <button class="color-palette btn bg-DarkGreen btn-flat btn-small refresh-search" type="button"> <i class="fa fa-refresh"></i>  Refresh</button>
                                                     </div>
                                                 </div>
                                             </div>

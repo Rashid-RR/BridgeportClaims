@@ -20,12 +20,12 @@ export class SignalRService {
     loading = false;
     documentProxy: any
     constructor(private events: EventsService, private _ngZone: NgZone) {
-        /* const fileref = document.createElement('script');
-        fileref.setAttribute('type', 'text/javascript');
-        fileref.setAttribute('src', 'signalr/hubs');
-        $('body').append(fileref); */
         this.connection = $.connection;
+        try{
         this.startConnection();
+        }catch(e){
+
+        }
 
     }
     startConnection() {

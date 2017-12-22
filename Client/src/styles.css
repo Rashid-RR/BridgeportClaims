@@ -555,3 +555,11 @@
       background-color: #414772;
       color: #fff;
     }
+    .bg-DarkGreen, .bg-DarkGreen:hover {
+      background: #084205;
+      color: #fff;
+    }
+    .bg-vdarkgrey,.bg-vdarkgrey:hover {
+      background-color: #111d21 !important;
+      color: #fff;
+    }
