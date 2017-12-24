@@ -294,8 +294,9 @@ export class PaymentScriptService {
         }
     }
     search() {
+        let rxDate = this.dp.transform($('#datepicker').val(), "dd/M/yyyy"); 
         if (
-            this.form.get('claimNumber').value || null == null && this.form.get('firstName').value || null == null && this.form.get('lastName').value || null  == null && this.form.get('rxNumber').value || null  == null && this.form.get('rxDate').value  || null == null            
+            this.form.get('claimNumber').value || null == null && this.form.get('firstName').value || null == null && this.form.get('lastName').value || null == null && this.form.get('rxNumber').value || null == null && rxDate == null
         ) {
             swal.clickCancel();
             this.toast.warning('Please populate at least one search field.');
@@ -307,7 +308,9 @@ export class PaymentScriptService {
                 html: "Searching claims... <br/> <img src='assets/1.gif'>",
                 showConfirmButton: false
             }).catch(swal.noop);
-            this.paymentService.search(this.form.value, false, true);
+            let data = JSON.parse(JSON.stringify(this.form.value));//copy data
+            data.rxDate = rxDate || null
+            this.paymentService.search(data, false, true);
         }
     }
 

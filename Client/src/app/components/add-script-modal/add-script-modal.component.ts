@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,AfterViewInit } from '@angular/core';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {PaymentScriptService} from "../../services/payment-script-service"
 import {EventsService} from "../../services/events-service"
@@ -10,7 +10,7 @@ declare var $:any;
   templateUrl: './add-script-modal.component.html',
   styleUrls: ['./add-script-modal.component.css']
 })
-export class AddScriptModalComponent implements OnInit {
+export class AddScriptModalComponent implements OnInit,AfterViewInit {
 
 
   dropdownVisible:boolean=false; 
@@ -22,9 +22,13 @@ export class AddScriptModalComponent implements OnInit {
   }
 
   ngOnInit() {    
-          
-  }
 
+  }
+  ngAfterViewInit() {    
+    $('#datepicker').datepicker({
+      autoclose: true
+    });
+  }
   checkMatch($event) {
     this.payment.exactMatch = $event.target.checked;
     this.showDropDown.next($event.target.checked);

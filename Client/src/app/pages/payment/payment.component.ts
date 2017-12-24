@@ -41,7 +41,6 @@ export class PaymentComponent implements OnInit {
       this.tabState = "in";
     });
     this.events.on('show-payment-script-modal', (t) => {
-      console.log("See this...")
       setTimeout(()=>{this.showModal(true);},100)
     });
   }
@@ -55,9 +54,7 @@ export class PaymentComponent implements OnInit {
       this.paymentScriptService.form.reset();
     }
     this.addScriptSwal.show().then((r) => {
-      $('#datepicker').datepicker({
-        autoclose: true
-      });
+      
     })
   }
 
