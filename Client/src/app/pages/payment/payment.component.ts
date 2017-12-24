@@ -48,9 +48,6 @@ export class PaymentComponent implements OnInit {
         setTimeout(()=>{this.showModal(true);},100)
       }
     });
-    /* this.events.on('show-payment-script-modal', (t) => {
-      setTimeout(()=>{this.showModal(true);},100)
-    }); */
   }
 
   ngOnInit() {

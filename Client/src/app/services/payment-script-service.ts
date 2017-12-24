@@ -18,9 +18,6 @@ declare var $: any
 @Injectable()
 export class PaymentScriptService {
 
-
-    checkAll: Boolean = false;
-    inputs: Array<any> = [];
     form: FormGroup;
     searchText: string = '';
     exactMatch: boolean = false;
@@ -34,18 +31,8 @@ export class PaymentScriptService {
             claimNumber: [null],
             firstName: [null],
             lastName: [null]
-        });
-
-        /* this.events.on('payment-updated', (b: Boolean) => {
-            try {
-                swal.clickConfirm();
-            } catch (e) { }
-            if (b) {
-                this.addScripts();
-            }
-        }); */
+        });       
         this.events.on("payment-closed", a => {
-            this.inputs = [];
             this.form.reset();
         });
     }
@@ -105,60 +92,5 @@ export class PaymentScriptService {
         this.paymentService.clearClaimsData();
         this.form.reset();
         this.searchText = '';
-    }
-    checkAllRows() {
-        this.paymentService.rawClaimsData.forEach(claim => {
-            setTimeout(() => {
-                $("tr#" + claim.claimId).removeClass("bgBlue");
-                $("tr#" + claim.claimId).addClass("bgBlue");
-                claim.selected = true;
-                //$("input#row"+claim.claimId).attr("checked",true);
-                this.paymentService.claims = this.paymentService.claims.set(claim.claimId, claim);
-            }, 500);
-        });
-    }
-    unCheckAllRows() {
-        this.paymentService.rawClaimsData.forEach(claim => {
-            setTimeout(() => {
-                $("tr#" + claim.claimId).removeClass("bgBlue");
-                claim.selected = true;
-                //$("input#row"+claim.claimId).attr("checked",false);
-                this.paymentService.claims = this.paymentService.claims.set(claim.claimId, claim);
-            }, 500)
-        });
-    }
-    updateTable(claimId: Number, checkAll) {
-        let data = this.paymentService.rawClaimsData.get(claimId);
-        this.paymentService.rawClaimsData.forEach(claim => {
-            setTimeout(() => {
-                if (claim.claimId == claimId) {
-                    if (data) {
-                        if ($("tr#" + claimId).hasClass("bgBlue") || checkAll === false) {
-                            this.ngZone.run(() => {
-                                $("tr#" + claimId).removeClass("bgBlue");
-                            }); data.selected = false
-                            this.ngZone.run(() => {
-                                // $("input#row"+claimId).attr("checked",false); 
-                                $("input#claimsCheckBox").attr("checked", false);
-                            });
-                        } else {
-                            this.ngZone.run(() => {
-                                $("tr#" + claimId).addClass("bgBlue");
-                            });
-                            data.selected = true
-                            this.ngZone.run(() => {
-                                //$("input#row"+claimId).attr("checked",true);
-                            });
-                        }
-                        this.paymentService.rawClaimsData.set(claimId, data);
-                    }
-                }/* else{
-                    $("tr#"+claim.claimId).removeClass("bgBlue");
-                    claim.selected = false;
-                    //$("input#row"+claim.claimId).attr("checked",false);
-                    this.paymentService.claims = this.paymentService.claims.set(claim.claimId,claim);
-                } */
-            }, 100)
-        });
     }
 }
