@@ -1,12 +1,15 @@
-import { Component, OnInit, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, ViewChild, OnInit, trigger, state, style, transition, animate } from '@angular/core';
 import { PaymentService, PaymentScriptService } from "../../services/services.barrel";
-import {EventsService} from "../../services/events-service";
+import { EventsService } from "../../services/events-service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
 import { UUID } from 'angular2-uuid';
-import { PaymentPostingPrescription} from "../../models/payment-posting-prescription";
-import {DatePipe} from "@angular/common"
+import { PaymentPostingPrescription } from "../../models/payment-posting-prescription";
+import { DatePipe } from "@angular/common"
+import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+//import {AddScriptModalComponent} from "../../components/add-script-modal/add-script-modal.component"
+declare var $: any;
 
 @Component({
   selector: 'app-payment',
@@ -28,19 +31,34 @@ import {DatePipe} from "@angular/common"
 export class PaymentComponent implements OnInit {
 
   tabState = 'in';
-
-  constructor(public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
-    private dialogService: DialogService, private toast: ToastsManager,private events:EventsService,private dp:DatePipe) {
-      this.events.on("payment-suspense",a=>{
-          this.tabState = "in";
-      });
-      this.events.on("payment-closed",a=>{
-          this.tabState = "in";
-      });
-     }
+  @ViewChild('addScriptSwal') private addScriptSwal: SwalComponent;
+  constructor(public readonly swalTargets: SwalPartialTargets, public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
+    private dialogService: DialogService, private toast: ToastsManager, private events: EventsService, private dp: DatePipe) {
+    this.events.on("payment-suspense", a => {
+      this.tabState = "in";
+    });
+    this.events.on("payment-closed", a => {
+      this.tabState = "in";
+    });
+    this.events.on('show-payment-script-modal', (t) => {
+      console.log("See this...")
+      setTimeout(()=>{this.showModal(true);},100)
+    });
+  }
 
   ngOnInit() {
-
+    
+  }
+  showModal(reload: boolean = false) {
+    if (!reload) {
+      this.paymentService.clearClaimsData();
+      this.paymentScriptService.form.reset();
+    }
+    this.addScriptSwal.show().then((r) => {
+      $('#datepicker').datepicker({
+        autoclose: true
+      });
+    })
   }
 
   viewClaims() {
@@ -64,26 +82,26 @@ export class PaymentComponent implements OnInit {
     this.tabState = this.tabState === 'out' ? 'in' : 'out';
   }
 
-  deletePayment(prescription:PaymentPostingPrescription,sessionId:UUID){
+  deletePayment(prescription: PaymentPostingPrescription, sessionId: UUID) {
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Delete Payment",
-      message: "Are you sure you wish to remove this Payment Posting for "+prescription.patientName+" of $"+prescription.amountPosted+"?"
+      message: "Are you sure you wish to remove this Payment Posting for " + prescription.patientName + " of $" + prescription.amountPosted + "?"
     })
-    .subscribe((isConfirmed) => {
+      .subscribe((isConfirmed) => {
         //We get dialog result
-        if (isConfirmed) {  
-          this.paymentService.deletePayment({sessionId:this.paymentService.paymentPosting.sessionId,id:prescription.id,prescriptionId:prescription.prescriptionId});             
+        if (isConfirmed) {
+          this.paymentService.deletePayment({ sessionId: this.paymentService.paymentPosting.sessionId, id: prescription.id, prescriptionId: prescription.prescriptionId });
         }
         else {
-           
+
         }
-    });
+      });
   }
 
-  formatDate(input:String){
-    let d=input.toString().substring(0,10)
-    let date = this.dp.transform(d,"MM/dd/y");
+  formatDate(input: String) {
+    let d = input.toString().substring(0, 10)
+    let date = this.dp.transform(d, "MM/dd/y");
     return date;
   }
-  
+
 }

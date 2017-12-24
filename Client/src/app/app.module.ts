@@ -11,6 +11,8 @@ import { ConfirmComponent } from './components/confirm.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import {Ng2Webstorage} from 'ng2-webstorage';
 import { AutoCompleteModule} from './auto-complete';
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+
 /* import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr'; */
 import {WindowsInjetor, WindowBackdrop, BootstrapWindowContainer} from './components/ng-window';
 // Layouts
@@ -71,6 +73,7 @@ import { UnindexedImageFileComponent } from './pages/unindexed-image-file/uninde
 import { IndexFileComponent } from './pages/index-file/index-file.component';
 import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { AddScriptModalComponent } from './components/add-script-modal/add-script-modal.component';
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -109,7 +112,7 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent
   ],
   imports: [
     FormsModule,
@@ -119,6 +122,7 @@ export class SafeUrlPipe implements PipeTransform {
     BrowserAnimationsModule,
     ToastModule.forRoot(),
     /* SignalRModule.forRoot(createConfig), */
+    SweetAlert2Module.forRoot(),
     BootstrapModalModule,
     HttpModule,
     RoutingModule,

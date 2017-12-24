@@ -3,56 +3,79 @@ import * as Immutable from 'immutable';
 import { Observable } from 'rxjs/Observable';
 import { PaymentClaim } from '../models/payment-claim';
 import { PrescriptionNoteType } from '../models/prescription-note-type';
-import { Injectable,NgZone } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { PaymentService } from './payment-service';
+import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import swal from "sweetalert2";
-declare var $:any
+declare var $: any
 
 @Injectable()
 export class PaymentScriptService {
 
-    
-    checkAll:Boolean=false;
-    inputs:Array<any>=[];
-    constructor(private dp: DatePipe, private ngZone:NgZone,
-        private paymentService: PaymentService, private events: EventsService, private router: Router, private toast: ToastsManager) {
-            this.events.on('payment-updated',(b:Boolean)=>{
-                try{
-                    swal.clickConfirm();
-                }catch(e){}
-                if(b){
-                    this.addScripts();
-                }
-            });
-            this.events.on("payment-closed",a=>{
-                this.inputs = [];
-            });
+
+    checkAll: Boolean = false;
+    inputs: Array<any> = [];
+    form: FormGroup;
+    searchText: string = '';
+    exactMatch: boolean = false;
+    constructor(private http: HttpService, private dp: DatePipe, private ngZone: NgZone, private formBuilder: FormBuilder,
+        public paymentService: PaymentService, private events: EventsService, private router: Router, private toast: ToastsManager) {
+        this.form = this.formBuilder.group({
+            claimId: [null, Validators.compose([Validators.required])],
+            rxNumber: [null],
+            rxDate: [null],
+            invoiceNumber: [null],
+            claimNumber: [null],
+            firstName: [null],
+            lastName: [null]
+        });
+
+        /* this.events.on('payment-updated', (b: Boolean) => {
+            try {
+                swal.clickConfirm();
+            } catch (e) { }
+            if (b) {
+                this.addScripts();
+            }
+        }); */
+        this.events.on("payment-closed", a => {
+            this.inputs = [];
+            this.form.reset();
+        });
     }
-    addScripts() {  
-        let claimIds : Array<any>=[];
-          this.paymentService.claimsDetail.toArray().forEach(c=>{
-              claimIds.push(c.claimId);
-          })
-         let claimsHTML = '';
-        this.paymentService.claimsData.forEach(claim => {   
-            let numberOfPrescriptions = claim.numberOfPrescriptions>0 ?
-            ` <a class="label label-info bg-darkblue" style="cursor: not-allowed;">
-                    `+claim.numberOfPrescriptions+`
+
+    get autoCompleteClaim(): string {
+        return this.http.baseUrl + "/document/claim-search/?exactMatch=" + this.exactMatch + "&searchText=:keyword";
+    }
+    closeModal() {
+        swal.clickCancel();
+    }
+    /* addScripts() {
+        let claimIds: Array<any> = [];
+        this.paymentService.claimsDetail.toArray().forEach(c => {
+            claimIds.push(c.claimId);
+        })
+        let claimsHTML = '';
+        this.paymentService.claimsData.forEach(claim => {
+            let numberOfPrescriptions = claim.numberOfPrescriptions > 0 ?
+                ` <a class="label label-info bg-darkblue" style="cursor: not-allowed;">
+                    `+ claim.numberOfPrescriptions + `
                 </a>`  : claim.numberOfPrescriptions;
             claimsHTML = claimsHTML + `
-                <tr id="`+claim.claimId+`" class="clr-change claimRow`+(claimIds.includes(claim.claimId) || this.paymentService.claimsData.length==1 ? ' bgBlue' :'')+`">
+                <tr id="`+ claim.claimId + `" class="clr-change claimRow` + (claimIds.includes(claim.claimId) || this.paymentService.claimsData.length == 1 ? ' bgBlue' : '') + `">
                     <td>`+ claim.claimNumber + `</td>
                     <td>`+ claim.patientName + `</td>
                     <td>`+ claim.payor + `</td>
                     <td>`+ numberOfPrescriptions + `</td>              
                 </tr>`;
         });
-        let claimNumber = this.inputs[0] || '',firstName = this.inputs[1] || '',lastName = this.inputs[2] || '',rxDate = this.inputs[3] || '',invoiceNumber = this.inputs[4] || '';
+        let claimNumber = this.inputs[0] || '', firstName = this.inputs[1] || '', lastName = this.inputs[2] || '', rxDate = this.inputs[3] || '', invoiceNumber = this.inputs[4] || '';
         let html = `<button class="close-button"><i class="fa fa-times"></i></button>
                         <div class="row">
                             <div class="col-sm-12" id="accordion">
@@ -63,19 +86,19 @@ export class PaymentScriptService {
                                                <div class="search-col">
                                                     <div class="form-group">
                                                         <label>Last Name</label>
-                                                        <input class="form-control" id="lastName"  value="`+lastName+`" type="text" focus-on>
+                                                        <input class="form-control" id="lastName"  value="`+ lastName + `" type="text" focus-on>
                                                     </div>
                                                 </div>
                                                 <div class="search-col">
                                                     <div class="form-group">
                                                         <label>First Name</label>
-                                                        <input class="form-control" id="firstName"  value="`+firstName+`" type="text">
+                                                        <input class="form-control" id="firstName"  value="`+ firstName + `" type="text">
                                                     </div>
                                                 </div> 
                                                 <div class="search-col">
                                                     <div class="form-group">
                                                         <label>Claim #</label>
-                                                        <input class="form-control" id="claimNumber" value="`+claimNumber+`" type="text" focus-on>
+                                                        <input class="form-control" id="claimNumber" value="`+ claimNumber + `" type="text" focus-on>
                                                     </div>
                                                 </div>                                            
                                                 <div class="search-col">
@@ -85,14 +108,14 @@ export class PaymentScriptService {
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input class="form-control pull-right"  type="text"  value="`+rxDate+`" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
+                                                        <input class="form-control pull-right"  type="text"  value="`+ rxDate + `" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="search-col">
                                                     <div class="form-group">
                                                         <label>Invoice #</label>
-                                                        <input class="form-control" id="invoiceNumber"   value="`+invoiceNumber+`" type="text" focus-on>
+                                                        <input class="form-control" id="invoiceNumber"   value="`+ invoiceNumber + `" type="text" focus-on>
                                                     </div>
                                                 </div>                                                    
                                                 <div class="search-col">
@@ -138,7 +161,7 @@ export class PaymentScriptService {
                                             <div class="table-responsive table-body">
                                                 <table class="table no-margin table-striped" id="maintable">                                            
                                                     <tbody>`
-                                                        + claimsHTML+`
+            + claimsHTML + `
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -149,172 +172,195 @@ export class PaymentScriptService {
                         </div>
                     </div>`;
         swal({
-        title: '',
-        customClass:'paymeny-modal',
-        //width: (window.innerWidth - 770) + "px",
-        html: html,
-        showConfirmButton:false,
-        showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve) {
-            resolve([
-                $('#claimNumber').val(),
-                $('#firstName').val(),
-                $('#lastName').val(),
-                $('#datepicker').val(),
-                $('#invoiceNumber').val()
-            ])
-            })
-        },
-        onOpen: function () {
-            $('#lastName').focus()
-        }
+            title: '',
+            customClass: 'paymeny-modal',
+            //width: (window.innerWidth - 770) + "px",
+            html: html,
+            showConfirmButton: false,
+            showLoaderOnConfirm: true,
+            preConfirm: function () {
+                return new Promise(function (resolve) {
+                    resolve([
+                        $('#claimNumber').val(),
+                        $('#firstName').val(),
+                        $('#lastName').val(),
+                        $('#datepicker').val(),
+                        $('#invoiceNumber').val()
+                    ])
+                })
+            },
+            onOpen: function () {
+                $('#lastName').focus()
+            }
         }).then(inputs => {
             if (inputs[0] == '' && inputs[1] == '' && inputs[2] == '' && inputs[3] == '' && inputs[4] == '') {
-                this.inputs=inputs;
+                this.inputs = inputs;
                 this.addScripts();
-                this.toast.warning('Please populate at least one search field.');                
-            }else{
-                swal({ 
-                        title: "",
-                        //width: (window.innerWidth - 740) + "px",
-                        html: "Searching claims... <br/> <img src='assets/1.gif'>",
-                        showConfirmButton: false
-                    }).catch(swal.noop);              
-                let d = {claimNumber:inputs[0] || null,firstName:inputs[1]  || null,lastName:inputs[2] || null,rxDate:inputs[3] || null,invoiceNumber:inputs[4] || null}
-                this.paymentService.search(d,false);
-                this.inputs=inputs;
+                this.toast.warning('Please populate at least one search field.');
+            } else {
+                swal({
+                    title: "",
+                    //width: (window.innerWidth - 740) + "px",
+                    html: "Searching claims... <br/> <img src='assets/1.gif'>",
+                    showConfirmButton: false
+                }).catch(swal.noop);
+                let d = { claimNumber: inputs[0] || null, firstName: inputs[1] || null, lastName: inputs[2] || null, rxDate: inputs[3] || null, invoiceNumber: inputs[4] || null }
+                this.paymentService.search(d, false);
+                this.inputs = inputs;
             }
-        //    console.log(inputs);
+            //    console.log(inputs);
         }).catch(swal.noop);
         $('#datepicker').datepicker({
             autoclose: true
         });
-        $("#datepicker").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+        $("#datepicker").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
         $("[inputs-mask]").inputmask();
         $("[data-mask]").inputmask();
-        $(".search-claims").click(()=>{ 
-            try{
+        $(".search-claims").click(() => {
+            try {
                 swal.clickConfirm();
-            }catch(e){}
+            } catch (e) { }
         });
-        $(".clear-inputs").click(()=>{
+        $(".clear-inputs").click(() => {
             this.paymentService.clearClaimsData();
             $('#claimNumber').val('');
             $('#firstName').val('');
             $('#lastName').val();
             $('#datepicker').val('');
             $('#invoiceNumber').val('');
-            try{
+            try {
                 swal.clickCancel();
-            }catch(e){}
-            this.inputs=[];
+            } catch (e) { }
+            this.inputs = [];
             this.addScripts();
         });
-        $(".refresh-search").click(()=>{
-            try{
+        $(".refresh-search").click(() => {
+            try {
                 swal.clickConfirm();
-            }catch(e){}
+            } catch (e) { }
         });
-        $(".close-button").click(()=>{
-            try{
+        $(".close-button").click(() => {
+            try {
                 swal.clickCancel();
-            }catch(e){}
+            } catch (e) { }
         });
-        $("input.form-control").keypress((e)=>{
-            var key = e.which; if(key == 13){
-                try{
+        $("input.form-control").keypress((e) => {
+            var key = e.which; if (key == 13) {
+                try {
                     swal.clickConfirm();
-                }catch(e){}
+                } catch (e) { }
             }
         });
-        $("button.view-prescriptions").click((e)=>{
+        $("button.view-prescriptions").click((e) => {
             this.viewClaims();
         });
         let ps = this;
-        $(".claimRow").click(function(){  
-            let row =  $(this)[0];
+        $(".claimRow").click(function () {
+            let row = $(this)[0];
             let claimId = row.id;
-            ps.updateTable(parseInt(claimId),null);             
-        });           
-        $("input#claimsCheckBox").click(function($event){  
-            this.checkAll =  $event.target.checked;  
-            if(this.checkAll){
+            ps.updateTable(parseInt(claimId), null);
+        });
+        $("input#claimsCheckBox").click(function ($event) {
+            this.checkAll = $event.target.checked;
+            if (this.checkAll) {
                 ps.checkAllRows();
-            }else{
+            } else {
                 ps.unCheckAllRows();
             }
         });
-    } 
-    viewClaims(){
+    } */
+    viewClaims() {
         let selectedClaims = [];
         var rows = $('tr.bgBlue');
         for (var i = 0; i < rows.length; i++) {
-            var id =rows[i].id;
+            var id = rows[i].id;
             selectedClaims.push(id);
         }
         if (selectedClaims.length == 0) {
-        this.toast.warning('Please select one claim in order to view prescriptions.');
-        }else{
-            try{
+            this.toast.warning('Please select one claim in order to view prescriptions.');
+        } else {
+            try {
                 swal.clickCancel();
-            }catch(e){}
-            swal({ 
+            } catch (e) { }
+            swal({
                 title: "",
                 //width: (window.innerWidth - 460) + "px",
                 html: "Searching claims... <br/> <img src='assets/1.gif'>",
                 showConfirmButton: false
-            }).catch(swal.noop); 
-            this.paymentService.prescriptionSelected=true
+            }).catch(swal.noop);
+            this.paymentService.prescriptionSelected = true
             this.paymentService.clearClaimsDetail();
             this.paymentService.getPaymentClaimDataByIds(selectedClaims);
         }
     }
-    checkAllRows(){
-        this.paymentService.rawClaimsData.forEach(claim=>{   
-            setTimeout(()=>{
-                $("tr#"+claim.claimId).removeClass("bgBlue");            
-                $("tr#"+claim.claimId).addClass("bgBlue"); 
+    search() {
+        if (
+            this.form.get('claimNumber').value || null == null && this.form.get('firstName').value || null == null && this.form.get('lastName').value || null  == null && this.form.get('rxNumber').value || null  == null && this.form.get('rxDate').value  || null == null            
+        ) {
+            swal.clickCancel();
+            this.toast.warning('Please populate at least one search field.');
+            this.events.broadcast('show-payment-script-modal', true);
+        } else {
+            swal({
+                title: "",
+                //width: (window.innerWidth - 740) + "px",
+                html: "Searching claims... <br/> <img src='assets/1.gif'>",
+                showConfirmButton: false
+            }).catch(swal.noop);
+            this.paymentService.search(this.form.value, false, true);
+        }
+    }
+
+    clear() {
+        this.paymentService.clearClaimsData();
+        this.form.reset();
+        this.searchText = '';
+    }
+    checkAllRows() {
+        this.paymentService.rawClaimsData.forEach(claim => {
+            setTimeout(() => {
+                $("tr#" + claim.claimId).removeClass("bgBlue");
+                $("tr#" + claim.claimId).addClass("bgBlue");
                 claim.selected = true;
                 //$("input#row"+claim.claimId).attr("checked",true);
-                this.paymentService.claims = this.paymentService.claims.set(claim.claimId,claim);
-            },500);
+                this.paymentService.claims = this.paymentService.claims.set(claim.claimId, claim);
+            }, 500);
         });
     }
-    unCheckAllRows(){
-        this.paymentService.rawClaimsData.forEach(claim=>{   
-            setTimeout(()=>{
-                $("tr#"+claim.claimId).removeClass("bgBlue");
+    unCheckAllRows() {
+        this.paymentService.rawClaimsData.forEach(claim => {
+            setTimeout(() => {
+                $("tr#" + claim.claimId).removeClass("bgBlue");
                 claim.selected = true;
                 //$("input#row"+claim.claimId).attr("checked",false);
-                this.paymentService.claims = this.paymentService.claims.set(claim.claimId,claim);
-            },500)
+                this.paymentService.claims = this.paymentService.claims.set(claim.claimId, claim);
+            }, 500)
         });
     }
-    updateTable(claimId:Number,checkAll){
+    updateTable(claimId: Number, checkAll) {
         let data = this.paymentService.rawClaimsData.get(claimId);
-        this.paymentService.rawClaimsData.forEach(claim=>{   
-            setTimeout(()=>{
-                if(claim.claimId == claimId){                        
-                    if(data){   
-                        if($("tr#"+claimId).hasClass("bgBlue") || checkAll===false){                        
-                            this.ngZone.run(()=>{
-                                $("tr#"+claimId).removeClass("bgBlue");
-                            });    data.selected = false                       
-                            this.ngZone.run(()=>{
-                            // $("input#row"+claimId).attr("checked",false); 
-                                $("input#claimsCheckBox").attr("checked",false); 
+        this.paymentService.rawClaimsData.forEach(claim => {
+            setTimeout(() => {
+                if (claim.claimId == claimId) {
+                    if (data) {
+                        if ($("tr#" + claimId).hasClass("bgBlue") || checkAll === false) {
+                            this.ngZone.run(() => {
+                                $("tr#" + claimId).removeClass("bgBlue");
+                            }); data.selected = false
+                            this.ngZone.run(() => {
+                                // $("input#row"+claimId).attr("checked",false); 
+                                $("input#claimsCheckBox").attr("checked", false);
                             });
-                        }else{                        
-                            this.ngZone.run(()=>{
-                                $("tr#"+claimId).addClass("bgBlue"); 
+                        } else {
+                            this.ngZone.run(() => {
+                                $("tr#" + claimId).addClass("bgBlue");
                             });
-                            data.selected = true                        
-                            this.ngZone.run(()=>{
+                            data.selected = true
+                            this.ngZone.run(() => {
                                 //$("input#row"+claimId).attr("checked",true);
                             });
                         }
-                        this.paymentService.rawClaimsData.set(claimId,data);
+                        this.paymentService.rawClaimsData.set(claimId, data);
                     }
                 }/* else{
                     $("tr#"+claim.claimId).removeClass("bgBlue");
@@ -322,7 +368,7 @@ export class PaymentScriptService {
                     //$("input#row"+claim.claimId).attr("checked",false);
                     this.paymentService.claims = this.paymentService.claims.set(claim.claimId,claim);
                 } */
-            },100)
+            }, 100)
         });
     }
 }

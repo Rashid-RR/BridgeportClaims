@@ -46,7 +46,16 @@
       width:calc(100vw - 780px) !important;
       width:-webkit-calc(100vw - 780px) !important;
       width:-moz-calc(100vw - 780px) !important;
-      width:-o-calc(100vw - 770px) !important;
+      width:-o-calc(100vw - 780px) !important;
+    }
+    .swal2-modal.paymeny-modal.custom {
+      padding: 5px 10px !important;
+      padding-left: 15px!important;
+      margin-top: 174px !important;
+      width:calc(100vw - 580px) !important;
+      width:-webkit-calc(100vw - 580px) !important;
+      width:-moz-calc(100vw - 580px) !important;
+      width:-o-calc(100vw - 580px) !important;
     }
 
     .swal2-modal.paymeny-modal .swal2-content .bg-head-box {
@@ -127,6 +136,9 @@
         padding-right: 10px;
         padding-left: 0px;
     }
+    .swal2-modal.paymeny-modal.custom .swal2-content .payment-input form div div.search-col{
+        width:16%;
+    }
     .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
     .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2)
     {
@@ -144,6 +156,9 @@
     }    
     .swal2-container{
         margin-left:-220px;
+    }
+    .swal2-modal.paymeny-modal .swal2-content{
+      display:block !important;
     }
     .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-2,
     .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,

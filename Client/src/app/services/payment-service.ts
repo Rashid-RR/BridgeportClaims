@@ -46,7 +46,7 @@ export class PaymentService {
     this.sortColumn = info;
     this.getPaymentClaimDataByIds(this.lastPrescriptionIds);
   }
-  search(data, addHistory = true) {
+  search(data, addHistory = true,showModalAfterUpdate=false) {
     if (data.claimNumber == null && data.firstName == null && data.lastName == null && data.rxDate == null && data.invoiceNumber == null) {
           this.toast.warning('Please populate at least one search field.');
     } else {
@@ -75,7 +75,12 @@ export class PaymentService {
             console.log(error);
           } catch (e) { }
         }, () => {
-          this.events.broadcast('payment-updated',true);
+          if(showModalAfterUpdate){
+            this.events.broadcast('show-payment-script-modal',true);
+          }else{
+            this.events.broadcast('payment-updated',true);          
+          }
+
         });
     }
   }
