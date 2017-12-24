@@ -33,6 +33,8 @@ export class ClaimManager {
   private prescriptionNotetypes: Array<PrescriptionNoteType> = [];
   private episodeNoteTypes: Array<EpisodeNoteType> = []
 
+  searchText: string = '';
+  exactMatch: boolean = false;
   // Expanded Table Properties
   isClaimsExpanded: boolean;
   isNotesExpanded: boolean;
@@ -54,6 +56,9 @@ export class ClaimManager {
       this.selected = undefined;
       this.claims = Immutable.OrderedMap<Number, Claim>();
     });
+  }
+  get autoCompleteClaim(): string {
+    return this.http.baseUrl + "/document/claim-search/?exactMatch=" + this.exactMatch + "&searchText=:keyword";
   }
 
   getHistory() {
