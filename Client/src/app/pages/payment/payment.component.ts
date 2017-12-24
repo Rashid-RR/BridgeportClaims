@@ -8,7 +8,7 @@ import { UUID } from 'angular2-uuid';
 import { PaymentPostingPrescription } from "../../models/payment-posting-prescription";
 import { DatePipe } from "@angular/common"
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
-//import {AddScriptModalComponent} from "../../components/add-script-modal/add-script-modal.component"
+import swal from "sweetalert2";
 declare var $: any;
 
 @Component({
@@ -40,9 +40,17 @@ export class PaymentComponent implements OnInit {
     this.events.on("payment-closed", a => {
       this.tabState = "in";
     });
-    this.events.on('show-payment-script-modal', (t) => {
-      setTimeout(()=>{this.showModal(true);},100)
+    this.events.on('payment-updated', (b: Boolean) => {
+      try {
+          swal.clickConfirm();
+      } catch (e) { }
+      if (b) {
+        setTimeout(()=>{this.showModal(true);},100)
+      }
     });
+    /* this.events.on('show-payment-script-modal', (t) => {
+      setTimeout(()=>{this.showModal(true);},100)
+    }); */
   }
 
   ngOnInit() {

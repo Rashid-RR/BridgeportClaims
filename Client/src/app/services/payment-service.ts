@@ -74,12 +74,8 @@ export class PaymentService {
             const error = err.json();
             console.log(error);
           } catch (e) { }
-        }, () => {
-          if(showModalAfterUpdate){
-            this.events.broadcast('show-payment-script-modal',true);
-          }else{
-            this.events.broadcast('payment-updated',true);          
-          }
+        }, () => {           
+            this.events.broadcast('payment-updated',true); 
 
         });
     }
