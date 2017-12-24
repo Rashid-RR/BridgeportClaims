@@ -168,7 +168,7 @@ export class AutoCompleteComponent implements OnInit {
       if (this.showDropdownOnInit) {
         this.showDropdownList({ target: { value: '' } });
       }
-    });
+    }); 
   }
 
   reloadListInDelay = (evt: any): void => {
