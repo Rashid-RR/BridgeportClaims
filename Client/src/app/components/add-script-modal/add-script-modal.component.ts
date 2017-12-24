@@ -43,7 +43,7 @@ export class AddScriptModalComponent implements OnInit,AfterViewInit {
         groupNumber: $event.groupNumber,
         lastName: $event.lastName
       });
-      this.toast.info($event.lastName + " " + $event.firstName + " " + $event.claimNumber + " has been linked", 'Claim Linked', { enableHTML: true, positionClass: 'toast-top-center' })
+      this.toast.info($event.lastName + " " + $event.firstName + " " + $event.claimNumber + " has been loaded", 'Claim Loaded', { enableHTML: true, positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
