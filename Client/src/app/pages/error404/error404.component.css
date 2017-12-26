@@ -3,6 +3,15 @@
     margin: 0;
     padding: 0
 }
+.header{
+    height:100vh;
+    width:100vw;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:auto;
+}
 .col-md-offset-5{margin-left:41.66666667%}
 .logo span {
     color: #C83E4D;
