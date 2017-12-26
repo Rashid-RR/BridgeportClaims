@@ -2,21 +2,26 @@
     <!-- Logo -->
     <a [routerLink]="!disableLinks ?  '/' : []" class="logo" [class.disabled]="disableLinks">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>BR</b>-C</span>
+        <span class="logo-mini" style="color:white">
+            <b>BR</b>-C</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg">Bridgeport Claims</span>
+        <span class="logo-lg" style="color:white">Bridgeport Claims</span>
     </a>
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button, check if user is logged in-->
-        <a style="cursor:pointer" (click)="sidebarToggle()"  class="sidebar-toggle" data-toggle="offcanvas" role="button" *ngIf="profileManager.profile">
+        <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button" *ngIf="profileManager.profile">
             <i class="fa fa-align-justify"></i>
         </a>
         <!-- Top right menu items, also check if user is logged in-->
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
-                <ng-container  *ngIf="!profileManager.profile">
-                    <li><a [routerLink]="'/register'">Register</a></li>
-                    <li><a [routerLink]="'/login'">Login</a></li>
+                <ng-container *ngIf="!profileManager.profile">
+                    <li>
+                        <a [routerLink]="'/register'">Register</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="'/login'">Login</a>
+                    </li>
                 </ng-container>
                 <li class="display-date">{{ date | date }}</li>
                 <ng-container *ngIf="profileManager.profile">
@@ -29,21 +34,25 @@
                     </li>
                     <li routerLinkActive="/main/profile" [class.disabled]="disableLinks">
                         <!--[routerLink]="'/profile'"-->
-                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName : ''}}</a>
+                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName
+                            : ''}}</a>
                     </li>
                     <li routerLinkActive="active" [class.disabled]="disableLinks">
                         <a style="cursor:pointer;" (click)="!disableLinks ? logout() : ''" class="navbar-link" [class.disabled]="disableLinks">Logout</a>
                     </li>
                     <!-- here is a version number in ng- containor because in this containor all things are disply when user are logeed in -->
-                    <p class="ver2"><img src="assets/img/tower.png" width="80px;" style="margin-right:15px;" alt="Version #"/><span style="margin-top:-25px !important;">Version 8.0</span></p>
+                    <p class="ver2">
+                        <img src="assets/img/tower.png" width="80px;" style="margin-right:15px;" alt="Version #" />
+                        <span style="margin-top:-25px !important;">Version 8.0</span>
+                    </p>
                 </ng-container>
             </ul>
         </div>
     </nav>
-<!--
+    <!--
     <p class="ver">Version 6.5</p>
     <p class="ver1">Version 6.6</p>-->
 
-<!--
+    <!--
     <p class="ver3">Version 6.8</p>
     <p class="ver4">Version 6.8</p>-->

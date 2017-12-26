@@ -27,6 +27,7 @@ export class SidebarComponent implements OnInit {
     this.events.on("disable-links", (status: boolean) => {
       this.disableLinks = status;
     });
+    console.log(this.router.url)
   }
   
   claimsActive(){
