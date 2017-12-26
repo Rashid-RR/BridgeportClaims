@@ -58,7 +58,6 @@ export class PaymentScriptService {
             } catch (e) { }
             swal({
                 title: "",
-                //width: (window.innerWidth - 460) + "px",
                 html: "Searching claims... <br/> <img src='assets/1.gif'>",
                 showConfirmButton: false
             }).catch(swal.noop);
@@ -70,7 +69,7 @@ export class PaymentScriptService {
     search() {
         let rxDate = this.dp.transform($('#datepicker').val(), "dd/M/yyyy"); 
         if (
-            this.form.get('claimNumber').value || null == null && this.form.get('firstName').value || null == null && this.form.get('lastName').value || null == null && this.form.get('rxNumber').value || null == null && rxDate == null
+            this.form.get('claimNumber').value  == null && this.form.get('firstName').value  == null && this.form.get('lastName').value  == null && this.form.get('rxNumber').value  == null && rxDate == null
         ) {
             swal.clickCancel();
             this.toast.warning('Please populate at least one search field.');

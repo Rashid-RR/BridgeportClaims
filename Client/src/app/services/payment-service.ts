@@ -72,7 +72,7 @@ export class PaymentService {
           this.loading = false;
           try {
             const error = err.json();
-            console.log(error);
+            //console.log(error);
           } catch (e) { }
         }, () => {           
             this.events.broadcast('payment-updated',true); 
@@ -264,7 +264,7 @@ export class PaymentService {
         }
       }, err => {
         this.loading = false;
-        console.log(err);
+        //console.log(err);
         if (err.message) {
           this.toast.error(err.message);
         }
@@ -309,7 +309,7 @@ export class PaymentService {
         }, err => {
         this.loadingPayment = false;
           this.loading = false;
-          console.log(err);
+          //console.log(err);
           //const error = err.json();
           this.events.broadcast('payment-updated',true);
         }, () => {

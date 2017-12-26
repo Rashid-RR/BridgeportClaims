@@ -43,7 +43,7 @@ export class AddScriptModalComponent implements OnInit,AfterViewInit {
         groupNumber: $event.groupNumber,
         lastName: $event.lastName
       });
-      this.toast.info($event.lastName + " " + $event.firstName + " " + $event.claimNumber + " has been loaded", 'Claim Loaded', { enableHTML: true, positionClass: 'toast-top-center' })
+      this.toast.info($event.lastName + " " + $event.firstName + " " + $event.claimNumber + " has been loaded. Wait for a few seconds to load details...", 'Claim Loaded', {toastLife :3000, enableHTML: true, positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
@@ -53,10 +53,11 @@ export class AddScriptModalComponent implements OnInit,AfterViewInit {
               msg.parentNode.parentElement.style.position = 'fixed';
             }
           }
+          this.payment.search();
         })
       setTimeout(() => {
         this.searchText = undefined;
-        this.dropdownVisible=false
+        this.dropdownVisible=false;
       }, 100);
     }
   }
