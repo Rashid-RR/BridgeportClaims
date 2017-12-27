@@ -276,6 +276,9 @@ export class AutoCompleteDirective implements OnInit, OnChanges {
       this.acDropdownEl.style.zIndex = this.zIndex;
       this.acDropdownEl.style[directionOfStyle] = "0";
       this.acDropdownEl.style.display = "inline-block";
+      this.acDropdownEl.style.maxHeight="55vh";
+      this.acDropdownEl.style.borderBottom="1px solid #ddd";
+      this.acDropdownEl.style.overflowY="auto";
 
       if (closeToBottom) {
         this.acDropdownEl.style.bottom = `${thisInputElBCR.height}px`;

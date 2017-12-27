@@ -51,6 +51,11 @@ declare var $: any;
       transform: translateY(0px);
     }
   }
+  auto-complete{
+    max-height:55vh;
+    border-bottom:1px solid #ddd;
+    overflow-y:auto;
+  }
   .auto-complete {
     background-color: transparent;
   }
