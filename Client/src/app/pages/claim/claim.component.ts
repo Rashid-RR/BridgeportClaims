@@ -375,7 +375,6 @@ export class ClaimsComponent implements OnInit {
 
 
   addNote(noteText: String = "", TypeId?: String) {
-    console.log(TypeId)
     let selectedNotes = [];
     noteText = noteText.replace(/\\n/g, '&#13;');
     let claimNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
@@ -425,14 +424,6 @@ export class ClaimsComponent implements OnInit {
         } else {
           swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
             .catch(swal.noop)
-
-          console.log({
-            claimId: this.claimManager.selectedClaim.claimId,
-            noteTypeId: result[0] ? result[0] : null, // SIMILAR TO EPISODES TYPE
-            noteText: txt
-          });
-
-          console.log(JSON.stringify({ text: result[1] }), { text: result[1] });
           var txt = JSON.stringify(result[1]);
           txt = txt.substring(1, txt.length - 1)
           this.http.saveClaimNote({
