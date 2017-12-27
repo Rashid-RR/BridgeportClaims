@@ -117,6 +117,7 @@ export class ClaimScriptNoteComponent implements OnInit {
          
       }
     }).then((result)=>{
+      if (!result.dismiss) {
         swal({ title: "", html: "Saving changes... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
         .catch(swal.noop);
         this.http.removeFromDiary(note.prescriptionNoteId)
@@ -127,6 +128,7 @@ export class ClaimScriptNoteComponent implements OnInit {
         },err=>{
           this.toast.error(err.message);
         })
+      }
     }).catch(swal.noop)
   }
 

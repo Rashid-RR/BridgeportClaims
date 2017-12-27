@@ -1,4 +1,4 @@
-import { Component,ViewContainerRef, OnInit, HostListener } from '@angular/core';
+import { Component, ViewContainerRef, OnInit, HostListener } from '@angular/core';
 import { HttpService } from "../../services/http-service"
 import { EventsService } from "../../services/events-service"
 import { ClaimManager } from "../../services/claim-manager";
@@ -7,9 +7,9 @@ import swal from "sweetalert2";
 import { ClaimNote } from "../../models/claim-note"
 import { Episode } from "../../models/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
- import {Router} from "@angular/router";
-import { DatePipe,DecimalPipe } from '@angular/common';
-declare var $:any
+import { Router } from "@angular/router";
+import { DatePipe, DecimalPipe } from '@angular/common';
+declare var $: any
 
 @Component({
   selector: 'app-claim',
@@ -43,16 +43,16 @@ export class ClaimsComponent implements OnInit {
   expandedBlade: Number = 0;
 
   constructor(
-    private router:Router,
+    private router: Router,
     public claimManager: ClaimManager,
     private http: HttpService,
     private dp: DatePipe,
     private vcr: ViewContainerRef,
     private events: EventsService,
-     private toast: ToastsManager
+    private toast: ToastsManager
   ) {
-     
-   }
+
+  }
 
   expand(expanded: Boolean, expandedBlade: Number, table: string) {
     this.expanded = expanded;
@@ -76,9 +76,9 @@ export class ClaimsComponent implements OnInit {
     } else if (table === 'prescriptions') {
       this.claimManager.isPrescriptionsExpanded = !this.claimManager.isPrescriptionsExpanded;
       let fixedBoxHeader = document.getElementById('pres-box-header');
-      if(fixedBoxHeader){
+      if (fixedBoxHeader) {
         fixedBoxHeader.style.position = 'relative';
-        fixedBoxHeader.style.width = '100%'; 
+        fixedBoxHeader.style.width = '100%';
       }
     } else if (table === 'script-notes') {
       this.claimManager.isScriptNotesExpanded = !this.claimManager.isScriptNotesExpanded;
@@ -91,8 +91,8 @@ export class ClaimsComponent implements OnInit {
 
   ngOnInit() {
     //$('body').addClass('sidebar-collapse');
-    this.events.on("edit-episode", (id: Number,type:String) => {
-      this.episode(id,type);
+    this.events.on("edit-episode", (id: Number, type: String) => {
+      this.episode(id, type);
     })
     this.events.on("minimize", (...args) => {
       this.minimize(args[0]);
@@ -101,10 +101,10 @@ export class ClaimsComponent implements OnInit {
       this.expand(args[0], args[1], args[2]);
     })
     this.router.routerState.root.queryParams.subscribe(params => {
-        if(params['claimId']){
-          this.claimManager.search({claimId:params['claimId']});
-          
-        }
+      if (params['claimId']) {
+        this.claimManager.search({ claimId: params['claimId'] });
+
+      }
     });
   }
 
@@ -128,7 +128,7 @@ export class ClaimsComponent implements OnInit {
         width: width + 'px',
         title: 'New Prescription Note',
         html:
-        `
+          `
                   <div class="form-group">
                       <label id="claimNoteTypeLabel">Prescription Note type</label>
                       <select class="form-control" id="prescriptionNoteTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
@@ -168,7 +168,7 @@ export class ClaimsComponent implements OnInit {
         showCancelButton: true,
         showLoaderOnConfirm: true,
         confirmButtonText: "Save",
-        customClass:'prescription-modal',
+        customClass: 'prescription-modal',
         preConfirm: function () {
           return new Promise(function (resolve) {
             resolve([
@@ -181,51 +181,54 @@ export class ClaimsComponent implements OnInit {
         onOpen: function () {
           $('#prescriptionNoteTypeId').focus()
         }
-      }).then((result) => {
-        if (result[0] == "") {
-          this.toast.warning('Please select a note type in order to save your note.');
-          setTimeout(() => {
-            this.addPrescriptionNote(result[1], result[0]);
-            $('#claimNoteTypeLabel').css({ "color": "red" })
-          }, 200)
-        } else if (result[1] == "") {
-          this.toast.warning('A blank note cannot be saved.');
-          setTimeout(() => {
-            this.addPrescriptionNote(result[1], result[0]);
-            $('#noteTextLabel').css({ "color": "red" })
-          }, 200)
-        } else {
-          swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
-          this.http.savePrescriptionNote(
-            {
-              claimId: this.claimManager.selectedClaim.claimId,
-              noteText: result[1],
-              prescriptionNoteTypeId: Number(result[0]),
-              prescriptions: selectedNotes,
-              prescriptionNoteId: prescriptionNoteId
-            }).single().subscribe(res => {
-              let result = res.json()
-              swal.close();
-              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
-              this.toast.success(result.message);
-            }, error => {
-              setTimeout(() => {
-                this.addPrescriptionNote(result[1], result[0]);
-                this.toast.error('A server error has occurred. Please contact your system administrator.');
-              }, 200)
-            })
+      }).then((results) => {
+        if (!results.dismiss) {
+          let result = results.value;
+          if (result[0] == "") {
+            this.toast.warning('Please select a note type in order to save your note.');
+            setTimeout(() => {
+              this.addPrescriptionNote(result[1], result[0]);
+              $('#claimNoteTypeLabel').css({ "color": "red" })
+            }, 200)
+          } else if (result[1] == "") {
+            this.toast.warning('A blank note cannot be saved.');
+            setTimeout(() => {
+              this.addPrescriptionNote(result[1], result[0]);
+              $('#noteTextLabel').css({ "color": "red" })
+            }, 200)
+          } else {
+            swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
+            this.http.savePrescriptionNote(
+              {
+                claimId: this.claimManager.selectedClaim.claimId,
+                noteText: result[1],
+                prescriptionNoteTypeId: Number(result[0]),
+                prescriptions: selectedNotes,
+                prescriptionNoteId: prescriptionNoteId
+              }).single().subscribe(res => {
+                let result = res.json()
+                swal.close();
+                this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+                this.toast.success(result.message);
+              }, error => {
+                setTimeout(() => {
+                  this.addPrescriptionNote(result[1], result[0]);
+                  this.toast.error('A server error has occurred. Please contact your system administrator.');
+                }, 200)
+              })
+          }
         }
       }).catch(swal.noop);
       $('#datepicker').datepicker({
-          autoclose: true
+        autoclose: true
       });
-      $("#datepicker").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+      $("#datepicker").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
       $("[inputs-mask]").inputmask();
       $("[data-mask]").inputmask();
-      $(".add-to-diary").click(()=>{ 
+      $(".add-to-diary").click(() => {
         if (!$('#datepicker').val()) {
-            this.toast.warning('Please add a Follow-up Date before adding to the Diary');
-        }else if ($('#prescriptionNoteTypeId').val() == "") {
+          this.toast.warning('Please add a Follow-up Date before adding to the Diary');
+        } else if ($('#prescriptionNoteTypeId').val() == "") {
           this.toast.warning('Please select a note type in order to save your note.');
           setTimeout(() => {
             //this.addPrescriptionNote($('#noteText').val(),$('#prescriptionNoteTypeId').val());
@@ -243,12 +246,12 @@ export class ClaimsComponent implements OnInit {
             swal({ title: "", html: "Adding note to Diary... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
           }, 200)
           //let followUpDate = $("#datepicker").val();
-          let followUpDate  = this.dp.transform($("#datepicker").val(),"dd/MM/yyyy");
+          let followUpDate = this.dp.transform($("#datepicker").val(), "dd/MM/yyyy");
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
               noteText: $('#noteText').val(),
-              followUpDate:followUpDate,
+              followUpDate: followUpDate,
               prescriptionNoteTypeId: Number($('#prescriptionNoteTypeId').val()),
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
@@ -265,18 +268,18 @@ export class ClaimsComponent implements OnInit {
             })
         }
       });
-      $(".remove-from-diary").click(()=>{ 
-         //console.log("Awaiting API to remove");
+      $(".remove-from-diary").click(() => {
+        //console.log("Awaiting API to remove");
       });
     } else {
-      this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length>0 ? 
-        this.toast.warning('Please select at least one prescription.'):
+      this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length > 0 ?
+        this.toast.warning('Please select at least one prescription.') :
         this.toast.warning('No prescriptions are present to save a prescription note.');
     }
   }
 
 
-  episode(id?: Number, TypeId?: String) {
+  episode(id?: Number, TypeId?: String,note?:string) {
     var episode: Episode;
 
     // console.log(id);
@@ -293,14 +296,18 @@ export class ClaimsComponent implements OnInit {
     });
     let note_text: String = '';
     if (episode) {
-      note_text = episode.note ? episode.note : episode.noteText;
+    if (note) {
+      note_text = note;
+      }else{
+        note_text = episode.note ? episode.note : episode.noteText;
+     }
     }
 
     swal({
       width: window.innerWidth * 1.799 / 3,
       title: 'Episode Entry',
       html:
-      `<div class="form-group">
+        `<div class="form-group">
               <label id="episodeNoteTypeLabel">Note type</label>
               <select class="form-control" id="episodeTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
                 `+ episodeTypeId + `
@@ -324,35 +331,44 @@ export class ClaimsComponent implements OnInit {
       onOpen: function () {
         $('#note').focus()
       }
-    }).then((result) => {
-      if (result[0] == "") {
-        this.toast.warning('A blank note cannot be saved.');
-        setTimeout(() => {
-          this.episode(result[0]);
-          $('#noteTextLabel').css({ "color": "red" })
-        }, 200)
-      } else {
-        swal({ title: "", html: "Saving episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
-        let TypeId = result[1];
-        this.http.saveEpisode(
-          {
-            episodeId: episode !== undefined ? episode.episodeId : null, // only send on episode edit
-            claimId: this.claimManager.selectedClaim.claimId,
-            noteText: result[0],
-            episodeTypeId: TypeId ? +TypeId : null,
-            // by: episode !== undefined ? episode.by : 'me',
-            // date: episode !== undefined ? episode.date : (new Date())
-          }).single().subscribe(res => {
-            let result = res.json()
-            swal.close();
-            this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
-            this.toast.success(result.message);
-          }, error => {
-            setTimeout(() => {
-              this.episode(id);
-              this.toast.error('An internal system error has occurred. This will be investigated ASAP.');
-            }, 200)
-          })
+    }).then((results) => {
+      if (!results.dismiss) {
+        let result = results.value;
+        if (result[0] == "") {
+          this.toast.warning('A blank note cannot be saved.');
+          setTimeout(() => {            
+            this.episode(id,result[1],result[0]);
+            $('#noteTextLabel').css({ "color": "red" })
+          }, 200)
+        } else if(result[0].length <5) {
+          this.toast.warning('Note must be at least 5 characters.');
+          setTimeout(() => {
+            this.episode(id,result[1],result[0]);
+            $('#noteTextLabel').css({ "color": "red" })
+          }, 200)
+        } else {
+          swal({ title: "", html: "Saving episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
+          let TypeId = result[1];
+          this.http.saveEpisode(
+            {
+              episodeId: episode !== undefined ? episode.episodeId : null, // only send on episode edit
+              claimId: this.claimManager.selectedClaim.claimId,
+              noteText: result[0],
+              episodeTypeId: TypeId ? +TypeId : null,
+              // by: episode !== undefined ? episode.by : 'me',
+              // date: episode !== undefined ? episode.date : (new Date())
+            }).single().subscribe(res => {
+              let result = res.json()
+              swal.close();
+              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+              this.toast.success(result.message);
+            }, error => {
+              setTimeout(() => {
+                this.episode(id,result[1],result[0]);
+                this.toast.error('An internal system error has occurred. This will be investigated ASAP.');
+              }, 200)
+            })
+        }
       }
     }).catch(swal.noop)
   }
@@ -371,7 +387,7 @@ export class ClaimsComponent implements OnInit {
       title: 'Claim Note',
       width: width + 'px',
       html:
-      `<div class="form-group" style="text-align:center">
+        `<div class="form-group" style="text-align:center">
               <label id="claimNoteTypeLabel">Note type</label>
               <select class="form-control" id="noteTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
                 `+ claimNoteTypeIds + `
@@ -397,50 +413,53 @@ export class ClaimsComponent implements OnInit {
       onOpen: function () {
         $('#noteTypeId').focus()
       }
-    }).then((result) => {
-      if (result[1] == "") {
-        this.toast.warning('Note Text is required!');
-        setTimeout(() => {
-          this.addNote(result[1], result[0]);
-          $('#noteTextLabel').css({ "color": "red" })
-        }, 200)
-      } else {
-        swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
-        .catch(swal.noop)
-
-        console.log({
-          claimId: this.claimManager.selectedClaim.claimId,
-          noteTypeId: result[0] ? result[0] : null, // SIMILAR TO EPISODES TYPE
-          noteText: txt
-        });
-
-        console.log(JSON.stringify({ text: result[1] }), { text: result[1] });
-        var txt = JSON.stringify(result[1]);
-        txt = txt.substring(1, txt.length - 1)
-        this.http.saveClaimNote({
-          claimId: this.claimManager.selectedClaim.claimId,
-          noteTypeId: result[0] ? result[0] : null,
-          noteText: txt
-        }).subscribe(res => {
-          let noteType = this.claimManager.NoteTypes.find(type => type.key == result[0]);
-          if (!this.claimManager.selectedClaim.claimNote) {
-            this.claimManager.selectedClaim.claimNote = new ClaimNote(txt, noteType ? noteType.value : undefined)
-          } else {
-            this.claimManager.selectedClaim.claimNote.noteText = txt;
-            this.claimManager.selectedClaim.claimNote.noteType = noteType ? noteType.value : undefined;
-          }
-          this.claimManager.selectedClaim.editing = false;
-          this.claimManager.loading = false;
-          //console.log(res);
-          swal.close();
-          this.toast.success("Noted successfully saved");
-        }, error => {
-          let err = error.json();
+    }).then((results) => {
+      if (!results.dismiss) {
+        let result = results.value;
+        if (result[1] == "") {
+          this.toast.warning('Note Text is required!');
           setTimeout(() => {
             this.addNote(result[1], result[0]);
-            this.toast.warning(err.error_description);
+            $('#noteTextLabel').css({ "color": "red" })
           }, 200)
-        })
+        } else {
+          swal({ title: "", html: "Saving note... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
+            .catch(swal.noop)
+
+          console.log({
+            claimId: this.claimManager.selectedClaim.claimId,
+            noteTypeId: result[0] ? result[0] : null, // SIMILAR TO EPISODES TYPE
+            noteText: txt
+          });
+
+          console.log(JSON.stringify({ text: result[1] }), { text: result[1] });
+          var txt = JSON.stringify(result[1]);
+          txt = txt.substring(1, txt.length - 1)
+          this.http.saveClaimNote({
+            claimId: this.claimManager.selectedClaim.claimId,
+            noteTypeId: result[0] ? result[0] : null,
+            noteText: txt
+          }).subscribe(res => {
+            let noteType = this.claimManager.NoteTypes.find(type => type.key == result[0]);
+            if (!this.claimManager.selectedClaim.claimNote) {
+              this.claimManager.selectedClaim.claimNote = new ClaimNote(txt, noteType ? noteType.value : undefined)
+            } else {
+              this.claimManager.selectedClaim.claimNote.noteText = txt;
+              this.claimManager.selectedClaim.claimNote.noteType = noteType ? noteType.value : undefined;
+            }
+            this.claimManager.selectedClaim.editing = false;
+            this.claimManager.loading = false;
+            //console.log(res);
+            swal.close();
+            this.toast.success("Noted successfully saved");
+          }, error => {
+            let err = error.json();
+            setTimeout(() => {
+              this.addNote(result[1], result[0]);
+              this.toast.warning(err.error_description);
+            }, 200)
+          })
+        }
       }
     }).catch(swal.noop)
   }

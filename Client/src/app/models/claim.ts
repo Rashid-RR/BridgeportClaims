@@ -114,7 +114,7 @@ export class Claim {
                     note.rxDate = note.scripts[0].rxDate;
                     note.rxNumber = note.scripts[0].rxNumber;
                 }
-                if (!n || n.rxDate.getTime() < note.rxDate.getTime()) {
+                if (!n || new Date(n.rxDate).getTime() < new Date(note.rxDate).getTime()) {
                     this.prescriptionNote = this.prescriptionNote.set(note.prescriptionNoteId, note);
                 }
             })
