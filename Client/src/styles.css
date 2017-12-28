@@ -578,7 +578,12 @@
       background-color: #111d21 !important;
       color: #fff;
     }
-
+    .btn{
+      padding: 8px 15.8px 4px 15.8px
+    }
+    .btn i {
+      margin-right: 4px;
+    }
   /*   .sidebar-menu{
       text-align:left
     } */
