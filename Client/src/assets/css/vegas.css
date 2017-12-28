@@ -3,7 +3,7 @@
   @import url(http://fonts.googleapis.com/css?family=Libre+Baskerville);
   @import url(http://fonts.googleapis.com/css?family=Poiret+One);
   @import url(http://fonts.googleapis.com/css?family=Sigmar+One);
-  body {
+  body.vegas-container {
     background: #333;
     margin: auto;
     text-align: center;
@@ -12,7 +12,7 @@
     font-size: 20px
     }
 
-.main-wrap {
+body.vegas-container .main-wrap {
     width: 100%;
     padding-top: 15px;
     padding-bottom: 28px;
@@ -21,7 +21,7 @@
     min-height: 100vh;
     }
 
-.overlay {
+body.vegas-container .overlay {
     position: absolute;
     left: 0;
     top: 0;
@@ -34,14 +34,14 @@
     z-index: 1
     }
 
-.header {
+body.vegas-container .header {
     position: relative;
     z-index: 10;
     margin: auto auto;
     padding: 30px 0px;
     }
 
-.logo span {
+body.vegas-container .logo span {
     font-size: 2em;
     color: #C83E4D;
     /* font-size: 38px; */
@@ -49,11 +49,11 @@
     font-family: "Sigmar One", cursive
     }
 
-.upper-mid img {
-    width: 100%
+body.vegas-container .upper-mid img {
+        width: 100%
     }
 
-.logo h2 {
+    body.vegas-container .logo h2 {
     color: #000;
     text-transform: capitalize;
     font-weight: 500;
@@ -61,19 +61,19 @@
     font-family: "Poiret One", cursive
     }
 
-.timer img {
+    body.vegas-container .timer img {
     width: 100%;
     height: auto
     }
 
-.seach_bar p {
+    body.vegas-container .seach_bar p {
     font-size: 1.5em;
     color: #fff;
     font-weight: 300
     }
 
 /**-----start-search-bar-section------**/
-.buttom {
+body.vegas-container .buttom {
     text-align: center;
     vertical-align: middle;
     margin: 0 auto;
@@ -84,11 +84,11 @@
     box-shadow: 5px 5px 5px 5px #000
     }
 
-.seach_bar {
+    body.vegas-container .seach_bar {
     padding: 20px
     }
 
-.seach_bar h2 {
+    body.vegas-container .seach_bar h2 {
     color: #000;
     font-size: 28px;
     margin-bottom: 19px;
@@ -97,14 +97,14 @@
     font-family: "Libre Baskerville", serif
     }
 
-.seach_bar p {
+    body.vegas-container .seach_bar p {
     font-size: 1.5em;
     color: #000;
     font-weight: 300;
     /* margin: 2.6em 0em 0.9em 0em; */
     }
 
-.seach_bar span a {
+    body.vegas-container .seach_bar span a {
     font-size: 1em;
     color: #fff;
     text-decoration: underline;
@@ -112,7 +112,7 @@
     font-family: "open_sansregular"
     }
 
-.timeset.style.colorDefinition.size_lg {
+    body.vegas-container .timeset.style.colorDefinition.size_lg {
     width: 30%;
     height: 29%;
     color: #C83E4D;
@@ -123,30 +123,30 @@
     border-radius: 11%;
 }
 
-.timer-mid {
+body.vegas-container .timer-mid {
     padding: 20px
     }
-.seach_bar p a {
+    body.vegas-container .seach_bar p a {
     color: #C83E4D;
     text-transform: uppercase;
     text-decoration: none;
 }
 
-.seach_bar {
+body.vegas-container .seach_bar {
     text-transform: capitalize
     }
 
-span.opps {
+    body.vegas-container span.opps {
     font-weight: bold;
     font-size: 25px;
     text-transform: capitalize
     }
 
-.timer {
+    body.vegas-container .timer {
     height: 300px
     }
 
-.timer img {
+    body.vegas-container .timer img {
     height: 300px
 }
 .vegas-wrapper,
