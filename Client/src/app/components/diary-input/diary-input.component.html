@@ -34,7 +34,7 @@
         <div class="col-md-1 no-padding left2p5">
             <div class="form-group green">
                 <label>&nbsp;</label><br/>
-                <input type="radio" id="f-option" name="selector" [(ngModel)]="open" (change)="setClosed(false)" [checked]="open"/>
+                <input type="radio" id="f-option" name="selector" (click)="setClosed($event,false)" [checked]="!isClosed"/>
                 <label for="f-option" class="check-label">Open</label>                
                 <div class="check"></div>
             </div>
@@ -42,7 +42,7 @@
         <div class="col-md-1 no-padding red">
             <div class="form-group red">
                 <label>&nbsp;</label><br/>
-                <input type="radio" id="f-option1" name="selector" [(ngModel)]="closed" (change)="setClosed(true)"/>
+                <input type="radio" id="f-option1" name="selector" (click)="setClosed($event,true)" [checked]="isClosed"/>
                 <label for="f-option1" class="check-label">Closed</label>                
                 <div class="check"></div>
             </div>

@@ -44,9 +44,11 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     $('[data-mask]').inputmask();
   }
 
-  setClosed(value){
-    this.isClosed=value;
-    this.search();
+  setClosed($event,value){
+    if($event.target.checked){
+      this.isClosed=value;
+      this.search();
+    }
   }
   search() {
     let startDate = this.dp.transform($('#startDate').val(), "dd/M/yyyy");
