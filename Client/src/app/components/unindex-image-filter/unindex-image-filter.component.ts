@@ -46,6 +46,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
  
   clearDates(){
     $('#date').val(''); 
+    this.fileName = '';
   }
 
 

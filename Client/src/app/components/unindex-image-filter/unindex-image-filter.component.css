@@ -6,6 +6,10 @@
   background: #992727;
   color: #fff;
 }
+.bg-darkblue {
+  background-color: #414772;
+  color: #fff;
+}
 .no-padding{
     padding-left:0px;
     padding-right:0px;
