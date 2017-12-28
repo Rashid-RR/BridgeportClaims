@@ -7,7 +7,7 @@
       <div class="box-body payment-input">
         <form role="form" autocomplete="off" [formGroup]="payment.form" autocapitalize="none" autocomplete="off" (keyup.enter)="payment.search()">
           <div class="row" style="margin-left:2px;">
-            <div class="col-md-6" style="padding-left:2.5px;">
+            <!-- <div class="col-md-6" style="padding-left:2.5px;">
               <div class="form-group">
                 <label>Type Last Name, First Name or Claim Number</label>
                 <div class="input-group">
@@ -24,23 +24,23 @@
                     (keyup)="lastInput($event)" (valueChanged)="claimSelected($event)">
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="search-col">
               <div class="form-group">
                 <label>Last Name</label>
-                <input class="form-control" id="lastName" readonly type="text" formControlName="lastName" type="text" (focus)="submitted=false">
+                <input class="form-control" id="lastName"  type="text" formControlName="lastName" type="text" (focus)="submitted=false">
               </div>
             </div>
             <div class="search-col">
               <div class="form-group">
                 <label>First Name</label>
-                <input class="form-control" id="firstName" readonly type="text" formControlName="firstName" type="text" (focus)="submitted=false">
+                <input class="form-control" id="firstName"  type="text" formControlName="firstName" type="text" (focus)="submitted=false">
               </div>
             </div>
             <div class="search-col">
               <div class="form-group">
                 <label>Claim #</label>
-                <input class="form-control" id="claimNumber" readonly type="text" formControlName="claimNumber" type="text" (focus)="submitted=false">
+                <input class="form-control" id="claimNumber" type="text" formControlName="claimNumber" type="text" (focus)="submitted=false">
               </div>
             </div>
             <div class="search-col">
