@@ -210,3 +210,7 @@ tr:nth-of-type(odd) {
 tr:nth-of-type(even) {
   background: #fff8ef !important;
 }
+
+app-claim{
+  text-justify: left;
+}
