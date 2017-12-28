@@ -214,3 +214,10 @@ tr:nth-of-type(even) {
 app-claim{
   text-justify: left;
 }
+.swal2-modal.prescription-modal .swal2-buttonswrapper{
+  z-index:10;
+  justify-content: left;
+}
+.button-on-top{
+  z-index:10;
+}

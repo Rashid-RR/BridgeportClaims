@@ -584,6 +584,12 @@
     .btn i {
       margin-right: 4px;
     }
+    .swal2-modal.prescription-modal .swal2-buttonswrapper{
+      justify-content: left;
+    }
+    .swal2-modal.prescription-modal .swal2-buttonswrapper .button-on-top{
+      z-index:10;
+    }
   /*   .sidebar-menu{
       text-align:left
     } */

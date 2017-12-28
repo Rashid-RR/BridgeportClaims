@@ -168,6 +168,7 @@ export class ClaimsComponent implements OnInit {
         showCancelButton: true,
         showLoaderOnConfirm: true,
         confirmButtonText: "Save",
+        cancelButtonClass:'button-on-top',
         customClass: 'prescription-modal',
         preConfirm: function () {
           return new Promise(function (resolve) {
