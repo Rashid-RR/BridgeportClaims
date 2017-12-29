@@ -3,13 +3,16 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
+using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using NLog;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "User")]
+    [System.Web.Http.Authorize(Roles = "User")]
     [RoutePrefix("api/index-document")]
     public class DocumentIndexesController : BaseApiController
     {
@@ -31,9 +34,15 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     if (null == model)
                         throw new ArgumentNullException(nameof(model));
+                    var userId = User.Identity.GetUserId();
                     var result = _documentIndexProvider.UpsertDocumentIndex(model.DocumentId, model.ClaimId,
                         model.DocumentTypeId, model.RxDate, model.RxNumber,
-                        model.InvoiceNumber, model.InjuryDate, model.AttorneyName);
+                        model.InvoiceNumber, model.InjuryDate, model.AttorneyName, userId);
+                    if (model.DocumentId != default(int))
+                    {
+                        var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                        hubContext.Clients.All.deletedDocument(model.DocumentId);
+                    }
                     var msg = $"The image was {(result ? "reindexed" : "indexed")} successfully.";
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Document ID: {model.DocumentId}. {msg}");
