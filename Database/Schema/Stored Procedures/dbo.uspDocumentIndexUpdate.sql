@@ -17,7 +17,8 @@ CREATE PROC [dbo].[uspDocumentIndexUpdate]
     @RxNumber VARCHAR(100),
     @InvoiceNumber VARCHAR(100),
     @InjuryDate DATETIME2,
-    @AttorneyName VARCHAR(255)
+    @AttorneyName VARCHAR(255),
+	@IndexedByUserID NVARCHAR(128)
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
@@ -28,8 +29,8 @@ AS BEGIN
 	
 		UPDATE [dbo].[DocumentIndex]
 		SET    [ClaimID] = @ClaimID, [DocumentTypeID] = @DocumentTypeID, [RxDate] = @RxDate, [RxNumber] = @RxNumber, 
-				[InvoiceNumber] = @InvoiceNumber, [InjuryDate] = @InjuryDate, [AttorneyName] = @AttorneyName,
-				[UpdatedOnUTC] = @UtcNow
+			   [InvoiceNumber] = @InvoiceNumber, [InjuryDate] = @InjuryDate, [AttorneyName] = @AttorneyName,
+			   [IndexedByUserID] = @IndexedByUserID, [UpdatedOnUTC] = @UtcNow
 		WHERE  [DocumentID] = @DocumentID
 	
 		IF (@@TRANCOUNT > 0)

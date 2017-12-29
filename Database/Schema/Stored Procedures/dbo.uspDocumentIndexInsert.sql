@@ -18,7 +18,8 @@ CREATE PROC [dbo].[uspDocumentIndexInsert]
     @RxNumber VARCHAR(100),
     @InvoiceNumber VARCHAR(100),
     @InjuryDate DATETIME2,
-    @AttorneyName VARCHAR(255)
+    @AttorneyName VARCHAR(255),
+	@IndexedByUserID NVARCHAR(128)
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -29,9 +30,9 @@ AS BEGIN
 		DECLARE @UtcNow DATETIME2 = [dtme].[udfGetLocalDate]()
 	
 		INSERT [dbo].[DocumentIndex] ([DocumentID], [ClaimID], [DocumentTypeID], [RxDate], [RxNumber], [InvoiceNumber],
-				[InjuryDate], [AttorneyName], [CreatedOnUTC], [UpdatedOnUTC])
+				[InjuryDate], [AttorneyName], [IndexedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
 		SELECT @DocumentID, @ClaimID, @DocumentTypeID, @RxDate, @RxNumber, @InvoiceNumber, @InjuryDate,
-				@AttorneyName, @UtcNow, @UtcNow
+				@AttorneyName, @IndexedByUserID, @UtcNow, @UtcNow
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
