@@ -1,39 +1,22 @@
 <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
-    <div class="row search-container">
-        <div class="col-md-3" style="width: 26%;">
-            <div class="form-group">
-                <label>Type Last Name, First Name or Claim Number</label>
-                <div class="input-group">
-                    <div class="input-group-addon exactMatchCheckBox">
-                        <input type="checkbox" name="check" id="exactMatchCheckBox" [checked]="claimManager.exactMatch" (change)="checkMatch($event)" #inv>
-                        <label for="exactMatchCheckBox" class="match"></label>
-                        <label for="exactMatchCheckBox">Exact Match</label>
-                    </div>
-                    <input class="form-control" [(ngModel)]="claimManager.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
-                        name="searchText" id="searchText" [source]="claimManager.autoCompleteClaim" [service]="1" [method]="1" min-chars="2"
-                        list-formatter="lastName , firstName - claimNumber - groupNumber" [http-method]="'post'" [exactMatch]="claimManager.exactMatch"
-                        [autocomplete-dropdown-event-emitter]="showDropDown" [no-match-found-text]="'No Claim Found'" (keyup)="lastInput($event)"
-                        (valueChanged)="claimSelected($event)">
-                </div>
-            </div>
-        </div>
-        <div class="col-md-1">
+    <div class="row search-container">       
+        <div class="col-md-2">
             <div class="form-group">
                 <label>Last Name</label>
-                <input class="form-control" name="lastName" readonly formControlName="lastName" (change)="textChange('lastName')" (focus)="submitted=false"
+                <input class="form-control" name="lastName"  formControlName="lastName" (change)="textChange('lastName')" (focus)="submitted=false"
                     autofocus>
             </div>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
             <div class="form-group">
                 <label>FirstName</label>
-                <input class="form-control" name="firstName" readonly formControlName="firstName" (change)="textChange('firstName')" (focus)="submitted=false">
+                <input class="form-control" name="firstName"  formControlName="firstName" (change)="textChange('firstName')" (focus)="submitted=false">
             </div>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
             <div class="form-group">
                 <label>Claim #</label>
-                <input class="form-control" name="claimNumber" readonly formControlName="claimNumber" (change)="textChange('claimNumber')" (focus)="submitted=false">
+                <input class="form-control" name="claimNumber"  formControlName="claimNumber" (change)="textChange('claimNumber')" (focus)="submitted=false">
             </div>
         </div>
         <div class="col-md-1">
@@ -42,7 +25,7 @@
                 <input class="form-control" name="rxNumber" formControlName="rxNumber" (change)="textChange('rxNumber')" (focus)="submitted=false">
             </div>
         </div>
-        <div class="col-sm-6 col-md-1">
+        <div class="col-sm-6 col-md-2">
             <div class="form-group">
                 <label>Invoice #</label>
                 <input class="form-control" name="invoiceNumber" formControlName="invoiceNumber" (change)="textChange('invoiceNumber')" (focus)="submitted=false">
