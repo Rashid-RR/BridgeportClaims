@@ -21,6 +21,7 @@ CREATE PROC [dbo].[uspDocumentIndexUpsert]
     @InvoiceNumber VARCHAR(100),
     @InjuryDate DATETIME2,
     @AttorneyName VARCHAR(255),
+	@IndexedByUserID NVARCHAR(128),
 	@Exists BIT OUTPUT
 )
 AS BEGIN
@@ -39,12 +40,12 @@ AS BEGIN
 
 		IF (@Exists = 1)
 			EXEC [dbo].[uspDocumentIndexUpdate] @DocumentID = @DocumentID, @ClaimID = @ClaimID
-				, @DocumentTypeID = @DocumentTypeID, @RxDate = @RxDate, @RxNumber = @RxNumber
-				, @InvoiceNumber = @InvoiceNumber, @InjuryDate = @InjuryDate, @AttorneyName = @AttorneyName;
+				, @DocumentTypeID = @DocumentTypeID, @RxDate = @RxDate, @RxNumber = @RxNumber, @InvoiceNumber = @InvoiceNumber, 
+				@InjuryDate = @InjuryDate, @AttorneyName = @AttorneyName, @IndexedByUserID = @IndexedByUserID;
 		ELSE
 			EXEC [dbo].[uspDocumentIndexInsert] @DocumentID = @DocumentID, @ClaimID = @ClaimID
-				, @DocumentTypeID = @DocumentTypeID, @RxDate = @RxDate, @RxNumber = @RxNumber
-				, @InvoiceNumber = @InvoiceNumber, @InjuryDate = @InjuryDate, @AttorneyName = @AttorneyName;
+				, @DocumentTypeID = @DocumentTypeID, @RxDate = @RxDate, @RxNumber = @RxNumber, @InvoiceNumber = @InvoiceNumber, 
+				@InjuryDate = @InjuryDate, @AttorneyName = @AttorneyName, @IndexedByUserID = @IndexedByUserID;
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT;

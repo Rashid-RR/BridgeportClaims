@@ -29,7 +29,7 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
             });
 
         public bool UpsertDocumentIndex(int documentId, int claimId, int documentTypeId, DateTime? rxDate,
-                string rxNumber, string invoiceNumber, DateTime? injuryDate, string attorneyName) =>
+                string rxNumber, string invoiceNumber, DateTime? injuryDate, string attorneyName, string indexedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentIndexUpsert]", conn), cmd =>
@@ -57,14 +57,14 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     documentTypeIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(documentTypeIdParam);
                     var rxDateParam = cmd.CreateParameter();
-                    rxDateParam.Value = rxDate ?? (object)DBNull.Value;
+                    rxDateParam.Value = rxDate ?? (object) DBNull.Value;
                     rxDateParam.ParameterName = "@RxDate";
                     rxDateParam.DbType = DbType.DateTime2;
                     rxDateParam.SqlDbType = SqlDbType.DateTime2;
                     rxDateParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(rxDateParam);
                     var rxNumberParam = cmd.CreateParameter();
-                    rxNumberParam.Value = rxNumber ?? (object)DBNull.Value;
+                    rxNumberParam.Value = rxNumber ?? (object) DBNull.Value;
                     rxNumberParam.ParameterName = "@RxNumber";
                     rxNumberParam.DbType = DbType.AnsiString;
                     rxNumberParam.SqlDbType = SqlDbType.VarChar;
@@ -72,7 +72,7 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     rxNumberParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(rxNumberParam);
                     var invoiceNumberParam = cmd.CreateParameter();
-                    invoiceNumberParam.Value = invoiceNumber ?? (object)DBNull.Value;
+                    invoiceNumberParam.Value = invoiceNumber ?? (object) DBNull.Value;
                     invoiceNumberParam.Direction = ParameterDirection.Input;
                     invoiceNumberParam.DbType = DbType.AnsiString;
                     invoiceNumberParam.SqlDbType = SqlDbType.VarChar;
@@ -87,13 +87,21 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     injuryDateParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(injuryDateParam);
                     var attorneyNameParam = cmd.CreateParameter();
-                    attorneyNameParam.Value = attorneyName ?? (object)DBNull.Value;
+                    attorneyNameParam.Value = attorneyName ?? (object) DBNull.Value;
                     attorneyNameParam.DbType = DbType.AnsiString;
                     attorneyNameParam.SqlDbType = SqlDbType.VarChar;
                     attorneyNameParam.Size = 255;
                     attorneyNameParam.ParameterName = "@AttorneyName";
                     attorneyNameParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(attorneyNameParam);
+                    var indexedByUserIdParam = cmd.CreateParameter();
+                    indexedByUserIdParam.DbType = DbType.String;
+                    indexedByUserIdParam.SqlDbType = SqlDbType.NVarChar;
+                    indexedByUserIdParam.Size = 128;
+                    indexedByUserIdParam.Value = indexedByUserId ?? (object) DBNull.Value;
+                    indexedByUserIdParam.ParameterName = "@IndexedByUserID";
+                    indexedByUserIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(indexedByUserIdParam);
                     var existsParam = cmd.CreateParameter();
                     existsParam.DbType = DbType.Boolean;
                     existsParam.SqlDbType = SqlDbType.Bit;

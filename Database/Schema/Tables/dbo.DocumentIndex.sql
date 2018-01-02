@@ -8,6 +8,7 @@ CREATE TABLE [dbo].[DocumentIndex]
 [InvoiceNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [InjuryDate] [date] NULL,
 [AttorneyName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IndexedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentIndexCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentIndexUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -28,4 +29,6 @@ GO
 ALTER TABLE [dbo].[DocumentIndex] ADD CONSTRAINT [fkDocumentIndexDocumentIDDocumentDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[Document] ([DocumentID])
 GO
 ALTER TABLE [dbo].[DocumentIndex] ADD CONSTRAINT [fkDocumentIndexDocumentTypeIDDocumentTypeDocumentTypeID] FOREIGN KEY ([DocumentTypeID]) REFERENCES [dbo].[DocumentType] ([DocumentTypeID])
+GO
+ALTER TABLE [dbo].[DocumentIndex] ADD CONSTRAINT [fkDocumentIndexIndexedByUserIDAspNetUsersID] FOREIGN KEY ([IndexedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
