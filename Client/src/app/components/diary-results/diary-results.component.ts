@@ -14,7 +14,7 @@ import { Toast,ToastsManager } from 'ng2-toastr/ng2-toastr';
   styleUrls: ['./diary-results.component.css']
 })
 export class DiaryResultsComponent implements OnInit {
-  goToPage:any;
+  goToPage:any='';
   activeToast: Toast;
   constructor(private _router:Router,public diaryService:DiaryService,private http:HttpService,
     private myInjector: WindowsInjetor,public viewContainerRef:ViewContainerRef, private toast: ToastsManager) {
@@ -78,9 +78,19 @@ export class DiaryResultsComponent implements OnInit {
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
     let inputChar = String.fromCharCode(event.charCode);
-    if ((event.keyCode != 8 && !pattern.test(inputChar))/*  || (Number(inputChar)>this.diaryService.totalPages || Number(inputChar)<1) */) {
+    let input = Number(this.goToPage+""+inputChar);    
+    if (!pattern.test(inputChar)){
+      event.preventDefault();
+    }else if (!this.isNumeric(input)){
+      event.preventDefault();
+    }else if (input > this.diaryService.totalPages){
+      event.preventDefault();
+    }else if (input < 1){
       event.preventDefault();
     }
+  }
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
 }
