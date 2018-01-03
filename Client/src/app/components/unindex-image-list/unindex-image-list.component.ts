@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
 import { DocumentItem } from 'app/models/document';
+
 @Component({
   selector: 'app-unindex-image-list',
   templateUrl: './unindex-image-list.component.html',
@@ -13,13 +14,13 @@ import { DocumentItem } from 'app/models/document';
 })
 export class UnindexedImageListComponent implements OnInit {
 
-  goToPage: any;
+  goToPage: any='';
   activeToast: Toast;
   constructor(
     public ds: DocumentManagerService,
     private dp: DatePipe,
     private toast: ToastsManager,
-    private router:Router,
+    private router: Router,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -29,10 +30,10 @@ export class UnindexedImageListComponent implements OnInit {
     this.ds.search(true);
   }
   openFile(file: DocumentItem) {
-    this.ds.loading=true;
+    this.ds.loading = true;
     this.ds.file = file;
-    this.ds.newIndex = true;   
-    this.ds.loading=false;
+    this.ds.newIndex = true;
+    this.ds.loading = false;
   }
   goto() {
     let page = Number.parseInt(this.goToPage);
@@ -56,9 +57,19 @@ export class UnindexedImageListComponent implements OnInit {
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
     let inputChar = String.fromCharCode(event.charCode);
-    if ((event.keyCode != 8 && !pattern.test(inputChar)) || (Number(inputChar) > this.ds.totalPages || Number(inputChar) < 1)) {
+    let input = Number(this.goToPage+""+inputChar);    
+    if (!pattern.test(inputChar)){
+      event.preventDefault();
+    }else if (!this.isNumeric(input)){
+      event.preventDefault();
+    }else if (input > this.ds.totalPages){
+      event.preventDefault();
+    }else if (input < 1){
       event.preventDefault();
     }
+  }
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
 }

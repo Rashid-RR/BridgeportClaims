@@ -57,9 +57,6 @@ export class ClaimManager {
       this.claims = Immutable.OrderedMap<Number, Claim>();
     });
   }
-  get autoCompleteClaim(): string {
-    return this.http.baseUrl + "/document/claim-search/?exactMatch=" + this.exactMatch + "&searchText=:keyword";
-  }
 
   getHistory() {
     this.auth.isLoggedIn.single().subscribe(res => {

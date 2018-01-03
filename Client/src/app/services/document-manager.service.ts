@@ -85,6 +85,7 @@ export class DocumentManagerService {
   onSortColumn(info: SortColumnInfo) {
     this.data.isDefaultSort = false;
     this.data.sort = info.column;
+    this.data.page =1;
     this.data.sortDirection = info.dir.toUpperCase();
     this.search();
   }
