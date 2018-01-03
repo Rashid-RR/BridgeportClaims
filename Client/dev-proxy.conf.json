@@ -1,23 +1,23 @@
 {
   "/api": {
-    "target": "http://localhost:3000",
-    "changeOrigin": true,
-    "secure": false,
-    "logLevel": "debug",
-    "ws":true
-  },
-  "/oauth": {
-    "target": "http://localhost:3000",
-    "changeOrigin": true,
-    "secure": false,
-    "logLevel": "debug",
-    "ws":true
-  },
-  "/signalr": {
-    "target": "https://localhost:3000",
+    "target": "https://bridgeportclaims.com",
     "changeOrigin": true,
     "secure": true,
     "logLevel": "debug",
-    "ws":true
+    "ws": true
+  },
+  "/oauth": {
+    "target": "https://bridgeportclaims.com",
+    "changeOrigin": true,
+    "secure": true,
+    "logLevel": "debug",
+    "ws": true
+  },
+  "/signalr": {
+    "target": "https://bridgeportclaims.com",
+    "changeOrigin": true,
+    "secure": true,
+    "logLevel": "debug",
+    "ws": true
   }
 }
