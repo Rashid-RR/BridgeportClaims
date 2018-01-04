@@ -48,6 +48,16 @@
                   <span>Payments</span>
                 </a>
         </li>
+        <li class="header" style="color:white;font-size:14pt" *ngIf="adminOrAsociate">
+          <i class="fa fa-life-ring"></i>
+          <span>ASSOCIATE</span>
+      </li>
+      <li [class.active]="router.url.indexOf('/main/unindexed-images')>-1">
+         <a [routerLink]="!disableLinks ? '/main/unindexed-images' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
+             <i class="fa fa-file-pdf-o"></i>
+             <span>Unindexed Images</span>
+         </a>
+     </li>
          <li class="header" style="color:white;font-size:14pt" *ngIf="allowed">
             <i class="fa fa-shield"></i>
             <span>ADMINISTRATION</span>
@@ -58,12 +68,6 @@
                 <span>Reports</span>
             </a>
         </li>
-        <li [class.active]="router.url.indexOf('/main/unindexed-images')>-1">
-           <a [routerLink]="!disableLinks ? '/main/unindexed-images' : []" *ngIf="allowed" [class.disabled]="disableLinks">
-               <i class="fa fa-file-pdf-o"></i>
-               <span>Unindexed Images</span>
-           </a>
-       </li>
        <li [class.active]="router.url.indexOf('/main/fileupload')>-1">
           <a [routerLink]="!disableLinks ? '/main/fileupload' : []" *ngIf="allowed" [class.disabled]="disableLinks">
               <i class="fa fa-upload"></i>

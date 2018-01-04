@@ -49,6 +49,9 @@ export class SidebarComponent implements OnInit {
   get allowed(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
   }
+  get adminOrAsociate(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Associate') > -1));
+  }
   goToClaim(id: Number) {
     if (!this.disableLinks) {
       this.claimManager.search({
