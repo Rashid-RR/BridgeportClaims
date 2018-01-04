@@ -62,8 +62,6 @@ export class UnindexedImageListComponent implements OnInit {
       event.preventDefault();
     }else if (!this.isNumeric(input)){
       event.preventDefault();
-    }else if (input > this.ds.totalPages){
-      event.preventDefault();
     }else if (input < 1){
       event.preventDefault();
     }
