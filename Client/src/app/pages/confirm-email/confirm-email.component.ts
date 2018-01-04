@@ -3,7 +3,7 @@ import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular
 import { Http, Headers } from "@angular/http";
 import { HttpService } from "../../services/http-service"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-
+declare var $:any;
 
 @Component({
   selector: 'app-confirm-email',
@@ -54,5 +54,6 @@ export class ConfirmEmailComponent implements OnInit {
             }
         }
     });  
+    $('#vegascss').remove();
   }
 }

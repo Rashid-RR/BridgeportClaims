@@ -31,6 +31,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     var sideBarStatus = this.localSt.retrieve("sidebarOpen");
     sideBarStatus == null ? true : sideBarStatus;
+    $('#vegascss').remove();
     this.adjustSideBar(!sideBarStatus);
     this.localSt.observe("sidebarOpen")
       .subscribe((value) => {

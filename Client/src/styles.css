@@ -561,9 +561,11 @@
     }
     *:not(.fa):not(.glyphicon){
       font-family: 'Cambay', sans-serif !important; 
+    }
+    *:not(.fa):not(.btn):not(.glyphicon){
       font-size: 14px;
     }
-    app-claim-result *:not(.fa){
+    app-claim-result *:not(.fa):not(.btn){
        font-size: 14px;
     }
     .bg-darkblue,.bg-darkblue:hover {
@@ -578,7 +580,7 @@
       background-color: #111d21 !important;
       color: #fff;
     }
-    .btn{
+    .btn:not(.btn-sm):not(.btn-xs){
       padding: 8px 15.8px 4px 15.8px
     }
     .btn i {

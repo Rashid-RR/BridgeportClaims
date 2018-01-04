@@ -35,8 +35,7 @@
         "assets/css/ngPopupStyle.css",
         "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",  
         "../node_modules/highcharts/css/highcharts.css",
-        "styles.css",
-        "assets/css/vegas.css"
+        "styles.css"
       ],
       "scripts": [
         "../node_modules/admin-lte/plugins/jQueryUI/jquery-ui.min.js",

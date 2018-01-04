@@ -17,6 +17,7 @@ export class Error404Component implements OnInit,AfterViewInit {
   ngAfterViewInit() {
        /* Background Slider */
   $(function() {
+    $('head').append('<link rel="stylesheet" id="vegascss" href="assets/css/vegas.css"/>');
     $('body').addClass('vegas-container');
     $('body').vegas({
       slides: [
