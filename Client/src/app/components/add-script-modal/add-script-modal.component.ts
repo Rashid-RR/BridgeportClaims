@@ -1,4 +1,4 @@
-import { Component, OnInit,AfterViewInit } from '@angular/core';
+import { Component, OnInit,ElementRef,ViewChild,AfterViewInit } from '@angular/core';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import {PaymentScriptService} from "../../services/payment-script-service"
 import {EventsService} from "../../services/events-service"
@@ -12,7 +12,7 @@ declare var $:any;
 })
 export class AddScriptModalComponent implements OnInit,AfterViewInit {
 
-
+  @ViewChild('lastname') lastname:ElementRef;
   dropdownVisible:boolean=false; 
   searchText: string = '';
   showDropDown = new Subject<any>();
@@ -28,6 +28,7 @@ export class AddScriptModalComponent implements OnInit,AfterViewInit {
     $('#datepicker').datepicker({
       autoclose: true
     });
+    this.lastname.nativeElement.focus()
   }
   checkMatch($event) {
     this.payment.exactMatch = $event.target.checked;

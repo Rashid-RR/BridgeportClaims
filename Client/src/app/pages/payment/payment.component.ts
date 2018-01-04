@@ -42,20 +42,20 @@ export class PaymentComponent implements OnInit {
     });
     this.events.on('payment-updated', (b: Boolean) => {
       try {
-          swal.clickConfirm();
+        swal.clickConfirm();
       } catch (e) { }
       if (b) {
-        setTimeout(()=>{this.showModal(true);},100)
+        setTimeout(() => { this.showModal(true); }, 100)
       }
     });
 
     this.events.on('show-payment-script-modal', (b: Boolean) => {
-      setTimeout(()=>{this.showModal();},100)
+      setTimeout(() => { this.showModal(); }, 100)
     });
   }
 
   ngOnInit() {
-    
+
   }
   showModal(reload: boolean = false) {
     if (!reload) {
@@ -63,7 +63,7 @@ export class PaymentComponent implements OnInit {
       this.paymentScriptService.form.reset();
     }
     this.addScriptSwal.show().then((r) => {
-      
+    
     })
   }
 

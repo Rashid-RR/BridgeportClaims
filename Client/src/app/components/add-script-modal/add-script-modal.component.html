@@ -7,34 +7,17 @@
       <div class="box-body payment-input">
         <form role="form" autocomplete="off" [formGroup]="payment.form" autocapitalize="none" autocomplete="off" (keyup.enter)="payment.search()">
           <div class="row" style="margin-left:2px;">
-            <!-- <div class="col-md-6" style="padding-left:2.5px;">
-              <div class="form-group">
-                <label>Type Last Name, First Name or Claim Number</label>
-                <div class="input-group">
-                  <div class="input-group-addon exactMatchCheckBox" style="padding-bottom: 0px;">
-                    <input type="checkbox" name="check" id="exactMatchCheckBox" [checked]="payment.exactMatch" (change)="checkMatch($event)"
-                      #inv>
-                    <label for="exactMatchCheckBox" class="match"></label>
-                    <label for="exactMatchCheckBox">Exact Match</label>
-                  </div>
-                  <input class="form-control" [(ngModel)]="payment.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
-                    auto-complete name="searchText" id="searchText" [source]="payment.autoCompleteClaim" [service]="1" [method]="1"
-                    min-chars="2" list-formatter="lastName , firstName - claimNumber - groupNumber" [http-method]="'post'"
-                    [exactMatch]="payment.exactMatch" [autocomplete-dropdown-event-emitter]="showDropDown" [no-match-found-text]="'No Claim Found'"
-                    (keyup)="lastInput($event)" (valueChanged)="claimSelected($event)">
-                </div>
-              </div>
-            </div> -->
             <div class="search-col">
               <div class="form-group">
                 <label>Last Name</label>
-                <input class="form-control" id="lastName"  type="text" formControlName="lastName" type="text" (focus)="submitted=false">
+                <input class="form-control" type="text" formControlName="lastName" type="text" (focus)="submitted=false" id="add-script-lastname"
+                  #lastname>
               </div>
             </div>
             <div class="search-col">
               <div class="form-group">
                 <label>First Name</label>
-                <input class="form-control" id="firstName"  type="text" formControlName="firstName" type="text" (focus)="submitted=false">
+                <input class="form-control" id="firstName" type="text" formControlName="firstName" type="text" (focus)="submitted=false">
               </div>
             </div>
             <div class="search-col">
@@ -88,7 +71,8 @@
             <img src="assets/img/iconClaims.png"> Claim Results</u>
         </h4>
         <div class="box-tools pull-right">
-          <button class="btn white-border view-prescriptions btn-flat btn-small" type="button" style="margin-left:auto;margin-right:auto;" (click)="payment.viewClaims()">
+          <button class="btn white-border view-prescriptions btn-flat btn-small" type="button" style="margin-left:auto;margin-right:auto;"
+            (click)="payment.viewClaims()">
             <i class="fa fa-eye" aria-hidden="true"></i> Show Scripts</button>
         </div>
       </div>
@@ -110,7 +94,8 @@
             <div class="table-responsive table-body">
               <table class="table no-margin table-striped" id="maintable">
                 <tbody>
-                  <tr *ngFor="let claim of payment.paymentService.claimsData" [id]="claim.claimId" class="clr-change claimRow" [class.bgBlue]="claim.selected" (click)="claim.selected=!claim.selected">
+                  <tr *ngFor="let claim of payment.paymentService.claimsData" [id]="claim.claimId" class="clr-change claimRow" [class.bgBlue]="claim.selected"
+                    (click)="claim.selected=!claim.selected">
                     <td>{{claim.claimNumber}}</td>
                     <td>{{claim.patientName}}</td>
                     <td>{{claim.payor}}</td>
