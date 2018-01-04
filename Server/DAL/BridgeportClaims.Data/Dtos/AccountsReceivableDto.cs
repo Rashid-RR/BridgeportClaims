@@ -10,6 +10,8 @@ namespace BridgeportClaims.Data.Dtos
         [StringLength(10)]
         public string MonthBilled { get; set; }
         [Required]
+        public byte YearBilled { get; set; }
+        [Required]
         public decimal TotalInvoiced { get; set; }
         [Required]
         public decimal Jan17 { get; set; }

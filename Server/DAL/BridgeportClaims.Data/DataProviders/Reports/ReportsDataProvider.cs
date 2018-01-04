@@ -80,20 +80,6 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 return DisposableService.Using(() => new SqlCommand("rpt.uspGetAccountsReceivable", conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    var startDateParam = cmd.CreateParameter();
-                    startDateParam.Value = new DateTime(DateTime.Now.Year, 1, 1);
-                    startDateParam.DbType = DbType.Date;
-                    startDateParam.SqlDbType = SqlDbType.Date;
-                    startDateParam.Direction = ParameterDirection.Input;
-                    startDateParam.ParameterName = "@StartDate";
-                    cmd.Parameters.Add(startDateParam);
-                    var endDateParam = cmd.CreateParameter();
-                    endDateParam.Direction = ParameterDirection.Input;
-                    endDateParam.DbType = DbType.Date;
-                    endDateParam.SqlDbType = SqlDbType.Date;
-                    endDateParam.Value = new DateTime(DateTime.Now.Year, 12, 1);
-                    endDateParam.ParameterName = "@EndDate";
-                    cmd.Parameters.Add(endDateParam);
                     var groupNameParam = cmd.CreateParameter();
                     groupNameParam.Direction = ParameterDirection.Input;
                     groupNameParam.DbType = DbType.AnsiString;
