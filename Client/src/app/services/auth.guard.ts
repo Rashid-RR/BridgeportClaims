@@ -54,7 +54,7 @@ export class AuthGuard implements CanActivate,CanActivateChild,Resolve<UserProfi
               var allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin')>-1);
                 return Observable.of(allowed)
             }else if(childRoute.url[0].path == 'unindexed-images'){
-              var allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin')>-1 || us.roles.indexOf('Associate')>-1));
+              var allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin')>-1 || us.roles.indexOf('Indexer')>-1));
                 return Observable.of(allowed)
             }else {
               return this.profileManager.userInfo(us.email).single().map(res=>{return res.email ? true : false;})        
