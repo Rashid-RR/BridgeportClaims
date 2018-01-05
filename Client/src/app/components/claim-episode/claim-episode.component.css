@@ -18,6 +18,7 @@ th {
   word-wrap: break-word;
   padding-left: 2px !important;
   padding-right: 2px !important;
+  vertical-align: top;
 }
 
 .bg-darkRed {
@@ -60,14 +61,14 @@ tr>td {
 }
 
 tr>td {
-  align-self: center;
-  border: 0;
+  /* align-self: center; */
+  /* border: 0; */
 }
 
 tr>th:first-child,
 tr>td:first-child {
-  max-width: 11%;
-  padding-left: 1rem !important;
+  max-width: 59px;
+  padding-left: 0rem !important;
 }
 
 /*ROW COLOR CHANGE*/
@@ -82,24 +83,20 @@ tr:nth-of-type(even) {
 
 
 tr>th:nth-child(2),
-tr>td:nth-child(2) {
-  max-width: 24%;
-}
-
+tr>td:nth-child(2),
 tr>th:nth-child(3),
 tr>td:nth-child(3) {
-  max-width: 18%;
+  max-width: calc(14% - 38px);;
 }
 
 tr>th:nth-child(4),
 tr>td:nth-child(4) {
-  max-width: 36%;
+  width: calc(51% - 38px);
 }
 
 tr>th:nth-child(5),
 tr>td:nth-child(5) {
-  max-width: 11%;
-  padding-right: 1rem !important;
+  width: 57px;
 }
 
 .edit-btn {

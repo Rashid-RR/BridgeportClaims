@@ -28,6 +28,9 @@
     .table-striped>tbody>tr.clr-change:nth-child(odd) {
         background-color: #fff8ef;
     }
+    table tr> td{
+      align-items: unset;
+    }
     
     .scroll-y {
       overflow-y: auto;

@@ -133,7 +133,7 @@ th {
   flex-direction: column;
   flex-shrink: 1;
   flex-grow: 1;
-  align-self: center;
+  /* align-self: center; */
 }
 
 .bg-darkblue {

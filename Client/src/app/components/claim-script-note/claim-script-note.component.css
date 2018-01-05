@@ -23,7 +23,7 @@ th {
   word-wrap: break-word;
   padding-left: 1px !important;
   padding-right: 1px !important;
-  vertical-align: middle !important;
+  vertical-align: top !important;
 }
 
 tr>th:first-child,
