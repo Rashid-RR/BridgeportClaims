@@ -12,7 +12,7 @@ using Microsoft.AspNet.SignalR;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [System.Web.Http.Authorize(Roles = "User")]
+    [System.Web.Http.Authorize(Roles = "Indexer")]
     [RoutePrefix("api/document")]
     public class DocumentsController : BaseApiController
     {

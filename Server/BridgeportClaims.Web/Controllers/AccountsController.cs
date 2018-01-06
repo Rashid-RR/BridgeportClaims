@@ -98,6 +98,8 @@ namespace BridgeportClaims.Web.Controllers
                 case EmailType.Registration:
                     route = c.ConfirmEmailClientRoute;
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
             var baseUrl = BaseUri;
             var serverLocalHostName = cs.GetAppSetting(c.ServerLocalHostNameKey);
