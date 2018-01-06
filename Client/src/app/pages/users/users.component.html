@@ -60,8 +60,9 @@
                                     <th>Last Name</th>
                                     <th>Email Confirmed</th>
                                     <th>Registered Date</th>
-                                    <th>Role User</th>
-                                    <th>Role Admin</th>
+                                    <th>User</th>
+                                    <th>Indexer</th>
+                                    <th>Admin</th>
                                     <th>Activate / Deactivate</th>
                                 </tr>
                             </thead>
@@ -73,14 +74,23 @@
                                         <td>{{user.lastName}}</td>
                                         <td>{{user.emailConfirmed}}</td>
                                         <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
-                                        <td>
+                                        <td class="center-in">
                                              <label class="checkboxFive">
                                                 <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)">	 
                                                 <div for="checkboxFiveInput"></div>
                                             </label> 
 
                                         </td>
-                                        <td>
+
+                                        <td class="center-in">
+                                            <label class="checkboxFive">
+                                               <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)">	 
+                                               <div for="checkboxFiveInput"></div>
+                                           </label> 
+
+                                       </td>
+
+                                        <td class="center-in">
                                              
                                             <label class="checkboxFive">
                                                 <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.admin" (ngModelChange)="showRoleConfirm(i,adminRole,$event)">	  	

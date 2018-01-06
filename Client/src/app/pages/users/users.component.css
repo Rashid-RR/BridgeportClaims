@@ -161,6 +161,10 @@ tr:nth-of-type(odd) {
 tr:nth-of-type(even) {
   background: #fff8ef !important;
 }
+ 
+table#dataTables-example tbody tr td.center-in {
+  text-align: center;  
+}
 
 
 /**
@@ -168,7 +172,6 @@ tr:nth-of-type(even) {
  */
 .checkboxFive {
 	width: 25px;
-  margin-left: 25px;
 	position: relative;
 }
 /**
