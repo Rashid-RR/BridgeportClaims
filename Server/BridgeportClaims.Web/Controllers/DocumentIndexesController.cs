@@ -41,7 +41,7 @@ namespace BridgeportClaims.Web.Controllers
                     if (model.DocumentId != default(int))
                     {
                         var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
-                        hubContext.Clients.All.deletedDocument(model.DocumentId);
+                        hubContext.Clients.All.indexedDocument(model.DocumentId);
                     }
                     var msg = $"The image was {(result ? "reindexed" : "indexed")} successfully.";
                     if (cs.AppIsInDebugMode)

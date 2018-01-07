@@ -236,7 +236,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Documents.html" />
     <Content Include="EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
