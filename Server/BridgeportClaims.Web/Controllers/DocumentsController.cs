@@ -8,11 +8,10 @@ using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
-using Microsoft.AspNet.SignalR;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [System.Web.Http.Authorize(Roles = "Indexer")]
+    [Authorize(Roles = "Indexer, Admin")]
     [RoutePrefix("api/document")]
     public class DocumentsController : BaseApiController
     {
@@ -68,7 +67,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                 hubContext.Clients.All.newDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
                     , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath, dto.FileUrl);
                 return Ok(new {message = "A new document has just been added."});
@@ -86,7 +85,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                 hubContext.Clients.All.modifiedDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
                     , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath,
                     dto.FileUrl);
@@ -105,7 +104,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                 hubContext.Clients.All.deletedDocument(documentId);
                 return Ok(new { message = "A document has just been removed." });
             }
