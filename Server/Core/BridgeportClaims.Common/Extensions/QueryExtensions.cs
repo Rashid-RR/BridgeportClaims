@@ -43,19 +43,5 @@ namespace BridgeportClaims.Common.Extensions
             }
             return query;
         }
-
-        public static IQuery SetDateTime2(this IQuery query, string name, DateTime? val)
-        {
-            if (val.HasValue)
-            {
-                query.SetDateTime2(name, val.Value);
-            }
-            else
-            {
-                query.SetParameter(name, null, NHibernateUtil.DateTime2);
-            }
-            return query;
-        }
-
     }
 }
