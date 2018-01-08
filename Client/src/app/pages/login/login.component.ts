@@ -53,6 +53,7 @@ export class LoginComponent implements OnInit {
           this.http.profile().map(res => res.json()).subscribe(res => {
             let user = res;
             res.access_token = data.access_token;
+            //res.roles=['Indexer','User']; for test
             localStorage.setItem("user", JSON.stringify(res));
             this.profileManager.profile = new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles);
             this.profileManager.setProfile(new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles));

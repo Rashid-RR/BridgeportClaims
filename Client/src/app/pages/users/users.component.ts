@@ -21,6 +21,7 @@ export class UsersComponent implements OnInit {
   pageSize: number = 5;
   loading: boolean=false;
   userRole = 'User';
+  indexerRole = 'Indexer';
   adminRole = 'Admin';
   isAdmin = undefined;
   userName:String = undefined;
@@ -68,6 +69,11 @@ export class UsersComponent implements OnInit {
         } else {
           element.user = false;
         }
+        if (element.roles.includes(this.indexerRole)) {
+          element.indexer = true;
+        } else {
+          element.indexer = false;
+        }
         if (element.roles.includes(this.adminRole)) {
           element.admin = true;
         } else {
@@ -80,7 +86,6 @@ export class UsersComponent implements OnInit {
     }, err => {
       this.loading = false;
     },()=>{
-      console.log("test..");
       this.loading = false;
     })
   }
@@ -163,6 +168,7 @@ export class UsersComponent implements OnInit {
   }
 
   showRoleConfirm(index, role, event) {
+    console.log("Unchecked...");
     let title = 'Update Role';
     let msg = '';
     let action = (event) ? 'Assgin ' + role + ' role to ' : 'Revoke ' + role + ' role from ';
@@ -191,6 +197,9 @@ export class UsersComponent implements OnInit {
           if (role == this.userRole) {
             this.users[index].user = !event;
           }
+          if (role == this.indexerRole) {
+            this.users[index].indexer = !event;
+          }
         }
       });
     //We can close dialog calling disposable.unsubscribe();
@@ -208,23 +217,27 @@ export class UsersComponent implements OnInit {
       msg = 'Removed ' + this.users[index].firstName + ' ' + this.users[index].lastName + ' from the ' + role + ' role Successfully';
     }
     try {
-      this.http.assignUserRole(data).subscribe(res => {
+      data.role=role;
+      let request = event ? this.http.smartAsignRole(data) : this.http.assignUserRole(data);
+      request.subscribe(res => {
         console.log("Successful updated role");
         if (this.users[index].admin && role == this.userRole && !event) {
           this.users[index].admin = false;
         } else if (role == this.adminRole && this.users[index].admin) {
           this.users[index].user = true;
+          this.users[index].indexer = true;
+        } else if (role == this.indexerRole && this.users[index].indexer) {
+          this.users[index].user = true;
         }
         this.toast.success(msg);
 
       }, error => {
-        let err = error.json();
-
+        let err = error.json();       
         this.toast.error('A server error has occurred. Please contact your system administrator.');
         console.log(err.message);
       })
     } catch (e) {
-
+        console.log(e);
     } finally {
 
     }
