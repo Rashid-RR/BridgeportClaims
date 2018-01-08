@@ -111,7 +111,7 @@ namespace BridgeportClaims.Web.Controllers
                 if (roleName.IsNullOrWhiteSpace())
                     throw new ArgumentNullException(nameof(roleName));
                 var role = await AppRoleManager.FindByNameAsync(roleName);
-                _assignUsersToRolesProvider.AssignUserToRole(User.Identity.GetUserId(), role.Id);
+                _assignUsersToRolesProvider.AssignUserToRole(id, role.Id);
                 var userName = User.Identity.Name;
                 return Ok(new{message=$"The {role.Name} role was assigned to {userName} successfully."});
             }
