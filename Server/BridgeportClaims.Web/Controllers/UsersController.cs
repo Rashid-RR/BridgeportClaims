@@ -7,6 +7,8 @@ using System.Web.Http;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Accounts;
+using BridgeportClaims.Data.DataProviders.UserRoles;
+using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -16,11 +18,13 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IAspNetUsersProvider _aspNetUsersProvider;
+        private readonly IAssignUsersToRolesProvider _assignUsersToRolesProvider;
         private readonly IMemoryCacher _memoryCacher;
 
-        public UsersController(IAspNetUsersProvider aspNetUsersProvider)
+        public UsersController(IAspNetUsersProvider aspNetUsersProvider, IAssignUsersToRolesProvider assignUsersToRolesProvider)
         {
             _aspNetUsersProvider = aspNetUsersProvider;
+            _assignUsersToRolesProvider = assignUsersToRolesProvider;
             _memoryCacher = MemoryCacher.Instance;
         }
 
@@ -73,6 +77,51 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("unassign/{id:guid}")]
+        public async Task<IHttpActionResult> UnassignRole(string id, string roleName)
+        {
+            try
+            {
+                if (id.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(id));
+                if (roleName.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(roleName));
+                var role = await AppRoleManager.FindByNameAsync(roleName);
+                await AppRoleManager.DeleteAsync(role);
+                var userName = User.Identity.Name;
+                return Ok(new {message = $"The {role.Name} role was removed from {userName} successfully." });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
+        [Route("assign/{id:guid}")]
+        public async Task<IHttpActionResult> AssignRole(string id, string roleName)
+        {
+            try
+            {
+                if (id.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(id));
+                if (roleName.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(roleName));
+                var role = await AppRoleManager.FindByNameAsync(roleName);
+                _assignUsersToRolesProvider.AssignUserToRole(User.Identity.GetUserId(), role.Id);
+                var userName = User.Identity.Name;
+                return Ok(new{message=$"The {role.Name} role was assigned to {userName} successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
 
         [HttpPost]
         [Route("updatename/{id:guid}")]
