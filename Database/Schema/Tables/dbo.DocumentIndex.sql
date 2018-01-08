@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[DocumentIndex]
 [InvoiceNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [InjuryDate] [date] NULL,
 [AttorneyName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[IndexedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[IndexedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentIndexCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentIndexUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
