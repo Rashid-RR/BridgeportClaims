@@ -14,28 +14,28 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         public decimal TotalInvoiced { get; set; }
         [Required]
-        public decimal Jan17 { get; set; }
+        public decimal Mnth1 { get; set; }
         [Required]
-        public decimal Feb17 { get; set; }
+        public decimal Mnth2 { get; set; }
         [Required]
-        public decimal Mar17 { get; set; }
+        public decimal Mnth3 { get; set; }
         [Required]
-        public decimal Apr17 { get; set; }
+        public decimal Mnth4 { get; set; }
         [Required]
-        public decimal May17 { get; set; }
+        public decimal Mnth5 { get; set; }
         [Required]
-        public decimal Jun17 { get; set; }
+        public decimal Mnth6 { get; set; }
         [Required]
-        public decimal Jul17 { get; set; }
+        public decimal Mnth7 { get; set; }
         [Required]
-        public decimal Aug17 { get; set; }
+        public decimal Mnth8 { get; set; }
         [Required]
-        public decimal Sep17 { get; set; }
+        public decimal Mnth9 { get; set; }
         [Required]
-        public decimal Oct17 { get; set; }
+        public decimal Mnth10 { get; set; }
         [Required]
-        public decimal Nov17 { get; set; }
+        public decimal Mnth11 { get; set; }
         [Required]
-        public decimal Dec17 { get; set; }
+        public decimal Mnth12 { get; set; }
     }
 }

@@ -102,18 +102,18 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     {
                         var monthBilledOrdinal = reader.GetOrdinal("MonthBilled");
                         var totalInvoicedOrdinal = reader.GetOrdinal("TotalInvoiced");
-                        var jan17Ordinal = reader.GetOrdinal("Jan17");
-                        var feb17Ordinal = reader.GetOrdinal("Feb17");
-                        var mar17Ordinal = reader.GetOrdinal("Mar17");
-                        var apr17Ordinal = reader.GetOrdinal("Apr17");
-                        var may17Ordinal = reader.GetOrdinal("May17");
-                        var jun17Ordinal = reader.GetOrdinal("Jun17");
-                        var jul17Ordinal = reader.GetOrdinal("Jul17");
-                        var aug17Ordinal = reader.GetOrdinal("Aug17");
-                        var sep17Ordinal = reader.GetOrdinal("Sep17");
-                        var oct17Ordinal = reader.GetOrdinal("Oct17");
-                        var nov17Ordinal = reader.GetOrdinal("Nov17");
-                        var dec17Ordinal = reader.GetOrdinal("Dec17");
+                        var jan17Ordinal = reader.GetOrdinal("Mnth1");
+                        var feb17Ordinal = reader.GetOrdinal("Mnth2");
+                        var mar17Ordinal = reader.GetOrdinal("Mnth3");
+                        var apr17Ordinal = reader.GetOrdinal("Mnth4");
+                        var may17Ordinal = reader.GetOrdinal("Mnth5");
+                        var jun17Ordinal = reader.GetOrdinal("Mnth6");
+                        var jul17Ordinal = reader.GetOrdinal("Mnth7");
+                        var aug17Ordinal = reader.GetOrdinal("Mnth8");
+                        var sep17Ordinal = reader.GetOrdinal("Mnth9");
+                        var oct17Ordinal = reader.GetOrdinal("Mnth10");
+                        var nov17Ordinal = reader.GetOrdinal("Mnth11");
+                        var dec17Ordinal = reader.GetOrdinal("Mnth12");
                         var retVal = new List<AccountsReceivableDto>();
                         while (reader.Read())
                         {
@@ -121,18 +121,18 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                             {
                                 MonthBilled = reader.GetString(monthBilledOrdinal),
                                 TotalInvoiced = reader.GetDecimal(totalInvoicedOrdinal),
-                                Jan17 = reader.GetDecimal(jan17Ordinal),
-                                Feb17 = reader.GetDecimal(feb17Ordinal),
-                                Mar17 = reader.GetDecimal(mar17Ordinal),
-                                Apr17 = reader.GetDecimal(apr17Ordinal),
-                                May17 = reader.GetDecimal(may17Ordinal),
-                                Jun17 = reader.GetDecimal(jun17Ordinal),
-                                Jul17 = reader.GetDecimal(jul17Ordinal),
-                                Aug17 = reader.GetDecimal(aug17Ordinal),
-                                Sep17 = reader.GetDecimal(sep17Ordinal),
-                                Oct17 = reader.GetDecimal(oct17Ordinal),
-                                Nov17 = reader.GetDecimal(nov17Ordinal),
-                                Dec17 = reader.GetDecimal(dec17Ordinal)
+                                Mnth1 = reader.GetDecimal(jan17Ordinal),
+                                Mnth2 = reader.GetDecimal(feb17Ordinal),
+                                Mnth3 = reader.GetDecimal(mar17Ordinal),
+                                Mnth4 = reader.GetDecimal(apr17Ordinal),
+                                Mnth5 = reader.GetDecimal(may17Ordinal),
+                                Mnth6 = reader.GetDecimal(jun17Ordinal),
+                                Mnth7 = reader.GetDecimal(jul17Ordinal),
+                                Mnth8 = reader.GetDecimal(aug17Ordinal),
+                                Mnth9 = reader.GetDecimal(sep17Ordinal),
+                                Mnth10 = reader.GetDecimal(oct17Ordinal),
+                                Mnth11 = reader.GetDecimal(nov17Ordinal),
+                                Mnth12 = reader.GetDecimal(dec17Ordinal)
                             };
                             retVal.Add(record);
                         }
