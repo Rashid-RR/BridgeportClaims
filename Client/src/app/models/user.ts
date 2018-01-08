@@ -12,6 +12,7 @@ export class User {
         roles: String;
         admin:boolean;
         user:boolean;
+        indexer:boolean;
         deactivated:boolean;
         claims: any;        
     constructor(url: String,id: String,
@@ -25,6 +26,7 @@ export class User {
             roles:String,
             admin:boolean,
             user:boolean,
+            indexer:boolean,
             deactivated:boolean,
             claims:any) {
         this.url = url; 
@@ -35,7 +37,8 @@ export class User {
         this.email = email;
         this.emailConfirmed = emailConfirmed;
         this.roles = roles;
-        this.admin = admin
+        this.admin = admin;
+        this.indexer = indexer;
         this.user = user;
         this.claims = claims;
         this.deactivated = deactivated;

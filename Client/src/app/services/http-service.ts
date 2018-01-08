@@ -297,6 +297,14 @@ export class HttpService {
       });
     return s;
   }
+  smartAsignRole(data: any) {
+    let s =  this.http.post(this.baseUrl + "/users/assign/"+data.EnrolledUsers+"?roleName="+data.role, data, { headers: this.headers })
+    .catch(err =>  {
+      this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
   activateUser(userID) {
     let s = this.http.post(this.baseUrl + "/users/activate/" + userID, '', { headers: this.headers })
     .catch(err =>  {

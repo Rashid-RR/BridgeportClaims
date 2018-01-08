@@ -76,7 +76,7 @@
                                         <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
                                         <td class="center-in">
                                              <label class="checkboxFive">
-                                                <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)">	 
+                                                <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)" [disabled]="(user.admin || user.indexer)">	 
                                                 <div for="checkboxFiveInput"></div>
                                             </label> 
 
@@ -84,7 +84,7 @@
 
                                         <td class="center-in">
                                             <label class="checkboxFive">
-                                               <input type="checkbox" id="checkboxFiveInput" >	 
+                                               <input type="checkbox" id="checkboxFiveInput"  [(ngModel)]="user.indexer" (ngModelChange)="showRoleConfirm(i,indexerRole,$event)"  [disabled]="(user.admin)">	 
                                                <div for="checkboxFiveInput"></div>
                                            </label> 
 
