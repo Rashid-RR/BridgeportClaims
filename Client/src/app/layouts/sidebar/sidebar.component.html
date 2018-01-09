@@ -50,7 +50,7 @@
         </li>
         <li class="header" style="color:white;font-size:14pt" *ngIf="adminOrAsociate">
           <i class="fa fa-sitemap"></i>
-          <span>INDEXER</span>
+          <span>INDEXING</span>
       </li>
       <li [class.active]="router.url.indexOf('/main/unindexed-images')>-1">
          <a [routerLink]="!disableLinks ? '/main/unindexed-images' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
