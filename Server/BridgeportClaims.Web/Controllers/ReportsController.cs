@@ -1,6 +1,8 @@
 ﻿using NLog;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Disposable;
@@ -30,7 +32,47 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName));
+                var results = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                var now = DateTime.Now.ToLocalTime();
+
+                var month12 = new DateTime(now.Year, now.Month, 1);
+                var month11 = month12.AddMonths(-1);
+                var month10 = month11.AddMonths(-1);
+                var month9 = month10.AddMonths(-1);
+                var month8 = month9.AddMonths(-1);
+                var month7 = month8.AddMonths(-1);
+                var month6 = month7.AddMonths(-1);
+                var month5 = month6.AddMonths(-1);
+                var month4 = month5.AddMonths(-1);
+                var month3 = month4.AddMonths(-1);
+                var month2 = month3.AddMonths(-1);
+                var month1 = month2.AddMonths(-1);
+                var dates = new List<DateTime>
+                {
+                    month1,
+                    month2,
+                    month3,
+                    month4,
+                    month5,
+                    month6,
+                    month7,
+                    month8,
+                    month9,
+                    month10,
+                    month11,
+                    month12
+                };
+                var names = dates.Select<DateTime, string>(x =>
+                {
+                    var propertyInfo = x.GetType().GetProperty("Name");
+                    if (null != propertyInfo)
+                        return propertyInfo.GetValue(x.ToString("MM-yy")).ToString();
+                    return string.Empty;
+                });
+
+
+                var query = from r in results
+                    select new {T = r.MonthBilled, r.YearBilled, r.TotalInvoiced, names[0] = r.Mnth1};
             }
             catch (Exception ex)
             {
