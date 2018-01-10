@@ -4,9 +4,9 @@
     <!-- Sidebar user panel -->
     <div class="user-panel">
       <div class="pull-left image">
-        <img [src]="'assets/logo/Color Logo.jpg'" class="img-square" [alt]="userName">
-        <br style="line-height:2em" *ngIf="!avatar">
+        <img [src]="'assets/logo/sidebar-logo.png'" class="img-square" [alt]="userName">
       </div>
+      <br style="line-height:2em" *ngIf="!avatar">
       <div class="pull-left info">
         <p>{{userName}}</p>
       </div>
@@ -32,7 +32,7 @@
       </li>
       <li [class.active]="router.url.indexOf('/main/diary')>-1">
           <a [routerLink]="!disableLinks ? '/main/diary' : []" [class.disabled]="disableLinks">
-            <i class="fa fa-book" aria-hidden="true"></i>
+            <img style='width: 25px;'src="assets/img/diaries.png">
             <span>Diaries</span>
           </a>
        </li>
@@ -86,7 +86,7 @@
       <ng-container *ngIf="!claimManager.loadingHistory">
         <li *ngFor="let claim of claimManager.claimHistory" [class.disabled]="disableLinks">
           <a class="history" (click)="goToClaim(claim.claimId)">
-            <img style='width: 25px;'src="assets/img/check.png">
+            <img style='width: 15px;'src="assets/img/check.png">
               <span *ngIf="claim.name">{{claim.name}}</span>
               <span *ngIf="!claim.name">{{claim.firstName+" "+claim.lastName}}</span>
             </a>
