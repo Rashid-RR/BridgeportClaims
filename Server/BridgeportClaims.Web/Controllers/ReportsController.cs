@@ -21,14 +21,14 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IReportsDataProvider _reportsDataProvider;
-        private const string Format = "MMMM_yy";
+        private const string Format = "MMMM_yyyy";
 
         public ReportsController(IReportsDataProvider reportsDataProvider)
         {
             _reportsDataProvider = reportsDataProvider;
         }
 
-        private Dictionary<int, string> MonthDictionary
+        private static Dictionary<int, string> MonthDictionary
         {
             get
             {
@@ -125,20 +125,20 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return DisposableService.Using(() => new DataTable(), table =>
                 {
-                    table.Columns.Add("MonthBilled", typeof(string));
+                    table.Columns.Add("DateBilled", typeof(string));
                     table.Columns.Add("TotalInvoiced", typeof(decimal));
-                    table.Columns.Add("Jan17", typeof(decimal));
-                    table.Columns.Add("Feb17", typeof(decimal));
-                    table.Columns.Add("Mar17", typeof(decimal));
-                    table.Columns.Add("Apr17", typeof(decimal));
-                    table.Columns.Add("May17", typeof(decimal));
-                    table.Columns.Add("Jun17", typeof(decimal));
-                    table.Columns.Add("Jul17", typeof(decimal));
-                    table.Columns.Add("Aug17", typeof(decimal));
-                    table.Columns.Add("Sep17", typeof(decimal));
-                    table.Columns.Add("Oct17", typeof(decimal));
-                    table.Columns.Add("Nov17", typeof(decimal));
-                    table.Columns.Add("Dec17", typeof(decimal));
+                    table.Columns.Add(MonthDictionary[1], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[2], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[3], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[4], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[5], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[6], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[7], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[8], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[9], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[10], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[11], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[12], typeof(decimal));
                     var report = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
                     var dt = report.CopyToGenericDataTable(table, LoadOption.PreserveChanges);
                     if (null == dt)
