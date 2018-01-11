@@ -28,13 +28,10 @@ namespace BridgeportClaims.Web.Controllers
             _reportsDataProvider = reportsDataProvider;
         }
 
-        [HttpPost]
-        [Route("accounts-receivable")]
-        public IHttpActionResult GetAccountsReceivableReport(AccountsReceivableViewModel model)
+        private Dictionary<int, string> MonthDictionary
         {
-            try
+            get
             {
-                var results = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
                 var now = DateTime.Now.ToLocalTime();
                 var thisMonth = new DateTime(now.Year, now.Month, 1);
                 var month12 = thisMonth.ToString(Format);
@@ -49,10 +46,37 @@ namespace BridgeportClaims.Web.Controllers
                 var month3 = thisMonth.AddMonths(-9).ToString(Format);
                 var month2 = thisMonth.AddMonths(-10).ToString(Format);
                 var month1 = thisMonth.AddMonths(-11).ToString(Format);
+                var retVal = new Dictionary<int, string>
+                {
+                    {1, month1},
+                    {2, month2},
+                    {3, month3},
+                    {4, month4},
+                    {5, month5},
+                    {6, month6},
+                    {7, month7},
+                    {8, month8},
+                    {9, month9},
+                    {10, month10},
+                    {11, month11},
+                    {12, month12}
+                };
+                return retVal;
+            }
+        }
 
-                var selectStatement = $"new ( MonthBilled, YearBilled, TotalInvoiced, Mnth1 as {month1}, Mnth2 as {month2}" +
-                    $", Mnth3 as {month3}, Mnth4 as {month4}, Mnth5 as {month5}, Mnth6 as {month6}, Mnth7 as {month7}, Mnth8 as {month8}" +
-                    $", Mnth9 as {month9}, Mnth10 as {month10}, Mnth11 as {month11}, Mnth12 as {month12} )";
+        [HttpPost]
+        [Route("accounts-receivable")]
+        public IHttpActionResult GetAccountsReceivableReport(AccountsReceivableViewModel model)
+        {
+            try
+            {
+                var results = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                
+
+                var selectStatement = $"new ( MonthBilled, YearBilled, TotalInvoiced, Mnth1 as {MonthDictionary[1]}, Mnth2 as {MonthDictionary[2]}" +
+                    $", Mnth3 as {MonthDictionary[3]}, Mnth4 as {MonthDictionary[4]}, Mnth5 as {MonthDictionary[5]}, Mnth6 as {MonthDictionary[6]}, Mnth7 as {MonthDictionary[7]}, Mnth8 as {MonthDictionary[8]}" +
+                    $", Mnth9 as {MonthDictionary[9]}, Mnth10 as {MonthDictionary[10]}, Mnth11 as {MonthDictionary[11]}, Mnth12 as {MonthDictionary[12]} )";
                 var retVal = results?.AsQueryable().Select(selectStatement);
                 return Ok(retVal);
             }
