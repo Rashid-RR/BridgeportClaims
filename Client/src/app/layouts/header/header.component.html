@@ -13,30 +13,38 @@
             <i class="fa fa-align-justify"></i>
         </a>
         <!-- Top right menu items, also check if user is logged in-->
-        <div class="navbar-custom-menu">
+        <div class="navbar-custom-menu cust-nav">
             <ul class="nav navbar-nav">
                 <ng-container *ngIf="!profileManager.profile">
                     <li>
-                        <a [routerLink]="'/register'">Register</a>
+                        <a [routerLink]="'/register'"> <i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
                     </li>
                     <li>
-                        <a [routerLink]="'/login'">Login</a>
+                        <a [routerLink]="'/login'"> <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            Login</a>
                     </li>
+                    <li class="display-date"> <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
                 </ng-container>
-                <li class="display-date">{{ date | date }}</li>
+                
                 <ng-container *ngIf="profileManager.profile">
+                        <li class="display-date"><i class="fa fa-calendar" aria-hidden="true"></i>
+                            {{ date | date }}<small>Version 8.7</small></li>
                     <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
-                        <a style="cursor:pointer" (click)="!disableLinks ? clearCache() : ''" [class.disabled]="disableLinks">Clear Cache</a>
+                        <a style="cursor:pointer" (click)="!disableLinks ? clearCache() : ''" [class.disabled]="disableLinks"><i class="fa fa-refresh" aria-hidden="true"></i>
+                            Clear Cache</a>
                     </li>
                     <li routerLinkActive="/main/profile" [class.disabled]="disableLinks">
                         <!--[routerLink]="'/profile'"-->
-                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">My Account</a>
+                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks"> <i class="fa fa-user" aria-hidden="true"></i>
+
+                            My Account</a>
                     </li>
                     <li routerLinkActive="active" [class.disabled]="disableLinks">
-                        <a style="cursor:pointer;" (click)="!disableLinks ? logout() : ''" class="navbar-link" [class.disabled]="disableLinks">Logout</a>
+                        <a style="cursor:pointer;" (click)="!disableLinks ? logout() : ''" class="navbar-link" [class.disabled]="disableLinks"> <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Logout</a>
                     </li>
                     <!-- here is a version number in ng- containor because in this containor all things are disply when user are logeed in -->
-                    <p class="ver2 large"><img src="assets/img/header_icon.png" style="margin-right:-10px;" alt="Version #" /><span>Version 8.7</span></p>
+                    <p class="ver2 large"><img src="assets/img/header_icon.png" style="margin-right:-10px;" alt="Version #" /></p>
                 </ng-container>
             </ul>
         </div>

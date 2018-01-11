@@ -32,6 +32,32 @@ li a {
     color: #b33a3a !important;
 }
 
+.cust-nav ul.navbar-nav li,
+.cust-nav ul.navbar-nav li > a {
+    text-transform: uppercase;
+}
+
+.cust-nav ul.navbar-nav li.display-date {
+    position: relative;
+}
+.cust-nav ul.navbar-nav li.display-date > small {
+    text-transform: lowercase;
+    font-size: 10px;
+    position: absolute;
+    bottom: -11px;
+    left: 35px;
+    width: 100%;
+}
+
+.cust-nav ul.navbar-nav li.display-date > i {
+    vertical-align: middle;
+}
+.cust-nav ul.navbar-nav li > i,
+.cust-nav ul.navbar-nav li > a > i {
+    margin-right: 5px;
+    font-size: 18px !important;
+}
+
 @media screen and (max-width: 767px) {
     /* .ver {
         top: 40px;
