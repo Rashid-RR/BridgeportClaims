@@ -2,12 +2,11 @@
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
     <!-- Sidebar user panel -->
-    <div class="user-panel">
-      <div class="pull-left image">
-        <img [src]="'assets/logo/sidebar-logo.png'" class="img-square" [alt]="userName">
+    <div class="user-panel text-center"style="margin:0;padding:0">
+      <div class="image">
+        <img [src]="'assets/logo/sidebar-logo.png'" style="max-width: 70px;" class="img-square" [alt]="userName">
       </div>
-      <br style="line-height:2em" *ngIf="!avatar">
-      <div class="pull-left info">
+      <div class="info" style="position:unset;left:0">
         <p>{{userName}}</p>
       </div>
     </div>
