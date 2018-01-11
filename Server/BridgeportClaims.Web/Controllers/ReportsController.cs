@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Disposable;
@@ -20,6 +21,7 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IReportsDataProvider _reportsDataProvider;
+        private const string Format = "MMMM_yy";
 
         public ReportsController(IReportsDataProvider reportsDataProvider)
         {
@@ -34,45 +36,25 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var results = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
                 var now = DateTime.Now.ToLocalTime();
+                var thisMonth = new DateTime(now.Year, now.Month, 1);
+                var month12 = thisMonth.ToString(Format);
+                var month11 = thisMonth.AddMonths(-1).ToString(Format);
+                var month10 = thisMonth.AddMonths(-2).ToString(Format);
+                var month9 = thisMonth.AddMonths(-3).ToString(Format);
+                var month8 = thisMonth.AddMonths(-4).ToString(Format);
+                var month7 = thisMonth.AddMonths(-5).ToString(Format);
+                var month6 = thisMonth.AddMonths(-6).ToString(Format);
+                var month5 = thisMonth.AddMonths(-7).ToString(Format);
+                var month4 = thisMonth.AddMonths(-8).ToString(Format);
+                var month3 = thisMonth.AddMonths(-9).ToString(Format);
+                var month2 = thisMonth.AddMonths(-10).ToString(Format);
+                var month1 = thisMonth.AddMonths(-11).ToString(Format);
 
-                var month12 = new DateTime(now.Year, now.Month, 1);
-                var month11 = month12.AddMonths(-1);
-                var month10 = month11.AddMonths(-1);
-                var month9 = month10.AddMonths(-1);
-                var month8 = month9.AddMonths(-1);
-                var month7 = month8.AddMonths(-1);
-                var month6 = month7.AddMonths(-1);
-                var month5 = month6.AddMonths(-1);
-                var month4 = month5.AddMonths(-1);
-                var month3 = month4.AddMonths(-1);
-                var month2 = month3.AddMonths(-1);
-                var month1 = month2.AddMonths(-1);
-                var dates = new List<DateTime>
-                {
-                    month1,
-                    month2,
-                    month3,
-                    month4,
-                    month5,
-                    month6,
-                    month7,
-                    month8,
-                    month9,
-                    month10,
-                    month11,
-                    month12
-                };
-                var names = dates.Select<DateTime, string>(x =>
-                {
-                    var propertyInfo = x.GetType().GetProperty("Name");
-                    if (null != propertyInfo)
-                        return propertyInfo.GetValue(x.ToString("MM-yy")).ToString();
-                    return string.Empty;
-                });
-
-
-                var query = from r in results
-                    select new {T = r.MonthBilled, r.YearBilled, r.TotalInvoiced, names[0] = r.Mnth1};
+                var selectStatement = $"new ( MonthBilled, YearBilled, TotalInvoiced, Mnth1 as {month1}, Mnth2 as {month2}" +
+                    $", Mnth3 as {month3}, Mnth4 as {month4}, Mnth5 as {month5}, Mnth6 as {month6}, Mnth7 as {month7}, Mnth8 as {month8}" +
+                    $", Mnth9 as {month9}, Mnth10 as {month10}, Mnth11 as {month11}, Mnth12 as {month12} )";
+                var retVal = results?.AsQueryable().Select(selectStatement);
+                return Ok(retVal);
             }
             catch (Exception ex)
             {
