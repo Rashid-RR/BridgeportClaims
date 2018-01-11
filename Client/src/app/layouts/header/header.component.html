@@ -32,11 +32,6 @@
                         <!--[routerLink]="'/profile'"-->
                         <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">My Account</a>
                     </li>
-                    <li routerLinkActive="/main/profile" [class.disabled]="disableLinks">
-                        <!--[routerLink]="'/profile'"-->
-                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">Logged in as {{profileManager.profile? profileManager.profile.firstName+' '+profileManager.profile.lastName
-                            : ''}}</a>
-                    </li>
                     <li routerLinkActive="active" [class.disabled]="disableLinks">
                         <a style="cursor:pointer;" (click)="!disableLinks ? logout() : ''" class="navbar-link" [class.disabled]="disableLinks">Logout</a>
                     </li>
