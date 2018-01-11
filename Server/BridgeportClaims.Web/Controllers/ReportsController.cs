@@ -139,7 +139,9 @@ namespace BridgeportClaims.Web.Controllers
                     table.Columns.Add(MonthDictionary[10], typeof(decimal));
                     table.Columns.Add(MonthDictionary[11], typeof(decimal));
                     table.Columns.Add(MonthDictionary[12], typeof(decimal));
-                    var report = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                    var report = _reportsDataProvider?.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                    if (null == report)
+                        throw new Exception("Error. No results were found from running the Accounts Receivable report.");
                     var dt = report.CopyToGenericDataTable(table, LoadOption.PreserveChanges);
                     if (null == dt)
                         throw new Exception("Could not create a data table from the report.");
