@@ -119,7 +119,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                         {
                             var record = new AccountsReceivableDto
                             {
-                                MonthBilled = reader.GetString(monthBilledOrdinal),
+                                DateBilled = reader.GetString(monthBilledOrdinal),
                                 TotalInvoiced = reader.GetDecimal(totalInvoicedOrdinal),
                                 Mnth1 = reader.GetDecimal(jan17Ordinal),
                                 Mnth2 = reader.GetDecimal(feb17Ordinal),

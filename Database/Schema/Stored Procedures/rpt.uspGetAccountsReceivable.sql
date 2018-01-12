@@ -14,9 +14,12 @@ CREATE PROCEDURE [rpt].[uspGetAccountsReceivable]
 	@GroupName VARCHAR(255),
 	@PharmacyName VARCHAR(60)
 )
+WITH RECOMPILE
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
+	DECLARE @InternalGroupName VARCHAR(255) = @GroupName,
+			@InternalPharmacyName VARCHAR(60) = @PharmacyName;
 
 	DECLARE @MnthOne TINYINT = 1
 		   ,@MnthTwo TINYINT = 2
@@ -41,15 +44,16 @@ AS BEGIN
 		DROP TABLE [#MonthYearBillingTotals]
 	DECLARE @GroupName VARCHAR(255)
 			,@PharmacyName VARCHAR(60)
+			,@InternalGroupName VARCHAR(255)
+			,@InternalPharmacyName VARCHAR(60)
 	*/
 	
 
-	CREATE TABLE #Master (MonthBilled VARCHAR(10) NOT NULL, YearBilled SMALLINT, CalendarMonth TINYINT NOT NULL,
+	CREATE TABLE #Master (MonthBilled VARCHAR(100) NOT NULL, YearBilled SMALLINT, CalendarMonth TINYINT NOT NULL,
 			CalendarYear SMALLINT NULL, TotalInvoiced MONEY NOT NULL, Mnth1 MONEY NOT NULL, Mnth2 MONEY NOT NULL, 
 			Mnth3 MONEY NOT NULL, Mnth4 MONEY NOT NULL, Mnth5 MONEY NOT NULL, Mnth6 MONEY NOT NULL, Mnth7 MONEY NOT NULL,
 			Mnth8 MONEY NOT NULL, Mnth9 MONEY NOT NULL, Mnth10 MONEY NOT NULL, Mnth11 MONEY NOT NULL, Mnth12 MONEY NOT NULL);
-	DECLARE @CalendarMonths TABLE (CalendarMonthNameShort VARCHAR(50) NOT NULL, 
-								CalendarMonth TINYINT NOT NULL, CalendarYear SMALLINT NOT NULL,
+	DECLARE @CalendarMonths TABLE (CalendarMonth TINYINT NOT NULL, CalendarYear SMALLINT NOT NULL, [CalendarMonthNameLong] VARCHAR(100) NOT NULL,
 								PRIMARY KEY ([CalendarMonth], [CalendarYear]));
 
 	DECLARE @CalendarYear INT = YEAR([dtme].[udfGetLocalDate]());
@@ -60,13 +64,14 @@ AS BEGIN
 
 	WITH CalendarOrderingTrickCTE AS
 	(
-		SELECT	DISTINCT c.CalendarMonthNameShort, c.CalendarMonth, c.CalendarYear
+		SELECT	DISTINCT c.CalendarMonth, c.CalendarYear, c.[CalendarMonthNameLong]
 		FROM	dtme.Calendar AS c
 		WHERE	c.DateID BETWEEN EOMONTH(@InnerStartDate) AND EOMONTH(@InnerEndDate)
 	)
-	INSERT	@CalendarMonths (CalendarMonthNameShort, CalendarMonth, CalendarYear)
-	SELECT c.CalendarMonthNameShort,c.CalendarMonth,c.CalendarYear 
-	FROM CalendarOrderingTrickCTE AS c ORDER BY c.CalendarYear ASC, c.CalendarMonth ASC
+	INSERT	@CalendarMonths (CalendarMonth, CalendarYear, CalendarMonthNameLong)
+	SELECT c.CalendarMonth,c.CalendarYear,c.CalendarMonthNameLong
+	FROM CalendarOrderingTrickCTE AS c 
+	ORDER BY c.CalendarYear ASC, c.CalendarMonth ASC
 	
 	CREATE TABLE #MonthYearBillingTotals(
 		InvoicedMonth TINYINT NOT NULL,
@@ -83,20 +88,21 @@ AS BEGIN
 		(   SELECT      f.InvoicedMonth
 						, f.InvoicedYear
 						, SUM(f.BilledAmount) TotalBilledAmount
-			FROM        dbo.udfGetPrescriptionBilling(@InnerStartDate, @InnerEndDate, @GroupName, @PharmacyName) AS f
+			FROM        dbo.udfGetPrescriptionBilling(@InnerStartDate, @InnerEndDate, @InternalGroupName, @InternalPharmacyName) AS f
 			GROUP BY    f.InvoicedMonth
 						, f.InvoicedYear) AS A ON A.[InvoicedMonth] = [cm].[CalendarMonth]
 												AND [A].[InvoicedYear] = [cm].[CalendarYear]
 
-	INSERT #Master ( MonthBilled,[YearBilled],CalendarMonth,CalendarYear,TotalInvoiced,Mnth1,Mnth2,Mnth3,Mnth4,Mnth5
+	INSERT #Master ( MonthBilled,[YearBilled],CalendarMonth,[CalendarYear],TotalInvoiced,Mnth1,Mnth2,Mnth3,Mnth4,Mnth5
 						,Mnth6,Mnth7,Mnth8,Mnth9,Mnth10,Mnth11,Mnth12)
-	SELECT   c.CalendarMonthNameShort
+	SELECT	 c.[CalendarMonthNameLong]
 			,c.CalendarYear
-			,c.CalendarMonth
-			,c.CalendarYear
+			,c.[CalendarMonth]
+			,c.[CalendarYear]
 			,ISNULL(t.TotalBilledAmount, 0.00),0,0,0,0,0,0,0,0,0,0,0,0
 	FROM     @CalendarMonths AS c
 			 LEFT JOIN #MonthYearBillingTotals AS t ON t.InvoicedMonth = c.CalendarMonth AND t.InvoicedYear = c.CalendarYear
+	ORDER BY c.[CalendarYear] ASC, c.[CalendarMonth] ASC
 
 	-- Run through each billable month and update when payments were received for those billed amounts
 
@@ -145,7 +151,7 @@ AS BEGIN
 						(   SELECT	 [cm].[Idx]
 									,pp.AmountPaid
 							FROM	dbo.PrescriptionPayment AS pp
-									INNER JOIN dbo.udfGetPrescriptionBilling(@LoopStart, @LoopEnd, @GroupName, @PharmacyName) AS f ON f.PrescriptionID = pp.PrescriptionID
+									INNER JOIN dbo.udfGetPrescriptionBilling(@LoopStart, @LoopEnd, @InternalGroupName, @InternalPharmacyName) AS f ON f.PrescriptionID = pp.PrescriptionID
 									INNER JOIN @ChronologicalMapping AS [cm] ON FORMAT(pp.DatePosted, 'MM-yy') = [cm].[Interval]
 							) AS SourceTable
 				PIVOT
@@ -173,8 +179,7 @@ AS BEGIN
 	CLOSE PrescriptionPaymentsUpdater;
 	DEALLOCATE PrescriptionPaymentsUpdater;
 
-	SELECT m.MonthBilled
-		 , m.[CalendarYear] YearBilled
+	SELECT m.MonthBilled DateBilled
          , m.TotalInvoiced
          , m.Mnth1
          , m.Mnth2
@@ -191,5 +196,6 @@ AS BEGIN
 	FROM #Master AS m
 	ORDER BY m.[CalendarYear] ASC, m.CalendarMonth ASC
 END
+
 
 GO

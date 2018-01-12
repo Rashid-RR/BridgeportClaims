@@ -8,9 +8,7 @@ namespace BridgeportClaims.Data.Dtos
     {
         [Required]
         [StringLength(10)]
-        public string MonthBilled { get; set; }
-        [Required]
-        public byte YearBilled { get; set; }
+        public string DateBilled { get; set; }
         [Required]
         public decimal TotalInvoiced { get; set; }
         [Required]

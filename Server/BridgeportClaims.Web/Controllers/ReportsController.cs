@@ -1,6 +1,9 @@
 ﻿using NLog;
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Linq.Dynamic;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Disposable;
@@ -18,10 +21,48 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IReportsDataProvider _reportsDataProvider;
+        private const string Format = "MMMM_yyyy";
 
         public ReportsController(IReportsDataProvider reportsDataProvider)
         {
             _reportsDataProvider = reportsDataProvider;
+        }
+
+        private static Dictionary<int, string> MonthDictionary
+        {
+            get
+            {
+                var now = DateTime.Now.ToLocalTime();
+                var thisMonth = new DateTime(now.Year, now.Month, 1);
+                var month12 = thisMonth.ToString(Format);
+                var month11 = thisMonth.AddMonths(-1).ToString(Format);
+                var month10 = thisMonth.AddMonths(-2).ToString(Format);
+                var month9 = thisMonth.AddMonths(-3).ToString(Format);
+                var month8 = thisMonth.AddMonths(-4).ToString(Format);
+                var month7 = thisMonth.AddMonths(-5).ToString(Format);
+                var month6 = thisMonth.AddMonths(-6).ToString(Format);
+                var month5 = thisMonth.AddMonths(-7).ToString(Format);
+                var month4 = thisMonth.AddMonths(-8).ToString(Format);
+                var month3 = thisMonth.AddMonths(-9).ToString(Format);
+                var month2 = thisMonth.AddMonths(-10).ToString(Format);
+                var month1 = thisMonth.AddMonths(-11).ToString(Format);
+                var retVal = new Dictionary<int, string>
+                {
+                    {1, month1},
+                    {2, month2},
+                    {3, month3},
+                    {4, month4},
+                    {5, month5},
+                    {6, month6},
+                    {7, month7},
+                    {8, month8},
+                    {9, month9},
+                    {10, month10},
+                    {11, month11},
+                    {12, month12}
+                };
+                return retVal;
+            }
         }
 
         [HttpPost]
@@ -30,7 +71,14 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName));
+                var results = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                
+
+                var selectStatement = $"new ( MonthBilled, YearBilled, TotalInvoiced, Mnth1 as {MonthDictionary[1]}, Mnth2 as {MonthDictionary[2]}" +
+                    $", Mnth3 as {MonthDictionary[3]}, Mnth4 as {MonthDictionary[4]}, Mnth5 as {MonthDictionary[5]}, Mnth6 as {MonthDictionary[6]}, Mnth7 as {MonthDictionary[7]}, Mnth8 as {MonthDictionary[8]}" +
+                    $", Mnth9 as {MonthDictionary[9]}, Mnth10 as {MonthDictionary[10]}, Mnth11 as {MonthDictionary[11]}, Mnth12 as {MonthDictionary[12]} )";
+                var retVal = results?.AsQueryable().Select(selectStatement);
+                return Ok(retVal);
             }
             catch (Exception ex)
             {
@@ -77,21 +125,23 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return DisposableService.Using(() => new DataTable(), table =>
                 {
-                    table.Columns.Add("MonthBilled", typeof(string));
+                    table.Columns.Add("DateBilled", typeof(string));
                     table.Columns.Add("TotalInvoiced", typeof(decimal));
-                    table.Columns.Add("Jan17", typeof(decimal));
-                    table.Columns.Add("Feb17", typeof(decimal));
-                    table.Columns.Add("Mar17", typeof(decimal));
-                    table.Columns.Add("Apr17", typeof(decimal));
-                    table.Columns.Add("May17", typeof(decimal));
-                    table.Columns.Add("Jun17", typeof(decimal));
-                    table.Columns.Add("Jul17", typeof(decimal));
-                    table.Columns.Add("Aug17", typeof(decimal));
-                    table.Columns.Add("Sep17", typeof(decimal));
-                    table.Columns.Add("Oct17", typeof(decimal));
-                    table.Columns.Add("Nov17", typeof(decimal));
-                    table.Columns.Add("Dec17", typeof(decimal));
-                    var report = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                    table.Columns.Add(MonthDictionary[1], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[2], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[3], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[4], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[5], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[6], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[7], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[8], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[9], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[10], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[11], typeof(decimal));
+                    table.Columns.Add(MonthDictionary[12], typeof(decimal));
+                    var report = _reportsDataProvider?.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                    if (null == report)
+                        throw new Exception("Error. No results were found from running the Accounts Receivable report.");
                     var dt = report.CopyToGenericDataTable(table, LoadOption.PreserveChanges);
                     if (null == dt)
                         throw new Exception("Could not create a data table from the report.");
