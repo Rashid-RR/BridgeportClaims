@@ -16,6 +16,7 @@
         <div class="navbar-custom-menu cust-nav">
             <ul class="nav navbar-nav">
                 <ng-container *ngIf="!profileManager.profile">
+                        <li class="display-date"> <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
                     <li>
                         <a [routerLink]="'/register'"> <i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
                     </li>
@@ -23,7 +24,7 @@
                         <a [routerLink]="'/login'"> <i class="fa fa-sign-in" aria-hidden="true"></i>
                             Login</a>
                     </li>
-                    <li class="display-date"> <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
+                    
                 </ng-container>
                 
                 <ng-container *ngIf="profileManager.profile">
