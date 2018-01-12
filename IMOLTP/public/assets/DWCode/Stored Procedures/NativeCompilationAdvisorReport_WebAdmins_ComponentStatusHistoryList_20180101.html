@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[WebAdmins_ComponentStatusHistoryList]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[WebAdmins_ComponentStatusHistoryList]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT CASE @OrderColumn WHEN 'Component' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.AppName) ELSE ROW_NUMBER() OVER (ORDER BY h.AppName DESC) END) WHEN 'Host' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ComputerName) ELSE ROW_NUMBER() OVER (ORDER BY h.ComputerName DESC) END) WHEN 'OldStatus' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.OldStatus) ELSE ROW_NUMBER() OVER (ORDER BY h.OldStatus DESC) END) WHEN 'NewStatus' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.NewStatus) ELSE ROW_NUMBER() OVER (ORDER BY h.NewStatus DESC) END) WHEN 'ModifiedDate' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ModDate) ELSE ROW_NUMBER() OVER (ORDER BY h.ModDate DESC) END) WHEN 'ModifiedBy' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ModifiedBy) ELSE ROW_NUMBER() OVER (ORDER BY h.ModifiedBy DESC) END) WHEN 'Reason' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.Reason) ELSE ROW_NUMBER() OVER (ORDER BY h.Reason DESC) END) END AS RowNumber,
+       h.AppName AS Component,
+       h.ComputerName AS Host,
+       h.OldStatus,
+       h.NewStatus,
+       h.ModDate AS ModifiedDate,
+       h.ModifiedBy,
+       h.Reason
+INTO   #tmp
+FROM   dbo.ComponentStatusHistory AS h
+WHERE  @first_id &gt;= h.ComponentStatusHistoryID
+       AND (h.AppName LIKE '%' + @SearchText + '%'
+            OR h.ComputerName LIKE '%' + @SearchText + '%'
+            OR h.OldStatus LIKE '%' + @SearchText + '%'
+            OR h.NewStatus LIKE '%' + @SearchText + '%'
+            OR h.OldStatus LIKE '%' + @SearchText + '%'
+            OR CONVERT (NVARCHAR, h.ModDate, 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, h.ModDate, 100), 14, 7) LIKE @SearchText + '%'
+            OR h.ModifiedBy LIKE '%' + @SearchText + '%'
+            OR h.Reason LIKE '%' + @SearchText + '%')</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE @OrderColumn WHEN 'Component' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.AppName) ELSE ROW_NUMBER() OVER (ORDER BY h.AppName DESC) END) WHEN 'Host' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ComputerName) ELSE ROW_NUMBER() OVER (ORDER BY h.ComputerName DESC) END) WHEN 'OldStatus' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.OldStatus) ELSE ROW_NUMBER() OVER (ORDER BY h.OldStatus DESC) END) WHEN 'NewStatus' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.NewStatus) ELSE ROW_NUMBER() OVER (ORDER BY h.NewStatus DESC) END) WHEN 'ModifiedDate' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ModDate) ELSE ROW_NUMBER() OVER (ORDER BY h.ModDate DESC) END) WHEN 'ModifiedBy' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ModifiedBy) ELSE ROW_NUMBER() OVER (ORDER BY h.ModifiedBy DESC) END) WHEN 'Reason' THEN (CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.Reason) ELSE ROW_NUMBER() OVER (ORDER BY h.Reason DESC) END) END</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.AppName) ELSE ROW_NUMBER() OVER (ORDER BY h.AppName DESC) END</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ComputerName) ELSE ROW_NUMBER() OVER (ORDER BY h.ComputerName DESC) END</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.OldStatus) ELSE ROW_NUMBER() OVER (ORDER BY h.OldStatus DESC) END</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.NewStatus) ELSE ROW_NUMBER() OVER (ORDER BY h.NewStatus DESC) END</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ModDate) ELSE ROW_NUMBER() OVER (ORDER BY h.ModDate DESC) END</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.ModifiedBy) ELSE ROW_NUMBER() OVER (ORDER BY h.ModifiedBy DESC) END</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY h.Reason) ELSE ROW_NUMBER() OVER (ORDER BY h.Reason DESC) END</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">ROW_NUMBER</td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.AppName)</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.AppName DESC)</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.ComputerName)</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.ComputerName DESC)</td>
+        <td>16</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.OldStatus)</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.OldStatus DESC)</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.NewStatus)</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.NewStatus DESC)</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.ModDate)</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.ModDate DESC)</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.ModifiedBy)</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.ModifiedBy DESC)</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.Reason)</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY h.Reason DESC)</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OVER</td>
+        <td colspan="1">OVER (ORDER BY h.AppName)</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.AppName DESC)</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.ComputerName)</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.ComputerName DESC)</td>
+        <td>16</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.OldStatus)</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.OldStatus DESC)</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.NewStatus)</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.NewStatus DESC)</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.ModDate)</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.ModDate DESC)</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.ModifiedBy)</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.ModifiedBy DESC)</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.Reason)</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY h.Reason DESC)</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">h.AppName LIKE '%' + @SearchText + '%'</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">h.ComputerName LIKE '%' + @SearchText + '%'</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">h.OldStatus LIKE '%' + @SearchText + '%'</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">h.NewStatus LIKE '%' + @SearchText + '%'</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">h.OldStatus LIKE '%' + @SearchText + '%'</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, h.ModDate, 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, h.ModDate, 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">h.ModifiedBy LIKE '%' + @SearchText + '%'</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">h.Reason LIKE '%' + @SearchText + '%'</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#tmp</td>
+        <td>64</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[GetAgentLogDetailQVChangesByRowVersion]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[GetAgentLogDetailQVChangesByRowVersion]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:12 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COALESCE</td>
+        <td colspan="1">COALESCE (scld.Direction, cld.Direction, 3)</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">COALESCE (sald.StateIndex, ald.StateIndex)</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">(SELECT ald.Agent_Session_ID,
+        ald.StateIndex
+ FROM   Staging.Agent_Log_DetailQV AS ald
+ WHERE  ald.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+        AND ald.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+ UNION
+ SELECT ISNULL(sald.Agent_Session_ID, ald.Agent_Session_ID) AS Agent_Session_ID,
+        ISNULL(sald.StateIndex, ald.StateIndex) AS StateIndex
+ FROM   (SELECT clhs.Contact_ID,
+                clhs.Bus_No
+         FROM   Staging.Contact_Log_Header AS clhs
+         WHERE  clhs.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND clhs.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+         UNION
+         SELECT clds.Contact_ID,
+                clds.Bus_No
+         FROM   Staging.Contact_Log_DetailQV AS clds
+         WHERE  clds.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND clds.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+                AND clds.StateIndex = 1
+         UNION
+         SELECT sclf.Contact_ID,
+                sclf.Bus_No
+         FROM   Staging.Contact_Log_footer AS sclf
+         WHERE  sclf.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND sclf.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+         UNION
+         SELECT cld.Contact_ID,
+                cld.Bus_No
+         FROM   dbo.Contact_Log_Dispositions AS cld
+         WHERE  cld.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND cld.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)) AS cl
+        LEFT OUTER JOIN
+        Staging.Agent_Log_DetailQV AS sald
+        ON cl.Contact_ID = sald.Contact_ID
+           AND cl.Bus_No = sald.Bus_No
+           AND sald.Contact_ID IS NOT NULL
+        LEFT OUTER JOIN
+        dbo.Agent_Log_DetailQV AS ald
+        ON CASE WHEN sald.Contact_ID IS NULL THEN cl.Contact_ID END = ald.Contact_ID
+           AND CASE WHEN sald.Contact_ID IS NULL THEN cl.Bus_No END = ald.Bus_No
+ WHERE  sald.Contact_ID IS NOT NULL
+        OR ald.Contact_ID IS NOT NULL
+ UNION
+ SELECT ach.agentSessionId AS Agent_Session_ID,
+        COALESCE (sald.StateIndex, ald.StateIndex) AS StateIndex
+ FROM   dbo.AgentCleanupAuditHistory AS ach
+        LEFT OUTER JOIN
+        Staging.Agent_Log_DetailQV AS sald
+        ON ach.agentSessionId = sald.Agent_Session_ID
+           AND ach.bus_No = sald.Bus_No
+        LEFT OUTER JOIN
+        dbo.Agent_Log_DetailQV AS ald
+        ON CASE WHEN sald.Agent_Session_ID IS NULL THEN ach.agentSessionId END = ald.Agent_Session_ID
+           AND CASE WHEN sald.Agent_Session_ID IS NULL THEN ach.Bus_No END = ald.Bus_No
+ WHERE  (sald.Agent_Session_ID IS NOT NULL
+         OR ald.Agent_Session_ID IS NOT NULL)
+        AND forceLogOff = 1
+        AND ach.agentSessionId IS NOT NULL
+        AND ach.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+        AND ach.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)) AS flt
+LEFT OUTER JOIN
+Staging.Agent_Log_DetailQV AS sald
+ON flt.Agent_Session_ID = sald.Agent_Session_ID
+   AND flt.StateIndex = sald.StateIndex
+LEFT OUTER JOIN
+dbo.Agent_Log_DetailQV AS ald
+ON CASE WHEN sald.Agent_Session_ID IS NULL THEN flt.Agent_Session_ID END = ald.Agent_Session_ID
+   AND CASE WHEN sald.Agent_Session_ID IS NULL THEN flt.StateIndex END = ald.StateIndex
+LEFT OUTER JOIN
+Staging.Contact_Log_DetailQV AS scld
+ON CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END = scld.Contact_ID
+   AND CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Bus_No ELSE ald.Bus_No END = scld.Bus_No
+   AND scld.StateIndex = 1
+LEFT OUTER JOIN
+dbo.Contact_Log_DetailQV AS cld
+ON CASE WHEN scld.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END = cld.Contact_ID
+   AND CASE WHEN scld.Contact_ID IS NULL THEN ISNULL(sald.Bus_No, ald.Bus_No) END = cld.Bus_No
+   AND cld.StateIndex = 1
+LEFT OUTER JOIN
+Staging.Contact_Log_Header AS sclh
+ON CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END = sclh.Contact_ID
+LEFT OUTER JOIN
+dbo.Contact_Log_Header AS clh
+ON CASE WHEN sclh.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END = clh.Contact_ID
+LEFT OUTER JOIN
+Staging.Contact_Log_Footer AS sclf
+ON CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END = sclf.Contact_ID
+LEFT OUTER JOIN
+dbo.Contact_Log_Footer AS clf
+ON CASE WHEN sclf.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END = clf.Contact_ID OUTER APPLY (SELECT   TOP 1 ach.modAgentNo AS ForcedLogoutByAgentID,
+                                                                                                                                   ach.[date] AS ForcedLogoutAt
+                                                                                                                    FROM     dbo.AgentCleanupAuditHistory AS ach
+                                                                                                                    WHERE    ach.forceLogOff = 1
+                                                                                                                             AND flt.Agent_Session_ID = ach.agentSessionId
+                                                                                                                    ORDER BY ach.agentSessionId, [date] ASC) AS flh OUTER APPLY (SELECT   TOP 1 Disposition_Code
+                                                                                                                                                                                 FROM     dbo.Contact_Log_Dispositions
+                                                                                                                                                                                 WHERE    Contact_ID = ISNULL(sald.Contact_ID, ald.Contact_ID)
+                                                                                                                                                                                 ORDER BY Start_Date) AS cldisp</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT ald.Agent_Session_ID,
+        ald.StateIndex
+ FROM   Staging.Agent_Log_DetailQV AS ald
+ WHERE  ald.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+        AND ald.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+ UNION
+ SELECT ISNULL(sald.Agent_Session_ID, ald.Agent_Session_ID) AS Agent_Session_ID,
+        ISNULL(sald.StateIndex, ald.StateIndex) AS StateIndex
+ FROM   (SELECT clhs.Contact_ID,
+                clhs.Bus_No
+         FROM   Staging.Contact_Log_Header AS clhs
+         WHERE  clhs.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND clhs.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+         UNION
+         SELECT clds.Contact_ID,
+                clds.Bus_No
+         FROM   Staging.Contact_Log_DetailQV AS clds
+         WHERE  clds.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND clds.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+                AND clds.StateIndex = 1
+         UNION
+         SELECT sclf.Contact_ID,
+                sclf.Bus_No
+         FROM   Staging.Contact_Log_footer AS sclf
+         WHERE  sclf.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND sclf.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+         UNION
+         SELECT cld.Contact_ID,
+                cld.Bus_No
+         FROM   dbo.Contact_Log_Dispositions AS cld
+         WHERE  cld.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND cld.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)) AS cl
+        LEFT OUTER JOIN
+        Staging.Agent_Log_DetailQV AS sald
+        ON cl.Contact_ID = sald.Contact_ID
+           AND cl.Bus_No = sald.Bus_No
+           AND sald.Contact_ID IS NOT NULL
+        LEFT OUTER JOIN
+        dbo.Agent_Log_DetailQV AS ald
+        ON CASE WHEN sald.Contact_ID IS NULL THEN cl.Contact_ID END = ald.Contact_ID
+           AND CASE WHEN sald.Contact_ID IS NULL THEN cl.Bus_No END = ald.Bus_No
+ WHERE  sald.Contact_ID IS NOT NULL
+        OR ald.Contact_ID IS NOT NULL
+ UNION
+ SELECT ach.agentSessionId AS Agent_Session_ID,
+        COALESCE (sald.StateIndex, ald.StateIndex) AS StateIndex
+ FROM   dbo.AgentCleanupAuditHistory AS ach
+        LEFT OUTER JOIN
+        Staging.Agent_Log_DetailQV AS sald
+        ON ach.agentSessionId = sald.Agent_Session_ID
+           AND ach.bus_No = sald.Bus_No
+        LEFT OUTER JOIN
+        dbo.Agent_Log_DetailQV AS ald
+        ON CASE WHEN sald.Agent_Session_ID IS NULL THEN ach.agentSessionId END = ald.Agent_Session_ID
+           AND CASE WHEN sald.Agent_Session_ID IS NULL THEN ach.Bus_No END = ald.Bus_No
+ WHERE  (sald.Agent_Session_ID IS NOT NULL
+         OR ald.Agent_Session_ID IS NOT NULL)
+        AND forceLogOff = 1
+        AND ach.agentSessionId IS NOT NULL
+        AND ach.[RowVersion] &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+        AND ach.[RowVersion] &lt;= CONVERT (ROWVERSION, @RowVersionTo)) AS flt
+LEFT OUTER JOIN
+Staging.Agent_Log_DetailQV AS sald
+ON flt.Agent_Session_ID = sald.Agent_Session_ID
+   AND flt.StateIndex = sald.StateIndex
+LEFT OUTER JOIN
+dbo.Agent_Log_DetailQV AS ald
+ON CASE WHEN sald.Agent_Session_ID IS NULL THEN flt.Agent_Session_ID END = ald.Agent_Session_ID
+   AND CASE WHEN sald.Agent_Session_ID IS NULL THEN flt.StateIndex END = ald.StateIndex
+LEFT OUTER JOIN
+Staging.Contact_Log_DetailQV AS scld
+ON CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END = scld.Contact_ID
+   AND CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Bus_No ELSE ald.Bus_No END = scld.Bus_No
+   AND scld.StateIndex = 1
+LEFT OUTER JOIN
+dbo.Contact_Log_DetailQV AS cld
+ON CASE WHEN scld.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END = cld.Contact_ID
+   AND CASE WHEN scld.Contact_ID IS NULL THEN ISNULL(sald.Bus_No, ald.Bus_No) END = cld.Bus_No
+   AND cld.StateIndex = 1
+LEFT OUTER JOIN
+Staging.Contact_Log_Header AS sclh
+ON CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END = sclh.Contact_ID
+LEFT OUTER JOIN
+dbo.Contact_Log_Header AS clh
+ON CASE WHEN sclh.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END = clh.Contact_ID
+LEFT OUTER JOIN
+Staging.Contact_Log_Footer AS sclf
+ON CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END = sclf.Contact_ID
+LEFT OUTER JOIN
+dbo.Contact_Log_Footer AS clf
+ON CASE WHEN sclf.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END = clf.Contact_ID OUTER APPLY (SELECT   TOP 1 ach.modAgentNo AS ForcedLogoutByAgentID,
+                                                                                                                                   ach.[date] AS ForcedLogoutAt
+                                                                                                                    FROM     dbo.AgentCleanupAuditHistory AS ach
+                                                                                                                    WHERE    ach.forceLogOff = 1
+                                                                                                                             AND flt.Agent_Session_ID = ach.agentSessionId
+                                                                                                                    ORDER BY ach.agentSessionId, [date] ASC) AS flh</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN sald.Contact_ID IS NULL THEN cl.Contact_ID END</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Contact_ID IS NULL THEN cl.Bus_No END</td>
+        <td>106</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Agent_Session_ID IS NULL THEN ach.agentSessionId END</td>
+        <td>123</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Agent_Session_ID IS NULL THEN ach.Bus_No END</td>
+        <td>124</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Agent_Session_ID IS NULL THEN flt.Agent_Session_ID END</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Agent_Session_ID IS NULL THEN flt.StateIndex END</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END</td>
+        <td>142</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Bus_No ELSE ald.Bus_No END</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN scld.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN scld.Contact_ID IS NULL THEN ISNULL(sald.Bus_No, ald.Bus_No) END</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sclh.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END</td>
+        <td>155</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sald.Agent_Session_ID IS NOT NULL THEN sald.Contact_ID ELSE ald.Contact_ID END</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sclf.Contact_ID IS NULL THEN ISNULL(sald.Contact_ID, ald.Contact_ID) END</td>
+        <td>161</td>
+      </tr>
+    </table>
+  </body>
+</html>

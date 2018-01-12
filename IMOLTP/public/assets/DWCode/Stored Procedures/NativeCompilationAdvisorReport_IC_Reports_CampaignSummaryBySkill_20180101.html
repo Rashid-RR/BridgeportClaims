@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_CampaignSummaryBySkill]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_CampaignSummaryBySkill]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT DISTINCT skl.Skill_No,
+                skl.skill_name,
+                skl.includeOtherAbandons,
+                skl.includeShortAbandons,
+                skl.shortAbandonThreshold,
+                skl.useShortAbandonThreshold,
+                CAST (skl.sla_seconds AS BIGINT) AS sla_seconds,
+                skl.Outbound_Skill
+INTO   #SkillsTemp
+FROM   dbo.Skills AS skl
+       INNER JOIN
+       dbo.Security_DataRoles AS dr
+       ON (skl.Campaign_no = dr.EntityID
+           OR dr.ViewAllAndFuture = 1)
+       INNER JOIN
+       dbo.Security_DataRoleEntityTypes AS dret
+       ON (dr.DataRoleEntityTypeID = dret.DataRoleEntityTypeID)
+       INNER JOIN
+       dbo.fn_SplitOptionalInt(@CampaignNoList) AS CPGList
+       ON skl.Campaign_no BETWEEN CPGList.IDMin AND CPGList.IDMax
+       INNER JOIN
+       dbo.fn_SplitOptionalInt(@SkillNoList) AS SKLList
+       ON skl.Skill_No BETWEEN SKLList.IDMin AND SKLList.IDMax
+       INNER JOIN
+       dbo.fn_SplitOptionalInt(@MediaList) AS MediaList
+       ON skl.Media_Type BETWEEN MediaList.IDMin AND MediaList.IDMax
+WHERE  skl.Bus_No = @BusNo
+       AND skl.Outbound_Skill = CASE WHEN @Direction = 1 THEN 0 WHEN @Direction = 2 THEN 1 ELSE skl.Outbound_Skill END
+       AND dret.DataRoleEntityTypeName = 'campaigns'
+       AND dr.SecurityProfileID = @profileID</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT cld.Contact_ID,
+                cld.Skill_No,
+                cld.Direction,
+                cld.ReskillIndicator,
+                cld.Contact_State
+INTO   #ContactLogHeaderCTE
+FROM   dbo.[Contact_Log_DetailQV] AS cld
+       INNER JOIN
+       dbo.fn_SplitOptionalInt(@PointOfContactList) AS POCList
+       ON cld.Contact_Code BETWEEN POCList.IDMin AND POCList.IDMax
+       INNER JOIN
+       [dbo].[Contact_Log_HeadeR] AS CLH
+       ON CLH.Contact_ID = cld.Contact_ID
+WHERE  cld.Bus_No = @BusNo
+       AND (cld.StartDate BETWEEN @StartDate AND @EndDate)</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT cld.Contact_ID,
+                cld.Skill_No,
+                1 AS IsAbandon
+INTO   #AbandonContactsCTE
+FROM   dbo.[Contact_Log_DetailQV] AS cld
+WHERE  cld.BUS_No = @BusNo
+       AND (cld.StartDate BETWEEN @StartDate AND @EndDate)
+       AND cld.Contact_State = 1</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT cld.Contact_ID,
+                cld.Skill_No,
+                1 AS Handled
+INTO   #HandledContactsCTE
+FROM   dbo.[Contact_Log_DetailQV] AS cld
+WHERE  cld.BUS_No = @BusNo
+       AND (cld.StartDate BETWEEN @StartDate AND @EndDate)
+       AND cld.Duration &gt; 0
+       AND cld.Contact_State = 4</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT cld.Contact_ID,
+                cld.Skill_No,
+                1 AS Routed
+INTO   #RoutedContactsCTE
+FROM   dbo.[Contact_Log_DetailQV] AS cld
+WHERE  cld.BUS_No = @BusNo
+       AND (cld.StartDate BETWEEN @StartDate AND @EndDate)
+       AND cld.ReskillIndicator &lt;= 2
+       AND cld.Contact_State = 2</td>
+        <td>149</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   cld.Contact_Id,
+         cld.Skill_No,
+         SUM(cld.Duration) AS InQueueTime
+INTO     #InQueueTimeCTE
+FROM     dbo.[Contact_Log_DetailQV] AS cld
+         INNER JOIN
+         dbo.Contact_State AS cs
+         ON cld.Contact_State = cs.contact_state
+WHERE    cld.BUS_No = @BusNo
+         AND (cld.StartDate BETWEEN @StartDate AND @EndDate)
+         AND cs.category1 = 'InQueue'
+GROUP BY cld.Contact_Id, cld.Skill_No</td>
+        <td>163</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   skl.Skill_No,
+         SUM(cld.Duration) AS ContactHandleTime
+INTO     #SkillHandleTime
+FROM     #SkillsTemp AS skl
+         INNER JOIN
+         dbo.[Contact_Log_DetailQV] AS cld
+         ON cld.skill_No = skl.skill_no
+WHERE    cld.Bus_No = @BusNo
+         AND (cld.StartDate BETWEEN @StartDate AND @EndDate)
+         AND cld.Contact_State IN (4, 8, 14)
+GROUP BY skl.Skill_No</td>
+        <td>180</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   skl.Skill_No,
+         SUM(ald.Duration) AS ACWTime
+INTO     #SkillACWTime
+FROM     #SkillsTemp AS skl
+         INNER JOIN
+         dbo.[Agent_Log_DetailQV] AS ald
+         ON ald.skill_No = skl.skill_no
+         INNER JOIN
+         dbo.Outstates AS os
+         ON ald.Outstate_Code = os.outstate_code
+WHERE    ald.Bus_No = @BusNo
+         AND (ald.StartDate BETWEEN @StartDate AND @EndDate)
+         AND os.IsACW = 'T'
+         AND os.IsSystemOutstate = 0
+GROUP BY skl.Skill_No</td>
+        <td>195</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   skl.Skill_No AS Skill_No,
+         COUNT(DISTINCT clh.Contact_ID) AS Incoming
+INTO     #IncomingTemp
+FROM     #ContactLogHeaderCTE AS clh
+         INNER JOIN
+         #SkillsTemp AS skl
+         ON clh.Skill_No = skl.Skill_No
+WHERE    clh.Direction = 1
+         AND clh.ReskillIndicator = 0
+         AND clh.Contact_State = 9
+GROUP BY skl.Skill_No</td>
+        <td>212</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@CampaignNoList) AS CPGList</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@SkillNoList) AS SKLList</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@MediaList) AS MediaList</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@PointOfContactList) AS POCList</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN @Direction = 1 THEN 0 WHEN @Direction = 2 THEN 1 ELSE skl.Outbound_Skill END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(sla.Handled) &gt; 0 THEN (ISNULL(ContactHandleTime, 0) + ISNULL(ACWTime, 0)) / SUM(sla.Handled) ELSE 0 END</td>
+        <td>241</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(sla.Queued) &gt; 0 THEN (SUM(sla.InqueueTime) * 1.00 / SUM(sla.Queued) * 1.00) ELSE 0 END</td>
+        <td>248</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(sla.Queued) &gt; 0 THEN (SUM(sla.IsAbandon) * 1.00 / SUM(sla.Queued) * 1.00) * 100 ELSE 0 END</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sla.IsAbandon = 1 THEN sla.InqueueTime ELSE 0 END</td>
+        <td>259</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(sla.IsAbandon) &gt; 0 THEN SUM(CASE WHEN sla.IsAbandon = 1 THEN sla.InqueueTime ELSE 0 END) * 1.00 / SUM(sla.IsAbandon) ELSE 0 END</td>
+        <td>261</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sla.IsAbandon = 1 THEN sla.InqueueTime ELSE 0 END</td>
+        <td>262</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sla.includeOtherAbandons = 1 THEN (SUM(sla.IsAbandon) - SUM(sla.SLAShortAbandon)) ELSE 0 END</td>
+        <td>268</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN useShortAbandonThreshold = 1 THEN SUM(sla.SLAAfterObjective) + CASE WHEN sla.includeOtherAbandons = 1 THEN (SUM(sla.IsAbandon) - SUM(sla.SLAShortAbandon)) WHEN sla.includeShortAbandons = 1 THEN SUM(sla.SLAShortAbandon) ELSE 0 END ELSE SUM(sla.SLAAfterObjective) + SUM(sla.IsAbandon) END</td>
+        <td>272</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sla.includeOtherAbandons = 1 THEN (SUM(sla.IsAbandon) - SUM(sla.SLAShortAbandon)) WHEN sla.includeShortAbandons = 1 THEN SUM(sla.SLAShortAbandon) ELSE 0 END</td>
+        <td>275</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(sla.SLABeforeObjective) &gt; 0 THEN (SUM(sla.SLABeforeObjective) * 1.00 / (SUM(sla.SLABeforeObjective) + CASE WHEN useShortAbandonThreshold = 1 THEN SUM(sla.SLAAfterObjective) + CASE WHEN sla.includeOtherAbandons = 1 THEN (SUM(sla.IsAbandon) - SUM(sla.SLAShortAbandon)) WHEN sla.includeShortAbandons = 1 THEN SUM(sla.SLAShortAbandon) ELSE 0 END ELSE SUM(sla.SLAAfterObjective) + SUM(sla.IsAbandon) END) * 100) ELSE 0 END</td>
+        <td>284</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN useShortAbandonThreshold = 1 THEN SUM(sla.SLAAfterObjective) + CASE WHEN sla.includeOtherAbandons = 1 THEN (SUM(sla.IsAbandon) - SUM(sla.SLAShortAbandon)) WHEN sla.includeShortAbandons = 1 THEN SUM(sla.SLAShortAbandon) ELSE 0 END ELSE SUM(sla.SLAAfterObjective) + SUM(sla.IsAbandon) END</td>
+        <td>289</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sla.includeOtherAbandons = 1 THEN (SUM(sla.IsAbandon) - SUM(sla.SLAShortAbandon)) WHEN sla.includeShortAbandons = 1 THEN SUM(sla.SLAShortAbandon) ELSE 0 END</td>
+        <td>292</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN clh.Direction = 2 THEN 1 ELSE 0 END</td>
+        <td>312</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN clh.Direction = 1
+          AND rc.Routed = 1 THEN 1 ELSE 0 END</td>
+        <td>313</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN clh.Direction = 1
+          AND skl.Outbound_Skill = 0
+          AND ISNULL(ab.IsAbandon, 0) = 1 THEN 1 ELSE 0 END</td>
+        <td>315</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN NOT iq.InQueueTime IS NULL
+          AND clh.Direction = 1
+          AND clh.ReskillIndicator &lt;= 2 THEN 1 ELSE 0 END</td>
+        <td>318</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ab.IsAbandon = 1
+          AND clh.Direction = 1
+          AND skl.Outbound_Skill = 0
+          AND clh.ReskillIndicator &lt;= 1
+          AND iq.InQueueTime &lt; (skl.shortAbandonThreshold * 1000) THEN 1 ELSE 0 END</td>
+        <td>319</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ab.IsAbandon IS NULL
+          AND clh.Direction = 1
+          AND skl.Outbound_Skill = 0
+          AND clh.ReskillIndicator &lt;= 1
+          AND iq.InQueueTime &lt; (skl.sla_seconds * 1000) THEN 1 ELSE 0 END</td>
+        <td>321</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ab.IsAbandon IS NULL
+          AND clh.Direction = 1
+          AND skl.Outbound_Skill = 0
+          AND clh.ReskillIndicator &lt;= 1
+          AND iq.InQueueTime &gt;= (skl.sla_seconds * 1000) THEN 1 ELSE 0 END</td>
+        <td>322</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN useShortAbandonThreshold = 1 THEN CASE WHEN ab.IsAbandon = 1
+                                                      AND clh.Direction = 1
+                                                      AND skl.Outbound_Skill = 0
+                                                      AND clh.ReskillIndicator &lt;= 1
+                                                      AND iq.InQueueTime &lt; (skl.shortAbandonThreshold * 1000) THEN 1 ELSE 0 END ELSE 0 END</td>
+        <td>323</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ab.IsAbandon = 1
+          AND clh.Direction = 1
+          AND skl.Outbound_Skill = 0
+          AND clh.ReskillIndicator &lt;= 1
+          AND iq.InQueueTime &lt; (skl.shortAbandonThreshold * 1000) THEN 1 ELSE 0 END</td>
+        <td>325</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN useShortAbandonThreshold = 1 THEN CASE WHEN ab.IsAbandon = 1
+                                                      AND clh.Direction = 1
+                                                      AND skl.Outbound_Skill = 0
+                                                      AND clh.ReskillIndicator &lt;= 1
+                                                      AND iq.InQueueTime &gt;= (skl.shortAbandonThreshold * 1000) THEN 1 ELSE 0 END ELSE 0 END</td>
+        <td>330</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ab.IsAbandon = 1
+          AND clh.Direction = 1
+          AND skl.Outbound_Skill = 0
+          AND clh.ReskillIndicator &lt;= 1
+          AND iq.InQueueTime &gt;= (skl.shortAbandonThreshold * 1000) THEN 1 ELSE 0 END</td>
+        <td>332</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#SkillsTemp AS skl</td>
+        <td>184</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillsTemp AS skl</td>
+        <td>199</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogHeaderCTE AS clh</td>
+        <td>216</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillsTemp AS skl</td>
+        <td>217</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogHeaderCTE</td>
+        <td>345</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillsTemp AS skl</td>
+        <td>352</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AbandonContactsCTE AS ab</td>
+        <td>354</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#HandledContactsCTE AS hc</td>
+        <td>355</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#RoutedContactsCTE AS rc</td>
+        <td>356</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#InQueueTimeCTE AS iq</td>
+        <td>357</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillHandleTime AS sklht</td>
+        <td>359</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillACWTime AS sklACW</td>
+        <td>360</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#IncomingTemp AS inc</td>
+        <td>361</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">DISTINCT</td>
+        <td colspan="1">COUNT(DISTINCT clh.Contact_ID)</td>
+        <td>214</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_LeadSourceAuditReport]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_LeadSourceAuditReport]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">nvarchar(MAX)</td>
+        <td colspan="1">NVARCHAR (MAX)</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NVARCHAR (MAX)</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#FilteredProspectiveContactSourceTable</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#PropectiveContactSourceNoList</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FilteredProspectiveContactSourceTable</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#PropectiveContactSourceNoList AS snl</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillNoList</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#FilteredProspectiveContactSourceTable</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillNoList</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#PropectiveContactSourceNoList2</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillNoList2</td>
+        <td>118</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#FilteredProspectiveContactSourceTable</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#PropectiveContactSourceNoList2 AS snl</td>
+        <td>130</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillNoList2</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FilteredProspectiveContactSourceTable AS fpcs</td>
+        <td>155</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#FilteredProspectiveContactSourceTable AS fpcs</td>
+        <td>199</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@PropectiveContactSourceList)</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@SkillNoList) AS snl</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@PropectiveContactSourceList)</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@SkillNoList) AS snl</td>
+        <td>121</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN d.Loaded - a.ScrubbedDNC = 0 THEN 100.0 ELSE CONVERT (VARCHAR, CONVERT (DECIMAL (10, 1), ((a.finalized - a.ScrubbedDNC) * 100.0) / (d.Loaded - a.ScrubbedDNC), 1)) END</td>
+        <td>172</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.Loaded = 0 THEN 100.0 ELSE CONVERT (VARCHAR, CONVERT (DECIMAL (10, 1), ((a.finalized - a.ScrubbedDNC) * 100.0) / (d.Loaded), 1)) END</td>
+        <td>176</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.Active = 1 THEN d.Loaded - a.finalized ELSE 0 END</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.Active = 0 THEN d.Loaded - a.finalized ELSE 0 END</td>
+        <td>194</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pcs.ContactExhausted = 1
+          AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END</td>
+        <td>202</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pcs.ContactExpired = 1
+          AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pcs.Removed = 1
+          AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END</td>
+        <td>211</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pcs.SourceRemoved = 1
+          AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END</td>
+        <td>215</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pcs.ContactDisposedFinal = 1 THEN 1 ELSE 0 END</td>
+        <td>219</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pcs.ContactDisposedFinal = 1
+          AND dc.ReportingGroupId = 8 THEN 1 ELSE 0 END</td>
+        <td>223</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pcs.ContactDisposedFinal = 1
+          AND dc.ReportingGroupId = 9 THEN 1 ELSE 0 END</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pcs.Attempts = 0
+          AND pcs.ContactDNC = 1 THEN 1 ELSE 0 END</td>
+        <td>231</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN pc.Skill_No IS NULL THEN 1 ELSE 0 END</td>
+        <td>250</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">dbo.ProspectiveContactSources AS s
+INNER JOIN
+#FilteredProspectiveContactSourceTable AS fpcs
+ON fpcs.ProspectiveContactSourceId = s.ProspectiveContactSourceId OUTER APPLY (SELECT IsNULL(SUM(CASE WHEN pcs.ContactExhausted = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS MaxAttempts,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactExpired = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS ExpiredContacts,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.Removed = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS Removed,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.SourceRemoved = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS SourceRemoved,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1 THEN 1 ELSE 0 END), 0) AS AllFinalByDispo,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1
+                                                                                                           AND dc.ReportingGroupId = 8 THEN 1 ELSE 0 END), 0) AS SystemFinal,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1
+                                                                                                           AND dc.ReportingGroupId = 9 THEN 1 ELSE 0 END), 0) AS SuppressedFinal,
+                                                                                      ISNULL(SUM(CASE WHEN pcs.Attempts = 0
+                                                                                                           AND pcs.ContactDNC = 1 THEN 1 ELSE 0 END), 0) AS ScrubbedDNC,
+                                                                                      COUNT(*) AS Finalized
+                                                                               FROM   dbo.ProspectiveContacts AS pc
+                                                                                      INNER JOIN
+                                                                                      dbo.ProspectiveContactSummaries AS pcs
+                                                                                      ON pcs.Bus_No = @Bus_No
+                                                                                         AND pcs.Finalized = 1
+                                                                                         AND pc.ProspectiveContactId = pcs.ProspectiveContactId
+                                                                                      LEFT OUTER JOIN
+                                                                                      dbo.OutboundDetailRecords AS odr
+                                                                                      ON odr.OutboundDetailRecordId = pcs.LastODR
+                                                                                      LEFT OUTER JOIN
+                                                                                      dbo.DispositionClassifications AS dc
+                                                                                      ON dc.DispositionClassificationId = odr.DispositionClassificationId
+                                                                               WHERE  pc.Bus_No = @Bus_No
+                                                                                      AND pc.ProspectiveContactSourceId = s.ProspectiveContactSourceId) AS a OUTER APPLY (SELECT count(*) AS NonFinalCount,
+                                                                                                                                                                                 ISNULL(SUM(CASE WHEN pc.Skill_No IS NULL THEN 1 ELSE 0 END), 0) AS Unassigned
+                                                                                                                                                                          FROM   dbo.ProspectiveContacts AS pc
+                                                                                                                                                                                 INNER JOIN
+                                                                                                                                                                                 dbo.ProspectiveContactSummaries AS pcs
+                                                                                                                                                                                 ON pc.ProspectiveContactId = pcs.ProspectiveContactId
+                                                                                                                                                                          WHERE  pc.Bus_No = @Bus_No
+                                                                                                                                                                                 AND pc.ProspectiveContactSourceId = s.ProspectiveContactSourceId
+                                                                                                                                                                                 AND pcs.finalized = 0) AS c OUTER APPLY (SELECT COUNT(*) AS Loaded
+                                                                                                                                                                                                                          FROM   dbo.ProspectiveContacts AS pc
+                                                                                                                                                                                                                          WHERE  pc.Bus_No = @Bus_No
+                                                                                                                                                                                                                                 AND pc.ProspectiveContactSourceId = s.ProspectiveContactSourceId) AS d</td>
+        <td>198</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.ProspectiveContactSources AS s
+INNER JOIN
+#FilteredProspectiveContactSourceTable AS fpcs
+ON fpcs.ProspectiveContactSourceId = s.ProspectiveContactSourceId OUTER APPLY (SELECT IsNULL(SUM(CASE WHEN pcs.ContactExhausted = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS MaxAttempts,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactExpired = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS ExpiredContacts,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.Removed = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS Removed,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.SourceRemoved = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS SourceRemoved,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1 THEN 1 ELSE 0 END), 0) AS AllFinalByDispo,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1
+                                                                                                           AND dc.ReportingGroupId = 8 THEN 1 ELSE 0 END), 0) AS SystemFinal,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1
+                                                                                                           AND dc.ReportingGroupId = 9 THEN 1 ELSE 0 END), 0) AS SuppressedFinal,
+                                                                                      ISNULL(SUM(CASE WHEN pcs.Attempts = 0
+                                                                                                           AND pcs.ContactDNC = 1 THEN 1 ELSE 0 END), 0) AS ScrubbedDNC,
+                                                                                      COUNT(*) AS Finalized
+                                                                               FROM   dbo.ProspectiveContacts AS pc
+                                                                                      INNER JOIN
+                                                                                      dbo.ProspectiveContactSummaries AS pcs
+                                                                                      ON pcs.Bus_No = @Bus_No
+                                                                                         AND pcs.Finalized = 1
+                                                                                         AND pc.ProspectiveContactId = pcs.ProspectiveContactId
+                                                                                      LEFT OUTER JOIN
+                                                                                      dbo.OutboundDetailRecords AS odr
+                                                                                      ON odr.OutboundDetailRecordId = pcs.LastODR
+                                                                                      LEFT OUTER JOIN
+                                                                                      dbo.DispositionClassifications AS dc
+                                                                                      ON dc.DispositionClassificationId = odr.DispositionClassificationId
+                                                                               WHERE  pc.Bus_No = @Bus_No
+                                                                                      AND pc.ProspectiveContactSourceId = s.ProspectiveContactSourceId) AS a OUTER APPLY (SELECT count(*) AS NonFinalCount,
+                                                                                                                                                                                 ISNULL(SUM(CASE WHEN pc.Skill_No IS NULL THEN 1 ELSE 0 END), 0) AS Unassigned
+                                                                                                                                                                          FROM   dbo.ProspectiveContacts AS pc
+                                                                                                                                                                                 INNER JOIN
+                                                                                                                                                                                 dbo.ProspectiveContactSummaries AS pcs
+                                                                                                                                                                                 ON pc.ProspectiveContactId = pcs.ProspectiveContactId
+                                                                                                                                                                          WHERE  pc.Bus_No = @Bus_No
+                                                                                                                                                                                 AND pc.ProspectiveContactSourceId = s.ProspectiveContactSourceId
+                                                                                                                                                                                 AND pcs.finalized = 0) AS c</td>
+        <td>198</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.ProspectiveContactSources AS s
+INNER JOIN
+#FilteredProspectiveContactSourceTable AS fpcs
+ON fpcs.ProspectiveContactSourceId = s.ProspectiveContactSourceId OUTER APPLY (SELECT IsNULL(SUM(CASE WHEN pcs.ContactExhausted = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS MaxAttempts,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactExpired = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS ExpiredContacts,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.Removed = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS Removed,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.SourceRemoved = 1
+                                                                                                           AND pcs.ContactDisposedFinal = 0 THEN 1 ELSE 0 END), 0) AS SourceRemoved,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1 THEN 1 ELSE 0 END), 0) AS AllFinalByDispo,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1
+                                                                                                           AND dc.ReportingGroupId = 8 THEN 1 ELSE 0 END), 0) AS SystemFinal,
+                                                                                      IsNULL(SUM(CASE WHEN pcs.ContactDisposedFinal = 1
+                                                                                                           AND dc.ReportingGroupId = 9 THEN 1 ELSE 0 END), 0) AS SuppressedFinal,
+                                                                                      ISNULL(SUM(CASE WHEN pcs.Attempts = 0
+                                                                                                           AND pcs.ContactDNC = 1 THEN 1 ELSE 0 END), 0) AS ScrubbedDNC,
+                                                                                      COUNT(*) AS Finalized
+                                                                               FROM   dbo.ProspectiveContacts AS pc
+                                                                                      INNER JOIN
+                                                                                      dbo.ProspectiveContactSummaries AS pcs
+                                                                                      ON pcs.Bus_No = @Bus_No
+                                                                                         AND pcs.Finalized = 1
+                                                                                         AND pc.ProspectiveContactId = pcs.ProspectiveContactId
+                                                                                      LEFT OUTER JOIN
+                                                                                      dbo.OutboundDetailRecords AS odr
+                                                                                      ON odr.OutboundDetailRecordId = pcs.LastODR
+                                                                                      LEFT OUTER JOIN
+                                                                                      dbo.DispositionClassifications AS dc
+                                                                                      ON dc.DispositionClassificationId = odr.DispositionClassificationId
+                                                                               WHERE  pc.Bus_No = @Bus_No
+                                                                                      AND pc.ProspectiveContactSourceId = s.ProspectiveContactSourceId) AS a</td>
+        <td>198</td>
+      </tr>
+    </table>
+  </body>
+</html>

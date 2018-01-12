@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [Admin].[populate_DDL_Trace]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [Admin].[populate_DDL_Trace]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:59 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SET OPTION OFF</td>
+        <td colspan="1">SET ANSI_WARNINGS OFF</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">OBJECT_ID('DDL_Trace')</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">DDL_Trace</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DDL_Trace</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">DDL_Trace AS d</td>
+        <td>230</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">REVERSE</td>
+        <td colspan="1">REVERSE(@curr_tracefilename)</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REVERSE(@curr_tracefilename)</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">PATINDEX</td>
+        <td colspan="1">PATINDEX('%\%', @curr_tracefilename)</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">LEFT</td>
+        <td colspan="1">LEFT(@curr_tracefilename, LEN(@curr_tracefilename) - @indx)</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">FN_TRACE_GETTABLE</td>
+        <td colspan="1">::FN_TRACE_GETTABLE (@base_tracefilename, DEFAULT)</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">::FN_TRACE_GETTABLE (@base_tracefilename, DEFAULT)</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN ISNULL(t.object_type, 0) = 16964 THEN 'Database' ELSE t.obj_name END</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.OBJECT_TYPE IS NULL
+          AND t.event_class = 104 THEN 'Login' WHEN t.OBJECT_TYPE = 8259 THEN 'Check Constraint' WHEN t.OBJECT_TYPE = 8260 THEN 'Default (constraint or standalone)' WHEN t.OBJECT_TYPE = 8262 THEN 'Foreign-key Constraint' WHEN t.OBJECT_TYPE = 8272 THEN 'Stored Procedure' WHEN t.OBJECT_TYPE = 8274 THEN 'Rule' WHEN t.OBJECT_TYPE = 8275 THEN 'System Table' WHEN t.OBJECT_TYPE = 8276 THEN 'Trigger on Server' WHEN t.OBJECT_TYPE = 8277 THEN 'User Table' WHEN t.OBJECT_TYPE = 8278 THEN 'View' WHEN t.OBJECT_TYPE = 8280 THEN 'Extended Stored Procedure' WHEN t.OBJECT_TYPE = 16724 THEN 'CLR Trigger' WHEN t.OBJECT_TYPE = 16964 THEN 'Database' WHEN t.OBJECT_TYPE = 16975 THEN 'Object' WHEN t.OBJECT_TYPE = 17222 THEN 'FullText Catalog' WHEN t.OBJECT_TYPE = 17232 THEN 'CLR Stored Procedure' WHEN t.OBJECT_TYPE = 17235 THEN 'Schema' WHEN t.OBJECT_TYPE = 17475 THEN 'Credential' WHEN t.OBJECT_TYPE = 17491 THEN 'DDL Event' WHEN t.OBJECT_TYPE = 17741 THEN 'Management Event' WHEN t.OBJECT_TYPE = 17747 THEN 'Security Event' WHEN t.OBJECT_TYPE = 17749 THEN 'User Event' WHEN t.OBJECT_TYPE = 17985 THEN 'CLR Aggregate Function' WHEN t.OBJECT_TYPE = 17993 THEN 'Inline Table-valued SQL Function' WHEN t.OBJECT_TYPE = 18000 THEN 'Partition Function' WHEN t.OBJECT_TYPE = 18002 THEN 'Replication Filter Procedure' WHEN t.OBJECT_TYPE = 18004 THEN 'Table-valued SQL Function' WHEN t.OBJECT_TYPE = 18259 THEN 'Server Role' WHEN t.OBJECT_TYPE = 18263 THEN 'Microsoft Windows Group' WHEN t.OBJECT_TYPE = 19265 THEN 'Asymmetric Key' WHEN t.OBJECT_TYPE = 19277 THEN 'Master Key' WHEN t.OBJECT_TYPE = 19280 THEN 'Primary Key' WHEN t.OBJECT_TYPE = 19283 THEN 'ObfusKey' WHEN t.OBJECT_TYPE = 19521 THEN 'Asymmetric Key Login' WHEN t.OBJECT_TYPE = 19523 THEN 'Certificate Login' WHEN t.OBJECT_TYPE = 19538 THEN 'Role' WHEN t.OBJECT_TYPE = 19539 THEN 'SQL Login' WHEN t.OBJECT_TYPE = 19543 THEN 'Windows Login' WHEN t.OBJECT_TYPE = 20034 THEN 'Remote Service Binding' WHEN t.OBJECT_TYPE = 20036 THEN 'Event Notification on Database' WHEN t.OBJECT_TYPE = 20037 THEN 'Event Notification' WHEN t.OBJECT_TYPE = 20038 THEN 'Scalar SQL Function' WHEN t.OBJECT_TYPE = 20047 THEN 'Event Notification on Object' WHEN t.OBJECT_TYPE = 20051 THEN 'Synonym' WHEN t.OBJECT_TYPE = 20307 THEN 'Sequence' WHEN t.OBJECT_TYPE = 20549 THEN 'End Point' WHEN t.OBJECT_TYPE = 20801 THEN 'Adhoc Queries which may be cached' WHEN t.OBJECT_TYPE = 20816 THEN 'Prepared Queries which may be cached' WHEN t.OBJECT_TYPE = 20819 THEN 'Service Broker Service Queue' WHEN t.OBJECT_TYPE = 20821 THEN 'Unique Constraint' WHEN t.OBJECT_TYPE = 21057 THEN 'Application Role' WHEN t.OBJECT_TYPE = 21059 THEN 'Certificate' WHEN t.OBJECT_TYPE = 21075 THEN 'Server' WHEN t.OBJECT_TYPE = 21076 THEN 'Transact-SQL Trigger' WHEN t.OBJECT_TYPE = 21313 THEN 'Assembly' WHEN t.OBJECT_TYPE = 21318 THEN 'CLR Scalar Function' WHEN t.OBJECT_TYPE = 21321 THEN 'Inline scalar SQL Function' WHEN t.OBJECT_TYPE = 21328 THEN 'Partition Scheme' WHEN t.OBJECT_TYPE = 21333 THEN 'User' WHEN t.OBJECT_TYPE = 21571 THEN 'Service Broker Service Contract' WHEN t.OBJECT_TYPE = 21572 THEN 'Trigger on Database' WHEN t.OBJECT_TYPE = 21574 THEN 'CLR Table-valued Function' WHEN t.OBJECT_TYPE = 21577 THEN 'Internal Table (For example, XML Node Table, Queue Table.)' WHEN t.OBJECT_TYPE = 21581 THEN 'Service Broker Message Type' WHEN t.OBJECT_TYPE = 21586 THEN 'Service Broker Route' WHEN t.OBJECT_TYPE = 21587 THEN 'Statistics' WHEN t.OBJECT_TYPE = 21825 THEN 'User' WHEN t.OBJECT_TYPE = 21827 THEN 'User' WHEN t.OBJECT_TYPE = 21831 THEN 'User' WHEN t.OBJECT_TYPE = 21843 THEN 'User' WHEN t.OBJECT_TYPE = 21847 THEN 'User' WHEN t.OBJECT_TYPE = 22099 THEN 'Service Broker Service' WHEN t.OBJECT_TYPE = 22601 THEN 'Index' WHEN t.OBJECT_TYPE = 22604 THEN 'Certificate Login' WHEN t.OBJECT_TYPE = 22611 THEN 'XMLSchema' WHEN t.OBJECT_TYPE = 22868 THEN 'Type' ELSE '???' END</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(t.object_type, 0) = 16964 THEN 'Database' ELSE t.obj_name END</td>
+        <td>233</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(t.object_type, 0) = 16964 THEN 'Database' ELSE t.obj_name END</td>
+        <td>242</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">t.application_name NOT LIKE 'sqlagent%'</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">t.application_name NOT LIKE '%' + @@servername + '%'</td>
+        <td>240</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">@@servername</td>
+        <td colspan="1">@@servername</td>
+        <td>240</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">PRINT</td>
+        <td colspan="1">PRINT 'Default server side traces not enabled'</td>
+        <td>258</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">ERROR_NUMBER</td>
+        <td colspan="1">ERROR_NUMBER()</td>
+        <td>262</td>
+      </tr>
+    </table>
+  </body>
+</html>

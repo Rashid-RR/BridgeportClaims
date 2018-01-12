@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [MyGlobal].[ReseedGlobalGeneratorsValuesNG]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [MyGlobal].[ReseedGlobalGeneratorsValuesNG]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:27 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Cursors</td>
+        <td colspan="1">CURSOR STATIC LOCAL
+    FOR SELECT s.ComputerName,
+               t.TableName
+        FROM   SQLMachines AS s CROSS JOIN GeneratorTables AS t
+        WHERE  t.TableName = IsNull(@TableName, t.TableName)
+               AND s.ComputerName = IsNull(@ComputerName, s.ComputerName)</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">SQLMachines AS s</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">GeneratorTables AS t</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE GetNextGlobalIDBlock @TableName = @aTableName, @MinBlockSize = 0, @StartRange = @StartRange OUTPUT, @IDBlockSize = @BlockSize OUTPUT</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_dropserver 'MyCustomQuery', 'droplogins'</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_addlinkedserver @server = 'MyCustomQuery', @srvproduct = '', @provider = 'SQLOLEDB', @datasrc = @aComputerName</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_addlinkedsrvlogin 'MyCustomQuery', 'true', NULL, NULL, NULL</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_serveroption N'MyCustomQuery', N'collation compatible', N'true'</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_serveroption N'MyCustomQuery', N'rpc out', N'true'</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_serveroption N'MyCustomQuery', N'rpc', N'true'</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_dropserver 'MyCustomQuery', 'droplogins'</td>
+        <td>115</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">FETCH CURSOR</td>
+        <td colspan="1">FETCH NEXT FROM FindCursor INTO @aComputerName, @aTableName</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM FindCursor INTO @aComputerName, @aTableName</td>
+        <td>118</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">@@fetch_status</td>
+        <td colspan="1">@@Fetch_Status</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@servername</td>
+        <td colspan="1">@@ServerName</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@@ServerName</td>
+        <td>109</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   master.dbo.sysservers
+ WHERE  srvname = 'MyCustomQuery')</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT *
+ FROM   master.dbo.sysservers
+ WHERE  srvname = 'MyCustomQuery')</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Three-part names</td>
+        <td colspan="1">master.dbo.sysservers</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">master.dbo.sysservers</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">REPLACE</td>
+        <td colspan="1">Replace(@DeleteString, ':ComputerName', @aComputerName)</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Replace(@DeleteString, ':TableName', @aTableName)</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Replace(@String, ':ComputerName', @aComputerName)</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Replace(@String, ':TableName', @aTableName)</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Replace(@String, ':StartRange', CONVERT (VARCHAR, @StartRange))</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Replace(@String, ':BlockSize', CONVERT (VARCHAR, @BlockSize))</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">EXECUTE string</td>
+        <td colspan="1">EXECUTE (@DeleteString)</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE (@String)</td>
+        <td>105</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Omniglobe_HourlyPerformance_excDTV]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Omniglobe_HourlyPerformance_excDTV]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'CallDetail_Omniglobe_HourlyPerformance'</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN S.inqueue_time &gt; 0
+          AND S.IsShortAbandon = 0 THEN 1 ELSE 0 END</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN S.contact_id END</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Abandon_Seconds &gt; 0
+          AND S.IsShortAbandon = 0 THEN 1 ELSE 0 END</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(CASE WHEN Inbound = 'T'
+                        AND Agent_Time &gt; 0
+                        OR (S.agent_time = 0
+                            AND S.inqueue_Time &gt; 0
+                            AND S.Abandon_Time = 0
+                            AND S.IsShortAbandon = 0
+                            AND Inbound = 'T') THEN 1 ELSE 0 END) = 0 THEN 0 ELSE SUM(CASE WHEN Inbound = 'T'
+                                                                                                AND Agent_Time &gt; 0
+                                                                                                OR (S.agent_time = 0
+                                                                                                    AND S.inqueue_Time &gt; 0
+                                                                                                    AND S.Abandon_Time = 0
+                                                                                                    AND S.IsShortAbandon = 0
+                                                                                                    AND Inbound = 'T') THEN INQueue_Seconds ELSE 0 END) / SUM(CASE WHEN Inbound = 'T'
+                                                                                                                                                                        AND Agent_Time &gt; 0
+                                                                                                                                                                        OR (S.agent_time = 0
+                                                                                                                                                                            AND S.inqueue_Time &gt; 0
+                                                                                                                                                                            AND S.Abandon_Time = 0
+                                                                                                                                                                            AND S.IsShortAbandon = 0
+                                                                                                                                                                            AND Inbound = 'T') THEN 1 ELSE 0 END) END</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN 1 ELSE 0 END</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN INQueue_Seconds ELSE 0 END</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN 1 ELSE 0 END</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(CASE WHEN Inbound = 'T'
+                        AND Agent_Time &gt; 0
+                        OR (S.agent_time = 0
+                            AND S.inqueue_Time &gt; 0
+                            AND S.Abandon_Time = 0
+                            AND S.IsShortAbandon = 0
+                            AND Inbound = 'T') THEN 1 ELSE 0 END) = 0 THEN 0 ELSE SUM(CASE WHEN Inbound = 'T'
+                                                                                                AND Agent_Time &gt; 0
+                                                                                                OR (S.agent_time = 0
+                                                                                                    AND S.inqueue_Time &gt; 0
+                                                                                                    AND S.Abandon_Time = 0
+                                                                                                    AND S.IsShortAbandon = 0
+                                                                                                    AND Inbound = 'T') THEN INQueue_Seconds ELSE 0 END) / SUM(CASE WHEN Inbound = 'T'
+                                                                                                                                                                        AND Agent_Time &gt; 0
+                                                                                                                                                                        OR (S.agent_time = 0
+                                                                                                                                                                            AND S.inqueue_Time &gt; 0
+                                                                                                                                                                            AND S.Abandon_Time = 0
+                                                                                                                                                                            AND S.IsShortAbandon = 0
+                                                                                                                                                                            AND Inbound = 'T') THEN 1 ELSE 0 END) END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN 1 ELSE 0 END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN INQueue_Seconds ELSE 0 END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN 1 ELSE 0 END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0 THEN S.contact_id END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                                   OR (S.agent_time = 0
+                                       AND S.inqueue_Time &gt; 0
+                                       AND S.Abandon_Time = 0
+                                       AND S.IsShortAbandon = 0) THEN S.contact_id END) &lt;= 0 THEN '0.00' ELSE CAST (CONVERT (DECIMAL (10, 2), (SUM(Agent_Seconds) / (COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                                                                                                                                                                                              OR (S.agent_time = 0
+                                                                                                                                                                                                  AND S.inqueue_Time &gt; 0
+                                                                                                                                                                                                  AND S.Abandon_Time = 0
+                                                                                                                                                                                                  AND S.IsShortAbandon = 0) THEN S.contact_id END)))) / 60 AS DECIMAL (10, 2)) END</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN S.contact_id END</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN S.contact_id END</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                                   OR (S.agent_time = 0
+                                       AND S.inqueue_Time &gt; 0
+                                       AND S.Abandon_Time = 0
+                                       AND S.IsShortAbandon = 0) THEN S.contact_id END) &lt;= 0 THEN '0.00' ELSE CAST (CONVERT (DECIMAL (10, 2), (SUM(ACW_Seconds) / (COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                                                                                                                                                                                            OR (S.agent_time = 0
+                                                                                                                                                                                                AND S.inqueue_Time &gt; 0
+                                                                                                                                                                                                AND S.Abandon_Time = 0
+                                                                                                                                                                                                AND S.IsShortAbandon = 0) THEN S.contact_id END)))) / 60 AS DECIMAL (10, 2)) END</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN S.contact_id END</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN S.contact_id END</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(CASE WHEN Agent_Time &gt; 0
+                        OR (S.agent_time = 0
+                            AND S.inqueue_Time &gt; 0
+                            AND S.Abandon_Time = 0
+                            AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END) = 0 THEN 0 ELSE SUM(CASE WHEN Agent_Time &gt; 0
+                                                                                                       OR (S.agent_time = 0
+                                                                                                           AND S.inqueue_Time &gt; 0
+                                                                                                           AND S.Abandon_Time = 0
+                                                                                                           AND S.IsShortAbandon = 0) THEN Agent_Seconds + ACW_Seconds ELSE 0 END) / SUM(CASE WHEN Agent_Time &gt; 0
+                                                                                                                                                                                                  OR (S.agent_time = 0
+                                                                                                                                                                                                      AND S.inqueue_Time &gt; 0
+                                                                                                                                                                                                      AND S.Abandon_Time = 0
+                                                                                                                                                                                                      AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END) END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN Agent_Seconds + ACW_Seconds ELSE 0 END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(CASE WHEN Agent_Time &gt; 0
+                        OR (S.agent_time = 0
+                            AND S.inqueue_Time &gt; 0
+                            AND S.Abandon_Time = 0
+                            AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END) = 0 THEN 0 ELSE SUM(CASE WHEN Agent_Time &gt; 0
+                                                                                                       OR (S.agent_time = 0
+                                                                                                           AND S.inqueue_Time &gt; 0
+                                                                                                           AND S.Abandon_Time = 0
+                                                                                                           AND S.IsShortAbandon = 0) THEN Agent_Seconds + ACW_Seconds ELSE 0 END) / SUM(CASE WHEN Agent_Time &gt; 0
+                                                                                                                                                                                                  OR (S.agent_time = 0
+                                                                                                                                                                                                      AND S.inqueue_Time &gt; 0
+                                                                                                                                                                                                      AND S.Abandon_Time = 0
+                                                                                                                                                                                                      AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END) END</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN Agent_Seconds + ACW_Seconds ELSE 0 END</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (SUM(CASE WHEN SLA = 0 THEN 1 ELSE 0 END) + SUM(CASE WHEN SLA = 1 THEN 1 ELSE 0 END)) = 0 THEN 0 ELSE (CAST (SUM(CASE WHEN SLA = 0 THEN 1 ELSE 0 END) AS MONEY) / CAST ((SUM(CASE WHEN SLA = 0 THEN 1 ELSE 0 END) + SUM(CASE WHEN SLA = 1 THEN 1 ELSE 0 END)) AS MONEY)) * 100 END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SLA = 0 THEN 1 ELSE 0 END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SLA = 1 THEN 1 ELSE 0 END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SLA = 0 THEN 1 ELSE 0 END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SLA = 0 THEN 1 ELSE 0 END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SLA = 1 THEN 1 ELSE 0 END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SLA = 0 THEN 1 ELSE 0 END</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">DISTINCT</td>
+        <td colspan="1">COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                         OR (S.agent_time = 0
+                             AND S.inqueue_Time &gt; 0
+                             AND S.Abandon_Time = 0
+                             AND S.IsShortAbandon = 0) THEN S.contact_id END)</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0 THEN S.contact_id END)</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                         OR (S.agent_time = 0
+                             AND S.inqueue_Time &gt; 0
+                             AND S.Abandon_Time = 0
+                             AND S.IsShortAbandon = 0) THEN S.contact_id END)</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                         OR (S.agent_time = 0
+                             AND S.inqueue_Time &gt; 0
+                             AND S.Abandon_Time = 0
+                             AND S.IsShortAbandon = 0) THEN S.contact_id END)</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                         OR (S.agent_time = 0
+                             AND S.inqueue_Time &gt; 0
+                             AND S.Abandon_Time = 0
+                             AND S.IsShortAbandon = 0) THEN S.contact_id END)</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT CASE WHEN S.Agent_Time &gt; 0
+                         OR (S.agent_time = 0
+                             AND S.inqueue_Time &gt; 0
+                             AND S.Abandon_Time = 0
+                             AND S.IsShortAbandon = 0) THEN S.contact_id END)</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>82</td>
+      </tr>
+    </table>
+  </body>
+</html>

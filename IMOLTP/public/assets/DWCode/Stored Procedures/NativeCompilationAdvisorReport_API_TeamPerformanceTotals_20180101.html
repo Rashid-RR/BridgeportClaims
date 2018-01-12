@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[API_TeamPerformanceTotals]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[API_TeamPerformanceTotals]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">INSERT EXEC</td>
+        <td colspan="1">INSERT INTO #AgentList
+EXECUTE [dbo].[API_AgentPerformance] @ProfileID = @ProfileID, @bus_no = @bus_no, @start_date = @start_date, @end_date = @end_date, @agent = NULL, @team = @team</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#AgentList</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentList</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN SUM(inboundHandled) &lt;&gt; 0 THEN CAST (SUM(inboundTalkTime) * 1.0 / SUM(inboundHandled) AS DECIMAL (18, 2)) ELSE 0 END</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(outboundHandled) &lt;&gt; 0 THEN CAST (SUM(outboundTalkTime) * 1.0 / SUM(outboundHandled) AS DECIMAL (18, 2)) ELSE 0 END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(totalHandled) &lt;&gt; 0 THEN CAST (SUM(totalTalkTime) * 1.0 / SUM(totalHandled) AS DECIMAL (18, 2)) ELSE 0 END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(totalHandled) &lt;&gt; 0 THEN CAST ((SUM(totalTalkTime) + SUM(acwTime)) * 1.0 / SUM(totalHandled) AS DECIMAL (18, 2)) ELSE 0 END</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (SUM(refused) + SUM(agentOffered)) &lt;&gt; 0 THEN CAST (SUM(refused) * 100.0 / (SUM(agentOffered)) AS DECIMAL (18, 2)) ELSE 0 END</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(loginTime) &lt;&gt; 0 THEN CAST ((SUM(acwTime) + SUM(availableTime) + SUM(inboundTime) + SUM(outboundTime) + SUM(consultTime)) * 100.0 / SUM(loginTime) AS DECIMAL (18, 2)) ELSE 0 END</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (SUM(acwTime) + SUM(inboundTalkTime) + SUM(outboundTalkTime) + SUM(availableTime)) &lt;&gt; 0 THEN CAST (((SUM(acwTime) + SUM(inboundTalkTime) + SUM(outboundTalkTime)) * 1.0) / ((SUM(acwTime) + SUM(inboundTalkTime) + SUM(outboundTalkTime) + SUM(availableTime)) * 1.0) * 100 AS DECIMAL (18, 2)) ELSE 0 END</td>
+        <td>85</td>
+      </tr>
+    </table>
+  </body>
+</html>

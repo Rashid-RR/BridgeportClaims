@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IT_POCDataByHalfHour]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IT_POCDataByHalfHour]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:12 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#SkillFilters</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#CampaignFilters</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#MediaFilters</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#POCFilters</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillFilters AS sf</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#POCFilters AS pf</td>
+        <td>118</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillFilters AS sf</td>
+        <td>142</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#CampaignFilters AS cf</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#MediaFilters AS mf</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#CampaignFilters AS cf</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#POCFilters AS pf</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#POCFilters AS pf</td>
+        <td>183</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_POC_ByHalfHour AS b</td>
+        <td>235</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_skills AS s</td>
+        <td>235</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_campaign AS c</td>
+        <td>236</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_POC AS p</td>
+        <td>237</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_Split3(@SkillFilter, ',')</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_Split3(@CampaignFilter, ',')</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_Split3(@MediaFilter, ',')</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_Split3(@POCFilter, ',')</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT   h.bus_no,
+         h.contact_code,
+         h.skill_no,
+         dbo.fn_StartDateTimeFromHalfHourCode(Start_date, HalfHour_Code) AS start_date,
+         HalfHour_code,
+         Sum(PreQueue_Time) AS PreQueue_Time,
+         Sum(InQueue_time) AS InQueue_time,
+         Sum(InQueue_Cnt) AS InQueue_Cnt,
+         Sum(Abandon_Cnt) AS Abandon_Cnt,
+         Sum(Abandon_time) AS Abandon_time,
+         Sum(Agent_cnt) AS Agent_cnt,
+         Sum(Agent_Time) AS Agent_Time,
+         Sum(PostQueue_time) AS PostQueue_time,
+         Sum(PostQueue_Cnt) AS PostQueue_Cnt,
+         Sum(Total_cnt) AS Total_cnt,
+         Sum(total_time) AS total_time,
+         Sum(In_SLA) AS In_SLA,
+         Sum(Out_SLA) AS Out_SLA,
+         Sum(Release_Time) AS Release_Time,
+         Sum(Hold_Time) AS Hold_Time,
+         Sum(HoldTotal_Cnt) AS HoldTotal_Cnt,
+         Sum(HoldContacts_cnt) AS HoldContacts_cnt,
+         Sum(ACW_Time) AS ACW_Time,
+         Sum(ACW_Cnt) AS ACW_Cnt,
+         Sum(Conf_Time) AS Conf_Time,
+         Sum(Conf_Cnt) AS Conf_Cnt,
+         Sum(Abandon_InSLA_Time) AS Abandon_InSLA_Time,
+         Sum(Abandon_InSLA_Cnt) AS Abandon_InSLA_Cnt,
+         Max(Max_ACW_Time) AS Max_ACW_Time,
+         Max(Max_Conf_Time) AS Max_Conf_Time,
+         Max(Max_PreQueue_Time) AS Max_PreQueue_Time,
+         Max(Max_InQueue_Time) AS Max_InQueue_Time,
+         Max(Max_Abandon_Time) AS Max_Abandon_Time,
+         Max(Max_Agent_Time) AS Max_Agent_Time,
+         Max(Max_PostQueue_Time) AS Max_PostQueue_Time,
+         Max(Max_Total_Time) AS Max_Total_Time,
+         Max(Max_Hold_Time) AS Max_Hold_Time,
+         Max(Max_Release_Time) AS Max_Release_Time
+INTO     #dw_POC_ByHalfHour
+FROM     dbo.dw_POC_ByQtrHour AS h
+         LEFT OUTER JOIN
+         #SkillFilters AS sf
+         ON sf.Skill_no = h.[skill_no]
+         LEFT OUTER JOIN
+         #POCFilters AS pf
+         ON pf.contact_code = h.[contact_code]
+WHERE    bus_no = @Bus_No
+         AND start_date BETWEEN @UTCStart_Date AND @UTCEnd_Date
+         AND (@SkillFilter IS NULL
+              OR sf.Skill_no = h.skill_no)
+         AND (@POCFilter IS NULL
+              OR pf.contact_code = h.contact_code)
+GROUP BY h.bus_no, h.contact_code, h.skill_no, dbo.fn_StartDateTimeFromHalfHourCode(Start_date, HalfHour_Code), h.HalfHour_Code</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT s.Skill_No,
+       s.Skill_name,
+       s.Campaign_No,
+       @Bus_No AS Bus_no,
+       s.Media_Type,
+       NULL AS RowGUID,
+       s.OutBound_Skill,
+       s.sla_seconds,
+       s.sla_percent
+INTO   #dw_skills
+FROM   dbo.Skills AS s
+       INNER JOIN
+       dbo.Campaign AS c
+       ON s.campaign_no = c.campaign_no
+       LEFT OUTER JOIN
+       #SkillFilters AS sf
+       ON sf.Skill_no = s.[skill_no]
+       LEFT OUTER JOIN
+       #CampaignFilters AS cf
+       ON cf.Campaign_no = c.[campaign_no]
+       LEFT OUTER JOIN
+       #MediaFilters AS mf
+       ON mf.media_type = s.[media_type]
+WHERE  c.bus_no = @Bus_No
+       AND (@OutboundSkill IS NULL
+            OR Outbound_skill = @OutboundSkill)
+       AND (@CampaignFilter IS NULL
+            OR cf.Campaign_no = c.Campaign_no)
+       AND (@SkillFilter IS NULL
+            OR sf.Skill_no = s.skill_no)
+       AND (@MediaFilter IS NULL
+            OR mf.media_type = s.media_type)</td>
+        <td>130</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT c.Campaign_No,
+                c.Campaign_Name,
+                @Bus_No AS Bus_No
+INTO   #dw_campaign
+FROM   dbo.Campaign AS c
+       LEFT OUTER JOIN
+       #CampaignFilters AS cf
+       ON cf.Campaign_no = c.[campaign_no]
+WHERE  bus_no = @Bus_No
+       AND (@CampaignFilter IS NULL
+            OR cf.Campaign_no = c.Campaign_no)</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT c.contact_code,
+       ISNULL(c.ContactAddress, 'CallBack') AS contact_name,
+       c.status,
+       @Bus_no AS bus_no,
+       c.contact_type
+INTO   #dw_POC
+FROM   dbo.PointOfContact AS c
+       INNER JOIN
+       dbo.skills AS s
+       ON c.default_skill_no = s.skill_no
+       INNER JOIN
+       dbo.campaign AS a
+       ON s.campaign_no = a.campaign_no
+       LEFT OUTER JOIN
+       #POCFilters AS pf
+       ON pf.contact_code = c.contact_code
+WHERE  c.contact_type = 1
+       AND a.bus_no = @Bus_no
+       AND (@POCFilter IS NULL
+            OR pf.contact_code = c.contact_code)
+UNION
+SELECT c.contact_code,
+       s.description,
+       c.status,
+       @Bus_no AS bus_no,
+       c.contact_type
+FROM   dbo.PointOfContact AS c
+       INNER JOIN
+       dbo.contact_types AS s
+       ON c.contact_type = s.contact_type CROSS JOIN dbo.business_unit AS b
+       LEFT OUTER JOIN
+       #POCFilters AS pf
+       ON pf.contact_code = c.contact_code
+WHERE  default_skill_no IS NULL
+       AND b.bus_no = @Bus_no
+       AND (@POCFilter IS NULL
+            OR pf.contact_code = c.contact_code)</td>
+        <td>161</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN @Views = 'week' THEN DATEPART(WEEK, b.start_date) WHEN @Views = 'month' THEN DATEPART(MONTH, b.start_date) WHEN @Views = 'dw' THEN DATEPART(dw, b.start_date) WHEN @Views = 'hour' THEN dbo.fn_CalcTimeZoneHalfHourCodeFromUTC(b.start_date, @ClientTimeZoneName) / 2 WHEN @Views = 'halfhour' THEN dbo.fn_CalcTimeZoneHalfHourCodeFromUTC(b.start_date, @ClientTimeZoneName) ELSE CONVERT (INT, b.start_date) END</td>
+        <td>203</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE @OtherOption WHEN 'T' THEN b.PreQueue_time / 60.0 ELSE b.PreQueue_time END</td>
+        <td>210</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE @OtherOption WHEN 'T' THEN b.InQueue_time / 60.0 ELSE b.InQueue_time END</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE @OtherOption WHEN 'T' THEN b.Abandon_time / 60.0 ELSE b.Abandon_time END</td>
+        <td>216</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE @OtherOption WHEN 'T' THEN b.agent_time / 60.0 ELSE b.agent_time END</td>
+        <td>219</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE @OtherOption WHEN 'T' THEN b.PostQueue_time / 60.0 ELSE b.PostQueue_time END</td>
+        <td>222</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE @OtherOption WHEN 'T' THEN b.Total_time / 60.0 ELSE b.Total_time END</td>
+        <td>225</td>
+      </tr>
+    </table>
+  </body>
+</html>

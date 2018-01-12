@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [Admin].[populate_IndexMaintenanceExclusions]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [Admin].[populate_IndexMaintenanceExclusions]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:59 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">OBJECT_ID('IndexMaintenanceExclusions')</td>
+        <td>14</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Cursors</td>
+        <td colspan="1">CURSOR
+    FOR SELECT   name
+        FROM     sys.databases
+        WHERE    state_desc = 'ONLINE'
+                 AND collation_name = (SELECT collation_name
+                                       FROM   sys.databases
+                                       WHERE  name = 'tempdb')
+        ORDER BY name</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">FETCH CURSOR</td>
+        <td colspan="1">FETCH NEXT FROM ACT_CURS INTO @db</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM ACT_CURS INTO @db</td>
+        <td>192</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@fetch_status</td>
+        <td colspan="1">@@fetch_status</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">EXECUTE string</td>
+        <td colspan="1">EXECUTE (@sql)</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">tablename LIKE '%qv%'</td>
+        <td>198</td>
+      </tr>
+    </table>
+  </body>
+</html>

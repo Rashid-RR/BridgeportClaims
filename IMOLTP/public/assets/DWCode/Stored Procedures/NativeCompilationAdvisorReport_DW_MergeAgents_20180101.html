@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeAgents]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeAgents]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[Agents]
+ AS target
+USING [ETL].[Agents] AS source ON (target.Agent_No = source.Agent_No)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET Team_No                 = source.Team_No,
+    username                = source.username,
+    first_name              = source.first_name,
+    middle_name             = source.middle_name,
+    last_name               = source.last_name,
+    email                   = source.email,
+    extension               = source.extension,
+    department              = source.department,
+    Status                  = source.Status,
+    Password                = source.Password,
+    home_phone              = source.home_phone,
+    did_phone               = source.did_phone,
+    location_no             = source.location_no,
+    employee_no             = source.employee_no,
+    Mod_DateTime            = source.Mod_DateTime,
+    Last_Login              = source.Last_Login,
+    Description             = source.Description,
+    Notes                   = source.Notes,
+    Mod_Agent_No            = source.Mod_Agent_No,
+    AgentPasswordID         = source.AgentPasswordID,
+    ProfileID               = source.ProfileID,
+    Bus_No                  = source.Bus_No,
+    asciiFirstName          = source.asciiFirstName,
+    asciiLastName           = source.asciiLastName,
+    TimeZone                = source.TimeZone,
+    ReportTo                = source.ReportTo,
+    CreateDate              = source.CreateDate,
+    CreatedBy               = source.CreatedBy,
+    ActivationDate          = source.ActivationDate,
+    UserNameDomain          = source.UserNameDomain,
+    secondaryId             = source.secondaryId,
+    EmailRefusalTimeout     = source.EmailRefusalTimeout,
+    DocumentRefusalTimeout  = source.DocumentRefusalTimeout,
+    ChatRefusalTimeout      = source.ChatRefusalTimeout,
+    PhoneCallRefusalTimeout = source.PhoneCallRefusalTimeout,
+    VoiceMailRefusalTimeout = source.VoiceMailRefusalTimeout,
+    WorkItemRefusalTimeout  = source.WorkItemRefusalTimeout,
+    SecurityProfileID       = source.SecurityProfileID,
+    CountryCode             = source.CountryCode,
+    StateCode               = source.StateCode,
+    City                    = source.City,
+    WfmNotificationEnabled  = source.WfmNotificationEnabled,
+    WfmNotificationInterval = source.WfmNotificationInterval,
+    Billable                = source.Billable,
+    SipUserId               = source.SipUserId,
+    AgentPhoneHome          = source.AgentPhoneHome,
+    AgentPhoneOther         = source.AgentPhoneOther,
+    MFASecret               = source.MFASecret
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (Team_No, username, first_name, middle_name, last_name, email, extension, department, Status, Password, home_phone, did_phone, location_no, employee_no, Mod_DateTime, Last_Login, Agent_No, Description, Notes, Mod_Agent_No, AgentPasswordID, ProfileID, Bus_No, asciiFirstName, asciiLastName, TimeZone, ReportTo, CreateDate, CreatedBy, ActivationDate, UserNameDomain, secondaryId, EmailRefusalTimeout, DocumentRefusalTimeout, ChatRefusalTimeout, PhoneCallRefusalTimeout, VoiceMailRefusalTimeout, WorkItemRefusalTimeout, SecurityProfileID, CountryCode, StateCode, City, WfmNotificationEnabled, WfmNotificationInterval, Billable, SipUserId, AgentPhoneHome, AgentPhoneOther, MFASecret) VALUES (source.Team_No, source.username, source.first_name, source.middle_name, source.last_name, source.email, source.extension, source.department, source.Status, source.Password, source.home_phone, source.did_phone, source.location_no, source.employee_no, source.Mod_DateTime, source.Last_Login, source.Agent_No, source.Description, source.Notes, source.Mod_Agent_No, source.AgentPasswordID, source.ProfileID, source.Bus_No, source.asciiFirstName, source.asciiLastName, source.TimeZone, source.ReportTo, source.CreateDate, source.CreatedBy, source.ActivationDate, source.UserNameDomain, source.secondaryId, source.EmailRefusalTimeout, source.DocumentRefusalTimeout, source.ChatRefusalTimeout, source.PhoneCallRefusalTimeout, source.VoiceMailRefusalTimeout, source.WorkItemRefusalTimeout, source.SecurityProfileID, source.CountryCode, source.StateCode, source.City, source.WfmNotificationEnabled, source.WfmNotificationInterval, source.Billable, source.SipUserId, source.AgentPhoneHome, source.AgentPhoneOther, source.MFASecret)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[Agents]
+ AS target
+USING [ETL].[Agents] AS source ON (target.Agent_No = source.Agent_No)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET Team_No                 = source.Team_No,
+    username                = source.username,
+    first_name              = source.first_name,
+    middle_name             = source.middle_name,
+    last_name               = source.last_name,
+    email                   = source.email,
+    extension               = source.extension,
+    department              = source.department,
+    Status                  = source.Status,
+    Password                = source.Password,
+    home_phone              = source.home_phone,
+    did_phone               = source.did_phone,
+    location_no             = source.location_no,
+    employee_no             = source.employee_no,
+    Mod_DateTime            = source.Mod_DateTime,
+    Last_Login              = source.Last_Login,
+    Description             = source.Description,
+    Notes                   = source.Notes,
+    Mod_Agent_No            = source.Mod_Agent_No,
+    AgentPasswordID         = source.AgentPasswordID,
+    ProfileID               = source.ProfileID,
+    Bus_No                  = source.Bus_No,
+    asciiFirstName          = source.asciiFirstName,
+    asciiLastName           = source.asciiLastName,
+    TimeZone                = source.TimeZone,
+    ReportTo                = source.ReportTo,
+    CreateDate              = source.CreateDate,
+    CreatedBy               = source.CreatedBy,
+    ActivationDate          = source.ActivationDate,
+    UserNameDomain          = source.UserNameDomain,
+    secondaryId             = source.secondaryId,
+    EmailRefusalTimeout     = source.EmailRefusalTimeout,
+    DocumentRefusalTimeout  = source.DocumentRefusalTimeout,
+    ChatRefusalTimeout      = source.ChatRefusalTimeout,
+    PhoneCallRefusalTimeout = source.PhoneCallRefusalTimeout,
+    VoiceMailRefusalTimeout = source.VoiceMailRefusalTimeout,
+    WorkItemRefusalTimeout  = source.WorkItemRefusalTimeout,
+    SecurityProfileID       = source.SecurityProfileID,
+    CountryCode             = source.CountryCode,
+    StateCode               = source.StateCode,
+    City                    = source.City,
+    WfmNotificationEnabled  = source.WfmNotificationEnabled,
+    WfmNotificationInterval = source.WfmNotificationInterval,
+    Billable                = source.Billable,
+    SipUserId               = source.SipUserId,
+    AgentPhoneHome          = source.AgentPhoneHome,
+    AgentPhoneOther         = source.AgentPhoneOther,
+    MFASecret               = source.MFASecret
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (Team_No, username, first_name, middle_name, last_name, email, extension, department, Status, Password, home_phone, did_phone, location_no, employee_no, Mod_DateTime, Last_Login, Agent_No, Description, Notes, Mod_Agent_No, AgentPasswordID, ProfileID, Bus_No, asciiFirstName, asciiLastName, TimeZone, ReportTo, CreateDate, CreatedBy, ActivationDate, UserNameDomain, secondaryId, EmailRefusalTimeout, DocumentRefusalTimeout, ChatRefusalTimeout, PhoneCallRefusalTimeout, VoiceMailRefusalTimeout, WorkItemRefusalTimeout, SecurityProfileID, CountryCode, StateCode, City, WfmNotificationEnabled, WfmNotificationInterval, Billable, SipUserId, AgentPhoneHome, AgentPhoneOther, MFASecret) VALUES (source.Team_No, source.username, source.first_name, source.middle_name, source.last_name, source.email, source.extension, source.department, source.Status, source.Password, source.home_phone, source.did_phone, source.location_no, source.employee_no, source.Mod_DateTime, source.Last_Login, source.Agent_No, source.Description, source.Notes, source.Mod_Agent_No, source.AgentPasswordID, source.ProfileID, source.Bus_No, source.asciiFirstName, source.asciiLastName, source.TimeZone, source.ReportTo, source.CreateDate, source.CreatedBy, source.ActivationDate, source.UserNameDomain, source.secondaryId, source.EmailRefusalTimeout, source.DocumentRefusalTimeout, source.ChatRefusalTimeout, source.PhoneCallRefusalTimeout, source.VoiceMailRefusalTimeout, source.WorkItemRefusalTimeout, source.SecurityProfileID, source.CountryCode, source.StateCode, source.City, source.WfmNotificationEnabled, source.WfmNotificationInterval, source.Billable, source.SipUserId, source.AgentPhoneHome, source.AgentPhoneOther, source.MFASecret)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [Staging].[Agents]
+ AS target
+USING [ETL].[Agents] AS source ON (target.Agent_No = source.Agent_No)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET ActionID                = source.ActionID,
+    Team_No                 = source.Team_No,
+    username                = source.username,
+    first_name              = source.first_name,
+    middle_name             = source.middle_name,
+    last_name               = source.last_name,
+    email                   = source.email,
+    extension               = source.extension,
+    department              = source.department,
+    Status                  = source.Status,
+    Password                = source.Password,
+    home_phone              = source.home_phone,
+    did_phone               = source.did_phone,
+    location_no             = source.location_no,
+    employee_no             = source.employee_no,
+    Mod_DateTime            = source.Mod_DateTime,
+    Last_Login              = source.Last_Login,
+    Description             = source.Description,
+    Notes                   = source.Notes,
+    Mod_Agent_No            = source.Mod_Agent_No,
+    AgentPasswordID         = source.AgentPasswordID,
+    ProfileID               = source.ProfileID,
+    Bus_No                  = source.Bus_No,
+    asciiFirstName          = source.asciiFirstName,
+    asciiLastName           = source.asciiLastName,
+    TimeZone                = source.TimeZone,
+    ReportTo                = source.ReportTo,
+    CreateDate              = source.CreateDate,
+    CreatedBy               = source.CreatedBy,
+    ActivationDate          = source.ActivationDate,
+    UserNameDomain          = source.UserNameDomain,
+    secondaryId             = source.secondaryId,
+    EmailRefusalTimeout     = source.EmailRefusalTimeout,
+    DocumentRefusalTimeout  = source.DocumentRefusalTimeout,
+    ChatRefusalTimeout      = source.ChatRefusalTimeout,
+    PhoneCallRefusalTimeout = source.PhoneCallRefusalTimeout,
+    VoiceMailRefusalTimeout = source.VoiceMailRefusalTimeout,
+    WorkItemRefusalTimeout  = source.WorkItemRefusalTimeout,
+    SecurityProfileID       = source.SecurityProfileID,
+    CountryCode             = source.CountryCode,
+    StateCode               = source.StateCode,
+    City                    = source.City,
+    WfmNotificationEnabled  = source.WfmNotificationEnabled,
+    WfmNotificationInterval = source.WfmNotificationInterval,
+    Billable                = source.Billable,
+    SipUserId               = source.SipUserId,
+    MFASecret               = source.MFASecret
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (ActionID, Team_No, username, first_name, middle_name, last_name, email, extension, department, Status, Password, home_phone, did_phone, location_no, employee_no, Mod_DateTime, Last_Login, Agent_No, Description, Notes, Mod_Agent_No, AgentPasswordID, ProfileID, Bus_No, asciiFirstName, asciiLastName, TimeZone, ReportTo, CreateDate, CreatedBy, ActivationDate, UserNameDomain, secondaryId, EmailRefusalTimeout, DocumentRefusalTimeout, ChatRefusalTimeout, PhoneCallRefusalTimeout, VoiceMailRefusalTimeout, WorkItemRefusalTimeout, SecurityProfileID, CountryCode, StateCode, City, WfmNotificationEnabled, WfmNotificationInterval, Billable, SipUserId, MFASecret) VALUES (source.ActionID, source.Team_No, source.username, source.first_name, source.middle_name, source.last_name, source.email, source.extension, source.department, source.Status, source.Password, source.home_phone, source.did_phone, source.location_no, source.employee_no, source.Mod_DateTime, source.Last_Login, source.Agent_No, source.Description, source.Notes, source.Mod_Agent_No, source.AgentPasswordID, source.ProfileID, source.Bus_No, source.asciiFirstName, source.asciiLastName, source.TimeZone, source.ReportTo, source.CreateDate, source.CreatedBy, source.ActivationDate, source.UserNameDomain, source.secondaryId, source.EmailRefusalTimeout, source.DocumentRefusalTimeout, source.ChatRefusalTimeout, source.PhoneCallRefusalTimeout, source.VoiceMailRefusalTimeout, source.WorkItemRefusalTimeout, source.SecurityProfileID, source.CountryCode, source.StateCode, source.City, source.WfmNotificationEnabled, source.WfmNotificationInterval, source.Billable, source.SipUserId, source.MFASecret)</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [Staging].[Agents]
+ AS target
+USING [ETL].[Agents] AS source ON (target.Agent_No = source.Agent_No)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET ActionID                = source.ActionID,
+    Team_No                 = source.Team_No,
+    username                = source.username,
+    first_name              = source.first_name,
+    middle_name             = source.middle_name,
+    last_name               = source.last_name,
+    email                   = source.email,
+    extension               = source.extension,
+    department              = source.department,
+    Status                  = source.Status,
+    Password                = source.Password,
+    home_phone              = source.home_phone,
+    did_phone               = source.did_phone,
+    location_no             = source.location_no,
+    employee_no             = source.employee_no,
+    Mod_DateTime            = source.Mod_DateTime,
+    Last_Login              = source.Last_Login,
+    Description             = source.Description,
+    Notes                   = source.Notes,
+    Mod_Agent_No            = source.Mod_Agent_No,
+    AgentPasswordID         = source.AgentPasswordID,
+    ProfileID               = source.ProfileID,
+    Bus_No                  = source.Bus_No,
+    asciiFirstName          = source.asciiFirstName,
+    asciiLastName           = source.asciiLastName,
+    TimeZone                = source.TimeZone,
+    ReportTo                = source.ReportTo,
+    CreateDate              = source.CreateDate,
+    CreatedBy               = source.CreatedBy,
+    ActivationDate          = source.ActivationDate,
+    UserNameDomain          = source.UserNameDomain,
+    secondaryId             = source.secondaryId,
+    EmailRefusalTimeout     = source.EmailRefusalTimeout,
+    DocumentRefusalTimeout  = source.DocumentRefusalTimeout,
+    ChatRefusalTimeout      = source.ChatRefusalTimeout,
+    PhoneCallRefusalTimeout = source.PhoneCallRefusalTimeout,
+    VoiceMailRefusalTimeout = source.VoiceMailRefusalTimeout,
+    WorkItemRefusalTimeout  = source.WorkItemRefusalTimeout,
+    SecurityProfileID       = source.SecurityProfileID,
+    CountryCode             = source.CountryCode,
+    StateCode               = source.StateCode,
+    City                    = source.City,
+    WfmNotificationEnabled  = source.WfmNotificationEnabled,
+    WfmNotificationInterval = source.WfmNotificationInterval,
+    Billable                = source.Billable,
+    SipUserId               = source.SipUserId,
+    MFASecret               = source.MFASecret
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (ActionID, Team_No, username, first_name, middle_name, last_name, email, extension, department, Status, Password, home_phone, did_phone, location_no, employee_no, Mod_DateTime, Last_Login, Agent_No, Description, Notes, Mod_Agent_No, AgentPasswordID, ProfileID, Bus_No, asciiFirstName, asciiLastName, TimeZone, ReportTo, CreateDate, CreatedBy, ActivationDate, UserNameDomain, secondaryId, EmailRefusalTimeout, DocumentRefusalTimeout, ChatRefusalTimeout, PhoneCallRefusalTimeout, VoiceMailRefusalTimeout, WorkItemRefusalTimeout, SecurityProfileID, CountryCode, StateCode, City, WfmNotificationEnabled, WfmNotificationInterval, Billable, SipUserId, MFASecret) VALUES (source.ActionID, source.Team_No, source.username, source.first_name, source.middle_name, source.last_name, source.email, source.extension, source.department, source.Status, source.Password, source.home_phone, source.did_phone, source.location_no, source.employee_no, source.Mod_DateTime, source.Last_Login, source.Agent_No, source.Description, source.Notes, source.Mod_Agent_No, source.AgentPasswordID, source.ProfileID, source.Bus_No, source.asciiFirstName, source.asciiLastName, source.TimeZone, source.ReportTo, source.CreateDate, source.CreatedBy, source.ActivationDate, source.UserNameDomain, source.secondaryId, source.EmailRefusalTimeout, source.DocumentRefusalTimeout, source.ChatRefusalTimeout, source.PhoneCallRefusalTimeout, source.VoiceMailRefusalTimeout, source.WorkItemRefusalTimeout, source.SecurityProfileID, source.CountryCode, source.StateCode, source.City, source.WfmNotificationEnabled, source.WfmNotificationInterval, source.Billable, source.SipUserId, source.MFASecret)</td>
+        <td>177</td>
+      </tr>
+    </table>
+  </body>
+</html>

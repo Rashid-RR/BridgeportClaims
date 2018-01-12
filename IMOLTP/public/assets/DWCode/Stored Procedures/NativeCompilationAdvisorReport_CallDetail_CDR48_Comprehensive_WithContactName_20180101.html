@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_CDR48_Comprehensive_WithContactName]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_CDR48_Comprehensive_WithContactName]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT l.contact_id,
+       l.master_contact_id,
+       l.bus_no,
+       l.contact_code,
+       r.skill_no,
+       r.campaign_no,
+       IsNull(r.agent_no, 0) AS agent_no,
+       IsNull(r.team_no, 0) AS team_no,
+       NULL AS archived,
+       IsNull(s.sla, 0) AS sla,
+       l.Start_Date,
+       s.prequeue_time,
+       s.inqueue_time,
+       s.agent_time,
+       s.postqueue_time,
+       s.abandon_time,
+       r.abandon,
+       r.from_addr,
+       r.to_addr,
+       s.Hold_time,
+       s.Release_time
+INTO   #dw_contact_log
+FROM   dbo.Contact_Log_Header AS l
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Footer AS r
+       ON r.Contact_ID = l.Contact_ID
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Summary AS s
+       ON s.Contact_ID = l.Contact_ID
+WHERE  l.bus_no = @bus_no
+       AND l.start_date BETWEEN @start_date AND @end_date</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT c.contact_code,
+       IsNull(c.ContactAddress, 'CallBack') AS contact_name,
+       c.status,
+       a.bus_no,
+       c.contact_type
+INTO   #dw_POC
+FROM   dbo.PointOfContact AS c
+       INNER JOIN
+       dbo.skills AS s
+       ON c.default_skill_no = s.skill_no
+       INNER JOIN
+       dbo.campaign AS a
+       ON s.campaign_no = a.campaign_no
+WHERE  c.contact_type = 1
+       AND a.bus_no = @bus_no
+UNION
+SELECT c.contact_code,
+       s.description,
+       c.status,
+       b.bus_no,
+       c.contact_type
+FROM   dbo.PointOfContact AS c
+       INNER JOIN
+       dbo.contact_types AS s
+       ON c.contact_type = s.contact_type CROSS JOIN dbo.business_unit AS b
+WHERE  default_skill_no IS NULL
+       AND b.bus_no = @bus_no</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN ISNULL(p.contact_type, 0) IN (3, 4) THEN l.to_addr ELSE l.from_addr END</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (clg.contact_id IS NOT NULL) THEN 'Y' ELSE 'N' END</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#dw_contact_log AS l</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_POC AS p</td>
+        <td>107</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[dw_WarehousePocAcw]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[dw_WarehousePocAcw]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT a.dwAcwToSummarizeID,
+       a.Contact_ID,
+       a.Bus_No,
+       a.AcwTimeAdded,
+       a.ExistingAcwTime,
+       h.contact_code,
+       f.skill_no,
+       dbo.fn_CalcQtrHourDateTime(h.Start_Date) AS QtrHourStart_date,
+       h.QtrHour_code,
+       s.ACW_Seconds
+INTO   #tmpContactsToSummarizeAcw
+FROM   dbo.dwAcwToSummarize AS a
+       INNER JOIN
+       dbo.contact_log_header AS h
+       ON h.contact_id = a.contact_id
+       INNER JOIN
+       dbo.contact_log_footer AS f
+       ON f.contact_id = a.contact_id
+       INNER JOIN
+       dbo.Contact_log_Summary AS s
+       ON s.Contact_ID = a.Contact_ID</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   t.contact_code,
+         t.skill_no,
+         t.QtrHourStart_date,
+         t.QtrHour_code,
+         t.bus_no,
+         MAX(t.ACW_Seconds) AS Max_ACW_Time,
+         SUM(CONVERT (INT, round(isnull(t.AcwTimeAdded, (0)) / (1000.0), (0)), (0))) AS ACW_Time_ToAdd,
+         SUM((CASE WHEN t.ExistingAcwTime &gt; 0 THEN 0 WHEN t.AcwTimeAdded &gt; 0 THEN 1 ELSE 0 END)) AS ACW_Cnt_ToAdd
+INTO     #tmpContactStats
+FROM     #tmpContactsToSummarizeAcw AS t
+WHERE    t.Skill_No IS NOT NULL
+GROUP BY t.skill_no, t.QtrHourStart_date, t.QtrHour_code, t.contact_code, t.bus_no</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN t.ExistingAcwTime &gt; 0 THEN 0 WHEN t.AcwTimeAdded &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_ACW_Time &gt; p.Max_ACW_Time THEN t.Max_ACW_Time ELSE p.Max_ACW_Time END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#tmpContactsToSummarizeAcw AS t</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">P</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpContactStats AS t</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpContactStats AS t</td>
+        <td>155</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dw</td>
+        <td>165</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpContactsToSummarizeAcw AS t</td>
+        <td>166</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM #tmpContactStats AS t
+     INNER JOIN
+     dbo.dw_POC_byQtrHour AS p
+     ON p.start_date = t.QtrHourStart_date
+        AND p.QtrHour_code = t.QtrHour_code
+        AND p.contact_code = t.contact_code
+        AND p.skill_no = t.skill_no
+        AND p.bus_no = t.bus_no</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">DELETE with FROM clause</td>
+        <td colspan="1">
+FROM #tmpContactsToSummarizeAcw AS t
+     INNER JOIN
+     dbo.dwAcwToSummarize AS dw
+     ON dw.dwAcwToSummarizeID = t.dwAcwToSummarizeID</td>
+        <td>166</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>170</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,506 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[API_WFM_GetContactStatisticsForAllEnabledBusinessUnits]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[API_WFM_GetContactStatisticsForAllEnabledBusinessUnits]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT DISTINCT bu.Business_Unit_Name,
+                bu.Bus_No
+INTO   #WFM_BUs
+FROM   dbo.Business_Unit AS bu
+WHERE  (@BU_To_Load IS NULL
+        OR bu.Bus_No = @BU_To_Load)</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+INTO   #IntervalStartDates
+FROM   (SELECT ISNULL(dq.START_DATE, @startdate) AS StartDate
+        FROM   #WFM_BUs AS wbu
+               LEFT OUTER JOIN
+               dbo.dw_POC_ByQtrHour AS dq
+               ON wbu.Bus_No = dq.Bus_No
+                  AND dq.start_date &gt;= @startdate
+                  AND dq.start_date &lt; @enddate
+        UNION
+        SELECT ISNULL(dq.START_DATE, @previousstartdate) AS StartDate
+        FROM   #WFM_BUs AS wbu
+               LEFT OUTER JOIN
+               dbo.dw_POC_ByQtrHour AS dq
+               ON wbu.Bus_No = dq.Bus_No
+                  AND dq.start_date &gt;= @previousstartdate
+                  AND dq.start_date &lt; @previousenddate) AS ww</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT bu.Bus_No,
+                ps.StartDate
+INTO   #Combined
+FROM   #WFM_BUs AS bu CROSS JOIN #IntervalStartDates AS ps</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   c.Bus_No,
+         c.StartDate AS StartDate,
+         s.skill_no,
+         s.Skill_Name,
+         m.Media_Name AS MediaTypeName,
+         m.Media_Type AS MediaTypeID,
+         CASE WHEN (s.Outbound_Skill = 1) THEN SUM(ISNULL(dq.Total_Cnt, 0)) ELSE SUM(ISNULL(dq.InQueue_Cnt, 0)) END - CASE WHEN (s.WFOCountReskills = 1) THEN 0 ELSE SUM(ISNULL(dq.ReSkill_Cnt, 0)) END AS CallCount,
+         SUM(ISNULL(dq.Agent_Cnt, 0)) AS Handled,
+         CASE WHEN SUM(ISNULL(Agent_Cnt, 0)) = 0 THEN 0 ELSE SUM(ISNULL(Agent_Time, 0) + ISNULL(ACW_Time, 0)) / SUM(ISNULL(Agent_Cnt, 0)) END AS AverageHandleTime,
+         SUM(ISNULL(Abandon_Cnt, 0)) AS AbandonCount,
+         CASE WHEN SUM(ISNULL(In_SLA, 0) + ISNULL(Out_SLA, 0)) = 0 THEN 0 ELSE SUM(CAST (In_SLA AS FLOAT)) / SUM(CAST (In_SLA AS FLOAT) + CAST (Out_SLA AS FLOAT)) * 100 END AS ServiceLevel,
+         CASE WHEN SUM(ISNULL(InQueue_Cnt, 0)) = 0 THEN 0 ELSE SUM(ISNULL(InQueue_Time, 0)) / SUM(ISNULL(InQueue_Cnt, 0)) END AS AverageSpeedOfAnswer,
+         SUM(ISNULL(PreQueue_Time, 0)) + SUM(ISNULL(InQueue_Time, 0)) + SUM(ISNULL(Agent_Time, 0)) + SUM(ISNULL(PostQueue_Time, 0)) AS TotalContactTime
+INTO     #WFM_CSI_Results
+FROM     #Combined AS c
+         LEFT OUTER JOIN
+         dbo.dw_POC_ByQtrHour AS dq
+         ON c.Bus_No = dq.Bus_No
+            AND c.StartDate = dq.Start_Date
+         LEFT OUTER JOIN
+         dbo.Business_Unit AS bu
+         ON bu.Bus_No = dq.Bus_No
+         LEFT OUTER JOIN
+         dbo.Skills AS s
+         ON s.Skill_No = dq.Skill_No
+            AND (s.IsNaturalCalling IS NULL
+                 OR s.IsNaturalCalling = 0)
+            AND (s.IsDialer IS NULL
+                 OR s.IsDialer = 0)
+         LEFT OUTER JOIN
+         dbo.Media AS m
+         ON m.Media_Type = s.Media_Type
+GROUP BY s.WFOCountReskills, c.Bus_No, c.StartDate, s.skill_no, s.Skill_Name, m.Media_Name, m.Media_Type, s.Outbound_Skill</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   ww.Bus_No,
+         ww.skill_no,
+         ww.QtrStartDate,
+         ww.Skill_Name,
+         ww.Media_Type AS MediaTypeID,
+         ww.Media_Name AS MediaTypeName,
+         COUNT(ww.contact_id) AS ContactCount
+INTO     #LiveContacts
+FROM     (SELECT DISTINCT cld.contact_id,
+                          cld.Bus_No,
+                          cld.skill_no,
+                          s.Skill_Name,
+                          m.Media_Name,
+                          m.Media_Type,
+                          DWCode.dbo.fn_CalcQtrHourDateTime(cld.start_date) AS QtrStartDate
+          FROM   dbo.RT_Contact_Log AS rcl
+                 INNER JOIN
+                 dbo.Contact_Log_Detail AS cld
+                 ON cld.contact_id = rcl.Contact_Id
+                 INNER JOIN
+                 dbo.Contact_State AS cs
+                 ON cs.contact_state = cld.contact_state
+                    AND cs.category1 = 'InQueue'
+                 INNER JOIN
+                 #WFM_BUs AS wu
+                 ON wu.Bus_No = rcl.Bus_no
+                 INNER JOIN
+                 dbo.Skills AS s
+                 ON s.Skill_No = cld.skill_no
+                 INNER JOIN
+                 dbo.Media AS m
+                 ON m.Media_Type = s.Media_Type
+          WHERE  cld.Header_Start_Date &gt;= @startdate
+                 AND cld.Header_Start_Date &lt; @enddate
+                 AND m.Media_Type = 1
+          UNION ALL
+          SELECT DISTINCT pcl.Contact_Id,
+                          pcl.Bus_no,
+                          pcl.Skill_No,
+                          s.Skill_Name,
+                          m.Media_Name,
+                          m.Media_Type,
+                          DWCode.dbo.fn_CalcQtrHourDateTime(pcl.start_date) AS QtrStartDate
+          FROM   dbo.PersistentContactLog AS pcl
+                 INNER JOIN
+                 dbo.Contact_Log_Detail AS cld
+                 ON cld.contact_id = pcl.Contact_Id
+                 INNER JOIN
+                 dbo.Contact_State AS cs
+                 ON cs.contact_state = cld.contact_state
+                    AND cs.category1 = 'InQueue'
+                 INNER JOIN
+                 #WFM_BUs AS wu
+                 ON wu.Bus_No = pcl.Bus_no
+                 INNER JOIN
+                 dbo.Skills AS s
+                 ON s.Skill_No = cld.skill_no
+                 INNER JOIN
+                 dbo.Media AS m
+                 ON m.Media_Type = s.Media_Type
+          WHERE  cld.Header_Start_Date &gt;= @startdate
+                 AND cld.Header_Start_Date &lt; @enddate
+                 AND m.Media_Type = 1
+          UNION ALL
+          SELECT DISTINCT cld.contact_id,
+                          cld.Bus_No,
+                          cld.skill_no,
+                          s.Skill_Name,
+                          m.Media_Name,
+                          m.Media_Type,
+                          DWCode.dbo.fn_CalcQtrHourDateTime(cld.start_date) AS QtrStartDate
+          FROM   dbo.RT_Contact_Log AS rcl
+                 INNER JOIN
+                 dbo.Contact_Log_Detail AS cld
+                 ON cld.contact_id = rcl.Contact_Id
+                 INNER JOIN
+                 dbo.Contact_State AS cs
+                 ON cs.contact_state = cld.contact_state
+                    AND cs.category1 = 'InQueue'
+                 INNER JOIN
+                 #WFM_BUs AS wu
+                 ON wu.Bus_No = rcl.Bus_no
+                 INNER JOIN
+                 dbo.Skills AS s
+                 ON s.Skill_No = cld.skill_no
+                 INNER JOIN
+                 dbo.Media AS m
+                 ON m.Media_Type = s.Media_Type
+          WHERE  cld.Header_Start_Date &gt;= @previousstartdate
+                 AND cld.Header_Start_Date &lt; @previousenddate
+                 AND m.Media_Type = 1
+          UNION ALL
+          SELECT DISTINCT pcl.Contact_Id,
+                          pcl.Bus_no,
+                          pcl.Skill_No,
+                          s.Skill_Name,
+                          m.Media_Name,
+                          m.Media_Type,
+                          DWCode.dbo.fn_CalcQtrHourDateTime(pcl.start_date) AS QtrStartDate
+          FROM   dbo.PersistentContactLog AS pcl
+                 INNER JOIN
+                 dbo.Contact_Log_Detail AS cld
+                 ON cld.contact_id = pcl.Contact_Id
+                 INNER JOIN
+                 dbo.Contact_State AS cs
+                 ON cs.contact_state = cld.contact_state
+                    AND cs.category1 = 'InQueue'
+                 INNER JOIN
+                 #WFM_BUs AS wu
+                 ON wu.Bus_No = pcl.Bus_no
+                 INNER JOIN
+                 dbo.Skills AS s
+                 ON s.Skill_No = cld.skill_no
+                 INNER JOIN
+                 dbo.Media AS m
+                 ON m.Media_Type = s.Media_Type
+          WHERE  cld.Header_Start_Date &gt;= @previousstartdate
+                 AND cld.Header_Start_Date &lt; @previousenddate
+                 AND m.Media_Type = 1) AS ww
+GROUP BY ww.Bus_No, ww.skill_no, ww.QtrStartDate, ww.skill_name, ww.Media_Name, ww.Media_Type</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT tt.*
+INTO   #FinalStats
+FROM   (SELECT Bus_No,
+               StartDate,
+               Skill_No,
+               Skill_Name,
+               MediaTypeName,
+               MediaTypeID,
+               CallCount,
+               Handled,
+               AverageHandleTime,
+               AbandonCount,
+               ServiceLevel,
+               AverageSpeedOfAnswer,
+               TotalContactTime
+        FROM   #WFM_CSI_Results AS csi
+        UNION ALL
+        SELECT lc.Bus_No,
+               lc.QtrStartDate AS StartDate,
+               lc.skill_no,
+               lc.Skill_Name,
+               lc.MediaTypeName,
+               lc.MediaTypeID,
+               lc.ContactCount AS CallCount,
+               0 AS Handled,
+               0 AS AverageHandleTime,
+               0 AS AbandonCount,
+               0 AS ServiceLevel,
+               0 AS AverageSpeedOfAnswer,
+               0 AS TotalContactTime
+        FROM   #LiveContacts AS lc
+               LEFT OUTER JOIN
+               #WFM_CSI_Results AS wcr
+               ON wcr.Bus_No = lc.Bus_No
+                  AND wcr.Skill_No = lc.skill_no
+                  AND wcr.StartDate = lc.QtrStartDate
+        WHERE  wcr.Bus_No IS NULL) AS tt</td>
+        <td>223</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#WFM_BUs</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BUs AS wbu</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BUs AS wbu</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BUs AS bu</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#IntervalStartDates AS ps</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Combined AS c</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">wcr</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_CSI_Results AS wcr</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BUs AS wu</td>
+        <td>142</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BUs AS wu</td>
+        <td>162</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BUs AS wu</td>
+        <td>182</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BUs AS wu</td>
+        <td>202</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">wcr</td>
+        <td>216</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_CSI_Results AS wcr</td>
+        <td>218</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#LiveContacts AS yy</td>
+        <td>219</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_CSI_Results AS csi</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#LiveContacts AS lc</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_CSI_Results AS wcr</td>
+        <td>257</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">fs1</td>
+        <td>262</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#FinalStats AS fs1</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FinalStats AS fs2</td>
+        <td>267</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BUs AS bu</td>
+        <td>286</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FinalStats AS fs</td>
+        <td>287</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">*</td>
+        <td colspan="1">SELECT *
+INTO   #IntervalStartDates
+FROM   (SELECT ISNULL(dq.START_DATE, @startdate) AS StartDate
+        FROM   #WFM_BUs AS wbu
+               LEFT OUTER JOIN
+               dbo.dw_POC_ByQtrHour AS dq
+               ON wbu.Bus_No = dq.Bus_No
+                  AND dq.start_date &gt;= @startdate
+                  AND dq.start_date &lt; @enddate
+        UNION
+        SELECT ISNULL(dq.START_DATE, @previousstartdate) AS StartDate
+        FROM   #WFM_BUs AS wbu
+               LEFT OUTER JOIN
+               dbo.dw_POC_ByQtrHour AS dq
+               ON wbu.Bus_No = dq.Bus_No
+                  AND dq.start_date &gt;= @previousstartdate
+                  AND dq.start_date &lt; @previousenddate) AS ww</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT tt.*
+INTO   #FinalStats
+FROM   (SELECT Bus_No,
+               StartDate,
+               Skill_No,
+               Skill_Name,
+               MediaTypeName,
+               MediaTypeID,
+               CallCount,
+               Handled,
+               AverageHandleTime,
+               AbandonCount,
+               ServiceLevel,
+               AverageSpeedOfAnswer,
+               TotalContactTime
+        FROM   #WFM_CSI_Results AS csi
+        UNION ALL
+        SELECT lc.Bus_No,
+               lc.QtrStartDate AS StartDate,
+               lc.skill_no,
+               lc.Skill_Name,
+               lc.MediaTypeName,
+               lc.MediaTypeID,
+               lc.ContactCount AS CallCount,
+               0 AS Handled,
+               0 AS AverageHandleTime,
+               0 AS AbandonCount,
+               0 AS ServiceLevel,
+               0 AS AverageSpeedOfAnswer,
+               0 AS TotalContactTime
+        FROM   #LiveContacts AS lc
+               LEFT OUTER JOIN
+               #WFM_CSI_Results AS wcr
+               ON wcr.Bus_No = lc.Bus_No
+                  AND wcr.Skill_No = lc.skill_no
+                  AND wcr.StartDate = lc.QtrStartDate
+        WHERE  wcr.Bus_No IS NULL) AS tt</td>
+        <td>223</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN (s.Outbound_Skill = 1) THEN SUM(ISNULL(dq.Total_Cnt, 0)) ELSE SUM(ISNULL(dq.InQueue_Cnt, 0)) END</td>
+        <td>85</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (s.WFOCountReskills = 1) THEN 0 ELSE SUM(ISNULL(dq.ReSkill_Cnt, 0)) END</td>
+        <td>85</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(ISNULL(Agent_Cnt, 0)) = 0 THEN 0 ELSE SUM(ISNULL(Agent_Time, 0) + ISNULL(ACW_Time, 0)) / SUM(ISNULL(Agent_Cnt, 0)) END</td>
+        <td>87</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(ISNULL(In_SLA, 0) + ISNULL(Out_SLA, 0)) = 0 THEN 0 ELSE SUM(CAST (In_SLA AS FLOAT)) / SUM(CAST (In_SLA AS FLOAT) + CAST (Out_SLA AS FLOAT)) * 100 END</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(ISNULL(InQueue_Cnt, 0)) = 0 THEN 0 ELSE SUM(ISNULL(InQueue_Time, 0)) / SUM(ISNULL(InQueue_Cnt, 0)) END</td>
+        <td>91</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM #WFM_CSI_Results AS wcr</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #WFM_CSI_Results AS wcr
+     LEFT OUTER JOIN
+     #LiveContacts AS yy
+     ON yy.Bus_No = wcr.Bus_No
+        AND yy.skill_no = wcr.Skill_No
+        AND yy.QtrStartDate = wcr.StartDate</td>
+        <td>218</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">DELETE with FROM clause</td>
+        <td colspan="1">
+FROM #FinalStats AS fs1</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #FinalStats AS fs2</td>
+        <td>267</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   #FinalStats AS fs2
+ WHERE  fs2.StartDate = fs1.StartDate
+        AND fs2.Bus_No = fs1.Bus_No
+        AND skill_no &lt;&gt; 0)</td>
+        <td>265</td>
+      </tr>
+    </table>
+  </body>
+</html>

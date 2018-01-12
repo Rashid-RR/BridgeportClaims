@@ -1,0 +1,770 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [Admin].[Insert_Perftrace_Errors]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [Admin].[Insert_Perftrace_Errors]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:59 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">REPLACE</td>
+        <td colspan="1">REPLACE(physical_name, 'master.mdf', '')</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">OBJECT_ID('Perftrace_Errors')</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OBJECT_ID('Perftrace_ErrorsSummary')</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE allfileinfo @trcPath</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">server_files</td>
+        <td>101</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_Errors</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE @rc = sp_trace_create @TraceID OUTPUT, 0, @tracefile, @maxfilesize, NULL</td>
+        <td>201</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 7, @on</td>
+        <td>209</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 31, @on</td>
+        <td>210</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 8, @on</td>
+        <td>211</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 64, @on</td>
+        <td>212</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 1, @on</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 9, @on</td>
+        <td>214</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 49, @on</td>
+        <td>215</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 6, @on</td>
+        <td>216</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 10, @on</td>
+        <td>217</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 14, @on</td>
+        <td>218</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 26, @on</td>
+        <td>219</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 30, @on</td>
+        <td>220</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 50, @on</td>
+        <td>221</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 3, @on</td>
+        <td>223</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 11, @on</td>
+        <td>224</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 35, @on</td>
+        <td>225</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 51, @on</td>
+        <td>226</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 4, @on</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 12, @on</td>
+        <td>228</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 20, @on</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 162, 60, @on</td>
+        <td>230</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 7, @on</td>
+        <td>232</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 15, @on</td>
+        <td>233</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 31, @on</td>
+        <td>234</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 8, @on</td>
+        <td>235</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 16, @on</td>
+        <td>236</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 48, @on</td>
+        <td>237</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 64, @on</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 1, @on</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 9, @on</td>
+        <td>240</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 17, @on</td>
+        <td>241</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 25, @on</td>
+        <td>242</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 49, @on</td>
+        <td>243</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 10, @on</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 18, @on</td>
+        <td>245</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 26, @on</td>
+        <td>246</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 34, @on</td>
+        <td>247</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 50, @on</td>
+        <td>248</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 3, @on</td>
+        <td>250</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 11, @on</td>
+        <td>251</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 35, @on</td>
+        <td>252</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 51, @on</td>
+        <td>253</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 4, @on</td>
+        <td>254</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 12, @on</td>
+        <td>255</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 60, @on</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 13, @on</td>
+        <td>257</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 6, @on</td>
+        <td>258</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 10, 14, @on</td>
+        <td>259</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 7, @on</td>
+        <td>261</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 15, @on</td>
+        <td>262</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 31, @on</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 8, @on</td>
+        <td>264</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 16, @on</td>
+        <td>265</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 48, @on</td>
+        <td>266</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 64, @on</td>
+        <td>267</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 1, @on</td>
+        <td>268</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 9, @on</td>
+        <td>269</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 17, @on</td>
+        <td>270</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 49, @on</td>
+        <td>271</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 6, @on</td>
+        <td>272</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 10, @on</td>
+        <td>273</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 14, @on</td>
+        <td>274</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 18, @on</td>
+        <td>275</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 26, @on</td>
+        <td>276</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 50, @on</td>
+        <td>277</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 3, @on</td>
+        <td>279</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 11, @on</td>
+        <td>280</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 35, @on</td>
+        <td>281</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 51, @on</td>
+        <td>282</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 4, @on</td>
+        <td>283</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 12, @on</td>
+        <td>284</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 60, @on</td>
+        <td>285</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setevent @TraceID, 12, 13, @on</td>
+        <td>286</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 10, 0, 7, N'SQL Server Profiler - c9683bf4-6a93-45e6-82d3-9f629e52215a'</td>
+        <td>294</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 11, 0, 7, N'inucn\datawarehouseloader'</td>
+        <td>297</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 11, 0, 7, N'ignite'</td>
+        <td>298</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>307</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>310</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>312</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>314</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>316</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>320</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>322</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>324</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>326</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>328</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>332</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>335</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>338</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>341</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>344</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>348</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>351</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>354</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>357</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>360</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>364</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>367</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>370</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>373</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>376</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>379</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>382</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>386</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>389</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>392</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>395</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>398</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>401</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>404</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>407</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>410</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>413</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>416</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_trace_setfilter @TraceID, 31, 0, 1, @intfilter</td>
+        <td>419</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_Errors</td>
+        <td>440</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_ErrorsSummary</td>
+        <td>448</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_Errors AS p</td>
+        <td>467</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_Errors</td>
+        <td>469</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_ErrorsSummary</td>
+        <td>483</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_Errors AS p</td>
+        <td>502</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_Errors</td>
+        <td>504</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_ErrorsSummary</td>
+        <td>559</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_Errors AS p</td>
+        <td>578</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">p</td>
+        <td>588</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_ErrorsSummary AS p</td>
+        <td>589</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">serverprocs AS s</td>
+        <td>589</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Perftrace_ErrorsSummary</td>
+        <td>598</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">fn_trace_gettable</td>
+        <td colspan="1">::fn_trace_gettable (@tracefileEXT, DEFAULT)</td>
+        <td>176</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">fn_trace_getinfo</td>
+        <td colspan="1">::fn_trace_getinfo (DEFAULT)</td>
+        <td>181</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">CAST (value AS VARCHAR (500)) LIKE '%Perftrace_Errors.trc'</td>
+        <td>182</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CAST (p.TextData AS VARCHAR (8000)) LIKE '%' + s.obj + '%'</td>
+        <td>590</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Three-part names</td>
+        <td colspan="1">master..sp_trace_setstatus</td>
+        <td>186</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">master..sp_trace_setstatus</td>
+        <td>187</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">master..xp_cmdshell</td>
+        <td>193</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">master..sp_trace_setstatus</td>
+        <td>424</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">GOTO</td>
+        <td colspan="1">GOTO error</td>
+        <td>202</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">GOTO finish</td>
+        <td>429</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN x.ERROR IS NOT NULL THEN x.ERROR ELSE p.ERROR END</td>
+        <td>462</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN x.ERROR IS NOT NULL THEN x.ERROR ELSE p.ERROR END</td>
+        <td>497</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM Perftrace_ErrorsSummary AS p
+     INNER JOIN
+     serverprocs AS s
+     ON p.DatabaseName = s.dbname
+        AND CAST (p.TextData AS VARCHAR (8000)) LIKE '%' + s.obj + '%'</td>
+        <td>589</td>
+      </tr>
+    </table>
+  </body>
+</html>

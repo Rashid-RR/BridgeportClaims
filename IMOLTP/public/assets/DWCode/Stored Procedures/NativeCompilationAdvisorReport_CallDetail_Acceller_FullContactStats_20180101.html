@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Acceller_FullContactStats]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Acceller_FullContactStats]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT l.contact_id,
+       l.master_contact_id,
+       l.bus_no,
+       l.contact_code,
+       r.skill_no,
+       r.campaign_no,
+       IsNull(r.agent_no, 0) AS agent_no,
+       IsNull(r.team_no, 0) AS team_no,
+       NULL AS archived,
+       IsNull(s.sla, 0) AS sla,
+       l.Start_Date,
+       s.prequeue_time,
+       s.inqueue_time,
+       s.agent_time,
+       s.postqueue_time,
+       s.abandon_time,
+       r.abandon,
+       r.from_addr,
+       r.to_addr,
+       s.Hold_time,
+       s.Release_time,
+       s.acw_time,
+       RCL.reason,
+       r.Outbound,
+       s.conf_Time
+INTO   #dw_contact_log
+FROM   dbo.Contact_Log_Header AS l
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Footer AS r
+       ON r.Contact_ID = l.Contact_ID
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Summary AS s
+       ON s.Contact_ID = l.Contact_ID
+       LEFT OUTER JOIN
+       dbo.RefusedContactLog AS RCL
+       ON RCL.Contact_ID = l.contact_ID
+WHERE  l.bus_no = @p_Bus_no
+       AND l.start_date BETWEEN @p_UTCStart_date AND @p_UTCEnd_date</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT c.contact_code,
+       IsNull(c.ContactAddress, 'CallBack') AS contact_name,
+       c.status,
+       a.bus_no,
+       c.contact_type
+INTO   #dw_POC
+FROM   dbo.PointOfContact AS c
+       INNER JOIN
+       dbo.skills AS s
+       ON c.default_skill_no = s.skill_no
+       INNER JOIN
+       dbo.campaign AS a
+       ON s.campaign_no = a.campaign_no
+WHERE  c.contact_type = 1
+       AND a.bus_no = @p_Bus_no
+UNION
+SELECT c.contact_code,
+       s.description,
+       c.status,
+       b.bus_no,
+       c.contact_type
+FROM   dbo.PointOfContact AS c
+       INNER JOIN
+       dbo.contact_types AS s
+       ON c.contact_type = s.contact_type CROSS JOIN dbo.business_unit AS b
+WHERE  default_skill_no IS NULL
+       AND b.bus_no = @p_Bus_no</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN (clg.contact_id IS NOT NULL) THEN 'Y' ELSE 'N' END</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.inQueue_Time &gt; 0 THEN 'True' ELSE 'False' END</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.agent_Time &gt; 0 THEN 'True' ELSE 'False' END</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.agent_Time &gt; 0 THEN 'True' ELSE 'False' END</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.reason = ''
+          OR l.reason IS NULL THEN 'False' ELSE 'True' END</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.outbound = 'T' THEN 'True' ELSE 'False' END</td>
+        <td>131</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN inQueue_Time IS NULL THEN 'FALSE' ELSE 'TRUE' END</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">REPLACE</td>
+        <td colspan="1">REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), ''), CHAR(10), '')</td>
+        <td>135</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(cld.Disposition_Comments, CHAR(13), '')</td>
+        <td>135</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CHAR</td>
+        <td colspan="1">CHAR(13)</td>
+        <td>135</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(10)</td>
+        <td>135</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#dw_Contact_Log AS l</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_poc AS p</td>
+        <td>145</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MAXDOP</td>
+        <td colspan="1">MAXDOP 2</td>
+        <td>153</td>
+      </tr>
+    </table>
+  </body>
+</html>

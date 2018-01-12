@@ -1,0 +1,552 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Omniglobe_CognosV2_n2]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Omniglobe_CognosV2_n2]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'CallDetail_Omniglobe_CognosV2_n2'</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">REPLACE</td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>279</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>214</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-')</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>279</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>279</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>279</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>279</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN F.Skill_No = 155806 THEN '44SE' WHEN F.Skill_No = 155807 THEN '46SW' WHEN F.Skill_No = 155808 THEN '52MW' WHEN F.Skill_No = 155809 THEN '51EA' WHEN F.Skill_No = 155810 THEN '47WS' WHEN F.Skill_No = 155812 THEN '55WS' WHEN F.Skill_No = 155813 THEN '64WL' WHEN F.Skill_No = 155814 THEN '68BE' WHEN F.Skill_No = 155815 THEN '63UV' WHEN F.Skill_No = 155816 THEN '66UC' WHEN F.Skill_No = 155817 THEN '62ST' WHEN F.Skill_No = 155818 THEN '61SS' WHEN F.Skill_No = 155819 THEN '60NB' WHEN F.Skill_No = 155820 THEN '59WN' WHEN F.Skill_No = 155821 THEN '69DC' WHEN F.Skill_No = 155822 THEN '57WF' WHEN F.Skill_No = 155823 THEN '65WE' WHEN F.Skill_No = 155824 THEN '56DS' WHEN F.Skill_No = 155827
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    AND CAST (REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-') AS DATE) &lt; '7/11/2013' THEN '41PA' WHEN F.Skill_No = 155827
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             AND CAST (REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-') AS DATE) &gt;= '7/11/2013' THEN 'A040502' WHEN F.Skill_No = 155828 THEN '43PG' WHEN F.Skill_No = 155830 THEN '54PV' WHEN F.Skill_No = 156428 THEN '040301' WHEN F.Skill_No = 157132 THEN '040901' WHEN F.Skill_No = 157133 THEN '040501' WHEN F.Skill_No = 216009 THEN '040101' WHEN F.Skill_No = 216010 THEN '040102' WHEN F.Skill_No = 216011 THEN '040103' WHEN F.Skill_No = 216012 THEN '040104' WHEN F.Skill_No = 182860 THEN '040302' WHEN F.Skill_No = 182861 THEN '040303' WHEN F.Skill_No = 182863 THEN '040304' WHEN F.Skill_No = 182866 THEN '040305' WHEN F.Skill_No = 182868 THEN '040306' WHEN F.Skill_No = 218007 THEN '040105' WHEN F.Skill_No = 218008 THEN '040106' WHEN F.Skill_No = 218009 THEN '040107' WHEN F.Skill_No = 218010 THEN '040108' WHEN F.Skill_No = 218011 THEN '040109' WHEN F.Skill_No = 218012 THEN '040110' WHEN F.Skill_No = 218015 THEN '040111' WHEN F.Skill_No = 218016 THEN '040112' WHEN F.Skill_No = 232901 THEN 'A040503' WHEN F.Skill_No = 232902 THEN 'A040504' WHEN F.Skill_No = 232903 THEN 'A042201' WHEN F.Skill_No = 239721 THEN 'A040403' WHEN F.Skill_No = 239722 THEN 'A040402' WHEN F.Skill_No = 239742 THEN '040307' WHEN F.Skill_No = 246424 THEN 'A042201' WHEN F.Skill_No = 246426 THEN 'A040505' WHEN F.Skill_No = 246427 THEN 'A040506' WHEN F.Skill_No = 246429 THEN 'A040508' WHEN F.Skill_No = 246430 THEN 'A040509' WHEN F.Skill_No = 246431 THEN 'A040510' ELSE '    ' END</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.inqueue_time &gt; 0
+          AND S.IsShortAbandon = 0 THEN 1 ELSE 0 END</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN 1 ELSE 0 END</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Abandon_Seconds &gt; 0
+          AND S.IsShortAbandon = 0 THEN 1 ELSE 0 END</td>
+        <td>101</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(CASE WHEN Inbound = 'T'
+                        AND S.Agent_Time &gt; 0
+                        OR (S.agent_time = 0
+                            AND S.inqueue_Time &gt; 0
+                            AND S.Abandon_Time = 0
+                            AND S.IsShortAbandon = 0
+                            AND Inbound = 'T') THEN 1 ELSE 0 END) = 0 THEN 0 ELSE SUM(CASE WHEN Inbound = 'T'
+                                                                                                AND S.Agent_Time &gt; 0
+                                                                                                OR (S.agent_time = 0
+                                                                                                    AND S.inqueue_Time &gt; 0
+                                                                                                    AND S.Abandon_Time = 0
+                                                                                                    AND S.IsShortAbandon = 0
+                                                                                                    AND Inbound = 'T') THEN S.INQueue_Seconds ELSE 0 END) / SUM(CASE WHEN Inbound = 'T'
+                                                                                                                                                                          AND S.Agent_Time &gt; 0
+                                                                                                                                                                          OR (S.agent_time = 0
+                                                                                                                                                                              AND S.inqueue_Time &gt; 0
+                                                                                                                                                                              AND S.Abandon_Time = 0
+                                                                                                                                                                              AND S.IsShortAbandon = 0
+                                                                                                                                                                              AND Inbound = 'T') THEN 1 ELSE 0 END) END</td>
+        <td>102</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN 1 ELSE 0 END</td>
+        <td>102</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN S.INQueue_Seconds ELSE 0 END</td>
+        <td>102</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND Inbound = 'T') THEN 1 ELSE 0 END</td>
+        <td>102</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN S.Agent_Seconds ELSE 0 END</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN S.ACW_Seconds ELSE 0 END</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Abandon_Seconds &gt; 0
+          AND S.IsShortAbandon = 1 THEN 1 ELSE 0 END</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.SLA = 1
+          AND S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND S.SLA = 1) THEN 1 ELSE 0 END</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND S.Agent_Time &gt; 0
+          AND S.INQueue_Time &lt;= 30000
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND S.INQueue_Time &lt;= 30000) THEN 1 ELSE 0 END</td>
+        <td>108</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND S.Agent_Time &gt; 0
+          AND S.INQueue_Time &lt;= 45000
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND S.INQueue_Time &lt;= 45000) THEN 1 ELSE 0 END</td>
+        <td>109</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND S.Agent_Time &gt; 0
+          AND S.INQueue_Time &lt; 60000
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND S.INQueue_Time &lt; 60000)
+          OR (S.INQueue_Time &gt;= 60000
+              AND s.sla = 0
+              AND Inbound = 'T'
+              AND S.Agent_Time &gt; 0) THEN 1 ELSE 0 END</td>
+        <td>110</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Abandon_Seconds &gt; 0
+          AND S.IsShortAbandon = 0 THEN 1 ELSE 0 END</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0) THEN S.inQueue_seconds ELSE 0 END</td>
+        <td>114</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Abandon_Time &gt; 0
+          AND S.IsShortAbandon = 0 THEN S.prequeue_seconds + S.inqueue_seconds ELSE 0 END</td>
+        <td>115</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND S.Agent_Time &gt; 0
+          AND S.INQueue_Time &lt;= 120000
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND S.INQueue_Time &lt; 120000) THEN 1 ELSE 0 END</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Inbound = 'T'
+          AND S.Agent_Time &gt; 0
+          AND S.INQueue_Time &lt;= 180000
+          OR (S.agent_time = 0
+              AND S.inqueue_Time &gt; 0
+              AND S.Abandon_Time = 0
+              AND S.IsShortAbandon = 0
+              AND S.INQueue_Time &lt; 180000) THEN 1 ELSE 0 END</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>214</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>214</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>214</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>214</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN F.Skill_No = 155806 THEN '44SE' WHEN F.Skill_No = 155807 THEN '46SW' WHEN F.Skill_No = 155808 THEN '52MW' WHEN F.Skill_No = 155809 THEN '51EA' WHEN F.Skill_No = 155810 THEN '47WS' WHEN F.Skill_No = 155812 THEN '55WS' WHEN F.Skill_No = 155813 THEN '64WL' WHEN F.Skill_No = 155814 THEN '68BE' WHEN F.Skill_No = 155815 THEN '63UV' WHEN F.Skill_No = 155816 THEN '66UC' WHEN F.Skill_No = 155817 THEN '62ST' WHEN F.Skill_No = 155818 THEN '61SS' WHEN F.Skill_No = 155819 THEN '60NB' WHEN F.Skill_No = 155820 THEN '59WN' WHEN F.Skill_No = 155821 THEN '69DC' WHEN F.Skill_No = 155822 THEN '57WF' WHEN F.Skill_No = 155823 THEN '65WE' WHEN F.Skill_No = 155824 THEN '56DS' WHEN F.Skill_No = 155827
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    AND CAST (REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-') AS DATE) &lt; '7/11/2013' THEN '41PA' WHEN F.Skill_No = 155827
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             AND CAST (REPLACE(CAST (CONVERT (VARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone), 111) AS VARCHAR) + ' ' + CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END + ':' + CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END + ':00', '/', '-') AS DATE) &gt;= '7/11/2013' THEN 'A040502' WHEN F.Skill_No = 155828 THEN '43PG' WHEN F.Skill_No = 155830 THEN '54PV' WHEN F.Skill_No = 156428 THEN '040301' WHEN F.Skill_No = 157132 THEN '040901' WHEN F.Skill_No = 157133 THEN '040501' WHEN F.Skill_No = 216009 THEN '040101' WHEN F.Skill_No = 216010 THEN '040102' WHEN F.Skill_No = 216011 THEN '040103' WHEN F.Skill_No = 216012 THEN '040104' WHEN F.Skill_No = 182860 THEN '040302' WHEN F.Skill_No = 182861 THEN '040303' WHEN F.Skill_No = 182863 THEN '040304' WHEN F.Skill_No = 182866 THEN '040305' WHEN F.Skill_No = 182868 THEN '040306' WHEN F.Skill_No = 218007 THEN '040105' WHEN F.Skill_No = 218008 THEN '040106' WHEN F.Skill_No = 218009 THEN '040107' WHEN F.Skill_No = 218010 THEN '040108' WHEN F.Skill_No = 218011 THEN '040109' WHEN F.Skill_No = 218012 THEN '040110' WHEN F.Skill_No = 218015 THEN '040111' WHEN F.Skill_No = 218016 THEN '040112' WHEN F.Skill_No = 232901 THEN 'A040503' WHEN F.Skill_No = 232902 THEN 'A040504' WHEN F.Skill_No = 232903 THEN 'A042201' WHEN F.Skill_No = 239721 THEN 'A040403' WHEN F.Skill_No = 239722 THEN 'A040402' WHEN F.Skill_No = 239742 THEN '040307' WHEN F.Skill_No = 246424 THEN 'A042201' WHEN F.Skill_No = 246426 THEN 'A040505' WHEN F.Skill_No = 246427 THEN 'A040506' WHEN F.Skill_No = 246429 THEN 'A040508' WHEN F.Skill_No = 246430 THEN 'A040509' WHEN F.Skill_No = 246431 THEN 'A040510' ELSE '    ' END</td>
+        <td>220</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) &lt; 10 THEN '0' + CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) ELSE CAST (DATEPART(hour, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) AS VARCHAR) END</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 15 THEN '00' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+                                                                                                                       AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                                                                                                                                        AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END END</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &gt; 15
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30 THEN '15' ELSE CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+                                                                                                                           AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END END</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 30
+          AND DATEPART(minute, dbo.fn_ConvertUTCToTargetTimeZone(H.Start_Date, @p_TimeZone)) &lt; 45 THEN '30' ELSE '45' END</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>281</td>
+      </tr>
+    </table>
+  </body>
+</html>

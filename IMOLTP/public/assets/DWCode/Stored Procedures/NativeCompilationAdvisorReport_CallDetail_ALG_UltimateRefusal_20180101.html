@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_ALG_UltimateRefusal]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_ALG_UltimateRefusal]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:12 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @busno_str</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Agent_Log_DetailQV AS ald</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">RefusedContactLog AS r</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">RefusedContactLog AS r</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#agentLog AS ald</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">agent_station_log AS asl</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_footer AS f</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">agents AS a</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">team AS t</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_summary AS s</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">skills AS sk</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">campaign AS c</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_header AS h</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">media AS md</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">OBJECT_ID('tempdb..#agentLog')</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT ald.contact_id,
+       ald.agent_no,
+       ald.startdate,
+       ald.agent_session_id,
+       CONVERT (TIME (0), DATEADD(SS, CAST (ald.duration AS DECIMAL (15, 2)) / 1000, 0), 108) AS [Duration]
+INTO   #agentLog
+FROM   Agent_Log_DetailQV AS ald
+       RIGHT OUTER JOIN
+       RefusedContactLog AS r
+       ON ald.contact_id = r.contact_id
+          AND ald.agent_no = r.agent_no
+          AND FORMAT(ald.startdate, 'MM/dd/yyyy HH:mm:ss') = FORMAT(r.refuse_time, 'MM/dd/yyyy HH:mm:ss')
+WHERE  ald.outstate_code = '-1'
+       AND @p_Bus_no = r.bus_no
+       AND dbo.fn_ConvertUTCToTargetTimeZone(r.refuse_time, @p_TimeZone) BETWEEN @p_Start_Date AND @p_End_Date</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">FORMAT</td>
+        <td colspan="1">FORMAT(ald.startdate, 'MM/dd/yyyy HH:mm:ss')</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FORMAT(r.refuse_time, 'MM/dd/yyyy HH:mm:ss')</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FORMAT(dbo.fn_ConvertUTCToTargetTimeZone(r.refuse_time, @p_TimeZone), 'MM/dd/yyyy HH:mm:ss')</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FORMAT(dbo.fn_ConvertUTCToTargetTimeZone(f.header_start_date, @p_TimeZone), 'MM/dd/yyyy HH:mm')</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FORMAT(dbo.fn_ConvertUTCToTargetTimeZone(f.end_date, @p_TimeZone), 'MM/dd/yyyy HH:mm')</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FORMAT(r.refuse_time, 'MM/dd/yyyy HH:mm:ss')</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FORMAT(ald.startdate, 'MM/dd/yyyy HH:mm:ss')</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN SUBSTRING(asl.station_phone_num, 1, 3) = '700' THEN 'Y' ELSE 'N' END</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Abandon = 'Y'
+          AND s.agent_time = '0' THEN 'N' ELSE 'Y' END</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>89</td>
+      </tr>
+    </table>
+  </body>
+</html>

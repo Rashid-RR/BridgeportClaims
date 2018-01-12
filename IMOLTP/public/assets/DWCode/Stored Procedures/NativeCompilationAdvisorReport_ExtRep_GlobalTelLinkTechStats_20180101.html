@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[ExtRep_GlobalTelLinkTechStats]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[ExtRep_GlobalTelLinkTechStats]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT l.Contact_Id,
+       l.Master_Contact_Id,
+       l.Bus_no,
+       l.Contact_Code,
+       r.Skill_No,
+       r.Campaign_no,
+       r.Agent_No,
+       r.Team_No,
+       l.start_date,
+       l.QtrHour_Code,
+       l.HalfHour_Code,
+       s.sla,
+       s.PreQueue_time,
+       s.InQueue_time,
+       s.Agent_time,
+       s.PostQueue_time,
+       s.Abandon_time,
+       r.Abandon,
+       r.To_addr,
+       r.From_addr,
+       s.Total_Time,
+       r.End_Date,
+       s.Hold_time,
+       s.Release_Time
+INTO   #Contact_Log
+FROM   dbo.Contact_Log_Header AS l
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Footer AS r
+       ON r.Contact_ID = l.Contact_ID
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Summary AS s
+       ON s.Contact_ID = l.Contact_ID
+WHERE  l.bus_no = @Bus_no
+       AND l.start_date BETWEEN @start_date AND @end_date
+       AND (@team LIKE '%,' + CONVERT (NVARCHAR, r.[team_no]) + ',%'
+            OR @team IS NULL)
+       AND (@agent LIKE '%,' + CONVERT (NVARCHAR, r.[agent_no]) + ',%'
+            OR @agent IS NULL)</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">@team LIKE '%,' + CONVERT (NVARCHAR, r.[team_no]) + ',%'</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">@agent LIKE '%,' + CONVERT (NVARCHAR, r.[agent_no]) + ',%'</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN @team IS NOT NULL THEN t.[team_name] ELSE a.[first_name] + ' ' + a.[last_name] END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.[Data_Value] IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN o.[Data_Value] = 1 THEN 1 ELSE 0 END</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN o.[Data_Value] = 2 THEN 1 ELSE 0 END</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.[Data_Value] IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.[Data_Value] IS NULL THEN 1 ELSE 0 END</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[InQueue_time] &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[Abandon] = 'Y' THEN 1 ELSE 0 END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[agent_no] IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN o.[Data_Value] = 2 THEN l.[Total_Time] ELSE 0 END</td>
+        <td>83</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN o.[Data_Value] = 2 THEN 1 ELSE 0 END</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[Agent_time] &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[InQueue_time] &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[Abandon_time] &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN o.[Data_Value] = 2 THEN l.[Total_Time] ELSE 0 END</td>
+        <td>102</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(CASE WHEN l.[sla] = 0 THEN 1 ELSE 0 END) = (SUM(CASE WHEN l.[InQueue_time] &gt; 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN l.[sla] = -1 THEN 1 ELSE 0 END)) THEN 100.0 ELSE ROUND((SUM(CASE WHEN l.[sla] = 0 THEN 1 ELSE 0 END) * 1.0) / ISNULL(NULLIF (SUM(CASE WHEN l.[InQueue_time] &gt; 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN l.[sla] = -1 THEN 1 ELSE 0 END), 0), 1.0) * 100.0, 2) END</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[sla] = 0 THEN 1 ELSE 0 END</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[InQueue_time] &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[sla] = -1 THEN 1 ELSE 0 END</td>
+        <td>110</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[sla] = 0 THEN 1 ELSE 0 END</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[InQueue_time] &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN l.[sla] = -1 THEN 1 ELSE 0 END</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @team IS NOT NULL THEN t.[team_name] ELSE a.[first_name] + ' ' + a.[last_name] END</td>
+        <td>135</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NULLIF</td>
+        <td colspan="1">NULLIF (SUM(CASE WHEN o.[Data_Value] = 2 THEN 1 ELSE 0 END), 0)</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (SUM(CASE WHEN l.[Agent_time] &gt; 0 THEN 1 ELSE 0 END), 0)</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (SUM(CASE WHEN l.[InQueue_time] &gt; 0 THEN 1 ELSE 0 END), 0)</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (SUM(CASE WHEN l.[Abandon_time] &gt; 0 THEN 1 ELSE 0 END), 0)</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (SUM(CASE WHEN l.[InQueue_time] &gt; 0 THEN 1 ELSE 0 END) - SUM(CASE WHEN l.[sla] = -1 THEN 1 ELSE 0 END), 0)</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#Contact_Log AS l</td>
+        <td>124</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">MAXDOP</td>
+        <td colspan="1">MAXDOP 2</td>
+        <td>141</td>
+      </tr>
+    </table>
+  </body>
+</html>

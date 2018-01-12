@@ -1,0 +1,375 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[WFMDC_ACDScoreCard]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[WFMDC_ACDScoreCard]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT a.Bus_No,
+       a.Agent_No,
+       a.StartDate,
+       a.Duration,
+       a.AgentStateID,
+       a.Skill_No,
+       a.Outstate_Code,
+       a.Contact_Id
+INTO   #Agent_Log_DetailQV_BU
+FROM   dbo.Agent_Log_DetailQV AS a
+       INNER JOIN
+       dbo.Business_Unit_Verint_Server AS buvs
+       ON buvs.Bus_No = a.Bus_No
+WHERE  a.Bus_No = @Bus_NoLocal
+       AND a.StartDate BETWEEN @StartDateLocal AND @EndDateLocal
+       AND buvs.VerintServerID = @VerintServerIDLocal</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT bumt.BusNo,
+       bumt.Mediatype,
+       bumt.Outbound
+INTO   #Enabled_Mediatypes
+FROM   dbo.[Business_Unit_MediaTypes] AS bumt
+       INNER JOIN
+       dbo.Business_Unit_Verint_Server AS buvs
+       ON buvs.Bus_No = bumt.BusNo
+WHERE  bumt.BusNo = @Bus_NoLocal
+       AND buvs.VerintServerID = @VerintServerIDLocal</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   a.Bus_No,
+         a.Agent_No,
+         MIN(a.StartDate) AS LoginTime
+INTO     #AgentLogins
+FROM     #Agent_Log_DetailQV_BU AS a
+         INNER JOIN
+         dbo.Agents AS agts
+         ON agts.Agent_No = a.Agent_No
+            AND agts.Bus_No = a.Bus_No
+         INNER JOIN
+         dbo.ProductTeamAssignments AS pta
+         ON pta.Team_No = agts.Team_No
+            AND pta.Bus_No = agts.Bus_No
+WHERE    pta.ProductID IN (20, 21)
+GROUP BY a.Bus_No, a.Agent_No</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   a.Agent_No,
+         SUM(ISNULL(a.Duration, 0)) AS TotalTime,
+         SUM(CASE WHEN c.isACW = 'T'
+                       AND c.isSystemOutState = 0
+                       AND d.Outbound_Skill = enabledMedia.Outbound THEN ISNULL(a.Duration, 0) ELSE 0 END) AS ACWTime,
+         SUM(CASE WHEN a.AgentStateID IN (0, 2, 8) THEN ISNULL(a.Duration, 0) ELSE 0 END) AS AuxTime,
+         SUM(CASE WHEN e.IsAvailable = 0
+                       AND d.Outbound_Skill = 0 THEN ISNULL(a.Duration, 0) ELSE 0 END) AS AuxInTime,
+         SUM(CASE WHEN e.IsAvailable = 0
+                       AND d.Outbound_Skill = 1 THEN ISNULL(a.Duration, 0) ELSE 0 END) AS AuxOutTime
+INTO     #AgentStats
+FROM     #Agent_Log_DetailQV_BU AS a
+         INNER JOIN
+         #AgentLogins AS b
+         ON a.Agent_No = b.Agent_No
+            AND a.Bus_No = b.Bus_No
+         INNER JOIN
+         dbo.AgentState AS e
+         ON a.AgentStateID = e.AgentStateID
+         LEFT OUTER JOIN
+         dbo.Skills AS d
+         ON a.Skill_No = d.Skill_No
+         LEFT OUTER JOIN
+         #Enabled_Mediatypes AS enabledMedia
+         ON enabledMedia.BusNo = a.Bus_No
+            AND enabledMedia.Outbound = d.Outbound_skill
+            AND enabledMedia.MediaType = d.Media_Type
+         LEFT OUTER JOIN
+         dbo.Outstates AS c
+         ON a.Outstate_Code = c.outstate_code
+GROUP BY a.Agent_No</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT a.Contact_ID,
+       a.Agent_No,
+       a.Bus_No,
+       a.Duration,
+       a.Contact_State,
+       a.Direction,
+       a.Skill_No
+INTO   #ContactsQV
+FROM   dbo.Contact_Log_DetailQV AS a
+       INNER JOIN
+       #AgentLogins AS al
+       ON al.Agent_No = a.Agent_No
+          AND al.Bus_No = a.Bus_No
+       INNER JOIN
+       dbo.Skills AS s
+       ON s.Skill_No = a.Skill_No
+       INNER JOIN
+       #Enabled_Mediatypes AS enabledMedia
+       ON enabledMedia.BusNo = a.Bus_No
+          AND enabledMedia.Outbound = s.Outbound_skill
+          AND enabledMedia.MediaType = s.Media_Type
+WHERE  a.StartDate BETWEEN @StartDateLocal AND @EndDateLocal
+       AND a.Bus_No = @Bus_NoLocal</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   b.Agent_No,
+         SUM(CASE WHEN a.Contact_State IN (4, 14) THEN ISNULL(a.Duration, 0) ELSE 0 END) AS TalkTime,
+         SUM(CASE WHEN a.Contact_State = 8 THEN a.Duration ELSE 0 END) AS HoldTime
+INTO     #ContactStats
+FROM     #ContactsQV AS a
+         INNER JOIN
+         #AgentLogins AS b
+         ON a.Agent_No = b.Agent_No
+GROUP BY b.Agent_No</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   b.Agent_No,
+         COUNT(DISTINCT a.Contact_Id) AS Handled
+INTO     #HandledStats
+FROM     #ContactsQV AS a
+         INNER JOIN
+         #AgentLogins AS b
+         ON a.Agent_No = b.Agent_No
+WHERE    a.Duration &gt; 0
+         AND a.Contact_State = 4
+GROUP BY b.Agent_No</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT c.Contact_ID,
+                c.Agent_No,
+                c.skill_no
+INTO   #FilteredContacts
+FROM   #ContactsQV AS c</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   fc.Agent_No,
+         COUNT(DISTINCT fc.Contact_ID) AS TotalCalls
+INTO     #TotalCalls
+FROM     #FilteredContacts AS fc
+WHERE    fc.Skill_No IS NOT NULL
+GROUP BY fc.Agent_No</td>
+        <td>118</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   a.Agent_No,
+         COUNT(DISTINCT a.Contact_ID) AS AbandonCalls
+INTO     #AbandonCalls
+FROM     #ContactsQV AS a
+         INNER JOIN
+         #AgentStats AS ast
+         ON ast.Agent_No = a.Agent_No
+            AND a.Contact_State = 24
+            AND a.Direction = 1
+GROUP BY a.Agent_No</td>
+        <td>125</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   al.Agent_No,
+         SUM(ISNULL(a.Duration, 0)) AS IdleTime
+INTO     #AgentIdleTime
+FROM     #AgentLogins AS al
+         INNER JOIN
+         dbo.Agent_Log_DetailQV AS a
+         ON a.Agent_No = al.Agent_No
+            AND a.Bus_No = al.Bus_No
+WHERE    AgentStateID = 1
+         AND a.StartDate BETWEEN @StartDateLocal AND @EndDateLocal
+         AND a.Bus_No = @Bus_NoLocal
+GROUP BY al.Agent_No</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#Agent_Log_DetailQV_BU AS a</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Agent_Log_DetailQV_BU AS a</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLogins AS b</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Enabled_Mediatypes AS enabledMedia</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLogins AS al</td>
+        <td>85</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Enabled_Mediatypes AS enabledMedia</td>
+        <td>88</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactsQV AS a</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLogins AS b</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactsQV AS a</td>
+        <td>106</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLogins AS b</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactsQV AS c</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FilteredContacts AS fc</td>
+        <td>121</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactsQV AS a</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentStats AS ast</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLogins AS al</td>
+        <td>137</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLogins AS a</td>
+        <td>159</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentStats AS b</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStats AS c</td>
+        <td>161</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#TotalCalls AS d</td>
+        <td>162</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AbandonCalls AS e</td>
+        <td>163</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentIdleTime AS f</td>
+        <td>164</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#HandledStats AS g</td>
+        <td>165</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN c.isACW = 'T'
+          AND c.isSystemOutState = 0
+          AND d.Outbound_Skill = enabledMedia.Outbound THEN ISNULL(a.Duration, 0) ELSE 0 END</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN a.AgentStateID IN (0, 2, 8) THEN ISNULL(a.Duration, 0) ELSE 0 END</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN e.IsAvailable = 0
+          AND d.Outbound_Skill = 0 THEN ISNULL(a.Duration, 0) ELSE 0 END</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN e.IsAvailable = 0
+          AND d.Outbound_Skill = 1 THEN ISNULL(a.Duration, 0) ELSE 0 END</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN a.Contact_State IN (4, 14) THEN ISNULL(a.Duration, 0) ELSE 0 END</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN a.Contact_State = 8 THEN a.Duration ELSE 0 END</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">DISTINCT</td>
+        <td colspan="1">COUNT(DISTINCT a.Contact_Id)</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT fc.Contact_ID)</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT a.Contact_ID)</td>
+        <td>126</td>
+      </tr>
+    </table>
+  </body>
+</html>

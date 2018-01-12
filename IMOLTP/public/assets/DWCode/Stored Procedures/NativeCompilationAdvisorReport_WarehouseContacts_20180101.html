@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[WarehouseContacts]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[WarehouseContacts]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET FORCEPLAN ON</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT   t.contact_code,
+         t.skill_no,
+         t.QtrHourStart_date,
+         t.QtrHour_code,
+         t.bus_no,
+         SUM(PreQueue_Seconds) AS prequeue_time,
+         SUM(InQueue_Seconds) AS inqueue_time,
+         SUM(Abandon_Seconds) AS Abandon_time,
+         SUM(Agent_Seconds) AS Agent_time,
+         SUM(ActiveTalk_Seconds) AS ActiveTalk_time,
+         SUM(PostQueue_Seconds) AS PostQueue_time,
+         SUM(Hold_Seconds) AS Hold_time,
+         SUM(Release_Seconds) AS Release_time,
+         SUM((CASE WHEN ISNULL(c.InQueue_time, 0) &gt; 0 THEN 1 ELSE 0 END)) AS InQueue_cnt,
+         SUM((CASE WHEN t.Abandon = 'Y' THEN 1 ELSE 0 END)) AS Abandon_cnt,
+         SUM(CASE WHEN c.isShortAbandon = 0 THEN 0 ELSE 0 END) AS shortAbandonCnt,
+         SUM((CASE WHEN ISNULL(c.Agent_time, 0) &gt; 0 THEN 1 ELSE 0 END)) AS Agent_cnt,
+         SUM((CASE WHEN ISNULL(c.PostQueue_time, 0) &gt; 0 THEN 1 ELSE 0 END)) AS PostQueue_cnt,
+         SUM(Hold_cnt) AS HoldTotal_Cnt,
+         SUM((CASE WHEN ISNULL(c.Hold_time, 0) &gt; 0 THEN 1 ELSE 0 END)) AS HoldContacts_cnt,
+         count(*) AS Total_cnt,
+         SUM((CASE WHEN t.ReskillIndicator = 1 THEN 1 ELSE 0 END)) AS ReSkill_cnt,
+         MAX(PreQueue_Seconds) AS Max_PreQueue_Time,
+         MAX(InQueue_Seconds) AS Max_InQueue_Time,
+         MAX(Abandon_Seconds) AS Max_Abandon_Time,
+         MAX(Agent_Seconds) AS Max_Agent_Time,
+         MAX(ActiveTalk_Seconds) AS Max_ActiveTalk_Time,
+         MAX(PostQueue_Seconds) AS Max_PostQueue_Time,
+         MAX(Hold_Seconds) AS Max_Hold_Time,
+         MAX(Release_Seconds) AS Max_Release_Time,
+         MAX(Total_Seconds) AS Max_Total_Time,
+         MAX(Conf_Seconds) AS Max_Conf_Time,
+         SUM(Conf_Seconds) AS Conf_Time,
+         SUM((CASE WHEN t.Abandon = 'Y'
+                        AND ISNULL(c.sla, 0) = 0 THEN Abandon_Seconds ELSE 0 END)) AS Abandon_InSLA_Time,
+         SUM((CASE WHEN ISNULL(c.Conf_Time, 0) &gt; 0 THEN 1 ELSE 0 END)) AS Conf_Cnt,
+         SUM((CASE WHEN t.Abandon = 'Y'
+                        AND ISNULL(c.sla, 0) = 0 THEN 1 ELSE 0 END)) AS Abandon_InSLA_Cnt,
+         SUM((CASE WHEN ISNULL(c.sla, 0) = 0 THEN 1 ELSE 0 END)) AS In_SLA,
+         SUM((CASE WHEN ISNULL(c.sla, 0) = 1 THEN 1 ELSE 0 END)) AS Out_SLA,
+         SUM(Total_Seconds) AS Total_time
+INTO     #tmpStats
+FROM     #tmpContacts AS t
+         INNER JOIN
+         dbo.Contact_log_Summary AS c
+         ON c.Contact_ID = t.Contact_ID
+WHERE    t.Skill_No IS NOT NULL
+GROUP BY t.skill_no, t.QtrHourStart_date, t.QtrHour_code, t.contact_code, t.bus_no</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   max(bus_no) AS bus_no,
+         skill_no AS skill_no,
+         QtrHourStart_date AS QtrHourStart_date,
+         QtrHour_code AS QtrHour_code,
+         Sum(Total_cnt) AS Total_cnt,
+         Sum(In_SLA) AS In_SLA,
+         Sum(Out_SLA) AS Out_SLA,
+         SUM(shortAbandonCnt) AS shortAbandonCnt
+INTO     #tmpStats_Skill
+FROM     #tmpStats
+GROUP BY QtrHourStart_date, QtrHour_code, skill_no</td>
+        <td>269</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN ISNULL(c.InQueue_time, 0) &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Abandon = 'Y' THEN 1 ELSE 0 END</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.isShortAbandon = 0 THEN 0 ELSE 0 END</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(c.Agent_time, 0) &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(c.PostQueue_time, 0) &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(c.Hold_time, 0) &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.ReskillIndicator = 1 THEN 1 ELSE 0 END</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Abandon = 'Y'
+          AND ISNULL(c.sla, 0) = 0 THEN Abandon_Seconds ELSE 0 END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(c.Conf_Time, 0) &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Abandon = 'Y'
+          AND ISNULL(c.sla, 0) = 0 THEN 1 ELSE 0 END</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(c.sla, 0) = 0 THEN 1 ELSE 0 END</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(c.sla, 0) = 1 THEN 1 ELSE 0 END</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_Conf_Time &gt; p.Max_Conf_Time THEN t.Max_Conf_Time ELSE p.Max_Conf_Time END</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_PreQueue_Time &gt; p.Max_PreQueue_Time THEN t.Max_PreQueue_Time ELSE p.Max_PreQueue_Time END</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_InQueue_Time &gt; p.Max_InQueue_Time THEN t.Max_InQueue_Time ELSE p.Max_InQueue_Time END</td>
+        <td>137</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_Abandon_Time &gt; p.Max_Abandon_Time THEN t.Max_Abandon_Time ELSE p.Max_Abandon_Time END</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_Agent_Time &gt; p.Max_Agent_Time THEN t.Max_Agent_Time ELSE p.Max_Agent_Time END</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_ActiveTalk_Time &gt; p.Max_ActiveTalk_Time THEN t.Max_ActiveTalk_Time ELSE p.Max_ActiveTalk_Time END</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_PostQueue_Time &gt; p.Max_PostQueue_Time THEN t.Max_PostQueue_Time ELSE p.Max_PostQueue_Time END</td>
+        <td>149</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_Hold_Time &gt; p.Max_Hold_Time THEN t.Max_Hold_Time ELSE p.Max_Hold_Time END</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_Release_Time &gt; p.Max_Release_Time THEN t.Max_Release_Time ELSE p.Max_Release_Time END</td>
+        <td>155</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.Max_Total_Time &gt; p.Max_Total_Time THEN t.Max_Total_Time ELSE p.Max_Total_Time END</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.outbound_skill = 0 THEN 1 ELSE 0 END</td>
+        <td>362</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.outbound_skill = 0 THEN c.agent_seconds ELSE 0 END</td>
+        <td>365</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.outbound_skill = 1 THEN 1 ELSE 0 END</td>
+        <td>368</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.outbound_skill = 1 THEN c.agent_seconds ELSE 0 END</td>
+        <td>371</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN b.original_duration &gt; 0 THEN Duration / CONVERT (FLOAT, b.original_duration) ELSE 1 END</td>
+        <td>550</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @CurQtrHour_StartDateTime &gt; t.Start_Date THEN @CurQtrHour_StartDateTime ELSE t.Start_Date END</td>
+        <td>558</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @CurQtrHour_EndDateTime &lt; t.End_Date THEN @CurQtrHour_EndDateTime ELSE t.End_Date END</td>
+        <td>561</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.max_media_ports &gt; p.max_media_ports THEN t.max_media_ports ELSE p.max_media_ports END</td>
+        <td>636</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#tmpContacts AS t</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">P</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStats AS t</td>
+        <td>161</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStats AS t</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStats</td>
+        <td>278</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">hh</td>
+        <td>284</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStats_Skill AS t</td>
+        <td>289</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStats_Skill AS t</td>
+        <td>316</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAgentTeamQtrHourTotals</td>
+        <td>350</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpContacts AS t</td>
+        <td>376</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s</td>
+        <td>388</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAgentTeamQtrHourTotals AS t</td>
+        <td>396</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAgentTeamQtrHourTotals AS t</td>
+        <td>431</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#contact_log_temp</td>
+        <td>484</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpContacts AS t</td>
+        <td>512</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#contact_log_temp</td>
+        <td>528</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpQtrHourTotals</td>
+        <td>539</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#contact_log_temp AS t</td>
+        <td>566</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpPortLimitByQtrHour</td>
+        <td>578</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">h</td>
+        <td>599</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpQtrHourTotals AS a</td>
+        <td>602</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpQtrHourTotals AS a</td>
+        <td>623</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">p</td>
+        <td>635</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpPortLimitByQtrHour AS t</td>
+        <td>639</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpPortLimitByQtrHour AS t</td>
+        <td>662</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION OFF</td>
+        <td colspan="1">SET FORCEPLAN OFF</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM #tmpStats AS t
+     INNER JOIN
+     dbo.dw_POC_byQtrHour AS p
+     ON p.start_date = t.QtrHourStart_date
+        AND p.QtrHour_code = t.QtrHour_code
+        AND p.contact_code = t.contact_code
+        AND p.skill_no = t.skill_no
+        AND p.bus_no = t.bus_no</td>
+        <td>161</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #tmpStats_Skill AS t
+     INNER JOIN
+     dbo.dw_sla_skill_byQtrHour AS hh
+     ON hh.start_date = t.QtrHourStart_date
+        AND hh.QtrHour_code = t.QtrHour_code
+        AND hh.skill_no = t.skill_no</td>
+        <td>289</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #tmpAgentTeamQtrHourTotals AS t
+     INNER JOIN
+     dbo.dw_agent_team_byQtrHour AS s
+     ON s.start_date = t.QtrHourStart_date
+        AND s.agent_no = t.agent_no
+        AND s.team_no = t.team_no</td>
+        <td>396</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #tmpQtrHourTotals AS a
+     INNER JOIN
+     dbo.dw_Skill_byQtrHour AS h
+     ON h.start_date = a.QtrHourStart_date
+        AND h.QtrHour_code = a.QtrHour_Code
+        AND h.skill_no = a.skill_no
+        AND h.contact_state = a.contact_state</td>
+        <td>602</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #tmpPortLimitByQtrHour AS t
+     INNER JOIN
+     dbo.dw_portLimit_byQtrHour AS p
+     ON p.start_date = t.QtrHourStart_date
+        AND p.bus_no = t.bus_no
+        AND p.QtrHour_code = t.QtrHour_code
+        AND p.media_type = t.media_type
+        AND (t.max_media_ports &gt; p.max_media_ports
+             OR t.max_other_ports &gt; p.max_other_ports)</td>
+        <td>639</td>
+      </tr>
+    </table>
+  </body>
+</html>

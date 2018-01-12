@@ -1,0 +1,830 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[WebAdmins_AgentLoginHistoryList]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[WebAdmins_AgentLoginHistoryList]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#tmp</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>101</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>241</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>276</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>311</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>346</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp</td>
+        <td>393</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY a.Bus_No) ELSE ROW_NUMBER() OVER (ORDER BY a.Bus_No DESC) END</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY a.agent_no) ELSE ROW_NUMBER() OVER (ORDER BY a.agent_no DESC) END</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY a.first_name) ELSE ROW_NUMBER() OVER (ORDER BY a.first_name DESC) END</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY a.last_name) ELSE ROW_NUMBER() OVER (ORDER BY a.last_name DESC) END</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ROW_NUMBER() OVER (ORDER BY a.username + '@' + a.usernamedomain) ELSE ROW_NUMBER() OVER (ORDER BY a.username + '@' + a.usernamedomain DESC) END</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY l.Login_Date) ELSE Row_Number() OVER (ORDER BY l.Login_Date DESC) END</td>
+        <td>208</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY l.station_id) ELSE Row_Number() OVER (ORDER BY l.station_id DESC) END</td>
+        <td>243</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY s.Station_Name) ELSE Row_Number() OVER (ORDER BY s.Station_Name DESC) END</td>
+        <td>278</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY l.Station_Phone_Num) ELSE Row_Number() OVER (ORDER BY l.Station_Phone_Num DESC) END</td>
+        <td>313</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY l.Station_Caller_Id) ELSE Row_Number() OVER (ORDER BY l.Station_Caller_Id DESC) END</td>
+        <td>348</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">ROW_NUMBER</td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.Bus_No)</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.Bus_No DESC)</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.agent_no)</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.agent_no DESC)</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.first_name)</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.first_name DESC)</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.last_name)</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.last_name DESC)</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.username + '@' + a.usernamedomain)</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY a.username + '@' + a.usernamedomain DESC)</td>
+        <td>174</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY l.Login_Date)</td>
+        <td>208</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY l.Login_Date DESC)</td>
+        <td>209</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY l.station_id)</td>
+        <td>243</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY l.station_id DESC)</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY s.Station_Name)</td>
+        <td>278</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY s.Station_Name DESC)</td>
+        <td>279</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY l.Station_Phone_Num)</td>
+        <td>313</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY l.Station_Phone_Num DESC)</td>
+        <td>314</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY l.Station_Caller_Id)</td>
+        <td>348</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY l.Station_Caller_Id DESC)</td>
+        <td>349</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OVER</td>
+        <td colspan="1">OVER (ORDER BY a.Bus_No)</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.Bus_No DESC)</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.agent_no)</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.agent_no DESC)</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.first_name)</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.first_name DESC)</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.last_name)</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.last_name DESC)</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.username + '@' + a.usernamedomain)</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY a.username + '@' + a.usernamedomain DESC)</td>
+        <td>174</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY l.Login_Date)</td>
+        <td>208</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY l.Login_Date DESC)</td>
+        <td>209</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY l.station_id)</td>
+        <td>243</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY l.station_id DESC)</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY s.Station_Name)</td>
+        <td>278</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY s.Station_Name DESC)</td>
+        <td>279</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY l.Station_Phone_Num)</td>
+        <td>313</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY l.Station_Phone_Num DESC)</td>
+        <td>314</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY l.Station_Caller_Id)</td>
+        <td>348</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY l.Station_Caller_Id DESC)</td>
+        <td>349</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>87</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>88</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>91</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>123</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>124</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>125</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>130</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>131</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>159</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>161</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>162</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>163</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>164</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>165</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>166</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>192</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>193</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>194</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>195</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>196</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>197</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>198</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>199</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>200</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>201</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>228</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>230</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>231</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>232</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>233</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>234</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>235</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>236</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>262</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>264</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>265</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>266</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>267</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>268</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>269</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>270</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>271</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>297</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>298</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>299</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>300</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>301</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>302</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>303</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>304</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>305</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>306</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>332</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>333</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>334</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>335</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>336</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>337</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>338</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>339</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>340</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>341</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.first_name LIKE '%' + @SearchText + '%'</td>
+        <td>367</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">a.last_name LIKE '%' + @SearchText + '%'</td>
+        <td>368</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">a.username + '@' + a.usernamedomain LIKE '%' + @SearchText + '%'</td>
+        <td>369</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">s.Station_Name LIKE '%' + @SearchText + '%'</td>
+        <td>370</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Phone_Num LIKE '%' + @SearchText + '%'</td>
+        <td>371</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">l.Station_Caller_Id LIKE '%' + @SearchText + '%'</td>
+        <td>372</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.bus_no) LIKE @SearchText + '%'</td>
+        <td>373</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), a.Agent_No) LIKE @SearchText + '%'</td>
+        <td>374</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (11), l.station_id) LIKE @SearchText + '%'</td>
+        <td>375</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 101) + ' ' + SUBSTRING(CONVERT (NVARCHAR, dbo.UTC2Timezone(l.Login_Date, 'Mountain Standard Time'), 100), 14, 7) LIKE @SearchText + '%'</td>
+        <td>376</td>
+      </tr>
+    </table>
+  </body>
+</html>

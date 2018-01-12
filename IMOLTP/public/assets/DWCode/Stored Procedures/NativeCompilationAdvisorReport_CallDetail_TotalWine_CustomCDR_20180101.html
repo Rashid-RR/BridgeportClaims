@@ -1,0 +1,1018 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_TotalWine_CustomCDR]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_TotalWine_CustomCDR]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT DISTINCT CONVERT (VARCHAR (10), H.Start_Date, 111) AS TheDate
+INTO   #TheDates
+FROM   dbo.Contact_Log_Header AS H
+WHERE  H.Bus_NO = @Bus_no
+       AND H.Start_Date BETWEEN @UTCStart_Date AND @UTCEnd_Date</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT H.Contact_ID,
+       H.Media_Type,
+       F.Campaign_No,
+       CASE WHEN Outbound_Skill = 0 THEN 'T' ELSE 'F' END AS Inbound,
+       F.Abandon,
+       F.Agent_No,
+       S.InQueue_Seconds,
+       S.Agent_Seconds,
+       S.ACW_Seconds,
+       S.Hold_Seconds,
+       DISP.Disposition_Code,
+       F.Skill_No
+INTO   #WineStats
+FROM   dbo.Contact_Log_Header AS H
+       INNER JOIN
+       dbo.Contact_Log_Footer AS F
+       ON H.Contact_ID = F.Contact_ID
+       INNER JOIN
+       dbo.Contact_Log_Summary AS S
+       ON H.Contact_ID = S.Contact_ID
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Dispositions AS DISP
+       ON H.Contact_ID = DISP.Contact_ID
+       INNER JOIN
+       dbo.Skills AS SK
+       ON F.Skill_No = SK.Skill_No
+WHERE  H.Bus_NO = @Bus_no
+       AND H.Start_Date BETWEEN @UTCStart_Date AND @UTCEnd_Date
+       AND SK.Outbound_Skill = 0
+       AND H.Media_Type IN (1, 3, 4)</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT H.Contact_ID,
+       H.Media_Type,
+       F.Campaign_No,
+       CASE WHEN Outbound_Skill = 0 THEN 'T' ELSE 'F' END AS Inbound,
+       F.Abandon,
+       F.Agent_No,
+       S.InQueue_Seconds,
+       S.Agent_Seconds,
+       S.ACW_Seconds,
+       S.Hold_Seconds,
+       DISP.Disposition_Code,
+       F.Skill_No
+INTO   #WineStatsOutbound
+FROM   dbo.Contact_Log_Header AS H
+       INNER JOIN
+       dbo.Contact_Log_Footer AS F
+       ON H.Contact_ID = F.Contact_ID
+       INNER JOIN
+       dbo.Contact_Log_Summary AS S
+       ON H.Contact_ID = S.Contact_ID
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Dispositions AS DISP
+       ON H.Contact_ID = DISP.Contact_ID
+       INNER JOIN
+       dbo.Skills AS SK
+       ON F.Skill_No = SK.Skill_No
+WHERE  H.Bus_NO = @Bus_no
+       AND H.Start_Date BETWEEN @UTCStart_Date AND @UTCEnd_Date
+       AND SK.Outbound_Skill = 1
+       AND H.Media_Type IN (1, 3, 4)</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT Contact_Id
+INTO   #CalledAfterHours
+FROM   Custom_Contact_Log
+WHERE  Data_Name = 'FDBC_Closed'
+       AND Data_Value = '1'
+       AND Bus_NO = @Bus_no
+       AND Start_Date BETWEEN @UTCStart_Date AND @UTCEnd_Date</td>
+        <td>110</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT 'Date Range' AS METRIC,
+       CAST (CONVERT (VARCHAR (10), @Start_Date, 111) + ' - ' + CONVERT (VARCHAR (10), @End_Date, 111) AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+INTO   #MyResults
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT 'Staff Hours Logged In (Available Status)' AS METRIC,
+       CAST (CAST (CAST (CAST (@AgentLoginTime AS MONEY) / 60 AS MONEY) / 60 AS MONEY) AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT 'Live Customer Contacts (All Stores)' AS METRIC,
+       CAST (@AllAnsweredContactsZ AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@AllAnsweredContactsZ AS MONEY) / CAST (@AllAnsweredContacts AS MONEY)) * 100 AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Answered Calls' AS METRIC,
+       CAST (@AllAnsweredCallsZ AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@AllAnsweredCallsZ AS MONEY) / CAST (@AllAnsweredContacts AS MONEY)) * 100 AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Emails' AS METRIC,
+       CAST (@AllAnsweredEmailsZ AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@AllAnsweredEmailsZ AS MONEY) / CAST (@AllAnsweredContacts AS MONEY)) * 100 AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Chat' AS METRIC,
+       CAST (@AllAnsweredChatsZ AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@AllAnsweredChatsZ AS MONEY) / CAST (@AllAnsweredContacts AS MONEY)) * 100 AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT 'Call Detail Analysis' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Total Calls Delivered/Open Hours' AS METRIC,
+       CAST (@TotalCallsDelivered AS VARCHAR) AS ForDateRange,
+       CAST ('100.00' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Answered for BEW' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@TotalCallsDelivered AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Campaign_No = 66340
+       AND Inbound = 'T'
+       AND Agent_Seconds &gt; 0
+UNION ALL
+SELECT '# Answered for CFW' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@TotalCallsDelivered AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Campaign_No = 66341
+       AND Inbound = 'T'
+       AND Agent_Seconds &gt; 0
+UNION ALL
+SELECT '# Answered for TWM' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@TotalCallsDelivered AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Campaign_No = 66339
+       AND Inbound = 'T'
+       AND Agent_Seconds &gt; 0
+UNION ALL
+SELECT '# Abandoned' AS METRIC,
+       CAST (@Abandoned AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@TotalCallsDelivered AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Abandon = 'Y'
+       AND Campaign_No IN (66340, 66341, 66339)
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# of Answered Inbound Calls' AS METRIC,
+       CAST (@AllAnsweredCallsZ AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@AllAnsweredCalls AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# General Service' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 271
+UNION ALL
+SELECT '# Other' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 281
+UNION ALL
+SELECT '# Other Web Issue' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 278
+UNION ALL
+SELECT '# Service/Pick-Up' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 274
+UNION ALL
+SELECT '# Order/Ship-To' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 276
+UNION ALL
+SELECT '# Product Issue' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 280
+UNION ALL
+SELECT '# Profile Change' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 306
+UNION ALL
+SELECT '# Service/Ship-To' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 275
+UNION ALL
+SELECT '# STR/STF Complaint' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 272
+UNION ALL
+SELECT '# STR/STF Compliment' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 273
+UNION ALL
+SELECT '# Web Complaint' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 279
+UNION ALL
+SELECT '# Order/Pick-Up ' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 277
+UNION ALL
+SELECT '# Order/Gift Card' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 881
+UNION ALL
+SELECT '# Service/Gift Card' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Disposition_Code = 882
+UNION ALL
+SELECT '# Transferred Calls' AS METRIC,
+       CAST (@AllAnsweredCallsZ - COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@AllAnsweredCallsZ - COUNT(*) AS MONEY) / CAST (@AllCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Agent_Seconds &gt; 0
+       AND Disposition_Code IN (271, 281, 278, 274, 276, 280, 306, 275, 272, 273, 279, 277, 881, 882)
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# After Hours' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Skill_No IN (144757, 144758, 144759)
+UNION ALL
+SELECT '# VoiceMail' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllCalls AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Skill_No = 133079
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT 'Averages' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Calls Handled/Hour' AS METRIC,
+       CAST (CAST (@AllAnsweredCallsZ AS MONEY) / @HourDiff AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# ASA (seconds)' AS METRIC,
+       CAST (AVG(InQueue_Seconds) AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Abandon = 'N'
+UNION ALL
+SELECT '# AHT (mins)' AS METRIC,
+       CAST (CAST (LEFT(CAST (SUM(Agent_Seconds + Hold_Seconds + ACW_Seconds) AS DECIMAL) / CAST (COUNT(*) AS DECIMAL) / 60, 6) AS MONEY) AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 4
+       AND Agent_Seconds &gt; 0
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT 'Email Detail' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# All Emails' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+UNION ALL
+SELECT '# Emails for BEW' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Campaign_No = 66340
+UNION ALL
+SELECT '# Emails for CFW' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Campaign_No = 66341
+UNION ALL
+SELECT '# Emails for TWM' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Campaign_No = 66339
+UNION ALL
+SELECT '# Emails for Other' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Campaign_No NOT IN (66339, 66341, 66340)
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# of Answered Inbound Emails' AS METRIC,
+       CAST (@AllAnsweredEmails AS VARCHAR) AS ForDateRange,
+       CAST ('100.00' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# General Service' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 271
+UNION ALL
+SELECT '# Other' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 281
+UNION ALL
+SELECT '# Other Web Issue' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 278
+UNION ALL
+SELECT '# Service/Pick-Up' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 274
+UNION ALL
+SELECT '# Order/Ship-To' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 276
+UNION ALL
+SELECT '# Product Issue' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 280
+UNION ALL
+SELECT '# Profile Change' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 306
+UNION ALL
+SELECT '# Service/Ship-To' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 275
+UNION ALL
+SELECT '# STR/STF Complaint' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 272
+UNION ALL
+SELECT '# STR/STF Compliment' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 273
+UNION ALL
+SELECT '# Web Complaint' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 279
+UNION ALL
+SELECT '# Order/Pick-Up ' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 277
+UNION ALL
+SELECT '# Order/Gift Card' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 881
+UNION ALL
+SELECT '# Service/Gift Card' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CAST (@AllAnsweredEmails AS MONEY)) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 1
+       AND Disposition_Code = 882
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT 'Averages' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Emails Handled/Hour' AS METRIC,
+       CAST (CAST (@AllAnsweredEmails AS MONEY) / @HourDiff AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT 'Chat Analysis' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# All Chats' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CASE WHEN CAST (@AllChats AS MONEY) = 0 THEN 1 ELSE CAST (@AllChats AS MONEY) END) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 3
+UNION ALL
+SELECT '# Chats for CFW' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CASE WHEN CAST (@AllChats AS MONEY) = 0 THEN 1 ELSE CAST (@AllChats AS MONEY) END) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 3
+       AND Campaign_No = 66341
+UNION ALL
+SELECT '# Chats for BEW' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CASE WHEN CAST (@AllChats AS MONEY) = 0 THEN 1 ELSE CAST (@AllChats AS MONEY) END) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 3
+       AND Campaign_No = 66340
+UNION ALL
+SELECT '# Chats for TWM' AS METRIC,
+       CAST (COUNT(*) AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (COUNT(*) AS MONEY) / CASE WHEN CAST (@AllChats AS MONEY) = 0 THEN 1 ELSE CAST (@AllChats AS MONEY) END) * 100 AS VARCHAR) AS Percentage
+FROM   #WineStats
+WHERE  Media_Type = 3
+       AND Campaign_No = 66339
+UNION ALL
+SELECT '' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT 'Outbound Detail' AS METRIC,
+       CAST ('' AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# All Outbound' AS METRIC,
+       CAST (@OutboundContact AS VARCHAR) AS ForDateRange,
+       CAST ('100' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Outbound Dials' AS METRIC,
+       CAST (@OutboundCalls AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@OutboundCalls AS MONEY) / CAST (@OutboundContact AS MONEY)) * 100 AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Outbound Contacts' AS METRIC,
+       CAST (@OutboundCallWithTime AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@OutboundCallWithTime AS MONEY) / CAST (@OutboundContact AS MONEY)) * 100 AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Outbound Contacts/Hour' AS METRIC,
+       CAST (CAST (@OutboundCalls AS MONEY) / @HourDiff AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# AHT Outbound Contacts (mins)' AS METRIC,
+       CAST (CAST (LEFT(CAST (SUM(Agent_Seconds + Hold_Seconds + ACW_Seconds) AS DECIMAL) / CAST (COUNT(*) AS DECIMAL) / 60, 6) AS MONEY) AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage
+FROM   #WineStatsOutbound
+WHERE  Inbound &lt;&gt; 'T'
+       AND Agent_Seconds &gt; 0
+UNION ALL
+SELECT '# Outbound Concierge Emails' AS METRIC,
+       CAST (@OutboundEmail AS VARCHAR) AS ForDateRange,
+       CAST ((CAST (@OutboundEmail AS MONEY) / CAST (@OutboundContact AS MONEY)) * 100 AS VARCHAR) AS Percentage
+UNION ALL
+SELECT '# Outbound Concierge Emails/Hour' AS METRIC,
+       CAST (CAST (@OutboundEmail AS MONEY) / @HourDiff AS VARCHAR) AS ForDateRange,
+       CAST ('' AS VARCHAR) AS Percentage</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN DATEPART(dw, TheDate) = 1 THEN 10 WHEN DATEPART(dw, TheDate) = 2 THEN 13 WHEN DATEPART(dw, TheDate) = 3 THEN 13 WHEN DATEPART(dw, TheDate) = 4 THEN 13 WHEN DATEPART(dw, TheDate) = 5 THEN 13 WHEN DATEPART(dw, TheDate) = 6 THEN 13 WHEN DATEPART(dw, TheDate) = 7 THEN 10 END</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Outbound_Skill = 0 THEN 'T' ELSE 'F' END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Outbound_Skill = 0 THEN 'T' ELSE 'F' END</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(*) = 0 THEN 1 ELSE COUNT(*) END</td>
+        <td>137</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(*) = 0 THEN 1 ELSE COUNT(*) END</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(*) = 0 THEN 1 ELSE COUNT(*) END</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(*) = 0 THEN 1 ELSE COUNT(*) END</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(*) = 0 THEN 1 ELSE COUNT(*) END</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(*) = 0 THEN 1 ELSE COUNT(*) END</td>
+        <td>142</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(*) = 0 THEN 1 ELSE COUNT(*) END</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN COUNT(*) = 0 THEN 1 ELSE COUNT(*) END</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (@AllChats AS MONEY) = 0 THEN 1 ELSE CAST (@AllChats AS MONEY) END</td>
+        <td>225</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (@AllChats AS MONEY) = 0 THEN 1 ELSE CAST (@AllChats AS MONEY) END</td>
+        <td>226</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (@AllChats AS MONEY) = 0 THEN 1 ELSE CAST (@AllChats AS MONEY) END</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CAST (@AllChats AS MONEY) = 0 THEN 1 ELSE CAST (@AllChats AS MONEY) END</td>
+        <td>228</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Percentage = '' THEN '' ELSE Percentage + '%' END</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#TheDates</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Custom_Contact_Log</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>137</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>142</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>145</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStatsOutbound</td>
+        <td>149</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStatsOutbound</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStatsOutbound</td>
+        <td>151</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStatsOutbound</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>153</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#CalledAfterHours</td>
+        <td>153</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>168</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>169</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>174</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>175</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>176</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>178</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>179</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>180</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>181</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>182</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>183</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>184</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>185</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>186</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>187</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>188</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>190</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>191</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>195</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>196</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>199</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>200</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>201</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>202</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>203</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>207</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>208</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>209</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>210</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>211</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>212</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>214</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>215</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>216</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>217</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>218</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>219</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>225</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>226</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStats</td>
+        <td>228</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WineStatsOutbound</td>
+        <td>235</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#MyResults</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LEFT</td>
+        <td colspan="1">LEFT(CAST (SUM(Agent_Seconds + Hold_Seconds + ACW_Seconds) AS DECIMAL) / CAST (COUNT(*) AS DECIMAL) / 60, 6)</td>
+        <td>196</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">LEFT(CAST (SUM(Agent_Seconds + Hold_Seconds + ACW_Seconds) AS DECIMAL) / CAST (COUNT(*) AS DECIMAL) / 60, 6)</td>
+        <td>235</td>
+      </tr>
+    </table>
+  </body>
+</html>

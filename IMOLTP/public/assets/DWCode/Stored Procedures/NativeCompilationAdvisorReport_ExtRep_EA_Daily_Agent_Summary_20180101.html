@@ -1,0 +1,253 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[ExtRep_EA_Daily_Agent_Summary]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[ExtRep_EA_Daily_Agent_Summary]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'ExtRep_EA_Daily_Agent_Summary'</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Bus_Unit_Outstates AS o</td>
+        <td>87</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Contact_Info AS CI</td>
+        <td>133</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Skills_By_Team AS ST</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT   a.Agent_No,
+         MAX(a.first_name) AS Agent_First,
+         MAX(a.last_name) AS Agent_Last,
+         MAX(a.Team_No) AS Team_No,
+         MAX(t.Team_Name) AS Team_Name,
+         @BusName AS Bus_Name
+INTO     #Skills_By_Team
+FROM     dbo.agents AS a
+         INNER JOIN
+         dbo.Team AS t
+         ON t.team_no = a.team_no
+WHERE    t.Bus_No = @bus_no
+GROUP BY a.Agent_No</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT outstate_code AS state_code,
+       description,
+       isACW
+INTO   #Bus_Unit_Outstates
+FROM   dbo.outstates
+WHERE  Bus_No = @bus_no
+UNION
+SELECT 0,
+       'Available',
+       'F'
+UNION
+SELECT 1,
+       'ACD',
+       'F'
+UNION
+SELECT 2,
+       'Outbound',
+       'F'
+UNION
+SELECT 3,
+       'Unavailable',
+       'F'
+UNION
+SELECT -1,
+       'Refused Contact',
+       'F'
+UNION
+SELECT -2,
+       'Held Party Abandon',
+       'F'</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT a.Agent_No,
+       a.Team_No,
+       a.Skill_no,
+       a.ACDContacts AS ACDContacts,
+       a.OBContacts AS OBContacts,
+       a.AvailTime AS AvailTime,
+       a.UnavailTime AS UnavailTime,
+       a.ACD_Time AS ACD_Time,
+       a.OB_Time AS OB_Time,
+       a.ACW_Time AS ACW_Time,
+       a.HHCode,
+       a.DateOnly,
+       a.OutState,
+       a.True_Date
+INTO   #Contact_Info
+FROM   (SELECT   h.Agent_no AS Agent_No,
+                 t.Team_No AS Team_No,
+                 d.Skill_No AS Skill_No,
+                 SUM(CASE WHEN d.outstate_code &lt;= 0
+                               AND d.available &lt;&gt; 0
+                               AND d.working = 1 THEN 1 ELSE 0 END) AS ACDContacts,
+                 SUM(CASE WHEN d.outstate_code &lt;= 0
+                               AND d.available &lt;&gt; 0
+                               AND d.working = 2 THEN 1 WHEN d.outstate_code &lt;= 0
+                                                             AND d.available = 0
+                                                             AND d.working = 2 THEN 1 ELSE 0 END) AS OBContacts,
+                 SUM(CASE WHEN d.outstate_code = 0
+                               AND d.available = 1
+                               AND d.working = 0 THEN s.duration / 1000 ELSE 0 END) AS AvailTime,
+                 SUM(CASE WHEN d.outstate_code = 0
+                               AND d.available = 0
+                               AND d.working &lt;&gt; 2 THEN s.duration / 1000 ELSE 0 END) AS UnavailTime,
+                 SUM(CASE WHEN d.outstate_code &lt;= 0
+                               AND d.available &lt;&gt; 0
+                               AND d.working = 1 THEN s.duration / 1000 ELSE 0 END) AS ACD_Time,
+                 SUM(CASE WHEN d.outstate_code &lt;= 0
+                               AND d.available &lt;&gt; 0
+                               AND d.working = 2 THEN s.duration / 1000 WHEN d.outstate_code &lt;= 0
+                                                                             AND d.available = 0
+                                                                             AND d.working = 2 THEN s.duration / 1000 ELSE 0 END) AS OB_Time,
+                 SUM(CASE WHEN o.isACW = 'T' THEN s.duration / 1000 ELSE 0 END) AS ACW_Time,
+                 dbo.fn_CalcTimeZoneHalfHourCodeFromUTC(d.start_date, @TimeZone) AS HHCode,
+                 CONVERT (NVARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(d.start_date, @TimeZone), 120) AS DateOnly,
+                 d.working AS Working,
+                 d.available AS Available,
+                 d.outstate_code AS Outstate,
+                 dbo.fn_ConvertUTCToTargetTimeZone(d.start_date, @TimeZone) AS True_Date
+        FROM     dbo.Agent_Log_Header AS h
+                 INNER JOIN
+                 dbo.Agent_Log_Detail AS d
+                 ON d.Agent_Session_ID = h.Agent_Session_ID
+                 INNER JOIN
+                 dbo.Agent_Log_Detail_Summary AS s
+                 ON s.Agent_Session_ID = d.Agent_Session_ID
+                    AND s.StateIndex = d.StateIndex
+                 LEFT OUTER JOIN
+                 #Bus_Unit_Outstates AS o
+                 ON o.State_Code = d.outstate_code
+                 INNER JOIN
+                 dbo.Agents AS a
+                 ON a.agent_No = h.Agent_No
+                 INNER JOIN
+                 dbo.Team AS t
+                 ON t.team_no = h.team_no
+        WHERE    t.bus_no = @bus_no
+                 AND d.start_date BETWEEN @start_date AND @end_date
+                 AND (@team LIKE '%,' + CONVERT (NVARCHAR, t.team_no) + ',%'
+                      OR @team IS NULL)
+                 AND (@agent LIKE '%,' + CONVERT (NVARCHAR, h.agent_no) + ',%'
+                      OR @agent IS NULL)
+        GROUP BY dbo.fn_CalcTimeZoneHalfHourCodeFromUTC(d.start_date, @TimeZone), CONVERT (NVARCHAR (10), dbo.fn_ConvertUTCToTargetTimeZone(d.start_date, @TimeZone), 120), h.agent_no, t.Team_no, d.Skill_no, d.start_date, d.Contact_Id, d.working, d.available, d.outstate_code) AS a
+OPTION (MAXDOP 2)</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN d.outstate_code &lt;= 0
+          AND d.available &lt;&gt; 0
+          AND d.working = 1 THEN 1 ELSE 0 END</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.outstate_code &lt;= 0
+          AND d.available &lt;&gt; 0
+          AND d.working = 2 THEN 1 WHEN d.outstate_code &lt;= 0
+                                        AND d.available = 0
+                                        AND d.working = 2 THEN 1 ELSE 0 END</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.outstate_code = 0
+          AND d.available = 1
+          AND d.working = 0 THEN s.duration / 1000 ELSE 0 END</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.outstate_code = 0
+          AND d.available = 0
+          AND d.working &lt;&gt; 2 THEN s.duration / 1000 ELSE 0 END</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.outstate_code &lt;= 0
+          AND d.available &lt;&gt; 0
+          AND d.working = 1 THEN s.duration / 1000 ELSE 0 END</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.outstate_code &lt;= 0
+          AND d.available &lt;&gt; 0
+          AND d.working = 2 THEN s.duration / 1000 WHEN d.outstate_code &lt;= 0
+                                                        AND d.available = 0
+                                                        AND d.working = 2 THEN s.duration / 1000 ELSE 0 END</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN o.isACW = 'T' THEN s.duration / 1000 ELSE 0 END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">@team LIKE '%,' + CONVERT (NVARCHAR, t.team_no) + ',%'</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@agent LIKE '%,' + CONVERT (NVARCHAR, h.agent_no) + ',%'</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">MAXDOP</td>
+        <td colspan="1">MAXDOP 2</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>138</td>
+      </tr>
+    </table>
+  </body>
+</html>

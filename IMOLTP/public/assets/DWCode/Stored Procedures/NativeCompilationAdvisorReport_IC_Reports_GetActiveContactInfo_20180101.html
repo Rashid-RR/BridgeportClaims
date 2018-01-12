@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_GetActiveContactInfo]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_GetActiveContactInfo]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   dbo.Contact_Log_Header
+ WHERE  contact_id = @contact_id
+        AND bus_no = @bus_no)</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT l.Contact_Id,
+       l.Master_Contact_Id,
+       l.Bus_no,
+       l.Contact_Code,
+       ISNULL(rt.Skill_No, f.skill_no) AS Skill_No,
+       ISNULL(rt.Campaign_no, f.Campaign_no) AS Campaign_no,
+       ISNULL(rt.Agent_No, f.Agent_No) AS Agent_No,
+       ISNULL(rt.Team_No, f.Team_No) AS Team_No,
+       l.start_date,
+       l.QtrHour_Code,
+       l.HalfHour_Code,
+       s.sla,
+       s.PreQueue_time,
+       s.InQueue_time,
+       s.Agent_time,
+       s.PostQueue_time,
+       s.Abandon_time,
+       f.Abandon,
+       ISNULL(rt.To_addr, f.To_addr) AS To_addr,
+       ISNULL(rt.From_addr, f.From_addr) AS From_addr,
+       s.Total_Time,
+       f.End_Date,
+       s.Hold_time,
+       s.Release_Time,
+       ISNULL(rt.current_contact_state, 18) AS current_contact_state,
+       ISNULL(rt.current_contact_date, f.End_Date) AS current_contact_date,
+       l.Media_Type
+INTO   #Contact_Log_Xview
+FROM   dbo.Contact_Log_Header AS l
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Footer AS f
+       ON f.Contact_ID = l.Contact_ID
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Summary AS s
+       ON s.Contact_ID = l.Contact_ID
+       LEFT OUTER JOIN
+       dbo.RT_Contact_Log AS rt
+       ON rt.Contact_ID = l.Contact_ID
+WHERE  l.contact_id = @Contact_ID</td>
+        <td>16</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN to_addr IS NOT NULL
+          AND LEN(to_addr) &gt; 0 THEN CASE WHEN cl.media_type = 1 THEN 'TO ADDRESS' WHEN cl.media_type IN (4, 5) THEN 'DNIS' ELSE '' END ELSE '' END</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cl.media_type = 1 THEN 'TO ADDRESS' WHEN cl.media_type IN (4, 5) THEN 'DNIS' ELSE '' END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN from_addr IS NOT NULL
+          AND LEN(from_addr) &gt; 0 THEN CASE WHEN cl.media_type = 1 THEN 'FROM ADDRESS' WHEN cl.media_type IN (4, 5) THEN 'ANI' ELSE '' END ELSE '' END</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cl.media_type = 1 THEN 'FROM ADDRESS' WHEN cl.media_type IN (4, 5) THEN 'ANI' ELSE '' END</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#Contact_Log_Xview AS cl</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contact_Log_Xview AS cl</td>
+        <td>78</td>
+      </tr>
+    </table>
+  </body>
+</html>
