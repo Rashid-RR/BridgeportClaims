@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[ExtRep_CallANurse_Hourly]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[ExtRep_CallANurse_Hourly]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#SkillFilters</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#CampaignFilters</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#POCFilters</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#SkillFilters AS sf</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#CampaignFilters AS cf</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#POCFilters AS pf</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">[#Contacts] AS c</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_Split3(@skill, ',')</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_Split3(@campaign, ',')</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_Split3(@POC, ',')</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT k.[skill_name] AS Skill_Name,
+       c.[campaign_name] AS Campaign_Name,
+       h.[start_date],
+       CASE WHEN s.[Agent_time] &gt; 0 THEN 1 ELSE 0 END AS agent_calls,
+       s.[InQueue_time] / 1000.0 AS answer_time,
+       s.[Abandon_time] / 1000.0 AS abandon_time
+INTO   [#Contacts]
+FROM   dbo.Contact_Log_Header AS h
+       INNER JOIN
+       dbo.Contact_Log_Footer AS f
+       ON f.[Contact_ID] = h.[Contact_ID]
+       INNER JOIN
+       dbo.Contact_Log_Summary AS s
+       ON s.[Contact_ID] = f.[Contact_ID]
+       INNER JOIN
+       dbo.Skills AS k
+       ON k.[skill_no] = f.[skill_no]
+       INNER JOIN
+       dbo.Campaign AS c
+       ON c.[Campaign_no] = f.[Campaign_no]
+       LEFT OUTER JOIN
+       #SkillFilters AS sf
+       ON sf.Skill_no = f.skill_no
+       LEFT OUTER JOIN
+       #CampaignFilters AS cf
+       ON cf.Campaign_no = f.campaign_no
+       LEFT OUTER JOIN
+       #POCFilters AS pf
+       ON pf.contact_code = h.contact_code
+WHERE  h.[start_date] BETWEEN @Start_Date AND @End_Date
+       AND h.[bus_no] = @Bus_No
+       AND (@campaign IS NULL
+            OR cf.Campaign_no = f.Campaign_no)
+       AND (@skill IS NULL
+            OR sf.Skill_no = f.skill_no)
+       AND (@POC IS NULL
+            OR pf.contact_code = h.contact_code)
+       AND (@InboundOutbound &gt;= 2
+            OR (CASE WHEN f.[Outbound] = 'T' THEN 1 ELSE 0 END) = @InboundOutbound)</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN s.[Agent_time] &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.[Outbound] = 'T' THEN 1 ELSE 0 END</td>
+        <td>84</td>
+      </tr>
+    </table>
+  </body>
+</html>

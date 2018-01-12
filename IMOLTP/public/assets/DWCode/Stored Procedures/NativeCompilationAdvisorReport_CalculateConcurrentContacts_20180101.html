@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CalculateConcurrentContacts]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CalculateConcurrentContacts]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#QtrHourPeriods</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#BusNoQtrHourData</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Header</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Detail</td>
+        <td>142</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Header AS h</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStartEndDates</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Header AS a</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Detail AS n</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStartEndDates</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStartEndDates</td>
+        <td>230</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpStartEndDates</td>
+        <td>237</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#QtrHourPeriods</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#BusNoQtrHourData</td>
+        <td>266</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#BusNoQtrHourData</td>
+        <td>312</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#BusNoQtrHourData</td>
+        <td>321</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">c</td>
+        <td>342</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#BusNoQtrHourData AS d</td>
+        <td>346</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#BusNoQtrHourData AS d</td>
+        <td>373</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">QUERY TRACE ON</td>
+        <td colspan="1">QUERYTRACEON 9481</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">QUERYTRACEON 9481</td>
+        <td>198</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">QUERYTRACEON 9481</td>
+        <td>354</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Cursors</td>
+        <td colspan="1">CURSOR STATIC LOCAL
+    FOR SELECT DISTINCT MediaType,
+                        BusNo
+        FROM   #tmpStartEndDates</td>
+        <td>204</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CURSOR STATIC LOCAL
+    FOR SELECT   Date,
+                 Type,
+                 ContactCode
+        FROM     (SELECT EndDate AS Date,
+                         1 AS Type,
+                         ContactCode
+                  FROM   #tmpStartEndDates
+                  WHERE  BusNo = @BusNo
+                         AND MediaType = @MediaType
+                  UNION ALL
+                  SELECT StartDate AS Date,
+                         2 AS Type,
+                         ContactCode
+                  FROM   #tmpStartEndDates
+                  WHERE  BusNo = @BusNo
+                         AND MediaType = @MediaType
+                  UNION ALL
+                  SELECT Date,
+                         3 AS Type,
+                         0 AS ContactCode
+                  FROM   #QtrHourPeriods) AS a
+        ORDER BY Date, Type</td>
+        <td>223</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">FETCH CURSOR</td>
+        <td colspan="1">FETCH NEXT FROM BusNoCursor INTO @MediaType, @BusNo</td>
+        <td>210</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM CalcCursor INTO @Date, @Type, @ContactCode</td>
+        <td>253</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM CalcCursor INTO @Date, @Type, @ContactCode</td>
+        <td>304</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM BusNoCursor INTO @MediaType, @BusNo</td>
+        <td>331</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">@@fetch_status</td>
+        <td colspan="1">@@Fetch_Status</td>
+        <td>212</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">@@Fetch_Status</td>
+        <td>257</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM #BusNoQtrHourData AS d
+     INNER JOIN
+     dbo.ConcurrentContacts AS c
+     ON c.BusNo = d.BusNo
+        AND c.MediaType = d.MediaType
+        AND c.UTCQtrHourStartDate = d.UTCQtrHourStartDate</td>
+        <td>346</td>
+      </tr>
+    </table>
+  </body>
+</html>

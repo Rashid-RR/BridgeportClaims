@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_LLS_ContactHistoryWithCauseCodes]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_LLS_ContactHistoryWithCauseCodes]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @busno_str</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Contact_Log_Tags AS ST1</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Tags AS t</td>
+        <td>130</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Contact_Log_Tags AS ST2</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Media AS m</td>
+        <td>259</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN (CASE WHEN s.SkillRecordTypeId = 1 THEN s.Media_Type ELSE h.media_type END) = 4
+          AND f.From_Addr &lt;&gt; ''
+          AND f.From_Addr IS NOT NULL THEN (CASE WHEN (SELECT le.Start_Range
+                                                       FROM   dbo.Lergs AS le
+                                                       WHERE  CONVERT (CHAR (10), f.From_Addr) BETWEEN le.Start_Range AND le.End_Range) IS NOT NULL THEN 'Cell Phone' ELSE 'Land Line' END) ELSE '' END</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.SkillRecordTypeId = 1 THEN s.Media_Type ELSE h.media_type END</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (SELECT le.Start_Range
+           FROM   dbo.Lergs AS le
+           WHERE  CONVERT (CHAR (10), f.From_Addr) BETWEEN le.Start_Range AND le.End_Range) IS NOT NULL THEN 'Cell Phone' ELSE 'Land Line' END</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cls.Contact_ID IS NULL THEN dbo.FormatSecondsToHHMMSS(DATEDIFF(SECOND, h.Start_Date, f.End_Date)) WHEN r.Refuse_Time IS NOT NULL THEN dbo.FormatSecondsToHHMMSS(DATEDIFF(SECOND, h.Start_Date, r.Refuse_Time)) ELSE dbo.FormatSecondsToHHMMSS((cls.PreQueue_time / 1000.0) + (cls.InQueue_time / 1000.0) + (cls.Agent_time / 1000.0) + (cls.PostQueue_time / 1000.0)) END</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN r.RefusedContactlogID IS NULL THEN f.Agent_No ELSE r.Agent_No END</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 2 THEN 1 ELSE 0 END</td>
+        <td>181</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 4 THEN 1 ELSE 0 END</td>
+        <td>186</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 8 THEN 1 ELSE 0 END</td>
+        <td>191</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 13 THEN 1 ELSE 0 END</td>
+        <td>196</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 7 THEN 1 ELSE 0 END</td>
+        <td>201</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 5 THEN 1 ELSE 0 END</td>
+        <td>205</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 1 THEN 1 ELSE 0 END</td>
+        <td>210</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = -1 THEN 1 ELSE 0 END</td>
+        <td>214</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 15 THEN 1 ELSE 0 END</td>
+        <td>219</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State = 11 THEN 1 ELSE 0 END</td>
+        <td>224</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN c.Contact_State NOT IN (-1, 1, 2, 4, 5, 7, 8, 11, 13, 15) THEN 1 ELSE 0 END</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ST.IsQM = 0
+          AND ST.IsSurvey = 1 THEN 1 ELSE 0 END</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ST.IsQM = 1
+          AND ST.IsSurvey = 0 THEN 1 ELSE 0 END</td>
+        <td>245</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">dbo.Contact_Log_Header AS h
+INNER JOIN
+dbo.Contact_Log_Footer AS f
+ON f.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.Skills AS s
+ON s.Skill_No = f.Skill_No
+LEFT OUTER JOIN
+(SELECT DISTINCT ST2.Contact_ID,
+                 STUFF((SELECT   ',' + t.name AS [text()]
+                        FROM     Contact_Log_Tags AS ST1
+                                 LEFT OUTER JOIN
+                                 Tags AS t
+                                 ON t.TagID = ST1.TagID
+                        WHERE    ST1.Contact_ID = ST2.Contact_ID
+                        ORDER BY ST1.Contact_ID
+                        FOR      XML PATH ('')), 1, 1, '') AS [Tags]
+ FROM   Contact_Log_Tags AS ST2) AS contactTag
+ON h.Contact_ID = contactTag.Contact_ID CROSS APPLY (SELECT CONVERT (INT, NULL) AS RefusedContactlogID,
+                                                            CONVERT (INT, NULL) AS Agent_No,
+                                                            CONVERT (DATETIME, NULL) AS Refuse_Time,
+                                                            CONVERT (NVARCHAR (255), NULL) AS Reason
+                                                     UNION ALL
+                                                     SELECT r.RefusedContactlogID,
+                                                            r.Agent_No,
+                                                            r.Refuse_Time,
+                                                            r.Reason
+                                                     FROM   dbo.RefusedContactLog AS r
+                                                     WHERE  r.Contact_ID = h.Contact_ID) AS r
+LEFT OUTER JOIN
+dbo.Agents AS a
+ON a.Agent_No = (CASE WHEN r.RefusedContactlogID IS NULL THEN f.Agent_No ELSE r.Agent_No END)
+LEFT OUTER JOIN
+dbo.Team AS t
+ON t.Team_No = a.Team_No
+LEFT OUTER JOIN
+dbo.Contact_Logging AS l
+ON l.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.ScriptNameHistory AS sc
+ON sc.ScriptNameHistoryID = h.ScriptNameHistoryID
+LEFT OUTER JOIN
+dbo.Contact_Log_Summary AS cls
+ON cls.Contact_ID = h.Contact_ID
+LEFT OUTER JOIN
+dbo.PointOfContact AS p
+ON p.Contact_Code = h.Contact_Code
+LEFT OUTER JOIN
+dbo.CallFailure_Categories AS g
+ON g.CallFailure_CategoryID = f.CallFailure_CategoryID OUTER APPLY (SELECT h.Contact_ID
+                                                                    WHERE  h.ReskillIndicator = 4
+                                                                           OR EXISTS (SELECT *
+                                                                                      FROM   dbo.Contact_Log_Header AS c
+                                                                                      WHERE  c.Master_Contact_Id = h.Contact_Id
+                                                                                             AND c.ReskillIndicator = 4)) AS takeovers OUTER APPLY (SELECT   TOP 1 di.Description,
+                                                                                                                                                                   secDi.Description AS SecondaryDescription
+                                                                                                                                                    FROM     dbo.Contact_Log_Dispositions AS d
+                                                                                                                                                             INNER JOIN
+                                                                                                                                                             dbo.Dispositions AS di
+                                                                                                                                                             ON di.Disposition_Code = d.Disposition_Code
+                                                                                                                                                             LEFT OUTER JOIN
+                                                                                                                                                             dbo.Dispositions AS secDi
+                                                                                                                                                             ON secDi.Disposition_Code = d.Secondary_Disposition_Code
+                                                                                                                                                    WHERE    d.Contact_ID = h.Contact_ID
+                                                                                                                                                    ORDER BY d.Start_Date DESC) AS dis OUTER APPLY (SELECT SUM(CASE WHEN c.Contact_State = 2 THEN 1 ELSE 0 END) AS Rting,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 4 THEN 1 ELSE 0 END) AS Act,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 8 THEN 1 ELSE 0 END) AS Hld,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 13 THEN 1 ELSE 0 END) AS Bsy,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 7 THEN 1 ELSE 0 END) AS OB,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 5 THEN 1 ELSE 0 END) AS Xfer,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 1 THEN 1 ELSE 0 END) AS Ab,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = -1 THEN 1 ELSE 0 END) AS Err,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 15 THEN 1 ELSE 0 END) AS Clbk,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 11 THEN 1 ELSE 0 END) AS PstQ,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State NOT IN (-1, 1, 2, 4, 5, 7, 8, 11, 13, 15) THEN 1 ELSE 0 END) AS Oth
+                                                                                                                                                                                                    FROM   dbo.Contact_Log_Detail AS c
+                                                                                                                                                                                                    WHERE  c.Contact_ID = h.Contact_ID) AS metrics OUTER APPLY (SELECT SUM(CASE WHEN ST.IsQM = 0
+                                                                                                                                                                                                                                                                                     AND ST.IsSurvey = 1 THEN 1 ELSE 0 END) AS SurveyCount,
+                                                                                                                                                                                                                                                                       SUM(CASE WHEN ST.IsQM = 1
+                                                                                                                                                                                                                                                                                     AND ST.IsSurvey = 0 THEN 1 ELSE 0 END) AS ScoredCount
+                                                                                                                                                                                                                                                                FROM   dbo.SurveyInvitations AS SI
+                                                                                                                                                                                                                                                                       INNER JOIN
+                                                                                                                                                                                                                                                                       dbo.SurveyResults AS SR
+                                                                                                                                                                                                                                                                       ON SR.SurveyInvitationID = SI.SurveyInvitationID
+                                                                                                                                                                                                                                                                          AND SR.bus_no = SI.bus_no
+                                                                                                                                                                                                                                                                          AND SR.SurveyResultStatusTypeID = 3
+                                                                                                                                                                                                                                                                       INNER JOIN
+                                                                                                                                                                                                                                                                       dbo.Surveys AS SV
+                                                                                                                                                                                                                                                                       ON SV.SurveyID = SR.SurveyID
+                                                                                                                                                                                                                                                                       INNER JOIN
+                                                                                                                                                                                                                                                                       dbo.SurveyTypes AS ST
+                                                                                                                                                                                                                                                                       ON ST.SurveyTypeID = SV.SurveyTypeID
+                                                                                                                                                                                                                                                                WHERE  SI.ContactID = h.Contact_ID) AS survey</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.Contact_Log_Header AS h
+INNER JOIN
+dbo.Contact_Log_Footer AS f
+ON f.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.Skills AS s
+ON s.Skill_No = f.Skill_No
+LEFT OUTER JOIN
+(SELECT DISTINCT ST2.Contact_ID,
+                 STUFF((SELECT   ',' + t.name AS [text()]
+                        FROM     Contact_Log_Tags AS ST1
+                                 LEFT OUTER JOIN
+                                 Tags AS t
+                                 ON t.TagID = ST1.TagID
+                        WHERE    ST1.Contact_ID = ST2.Contact_ID
+                        ORDER BY ST1.Contact_ID
+                        FOR      XML PATH ('')), 1, 1, '') AS [Tags]
+ FROM   Contact_Log_Tags AS ST2) AS contactTag
+ON h.Contact_ID = contactTag.Contact_ID CROSS APPLY (SELECT CONVERT (INT, NULL) AS RefusedContactlogID,
+                                                            CONVERT (INT, NULL) AS Agent_No,
+                                                            CONVERT (DATETIME, NULL) AS Refuse_Time,
+                                                            CONVERT (NVARCHAR (255), NULL) AS Reason
+                                                     UNION ALL
+                                                     SELECT r.RefusedContactlogID,
+                                                            r.Agent_No,
+                                                            r.Refuse_Time,
+                                                            r.Reason
+                                                     FROM   dbo.RefusedContactLog AS r
+                                                     WHERE  r.Contact_ID = h.Contact_ID) AS r
+LEFT OUTER JOIN
+dbo.Agents AS a
+ON a.Agent_No = (CASE WHEN r.RefusedContactlogID IS NULL THEN f.Agent_No ELSE r.Agent_No END)
+LEFT OUTER JOIN
+dbo.Team AS t
+ON t.Team_No = a.Team_No
+LEFT OUTER JOIN
+dbo.Contact_Logging AS l
+ON l.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.ScriptNameHistory AS sc
+ON sc.ScriptNameHistoryID = h.ScriptNameHistoryID
+LEFT OUTER JOIN
+dbo.Contact_Log_Summary AS cls
+ON cls.Contact_ID = h.Contact_ID
+LEFT OUTER JOIN
+dbo.PointOfContact AS p
+ON p.Contact_Code = h.Contact_Code
+LEFT OUTER JOIN
+dbo.CallFailure_Categories AS g
+ON g.CallFailure_CategoryID = f.CallFailure_CategoryID OUTER APPLY (SELECT h.Contact_ID
+                                                                    WHERE  h.ReskillIndicator = 4
+                                                                           OR EXISTS (SELECT *
+                                                                                      FROM   dbo.Contact_Log_Header AS c
+                                                                                      WHERE  c.Master_Contact_Id = h.Contact_Id
+                                                                                             AND c.ReskillIndicator = 4)) AS takeovers OUTER APPLY (SELECT   TOP 1 di.Description,
+                                                                                                                                                                   secDi.Description AS SecondaryDescription
+                                                                                                                                                    FROM     dbo.Contact_Log_Dispositions AS d
+                                                                                                                                                             INNER JOIN
+                                                                                                                                                             dbo.Dispositions AS di
+                                                                                                                                                             ON di.Disposition_Code = d.Disposition_Code
+                                                                                                                                                             LEFT OUTER JOIN
+                                                                                                                                                             dbo.Dispositions AS secDi
+                                                                                                                                                             ON secDi.Disposition_Code = d.Secondary_Disposition_Code
+                                                                                                                                                    WHERE    d.Contact_ID = h.Contact_ID
+                                                                                                                                                    ORDER BY d.Start_Date DESC) AS dis OUTER APPLY (SELECT SUM(CASE WHEN c.Contact_State = 2 THEN 1 ELSE 0 END) AS Rting,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 4 THEN 1 ELSE 0 END) AS Act,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 8 THEN 1 ELSE 0 END) AS Hld,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 13 THEN 1 ELSE 0 END) AS Bsy,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 7 THEN 1 ELSE 0 END) AS OB,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 5 THEN 1 ELSE 0 END) AS Xfer,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 1 THEN 1 ELSE 0 END) AS Ab,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = -1 THEN 1 ELSE 0 END) AS Err,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 15 THEN 1 ELSE 0 END) AS Clbk,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State = 11 THEN 1 ELSE 0 END) AS PstQ,
+                                                                                                                                                                                                           SUM(CASE WHEN c.Contact_State NOT IN (-1, 1, 2, 4, 5, 7, 8, 11, 13, 15) THEN 1 ELSE 0 END) AS Oth
+                                                                                                                                                                                                    FROM   dbo.Contact_Log_Detail AS c
+                                                                                                                                                                                                    WHERE  c.Contact_ID = h.Contact_ID) AS metrics</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.Contact_Log_Header AS h
+INNER JOIN
+dbo.Contact_Log_Footer AS f
+ON f.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.Skills AS s
+ON s.Skill_No = f.Skill_No
+LEFT OUTER JOIN
+(SELECT DISTINCT ST2.Contact_ID,
+                 STUFF((SELECT   ',' + t.name AS [text()]
+                        FROM     Contact_Log_Tags AS ST1
+                                 LEFT OUTER JOIN
+                                 Tags AS t
+                                 ON t.TagID = ST1.TagID
+                        WHERE    ST1.Contact_ID = ST2.Contact_ID
+                        ORDER BY ST1.Contact_ID
+                        FOR      XML PATH ('')), 1, 1, '') AS [Tags]
+ FROM   Contact_Log_Tags AS ST2) AS contactTag
+ON h.Contact_ID = contactTag.Contact_ID CROSS APPLY (SELECT CONVERT (INT, NULL) AS RefusedContactlogID,
+                                                            CONVERT (INT, NULL) AS Agent_No,
+                                                            CONVERT (DATETIME, NULL) AS Refuse_Time,
+                                                            CONVERT (NVARCHAR (255), NULL) AS Reason
+                                                     UNION ALL
+                                                     SELECT r.RefusedContactlogID,
+                                                            r.Agent_No,
+                                                            r.Refuse_Time,
+                                                            r.Reason
+                                                     FROM   dbo.RefusedContactLog AS r
+                                                     WHERE  r.Contact_ID = h.Contact_ID) AS r
+LEFT OUTER JOIN
+dbo.Agents AS a
+ON a.Agent_No = (CASE WHEN r.RefusedContactlogID IS NULL THEN f.Agent_No ELSE r.Agent_No END)
+LEFT OUTER JOIN
+dbo.Team AS t
+ON t.Team_No = a.Team_No
+LEFT OUTER JOIN
+dbo.Contact_Logging AS l
+ON l.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.ScriptNameHistory AS sc
+ON sc.ScriptNameHistoryID = h.ScriptNameHistoryID
+LEFT OUTER JOIN
+dbo.Contact_Log_Summary AS cls
+ON cls.Contact_ID = h.Contact_ID
+LEFT OUTER JOIN
+dbo.PointOfContact AS p
+ON p.Contact_Code = h.Contact_Code
+LEFT OUTER JOIN
+dbo.CallFailure_Categories AS g
+ON g.CallFailure_CategoryID = f.CallFailure_CategoryID OUTER APPLY (SELECT h.Contact_ID
+                                                                    WHERE  h.ReskillIndicator = 4
+                                                                           OR EXISTS (SELECT *
+                                                                                      FROM   dbo.Contact_Log_Header AS c
+                                                                                      WHERE  c.Master_Contact_Id = h.Contact_Id
+                                                                                             AND c.ReskillIndicator = 4)) AS takeovers OUTER APPLY (SELECT   TOP 1 di.Description,
+                                                                                                                                                                   secDi.Description AS SecondaryDescription
+                                                                                                                                                    FROM     dbo.Contact_Log_Dispositions AS d
+                                                                                                                                                             INNER JOIN
+                                                                                                                                                             dbo.Dispositions AS di
+                                                                                                                                                             ON di.Disposition_Code = d.Disposition_Code
+                                                                                                                                                             LEFT OUTER JOIN
+                                                                                                                                                             dbo.Dispositions AS secDi
+                                                                                                                                                             ON secDi.Disposition_Code = d.Secondary_Disposition_Code
+                                                                                                                                                    WHERE    d.Contact_ID = h.Contact_ID
+                                                                                                                                                    ORDER BY d.Start_Date DESC) AS dis</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.Contact_Log_Header AS h
+INNER JOIN
+dbo.Contact_Log_Footer AS f
+ON f.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.Skills AS s
+ON s.Skill_No = f.Skill_No
+LEFT OUTER JOIN
+(SELECT DISTINCT ST2.Contact_ID,
+                 STUFF((SELECT   ',' + t.name AS [text()]
+                        FROM     Contact_Log_Tags AS ST1
+                                 LEFT OUTER JOIN
+                                 Tags AS t
+                                 ON t.TagID = ST1.TagID
+                        WHERE    ST1.Contact_ID = ST2.Contact_ID
+                        ORDER BY ST1.Contact_ID
+                        FOR      XML PATH ('')), 1, 1, '') AS [Tags]
+ FROM   Contact_Log_Tags AS ST2) AS contactTag
+ON h.Contact_ID = contactTag.Contact_ID CROSS APPLY (SELECT CONVERT (INT, NULL) AS RefusedContactlogID,
+                                                            CONVERT (INT, NULL) AS Agent_No,
+                                                            CONVERT (DATETIME, NULL) AS Refuse_Time,
+                                                            CONVERT (NVARCHAR (255), NULL) AS Reason
+                                                     UNION ALL
+                                                     SELECT r.RefusedContactlogID,
+                                                            r.Agent_No,
+                                                            r.Refuse_Time,
+                                                            r.Reason
+                                                     FROM   dbo.RefusedContactLog AS r
+                                                     WHERE  r.Contact_ID = h.Contact_ID) AS r
+LEFT OUTER JOIN
+dbo.Agents AS a
+ON a.Agent_No = (CASE WHEN r.RefusedContactlogID IS NULL THEN f.Agent_No ELSE r.Agent_No END)
+LEFT OUTER JOIN
+dbo.Team AS t
+ON t.Team_No = a.Team_No
+LEFT OUTER JOIN
+dbo.Contact_Logging AS l
+ON l.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.ScriptNameHistory AS sc
+ON sc.ScriptNameHistoryID = h.ScriptNameHistoryID
+LEFT OUTER JOIN
+dbo.Contact_Log_Summary AS cls
+ON cls.Contact_ID = h.Contact_ID
+LEFT OUTER JOIN
+dbo.PointOfContact AS p
+ON p.Contact_Code = h.Contact_Code
+LEFT OUTER JOIN
+dbo.CallFailure_Categories AS g
+ON g.CallFailure_CategoryID = f.CallFailure_CategoryID OUTER APPLY (SELECT h.Contact_ID
+                                                                    WHERE  h.ReskillIndicator = 4
+                                                                           OR EXISTS (SELECT *
+                                                                                      FROM   dbo.Contact_Log_Header AS c
+                                                                                      WHERE  c.Master_Contact_Id = h.Contact_Id
+                                                                                             AND c.ReskillIndicator = 4)) AS takeovers</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.Contact_Log_Header AS h
+INNER JOIN
+dbo.Contact_Log_Footer AS f
+ON f.Contact_ID = h.Contact_ID
+INNER JOIN
+dbo.Skills AS s
+ON s.Skill_No = f.Skill_No
+LEFT OUTER JOIN
+(SELECT DISTINCT ST2.Contact_ID,
+                 STUFF((SELECT   ',' + t.name AS [text()]
+                        FROM     Contact_Log_Tags AS ST1
+                                 LEFT OUTER JOIN
+                                 Tags AS t
+                                 ON t.TagID = ST1.TagID
+                        WHERE    ST1.Contact_ID = ST2.Contact_ID
+                        ORDER BY ST1.Contact_ID
+                        FOR      XML PATH ('')), 1, 1, '') AS [Tags]
+ FROM   Contact_Log_Tags AS ST2) AS contactTag
+ON h.Contact_ID = contactTag.Contact_ID CROSS APPLY (SELECT CONVERT (INT, NULL) AS RefusedContactlogID,
+                                                            CONVERT (INT, NULL) AS Agent_No,
+                                                            CONVERT (DATETIME, NULL) AS Refuse_Time,
+                                                            CONVERT (NVARCHAR (255), NULL) AS Reason
+                                                     UNION ALL
+                                                     SELECT r.RefusedContactlogID,
+                                                            r.Agent_No,
+                                                            r.Refuse_Time,
+                                                            r.Reason
+                                                     FROM   dbo.RefusedContactLog AS r
+                                                     WHERE  r.Contact_ID = h.Contact_ID) AS r</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">STUFF</td>
+        <td colspan="1">STUFF((SELECT   ',' + t.name AS [text()]
+       FROM     Contact_Log_Tags AS ST1
+                LEFT OUTER JOIN
+                Tags AS t
+                ON t.TagID = ST1.TagID
+       WHERE    ST1.Contact_ID = ST2.Contact_ID
+       ORDER BY ST1.Contact_ID
+       FOR      XML PATH ('')), 1, 1, '')</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">FOR XML</td>
+        <td colspan="1">XML PATH ('')</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>265</td>
+      </tr>
+    </table>
+  </body>
+</html>

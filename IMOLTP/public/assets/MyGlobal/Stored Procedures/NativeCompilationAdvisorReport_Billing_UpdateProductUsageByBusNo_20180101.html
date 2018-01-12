@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [MyGlobal].[Billing_UpdateProductUsageByBusNo]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [MyGlobal].[Billing_UpdateProductUsageByBusNo]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:27 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT ServerName AS serverName,
+       bus_no AS bus_No,
+       prodTypeID AS prodTypeId,
+       prodAmt AS oldProdAmt,
+       @ProdAmt AS newProdAmt,
+       queryDate AS queryDate,
+       GETDATE() AS changeDate
+INTO   #oldValues
+FROM   dbo.Billing_ProductUsage
+WHERE  bus_no = @BusNo
+       AND prodTypeId = @ProdTypeID
+       AND CONVERT (VARCHAR (10), queryDate, 101) = CONVERT (VARCHAR (10), @CurrentDay, 101)</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#oldValues</td>
+        <td>43</td>
+      </tr>
+    </table>
+  </body>
+</html>

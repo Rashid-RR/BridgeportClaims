@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_PromiseKeeper]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_PromiseKeeper]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#EIAccessibleSkillbyProfileList</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#EIAccessibleSkillList</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#EIAccessibleSkillbyProfileList AS skl</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#EIAccessibleAgentByProfileList</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#EIAccessibleAgentList</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#EIAccessibleAgentByProfileList AS agnt</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#EIAccessibleAgentList</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#EIAccessibleSkillList AS s</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#EIAccessibleAgentList AS agnt</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_GetDataRoleFilterItems(@profileID, 'campaigns') AS v</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@SkillNoList) AS list</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@CampaignNoList) AS CPGList</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_GetDataRoleFilterItems(@profileID, 'teams') AS v</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@AgentNoList) AS alist</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@TeamNoList) AS tlist</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN cb.Target_Type = 'S' THEN 'Promise' ELSE ISNULL(a1.first_name, '') END</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cb.Target_Type = 'S' THEN 'Skilled' ELSE ISNULL(a1.last_name, '') END</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cb.Target_Type = 'S' THEN -1 ELSE a1.agent_no END</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cb.CallBackEndTime &lt;= GETUTCDATE()
+          AND cbh.ContactId IS NULL THEN dbo.fn_ConvertUTCToTargetTimeZone(cb.CallBackEndTime, cb.TimeZone) WHEN cbh.CalledBackDate &gt;= cb.CallBackEndTime THEN dbo.fn_ConvertUTCToTargetTimeZone(cbh.CalledBackDate, cb.TimeZone) ELSE NULL END</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cbh.CalledBackDate &lt;= cb.CallBackEndTime
+          AND NOT cbh.ContactId IS NULL THEN dbo.fn_ConvertUTCToTargetTimeZone(cbh.CalledBackDate, cb.TimeZone) ELSE NULL END</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cb.CallBackEndTime &gt;= GETUTCDATE()
+          AND cbh.ContactId IS NULL THEN dbo.fn_ConvertUTCToTargetTimeZone(cb.CallBackTime, cb.TimeZone) ELSE NULL END</td>
+        <td>99</td>
+      </tr>
+    </table>
+  </body>
+</html>

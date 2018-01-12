@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_PPSCallData]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_PPSCallData]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'PPSCallData'</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[Contact_Log_Detail] AS D</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">[Contact_log_detail_summary] AS Summary</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">contact_Log_Header AS H</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Contact_Log_Footer AS F</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogLastDisposition AS clld</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactHeaderTemp AS H</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogDisposition AS CLD</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Transfers AS TRN</td>
+        <td>87</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Group1temp</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Contact_Log_Header AS H</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Group1temp AS GRP1</td>
+        <td>114</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogDisposition AS CLD</td>
+        <td>118</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Transfers AS TRN</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Group1temp</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT *
+INTO   #ContactHeaderTemp
+FROM   dbo.Contact_Log_Header
+WHERE  bus_no = @p_Bus_no
+       AND lasttouched BETWEEN @p_UTCStart_Date AND @p_UTCEnd_Date
+       AND Media_Type = 4</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   D.Contact_ID
+INTO     #Transfers
+FROM     [Contact_Log_Detail] AS D
+         LEFT OUTER JOIN
+         [Contact_log_detail_summary] AS Summary
+         ON Summary.contact_id = D.Contact_ID
+            AND Summary.StateIndex = D.StateIndex
+WHERE    D.bus_no = @p_Bus_no
+         AND D.Header_Start_Date BETWEEN @p_UTCStart_Date AND @p_UTCEnd_Date
+         AND contact_state = 5
+GROUP BY D.contact_ID</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Contact_ID,
+         MAX([Start_Date]) AS [Start_Date]
+INTO     #ContactLogLastDisposition
+FROM     dbo.Contact_Log_Dispositions
+WHERE    bus_no = @p_Bus_no
+         AND [Start_Date] BETWEEN @p_UTCStart_Date AND @p_UTCEnd_Date
+GROUP BY Contact_ID</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT H.Contact_Id,
+       Agent_No
+INTO   #masterfooter
+FROM   contact_Log_Header AS H
+       INNER JOIN
+       Contact_Log_Footer AS F
+       ON f.contact_ID = H.contact_id
+WHERE  h.Bus_no = @p_Bus_no
+       AND H.lasttouched BETWEEN @p_UTCStart_Date AND @p_UTCEnd_Date
+       AND h.contact_ID = h.master_contact_id</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT clld.Contact_ID,
+       d.[Description],
+       clds.Disposition_Comments,
+       clds.Disposition_Code
+INTO   #ContactLogDisposition
+FROM   #ContactLogLastDisposition AS clld
+       INNER JOIN
+       dbo.Contact_Log_Dispositions AS clds
+       ON clds.Contact_ID = clld.Contact_ID
+          AND clds.START_DATE = clld.start_date
+       INNER JOIN
+       dbo.Dispositions AS d
+       ON d.Disposition_Code = clds.Disposition_Code</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT H.Master_Contact_Id AS [Call ID],
+       H.Contact_ID AS [Child ID],
+       CASE WHEN F.Inbound IN ('T') THEN 'Inbound' ELSE 'Outbound' END AS [Call Type],
+       Cst.Data_Value AS [TOC SE],
+       CONVERT (VARCHAR, dbo.fn_ConvertUTCToTargetTimeZone(H.[Start_Date], @p_TimeZone), 121) AS [Call Start Time],
+       CONVERT (VARCHAR, dbo.fn_ConvertUTCToTargetTimeZone(F.[End_Date], @p_TimeZone), 121) AS [Call End Time],
+       F.Agent_No AS [Agent ID],
+       isnull(CLD.Disposition_Code, 0) AS [Disposition Code],
+       H.Start_Date AS [Contact Start Date],
+       'N' AS [Transfer]
+INTO   #Group1temp
+FROM   #ContactHeaderTemp AS H
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Footer AS F
+       ON H.Contact_Id = F.Contact_Id
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Dispositions AS Dsp
+       ON H.contact_id = Dsp.contact_id
+       LEFT OUTER JOIN
+       dbo.Custom_Contact_Log AS Cst
+       ON H.Contact_Id = Cst.Contact_Id
+       LEFT OUTER JOIN
+       #ContactLogDisposition AS CLD
+       ON h.contact_id = CLD.contact_id
+       LEFT OUTER JOIN
+       #Transfers AS TRN
+       ON h.contact_id = TRN.contact_id
+WHERE  Cst.Data_Name = 'senumber'</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">*</td>
+        <td colspan="1">SELECT *
+INTO   #ContactHeaderTemp
+FROM   dbo.Contact_Log_Header
+WHERE  bus_no = @p_Bus_no
+       AND lasttouched BETWEEN @p_UTCStart_Date AND @p_UTCEnd_Date
+       AND Media_Type = 4</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN F.Inbound IN ('T') THEN 'Inbound' ELSE 'Outbound' END</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN F.Inbound IN ('T') THEN 'Inbound' ELSE 'Outbound' END</td>
+        <td>101</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>131</td>
+      </tr>
+    </table>
+  </body>
+</html>

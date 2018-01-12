@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Solix_IVRMainTracking]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Solix_IVRMainTracking]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'CallDetail_Solix_IVRMainTracking'</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN CCL3.Data_Value &lt;&gt; '' THEN CCL3.Data_Value ELSE '' END</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL4.Data_Value &lt;&gt; '' THEN CCL4.Data_Value ELSE '' END</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL.Data_Value = '1' THEN '1' ELSE '' END</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'BeforeMenu' THEN '1' ELSE '' END</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'LanguageSelection' THEN '1' ELSE '' END</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'VM200' THEN '1' ELSE '' END</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'EnterANI' THEN '1' ELSE '' END</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'WIndowisclosed' THEN '1' ELSE '' END</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'EnterPin' THEN '1' ELSE '' END</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ReadAddressandconfirm' THEN '1' ELSE '' END</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'PINTryAgain' THEN '1' ELSE '' END</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ContinueCertify' THEN '1' ELSE '' END</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ReadName' THEN '1' ELSE '' END</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ReadAddress' THEN '1' ELSE '' END</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'TempAddress' THEN '1' ELSE '' END</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'BirthMonth' THEN '1' ELSE '' END</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ConfirmMonth' THEN '1' ELSE '' END</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'BirthDay' THEN '1' ELSE '' END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ConfirmDay' THEN '1' ELSE '' END</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'BirthYear' THEN '1' ELSE '' END</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ConfirmYear' THEN '1' ELSE '' END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'SSN' THEN '1' ELSE '' END</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ConfirmSSN' THEN '1' ELSE '' END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'HouseholdSize' THEN '1' ELSE '' END</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'CertformReq' THEN '1' ELSE '' END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'IncomeLevel' THEN '1' ELSE '' END</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'StillParticipating' THEN '1' ELSE '' END</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ProgramParticipation' THEN '1' ELSE '' END</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ConfirmProgram' THEN '1' ELSE '' END</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'AgreeToConditions' THEN '1' ELSE '' END</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'ElectronicSign' THEN '1' ELSE '' END</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'MustAgree' THEN '1' ELSE '' END</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'MustSign' THEN '1' ELSE '' END</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'AttestUnsuccessful' THEN '1' ELSE '' END</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL2.Data_Value = 'AttestSuccessful' THEN '1' ELSE '' END</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL5.Data_Value IS NULL THEN '' ELSE CCL5.Data_Value END</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL6.Data_Value IS NULL THEN '' ELSE CCL6.Data_Value END</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL7.Data_Value IS NULL THEN '' ELSE CCL7.Data_Value END</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL8.Data_Value IS NULL THEN '' ELSE CCL8.Data_Value END</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL9.Data_Value IS NULL THEN '' ELSE CCL9.Data_Value END</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL10.Data_Value IS NULL THEN '' ELSE CCL10.Data_Value END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL11.Data_Value IS NULL THEN '' ELSE CCL11.Data_Value END</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL12.Data_Value IS NULL THEN '' ELSE CCL12.Data_Value END</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL13.Data_Value IS NULL THEN '' ELSE CCL13.Data_Value END</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL14.Data_Value IS NULL THEN '' ELSE CCL14.Data_Value END</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL15.Data_Value IS NULL THEN '' ELSE CCL15.Data_Value END</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN CCL16.Data_Value IS NULL THEN '' ELSE CCL16.Data_Value END</td>
+        <td>83</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>137</td>
+      </tr>
+    </table>
+  </body>
+</html>

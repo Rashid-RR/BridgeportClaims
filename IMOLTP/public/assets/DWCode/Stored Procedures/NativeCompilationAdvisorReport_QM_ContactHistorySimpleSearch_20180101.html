@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[QM_ContactHistorySimpleSearch]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[QM_ContactHistorySimpleSearch]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN LTRIM(@SearchString_L) &lt;&gt; '' THEN @SearchString_L ELSE NULL END</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC_L = 1 THEN ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'SkillName' THEN p.SkillName WHEN @OrderColumn_L = 'AgentFullName' THEN p.AgentFullName WHEN @OrderColumn_L = 'TeamName' THEN p.TeamName WHEN @OrderColumn_L = 'QASpecialistName' THEN a.first_name + ' ' + a.last_name WHEN @OrderColumn_L = 'MediaTypeName' THEN p.MediaTypeName END) ELSE ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'SkillName' THEN p.SkillName WHEN @OrderColumn_L = 'AgentFullName' THEN p.AgentFullName WHEN @OrderColumn_L = 'TeamName' THEN p.TeamName WHEN @OrderColumn_L = 'QASpecialistName' THEN a.first_name + ' ' + a.last_name WHEN @OrderColumn_L = 'MediaTypeName' THEN p.MediaTypeName END DESC) END</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderColumn_L = 'SkillName' THEN p.SkillName WHEN @OrderColumn_L = 'AgentFullName' THEN p.AgentFullName WHEN @OrderColumn_L = 'TeamName' THEN p.TeamName WHEN @OrderColumn_L = 'QASpecialistName' THEN a.first_name + ' ' + a.last_name WHEN @OrderColumn_L = 'MediaTypeName' THEN p.MediaTypeName END</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderColumn_L = 'SkillName' THEN p.SkillName WHEN @OrderColumn_L = 'AgentFullName' THEN p.AgentFullName WHEN @OrderColumn_L = 'TeamName' THEN p.TeamName WHEN @OrderColumn_L = 'QASpecialistName' THEN a.first_name + ' ' + a.last_name WHEN @OrderColumn_L = 'MediaTypeName' THEN p.MediaTypeName END</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC_L = 1 THEN ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'Agent_No' THEN p.Agent_No WHEN @OrderColumn_L = 'ScoredCount' THEN COUNT(tc1.ContactID) WHEN @OrderColumn_L = 'SurveyCount' THEN COUNT(tc2.ContactID) END) ELSE ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'Agent_No' THEN p.Agent_No WHEN @OrderColumn_L = 'ScoredCount' THEN COUNT(tc1.ContactID) WHEN @OrderColumn_L = 'SurveyCount' THEN COUNT(tc2.ContactID) END DESC) END</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderColumn_L = 'Agent_No' THEN p.Agent_No WHEN @OrderColumn_L = 'ScoredCount' THEN COUNT(tc1.ContactID) WHEN @OrderColumn_L = 'SurveyCount' THEN COUNT(tc2.ContactID) END</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderColumn_L = 'Agent_No' THEN p.Agent_No WHEN @OrderColumn_L = 'ScoredCount' THEN COUNT(tc1.ContactID) WHEN @OrderColumn_L = 'SurveyCount' THEN COUNT(tc2.ContactID) END</td>
+        <td>233</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC_L = 1 THEN ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'StartDate' THEN p.StartDate WHEN @OrderColumn_L = 'LastQAFormDate' THEN MAX(tc1.CompletedDate) END) ELSE ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'StartDate' THEN p.StartDate WHEN @OrderColumn_L = 'LastQAFormDate' THEN MAX(tc1.CompletedDate) END DESC) END</td>
+        <td>283</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderColumn_L = 'StartDate' THEN p.StartDate WHEN @OrderColumn_L = 'LastQAFormDate' THEN MAX(tc1.CompletedDate) END</td>
+        <td>283</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderColumn_L = 'StartDate' THEN p.StartDate WHEN @OrderColumn_L = 'LastQAFormDate' THEN MAX(tc1.CompletedDate) END</td>
+        <td>286</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.ScoredCount &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>350</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.SurveyCount &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>352</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT @Bus_No_L AS Bus_No,
+       clh.Contact_ID,
+       clh.Master_Contact_ID,
+       clf.Skill_No,
+       skl.Skill_Name AS SkillName,
+       clf.Agent_No,
+       age.Last_Name + ', ' + age.First_name AS AgentFullName,
+       t.Team_No,
+       t.Team_Name AS TeamName,
+       clh.Start_Date AS StartDate,
+       skl.Media_Type,
+       med.Media_Name AS MediaTypeName,
+       si.SurveyResultID AS SurveyResultID
+INTO   #tmpPrimary
+FROM   dbo.Contact_Log_Header AS clh
+       INNER JOIN
+       dbo.Contact_Log_Footer AS clf
+       ON clf.Contact_ID = clh.Contact_ID
+       INNER LOOP JOIN
+       dbo.Contact_Logging AS cl
+       ON cl.contact_id = clh.contact_id
+       LEFT OUTER JOIN
+       dbo.Agents AS age
+       ON age.Agent_No = clf.agent_no
+       INNER JOIN
+       dbo.Team AS t
+       ON t.team_no = age.team_no
+       INNER JOIN
+       dbo.Skills AS skl
+       ON skl.skill_no = clf.skill_no
+       INNER JOIN
+       dbo.Media AS med
+       ON med.Media_Type = skl.Media_Type
+       INNER JOIN
+       dbo.fn_GetDataRoleFilterItems(@profileID, 'teams') AS v
+       ON age.Team_No = v.intValue
+          OR v.intValue = 0
+       LEFT OUTER JOIN
+       (SELECT   si.ContactID,
+                 sr.SurveyResultID,
+                 MAX(si.createDate) AS CreateDate
+        FROM     dbo.SurveyInvitations AS si
+                 INNER JOIN
+                 dbo.SurveyResults AS sr
+                 ON sr.SurveyInvitationID = si.SurveyInvitationID
+                    AND sr.SurveyResultStatusTypeID = 3
+        WHERE    si.ContactID IS NOT NULL
+                 AND si.Bus_No = @Bus_No_L
+        GROUP BY si.ContactID, sr.SurveyResultID) AS si
+       ON si.ContactID = clh.Contact_ID
+WHERE  clh.Bus_no = @Bus_No_L
+       AND clh.start_date BETWEEN @Start_Date AND @End_Date
+       AND skl.Media_Type = 4
+       AND (@SearchString_L IS NULL
+            OR (skl.skill_name LIKE @SearchString_L
+                OR t.Team_Name LIKE @SearchString_L
+                OR age.Last_Name LIKE @SearchString_L
+                OR age.First_name LIKE @SearchString_L
+                OR CONVERT (NVARCHAR (100), clh.Contact_ID) LIKE @SearchString_L))</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT si.ContactID,
+       sr.CompletedDate,
+       st.IsQM,
+       st.ISSurvey,
+       sr.SurveyResultID
+INTO   #tmpCounts
+FROM   dbo.SurveyInvitations AS si
+       INNER JOIN
+       dbo.Surveys AS s
+       ON s.SurveyID = si.SurveyID
+       INNER JOIN
+       dbo.SurveyResults AS sr
+       ON sr.SurveyInvitationID = si.SurveyInvitationID
+          AND sr.SurveyResultStatusTypeID = 3
+       INNER JOIN
+       dbo.SurveyTypes AS st
+       ON st.SurveyTypeID = s.SurveyTypeID
+       INNER JOIN
+       #tmpPrimary AS tp
+       ON tp.Contact_ID = si.ContactID
+          AND tp.SurveyResultID = sr.SurveyResultID
+WHERE  si.ContactID IS NOT NULL
+       AND si.Bus_No = @Bus_No_L</td>
+        <td>130</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_GetDataRoleFilterItems(@profileID, 'teams') AS v</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">skl.skill_name LIKE @SearchString_L</td>
+        <td>108</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">t.Team_Name LIKE @SearchString_L</td>
+        <td>109</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">age.Last_Name LIKE @SearchString_L</td>
+        <td>110</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">age.First_name LIKE @SearchString_L</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CONVERT (NVARCHAR (100), clh.Contact_ID) LIKE @SearchString_L</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#tmpPrimary AS tp</td>
+        <td>142</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpData</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpPrimary AS p</td>
+        <td>201</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpCounts AS tc1</td>
+        <td>204</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpCounts AS tc2</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpData</td>
+        <td>228</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpPrimary AS p</td>
+        <td>255</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpCounts AS tc1</td>
+        <td>258</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpCounts AS tc2</td>
+        <td>260</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpData</td>
+        <td>282</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpPrimary AS p</td>
+        <td>307</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpCounts AS tc1</td>
+        <td>310</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpCounts AS tc2</td>
+        <td>312</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpData AS d</td>
+        <td>354</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">ROW_NUMBER</td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'SkillName' THEN p.SkillName WHEN @OrderColumn_L = 'AgentFullName' THEN p.AgentFullName WHEN @OrderColumn_L = 'TeamName' THEN p.TeamName WHEN @OrderColumn_L = 'QASpecialistName' THEN a.first_name + ' ' + a.last_name WHEN @OrderColumn_L = 'MediaTypeName' THEN p.MediaTypeName END)</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'SkillName' THEN p.SkillName WHEN @OrderColumn_L = 'AgentFullName' THEN p.AgentFullName WHEN @OrderColumn_L = 'TeamName' THEN p.TeamName WHEN @OrderColumn_L = 'QASpecialistName' THEN a.first_name + ' ' + a.last_name WHEN @OrderColumn_L = 'MediaTypeName' THEN p.MediaTypeName END DESC)</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'Agent_No' THEN p.Agent_No WHEN @OrderColumn_L = 'ScoredCount' THEN COUNT(tc1.ContactID) WHEN @OrderColumn_L = 'SurveyCount' THEN COUNT(tc2.ContactID) END)</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'Agent_No' THEN p.Agent_No WHEN @OrderColumn_L = 'ScoredCount' THEN COUNT(tc1.ContactID) WHEN @OrderColumn_L = 'SurveyCount' THEN COUNT(tc2.ContactID) END DESC)</td>
+        <td>233</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'StartDate' THEN p.StartDate WHEN @OrderColumn_L = 'LastQAFormDate' THEN MAX(tc1.CompletedDate) END)</td>
+        <td>283</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY CASE WHEN @OrderColumn_L = 'StartDate' THEN p.StartDate WHEN @OrderColumn_L = 'LastQAFormDate' THEN MAX(tc1.CompletedDate) END DESC)</td>
+        <td>286</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">OVER</td>
+        <td colspan="1">OVER (ORDER BY CASE WHEN @OrderColumn_L = 'SkillName' THEN p.SkillName WHEN @OrderColumn_L = 'AgentFullName' THEN p.AgentFullName WHEN @OrderColumn_L = 'TeamName' THEN p.TeamName WHEN @OrderColumn_L = 'QASpecialistName' THEN a.first_name + ' ' + a.last_name WHEN @OrderColumn_L = 'MediaTypeName' THEN p.MediaTypeName END)</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY CASE WHEN @OrderColumn_L = 'SkillName' THEN p.SkillName WHEN @OrderColumn_L = 'AgentFullName' THEN p.AgentFullName WHEN @OrderColumn_L = 'TeamName' THEN p.TeamName WHEN @OrderColumn_L = 'QASpecialistName' THEN a.first_name + ' ' + a.last_name WHEN @OrderColumn_L = 'MediaTypeName' THEN p.MediaTypeName END DESC)</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY CASE WHEN @OrderColumn_L = 'Agent_No' THEN p.Agent_No WHEN @OrderColumn_L = 'ScoredCount' THEN COUNT(tc1.ContactID) WHEN @OrderColumn_L = 'SurveyCount' THEN COUNT(tc2.ContactID) END)</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY CASE WHEN @OrderColumn_L = 'Agent_No' THEN p.Agent_No WHEN @OrderColumn_L = 'ScoredCount' THEN COUNT(tc1.ContactID) WHEN @OrderColumn_L = 'SurveyCount' THEN COUNT(tc2.ContactID) END DESC)</td>
+        <td>233</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY CASE WHEN @OrderColumn_L = 'StartDate' THEN p.StartDate WHEN @OrderColumn_L = 'LastQAFormDate' THEN MAX(tc1.CompletedDate) END)</td>
+        <td>283</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY CASE WHEN @OrderColumn_L = 'StartDate' THEN p.StartDate WHEN @OrderColumn_L = 'LastQAFormDate' THEN MAX(tc1.CompletedDate) END DESC)</td>
+        <td>286</td>
+      </tr>
+    </table>
+  </body>
+</html>

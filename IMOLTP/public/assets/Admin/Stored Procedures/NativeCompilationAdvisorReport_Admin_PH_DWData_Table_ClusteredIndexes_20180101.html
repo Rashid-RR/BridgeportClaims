@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [Admin].[Admin_PH_DWData_Table_ClusteredIndexes]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [Admin].[Admin_PH_DWData_Table_ClusteredIndexes]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:58 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Cursors</td>
+        <td colspan="1">CURSOR FAST_FORWARD
+    FOR SELECT   CAST (CASE WHEN A.is_primary_key = 1 THEN 'ALTER TABLE ' + QUOTENAME(S.name) + '.[' + B.name + '_OUT]' + ' ADD CONSTRAINT [' + A.[Name] + '_OUT] PRIMARY KEY ' + CASE WHEN A.type = 1 THEN 'CLUSTERED ' ELSE 'NONCLUSTERED ' END ELSE CASE WHEN A.type = 1
+                                                                                                                                                                                                                                                                 AND is_unique = 1 THEN 'CREATE UNIQUE CLUSTERED INDEX ' WHEN A.type = 1
+                                                                                                                                                                                                                                                                                                                              AND is_unique = 0 THEN 'CREATE CLUSTERED INDEX ' WHEN A.type = 2
+                                                                                                                                                                                                                                                                                                                                                                                    AND is_unique = 1 THEN 'CREATE UNIQUE NONCLUSTERED INDEX ' WHEN A.type = 2
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    AND is_unique = 0 THEN 'CREATE NONCLUSTERED INDEX ' END + QUOTENAME(A.[Name]) + ' ON ' + QUOTENAME(S.name) + '.[' + B.name + '_OUT]' END + ' (' + STUFF((SELECT   ',[' + D.name + CASE WHEN C.is_descending_key = 1 THEN '] DESC' ELSE '] ASC' END
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             FROM     dwData.sys.index_columns AS C WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      INNER JOIN
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      dwData.sys.columns AS D WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ON C.object_id = D.object_id
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         AND C.column_id = D.column_id
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             WHERE    A.[Object_ID] = C.object_id
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      AND A.Index_ID = C.Index_ID
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      AND C.is_included_column = 0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      AND ((C.key_ordinal &gt; 0)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           OR (A.type = 1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               AND C.key_ordinal = 0
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               AND C.partition_ordinal &gt; 0))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ORDER BY CASE WHEN C.key_Ordinal &gt; 0 THEN C.key_ordinal ELSE '99' END ASC
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             FOR      XML PATH ('')), 1, 1, '') + ') ' + CASE WHEN A.type = 1 THEN '' ELSE COALESCE ('INCLUDE (' + STUFF((SELECT   ',' + QUOTENAME(D.name)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          FROM     dwData.sys.index_columns AS C WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   INNER JOIN
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   dwData.sys.columns AS D WITH (NOLOCK)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ON C.object_id = D.object_id
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      AND C.column_id = D.column_id
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          WHERE    A.[Object_ID] = C.object_id
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   AND A.Index_ID = C.Index_ID
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   AND C.is_included_column = 1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ORDER BY CASE WHEN C.index_column_id &gt; 0 THEN C.index_column_id ELSE '99' END ASC
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          FOR      XML PATH ('')), 1, 1, '') + ') ', '') END + CASE WHEN A.has_filter = 1 THEN 'WHERE ' + A.filter_definition ELSE '' END + ' WITH (SORT_IN_TEMPDB = ON' + CASE WHEN cmpr.Object_ID IS NOT NULL THEN ', DATA_COMPRESSION = PAGE' ELSE '' END + ', FILLFACTOR = ' + CAST (CASE WHEN fill_factor = 0 THEN 100 ELSE fill_factor END AS VARCHAR (3)) + CASE WHEN A.[is_padded] = 1 THEN ', PAD_INDEX = ON' ELSE ', PAD_INDEX = OFF' END + CASE WHEN D.[no_recompute] = 1 THEN ', STATISTICS_NORECOMPUTE  = ON' ELSE ', STATISTICS_NORECOMPUTE  = OFF' END + CASE WHEN A.[ignore_dup_key] = 1 THEN ', IGNORE_DUP_KEY = ON' ELSE ', IGNORE_DUP_KEY = OFF' END + CASE WHEN A.[ALLOW_ROW_LOCKS] = 1 THEN ', ALLOW_ROW_LOCKS = ON' ELSE ', ALLOW_ROW_LOCKS = OFF' END + CASE WHEN A.[ALLOW_PAGE_LOCKS] = 1 THEN ', ALLOW_PAGE_LOCKS = ON' ELSE ', ALLOW_PAGE_LOCKS = OFF' END + ') ON [Primary]' AS NVARCHAR (MAX))
+        FROM     dwData.sys.Indexes AS A WITH (NOLOCK)
+                 INNER JOIN
+                 dwData.sys.objects AS B WITH (NOLOCK)
+                 ON A.object_id = B.object_id
+                 INNER JOIN
+                 dwData.sys.schemas AS S
+                 ON B.schema_id = S.schema_id
+                 INNER JOIN
+                 dwData.sys.data_spaces AS C WITH (NOLOCK)
+                 ON A.data_space_id = C.data_space_id
+                 INNER JOIN
+                 dwData.sys.stats AS D WITH (NOLOCK)
+                 ON A.object_id = D.object_id
+                    AND A.index_id = D.stats_id
+                 LEFT OUTER JOIN
+                 (SELECT DISTINCT b.Object_ID,
+                                  b.Name,
+                                  Data_Compression
+                  FROM   DWData.sys.partitions AS a
+                         INNER JOIN
+                         DWData.sys.indexes AS b
+                         ON b.object_id = a.object_id
+                            AND b.index_id = a.index_id
+                  WHERE  a.data_compression &gt; 0
+                         AND b.type = 1) AS cmpr
+                 ON A.Object_ID = cmpr.Object_ID
+        WHERE    B.name = @tbl
+                 AND s.name = 'dbo'
+                 AND A.type = 1
+        ORDER BY A.Index_ID</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN A.is_primary_key = 1 THEN 'ALTER TABLE ' + QUOTENAME(S.name) + '.[' + B.name + '_OUT]' + ' ADD CONSTRAINT [' + A.[Name] + '_OUT] PRIMARY KEY ' + CASE WHEN A.type = 1 THEN 'CLUSTERED ' ELSE 'NONCLUSTERED ' END ELSE CASE WHEN A.type = 1
+                                                                                                                                                                                                                                          AND is_unique = 1 THEN 'CREATE UNIQUE CLUSTERED INDEX ' WHEN A.type = 1
+                                                                                                                                                                                                                                                                                                       AND is_unique = 0 THEN 'CREATE CLUSTERED INDEX ' WHEN A.type = 2
+                                                                                                                                                                                                                                                                                                                                                             AND is_unique = 1 THEN 'CREATE UNIQUE NONCLUSTERED INDEX ' WHEN A.type = 2
+                                                                                                                                                                                                                                                                                                                                                                                                                             AND is_unique = 0 THEN 'CREATE NONCLUSTERED INDEX ' END + QUOTENAME(A.[Name]) + ' ON ' + QUOTENAME(S.name) + '.[' + B.name + '_OUT]' END</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN A.type = 1 THEN 'CLUSTERED ' ELSE 'NONCLUSTERED ' END</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN A.type = 1
+          AND is_unique = 1 THEN 'CREATE UNIQUE CLUSTERED INDEX ' WHEN A.type = 1
+                                                                       AND is_unique = 0 THEN 'CREATE CLUSTERED INDEX ' WHEN A.type = 2
+                                                                                                                             AND is_unique = 1 THEN 'CREATE UNIQUE NONCLUSTERED INDEX ' WHEN A.type = 2
+                                                                                                                                                                                             AND is_unique = 0 THEN 'CREATE NONCLUSTERED INDEX ' END</td>
+        <td>14</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN C.key_Ordinal &gt; 0 THEN C.key_ordinal ELSE '99' END</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN C.is_descending_key = 1 THEN '] DESC' ELSE '] ASC' END</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN A.type = 1 THEN '' ELSE COALESCE ('INCLUDE (' + STUFF((SELECT   ',' + QUOTENAME(D.name)
+                                                                 FROM     dwData.sys.index_columns AS C WITH (NOLOCK)
+                                                                          INNER JOIN
+                                                                          dwData.sys.columns AS D WITH (NOLOCK)
+                                                                          ON C.object_id = D.object_id
+                                                                             AND C.column_id = D.column_id
+                                                                 WHERE    A.[Object_ID] = C.object_id
+                                                                          AND A.Index_ID = C.Index_ID
+                                                                          AND C.is_included_column = 1
+                                                                 ORDER BY CASE WHEN C.index_column_id &gt; 0 THEN C.index_column_id ELSE '99' END ASC
+                                                                 FOR      XML PATH ('')), 1, 1, '') + ') ', '') END</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN C.index_column_id &gt; 0 THEN C.index_column_id ELSE '99' END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN A.has_filter = 1 THEN 'WHERE ' + A.filter_definition ELSE '' END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cmpr.Object_ID IS NOT NULL THEN ', DATA_COMPRESSION = PAGE' ELSE '' END</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN fill_factor = 0 THEN 100 ELSE fill_factor END</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN A.[is_padded] = 1 THEN ', PAD_INDEX = ON' ELSE ', PAD_INDEX = OFF' END</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN D.[no_recompute] = 1 THEN ', STATISTICS_NORECOMPUTE  = ON' ELSE ', STATISTICS_NORECOMPUTE  = OFF' END</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN A.[ignore_dup_key] = 1 THEN ', IGNORE_DUP_KEY = ON' ELSE ', IGNORE_DUP_KEY = OFF' END</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN A.[ALLOW_ROW_LOCKS] = 1 THEN ', ALLOW_ROW_LOCKS = ON' ELSE ', ALLOW_ROW_LOCKS = OFF' END</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN A.[ALLOW_PAGE_LOCKS] = 1 THEN ', ALLOW_PAGE_LOCKS = ON' ELSE ', ALLOW_PAGE_LOCKS = OFF' END</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">QUOTENAME</td>
+        <td colspan="1">QUOTENAME(S.name)</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">QUOTENAME(A.[Name])</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">QUOTENAME(S.name)</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">QUOTENAME(D.name)</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">STUFF</td>
+        <td colspan="1">STUFF((SELECT   ',[' + D.name + CASE WHEN C.is_descending_key = 1 THEN '] DESC' ELSE '] ASC' END
+       FROM     dwData.sys.index_columns AS C WITH (NOLOCK)
+                INNER JOIN
+                dwData.sys.columns AS D WITH (NOLOCK)
+                ON C.object_id = D.object_id
+                   AND C.column_id = D.column_id
+       WHERE    A.[Object_ID] = C.object_id
+                AND A.Index_ID = C.Index_ID
+                AND C.is_included_column = 0
+                AND ((C.key_ordinal &gt; 0)
+                     OR (A.type = 1
+                         AND C.key_ordinal = 0
+                         AND C.partition_ordinal &gt; 0))
+       ORDER BY CASE WHEN C.key_Ordinal &gt; 0 THEN C.key_ordinal ELSE '99' END ASC
+       FOR      XML PATH ('')), 1, 1, '')</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">STUFF((SELECT   ',' + QUOTENAME(D.name)
+       FROM     dwData.sys.index_columns AS C WITH (NOLOCK)
+                INNER JOIN
+                dwData.sys.columns AS D WITH (NOLOCK)
+                ON C.object_id = D.object_id
+                   AND C.column_id = D.column_id
+       WHERE    A.[Object_ID] = C.object_id
+                AND A.Index_ID = C.Index_ID
+                AND C.is_included_column = 1
+       ORDER BY CASE WHEN C.index_column_id &gt; 0 THEN C.index_column_id ELSE '99' END ASC
+       FOR      XML PATH ('')), 1, 1, '')</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">FOR XML</td>
+        <td colspan="1">XML PATH ('')</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">XML PATH ('')</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Three-part names</td>
+        <td colspan="1">dwData.sys.index_columns</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dwData.sys.columns</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dwData.sys.index_columns</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dwData.sys.columns</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dwData.sys.Indexes</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dwData.sys.objects</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dwData.sys.schemas</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dwData.sys.data_spaces</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dwData.sys.stats</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">DWData.sys.partitions</td>
+        <td>83</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">DWData.sys.indexes</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">NOLOCK</td>
+        <td colspan="1">NOLOCK</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NOLOCK</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COALESCE</td>
+        <td colspan="1">COALESCE ('INCLUDE (' + STUFF((SELECT   ',' + QUOTENAME(D.name)
+                               FROM     dwData.sys.index_columns AS C WITH (NOLOCK)
+                                        INNER JOIN
+                                        dwData.sys.columns AS D WITH (NOLOCK)
+                                        ON C.object_id = D.object_id
+                                           AND C.column_id = D.column_id
+                               WHERE    A.[Object_ID] = C.object_id
+                                        AND A.Index_ID = C.Index_ID
+                                        AND C.is_included_column = 1
+                               ORDER BY CASE WHEN C.index_column_id &gt; 0 THEN C.index_column_id ELSE '99' END ASC
+                               FOR      XML PATH ('')), 1, 1, '') + ') ', '')</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">FETCH CURSOR</td>
+        <td colspan="1">FETCH NEXT FROM table_properties INTO @tsql</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM table_properties INTO @tsql</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">@@fetch_status</td>
+        <td colspan="1">@@fetch_status</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">EXECUTE string</td>
+        <td colspan="1">EXECUTE ('USE [dwData]; ' + @tsql)</td>
+        <td>103</td>
+      </tr>
+    </table>
+  </body>
+</html>

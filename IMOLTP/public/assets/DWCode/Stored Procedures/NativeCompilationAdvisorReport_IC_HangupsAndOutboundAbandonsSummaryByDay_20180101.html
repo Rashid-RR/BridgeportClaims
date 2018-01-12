@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_HangupsAndOutboundAbandonsSummaryByDay]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_HangupsAndOutboundAbandonsSummaryByDay]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT   DATEADD(day, 0, DATEDIFF(day, 0, cld.[StartDate])) AS Interval,
+         COUNT(DISTINCT cld.Contact_Id) AS Abandons
+INTO     #AbandonsTempByDay
+FROM     [dbo].[Contact_Log_DetailQV] AS cld
+         INNER JOIN
+         dbo.fn_SplitOptionalInt(@AgentList) AS af
+         ON cld.Agent_No BETWEEN af.IDMin AND af.IDMax
+         INNER JOIN
+         dbo.fn_SplitOptionalInt(@SkillList) AS sf
+         ON cld.Skill_No BETWEEN sf.IDMin AND sf.IDMax
+         INNER JOIN
+         [dbo].[Skills] AS sk
+         ON sk.Skill_no = cld.Skill_No
+            AND sk.Media_Type = 4
+            AND (sk.IsDialer = 1
+                 OR sk.IsNaturalCalling = 1)
+         INNER JOIN
+         [dbo].[Contact_Log_Dispositions] AS cldis
+         ON cldis.Contact_ID = cld.Contact_Id
+         INNER JOIN
+         [dbo].[Dispositions] AS dis
+         ON cldis.Disposition_Code = dis.Disposition_Code
+WHERE    cld.Bus_No = @Bus_No
+         AND cld.[StartDate] &gt;= @StartDate
+         AND cld.[StartDate] &lt; @EndDate
+         AND dis.DispositionClassificationID IN (24, 25)
+GROUP BY DATEADD(day, 0, DATEDIFF(day, 0, cld.[StartDate]))
+ORDER BY Interval</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   DATEADD(day, 0, DATEDIFF(day, 0, StopDate)) AS Interval,
+         COUNT(AgentOutboundDetailId) AS Hangups
+INTO     #HangupsTempByDay
+FROM     [dbo].[AgentOutboundDetail]
+         INNER JOIN
+         dbo.fn_SplitOptionalInt(@AgentList) AS af
+         ON Agent_No BETWEEN af.IDMin AND af.IDMax
+         INNER JOIN
+         dbo.fn_SplitOptionalInt(@SkillList) AS sf
+         ON Skill_No BETWEEN sf.IDMin AND sf.IDMax
+WHERE    Bus_No = @Bus_No
+         AND LogoutReason = 6
+         AND StopDate &gt;= @StartDate
+         AND StopDate &lt;= @EndDate
+GROUP BY DATEADD(day, 0, DATEDIFF(day, 0, StopDate))
+ORDER BY Interval</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">DISTINCT</td>
+        <td colspan="1">COUNT(DISTINCT cld.Contact_Id)</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@AgentList) AS af</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@SkillList) AS sf</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@AgentList) AS af</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@SkillList) AS sf</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#AbandonsTempByDay AS at</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#HangupsTempByDay AS ht</td>
+        <td>40</td>
+      </tr>
+    </table>
+  </body>
+</html>

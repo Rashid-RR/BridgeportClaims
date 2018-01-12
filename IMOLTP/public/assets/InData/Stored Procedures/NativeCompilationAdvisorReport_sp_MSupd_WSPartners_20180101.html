@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [InData].[sp_MSupd_WSPartners]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [InData].[sp_MSupd_WSPartners]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:43 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE substring(@bitmap, 1, 1) &amp; 2 WHEN 2 THEN @c2 ELSE [Guid] END</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE substring(@bitmap, 1, 1) &amp; 4 WHEN 4 THEN @c3 ELSE [PartnerName] END</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE substring(@bitmap, 1, 1) &amp; 8 WHEN 8 THEN @c4 ELSE [msrepl_tran_version] END</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE substring(@bitmap, 1, 1) &amp; 16 WHEN 16 THEN @c5 ELSE [Notes] END</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE substring(@bitmap, 1, 1) &amp; 32 WHEN 32 THEN @c6 ELSE [CreatedBy] END</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE substring(@bitmap, 1, 1) &amp; 64 WHEN 64 THEN @c7 ELSE [CreatedDate] END</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE substring(@bitmap, 1, 1) &amp; 128 WHEN 128 THEN @c8 ELSE [ModifiedBy] END</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE substring(@bitmap, 2, 1) &amp; 1 WHEN 1 THEN @c9 ELSE [ModifiedDate] END</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">@@microsoftversion</td>
+        <td colspan="1">@@microsoftversion</td>
+        <td>14</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE sp_MSreplraiserror 20598</td>
+        <td>15</td>
+      </tr>
+    </table>
+  </body>
+</html>

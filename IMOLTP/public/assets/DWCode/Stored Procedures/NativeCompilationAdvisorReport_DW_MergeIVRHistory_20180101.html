@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeIVRHistory]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeIVRHistory]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[IVRHistory]
+ AS target
+USING [ETL].[IVRHistory] AS source ON (target.IVRHistoryId = source.IVRHistoryId)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3)
+                 AND (source.LastTouched &gt; target.LastTouched
+                      OR target.LastTouched IS NULL) THEN UPDATE 
+SET Bus_No               = source.Bus_No,
+    Contact_Id           = source.Contact_Id,
+    Master_Id            = source.Master_Id,
+    Action_Id            = source.Action_Id,
+    Result               = source.Result,
+    AsrConfidence        = source.AsrConfidence,
+    AsrUtteranceFileName = source.AsrUtteranceFileName,
+    ResultReason         = source.ResultReason,
+    Skill_No             = source.Skill_No,
+    Contact_Code         = source.Contact_Code,
+    CaptureDate          = source.CaptureDate,
+    LastTouched          = source.LastTouched,
+    ActionSequence       = source.ActionSequence
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (IVRHistoryId, Bus_No, Contact_Id, Master_Id, Action_Id, Result, AsrConfidence, AsrUtteranceFileName, ResultReason, Skill_No, Contact_Code, CaptureDate, LastTouched, ActionSequence) VALUES (source.IVRHistoryId, source.Bus_No, source.Contact_Id, source.Master_Id, source.Action_Id, source.Result, source.AsrConfidence, source.AsrUtteranceFileName, source.ResultReason, source.Skill_No, source.Contact_Code, source.CaptureDate, source.LastTouched, source.ActionSequence)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[IVRHistory]
+ AS target
+USING [ETL].[IVRHistory] AS source ON (target.IVRHistoryId = source.IVRHistoryId)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3)
+                 AND (source.LastTouched &gt; target.LastTouched
+                      OR target.LastTouched IS NULL) THEN UPDATE 
+SET Bus_No               = source.Bus_No,
+    Contact_Id           = source.Contact_Id,
+    Master_Id            = source.Master_Id,
+    Action_Id            = source.Action_Id,
+    Result               = source.Result,
+    AsrConfidence        = source.AsrConfidence,
+    AsrUtteranceFileName = source.AsrUtteranceFileName,
+    ResultReason         = source.ResultReason,
+    Skill_No             = source.Skill_No,
+    Contact_Code         = source.Contact_Code,
+    CaptureDate          = source.CaptureDate,
+    LastTouched          = source.LastTouched,
+    ActionSequence       = source.ActionSequence
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (IVRHistoryId, Bus_No, Contact_Id, Master_Id, Action_Id, Result, AsrConfidence, AsrUtteranceFileName, ResultReason, Skill_No, Contact_Code, CaptureDate, LastTouched, ActionSequence) VALUES (source.IVRHistoryId, source.Bus_No, source.Contact_Id, source.Master_Id, source.Action_Id, source.Result, source.AsrConfidence, source.AsrUtteranceFileName, source.ResultReason, source.Skill_No, source.Contact_Code, source.CaptureDate, source.LastTouched, source.ActionSequence)</td>
+        <td>5</td>
+      </tr>
+    </table>
+  </body>
+</html>

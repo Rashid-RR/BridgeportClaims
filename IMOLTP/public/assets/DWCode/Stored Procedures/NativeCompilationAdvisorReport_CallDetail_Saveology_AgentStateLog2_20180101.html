@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Saveology_AgentStateLog2]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Saveology_AgentStateLog2]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN d.working = 0
+          AND d.available = 1
+          AND d.outstate_code = 0 THEN '0' WHEN d.working = 0
+                                                AND d.available = 0
+                                                AND d.outstate_code &gt; 0
+                                                AND s.IsACW = 'F' THEN '0' WHEN d.working = 1
+                                                                                AND d.available = 0
+                                                                                AND d.outstate_code = 0 THEN '1' WHEN d.working = 2
+                                                                                                                      AND d.available = 0
+                                                                                                                      AND d.outstate_code = 0 THEN '2' WHEN d.working = 3
+                                                                                                                                                            AND d.available = 0
+                                                                                                                                                            AND d.outstate_code = 0 THEN '2' WHEN d.working = 4
+                                                                                                                                                                                                  AND d.available = 0
+                                                                                                                                                                                                  AND d.outstate_code = 0 THEN '1' WHEN d.working = 0
+                                                                                                                                                                                                                                        AND d.available = 0
+                                                                                                                                                                                                                                        AND d.outstate_code &gt; 0
+                                                                                                                                                                                                                                        AND s.IsACW = 'T' THEN '0' WHEN d.working = 0
+                                                                                                                                                                                                                                                                        AND d.available = 0
+                                                                                                                                                                                                                                                                        AND d.outstate_code = -2 THEN '0' WHEN d.working = 0
+                                                                                                                                                                                                                                                                                                               AND d.available = 0
+                                                                                                                                                                                                                                                                                                               AND d.outstate_code = -2 THEN '0' ELSE '0' END</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.working = 0
+          AND d.available = 1
+          AND d.outstate_code = 0 THEN '1' WHEN d.working = 0
+                                                AND d.available = 0
+                                                AND d.outstate_code &gt; 0
+                                                AND s.IsACW = 'F' THEN '0' WHEN d.working = 1
+                                                                                AND d.available = 0
+                                                                                AND d.outstate_code = 0 THEN '1' WHEN d.working = 2
+                                                                                                                      AND d.available = 0
+                                                                                                                      AND d.outstate_code = 0 THEN '0' WHEN d.working = 3
+                                                                                                                                                            AND d.available = 0
+                                                                                                                                                            AND d.outstate_code = 0 THEN '0' WHEN d.working = 4
+                                                                                                                                                                                                  AND d.available = 0
+                                                                                                                                                                                                  AND d.outstate_code = 0 THEN '1' WHEN d.working = 0
+                                                                                                                                                                                                                                        AND d.available = 0
+                                                                                                                                                                                                                                        AND d.outstate_code &gt; 0
+                                                                                                                                                                                                                                        AND s.IsACW = 'T' THEN '0' WHEN d.working = 0
+                                                                                                                                                                                                                                                                        AND d.available = 0
+                                                                                                                                                                                                                                                                        AND d.outstate_code = -2 THEN '0' WHEN d.working = 0
+                                                                                                                                                                                                                                                                                                               AND d.available = 0
+                                                                                                                                                                                                                                                                                                               AND d.outstate_code = -2 THEN '0' ELSE '0' END</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">QUERY TRACE ON</td>
+        <td colspan="1">QUERYTRACEON 9481</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>80</td>
+      </tr>
+    </table>
+  </body>
+</html>

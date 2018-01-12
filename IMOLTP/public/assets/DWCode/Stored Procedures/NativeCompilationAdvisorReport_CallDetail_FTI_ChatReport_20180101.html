@@ -1,0 +1,276 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_FTI_ChatReport]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_FTI_ChatReport]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT H.Contact_ID,
+       MEssageTExt
+INTO   #ChatTranscript
+FROM   dbo.ChatLogHeader AS h
+       LEFT OUTER JOIN
+       dbo.ChatLogFooter AS f
+       ON h.Contact_ID = f.Contact_ID CROSS APPLY (SELECT   REPLACE(REPLACE(REPLACE(CAST (ChatPartyTypeID AS VARCHAR), '1', 'System'), '2', 'Agent'), '3', 'Client') + ': ' + MessageText + ', '
+                                                   FROM     dbo.ChatLogDetail AS d
+                                                   WHERE    h.roomID = d.roomID
+                                                            AND h.bus_no = d.bus_no
+                                                   ORDER BY D.SentDate
+                                                   FOR      XML PATH ('')) AS D(MEssageTExt)
+WHERE  H.bus_no = @p_Bus_no
+       AND StartDate BETWEEN @p_UTCStart_Date AND @p_UTCEND_Date</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   MIN(D.SentDate) AS SentDate,
+         D.RoomID,
+         H.Contact_ID
+INTO     #FirstClientResponseINtro
+FROM     dbo.ChatLogHeader AS H
+         INNER JOIN
+         dbo.ChatLogDetail AS D
+         ON h.roomID = d.roomID
+            AND h.bus_no = d.bus_no
+WHERE    h.bus_no = @p_Bus_no
+         AND h.StartDate BETWEEN @p_UTCStart_Date AND @p_UTCEND_Date
+         AND D.ChatPartyTypeID = 3
+GROUP BY H.Contact_ID, D.RoomID</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   LAR.Contact_ID,
+         LAR.RoomID,
+         LAR.SentDate,
+         D.MessageText
+INTO     #FirstClientResponse
+FROM     dbo.ChatLogHeader AS H
+         INNER JOIN
+         dbo.ChatLogDetail AS D
+         ON h.roomID = d.roomID
+            AND h.bus_no = d.bus_no
+         INNER JOIN
+         #FirstClientResponseINtro AS LAR
+         ON D.RoomID = LAR.RoomID
+            AND LAR.SentDate = D.SentDate
+WHERE    h.bus_no = @p_Bus_no
+         AND h.StartDate BETWEEN @p_UTCStart_Date AND @p_UTCEND_Date
+         AND D.ChatPartyTypeID = 3
+GROUP BY LAR.Contact_ID, LAR.RoomID, LAR.SentDate, D.MessageText</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   MAX(D.SentDate) AS SentDate,
+         D.RoomID,
+         H.Contact_ID
+INTO     #LastAgentResponseIntro
+FROM     dbo.ChatLogHeader AS H
+         INNER JOIN
+         dbo.ChatLogDetail AS D
+         ON h.roomID = d.roomID
+            AND h.bus_no = d.bus_no
+WHERE    h.bus_no = @p_Bus_no
+         AND h.StartDate BETWEEN @p_UTCStart_Date AND @p_UTCEND_Date
+         AND D.ChatPartyTypeID = 2
+GROUP BY H.Contact_ID, D.RoomID</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   LAR.Contact_ID,
+         LAR.RoomID,
+         LAR.SentDate,
+         D.MessageText
+INTO     #LastAgentResponse
+FROM     dbo.ChatLogHeader AS H
+         INNER JOIN
+         dbo.ChatLogDetail AS D
+         ON h.roomID = d.roomID
+            AND h.bus_no = d.bus_no
+         INNER JOIN
+         #LastAgentResponseIntro AS LAR
+         ON D.RoomID = LAR.RoomID
+            AND LAR.SentDate = D.SentDate
+WHERE    h.bus_no = @p_Bus_no
+         AND h.StartDate BETWEEN @p_UTCStart_Date AND @p_UTCEND_Date
+         AND D.ChatPartyTypeID = 2
+GROUP BY LAR.Contact_ID, LAR.RoomID, LAR.SentDate, D.MessageText</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   H.Contact_ID,
+         (SUM(DATEDIFF(s, h.startdate, f.enddate)) / COUNT(D.ChatLogDetailID)) AS AvgTime
+INTO     #AvgResponse
+FROM     dbo.ChatLogHeader AS H
+         INNER JOIN
+         dbo.ChatLogDetail AS D
+         ON H.Contact_ID = D.Contact_ID
+         INNER JOIN
+         dbo.ChatLogFooter AS F
+         ON H.Contact_ID = F.Contact_ID
+WHERE    h.bus_no = @p_Bus_no
+         AND h.StartDate BETWEEN @p_UTCStart_Date AND @p_UTCEND_Date
+GROUP BY H.Contact_ID</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT h.contact_ID,
+       bus_no,
+       start_date
+INTO   #RefusedStage
+FROM   dbo.Contact_Log_Header AS H
+WHERE  h.bus_no = @p_Bus_no
+       AND h.Start_Date BETWEEN @p_UTCStart_Date AND @p_UTCEND_Date</td>
+        <td>109</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   h.contact_id,
+         SUM(ds.duration_seconds) AS Refuse_Time
+INTO     #RefusedTime
+FROM     #RefusedStage AS H
+         INNER JOIN
+         dbo.Contact_Log_Detail AS D
+         ON H.Contact_ID = D.Contact_ID
+         INNER JOIN
+         dbo.Contact_Log_Detail_Summary AS DS
+         ON H.Contact_ID = DS.Contact_ID
+            AND D.StateIndex = DS.StateINdex
+WHERE    D.Contact_State = 24
+         AND duration_seconds &gt; 0
+GROUP BY h.contact_id</td>
+        <td>115</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT H.Contact_ID,
+       RCL.Reason
+INTO   #RefusedReason
+FROM   dbo.Contact_Log_Header AS H
+       INNER JOIN
+       dbo.RefusedContactLog AS RCL
+       ON H.Contact_ID = RCL.Contact_ID
+WHERE  h.bus_no = @p_Bus_no
+       AND h.Start_Date BETWEEN @p_UTCStart_Date AND @p_UTCEND_Date
+       AND RCL.Refuse_Time = (SELECT MIN(Refuse_Time)
+                              FROM   dbo.RefusedContactLog AS L
+                              WHERE  L.Contact_ID = RCL.Contact_ID)</td>
+        <td>125</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">dbo.ChatLogHeader AS h
+LEFT OUTER JOIN
+dbo.ChatLogFooter AS f
+ON h.Contact_ID = f.Contact_ID CROSS APPLY (SELECT   REPLACE(REPLACE(REPLACE(CAST (ChatPartyTypeID AS VARCHAR), '1', 'System'), '2', 'Agent'), '3', 'Client') + ': ' + MessageText + ', '
+                                            FROM     dbo.ChatLogDetail AS d
+                                            WHERE    h.roomID = d.roomID
+                                                     AND h.bus_no = d.bus_no
+                                            ORDER BY D.SentDate
+                                            FOR      XML PATH ('')) AS D(MEssageTExt)</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">FOR XML</td>
+        <td colspan="1">XML PATH ('')</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">REPLACE</td>
+        <td colspan="1">REPLACE(REPLACE(REPLACE(CAST (ChatPartyTypeID AS VARCHAR), '1', 'System'), '2', 'Agent'), '3', 'Client')</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(REPLACE(CAST (ChatPartyTypeID AS VARCHAR), '1', 'System'), '2', 'Agent')</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(CAST (ChatPartyTypeID AS VARCHAR), '1', 'System')</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#FirstClientResponseINtro AS LAR</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#LastAgentResponseIntro AS LAR</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#RefusedStage AS H</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#RefusedReason AS RCL</td>
+        <td>168</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FirstClientResponse AS FCR</td>
+        <td>169</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#LastAgentResponse AS LAR</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AvgResponse AS AR</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ChatTranscript AS CT</td>
+        <td>172</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#RefusedTime AS RT</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>189</td>
+      </tr>
+    </table>
+  </body>
+</html>

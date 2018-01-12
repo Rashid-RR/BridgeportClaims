@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeCallHistory]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeCallHistory]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[CallHistory]
+ AS target
+USING [ETL].[CallHistory] AS source ON (target.CallHistoryID = source.CallHistoryID)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3)
+                 AND source.lastTouched &gt; target.lastTouched THEN UPDATE 
+SET StartDateTime       = source.StartDateTime,
+    EndDateTime         = source.EndDateTime,
+    bus_no              = source.bus_no,
+    DNIS                = source.DNIS,
+    ANI                 = source.ANI,
+    ContactID           = source.ContactID,
+    AgentSessionID      = source.AgentSessionID,
+    SIPCallID           = source.SIPCallID,
+    TrafficType         = source.TrafficType,
+    LineTypeID          = source.LineTypeID,
+    SignalingProtocolID = source.SignalingProtocolID,
+    RouteName           = source.RouteName,
+    RouteLabel          = source.RouteLabel,
+    ExternalRouteGroup  = source.ExternalRouteGroup,
+    OliDigisAni2        = source.OliDigisAni2,
+    SipStartMessage     = source.SipStartMessage,
+    OriginalMediaServer = source.OriginalMediaServer,
+    OriginalCallHandle  = source.OriginalCallHandle,
+    CallScore           = source.CallScore,
+    RemoteContactID     = source.RemoteContactID,
+    RLR                 = source.RLR,
+    lastTouched         = source.lastTouched
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (CallHistoryID, StartDateTime, EndDateTime, bus_no, DNIS, ANI, ContactID, AgentSessionID, SIPCallID, TrafficType, LineTypeID, SignalingProtocolID, RouteName, RouteLabel, ExternalRouteGroup, OliDigisAni2, SipStartMessage, OriginalMediaServer, OriginalCallHandle, CallScore, RemoteContactID, RLR, lastTouched) VALUES (source.CallHistoryID, source.StartDateTime, source.EndDateTime, source.bus_no, source.DNIS, source.ANI, source.ContactID, source.AgentSessionID, source.SIPCallID, source.TrafficType, source.LineTypeID, source.SignalingProtocolID, source.RouteName, source.RouteLabel, source.ExternalRouteGroup, source.OliDigisAni2, source.SipStartMessage, source.OriginalMediaServer, source.OriginalCallHandle, source.CallScore, source.RemoteContactID, source.RLR, source.lastTouched)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[CallHistory]
+ AS target
+USING [ETL].[CallHistory] AS source ON (target.CallHistoryID = source.CallHistoryID)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3)
+                 AND source.lastTouched &gt; target.lastTouched THEN UPDATE 
+SET StartDateTime       = source.StartDateTime,
+    EndDateTime         = source.EndDateTime,
+    bus_no              = source.bus_no,
+    DNIS                = source.DNIS,
+    ANI                 = source.ANI,
+    ContactID           = source.ContactID,
+    AgentSessionID      = source.AgentSessionID,
+    SIPCallID           = source.SIPCallID,
+    TrafficType         = source.TrafficType,
+    LineTypeID          = source.LineTypeID,
+    SignalingProtocolID = source.SignalingProtocolID,
+    RouteName           = source.RouteName,
+    RouteLabel          = source.RouteLabel,
+    ExternalRouteGroup  = source.ExternalRouteGroup,
+    OliDigisAni2        = source.OliDigisAni2,
+    SipStartMessage     = source.SipStartMessage,
+    OriginalMediaServer = source.OriginalMediaServer,
+    OriginalCallHandle  = source.OriginalCallHandle,
+    CallScore           = source.CallScore,
+    RemoteContactID     = source.RemoteContactID,
+    RLR                 = source.RLR,
+    lastTouched         = source.lastTouched
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (CallHistoryID, StartDateTime, EndDateTime, bus_no, DNIS, ANI, ContactID, AgentSessionID, SIPCallID, TrafficType, LineTypeID, SignalingProtocolID, RouteName, RouteLabel, ExternalRouteGroup, OliDigisAni2, SipStartMessage, OriginalMediaServer, OriginalCallHandle, CallScore, RemoteContactID, RLR, lastTouched) VALUES (source.CallHistoryID, source.StartDateTime, source.EndDateTime, source.bus_no, source.DNIS, source.ANI, source.ContactID, source.AgentSessionID, source.SIPCallID, source.TrafficType, source.LineTypeID, source.SignalingProtocolID, source.RouteName, source.RouteLabel, source.ExternalRouteGroup, source.OliDigisAni2, source.SipStartMessage, source.OriginalMediaServer, source.OriginalCallHandle, source.CallScore, source.RemoteContactID, source.RLR, source.lastTouched)</td>
+        <td>5</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeDispositionClassifications]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeDispositionClassifications]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[DispositionClassifications]
+ AS target
+USING [ETL].[DispositionClassifications] AS source ON (target.DispositionClassificationID = source.DispositionClassificationID)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET bus_no                          = source.bus_no,
+    Name                            = source.Name,
+    DispositionClassificationTypeID = source.DispositionClassificationTypeID,
+    Direction                       = source.Direction,
+    DialingOutcomeID                = source.DialingOutcomeID,
+    ReportingGroupID                = source.ReportingGroupID,
+    Description                     = source.Description,
+    ShowCommitmentAmount            = source.ShowCommitmentAmount,
+    ShowRescheduleDate              = source.ShowRescheduleDate,
+    IsAgentSpecific                 = source.IsAgentSpecific
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (DispositionClassificationID, bus_no, Name, DispositionClassificationTypeID, Direction, DialingOutcomeID, ReportingGroupID, Description, ShowCommitmentAmount, ShowRescheduleDate, IsAgentSpecific) VALUES (source.DispositionClassificationID, source.bus_no, source.Name, source.DispositionClassificationTypeID, source.Direction, source.DialingOutcomeID, source.ReportingGroupID, source.Description, source.ShowCommitmentAmount, source.ShowRescheduleDate, source.IsAgentSpecific)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[DispositionClassifications]
+ AS target
+USING [ETL].[DispositionClassifications] AS source ON (target.DispositionClassificationID = source.DispositionClassificationID)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET bus_no                          = source.bus_no,
+    Name                            = source.Name,
+    DispositionClassificationTypeID = source.DispositionClassificationTypeID,
+    Direction                       = source.Direction,
+    DialingOutcomeID                = source.DialingOutcomeID,
+    ReportingGroupID                = source.ReportingGroupID,
+    Description                     = source.Description,
+    ShowCommitmentAmount            = source.ShowCommitmentAmount,
+    ShowRescheduleDate              = source.ShowRescheduleDate,
+    IsAgentSpecific                 = source.IsAgentSpecific
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (DispositionClassificationID, bus_no, Name, DispositionClassificationTypeID, Direction, DialingOutcomeID, ReportingGroupID, Description, ShowCommitmentAmount, ShowRescheduleDate, IsAgentSpecific) VALUES (source.DispositionClassificationID, source.bus_no, source.Name, source.DispositionClassificationTypeID, source.Direction, source.DialingOutcomeID, source.ReportingGroupID, source.Description, source.ShowCommitmentAmount, source.ShowRescheduleDate, source.IsAgentSpecific)</td>
+        <td>5</td>
+      </tr>
+    </table>
+  </body>
+</html>

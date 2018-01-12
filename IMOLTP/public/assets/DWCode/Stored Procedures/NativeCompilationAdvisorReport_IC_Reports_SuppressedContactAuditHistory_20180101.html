@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_SuppressedContactAuditHistory]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_Reports_SuppressedContactAuditHistory]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">nvarchar(MAX)</td>
+        <td colspan="1">NVARCHAR (MAX)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COALESCE</td>
+        <td colspan="1">COALESCE (@RecordID + ',', '')</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">[AuditHistory]</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[AuditHistory] AS ah</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">[AuditHistory] AS ah2</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[Skills] AS s</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">[Agents] AS a</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN ah.NewValue IS NULL THEN CASE WHEN ah.[Mod_Agent_No] = -1 THEN 'DELETED by Purge Job' WHEN ah.[Mod_Agent_No] = -2 THEN 'DELETED through service' WHEN ah.[ColumnName] = 'Skill_No' THEN ah.[ColumnName] + ' (Removed)' ELSE 'DELETED' END WHEN ah.OldValue IS NULL THEN CASE WHEN ah.[ColumnName] = 'Skill_No' THEN ah.[ColumnName] + ' (Added)' ELSE ah.[ColumnName] END END</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ah.[Mod_Agent_No] = -1 THEN 'DELETED by Purge Job' WHEN ah.[Mod_Agent_No] = -2 THEN 'DELETED through service' WHEN ah.[ColumnName] = 'Skill_No' THEN ah.[ColumnName] + ' (Removed)' ELSE 'DELETED' END</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ah.[ColumnName] = 'Skill_No' THEN ah.[ColumnName] + ' (Added)' ELSE ah.[ColumnName] END</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ah.[ColumnName] WHEN 'Skill_No' THEN CASE WHEN ah.[OldValue] IS NOT NULL THEN s.[Skill_Name] ELSE ah.[OldValue] END ELSE CASE WHEN ah.[NewValue] IS NULL THEN '' ELSE ah.[OldValue] END END</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ah.[OldValue] IS NOT NULL THEN s.[Skill_Name] ELSE ah.[OldValue] END</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ah.[NewValue] IS NULL THEN '' ELSE ah.[OldValue] END</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ah.[ColumnName] WHEN 'Skill_No' THEN CASE WHEN ah.[NewValue] IS NOT NULL THEN s.[Skill_Name] ELSE ah.[NewValue] END ELSE ah.[NewValue] END</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ah.[NewValue] IS NOT NULL THEN s.[Skill_Name] ELSE ah.[NewValue] END</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_SplitOptionalInt(@RecordID) AS r</td>
+        <td>55</td>
+      </tr>
+    </table>
+  </body>
+</html>

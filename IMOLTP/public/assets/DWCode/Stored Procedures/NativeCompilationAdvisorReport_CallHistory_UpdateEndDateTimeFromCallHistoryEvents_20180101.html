@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallHistory_UpdateEndDateTimeFromCallHistoryEvents]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallHistory_UpdateEndDateTimeFromCallHistoryEvents]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT ContactID
+INTO   #tmpContactsToFindEndTime
+FROM   dbo.CallHistory
+WHERE  ContactID IS NOT NULL
+       AND EndDateTime IS NULL
+       AND StartDateTime &gt; @EarliestStartToCheck</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT ID
+INTO   #tmpEndingEvents
+FROM   dbo.Lookups
+WHERE  GroupName = 'MS_CallHistoryEventTypes'
+       AND VALUE IN ('CALL_DISCONNECTED', 'INBOUND_CALL_DISCONNECTED_BEFORE_ANSWERED', 'INBOUND_CALL_REJECTED', 'OUTBOUND_CALL_CANCELED', 'OUTBOUND_CALL_FAILED')</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   ch.ContactID,
+         MAX(e.TimeStamp) AS EndDateTime
+INTO     #tmpContactsWithEndTimes
+FROM     dbo.CallHistory AS ch
+         INNER JOIN
+         #tmpContactsToFindEndTime AS c
+         ON c.ContactID = ch.ContactID
+         INNER JOIN
+         dbo.CallHistoryEvents AS e
+         ON e.ContactID = ch.ContactID
+         INNER JOIN
+         #tmpEndingEvents AS ev
+         ON ev.ID = e.CallHistoryEventTypeID
+GROUP BY ch.ContactID</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#tmpContactsToFindEndTime AS c</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpEndingEvents AS ev</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ch</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpContactsWithEndTimes AS e</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM dbo.CallHistory AS ch
+     INNER JOIN
+     #tmpContactsWithEndTimes AS e
+     ON ch.ContactID = e.ContactID</td>
+        <td>36</td>
+      </tr>
+    </table>
+  </body>
+</html>

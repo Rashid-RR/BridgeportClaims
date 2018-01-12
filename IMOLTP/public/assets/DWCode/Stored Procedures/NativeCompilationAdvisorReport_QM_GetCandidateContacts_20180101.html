@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[QM_GetCandidateContacts]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[QM_GetCandidateContacts]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@servername</td>
+        <td colspan="1">@@SERVERNAME</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">object_id('tempDB..##ContactsToProcess2')</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT pta.Team_No,
+       pta.bus_no
+INTO   #QMOnlyTeams
+FROM   dbo.ProductTeamAssignments AS pta
+       INNER JOIN
+       dbo.Business_Unit AS bu
+       ON bu.Bus_No = pta.Bus_No
+       INNER JOIN
+       dbo.Business_Unit_Verint_Server AS buvs
+       ON buvs.Bus_No = bu.Bus_No
+          AND buvs.VerintServerID = 1
+WHERE  bu.Status = 'CURR'
+       AND pta.ProductID = 19
+       AND NOT EXISTS (SELECT *
+                       FROM   dbo.ProductTeamAssignments AS ppta
+                       WHERE  ppta.ProductID IN (32)
+                              AND pta.Team_No = ppta.Team_No)</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT clf.Contact_ID
+INTO   #FinishedContacts
+FROM   dbo.Contact_Log_Footer AS clf
+       INNER JOIN
+       #QMOnlyTeams AS qot
+       ON qot.Bus_No = clf.Bus_No
+          AND qot.Team_No = clf.Team_No
+WHERE  clf.end_date &gt; @LastCreateDate
+       AND clf.agent_No IS NOT NULL</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT f.Contact_Id,
+       h.start_date,
+       f.end_date,
+       f.Agent_no,
+       LEFT(f.[From_Addr], 15) AS From_Addr,
+       LEFT(f.[To_Addr], 15) AS To_Addr,
+       h.[Master_Contact_ID],
+       f.bus_no,
+       f.Skill_No
+INTO   ##ContactsToProcess
+FROM   #FinishedContacts AS fc
+       INNER JOIN
+       dbo.Contact_Log_Footer AS f
+       ON f.Contact_Id = fc.Contact_Id
+       INNER JOIN
+       dbo.Contact_Log_Header AS h
+       ON h.Contact_Id = fc.Contact_Id
+          AND h.Media_Type = 4
+       INNER JOIN
+       dbo.Contact_Logging AS l
+       ON l.Contact_Id = fc.Contact_Id</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT pta.Team_No,
+       pta.bus_no
+INTO   #QMOnlyTeams2
+FROM   dbo.ProductTeamAssignments AS pta
+       INNER JOIN
+       dbo.Business_Unit AS bu
+       ON bu.Bus_No = pta.Bus_No
+       INNER JOIN
+       dbo.Business_Unit_Verint_Server AS buvs
+       ON buvs.Bus_No = bu.Bus_No
+          AND buvs.VerintServerID = 2
+WHERE  bu.Status = 'CURR'
+       AND pta.ProductID = 19
+       AND NOT EXISTS (SELECT *
+                       FROM   dbo.ProductTeamAssignments AS ppta
+                       WHERE  ppta.ProductID IN (32)
+                              AND pta.Team_No = ppta.Team_No)</td>
+        <td>87</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT clf.Contact_ID
+INTO   #FinishedContacts2
+FROM   dbo.Contact_Log_Footer AS clf
+       INNER JOIN
+       #QMOnlyTeams2 AS qot
+       ON qot.Bus_No = clf.Bus_No
+          AND qot.Team_No = clf.Team_No
+WHERE  clf.end_date &gt; @LastCreateDate
+       AND clf.agent_No IS NOT NULL</td>
+        <td>102</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#QMOnlyTeams AS qot</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FinishedContacts AS fc</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#QMOnlyTeams2 AS qot</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">##ContactsToProcess2</td>
+        <td>110</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#FinishedContacts2 AS fc</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">LEFT</td>
+        <td colspan="1">LEFT(f.[From_Addr], 15)</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">LEFT(f.[To_Addr], 15)</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">LEFT(f.[From_Addr], 15)</td>
+        <td>123</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">LEFT(f.[To_Addr], 15)</td>
+        <td>124</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CHARINDEX</td>
+        <td colspan="1">CHARINDEX('FRA', @ServerName, 0)</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHARINDEX('MUN', @ServerName, 0)</td>
+        <td>84</td>
+      </tr>
+    </table>
+  </body>
+</html>

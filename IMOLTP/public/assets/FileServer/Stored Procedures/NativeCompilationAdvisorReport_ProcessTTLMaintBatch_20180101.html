@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [FileServer].[ProcessTTLMaintBatch]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [FileServer].[ProcessTTLMaintBatch]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:58 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">e</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">e</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">e</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">e</td>
+        <td>110</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM [dbo].[FileEntry] AS e
+     INNER JOIN
+     [dbo].[FilePurpose] AS fp
+     ON e.FilePurposeID = fp.FilePurposeID</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM [dbo].[CloudFileEntry] AS e
+     INNER JOIN
+     [dbo].[FilePurpose] AS fp
+     ON e.FilePurposeID = fp.FilePurposeID</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM [dbo].[FileEntry] AS e
+     INNER JOIN
+     [dbo].[FilePurpose] AS fp
+     ON e.FilePurposeID = fp.FilePurposeID</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM [dbo].[CloudFileEntry] AS e
+     INNER JOIN
+     [dbo].[FilePurpose] AS fp
+     ON e.FilePurposeID = fp.FilePurposeID</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN e.RefCount = 0
+          AND DATEADD(d, @TTL, e.[Created]) &lt;= @prevDayDate THEN @ZeroDate ELSE DATEADD(d, @TTL, e.[Created]) END</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN e.RefCount != 0
+          OR DATEADD(d, @TTL, e.[Created]) &gt; @CurrentDate THEN e.FileState ELSE CASE WHEN DATEADD(d, @TTL, e.[Created]) &lt;= @PrevDayDate THEN -1 ELSE -2 END END</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEADD(d, @TTL, e.[Created]) &lt;= @PrevDayDate THEN -1 ELSE -2 END</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN e.RefCount != 0
+          OR DATEADD(d, @TTL, e.[Created]) &gt; @PrevDayDate THEN e.FolderID ELSE NULL END</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN e.RefCount != 0
+          OR DATEADD(d, @TTL, e.[Created]) &gt; @PrevDayDate THEN e.Original_DeleteTime ELSE DATEADD(d, @TTL, e.[Created]) END</td>
+        <td>92</td>
+      </tr>
+    </table>
+  </body>
+</html>

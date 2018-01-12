@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Benchmark_Benchmark]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Benchmark_Benchmark]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'CallDetail_Benchmark_Benchmark'</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Supervisors AS S</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#MainData AS H</td>
+        <td>159</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentData AS AD</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactData AS CD</td>
+        <td>161</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Refusals AS R</td>
+        <td>162</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT Agent_No
+INTO   #SuperVisors
+FROM   dbo.Agents AS A
+WHERE  A.Bus_no = @Bus_no
+       AND A.Agent_NO IN (SELECT ReportTo
+                          FROM   dbo.Agents
+                          WHERE  Bus_no = @Bus_no)</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   CONVERT (DATE, dbo.fn_ConvertUTCToTargetTimeZone(d.start_date, @TimeZone)) AS start_date,
+         SUM(CASE WHEN Working = 0
+                       AND Available = 0
+                       AND outstate_Code &gt; 0 THEN 1 ELSE 0 END) AS AgentUnavailCount,
+         SUM(CASE WHEN Working = 0
+                       AND Available = 0
+                       AND outstate_Code &gt; 0 THEN DS.Duration_Seconds ELSE 0 END) AS AgentUnavailTime,
+         COUNT(DISTINCT H.Agent_No) AS AgentLogins,
+         SUM(CASE WHEN S.Agent_No IS NOT NULL THEN 1 ELSE 0 END) AS SuperVisorLogins,
+         SUM(DS.Duration_Seconds) AS AgentLoggedInTime
+INTO     #AgentData
+FROM     dbo.Agent_log_Header AS H
+         INNER JOIN
+         dbo.Agent_Log_Detail AS D
+         ON H.Agent_SEssion_ID = D.AGent_SEssion_ID
+            AND d.Start_Date BETWEEN @UTCStart_Date AND @UTCEnd_Date
+         INNER JOIN
+         dbo.Agent_log_Detail_Summary AS DS
+         ON D.Agent_SEssion_ID = DS.AGent_SEssion_ID
+            AND D.StateIndex = DS.StateIndex
+         LEFT OUTER JOIN
+         #Supervisors AS S
+         ON H.Agent_No = S.Agent_no
+WHERE    H.Bus_No = @Bus_No
+         AND h.start_date BETWEEN @UTCStart_Date AND @UTCEnd_Date
+GROUP BY CONVERT (DATE, dbo.fn_ConvertUTCToTargetTimeZone(d.start_date, @TimeZone))</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   CONVERT (DATE, dbo.fn_ConvertUTCToTargetTimeZone(h.start_date, @TimeZone)) AS start_Date,
+         SUM(CASE WHEN D.Contact_State = 5 THEN 1 ELSE 0 END) AS TransferCount,
+         SUM(CASE WHEN D.Contact_State = 2 THEN DS.Duration_Seconds ELSE 0 END) AS RoutingTime
+INTO     #ContactData
+FROM     dbo.Contact_Log_Header AS H
+         INNER JOIN
+         dbo.contact_log_detail AS D
+         ON H.Contact_ID = D.Contact_ID
+            AND D.Contact_State IN (2, 5)
+         INNER JOIN
+         dbo.Contact_Log_Detail_Summary AS DS
+         ON H.Contact_ID = DS.Contact_ID
+            AND D.StateIndex = DS.StateIndex
+WHERE    H.Bus_No = @Bus_No
+         AND h.LastTouched BETWEEN @UTCStart_Date AND @UTCEnd_Date
+GROUP BY CONVERT (DATE, dbo.fn_ConvertUTCToTargetTimeZone(h.start_date, @TimeZone))</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   CONVERT (DATE, dbo.fn_ConvertUTCToTargetTimeZone(h.start_date, @TimeZone)) AS startdate,
+         SUM(CASE WHEN S.Abandon_Time &gt; 0 THEN 1 ELSE 0 END) AS app_calls_abandoned,
+         SUM(CASE WHEN S.Abandon_Time &gt; 0
+                       AND S.SLA = 1 THEN 1 ELSE 0 END) AS app_calls_abandoned_after_threshold,
+         SUM(S.Abandon_Seconds) AS app_calls_abandoned_delay,
+         SUM(CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END) AS app_calls_answered,
+         SUM(CASE WHEN S.Agent_Time &gt; 0
+                       AND S.SLA = 1 THEN 1 ELSE 0 END) AS app_calls_answered_after_threshold,
+         SUM(S.inQueue_Seconds) AS app_calls_answered_delay,
+         COUNT(*) AS app_calls_offered,
+         SUM(CASE WHEN H.Reskillindicator &gt; 0 THEN 1 ELSE 0 END) AS app_calls_transferred_in,
+         SUM(CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END) AS agt_calls_offered,
+         SUM(CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END) AS agt_calls_answered,
+         SUM(S.Hold_Seconds) AS agt_hold_time,
+         SUM(S.Agent_Seconds) AS agt_talk_time,
+         SUM(CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END) AS skill_calls_answered,
+         0 AS skill_active_time,
+         0 AS skill_total_staffed_time,
+         SUM(CASE WHEN S.inQueue_Time &gt; 0 THEN 1 ELSE 0 END) AS agtskill_calls_offered,
+         SUM(CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END) AS agtskill_calls_answered,
+         SUM(S.ACW_Seconds) AS agtskill_pcp_time,
+         SUM(S.Agent_Seconds) AS agtskill_talk_time
+INTO     #MainData
+FROM     dbo.Contact_Log_Header AS H
+         INNER JOIN
+         dbo.Contact_Log_Footer AS F
+         ON H.COntact_ID = F.Contact_ID
+         INNER JOIN
+         dbo.Skills AS SK
+         ON F.Skill_NO = SK.Skill_No
+         INNER JOIN
+         dbo.Contact_Log_SUmmary AS S
+         ON H.COntact_ID = S.Contact_ID
+WHERE    h.bus_no = @Bus_No
+         AND h.lastTouched BETWEEN @UTCStart_Date AND @UTCEnd_Date
+         AND Sk.Media_Type = 4
+         AND sk.Outbound_Skill = '0'
+GROUP BY CONVERT (DATE, dbo.fn_ConvertUTCToTargetTimeZone(h.start_date, @TimeZone))</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   CONVERT (DATE, dbo.fn_ConvertUTCToTargetTimeZone(refuse_time, @TimeZone)) AS startdate,
+         COUNT(*) AS RefusalCount
+INTO     #Refusals
+FROM     dbo.RefusedCOntactLog
+WHERE    bus_no = @Bus_No
+         AND refuse_time BETWEEN @UTCStart_Date AND @UTCEnd_Date
+GROUP BY CONVERT (DATE, dbo.fn_ConvertUTCToTargetTimeZone(refuse_time, @TimeZone))</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN Working = 0
+          AND Available = 0
+          AND outstate_Code &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN Working = 0
+          AND Available = 0
+          AND outstate_Code &gt; 0 THEN DS.Duration_Seconds ELSE 0 END</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_No IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN D.Contact_State = 5 THEN 1 ELSE 0 END</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN D.Contact_State = 2 THEN DS.Duration_Seconds ELSE 0 END</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Abandon_Time &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Abandon_Time &gt; 0
+          AND S.SLA = 1 THEN 1 ELSE 0 END</td>
+        <td>85</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>87</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0
+          AND S.SLA = 1 THEN 1 ELSE 0 END</td>
+        <td>88</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN H.Reskillindicator &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>91</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.inQueue_Time &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Time &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">DISTINCT</td>
+        <td colspan="1">COUNT(DISTINCT H.Agent_No)</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>170</td>
+      </tr>
+    </table>
+  </body>
+</html>

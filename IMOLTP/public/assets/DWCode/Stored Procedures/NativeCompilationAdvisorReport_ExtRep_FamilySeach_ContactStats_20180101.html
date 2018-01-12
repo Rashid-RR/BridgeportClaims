@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[ExtRep_FamilySeach_ContactStats]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[ExtRep_FamilySeach_ContactStats]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN ISNULL(S.InQueue_time, 0) &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN S.Agent_Seconds &gt; 0 THEN 1 ELSE 0 END</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN F.Abandon = 'Y' THEN 1 ELSE 0 END</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">Skills_CTE AS SK</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">@campaign LIKE '%,' + CONVERT (NVARCHAR, f.[campaign_no]) + ',%'</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@skill LIKE '%,' + CONVERT (NVARCHAR, f.[skill_no]) + ',%'</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">@POC LIKE '%,' + CONVERT (NVARCHAR, h.[contact_code]) + ',%'</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH Skills_CTE (Skill_No, Skill_Name, Campaign_Name)
+AS (SELECT S.Skill_No,
+           S.Skill_Name,
+           C.Campaign_Name
+    FROM   dbo.Skills AS S
+           INNER JOIN
+           dbo.Campaign AS C
+           ON S.Campaign_No = C.Campaign_No
+    WHERE  C.Bus_No = @Bus_No)</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> Skills_CTE (Skill_No, Skill_Name, Campaign_Name)
+AS (SELECT S.Skill_No,
+           S.Skill_Name,
+           C.Campaign_Name
+    FROM   dbo.Skills AS S
+           INNER JOIN
+           dbo.Campaign AS C
+           ON S.Campaign_No = C.Campaign_No
+    WHERE  C.Bus_No = @Bus_No)</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>76</td>
+      </tr>
+    </table>
+  </body>
+</html>

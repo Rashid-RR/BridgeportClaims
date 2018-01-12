@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[API_AgentPerformanceV3]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[API_AgentPerformanceV3]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   dbo.Agents
+ WHERE  Agent_No = @agentId
+        AND Bus_No = @busNo)</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT *
+ FROM   dbo.Team
+ WHERE  Team_No = @teamId
+        AND Bus_No = @busNo)</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#AgentTable</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentTable AS ag</td>
+        <td>173</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">AgentStats AS a</td>
+        <td>174</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ContactStats AS c</td>
+        <td>175</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentTable AS agt</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentTable AS agt</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_GetDataRoleFilterItems(@ProfileID, 'Teams') AS t</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.SplitToIntervals(cld.StartDate, cld.duration, DEFAULT, DEFAULT) AS cldqh</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.SplitToIntervals(a.Startdate, a.duration, DEFAULT, DEFAULT) AS aldqh</td>
+        <td>138</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">NULLIF</td>
+        <td colspan="1">NULLIF ([Inbound_Handled], 0)</td>
+        <td>155</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF ([Outbound_Handled], 0)</td>
+        <td>159</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF ((ISNULL(Inbound_Handled, 0) + ISNULL(Outbound_Handled, 0)) * 1.0, 0)</td>
+        <td>162</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF ((ISNULL(Inbound_Handled, 0) + ISNULL(Outbound_Handled, 0)) * 1.0, 0)</td>
+        <td>163</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (ISNULL(Agent_Offered, 0), 0)</td>
+        <td>169</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (Login_Time, 0)</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (((ISNULL(ACW_Time, 0) + ISNULL(Inbound_talk_time, 0) + ISNULL(Outbound_talk_time, 0)) + ISNULL(Available_Time, 0)), 0)</td>
+        <td>172</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH ContactStats
+AS (SELECT   cld.Agent_No,
+             Count(DISTINCT (CASE WHEN cld.Direction = 1
+                                       AND cld.Contact_State = 2 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Agent_Offered,
+             Count(DISTINCT (CASE WHEN cld.Direction = 1
+                                       AND cld.Contact_State = 4 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Inbound_Handled,
+             Sum(CASE WHEN cld.Direction = 1
+                           AND cld.Contact_State IN (4, 8, 14) THEN CAST (cldqh.DurationInterval AS BIGINT) ELSE CAST (NULL AS BIGINT) END) AS Inbound_Talk_Time,
+             Count(DISTINCT (CASE WHEN cld.Direction = 1
+                                       AND cld.Contact_State = 24 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Refused,
+             Count(DISTINCT (CASE WHEN cld.Direction = 2
+                                       AND s.Outbound_Skill = 1 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Outbound_Contacts,
+             Count(DISTINCT (CASE WHEN cld.Direction = 2
+                                       AND cld.Contact_State = 4 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Outbound_Handled,
+             Sum(CASE WHEN cld.Direction = 2
+                           AND cld.Contact_State IN (4, 8, 14) THEN CAST (cldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Outbound_talk_time
+    FROM     dbo.Contact_Log_DetailQV AS cld
+             INNER JOIN
+             #AgentTable AS agt
+             ON cld.Agent_No = agt.Agent_No
+             LEFT OUTER JOIN
+             dbo.Skills AS s
+             ON s.Skill_No = cld.Skill_No CROSS APPLY dbo.SplitToIntervals(cld.StartDate, cld.duration, DEFAULT, DEFAULT) AS cldqh
+    WHERE    cld.Bus_No = @busNo
+             AND cld.StartDate &gt;= @startDate
+             AND cld.StartDate &lt; @endDate
+             AND cldqh.StartDateInterval &gt;= @startDate
+             AND cldqh.StartDateInterval &lt; @endDate
+    GROUP BY cld.Agent_No),
+ AgentStats
+AS (SELECT   a.Agent_No,
+             Sum(CASE WHEN a.AgentStateID = 3 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Inbound_Time,
+             Sum(CASE WHEN a.AgentStateID = 4 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Outbound_Time,
+             Sum(CASE WHEN a.AgentStateID IN (5, 6) THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Consult_Time,
+             Sum(CASE WHEN a.AgentStateID = 1 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Available_Time,
+             Sum(CASE WHEN a.AgentStateID IN (0, 8, 2) THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Unavailable_Time,
+             Sum(CAST (aldqh.DurationInterval AS BIGINT)) AS Login_Time,
+             Sum(CASE WHEN os.IsACW = 'T'
+                           AND os.IsSystemOutstate = 0 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS ACW_Time
+    FROM     dbo.Agent_Log_DetailQV AS a
+             INNER JOIN
+             #AgentTable AS agt
+             ON agt.Agent_No = a.Agent_No
+             LEFT OUTER JOIN
+             dbo.Outstates AS os
+             ON os.Outstate_Code = a.Outstate_Code CROSS APPLY dbo.SplitToIntervals(a.Startdate, a.duration, DEFAULT, DEFAULT) AS aldqh
+    WHERE    a.Bus_No = @busNo
+             AND a.StartDate &gt;= @startDate
+             AND a.StartDate &lt; @endDate
+             AND aldqh.StartDateInterval &gt;= @startDate
+             AND aldqh.StartDateInterval &lt; @endDate
+    GROUP BY a.Agent_No)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> ContactStats
+AS (SELECT   cld.Agent_No,
+             Count(DISTINCT (CASE WHEN cld.Direction = 1
+                                       AND cld.Contact_State = 2 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Agent_Offered,
+             Count(DISTINCT (CASE WHEN cld.Direction = 1
+                                       AND cld.Contact_State = 4 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Inbound_Handled,
+             Sum(CASE WHEN cld.Direction = 1
+                           AND cld.Contact_State IN (4, 8, 14) THEN CAST (cldqh.DurationInterval AS BIGINT) ELSE CAST (NULL AS BIGINT) END) AS Inbound_Talk_Time,
+             Count(DISTINCT (CASE WHEN cld.Direction = 1
+                                       AND cld.Contact_State = 24 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Refused,
+             Count(DISTINCT (CASE WHEN cld.Direction = 2
+                                       AND s.Outbound_Skill = 1 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Outbound_Contacts,
+             Count(DISTINCT (CASE WHEN cld.Direction = 2
+                                       AND cld.Contact_State = 4 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END)) AS Outbound_Handled,
+             Sum(CASE WHEN cld.Direction = 2
+                           AND cld.Contact_State IN (4, 8, 14) THEN CAST (cldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Outbound_talk_time
+    FROM     dbo.Contact_Log_DetailQV AS cld
+             INNER JOIN
+             #AgentTable AS agt
+             ON cld.Agent_No = agt.Agent_No
+             LEFT OUTER JOIN
+             dbo.Skills AS s
+             ON s.Skill_No = cld.Skill_No CROSS APPLY dbo.SplitToIntervals(cld.StartDate, cld.duration, DEFAULT, DEFAULT) AS cldqh
+    WHERE    cld.Bus_No = @busNo
+             AND cld.StartDate &gt;= @startDate
+             AND cld.StartDate &lt; @endDate
+             AND cldqh.StartDateInterval &gt;= @startDate
+             AND cldqh.StartDateInterval &lt; @endDate
+    GROUP BY cld.Agent_No)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> AgentStats
+AS (SELECT   a.Agent_No,
+             Sum(CASE WHEN a.AgentStateID = 3 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Inbound_Time,
+             Sum(CASE WHEN a.AgentStateID = 4 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Outbound_Time,
+             Sum(CASE WHEN a.AgentStateID IN (5, 6) THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Consult_Time,
+             Sum(CASE WHEN a.AgentStateID = 1 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Available_Time,
+             Sum(CASE WHEN a.AgentStateID IN (0, 8, 2) THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS Unavailable_Time,
+             Sum(CAST (aldqh.DurationInterval AS BIGINT)) AS Login_Time,
+             Sum(CASE WHEN os.IsACW = 'T'
+                           AND os.IsSystemOutstate = 0 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END) AS ACW_Time
+    FROM     dbo.Agent_Log_DetailQV AS a
+             INNER JOIN
+             #AgentTable AS agt
+             ON agt.Agent_No = a.Agent_No
+             LEFT OUTER JOIN
+             dbo.Outstates AS os
+             ON os.Outstate_Code = a.Outstate_Code CROSS APPLY dbo.SplitToIntervals(a.Startdate, a.duration, DEFAULT, DEFAULT) AS aldqh
+    WHERE    a.Bus_No = @busNo
+             AND a.StartDate &gt;= @startDate
+             AND a.StartDate &lt; @endDate
+             AND aldqh.StartDateInterval &gt;= @startDate
+             AND aldqh.StartDateInterval &lt; @endDate
+    GROUP BY a.Agent_No)</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">DISTINCT</td>
+        <td colspan="1">Count(DISTINCT (CASE WHEN cld.Direction = 1
+                          AND cld.Contact_State = 2 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END))</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT (CASE WHEN cld.Direction = 1
+                          AND cld.Contact_State = 4 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END))</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT (CASE WHEN cld.Direction = 1
+                          AND cld.Contact_State = 24 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END))</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT (CASE WHEN cld.Direction = 2
+                          AND s.Outbound_Skill = 1 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END))</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Count(DISTINCT (CASE WHEN cld.Direction = 2
+                          AND cld.Contact_State = 4 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END))</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN cld.Direction = 1
+          AND cld.Contact_State = 2 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cld.Direction = 1
+          AND cld.Contact_State = 4 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cld.Direction = 1
+          AND cld.Contact_State IN (4, 8, 14) THEN CAST (cldqh.DurationInterval AS BIGINT) ELSE CAST (NULL AS BIGINT) END</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cld.Direction = 1
+          AND cld.Contact_State = 24 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cld.Direction = 2
+          AND s.Outbound_Skill = 1 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cld.Direction = 2
+          AND cld.Contact_State = 4 THEN cld.contact_id ELSE CAST (NULL AS BIGINT) END</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cld.Direction = 2
+          AND cld.Contact_State IN (4, 8, 14) THEN CAST (cldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN a.AgentStateID = 3 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END</td>
+        <td>108</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN a.AgentStateID = 4 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN a.AgentStateID IN (5, 6) THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN a.AgentStateID = 1 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN a.AgentStateID IN (0, 8, 2) THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END</td>
+        <td>124</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN os.IsACW = 'T'
+          AND os.IsSystemOutstate = 0 THEN CAST (aldqh.DurationInterval AS BIGINT) ELSE CAST (0 AS BIGINT) END</td>
+        <td>130</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">dbo.Contact_Log_DetailQV AS cld
+INNER JOIN
+#AgentTable AS agt
+ON cld.Agent_No = agt.Agent_No
+LEFT OUTER JOIN
+dbo.Skills AS s
+ON s.Skill_No = cld.Skill_No CROSS APPLY dbo.SplitToIntervals(cld.StartDate, cld.duration, DEFAULT, DEFAULT) AS cldqh</td>
+        <td>91</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.Agent_Log_DetailQV AS a
+INNER JOIN
+#AgentTable AS agt
+ON agt.Agent_No = a.Agent_No
+LEFT OUTER JOIN
+dbo.Outstates AS os
+ON os.Outstate_Code = a.Outstate_Code CROSS APPLY dbo.SplitToIntervals(a.Startdate, a.duration, DEFAULT, DEFAULT) AS aldqh</td>
+        <td>135</td>
+      </tr>
+    </table>
+  </body>
+</html>

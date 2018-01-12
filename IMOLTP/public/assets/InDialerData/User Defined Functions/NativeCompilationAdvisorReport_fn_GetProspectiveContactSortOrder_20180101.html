@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [InDialerData].[fn_GetProspectiveContactSortOrder]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [InDialerData].[fn_GetProspectiveContactSortOrder]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:36 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE a.ListOrderTypeID WHEN 1 THEN CONVERT (BINARY (16), (SELECT UniqueID
+                                                          FROM   GetUniqueID_VW)) WHEN 2 THEN (CASE a.Direction WHEN 'ASC' THEN a.CreatedDate ELSE CONVERT (BINARY (8), a.CreatedDate ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) END) WHEN 3 THEN (CASE a.Direction WHEN 'ASC' THEN a.Score ELSE CONVERT (BINARY (4), a.Score ^ CONVERT (INT, 0xFFFFFFFF)) END) WHEN 5 THEN (CASE a.Direction WHEN 'ASC' THEN a.PriorityProspectiveContact ELSE CONVERT (BINARY (1), a.PriorityProspectiveContact ^ 1) END) WHEN 6 THEN (CASE a.Direction WHEN 'ASC' THEN a.ConfirmationRequired ELSE CONVERT (BINARY (1), a.ConfirmationRequired ^ 1) END) WHEN 7 THEN (CASE a.Direction WHEN 'ASC' THEN a.NumericCustomInfo1 ELSE CONVERT (BINARY (8), a.NumericCustomInfo1 ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) END) WHEN 8 THEN (CASE a.Direction WHEN 'ASC' THEN a.NumericCustomInfo2 ELSE CONVERT (BINARY (8), a.NumericCustomInfo2 ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) END) WHEN 9 THEN (CASE a.Direction WHEN 'ASC' THEN CONVERT (BINARY (50), a.CustomerLeadExternalUniqueId) ELSE CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 1, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 5, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 9, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 13, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 17, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 21, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (2), CONVERT (BINARY (2), SubString(a.CustomerLeadExternalUniqueId, 25, 1)) ^ CONVERT (SMALLINT, 0xFFFF)) END) WHEN 10 THEN (CASE a.Direction WHEN 'ASC' THEN a.ProspectiveContactSourceId ELSE CONVERT (BINARY (4), a.ProspectiveContactSourceId ^ CONVERT (INT, 0xFFFFFFFF)) END) WHEN 4 THEN (CASE a.Direction WHEN 'ASC' THEN a.Attempts ELSE CONVERT (BINARY (4), a.Attempts ^ CONVERT (INT, 0xFFFFFFFF)) END) WHEN 11 THEN (CASE a.Direction WHEN 'ASC' THEN a.ComplianceRecord ELSE CONVERT (BINARY (1), a.ComplianceRecord ^ 1) END) ELSE CONVERT (VARBINARY (1), '') END</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.CreatedDate ELSE CONVERT (BINARY (8), a.CreatedDate ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) END</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.Score ELSE CONVERT (BINARY (4), a.Score ^ CONVERT (INT, 0xFFFFFFFF)) END</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.PriorityProspectiveContact ELSE CONVERT (BINARY (1), a.PriorityProspectiveContact ^ 1) END</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.ConfirmationRequired ELSE CONVERT (BINARY (1), a.ConfirmationRequired ^ 1) END</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.NumericCustomInfo1 ELSE CONVERT (BINARY (8), a.NumericCustomInfo1 ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) END</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.NumericCustomInfo2 ELSE CONVERT (BINARY (8), a.NumericCustomInfo2 ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) END</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN CONVERT (BINARY (50), a.CustomerLeadExternalUniqueId) ELSE CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 1, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 5, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 9, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 13, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 17, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (8), CONVERT (BINARY (8), SubString(a.CustomerLeadExternalUniqueId, 21, 4)) ^ CONVERT (BIGINT, 0xFFFFFFFFFFFFFFFF)) + CONVERT (BINARY (2), CONVERT (BINARY (2), SubString(a.CustomerLeadExternalUniqueId, 25, 1)) ^ CONVERT (SMALLINT, 0xFFFF)) END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.ProspectiveContactSourceId ELSE CONVERT (BINARY (4), a.ProspectiveContactSourceId ^ CONVERT (INT, 0xFFFFFFFF)) END</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.Attempts ELSE CONVERT (BINARY (4), a.Attempts ^ CONVERT (INT, 0xFFFFFFFF)) END</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE a.Direction WHEN 'ASC' THEN a.ComplianceRecord ELSE CONVERT (BINARY (1), a.ComplianceRecord ^ 1) END</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.ListOrderTypeID = 4 THEN CONVERT (BINARY (4), IsNull((SELECT s.Attempts
+                                                                  FROM   dbo.ProspectiveContactSummaries AS s
+                                                                  WHERE  s.ProspectiveContactId = p.ProspectiveContactId), 0)) ELSE CONVERT (BINARY (4), 0) END</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">GetUniqueID_VW</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">PERCENT</td>
+        <td colspan="1">TOP 100 PERCENT</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">UPPER</td>
+        <td colspan="1">UPPER(IsNull(p.CustomerLeadExternalUniqueId, N''))</td>
+        <td>89</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,1005 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[WFMDC_GetModifiedEmployeesSince]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[WFMDC_GetModifiedEmployeesSince]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT DISTINCT afl.Bus_no,
+                afl.Team_No,
+                t.Team_name,
+                t.status AS Team_status,
+                bu.status AS BU_Status,
+                afl.ASIFullDate,
+                afl.ASIDeltaDate,
+                ProvisionChangeDate
+INTO   #WFM_BU_Teams
+FROM   dbo.WfmdcASIFileLog AS afl
+       INNER JOIN
+       dbo.Team AS t
+       ON afl.team_no = t.team_no
+       INNER JOIN
+       dbo.Business_Unit AS bu
+       ON bu.Bus_No = afl.Bus_No
+       INNER JOIN
+       dbo.Business_Unit_Verint_Server AS buvs
+       ON buvs.Bus_No = afl.Bus_No
+WHERE  bu.Bus_No = ISNULL(@BusNo, bu.Bus_No)
+       AND buvs.VerintServerID = @VerintServerID
+       AND (afl.enabled = 1
+            OR (@type = 'FULL'
+                AND afl.enabled = 0
+                AND afl.provisionchangedate &gt;= DATEADD(MINUTE, -5, afl.asifulldate))
+            OR (@type = 'DELTA'
+                AND afl.enabled = 0
+                AND afl.provisionchangedate &gt;= DATEADD(MINUTE, -5, afl.asideltadate)))</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT afl.Team_No
+INTO   #FirstTimersASIFull
+FROM   dbo.WfmdcASIFileLog AS afl
+WHERE  afl.enabled = 1
+       AND afl.ASIFullDate IS NULL
+       AND afl.Bus_No = ISNULL(@BusNo, afl.Bus_No)</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT but.Bus_no,
+                but.Team_No,
+                but.ASIFullDate,
+                but.ASIDeltaDate,
+                but.ProvisionChangeDate
+INTO   #OldTimersASI
+FROM   #WFM_BU_Teams AS but
+WHERE  NOT EXISTS (SELECT team_no
+                   FROM   #FirstTimersASIFull AS ft
+                   WHERE  ft.team_no = but.team_no)</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT Team_No
+INTO   #ScreenRecordingTeams
+FROM   dbo.ProductTeamAssignments AS pta
+WHERE  ProductID IN (22, 23)
+       AND pta.Bus_No = ISNULL(@BusNo, pta.Bus_No)</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT t.team_name,
+       t.team_no,
+       bu.Bus_No,
+       bu.Business_Unit_Name,
+       a.Agent_No,
+       a.First_Name,
+       a.Middle_Name,
+       a.Last_Name,
+       a.Status,
+       ISNULL(ae.HireDate, a.CreateDate) AS CreateDate,
+       CASE WHEN a.Mod_DateTime &gt; t.ProvisionChangeDate THEN a.Mod_DateTime ELSE t.ProvisionChangeDate END AS Mod_DateTime,
+       0 AS ProductID,
+       ISNULL(ae.NTLoginName, '') AS NTLoginName
+INTO   #ASIFullFirst
+FROM   #FirstTimersASIFull AS ft
+       INNER JOIN
+       #WFM_BU_Teams AS t
+       ON ft.team_no = t.team_no
+       INNER JOIN
+       dbo.Agents AS a
+       ON t.team_no = a.Team_No
+       INNER JOIN
+       dbo.Business_Unit AS bu
+       ON bu.Bus_No = a.Bus_No
+       LEFT OUTER JOIN
+       dbo.AgentExtendedAttributes AS ae
+       ON ae.Agent_No = a.Agent_No
+       LEFT OUTER JOIN
+       #ScreenRecordingTeams AS srt
+       ON a.team_no = srt.team_no
+WHERE  t.BU_Status = 'CURR'</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT ba.BillingAuditId,
+       ba.Bus_No,
+       ba.Agent_No,
+       ba.date
+INTO   #LastBAIDs
+FROM   dbo.BillingAudit AS ba
+       INNER JOIN
+       #WFM_BU_Teams AS wu
+       ON wu.Team_No = ba.Team_NO
+WHERE  ba.date &gt;= @StartDate
+       AND ba.date &lt; @EndDate
+       AND ba.Bus_No = ISNULL(@BusNo, ba.Bus_No)
+       AND ba.Team_No NOT IN (SELECT Team_No
+                              FROM   #FirstTimersASIFull)
+       AND ba.date = (SELECT MAX(ab.date)
+                      FROM   dbo.BillingAudit AS ab
+                      WHERE  ab.Agent_No = ba.Agent_No
+                             AND ab.date &gt;= @StartDate
+                             AND ab.date &lt;= @EndDate)</td>
+        <td>110</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT xx.BillingAuditId
+INTO   #LastTenBAIDs
+FROM   (SELECT ROW_NUMBER() OVER (PARTITION BY ba.Agent_No ORDER BY ba.date DESC) AS RN,
+               ba.BillingAuditId
+        FROM   dbo.BillingAudit AS ba
+               INNER JOIN
+               #LastBAIDs AS la
+               ON ba.Agent_No = la.Agent_No
+        WHERE  ba.date &lt;= la.date
+               AND ba.Team_No NOT IN (SELECT Team_No
+                                      FROM   #FirstTimersASIFull)) AS xx
+WHERE  xx.RN &lt; 11</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT ROW_NUMBER() OVER (PARTITION BY ba.Agent_No ORDER BY ba.date) AS RN,
+       ba.Bus_No,
+       ba.Team_No,
+       ba.Agent_No,
+       ba.Agent_Status,
+       ba.Team_Status,
+       ba.Bu_Status,
+       ba.Latest,
+       ba.date,
+       ba.Prod17,
+       ba.Prod18,
+       ba.Prod19,
+       ba.Prod20,
+       ba.Prod21,
+       ba.Prod22,
+       ba.Prod23,
+       ba.Prod24,
+       ba.Prod25,
+       ba.Prod26,
+       ba.Prod30,
+       ba.Prod31,
+       ba.Prod32,
+       ba.Prod33
+INTO   #OrderedBAIDs
+FROM   #LastTenBAIDs AS ob
+       INNER JOIN
+       dbo.BillingAudit AS ba
+       ON ba.BillingAuditId = ob.BillingAuditId</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT cr.Bus_No,
+       cr.Team_No,
+       cr.Agent_No,
+       cr.Agent_Status,
+       cr.Team_Status,
+       cr.Bu_Status,
+       cr.Latest,
+       cr.date,
+       cr.Prod17,
+       cr.Prod18,
+       cr.Prod19,
+       cr.Prod20,
+       cr.Prod21,
+       cr.Prod22,
+       cr.Prod23,
+       cr.Prod24,
+       cr.Prod25,
+       cr.Prod26,
+       cr.Prod30,
+       cr.Prod31,
+       cr.Prod32,
+       cr.Prod33,
+       0 AS IncludeEndDate,
+       1 AS IncludeOldOrgActivate
+INTO   #ReactivatedAgentsOrTeams
+FROM   #OrderedBAIDs AS cr
+       LEFT OUTER JOIN
+       #OrderedBAIDs AS pr
+       ON pr.RN = cr.RN - 1
+          AND pr.Bus_No = cr.Bus_No
+          AND pr.Agent_No = cr.Agent_No
+WHERE  (pr.Team_Status = 1
+        AND cr.Team_Status = 1
+        AND pr.Agent_Status = 0
+        AND cr.Agent_Status = 1
+        AND cr.Team_No = pr.Team_No
+        AND ((pr.Prod17 = 1
+              OR cr.Prod17 = 1)
+             OR (pr.Prod18 = 1
+                 AND cr.Prod18 = 1)
+             OR (pr.Prod19 = 1
+                 AND cr.Prod19 = 1)))
+       OR (pr.Team_Status = 0
+           AND cr.Team_Status = 1
+           AND pr.Agent_Status = 1
+           AND cr.Agent_Status = 1
+           AND cr.Team_No = pr.Team_No
+           AND ((pr.Prod17 = 1
+                 OR cr.Prod17 = 1)
+                OR (pr.Prod18 = 1
+                    AND cr.Prod18 = 1)
+                OR (pr.Prod19 = 1
+                    AND cr.Prod19 = 1)))
+       OR (pr.Team_Status = 0
+           AND cr.Team_Status = 1
+           AND pr.Agent_Status = 1
+           AND cr.Agent_Status = 1
+           AND pr.Team_No &lt;&gt; cr.Team_No
+           AND (pr.Prod17 = 1
+                OR pr.Prod18 = 1
+                OR pr.Prod19 = 1))</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT cr.Bus_No,
+       cr.Team_No,
+       cr.Agent_No,
+       cr.Agent_Status,
+       cr.Team_Status,
+       cr.Bu_Status,
+       cr.Latest,
+       cr.date,
+       cr.Prod17,
+       cr.Prod18,
+       cr.Prod19,
+       cr.Prod20,
+       cr.Prod21,
+       cr.Prod22,
+       cr.Prod23,
+       cr.Prod24,
+       cr.Prod25,
+       cr.Prod26,
+       cr.Prod30,
+       cr.Prod31,
+       cr.Prod32,
+       cr.Prod33,
+       0 AS IncludeEndDate,
+       0 AS IncludeOldOrgActivate
+INTO   #StartDatesOnly
+FROM   #OrderedBAIDs AS cr
+       LEFT OUTER JOIN
+       #OrderedBAIDs AS pr
+       ON pr.RN = cr.RN - 1
+          AND pr.Bus_No = cr.Bus_No
+          AND pr.Agent_No = cr.Agent_No
+WHERE  (pr.Team_Status = 1
+        AND cr.Team_Status = 1
+        AND cr.Agent_Status = 1
+        AND cr.Team_No &lt;&gt; ISNULL(pr.Team_No, 0)
+        AND (cr.Prod17 = 1
+             OR cr.Prod18 = 1
+             OR cr.Prod19 = 1))
+       OR (pr.Team_Status = 1
+           AND cr.Team_Status = 1
+           AND pr.Agent_Status = 1
+           AND cr.Agent_Status = 1
+           AND cr.Team_No = pr.Team_No
+           AND ((pr.Prod17 = 0
+                 AND cr.Prod17 = 1)
+                OR (pr.Prod18 = 0
+                    AND cr.Prod18 = 1)
+                OR (pr.Prod19 = 0
+                    AND cr.Prod19 = 1)))</td>
+        <td>222</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT cr.Bus_No,
+       cr.Team_No,
+       cr.Agent_No,
+       cr.Agent_Status,
+       cr.Team_Status,
+       cr.Bu_Status,
+       cr.Latest,
+       cr.date,
+       cr.Prod17,
+       cr.Prod18,
+       cr.Prod19,
+       cr.Prod20,
+       cr.Prod21,
+       cr.Prod22,
+       cr.Prod23,
+       cr.Prod24,
+       cr.Prod25,
+       cr.Prod26,
+       cr.Prod30,
+       cr.Prod31,
+       cr.Prod32,
+       cr.Prod33
+INTO   #AllModified
+FROM   #OrderedBAIDs AS cr
+WHERE  cr.Date &gt;= @StartDate
+       AND cr.Date &lt; @EndDate
+       AND cr.RN = (SELECT MAX(ob.RN)
+                    FROM   #OrderedBAIDs AS ob
+                    WHERE  ob.Agent_No = cr.Agent_No)
+       AND cr.Agent_Status = 1
+       AND cr.Team_Status = 1</td>
+        <td>265</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT cr.Bus_No,
+       cr.Team_No,
+       cr.Agent_No,
+       cr.Agent_Status,
+       cr.Team_Status,
+       cr.Bu_Status,
+       cr.Latest,
+       cr.date,
+       cr.Prod17,
+       cr.Prod18,
+       cr.Prod19,
+       cr.Prod20,
+       cr.Prod21,
+       cr.Prod22,
+       cr.Prod23,
+       cr.Prod24,
+       cr.Prod25,
+       cr.Prod26,
+       cr.Prod30,
+       cr.Prod31,
+       cr.Prod32,
+       cr.Prod33,
+       1 AS IncludeEndDate,
+       0 AS IncludeOldOrgActivate
+INTO   #EndDatesOnly
+FROM   #OrderedBAIDs AS cr
+       LEFT OUTER JOIN
+       #OrderedBAIDs AS pr
+       ON pr.RN = cr.RN - 1
+          AND pr.Bus_No = cr.Bus_No
+          AND pr.Agent_No = cr.Agent_No
+WHERE  (pr.Team_Status = 1
+        AND cr.Team_Status = 1
+        AND cr.Agent_Status = 1
+        AND cr.Team_No &lt;&gt; ISNULL(pr.Team_No, 0)
+        AND ((pr.Prod17 = 1
+              AND cr.Prod17 = 0)
+             OR (pr.Prod18 = 1
+                 AND (cr.Prod18 = 0
+                      OR cr.Prod19 = 0))
+             OR (pr.Prod19 = 1
+                 AND (cr.Prod18 = 0
+                      OR cr.Prod19 = 0))))
+       OR (pr.Team_Status = 1
+           AND cr.Team_Status = 0
+           AND cr.Agent_Status = 1
+           AND cr.Team_No &lt;&gt; ISNULL(pr.Team_No, 0)
+           AND ((pr.Prod17 = 1
+                 AND cr.Prod17 = 1)
+                OR pr.Prod18 = 1
+                   AND (cr.Prod18 = 1
+                        OR cr.Prod19 = 1)
+                OR pr.Prod19 = 1
+                   AND (cr.Prod18 = 1
+                        OR cr.Prod19 = 1)))
+       OR (pr.Team_Status = 0
+           AND cr.Team_Status = 1
+           AND cr.Agent_Status = 1
+           AND cr.Team_No &lt;&gt; ISNULL(pr.Team_No, 0)
+           AND ((pr.Prod17 = 1
+                 AND cr.Prod17 = 1)
+                OR pr.Prod18 = 1
+                   AND (cr.Prod18 = 1
+                        OR cr.Prod19 = 1)
+                OR pr.Prod19 = 1
+                   AND (cr.Prod18 = 1
+                        OR cr.Prod19 = 1)))
+       OR (pr.Team_Status = 1
+           AND cr.Team_Status = 1
+           AND pr.Agent_Status = 1
+           AND cr.Agent_Status = 0
+           AND cr.Team_No = pr.Team_No
+           AND ((pr.Prod17 = 1
+                 AND cr.Prod17 = 1)
+                OR (pr.Prod18 = 1
+                    AND cr.Prod18 = 1)
+                OR (pr.Prod19 = 1
+                    AND cr.Prod19 = 1)))
+       OR (pr.Team_Status = 1
+           AND cr.Team_Status = 1
+           AND pr.Agent_Status = 1
+           AND cr.Agent_Status = 1
+           AND cr.Team_No = pr.Team_No
+           AND ((pr.Prod17 = 1
+                 AND cr.Prod17 = 0)
+                OR (pr.Prod18 = 1
+                    AND cr.Prod18 = 0)
+                OR (pr.Prod19 = 1
+                    AND cr.Prod19 = 0)))
+       OR (pr.Team_Status = 1
+           AND cr.Team_Status = 0
+           AND pr.Agent_Status = 1
+           AND cr.Agent_Status = 1
+           AND cr.Team_No = pr.Team_No
+           AND ((pr.Prod17 = 1
+                 AND cr.Prod17 = 1)
+                OR (pr.Prod18 = 1
+                    AND cr.Prod18 = 1)
+                OR (pr.Prod19 = 1
+                    AND cr.Prod19 = 1)))</td>
+        <td>296</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   yy.*
+INTO     #StartEndDates
+FROM     (SELECT obd.Bus_No,
+                 obd.Team_No,
+                 obd.Agent_No,
+                 1 AS Agent_Status,
+                 1 AS Team_Status,
+                 obd.Bu_Status,
+                 obd.Latest,
+                 obd.date,
+                 obd.Prod17,
+                 obd.Prod18,
+                 obd.Prod19,
+                 obd.Prod20,
+                 obd.Prod21,
+                 obd.Prod22,
+                 obd.Prod23,
+                 obd.Prod24,
+                 obd.Prod25,
+                 obd.Prod26,
+                 obd.Prod30,
+                 obd.Prod31,
+                 obd.Prod32,
+                 obd.Prod33
+          FROM   #OrderedBAIDs AS obd
+                 INNER JOIN
+                 (SELECT   ob.Bus_No,
+                           ob.Team_No,
+                           ob.Agent_No,
+                           MAX(ob.date) AS MaxDate
+                  FROM     #OrderedBAIDs AS ob
+                           INNER JOIN
+                           #ReactivatedAgentsOrTeams AS rat
+                           ON rat.Bus_No = ob.Bus_No
+                              AND rat.Agent_No = ob.Agent_No
+                              AND rat.date &gt;= @StartDate
+                              AND rat.date &lt; @EndDate
+                  WHERE    ob.Team_No &lt;&gt; rat.Team_No
+                           AND (ob.Prod17 = 1
+                                OR ob.Prod18 = 1
+                                OR ob.Prod19 = 1)
+                           AND (ob.Team_Status = 0
+                                OR ob.Agent_Status = 0)
+                  GROUP BY ob.Bus_No, ob.Team_No, ob.Agent_No) AS xx
+                 ON xx.Bus_No = obd.Bus_No
+                    AND xx.Team_No = obd.Team_No
+                    AND xx.Agent_No = obd.Agent_No
+                    AND xx.MaxDate = obd.date
+          UNION
+          SELECT Bus_No,
+                 Team_No,
+                 Agent_No,
+                 Agent_Status,
+                 Team_Status,
+                 Bu_Status,
+                 Latest,
+                 date,
+                 Prod17,
+                 Prod18,
+                 Prod19,
+                 Prod20,
+                 Prod21,
+                 Prod22,
+                 Prod23,
+                 Prod24,
+                 Prod25,
+                 Prod26,
+                 Prod30,
+                 Prod31,
+                 Prod32,
+                 Prod33
+          FROM   #EndDatesOnly AS ed2
+          WHERE  date &gt;= @StartDate
+                 AND date &lt; @EndDate
+                 AND NOT EXISTS (SELECT sd2.*
+                                 FROM   #StartDatesOnly AS sd2
+                                 WHERE  sd2.Bus_No = ed2.Bus_No
+                                        AND sd2.Agent_No = ed2.Agent_No
+                                        AND sd2.Team_No = ed2.Team_No
+                                        AND sd2.Date &gt; ed2.Date
+                                 UNION
+                                 SELECT sd3.*
+                                 FROM   #ReactivatedAgentsOrTeams AS sd3
+                                 WHERE  sd3.Bus_No = ed2.Bus_No
+                                        AND sd3.Agent_No = ed2.Agent_No
+                                        AND sd3.Team_No = ed2.Team_No
+                                        AND sd3.Date &gt; ed2.Date)
+          UNION
+          SELECT Bus_No,
+                 Team_No,
+                 Agent_No,
+                 Agent_Status,
+                 Team_Status,
+                 Bu_Status,
+                 Latest,
+                 date,
+                 Prod17,
+                 Prod18,
+                 Prod19,
+                 Prod20,
+                 Prod21,
+                 Prod22,
+                 Prod23,
+                 Prod24,
+                 Prod25,
+                 Prod26,
+                 Prod30,
+                 Prod31,
+                 Prod32,
+                 Prod33
+          FROM   #StartDatesOnly AS sd1
+          WHERE  date &gt;= @StartDate
+                 AND date &lt; @EndDate
+                 AND NOT EXISTS (SELECT ed1.*
+                                 FROM   #EndDatesOnly AS ed1
+                                 WHERE  ed1.Bus_No = sd1.Bus_No
+                                        AND ed1.Agent_No = sd1.Agent_No
+                                        AND ed1.Team_No = sd1.Team_No)) AS yy
+ORDER BY yy.Bus_No, yy.Agent_No, yy.date</td>
+        <td>368</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   xx.*
+INTO     #FinalAgents
+FROM     (SELECT sed.*
+          FROM   #StartEndDates AS sed
+          UNION
+          SELECT am.*
+          FROM   #AllModified AS am
+          WHERE  NOT EXISTS (SELECT fa.*
+                             FROM   #StartEndDates AS fa
+                             WHERE  fa.Bus_No = am.Bus_No
+                                    AND fa.Agent_No = am.Agent_No
+                                    AND fa.Team_No = am.Team_No)) AS xx
+ORDER BY xx.Bus_No, xx.Agent_No, xx.date</td>
+        <td>493</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT t.team_name,
+       t.team_no,
+       a.Agent_No,
+       bu.Bus_No,
+       bu.Business_Unit_Name,
+       a.First_Name,
+       a.Middle_Name,
+       a.Last_Name,
+       CASE WHEN (fa.Prod17 = 0
+                  AND fa.Prod18 = 0
+                  AND fa.Prod19 = 0
+                  AND fa.Prod20 = 0
+                  AND fa.Prod21 = 0
+                  AND fa.Prod22 = 0
+                  AND fa.Prod23 = 0
+                  AND fa.Prod24 = 0
+                  AND fa.Prod25 = 0
+                  AND fa.Prod26 = 0) THEN 'DISC' WHEN (fa.Agent_Status = 0
+                                                       OR fa.Team_Status = 0
+                                                       OR fa.BU_Status = 0) THEN 'DISC' ELSE 'CURR' END AS [Status],
+       ISNULL(ae.HireDate, a.CreateDate) AS CreateDate,
+       fa.date AS [Mod_DateTime],
+       0 AS ProductID,
+       ISNULL(ae.NTLoginName, '') AS [NTLoginName]
+INTO   #ASINormal
+FROM   #FinalAgents AS fa
+       INNER JOIN
+       dbo.Agents AS a
+       ON fa.Agent_No = a.Agent_No
+       LEFT OUTER JOIN
+       dbo.AgentExtendedAttributes AS ae
+       ON a.Agent_No = ae.Agent_No
+       INNER JOIN
+       dbo.Team AS t
+       ON fa.Team_no = t.Team_No
+       INNER JOIN
+       dbo.Business_Unit AS bu
+       ON fa.Bus_No = bu.Bus_No
+       LEFT OUTER JOIN
+       #WFM_BU_Teams AS wbt
+       ON fa.Team_no = wbt.Team_no
+WHERE  fa.date &gt;= DATEADD(SECOND, -5, wbt.ProvisionChangeDate)</td>
+        <td>511</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#WFM_BU_Teams AS but</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FirstTimersASIFull AS ft</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#FirstTimersASIFull AS ft</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BU_Teams AS t</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ScreenRecordingTeams AS srt</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BU_Teams AS wu</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#FirstTimersASIFull</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#LastBAIDs AS la</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#FirstTimersASIFull</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#LastTenBAIDs AS ob</td>
+        <td>165</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS cr</td>
+        <td>195</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS pr</td>
+        <td>196</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS cr</td>
+        <td>247</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS pr</td>
+        <td>248</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS cr</td>
+        <td>288</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS ob</td>
+        <td>291</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS cr</td>
+        <td>321</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS pr</td>
+        <td>322</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS obd</td>
+        <td>393</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OrderedBAIDs AS ob</td>
+        <td>399</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ReactivatedAgentsOrTeams AS rat</td>
+        <td>400</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#EndDatesOnly AS ed2</td>
+        <td>438</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#StartDatesOnly AS sd2</td>
+        <td>444</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ReactivatedAgentsOrTeams AS sd3</td>
+        <td>451</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#StartDatesOnly AS sd1</td>
+        <td>481</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#EndDatesOnly AS ed1</td>
+        <td>486</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#StartEndDates AS sed</td>
+        <td>497</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AllModified AS am</td>
+        <td>502</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#StartEndDates AS fa</td>
+        <td>505</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#FinalAgents AS fa</td>
+        <td>530</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#WFM_BU_Teams AS wbt</td>
+        <td>535</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentSyncData</td>
+        <td>555</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ASIFullFirst</td>
+        <td>557</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ASINormal</td>
+        <td>560</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentSyncData</td>
+        <td>564</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ASINormal</td>
+        <td>566</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentSyncData</td>
+        <td>583</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN a.Mod_DateTime &gt; t.ProvisionChangeDate THEN a.Mod_DateTime ELSE t.ProvisionChangeDate END</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (fa.Prod17 = 0
+           AND fa.Prod18 = 0
+           AND fa.Prod19 = 0
+           AND fa.Prod20 = 0
+           AND fa.Prod21 = 0
+           AND fa.Prod22 = 0
+           AND fa.Prod23 = 0
+           AND fa.Prod24 = 0
+           AND fa.Prod25 = 0
+           AND fa.Prod26 = 0) THEN 'DISC' WHEN (fa.Agent_Status = 0
+                                                OR fa.Team_Status = 0
+                                                OR fa.BU_Status = 0) THEN 'DISC' ELSE 'CURR' END</td>
+        <td>519</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">ROW_NUMBER</td>
+        <td colspan="1">ROW_NUMBER() OVER (PARTITION BY ba.Agent_No ORDER BY ba.date DESC)</td>
+        <td>131</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">ROW_NUMBER() OVER (PARTITION BY ba.Agent_No ORDER BY ba.date)</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">OVER</td>
+        <td colspan="1">OVER (PARTITION BY ba.Agent_No ORDER BY ba.date DESC)</td>
+        <td>131</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (PARTITION BY ba.Agent_No ORDER BY ba.date)</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">*</td>
+        <td colspan="1">SELECT   yy.*
+INTO     #StartEndDates
+FROM     (SELECT obd.Bus_No,
+                 obd.Team_No,
+                 obd.Agent_No,
+                 1 AS Agent_Status,
+                 1 AS Team_Status,
+                 obd.Bu_Status,
+                 obd.Latest,
+                 obd.date,
+                 obd.Prod17,
+                 obd.Prod18,
+                 obd.Prod19,
+                 obd.Prod20,
+                 obd.Prod21,
+                 obd.Prod22,
+                 obd.Prod23,
+                 obd.Prod24,
+                 obd.Prod25,
+                 obd.Prod26,
+                 obd.Prod30,
+                 obd.Prod31,
+                 obd.Prod32,
+                 obd.Prod33
+          FROM   #OrderedBAIDs AS obd
+                 INNER JOIN
+                 (SELECT   ob.Bus_No,
+                           ob.Team_No,
+                           ob.Agent_No,
+                           MAX(ob.date) AS MaxDate
+                  FROM     #OrderedBAIDs AS ob
+                           INNER JOIN
+                           #ReactivatedAgentsOrTeams AS rat
+                           ON rat.Bus_No = ob.Bus_No
+                              AND rat.Agent_No = ob.Agent_No
+                              AND rat.date &gt;= @StartDate
+                              AND rat.date &lt; @EndDate
+                  WHERE    ob.Team_No &lt;&gt; rat.Team_No
+                           AND (ob.Prod17 = 1
+                                OR ob.Prod18 = 1
+                                OR ob.Prod19 = 1)
+                           AND (ob.Team_Status = 0
+                                OR ob.Agent_Status = 0)
+                  GROUP BY ob.Bus_No, ob.Team_No, ob.Agent_No) AS xx
+                 ON xx.Bus_No = obd.Bus_No
+                    AND xx.Team_No = obd.Team_No
+                    AND xx.Agent_No = obd.Agent_No
+                    AND xx.MaxDate = obd.date
+          UNION
+          SELECT Bus_No,
+                 Team_No,
+                 Agent_No,
+                 Agent_Status,
+                 Team_Status,
+                 Bu_Status,
+                 Latest,
+                 date,
+                 Prod17,
+                 Prod18,
+                 Prod19,
+                 Prod20,
+                 Prod21,
+                 Prod22,
+                 Prod23,
+                 Prod24,
+                 Prod25,
+                 Prod26,
+                 Prod30,
+                 Prod31,
+                 Prod32,
+                 Prod33
+          FROM   #EndDatesOnly AS ed2
+          WHERE  date &gt;= @StartDate
+                 AND date &lt; @EndDate
+                 AND NOT EXISTS (SELECT sd2.*
+                                 FROM   #StartDatesOnly AS sd2
+                                 WHERE  sd2.Bus_No = ed2.Bus_No
+                                        AND sd2.Agent_No = ed2.Agent_No
+                                        AND sd2.Team_No = ed2.Team_No
+                                        AND sd2.Date &gt; ed2.Date
+                                 UNION
+                                 SELECT sd3.*
+                                 FROM   #ReactivatedAgentsOrTeams AS sd3
+                                 WHERE  sd3.Bus_No = ed2.Bus_No
+                                        AND sd3.Agent_No = ed2.Agent_No
+                                        AND sd3.Team_No = ed2.Team_No
+                                        AND sd3.Date &gt; ed2.Date)
+          UNION
+          SELECT Bus_No,
+                 Team_No,
+                 Agent_No,
+                 Agent_Status,
+                 Team_Status,
+                 Bu_Status,
+                 Latest,
+                 date,
+                 Prod17,
+                 Prod18,
+                 Prod19,
+                 Prod20,
+                 Prod21,
+                 Prod22,
+                 Prod23,
+                 Prod24,
+                 Prod25,
+                 Prod26,
+                 Prod30,
+                 Prod31,
+                 Prod32,
+                 Prod33
+          FROM   #StartDatesOnly AS sd1
+          WHERE  date &gt;= @StartDate
+                 AND date &lt; @EndDate
+                 AND NOT EXISTS (SELECT ed1.*
+                                 FROM   #EndDatesOnly AS ed1
+                                 WHERE  ed1.Bus_No = sd1.Bus_No
+                                        AND ed1.Agent_No = sd1.Agent_No
+                                        AND ed1.Team_No = sd1.Team_No)) AS yy
+ORDER BY yy.Bus_No, yy.Agent_No, yy.date</td>
+        <td>368</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   xx.*
+INTO     #FinalAgents
+FROM     (SELECT sed.*
+          FROM   #StartEndDates AS sed
+          UNION
+          SELECT am.*
+          FROM   #AllModified AS am
+          WHERE  NOT EXISTS (SELECT fa.*
+                             FROM   #StartEndDates AS fa
+                             WHERE  fa.Bus_No = am.Bus_No
+                                    AND fa.Agent_No = am.Agent_No
+                                    AND fa.Team_No = am.Team_No)) AS xx
+ORDER BY xx.Bus_No, xx.Agent_No, xx.date</td>
+        <td>493</td>
+      </tr>
+    </table>
+  </body>
+</html>

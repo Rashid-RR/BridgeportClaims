@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_SelectProspectiveContactBySearchCriteria]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_SelectProspectiveContactBySearchCriteria]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT StartDate,
+       EndDate,
+       StandardName,
+       Offset,
+       TimeZoneFound
+INTO   #TimeZoneData
+FROM   fn_GetTimeZoneData(@DefaultBuTZ)</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">fn_GetTimeZoneData(@DefaultBuTZ)</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN s.SourceRemovalScheduledDateTime IS NULL THEN 0 ELSE 1 END</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN PCS.Finalized = 0 THEN 'Active' WHEN PCS.ContactDisposedFinal = 1 THEN 'ContactDisposedFinal' WHEN PCS.ContactDNC = 1
+                                                                                                             AND PCS.CheckedIn = 0 THEN 'ContactDNC' WHEN PCS.ContactDNC = 1
+                                                                                                                                                          AND PCS.CheckedIn = 1 THEN 'ContactDNCCheckedIn' WHEN PCS.ContactExhausted = 1 THEN 'ContactExhausted' WHEN PCS.ContactExpired = 1 THEN 'ContactExpired' WHEN PCS.Removed = 1
+                                                                                                                                                                                                                                                                                                                        AND PCS.CheckedIn = 0 THEN 'Remove' WHEN PCS.Removed = 1
+                                                                                                                                                                                                                                                                                                                                                                 AND PCS.CheckedIn = 1 THEN 'Removed' WHEN PCS.SourceRemoved = 1
+                                                                                                                                                                                                                                                                                                                                                                                                           AND PCS.CheckedIn = 0 THEN 'SourceRemoved' WHEN PCS.SourceRemoved = 1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                           AND PCS.CheckedIn = 1 THEN 'SourceRemovedCheckedIn' WHEN PCS.AgentRemoved = 1 THEN 'AgentRemoved' WHEN PCS.CallRequestExpired = 1 THEN 'CallRequestExpired' ELSE 'Finalized' END</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">nvarchar(MAX)</td>
+        <td colspan="1">NVARCHAR (MAX)</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE SP_EXECUTESQL @SearchStatement, N'@Bus INT, @source INT, @StartDate DATETIME, @EndDate DATETIME', @bus = @Bus_No, @source = @SourceId, @StartDate = @StartDate, @EndDate = @EndDate</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Temp AS t</td>
+        <td>121</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#TimeZoneData AS tzd</td>
+        <td>125</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#TimeZoneData AS tzdM</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Temp AS t</td>
+        <td>145</td>
+      </tr>
+    </table>
+  </body>
+</html>
