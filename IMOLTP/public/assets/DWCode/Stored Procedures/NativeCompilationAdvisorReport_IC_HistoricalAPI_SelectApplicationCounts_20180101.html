@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_HistoricalAPI_SelectApplicationCounts]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_HistoricalAPI_SelectApplicationCounts]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN DATEDIFF(dd, @StartDateTZ, @EndDateTZ) = 0 THEN 'hh' WHEN DATEDIFF(mm, @StartDateTZ, @EndDateTZ) &lt;= 1 THEN 'dd' WHEN DATEDIFF(mm, @StartDateTZ, @EndDateTZ) &lt;= 6 THEN 'ww' WHEN DATEDIFF(yy, @StartDateTZ, @EndDateTZ) &lt;= 2 THEN 'mm' ELSE 'yy' END</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @GroupingDatePart = 'hh' THEN DATEADD(hh, num, @StartDateRoundedTZ) WHEN @GroupingDatePart = 'dd' THEN DATEADD(dd, num, @StartDateRoundedTZ) WHEN @GroupingDatePart = 'ww' THEN DATEADD(ww, num, @StartDateRoundedTZ) WHEN @GroupingDatePart = 'mm' THEN DATEADD(mm, num, @StartDateRoundedTZ) WHEN @GroupingDatePart = 'yy' THEN DATEADD(yy, num, @StartDateRoundedTZ) END</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @GroupingDatePart = 'hh' THEN DATEDIFF(hh, @StartDateRoundedTZ, @EndDateRoundedTZ) WHEN @GroupingDatePart = 'dd' THEN DATEDIFF(dd, @StartDateRoundedTZ, @EndDateRoundedTZ) WHEN @GroupingDatePart = 'ww' THEN DATEDIFF(ww, @StartDateRoundedTZ, @EndDateRoundedTZ) WHEN @GroupingDatePart = 'mm' THEN DATEDIFF(mm, @StartDateRoundedTZ, @EndDateRoundedTZ) WHEN @GroupingDatePart = 'yy' THEN DATEDIFF(yy, @StartDateRoundedTZ, @EndDateRoundedTZ) END</td>
+        <td>83</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">GROUPING SETS</td>
+        <td colspan="1">GROUPING SETS((dbo.fn_rounddatetimebydatepart(dbo.fn_ConvertUTCToTargetTimeZone(LoggedAt, @TimeZone), @GroupingDatePart), al.apiapplicationid), dbo.fn_rounddatetimebydatepart(dbo.fn_ConvertUTCToTargetTimeZone(LoggedAt, @TimeZone), @GroupingDatePart))</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">varchar(MAX)</td>
+        <td colspan="1">VARCHAR (MAX)</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">nums</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N0 AS t1</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">N0 AS t2</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N1 AS t1</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">N1 AS t2</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N2 AS t1</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">N2 AS t2</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N3 AS t1</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">N3 AS t2</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N4</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH N0
+AS (SELECT 1 AS n
+    UNION ALL
+    SELECT 1),
+ N1
+AS (SELECT 1 AS n
+    FROM   N0 AS t1 CROSS JOIN N0 AS t2),
+ N2
+AS (SELECT 1 AS n
+    FROM   N1 AS t1 CROSS JOIN N1 AS t2),
+ N3
+AS (SELECT 1 AS n
+    FROM   N2 AS t1 CROSS JOIN N2 AS t2),
+ N4
+AS (SELECT 1 AS n
+    FROM   N3 AS t1 CROSS JOIN N3 AS t2),
+ nums
+AS (SELECT ((ROW_NUMBER() OVER (ORDER BY (SELECT 1)))) - 1 AS num
+    FROM   N4)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> N0
+AS (SELECT 1 AS n
+    UNION ALL
+    SELECT 1)</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> N1
+AS (SELECT 1 AS n
+    FROM   N0 AS t1 CROSS JOIN N0 AS t2)</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> N2
+AS (SELECT 1 AS n
+    FROM   N1 AS t1 CROSS JOIN N1 AS t2)</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> N3
+AS (SELECT 1 AS n
+    FROM   N2 AS t1 CROSS JOIN N2 AS t2)</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> N4
+AS (SELECT 1 AS n
+    FROM   N3 AS t1 CROSS JOIN N3 AS t2)</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> nums
+AS (SELECT ((ROW_NUMBER() OVER (ORDER BY (SELECT 1)))) - 1 AS num
+    FROM   N4)</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">ROW_NUMBER</td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY (SELECT 1))</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OVER</td>
+        <td colspan="1">OVER (ORDER BY (SELECT 1))</td>
+        <td>54</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeSecurityPermissions]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeSecurityPermissions]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[Security_Permissions]
+ AS target
+USING [ETL].[Security_Permissions] AS source ON (target.PermissionID = source.PermissionID)
+WHEN MATCHED AND source.ActionID = 0 THEN DELETE
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET SecurityProfileID = source.SecurityProfileID,
+    Bus_No            = source.Bus_No,
+    PermissionKey     = source.PermissionKey,
+    OptionKey         = source.OptionKey,
+    CreateDate        = source.CreateDate,
+    CreatedBy         = source.CreatedBy,
+    ModifiedBy        = source.ModifiedBy,
+    ModifiedDate      = source.ModifiedDate
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (PermissionID, SecurityProfileID, Bus_No, PermissionKey, OptionKey, CreateDate, CreatedBy, ModifiedBy, ModifiedDate) VALUES (source.PermissionID, source.SecurityProfileID, source.Bus_No, source.PermissionKey, source.OptionKey, source.CreateDate, source.CreatedBy, source.ModifiedBy, source.ModifiedDate)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[Security_Permissions]
+ AS target
+USING [ETL].[Security_Permissions] AS source ON (target.PermissionID = source.PermissionID)
+WHEN MATCHED AND source.ActionID = 0 THEN DELETE
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET SecurityProfileID = source.SecurityProfileID,
+    Bus_No            = source.Bus_No,
+    PermissionKey     = source.PermissionKey,
+    OptionKey         = source.OptionKey,
+    CreateDate        = source.CreateDate,
+    CreatedBy         = source.CreatedBy,
+    ModifiedBy        = source.ModifiedBy,
+    ModifiedDate      = source.ModifiedDate
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (PermissionID, SecurityProfileID, Bus_No, PermissionKey, OptionKey, CreateDate, CreatedBy, ModifiedBy, ModifiedDate) VALUES (source.PermissionID, source.SecurityProfileID, source.Bus_No, source.PermissionKey, source.OptionKey, source.CreateDate, source.CreatedBy, source.ModifiedBy, source.ModifiedDate)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [Staging].[Security_Permissions]
+ AS target
+USING [ETL].[Security_Permissions] AS source ON (target.PermissionID = source.PermissionID)
+WHEN MATCHED THEN UPDATE 
+SET ActionID          = source.ActionID,
+    SecurityProfileID = CASE WHEN source.ActionID = 0 THEN target.SecurityProfileID ELSE source.SecurityProfileID END,
+    Bus_No            = CASE WHEN source.ActionID = 0 THEN target.Bus_No ELSE source.Bus_No END,
+    PermissionKey     = CASE WHEN source.ActionID = 0 THEN target.PermissionKey ELSE source.PermissionKey END,
+    OptionKey         = CASE WHEN source.ActionID = 0 THEN target.OptionKey ELSE source.OptionKey END,
+    CreateDate        = CASE WHEN source.ActionID = 0 THEN target.CreateDate ELSE source.CreateDate END,
+    CreatedBy         = CASE WHEN source.ActionID = 0 THEN target.CreatedBy ELSE source.CreatedBy END,
+    ModifiedBy        = CASE WHEN source.ActionID = 0 THEN target.ModifiedBy ELSE source.ModifiedBy END,
+    ModifiedDate      = CASE WHEN source.ActionID = 0 THEN target.ModifiedDate ELSE source.ModifiedDate END
+WHEN NOT MATCHED THEN INSERT (ActionID, PermissionID, SecurityProfileID, Bus_No, PermissionKey, OptionKey, CreateDate, CreatedBy, ModifiedBy, ModifiedDate) VALUES (source.ActionID, source.PermissionID, source.SecurityProfileID, source.Bus_No, source.PermissionKey, source.OptionKey, source.CreateDate, source.CreatedBy, source.ModifiedBy, source.ModifiedDate)</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [Staging].[Security_Permissions]
+ AS target
+USING [ETL].[Security_Permissions] AS source ON (target.PermissionID = source.PermissionID)
+WHEN MATCHED THEN UPDATE 
+SET ActionID          = source.ActionID,
+    SecurityProfileID = CASE WHEN source.ActionID = 0 THEN target.SecurityProfileID ELSE source.SecurityProfileID END,
+    Bus_No            = CASE WHEN source.ActionID = 0 THEN target.Bus_No ELSE source.Bus_No END,
+    PermissionKey     = CASE WHEN source.ActionID = 0 THEN target.PermissionKey ELSE source.PermissionKey END,
+    OptionKey         = CASE WHEN source.ActionID = 0 THEN target.OptionKey ELSE source.OptionKey END,
+    CreateDate        = CASE WHEN source.ActionID = 0 THEN target.CreateDate ELSE source.CreateDate END,
+    CreatedBy         = CASE WHEN source.ActionID = 0 THEN target.CreatedBy ELSE source.CreatedBy END,
+    ModifiedBy        = CASE WHEN source.ActionID = 0 THEN target.ModifiedBy ELSE source.ModifiedBy END,
+    ModifiedDate      = CASE WHEN source.ActionID = 0 THEN target.ModifiedDate ELSE source.ModifiedDate END
+WHEN NOT MATCHED THEN INSERT (ActionID, PermissionID, SecurityProfileID, Bus_No, PermissionKey, OptionKey, CreateDate, CreatedBy, ModifiedBy, ModifiedDate) VALUES (source.ActionID, source.PermissionID, source.SecurityProfileID, source.Bus_No, source.PermissionKey, source.OptionKey, source.CreateDate, source.CreatedBy, source.ModifiedBy, source.ModifiedDate)</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN source.ActionID = 0 THEN target.SecurityProfileID ELSE source.SecurityProfileID END</td>
+        <td>74</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN source.ActionID = 0 THEN target.Bus_No ELSE source.Bus_No END</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN source.ActionID = 0 THEN target.PermissionKey ELSE source.PermissionKey END</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN source.ActionID = 0 THEN target.OptionKey ELSE source.OptionKey END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN source.ActionID = 0 THEN target.CreateDate ELSE source.CreateDate END</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN source.ActionID = 0 THEN target.CreatedBy ELSE source.CreatedBy END</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN source.ActionID = 0 THEN target.ModifiedBy ELSE source.ModifiedBy END</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN source.ActionID = 0 THEN target.ModifiedDate ELSE source.ModifiedDate END</td>
+        <td>81</td>
+      </tr>
+    </table>
+  </body>
+</html>

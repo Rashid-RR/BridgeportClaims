@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Intelliteach_AgentState]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Intelliteach_AgentState]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'CallDetail_Intelliteach_AgentState'</td>
+        <td>11</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#DetailSummary AS ds</td>
+        <td>85</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT a.[agent_session_id],
+       a.[stateindex],
+       a.[end_date],
+       a.[duration_seconds],
+       a.[IsACW]
+INTO   #DetailSummary
+FROM   [dbo].[Agent_Log_Detail_Summary] AS a
+WHERE  a.[Bus_No] = @p_Bus_no
+       AND a.[DateWarehoused] BETWEEN @p_ASDStart_Date AND @p_ASDEnd_Date
+OPTION (OPTIMIZE FOR (@p_ASDStart_Date = '2016-01-01', @p_ASDEnd_Date = '2016-01-02'))</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN d.[working] = 0
+          AND d.[available] = 0
+          AND d.[outstate_code] != 0 THEN 'Unavailable - ' + o.[description] WHEN d.[working] = 0
+                                                                                  AND d.[available] = 0
+                                                                                  AND d.[outstate_code] = 0 THEN 'Unavailable' WHEN d.[working] = 1
+                                                                                                                                    AND d.[available] = 0 THEN 'ACD' WHEN d.[working] = 0
+                                                                                                                                                                          AND d.[available] = 0
+                                                                                                                                                                          AND ds.[IsACW] = 'T' THEN 'ACW' WHEN d.[working] = 0
+                                                                                                                                                                                                               AND d.[available] = 1 THEN 'Available' WHEN d.[working] = 2
+                                                                                                                                                                                                                                                           AND d.[available] = 0 THEN 'Outbound - ' + sk.[skill_name] ELSE 'Unknown' END</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN d.[working] = 0
+          AND d.[available] = 0
+          AND d.[outstate_code] != 0 THEN d.[outstate_code] WHEN d.[working] = 0
+                                                                 AND d.[available] = 0
+                                                                 AND d.[outstate_code] = 0 THEN d.[outstate_code] WHEN d.[working] = 1
+                                                                                                                       AND d.[available] = 0 THEN '1' WHEN d.[working] = 0
+                                                                                                                                                           AND d.[available] = 0
+                                                                                                                                                           AND ds.[IsACW] = 'T' THEN d.[outstate_Code] WHEN d.[working] = 0
+                                                                                                                                                                                                            AND d.[available] = 1 THEN '0' WHEN d.[working] = 2
+                                                                                                                                                                                                                                                AND d.[available] = 0 THEN '2' ELSE d.[outstate_code] END</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (d.[working] = 1
+           AND d.[available] = 0)
+          OR (d.[working] = 2
+              AND d.[available] = 0) THEN d.[contact_id] ELSE NULL END</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (d.[working] = 1
+           AND d.[available] = 0)
+          OR (d.[working] = 2
+              AND d.[available] = 0) THEN d.[skill_no] ELSE NULL END</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>92</td>
+      </tr>
+    </table>
+  </body>
+</html>

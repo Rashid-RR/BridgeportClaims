@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_IEX_AgentSystemPerformance_15min]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_IEX_AgentSystemPerformance_15min]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#tmpQtrHours</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpActiveAgents AS aa</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAL</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpALLO AS a</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpActiveAgents AS b</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAL AS a</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAL AS b</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpALLO2 AS c</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpActiveAgents AS t</td>
+        <td>135</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpALD AS dt</td>
+        <td>136</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpQtrHours AS h</td>
+        <td>155</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAgents AS ta</td>
+        <td>156</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAgents AS ta</td>
+        <td>167</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpSplit AS ta</td>
+        <td>185</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpOutboundCounts AS toc</td>
+        <td>186</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT alh.Agent_Session_ID,
+       alh.Agent_No
+INTO   #tmpActiveAgents
+FROM   dbo.Agent_Log_Header AS alh
+WHERE  alh.Bus_No = @p_Bus_No
+       AND alh.[Start_Date] BETWEEN DATEADD(Day, -1, @p_UTCEnd_Date) AND @p_UTCEnd_Date</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT a.Agent_Session_ID,
+       a.StateIndex,
+       a.Start_Date,
+       a.Working,
+       a.Available,
+       a.Outstate_Code,
+       a.Agent_No,
+       a.AgentStateID
+INTO   #tmpAL
+FROM   dbo.Agent_Log_Detail AS a
+       INNER JOIN
+       #tmpActiveAgents AS aa
+       ON a.Agent_Session_ID = aa.Agent_Session_ID</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Agent_No,
+         Agent_Session_ID,
+         MAX(StateIndex) AS StateIndex
+INTO     #tmpALLO
+FROM     #tmpAL
+WHERE    AgentStateID = 0
+GROUP BY Agent_Session_ID, Agent_No</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT b.agent_no,
+       b.Agent_session_id,
+       ISNULL(a.StateIndex, 5000000) AS StateIndex
+INTO   #tmpALLO2
+FROM   #tmpALLO AS a
+       RIGHT OUTER JOIN
+       #tmpActiveAgents AS b
+       ON a.agent_session_id = b.agent_session_id</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT a.Agent_Session_ID,
+       a.StateIndex,
+       a.Start_Date,
+       a.Working,
+       a.Available,
+       a.Outstate_Code,
+       b.Start_Date AS NextStart_date,
+       a.Agent_No,
+       a.AgentStateID
+INTO   #tmpALD
+FROM   #tmpAL AS a
+       LEFT OUTER JOIN
+       #tmpAL AS b
+       ON b.Agent_Session_ID = a.Agent_Session_ID
+          AND b.StateIndex - 1 = a.StateIndex
+          AND a.Agentstateid &lt;&gt; 0
+       INNER JOIN
+       #tmpALLO2 AS c
+       ON c.StateIndex &gt;= a.StateIndex
+          AND c.Agent_Session_ID = a.Agent_Session_ID</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT dt.Agent_No,
+       dt.Agent_Session_ID,
+       dt.StateIndex,
+       CASE WHEN dt.AgentStateID = 4 THEN 2 ELSE dt.Working END AS Working,
+       dt.Available AS Available,
+       dt.NextStart_date,
+       dt.[Start_Date],
+       CASE WHEN dt.agentstateid = 0 THEN 0 ELSE CASE WHEN (dt.NextStart_date IS NULL
+                                                            OR dt.NextStart_date &gt; @p_UTCEnd_Date)
+                                                           AND dt.start_date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date IS NULL
+                                                                                                                                                                   AND dt.start_date &gt; @p_UTCStart_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCEnd_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCStart_Date
+                                                                                                                                                                                                                                                                                                                                                                           AND dt.Start_Date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, dt.NextStart_date) ELSE DATEDIFF(ms, dt.Start_Date, dt.NextStart_Date) END END END END END AS Duration,
+       ISNULL(CASE WHEN o.IsACW = 'T' THEN 1 ELSE 0 END, 0) AS IsACW,
+       CASE WHEN dt.Start_Date &lt; @p_UTCEnd_Date THEN dbo.fn_CalcQtrHourDateTime(@p_UTCStart_Date) ELSE dbo.fn_CalcQtrHourDateTime(dt.NextStart_date) END AS QtrHourStartDate,
+       dt.AgentStateID
+INTO   #tmpAgents
+FROM   #tmpActiveAgents AS t
+       INNER JOIN
+       #tmpALD AS dt
+       ON dt.Agent_Session_ID = t.Agent_Session_ID
+       INNER JOIN
+       dbo.AgentState AS a
+       ON a.AgentStateID = dt.AgentStateID
+       LEFT OUTER JOIN
+       dbo.Outstates AS o
+       ON o.outstate_code = dt.outstate_code
+WHERE  t.Agent_Session_ID = dt.Agent_Session_ID
+       AND (dt.start_date &lt; @p_UTCEnd_Date
+            AND dt.start_date &gt; @p_UTCStart_Date)
+       OR (dt.NextStart_date &lt; @p_UTCEnd_Date
+           AND dt.NextStart_date &gt; @p_UTCStart_Date)
+       OR ((dt.NextStart_date &gt; @p_UTCEnd_Date
+            OR dt.NextStart_date IS NULL)
+           AND dt.start_date &lt; @p_UTCStart_Date)</td>
+        <td>103</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT ta.Agent_No,
+       ta.Working,
+       ta.Available,
+       (CASE WHEN ta.Start_Date &lt;= h.QtrHourStartDate THEN h.QtrHourStartDate ELSE ta.Start_Date END) AS [Start_Date],
+       ta.IsACW,
+       ta.Duration,
+       h.QtrHourEndDate,
+       h.QtrHourStartDate
+INTO   #tmpSplit
+FROM   #tmpQtrHours AS h
+       INNER JOIN
+       #tmpAgents AS ta
+       ON ta.QtrHourStartDate = h.QtrHourStartDate
+WHERE  ta.Duration &gt; 0
+       AND ta.[Start_Date] &lt;= @p_UTCEnd_Date</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   @p_UTCStart_Date AS QtrHour,
+         ta.Agent_No,
+         COUNT(*) AS OutCalls,
+         SUM(ta.Duration) AS OutTime
+INTO     #tmpOutboundCounts
+FROM     #tmpAgents AS ta
+WHERE    ta.Working = 2
+         AND ta.[Start_Date] &lt;= @p_UTCEnd_Date
+         AND ta.Duration &gt; 0
+         AND ta.IsACW = 0
+GROUP BY ta.Agent_No</td>
+        <td>162</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN dt.AgentStateID = 4 THEN 2 ELSE dt.Working END</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dt.agentstateid = 0 THEN 0 ELSE CASE WHEN (dt.NextStart_date IS NULL
+                                                     OR dt.NextStart_date &gt; @p_UTCEnd_Date)
+                                                    AND dt.start_date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date IS NULL
+                                                                                                                                                            AND dt.start_date &gt; @p_UTCStart_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCEnd_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCStart_Date
+                                                                                                                                                                                                                                                                                                                                                                    AND dt.Start_Date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, dt.NextStart_date) ELSE DATEDIFF(ms, dt.Start_Date, dt.NextStart_Date) END END END END END</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (dt.NextStart_date IS NULL
+           OR dt.NextStart_date &gt; @p_UTCEnd_Date)
+          AND dt.start_date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date IS NULL
+                                                                                                                  AND dt.start_date &gt; @p_UTCStart_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCEnd_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCStart_Date
+                                                                                                                                                                                                                                                                                                                          AND dt.Start_Date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, dt.NextStart_date) ELSE DATEDIFF(ms, dt.Start_Date, dt.NextStart_Date) END END END END</td>
+        <td>113</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dt.NextStart_date IS NULL
+          AND dt.start_date &gt; @p_UTCStart_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCEnd_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCStart_Date
+                                                                                                                                                                                                                  AND dt.Start_Date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, dt.NextStart_date) ELSE DATEDIFF(ms, dt.Start_Date, dt.NextStart_Date) END END END</td>
+        <td>115</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dt.NextStart_date &gt; @p_UTCEnd_Date THEN DATEDIFF(ms, dt.Start_Date, @p_UTCEnd_Date) ELSE CASE WHEN dt.NextStart_date &gt; @p_UTCStart_Date
+                                                                                                             AND dt.Start_Date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, dt.NextStart_date) ELSE DATEDIFF(ms, dt.Start_Date, dt.NextStart_Date) END END</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dt.NextStart_date &gt; @p_UTCStart_Date
+          AND dt.Start_Date &lt; @p_UTCStart_Date THEN DATEDIFF(ms, @p_UTCStart_Date, dt.NextStart_date) ELSE DATEDIFF(ms, dt.Start_Date, dt.NextStart_Date) END</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN o.IsACW = 'T' THEN 1 ELSE 0 END</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN dt.Start_Date &lt; @p_UTCEnd_Date THEN dbo.fn_CalcQtrHourDateTime(@p_UTCStart_Date) ELSE dbo.fn_CalcQtrHourDateTime(dt.NextStart_date) END</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ta.Start_Date &lt;= h.QtrHourStartDate THEN h.QtrHourStartDate ELSE ta.Start_Date END</td>
+        <td>149</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ta.Available = 1
+           AND ta.Working = 0) THEN ta.Duration / 1000.0 ELSE 0 END</td>
+        <td>180</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ta.Available = 0
+           AND ta.Working = 0
+           AND IsACW = 0) THEN ta.Duration / 1000.0 ELSE 0 END</td>
+        <td>181</td>
+      </tr>
+    </table>
+  </body>
+</html>

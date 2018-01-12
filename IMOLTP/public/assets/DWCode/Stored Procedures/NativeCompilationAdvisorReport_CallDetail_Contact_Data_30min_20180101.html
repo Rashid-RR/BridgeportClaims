@@ -1,0 +1,848 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Contact_Data_30min]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Contact_Data_30min]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @LockCritical</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">cte AS limiter</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStatsSummary</td>
+        <td>109</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStats</td>
+        <td>209</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStatsSummary</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStatsSummary</td>
+        <td>324</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStatsSummary</td>
+        <td>329</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStatsSummary AS c</td>
+        <td>331</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactIds</td>
+        <td>335</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStatsSummary</td>
+        <td>339</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactIds AS ids</td>
+        <td>363</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStatsSummary AS css</td>
+        <td>364</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactStatsSummary</td>
+        <td>399</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Results</td>
+        <td>406</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Results AS r</td>
+        <td>414</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">PersistentContactLog AS ppl</td>
+        <td>420</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Skills AS s</td>
+        <td>421</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Results</td>
+        <td>429</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Results AS r</td>
+        <td>448</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">PersistentContactLog AS ppl</td>
+        <td>454</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Skills AS s</td>
+        <td>455</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Results</td>
+        <td>462</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Results</td>
+        <td>484</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">WITH   cte
+AS     (SELECT Contact_Id
+        FROM   dbo.Contact_Log_Footer
+        WHERE  bus_no = @p_Bus_No
+               AND End_Date BETWEEN @P_UTCStart_Date AND @p_UTCEnd_Date)
+SELECT h.Bus_no,
+       b.Business_Unit_Name,
+       f.End_Date,
+       k.Skill_No,
+       k.skill_Name,
+       m.Media_Name,
+       m.Media_Type,
+       k.Outbound_Skill,
+       h.ReskillIndicator,
+       s.InQueue_Time,
+       s.InQueue_Seconds,
+       s.IsShortAbandon,
+       k.WFOCountReskills,
+       s.Total_Time,
+       s.Total_Seconds,
+       s.Agent_Time,
+       s.Agent_Seconds,
+       s.Abandon_Time,
+       s.Abandon_Seconds,
+       s.ACW_Time,
+       s.ACW_Seconds,
+       s.PreQueue_Time,
+       s.PreQueue_Seconds,
+       s.sla,
+       k.sla_Seconds,
+       f.agent_no,
+       h.contact_id,
+       CASE WHEN r.Contact_ID IS NOT NULL THEN 1 ELSE 0 END AS Refused
+INTO   #ContactStats
+FROM   cte AS limiter
+       INNER JOIN
+       dbo.Contact_Log_Header AS h
+       ON limiter.Contact_Id = h.Contact_Id
+       INNER JOIN
+       dbo.Contact_Log_Footer AS f
+       ON limiter.Contact_Id = f.Contact_Id
+       INNER JOIN
+       dbo.Contact_Log_Summary AS s
+       ON h.Contact_ID = s.Contact_ID
+       INNER JOIN
+       dbo.Business_Unit AS b
+       ON h.Bus_no = b.Bus_No
+       INNER JOIN
+       dbo.Skills AS k
+       ON k.Skill_No = f.Skill_No
+          AND COALESCE (k.IsNaturalCalling, 0) = 0
+          AND COALESCE (k.IsDialer, 0) = 0
+       INNER JOIN
+       dbo.Media AS m
+       ON m.Media_Type = k.Media_Type
+       LEFT OUTER JOIN
+       (SELECT DISTINCT RCL.Contact_ID
+        FROM   dbo.RefusedContactLog AS RCL
+        WHERE  bus_no = @p_Bus_No) AS r
+       ON h.contact_id = r.Contact_ID
+WHERE  k.Outbound_Skill = 0
+       AND h.reskillindicator NOT IN (3, 4)</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT Bus_No,
+       Business_Unit_Name,
+       Contact_Id,
+       dbo.fn_CalcHalfHourDateTime(start_date) AS StartDate,
+       Skill_No,
+       SKill_Name,
+       Outbound_Skill,
+       Media_Type
+INTO   #ContactIDs
+FROM   (SELECT h.Bus_No,
+               b.Business_Unit_Name,
+               h.Contact_Id,
+               h.start_date,
+               k.Skill_No,
+               k.SKill_Name,
+               k.Outbound_Skill,
+               k.Media_Type
+        FROM   dbo.Contact_Log_Header AS h
+               INNER JOIN
+               dbo.Contact_Log_Footer AS f
+               ON f.contact_id = h.contact_id
+               INNER JOIN
+               dbo.Skills AS k
+               ON f.Skill_No = k.Skill_No
+               INNER JOIN
+               dbo.Business_Unit AS b
+               ON h.bus_no = b.bus_no
+        WHERE  (h.Bus_no = @p_Bus_No)
+               AND h.start_date BETWEEN @P_UTCStart_Date AND @p_UTCEnd_Date
+               AND h.Media_Type IN (1, 6)
+               AND k.Outbound_Skill = 0
+        UNION ALL
+        SELECT r.Bus_No,
+               b.Business_Unit_Name,
+               r.Contact_Id,
+               r.start_date,
+               k.Skill_No,
+               k.SKill_Name,
+               k.Outbound_Skill,
+               k.Media_Type
+        FROM   dbo.RT_Contact_Log AS r
+               INNER JOIN
+               dbo.Skills AS k
+               ON r.Skill_No = k.Skill_No
+               INNER JOIN
+               dbo.Business_Unit AS b
+               ON r.bus_no = b.bus_no
+        WHERE  (r.Bus_no = @p_Bus_No)
+               AND r.start_date BETWEEN @P_UTCStart_Date AND @p_UTCEnd_Date
+               AND r.Media_Type IN (1, 6)
+               AND k.Outbound_Skill = 0
+        UNION ALL
+        SELECT DISTINCT p.Bus_No,
+                        b.Business_Unit_Name,
+                        p.Contact_Id,
+                        p.start_date,
+                        k.Skill_No,
+                        k.SKill_Name,
+                        k.Outbound_Skill,
+                        k.Media_Type
+        FROM   dbo.PersistentContactLog AS p
+               INNER JOIN
+               dbo.Skills AS k
+               ON p.Skill_No = k.Skill_No
+               INNER JOIN
+               dbo.Business_Unit AS b
+               ON p.bus_no = b.bus_no
+        WHERE  (p.Bus_no = @p_Bus_No)
+               AND p.start_date BETWEEN @P_UTCStart_Date AND @p_UTCEnd_Date
+               AND p.Media_Type IN (1, 6)
+               AND k.Outbound_Skill = 0) AS c</td>
+        <td>260</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   [Date] AS [HalfHour],
+         [Skill_No] AS [Skill],
+         [CallCount] AS [Received],
+         [Handled] AS [Handled],
+         [AbandonCount] AS [Abandoned],
+         [HandledWithinSL] AS [Handled-GOS],
+         [AbandonedWithinSL] AS [Abandoned-GOS],
+         TotalAgentTime AS [HandleTime],
+         [WrapUpTime] AS [WrapTime],
+         [Handled] AS [Distributed],
+         [QueueTime] AS [QueueTime],
+         [ServiceLevel] AS [ServiceLevel],
+         0 AS [BackLog],
+         0 AS [BackLogNotExp],
+         0 AS [BackLogExp]
+INTO     #Results
+FROM     #ContactStatsSummary
+ORDER BY Date ASC</td>
+        <td>381</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN r.Contact_ID IS NOT NULL THEN 1 ELSE 0 END</td>
+        <td>91</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0
+                                                       AND isShortAbandon = 0
+                                                       AND WFOCountReskills = 1) THEN 1 ELSE 0 END ELSE CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0
+                                                                                                                   AND isShortAbandon = 0) THEN 1 ELSE 0 END END</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0
+           AND isShortAbandon = 0
+           AND WFOCountReskills = 1) THEN 1 ELSE 0 END</td>
+        <td>121</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0
+           AND isShortAbandon = 0) THEN 1 ELSE 0 END</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN ((ISNULL(Agent_Time, 0) &gt; 0
+                                                        AND WFOCountReskills = 1
+                                                        AND Agent_No IS NOT NULL
+                                                        AND ISNULL(Abandon_Time, 0) = 0)) THEN 1 ELSE 0 END ELSE CASE WHEN ((ISNULL(Agent_Time, 0) &gt; 0
+                                                                                                                             AND Agent_No IS NOT NULL
+                                                                                                                             AND ISNULL(Abandon_Time, 0) = 0)) THEN 1 ELSE 0 END END</td>
+        <td>125</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ((ISNULL(Agent_Time, 0) &gt; 0
+            AND WFOCountReskills = 1
+            AND Agent_No IS NOT NULL
+            AND ISNULL(Abandon_Time, 0) = 0)) THEN 1 ELSE 0 END</td>
+        <td>126</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ((ISNULL(Agent_Time, 0) &gt; 0
+            AND Agent_No IS NOT NULL
+            AND ISNULL(Abandon_Time, 0) = 0)) THEN 1 ELSE 0 END</td>
+        <td>128</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN (ISNULL(Abandon_Time, 0) &gt; 0
+                                                       AND isShortAbandon = 0
+                                                       AND WFOCountReskills = 1
+                                                       AND (Agent_Time = 0
+                                                            OR (Agent_Time &gt; 0
+                                                                AND Agent_No IS NULL
+                                                                AND WFOCountReskills = 1)
+                                                            OR (Agent_Time &gt; 0
+                                                                AND Abandon_Time &gt; 0
+                                                                AND WFOCountReskills = 1
+                                                                AND isShortAbandon = 0))
+                                                       OR (Refused = 1
+                                                           AND inQueue_Time &gt; 0
+                                                           AND Agent_No IS NULL
+                                                           AND Agent_Time &gt; 0
+                                                           AND Abandon_Time = 0
+                                                           AND WFOCountReskills = 1
+                                                           AND isShortAbandon = 0)
+                                                       OR (inQueue_Time &gt; 0
+                                                           AND Agent_Time = 0
+                                                           AND Abandon_Time = 0
+                                                           AND WFOCountReskills = 1
+                                                           AND isShortAbandon = 0)) THEN 1 ELSE 0 END ELSE CASE WHEN (ISNULL(Abandon_Time, 0) &gt; 0
+                                                                                                                      AND isShortAbandon = 0
+                                                                                                                      AND (Agent_Time = 0
+                                                                                                                           OR (Agent_Time &gt; 0
+                                                                                                                               AND Agent_No IS NULL)
+                                                                                                                           OR (Agent_Time &gt; 0
+                                                                                                                               AND Abandon_Time &gt; 0
+                                                                                                                               AND isShortAbandon = 0))
+                                                                                                                      OR (Refused = 1
+                                                                                                                          AND inQueue_Time &gt; 0
+                                                                                                                          AND Agent_No IS NULL
+                                                                                                                          AND Agent_Time &gt; 0
+                                                                                                                          AND Abandon_Time = 0
+                                                                                                                          AND isShortAbandon = 0))
+                                                                                                                     OR (inQueue_Time &gt; 0
+                                                                                                                         AND Agent_Time = 0
+                                                                                                                         AND Abandon_Time = 0
+                                                                                                                         AND isShortAbandon = 0) THEN 1 ELSE 0 END END</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(Abandon_Time, 0) &gt; 0
+           AND isShortAbandon = 0
+           AND WFOCountReskills = 1
+           AND (Agent_Time = 0
+                OR (Agent_Time &gt; 0
+                    AND Agent_No IS NULL
+                    AND WFOCountReskills = 1)
+                OR (Agent_Time &gt; 0
+                    AND Abandon_Time &gt; 0
+                    AND WFOCountReskills = 1
+                    AND isShortAbandon = 0))
+           OR (Refused = 1
+               AND inQueue_Time &gt; 0
+               AND Agent_No IS NULL
+               AND Agent_Time &gt; 0
+               AND Abandon_Time = 0
+               AND WFOCountReskills = 1
+               AND isShortAbandon = 0)
+           OR (inQueue_Time &gt; 0
+               AND Agent_Time = 0
+               AND Abandon_Time = 0
+               AND WFOCountReskills = 1
+               AND isShortAbandon = 0)) THEN 1 ELSE 0 END</td>
+        <td>135</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(Abandon_Time, 0) &gt; 0
+           AND isShortAbandon = 0
+           AND (Agent_Time = 0
+                OR (Agent_Time &gt; 0
+                    AND Agent_No IS NULL)
+                OR (Agent_Time &gt; 0
+                    AND Abandon_Time &gt; 0
+                    AND isShortAbandon = 0))
+           OR (Refused = 1
+               AND inQueue_Time &gt; 0
+               AND Agent_No IS NULL
+               AND Agent_Time &gt; 0
+               AND Abandon_Time = 0
+               AND isShortAbandon = 0))
+          OR (inQueue_Time &gt; 0
+              AND Agent_Time = 0
+              AND Abandon_Time = 0
+              AND isShortAbandon = 0) THEN 1 ELSE 0 END</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN ISNULL(Agent_time, 0) &gt; 0
+                                                      AND Agent_No IS NOT NULL
+                                                      AND WFOCountReskills = 1
+                                                      AND sla &lt; 1
+                                                      OR (ISNULL(Agent_time, 0) = 0
+                                                          AND ISNULL(InQueue_time, 0) &gt; 0
+                                                          AND ISNULL(Abandon_time, 0) = 0
+                                                          AND isShortAbandon = 0
+                                                          AND WFOCountReskills = 1
+                                                          AND sla &lt; 1) THEN 1 ELSE 0 END ELSE CASE WHEN ISNULL(Agent_time, 0) &gt; 0
+                                                                                                        AND Agent_No IS NOT NULL
+                                                                                                        AND sla &lt; 1
+                                                                                                        OR (ISNULL(Agent_time, 0) = 0
+                                                                                                            AND ISNULL(InQueue_time, 0) &gt; 0
+                                                                                                            AND ISNULL(Abandon_time, 0) = 0
+                                                                                                            AND isShortAbandon = 0
+                                                                                                            AND sla &lt; 1) THEN 1 ELSE 0 END END</td>
+        <td>147</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(Agent_time, 0) &gt; 0
+          AND Agent_No IS NOT NULL
+          AND WFOCountReskills = 1
+          AND sla &lt; 1
+          OR (ISNULL(Agent_time, 0) = 0
+              AND ISNULL(InQueue_time, 0) &gt; 0
+              AND ISNULL(Abandon_time, 0) = 0
+              AND isShortAbandon = 0
+              AND WFOCountReskills = 1
+              AND sla &lt; 1) THEN 1 ELSE 0 END</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(Agent_time, 0) &gt; 0
+          AND Agent_No IS NOT NULL
+          AND sla &lt; 1
+          OR (ISNULL(Agent_time, 0) = 0
+              AND ISNULL(InQueue_time, 0) &gt; 0
+              AND ISNULL(Abandon_time, 0) = 0
+              AND isShortAbandon = 0
+              AND sla &lt; 1) THEN 1 ELSE 0 END</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0
+                                                       AND WFOCountReskills = 1) THEN ISNULL(CAST (InQueue_time AS BIGINT), 0) ELSE 0 END ELSE CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0) THEN ISNULL(CAST (InQueue_time AS BIGINT), 0) ELSE 0 END END</td>
+        <td>156</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0
+           AND WFOCountReskills = 1) THEN ISNULL(CAST (InQueue_time AS BIGINT), 0) ELSE 0 END</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0) THEN ISNULL(CAST (InQueue_time AS BIGINT), 0) ELSE 0 END</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN WFOCountReskills = 1 THEN ISNULL(CAST (Total_Time AS BIGINT), 0) ELSE 0 END ELSE ISNULL(CAST (Total_Time AS BIGINT), 0) END</td>
+        <td>168</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN WFOCountReskills = 1 THEN ISNULL(CAST (Total_Time AS BIGINT), 0) ELSE 0 END</td>
+        <td>169</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN (((ISNULL(Agent_Time, 0) &gt; 0
+                                                         AND Agent_No IS NOT NULL
+                                                         AND ISNULL(Abandon_Time, 0) = 0)
+                                                        AND WFOCountReskills = 1)
+                                                       OR (ISNULL(Agent_time, 0) = 0
+                                                           AND ISNULL(InQueue_time, 0) &gt; 0
+                                                           AND ISNULL(Abandon_time, 0) = 0
+                                                           AND isShortAbandon = 0
+                                                           AND WFOCountReskills = 1)) THEN ISNULL(CAST (Agent_time AS BIGINT), 0) ELSE 0 END ELSE CASE WHEN ((ISNULL(Agent_Time, 0) &gt; 0
+                                                                                                                                                              AND Agent_No IS NOT NULL
+                                                                                                                                                              AND ISNULL(Abandon_Time, 0) = 0)
+                                                                                                                                                             OR (ISNULL(Agent_time, 0) = 0
+                                                                                                                                                                 AND ISNULL(InQueue_time, 0) &gt; 0
+                                                                                                                                                                 AND ISNULL(Abandon_time, 0) = 0
+                                                                                                                                                                 AND isShortAbandon = 0)) THEN ISNULL(CAST (Agent_time AS BIGINT), 0) ELSE 0 END END</td>
+        <td>174</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (((ISNULL(Agent_Time, 0) &gt; 0
+             AND Agent_No IS NOT NULL
+             AND ISNULL(Abandon_Time, 0) = 0)
+            AND WFOCountReskills = 1)
+           OR (ISNULL(Agent_time, 0) = 0
+               AND ISNULL(InQueue_time, 0) &gt; 0
+               AND ISNULL(Abandon_time, 0) = 0
+               AND isShortAbandon = 0
+               AND WFOCountReskills = 1)) THEN ISNULL(CAST (Agent_time AS BIGINT), 0) ELSE 0 END</td>
+        <td>175</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ((ISNULL(Agent_Time, 0) &gt; 0
+            AND Agent_No IS NOT NULL
+            AND ISNULL(Abandon_Time, 0) = 0)
+           OR (ISNULL(Agent_time, 0) = 0
+               AND ISNULL(InQueue_time, 0) &gt; 0
+               AND ISNULL(Abandon_time, 0) = 0
+               AND isShortAbandon = 0)) THEN ISNULL(CAST (Agent_time AS BIGINT), 0) ELSE 0 END</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN ((sla = 0
+                                                        AND Agent_time &gt; 0
+                                                        AND Agent_No IS NOT NULL)
+                                                       AND WFOCountReskills = 1) THEN 1 ELSE 0 END ELSE CASE WHEN ((sla = 0
+                                                                                                                    AND Agent_time &gt; 0
+                                                                                                                    AND Agent_No IS NOT NULL)) THEN 1 ELSE 0 END END</td>
+        <td>181</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ((sla = 0
+            AND Agent_time &gt; 0
+            AND Agent_No IS NOT NULL)
+           AND WFOCountReskills = 1) THEN 1 ELSE 0 END</td>
+        <td>182</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ((sla = 0
+            AND Agent_time &gt; 0
+            AND Agent_No IS NOT NULL)) THEN 1 ELSE 0 END</td>
+        <td>184</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN (ISNULL(Abandon_time, 0) &lt; (CONVERT (BIGINT, sla_Seconds) * 1000)
+                                                       AND WFOCountReskills = 1
+                                                       AND (ISNULL(Abandon_time, 0) &gt; 0
+                                                            AND isShortAbandon = 0)) THEN 1 ELSE 0 END ELSE CASE WHEN (ISNULL(Abandon_time, 0) &lt; (CONVERT (BIGINT, sla_Seconds) * 1000)
+                                                                                                                       AND (ISNULL(Abandon_time, 0) &gt; 0
+                                                                                                                            AND isShortAbandon = 0)) THEN 1 ELSE 0 END END</td>
+        <td>187</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(Abandon_time, 0) &lt; (CONVERT (BIGINT, sla_Seconds) * 1000)
+           AND WFOCountReskills = 1
+           AND (ISNULL(Abandon_time, 0) &gt; 0
+                AND isShortAbandon = 0)) THEN 1 ELSE 0 END</td>
+        <td>188</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(Abandon_time, 0) &lt; (CONVERT (BIGINT, sla_Seconds) * 1000)
+           AND (ISNULL(Abandon_time, 0) &gt; 0
+                AND isShortAbandon = 0)) THEN 1 ELSE 0 END</td>
+        <td>190</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN (ISNULL(ACW_Time, 0) &gt; 0
+                                                       AND WFOCountReskills = 1) THEN ISNULL(CAST (ACW_Time AS BIGINT), 0) ELSE 0 END ELSE CASE WHEN (ISNULL(ACW_Time, 0) &gt; 0) THEN ISNULL(CAST (ACW_Time AS BIGINT), 0) ELSE 0 END END</td>
+        <td>193</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(ACW_Time, 0) &gt; 0
+           AND WFOCountReskills = 1) THEN ISNULL(CAST (ACW_Time AS BIGINT), 0) ELSE 0 END</td>
+        <td>194</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(ACW_Time, 0) &gt; 0) THEN ISNULL(CAST (ACW_Time AS BIGINT), 0) ELSE 0 END</td>
+        <td>197</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0
+                                                       AND WFOCountReskills = 1) THEN ISNULL(CAST (InQueue_time - Abandon_Time AS BIGINT), 0) ELSE 0 END ELSE CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0) THEN ISNULL(CAST (InQueue_time - Abandon_Time AS BIGINT), 0) ELSE 0 END END</td>
+        <td>201</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0
+           AND WFOCountReskills = 1) THEN ISNULL(CAST (InQueue_time - Abandon_Time AS BIGINT), 0) ELSE 0 END</td>
+        <td>202</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(InQueue_time, 0) &gt; 0) THEN ISNULL(CAST (InQueue_time - Abandon_Time AS BIGINT), 0) ELSE 0 END</td>
+        <td>205</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ReskillIndicator IN (1, 2)) THEN CASE WHEN (ISNULL(InQueue_Time, 0) &gt; 0
+                                                       AND isShortAbandon = 0
+                                                       AND WFOCountReskills = 1) THEN 1 ELSE 0 END ELSE CASE WHEN (ISNULL(InQueue_Time, 0) &gt; 0
+                                                                                                                   AND isShortAbandon = 0) THEN 1 ELSE 0 END END</td>
+        <td>221</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(InQueue_Time, 0) &gt; 0
+           AND isShortAbandon = 0
+           AND WFOCountReskills = 1) THEN 1 ELSE 0 END</td>
+        <td>222</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(InQueue_Time, 0) &gt; 0
+           AND isShortAbandon = 0) THEN 1 ELSE 0 END</td>
+        <td>224</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(Handled, 0) &gt; 0 THEN (TotalAgentTime + WrapUpTime) / (Handled * 1000.0) ELSE 0.0 END</td>
+        <td>230</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(Handled, 0) &gt; 0
+           OR ISNULL(AbandonCount, 0) &gt; 0) THEN (ServiceLevelCount / CallCount) * 100.0 ELSE 100.0 END</td>
+        <td>234</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(Handled, 0) &gt; 0
+           OR ISNULL(AbandonCount, 0) &gt; 0) THEN QueueTime / 1000.0 ELSE 0 END</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(Handled, 0) &gt; 0 THEN AnswerTime / (Handled * 1000.0) ELSE 0.0 END</td>
+        <td>241</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(Handled, 0) &gt; 0 THEN TotalAgentTime / 1000.0 ELSE 0 END</td>
+        <td>245</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(Handled, 0) &gt; 0 THEN WrapUpTime / 1000.0 ELSE 0 END</td>
+        <td>248</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (ISNULL(Handled, 0) &gt; 0
+           OR ISNULL(AbandonCount, 0) &gt; 0) THEN TotalContactTime / 1000.0 ELSE 0 END</td>
+        <td>251</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEDIFF(s, ppl.Start_Date, getUTCdate()) &lt; s.SLA_Seconds THEN 1 ELSE 0 END</td>
+        <td>418</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEDIFF(s, ppl.Start_Date, getUTCdate()) &gt; s.SLA_Seconds THEN 1 ELSE 0 END</td>
+        <td>419</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEDIFF(s, ppl.Start_Date, getUTCdate()) &lt; s.SLA_Seconds THEN 1 ELSE 0 END</td>
+        <td>452</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN DATEDIFF(s, ppl.Start_Date, getUTCdate()) &gt; s.SLA_Seconds THEN 1 ELSE 0 END</td>
+        <td>453</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COALESCE</td>
+        <td colspan="1">COALESCE (k.IsNaturalCalling, 0)</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">COALESCE (k.IsDialer, 0)</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH cte
+AS (SELECT Contact_Id
+    FROM   dbo.Contact_Log_Footer
+    WHERE  bus_no = @p_Bus_No
+           AND End_Date BETWEEN @P_UTCStart_Date AND @p_UTCEnd_Date)</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> cte
+AS (SELECT Contact_Id
+    FROM   dbo.Contact_Log_Footer
+    WHERE  bus_no = @p_Bus_No
+           AND End_Date BETWEEN @P_UTCStart_Date AND @p_UTCEnd_Date)</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">UPDATE with FROM clause</td>
+        <td colspan="1">
+FROM #ContactStatsSummary AS c
+     INNER JOIN
+     (SELECT   COUNT(*) AS CallCount,
+               StartDate,
+               Skill_No
+      FROM     #ContactIds
+      GROUP BY StartDate, Skill_No) AS x
+     ON c.Date = x.StartDate
+        AND c.Skill_No = x.SKill_No</td>
+        <td>331</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #ContactIds</td>
+        <td>335</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #Results AS r
+     INNER JOIN
+     (SELECT   Count(*) AS Total,
+               ppl.[Skill_No],
+               SUM(CASE WHEN DATEDIFF(s, ppl.Start_Date, getUTCdate()) &lt; s.SLA_Seconds THEN 1 ELSE 0 END) AS [BackLogNotExp],
+               SUM(CASE WHEN DATEDIFF(s, ppl.Start_Date, getUTCdate()) &gt; s.SLA_Seconds THEN 1 ELSE 0 END) AS [BackLogExp]
+      FROM     PersistentContactLog AS ppl
+               INNER JOIN
+               Skills AS s
+               ON ppl.Skill_no = s.Skill_No
+      WHERE    ppl.Start_Date &lt; @P_UTCEnd_Date
+               AND ppl.Bus_no = @p_Bus_No
+               AND s.Skill_No = ppl.Skill_No
+               AND s.Media_Type IN (1, 6)
+               AND ppl.current_contact_state = 10
+      GROUP BY ppl.skill_no) AS p
+     ON r.[Skill] = p.Skill_No</td>
+        <td>414</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM PersistentContactLog AS ppl
+     INNER JOIN
+     Skills AS s
+     ON ppl.Skill_no = s.Skill_No</td>
+        <td>420</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT   COUNT(*) AS CallCount,
+          StartDate,
+          Skill_No
+ FROM     #ContactIds
+ GROUP BY StartDate, Skill_No) AS x</td>
+        <td>333</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT   Count(*) AS Total,
+          ppl.[Skill_No],
+          SUM(CASE WHEN DATEDIFF(s, ppl.Start_Date, getUTCdate()) &lt; s.SLA_Seconds THEN 1 ELSE 0 END) AS [BackLogNotExp],
+          SUM(CASE WHEN DATEDIFF(s, ppl.Start_Date, getUTCdate()) &gt; s.SLA_Seconds THEN 1 ELSE 0 END) AS [BackLogExp]
+ FROM     PersistentContactLog AS ppl
+          INNER JOIN
+          Skills AS s
+          ON ppl.Skill_no = s.Skill_No
+ WHERE    ppl.Start_Date &lt; @P_UTCEnd_Date
+          AND ppl.Bus_no = @p_Bus_No
+          AND s.Skill_No = ppl.Skill_No
+          AND s.Media_Type IN (1, 6)
+          AND ppl.current_contact_state = 10
+ GROUP BY ppl.skill_no) AS p</td>
+        <td>416</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>494</td>
+      </tr>
+    </table>
+  </body>
+</html>

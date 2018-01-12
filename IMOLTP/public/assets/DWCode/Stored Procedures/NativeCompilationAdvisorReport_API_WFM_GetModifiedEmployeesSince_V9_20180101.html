@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[API_WFM_GetModifiedEmployeesSince_V9]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[API_WFM_GetModifiedEmployeesSince_V9]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:12 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT a.Agent_No,
+       a.Team_No,
+       a.Bus_No,
+       a.Mod_DateTime
+INTO   #FinalAgents
+FROM   dbo.Agents AS a
+WHERE  a.Mod_DateTime &gt; @StartDate
+       AND a.Mod_DateTime &lt; @EndDate
+       AND a.Bus_No = @BusNo</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT t.team_name,
+       t.team_no,
+       a.Agent_No,
+       bu.Bus_No,
+       bu.Business_Unit_Name,
+       a.First_Name,
+       a.Middle_Name,
+       a.Last_Name,
+       a.[Status],
+       ISNULL(ae.HireDate, a.CreateDate) AS CreateDate,
+       fa.Mod_DateTime AS [Mod_DateTime],
+       0 AS ProductID,
+       ISNULL(ae.NTLoginName, '') AS [NTLoginName]
+INTO   #ASINormal
+FROM   #FinalAgents AS fa
+       INNER JOIN
+       dbo.Agents AS a
+       ON fa.Agent_No = a.Agent_No
+       INNER JOIN
+       dbo.fn_GetDataRoleFilterItems(@SecurityProfileId, 'teams') AS v
+       ON v.intValue = a.Team_No
+          OR v.intValue = 0
+       LEFT OUTER JOIN
+       dbo.AgentExtendedAttributes AS ae
+       ON a.Agent_No = ae.Agent_No
+       INNER JOIN
+       dbo.Team AS t
+       ON fa.Team_no = t.Team_No
+       INNER JOIN
+       dbo.Business_Unit AS bu
+       ON fa.Bus_No = bu.Bus_No</td>
+        <td>17</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#FinalAgents AS fa</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ASINormal</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_GetDataRoleFilterItems(@SecurityProfileId, 'teams') AS v</td>
+        <td>34</td>
+      </tr>
+    </table>
+  </body>
+</html>

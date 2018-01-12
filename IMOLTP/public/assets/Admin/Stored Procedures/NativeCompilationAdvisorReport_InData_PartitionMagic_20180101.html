@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [Admin].[InData_PartitionMagic]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [Admin].[InData_PartitionMagic]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:58 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Cursors</td>
+        <td colspan="1">CURSOR LOCAL FAST_FORWARD
+    FOR SELECT TableName,
+               PurgeCycle,
+               PartitionFunction,
+               PartitionScheme,
+               PurgeStartDate,
+               RangesToKeep
+        FROM   dbo.PH_Table
+        WHERE  DatabaseName = 'inData'</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">FETCH CURSOR</td>
+        <td colspan="1">FETCH NEXT FROM switch_table INTO @table, @PurgeCycle, @PFunc, @PScheme, @PurgeStartDate, @RangesToKeep</td>
+        <td>14</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM switch_table INTO @table, @PurgeCycle, @PFunc, @PScheme, @PurgeStartDate, @RangesToKeep</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@fetch_status</td>
+        <td colspan="1">@@fetch_status</td>
+        <td>17</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">EXECUTE string</td>
+        <td colspan="1">EXECUTE ('IF OBJECT_ID(''Indata.[dbo].[' + @table + '_OUT]'') IS NOT NULL ' + 'BEGIN DROP TABLE inData.[dbo].[' + @table + '_OUT] END;')</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE ('use InData;
+				ALTER PARTITION SCHEME ' + @PScheme + ' 
+				NEXT USED [Primary]
+			')</td>
+        <td>28</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE ('SELECT TOP 0 * INTO Indata.[dbo].[' + @table + '_OUT] FROM indata.[dbo].[' + @table + ']; ')</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE ('USE indata; ALTER TABLE [dbo].[' + @table + '] ' + 'SWITCH PARTITION ' + @PartitionID + ' TO [dbo].[' + @table + '_OUT];')</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE ('USE inData;  DECLARE @MergeBoundaryPoint DATETIME, @msg NVARCHAR(2000);
+							SELECT @MergeBoundaryPoint = CAST(MIN(rv.value) AS DATETIME)
+							FROM sys.partition_functions  pf
+							JOIN sys.partition_range_values rv ON pf.function_id=rv.function_id
+							where pf.name=''' + @PFunc + '''
+			
+							ALTER PARTITION FUNCTION ' + @pfunc + '()
+							MERGE RANGE ( @MergeBoundaryPoint )')</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE ('Use inData; Truncate table [dbo].[' + @table + '_OUT];')</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE ('IF OBJECT_ID(''inData.dbo.[' + @table + '_OUT]'') IS NOT NULL ' + 'BEGIN DROP TABLE inData.dbo.[' + @table + '_OUT] END;')</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE ('USE inData; 
+							Declare @SplitBoundaryRange datetime
+							select @SplitBoundaryRange = Dateadd(' + @RAdd + ',1,Cast(Max(rv.value) as Datetime))
+							FROM sys.partition_functions  pf
+							JOIN sys.partition_range_values rv ON pf.function_id=rv.function_id
+							where pf.name= ''' + @pfunc + '''
+												
+							ALTER PARTITION FUNCTION ' + @pfunc + '() 
+							SPLIT RANGE (@SplitBoundaryRange)')</td>
+        <td>123</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Three-part names</td>
+        <td colspan="1">indata.dbo.[ObjectDetail]</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">inData.dbo.[ObjectDetail]</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">admin.dbo.PH_Table</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COALESCE</td>
+        <td colspan="1">COALESCE (@PartitionID, 0)</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">GOTO</td>
+        <td colspan="1">BREAK</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT 1
+ FROM   sys.dm_exec_cursors(@@SPID) AS f
+ WHERE  f.name = 'switch_table')</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT 1
+ FROM   sys.dm_exec_cursors(@@SPID) AS f
+ WHERE  f.name = 'switch_table')</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT 1
+ FROM   sys.dm_exec_cursors(@@SPID) AS f
+ WHERE  f.name = 'switch_table')</td>
+        <td>162</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">sys.dm_exec_cursors(@@SPID) AS f</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">sys.dm_exec_cursors(@@SPID) AS f</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">sys.dm_exec_cursors(@@SPID) AS f</td>
+        <td>162</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_Billing_SelectAgentsByMinutes]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_Billing_SelectAgentsByMinutes]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH N0
+AS (SELECT 1 AS n
+    UNION ALL
+    SELECT 1),
+ N1
+AS (SELECT 1 AS n
+    FROM   N0 AS t1 CROSS JOIN N0 AS t2),
+ N2
+AS (SELECT 1 AS n
+    FROM   N1 AS t1 CROSS JOIN N1 AS t2),
+ N3
+AS (SELECT 1 AS n
+    FROM   N2 AS t1 CROSS JOIN N2 AS t2),
+ N4
+AS (SELECT 1 AS n
+    FROM   N3 AS t1 CROSS JOIN N3 AS t2),
+ nums
+AS (SELECT (15 * (ROW_NUMBER() OVER (ORDER BY (SELECT 1)))) - 15 AS num
+    FROM   N4)</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> N0
+AS (SELECT 1 AS n
+    UNION ALL
+    SELECT 1)</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> N1
+AS (SELECT 1 AS n
+    FROM   N0 AS t1 CROSS JOIN N0 AS t2)</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> N2
+AS (SELECT 1 AS n
+    FROM   N1 AS t1 CROSS JOIN N1 AS t2)</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> N3
+AS (SELECT 1 AS n
+    FROM   N2 AS t1 CROSS JOIN N2 AS t2)</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> N4
+AS (SELECT 1 AS n
+    FROM   N3 AS t1 CROSS JOIN N3 AS t2)</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> nums
+AS (SELECT (15 * (ROW_NUMBER() OVER (ORDER BY (SELECT 1)))) - 15 AS num
+    FROM   N4)</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">N0 AS t1</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N0 AS t2</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">N1 AS t1</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N1 AS t2</td>
+        <td>21</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">N2 AS t1</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N2 AS t2</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">N3 AS t1</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">N3 AS t2</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">N4</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#QtrHourPeriods</td>
+        <td>27</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">nums</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#QtrHourPeriods AS p</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">ROW_NUMBER</td>
+        <td colspan="1">ROW_NUMBER() OVER (ORDER BY (SELECT 1))</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY p.Date)</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY p.Date DESC)</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY c.MaxConcurrent)</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY c.MaxConcurrent DESC)</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY c.MaxConcurrentAgents)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY c.MaxConcurrentAgents DESC)</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY p.Date)</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Row_Number() OVER (ORDER BY p.Date DESC)</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">OVER</td>
+        <td colspan="1">OVER (ORDER BY (SELECT 1))</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY p.Date)</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY p.Date DESC)</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY c.MaxConcurrent)</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY c.MaxConcurrent DESC)</td>
+        <td>45</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY c.MaxConcurrentAgents)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY c.MaxConcurrentAgents DESC)</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY p.Date)</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OVER (ORDER BY p.Date DESC)</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE @OrderColumn WHEN 'QtrHourStartDate' THEN (CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY p.Date) ELSE Row_Number() OVER (ORDER BY p.Date DESC) END) WHEN 'MaxConcurrent' THEN (CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY c.MaxConcurrent) ELSE Row_Number() OVER (ORDER BY c.MaxConcurrent DESC) END) WHEN 'MaxConcurrentAgents' THEN (CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY c.MaxConcurrentAgents) ELSE Row_Number() OVER (ORDER BY c.MaxConcurrentAgents DESC) END) ELSE (CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY p.Date) ELSE Row_Number() OVER (ORDER BY p.Date DESC) END) END</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY p.Date) ELSE Row_Number() OVER (ORDER BY p.Date DESC) END</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY c.MaxConcurrent) ELSE Row_Number() OVER (ORDER BY c.MaxConcurrent DESC) END</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY c.MaxConcurrentAgents) ELSE Row_Number() OVER (ORDER BY c.MaxConcurrentAgents DESC) END</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN Row_Number() OVER (ORDER BY p.Date) ELSE Row_Number() OVER (ORDER BY p.Date DESC) END</td>
+        <td>50</td>
+      </tr>
+    </table>
+  </body>
+</html>

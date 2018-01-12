@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[GetCallbacksChangesByRowVersion]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[GetCallbacksChangesByRowVersion]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">(SELECT Callback_ID
+ FROM   Staging.Callbacks
+ WHERE  RowVersion &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+        AND RowVersion &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+        AND ActionID &lt;&gt; 0
+ UNION
+ SELECT Callback_ID
+ FROM   Staging.Callback_History
+ WHERE  RowVersion &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+        AND RowVersion &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+ UNION
+ SELECT ISNULL(scbh.Callback_id, cbh.Callback_ID) AS Callback_ID
+ FROM   (SELECT Contact_ID
+         FROM   staging.contact_log_Header AS sclh
+         WHERE  Rowversion &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND RowVersion &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+         UNION
+         SELECT Contact_ID
+         FROM   Staging.contact_Log_Footer AS sclf
+         WHERE  Rowversion &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND RowVersion &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+         UNION
+         SELECT Contact_ID
+         FROM   dbo.contact_Log_Dispositions AS cld
+         WHERE  Rowversion &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND RowVersion &lt;= CONVERT (ROWVERSION, @RowVersionTo)
+         UNION
+         SELECT Contact_ID
+         FROM   [Staging].Contact_Log_DetailQV AS scld
+         WHERE  Rowversion &gt; CONVERT (ROWVERSION, @RowVersionFrom)
+                AND RowVersion &lt;= CONVERT (ROWVERSION, @RowVersionTo)) AS cl
+        LEFT OUTER JOIN
+        Staging.Callback_History AS scbh
+        ON cl.Contact_id = scbh.ContactID
+        LEFT OUTER JOIN
+        dbo.Callback_History AS cbh
+        ON CASE WHEN scbh.ContactID IS NULL THEN cl.Contact_ID END = cbh.ContactID
+ WHERE  (scbh.Callback_ID IS NOT NULL
+         OR cbh.Callback_Id IS NOT NULL)) AS flt
+LEFT OUTER JOIN
+Staging.Callbacks AS scb
+ON flt.Callback_ID = scb.Callback_ID
+   AND ActionID &lt;&gt; 0
+LEFT OUTER JOIN
+dbo.Callbacks AS cb
+ON CASE WHEN scb.Callback_ID IS NULL THEN flt.Callback_ID END = cb.Callback_ID
+LEFT OUTER JOIN
+Staging.Callback_History AS scbh
+ON flt.Callback_ID = scbh.Callback_ID
+LEFT OUTER JOIN
+dbo.Callback_History AS cbh
+ON CASE WHEN scbh.Callback_ID IS NULL THEN flt.Callback_ID END = cbh.Callback_ID
+LEFT OUTER JOIN
+[Staging].Contact_log_header AS sclh
+ON CASE WHEN scbh.CallBack_ID IS NOT NULL THEN scbh.Contactid ELSE cbh.Contactid END = sclh.Contact_id
+LEFT OUTER JOIN
+[dbo].Contact_log_header AS clh
+ON CASE WHEN sclh.Contact_id IS NULL THEN ISNULL(scbh.contactid, cbh.Contactid) END = clh.Contact_ID
+LEFT OUTER JOIN
+[Staging].Contact_log_footer AS sclf
+ON CASE WHEN scbh.Callback_Id IS NOT NULL THEN scbh.ContactID ELSE cbh.ContactID END = sclf.Contact_id
+LEFT OUTER JOIN
+[dbo].Contact_log_footer AS clf
+ON CASE WHEN sclf.Contact_id IS NULL THEN ISNULL(scbh.contactid, cbh.Contactid) END = clf.Contact_ID
+LEFT OUTER JOIN
+[Staging].Contact_Log_DetailQV AS scld
+ON CASE WHEN scbh.CallBack_ID IS NOT NULL THEN scbh.ContactID ELSE cbh.ContactID END = scld.Contact_ID
+   AND scld.StateIndex = 1
+LEFT OUTER JOIN
+[dbo].Contact_Log_DetailQV AS cld
+ON CASE WHEN scld.Contact_ID IS NULL THEN ISNULL(scbh.ContactID, cbh.ContactID) END = cld.Contact_ID
+   AND cld.StateIndex = 1 OUTER APPLY (SELECT   TOP 1 Disposition_Code
+                                       FROM     dbo.Contact_Log_Dispositions
+                                       WHERE    Contact_ID = ISNULL(scbh.ContactID, cbh.ContactID)
+                                       ORDER BY Start_Date) AS cldisp</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN scbh.ContactID IS NULL THEN cl.Contact_ID END</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN scb.Callback_ID IS NULL THEN flt.Callback_ID END</td>
+        <td>102</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN scbh.Callback_ID IS NULL THEN flt.Callback_ID END</td>
+        <td>108</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN scbh.CallBack_ID IS NOT NULL THEN scbh.Contactid ELSE cbh.Contactid END</td>
+        <td>110</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sclh.Contact_id IS NULL THEN ISNULL(scbh.contactid, cbh.Contactid) END</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN scbh.Callback_Id IS NOT NULL THEN scbh.ContactID ELSE cbh.ContactID END</td>
+        <td>114</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN sclf.Contact_id IS NULL THEN ISNULL(scbh.contactid, cbh.Contactid) END</td>
+        <td>116</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN scbh.CallBack_ID IS NOT NULL THEN scbh.ContactID ELSE cbh.ContactID END</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN scld.Contact_ID IS NULL THEN ISNULL(scbh.ContactID, cbh.ContactID) END</td>
+        <td>123</td>
+      </tr>
+    </table>
+  </body>
+</html>

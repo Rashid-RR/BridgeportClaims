@@ -1,0 +1,585 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [MyGlobal].[FindOpenRanges]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [MyGlobal].[FindOpenRanges]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:27 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">OpenRanges</td>
+        <td>9</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SQLMachines AS s</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_dropserver 'MyCustomQueryOpenRange', 'droplogins'</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_addlinkedserver @server = 'MyCustomQueryOpenRange', @srvproduct = '', @provider = 'SQLOLEDB', @datasrc = @ComputerName</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_addlinkedsrvlogin 'MyCustomQueryOpenRange', 'false', NULL, 'svc', 'Blf01!2'</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_serveroption 'MyCustomQueryOpenRange', 'collation compatible', 'true'</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_serveroption 'MyCustomQueryOpenRange', 'rpc out', 'true'</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_serveroption 'MyCustomQueryOpenRange', 'rpc', 'true'</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">GeneratorTables AS t</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">EXECUTE sp_dropserver 'MyCustomQueryOpenRange', 'droplogins'</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS u</td>
+        <td>114</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS q</td>
+        <td>115</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS u</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS q</td>
+        <td>123</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapRanges_tmp1</td>
+        <td>130</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapRanges_tmp2</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">u</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapRanges AS o</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS u</td>
+        <td>141</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapRanges AS o</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapRanges AS q</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapRanges AS o</td>
+        <td>161</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapRanges AS q</td>
+        <td>163</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapEnd AS e</td>
+        <td>174</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#OverLapBegin AS b</td>
+        <td>177</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS u</td>
+        <td>183</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS q</td>
+        <td>184</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS u</td>
+        <td>189</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS q</td>
+        <td>190</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContiguousRanges_tmp1</td>
+        <td>197</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContiguousRanges_tmp2</td>
+        <td>201</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">u</td>
+        <td>205</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContiguousRanges AS c</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS u</td>
+        <td>207</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges</td>
+        <td>212</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContiguousRanges AS q</td>
+        <td>216</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContiguousRanges AS r</td>
+        <td>220</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContiguousRanges AS c</td>
+        <td>222</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContiguousRanges AS q</td>
+        <td>224</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges</td>
+        <td>245</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Beg</td>
+        <td>249</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges</td>
+        <td>254</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS u</td>
+        <td>256</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#beg AS b</td>
+        <td>260</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#End</td>
+        <td>267</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges</td>
+        <td>272</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#UsedRanges AS u</td>
+        <td>274</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#End AS e</td>
+        <td>278</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OpenRanges</td>
+        <td>285</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#end AS e</td>
+        <td>294</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#beg AS b</td>
+        <td>297</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">GeneratorTables AS t</td>
+        <td>299</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Cursors</td>
+        <td colspan="1">CURSOR STATIC LOCAL
+    FOR SELECT s.ComputerName
+        FROM   SQLMachines AS s
+        WHERE  s.IsPrimary = 1
+               AND s.ComputerName = IsNull(@ComputerName, s.ComputerName)</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CURSOR STATIC LOCAL
+    FOR SELECT t.TableName,
+               t.ColumnName
+        FROM   GeneratorTables AS t
+        WHERE  t.TableName = IsNull(@TableName, t.TableName)</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">FETCH CURSOR</td>
+        <td colspan="1">FETCH NEXT FROM MachineCursor INTO @ComputerName</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM FindCursor INTO @aTableName, @ColumnName</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM FindCursor INTO @aTableName, @ColumnName</td>
+        <td>85</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM MachineCursor INTO @ComputerName</td>
+        <td>101</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@fetch_status</td>
+        <td colspan="1">@@Fetch_Status</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@@Fetch_Status</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@servername</td>
+        <td colspan="1">@@ServerName</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@@ServerName</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">@@ServerName</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   master.dbo.sysservers
+ WHERE  srvname = 'MyCustomQueryOpenRange')</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT *
+ FROM   master.dbo.sysservers
+ WHERE  srvname = 'MyCustomQueryOpenRange')</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Three-part names</td>
+        <td colspan="1">master.dbo.sysservers</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">master.dbo.sysservers</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">REPLACE</td>
+        <td colspan="1">Replace(@String, ':TableName', @aTableName)</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Replace(@String, ':ColumnName', @ColumnName)</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Replace(@String, ':IncludeBlocks', @IncludeExistingBlocks)</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">INSERT EXEC</td>
+        <td colspan="1">INSERT INTO #UsedRanges (TableName, BegRange, EndRange)
+EXECUTE (@String)</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT u.*,
+       q.TableName AS SecTable
+INTO   #OverLapRanges_tmp1
+FROM   #UsedRanges AS u, #UsedRanges AS q
+WHERE  u.BegRange BETWEEN q.BegRange AND q.EndRange
+       AND q.UsedRangeID != u.UsedRangeID</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT u.*,
+       q.TableName AS SecTable
+INTO   #OverLapRanges_tmp2
+FROM   #UsedRanges AS u, #UsedRanges AS q
+WHERE  u.endRange BETWEEN q.BegRange AND q.EndRange
+       AND q.UsedRangeID != u.UsedRangeID</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+INTO   #OverLapRanges
+FROM   (SELECT *
+        FROM   #OverLapRanges_tmp1
+        WHERE  TableName = SecTable
+        UNION
+        SELECT *
+        FROM   #OverLapRanges_tmp2
+        WHERE  TableName = SecTable) AS a</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT TableName,
+                BegRange
+INTO   #OverLapBegin
+FROM   #OverLapRanges AS o
+WHERE  NOT EXISTS (SELECT *
+                   FROM   #OverLapRanges AS q
+                   WHERE  q.TableName = o.TableName
+                          AND o.BegRange BETWEEN q.BegRange AND q.EndRange
+                          AND q.BegRange != o.BegRange)</td>
+        <td>145</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT TableName,
+                EndRange
+INTO   #OverLapEnd
+FROM   #OverLapRanges AS o
+WHERE  NOT EXISTS (SELECT *
+                   FROM   #OverLapRanges AS q
+                   WHERE  q.TableName = o.TableName
+                          AND o.EndRange BETWEEN q.BegRange AND q.EndRange
+                          AND q.EndRange != o.EndRange)</td>
+        <td>158</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT u.*,
+       q.TableName AS SecTable
+INTO   #ContiguousRanges_tmp1
+FROM   #UsedRanges AS u, #UsedRanges AS q
+WHERE  (u.EndRange + 1) = q.BegRange</td>
+        <td>181</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT u.*,
+       q.TableName AS SecTable
+INTO   #ContiguousRanges_tmp2
+FROM   #UsedRanges AS u, #UsedRanges AS q
+WHERE  (u.BegRange - 1) = q.EndRange</td>
+        <td>187</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+INTO   #ContiguousRanges
+FROM   (SELECT *
+        FROM   #ContiguousRanges_tmp1
+        WHERE  TableName = SecTable
+        UNION
+        SELECT *
+        FROM   #ContiguousRanges_tmp2
+        WHERE  TableName = SecTable) AS a</td>
+        <td>194</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT TableName,
+                EndRange + 1 AS [ID]
+INTO   #Beg
+FROM   #UsedRanges</td>
+        <td>235</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT DISTINCT TableName,
+                BegRange - 1 AS [ID]
+INTO   #End
+FROM   #UsedRanges</td>
+        <td>242</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">*</td>
+        <td colspan="1">SELECT u.*,
+       q.TableName AS SecTable
+INTO   #OverLapRanges_tmp1
+FROM   #UsedRanges AS u, #UsedRanges AS q
+WHERE  u.BegRange BETWEEN q.BegRange AND q.EndRange
+       AND q.UsedRangeID != u.UsedRangeID</td>
+        <td>112</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT u.*,
+       q.TableName AS SecTable
+INTO   #OverLapRanges_tmp2
+FROM   #UsedRanges AS u, #UsedRanges AS q
+WHERE  u.endRange BETWEEN q.BegRange AND q.EndRange
+       AND q.UsedRangeID != u.UsedRangeID</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+INTO   #OverLapRanges
+FROM   (SELECT *
+        FROM   #OverLapRanges_tmp1
+        WHERE  TableName = SecTable
+        UNION
+        SELECT *
+        FROM   #OverLapRanges_tmp2
+        WHERE  TableName = SecTable) AS a</td>
+        <td>127</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT u.*,
+       q.TableName AS SecTable
+INTO   #ContiguousRanges_tmp1
+FROM   #UsedRanges AS u, #UsedRanges AS q
+WHERE  (u.EndRange + 1) = q.BegRange</td>
+        <td>181</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT u.*,
+       q.TableName AS SecTable
+INTO   #ContiguousRanges_tmp2
+FROM   #UsedRanges AS u, #UsedRanges AS q
+WHERE  (u.BegRange - 1) = q.EndRange</td>
+        <td>187</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+INTO   #ContiguousRanges
+FROM   (SELECT *
+        FROM   #ContiguousRanges_tmp1
+        WHERE  TableName = SecTable
+        UNION
+        SELECT *
+        FROM   #ContiguousRanges_tmp2
+        WHERE  TableName = SecTable) AS a</td>
+        <td>194</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">DELETE with FROM clause</td>
+        <td colspan="1">
+FROM #OverLapRanges AS o, #UsedRanges AS u</td>
+        <td>140</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">
+FROM #ContiguousRanges AS c, #UsedRanges AS u</td>
+        <td>206</td>
+      </tr>
+    </table>
+  </body>
+</html>

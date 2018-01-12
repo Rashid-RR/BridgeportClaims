@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[sp_CallDetailComprehensiveWithHoldRT]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[sp_CallDetailComprehensiveWithHoldRT]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT l.contact_id,
+       l.master_contact_id,
+       l.bus_no,
+       l.contact_code,
+       r.skill_no,
+       r.campaign_no,
+       IsNull(r.agent_no, 0) AS agent_no,
+       IsNull(r.team_no, 0) AS team_no,
+       l.Start_Date,
+       r.abandon,
+       r.from_addr,
+       r.to_addr
+INTO   #HeaderContactLog
+FROM   dbo.Contact_Log_Header AS l
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Footer AS r
+       ON r.Contact_ID = l.Contact_ID
+          AND r.bus_no = l.Bus_no
+WHERE  l.bus_no = @bus_no
+       AND l.start_date BETWEEN @start_date AND @end_date</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   qv.contact_id,
+         MAX(cld.[Disposition_Code]) AS disposition_code,
+         ISNULL(CAST (ROUND(SUM(CASE WHEN cs.[category1] = 'PreQueue' THEN qv.Duration END) / 1000.0, 0, 1) AS INT), 0) AS PreQueue,
+         ISNULL(CAST (ROUND(SUM(CASE WHEN cs.[category1] = 'InQueue' THEN qv.Duration END) / 1000.0, 0, 1) AS INT), 0) AS InQueue,
+         ISNULL(CAST (ROUND(SUM(CASE WHEN cs.[contact_State] = 2 THEN qv.Duration END) / 1000.0, 0, 1) AS INT), 0) AS Routing_Time,
+         ISNULL(CAST (ROUND(SUM(CASE WHEN cs.[category1] = 'Agent' THEN qv.Duration END) / 1000.0, 0, 1) AS INT), 0) AS Agent_Time,
+         ISNULL(CAST (ROUND(SUM(CASE WHEN cs.[category1] = 'PostQueue' THEN qv.Duration END) / 1000.0, 0, 1) AS INT), 0) AS PostQueue,
+         ISNULL(CAST (ROUND(SUM(CASE WHEN cs.[contact_State] = 15 THEN qv.Duration END) / 1000.0, 0, 1) AS INT), 0) AS callback_time,
+         ISNULL(CAST (ROUND(SUM(CASE WHEN cs.[contact_State] = 8 THEN qv.Duration END) / 1000.0, 0, 1) AS INT), 0) AS Hold_Time
+INTO     #dw_contact_log
+FROM     [dbo].[Contact_Log_DetailQV] AS qv
+         INNER JOIN
+         #HeaderContactLog AS L
+         ON l.contact_id = qv.[Contact_ID]
+         INNER JOIN
+         [dbo].[Contact_State] AS cs
+         ON cs.[Contact_State] = qv.[Contact_state]
+         LEFT OUTER JOIN
+         [dbo].[Contact_Log_Dispositions] AS cld
+         ON cld.[Contact_ID] = qv.[Contact_ID]
+GROUP BY qv.contact_id</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT cls.[Contact_ID],
+       ISNULL(cls.[sla], 0) AS SLA,
+       ISNULL(CAST (ROUND(ISNULL(cls.[Abandon_time], 0) / 1000.0, 0) AS INT), 0) AS Abandon_Time
+INTO   #CLSummary
+FROM   [dbo].[Contact_Log_Summary] AS cls
+       INNER JOIN
+       #dw_contact_log AS l
+       ON l.[Contact_ID] = cls.[Contact_ID]
+WHERE  cls.[Bus_No] = @bus_no</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT c.contact_code,
+       IsNull(c.ContactAddress, 'CallBack') AS contact_name,
+       c.status,
+       a.bus_no,
+       c.contact_type
+INTO   #dw_POC
+FROM   dbo.PointOfContact AS c
+       INNER JOIN
+       dbo.skills AS s
+       ON c.default_skill_no = s.skill_no
+       INNER JOIN
+       dbo.campaign AS a
+       ON s.campaign_no = a.campaign_no
+WHERE  c.contact_type = 1
+       AND a.bus_no = @bus_no
+UNION
+SELECT c.contact_code,
+       s.description,
+       c.status,
+       b.bus_no,
+       c.contact_type
+FROM   dbo.PointOfContact AS c
+       INNER JOIN
+       dbo.contact_types AS s
+       ON c.contact_type = s.contact_type CROSS JOIN dbo.business_unit AS b
+WHERE  default_skill_no IS NULL
+       AND b.bus_no = @bus_no</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN cs.[category1] = 'PreQueue' THEN qv.Duration END</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.[category1] = 'InQueue' THEN qv.Duration END</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.[contact_State] = 2 THEN qv.Duration END</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.[category1] = 'Agent' THEN qv.Duration END</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.[category1] = 'PostQueue' THEN qv.Duration END</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.[contact_State] = 15 THEN qv.Duration END</td>
+        <td>37</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.[contact_State] = 8 THEN qv.Duration END</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(p.contact_type, 0) IN (3, 4) THEN l.to_addr ELSE l.from_addr END</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (clg.contact_id IS NOT NULL) THEN 'Y' ELSE 'N' END</td>
+        <td>119</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#HeaderContactLog AS L</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_contact_log AS l</td>
+        <td>55</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#HeaderContactLog AS l</td>
+        <td>121</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_Contact_Log AS cl</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#CLSummary AS cls</td>
+        <td>123</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#dw_poc AS p</td>
+        <td>127</td>
+      </tr>
+    </table>
+  </body>
+</html>

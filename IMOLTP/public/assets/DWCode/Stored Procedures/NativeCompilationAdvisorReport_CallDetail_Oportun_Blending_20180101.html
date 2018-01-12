@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Oportun_Blending]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Oportun_Blending]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>17</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @LockCritical</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">agents AS a</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">agents AS su</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">team AS t</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_header AS h</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_footer AS f</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_summary AS s</td>
+        <td>91</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Agents AS a</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Skills AS sk</td>
+        <td>93</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Team AS t</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">agents AS su</td>
+        <td>95</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_dispositions AS ldisp</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dispositions AS disp</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">outbounddetailrecords AS odr</td>
+        <td>98</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#callstemp AS ct</td>
+        <td>133</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#agentstemp AS at</td>
+        <td>134</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT   a.Agent_no,
+         t.team_name AS 'Team Name',
+         a.first_name + ' ' + a.last_name AS 'Agent Name',
+         a.email AS 'Agent Email',
+         SUM(das.Unavailable_time) AS 'Unavailable Codes Time',
+         su.first_name + ' ' + su.last_name AS 'Supervisor Name',
+         MAX(das.team_no) AS 'Team_No',
+         SUM(das.Inbound_Contacts) AS 'Inbound_Contacts',
+         SUM(das.Outbound_Contacts) AS 'Outbound_Contacts',
+         SUM(das.ACD_Time) AS 'ACD_Time',
+         CASE WHEN SUM(das.Inbound_contacts) &gt; 0 THEN SUM(das.ACD_Time) / SUM(das.Inbound_contacts) ELSE 0 END AS 'AVE_ACD',
+         SUM(das.Outbound_Time) AS 'Outbound_Time',
+         CASE WHEN SUM(das.Outbound_contacts) &gt; 0 THEN SUM(das.Outbound_Time) / SUM(das.Outbound_contacts) ELSE 0 END AS 'Ave_Outbound',
+         SUM(das.Available_time) AS 'Available_Time',
+         SUM(das.Total_time) AS 'Total_Time',
+         ISNULL(SUM(das.Refused_contacts), 0) AS 'Refused_Contacts',
+         SUM(das.Held_party_abandon) AS 'Held_Party_Abandon',
+         CASE WHEN SUM(das.Total_Time) &gt; 0 THEN SUM(das.ACD_time + das.Outbound_time) / (SUM(das.Total_Time) * 1.0) * 100 ELSE 0.0 END AS 'InContact_Percent',
+         CASE WHEN SUM(das.Total_Time) &gt; 0 THEN SUM(das.ACD_time + das.Outbound_time + das.Available_time) / (SUM(das.Total_Time) * 1.0) * 100 ELSE 0.0 END AS 'ACD_Outbound_Avail_percent'
+INTO     #agentstemp
+FROM     agents AS a
+         INNER JOIN
+         agents AS su
+         ON a.ReportTo = su.agent_no
+         INNER JOIN
+         team AS t
+         ON a.team_no = t.team_no
+         INNER JOIN
+         dbo.fn_dw_agent_summary(@_TimeZone, @_start_date, @_end_date, @_bus_no, NULL) AS das
+         ON das.agent_no = a.agent_no
+WHERE    a.bus_no = @_bus_no
+GROUP BY a.agent_No, t.team_name, a.first_name, a.last_name, a.email, su.first_name, su.last_name</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT a.Agent_No,
+       a.first_name + ' ' + a.last_name AS 'Agent Name',
+       (CASE WHEN f.Inbound = 'T' THEN (CASE WHEN f.Abandon = 'Y' THEN 1 ELSE 0 END) ELSE 0 END) AS 'Abandons',
+       (CASE WHEN f.Outbound = 'T' THEN (CASE WHEN f.Abandon = 'Y' THEN 1 ELSE 0 END) ELSE 0 END) AS 'Abandons (Outbound)',
+       sk.skill_name AS 'Skill Name',
+       ISNULL(DATEDIFF(minute, odr.TimePreviewStart, odr.TimePreviewEnd), 0) AS 'Preview Time',
+       disp.Description AS 'Disposition',
+       (CASE WHEN f.Outbound = 'T' THEN s.ACW_Time / 1000 ELSE '0' END) AS 'Outbound ACW',
+       (CASE WHEN f.Outbound = 'T' THEN s.ActiveTalk_Time / 1000 ELSE '0' END) AS 'Outbound Talk',
+       (CASE WHEN f.Outbound = 'T' THEN s.Hold_Seconds ELSE '0' END) AS 'Outbound Hold',
+       (CASE WHEN f.Inbound = 'T' THEN s.ACW_Time / 1000 ELSE '0' END) AS 'Inbound ACW',
+       (CASE WHEN f.Inbound = 'T' THEN s.ActiveTalk_Time / 1000 ELSE '0' END) AS 'Inbound Talk',
+       (CASE WHEN f.Inbound = 'T' THEN s.Hold_Seconds ELSE '0' END) AS 'Inbound Hold',
+       t.team_name AS 'Team Name',
+       a.email AS 'Agent Email',
+       su.first_name + ' ' + su.last_name AS 'Supervisor Name',
+       (CASE WHEN f.Outbound = 'T' THEN 1 ELSE 0 END) AS OutboundCount
+INTO   #callstemp
+FROM   contact_log_header AS h
+       INNER JOIN
+       contact_log_footer AS f
+       ON f.contact_id = h.contact_id
+       INNER JOIN
+       contact_log_summary AS s
+       ON s.contact_id = f.contact_id
+       INNER JOIN
+       Agents AS a
+       ON a.agent_no = f.agent_no
+       INNER JOIN
+       Skills AS sk
+       ON sk.Skill_No = f.Skill_no
+       INNER JOIN
+       Team AS t
+       ON t.Team_No = a.Team_No
+       INNER JOIN
+       agents AS su
+       ON a.ReportTo = su.agent_no
+       LEFT OUTER JOIN
+       contact_log_dispositions AS ldisp
+       ON ldisp.Contact_ID = h.Contact_ID
+       LEFT OUTER JOIN
+       dispositions AS disp
+       ON ldisp.disposition_code = disp.disposition_code
+       LEFT OUTER JOIN
+       outbounddetailrecords AS odr
+       ON odr.contact_id = h.contact_id
+WHERE  f.bus_no = @_bus_no
+       AND h.start_date BETWEEN @_UTCStart_Date AND @_UTCEnd_Date</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN SUM(das.Inbound_contacts) &gt; 0 THEN SUM(das.ACD_Time) / SUM(das.Inbound_contacts) ELSE 0 END</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(das.Outbound_contacts) &gt; 0 THEN SUM(das.Outbound_Time) / SUM(das.Outbound_contacts) ELSE 0 END</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(das.Total_Time) &gt; 0 THEN SUM(das.ACD_time + das.Outbound_time) / (SUM(das.Total_Time) * 1.0) * 100 ELSE 0.0 END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN SUM(das.Total_Time) &gt; 0 THEN SUM(das.ACD_time + das.Outbound_time + das.Available_time) / (SUM(das.Total_Time) * 1.0) * 100 ELSE 0.0 END</td>
+        <td>60</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Inbound = 'T' THEN (CASE WHEN f.Abandon = 'Y' THEN 1 ELSE 0 END) ELSE 0 END</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Abandon = 'Y' THEN 1 ELSE 0 END</td>
+        <td>72</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Outbound = 'T' THEN (CASE WHEN f.Abandon = 'Y' THEN 1 ELSE 0 END) ELSE 0 END</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Abandon = 'Y' THEN 1 ELSE 0 END</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Outbound = 'T' THEN s.ACW_Time / 1000 ELSE '0' END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Outbound = 'T' THEN s.ActiveTalk_Time / 1000 ELSE '0' END</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Outbound = 'T' THEN s.Hold_Seconds ELSE '0' END</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Inbound = 'T' THEN s.ACW_Time / 1000 ELSE '0' END</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Inbound = 'T' THEN s.ActiveTalk_Time / 1000 ELSE '0' END</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Inbound = 'T' THEN s.Hold_Seconds ELSE '0' END</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f.Outbound = 'T' THEN 1 ELSE 0 END</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.fn_dw_agent_summary(@_TimeZone, @_start_date, @_end_date, @_bus_no, NULL) AS das</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>154</td>
+      </tr>
+    </table>
+  </body>
+</html>

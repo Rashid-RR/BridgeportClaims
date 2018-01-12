@@ -1,0 +1,520 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[API_TeamPerformanceTotalsV3]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[API_TeamPerformanceTotalsV3]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT Team_No
+ FROM   dbo.Team
+ WHERE  Team_No = @teamId
+        AND Bus_No = @busNo)</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT   Team_Name,
+         Team_No
+INTO     #TeamTable
+FROM     [dbo].[Team] AS t
+         INNER JOIN
+         [dbo].[Security_DataRoles] AS dr
+         ON (t.Team_No = dr.EntityID
+             OR dr.ViewAllAndFuture = 1)
+         INNER JOIN
+         [dbo].[Security_DataRoleEntityTypes] AS dret
+         ON (dr.DataRoleEntityTypeID = dret.DataRoleEntityTypeID)
+WHERE    t.Bus_No = @busNo
+         AND t.[Status] = 'CURR'
+         AND (@teamId IS NULL
+              OR t.Team_No = @teamId)
+         AND dret.DataRoleEntityTypeName = 'teams'
+         AND dr.SecurityProfileID = @profileId
+GROUP BY Team_Name, Team_No</td>
+        <td>14</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT agt.Team_No,
+       cld.Contact_Id,
+       cld.Contact_state,
+       cld.Direction,
+       cldqh.DurationInterval AS Duration,
+       cld.Skill_No
+INTO   #ContactLog
+FROM   [dbo].[Contact_Log_DetailQV] AS cld
+       INNER JOIN
+       [dbo].[Agents] AS agt
+       ON cld.Agent_No = agt.Agent_No
+       INNER JOIN
+       #TeamTable AS t
+       ON t.Team_No = agt.Team_No CROSS APPLY dbo.SplitToIntervals(cld.Startdate, cld.duration, DEFAULT, DEFAULT) AS cldqh
+WHERE  cld.Bus_No = @busNo
+       AND cldqh.StartDateInterval &gt;= @startDate
+       AND cldqh.StartDateInterval &lt; @endDate
+       AND (@teamId IS NULL
+            OR t.Team_No = @teamId)
+       AND t.Team_No IS NOT NULL
+       AND cldqh.DurationInterval &gt;= 0
+       AND agt.Status = 'CURR'
+       AND cld.StartDate &gt;= @startDate
+       AND cld.StartDate &lt; @endDate</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT t.Team_No,
+       agt.Agent_No,
+       AgentStateID,
+       aldqh.DurationInterval AS Duration,
+       Outstate_Code
+INTO   #AgentLog
+FROM   [dbo].[Agent_Log_DetailQV] AS ald
+       INNER JOIN
+       [dbo].[Agents] AS agt
+       ON ald.Agent_No = agt.Agent_No
+       INNER JOIN
+       #TeamTable AS t
+       ON t.Team_No = agt.Team_No CROSS APPLY dbo.SplitToIntervals(ald.StartDate, ald.duration, DEFAULT, DEFAULT) AS aldqh
+WHERE  ald.Bus_No = @busNo
+       AND aldqh.StartDateInterval &gt;= @startDate
+       AND aldqh.StartDateInterval &lt; @endDate
+       AND (@teamId IS NULL
+            OR t.Team_No = @teamId)
+       AND t.Team_No IS NOT NULL
+       AND aldqh.DurationInterval &gt;= 0
+       AND agt.Status = 'CURR'
+       AND ald.StartDate &gt;= @startDate
+       AND ald.StartDate &lt; @endDate</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         COUNT(DISTINCT contact_id) AS Agent_Offered
+INTO     #Agent_Offered
+FROM     #ContactLog
+WHERE    Contact_State = 2
+         AND Direction = 1
+GROUP BY Team_No</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         COUNT(DISTINCT contact_id) AS Inbound_Handled
+INTO     #Inbound_Handled
+FROM     #ContactLog
+WHERE    Contact_State = 4
+         AND Direction = 1
+GROUP BY Team_No</td>
+        <td>86</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS Inbound_Time
+INTO     #Inbound_Time
+FROM     #AgentLog
+WHERE    AgentStateID = 3
+GROUP BY Team_No</td>
+        <td>97</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS Inbound_Talk_Time
+INTO     #Inbound_Talk_Time
+FROM     #ContactLog
+WHERE    Contact_State IN (4, 8, 14)
+         AND Direction = 1
+GROUP BY Team_No</td>
+        <td>107</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         COUNT(DISTINCT contact_id) AS [Outbound_Handled]
+INTO     #Outbound_Handled
+FROM     #ContactLog
+WHERE    Contact_State = 4
+         AND Direction = 2
+GROUP BY Team_No</td>
+        <td>118</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS Outbound_Time
+INTO     #Outbound_Time
+FROM     #AgentLog
+WHERE    AgentStateID = 4
+GROUP BY Team_No</td>
+        <td>129</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS Outbound_talk_time
+INTO     #Outbound_Talk_Time
+FROM     #ContactLog
+WHERE    Contact_State IN (4, 8, 14)
+         AND direction = 2
+GROUP BY Team_No</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS Consult_Time
+INTO     #Consult_Time
+FROM     #AgentLog
+WHERE    AgentStateID IN (5, 6)
+GROUP BY Team_No</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS Available_Time
+INTO     #Available_Time
+FROM     #AgentLog
+WHERE    AgentStateID = 1
+GROUP BY Team_No</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS Unavailable_Time
+INTO     #Unavailable_Time
+FROM     #AgentLog
+WHERE    AgentStateID IN (0, 8, 2)
+GROUP BY Team_No</td>
+        <td>170</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         COUNT(DISTINCT contact_id) AS Refused
+INTO     #Refused
+FROM     #ContactLog
+WHERE    Contact_State = 24
+         AND Direction = 1
+GROUP BY Team_No</td>
+        <td>180</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS Login_Time
+INTO     #Login_Time
+FROM     #AgentLog
+GROUP BY Team_No</td>
+        <td>191</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   al.Team_No,
+         SUM(CAST (Duration AS BIGINT)) AS ACW_Time
+INTO     #ACW_Time
+FROM     #AgentLog AS al
+         INNER JOIN
+         [dbo].[Outstates] AS os
+         ON al.Outstate_Code = os.Outstate_Code
+WHERE    os.IsACW = 'T'
+         AND os.IsSystemOutstate = 0
+GROUP BY al.Team_No</td>
+        <td>199</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   Team_No,
+         COUNT(at.Agent_No) AS Agents
+INTO     #TeamAgents
+FROM     (SELECT   Team_No,
+                   Agent_No,
+                   SUM(CAST (Duration AS BIGINT)) AS Login_Time
+          FROM     #AgentLog
+          GROUP BY Team_No, Agent_No) AS at
+WHERE    at.Login_Time &gt; 0
+GROUP BY Team_No</td>
+        <td>211</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">[dbo].[Contact_Log_DetailQV] AS cld
+INNER JOIN
+[dbo].[Agents] AS agt
+ON cld.Agent_No = agt.Agent_No
+INNER JOIN
+#TeamTable AS t
+ON t.Team_No = agt.Team_No CROSS APPLY dbo.SplitToIntervals(cld.Startdate, cld.duration, DEFAULT, DEFAULT) AS cldqh</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[dbo].[Agent_Log_DetailQV] AS ald
+INNER JOIN
+[dbo].[Agents] AS agt
+ON ald.Agent_No = agt.Agent_No
+INNER JOIN
+#TeamTable AS t
+ON t.Team_No = agt.Team_No CROSS APPLY dbo.SplitToIntervals(ald.StartDate, ald.duration, DEFAULT, DEFAULT) AS aldqh</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">#TeamTable AS t</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#TeamTable AS t</td>
+        <td>63</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLog</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLog</td>
+        <td>90</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLog</td>
+        <td>101</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLog</td>
+        <td>111</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLog</td>
+        <td>122</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLog</td>
+        <td>133</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLog</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLog</td>
+        <td>154</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLog</td>
+        <td>164</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLog</td>
+        <td>174</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLog</td>
+        <td>184</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLog</td>
+        <td>195</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLog AS al</td>
+        <td>203</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#AgentLog</td>
+        <td>220</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#TeamTable AS a</td>
+        <td>262</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Agent_Offered AS ao</td>
+        <td>263</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Outbound_Handled AS c</td>
+        <td>264</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Outbound_Time AS d</td>
+        <td>265</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Outbound_talk_time AS e</td>
+        <td>266</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Refused AS f</td>
+        <td>267</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Login_Time AS g</td>
+        <td>268</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Available_Time AS h</td>
+        <td>269</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Unavailable_Time AS i</td>
+        <td>270</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ACW_Time AS j</td>
+        <td>271</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Inbound_Time AS k</td>
+        <td>272</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Consult_Time AS l</td>
+        <td>273</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Inbound_Talk_Time AS m</td>
+        <td>274</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Inbound_Handled AS n</td>
+        <td>275</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#TeamAgents AS o</td>
+        <td>276</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">dbo.SplitToIntervals(cld.Startdate, cld.duration, DEFAULT, DEFAULT) AS cldqh</td>
+        <td>43</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">dbo.SplitToIntervals(ald.StartDate, ald.duration, DEFAULT, DEFAULT) AS aldqh</td>
+        <td>64</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">DISTINCT</td>
+        <td colspan="1">COUNT(DISTINCT contact_id)</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT contact_id)</td>
+        <td>88</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT contact_id)</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">COUNT(DISTINCT contact_id)</td>
+        <td>182</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">NULLIF</td>
+        <td colspan="1">NULLIF (Inbound_Handled, 0)</td>
+        <td>234</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (Outbound_Handled, 0)</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF ((ISNULL(Inbound_Handled, 0) + ISNULL(Outbound_Handled, 0)) * 1.0, 0)</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF ((ISNULL(Inbound_Handled, 0) + ISNULL(Outbound_Handled, 0)) * 1.0, 0)</td>
+        <td>245</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (ISNULL(Agent_Offered, 0), 0)</td>
+        <td>257</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (Login_Time, 0)</td>
+        <td>259</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NULLIF (((ISNULL(ACW_Time, 0) + ISNULL(Inbound_talk_time, 0) + ISNULL(Outbound_talk_time, 0)) + ISNULL(Available_Time, 0)), 0)</td>
+        <td>260</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN ISNULL(o.Agents, 0) = 0 THEN ISNULL(Inbound_Handled, 0) + ISNULL(Outbound_Handled, 0) ELSE CAST ((CAST (ISNULL(Inbound_Handled, 0) + ISNULL(Outbound_Handled, 0) AS BIGINT)) / o.Agents AS BIGINT) END</td>
+        <td>240</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(o.Agents, 0) = 0 THEN ISNULL(Available_time, 0) ELSE CAST ((ISNULL(Available_time, 0) * 1.0) / o.Agents AS DECIMAL (18, 2)) END</td>
+        <td>249</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ISNULL(o.Agents, 0) = 0 THEN ISNULL(Unavailable_time, 0) ELSE CAST ((ISNULL(Unavailable_time, 0) * 1.0) / o.Agents AS DECIMAL (18, 2)) END</td>
+        <td>252</td>
+      </tr>
+    </table>
+  </body>
+</html>

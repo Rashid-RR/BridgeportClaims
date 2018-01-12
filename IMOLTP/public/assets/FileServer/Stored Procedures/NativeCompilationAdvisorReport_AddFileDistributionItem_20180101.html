@@ -1,0 +1,260 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [FileServer].[AddFileDistributionItem]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [FileServer].[AddFileDistributionItem]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 4:58 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET FORCEPLAN ON</td>
+        <td>348</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">@@servername</td>
+        <td colspan="1">@@ServerName</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   dbo.DistributionStrategy AS s
+        INNER JOIN
+        dbo.DistributionStrategyFilePurposeTypes AS t
+        ON t.DistributionStrategyID = s.DistributionStrategyID
+ WHERE  s.ClusterNo = @ClusterNo
+        AND t.FilePurposeTypeID = @FilePurposeTypeID
+        AND t.bus_no = @bus_no)</td>
+        <td>155</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT *
+ FROM   @tmp
+ WHERE  RemoveSourceOnXfer = 1)</td>
+        <td>410</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT *
+ FROM   @tmp
+ WHERE  Source != @Server_TargetID)</td>
+        <td>462</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">Cursors</td>
+        <td colspan="1">CURSOR STATIC LOCAL
+    FOR SELECT TOP 1 s.DistributionStrategyID,
+                     s.ConditionalDistributionTargetID,
+                     CONVERT (INT, NULL) AS DistributionTargetID,
+                     CONVERT (BIT, 0) AS RemoveSourceOnXfer,
+                     CONVERT (BIT, 0) AS UseSchedule,
+                     CONVERT (NVARCHAR (7), NULL) AS DOW,
+                     CONVERT (DATETIME, NULL) AS XferTime,
+                     CONVERT (INT, NULL) AS MinDaysOld,
+                     CONVERT (BIT, 0) AS AllowSendFileRemoval
+        FROM   dbo.DistributionStrategy AS s
+        WHERE  s.ClusterNo = @ClusterNo
+               AND s.ProtocolID = 3
+               AND s.Description LIKE '%Default%'</td>
+        <td>163</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CURSOR STATIC LOCAL
+    FOR SELECT s.DistributionStrategyID,
+               s.ConditionalDistributionTargetID,
+               t.DistributionTargetID,
+               t.RemoveSourceOnXfer,
+               t.UseSchedule,
+               t.DOW,
+               t.XferTime,
+               t.MinDaysOld,
+               t.AllowSendFileRemoval
+        FROM   dbo.DistributionStrategy AS s
+               INNER JOIN
+               dbo.DistributionStrategyFilePurposeTypes AS t
+               ON t.DistributionStrategyID = s.DistributionStrategyID
+        WHERE  s.ClusterNo = @ClusterNo
+               AND t.FilePurposeTypeID = @FilePurposeTypeID
+               AND t.bus_no = @bus_no</td>
+        <td>182</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CURSOR STATIC LOCAL
+    FOR SELECT   t.DistributionEdgeID,
+                 t.DistributionTargetID,
+                 t.RemoveSourceOnXfer,
+                 t.TimeToTransfer,
+                 d.ProtocolID,
+                 t.AllowSendFileRemoval
+        FROM     @tmp AS t
+                 INNER JOIN
+                 dbo.DistributionTarget AS d
+                 ON d.DistributionTargetID = t.DistributionTargetID
+        WHERE    t.Source = @Server_TargetID
+        ORDER BY d.ProtocolID DESC</td>
+        <td>434</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">s.Description LIKE '%Default%'</td>
+        <td>176</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@DOW LIKE '%U%'</td>
+        <td>234</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">@DOW LIKE '%M%'</td>
+        <td>236</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@DOW LIKE '%T%'</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">@DOW LIKE '%W%'</td>
+        <td>240</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@DOW LIKE '%H%'</td>
+        <td>242</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">@DOW LIKE '%F%'</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@DOW LIKE '%S%'</td>
+        <td>246</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">FETCH CURSOR</td>
+        <td colspan="1">FETCH NEXT FROM PurposeTypesCursor INTO @DistributionStrategyID, @ConditionalDistributionTargetID, @DistributionTargetID, @RemoveSourceOnXfer, @UseSchedule, @DOW, @XferTime, @MinDaysOld, @AllowSendFileRemoval</td>
+        <td>200</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM PurposeTypesCursor INTO @DistributionStrategyID, @ConditionalDistributionTargetID, @DistributionTargetID, @RemoveSourceOnXfer, @UseSchedule, @DOW, @XferTime, @MinDaysOld, @AllowSendFileRemoval</td>
+        <td>276</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM DistCursor INTO @DistributionEdgeID, @DistributionTargetID, @RemoveSourceOnXfer, @TimeToTransfer, @ProtocolID, @AllowSendFileRemoval</td>
+        <td>447</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">FETCH NEXT FROM DistCursor INTO @DistributionEdgeID, @DistributionTargetID, @RemoveSourceOnXfer, @TimeToTransfer, @ProtocolID, @AllowSendFileRemoval</td>
+        <td>564</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@fetch_status</td>
+        <td colspan="1">@@Fetch_Status</td>
+        <td>209</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">@@Fetch_status</td>
+        <td>453</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">GOTO</td>
+        <td colspan="1">BREAK</td>
+        <td>249</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN @DeleteOnTransferOverride = 1 THEN 1 ELSE @RemoveSourceOnXfer END</td>
+        <td>270</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN de.DistributionTargetID_B = @Server_TargetID THEN de.DistributionTargetID_B ELSE de.DistributionTargetID_A END</td>
+        <td>299</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN de.EdgeType = 1 THEN s.DistributionTargetID WHEN de.DistributionTargetID_B = @Server_TargetID THEN de.DistributionTargetID_A ELSE de.DistributionTargetID_B END</td>
+        <td>304</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.ConditionalDistributionTargetID IS NULL THEN 1 WHEN (ts.ConnectivityStatus = 0
+                                                                 AND t.Maintenance = 0) THEN 1 ELSE 0 END</td>
+        <td>333</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN de.DistributionTargetID_B = @Server_TargetID THEN de.DistributionTargetID_B ELSE de.DistributionTargetID_A END</td>
+        <td>356</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN de.EdgeType = 1 THEN te.DistributionTargetID WHEN de.DistributionTargetID_B = @Server_TargetID THEN de.DistributionTargetID_A ELSE de.DistributionTargetID_B END</td>
+        <td>361</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN TimeToTransfer = 0 THEN GetUTCDate() ELSE TimeToTransfer END</td>
+        <td>419</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @ProtocolID IN (2, 3)
+          AND @Command = 'WRITEFILE' THEN 'FILEPUT' ELSE @Command END</td>
+        <td>507</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @ProtocolID = 1
+          AND @Command = 'WRITEFILE' THEN NULL ELSE @FileEntryID END</td>
+        <td>524</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @ProtocolID IN (2, 3) THEN NULL WHEN @Command = 'WRITEFILE' THEN DataLength(@WriteFileData) ELSE @LogicalBytes END</td>
+        <td>544</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OPENXML</td>
+        <td colspan="1">OPENXML (@idoc, '/ROOT/EDGE', 2) WITH (DistributionEdgeID INT, DistributionTargetID INT, RemoveSourceOnXfer BIT, TimeToTransfer DATETIME, AllowSendFileRemoval BIT)</td>
+        <td>373</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SET OPTION OFF</td>
+        <td colspan="1">SET FORCEPLAN OFF</td>
+        <td>382</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">DATALENGTH</td>
+        <td colspan="1">DataLength(@WriteFileData)</td>
+        <td>545</td>
+      </tr>
+    </table>
+  </body>
+</html>

@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeAutoOutboundSkills]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeAutoOutboundSkills]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[AutoOutboundSkills]
+ AS target
+USING [ETL].[AutoOutboundSkills] AS source ON (target.Skill_No = source.Skill_No)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET Bus_No                                   = source.Bus_No,
+    ExternalOutboundSkill_No                 = source.ExternalOutboundSkill_No,
+    MinCallbackMinutes                       = source.MinCallbackMinutes,
+    MaximumAttempts                          = source.MaximumAttempts,
+    LoadFreshRecordsAsPriority               = source.LoadFreshRecordsAsPriority,
+    LoadCallbacks                            = source.LoadCallbacks,
+    LoadFresh                                = source.LoadFresh,
+    LoadNonFresh                             = source.LoadNonFresh,
+    DefaultContactExpirationMinutes          = source.DefaultContactExpirationMinutes,
+    RestrictedCallingMinutes                 = source.RestrictedCallingMinutes,
+    RestrictedCallingMaxAttempts             = source.RestrictedCallingMaxAttempts,
+    ConfirmationRequiredDefault              = source.ConfirmationRequiredDefault,
+    ConfirmationRequiredDisabled             = source.ConfirmationRequiredDisabled,
+    ComplianceRecordsDisabled                = source.ComplianceRecordsDisabled,
+    OverrideFinalDispositionOnImportMinutes  = source.OverrideFinalDispositionOnImportMinutes,
+    RunGetPriorityContactsOnContactInsertion = source.RunGetPriorityContactsOnContactInsertion,
+    XSScriptID                               = source.XSScriptID,
+    XSGetContactsActive                      = source.XSGetContactsActive,
+    XSReadyThreshold                         = source.XSReadyThreshold,
+    XSAvailableThreshold                     = source.XSAvailableThreshold,
+    XSFreshThreshold                         = source.XSFreshThreshold,
+    XSNumberToRetrieve                       = source.XSNumberToRetrieve,
+    XSCheckinScriptID                        = source.XSCheckinScriptID,
+    XSSkillChangedActive                     = source.XSSkillChangedActive,
+    EnableBlending                           = source.EnableBlending,
+    PriorityInitialPriority                  = source.PriorityInitialPriority,
+    CallbackInitialPriority                  = source.CallbackInitialPriority,
+    MaxBlendingAttempts                      = source.MaxBlendingAttempts,
+    IncludePriorityInFilter                  = source.IncludePriorityInFilter,
+    IncludeCallbackInFilter                  = source.IncludeCallbackInFilter,
+    StaleMinutesGeneral                      = source.StaleMinutesGeneral,
+    StaleMinutesCallbacks                    = source.StaleMinutesCallbacks,
+    LimitCallbackHording                     = source.LimitCallbackHording,
+    CreatedDate                              = source.CreatedDate,
+    CreatedBy                                = source.CreatedBy,
+    ModifiedDate                             = source.ModifiedDate,
+    ModifiedBy                               = source.ModifiedBy
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (Skill_No, Bus_No, ExternalOutboundSkill_No, MinCallbackMinutes, MaximumAttempts, LoadFreshRecordsAsPriority, LoadCallbacks, LoadFresh, LoadNonFresh, DefaultContactExpirationMinutes, RestrictedCallingMinutes, RestrictedCallingMaxAttempts, ConfirmationRequiredDefault, ConfirmationRequiredDisabled, ComplianceRecordsDisabled, OverrideFinalDispositionOnImportMinutes, RunGetPriorityContactsOnContactInsertion, XSScriptID, XSGetContactsActive, XSReadyThreshold, XSAvailableThreshold, XSFreshThreshold, XSNumberToRetrieve, XSCheckinScriptID, XSSkillChangedActive, EnableBlending, PriorityInitialPriority, CallbackInitialPriority, MaxBlendingAttempts, IncludePriorityInFilter, IncludeCallbackInFilter, StaleMinutesGeneral, StaleMinutesCallbacks, LimitCallbackHording, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy) VALUES (source.Skill_No, source.Bus_No, source.ExternalOutboundSkill_No, source.MinCallbackMinutes, source.MaximumAttempts, source.LoadFreshRecordsAsPriority, source.LoadCallbacks, source.LoadFresh, source.LoadNonFresh, source.DefaultContactExpirationMinutes, source.RestrictedCallingMinutes, source.RestrictedCallingMaxAttempts, source.ConfirmationRequiredDefault, source.ConfirmationRequiredDisabled, source.ComplianceRecordsDisabled, source.OverrideFinalDispositionOnImportMinutes, source.RunGetPriorityContactsOnContactInsertion, source.XSScriptID, source.XSGetContactsActive, source.XSReadyThreshold, source.XSAvailableThreshold, source.XSFreshThreshold, source.XSNumberToRetrieve, source.XSCheckinScriptID, source.XSSkillChangedActive, source.EnableBlending, source.PriorityInitialPriority, source.CallbackInitialPriority, source.MaxBlendingAttempts, source.IncludePriorityInFilter, source.IncludeCallbackInFilter, source.StaleMinutesGeneral, source.StaleMinutesCallbacks, source.LimitCallbackHording, source.CreatedDate, source.CreatedBy, source.ModifiedDate, source.ModifiedBy)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[AutoOutboundSkills]
+ AS target
+USING [ETL].[AutoOutboundSkills] AS source ON (target.Skill_No = source.Skill_No)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET Bus_No                                   = source.Bus_No,
+    ExternalOutboundSkill_No                 = source.ExternalOutboundSkill_No,
+    MinCallbackMinutes                       = source.MinCallbackMinutes,
+    MaximumAttempts                          = source.MaximumAttempts,
+    LoadFreshRecordsAsPriority               = source.LoadFreshRecordsAsPriority,
+    LoadCallbacks                            = source.LoadCallbacks,
+    LoadFresh                                = source.LoadFresh,
+    LoadNonFresh                             = source.LoadNonFresh,
+    DefaultContactExpirationMinutes          = source.DefaultContactExpirationMinutes,
+    RestrictedCallingMinutes                 = source.RestrictedCallingMinutes,
+    RestrictedCallingMaxAttempts             = source.RestrictedCallingMaxAttempts,
+    ConfirmationRequiredDefault              = source.ConfirmationRequiredDefault,
+    ConfirmationRequiredDisabled             = source.ConfirmationRequiredDisabled,
+    ComplianceRecordsDisabled                = source.ComplianceRecordsDisabled,
+    OverrideFinalDispositionOnImportMinutes  = source.OverrideFinalDispositionOnImportMinutes,
+    RunGetPriorityContactsOnContactInsertion = source.RunGetPriorityContactsOnContactInsertion,
+    XSScriptID                               = source.XSScriptID,
+    XSGetContactsActive                      = source.XSGetContactsActive,
+    XSReadyThreshold                         = source.XSReadyThreshold,
+    XSAvailableThreshold                     = source.XSAvailableThreshold,
+    XSFreshThreshold                         = source.XSFreshThreshold,
+    XSNumberToRetrieve                       = source.XSNumberToRetrieve,
+    XSCheckinScriptID                        = source.XSCheckinScriptID,
+    XSSkillChangedActive                     = source.XSSkillChangedActive,
+    EnableBlending                           = source.EnableBlending,
+    PriorityInitialPriority                  = source.PriorityInitialPriority,
+    CallbackInitialPriority                  = source.CallbackInitialPriority,
+    MaxBlendingAttempts                      = source.MaxBlendingAttempts,
+    IncludePriorityInFilter                  = source.IncludePriorityInFilter,
+    IncludeCallbackInFilter                  = source.IncludeCallbackInFilter,
+    StaleMinutesGeneral                      = source.StaleMinutesGeneral,
+    StaleMinutesCallbacks                    = source.StaleMinutesCallbacks,
+    LimitCallbackHording                     = source.LimitCallbackHording,
+    CreatedDate                              = source.CreatedDate,
+    CreatedBy                                = source.CreatedBy,
+    ModifiedDate                             = source.ModifiedDate,
+    ModifiedBy                               = source.ModifiedBy
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (Skill_No, Bus_No, ExternalOutboundSkill_No, MinCallbackMinutes, MaximumAttempts, LoadFreshRecordsAsPriority, LoadCallbacks, LoadFresh, LoadNonFresh, DefaultContactExpirationMinutes, RestrictedCallingMinutes, RestrictedCallingMaxAttempts, ConfirmationRequiredDefault, ConfirmationRequiredDisabled, ComplianceRecordsDisabled, OverrideFinalDispositionOnImportMinutes, RunGetPriorityContactsOnContactInsertion, XSScriptID, XSGetContactsActive, XSReadyThreshold, XSAvailableThreshold, XSFreshThreshold, XSNumberToRetrieve, XSCheckinScriptID, XSSkillChangedActive, EnableBlending, PriorityInitialPriority, CallbackInitialPriority, MaxBlendingAttempts, IncludePriorityInFilter, IncludeCallbackInFilter, StaleMinutesGeneral, StaleMinutesCallbacks, LimitCallbackHording, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy) VALUES (source.Skill_No, source.Bus_No, source.ExternalOutboundSkill_No, source.MinCallbackMinutes, source.MaximumAttempts, source.LoadFreshRecordsAsPriority, source.LoadCallbacks, source.LoadFresh, source.LoadNonFresh, source.DefaultContactExpirationMinutes, source.RestrictedCallingMinutes, source.RestrictedCallingMaxAttempts, source.ConfirmationRequiredDefault, source.ConfirmationRequiredDisabled, source.ComplianceRecordsDisabled, source.OverrideFinalDispositionOnImportMinutes, source.RunGetPriorityContactsOnContactInsertion, source.XSScriptID, source.XSGetContactsActive, source.XSReadyThreshold, source.XSAvailableThreshold, source.XSFreshThreshold, source.XSNumberToRetrieve, source.XSCheckinScriptID, source.XSSkillChangedActive, source.EnableBlending, source.PriorityInitialPriority, source.CallbackInitialPriority, source.MaxBlendingAttempts, source.IncludePriorityInFilter, source.IncludeCallbackInFilter, source.StaleMinutesGeneral, source.StaleMinutesCallbacks, source.LimitCallbackHording, source.CreatedDate, source.CreatedBy, source.ModifiedDate, source.ModifiedBy)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [Staging].[AutoOutboundSkills]
+ AS target
+USING [ETL].[AutoOutboundSkills] AS source ON (target.Skill_No = source.Skill_No)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET ActionID                                 = source.ActionID,
+    Bus_No                                   = source.Bus_No,
+    ExternalOutboundSkill_No                 = source.ExternalOutboundSkill_No,
+    MinCallbackMinutes                       = source.MinCallbackMinutes,
+    MaximumAttempts                          = source.MaximumAttempts,
+    LoadFreshRecordsAsPriority               = source.LoadFreshRecordsAsPriority,
+    LoadCallbacks                            = source.LoadCallbacks,
+    LoadFresh                                = source.LoadFresh,
+    LoadNonFresh                             = source.LoadNonFresh,
+    DefaultContactExpirationMinutes          = source.DefaultContactExpirationMinutes,
+    RestrictedCallingMinutes                 = source.RestrictedCallingMinutes,
+    RestrictedCallingMaxAttempts             = source.RestrictedCallingMaxAttempts,
+    ConfirmationRequiredDefault              = source.ConfirmationRequiredDefault,
+    ConfirmationRequiredDisabled             = source.ConfirmationRequiredDisabled,
+    ComplianceRecordsDisabled                = source.ComplianceRecordsDisabled,
+    OverrideFinalDispositionOnImportMinutes  = source.OverrideFinalDispositionOnImportMinutes,
+    RunGetPriorityContactsOnContactInsertion = source.RunGetPriorityContactsOnContactInsertion,
+    XSScriptID                               = source.XSScriptID,
+    XSGetContactsActive                      = source.XSGetContactsActive,
+    XSReadyThreshold                         = source.XSReadyThreshold,
+    XSAvailableThreshold                     = source.XSAvailableThreshold,
+    XSFreshThreshold                         = source.XSFreshThreshold,
+    XSNumberToRetrieve                       = source.XSNumberToRetrieve,
+    XSCheckinScriptID                        = source.XSCheckinScriptID,
+    XSSkillChangedActive                     = source.XSSkillChangedActive,
+    EnableBlending                           = source.EnableBlending,
+    PriorityInitialPriority                  = source.PriorityInitialPriority,
+    CallbackInitialPriority                  = source.CallbackInitialPriority,
+    MaxBlendingAttempts                      = source.MaxBlendingAttempts,
+    IncludePriorityInFilter                  = source.IncludePriorityInFilter,
+    IncludeCallbackInFilter                  = source.IncludeCallbackInFilter,
+    StaleMinutesGeneral                      = source.StaleMinutesGeneral,
+    StaleMinutesCallbacks                    = source.StaleMinutesCallbacks,
+    LimitCallbackHording                     = source.LimitCallbackHording,
+    CreatedDate                              = source.CreatedDate,
+    CreatedBy                                = source.CreatedBy,
+    ModifiedDate                             = source.ModifiedDate,
+    ModifiedBy                               = source.ModifiedBy
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (ActionID, Skill_No, Bus_No, ExternalOutboundSkill_No, MinCallbackMinutes, MaximumAttempts, LoadFreshRecordsAsPriority, LoadCallbacks, LoadFresh, LoadNonFresh, DefaultContactExpirationMinutes, RestrictedCallingMinutes, RestrictedCallingMaxAttempts, ConfirmationRequiredDefault, ConfirmationRequiredDisabled, ComplianceRecordsDisabled, OverrideFinalDispositionOnImportMinutes, RunGetPriorityContactsOnContactInsertion, XSScriptID, XSGetContactsActive, XSReadyThreshold, XSAvailableThreshold, XSFreshThreshold, XSNumberToRetrieve, XSCheckinScriptID, XSSkillChangedActive, EnableBlending, PriorityInitialPriority, CallbackInitialPriority, MaxBlendingAttempts, IncludePriorityInFilter, IncludeCallbackInFilter, StaleMinutesGeneral, StaleMinutesCallbacks, LimitCallbackHording, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy) VALUES (source.ActionID, source.Skill_No, source.Bus_No, source.ExternalOutboundSkill_No, source.MinCallbackMinutes, source.MaximumAttempts, source.LoadFreshRecordsAsPriority, source.LoadCallbacks, source.LoadFresh, source.LoadNonFresh, source.DefaultContactExpirationMinutes, source.RestrictedCallingMinutes, source.RestrictedCallingMaxAttempts, source.ConfirmationRequiredDefault, source.ConfirmationRequiredDisabled, source.ComplianceRecordsDisabled, source.OverrideFinalDispositionOnImportMinutes, source.RunGetPriorityContactsOnContactInsertion, source.XSScriptID, source.XSGetContactsActive, source.XSReadyThreshold, source.XSAvailableThreshold, source.XSFreshThreshold, source.XSNumberToRetrieve, source.XSCheckinScriptID, source.XSSkillChangedActive, source.EnableBlending, source.PriorityInitialPriority, source.CallbackInitialPriority, source.MaxBlendingAttempts, source.IncludePriorityInFilter, source.IncludeCallbackInFilter, source.StaleMinutesGeneral, source.StaleMinutesCallbacks, source.LimitCallbackHording, source.CreatedDate, source.CreatedBy, source.ModifiedDate, source.ModifiedBy)</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [Staging].[AutoOutboundSkills]
+ AS target
+USING [ETL].[AutoOutboundSkills] AS source ON (target.Skill_No = source.Skill_No)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET ActionID                                 = source.ActionID,
+    Bus_No                                   = source.Bus_No,
+    ExternalOutboundSkill_No                 = source.ExternalOutboundSkill_No,
+    MinCallbackMinutes                       = source.MinCallbackMinutes,
+    MaximumAttempts                          = source.MaximumAttempts,
+    LoadFreshRecordsAsPriority               = source.LoadFreshRecordsAsPriority,
+    LoadCallbacks                            = source.LoadCallbacks,
+    LoadFresh                                = source.LoadFresh,
+    LoadNonFresh                             = source.LoadNonFresh,
+    DefaultContactExpirationMinutes          = source.DefaultContactExpirationMinutes,
+    RestrictedCallingMinutes                 = source.RestrictedCallingMinutes,
+    RestrictedCallingMaxAttempts             = source.RestrictedCallingMaxAttempts,
+    ConfirmationRequiredDefault              = source.ConfirmationRequiredDefault,
+    ConfirmationRequiredDisabled             = source.ConfirmationRequiredDisabled,
+    ComplianceRecordsDisabled                = source.ComplianceRecordsDisabled,
+    OverrideFinalDispositionOnImportMinutes  = source.OverrideFinalDispositionOnImportMinutes,
+    RunGetPriorityContactsOnContactInsertion = source.RunGetPriorityContactsOnContactInsertion,
+    XSScriptID                               = source.XSScriptID,
+    XSGetContactsActive                      = source.XSGetContactsActive,
+    XSReadyThreshold                         = source.XSReadyThreshold,
+    XSAvailableThreshold                     = source.XSAvailableThreshold,
+    XSFreshThreshold                         = source.XSFreshThreshold,
+    XSNumberToRetrieve                       = source.XSNumberToRetrieve,
+    XSCheckinScriptID                        = source.XSCheckinScriptID,
+    XSSkillChangedActive                     = source.XSSkillChangedActive,
+    EnableBlending                           = source.EnableBlending,
+    PriorityInitialPriority                  = source.PriorityInitialPriority,
+    CallbackInitialPriority                  = source.CallbackInitialPriority,
+    MaxBlendingAttempts                      = source.MaxBlendingAttempts,
+    IncludePriorityInFilter                  = source.IncludePriorityInFilter,
+    IncludeCallbackInFilter                  = source.IncludeCallbackInFilter,
+    StaleMinutesGeneral                      = source.StaleMinutesGeneral,
+    StaleMinutesCallbacks                    = source.StaleMinutesCallbacks,
+    LimitCallbackHording                     = source.LimitCallbackHording,
+    CreatedDate                              = source.CreatedDate,
+    CreatedBy                                = source.CreatedBy,
+    ModifiedDate                             = source.ModifiedDate,
+    ModifiedBy                               = source.ModifiedBy
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (ActionID, Skill_No, Bus_No, ExternalOutboundSkill_No, MinCallbackMinutes, MaximumAttempts, LoadFreshRecordsAsPriority, LoadCallbacks, LoadFresh, LoadNonFresh, DefaultContactExpirationMinutes, RestrictedCallingMinutes, RestrictedCallingMaxAttempts, ConfirmationRequiredDefault, ConfirmationRequiredDisabled, ComplianceRecordsDisabled, OverrideFinalDispositionOnImportMinutes, RunGetPriorityContactsOnContactInsertion, XSScriptID, XSGetContactsActive, XSReadyThreshold, XSAvailableThreshold, XSFreshThreshold, XSNumberToRetrieve, XSCheckinScriptID, XSSkillChangedActive, EnableBlending, PriorityInitialPriority, CallbackInitialPriority, MaxBlendingAttempts, IncludePriorityInFilter, IncludeCallbackInFilter, StaleMinutesGeneral, StaleMinutesCallbacks, LimitCallbackHording, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy) VALUES (source.ActionID, source.Skill_No, source.Bus_No, source.ExternalOutboundSkill_No, source.MinCallbackMinutes, source.MaximumAttempts, source.LoadFreshRecordsAsPriority, source.LoadCallbacks, source.LoadFresh, source.LoadNonFresh, source.DefaultContactExpirationMinutes, source.RestrictedCallingMinutes, source.RestrictedCallingMaxAttempts, source.ConfirmationRequiredDefault, source.ConfirmationRequiredDisabled, source.ComplianceRecordsDisabled, source.OverrideFinalDispositionOnImportMinutes, source.RunGetPriorityContactsOnContactInsertion, source.XSScriptID, source.XSGetContactsActive, source.XSReadyThreshold, source.XSAvailableThreshold, source.XSFreshThreshold, source.XSNumberToRetrieve, source.XSCheckinScriptID, source.XSSkillChangedActive, source.EnableBlending, source.PriorityInitialPriority, source.CallbackInitialPriority, source.MaxBlendingAttempts, source.IncludePriorityInFilter, source.IncludeCallbackInFilter, source.StaleMinutesGeneral, source.StaleMinutesCallbacks, source.LimitCallbackHording, source.CreatedDate, source.CreatedBy, source.ModifiedDate, source.ModifiedBy)</td>
+        <td>144</td>
+      </tr>
+    </table>
+  </body>
+</html>

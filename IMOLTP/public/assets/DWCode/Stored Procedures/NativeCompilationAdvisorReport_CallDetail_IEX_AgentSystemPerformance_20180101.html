@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_IEX_AgentSystemPerformance]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_IEX_AgentSystemPerformance]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:12 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>7</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @busno_str</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CTE_DateRanges</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CTE_DateRanges</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH CTE_DateRanges
+AS (SELECT @UTCStart_Date AS StartRange,
+           DATEADD(MINUTE, 30, @UTCStart_Date) AS EndRange,
+           1 AS RowNumber
+    UNION ALL
+    SELECT DATEADD(MINUTE, 30, [StartRange]),
+           DATEADD(MINUTE, 30, [EndRange]),
+           RowNumber + 1
+    FROM   CTE_DateRanges
+    WHERE  EndRange &lt;= @UTCEnd_Date)</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1"> CTE_DateRanges
+AS (SELECT @UTCStart_Date AS StartRange,
+           DATEADD(MINUTE, 30, @UTCStart_Date) AS EndRange,
+           1 AS RowNumber
+    UNION ALL
+    SELECT DATEADD(MINUTE, 30, [StartRange]),
+           DATEADD(MINUTE, 30, [EndRange]),
+           RowNumber + 1
+    FROM   CTE_DateRanges
+    WHERE  EndRange &lt;= @UTCEnd_Date)</td>
+        <td>57</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MAX RECURSION</td>
+        <td colspan="1">MAXRECURSION 0</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT h.Agent_Session_ID,
+       s.StateIndex,
+       s.Header_Start_Date,
+       s.end_date,
+       s.IsACW
+INTO   dbo.[#HeaderSummary]
+FROM   dbo.[#Header] AS h
+       INNER JOIN
+       dbo.Agent_Log_Detail_Summary AS s
+       ON (s.[Agent_session_id] = h.[Agent_session_id]
+           AND s.[Header_Start_Date] = h.[Header_Start_Date])
+WHERE  s.[end_date] &gt;= @_UTCStart_Date
+       AND s.[end_date] &lt; DATEADD(dd, 1, @_UTCEnd_Date)</td>
+        <td>104</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT dt.agent_no,
+       dt.working,
+       dt.outstate_code,
+       dt.stateindex,
+       h.Agent_Session_ID,
+       dt.available,
+       (CASE WHEN dt.[start_date] &lt; @UTCStart_Date THEN @UTCStart_Date ELSE dt.[start_date] END) AS [start_date],
+       (CASE WHEN h.end_date &gt; @UTCEnd_Date THEN @UTCEnd_Date ELSE h.end_date END) AS end_date,
+       dt.[start_date] AS sdate2,
+       h.end_date AS edate2,
+       h.IsACW,
+       DATEDIFF(ms, dt.[start_date], h.end_date) AS duration
+INTO   dbo.[#DetailedInformation]
+FROM   dbo.[#HeaderSummary] AS h
+       INNER JOIN
+       dbo.Agent_Log_Detail AS dt
+       ON (dt.[Agent_session_id] = h.[Agent_session_id]
+           AND dt.[StateIndex] = h.[StateIndex]
+           AND dt.[Header_Start_Date] = h.[Header_Start_Date])
+WHERE  dt.[start_date] &lt;= @_UTCEnd_Date
+       AND dt.[start_date] &gt; DATEADD(dd, -1, @_UTCStart_Date)</td>
+        <td>125</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT t.agent_no,
+       t.working,
+       t.outstate_code,
+       t.stateindex,
+       t.Agent_Session_ID,
+       t.available,
+       (CASE WHEN t.[start_date] &lt; h.[HalfHourStartDate] THEN h.[HalfHourStartDate] ELSE t.[start_date] END) AS [start_date],
+       (CASE WHEN t.end_date &gt; h.HalfHourEndDate THEN h.HalfHourEndDate ELSE t.end_date END) AS end_date,
+       t.IsACW,
+       DATEDIFF(ms, (CASE WHEN t.[start_date] &lt; h.[HalfHourStartDate] THEN h.[HalfHourStartDate] ELSE t.[start_date] END), (CASE WHEN t.[end_date] &gt; h.[HalfHourEndDate] THEN h.[HalfHourEndDate] ELSE t.[end_date] END)) AS duration
+INTO   dbo.[#tmpSplit]
+FROM   dbo.[#tmpHalfHours] AS h
+       INNER JOIN
+       dbo.[#DetailedInformation] AS t
+       ON (t.[start_date] &lt; h.[HalfHourEndDate]
+           AND t.[end_date] &gt;= h.[HalfHourStartDate])</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   dbo.fn_CalcHalfHourDateTime(edate2) AS HalfHour,
+         agent_no,
+         COUNT(*) AS OutCalls,
+         SUM(duration / 1000) AS OutTime
+INTO     dbo.[#OutboundCounts]
+FROM     dbo.[#DetailedInformation]
+WHERE    [working] = 2
+GROUP BY dbo.fn_CalcHalfHourDateTime(edate2), agent_no</td>
+        <td>172</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN dt.[start_date] &lt; @UTCStart_Date THEN @UTCStart_Date ELSE dt.[start_date] END</td>
+        <td>131</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN h.end_date &gt; @UTCEnd_Date THEN @UTCEnd_Date ELSE h.end_date END</td>
+        <td>132</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.[start_date] &lt; h.[HalfHourStartDate] THEN h.[HalfHourStartDate] ELSE t.[start_date] END</td>
+        <td>156</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.end_date &gt; h.HalfHourEndDate THEN h.HalfHourEndDate ELSE t.end_date END</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.[start_date] &lt; h.[HalfHourStartDate] THEN h.[HalfHourStartDate] ELSE t.[start_date] END</td>
+        <td>159</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.[end_date] &gt; h.[HalfHourEndDate] THEN h.[HalfHourEndDate] ELSE t.[end_date] END</td>
+        <td>160</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN t.[available] = 1
+          AND t.[working] = 0 THEN t.[duration] / 1000.0 ELSE 0 END</td>
+        <td>193</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (t.[available] = 0
+           AND t.[working] = 0)
+          AND t.[IsACW] = 'F' THEN t.[duration] / 1000.0 ELSE 0 END</td>
+        <td>194</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>207</td>
+      </tr>
+    </table>
+  </body>
+</html>

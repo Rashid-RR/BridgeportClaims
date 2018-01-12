@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeAgentPrivHistory]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeAgentPrivHistory]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[Agent_Priv_History]
+ AS target
+USING [ETL].[Agent_Priv_History] AS source ON (target.Agent_No = source.Agent_No
+                                               AND target.Priv = source.Priv
+                                               AND target.StartDate = source.StartDate)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET EndDate = source.EndDate,
+    status  = source.status,
+    Bus_No  = source.Bus_No
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (Agent_No, Priv, StartDate, EndDate, status, Bus_No) VALUES (source.Agent_No, source.Priv, source.StartDate, source.EndDate, source.status, source.Bus_No)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[Agent_Priv_History]
+ AS target
+USING [ETL].[Agent_Priv_History] AS source ON (target.Agent_No = source.Agent_No
+                                               AND target.Priv = source.Priv
+                                               AND target.StartDate = source.StartDate)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET EndDate = source.EndDate,
+    status  = source.status,
+    Bus_No  = source.Bus_No
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (Agent_No, Priv, StartDate, EndDate, status, Bus_No) VALUES (source.Agent_No, source.Priv, source.StartDate, source.EndDate, source.status, source.Bus_No)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [Staging].[Agent_Priv_History]
+ AS target
+USING [ETL].[Agent_Priv_History] AS source ON (target.Agent_No = source.Agent_No
+                                               AND target.Priv = source.Priv
+                                               AND target.StartDate = source.StartDate)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET ActionID = source.ActionID,
+    EndDate  = source.EndDate,
+    status   = source.status,
+    Bus_No   = source.Bus_No
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (ActionID, Agent_No, Priv, StartDate, EndDate, status, Bus_No) VALUES (source.ActionID, source.Agent_No, source.Priv, source.StartDate, source.EndDate, source.status, source.Bus_No)</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [Staging].[Agent_Priv_History]
+ AS target
+USING [ETL].[Agent_Priv_History] AS source ON (target.Agent_No = source.Agent_No
+                                               AND target.Priv = source.Priv
+                                               AND target.StartDate = source.StartDate)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET ActionID = source.ActionID,
+    EndDate  = source.EndDate,
+    status   = source.status,
+    Bus_No   = source.Bus_No
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (ActionID, Agent_No, Priv, StartDate, EndDate, status, Bus_No) VALUES (source.ActionID, source.Agent_No, source.Priv, source.StartDate, source.EndDate, source.status, source.Bus_No)</td>
+        <td>48</td>
+      </tr>
+    </table>
+  </body>
+</html>

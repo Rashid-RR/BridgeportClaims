@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Walmart_TransferDetail]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Walmart_TransferDetail]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @busno_str</td>
+        <td>8</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_header AS h</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#master AS m</td>
+        <td>53</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_detail AS d</td>
+        <td>54</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#transfers AS t</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#masterTransfers AS mt</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_footer AS f1</td>
+        <td>80</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_footer AS f2</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">agents AS a1</td>
+        <td>82</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">team AS t1</td>
+        <td>83</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">skills AS s2</td>
+        <td>84</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">OBJECT_ID('tempdb..#master')</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">OBJECT_ID('tempdb..#transfers')</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OBJECT_ID('tempdb..#masterTransfers')</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT h.master_contact_id,
+       h.contact_id
+INTO   #master
+FROM   contact_log_header AS h
+WHERE  h.bus_no = @p_Bus_no
+       AND dbo.fn_ConvertUTCToTargetTimeZone(h.start_date, @p_TimeZone) BETWEEN @p_Start_Date AND @p_End_Date
+       AND h.master_contact_id &lt;&gt; h.contact_id</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT m.master_contact_id,
+       m.contact_id
+INTO   #transfers
+FROM   #master AS m
+       LEFT OUTER JOIN
+       contact_log_detail AS d
+       ON m.contact_id = d.contact_id
+WHERE  d.contact_state = '5'</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   t.master_contact_id,
+         MAX(t.contact_id) AS [contact_id]
+INTO     #masterTransfers
+FROM     #transfers AS t
+GROUP BY t.master_contact_id</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">FORMAT</td>
+        <td colspan="1">FORMAT(dbo.fn_ConvertUTCToTargetTimeZone(f1.header_start_date, @p_TimeZone), 'MM/dd/yyyy HH:mm')</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN f1.inbound = 'T' THEN f1.from_addr ELSE f1.to_addr END</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN f1.inbound = 'T' THEN f1.to_addr ELSE f1.from_addr END</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (f1.skill_no &lt;&gt; f2.skill_no
+           AND f1.agent_no &lt;&gt; f2.agent_no
+           AND f2.skill_no &lt;&gt; '') THEN s2.skill_name ELSE NULL END</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (f1.agent_no &lt;&gt; f2.agent_no
+           AND f2.agent_no &lt;&gt; ''
+           AND f1.skill_no = f2.skill_no) THEN f2.agent_no ELSE NULL END</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (f1.skill_no &lt;&gt; f2.skill_no
+           AND f1.agent_no = f2.agent_no) THEN f2.to_addr ELSE NULL END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>90</td>
+      </tr>
+    </table>
+  </body>
+</html>

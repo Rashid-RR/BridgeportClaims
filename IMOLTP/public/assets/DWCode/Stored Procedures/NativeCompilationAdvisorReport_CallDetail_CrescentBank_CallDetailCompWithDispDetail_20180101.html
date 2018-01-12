@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_CrescentBank_CallDetailCompWithDispDetail]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_CrescentBank_CallDetailCompWithDispDetail]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>10</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @LockCritical</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>58</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>65</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogLastDisposition AS clld</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactSummaryDurations AS csd</td>
+        <td>148</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogDisposition AS cld</td>
+        <td>152</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT clh.Contact_ID,
+       clh.Master_Contact_ID,
+       clh.start_date,
+       clh.Contact_Code,
+       clf.To_Addr,
+       clf.From_Addr,
+       clf.Agent_No,
+       clf.Skill_No,
+       clf.Abandon
+INTO   #Contacts
+FROM   dbo.Contact_Log_Header AS clh
+       INNER JOIN
+       dbo.Contact_Log_Footer AS clf
+       ON clf.Contact_ID = clh.Contact_ID
+WHERE  clh.Bus_No = @p_bus_no
+       AND clh.Start_Date BETWEEN @p_UTCStart_Date AND @p_UTCend_Date</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT c.Contact_ID,
+       cls.SLA,
+       cls.Prequeue_Time,
+       cls.Inqueue_Time,
+       cls.Agent_Time,
+       cls.Postqueue_Time,
+       cls.ACW_Time,
+       cls.Hold_Time,
+       cls.Abandon_Time,
+       cls.Routing_Time,
+       cls.Callback_Time
+INTO   #ContactSummaryDurations
+FROM   #Contacts AS c
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Summary AS cls
+       ON cls.Contact_ID = c.Contact_ID</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   c.Contact_ID,
+         MAX(clds.[Start_Date]) AS [Start_Date]
+INTO     #ContactLogLastDisposition
+FROM     #Contacts AS c
+         INNER JOIN
+         dbo.Contact_Log_Dispositions AS clds
+         ON clds.Contact_ID = c.Contact_ID
+GROUP BY c.Contact_ID</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT clld.Contact_ID,
+       d.[Description],
+       clds.Disposition_Comments,
+       clds.Disposition_Code
+INTO   #ContactLogDisposition
+FROM   #ContactLogLastDisposition AS clld
+       INNER JOIN
+       dbo.Contact_Log_Dispositions AS clds
+       ON clds.Contact_ID = clld.Contact_ID
+          AND clds.START_DATE = clld.start_date
+       INNER JOIN
+       dbo.Dispositions AS d
+       ON d.Disposition_Code = clds.Disposition_Code</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN s.Outbound_Skill = 1 THEN c.To_Addr ELSE c.From_Addr END</td>
+        <td>117</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (clg.contact_id IS NOT NULL) THEN 'Y' ELSE 'N' END</td>
+        <td>139</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32)), CHAR(10), CHAR(32)) IS NULL) THEN '""' WHEN substring(REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32)), CHAR(10), CHAR(32)), 1, 1) = '"' THEN REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32)), CHAR(10), CHAR(32)) ELSE '"' + REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32)), CHAR(10), CHAR(32)) + '"' END</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">REPLACE</td>
+        <td colspan="1">REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32)), CHAR(10), CHAR(32))</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32))</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32)), CHAR(10), CHAR(32))</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32))</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32)), CHAR(10), CHAR(32))</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32))</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32)), CHAR(10), CHAR(32))</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(cld.Disposition_Comments, CHAR(13), CHAR(32))</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CHAR</td>
+        <td colspan="1">CHAR(13)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(32)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(10)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(32)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(13)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(32)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(10)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(32)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(13)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(32)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(10)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(32)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(13)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(32)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(10)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(32)</td>
+        <td>143</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>156</td>
+      </tr>
+    </table>
+  </body>
+</html>

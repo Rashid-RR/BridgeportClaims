@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeWFIRuleInputs]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeWFIRuleInputs]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[WFIRuleInputs]
+ AS target
+USING [ETL].[WFIRuleInputs] AS source ON (target.RuleInputID = source.RuleInputID)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET RuleID           = source.RuleID,
+    CategoryID       = source.CategoryID,
+    DataPointID      = source.DataPointID,
+    OperatorID       = source.OperatorID,
+    Value            = source.Value,
+    ExtValID         = source.ExtValID,
+    ExtValName       = source.ExtValName,
+    ExtValDataType   = source.ExtValDataType,
+    SequenceID       = source.SequenceID,
+    OccurrenceType   = source.OccurrenceType,
+    OccurrenceToMeet = source.OccurrenceToMeet,
+    TotalOccurrence  = source.TotalOccurrence,
+    IsActive         = source.IsActive,
+    CreateDate       = source.CreateDate,
+    CreatedBy        = source.CreatedBy,
+    ModifiedDate     = source.ModifiedDate,
+    ModifiedBy       = source.ModifiedBy
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (RuleInputID, RuleID, CategoryID, DataPointID, OperatorID, Value, ExtValID, ExtValName, ExtValDataType, SequenceID, OccurrenceType, OccurrenceToMeet, TotalOccurrence, IsActive, CreateDate, CreatedBy, ModifiedDate, ModifiedBy) VALUES (source.RuleInputID, source.RuleID, source.CategoryID, source.DataPointID, source.OperatorID, source.Value, source.ExtValID, source.ExtValName, source.ExtValDataType, source.SequenceID, source.OccurrenceType, source.OccurrenceToMeet, source.TotalOccurrence, source.IsActive, source.CreateDate, source.CreatedBy, source.ModifiedDate, source.ModifiedBy)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[WFIRuleInputs]
+ AS target
+USING [ETL].[WFIRuleInputs] AS source ON (target.RuleInputID = source.RuleInputID)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET RuleID           = source.RuleID,
+    CategoryID       = source.CategoryID,
+    DataPointID      = source.DataPointID,
+    OperatorID       = source.OperatorID,
+    Value            = source.Value,
+    ExtValID         = source.ExtValID,
+    ExtValName       = source.ExtValName,
+    ExtValDataType   = source.ExtValDataType,
+    SequenceID       = source.SequenceID,
+    OccurrenceType   = source.OccurrenceType,
+    OccurrenceToMeet = source.OccurrenceToMeet,
+    TotalOccurrence  = source.TotalOccurrence,
+    IsActive         = source.IsActive,
+    CreateDate       = source.CreateDate,
+    CreatedBy        = source.CreatedBy,
+    ModifiedDate     = source.ModifiedDate,
+    ModifiedBy       = source.ModifiedBy
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (RuleInputID, RuleID, CategoryID, DataPointID, OperatorID, Value, ExtValID, ExtValName, ExtValDataType, SequenceID, OccurrenceType, OccurrenceToMeet, TotalOccurrence, IsActive, CreateDate, CreatedBy, ModifiedDate, ModifiedBy) VALUES (source.RuleInputID, source.RuleID, source.CategoryID, source.DataPointID, source.OperatorID, source.Value, source.ExtValID, source.ExtValName, source.ExtValDataType, source.SequenceID, source.OccurrenceType, source.OccurrenceToMeet, source.TotalOccurrence, source.IsActive, source.CreateDate, source.CreatedBy, source.ModifiedDate, source.ModifiedBy)</td>
+        <td>5</td>
+      </tr>
+    </table>
+  </body>
+</html>

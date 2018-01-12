@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_CDR_Conifer]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_CDR_Conifer]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:12 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>1</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'CallDetail_CDR_Conifer'</td>
+        <td>6</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contact_log_header AS clh</td>
+        <td>39</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp_CCL AS CCLs</td>
+        <td>49</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp_ag</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">team</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">agents</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Contact_Log_Footer</td>
+        <td>70</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp_ag</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">team</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">agents</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">Contact_Log_Footer</td>
+        <td>71</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contact_Log_Header AS l</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmp_CCL AS ccl</td>
+        <td>131</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT bus_no,
+       contact_id,
+       master_contact_id,
+       contact_code,
+       start_date
+INTO   #Contact_Log_Header
+FROM   dbo.Contact_Log_Header
+WHERE  bus_no = @Bus_No
+       AND start_date BETWEEN @UTCStart_Date AND @UTCEnd_Date</td>
+        <td>26</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT *
+INTO   #tmp_CCL
+FROM   (SELECT clh.contact_id,
+               data_name,
+               data_value
+        FROM   #Contact_log_header AS clh
+               INNER JOIN
+               dbo.Custom_Contact_Log AS ccl
+               ON clh.contact_id = ccl.contact_id
+        WHERE  Data_Name IN ('external_id', 'source', 'phonetype', 'acctnbr', 'last_name', 'first_name', 'balance', 'facility', 'campaigntype', 'payment_amount', 'language', 'ans1', 'ans2', 'ans3', 'ans4', 'ans5', 'ans6', 'status1', 'agent_no', 'agent_name')) AS ccl PIVOT (MIN (Data_value) FOR Data_name IN (external_id, [source], phonetype, acctnbr, last_name, first_name, balance, facility, campaigntype, payment_amount, [language], ans1, ans2, ans3, ans4, ans5, ans6, status1, agent_no, agent_name)) AS pivottable</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT CCLs.contact_id,
+       CCLs.agent_no,
+       ags.team_no,
+       tm.team_name
+INTO   #tmp_ag
+FROM   #tmp_CCL AS CCLs
+       LEFT OUTER JOIN
+       dbo.agents AS ags
+       ON CCLs.agent_no = ags.agent_no
+       LEFT OUTER JOIN
+       dbo.team AS tm
+       ON ags.team_no = tm.team_no
+WHERE  ags.bus_no = @Bus_No</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">*</td>
+        <td colspan="1">SELECT *
+INTO   #tmp_CCL
+FROM   (SELECT clh.contact_id,
+               data_name,
+               data_value
+        FROM   #Contact_log_header AS clh
+               INNER JOIN
+               dbo.Custom_Contact_Log AS ccl
+               ON clh.contact_id = ccl.contact_id
+        WHERE  Data_Name IN ('external_id', 'source', 'phonetype', 'acctnbr', 'last_name', 'first_name', 'balance', 'facility', 'campaigntype', 'payment_amount', 'language', 'ans1', 'ans2', 'ans3', 'ans4', 'ans5', 'ans6', 'status1', 'agent_no', 'agent_name')) AS ccl PIVOT (MIN (Data_value) FOR Data_name IN (external_id, [source], phonetype, acctnbr, last_name, first_name, balance, facility, campaigntype, payment_amount, [language], ans1, ans2, ans3, ans4, ans5, ans6, status1, agent_no, agent_name)) AS pivottable</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">PIVOT</td>
+        <td colspan="1">(SELECT clh.contact_id,
+        data_name,
+        data_value
+ FROM   #Contact_log_header AS clh
+        INNER JOIN
+        dbo.Custom_Contact_Log AS ccl
+        ON clh.contact_id = ccl.contact_id
+ WHERE  Data_Name IN ('external_id', 'source', 'phonetype', 'acctnbr', 'last_name', 'first_name', 'balance', 'facility', 'campaigntype', 'payment_amount', 'language', 'ans1', 'ans2', 'ans3', 'ans4', 'ans5', 'ans6', 'status1', 'agent_no', 'agent_name')) AS ccl PIVOT (MIN (Data_value) FOR Data_name IN (external_id, [source], phonetype, acctnbr, last_name, first_name, balance, facility, campaigntype, payment_amount, [language], ans1, ans2, ans3, ans4, ans5, ans6, status1, agent_no, agent_name)) AS pivottable</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN s.Outbound_Skill = 1 THEN r.to_addr ELSE r.from_addr END</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN r.agent_no IS NULL
+          AND ccl.agent_no IS NULL THEN 'N/A' ELSE CASE WHEN ccl.agent_no IS NULL THEN a.first_name + ' ' + a.last_name ELSE CASE WHEN ccl.agent_name = 'Invalid' THEN 'N/A' ELSE ccl.agent_name END END END</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ccl.agent_no IS NULL THEN a.first_name + ' ' + a.last_name ELSE CASE WHEN ccl.agent_name = 'Invalid' THEN 'N/A' ELSE ccl.agent_name END END</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN ccl.agent_name = 'Invalid' THEN 'N/A' ELSE ccl.agent_name END</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (clg.contact_id IS NOT NULL) THEN 'Y' ELSE 'N' END</td>
+        <td>94</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>135</td>
+      </tr>
+    </table>
+  </body>
+</html>

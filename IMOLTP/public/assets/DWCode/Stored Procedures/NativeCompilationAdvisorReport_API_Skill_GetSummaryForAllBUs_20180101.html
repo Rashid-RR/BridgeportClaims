@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[API_Skill_GetSummaryForAllBUs]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[API_Skill_GetSummaryForAllBUs]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">@@servername</td>
+        <td colspan="1">@@ServerName</td>
+        <td>18</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE ISNULL(sla.In_SLA, 0) WHEN 0 THEN 0 ELSE CONVERT (INT, ROUND(((1.0 * sla.In_SLA) / (sla.In_SLA + sla.Out_SLA)) * 100, 0)) END</td>
+        <td>59</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">APPLY</td>
+        <td colspan="1">dbo.Skills AS s
+INNER JOIN
+dbo.Business_Unit AS b
+ON b.Bus_No = s.Bus_No
+INNER JOIN
+@TimeZoneDates AS t
+ON t.TimeZone = b.DefaultTimeZone
+INNER JOIN
+dbo.Campaign AS c
+ON c.Campaign_no = s.Campaign_no
+INNER JOIN
+dbo.Media AS m
+ON m.Media_Type = s.Media_Type OUTER APPLY (SELECT   SUM(h.In_SLA) AS In_SLA,
+                                                     SUM(h.Out_SLA) AS Out_SLA
+                                            FROM     dbo.dw_sla_Skill_ByQtrHour AS h
+                                            WHERE    h.Bus_No = s.Bus_No
+                                                     AND h.Skill_No = s.Skill_No
+                                                     AND h.Start_date BETWEEN t.UTCStartDate AND t.UTCEndDate
+                                            GROUP BY h.Bus_No, h.Skill_No) AS sla</td>
+        <td>66</td>
+      </tr>
+    </table>
+  </body>
+</html>

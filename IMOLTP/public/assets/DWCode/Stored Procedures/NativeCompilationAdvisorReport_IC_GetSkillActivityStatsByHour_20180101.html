@@ -1,0 +1,207 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[IC_GetSkillActivityStatsByHour]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[IC_GetSkillActivityStatsByHour]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Table-valued functions</td>
+        <td colspan="1">[dbo].fn_SplitOptionalInt(@CampaignList)</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">[dbo].fn_SplitOptionalInt(@SkillList)</td>
+        <td>52</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">[dbo].fn_SplitOptionalInt(@MediaTypeList)</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN DATEPART(MI, @UTCStartDate) &gt;= 45 THEN '45' WHEN DATEPART(MI, @UTCStartDate) &gt;= 30 THEN '30' WHEN DATEPART(MI, @UTCStartDate) &gt;= 15 THEN '15' ELSE '0' END</td>
+        <td>77</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[AbandonCount], 0) WHEN 0 THEN 0 ELSE CASE ISNULL(f.[ContactsQueued], 0) WHEN 0 THEN 0 ELSE CONVERT (INT, ROUND(((1.0 * f.[AbandonCount]) / f.[ContactsQueued]) * 100, 0)) END END</td>
+        <td>206</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[ContactsQueued], 0) WHEN 0 THEN 0 ELSE CONVERT (INT, ROUND(((1.0 * f.[AbandonCount]) / f.[ContactsQueued]) * 100, 0)) END</td>
+        <td>208</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[InQueueTime], 0) WHEN 0 THEN 0 ELSE CASE ISNULL(f.[ContactsHandled], 0) WHEN 0 THEN 0 ELSE (f.[InQueueTime] - ISNULL(f.[AbandonTime], 0)) / f.[ContactsHandled] END END</td>
+        <td>213</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[ContactsHandled], 0) WHEN 0 THEN 0 ELSE (f.[InQueueTime] - ISNULL(f.[AbandonTime], 0)) / f.[ContactsHandled] END</td>
+        <td>215</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[AgentTime], 0) WHEN 0 THEN 0 ELSE CASE ISNULL(f.[ContactsHandled], 0) WHEN 0 THEN 0 ELSE f.[AgentTime] / f.[ContactsHandled] END END</td>
+        <td>220</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[ContactsHandled], 0) WHEN 0 THEN 0 ELSE f.[AgentTime] / f.[ContactsHandled] END</td>
+        <td>222</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[ACWTime], 0) WHEN 0 THEN 0 ELSE CASE ISNULL(f.[ContactsHandled], 0) WHEN 0 THEN 0 ELSE f.[ACWTime] / f.[ContactsHandled] END END</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[ContactsHandled], 0) WHEN 0 THEN 0 ELSE f.[ACWTime] / f.[ContactsHandled] END</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[AgentTime], 0) + ISNULL(f.[ACWTime], 0) WHEN 0 THEN 0 ELSE CASE ISNULL(f.[ContactsHandled], 0) WHEN 0 THEN 0 ELSE (f.[AgentTime] + f.[ACWTime]) / f.[ContactsHandled] END END</td>
+        <td>234</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE ISNULL(f.[ContactsHandled], 0) WHEN 0 THEN 0 ELSE (f.[AgentTime] + f.[ACWTime]) / f.[ContactsHandled] END</td>
+        <td>236</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">dw_HalfHour AS q</td>
+        <td>244</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">TempFinal AS f</td>
+        <td>245</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH TempFinal
+AS (SELECT   IntervalCode,
+             Skill_No,
+             SUM(In_SLA) AS In_SLA,
+             SUM(Out_SLA) AS Out_SLA,
+             SUM(ContactsOffered) AS ContactsOffered,
+             SUM(ContactsQueued) AS ContactsQueued,
+             SUM(ContactsHandled) AS ContactsHandled,
+             SUM(AbandonCount) AS AbandonCount,
+             SUM(AbandonTime) AS AbandonTime,
+             SUM(InQueueTime) AS InQueueTime,
+             SUM(HoldTime) AS HoldTime,
+             SUM(AgentTime) AS AgentTime,
+             SUM(PostQueueTime) AS PostQueueTime,
+             SUM(ACWTime) AS ACWTime
+    FROM     (SELECT IntervalCode,
+                     Skill_No,
+                     In_SLA,
+                     Out_SLA,
+                     0 AS ContactsOffered,
+                     0 AS ContactsQueued,
+                     0 AS ContactsHandled,
+                     0 AS AbandonCount,
+                     0 AS AbandonTime,
+                     0 AS InQueueTime,
+                     0 AS HoldTime,
+                     0 AS AgentTime,
+                     0 AS PostQueueTime,
+                     0 AS ACWTime
+              FROM   @TempSLA
+              UNION ALL
+              SELECT IntervalCode,
+                     Skill_No,
+                     0 AS In_SLA,
+                     0 AS Out_SLA,
+                     ContactsOffered,
+                     ContactsQueued,
+                     ContactsHandled,
+                     AbandonCount,
+                     AbandonTime,
+                     InQueueTime,
+                     HoldTime,
+                     AgentTime,
+                     PostQueueTime,
+                     ACWTime
+              FROM   @TempContacts) AS A
+    GROUP BY IntervalCode, Skill_No)</td>
+        <td>157</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> TempFinal
+AS (SELECT   IntervalCode,
+             Skill_No,
+             SUM(In_SLA) AS In_SLA,
+             SUM(Out_SLA) AS Out_SLA,
+             SUM(ContactsOffered) AS ContactsOffered,
+             SUM(ContactsQueued) AS ContactsQueued,
+             SUM(ContactsHandled) AS ContactsHandled,
+             SUM(AbandonCount) AS AbandonCount,
+             SUM(AbandonTime) AS AbandonTime,
+             SUM(InQueueTime) AS InQueueTime,
+             SUM(HoldTime) AS HoldTime,
+             SUM(AgentTime) AS AgentTime,
+             SUM(PostQueueTime) AS PostQueueTime,
+             SUM(ACWTime) AS ACWTime
+    FROM     (SELECT IntervalCode,
+                     Skill_No,
+                     In_SLA,
+                     Out_SLA,
+                     0 AS ContactsOffered,
+                     0 AS ContactsQueued,
+                     0 AS ContactsHandled,
+                     0 AS AbandonCount,
+                     0 AS AbandonTime,
+                     0 AS InQueueTime,
+                     0 AS HoldTime,
+                     0 AS AgentTime,
+                     0 AS PostQueueTime,
+                     0 AS ACWTime
+              FROM   @TempSLA
+              UNION ALL
+              SELECT IntervalCode,
+                     Skill_No,
+                     0 AS In_SLA,
+                     0 AS Out_SLA,
+                     ContactsOffered,
+                     ContactsQueued,
+                     ContactsHandled,
+                     AbandonCount,
+                     AbandonTime,
+                     InQueueTime,
+                     HoldTime,
+                     AgentTime,
+                     PostQueueTime,
+                     ACWTime
+              FROM   @TempContacts) AS A
+    GROUP BY IntervalCode, Skill_No)</td>
+        <td>157</td>
+      </tr>
+    </table>
+  </body>
+</html>

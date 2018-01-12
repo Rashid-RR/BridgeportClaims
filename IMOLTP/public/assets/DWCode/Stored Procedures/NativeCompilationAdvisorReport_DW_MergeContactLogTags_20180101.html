@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeContactLogTags]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeContactLogTags]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[Contact_Log_Tags]
+ AS target
+USING [ETL].[Contact_Log_Tags] AS source ON (target.ContactTagsID = source.ContactTagsID)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET Contact_ID        = source.Contact_ID,
+    TagID             = source.TagID,
+    Agent_No          = source.Agent_No,
+    Start_Date        = source.Start_Date,
+    Bus_No            = source.Bus_No,
+    Header_Start_Date = source.Header_Start_Date
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (ContactTagsID, Contact_ID, TagID, Agent_No, Start_Date, Bus_No, Header_Start_Date) VALUES (source.ContactTagsID, source.Contact_ID, source.TagID, source.Agent_No, source.Start_Date, source.Bus_No, source.Header_Start_Date)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[Contact_Log_Tags]
+ AS target
+USING [ETL].[Contact_Log_Tags] AS source ON (target.ContactTagsID = source.ContactTagsID)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET Contact_ID        = source.Contact_ID,
+    TagID             = source.TagID,
+    Agent_No          = source.Agent_No,
+    Start_Date        = source.Start_Date,
+    Bus_No            = source.Bus_No,
+    Header_Start_Date = source.Header_Start_Date
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (ContactTagsID, Contact_ID, TagID, Agent_No, Start_Date, Bus_No, Header_Start_Date) VALUES (source.ContactTagsID, source.Contact_ID, source.TagID, source.Agent_No, source.Start_Date, source.Bus_No, source.Header_Start_Date)</td>
+        <td>5</td>
+      </tr>
+    </table>
+  </body>
+</html>

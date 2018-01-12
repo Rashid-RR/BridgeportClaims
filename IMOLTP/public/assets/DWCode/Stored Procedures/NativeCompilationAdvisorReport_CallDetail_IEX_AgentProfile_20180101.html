@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_IEX_AgentProfile]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_IEX_AgentProfile]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:09 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'CallDetail_IEX_AgentProfile'</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpDays</td>
+        <td>38</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpDays AS t</td>
+        <td>56</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAgentStateChanges AS q</td>
+        <td>85</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpAgentStateChanges AS t</td>
+        <td>91</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Agent_session AS s</td>
+        <td>99</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpDays</td>
+        <td>100</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Agent_session AS s</td>
+        <td>105</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#tmpDays</td>
+        <td>106</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT   h.agent_no,
+         dbo.fn_ConvertUTCToTargetTimeZone((CASE WHEN h.start_date &lt; t.DayStartDate THEN t.DayStartDate ELSE h.start_date END), @TimeZone) AS login_date,
+         dbo.fn_ConvertUTCToTargetTimeZone((CASE WHEN s.end_date &gt; t.DayEndDate THEN t.DayEndDate ELSE s.end_date END), @TimeZone) AS logout_date
+INTO     #Agent_session
+FROM     dbo.Agent_Log_Header AS h
+         INNER JOIN
+         dbo.Agent_Log_Summary AS s
+         ON s.Agent_Session_ID = h.Agent_Session_ID
+         INNER JOIN
+         #tmpDays AS t
+         ON h.start_date &lt; t.DayEndDate
+            AND s.end_date &gt;= t.DayStartDate
+WHERE    h.bus_no = @Bus_no
+         AND h.start_date BETWEEN @UTCStart_Date AND @UTCEnd_Date
+ORDER BY agent_no, h.start_date</td>
+        <td>46</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT h.agent_no,
+       d.start_date AS start_date,
+       ISNULL(o.description, 'ACD') AS Reason,
+       d.Agent_Session_ID,
+       d.StateIndex
+INTO   #tmpAgentStateChanges
+FROM   dbo.Agent_Log_Header AS h
+       INNER JOIN
+       dbo.Agent_Log_Detail AS d
+       ON d.Agent_Session_ID = h.Agent_Session_ID
+       LEFT OUTER JOIN
+       dbo.Outstates AS o
+       ON o.outstate_code = d.outstate_code
+          AND o.bus_no = @bus_no
+          AND d.outstate_code &lt;&gt; 501020
+WHERE  h.bus_no = @Bus_no
+       AND h.start_date BETWEEN @UTCStart_Date AND @UTCEnd_Date</td>
+        <td>62</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN h.start_date &lt; t.DayStartDate THEN t.DayStartDate ELSE h.start_date END</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.end_date &gt; t.DayEndDate THEN t.DayEndDate ELSE s.end_date END</td>
+        <td>50</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>109</td>
+      </tr>
+    </table>
+  </body>
+</html>

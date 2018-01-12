@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[API_ContactHistoryV5]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[API_ContactHistoryV5]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">Subquery</td>
+        <td colspan="1">(SELECT *
+ FROM   dbo.Agents AS A
+ WHERE  A.bus_no = @Bus_No
+        AND A.[Agent_No] = @Agent_No)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">(SELECT *
+ FROM   dbo.Media AS M
+ WHERE  M.[Media_Type] = @Media_Type)</td>
+        <td>12</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN @StartDate != '1900-01-01' THEN ' AND clh.[start_date] BETWEEN ''' + CONVERT (VARCHAR (25), @StartDate, 120) + ''' AND ''' + CONVERT (VARCHAR (25), @EndDate, 120) + '''' ELSE '' END</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @UpdatedSince != '1900-01-01' THEN ' AND clh.[start_date] &gt;= ''' + CONVERT (VARCHAR (25), @UpdatedSince, 120) + '''' ELSE '' END</td>
+        <td>23</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @Media_Type != 0 THEN ' AND clh.[Media_Type] = ' + CAST (@Media_Type AS VARCHAR (5)) ELSE '' END</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderColumn = '' THEN 'Contact_Id ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'contactId' THEN 'Contact_Id ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'masterContactId' THEN 'Master_Contact_Id ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'contactStartDate' THEN 'start_date ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'targetAgentId' THEN 'TargetAgent_no ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'fileName' THEN 'fileName END ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'pointOfContact' THEN 'Point_Of_Contact END ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'lastUpdateTime' THEN 'lastUpdateTime END ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'mediaTypeId' THEN 'media_Type ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'mediaTypeName' THEN 'media_Name ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'agentId' THEN 'agent_No ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'firstName' THEN 'first_Name ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'lastName' THEN 'last_Name ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'teamId' THEN 'team_No ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'teamName' THEN 'team_Name ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'campaignId' THEN 'campaign_no ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'campaignName' THEN 'campaign_Name ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'skillId' THEN 'Skill_No ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'skillName' THEN 'Skill_Name ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'isOutbound' THEN 'isOutbound ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'fromAddr' THEN 'from_Addr ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'toAddr' THEN 'to_Addr ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'primaryDispositionId' THEN 'disposition_Code ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'secondaryDispositionId' THEN 'secondary_Disposition_Code ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = 'transferIndicatorId' THEN 'ReskillIndicator ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END WHEN @OrderColumn = '' THEN 'Contact_Id ' + CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END ELSE 'Contact_Id DESC' END</td>
+        <td>216</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>216</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>217</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>218</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>219</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>220</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>221</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>222</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>223</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>224</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>225</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>226</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>227</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>228</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>229</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>230</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>231</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>232</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>233</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>234</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>235</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>236</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>237</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>238</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>239</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>240</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN @OrderASC = 1 THEN ' ASC ' ELSE ' DESC ' END</td>
+        <td>241</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">nvarchar(MAX)</td>
+        <td colspan="1">NVARCHAR (MAX)</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NVARCHAR (MAX)</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">NVARCHAR (MAX)</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">NVARCHAR (MAX)</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE sp_executeSQL @FullQuery</td>
+        <td>247</td>
+      </tr>
+    </table>
+  </body>
+</html>

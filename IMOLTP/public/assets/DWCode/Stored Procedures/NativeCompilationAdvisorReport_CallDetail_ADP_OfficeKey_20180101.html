@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_ADP_OfficeKey]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_ADP_OfficeKey]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>4</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection 'CallDetail_ADP_OfficeKey'</td>
+        <td>13</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contact_Log_Header AS l</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Contact_Log_Header AS l</td>
+        <td>91</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contact_Log_Header AS l</td>
+        <td>101</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">OBJECT_ID</td>
+        <td colspan="1">OBJECT_ID('tempdb..#Contact_Log_Header')</td>
+        <td>22</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">OBJECT_ID('tempdb..#Contact_Log_Header')</td>
+        <td>109</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT l.contact_id,
+       l.master_contact_id,
+       l.Contact_Code,
+       dbo.fn_ConvertUTCToTargetTimeZone(l.start_date, @P_TimeZone) AS start_date
+INTO   #Contact_Log_Header
+FROM   dbo.Contact_Log_Header AS l
+WHERE  l.bus_no = @P_Bus_no
+       AND l.start_date BETWEEN @P_UTCStart_Date AND @P_UTCEnd_Date</td>
+        <td>25</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN s.Outbound_Skill = 1 THEN r.to_addr ELSE r.from_addr END</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (clg.contact_id IS NOT NULL) THEN 'Y' ELSE 'N' END</td>
+        <td>68</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>112</td>
+      </tr>
+    </table>
+  </body>
+</html>

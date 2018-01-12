@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Aetna_CDR_Plus_Disposition_West]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[CallDetail_Aetna_CDR_Plus_Disposition_West]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:10 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>15</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @p_Busno_str</td>
+        <td>19</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>44</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>61</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>69</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>78</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogLastDisposition AS clld</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>146</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactSummaryDurations AS csd</td>
+        <td>150</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogDisposition AS cld</td>
+        <td>154</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactDurations AS cd</td>
+        <td>155</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">SELECT clh.Contact_ID,
+       clh.Master_Contact_ID,
+       dbo.fn_ConvertUTCToTargetTimeZone(clh.[Start_Date], @_TimeZone) AS [Start_Date],
+       clh.Contact_Code,
+       clf.To_Addr,
+       clf.From_Addr,
+       clf.Agent_No,
+       clf.Skill_No,
+       clf.Abandon
+INTO   #Contacts
+FROM   dbo.Contact_Log_Header AS clh
+       INNER JOIN
+       dbo.Contact_Log_Footer AS clf
+       ON clf.Contact_ID = clh.Contact_ID
+WHERE  clh.Bus_No = @_bus_no
+       AND clh.Start_Date BETWEEN @_start_date AND @_end_date</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   cld.Contact_ID,
+         SUM(CASE WHEN cld.Contact_State = 2 THEN ISNULL(cls.Duration, 0) ELSE 0 END) AS Routing_Time,
+         SUM(CASE WHEN cld.Contact_State = 15 THEN ISNULL(cls.Duration, 0) ELSE 0 END) AS Callback_Time
+INTO     #ContactDurations
+FROM     #Contacts AS c
+         INNER JOIN
+         dbo.Contact_Log_Detail AS cld
+         ON c.Contact_ID = cld.Contact_ID
+         INNER JOIN
+         dbo.Contact_Log_Detail_Summary AS cls
+         ON cls.Contact_ID = cld.Contact_ID
+            AND cls.StateIndex = cld.StateIndex
+GROUP BY cld.Contact_ID</td>
+        <td>40</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT c.Contact_ID,
+       cls.SLA,
+       cls.Prequeue_Time,
+       cls.Inqueue_Time,
+       cls.Agent_Time,
+       cls.Postqueue_Time,
+       cls.ACW_Time,
+       cls.Hold_Time,
+       cls.Abandon_Time
+INTO   #ContactSummaryDurations
+FROM   #Contacts AS c
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Summary AS cls
+       ON cls.Contact_ID = c.Contact_ID</td>
+        <td>51</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   c.Contact_ID,
+         MAX(clds.[Start_Date]) AS [Start_Date]
+INTO     #ContactLogLastDisposition
+FROM     #Contacts AS c
+         LEFT OUTER JOIN
+         dbo.Contact_Log_Dispositions AS clds
+         ON clds.Contact_ID = c.Contact_ID
+GROUP BY c.Contact_ID</td>
+        <td>66</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT c.Contact_ID,
+       d.[Description],
+       clds.Disposition_Comments,
+       clds.Disposition_Code
+INTO   #ContactLogDisposition
+FROM   #Contacts AS c
+       LEFT OUTER JOIN
+       #ContactLogLastDisposition AS clld
+       ON clld.Contact_ID = c.Contact_ID
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Dispositions AS clds
+       ON clds.Contact_ID = clld.Contact_ID
+          AND clds.[Start_Date] = clld.[Start_Date]
+       INNER JOIN
+       dbo.Dispositions AS d
+       ON d.Disposition_Code = clds.Disposition_Code</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN cld.Contact_State = 2 THEN ISNULL(cls.Duration, 0) ELSE 0 END</td>
+        <td>41</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cld.Contact_State = 15 THEN ISNULL(cls.Duration, 0) ELSE 0 END</td>
+        <td>42</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.Outbound_Skill = 1 THEN c.To_Addr ELSE c.From_Addr END</td>
+        <td>120</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (clg.contact_id IS NOT NULL) THEN 'Y' ELSE 'N' END</td>
+        <td>142</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">LIKE</td>
+        <td colspan="1">t.team_name LIKE '%alorica%'</td>
+        <td>156</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>159</td>
+      </tr>
+    </table>
+  </body>
+</html>

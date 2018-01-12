@@ -1,0 +1,24 @@
+Failed to generate report for user defined function [CombinePath]
+Failed to parse the module.
+Failed to generate report for user defined function [fn_ConvertTimeZoneToUTC]
+Failed to parse the module.
+Failed to generate report for user defined function [fn_ConvertUTCToTargetTimeZone]
+Failed to parse the module.
+Failed to generate report for user defined function [GetDirectoryName]
+Failed to parse the module.
+Failed to generate report for user defined function [GetFileName]
+Failed to parse the module.
+Failed to generate report for user defined function [GetStringHash]
+Failed to parse the module.
+Failed to generate report for user defined function [TimeZone2TimeZone]
+Failed to parse the module.
+Failed to generate report for user defined function [TimeZone2UTC]
+Failed to parse the module.
+Failed to generate report for user defined function [UTC2TimeZone]
+Failed to parse the module.
+Failed to generate report for user defined function [fn_GetTimeZoneData]
+Failed to parse the module.
+Failed to generate report for user defined function [fn_GetTimeZoneDataByYear]
+Failed to parse the module.
+Failed to generate report for user defined function [fn_SplitCLR]
+Failed to parse the module.

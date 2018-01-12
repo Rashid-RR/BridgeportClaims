@@ -1,0 +1,361 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[sp_CallDetailCompWithDisp]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[sp_CallDetailCompWithDisp]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td colspan="1">BEGIN TRANSACTION</td>
+        <td>20</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">One-part names</td>
+        <td colspan="1">EXECUTE LockCriticalSection @busno_str</td>
+        <td>24</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">Contact_Log_Summary</td>
+        <td>67</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_Tags AS ST1</td>
+        <td>75</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">tags AS t</td>
+        <td>76</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">contact_log_Tags AS ST2</td>
+        <td>81</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">agg AS agg</td>
+        <td>83</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>92</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>101</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogLastDisposition AS clld</td>
+        <td>102</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">#Contacts AS c</td>
+        <td>171</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">#ContactLogDisposition AS cld</td>
+        <td>178</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SELECT INTO</td>
+        <td colspan="1">WITH     agg
+AS       (SELECT   Contact_ID,
+                   ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'PreQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS prequeue,
+                   ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'InQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS inqueue,
+                   ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 2 THEN Duration END) / 1000.0, 0) AS INT), 0) AS routing,
+                   ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'Agent' THEN Duration END) / 1000.0, 0) AS INT), 0) AS agent,
+                   ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'PostQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS postqueue,
+                   ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 15 THEN Duration END) / 1000.0, 0) AS INT), 0) AS callback,
+                   ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 8 THEN Duration END) / 1000.0, 0) AS INT), 0) AS hold
+          FROM     dbo.Contact_Log_DetailQV AS qv
+                   INNER JOIN
+                   dbo.Contact_State AS cs
+                   ON qv.Contact_State = cs.Contact_state
+          WHERE    bus_no = @_bus_no
+                   AND StartDate BETWEEN @_start_date AND @_end_date
+          GROUP BY contact_ID)
+SELECT   clh.Contact_ID,
+         clh.Master_Contact_ID,
+         dbo.fn_ConvertUTCToTargetTimeZone(clh.[Start_Date], @_TimeZone) AS [Start_Date],
+         clh.Contact_Code,
+         REPLACE(REPLACE(REPLACE(clf.To_Addr, CHAR(13), ''), CHAR(10), ''), CHAR(9), '') AS To_Addr,
+         REPLACE(REPLACE(REPLACE(clf.From_Addr, CHAR(13), ''), CHAR(10), ''), CHAR(9), '') AS From_Addr,
+         clf.Agent_No,
+         clf.Skill_No,
+         clf.Abandon,
+         ISNULL(cls.SLA, 0) AS SLA,
+         prequeue AS Prequeue_Time,
+         inqueue AS Inqueue_Time,
+         routing AS Routing_Time,
+         agent AS Agent_Time,
+         postqueue AS Postqueue_Time,
+         callback AS Callback_Time,
+         ISNULL(cls.ACW_Time, 0) AS ACW_Time,
+         hold AS Hold_Time,
+         ISNULL(cls.Abandon_Seconds, 0) AS Abandon_Time,
+         Tags
+INTO     #Contacts
+FROM     dbo.Contact_Log_Header AS clh
+         INNER JOIN
+         dbo.Contact_Log_Footer AS clf
+         ON clf.Contact_ID = clh.Contact_ID
+         LEFT OUTER JOIN
+         (SELECT contact_ID,
+                 sla,
+                 acw_Time / 1000 AS ACW_Time,
+                 Abandon_Seconds
+          FROM   Contact_Log_Summary
+          WHERE  bus_no = @_bus_no
+                 AND header_start_date BETWEEN @_summary_start_date AND @_summary_end_date) AS cls
+         ON cls.Contact_ID = clh.Contact_ID
+         LEFT OUTER JOIN
+         (SELECT DISTINCT ST2.Contact_ID,
+                          STUFF((SELECT   ',' + t.name AS [text()]
+                                 FROM     contact_log_Tags AS ST1
+                                          LEFT OUTER JOIN
+                                          tags AS t
+                                          ON t.TagID = ST1.TagID
+                                 WHERE    ST1.Contact_ID = ST2.Contact_ID
+                                 ORDER BY ST1.Contact_ID
+                                 FOR      XML PATH ('')), 1, 1, '') AS [Tags]
+          FROM   contact_log_Tags AS ST2) AS contactTag
+         ON clh.Contact_ID = contactTag.Contact_ID
+         INNER JOIN
+         agg AS agg
+         ON clh.Contact_ID = agg.Contact_ID
+WHERE    clh.Bus_No = @_bus_no
+         AND clh.Start_Date BETWEEN @_start_Date AND @_end_date
+ORDER BY clh.Contact_ID</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT   c.Contact_ID,
+         MAX(clds.[Start_Date]) AS [Start_Date]
+INTO     #ContactLogLastDisposition
+FROM     #Contacts AS c
+         LEFT OUTER JOIN
+         dbo.Contact_Log_Dispositions AS clds
+         ON clds.Contact_ID = c.Contact_ID
+GROUP BY c.Contact_ID</td>
+        <td>89</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">SELECT c.Contact_ID,
+       d.[Description],
+       clds.Disposition_Comments,
+       clds.Disposition_Code
+INTO   #ContactLogDisposition
+FROM   #Contacts AS c
+       LEFT OUTER JOIN
+       #ContactLogLastDisposition AS clld
+       ON clld.Contact_ID = c.Contact_ID
+       LEFT OUTER JOIN
+       dbo.Contact_Log_Dispositions AS clds
+       ON clds.Contact_ID = clld.Contact_ID
+          AND clds.[Start_Date] = clld.[Start_Date]
+       INNER JOIN
+       dbo.Dispositions AS d
+       ON d.Disposition_Code = clds.Disposition_Code</td>
+        <td>96</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">REPLACE</td>
+        <td colspan="1">REPLACE(REPLACE(REPLACE(clf.To_Addr, CHAR(13), ''), CHAR(10), ''), CHAR(9), '')</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(REPLACE(clf.To_Addr, CHAR(13), ''), CHAR(10), '')</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(clf.To_Addr, CHAR(13), '')</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(REPLACE(REPLACE(clf.From_Addr, CHAR(13), ''), CHAR(10), ''), CHAR(9), '')</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(REPLACE(clf.From_Addr, CHAR(13), ''), CHAR(10), '')</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">REPLACE(clf.From_Addr, CHAR(13), '')</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CHAR</td>
+        <td colspan="1">CHAR(13)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(10)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(9)</td>
+        <td>47</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(13)</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(10)</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CHAR(9)</td>
+        <td>48</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">STUFF</td>
+        <td colspan="1">STUFF((SELECT   ',' + t.name AS [text()]
+       FROM     contact_log_Tags AS ST1
+                LEFT OUTER JOIN
+                tags AS t
+                ON t.TagID = ST1.TagID
+       WHERE    ST1.Contact_ID = ST2.Contact_ID
+       ORDER BY ST1.Contact_ID
+       FOR      XML PATH ('')), 1, 1, '')</td>
+        <td>73</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">FOR XML</td>
+        <td colspan="1">XML PATH ('')</td>
+        <td>79</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">WITH clause</td>
+        <td colspan="1">WITH agg
+AS (SELECT   Contact_ID,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'PreQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS prequeue,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'InQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS inqueue,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 2 THEN Duration END) / 1000.0, 0) AS INT), 0) AS routing,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'Agent' THEN Duration END) / 1000.0, 0) AS INT), 0) AS agent,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'PostQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS postqueue,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 15 THEN Duration END) / 1000.0, 0) AS INT), 0) AS callback,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 8 THEN Duration END) / 1000.0, 0) AS INT), 0) AS hold
+    FROM     dbo.Contact_Log_DetailQV AS qv
+             INNER JOIN
+             dbo.Contact_State AS cs
+             ON qv.Contact_State = cs.Contact_state
+    WHERE    bus_no = @_bus_no
+             AND StartDate BETWEEN @_start_date AND @_end_date
+    GROUP BY contact_ID)</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1"> agg
+AS (SELECT   Contact_ID,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'PreQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS prequeue,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'InQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS inqueue,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 2 THEN Duration END) / 1000.0, 0) AS INT), 0) AS routing,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'Agent' THEN Duration END) / 1000.0, 0) AS INT), 0) AS agent,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.category1 = 'PostQueue' THEN Duration END) / 1000.0, 0) AS INT), 0) AS postqueue,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 15 THEN Duration END) / 1000.0, 0) AS INT), 0) AS callback,
+             ISNULL(CAST (ROUND(SUM(CASE WHEN cs.contact_State = 8 THEN Duration END) / 1000.0, 0) AS INT), 0) AS hold
+    FROM     dbo.Contact_Log_DetailQV AS qv
+             INNER JOIN
+             dbo.Contact_State AS cs
+             ON qv.Contact_State = cs.Contact_state
+    WHERE    bus_no = @_bus_no
+             AND StartDate BETWEEN @_start_date AND @_end_date
+    GROUP BY contact_ID)</td>
+        <td>29</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1">CASE</td>
+        <td colspan="1">CASE WHEN cs.category1 = 'PreQueue' THEN Duration END</td>
+        <td>30</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.category1 = 'InQueue' THEN Duration END</td>
+        <td>31</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.contact_State = 2 THEN Duration END</td>
+        <td>32</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.category1 = 'Agent' THEN Duration END</td>
+        <td>33</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.category1 = 'PostQueue' THEN Duration END</td>
+        <td>34</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.contact_State = 15 THEN Duration END</td>
+        <td>35</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN cs.contact_State = 8 THEN Duration END</td>
+        <td>36</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN s.Outbound_Skill = 1 THEN c.To_Addr ELSE c.From_Addr END</td>
+        <td>144</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">CASE WHEN (clg.contact_id IS NOT NULL) THEN 'Y' ELSE 'N' END</td>
+        <td>166</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td colspan="1">COMMIT TRANSACTION</td>
+        <td>181</td>
+      </tr>
+    </table>
+  </body>
+</html>

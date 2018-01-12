@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html>
+  <head>
+    <title>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeOutboundDetailRecords]</title>
+  </head>
+  <body>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 14pt;">
+      <b>Native Compilation Advisor evaluation results for [DWCode].[DW_MergeOutboundDetailRecords]</b>
+    </p>
+    <p STYLE="font-family: Verdana, Arial, sans-serif; font-size: 10pt;">
+      <b>Report Date/Time:</b>1/1/2018 5:11 PM<br /></p>
+    <table border="1" cellpadding="5" cellspacing="0" STYLE="font-family: Verdana, Arial, sans-serif; font-size: 9pt;">
+      <tr style="background-color:Silver">
+        <th colspan="1" align="center">Transact-SQL Element</th>
+        <th align="center">Transact-SQL Code</th>
+        <th align="center">Line Number</th>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">SET OPTION ON</td>
+        <td colspan="1">SET NOCOUNT ON</td>
+        <td>2</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">SET XACT_ABORT ON</td>
+        <td>3</td>
+      </tr>
+      <tr valign="top">
+        <td colspan="1">MERGE</td>
+        <td colspan="1">MERGE INTO [dbo].[OutboundDetailRecords]
+ AS target
+USING [ETL].[OutboundDetailRecords] AS source ON (target.OutboundDetailRecordId = source.OutboundDetailRecordId)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET Bus_No                                         = source.Bus_No,
+    Skill_No                                       = source.Skill_No,
+    Contact_Id                                     = source.Contact_Id,
+    ProspectiveContactId                           = source.ProspectiveContactId,
+    Agent_No                                       = source.Agent_No,
+    OriginalTargetAgent_No                         = source.OriginalTargetAgent_No,
+    PlaceResultAgent_No                            = source.PlaceResultAgent_No,
+    LastAssignedAgent_No                           = source.LastAssignedAgent_No,
+    Agent_Session_Id                               = source.Agent_Session_Id,
+    OverrideFinalDisposition                       = source.OverrideFinalDisposition,
+    OriginalProspectiveContactAutoOutboundSkill_No = source.OriginalProspectiveContactAutoOutboundSkill_No,
+    DispositionRetrySettingId                      = source.DispositionRetrySettingId,
+    ProspectiveContactDestinationId                = source.ProspectiveContactDestinationId,
+    ProspectiveContactDestinationValue             = source.ProspectiveContactDestinationValue,
+    ProspectiveContactDestinationDesc              = source.ProspectiveContactDestinationDesc,
+    ProspectiveContactDestinationTypeId            = source.ProspectiveContactDestinationTypeId,
+    AutoOutboundSkillCadenceId                     = source.AutoOutboundSkillCadenceId,
+    CadenceAttempts                                = source.CadenceAttempts,
+    DestinationStartTimeMinutes                    = source.DestinationStartTimeMinutes,
+    DestinationEndTimeMinutes                      = source.DestinationEndTimeMinutes,
+    TimeInitiated                                  = source.TimeInitiated,
+    TimeDialed                                     = source.TimeDialed,
+    TimeConnected                                  = source.TimeConnected,
+    TimeDisposed                                   = source.TimeDisposed,
+    TimeDisconnected                               = source.TimeDisconnected,
+    TimeReceivedByPacingEngine                     = source.TimeReceivedByPacingEngine,
+    TimePreviewStart                               = source.TimePreviewStart,
+    TimePreviewEnd                                 = source.TimePreviewEnd,
+    CallRequestDateTime                            = source.CallRequestDateTime,
+    DispositionClassificationID                    = source.DispositionClassificationID,
+    CPADispCode                                    = source.CPADispCode,
+    CPADispDescription                             = source.CPADispDescription,
+    PhoneNumber                                    = source.PhoneNumber,
+    ANI                                            = source.ANI,
+    DNIS                                           = source.DNIS,
+    CallNotes                                      = source.CallNotes,
+    CommitmentAmount                               = source.CommitmentAmount,
+    ComplianceRecord                               = source.ComplianceRecord,
+    ConfirmationRequired                           = source.ConfirmationRequired,
+    ContactDeliveryTypeID                          = source.ContactDeliveryTypeID,
+    DeliveredPriority                              = source.DeliveredPriority,
+    DeliveredAsCallback                            = source.DeliveredAsCallback,
+    DeliveredAgentSpecific                         = source.DeliveredAgentSpecific,
+    CallbackDateTimeGMT                            = source.CallbackDateTimeGMT,
+    Canceled                                       = source.Canceled,
+    Rescheduled                                    = source.Rescheduled,
+    RescheduledDateTimeGMT                         = source.RescheduledDateTimeGMT,
+    TimesRescheduled                               = source.TimesRescheduled,
+    Completed                                      = source.Completed,
+    CallbackNumber                                 = source.CallbackNumber,
+    CallbackName                                   = source.CallbackName,
+    CreatedDate                                    = source.CreatedDate,
+    CreatedBy                                      = source.CreatedBy,
+    ModifiedBy                                     = source.ModifiedBy,
+    ModifiedDate                                   = source.ModifiedDate,
+    IsAgentless                                    = source.IsAgentless,
+    TimeZoneNames                                  = source.TimeZoneNames,
+    TimeZoneDetectionTypeID                        = source.TimeZoneDetectionTypeID,
+    AnswerMachineOptionId                          = source.AnswerMachineOptionId,
+    DispositionStage                               = source.DispositionStage
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (OutboundDetailRecordId, Bus_No, Skill_No, Contact_Id, ProspectiveContactId, Agent_No, OriginalTargetAgent_No, PlaceResultAgent_No, LastAssignedAgent_No, Agent_Session_Id, OverrideFinalDisposition, OriginalProspectiveContactAutoOutboundSkill_No, DispositionRetrySettingId, ProspectiveContactDestinationId, ProspectiveContactDestinationValue, ProspectiveContactDestinationDesc, ProspectiveContactDestinationTypeId, AutoOutboundSkillCadenceId, CadenceAttempts, DestinationStartTimeMinutes, DestinationEndTimeMinutes, TimeInitiated, TimeDialed, TimeConnected, TimeDisposed, TimeDisconnected, TimeReceivedByPacingEngine, TimePreviewStart, TimePreviewEnd, CallRequestDateTime, DispositionClassificationID, CPADispCode, CPADispDescription, PhoneNumber, ANI, DNIS, CallNotes, CommitmentAmount, ComplianceRecord, ConfirmationRequired, ContactDeliveryTypeID, DeliveredPriority, DeliveredAsCallback, DeliveredAgentSpecific, CallbackDateTimeGMT, Canceled, Rescheduled, RescheduledDateTimeGMT, TimesRescheduled, Completed, CallbackNumber, CallbackName, CreatedDate, CreatedBy, ModifiedBy, ModifiedDate, IsAgentless, TimeZoneNames, TimeZoneDetectionTypeID, AnswerMachineOptionId, DispositionStage) VALUES (source.OutboundDetailRecordId, source.Bus_No, source.Skill_No, source.Contact_Id, source.ProspectiveContactId, source.Agent_No, source.OriginalTargetAgent_No, source.PlaceResultAgent_No, source.LastAssignedAgent_No, source.Agent_Session_Id, source.OverrideFinalDisposition, source.OriginalProspectiveContactAutoOutboundSkill_No, source.DispositionRetrySettingId, source.ProspectiveContactDestinationId, source.ProspectiveContactDestinationValue, source.ProspectiveContactDestinationDesc, source.ProspectiveContactDestinationTypeId, source.AutoOutboundSkillCadenceId, source.CadenceAttempts, source.DestinationStartTimeMinutes, source.DestinationEndTimeMinutes, source.TimeInitiated, source.TimeDialed, source.TimeConnected, source.TimeDisposed, source.TimeDisconnected, source.TimeReceivedByPacingEngine, source.TimePreviewStart, source.TimePreviewEnd, source.CallRequestDateTime, source.DispositionClassificationID, source.CPADispCode, source.CPADispDescription, source.PhoneNumber, source.ANI, source.DNIS, source.CallNotes, source.CommitmentAmount, source.ComplianceRecord, source.ConfirmationRequired, source.ContactDeliveryTypeID, source.DeliveredPriority, source.DeliveredAsCallback, source.DeliveredAgentSpecific, source.CallbackDateTimeGMT, source.Canceled, source.Rescheduled, source.RescheduledDateTimeGMT, source.TimesRescheduled, source.Completed, source.CallbackNumber, source.CallbackName, source.CreatedDate, source.CreatedBy, source.ModifiedBy, source.ModifiedDate, source.IsAgentless, source.TimeZoneNames, source.TimeZoneDetectionTypeID, source.AnswerMachineOptionId, source.DispositionStage)</td>
+        <td>5</td>
+      </tr>
+      <tr valign="top" style="background-color:LightYellow">
+        <td colspan="1"></td>
+        <td colspan="1">MERGE INTO [dbo].[OutboundDetailRecords]
+ AS target
+USING [ETL].[OutboundDetailRecords] AS source ON (target.OutboundDetailRecordId = source.OutboundDetailRecordId)
+WHEN MATCHED AND source.ActionID IN (1, 2, 3) THEN UPDATE 
+SET Bus_No                                         = source.Bus_No,
+    Skill_No                                       = source.Skill_No,
+    Contact_Id                                     = source.Contact_Id,
+    ProspectiveContactId                           = source.ProspectiveContactId,
+    Agent_No                                       = source.Agent_No,
+    OriginalTargetAgent_No                         = source.OriginalTargetAgent_No,
+    PlaceResultAgent_No                            = source.PlaceResultAgent_No,
+    LastAssignedAgent_No                           = source.LastAssignedAgent_No,
+    Agent_Session_Id                               = source.Agent_Session_Id,
+    OverrideFinalDisposition                       = source.OverrideFinalDisposition,
+    OriginalProspectiveContactAutoOutboundSkill_No = source.OriginalProspectiveContactAutoOutboundSkill_No,
+    DispositionRetrySettingId                      = source.DispositionRetrySettingId,
+    ProspectiveContactDestinationId                = source.ProspectiveContactDestinationId,
+    ProspectiveContactDestinationValue             = source.ProspectiveContactDestinationValue,
+    ProspectiveContactDestinationDesc              = source.ProspectiveContactDestinationDesc,
+    ProspectiveContactDestinationTypeId            = source.ProspectiveContactDestinationTypeId,
+    AutoOutboundSkillCadenceId                     = source.AutoOutboundSkillCadenceId,
+    CadenceAttempts                                = source.CadenceAttempts,
+    DestinationStartTimeMinutes                    = source.DestinationStartTimeMinutes,
+    DestinationEndTimeMinutes                      = source.DestinationEndTimeMinutes,
+    TimeInitiated                                  = source.TimeInitiated,
+    TimeDialed                                     = source.TimeDialed,
+    TimeConnected                                  = source.TimeConnected,
+    TimeDisposed                                   = source.TimeDisposed,
+    TimeDisconnected                               = source.TimeDisconnected,
+    TimeReceivedByPacingEngine                     = source.TimeReceivedByPacingEngine,
+    TimePreviewStart                               = source.TimePreviewStart,
+    TimePreviewEnd                                 = source.TimePreviewEnd,
+    CallRequestDateTime                            = source.CallRequestDateTime,
+    DispositionClassificationID                    = source.DispositionClassificationID,
+    CPADispCode                                    = source.CPADispCode,
+    CPADispDescription                             = source.CPADispDescription,
+    PhoneNumber                                    = source.PhoneNumber,
+    ANI                                            = source.ANI,
+    DNIS                                           = source.DNIS,
+    CallNotes                                      = source.CallNotes,
+    CommitmentAmount                               = source.CommitmentAmount,
+    ComplianceRecord                               = source.ComplianceRecord,
+    ConfirmationRequired                           = source.ConfirmationRequired,
+    ContactDeliveryTypeID                          = source.ContactDeliveryTypeID,
+    DeliveredPriority                              = source.DeliveredPriority,
+    DeliveredAsCallback                            = source.DeliveredAsCallback,
+    DeliveredAgentSpecific                         = source.DeliveredAgentSpecific,
+    CallbackDateTimeGMT                            = source.CallbackDateTimeGMT,
+    Canceled                                       = source.Canceled,
+    Rescheduled                                    = source.Rescheduled,
+    RescheduledDateTimeGMT                         = source.RescheduledDateTimeGMT,
+    TimesRescheduled                               = source.TimesRescheduled,
+    Completed                                      = source.Completed,
+    CallbackNumber                                 = source.CallbackNumber,
+    CallbackName                                   = source.CallbackName,
+    CreatedDate                                    = source.CreatedDate,
+    CreatedBy                                      = source.CreatedBy,
+    ModifiedBy                                     = source.ModifiedBy,
+    ModifiedDate                                   = source.ModifiedDate,
+    IsAgentless                                    = source.IsAgentless,
+    TimeZoneNames                                  = source.TimeZoneNames,
+    TimeZoneDetectionTypeID                        = source.TimeZoneDetectionTypeID,
+    AnswerMachineOptionId                          = source.AnswerMachineOptionId,
+    DispositionStage                               = source.DispositionStage
+WHEN NOT MATCHED AND source.ActionID IN (1, 2, 3) THEN INSERT (OutboundDetailRecordId, Bus_No, Skill_No, Contact_Id, ProspectiveContactId, Agent_No, OriginalTargetAgent_No, PlaceResultAgent_No, LastAssignedAgent_No, Agent_Session_Id, OverrideFinalDisposition, OriginalProspectiveContactAutoOutboundSkill_No, DispositionRetrySettingId, ProspectiveContactDestinationId, ProspectiveContactDestinationValue, ProspectiveContactDestinationDesc, ProspectiveContactDestinationTypeId, AutoOutboundSkillCadenceId, CadenceAttempts, DestinationStartTimeMinutes, DestinationEndTimeMinutes, TimeInitiated, TimeDialed, TimeConnected, TimeDisposed, TimeDisconnected, TimeReceivedByPacingEngine, TimePreviewStart, TimePreviewEnd, CallRequestDateTime, DispositionClassificationID, CPADispCode, CPADispDescription, PhoneNumber, ANI, DNIS, CallNotes, CommitmentAmount, ComplianceRecord, ConfirmationRequired, ContactDeliveryTypeID, DeliveredPriority, DeliveredAsCallback, DeliveredAgentSpecific, CallbackDateTimeGMT, Canceled, Rescheduled, RescheduledDateTimeGMT, TimesRescheduled, Completed, CallbackNumber, CallbackName, CreatedDate, CreatedBy, ModifiedBy, ModifiedDate, IsAgentless, TimeZoneNames, TimeZoneDetectionTypeID, AnswerMachineOptionId, DispositionStage) VALUES (source.OutboundDetailRecordId, source.Bus_No, source.Skill_No, source.Contact_Id, source.ProspectiveContactId, source.Agent_No, source.OriginalTargetAgent_No, source.PlaceResultAgent_No, source.LastAssignedAgent_No, source.Agent_Session_Id, source.OverrideFinalDisposition, source.OriginalProspectiveContactAutoOutboundSkill_No, source.DispositionRetrySettingId, source.ProspectiveContactDestinationId, source.ProspectiveContactDestinationValue, source.ProspectiveContactDestinationDesc, source.ProspectiveContactDestinationTypeId, source.AutoOutboundSkillCadenceId, source.CadenceAttempts, source.DestinationStartTimeMinutes, source.DestinationEndTimeMinutes, source.TimeInitiated, source.TimeDialed, source.TimeConnected, source.TimeDisposed, source.TimeDisconnected, source.TimeReceivedByPacingEngine, source.TimePreviewStart, source.TimePreviewEnd, source.CallRequestDateTime, source.DispositionClassificationID, source.CPADispCode, source.CPADispDescription, source.PhoneNumber, source.ANI, source.DNIS, source.CallNotes, source.CommitmentAmount, source.ComplianceRecord, source.ConfirmationRequired, source.ContactDeliveryTypeID, source.DeliveredPriority, source.DeliveredAsCallback, source.DeliveredAgentSpecific, source.CallbackDateTimeGMT, source.Canceled, source.Rescheduled, source.RescheduledDateTimeGMT, source.TimesRescheduled, source.Completed, source.CallbackNumber, source.CallbackName, source.CreatedDate, source.CreatedBy, source.ModifiedBy, source.ModifiedDate, source.IsAgentless, source.TimeZoneNames, source.TimeZoneDetectionTypeID, source.AnswerMachineOptionId, source.DispositionStage)</td>
+        <td>5</td>
+      </tr>
+    </table>
+  </body>
+</html>
