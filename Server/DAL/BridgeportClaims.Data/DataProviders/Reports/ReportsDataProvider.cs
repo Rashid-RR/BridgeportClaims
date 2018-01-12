@@ -100,7 +100,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                         conn.Open();
                     return DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
-                        var monthBilledOrdinal = reader.GetOrdinal("MonthBilled");
+                        var monthBilledOrdinal = reader.GetOrdinal("DateBilled");
                         var totalInvoicedOrdinal = reader.GetOrdinal("TotalInvoiced");
                         var jan17Ordinal = reader.GetOrdinal("Mnth1");
                         var feb17Ordinal = reader.GetOrdinal("Mnth2");
