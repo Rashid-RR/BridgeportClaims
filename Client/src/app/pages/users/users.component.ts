@@ -105,12 +105,14 @@ export class UsersComponent implements OnInit {
   }
 
   changeStatus(index, event) {
-    let title = 'Activate/Deactivate';
+    let title = '';
     let msg = '';
     if (!event) {
-      msg = 'Are you sure you want to disable ' + this.users[index].fullName + ' from the entire site?';
+      title='Deactivate User'
+      msg = 'Are you sure you want to  deactivate ' + this.users[index].fullName + ' from the entire site?';
     } else {
-      msg = 'Are you sure you want to enable ' + this.users[index].fullName + ' to use the entire site?';
+      title='Activate User'
+      msg = 'Are you sure you want to  activate '+ this.users[index].fullName + ' to use the entire site?';
     }
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: title,
@@ -176,7 +178,7 @@ export class UsersComponent implements OnInit {
     if (this.users[index].admin && role == this.userRole && !event) {
       msg = 'Warning, revoking ' + this.users[index].fullName + ' from the "User" role will also revoke them from the "Admin" role.';
     } else {
-      msg = 'Please confirm to ' + action + this.users[index].fullName;
+      msg = '' + action + this.users[index].fullName +'?';
     }
 
 
