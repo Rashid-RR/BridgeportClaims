@@ -4,19 +4,25 @@ block content
     table(class="table table-hover table-striped table-bordered")
       thead
         th File
-        th Pass or Fail
+        if(filePath.indexOf('Tables')>-1)
+          th Pass or Fail
+        else if(filePath.indexOf('Stored Procedures')>-1 || filePath.indexOf('User Defined Functions')>-1)
+          th Issue Count
         th Type
         th File Size
-        th Created
+        th Date
         th &nbsp;
       tbody
       for file in files
         tr(id=file.filePath)
           td=file.name
-          if (file.status=='Pass')
-            td(class="label-success")=file.status
-          else
-            td(class="label-danger")=file.status
+          if(filePath.indexOf('Tables')>-1)
+            if (file.status=='Pass')
+              td(class="label-success")=file.status
+            else
+              td(class="label-danger")=file.status
+          else if(filePath.indexOf('Stored Procedures')>-1 || filePath.indexOf('User Defined Functions')>-1)
+            td=file.issueCount
           td=file.type
           td=(file.size/(1024*1024)>=1  ? Math.round(file.size/(1024*1024),2)+' MB' : (file.size/(1024)>=1 ? Math.round(file.size/1024,2)+' KB' : file.size+ ' Bytes'))
           td=moment(file.birthtime).format('MM-DD-YYYY')

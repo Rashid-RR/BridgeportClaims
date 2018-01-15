@@ -22,6 +22,7 @@ var getFileMeta = function (name, file, callback) {
             if(title.html()) thefile.name = title.html().substring(title.html().lastIndexOf("[") + 1, title.html().lastIndexOf("]"));
             var table = $('table');
             thefile.status= table.html().indexOf('Failed')>-1 ? 'Fail' : 'Pass';
+            thefile.issueCount= table.html().match(/<tr/g).length -1;
             callback(thefile);            
         });
     } else {
@@ -49,7 +50,7 @@ var walkSync = function (dir, callback) {
 exports.searchFiles = (req, res) => {
     let filePath = req.body.path || global.config.watchpath;
     walkSync(filePath, (files) => {
-        res.render('index', { title: 'Express', files: files });
+        res.render('index', { title: 'Express', files: files,filePath:filePath });
     });
 }
 exports.viewFile = (req, res) => {
