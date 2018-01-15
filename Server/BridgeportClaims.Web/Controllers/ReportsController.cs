@@ -2,13 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Reports;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Excel.ExcelPackageFactory;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
@@ -67,23 +71,39 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("accounts-receivable")]
-        public IHttpActionResult GetAccountsReceivableReport(AccountsReceivableViewModel model)
+        public async Task<IHttpActionResult> GetAccountsReceivableReport(AccountsReceivableViewModel model)
         {
             try
             {
-                var results = _reportsDataProvider.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
-                
-
-                var selectStatement = $"new ( MonthBilled, YearBilled, TotalInvoiced, Mnth1 as {MonthDictionary[1]}, Mnth2 as {MonthDictionary[2]}" +
-                    $", Mnth3 as {MonthDictionary[3]}, Mnth4 as {MonthDictionary[4]}, Mnth5 as {MonthDictionary[5]}, Mnth6 as {MonthDictionary[6]}, Mnth7 as {MonthDictionary[7]}, Mnth8 as {MonthDictionary[8]}" +
-                    $", Mnth9 as {MonthDictionary[9]}, Mnth10 as {MonthDictionary[10]}, Mnth11 as {MonthDictionary[11]}, Mnth12 as {MonthDictionary[12]} )";
-                var retVal = results?.AsQueryable().Select(selectStatement);
-                return Ok(retVal);
+                return await Task.Run(() =>
+                {
+                    var retVal = GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                    return Ok(retVal);
+                });
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        private IQueryable GetAccountsReceivableReport(string groupName, string pharmacyName)
+        {
+            try
+            {
+                var results = _reportsDataProvider.GetAccountsReceivableReport(groupName, pharmacyName);
+                var selectStatement = $"new ( DateBilled, TotalInvoiced, Mnth1 as {MonthDictionary[1]}, Mnth2 as {MonthDictionary[2]}" +
+                                      $", Mnth3 as {MonthDictionary[3]}, Mnth4 as {MonthDictionary[4]}, Mnth5 as {MonthDictionary[5]}, " +
+                                      $"Mnth6 as {MonthDictionary[6]}, Mnth7 as {MonthDictionary[7]}, Mnth8 as {MonthDictionary[8]}" +
+                                      $", Mnth9 as {MonthDictionary[9]}, Mnth10 as {MonthDictionary[10]}, Mnth11 as {MonthDictionary[11]}, Mnth12 as {MonthDictionary[12]} )";
+                var retVal = results?.AsQueryable().Select(selectStatement);
+                return retVal;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
             }
         }
 
@@ -139,15 +159,15 @@ namespace BridgeportClaims.Web.Controllers
                     table.Columns.Add(MonthDictionary[10], typeof(decimal));
                     table.Columns.Add(MonthDictionary[11], typeof(decimal));
                     table.Columns.Add(MonthDictionary[12], typeof(decimal));
-                    var report = _reportsDataProvider?.GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                    var report = GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
                     if (null == report)
                         throw new Exception("Error. No results were found from running the Accounts Receivable report.");
-                    var dt = report.CopyToGenericDataTable(table, LoadOption.PreserveChanges);
-                    if (null == dt)
+                    var dataTable = report.ToDynamicLinqDataTable();
+                    if (null == dataTable)
                         throw new Exception("Could not create a data table from the report.");
                     var excelFactory = new ExcelFactory();
                     var fileName = "AccountsReceivableReport" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.xlsx";
-                    var fullFilePath = excelFactory.GetExcelFilePathFromDataTable(dt, "Accounts Receivable", fileName);
+                    var fullFilePath = excelFactory.GetExcelFilePathFromDataTable(dataTable, "Accounts Receivable", fileName);
                     return new FileResult(fullFilePath, fileName, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
                 });
             }

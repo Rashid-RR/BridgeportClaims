@@ -58,12 +58,11 @@
 
                                     <th>First Name</th>
                                     <th>Last Name</th>
+                                    <th>Activate</th>
                                     <th>Email Confirmed</th>
                                     <th>Registered Date</th>
-                                    <th>User</th>
                                     <th>Indexer</th>
                                     <th>Admin</th>
-                                    <th>Activate / Deactivate</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,24 +71,19 @@
                                         <td>{{user.userName}}</td>
                                         <td>{{user.firstName}}</td>
                                         <td>{{user.lastName}}</td>
+                                        <td>
+                                            <div class="demo text-center">                    
+                                                    <input type="checkbox" class="faChkRnd" [(ngModel)]="!user.deactivated" (ngModelChange)="changeStatus(i,$event)"><label></label>
+                                            </div>
+                                        </td>
                                         <td>{{user.emailConfirmed}}</td>
                                         <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
-                                        <td class="center-in">
-                                             <label class="checkboxFive">
-                                                <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.user" (ngModelChange)="showRoleConfirm(i,userRole,$event)" [disabled]="(user.admin || user.indexer)">	 
-                                                <div for="checkboxFiveInput"></div>
-                                            </label> 
-
-                                        </td>
-
                                         <td class="center-in">
                                             <label class="checkboxFive">
                                                <input type="checkbox" id="checkboxFiveInput"  [(ngModel)]="user.indexer" (ngModelChange)="showRoleConfirm(i,indexerRole,$event)"  [disabled]="(user.admin)">	 
                                                <div for="checkboxFiveInput"></div>
                                            </label> 
-
                                        </td>
-
                                         <td class="center-in">
                                              
                                             <label class="checkboxFive">
@@ -97,12 +91,7 @@
                                                 <div for="checkboxFiveInput"></div>
                                             </label> 	
 
-                                        </td>
-                                        <td>
-                                            <div class="demo text-center">                    
-                                                    <input type="checkbox" class="faChkRnd" [(ngModel)]="!user.deactivated" (ngModelChange)="changeStatus(i,$event)"><label></label>
-                                            </div>
-                                        </td>
+                                        </td>                                       
                                     </tr>
                                 </ng-container>
                             </tbody>
