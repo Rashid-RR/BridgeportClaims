@@ -11,7 +11,7 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[PrescriptionNoteMapping] ADD CONSTRAINT [pkPrescriptionNoteMapping] PRIMARY KEY CLUSTERED  ([PrescriptionID], [PrescriptionNoteID]) WITH (FILLFACTOR=95, DATA_COMPRESSION = ROW) ON [PRIMARY]
+ALTER TABLE [dbo].[PrescriptionNoteMapping] ADD CONSTRAINT [pkPrescriptionNoteMapping] PRIMARY KEY CLUSTERED  ([PrescriptionID], [PrescriptionNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionNoteMappingIncludeAll] ON [dbo].[PrescriptionNoteMapping] ([PrescriptionID], [PrescriptionNoteID]) INCLUDE ([CreatedOnUTC], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
