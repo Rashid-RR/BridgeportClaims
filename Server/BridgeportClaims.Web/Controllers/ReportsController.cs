@@ -145,20 +145,6 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return DisposableService.Using(() => new DataTable(), table =>
                 {
-                    table.Columns.Add("DateBilled", typeof(string));
-                    table.Columns.Add("TotalInvoiced", typeof(decimal));
-                    table.Columns.Add(MonthDictionary[1], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[2], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[3], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[4], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[5], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[6], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[7], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[8], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[9], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[10], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[11], typeof(decimal));
-                    table.Columns.Add(MonthDictionary[12], typeof(decimal));
                     var report = GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
                     if (null == report)
                         throw new Exception("Error. No results were found from running the Accounts Receivable report.");
