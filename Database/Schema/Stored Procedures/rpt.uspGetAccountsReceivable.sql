@@ -11,28 +11,12 @@ GO
 */
 CREATE PROCEDURE [rpt].[uspGetAccountsReceivable]
 (
-	@GroupName VARCHAR(255),
-	@PharmacyName VARCHAR(60)
+	@GroupName VARCHAR(255) = NULL,
+	@PharmacyName VARCHAR(60) = NULL
 )
-WITH RECOMPILE
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
-	DECLARE @InternalGroupName VARCHAR(255) = @GroupName,
-			@InternalPharmacyName VARCHAR(60) = @PharmacyName;
-
-	DECLARE @MnthOne TINYINT = 1
-		   ,@MnthTwo TINYINT = 2
-		   ,@MnthThree TINYINT = 3
-		   ,@MnthFour TINYINT = 4
-		   ,@MnthFive TINYINT = 5
-		   ,@MnthSix TINYINT = 6
-		   ,@MnthSeven TINYINT = 7
-		   ,@MnthEight TINYINT = 8
-		   ,@MnthNine TINYINT = 9
-		   ,@MnthTen TINYINT = 10
-		   ,@MnthEleven TINYINT = 11
-		   ,@MnthTwelve TINYINT = 12;
 
 	/*
 	-- Testing
@@ -42,12 +26,14 @@ AS BEGIN
 		DROP TABLE [#PrescriptionTotals]
 	IF OBJECT_ID('tempdb..[#MonthYearBillingTotals]') IS NOT NULL
 		DROP TABLE [#MonthYearBillingTotals]
+	IF OBJECT_ID('tempdb..#ChronologicalMapping') IS NOT NULL
+		DROP TABLE #ChronologicalMapping
 	DECLARE @GroupName VARCHAR(255)
 			,@PharmacyName VARCHAR(60)
-			,@InternalGroupName VARCHAR(255)
-			,@InternalPharmacyName VARCHAR(60)
 	*/
-	
+
+	DECLARE @InternalGroupName VARCHAR(255) = @GroupName,
+			@InternalPharmacyName VARCHAR(60) = @PharmacyName;
 
 	CREATE TABLE #Master (MonthBilled VARCHAR(100) NOT NULL, YearBilled SMALLINT, CalendarMonth TINYINT NOT NULL,
 			CalendarYear SMALLINT NULL, TotalInvoiced MONEY NOT NULL, Mnth1 MONEY NOT NULL, Mnth2 MONEY NOT NULL, 
@@ -107,12 +93,10 @@ AS BEGIN
 	-- Run through each billable month and update when payments were received for those billed amounts
 
 	-- Create a mapping for 1 - 12 regardless of month and year, as long as its in chronological order, we can map it back.
-	DECLARE @ChronologicalMapping TABLE
-	(Idx TINYINT NOT NULL, Interval CHAR(5) NOT NULL)
-	INSERT @ChronologicalMapping
-	([Idx],[Interval])
+	CREATE TABLE #ChronologicalMapping (Idx TINYINT NOT NULL PRIMARY KEY, [InvoicedYear] SMALLINT NOT NULL, [InvoicedMonth] TINYINT NOT NULL)
+	INSERT #ChronologicalMapping ([Idx], [InvoicedYear], [InvoicedMonth])
 	SELECT      ROW_NUMBER() OVER (ORDER BY [t].[InvoicedYear] ASC) Idx, 
-				FORMAT(DATEFROMPARTS([t].[InvoicedYear], [t].[InvoicedMonth], 1), 'MM-yy')
+				[t].[InvoicedYear], [t].[InvoicedMonth]
 	FROM        #MonthYearBillingTotals AS t
 	ORDER BY    t.[InvoicedYear] ASC
 			  , t.[InvoicedMonth] ASC
@@ -152,7 +136,7 @@ AS BEGIN
 									,pp.AmountPaid
 							FROM	dbo.PrescriptionPayment AS pp
 									INNER JOIN dbo.udfGetPrescriptionBilling(@LoopStart, @LoopEnd, @InternalGroupName, @InternalPharmacyName) AS f ON f.PrescriptionID = pp.PrescriptionID
-									INNER JOIN @ChronologicalMapping AS [cm] ON FORMAT(pp.DatePosted, 'MM-yy') = [cm].[Interval]
+									INNER JOIN #ChronologicalMapping AS [cm] ON YEAR(pp.[DatePosted]) = cm.[InvoicedYear] AND MONTH(pp.[DatePosted]) = cm.[InvoicedMonth]
 							) AS SourceTable
 				PIVOT
 				(   SUM(AmountPaid)
@@ -196,6 +180,4 @@ AS BEGIN
 	FROM #Master AS m
 	ORDER BY m.[CalendarYear] ASC, m.CalendarMonth ASC
 END
-
-
 GO

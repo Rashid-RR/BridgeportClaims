@@ -48,7 +48,7 @@ AS BEGIN
 		   LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
 		   LEFT JOIN dbo.PrescriptionStatus AS ps ON ps.PrescriptionStatusID = p.PrescriptionStatusID
 		   OUTER APPLY (
-				SELECT SUM([ipm].[AmountPaid]) AmountPaid 
+				SELECT ISNULL(SUM([ipm].[AmountPaid]), 0.0) AmountPaid 
 				FROM dbo.PrescriptionPayment AS [ipm] 
 				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID]) AS pm
 	WHERE  [p].[ClaimID] = @ClaimID
@@ -103,4 +103,5 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
 GO
