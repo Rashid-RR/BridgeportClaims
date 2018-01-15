@@ -29,7 +29,7 @@
                 
                 <ng-container *ngIf="profileManager.profile">
                         <li class="display-date"><i class="fa fa-calendar" aria-hidden="true"></i>
-                            {{ date | date }}<small>Version 8.7</small></li>
+                            {{ date | date }}<small>Version <strong>8.7</strong> </small></li>
                     <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
                         <a style="cursor:pointer" (click)="!disableLinks ? clearCache() : ''" [class.disabled]="disableLinks"><i class="fa fa-refresh" aria-hidden="true"></i>
                             Clear Cache</a>

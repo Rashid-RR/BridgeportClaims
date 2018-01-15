@@ -8,6 +8,7 @@ import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { DocumentItem } from '../models/document';
 import { DocumentType } from '../models/document-type';
+import { ProfileManager } from 'app/services/services.barrel';
 
 @Injectable()
 export class DocumentManagerService {
@@ -21,7 +22,7 @@ export class DocumentManagerService {
   newIndex: boolean = false;
   file: DocumentItem;
   exactMatch: boolean = false;
-  constructor(private http: HttpService, private formBuilder: FormBuilder, private _ngZone: NgZone,
+  constructor(private profileManager: ProfileManager, private http: HttpService, private formBuilder: FormBuilder, private _ngZone: NgZone,
     private events: EventsService, private toast: ToastsManager) {
     this.data = {
       date: null,
@@ -39,37 +40,43 @@ export class DocumentManagerService {
         }
         doc.added = true;
         this.documents = this.documents.set(doc.documentId, doc);
-        this.toast.info(doc.fileName + ' was added...');
+        if (this.adminOrAsociate) {
+          this.toast.info(doc.fileName + ' was added...');
+        }
       }, 50);
       setTimeout(() => {
         this.documents.get(doc.documentId).added = false;
       }, 3500)
     })
     this.events.on("modified-image", (doc: DocumentItem) => {
-      let document =  this.documents.get(doc.documentId)
+      let document = this.documents.get(doc.documentId)
       setTimeout(() => {
         if (!document) {
           this.totalRowCount++;
           doc.added = true;
-        }else{
+        } else {
           doc.edited = true;
         }
         this.documents = this.documents.set(doc.documentId, doc);
-        this.toast.info(doc.fileName + ' was modified...');
+        if (this.adminOrAsociate) {
+          this.toast.info(doc.fileName + ' was modified...');
+        }
       }, 50);
       setTimeout(() => {
         doc.edited = false;
         doc.added = false;
-        this.documents = this.documents.set(doc.documentId,doc);
+        this.documents = this.documents.set(doc.documentId, doc);
       }, 4000)
     })
     this.events.on("deleted-image", (id: any) => {
-      let document =  this.documents.get(id)
+      let document = this.documents.get(id)
       if (document) {
         document.deleted = true;
-        this.documents = this.documents.set(id,document);
+        this.documents = this.documents.set(id, document);
         setTimeout(() => {
-          this.toast.info(this.documents.get(id).fileName + ' was deleted...');
+          if (this.adminOrAsociate) {
+            this.toast.info(this.documents.get(id).fileName + ' was deleted...');
+          }
           this.documents = this.documents.delete(id);
           this.totalRowCount--;
         }, 4000)
@@ -85,7 +92,7 @@ export class DocumentManagerService {
   onSortColumn(info: SortColumnInfo) {
     this.data.isDefaultSort = false;
     this.data.sort = info.column;
-    this.data.page =1;
+    this.data.page = 1;
     this.data.sortDirection = info.dir.toUpperCase();
     this.search();
   }
@@ -116,7 +123,9 @@ export class DocumentManagerService {
   }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.data) {
-      this.toast.warning('Please populate at least one search field.');
+      if (this.adminOrAsociate) {
+        this.toast.warning('Please populate at least one search field.');
+      }
     } else {
       this.loading = true;
       let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
@@ -164,6 +173,12 @@ export class DocumentManagerService {
           this.events.broadcast('document-list-updated');
         });
     }
+  }
+  get allowed(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
+  }
+  get adminOrAsociate(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));
   }
 
 
