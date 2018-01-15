@@ -20,6 +20,8 @@ var getFileMeta = function (name, file, callback) {
             var $ = cheerio.load(text);
             var title = $("title"); //get hold of title text
             if(title.html()) thefile.name = title.html().substring(title.html().lastIndexOf("[") + 1, title.html().lastIndexOf("]"));
+            var table = $('table');
+            thefile.status= table.html().indexOf('Failed')>-1 ? 'Fail' : 'Pass';
             callback(thefile);            
         });
     } else {

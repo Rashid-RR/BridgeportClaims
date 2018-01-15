@@ -8,7 +8,7 @@ import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { DocumentItem } from '../models/document';
 import { DocumentType } from '../models/document-type';
-import { ProfileManager } from 'app/services/services.barrel';
+import { ProfileManager } from './profile-manager';
 
 @Injectable()
 export class DocumentManagerService {
