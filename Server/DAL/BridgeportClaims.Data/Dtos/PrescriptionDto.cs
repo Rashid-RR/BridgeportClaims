@@ -21,5 +21,7 @@ namespace BridgeportClaims.Data.Dtos
         public string Prescriber { get; set; }
         public string PrescriberNpi { get; set; }
         public string PharmacyName { get; set; }
+        public string PrescriptionNdc { get; set; }
+        public string PrescriberPhone { get; set; }
     }
 }
