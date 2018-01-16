@@ -14,15 +14,9 @@
     <ul class="sidebar-menu">
       <li [class.active]="router.url.indexOf('/main/private')>-1">
         <a [routerLink]="!disableLinks ? '/main/private'  : []" [class.disabled]="disableLinks">
-            <img style='width: 25px;'src="assets/img/dashboard.png"> <span>DASHBOARD</span>
+            <img style='width: 25px;'src="assets/img/dashboard.png"> <span>Dashboard</span>
           </a>
       </li>
-      <!--<li>
-            <a  [routerLink]="'/main/payors'">
-              <i class="fa fa-user fa-fw"></i>
-              <span>Payors</span>
-            </a>
-        </li>       -->
       <li [class.active]="router.url.indexOf('/main/claims')>-1" (click)="claimsActive()">
           <a  [class.disabled]="disableLinks">
             <img style='width: 25px;'src="assets/img/Claims.png">
