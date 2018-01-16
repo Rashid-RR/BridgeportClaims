@@ -10,7 +10,6 @@ using Microsoft.AspNet.Identity;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
-using BridgeportClaims.Common.Caching;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using c = BridgeportClaims.Common.StringConstants.Constants;
@@ -25,7 +24,6 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private ApplicationUserManager _userManager;
-        private readonly IMemoryCacher _memoryCacher;
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
 
@@ -37,7 +35,6 @@ namespace BridgeportClaims.Web.Controllers
 
         public AccountsController()
         {
-            _memoryCacher = MemoryCacher.Instance;
         }
 
         private string BaseUri => Request.RequestUri.GetLeftPart(UriPartial.Authority);
@@ -48,7 +45,6 @@ namespace BridgeportClaims.Web.Controllers
         {
             UserManager = userManager;
             AccessTokenFormat = accessTokenFormat;
-            _memoryCacher = MemoryCacher.Instance;
         }
 
         [HttpPost]
@@ -66,9 +62,6 @@ namespace BridgeportClaims.Web.Controllers
                 if (!await UserManager.IsEmailConfirmedAsync(user.Id))
                     return BadRequest(
                         "You must confirm your email address from your registration before confirming your password");
-                // Before we start doing work, clear the cache for this user
-                _memoryCacher.Delete(user.Id);
-                _memoryCacher.Delete(user.UserName);
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
                 var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
@@ -142,9 +135,6 @@ namespace BridgeportClaims.Web.Controllers
                     // Don't reveal that the user does not exist (security hole)
                     return Ok();
                 }
-                // Before we start doing work, clear the cache for this user
-                _memoryCacher.Delete(user.Id);
-                _memoryCacher.Delete(user.UserName);
                 var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
                 if (result.Succeeded)
                     return Ok(new {message = "The Password was Reset Successfully"});
@@ -171,11 +161,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await _memoryCacher.AddOrGetExisting(User.Identity.GetUserId(), () =>
-                {
-                    var userManager = UserManager.FindByNameAsync(User.Identity.Name);
-                    return userManager;
-                });
+                var user = await UserManager.FindByNameAsync(User.Identity.Name);
                 return GetUserInfoViewModelFromApplicationUser(user);
             }
             catch (Exception ex)
@@ -275,9 +261,8 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var retVal = _memoryCacher.AddOrGetExisting(c.GetAllUsersCacheKey,
-                        () => AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u)));
-                    return Ok(retVal);
+                    var retVal = AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u));
+                    return Ok(retVal.OrderBy(x => x.Email).ToList());
                 });
             }
             catch (Exception ex)
@@ -294,7 +279,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await _memoryCacher.AddOrGetExisting(id, () => UserManager.FindByIdAsync(id));
+                var user = await UserManager.FindByIdAsync(id);
                 if (user != null)
                     return Ok(TheModelFactory.Create(user));
                 return NotFound();
@@ -313,7 +298,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await _memoryCacher.AddOrGetExisting(username, () => UserManager.FindByNameAsync(username));
+                var user = await UserManager.FindByNameAsync(username);
                 if (null != user)
                     return Ok(GetUserInfoViewModelFromApplicationUser(user));
                 return NotFound();
@@ -355,8 +340,6 @@ namespace BridgeportClaims.Web.Controllers
                 if (null == user)
                     return Content(HttpStatusCode.NotAcceptable,
                         new {message = "Error. The user was not found."});
-                _memoryCacher.Delete(id);
-                _memoryCacher.Delete(user.UserName);
                 var result = await AppUserManager.DeleteAsync(user);
                 return !result.Succeeded ? GetErrorResult(result) : Ok(new {message="The User was Deleted Successfully."});
             }

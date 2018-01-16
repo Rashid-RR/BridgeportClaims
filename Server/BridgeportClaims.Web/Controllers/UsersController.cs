@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.UserRoles;
@@ -18,13 +18,11 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IAspNetUsersProvider _aspNetUsersProvider;
         private readonly IAssignUsersToRolesProvider _assignUsersToRolesProvider;
-        private readonly IMemoryCacher _memoryCacher;
 
         public UsersController(IAspNetUsersProvider aspNetUsersProvider, IAssignUsersToRolesProvider assignUsersToRolesProvider)
         {
             _aspNetUsersProvider = aspNetUsersProvider;
             _assignUsersToRolesProvider = assignUsersToRolesProvider;
-            _memoryCacher = MemoryCacher.Instance;
         }
 
         [HttpPost]
@@ -34,16 +32,17 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                // Remove from all roles.
-                var isAdmin = await AppUserManager.IsInRoleAsync(id, "Admin");
-                var isUser = await AppUserManager.IsInRoleAsync(id, "User");
-                var roles = new List<string>();
-                if (isAdmin)
-                    roles.Add("Admin");
-                if (isUser)
-                    roles.Add("User");
-                _memoryCacher.Delete(id);
-                await AppUserManager.RemoveFromRolesAsync(id, roles.ToArray());
+                var rolesToRemove = new List<string>();
+                var roles = AppRoleManager?.Roles?.Select(x => x.Name).ToArray();
+                if (null == roles)
+                    throw new Exception("Error, no roles were found in the system.");
+                foreach (var role in roles)
+                {
+                    var isInRole = await AppUserManager.IsInRoleAsync(id, role);
+                    if (isInRole)
+                        rolesToRemove.Add(role);
+                }
+                await AppUserManager.RemoveFromRolesAsync(id, rolesToRemove.ToArray());
                 await AppUserManager.SetLockoutEnabledAsync(id, true);
                 await AppUserManager.SetLockoutEndDateAsync(id, DateTimeOffset.UtcNow.AddYears(200));
                 await AppUserManager.AccessFailedAsync(id);
@@ -64,7 +63,6 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var isInUserRole = await AppUserManager.IsInRoleAsync(id, "User");
-                _memoryCacher.Delete(id);
                 if (!isInUserRole)
                     await AppUserManager.AddToRoleAsync(id, "User");
                 await AppUserManager.SetLockoutEndDateAsync(id, DateTimeOffset.UtcNow.AddYears(-1));
@@ -133,7 +131,6 @@ namespace BridgeportClaims.Web.Controllers
                                         " parameter cannot both be null or empty.");
                 return await Task.Run(() =>
                 {
-                    _memoryCacher.Delete(id);
                     _aspNetUsersProvider.UpdateFirstOrLastName(id, firstName, lastName);
                     return Ok(new {message = "Name has been Updated Successfully"});
                 });

@@ -32,7 +32,7 @@ namespace BridgeportClaims.Web.Models
                     FullName = $"{appUser.FirstName} {appUser.LastName}",
                     FirstName = appUser.FirstName,
                     LastName = appUser.LastName,
-                    Deactivated = appUser.LockoutEnabled && appUser.LockoutEndDateUtc.HasValue && appUser.LockoutEndDateUtc.Value > DateTime.UtcNow,
+                    Deactivated = appUser.LockoutEnabled && appUser.LockoutEndDateUtc.HasValue && appUser.LockoutEndDateUtc.Value <= DateTime.UtcNow,
                     Email = appUser.Email,
                     EmailConfirmed = appUser.EmailConfirmed,
                     RegisteredDate = appUser.RegisteredDate,

@@ -4,32 +4,32 @@ export class User {
         id: String;
         userName: String;
         firstName: String;
-        lastName: String
+        lastName: String;
         fullName: String;
         registeredDate: Date;
         email: String;
         emailConfirmed: Boolean;
         roles: String;
-        admin:boolean;
-        user:boolean;
-        indexer:boolean;
-        deactivated:boolean;
-        claims: any;        
+        admin: boolean;
+        user: boolean;
+        indexer: boolean;
+        deactivated: boolean;
+        claims: any;
     constructor(url: String,id: String,
             userName: String,
             firstName: String,
-            lastName: String, 
-            fullName: String, 
+            lastName: String,
+            fullName: String,
             registeredDate: Date,
             email: String,
             emailConfirmed: Boolean,
-            roles:String,
-            admin:boolean,
-            user:boolean,
-            indexer:boolean,
-            deactivated:boolean,
-            claims:any) {
-        this.url = url; 
+            roles: String,
+            admin: boolean,
+            user: boolean,
+            indexer: boolean,
+            deactivated: boolean,
+            claims: any) {
+        this.url = url;
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
