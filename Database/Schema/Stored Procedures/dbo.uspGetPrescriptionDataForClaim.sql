@@ -10,7 +10,7 @@ GO
 					code deployment.
 	Modified:		8/24/2017 by Jordan Gurney. Added dynamic sorting, sort direction, and pagination.
 	Sample Execute:
-					EXEC dbo.uspGetPrescriptionDataForClaim 775, 'PrescriptionId', 'asc', 1, 5
+					EXEC dbo.uspGetPrescriptionDataForClaim 845, 'NoteCount', 'asc', 1, 5000
 */
 CREATE PROC [dbo].[uspGetPrescriptionDataForClaim]
 (
@@ -24,14 +24,20 @@ AS BEGIN
 	SET NOCOUNT ON;
 	SELECT PrescriptionId = [p].[PrescriptionID]
 		 , RxDate = [p].[DateFilled]
-		 , AmountPaid = [pm].[AmountPaid]
+		 , AmountPaid = (
+				SELECT ISNULL(SUM([ipm].[AmountPaid]), 0.0) AmountPaid 
+				FROM dbo.PrescriptionPayment AS [ipm] 
+				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID])
 		 , RxNumber = [p].[RxNumber]
 		 , LabelName = [p].[LabelName]
 		 , BillTo = [py].[BillToName]
 		 , InvoiceAmount = [p].[BilledAmount]
 		 , InvoiceDate = [i].[InvoiceDate]
 		 , InvoiceNumber = [i].[InvoiceNumber]
-		 , Outstanding = [p].[BilledAmount] - [pm].[AmountPaid]
+		 , Outstanding = [p].[BilledAmount] - (
+				SELECT ISNULL(SUM([ipm].[AmountPaid]), 0.0) AmountPaid 
+				FROM dbo.PrescriptionPayment AS [ipm] 
+				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID])
 		 , [Status] = ps.StatusName
 		 , NoteCount = (   SELECT COUNT(*)
 						   FROM   [dbo].[PrescriptionNoteMapping] AS [pnm]
@@ -41,16 +47,15 @@ AS BEGIN
 		 , Prescriber = ISNULL(p.Prescriber, '')
 		 , PrescriberNpi = ISNULL(p.PrescriberNPI, '')
 		 , PharmacyName = ISNULL(ph.PharmacyName, '')
+		 , PrescriptionNdc = p.[NDC]
+		 , PrescriberPhone = ISNULL([prb].[Phone], '')
 	FROM   [dbo].[Prescription] AS [p]
 		   INNER JOIN dbo.Pharmacy AS ph ON ph.NABP = p.PharmacyNABP
 		   INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
 		   INNER JOIN [dbo].[Payor] AS [py] ON [py].[PayorID] = [c].[PayorID]
 		   LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
+		   LEFT JOIN [dbo].[Prescriber] AS [prb] ON [prb].[PrescriberNPI] = [p].[PrescriberNPI]
 		   LEFT JOIN dbo.PrescriptionStatus AS ps ON ps.PrescriptionStatusID = p.PrescriptionStatusID
-		   OUTER APPLY (
-				SELECT ISNULL(SUM([ipm].[AmountPaid]), 0.0) AmountPaid 
-				FROM dbo.PrescriptionPayment AS [ipm] 
-				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID]) AS pm
 	WHERE  [p].[ClaimID] = @ClaimID
 	ORDER BY CASE WHEN @SortColumn = 'PrescriptionId' AND @SortDirection = 'ASC'
 				THEN [p].[PrescriptionID] END ASC,
@@ -61,9 +66,15 @@ AS BEGIN
 			 CASE WHEN @SortColumn = 'RxDate' AND @SortDirection = 'DESC'
 				THEN [p].[DateFilled] END DESC,
 			 CASE WHEN @SortColumn = 'AmountPaid' AND @SortDirection = 'ASC'
-				THEN [pm].[AmountPaid] END ASC,
+				THEN (
+				SELECT ISNULL(SUM([ipm].[AmountPaid]), 0.0) AmountPaid 
+				FROM dbo.PrescriptionPayment AS [ipm] 
+				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID]) END ASC,
 			 CASE WHEN @SortColumn = 'AmountPaid' AND @SortDirection = 'DESC'
-				THEN [pm].[AmountPaid] END DESC,
+				THEN (
+				SELECT ISNULL(SUM([ipm].[AmountPaid]), 0.0) AmountPaid 
+				FROM dbo.PrescriptionPayment AS [ipm] 
+				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID]) END DESC,
 			 CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'ASC'
 				THEN [p].[RxNumber] END ASC,
 			 CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'DESC'
@@ -89,9 +100,15 @@ AS BEGIN
 			 CASE WHEN @SortColumn = 'InvoiceNumber' AND @SortDirection = 'DESC'
 				THEN [i].[InvoiceNumber] END DESC,
 			 CASE WHEN @SortColumn = 'Outstanding' AND @SortDirection = 'ASC'
-				THEN [p].[BilledAmount] - [pm].[AmountPaid] END ASC,
+				THEN [p].[BilledAmount] - (
+				SELECT ISNULL(SUM([ipm].[AmountPaid]), 0.0) AmountPaid 
+				FROM dbo.PrescriptionPayment AS [ipm] 
+				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID]) END ASC,
 			 CASE WHEN @SortColumn = 'Outstanding' AND @SortDirection = 'DESC'
-				THEN [p].[BilledAmount] - [pm].[AmountPaid] END DESC,
+				THEN [p].[BilledAmount] - (
+				SELECT ISNULL(SUM([ipm].[AmountPaid]), 0.0) AmountPaid 
+				FROM dbo.PrescriptionPayment AS [ipm] 
+				WHERE [ipm].[PrescriptionID] = [p].[PrescriptionID]) END DESC,
 			 CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'ASC'
 				THEN (SELECT COUNT(*)
 					  FROM   [dbo].[PrescriptionNoteMapping] AS [pnm]
@@ -103,5 +120,4 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
-
 GO
