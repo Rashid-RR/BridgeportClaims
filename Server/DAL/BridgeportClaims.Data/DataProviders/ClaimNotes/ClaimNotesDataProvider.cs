@@ -2,11 +2,9 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
@@ -14,26 +12,16 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
         private readonly IRepository<ClaimNoteType> _claimNoteTypeRepository;
-        private readonly IMemoryCacher _memoryCacher;
 
         public ClaimNotesDataProvider(IStoredProcedureExecutor storedProcedureExecutor, 
             IRepository<ClaimNoteType> claimNoteTypeRepositor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
             _claimNoteTypeRepository = claimNoteTypeRepositor;
-            _memoryCacher = MemoryCacher.Instance;
         }
 
-        public IList<KeyValuePair<int, string>> GetClaimNoteTypes()
-        {
-            //var result = _memoryCacher.GetValue(c.ClaimNoteTypesKey) as IList<KeyValuePair<int, string>>;
-            var result = _memoryCacher.AddOrGetExisting(c.ClaimNoteTypesKey, () =>
-            {
-                return _claimNoteTypeRepository.GetAll()
-                    .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).ToList();
-            });
-            return result;
-        }
+        public IList<KeyValuePair<int, string>> GetClaimNoteTypes() => _claimNoteTypeRepository.GetAll()
+            .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).OrderBy(x => x.Value).ToList();
 
         public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId)
         {

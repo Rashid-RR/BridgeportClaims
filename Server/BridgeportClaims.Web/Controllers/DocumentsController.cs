@@ -26,6 +26,25 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("archive/{documentId}")]
+        public async Task<IHttpActionResult> ArchiveDocument(int documentId)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    _documentsProvider.ArchiveDocument(documentId);
+                    return Ok(new {message = "The document was archived successfully."});
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("claim-search")]
         public IHttpActionResult GetClaimResult(ClaimSearchViewModel model)
         {

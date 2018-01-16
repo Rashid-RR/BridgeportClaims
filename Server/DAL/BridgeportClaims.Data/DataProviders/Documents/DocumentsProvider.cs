@@ -59,8 +59,29 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                         });
                         if (conn.State != ConnectionState.Closed)
                             conn.Close();
-                        return types;
+                        return types.OrderBy(x => x.TypeName).ToList();
                     });
+            });
+
+        public void ArchiveDocument(int documentId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                DisposableService.Using(() => new SqlCommand("[dbo].[uspArchiveDocument]", conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var documentIdParam = cmd.CreateParameter();
+                    documentIdParam.Value = documentId;
+                    documentIdParam.ParameterName = "@DocumentID";
+                    documentIdParam.DbType = DbType.Int32;
+                    documentIdParam.SqlDbType = SqlDbType.Int;
+                    documentIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(documentIdParam);
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    cmd.ExecuteNonQuery();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+                });
             });
 
         public DocumentsDto GetDocuments(DateTime? date, string fileName, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>

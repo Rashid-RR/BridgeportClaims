@@ -175,8 +175,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetMaxResults(100)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(ClaimFlex2Dto)))
 								.List<ClaimFlex2Dto>();
-							if (null != claimFlex2Dto)
-								claimDto.ClaimFlex2s = claimFlex2Dto;
+						    if (null != claimFlex2Dto)
+						        claimDto.ClaimFlex2s = claimFlex2Dto.OrderBy(x => x.Flex2).ToList();
 							// Claim Note
 							var claimNoteDto = session.CreateSQLQuery(
 									@"SELECT cnt.[TypeName] NoteType, [cn]. [NoteText]
@@ -214,7 +214,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						        .SetResultTransformer(Transformers.AliasToBean(typeof(DocumentTypeDto)))
 						        .List<DocumentTypeDto>();
 						    if (null != documentTypes)
-						        claimDto.DocumentTypes = documentTypes;
+						        claimDto.DocumentTypes = documentTypes.OrderBy(x => x.TypeName).ToList();
                             var acctPayableDtos = session.CreateSQLQuery(
 							  @"SELECT [Date] = [p].[DatePosted]
 									 , [p].[CheckNumber]
@@ -234,8 +234,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetMaxResults(100)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionStatusDto)))
 								.List<PrescriptionStatusDto>();
-							if (null != prescriptionStatuses)
-								claimDto.PrescriptionStatuses = prescriptionStatuses;
+						    if (null != prescriptionStatuses)
+						        claimDto.PrescriptionStatuses = prescriptionStatuses.OrderBy(x => x.StatusName).ToList();
 							// Payments
 							var payments = _paymentsDataProvider.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, 5000, "RxNumber", "ASC");
 							if (null != payments)

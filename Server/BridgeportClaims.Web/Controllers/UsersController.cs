@@ -8,7 +8,6 @@ using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.UserRoles;
-using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers
 {

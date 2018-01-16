@@ -42,6 +42,8 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         public virtual long ByteCount { get; set; }
         [Required]
+        public virtual bool Archived { get; set; }
+        [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }

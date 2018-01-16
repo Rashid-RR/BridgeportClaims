@@ -87,18 +87,11 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			});
 		}
 
-		public IList<EpisodeTypeDto> GetEpisodeTypes()
-		{
-		    var retVal = _memoryCacher.AddOrGetExisting(c.EpisodeTypesCacheKey, () =>
+		public IList<EpisodeTypeDto> GetEpisodeTypes() => _episodeTypeRepository.GetAll()
+		    .Select(e => new EpisodeTypeDto
 		    {
-		        return _episodeTypeRepository.GetAll()
-		            .Select(e => new EpisodeTypeDto
-		            {
-		                EpisodeTypeId = e.EpisodeTypeId,
-		                EpisodeTypeName = e.TypeName
-		            }).ToList();
-		    });
-			return retVal;
-		}
+		        EpisodeTypeId = e.EpisodeTypeId,
+		        EpisodeTypeName = e.TypeName
+		    }).OrderBy(x => x.EpisodeTypeName).ToList();
 	}
 }

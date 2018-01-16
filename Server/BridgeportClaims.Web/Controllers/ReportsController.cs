@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net;
@@ -12,7 +10,6 @@ using System.Web.Http;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Reports;
-using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Excel.ExcelPackageFactory;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;

@@ -24,6 +24,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.FileUrl).Column("FileUrl").Not.Nullable().Unique().Length(500);
             Map(x => x.DocumentDate).Column("DocumentDate");
             Map(x => x.ByteCount).Column("ByteCount").Not.Nullable().Precision(19);
+            Map(x => x.Archived).Column("Archived").Not.Nullable();
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.DocumentIndex).KeyColumn("DocumentID");
