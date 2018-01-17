@@ -33,7 +33,11 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
+                    // Database call
                     _documentsProvider.ArchiveDocument(documentId);
+                    // SignalR Call
+                    var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                    hubContext.Clients.All.archivedDocument(documentId);
                     return Ok(new {message = "The document was archived successfully."});
                 });
             }

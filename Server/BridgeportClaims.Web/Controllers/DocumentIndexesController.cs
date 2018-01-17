@@ -35,7 +35,7 @@ namespace BridgeportClaims.Web.Controllers
                     if (null == model)
                         throw new ArgumentNullException(nameof(model));
                     var userId = User.Identity.GetUserId();
-                    var result = _documentIndexProvider.UpsertDocumentIndex(model.DocumentId, model.ClaimId,
+                    var wasUpdate = _documentIndexProvider.UpsertDocumentIndex(model.DocumentId, model.ClaimId,
                         model.DocumentTypeId, model.RxDate, model.RxNumber,
                         model.InvoiceNumber, model.InjuryDate, model.AttorneyName, userId);
                     if (model.DocumentId != default(int))
@@ -43,7 +43,7 @@ namespace BridgeportClaims.Web.Controllers
                         var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                         hubContext.Clients.All.indexedDocument(model.DocumentId);
                     }
-                    var msg = $"The image was {(result ? "reindexed" : "indexed")} successfully.";
+                    var msg = $"The image was {(wasUpdate ? "reindexed" : "indexed")} successfully.";
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Document ID: {model.DocumentId}. {msg}");
                     return Ok(new {message = msg});
