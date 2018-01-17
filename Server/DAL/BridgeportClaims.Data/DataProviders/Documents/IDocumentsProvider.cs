@@ -9,6 +9,6 @@ namespace BridgeportClaims.Data.DataProviders.Documents
         IList<DocumentResultDto> GetDocumentByFileName(string fileName);
         IList<DocumentTypeDto> GetDocumentTypes();
         void ArchiveDocument(int documentId);
-        DocumentsDto GetDocuments(DateTime? date, string fileName, string sortColumn, string sortDirection, int pageNumber, int pageSize);
+        DocumentsDto GetDocuments(DateTime? date, bool archived, string fileName, string sortColumn, string sortDirection, int pageNumber, int pageSize);
     }
 }

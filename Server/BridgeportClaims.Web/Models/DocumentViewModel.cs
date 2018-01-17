@@ -7,6 +7,7 @@ namespace BridgeportClaims.Web.Models
     public sealed class DocumentViewModel
     {
         public DateTime? Date { get; set; }
+        public bool Archived { get; set; }
         public string FileName { get; set; }
         [Required]
         [StringLength(50)]

@@ -84,7 +84,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 });
             });
 
-        public DocumentsDto GetDocuments(DateTime? date, string fileName, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+        public DocumentsDto GetDocuments(DateTime? date, bool archived, string fileName, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocuments]", conn), cmd =>
@@ -98,6 +98,13 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     dateParam.Value = date ?? (object) DBNull.Value;
                     dateParam.ParameterName = "@Date";
                     cmd.Parameters.Add(dateParam);
+                    var archivedParam = cmd.CreateParameter();
+                    archivedParam.Value = archived;
+                    archivedParam.DbType = DbType.Boolean;
+                    archivedParam.SqlDbType = SqlDbType.Bit;
+                    archivedParam.ParameterName = "@Archived";
+                    archivedParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(archivedParam);
                     var fileNameParam = cmd.CreateParameter();
                     fileNameParam.Direction = ParameterDirection.Input;
                     fileNameParam.SqlDbType = SqlDbType.VarChar;

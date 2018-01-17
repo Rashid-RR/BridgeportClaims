@@ -71,7 +71,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var results = _documentsProvider.GetDocuments(model.Date, model.FileName, model.Sort,
+                    var results = _documentsProvider.GetDocuments(model.Date, model.Archived, model.FileName, model.Sort,
                         model.SortDirection, model.Page,
                         model.PageSize);
                     return Ok(results);
