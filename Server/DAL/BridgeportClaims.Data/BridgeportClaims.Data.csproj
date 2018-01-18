@@ -76,6 +76,8 @@
     <Compile Include="DataProviders\ClaimImages\IClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\IClaimSearchProvider.cs" />
+    <Compile Include="DataProviders\ClaimsEdit\ClaimsEditProvider.cs" />
+    <Compile Include="DataProviders\ClaimsEdit\IClaimsEditProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\DateDisplay\DateDisplayProvider.cs" />

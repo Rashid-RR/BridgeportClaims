@@ -1,12 +1,16 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
+using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Web.Models;
-using NLog;
+using Microsoft.AspNet.Identity;
+using NHibernate.Exceptions;
 
 namespace BridgeportClaims.Web.Controllers
 { 
@@ -16,13 +20,44 @@ namespace BridgeportClaims.Web.Controllers
 	{
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 		private readonly IClaimsDataProvider _claimsDataProvider;
+	    private readonly IClaimsEditProvider _claimsEditProvider;
 
-		public ClaimsController(IClaimsDataProvider claimsDataProvider)
-		{
-			_claimsDataProvider = claimsDataProvider;
-		}
+        public ClaimsController(IClaimsDataProvider claimsDataProvider, IClaimsEditProvider claimsEditProvider)
+        {
+            _claimsDataProvider = claimsDataProvider;
+            _claimsEditProvider = claimsEditProvider;
+        }
 
-		[HttpPost]
+	    [HttpPost]
+	    [Route("edit-claim")]
+	    public async Task<IHttpActionResult> EditClaim([FromBody] int claimId, string modifiedByUserId,
+	        string dateOfBirth = "NULL", int genderId = -1, int payorId = -1, int? adjustorId = -1, string adjustorPhone = "NULL",
+	        string dateOfInjury = "NULL", string adjustorFax = "NULL")
+	    {
+	        try
+	        {
+	            return await Task.Run(() =>
+	            {
+                    if (modifiedByUserId.IsNullOrWhiteSpace())
+                        throw new ArgumentNullException(nameof(modifiedByUserId));
+	                var userId = User?.Identity?.GetUserId();
+	                if (null == userId)
+	                    throw new Exception("Could not locate the authenticated user.");
+	                _claimsEditProvider.EditClaim(claimId, userId, "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
+	                        : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
+	                        adjustorId, adjustorPhone, "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
+	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax);
+	                return Ok(new {message = "The claim was updated successfully."});
+	            });
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+	        }
+	    }
+
+	    [HttpPost]
 		[Route("getclaimsdata")]
 		public IHttpActionResult GetClaimsData([FromBody] ClaimsSearchViewModel model)
 		{

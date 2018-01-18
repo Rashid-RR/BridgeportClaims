@@ -44,6 +44,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		    _factory = factory;
 		}
 
+
+
 		public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
 			string rxNumber, string invoiceNumber)
 		{
@@ -154,12 +156,12 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Name = s.p.FirstName + " " + s.p.LastName,
 									Address1 = s.p.Address1,
 									Address2 = s.p.Address2,
-									Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
+                                    City = s.p.City,
+                                    StateAbbreviation = null == s.p.UsState ? null : s.p.UsState.StateCode,
+								    PostalCode = s.p.PostalCode,
+                                    Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
 									AdjustorPhoneNumber = null == s.c.Adjustor ? null : s.c.Adjustor.PhoneNumber,
-									Carrier = null == s.c.Payor ? null : s.c.Payor.GroupName,
-									City = s.p.City,
-									StateAbbreviation = null == s.p.UsState ? null : s.p.UsState.StateCode,
-									PostalCode = s.p.PostalCode,
+									Carrier = null == s.c.Payor ? null : s.c.Payor.GroupName,									
 									Flex2 = null != s.c.ClaimFlex2 ? s.c.ClaimFlex2.Flex2 : null,
 									Gender = null == s.p.Gender ? null : s.p.Gender.GenderName,
 									DateOfBirth = s.p.DateOfBirth,
