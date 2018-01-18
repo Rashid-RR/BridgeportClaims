@@ -45,6 +45,12 @@ textarea {
   position: relative;
   border-radius: .25em;
 }
+.border-style{
+  border-left: 6px solid #992727;
+  background-color: lightgrey;
+  padding: 8px;
+  margin-right: 20px;
+}
 /*ROW COLOR CHANGE*/
 
 tr:nth-of-type(odd) {

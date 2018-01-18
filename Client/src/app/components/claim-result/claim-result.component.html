@@ -1,37 +1,43 @@
 <ng-container *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
     <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
         <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
-            <address>
+            <address class="border-style">
                 Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}<br>
                 DOB: {{claim.dateOfBirth | date:'shortDate'}}<br>
-                Gender: {{claim.gender}}<br>
-                Carrier: {{claim.carrier}}<br/>
-                Adjustor : {{claim.adjustor}}<br>
-                Adjustor Ph : {{claim.adjustorPhoneNumber}}<br><br>
-                Eligibility Entered: {{claim.dateEntered | date:'shortDate'}}<br><br>                
+                Gender: {{claim.gender}}<br><br>               
             </address>
         </div>
         <!-- /.col -->
-        <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
-            <address>
+        <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId" style="margin-bottom: -100px;">
+            <address class="border-style">
+                Carrier: Testing<br>
                 Claim #: {{claim.claimNumber}}<br>
                 Injury Date: {{claim.injuryDate}}<br>
                 Adjustor Fax : {{claim.adjustorFaxNumber || claim.adjustorPhoneNumber}}<br>
-                Flex 2: <div class="btn-group flex2">
-                    <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                        {{claim.flex2}} <i class="fa fa-sort"></i>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li *ngFor="let flex of claim.getFlex2;" [class.active]="flex.flex2==claim.flex2" (click)="claimManager.changeFlex2(claim,flex)"><a style="cursor:pointer;">{{flex.flex2}}</a></li>
-                    </ul>
-                </div>
-                <br>
+                Carrier: {{claim.carrier}}<br/>
+                Adjustor : {{claim.adjustor}}<br>
+                Adjustor Ph : {{claim.adjustorPhoneNumber}}<br><br>
+                <br> 
             </address>
             <br/><br/><br/><br/><br/>
             <!--
             <span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId);"  *ngIf="claimManager.dataSize==1"> View </span>
         -->
-            <button type="button" class="btn btn-flat bg-vdarkgrey btn-sm" (click)="claimManager.selected=undefined" style="font-size:10pt" *ngIf="claimManager.dataSize>1"> <i class="fa fa-chevron-left"></i> Back to Claim Results </button>
+        </div>
+        <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId" style="float:right;">
+                <address class="border-style">
+                    Eligibility Entered: {{claim.dateEntered | date:'shortDate'}}<br>
+                    Eligibility Term: {{claim.dateEntered | date:'shortDate'}}<br>
+                    Flex 2: <div class="btn-group flex2">
+                            <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                                {{claim.flex2}} <i class="fa fa-sort"></i>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li *ngFor="let flex of claim.getFlex2;" [class.active]="flex.flex2==claim.flex2" (click)="claimManager.changeFlex2(claim,flex)"><a style="cursor:pointer;">{{flex.flex2}}</a></li>
+                            </ul>
+                        </div><br>
+                        <button type="button" class="btn btn-flat bg-vdarkgrey btn-sm" (click)="claimManager.selected=undefined" style="font-size:10pt" *ngIf="claimManager.dataSize>1"> <i class="fa fa-chevron-left"></i> Back to Claim Results </button>
+                </address>      
         </div>
     </div>
 </ng-container>
