@@ -7,6 +7,7 @@ CREATE TABLE [dbo].[Adjustor]
 [FaxNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EmailAddress] [varchar] (155) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Extension] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfAdjustorCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfAdjustorUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL,
@@ -21,7 +22,11 @@ ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [pkAdjustor] PRIMARY KEY CLUSTERED  
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxUqAdjustorAdjustorNamePayorID] ON [dbo].[Adjustor] ([AdjustorName], [PayorID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxAdjustorPayorIDIncludeAll] ON [dbo].[Adjustor] ([PayorID]) INCLUDE ([AdjustorID], [AdjustorName], [CreatedOnUTC], [DataVersion], [EmailAddress], [Extension], [FaxNumber], [PhoneNumber], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxAdjustorModifiedByUserID] ON [dbo].[Adjustor] ([ModifiedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxAdjustorPayorIDIncludeAll] ON [dbo].[Adjustor] ([PayorID]) INCLUDE ([AdjustorID], [AdjustorName], [CreatedOnUTC], [EmailAddress], [Extension], [FaxNumber], [ModifiedByUserID], [PhoneNumber], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [fkAdjustorModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
 ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [fkAdjustorPayorIDPayorPayorID] FOREIGN KEY ([PayorID]) REFERENCES [dbo].[Payor] ([PayorID])
 GO

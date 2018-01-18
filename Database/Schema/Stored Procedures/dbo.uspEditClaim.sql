@@ -12,16 +12,15 @@ GO
 CREATE PROCEDURE [dbo].[uspEditClaim]
 (
 	@ClaimID INTEGER,
-	@DateOfBirth DATE,
-	@GenderID INTEGER,
-	@PayorID INTEGER,
-	@AdjustorID INTEGER,
-	@AdjustorPhone VARCHAR(30),
-	@DateOfInjury DATE,
-	@AdjustorFax VARCHAR(30),
-	@ModifiedByUserID NVARCHAR(128)
+	@ModifiedByUserID NVARCHAR(128),
+	@DateOfBirth DATE = '1/1/1901',
+	@GenderID INTEGER = -1,
+	@PayorID INTEGER = -1,
+	@AdjustorID INTEGER = -1,
+	@AdjustorPhone VARCHAR(30) = 'NULL',
+	@DateOfInjury DATE = '1/1/1901',
+	@AdjustorFax VARCHAR(30) = 'NULL'
 )
--- SELECT * FROM [INFORMATION_SCHEMA].[COLUMNS] AS [c] WHERE c.[COLUMN_NAME] = 'GenderID'
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
@@ -46,42 +45,72 @@ AS BEGIN
 			END
 
 		-- Ok, the fun begins.
-		UPDATE          [p]
-		SET             [p].[DateOfBirth] = @DateOfBirth, 
-						[p].[GenderID] = @GenderID,
-						[p].[ModifiedByUserID] = @ModifiedByUserID,
-						[p].[UpdatedOnUTC] = @UtcNow
-		FROM            [dbo].[Claim]   AS [c]
-			INNER JOIN  [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
-		WHERE           [c].[ClaimID] = @ClaimID
-		SET @RowCount = @@ROWCOUNT
-
-		IF (@RowCount != 1)
+		IF (@DateOfBirth != '1/1/1901' OR @DateOfBirth IS NULL OR @GenderID != -1)
 			BEGIN
-				IF (@@TRANCOUNT > 0)
-					ROLLBACK;
-				SET @PrntMsg = N'The affected Row Count for updating the Patient was not 1, it was ' + CONVERT(NVARCHAR, @RowCount);
-				RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
-				RETURN;
+				UPDATE          [p]
+				SET             [p].[DateOfBirth] = CASE WHEN @DateOfBirth = '1/1/1901' THEN [p].[DateOfBirth] ELSE @DateOfBirth END, 
+								[p].[GenderID] = CASE WHEN @GenderID = -1 THEN [p].[GenderID] ELSE @GenderID END,
+								[p].[ModifiedByUserID] = @ModifiedByUserID,
+								[p].[UpdatedOnUTC] = @UtcNow
+				FROM            [dbo].[Claim]   AS [c]
+					INNER JOIN  [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
+				WHERE           [c].[ClaimID] = @ClaimID
+				SET @RowCount = @@ROWCOUNT
+
+				IF (@RowCount != 1)
+					BEGIN
+						IF (@@TRANCOUNT > 0)
+							ROLLBACK;
+						SET @PrntMsg = N'The affected Row Count for updating the Patient was not 1, it was ' + CONVERT(NVARCHAR, @RowCount);
+						RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
+						RETURN;
+					END
 			END
 
-		UPDATE  [c]
-		SET     [c].[PayorID] = @PayorID, 
-				[c].[AdjusterID] = @AdjustorID, 
-				[c].[DateOfInjury] = @DateOfInjury,
-				[c].[ModifiedByUserID] = @ModifiedByUserID,
-				[c].[UpdatedOnUTC] = @UtcNow
-		FROM    [dbo].[Claim] AS [c]
-		WHERE   [c].[ClaimID] = @ClaimID
-		SET @RowCount = @@ROWCOUNT
-
-		IF (@RowCount != 1)
+		IF (@PayorID != -1 OR @AdjustorID != -1 OR @AdjustorID IS NULL 
+			OR @DateOfInjury != '1/1/1901' OR @DateOfInjury IS NULL)
 			BEGIN
-				IF (@@TRANCOUNT > 0)
-					ROLLBACK;
-				SET @PrntMsg = N'The affected Row Count for updating the Claim was not 1, it was ' + CONVERT(NVARCHAR, @RowCount);
-				RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
-				RETURN;
+				UPDATE  [c]
+				SET     [c].[PayorID] = CASE WHEN @PayorID = -1 THEN [c].[PayorID] ELSE @PayorID END, 
+						[c].[AdjusterID] = CASE WHEN @AdjustorID = -1 THEN [c].[AdjusterID] ELSE @AdjustorID END,
+						[c].[DateOfInjury] = CASE WHEN @DateOfInjury = '1/1/1901' THEN [c].[DateOfInjury] ELSE @DateOfInjury END,
+						[c].[ModifiedByUserID] = @ModifiedByUserID,
+						[c].[UpdatedOnUTC] = @UtcNow
+				FROM    [dbo].[Claim] AS [c]
+				WHERE   [c].[ClaimID] = @ClaimID
+				SET @RowCount = @@ROWCOUNT
+
+				IF (@RowCount != 1)
+					BEGIN
+						IF (@@TRANCOUNT > 0)
+							ROLLBACK;
+						SET @PrntMsg = N'The affected Row Count for updating the Claim was not 1, it was ' + CONVERT(NVARCHAR, @RowCount);
+						RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
+						RETURN;
+					END
+			END
+
+		IF (@AdjustorPhone != 'NULL' OR @AdjustorPhone IS NULL
+			OR @AdjustorFax != 'NULL' OR @AdjustorFax IS NULL)
+			BEGIN
+				UPDATE          [a]
+				SET             [a].[PhoneNumber] = CASE WHEN @AdjustorPhone = 'NULL' THEN [a].[PhoneNumber] ELSE @AdjustorPhone END,
+								[a].[FaxNumber] = CASE WHEN @AdjustorFax = 'NULL' THEN [a].[FaxNumber] ELSE @AdjustorFax END,
+								[a].[ModifiedByUserID] = @ModifiedByUserID,
+								[a].[UpdatedOnUTC] = @UtcNow
+				FROM            [dbo].[Claim]    AS [c]
+					INNER JOIN  [dbo].[Adjustor] AS [a] ON [a].[AdjustorID] = [c].[AdjusterID]
+				WHERE           [c].[ClaimID] = @ClaimID
+				SET @RowCount = @@ROWCOUNT
+
+				IF (@RowCount != 1)
+					BEGIN
+						IF (@@TRANCOUNT > 0)
+							ROLLBACK;
+						SET @PrntMsg = N'The affected Row Count for updating the Adjustor was not 1, it was ' + CONVERT(NVARCHAR, @RowCount);
+						RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
+						RETURN;
+					END
 			END
 
 		IF (@@TRANCOUNT > 0)
