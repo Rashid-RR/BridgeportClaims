@@ -6,6 +6,7 @@ GO
 	Author:			Jordan Gurney
 	Create Date:	12/1/2017
 	Description:	Proc that returns the grid results for the Documents page.
+	Modified:		1/16/2018 to add an Archived bit flag.
 	Sample Execute:
 					DECLARE @TotalRows INT
 					EXEC [dbo].[uspGetDocuments] '2017-11-24', 'sp201711245300', 'CreationTime', 'desc', 1, 500, @TotalRows OUTPUT
@@ -14,6 +15,7 @@ GO
 CREATE PROC [dbo].[uspGetDocuments]
 (
 	@Date DATE,
+	@Archived BIT,
 	@FileName VARCHAR(1000),
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
@@ -49,6 +51,7 @@ AS BEGIN
 		AND [di].[DocumentID] IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
 		AND ([d].[FileName] LIKE CONCAT(@WildCard, @FileName, @WildCard) OR @FileName IS NULL)
+		AND [d].[Archived] = @Archived
 
 	SELECT @TotalRows = COUNT(*) FROM [#Document]
 

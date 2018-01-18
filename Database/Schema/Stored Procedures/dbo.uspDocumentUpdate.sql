@@ -20,8 +20,7 @@ CREATE PROC [dbo].[uspDocumentUpdate]
     @DirectoryName VARCHAR(255),
     @FullFilePath NVARCHAR(4000),
     @FileUrl NVARCHAR(4000),
-	@ByteCount BIGINT,
-	@Archived BIT
+	@ByteCount BIGINT
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
@@ -29,20 +28,20 @@ AS BEGIN
 		BEGIN TRAN;
 
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
-	
+
 		UPDATE [dbo].[Document]
 		SET    [FileName] = @FileName, [Extension] = @Extension, [FileSize] = @FileSize, [CreationTimeLocal] = @CreationTimeLocal,
 			 [LastAccessTimeLocal] = @LastAccessTimeLocal, [LastWriteTimeLocal] = @LastWriteTimeLocal, [DirectoryName]
-			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [ByteCount] = @ByteCount, [Archived] = @Archived, [UpdatedOnUTC] = @UtcNow
+			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [ByteCount] = @ByteCount, [UpdatedOnUTC] = @UtcNow
 		WHERE  [DocumentID] = @DocumentID
-	
+
 		IF (@@TRANCOUNT > 0)
 			COMMIT
 	END TRY
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-				
+
         DECLARE @ErrSeverity INT = ERROR_SEVERITY()
             , @ErrState INT = ERROR_STATE()
             , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()

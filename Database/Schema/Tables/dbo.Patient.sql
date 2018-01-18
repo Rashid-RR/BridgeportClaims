@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[Patient]
 [EmailAddress] [varchar] (155) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DateOfBirth] [date] NULL,
 [GenderID] [int] NOT NULL,
+[ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPatientCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPatientUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL,
@@ -25,9 +26,15 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [pkPaitent] PRIMARY KEY CLUSTERED  ([PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxPatientGenderID] ON [dbo].[Patient] ([GenderID], [StateID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxPatientGenderID] ON [dbo].[Patient] ([GenderID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxPatientModifiedByUserID] ON [dbo].[Patient] ([ModifiedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxPatientStateID] ON [dbo].[Patient] ([StateID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [fkPatientGenderIDGenderGenderID] FOREIGN KEY ([GenderID]) REFERENCES [dbo].[Gender] ([GenderID])
+GO
+ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [fkPatientModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [fkPatientStateIDUsStateStateID] FOREIGN KEY ([StateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO
