@@ -26,25 +26,30 @@
     </div>
     <div class="table-responsive table-body" *ngIf="ds.display=='list'">
       <ul class="products-list product-list-in-box">
-        <li class="item row" *ngFor="let file of ds.documentList" (click)="openFile(file)" [class.edited]="file.edited" [class.added]="file.added"
+        <li class="item row" *ngFor="let file of ds.documentList" [class.edited]="file.edited" [class.added]="file.added"
           [class.deleted]="file.deleted">
-          <div class="col-md-1">
+          <div class="col-md-1"  (click)="openFile(file)">
             <i class="fa fa-file-pdf-o text-red"></i>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2"  (click)="openFile(file)">
             {{file.fileName}}
           </div>
-          <div class="col-md-1">
+          <div class="col-md-1"  (click)="openFile(file)">
             {{file.fileSize}}
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2"  (click)="openFile(file)">
             {{file.creationTimeLocal | date : 'mediumDate'}} {{file.creationTimeLocal | date : 'mediumTime'}}
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2"  (click)="openFile(file)">
             {{file.lastAccessTimeLocal | date : 'mediumDate'}} {{file.lastAccessTimeLocal | date : 'mediumTime'}}
           </div>
-          <div class="col-md-2">
+          <div class="col-md-2"  (click)="openFile(file)">
             {{file.lastWriteTimeLocal | date : 'mediumDate'}} {{file.lastWriteTimeLocal | date : 'mediumTime'}}
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="archive(file.documentId)">
+              <span class="glyphicon glyphicon-trash"></span> Archive
+            </button>
           </div>
         </li>
       </ul>
@@ -54,7 +59,7 @@
       <div class="row">
         <div class="col-md-12 flex-row">
           <div class="file" *ngFor="let file of ds.documentList" [title]="file.fileSize" (click)="openFile(file)" [class.edited]="file.edited"
-            [class.added]="file.added" [class.deleted]="file.deleted">
+            [class.added]="file.added" [class.deleted]="file.deleted" (onBeforeMenuOpen)="onBefore($event,file.documentId)" [sh-context]="items" [sh-data-context]="dataCtxOne">
             <div class="card-body">
               <i class="fa fa-3x text-red fa-file-pdf-o"></i>
             </div>

@@ -73,7 +73,6 @@ export class AccountReceivableService {
   }
   setColumns(data:Object){
     this.columns = Object.keys(data); 
-    console.log(this.columns);
   }
   capitalizeFirstLetter(string) {
     let str = string.slice(1).replace(/[0-9_]/g, '');

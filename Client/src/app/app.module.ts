@@ -12,6 +12,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import {Ng2Webstorage} from 'ng2-webstorage';
 import { AutoCompleteModule} from './auto-complete';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { ShContextMenuModule } from 'ng2-right-click-menu';
 
 /* import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr'; */
 import {WindowsInjetor, WindowBackdrop, BootstrapWindowContainer} from './components/ng-window';
@@ -121,6 +122,7 @@ export class SafeUrlPipe implements PipeTransform {
     AutoCompleteModule,
     BrowserAnimationsModule,
     ToastModule.forRoot(),
+    ShContextMenuModule,
     /* SignalRModule.forRoot(createConfig), */
     SweetAlert2Module.forRoot(),
     BootstrapModalModule,

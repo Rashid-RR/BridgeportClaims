@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
 import { DocumentItem } from 'app/models/document';
+import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 
 @Component({
   selector: 'app-unindex-image-list',
@@ -14,8 +15,9 @@ import { DocumentItem } from 'app/models/document';
 })
 export class UnindexedImageListComponent implements OnInit {
 
-  goToPage: any='';
+  goToPage: any = '';
   activeToast: Toast;
+  items: IShContextMenuItem[];
   constructor(
     public ds: DocumentManagerService,
     private dp: DatePipe,
@@ -24,8 +26,27 @@ export class UnindexedImageListComponent implements OnInit {
     private fb: FormBuilder) { }
 
   ngOnInit() {
-
+    this.items = [
+      {
+        label: '<span class="fa fa-trash text-red">Archive</span>',
+        onClick: ($event)=>{
+          this.archive($event.menuItem.id);
+        }
+      }
+    ];
   }
+
+  onBefore(event: BeforeMenuEvent, id) {
+    event.open([
+      {
+        id: id,
+        label: '<span class="fa fa-trash text-red">Archive</span>',
+        onClick: ($event) => {
+          this.archive($event.menuItem.id);
+        }
+      }
+    ]);
+  };
   next() {
     this.ds.search(true);
   }
@@ -34,6 +55,9 @@ export class UnindexedImageListComponent implements OnInit {
     this.ds.file = file;
     this.ds.newIndex = true;
     this.ds.loading = false;
+  }
+  archive(id: number) {
+    console.log("Ready to archive document with id " + id);
   }
   goto() {
     let page = Number.parseInt(this.goToPage);
@@ -57,12 +81,12 @@ export class UnindexedImageListComponent implements OnInit {
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
     let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage+""+inputChar);    
-    if (!pattern.test(inputChar)){
+    let input = Number(this.goToPage + "" + inputChar);
+    if (!pattern.test(inputChar)) {
       event.preventDefault();
-    }else if (!this.isNumeric(input)){
+    } else if (!this.isNumeric(input)) {
       event.preventDefault();
-    }else if (input < 1){
+    } else if (input < 1) {
       event.preventDefault();
     }
   }
