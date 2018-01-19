@@ -82,6 +82,20 @@ export class DocumentManagerService {
         }, 4000)
       }
     })
+    this.events.on("archived-image", (id: any) => {
+      let document = this.documents.get(id)
+      if (document) {
+        document.deleted = true;
+        this.documents = this.documents.set(id, document);
+        setTimeout(() => {
+          if (this.adminOrAsociate) {
+            this.toast.success(this.documents.get(id).fileName + ' image was just archived...');
+          }
+          this.documents = this.documents.delete(id);
+          this.totalRowCount--;
+        }, 4000)
+      }
+    })
     this.search();
   }
 
@@ -116,6 +130,13 @@ export class DocumentManagerService {
   }
   get end(): Boolean {
     return this.pageStart && this.data.pageSize > this.documentList.length;
+  }
+  archive(id: number) {
+    this.loading = true;
+    this.http.archiveDocument(id).map(r=>r.json()).subscribe(r => {
+      this.loading = false;
+      this.toast.success(r.message);
+    }, err => null);
   }
   cancel() {
     this.newIndex = false;

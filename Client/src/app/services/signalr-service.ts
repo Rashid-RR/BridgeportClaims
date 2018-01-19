@@ -46,12 +46,14 @@ export class SignalRService {
         this.documentProxy.client.deletedDocument = (id) => {
             this.onDeletedDocument(id);
         }
+        this.documentProxy.client.archivedDocument = (id) => {
+            this.onArchivedDocument(id);
+        }
         this.documentProxy.client.receiveMessage = (msgFrom, msg) => {
             this.onMessageReceived(msgFrom, msg);
         }
     }
     private onMessageReceived(msgFrom: string, msg: string) {
-        console.log('New message received from ' + msgFrom, msg);
         this._ngZone.run(() => {
             this.events.broadcast("new-message", { msgFrom: msgFrom, msg: msg });
         });
@@ -79,6 +81,11 @@ export class SignalRService {
     onDeletedDocument(id:any) {         
         this._ngZone.run(() => {
             this.events.broadcast("deleted-image", id);
+        });
+    }
+    onArchivedDocument(id:any) {         
+        this._ngZone.run(() => {
+            this.events.broadcast("archived-image", id);
         });
     }
 

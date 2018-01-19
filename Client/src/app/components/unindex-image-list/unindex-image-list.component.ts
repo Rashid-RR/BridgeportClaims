@@ -57,7 +57,7 @@ export class UnindexedImageListComponent implements OnInit {
     this.ds.loading = false;
   }
   archive(id: number) {
-    console.log("Ready to archive document with id " + id);
+    this.ds.archive(id);
   }
   goto() {
     let page = Number.parseInt(this.goToPage);
