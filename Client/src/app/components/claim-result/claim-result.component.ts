@@ -32,5 +32,4 @@ export class ClaimResultComponent implements OnInit {
     this.events.broadcast('minimize', []);
     //this.minimize();
   }
-
 }
