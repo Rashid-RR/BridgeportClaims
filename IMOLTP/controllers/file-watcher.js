@@ -47,9 +47,24 @@ var walkSync = function (dir, callback) {
         })
     });
 };
+var sortByStatus =(a,b)=>{
+    if(a.status < b.status) return -1;
+    if(a.status > b.status) return 1;
+    return 0;
+}
+var sortByissueCount =(a,b)=>{
+    return b.issueCount-a.issueCount;
+}
 exports.searchFiles = (req, res) => {
     let filePath = req.body.path || global.config.watchpath;
     walkSync(filePath, (files) => {
+        if(filePath.indexOf('Stored Procedures')>-1 || filePath.indexOf('User Defined Functions')>-1){            
+            files.sort(sortByissueCount);
+            //console.log(files);
+        }else if(filePath.indexOf('Tables')>-1){
+            files.sort(sortByStatus);
+            //console.log(files);
+        }
         res.render('index', { title: 'Express', files: files,filePath:filePath });
     });
 }
