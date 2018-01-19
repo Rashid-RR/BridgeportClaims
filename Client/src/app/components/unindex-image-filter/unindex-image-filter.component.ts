@@ -42,6 +42,10 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
         this.toast.warning("Ensure you select both start date and end date");
     } */
   }
+  filter($event){
+    this.ds.data.archived = $event.target.checked;
+    
+  }
 
  
   clearDates(){
