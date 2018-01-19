@@ -75,6 +75,7 @@ import { IndexFileComponent } from './pages/index-file/index-file.component';
 import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { AddScriptModalComponent } from './components/add-script-modal/add-script-modal.component';
+import { PhonePipe } from 'app/pipes/phone-pipe';
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -105,7 +106,7 @@ export class SafeUrlPipe implements PipeTransform {
     MainComponent,
     PasswordResetComponent,
     RegisterComponent, ReportComponent,
-    DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent, ProfileComponent,
+    PhonePipe,DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent, ProfileComponent,
     SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
      ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
      UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, FilterUserPipe,DiariesFilterPipe, FileUploadComponent, FooterComponent,
@@ -132,7 +133,7 @@ export class SafeUrlPipe implements PipeTransform {
     Ng2Webstorage
   ],
   providers: [
-    DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
+    PhonePipe,DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
     PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,SignalRService,
     DocumentManagerService,
     {

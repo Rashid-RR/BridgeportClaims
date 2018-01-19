@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../components/confirm.component';
+import { PhonePipe } from 'app/pipes/phone-pipe';
 declare var $: any;
 @Injectable()
 export class ClaimManager {
@@ -45,7 +46,7 @@ export class ClaimManager {
   isImagesExpanded: boolean;
   activeToast: Toast;
 
-  constructor(private auth: AuthGuard, private http: HttpService, private events: EventsService,
+  constructor(private pp:PhonePipe,private auth: AuthGuard, private http: HttpService, private events: EventsService,
     private router: Router, private toast: ToastsManager,
     private dialogService: DialogService) {
     this.getHistory();
@@ -75,20 +76,21 @@ export class ClaimManager {
   }
 
   showDetails(prescription: Prescription) {
+    prescription.prescriberPhone = this.pp.transform(prescription.prescriberPhone,[]);
     this.toast.info('Prescriber: ' + prescription.prescriber +
       '<br> Prescriber NPI: ' + prescription.prescriberNpi +
-      '<br> Pharmacy Name: ' + prescription.pharmacyName,
+      '<br> Pharmacy Name: ' + prescription.pharmacyName+
+      '<br> Prescriber NDC: ' + prescription.prescriptionNdc+
+      '<br> Prescriber Phone: ' + prescription.prescriberPhone,
       null,
-      { toastLife: 10000, showCloseButton: true, enableHTML: true, positionClass: 'toast-top-center' }).then((toast: Toast) => {
-        //$(".toast-top-right").addClass('toast-top-center')
-
+      { toastLife: 1210000, showCloseButton: true, enableHTML: true, positionClass: 'toast-top-center' }).then((toast: Toast) => {        
         const toasts: Array<HTMLElement> = $('.toast-message');
-        console.log(toasts, toast);
         for (let i = 0; i < toasts.length; i++) {
           const msg = toasts[i];
           if (msg.innerHTML === toast.message) {
             msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
             msg.parentNode.parentElement.style.position = 'fixed';
+            msg.parentNode.parentElement.style.width = 'auto';
           }
         }
         this.activeToast = toast;
