@@ -8,20 +8,18 @@ declare var $: any;
 @Component({
   selector: 'app-unindex-image',
   templateUrl: './unindex-image.component.html',
-  styleUrls:['./unindex-image.component.css'],
+  styleUrls: ['./unindex-image.component.css'],
 })
 export class UnindexedImageComponent implements OnInit, AfterViewInit {
-  
-    file:DocumentItem;
-    constructor(public ds: DocumentManagerService,private events:EventsService) { }
-    ngOnInit() {
-    this.events.broadcast("reset-indexing-form",true);
+
+  file: DocumentItem;
+  constructor(public ds: DocumentManagerService, private events: EventsService) { }
+  ngOnInit() {
+    this.events.broadcast("reset-indexing-form", true);
     this.ds.cancel();
-    }
-    ngAfterViewInit() {
-  
-    }
-  
-  
   }
-  
+  ngAfterViewInit() {
+
+  }
+}
+

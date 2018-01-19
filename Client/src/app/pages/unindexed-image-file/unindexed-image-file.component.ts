@@ -22,7 +22,7 @@ export class UnindexedImageFileComponent implements OnInit {
   sanitizedURL: any;
   @Input() file: DocumentItem;
   constructor(
-    private router: Router, private nativeHttp: Http,private ds:DocumentManagerService,
+    public router: Router, private nativeHttp: Http,private ds:DocumentManagerService,
     private route: ActivatedRoute, private toast: ToastsManager,private events:EventsService,
     private http: HttpService, private sanitizer: DomSanitizer
   ) { }
@@ -73,6 +73,10 @@ export class UnindexedImageFileComponent implements OnInit {
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
     }
+  }
+
+  get isIndexedImage(){
+    return this.router.url.indexOf("main/indexed-image")>-1;
   }
 
 
