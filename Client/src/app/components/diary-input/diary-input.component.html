@@ -33,18 +33,18 @@
         </div>
         <div class="col-md-1 no-padding left2p5">
             <div class="form-group green">
-                <label>&nbsp;</label><br/>
+                <label>&nbsp;</label>
                 <input type="radio" id="f-option" name="selector" (click)="setClosed($event,false)" [checked]="!isClosed"/>
-                <label for="f-option" class="check-label">Open</label>                
-                <div class="check"></div>
+                <label for="f-option" class="form-control border0 text-right">Open</label>                
+                <label class="check" for="f-option"></label>
             </div>
         </div>
         <div class="col-md-1 no-padding red">
             <div class="form-group red">
-                <label>&nbsp;</label><br/>
+                <label>&nbsp;</label>
                 <input type="radio" id="f-option1" name="selector" (click)="setClosed($event,true)" [checked]="isClosed"/>
-                <label for="f-option1" class="check-label">Closed</label>                
-                <div class="check"></div>
+                <label for="f-option1" class="form-control border0 text-right">Closed</label>                
+                <label class="check" for="f-option1"></label>
             </div>
         </div>
         <div class="col-md-2" style="padding-left: 35px;">
