@@ -5,7 +5,6 @@ namespace BridgeportClaims.Data.Mappings
 {
     public class PatientMap : ClassMap<Patient>
     {
-
         public PatientMap()
         {
             Table("Patient");
@@ -14,8 +13,9 @@ namespace BridgeportClaims.Data.Mappings
             SchemaAction.None();
             LazyLoad();
             Id(x => x.PatientId).GeneratedBy.Identity().Column("PatientID");
-            References(x => x.UsState).Column("StateID");
+            References(x => x.StateId).Column("StateID");
             References(x => x.Gender).Column("GenderID");
+            References(x => x.ModifiedByUserId).Column("ModifiedByUserID");
             Map(x => x.LastName).Column("LastName").Not.Nullable().Length(155);
             Map(x => x.FirstName).Column("FirstName").Not.Nullable().Length(155);
             Map(x => x.Address1).Column("Address1").Length(255);

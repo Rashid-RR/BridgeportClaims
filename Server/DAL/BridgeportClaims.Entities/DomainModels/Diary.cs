@@ -8,7 +8,7 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         public virtual int DiaryId { get; set; }
         [Required]
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual AspNetUsers AssignedToUserId { get; set; }
         [Required]
         public virtual PrescriptionNote PrescriptionNote { get; set; }
         [Required]

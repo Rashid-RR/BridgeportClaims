@@ -76,7 +76,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
                 BillToAddress2 = "Unit #4356",
                 BillToPostalCode = "45415",
                 BillToCity = "San Francisco",
-                UsState = State,
+                BillToStateId = State,
                 Contact = "Jordan Smith",
                 Notes = "Lovley House",
                 FaxNumber = "(484) 481-1111"
@@ -86,7 +86,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
         public IList<Patient> Patients
             => new List<Patient>
             {
-                new Patient {Address1 = "132 Vine Street", City = "Bungalo", UsState = State}
+                new Patient {Address1 = "132 Vine Street", City = "Bungalo", StateId = State}
             };
 
         public UsState State
@@ -127,7 +127,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
         private ClaimNote ClaimNote
             => new ClaimNote
             {
-                AspNetUsers = User,
+                EnteredByUserId = User,
                 Claim = Claim,
                 CreatedOnUtc = DateTime.Now,
                 UpdatedOnUtc = DateTime.Now,
@@ -159,7 +159,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
 
             // Act. 
             var claimNote = _mockedClaimNoteRepository.Object.GetAll()
-                .Where(c => c.AspNetUsers == User && c.Claim == Claim && c.ClaimNoteType?.ClaimNoteTypeId == ClaimNoteId)
+                .Where(c => c.EnteredByUserId == User && c.Claim == Claim && c.ClaimNoteType?.ClaimNoteTypeId == ClaimNoteId)
                 .Select(x => x.ClaimNoteType).FirstOrDefault();
 
 

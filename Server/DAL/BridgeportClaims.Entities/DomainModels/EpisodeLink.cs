@@ -7,6 +7,7 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int EpisodeLinkId { get; set; }
+        [Required]
         public virtual EpisodeLinkType EpisodeLinkType { get; set; }
         [StringLength(50)]
         public virtual string LinkTransNumber { get; set; }

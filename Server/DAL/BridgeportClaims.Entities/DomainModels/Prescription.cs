@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Prescription
     {
@@ -16,8 +15,10 @@ namespace BridgeportClaims.Entities.DomainModels
         }
         [Required]
         public virtual int PrescriptionId { get; set; }
+        [Required]
         public virtual Claim Claim { get; set; }
-        public virtual Pharmacy Pharmacy { get; set; }
+        [Required]
+        public virtual Pharmacy PharmacyNabp { get; set; }
         public virtual Invoice Invoice { get; set; }
         public virtual PrescriptionStatus PrescriptionStatus { get; set; }
         [Required]
@@ -31,7 +32,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string LabelName { get; set; }
         [Required]
         [StringLength(11)]
-        public virtual string NDC { get; set; }
+        public virtual string Ndc { get; set; }
         [Required]
         public virtual float Quantity { get; set; }
         [Required]
@@ -39,7 +40,7 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         [StringLength(1)]
         public virtual string Generic { get; set; }
-        public virtual float? AWPUnit { get; set; }
+        public virtual float? AwpUnit { get; set; }
         public virtual decimal? Usual { get; set; }
         [StringLength(100)]
         public virtual string Prescriber { get; set; }
@@ -55,14 +56,14 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string Compound { get; set; }
         [Required]
         [StringLength(14)]
-        public virtual string TranID { get; set; }
+        public virtual string TranId { get; set; }
         public virtual DateTime? RefillDate { get; set; }
         public virtual short? RefillNumber { get; set; }
         [StringLength(1)]
-        public virtual string MONY { get; set; }
-        public virtual short? DAW { get; set; }
+        public virtual string Mony { get; set; }
+        public virtual short? Daw { get; set; }
         [StringLength(14)]
-        public virtual string GPI { get; set; }
+        public virtual string Gpi { get; set; }
         public virtual float? BillIngrCost { get; set; }
         public virtual float? BillDispFee { get; set; }
         public virtual float? BilledTax { get; set; }
@@ -71,16 +72,16 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual float? PayDispFee { get; set; }
         public virtual float? PayTax { get; set; }
         [StringLength(12)]
-        public virtual string DEA { get; set; }
+        public virtual string Dea { get; set; }
         [StringLength(12)]
-        public virtual string PrescriberNPI { get; set; }
+        public virtual string PrescriberNpi { get; set; }
         [StringLength(255)]
         public virtual string Strength { get; set; }
         [StringLength(255)]
-        public virtual string GPIGenName { get; set; }
+        public virtual string GpiGenName { get; set; }
         [StringLength(255)]
         public virtual string TheraClass { get; set; }
-        public virtual float? AWP { get; set; }
+        public virtual float? Awp { get; set; }
         public virtual DateTime? ReversedDate { get; set; }
         public virtual bool? IsReversed { get; set; }
         [Required]

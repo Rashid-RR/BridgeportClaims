@@ -12,6 +12,7 @@ namespace BridgeportClaims.Entities.DomainModels
         {
             Prescription = new List<Prescription>();
         }
+        [Required]
         public virtual int InvoiceId { get; set; }
         [Required]
         [StringLength(100)]

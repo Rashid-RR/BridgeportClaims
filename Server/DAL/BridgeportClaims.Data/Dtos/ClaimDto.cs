@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Data.Dtos
 {
 	[Serializable]
+	[SuppressMessage("ReSharper", "InconsistentNaming")]
 	public sealed class ClaimDto
 	{
 		public int ClaimId { get; set; }

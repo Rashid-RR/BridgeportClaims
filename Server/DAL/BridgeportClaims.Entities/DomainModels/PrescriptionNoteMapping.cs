@@ -7,14 +7,16 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int PrescriptionId { get; set; }
+        [Required]
         public virtual int PrescriptionNoteId { get; set; }
+        [Required]
         public virtual Prescription Prescription { get; set; }
+        [Required]
         public virtual PrescriptionNote PrescriptionNote { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-
 
         #region NHibernate Composite Key Requirements
         public override bool Equals(object obj)

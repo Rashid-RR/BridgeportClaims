@@ -13,8 +13,8 @@ namespace BridgeportClaims.Data.Mappings
             DynamicUpdate();
             LazyLoad();
             Id(x => x.PayorId).GeneratedBy.Identity().Column("PayorID");
-            References(x => x.UsState).Column("BillToStateID");
-            Map(x => x.GroupName).Column("GroupName").Not.Nullable().Length(255);
+            References(x => x.BillToStateId).Column("BillToStateID");
+            Map(x => x.GroupName).Column("GroupName").Not.Nullable().Unique().Length(255);
             Map(x => x.BillToName).Column("BillToName").Not.Nullable().Length(255);
             Map(x => x.BillToAddress1).Column("BillToAddress1").Length(255);
             Map(x => x.BillToAddress2).Column("BillToAddress2").Length(255);
@@ -29,7 +29,6 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.Adjustor).KeyColumn("PayorID");
             HasMany(x => x.Claim).KeyColumn("PayorID");
-            HasMany(x => x.Invoice).KeyColumn("PayorID");
         }
     }
 }

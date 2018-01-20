@@ -9,6 +9,7 @@ namespace BridgeportClaims.Entities.DomainModels
     public class PrescriptionNoteType
     {
         public PrescriptionNoteType() { PrescriptionNote = new List<PrescriptionNote>(); }
+        [Required]
         public virtual int PrescriptionNoteTypeId { get; set; }
         [Required]
         [StringLength(255)]

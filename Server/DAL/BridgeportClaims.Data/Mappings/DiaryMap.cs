@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.Mappings
             SchemaAction.None();
             LazyLoad();
             Id(x => x.DiaryId).GeneratedBy.Identity().Column("DiaryID");
-            References(x => x.AspNetUsers).Column("AssignedToUserID");
+            References(x => x.AssignedToUserId).Column("AssignedToUserID");
             References(x => x.PrescriptionNote).Column("PrescriptionNoteID");
             Map(x => x.FollowUpDate).Column("FollowUpDate").Not.Nullable();
             Map(x => x.DateResolved).Column("DateResolved");

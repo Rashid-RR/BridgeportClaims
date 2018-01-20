@@ -14,7 +14,7 @@ namespace BridgeportClaims.Web
             {
                 cfg.CreateMap<Payor, PayorViewModel>()
                     .ForMember(dest => dest.State,
-                        x => x.MapFrom(src => src.UsState.StateCode));
+                        x => x.MapFrom(src => src.BillToStateId.StateCode));
                 cfg.CreateMap<UserPaymentPostingSession, PaymentPostingViewModel>();
                 cfg.CreateMap<PaymentPosting, PaymentPostingDto>()
                     .ForMember(dest => dest.PrescriptionID,

@@ -301,7 +301,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 				    fileNameParam.Size = 255;
                     cmd.Parameters.Add(fileNameParam);
 					cmd.CommandType = CommandType.StoredProcedure;
-					cmd.CommandTimeout = 1200; // 20 Minutes.
+					cmd.CommandTimeout = 1800; // 30 Minutes.
 					if (connection.State != ConnectionState.Open)
 						connection.Open();
 					cmd.ExecuteNonQuery();

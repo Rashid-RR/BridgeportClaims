@@ -13,7 +13,8 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual Claim Claim { get; set; }
         [Required]
         public virtual DocumentType DocumentType { get; set; }
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        [Required]
+        public virtual AspNetUsers IndexedByUserId { get; set; }
         public virtual DateTime? RxDate { get; set; }
         [StringLength(100)]
         public virtual string RxNumber { get; set; }

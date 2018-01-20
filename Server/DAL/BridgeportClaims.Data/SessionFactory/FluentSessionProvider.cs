@@ -118,11 +118,11 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<DocumentMap>();
 				    m.FluentMappings.Add<DocumentIndexMap>();
 					m.FluentMappings.Add<DocumentTypeMap>();
+				    m.FluentMappings.Add<PrescriberMap>();
 					m.FluentMappings.Add<ClaimMap>();
 					m.FluentMappings.Add<cnm>();
 					m.FluentMappings.Add<ClaimNoteTypeMap>();
 					m.FluentMappings.Add<EpisodeMap>();
-				    m.FluentMappings.Add<VwDocumentIndexMap>();
 					m.FluentMappings.Add<EpisodeTypeMap>();
 					m.FluentMappings.Add<EpisodeLinkMap>();
 					m.FluentMappings.Add<EpisodeLinkTypeMap>();
@@ -144,10 +144,7 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<PrescriptionNoteTypeMap>();
 					m.FluentMappings.Add<UsStateMap>();
 					m.FluentMappings.Add<PrescriptionNoteMappingMap>();
-					m.FluentMappings.Add<VwPrescriptionNoteMap>();
 					m.FluentMappings.Add<VwClaimInfoMap>();
-					m.FluentMappings.Add<VwImportFileMap>();
-					m.FluentMappings.Add<VwPaymentMap>();
 				})
 				.ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, false))
 				.ExposeConfiguration(c => c.SetProperty("current_session_context_class", "call"))

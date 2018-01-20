@@ -157,7 +157,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Address1 = s.p.Address1,
 									Address2 = s.p.Address2,
                                     City = s.p.City,
-                                    StateAbbreviation = null == s.p.UsState ? null : s.p.UsState.StateCode,
+                                    StateAbbreviation = null == s.p.StateId ? null : s.p.StateId.StateCode,
 								    PostalCode = s.p.PostalCode,
                                     Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
 									AdjustorPhoneNumber = null == s.c.Adjustor ? null : s.c.Adjustor.PhoneNumber,

@@ -13,6 +13,7 @@ namespace BridgeportClaims.Entities.DomainModels
             Patient = new List<Patient>();
             Payor = new List<Payor>();
             Pharmacy = new List<Pharmacy>();
+            Prescriber = new List<Prescriber>();
         }
         [Required]
         public virtual int StateId { get; set; }
@@ -28,5 +29,6 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual IList<Patient> Patient { get; set; }
         public virtual IList<Payor> Payor { get; set; }
         public virtual IList<Pharmacy> Pharmacy { get; set; }
+        public virtual IList<Prescriber> Prescriber { get; set; }
     }
 }

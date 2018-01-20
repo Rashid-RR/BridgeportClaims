@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
     [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
     public class Pharmacy
     {
@@ -14,10 +13,10 @@ namespace BridgeportClaims.Entities.DomainModels
             Prescription = new List<Prescription>();
         }
         [Required]
-        public virtual string NABP { get; set; }
-        public virtual UsState UsState { get; set; }
+        public virtual string Nabp { get; set; }
+        public virtual UsState StateId { get; set; }
         [StringLength(10)]
-        public virtual string NPI { get; set; }
+        public virtual string Npi { get; set; }
         [StringLength(60)]
         public virtual string PharmacyName { get; set; }
         [StringLength(55)]
@@ -41,15 +40,13 @@ namespace BridgeportClaims.Entities.DomainModels
         [StringLength(50)]
         public virtual string ContactEmailAddress { get; set; }
         [StringLength(15)]
-        public virtual string FederalTIN { get; set; }
-        [StringLength(1)]
+        public virtual string FederalTin { get; set; }
+        [StringLength(2)]
         public virtual string DispType { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
-        [StringLength(50)]
-        public virtual string ETLRowID { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
     }
 }

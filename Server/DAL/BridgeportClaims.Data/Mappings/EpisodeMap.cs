@@ -25,7 +25,7 @@ namespace BridgeportClaims.Data.Mappings
 		    Map(x => x.CreatedDateUtc).Column("CreatedDateUTC");
 		    Map(x => x.Description).Column("Description").Length(255);
 		    Map(x => x.ResolvedDateUtc).Column("ResolvedDateUTC");
-		    Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
 		    Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
 	}

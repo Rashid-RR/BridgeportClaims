@@ -186,6 +186,7 @@
     <Compile Include="Mappings\PatientMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />
     <Compile Include="Mappings\PharmacyMap.cs" />
+    <Compile Include="Mappings\PrescriberMap.cs" />
     <Compile Include="Mappings\PrescriptionMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteMappingMap.cs" />
@@ -194,11 +195,7 @@
     <Compile Include="Mappings\PrescriptionStatusMap.cs" />
     <Compile Include="Mappings\SuspenseMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
-    <Compile Include="Mappings\Views\VwDocumentIndexMap.cs" />
-    <Compile Include="Mappings\Views\VwPaymentMap.cs" />
-    <Compile Include="Mappings\Views\VwPrescriptionNoteMap.cs" />
     <Compile Include="Mappings\Views\VwClaimInfoMap.cs" />
-    <Compile Include="Mappings\Views\VwImportFileMap.cs" />
     <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionFactory\StoredProcedureExecutors\BaseRepository.cs" />

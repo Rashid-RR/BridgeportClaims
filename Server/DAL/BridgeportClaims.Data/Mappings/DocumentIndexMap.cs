@@ -16,7 +16,7 @@ namespace BridgeportClaims.Data.Mappings
             References(x => x.Document).Column("DocumentID");
             References(x => x.Claim).Column("ClaimID");
             References(x => x.DocumentType).Column("DocumentTypeID");
-            References(x => x.AspNetUsers).Column("IndexedByUserID");
+            References(x => x.IndexedByUserId).Column("IndexedByUserID");
             Map(x => x.RxDate).Column("RxDate");
             Map(x => x.RxNumber).Column("RxNumber").Length(100);
             Map(x => x.InvoiceNumber).Column("InvoiceNumber").Length(100);

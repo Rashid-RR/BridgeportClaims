@@ -14,6 +14,7 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.AdjustorId).GeneratedBy.Identity().Column("AdjustorID");
             References(x => x.Payor).Column("PayorID");
+            References(x => x.ModifiedByUserId).Column("ModifiedByUserID");
             Map(x => x.AdjustorName).Column("AdjustorName").Not.Nullable().Length(255);
             Map(x => x.PhoneNumber).Column("PhoneNumber").Length(30);
             Map(x => x.FaxNumber).Column("FaxNumber").Length(30);
