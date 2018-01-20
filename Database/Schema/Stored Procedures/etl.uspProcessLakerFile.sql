@@ -5,7 +5,8 @@ GO
 /*
 	Author:			Jordan Gurney
 	Create Date:	9/5/2017
-	Description:	Master proc to Process Laker File
+	Description:	Master proc to Process Laker File.
+	Modified:		1/20/2018 by Jordan Gurney to add the disabling / enabling of table audit triggers.
 	Sample Execute:
 					EXEC etl.uspProcessLakerFile
 */
@@ -14,6 +15,9 @@ AS BEGIN
 	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
 	SET DEADLOCK_PRIORITY HIGH;
 	SET NOCOUNT ON;
+	ALTER TABLE [dbo].[Adjustor] DISABLE TRIGGER ALL;
+	ALTER TABLE [dbo].[Claim] DISABLE TRIGGER ALL;
+	ALTER TABLE [dbo].[Patient] DISABLE TRIGGER ALL;
 	BEGIN TRAN;
 	EXEC [etl].[uspCleanupStagedLakerFileAddedColumns]
 	EXEC [etl].[uspAddStagedLakerFileETLColumns]
@@ -31,6 +35,7 @@ AS BEGIN
 	FROM   [etl].[StagedLakerFile] AS [s]
 		   INNER JOIN [etl].[StagedLakerFileBackup] AS [b] ON [b].[RowID] = [s].[RowID]
 
+	/*
 	IF OBJECT_ID(N'tempdb..#PayorUpdate') IS NOT NULL
 		DROP TABLE #PayorUpdate
 	IF OBJECT_ID(N'tempdb..#Payor') IS NOT NULL
@@ -63,6 +68,7 @@ AS BEGIN
 		DROP TABLE #PrescriptionUpdate
 	IF OBJECT_ID(N'tempdb..#PharmacyUpdate') IS NOT NULL
 		DROP TABLE #PharmacyUpdate
+	*/
 
 	CREATE TABLE #New ([RowID] [varchar](50) NOT NULL,[2] [varchar](8000) NULL,
 	[3] [varchar](8000) NULL,[4] [varchar](8000) NULL,[5] [varchar](8000) NULL,[6] [varchar](8000) NULL,
@@ -164,12 +170,16 @@ AS BEGIN
 	ORDER BY [42] ASC
 	SET @RowCountCheck = @@ROWCOUNT;
 
-	IF (SELECT COUNT(*) FROM [dbo].[Payor] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck
+	IF ((SELECT COUNT(*) FROM [dbo].[Payor] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'The Payor count QA check failed', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'The Payor count QA check failed', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	UPDATE s SET [s].[PayorID] = [pi].[PayorID]
@@ -233,12 +243,16 @@ AS BEGIN
 	FROM	[UpdatedPayorsCTE] AS s INNER JOIN [dbo].[Payor] AS [p] ON [p].[PayorID] = [s].[PayorID]
 	SET @UpdatedRowCount = @@ROWCOUNT
 
-	IF @UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Payor] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
+	IF (@UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Payor] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow))
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Payor Records didn''t match', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Payor Records didn''t match', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	/********************************************************************************************
@@ -264,12 +278,16 @@ AS BEGIN
 	WHERE [a].[RowNumber] = 1
 	SET @RowCountCheck = @@ROWCOUNT;
 
-	IF (SELECT COUNT(*) FROM [dbo].[Adjustor] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck
+	IF ((SELECT COUNT(*) FROM [dbo].[Adjustor] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'The Adjustor count QA check failed', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'The Adjustor count QA check failed', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	-- Update the temp table with new Ajustor ID's
@@ -284,12 +302,16 @@ AS BEGIN
 	FROM	[etl].[StagedLakerFile] AS [slf]
 			INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
 	WHERE	[n].[AdjustorID] IS NOT NULL
-	IF @RowCountCheck != @@ROWCOUNT
+	IF (@RowCountCheck != @@ROWCOUNT)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The Updated Ajustor ID''s in the StagedLakerFile does not match the count of updated Adjustor ID''s in #New', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The Updated Ajustor ID''s in the StagedLakerFile does not match the count of updated Adjustor ID''s in #New', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	-- Adjustor's are unique, in that the matching criteria that we normally would use for an 
@@ -327,12 +349,16 @@ AS BEGIN
 		  AND [p2].[PatientID] IS NULL
 	SET @RowCountCheck = @@ROWCOUNT
 
-	IF (SELECT COUNT(*) FROM [dbo].[Patient] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck
+	IF ((SELECT COUNT(*) FROM [dbo].[Patient] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'The Patient count QA check failed', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'The Patient count QA check failed', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	-- Update the temp table with new Patient ID's
@@ -348,12 +374,16 @@ AS BEGIN
 	WHERE	1 = 1 -- Override SQL Prompt warning (normally a bad practice)
 	SET @RowCountCheck = @@ROWCOUNT
 
-	IF (SELECT COUNT(*) FROM [#New]) != @RowCountCheck
+	IF ((SELECT COUNT(*) FROM [#New]) != @RowCountCheck)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'The Patients updated does not match the total records in #New', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'The Patients updated does not match the total records in #New', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	-- Update the StagedLakerFile with #New's Adjustor ID's
@@ -361,12 +391,16 @@ AS BEGIN
 	FROM	[etl].[StagedLakerFile] AS [slf]
 			left JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
 	WHERE [slf].[PatientID] IS NULL
-	IF @RowCountCheck != @@ROWCOUNT
+	IF (@RowCountCheck != @@ROWCOUNT)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The Updated Patient ID''s in the StagedLakerFile does not match the count of updated Patient ID''s in #New', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The Updated Patient ID''s in the StagedLakerFile does not match the count of updated Patient ID''s in #New', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	-- QA check that we were able to update every record
@@ -435,12 +469,16 @@ AS BEGIN
 	FROM	UpdatedPatientsCTE AS s INNER JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [s].[PatientID]
 	SET @UpdatedRowCount = @@ROWCOUNT
 
-	IF @UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Patient] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
+	IF (@UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Patient] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow))
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Patient Records didn''t match', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Patient Records didn''t match', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	/********************************************************************************************
@@ -454,20 +492,28 @@ AS BEGIN
 		SELECT * FROM [etl].[StagedLakerFile] AS [slf] WHERE [slf].[PatientID] IS NULL
 	)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The PatientID''s  in the etl.StagedLakerFile are not all NULL. They should have all been updated by this point', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The PatientID''s  in the etl.StagedLakerFile are not all NULL. They should have all been updated by this point', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 	IF EXISTS
 	(
 		SELECT * FROM [etl].[StagedLakerFile] AS [slf] WHERE [slf].[PayorID] IS NULL
 	)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The PayorID''s  in the etl.StagedLakerFile are not all NULL. They should have all been updated by this point', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The PayorID''s  in the etl.StagedLakerFile are not all NULL. They should have all been updated by this point', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	CREATE TABLE #Claim ([8] [varchar](8000) NULL,[9] [varchar](8000) NULL,[19] [varchar](8000) NULL,
@@ -491,12 +537,16 @@ AS BEGIN
 	WHERE [RowNumber] = 1
 	SET @RowCountCheck = @@ROWCOUNT;
 
-	IF (SELECT COUNT(*) FROM [dbo].[Claim] AS [c] WHERE [c].[CreatedOnUTC] = @UTCNow) != @RowCountCheck
+	IF ((SELECT COUNT(*) FROM [dbo].[Claim] AS [c] WHERE [c].[CreatedOnUTC] = @UTCNow) != @RowCountCheck)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The new Claim records imported count does not match the rows affected for inserted Claims', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The new Claim records imported count does not match the rows affected for inserted Claims', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	UPDATE s SET [s].[ClaimID] = [c].[ClaimID]
@@ -519,12 +569,16 @@ AS BEGIN
 	UPDATE	[slf] SET [slf].[ClaimID] = [n].[ClaimID]
 	FROM	[etl].[StagedLakerFile] AS [slf]
 			INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
-	IF @RowCountCheck != @@ROWCOUNT
+	IF (@RowCountCheck != @@ROWCOUNT)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The Updated Claim ID''s in the StagedLakerFile does not match the count of updated Claim ID''s in #New', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The Updated Claim ID''s in the StagedLakerFile does not match the count of updated Claim ID''s in #New', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	-- QA check that we were able to update every record in StagedLakerFile
@@ -571,12 +625,16 @@ AS BEGIN
 	FROM	[UpdatedClaimsCTE] AS [ct] INNER JOIN [dbo].[Claim] AS [c] ON [ct].[ClaimID] = [c].[ClaimID]
 	SET @UpdatedRowCount = @@ROWCOUNT
 
-	IF @UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Claim] AS [c] WHERE [c].[UpdatedOnUTC] = @UTCNow)
+	IF (@UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Claim] AS [c] WHERE [c].[UpdatedOnUTC] = @UTCNow))
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Patient Records didn''t match', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Patient Records didn''t match', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	/********************************************************************************************
@@ -671,12 +729,16 @@ AS BEGIN
 	WHERE	[p].[RowNumber] = 1 AND ph.[NABP] IS NULL
 	SET @RowCountCheck = @@ROWCOUNT
 
-	IF (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck
+	IF ((SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. Could not import the same amount of Pharmacies that we should have', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. Could not import the same amount of Pharmacies that we should have', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 		
 	UPDATE n SET n.[NABP] = p.[NABP]
@@ -687,12 +749,16 @@ AS BEGIN
 	UPDATE [slf] SET [slf].[NABP] = [n].[NABP]
 	FROM   [etl].[StagedLakerFile] AS [slf]
 		   INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
-	IF @@ROWCOUNT != @RowCountCheck
+	IF (@@ROWCOUNT != @RowCountCheck)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The same number of #New Pharmacy NABP''s updated does not match the number of StagedLakerFile Pharmacy NABP''s Updated.', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The same number of #New Pharmacy NABP''s updated does not match the number of StagedLakerFile Pharmacy NABP''s Updated.', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 	
 	CREATE TABLE #PharmacyUpdate
@@ -746,12 +812,16 @@ AS BEGIN
 		   INNER JOIN [PharmaciesUpdateCTE] AS [c] ON [p].NABP = [c].NABP
 	SET @RowCountCheck = @@ROWCOUNT
 	
-	IF @RowCountCheck != (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
+	IF (@RowCountCheck != (SELECT COUNT(*) FROM [dbo].[Pharmacy] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow))
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The Updated Pharmacies does not match the actual number of records in the database where Pharmacies were updated', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The Updated Pharmacies does not match the actual number of records in the database where Pharmacies were updated', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 
@@ -776,34 +846,47 @@ AS BEGIN
 	FROM	[#New] AS [n]
 	SET @RowCountCheck = @@ROWCOUNT;
 
-	IF (SELECT COUNT(*) FROM [dbo].[Prescription] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck
+	IF ((SELECT COUNT(*) FROM [dbo].[Prescription] AS [p] WHERE [p].[CreatedOnUTC] = @UTCNow) != @RowCountCheck)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The new Prescription records imported count does not match the rows affected for inserted Prescriptions', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The new Prescription records imported count does not match the rows affected for inserted Prescriptions', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	UPDATE s SET [s].PrescriptionID = p.PrescriptionID
 	FROM   #New AS s WITH ( TABLOCKX )
 		   INNER JOIN [dbo].Prescription AS p ON p.ETLRowID = s.[RowID]
-	IF @RowCountCheck != @@ROWCOUNT
+	IF (@RowCountCheck != @@ROWCOUNT)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. Something went wrong in updating the #New file, PrescriptionID''s.', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. Something went wrong in updating the #New file, PrescriptionID''s.', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 
 	UPDATE	[slf] SET [slf].[PrescriptionID] = [n].[PrescriptionID]
 	FROM	[etl].[StagedLakerFile] AS [slf]
 			INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
-	IF @RowCountCheck != @@ROWCOUNT
+	
+	IF (@RowCountCheck != @@ROWCOUNT)
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'Error. The Updated Prescription ID''s in the StagedLakerFile does not match the count of updated Prescription ID''s in #New', 16, 1) WITH NOWAIT
-			RETURN
+			RETURN;
 		END
 
 	-- QA Checks
@@ -856,7 +939,7 @@ AS BEGIN
 		[UpdatedOnUTC] [datetime2](7) NOT NULL,
 		[DataVersion] [timestamp] NOT NULL,
 		[ETLRowID] [varchar](50) NULL,
-		[AWP]  AS ([Quantity]*[AWPUnit]),
+		[AWP]  AS ([Quantity] * [AWPUnit]),
 	 CONSTRAINT [pkPrescription] PRIMARY KEY CLUSTERED 
 	(
 		[PrescriptionID] ASC
@@ -928,12 +1011,16 @@ AS BEGIN
 
 	SET @UpdatedRowCount = @@ROWCOUNT
 
-	IF @UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Prescription] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow)
+	IF (@UpdatedRowCount != (SELECT COUNT(*) FROM [dbo].[Prescription] AS [p] WHERE [p].[UpdatedOnUTC] = @UTCNow))
 		BEGIN
-			IF @@TRANCOUNT > 0
-				ROLLBACK
-			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Prescription Records didn''t match', 16, 1) WITH NOWAIT
-			RETURN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Prescription Records didn''t match', 16, 1) WITH NOWAIT;
+			RETURN;
 		END
 	   
 	DECLARE @Success BIT = 0
@@ -941,15 +1028,32 @@ AS BEGIN
 		BEGIN
 			IF @@ERROR = 0
 				BEGIN
-					COMMIT
-					SET @Success = 1
+					COMMIT;
+					SET @Success = 1;
+					-- Enable Triggers
+					ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+					ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+					ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 				END
 			ELSE
-				ROLLBACK
+				BEGIN
+					ROLLBACK;
+					-- Enable Triggers
+					ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+					ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+					ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+				END
 		END
 	
-	IF @@TRANCOUNT > 0
-		RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT
+	IF (@@TRANCOUNT > 0)
+		BEGIN
+			-- Enable Triggers
+			ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
+			RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT;
+			RETURN;
+		END
 
 	-- Reversed Prescriptions
 	EXEC dbo.uspDissolveReversedPrescriptions
@@ -958,6 +1062,11 @@ AS BEGIN
 	UPDATE  [l]
 	SET     [l].[LastFileNameLoaded] = @FileName
 	FROM    [etl].[LatestStagedLakerFileLoaded] AS [l]
-	WHERE	1 = 1
+	WHERE	1 = 1;
+
+	-- Enable Triggers
+	ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
+	ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
+	ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 END
 GO
