@@ -29,6 +29,7 @@ using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
+using BridgeportClaims.Data.DataProviders.AdjustorSearches;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
@@ -36,6 +37,7 @@ using BridgeportClaims.Data.DataProviders.Diaries;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
 using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.KPI;
+using BridgeportClaims.Data.DataProviders.PayorSearches;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.DataProviders.Reports;
@@ -72,6 +74,8 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();
             builder.RegisterType<ClaimImageProvider>().As<IClaimImageProvider>().InstancePerRequest();
             builder.RegisterType<ClaimsEditProvider>().As<IClaimsEditProvider>().InstancePerRequest();
+            builder.RegisterType<PayorSearchProvider>().As<IPayorSearchProvider>().InstancePerRequest();
+            builder.RegisterType<AdjustorSearchProvider>().As<IAdjustorSearchProvider>().InstancePerRequest();
 
             // SignalR
             var hubConfig = new HubConfiguration();

@@ -26,6 +26,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
 		private readonly IRepository<Claim> _claimRepository;
 		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
+	    private readonly IRepository<UsState> _usStateRepository;
 	    private readonly IClaimImageProvider _claimImageProvider;
 	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -34,17 +35,27 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			IRepository<Claim> claimRepository, 
 			IRepository<ClaimFlex2> claimFlex2Repository, 
 			IPaymentsDataProvider paymentsDataProvider, 
-            IClaimImageProvider claimImageProvider)
+            IClaimImageProvider claimImageProvider, 
+            IRepository<UsState> usStateRepository)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
 			_claimRepository = claimRepository;
 			_claimFlex2Repository = claimFlex2Repository;
 			_paymentsDataProvider = paymentsDataProvider;
 		    _claimImageProvider = claimImageProvider;
+		    _usStateRepository = usStateRepository;
 		    _factory = factory;
 		}
 
-
+	    private IList<UsStateDto> GetUsStates()
+	    {
+	        var states = _usStateRepository.GetAll()?.Select(s => new UsStateDto
+	        {
+	            StateId = s.StateId,
+	            StateName = s.StateCode + " - " + s.StateName
+	        });
+	        return states?.OrderBy(x => x.StateName).ToList();
+	    }
 
 		public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
 			string rxNumber, string invoiceNumber)
@@ -231,6 +242,10 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetResultTransformer(Transformers.AliasToBean(typeof(AcctPayableDto)))
 								.List<AcctPayableDto>();
 							claimDto.AcctPayables = acctPayableDtos;
+                            // U.S. States
+						    var states = GetUsStates();
+						    if (null != states)
+						        claimDto.States = states;
 							// Prescription Statuses
 							var prescriptionStatuses = session.CreateSQLQuery("SELECT ps.PrescriptionStatusID PrescriptionStatusId, ps.StatusName FROM dbo.PrescriptionStatus AS ps")
 								.SetMaxResults(100)
@@ -242,6 +257,14 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							var payments = _paymentsDataProvider.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, 5000, "RxNumber", "ASC");
 							if (null != payments)
 								claimDto.Payments = payments;
+                            // Genders
+						    var genders = session
+						        .CreateSQLQuery("SELECT GenderId = [g].[GenderID], [g].[GenderName] FROM [dbo].[Gender] AS [g]")
+						        .SetMaxResults(30)
+						        .SetResultTransformer(Transformers.AliasToBean(typeof(GenderDto)))
+						        .List<GenderDto>();
+						    if (null != genders)
+						        claimDto.Genders = genders;
 							// Claim Prescriptions
 							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
 							// Prescription Notes

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Data.Dtos
 {
@@ -26,6 +27,8 @@ namespace BridgeportClaims.Data.Dtos
 		public string PostalCode { get; set; }
 		public string PatientPhoneNumber { get; set; }
 		public DateTime? DateEntered { get; set; }
+        public IList<GenderDto> Genders { get; set; }
+        public IList<UsStateDto> States { get; set; }
         public IList<DocumentTypeDto> DocumentTypes { get; set; }
 		public IList<ClaimFlex2Dto> ClaimFlex2s { get; set; }
 		public IList<ClaimNoteDto> ClaimNotes { get; set; }

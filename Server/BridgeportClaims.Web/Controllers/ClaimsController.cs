@@ -42,9 +42,9 @@ namespace BridgeportClaims.Web.Controllers
 	                var userId = User?.Identity?.GetUserId();
 	                if (null == userId)
 	                    throw new Exception("Could not locate the authenticated user.");
-	                _claimsEditProvider.EditClaim(claimId, userId, "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
+	                _claimsEditProvider.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null : "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
 	                        : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
-	                        adjustorId, adjustorPhone, "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
+	                        adjustorId, adjustorPhone, null == dateOfInjury ? (DateTime?) null : "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
 	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax);
 	                return Ok(new {message = "The claim was updated successfully."});
 	            });
