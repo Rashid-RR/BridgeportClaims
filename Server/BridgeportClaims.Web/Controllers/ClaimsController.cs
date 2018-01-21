@@ -31,7 +31,8 @@ namespace BridgeportClaims.Web.Controllers
 	    [Route("edit-claim")]
 	    public async Task<IHttpActionResult> EditClaim([FromBody] int claimId, string modifiedByUserId,
 	        string dateOfBirth = "NULL", int genderId = -1, int payorId = -1, int? adjustorId = -1, string adjustorPhone = "NULL",
-	        string dateOfInjury = "NULL", string adjustorFax = "NULL")
+	        string dateOfInjury = "NULL", string adjustorFax = "NULL", string address1 = "NULL", string address2 = "NULL", string city = "NULL",
+            int stateId = -1, string postalCode = "NULL")
 	    {
 	        try
 	        {
@@ -45,7 +46,8 @@ namespace BridgeportClaims.Web.Controllers
 	                _claimsEditProvider.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null : "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
 	                        : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
 	                        adjustorId, adjustorPhone, null == dateOfInjury ? (DateTime?) null : "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
-	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax);
+	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax,
+                            address1, address2, city, stateId, postalCode);
 	                return Ok(new {message = "The claim was updated successfully."});
 	            });
 	        }
