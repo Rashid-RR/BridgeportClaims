@@ -10,7 +10,6 @@ using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using NHibernate.Exceptions;
 
 namespace BridgeportClaims.Web.Controllers
 { 

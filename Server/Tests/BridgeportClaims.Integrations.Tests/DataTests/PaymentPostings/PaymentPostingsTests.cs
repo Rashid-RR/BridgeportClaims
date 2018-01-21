@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BridgeportClaims.Integrations.Tests.DataTests.PaymentPostings
 {
     [TestClass]
-    public class PaymentPostingsTests
+    public sealed class PaymentPostingsTests
     {
         [TestMethod]
         public void TestPaymentPosting()

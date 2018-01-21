@@ -13,7 +13,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.ClaimNotes
     /// are actual tests that will interact with the database. 
     /// </summary> 
     [TestClass]
-    public class ClaimNotesTests
+    public sealed class ClaimNotesTests
     {
         private readonly Mock<IRepository<ClaimNote>> _mockedClaimNoteRepository = new Mock<IRepository<ClaimNote>>();
         private readonly Mock<IRepository<AspNetUsers>> _mockedUserRepository = new Mock<IRepository<AspNetUsers>>();
