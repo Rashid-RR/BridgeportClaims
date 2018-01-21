@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
         private const string DefaultString = "NULL";
 
         public void EditClaim(int claimId, string modifiedByUserId, DateTime? dateOfBirth, int genderId, int payorId, int? adjustorId, string adjustorPhone,
-            DateTime? dateOfInjury, string adjustorFax, string address1, string address2, string city, int stateId, string postalCode) =>
+            DateTime? dateOfInjury, string adjustorFax, string address1, string address2, string city, int? stateId, string postalCode) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspEditClaim]", conn), cmd =>
@@ -141,7 +141,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
                     if (stateId != DefaultInt)
                     {
                         var stateIdParam = cmd.CreateParameter();
-                        stateIdParam.Value = stateId;
+                        stateIdParam.Value = stateId ?? (object) DBNull.Value;
                         stateIdParam.DbType = DbType.Int32;
                         stateIdParam.SqlDbType = SqlDbType.Int;
                         stateIdParam.Direction = ParameterDirection.Input;
