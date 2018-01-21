@@ -120,6 +120,17 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         }
       });
   }
+  archive() {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Archive Image",
+      message: "Are you sure you wish to archive "+this.file.fileName+"?"
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.ds.archive(this.file.documentId);
+        }
+      });
+  }
   save() {
     if (this.form.valid) {
       this.submitted = true;

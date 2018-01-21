@@ -7,7 +7,7 @@
     <div class="box-body" style="padding-bottom:0px;" id="collapseOne" class="panel-collapse collapse in">
         <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="saveImage()">
             <div class="row" style="margin-left:10px;">
-                <div class="col-md-2">
+                <div class="width10">
                     <div class="form-group">
                         <label>Type
                             <span color="red">*</span>
@@ -18,7 +18,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class=" width10">
                     <div class="form-group">
                         <label>Rx Date</label>
                         <div class="input-group date">
@@ -30,19 +30,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class=" width10">
                     <div class="form-group">
                         <label>Rx Number</label>
                         <input class="form-control" formControlName="rxNumber" type="text" (focus)="submitted=false">
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class=" width10">
                     <div class="form-group">
                         <label>Invoice Number</label>
                         <input class="form-control" formControlName="invoiceNumber" type="text" (focus)="submitted=false">
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class=" width10">
                     <div class="form-group">
                         <label>Injury Date</label>
                         <div class="input-group date">
@@ -54,19 +54,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class=" width10">
                     <div class="form-group">
                         <label>Attorney Name</label>
                         <input class="form-control" formControlName="attorneyName" type="text" (focus)="submitted=false">
                     </div>
                 </div>
-                <div class="col-md-2 flex">
+                <div class="width30 flex">
                     <div class="form-group">
                         <label>&nbsp;</label>
                         <span>
                             <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="!linkClaim" type="button" (click)="linkClaim=true"> <i class="fa fa-plus-circle"></i>Link to Claim</button>
                             <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="linkClaim" type="button" (click)="linkClaim=false"> <i class="fa fa-ban"></i> Unlink Claim</button>
-                            <button class="color-palette btn bg-darkRed btn-flat  btn-md" type="button" (click)="cancel()"> <i class="fa fa-chevron-left"></i>Cancel</button>
+                            <button class="color-palette btn bg-darkblue btn-flat  btn-md" type="button" (click)="cancel()"> <i class="fa fa-chevron-left"></i>Cancel</button>
+                            <button class="color-palette btn bg-darkRed btn-flat  btn-md" type="button" (click)="archive()"> <i class="fa fa-trash"></i>Archive</button>
                         </span>
                     </div>
                 </div>

@@ -89,3 +89,8 @@ thead span {
 .table>thead>tr>th[_ngcontent-c9] {
   border-bottom: 0px;
 }
+.bg-darkRed {
+  background: #992727;
+  border: 1px solid #992727;
+  color: #fff;
+}

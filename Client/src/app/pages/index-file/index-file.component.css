@@ -82,13 +82,13 @@ label.check-label{
   .no-padding.red{
     width:4% !important;
   }
-  form .col-md-2:not(.flex){
+  form .col-md-3:not(.flex){
     width:13%;
     padding-right:2.5px;
     padding-left:2.5px;
   }
-  form .col-md-2.flex{
-    width:190px;
+  form .col-md-3.flex{
+    min-width:190px;
     padding-right:2px;
     padding-left:2px;
    }
@@ -97,10 +97,14 @@ label.check-label{
     padding-right:2px;
     padding-left:2px;
    }
-  form .col-md-2.flex .form-group span button{
+  form .col-md-3.flex .form-group span button,
+  form .flex .form-group span button
+  {
     margin-left:5px;
   }
-  form .col-md-2.flex .form-group span{
+  form .col-md-3.flex .form-group span,
+  form flex .form-group span
+  {
     display:flex;
     flex-direction: row;
     
@@ -174,4 +178,18 @@ label.check-label{
   font-size:12px;
   font-weight: 600;
   padding-top: 5px;
+}
+.width10{
+    width:11.5%;
+    float: left;
+    padding:15px 2.5px;
+}
+.width30{
+    width:30%;
+    float: left;
+    padding: 40px 0px 2.5px 0px;
+}
+form .col-md-3,form .col-md-2,form .col-md-1{
+  padding-left:5px;
+  padding-right:5px;
 }

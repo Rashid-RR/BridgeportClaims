@@ -17,6 +17,9 @@ export class UnindexedImageComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.events.broadcast("reset-indexing-form", true);
     this.ds.cancel();
+    this.events.on("archived-image", (id: any) => {
+      this.ds.cancel();
+    });
   }
   ngAfterViewInit() {
 

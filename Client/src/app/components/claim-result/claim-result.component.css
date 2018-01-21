@@ -65,3 +65,9 @@ tr:nth-of-type(even) {
   color:black !important;
   box-shadow: none;
 }
+
+button.edit{
+  position: absolute;
+  bottom:10px;
+  left:10px
+}
