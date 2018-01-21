@@ -10,7 +10,6 @@ using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using NHibernate.Exceptions;
 
 namespace BridgeportClaims.Web.Controllers
 { 
@@ -28,25 +27,35 @@ namespace BridgeportClaims.Web.Controllers
             _claimsEditProvider = claimsEditProvider;
         }
 
-	    [HttpPost]
+        [HttpPost]
 	    [Route("edit-claim")]
-	    public async Task<IHttpActionResult> EditClaim([FromBody] int claimId, string modifiedByUserId,
-	        string dateOfBirth = "NULL", int genderId = -1, int payorId = -1, int? adjustorId = -1, string adjustorPhone = "NULL",
-	        string dateOfInjury = "NULL", string adjustorFax = "NULL")
+	    public async Task<IHttpActionResult> EditClaim(ClaimEditModel model)
 	    {
 	        try
 	        {
 	            return await Task.Run(() =>
 	            {
-                    if (modifiedByUserId.IsNullOrWhiteSpace())
-                        throw new ArgumentNullException(nameof(modifiedByUserId));
-	                var userId = User?.Identity?.GetUserId();
+	                var claimId = model.ClaimId;
+	                var dateOfBirth = model.DateOfBirth;
+                    var genderId = model.GenderId;
+	                var payorId = model.PayorId;
+	                var adjustorId = model.AdjustorId;
+                    var adjustorPhone = model.AdjustorPhone;
+                    var dateOfInjury = model.DateOfInjury;
+                    var adjustorFax = model.AdjustorFax;
+	                var address1 = model.Address1;
+	                var address2 = model.Address2;
+                    var city = model.City;
+                    var stateId = model.StateId;
+	                var postalCode = model.PostalCode;
+                    var userId = User?.Identity?.GetUserId();
 	                if (null == userId)
 	                    throw new Exception("Could not locate the authenticated user.");
-	                _claimsEditProvider.EditClaim(claimId, userId, "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
+	                _claimsEditProvider.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null : "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
 	                        : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
-	                        adjustorId, adjustorPhone, "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
-	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax);
+	                        adjustorId, adjustorPhone, null == dateOfInjury ? (DateTime?) null : "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
+	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax,
+                            address1, address2, city, stateId, postalCode);
 	                return Ok(new {message = "The claim was updated successfully."});
 	            });
 	        }
@@ -57,7 +66,7 @@ namespace BridgeportClaims.Web.Controllers
 	        }
 	    }
 
-	    [HttpPost]
+        [HttpPost]
 		[Route("getclaimsdata")]
 		public IHttpActionResult GetClaimsData([FromBody] ClaimsSearchViewModel model)
 		{

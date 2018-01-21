@@ -7,7 +7,6 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int SuspenseId { get; set; }
-        public virtual Claim Claim { get; set; }
         public virtual AspNetUsers UserId { get; set; }
         [Required]
         [StringLength(50)]

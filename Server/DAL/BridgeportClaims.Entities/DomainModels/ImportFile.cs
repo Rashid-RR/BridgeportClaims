@@ -8,6 +8,8 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         public virtual int ImportFileId { get; set; }
         [Required]
+        public virtual ImportFileType ImportFileType { get; set; }
+        [Required]
         public virtual byte[] FileBytes { get; set; }
         [Required]
         [StringLength(255)]

@@ -13,7 +13,6 @@ namespace BridgeportClaims.Data.Mappings
             DynamicUpdate();
             LazyLoad();
             Id(x => x.SuspenseId).GeneratedBy.Identity().Column("SuspenseID");
-            References(x => x.Claim).Column("ClaimID");
             References(x => x.UserId).Column("UserID");
             Map(x => x.CheckNumber).Column("CheckNumber").Not.Nullable().Length(50);
             Map(x => x.AmountRemaining).Column("AmountRemaining").Not.Nullable().Precision(19).Scale(4);

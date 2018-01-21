@@ -14,7 +14,7 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.ClaimsUserHistoryId).GeneratedBy.Identity().Column("ClaimsUserHistoryID");
             References(x => x.Claim).Column("ClaimID");
-            References(x => x.AspNetUsers).Column("UserID");
+            References(x => x.UserId).Column("UserID");
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }

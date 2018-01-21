@@ -7,7 +7,8 @@ namespace BridgeportClaims.Entities.DomainModels
 	{
 		[Required]
 	    public virtual int EpisodeId { get; set; }
-	    public virtual Claim Claim { get; set; }
+	    [Required]
+        public virtual Claim Claim { get; set; }
 	    public virtual EpisodeType EpisodeType { get; set; }
 	    public virtual AspNetUsers ResolvedUserId { get; set; }
 	    public virtual AspNetUsers AcquiredUserId { get; set; }

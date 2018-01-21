@@ -72,6 +72,8 @@
   <ItemGroup>
     <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\AdjustorSearches\AdjustorSearchProvider.cs" />
+    <Compile Include="DataProviders\AdjustorSearches\IAdjustorSearchProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\ClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\IClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
@@ -96,6 +98,8 @@
     <Compile Include="DataProviders\KPI\KpiProvider.cs" />
     <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
+    <Compile Include="DataProviders\PayorSearches\IPayorSearchProvider.cs" />
+    <Compile Include="DataProviders\PayorSearches\PayorSearchProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\IPrescriptionPaymentProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\PrescriptionPaymentProvider.cs" />
     <Compile Include="DataProviders\Prescriptions\IPrescriptionsProvider.cs" />
@@ -119,6 +123,7 @@
     <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
     <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
     <Compile Include="Dtos\AccountsReceivableDto.cs" />
+    <Compile Include="Dtos\AdjustorSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />
     <Compile Include="Dtos\ClaimFlex2Dto.cs" />
     <Compile Include="Dtos\ClaimImageResultDto.cs" />
@@ -135,6 +140,7 @@
     <Compile Include="Dtos\DocumentTypeDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
+    <Compile Include="Dtos\GenderDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
     <Compile Include="Dtos\GroupNameDto.cs" />
     <Compile Include="Dtos\ImagesDto.cs" />
@@ -144,6 +150,7 @@
     <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
     <Compile Include="Dtos\PaymentPostingDto.cs" />
     <Compile Include="Dtos\PaymentTotalsDto.cs" />
+    <Compile Include="Dtos\PayorSearchResultsDto.cs" />
     <Compile Include="Dtos\PharmacyNameDto.cs" />
     <Compile Include="Dtos\PostPaymentPrescriptionReturnDto.cs" />
     <Compile Include="Dtos\PostPaymentReturnDto.cs" />
@@ -158,6 +165,7 @@
     <Compile Include="Dtos\ScriptNoteDto.cs" />
     <Compile Include="Dtos\UnpaidScriptResultDto.cs" />
     <Compile Include="Dtos\UnpaidScriptsDto.cs" />
+    <Compile Include="Dtos\UsStateDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
     <Compile Include="Mappings\AspNetRolesMap.cs" />
@@ -186,6 +194,7 @@
     <Compile Include="Mappings\PatientMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />
     <Compile Include="Mappings\PharmacyMap.cs" />
+    <Compile Include="Mappings\PrescriberMap.cs" />
     <Compile Include="Mappings\PrescriptionMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteMap.cs" />
     <Compile Include="Mappings\PrescriptionNoteMappingMap.cs" />
@@ -194,11 +203,7 @@
     <Compile Include="Mappings\PrescriptionStatusMap.cs" />
     <Compile Include="Mappings\SuspenseMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
-    <Compile Include="Mappings\Views\VwDocumentIndexMap.cs" />
-    <Compile Include="Mappings\Views\VwPaymentMap.cs" />
-    <Compile Include="Mappings\Views\VwPrescriptionNoteMap.cs" />
     <Compile Include="Mappings\Views\VwClaimInfoMap.cs" />
-    <Compile Include="Mappings\Views\VwImportFileMap.cs" />
     <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionFactory\StoredProcedureExecutors\BaseRepository.cs" />

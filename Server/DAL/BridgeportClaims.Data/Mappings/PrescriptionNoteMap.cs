@@ -14,11 +14,13 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.PrescriptionNoteId).GeneratedBy.Identity().Column("PrescriptionNoteID");
             References(x => x.PrescriptionNoteType).Column("PrescriptionNoteTypeID");
-            References(x => x.AspNetUsers).Column("EnteredByUserID");
+            References(x => x.EnteredByUserId).Column("EnteredByUserID");
             Map(x => x.NoteText).Column("NoteText").Not.Nullable().Length(8000);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
+            HasMany(x => x.Diary).KeyColumn("PrescriptionNoteID");
             HasMany(x => x.PrescriptionNoteMapping).KeyColumn("PrescriptionNoteID");
+            
         }
     }
 }

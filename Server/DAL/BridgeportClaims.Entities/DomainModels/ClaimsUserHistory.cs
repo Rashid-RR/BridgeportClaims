@@ -7,8 +7,10 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         [Required]
         public virtual int ClaimsUserHistoryId { get; set; }
+        [Required]
         public virtual Claim Claim { get; set; }
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        [Required]
+        public virtual AspNetUsers UserId { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]

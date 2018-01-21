@@ -11,7 +11,9 @@ namespace BridgeportClaims.Entities.DomainModels
         public Adjustor() { Claim = new List<Claim>(); }
         [Required]
         public virtual int AdjustorId { get; set; }
+        [Required]
         public virtual Payor Payor { get; set; }
+        public virtual AspNetUsers ModifiedByUserId { get; set; }
         [Required]
         [StringLength(255)]
         public virtual string AdjustorName { get; set; }

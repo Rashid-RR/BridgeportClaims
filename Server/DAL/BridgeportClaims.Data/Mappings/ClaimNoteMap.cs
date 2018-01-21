@@ -15,7 +15,7 @@ namespace BridgeportClaims.Data.Mappings
             Id(x => x.ClaimId).GeneratedBy.Identity().Column("ClaimID");
             References(x => x.Claim).Column("ClaimID");
             References(x => x.ClaimNoteType).Column("ClaimNoteTypeID");
-            References(x => x.AspNetUsers).Column("EnteredByUserID");
+            References(x => x.EnteredByUserId).Column("EnteredByUserID");
             Map(x => x.NoteText).Column("NoteText").Not.Nullable();
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();

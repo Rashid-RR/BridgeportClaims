@@ -24,6 +24,52 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE TRIGGER [dbo].[utPatientAudit] ON [dbo].[Patient] FOR INSERT, UPDATE, DELETE
+AS BEGIN
+	SET NOCOUNT ON;
+    IF ( SELECT COUNT(*)
+         FROM   INSERTED
+       ) > 0 
+        BEGIN 
+            IF ( SELECT COUNT(*)
+                 FROM   DELETED
+               ) > 0 
+                BEGIN 
+        
+                    INSERT  INTO dbo.PatientAudit
+                            ( PatientID, LastName, FirstName, Address1, Address2, City, PostalCode, StateID, PhoneNumber, AlternatePhoneNumber, EmailAddress, DateOfBirth, GenderID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, ETLRowID, Operation, SystemUser, AuditDateUTC)
+                            SELECT  PatientID, LastName, FirstName, Address1, Address2, City, PostalCode, StateID, PhoneNumber, AlternatePhoneNumber, EmailAddress, DateOfBirth, GenderID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, ETLRowID,'UPDATE'
+                                   ,SUSER_SNAME()
+                                   ,SYSUTCDATETIME()
+                            FROM    INSERTED
+           
+                END 
+            ELSE 
+                BEGIN 
+                    INSERT  INTO dbo.PatientAudit
+                            ( PatientID, LastName, FirstName, Address1, Address2, City, PostalCode, StateID, PhoneNumber, AlternatePhoneNumber, EmailAddress, DateOfBirth, GenderID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, ETLRowID, Operation, SystemUser, AuditDateUTC
+                            )
+                            SELECT  PatientID, LastName, FirstName, Address1, Address2, City, PostalCode, StateID, PhoneNumber, AlternatePhoneNumber, EmailAddress, DateOfBirth, GenderID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, ETLRowID,'INSERT'
+                                   ,SUSER_SNAME()
+                                   ,SYSUTCDATETIME()
+                            FROM    INSERTED
+                END 
+        END 
+    ELSE 
+        BEGIN 
+            INSERT  INTO dbo.PatientAudit
+                    ( PatientID, LastName, FirstName, Address1, Address2, City, PostalCode, StateID, PhoneNumber, AlternatePhoneNumber, EmailAddress, DateOfBirth, GenderID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, ETLRowID, Operation, SystemUser, AuditDateUTC)
+                    SELECT  PatientID, LastName, FirstName, Address1, Address2, City, PostalCode, StateID, PhoneNumber, AlternatePhoneNumber, EmailAddress, DateOfBirth, GenderID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, ETLRowID,'DELETE'
+                           ,SUSER_SNAME()
+                           ,SYSUTCDATETIME()
+                    FROM    DELETED
+        END
+END
+GO
 ALTER TABLE [dbo].[Patient] ADD CONSTRAINT [pkPaitent] PRIMARY KEY CLUSTERED  ([PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPatientGenderID] ON [dbo].[Patient] ([GenderID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]

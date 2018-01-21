@@ -10,17 +10,23 @@ namespace BridgeportClaims.Entities.DomainModels
 	{
 	    public AspNetUsers()
 	    {
+	        Adjustor = new List<Adjustor>();
 	        AspNetUserClaims = new List<AspNetUserClaims>();
 	        AspNetUserLogins = new List<AspNetUserLogins>();
 	        AspNetUserRoles = new List<AspNetUserRoles>();
+	        Claim = new List<Claim>();
 	        ClaimNote = new List<ClaimNote>();
 	        ClaimsUserHistory = new List<ClaimsUserHistory>();
 	        Diary = new List<Diary>();
+	        DocumentIndex = new List<DocumentIndex>();
+	        ResolvedUserId = new List<Episode>();
+	        AcquiredUserId = new List<Episode>();
+	        AssignedUserId = new List<Episode>();
+	        Patient = new List<Patient>();
 	        PrescriptionNote = new List<PrescriptionNote>();
 	        PrescriptionPayment = new List<PrescriptionPayment>();
 	        Suspense = new List<Suspense>();
 	    }
-        [Required]
 	    public virtual string Id { get; set; }
 	    [Required]
 	    [StringLength(100)]
@@ -52,12 +58,19 @@ namespace BridgeportClaims.Entities.DomainModels
 	    public virtual bool LockoutEnabled { get; set; }
 	    [Required]
 	    public virtual int AccessFailedCount { get; set; }
+	    public virtual IList<Adjustor> Adjustor { get; set; }
 	    public virtual IList<AspNetUserClaims> AspNetUserClaims { get; set; }
 	    public virtual IList<AspNetUserLogins> AspNetUserLogins { get; set; }
 	    public virtual IList<AspNetUserRoles> AspNetUserRoles { get; set; }
+	    public virtual IList<Claim> Claim { get; set; }
 	    public virtual IList<ClaimNote> ClaimNote { get; set; }
 	    public virtual IList<ClaimsUserHistory> ClaimsUserHistory { get; set; }
 	    public virtual IList<Diary> Diary { get; set; }
+	    public virtual IList<DocumentIndex> DocumentIndex { get; set; }
+	    public virtual IList<Episode> ResolvedUserId { get; set; }
+	    public virtual IList<Episode> AcquiredUserId { get; set; }
+	    public virtual IList<Episode> AssignedUserId { get; set; }
+	    public virtual IList<Patient> Patient { get; set; }
 	    public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
 	    public virtual IList<PrescriptionPayment> PrescriptionPayment { get; set; }
 	    public virtual IList<Suspense> Suspense { get; set; }

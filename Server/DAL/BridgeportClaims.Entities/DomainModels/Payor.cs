@@ -12,11 +12,10 @@ namespace BridgeportClaims.Entities.DomainModels
         {
             Adjustor = new List<Adjustor>();
             Claim = new List<Claim>();
-            Invoice = new List<Invoice>();
         }
         [Required]
         public virtual int PayorId { get; set; }
-        public virtual UsState UsState { get; set; }
+        public virtual UsState BillToStateId { get; set; }
         [Required]
         [StringLength(255)]
         public virtual string GroupName { get; set; }
@@ -47,6 +46,5 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime UpdatedOnUtc { get; set; }
         public virtual IList<Adjustor> Adjustor { get; set; }
         public virtual IList<Claim> Claim { get; set; }
-        public virtual IList<Invoice> Invoice { get; set; }
     }
 }
