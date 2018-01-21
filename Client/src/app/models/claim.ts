@@ -28,6 +28,11 @@ export class Claim {
     eligibilityTermDate: Date;
     adjustorFaxNumber: String;
     flex2: String;
+    address1:string;
+	address2: string;
+    city: string;
+    stateAbbreviation: string;
+	postalCode: any;
     private prescription: Array<Prescription> = [];
     //private prescriptionNote:Array<PrescriptionNote> = [];
     private prescriptionNote: Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();
@@ -40,7 +45,8 @@ export class Claim {
     claimNote: ClaimNote;
     editing: Boolean = false;
     constructor(claimId: Number, claimNumber: Number, dateOfBirth: Date, injuryDate: Date,
-        gender: String, carrier: String, adjustor: String, adjustorPhoneNumber: String, dateEntered: Date, adjustorFaxNumber: String, name?: String, firstName?: String, lastName?: String, flex2?: String, eligibilityTermDate?: Date) {
+        gender: String, carrier: String, adjustor: String, adjustorPhoneNumber: String, dateEntered: Date, adjustorFaxNumber: String, name?: String, firstName?: String, lastName?: String, flex2?: String, eligibilityTermDate?: Date,
+        address1?:string,address2?: string,city?: string, stateAbbreviation?: string,  postalCode?: any) {
         this.claimId = claimId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,12 +56,18 @@ export class Claim {
         this.injuryDate = injuryDate;
         this.gender = gender;
         this.flex2 = flex2;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.city = city;
+        this.stateAbbreviation = stateAbbreviation;
+        this.postalCode = postalCode;
         this.carrier = carrier;
         this.adjustor = adjustor;
         this.adjustorPhoneNumber = adjustorPhoneNumber;
         this.dateEntered = dateEntered;
         this.adjustorFaxNumber = adjustorFaxNumber;
         this.eligibilityTermDate = eligibilityTermDate;
+        console.log(address1);
     }
 
     setPrescription(prescription: Array<Prescription>) {

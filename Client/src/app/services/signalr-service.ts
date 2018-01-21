@@ -49,6 +49,9 @@ export class SignalRService {
         this.documentProxy.client.archivedDocument = (id) => {
             this.onArchivedDocument(id);
         }
+        this.documentProxy.client.indexedDocument = (id) => {
+            this.onIndexedDocument(id);
+        }
         this.documentProxy.client.receiveMessage = (msgFrom, msg) => {
             this.onMessageReceived(msgFrom, msg);
         }
@@ -86,6 +89,11 @@ export class SignalRService {
     onArchivedDocument(id:any) {         
         this._ngZone.run(() => {
             this.events.broadcast("archived-image", id);
+        });
+    }
+    onIndexedDocument(id:any) {         
+        this._ngZone.run(() => {
+            this.events.broadcast("indexed-image", id);
         });
     }
 

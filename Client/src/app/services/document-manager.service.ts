@@ -89,6 +89,20 @@ export class DocumentManagerService {
         this.documents = this.documents.set(id, document);
         setTimeout(() => {
           if (this.adminOrAsociate) {
+            this.toast.success(this.documents.get(id).fileName + ' has been indexed...');
+          }
+          this.documents = this.documents.delete(id);
+          this.totalRowCount--;
+        }, 4000)
+      }
+    })
+    this.events.on("indexed-image", (id: any) => {
+      let document = this.documents.get(id)
+      if (document) {
+        document.deleted = true;
+        this.documents = this.documents.set(id, document);
+        setTimeout(() => {
+          if (this.adminOrAsociate) {
             this.toast.success(this.documents.get(id).fileName + ' image was just archived...');
           }
           this.documents = this.documents.delete(id);
@@ -133,7 +147,7 @@ export class DocumentManagerService {
   }
   archive(id: number) {
     this.loading = true;
-    this.http.archiveDocument(id).map(r=>r.json()).subscribe(r => {
+    this.http.archiveDocument(id).map(r => r.json()).subscribe(r => {
       this.loading = false;
       this.toast.success(r.message);
     }, err => null);

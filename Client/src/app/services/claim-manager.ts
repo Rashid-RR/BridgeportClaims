@@ -46,7 +46,7 @@ export class ClaimManager {
   isImagesExpanded: boolean;
   activeToast: Toast;
 
-  constructor(private pp:PhonePipe,private auth: AuthGuard, private http: HttpService, private events: EventsService,
+  constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService, private events: EventsService,
     private router: Router, private toast: ToastsManager,
     private dialogService: DialogService) {
     this.getHistory();
@@ -76,14 +76,14 @@ export class ClaimManager {
   }
 
   showDetails(prescription: Prescription) {
-    prescription.prescriberPhone = this.pp.transform(prescription.prescriberPhone,[]);
+    prescription.prescriberPhone = this.pp.transform(prescription.prescriberPhone, []);
     this.toast.info('Prescriber: ' + prescription.prescriber +
-      '<br> Prescriber NPI: ' + prescription.prescriberNpi +
-      '<br> Pharmacy Name: ' + prescription.pharmacyName+
-      '<br> Prescriber NDC: ' + prescription.prescriptionNdc+
-      '<br> Prescriber Phone: ' + prescription.prescriberPhone,
+      '<br> Prescriber NPI: ' + prescription.prescriberNpi  +
+      '<br> Prescriber Phone: ' + prescription.prescriberPhone+
+      '<br> Pharmacy Name: ' + prescription.pharmacyName +
+      '<br> NDC: ' + prescription.prescriptionNdc,
       null,
-      { toastLife: 1210000, showCloseButton: true, enableHTML: true, positionClass: 'toast-top-center' }).then((toast: Toast) => {        
+      { toastLife: 1210000, showCloseButton: true, enableHTML: true, positionClass: 'toast-top-center' }).then((toast: Toast) => {
         const toasts: Array<HTMLElement> = $('.toast-message');
         for (let i = 0; i < toasts.length; i++) {
           const msg = toasts[i];
@@ -124,14 +124,14 @@ export class ClaimManager {
           result.forEach((claim) => {
             var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorPhoneNumber
-              , claim.name, claim.firstName, claim.lastName, result.flex2);
+              , claim.name, claim.firstName, claim.lastName, claim.eligibilityTermDate, claim.flex2, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
             this.claims = this.claims.set(claim.claimId, c);
           })
         } else/*   if(result.name) */ {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorPhoneNumber
-            , result.name, result.firstName, result.lastName, result.flex2);
+            , result.name, result.firstName, result.lastName, result.flex2,result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode);
           c.dateOfBirth = result.dateOfBirth;
           c.adjustor = result.adjustor;
           c.adjustorPhoneNumber = result.adjustorPhoneNumber;
@@ -232,6 +232,11 @@ export class ClaimManager {
           claim.eligibilityTermDate = result.eligibilityTermDate;
           claim.dateEntered = result.dateEntered;
           claim.gender = result.gender;
+          claim.address1 = result.address1;
+          claim.address2 = result.address2;
+          claim.city = result.city;
+          claim.stateAbbreviation = result.stateAbbreviation;
+          claim.postalCode = result.postalCode;
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);
           claim.setEpisodes(result.episodes);
@@ -239,7 +244,7 @@ export class ClaimManager {
           claim.setPrescriptionNotes(result.prescriptionNotes);
           claim.setFlex2(result.claimFlex2s);
           claim.setPrescriptionStatuses(result.prescriptionStatuses);
-          claim.setDocumentTypes(result.documentTypes);          
+          claim.setDocumentTypes(result.documentTypes);
           if (result.images) {
             claim.setImages(result.images);
           }
