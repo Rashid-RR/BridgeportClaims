@@ -1,0 +1,74 @@
+<form role="form"  autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Start Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input class="form-control pull-right" id="startDate" name="startDate" type="text" [(ngModel)]="startDate" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>End Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input class="form-control pull-right" id="endDate" name="endDate" type="text" [(ngModel)]="endDate"  (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-2 flex">
+            <div class="form-group">
+                <label>&nbsp;</label><br/>
+                <span>
+                   <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Search</button>  &nbsp;
+                    <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="clearDates()"> <i class="fa fa-eraser" aria-hidden="true"></i> Clear Dates</button>                 
+                </span>
+            </div>
+        </div>
+        <div class="col-md-1 no-padding left2p5">
+            <div class="form-group green">
+                <label>&nbsp;</label>
+                <input type="radio" id="f-option" name="selector" (click)="setClosed($event,false)" [checked]="!isClosed"/>
+                <label for="f-option" class="form-control border0 text-right">Open</label>                
+                <label class="check" for="f-option"></label>
+            </div>
+        </div>
+        <div class="col-md-1 no-padding red">
+            <div class="form-group red">
+                <label>&nbsp;</label>
+                <input type="radio" id="f-option1" name="selector" (click)="setClosed($event,true)" [checked]="isClosed"/>
+                <label for="f-option1" class="form-control border0 text-right">Closed</label>                
+                <label class="check" for="f-option1"></label>
+            </div>
+        </div>
+        <div class="col-md-2" style="padding-left: 35px;">
+            <div class="form-group">
+                <label>Owner name</label>                    
+                <input class="form-control" name="owner" type="text" [(ngModel)]="ds.owner" (focus)="submitted=false" focus-on>
+            </div> 
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Episode Type</label>                    
+                <select class="form-control" name="text" [(ngModel)]="ds.diaryNote" (focus)="submitted=false"  row="1" focus-on>
+                    <option *ngFor="let e of ds.episodeNoteTypes" [value]="episodeTypeId">{{episodeTypeName}}</option>
+                </select>
+            </div> 
+        </div>
+        <div class="col-sm-3 col-md-3 flex">
+            <div class="form-group">
+                <label>&nbsp;</label><br/>
+                <span>
+                    <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clearText()"> <i class="fa fa-eraser" aria-hidden="true"></i> Clear Text Search(es)</button>  &nbsp;
+                    <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="reset()"> <i class="fa fa-refresh"></i> Reset All</button>                 
+                </span>
+            </div>
+        </div>
+    </div>
+</form>

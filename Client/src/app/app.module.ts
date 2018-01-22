@@ -76,6 +76,10 @@ import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-li
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { AddScriptModalComponent } from './components/add-script-modal/add-script-modal.component';
 import { PhonePipe } from 'app/pipes/phone-pipe';
+import { EpisodePageComponent } from './pages/episode-page/episode-page.component';
+import { EpisodeResultsComponent } from './components/episode-results/episode-results.component';
+import { EpisodeFilterComponent } from './components/episode-filter/episode-filter.component';
+import { EpisodeService } from 'app/services/episode.service';
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -114,7 +118,7 @@ export class SafeUrlPipe implements PipeTransform {
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent
   ],
   imports: [
     FormsModule,
@@ -135,7 +139,7 @@ export class SafeUrlPipe implements PipeTransform {
   providers: [
     PhonePipe,DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
     PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,SignalRService,
-    DocumentManagerService,
+    DocumentManagerService,EpisodeService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

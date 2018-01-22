@@ -36,6 +36,7 @@ import { UnindexedImageFileComponent } from './pages/unindexed-image-file/uninde
 import { IndexFileComponent } from './pages/index-file/index-file.component';
 import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { EpisodePageComponent } from 'app/pages/episode-page/episode-page.component';
 
 export const routes: Routes = [
   {
@@ -146,6 +147,10 @@ export const routes: Routes = [
           {
             path: 'diary',
             component: DiaryComponent
+          },
+          {
+            path: 'episodes',
+            component: EpisodePageComponent
           }
         ]
       }
