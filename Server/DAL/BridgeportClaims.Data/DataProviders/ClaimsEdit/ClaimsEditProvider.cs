@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
         private const string DefaultString = "NULL";
 
         public void EditClaim(int claimId, string modifiedByUserId, DateTime? dateOfBirth, int genderId, int payorId, int? adjustorId, string adjustorPhone,
-            DateTime? dateOfInjury, string adjustorFax, string address1, string address2, string city, int? stateId, string postalCode) =>
+            DateTime? dateOfInjury, string adjustorFax, string address1, string address2, string city, int? stateId, string postalCode, int? claimFlex2Id) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspEditClaim]", conn), cmd =>
@@ -158,6 +158,16 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
                         postalCodeParam.ParameterName = "@PostalCode";
                         postalCodeParam.Direction = ParameterDirection.Input;
                         cmd.Parameters.Add(postalCodeParam);
+                    }
+                    if (claimFlex2Id != DefaultInt)
+                    {
+                        var claimFlex2IdParam = cmd.CreateParameter();
+                        claimFlex2IdParam.Direction = ParameterDirection.Input;
+                        claimFlex2IdParam.DbType = DbType.Int32;
+                        claimFlex2IdParam.SqlDbType = SqlDbType.Int;
+                        claimFlex2IdParam.Value = claimFlex2Id ?? (object) DBNull.Value;
+                        claimFlex2IdParam.ParameterName = "@ClaimFlex2ID";
+                        cmd.Parameters.Add(claimFlex2IdParam);
                     }
                     if (conn.State != ConnectionState.Open)
                         conn.Open();

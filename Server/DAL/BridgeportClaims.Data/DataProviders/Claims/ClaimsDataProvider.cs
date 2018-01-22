@@ -28,6 +28,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
 	    private readonly IRepository<UsState> _usStateRepository;
 	    private readonly IClaimImageProvider _claimImageProvider;
+	    private readonly IRepository<AspNetUsers> _usersRepository;
 	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public ClaimsDataProvider(ISessionFactory factory, 
@@ -36,7 +37,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			IRepository<ClaimFlex2> claimFlex2Repository, 
 			IPaymentsDataProvider paymentsDataProvider, 
             IClaimImageProvider claimImageProvider, 
-            IRepository<UsState> usStateRepository)
+            IRepository<UsState> usStateRepository, 
+            IRepository<AspNetUsers> usersRepository)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
 			_claimRepository = claimRepository;
@@ -44,6 +46,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			_paymentsDataProvider = paymentsDataProvider;
 		    _claimImageProvider = claimImageProvider;
 		    _usStateRepository = usStateRepository;
+		    _usersRepository = usersRepository;
 		    _factory = factory;
 		}
 
@@ -149,7 +152,22 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 				.ToList();
 		}
 
-		public ClaimDto GetClaimsDataByClaimId(int claimId)
+
+	    public EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id, string modifiedByUserId)
+	    {
+	        var claim = _claimRepository.Get(claimId);
+	        if (null == claim)
+	            throw new ArgumentNullException(nameof(claim));
+	        var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
+	        var op = null == claim.ClaimFlex2 ? EntityOperation.Add : EntityOperation.Update;
+	        claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
+	        claim.UpdatedOnUtc = DateTime.UtcNow;
+	        claim.ModifiedByUserId = _usersRepository.Get(modifiedByUserId);
+            _claimRepository.Update(claim);
+	        return op;
+	    }
+
+        public ClaimDto GetClaimsDataByClaimId(int claimId)
 		{
 			return DisposableService.Using(() => _factory.OpenSession(), session =>
 			{
@@ -326,19 +344,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						}
 					});
 			});
-		}
-
-		public EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id)
-		{
-			var claim = _claimRepository.Get(claimId);
-			if (null == claim)
-				throw new ArgumentNullException(nameof(claim));
-			var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
-			var op = null == claim.ClaimFlex2 ? EntityOperation.Add : EntityOperation.Update;
-			claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
-			claim.UpdatedOnUtc = DateTime.UtcNow;
-			_claimRepository.Update(claim);
-			return op;
 		}
 	}
 }

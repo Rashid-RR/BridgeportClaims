@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.Enums;
@@ -48,6 +47,7 @@ namespace BridgeportClaims.Web.Controllers
                     var city = model.City;
                     var stateId = model.StateId;
 	                var postalCode = model.PostalCode;
+	                var claimFlex2Id = model.ClaimFlex2Id;
                     var userId = User?.Identity?.GetUserId();
 	                if (null == userId)
 	                    throw new Exception("Could not locate the authenticated user.");
@@ -55,7 +55,7 @@ namespace BridgeportClaims.Web.Controllers
 	                        : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
 	                        adjustorId, adjustorPhone, null == dateOfInjury ? (DateTime?) null : "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
 	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax,
-                            address1, address2, city, stateId, postalCode);
+                            address1, address2, city, stateId, postalCode, claimFlex2Id);
 	                return Ok(new {message = "The claim was updated successfully."});
 	            });
 	        }
@@ -95,6 +95,7 @@ namespace BridgeportClaims.Web.Controllers
 			return	Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId));
 		}
 
+
 	    [HttpPost]
 	    [Route("set-flex2")]
 	    public async Task<IHttpActionResult> SetClaimFlex2(int claimId, int claimFlex2Id)
@@ -103,29 +104,30 @@ namespace BridgeportClaims.Web.Controllers
 	        {
 	            return await Task.Run(() =>
 	            {
+	                var userId = User.Identity.GetUserId();
 	                var msg = string.Empty;
-	                var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id);
-                    switch(operation)
-                    {
-                        case EntityOperation.Add:
-                            msg = "The claim's Flex2 was added successfully.";
-                            break;
-                        case EntityOperation.Update:
-                            msg = "The claim's Flex2 was updated successfully.";
-                            break;
-                        case EntityOperation.Delete:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-	                return Ok(new {message = msg});
+	                var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id, userId);
+	                switch (operation)
+	                {
+	                    case EntityOperation.Add:
+	                        msg = "The claim's Flex2 was added successfully.";
+	                        break;
+	                    case EntityOperation.Update:
+	                        msg = "The claim's Flex2 was updated successfully.";
+	                        break;
+	                    case EntityOperation.Delete:
+	                        break;
+	                    default:
+	                        throw new ArgumentOutOfRangeException();
+	                }
+	                return Ok(new { message = msg });
 	            });
 	        }
 	        catch (Exception ex)
 	        {
 	            Logger.Error(ex);
 	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
+	        }
 	    }
-	}
+    }
 }
