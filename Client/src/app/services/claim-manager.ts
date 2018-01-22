@@ -76,10 +76,9 @@ export class ClaimManager {
   }
 
   showDetails(prescription: Prescription) {
-    prescription.prescriberPhone = this.pp.transform(prescription.prescriberPhone, []);
     this.toast.info('Prescriber: ' + prescription.prescriber +
       '<br> Prescriber NPI: ' + prescription.prescriberNpi  +
-      '<br> Prescriber Phone: ' + prescription.prescriberPhone+
+      '<br> Prescriber Phone: ' + (this.pp.transform(prescription.prescriberPhone, []))+
       '<br> Pharmacy Name: ' + prescription.pharmacyName +
       '<br> NDC: ' + prescription.prescriptionNdc,
       null,
