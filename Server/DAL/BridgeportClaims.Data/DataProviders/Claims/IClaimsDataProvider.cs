@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Enums;
 
 namespace BridgeportClaims.Data.DataProviders.Claims
 {
@@ -11,6 +10,5 @@ namespace BridgeportClaims.Data.DataProviders.Claims
         IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page,
             int pageSize);
         ClaimDto GetClaimsDataByClaimId(int claimId);
-        EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id);
     }
 }

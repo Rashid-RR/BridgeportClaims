@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
@@ -24,5 +23,6 @@ namespace BridgeportClaims.Web.Models
         public string City { get; set; } = DefaultString;
         public int? StateId { get; set; } = DefaultInt;
         public string PostalCode { get; set; } = DefaultString;
+        public int? ClaimFlex2Id { get; set; } = DefaultInt;
     }
 }

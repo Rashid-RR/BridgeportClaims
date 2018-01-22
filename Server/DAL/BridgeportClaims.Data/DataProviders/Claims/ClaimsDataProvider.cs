@@ -7,7 +7,6 @@ using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
@@ -326,19 +325,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						}
 					});
 			});
-		}
-
-		public EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id)
-		{
-			var claim = _claimRepository.Get(claimId);
-			if (null == claim)
-				throw new ArgumentNullException(nameof(claim));
-			var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
-			var op = null == claim.ClaimFlex2 ? EntityOperation.Add : EntityOperation.Update;
-			claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
-			claim.UpdatedOnUtc = DateTime.UtcNow;
-			_claimRepository.Update(claim);
-			return op;
 		}
 	}
 }
