@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.Data.Enums;
 
 namespace BridgeportClaims.Data.DataProviders.Claims
 {
     public interface IClaimsDataProvider
     {
-        IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
-            string rxNumber, string invoiceNumber);
-        IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page,
-            int pageSize);
+        IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName, string rxNumber, string invoiceNumber);
+        IList<PrescriptionDto> GetPrescriptionDataByClaim(int claimId, string sort, string direction, int page, int pageSize);
+        EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id, string modifiedByUserId);
         ClaimDto GetClaimsDataByClaimId(int claimId);
     }
 }

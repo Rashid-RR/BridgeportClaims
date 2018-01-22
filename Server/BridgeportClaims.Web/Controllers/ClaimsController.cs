@@ -94,5 +94,40 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			return	Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId));
 		}
-	}
+
+
+	    [HttpPost]
+	    [Route("set-flex2")]
+	    public async Task<IHttpActionResult> SetClaimFlex2(int claimId, int claimFlex2Id)
+	    {
+	        try
+	        {
+	            return await Task.Run(() =>
+	            {
+	                var userId = User.Identity.GetUserId();
+	                var msg = string.Empty;
+	                var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id, userId);
+	                switch (operation)
+	                {
+	                    case EntityOperation.Add:
+	                        msg = "The claim's Flex2 was added successfully.";
+	                        break;
+	                    case EntityOperation.Update:
+	                        msg = "The claim's Flex2 was updated successfully.";
+	                        break;
+	                    case EntityOperation.Delete:
+	                        break;
+	                    default:
+	                        throw new ArgumentOutOfRangeException();
+	                }
+	                return Ok(new { message = msg });
+	            });
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+	        }
+	    }
+    }
 }
