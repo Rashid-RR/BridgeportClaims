@@ -3,16 +3,15 @@
         <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
             <address class="border-style">
                 Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}
-                <br> Address 1:
-                <b>{{claim.address1}}</b>
+                <br> Address 1: {{claim.address1}} 
                 <br>
                 <ng-container *ngIf="claim.address2">
                     Address 2:
-                    <b>{{claim.address2}}</b>
+                     {{claim.address2}} 
                     <br>
                 </ng-container>
-                City \ Code \ Zip:
-                <b>{{claim.city}}, {{claim.stateAbbreviation}} {{claim.postalCode}} </b>
+                City \ State \ Zip:
+                 {{claim.city}}, {{claim.stateAbbreviation}} {{claim.postalCode}}
                 <br> DOB: {{claim.dateOfBirth | date:'shortDate'}}
                 <br> Gender: {{claim.gender}}
                 <br>

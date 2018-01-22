@@ -66,8 +66,7 @@ export class Claim {
         this.adjustorPhoneNumber = adjustorPhoneNumber;
         this.dateEntered = dateEntered;
         this.adjustorFaxNumber = adjustorFaxNumber;
-        this.eligibilityTermDate = eligibilityTermDate;
-        console.log(address1);
+        this.eligibilityTermDate = eligibilityTermDate; 
     }
 
     setPrescription(prescription: Array<Prescription>) {
