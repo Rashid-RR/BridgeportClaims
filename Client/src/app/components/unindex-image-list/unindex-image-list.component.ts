@@ -3,10 +3,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+
+import { ConfirmComponent } from '../../components/confirm.component';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
 import { DocumentItem } from 'app/models/document';
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
+import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 
 @Component({
   selector: 'app-unindex-image-list',
@@ -23,6 +26,7 @@ export class UnindexedImageListComponent implements OnInit {
     private dp: DatePipe,
     private toast: ToastsManager,
     private router: Router,
+    private dialogService: DialogService,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -56,8 +60,16 @@ export class UnindexedImageListComponent implements OnInit {
     this.ds.newIndex = true;
     this.ds.loading = false;
   }
-  archive(id: number) {
-    this.ds.archive(id);
+  archive(file:DocumentItem) {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Archive Image",
+      message: "Are you sure you wish to archive "+file.fileName+"?"
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.ds.archive(file.documentId);
+        }
+      });
   }
   goto() {
     let page = Number.parseInt(this.goToPage);
