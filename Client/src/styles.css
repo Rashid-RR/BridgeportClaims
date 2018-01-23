@@ -83,7 +83,7 @@
       background: #fbeede;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .bg-darkRed {
+    .swal2-modal.paymeny-modal .swal2-content .bg-darkRed,.btn.bg-darkRed {
       background: #992727;
       color: #fff;
     }

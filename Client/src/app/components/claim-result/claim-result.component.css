@@ -49,7 +49,8 @@ textarea {
   border-left: 6px solid #992727;
   background-color: #efecec;
   padding: 8px;
-  margin-right: 20px;
+  margin-right: 5px;
+  margin-bottom: 10px;
 }
 /*ROW COLOR CHANGE*/
 
@@ -66,8 +67,33 @@ tr:nth-of-type(even) {
   box-shadow: none;
 }
 
-button.edit{
+span.buttons.edit{
   position: absolute;
   bottom:10px;
   left:10px
+}
+address .form-group {
+  margin-left: 0px; 
+}
+address .form-group:not(.editing) { 
+  margin-bottom: 0px;
+}
+address .form-group.editing{ 
+  margin-bottom: 5px;
+}
+address .form-group label{
+  font-style: normal;
+  line-height: 1.42857143;
+  font-weight:normal;
+}
+.form-group label[class^="col-sm"],
+.form-group label[class*="col-sm"]{
+    padding-left:0px;
+    padding-right:0px;
+}
+.mbt:not(.editing){
+  margin-bottom:-50px;
+}
+.form-horizontal .col-sm-6.invoice-col{
+  padding-right:5px;
 }

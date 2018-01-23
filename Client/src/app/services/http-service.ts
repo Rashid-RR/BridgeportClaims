@@ -102,6 +102,14 @@ export class HttpService {
     });
     return s;
   }
+  editClaim(data:any): Observable<Response> {
+    let s = this.http.post(this.baseUrl + "/claims/edit-claim", data, { headers: this.headers })    
+    .catch(err =>  { 
+    this.handleResponseError(err);
+      return Observable.throw(err);
+    });
+    return s;
+  }
   addHistory(id:Number): Observable<Response> {
     let s = this.http.post(this.baseUrl + "/history/addclaim?claimId="+id, {}, { headers: this.headers })    
     .catch(err =>  { 

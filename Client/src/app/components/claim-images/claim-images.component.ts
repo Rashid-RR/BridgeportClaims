@@ -58,7 +58,7 @@ export class ClaimImagesComponent implements OnInit {
   saveImage(image: any) {
     if(this.form.get('documentTypeId').valid ){
       this.claimManager.loading = true
-      let rxDate  = this.dp.transform($("#datepicker").val(),"dd/MM/yyyy");          
+      let rxDate  = this.dp.transform($("#datepicker").val(),"dd/MM/yyyy");
       let data = Object.assign(this.form.value);
       data.rxDate = rxDate;
       this.http.updateDocumentIndex(data).map(r=>{return r.json()}).single().subscribe(res=>{              

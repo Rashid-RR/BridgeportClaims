@@ -1,70 +1,183 @@
 <ng-container *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
     <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
-        <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
-            <address class="border-style">
-                Name: {{claim.name || (claim.firstName+' '+claim.lastName)}}
-                <br> Address 1: {{claim.address1}}
-                <br>
-                <ng-container *ngIf="claim.address2">
-                    Address 2:
-                     {{claim.address2}}
+        <form class="form-horizontal" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
+            <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
+                <address class="border-style">
+                    <div class="form-group">
+                        <label class="col-sm-4"> Name: </label>
+                        <div class="col-sm-8">
+                            {{claim.name || (claim.firstName+' '+claim.lastName)}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4">Address 1: </label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing">
+                                {{claim.address1}}
+                            </ng-container>
+                            <ng-container *ngIf="editing">
+                                <input class="form-control" formControlName="address1" type="text" id="address1" />
+                            </ng-container>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="claim.address2">
+                        <div class="form-group" *ngIf="!editing">
+                            <label class="col-sm-4">Address 2:</label>
+                            <div class="col-sm-8">
+                                {{claim.address2}}
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="form-group" [class.editing]="editing" *ngIf="editing">
+                        <label class="col-sm-4">Address 2: </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" formControlName="address2" type="text" id="address2" />
+                        </div>
+                    </div>
+                    <div class="form-group" *ngIf="!editing">
+                        <label class="col-sm-4">City \ State \ Zip: </label>
+                        <div class="col-sm-8">{{claim.city}}, {{claim.stateAbbreviation}} {{claim.postalCode}}</div>
+                    </div>
+                    <ng-container *ngIf="editing">
+                        <div class="form-group" [class.editing]="editing">
+                            <label class="col-sm-4">City: </label>
+                            <div class="col-sm-8">
+                                <input class="form-control" formControlName="city" type="text" id="city" />
+                            </div>
+                        </div>
+                        <div class="form-group" [class.editing]="editing">
+                            <label class="col-sm-4">State: </label>
+                            <div class="col-sm-8">
+                                <select class="form-control" formControlName="stateId">
+                                    <option value="">-- No State --</option>
+                                    <option *ngFor="let g of claimManager.selectedClaim.states" [value]="g.stateId">{{g.stateName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4">DOB: </label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing">
+                                {{claim.dateOfBirth | date:'shortDate'}}
+                            </ng-container>
+                            <ng-container *ngIf="editing">
+                                <input class="form-control" formControlName="dateOfBirth" type="text" id="dateOfBirth" />
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4"> Gender:</label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing"> {{claim.gender}}</ng-container>
+                            <ng-container *ngIf="editing">
+                                <select class="form-control" formControlName="genderId">
+                                    <option *ngFor="let g of claimManager.selectedClaim.genders" [value]="g.genderId">{{g.genderName}}</option>
+                                </select>
+                            </ng-container>
+                        </div>
+                    </div>
                     <br>
-                </ng-container>
-                City \ State \ Zip:
-                 {{claim.city}}, {{claim.stateAbbreviation}}  {{claim.postalCode}}
-                <br> DOB: {{claim.dateOfBirth | date:'shortDate'}}
-                <br> Gender: {{claim.gender}}
-                <br>
-                <br>
-            </address>
-        </div>
-        <!-- /.col -->
-        <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId" style="margin-bottom: -100px;">
-            <address class="border-style">
-                Claim #: {{claim.claimNumber}}
-                <br> Injury Date: {{claim.injuryDate}}
-                <br> Adjustor Fax : {{claim.adjustorFaxNumber || claim.adjustorPhoneNumber}}
-                <br> Carrier: {{claim.carrier}}
-                <br/> Adjustor : {{claim.adjustor}}
-                <br> Adjustor Ph : {{claim.adjustorPhoneNumber}}
-                <br>
-                <br>
-                <br>
-            </address>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <!--
-            <span class="label label-warning" style="cursor:pointer;font-size:9pt" (click)="view(claim.claimId);"  *ngIf="claimManager.dataSize==1"> View </span>
-        -->
-        </div>
-        <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId" style="float:right;">
-            <address class="border-style">
-                Eligibility Entered: {{claim.dateEntered | date:'shortDate'}}
-                <br> Eligibility Term: {{claim.dateEntered | date:'shortDate'}}
-                <br> Flex 2:
-                <div class="btn-group flex2">
-                    <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                        {{claim.flex2}}
-                        <i class="fa fa-sort"></i>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li *ngFor="let flex of claim.getFlex2;" [class.active]="flex.flex2==claim.flex2" (click)="claimManager.changeFlex2(claim,flex)">
-                            <a style="cursor:pointer;">{{flex.flex2}}</a>
-                        </li>
-                    </ul>
-                </div>
-                <br>
-                <button type="button" class="btn btn-flat bg-vdarkgrey btn-sm" (click)="claimManager.selected=undefined" style="font-size:10pt"
-                    *ngIf="claimManager.dataSize>1">
-                    <i class="fa fa-chevron-left"></i> Back to Claim Results </button>
-            </address>
-        </div>
-        <button style="display: none;" type="button" class="btn btn-primary edit btn-xs">
-            <span class="glyphicon glyphicon-edit"></span> Edit
-        </button>
+                    <br>
+                </address>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6 invoice-col mbt" [class.editing]="editing" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
+                <address class="border-style">
+                    Claim #: {{claim.claimNumber}}
+                    <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4"> Injury Date: </label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing">
+                                {{claim.injuryDate}}
+                            </ng-container>
+                            <ng-container *ngIf="editing">
+                                <input class="form-control" formControlName="dateOfInjury" type="text" id="dateOfInjury" />
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4"> Adjustor Fax : </label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing">{{claim.adjustorFaxNumber}}
+                            </ng-container>
+                            <ng-container *ngIf="editing">
+                                <input class="form-control" formControlName="adjustorFax" type="text" id="adjustorFax" />
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4"> Carrier:</label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing"> {{claim.carrier}}</ng-container>
+                            <ng-container *ngIf="editing">
+                                <input class="form-control" type="text" id="payorId" [(ngModel)]="payorId" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
+                                    auto-complete name="payorId" [source]="payorAutoComplete" [service]="1"
+                                    [method]="1" min-chars="2" list-formatter="groupName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
+                                    [no-match-found-text]="'No Carrier Found'" (valueChanged)="payorSelected($event)" />
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4"> Adjustor : </label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing">{{claim.adjustor}}</ng-container>
+                            <ng-container *ngIf="editing">
+                                <input class="form-control" type="text" id="adjustorId" [(ngModel)]="adjustorId" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
+                                    auto-complete name="adjustorId" [source]="adjustorAutoComplete" [service]="1"
+                                    [method]="1" min-chars="2" list-formatter="adjustorName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
+                                    [no-match-found-text]="'No Adjustor Found'" (valueChanged)="adjustorSelected($event)" />
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4"> Adjustor Ph : </label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing"> {{claim.adjustorPhoneNumber}}</ng-container>
+                            <ng-container *ngIf="editing">
+                                <input class="form-control" type="text" id="adjustorPhone" formControlName="adjustorPhone" />
+                            </ng-container>
+                        </div>
+                    </div>
+                </address>
+                <br *ngIf="!editing" />
+                <br *ngIf="!editing" />
+                <br *ngIf="!editing" />
+            </div>
+            <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId" style="float:right;">
+                <address class="border-style">
+                    Eligibility Entered: {{claim.dateEntered | date:'shortDate'}}
+                    <br> Eligibility Term: {{claim.dateEntered | date:'shortDate'}}
+                    <br> Flex 2:
+                    <div class="btn-group flex2">
+                        <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                            {{claim.flex2}}
+                            <i class="fa fa-sort"></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li *ngFor="let flex of claim.getFlex2;" [class.active]="flex.flex2==claim.flex2" (click)="claimManager.changeFlex2(claim,flex)">
+                                <a style="cursor:pointer;">{{flex.flex2}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <br>
+                    <button type="button" class="btn btn-flat bg-vdarkgrey btn-sm" (click)="claimManager.selected=undefined" style="font-size:10pt"
+                        *ngIf="claimManager.dataSize>1">
+                        <i class="fa fa-chevron-left"></i> Back to Claim Results </button>
+                </address>
+            </div>
+            <span class="buttons edit">
+                <button *ngIf="!editing" type="button" class="btn btn-primary btn-xs" (click)="edit()">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
+                </button>
+                <button *ngIf="editing" type="button" class="btn btn-primary btn-xs" (click)="save()">
+                    <span class="glyphicon glyphicon-edit"></span> Save
+                </button>
+                <button *ngIf="editing" type="button" class="btn bg-darkRed btn-xs" (click)="editing=false">
+                    <span class="glyphicon glyphicon-trash"></span> Cancel
+                </button>
+            </span>
+        </form>
     </div>
 </ng-container>
 <ng-container *ngIf="claimManager.dataSize>1 && claimManager.selected===undefined">
@@ -91,7 +204,7 @@
                                 <td>{{claim.injuryDate}}</td>
                                 <td>
                                     <button class="btn btn-flat btn-sm bg-vdarkgrey view-btn" style="font-size:9pt" (click)="view(claim.claimId)">
-                                    View </button>
+                                        View </button>
                                 </td>
                             </tr>
                         </ng-container>

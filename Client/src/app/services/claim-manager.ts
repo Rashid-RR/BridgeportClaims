@@ -145,6 +145,8 @@ export class ClaimManager {
             var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorPhoneNumber
               , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
+            c.genders = claim.genders;
+            c.states = claim.states;
             this.claims = this.claims.set(claim.claimId, c);
           })
         } else/*   if(result.name) */ {
@@ -158,6 +160,8 @@ export class ClaimManager {
           c.eligibilityTermDate = result.eligibilityTermDate;
           c.dateEntered = result.dateEntered;
           c.gender = result.gender;
+          c.genders = result.genders;
+          c.states = result.states;
           this.claims = this.claims.set(result.claimId, c);
           const claim = this.claims.get(result.claimId);
           claim.setPrescription(result.prescriptions as Array<Prescription>);
@@ -255,6 +259,8 @@ export class ClaimManager {
           claim.address1 = result.address1;
           claim.address2 = result.address2;
           claim.city = result.city;
+          claim.genders = result.genders;
+          claim.states = result.states;
           claim.stateAbbreviation = result.stateAbbreviation;
           claim.postalCode = result.postalCode;
           claim.setPrescription(result.prescriptions as Array<Prescription>);
