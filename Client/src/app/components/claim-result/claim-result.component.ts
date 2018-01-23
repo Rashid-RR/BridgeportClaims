@@ -57,15 +57,13 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
   payorSelected($event) {
     if (this.payorId && $event.payorId) {
-      this.form.patchValue({ payorId: $event.payorId });
-      console.log(this.form.value);
+      this.form.patchValue({ payorId: $event.payorId }); 
       this.payor = $event;
     }
   }
   adjustorSelected($event) {
     if (this.adjustorId && $event.adjustorId) {
-      this.form.patchValue({ adjustorId: $event.adjustorId });
-      console.log(this.form.value);
+      this.form.patchValue({ adjustorId: $event.adjustorId }); 
       this.adjustor = $event;
     }
   }
