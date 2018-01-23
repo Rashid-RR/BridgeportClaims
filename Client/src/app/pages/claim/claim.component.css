@@ -221,3 +221,6 @@ app-claim{
 .button-on-top{
   z-index:10;
 }
+.totalInvoiced,.totalOutstanding{
+  color:lightgreen
+}

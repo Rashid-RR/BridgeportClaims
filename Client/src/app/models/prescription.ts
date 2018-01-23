@@ -1,16 +1,16 @@
 // prescription.ts 
 export class Prescription {
-    rxNumber:Number;
+    rxnumber:number;
     labelName:String;
-    invoiceNumber:Number;
-    invoiceAmount:Number;
+    invoicenumber:number;
+    invoiceAmount:number;
     invoiceDate:Date ;
     billTo:String;
-    amountPaid:Number;
-    outstanding:Number;
+    amountPaid:number;
+    outstanding:number;
     selected:Boolean;
-    prescriptionId:Number;
-    noteCount:Number;
+    prescriptionId:number;
+    noteCount:number;
     isReversed:Boolean;
     status:String;
     prescriber:String;
@@ -18,12 +18,12 @@ export class Prescription {
     pharmacyName:String;
     prescriberPhone:any;
     prescriptionNdc:string;
-constructor(rxNumber:Number,labelName:String,invoiceNumber:Number,invoiceDate:Date,
-    billTo:String,amountPaid:Number,outstanding:Number,invoiceAmount:Number,prescriptionId:Number,noteCount:Number,isReversed?:Boolean,status?:String,selected:Boolean=false,
+constructor(rxnumber:number,labelName:String,invoicenumber:number,invoiceDate:Date,
+    billTo:String,amountPaid:number,outstanding:number,invoiceAmount:number,prescriptionId:number,noteCount:number,isReversed?:Boolean,status?:String,selected:Boolean=false,
     prescriber?:String,prescriberNpi?:String,pharmacyName?:String,prescriberPhone?:any,prescriptionNdc?:string){
-    this.rxNumber = rxNumber;
+    this.rxnumber = rxnumber;
     this.labelName = labelName;
-    this.invoiceNumber = invoiceNumber;
+    this.invoicenumber = invoicenumber;
     this.invoiceDate = invoiceDate ;
     this.billTo = billTo;
     this.amountPaid = amountPaid;

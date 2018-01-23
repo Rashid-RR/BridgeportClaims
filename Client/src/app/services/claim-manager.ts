@@ -77,8 +77,8 @@ export class ClaimManager {
 
   showDetails(prescription: Prescription) {
     this.toast.info('Prescriber: ' + prescription.prescriber +
-      '<br> Prescriber NPI: ' + prescription.prescriberNpi  +
-      '<br> Prescriber Phone: ' + (this.pp.transform(prescription.prescriberPhone, []))+
+      '<br> Prescriber NPI: ' + prescription.prescriberNpi +
+      '<br> Prescriber Phone: ' + (this.pp.transform(prescription.prescriberPhone, [])) +
       '<br> Pharmacy Name: ' + prescription.pharmacyName +
       '<br> NDC: ' + prescription.prescriptionNdc,
       null,
@@ -98,6 +98,27 @@ export class ClaimManager {
 
   get claimHistory(): Array<Claim> {
     return this.history;
+  }
+
+  get totalInvoiced() {
+    var total = 0;
+    if (this.selectedClaim) {
+      let selected = this.selectedClaim.prescriptions.filter(c => c.selected == true);
+      for (var i = 0; i < selected.length; i++) {
+        total += selected[i].invoiceAmount;
+      }
+    }
+    return total;
+  }
+  get totalOutstanding() {
+    var total = 0;
+    if (this.selectedClaim) {
+      let selected = this.selectedClaim.prescriptions.filter(c => c.selected == true);
+      for (var i = 0; i < selected.length; i++) {
+        total += selected[i].outstanding;
+      }
+    }
+    return total;
   }
   addHistory(id: Number) {
     this.http.addHistory(id).single().subscribe((res: any) => {
@@ -123,14 +144,14 @@ export class ClaimManager {
           result.forEach((claim) => {
             var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorPhoneNumber
-              , claim.name, claim.firstName, claim.lastName,  claim.flex2, claim.eligibilityTermDate,claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
+              , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
             this.claims = this.claims.set(claim.claimId, c);
           })
         } else/*   if(result.name) */ {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorPhoneNumber
-            , result.name, result.firstName, result.lastName, result.flex2,result.eligibilityTermDate,result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode);
+            , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode);
           c.dateOfBirth = result.dateOfBirth;
           c.adjustor = result.adjustor;
           c.adjustorPhoneNumber = result.adjustorPhoneNumber;
