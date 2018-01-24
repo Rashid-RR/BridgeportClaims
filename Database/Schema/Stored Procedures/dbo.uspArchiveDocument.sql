@@ -9,12 +9,14 @@ GO
 	Sample Execute:
 					EXEC [dbo].[uspArchiveDocument] 1
 */
-CREATE PROC [dbo].[uspArchiveDocument] @DocumentID INT
+CREATE PROC [dbo].[uspArchiveDocument] @DocumentID INT, @ModifiedByUserID NVARCHAR(128)
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
     UPDATE  [dbo].[Document]
-    SET     [Archived] = 1, [UpdatedOnUTC] = SYSUTCDATETIME()
+    SET     [Archived] = 1,
+			[UpdatedOnUTC] = SYSUTCDATETIME(), 
+			[ModifiedByUserID] = @ModifiedByUserID
     WHERE   [DocumentID] = @DocumentID
 END
 GO
