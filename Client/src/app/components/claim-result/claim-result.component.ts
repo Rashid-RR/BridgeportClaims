@@ -38,6 +38,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       claimId: [''],
       dateOfBirth: [undefined], // NULL
       genderId: [undefined],
+      claimFlex2Id: [undefined],
       payorId: [undefined],
       adjustorId: [undefined],
       adjustorPhone: [undefined],
@@ -77,6 +78,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.adjustorId = '';
     this.payor = undefined;
     this.adjustor = undefined;
+    let flex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.flex2 == this.claimManager.selectedClaim.flex2);
     let gender = this.claimManager.selectedClaim.genders.find(g => g.genderName == this.claimManager.selectedClaim.gender);
     let state = this.claimManager.selectedClaim.states.find(g => g.stateName.indexOf(this.claimManager.selectedClaim.stateAbbreviation) == 0);
     let dateOfBirth = this.dp.transform(this.claimManager.selectedClaim.dateOfBirth, "MM/dd/yyyy");
@@ -89,6 +91,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       adjustorId: null,
       adjustorPhone: this.claimManager.selectedClaim.adjustorPhoneNumber,
       dateOfInjury: injuryDate,
+      claimFlex2Id: flex2 ? flex2.claimFlex2Id : undefined,
       adjustorFax: this.claimManager.selectedClaim.adjustorFaxNumber, // NULL
       address1: this.claimManager.selectedClaim.address1, // NULL
       address2: this.claimManager.selectedClaim.address2, // NULL
@@ -131,6 +134,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     } else if (!this.form.controls['genderId'].value) { //Check for the required payorId
       this.toast.warning('Please select a Gender');
     } else {
+      let flex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.flex2 == this.claimManager.selectedClaim.flex2);
       let gender = currentValues.genders.find(g => g.genderName == currentValues.gender);
       let state = currentValues.states.find(g => g.stateName.indexOf(currentValues.stateAbbreviation) == 0);
       let dateOfBirth = this.dp.transform(currentValues.dateOfBirth, "MM/dd/yyyy");
@@ -146,6 +150,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       form.payorId = this.form.value.payorId;
       form.genderId = this.form.value.genderId;
       //check nullable values 
+      form.claimFlex2Id = this.form.value.claimFlex2Id != flex2.claimFlex2Id || (this.form.value.claimFlex2Id && !flex2) ? this.form.value.claimFlex2Id : undefined;
       form.stateId = this.form.value.stateId != state.stateId || (this.form.value.stateId && !state) ? this.form.value.stateId : undefined;
       form.dateOfBirth = dob != dateOfBirth ? dob : undefined, // NULL  
       form.dateOfInjury = injuryDate != doi ? doi : undefined, // NULL  
@@ -182,6 +187,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         }
         if (form.address1) {
           this.claimManager.selectedClaim.address1 = form.address1;
+        }
+        if (form.claimFlex2Id) {
+          let newFlex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.claimFlex2Id+"" == form.claimFlex2Id+"");      
+          this.claimManager.selectedClaim.flex2 = newFlex2.flex2;
         }
       }, error => {
         this.claimManager.loading = false;

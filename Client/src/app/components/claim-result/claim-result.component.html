@@ -150,8 +150,18 @@
                 <address class="border-style">
                     Eligibility Entered: {{claim.dateEntered | date:'shortDate'}}
                     <br> Eligibility Term: {{claim.dateEntered | date:'shortDate'}}
-                    <br> Flex 2:
-                    <div class="btn-group flex2">
+                    <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4"> Flex 2: </label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing">{{claim.flex2}}</ng-container>
+                            <ng-container *ngIf="editing">
+                                <select class="form-control" formControlName="claimFlex2Id">
+                                    <option *ngFor="let g of claimManager.selectedClaim.getFlex2" [value]="g.claimFlex2Id">{{g.flex2}}</option>
+                                </select>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <!-- <div class="btn-group flex2">
                         <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
                             {{claim.flex2}}
                             <i class="fa fa-sort"></i>
@@ -161,7 +171,7 @@
                                 <a style="cursor:pointer;">{{flex.flex2}}</a>
                             </li>
                         </ul>
-                    </div>
+                    </div> -->
                     <br>
                     <button type="button" class="btn btn-flat bg-vdarkgrey btn-sm" (click)="claimManager.selected=undefined" style="font-size:10pt"
                         *ngIf="claimManager.dataSize>1">
