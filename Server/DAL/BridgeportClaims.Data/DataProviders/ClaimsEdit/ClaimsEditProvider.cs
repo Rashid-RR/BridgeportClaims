@@ -29,8 +29,9 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
                     var modifiedByUserIdParam = cmd.CreateParameter();
                     modifiedByUserIdParam.Value = modifiedByUserId ?? (object) DBNull.Value;
                     modifiedByUserIdParam.Direction = ParameterDirection.Input;
-                    modifiedByUserIdParam.DbType = DbType.Int32;
-                    modifiedByUserIdParam.SqlDbType = SqlDbType.Int;
+                    modifiedByUserIdParam.DbType = DbType.String;
+                    modifiedByUserIdParam.SqlDbType = SqlDbType.NVarChar;
+                    modifiedByUserIdParam.Size = 128;
                     modifiedByUserIdParam.ParameterName = "@ModifiedByUserID";
                     cmd.Parameters.Add(modifiedByUserIdParam);
                     if (dateOfBirth != _defaultDateTime)
