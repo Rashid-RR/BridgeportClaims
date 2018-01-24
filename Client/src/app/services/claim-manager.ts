@@ -143,7 +143,7 @@ export class ClaimManager {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           result.forEach((claim) => {
             var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate, claim.gender,
-              claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorPhoneNumber
+              claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorFaxNumber
               , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
             c.genders = claim.genders;
             c.states = claim.states;
@@ -152,11 +152,12 @@ export class ClaimManager {
         } else/*   if(result.name) */ {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate, result.gender,
-            result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorPhoneNumber
+            result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorFaxNumber
             , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode);
           c.dateOfBirth = result.dateOfBirth;
           c.adjustor = result.adjustor;
           c.adjustorPhoneNumber = result.adjustorPhoneNumber;
+          c.adjustorFaxNumber = result.adjustorFaxNumber;
           c.eligibilityTermDate = result.eligibilityTermDate;
           c.dateEntered = result.dateEntered;
           c.gender = result.gender;
@@ -253,6 +254,7 @@ export class ClaimManager {
           claim.dateOfBirth = result.dateOfBirth;
           claim.adjustor = result.adjustor;
           claim.adjustorPhoneNumber = result.adjustorPhoneNumber;
+          claim.adjustorFaxNumber = result.adjustorFaxNumber;
           claim.eligibilityTermDate = result.eligibilityTermDate;
           claim.dateEntered = result.dateEntered;
           claim.gender = result.gender;

@@ -5,8 +5,8 @@ import {Pipe} from '@angular/core';
 })
 export class PhonePipe{
     transform(val, args) {
-        val = String(val);
         if(!val) return val;
+        val = String(val);
         let newStr = '';
         newStr += '('+val.substring(0,3)+') ';
         newStr += val.substring(3,6)+'-';

@@ -89,7 +89,7 @@
                         <label class="col-sm-4"> Injury Date: </label>
                         <div class="col-sm-8">
                             <ng-container *ngIf="!editing">
-                                {{claim.injuryDate}}
+                                {{claim.injuryDate | date:'shortDate'}}
                             </ng-container>
                             <ng-container *ngIf="editing">
                                 <input class="form-control" formControlName="dateOfInjury" type="text" id="dateOfInjury" />
@@ -99,10 +99,11 @@
                     <div class="form-group" [class.editing]="editing">
                         <label class="col-sm-4"> Adjustor Fax : </label>
                         <div class="col-sm-8">
-                            <ng-container *ngIf="!editing">{{claim.adjustorFaxNumber}}
+                            <ng-container *ngIf="!editing">{{claim.adjustorFaxNumber | phone:[]}}
                             </ng-container>
                             <ng-container *ngIf="editing">
-                                <input class="form-control" formControlName="adjustorFax" type="text" id="adjustorFax" />
+                                <input class="form-control" formControlName="adjustorFax" type="text" id="adjustorFax" data-inputmask='"mask": "(999) 999-9999"'
+                                    data-mask/>
                             </ng-container>
                         </div>
                     </div>
@@ -112,8 +113,8 @@
                             <ng-container *ngIf="!editing"> {{claim.carrier}}</ng-container>
                             <ng-container *ngIf="editing">
                                 <input class="form-control" type="text" id="payorId" [(ngModel)]="payorId" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
-                                    auto-complete name="payorId" [source]="payorAutoComplete" [service]="1"
-                                    [method]="1" min-chars="2" list-formatter="groupName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
+                                    auto-complete name="payorId" [source]="payorAutoComplete" [service]="1" [method]="1" min-chars="2"
+                                    list-formatter="groupName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
                                     [no-match-found-text]="'No Carrier Found'" (valueChanged)="payorSelected($event)" />
                             </ng-container>
                         </div>
@@ -124,8 +125,8 @@
                             <ng-container *ngIf="!editing">{{claim.adjustor}}</ng-container>
                             <ng-container *ngIf="editing">
                                 <input class="form-control" type="text" id="adjustorId" [(ngModel)]="adjustorId" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
-                                    auto-complete name="adjustorId" [source]="adjustorAutoComplete" [service]="1"
-                                    [method]="1" min-chars="2" list-formatter="adjustorName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
+                                    auto-complete name="adjustorId" [source]="adjustorAutoComplete" [service]="1" [method]="1"
+                                    min-chars="2" list-formatter="adjustorName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
                                     [no-match-found-text]="'No Adjustor Found'" (valueChanged)="adjustorSelected($event)" />
                             </ng-container>
                         </div>
@@ -133,9 +134,10 @@
                     <div class="form-group" [class.editing]="editing">
                         <label class="col-sm-4"> Adjustor Ph : </label>
                         <div class="col-sm-8">
-                            <ng-container *ngIf="!editing"> {{claim.adjustorPhoneNumber}}</ng-container>
+                            <ng-container *ngIf="!editing">{{claim.adjustorPhoneNumber | phone:[]}}</ng-container>
                             <ng-container *ngIf="editing">
-                                <input class="form-control" type="text" id="adjustorPhone" formControlName="adjustorPhone" />
+                                <input class="form-control" type="text" id="adjustorPhone" formControlName="adjustorPhone" data-inputmask='"mask": "(999) 999-9999"'
+                                    data-mask/>
                             </ng-container>
                         </div>
                     </div>
