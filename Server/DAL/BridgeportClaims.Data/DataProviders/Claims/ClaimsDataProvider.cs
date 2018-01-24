@@ -199,8 +199,11 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									DateEntered = s.c.DateOfInjury,
 									ClaimNumber = s.c.ClaimNumber,
                                     AdjustorId = null == s.c.Adjustor ? (int?) null : s.c.Adjustor.AdjustorId,
-                                    PayorId = s.c.Payor.PayorId
-								}).SingleOrDefault();
+                                    PayorId = s.c.Payor.PayorId,
+                                    StateId = null == s.c.JurisdictionStateId ? (int?) null : s.c.JurisdictionStateId.StateId,
+                                    PatientGenderId = s.p.Gender.GenderId,
+								    ClaimFlex2Id = null == s.c.ClaimFlex2 ? (int?) null : s.c.ClaimFlex2.ClaimFlex2Id
+                                }).SingleOrDefault();
 							if (null == claimDto)
 								return null;
 							// ClaimFlex2 Drop-Down Values
