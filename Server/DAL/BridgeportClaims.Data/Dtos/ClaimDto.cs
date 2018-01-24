@@ -25,6 +25,8 @@ namespace BridgeportClaims.Data.Dtos
 		public string StateAbbreviation { get; set; }
 		public string PostalCode { get; set; }
 		public string PatientPhoneNumber { get; set; }
+        public int? AdjustorId { get; set; }
+        public int PayorId { get; set; }
 		public DateTime? DateEntered { get; set; }
         public IList<GenderDto> Genders { get; set; }
         public IList<UsStateDto> States { get; set; }

@@ -197,7 +197,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									EligibilityTermDate = s.c.TermDate,
 									PatientPhoneNumber = s.p.PhoneNumber,
 									DateEntered = s.c.DateOfInjury,
-									ClaimNumber = s.c.ClaimNumber
+									ClaimNumber = s.c.ClaimNumber,
+                                    AdjustorId = null == s.c.Adjustor ? (int?) null : s.c.Adjustor.AdjustorId,
+                                    PayorId = s.c.Payor.PayorId
 								}).SingleOrDefault();
 							if (null == claimDto)
 								return null;
