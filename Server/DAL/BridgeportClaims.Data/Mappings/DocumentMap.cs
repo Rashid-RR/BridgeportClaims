@@ -13,6 +13,7 @@ namespace BridgeportClaims.Data.Mappings
             SchemaAction.None();
             LazyLoad();
             Id(x => x.DocumentId).GeneratedBy.Identity().Column("DocumentID");
+            References(x => x.ModifiedByUserId).Column("ModifiedByUserID");
             Map(x => x.FileName).Column("FileName").Not.Nullable().Unique().Length(1000);
             Map(x => x.Extension).Column("Extension").Not.Nullable().Length(50);
             Map(x => x.FileSize).Column("FileSize").Not.Nullable().Length(50);

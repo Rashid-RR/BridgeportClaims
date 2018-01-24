@@ -14,6 +14,7 @@ namespace BridgeportClaims.Entities.DomainModels
         }
         [Required]
         public virtual int DocumentId { get; set; }
+        public virtual AspNetUsers ModifiedByUserId { get; set; }
         [Required]
         [StringLength(1000)]
         public virtual string FileName { get; set; }

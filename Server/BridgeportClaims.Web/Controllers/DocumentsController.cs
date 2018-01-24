@@ -8,6 +8,7 @@ using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -33,8 +34,9 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
+                    var userId = User.Identity.GetUserId();
                     // Database call
-                    _documentsProvider.ArchiveDocument(documentId);
+                    _documentsProvider.ArchiveDocument(documentId, userId);
                     // SignalR Call
                     var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                     hubContext.Clients.All.archivedDocument(documentId);
