@@ -161,7 +161,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       form.adjustorFax = adjustorFax != currentValues.adjustorFaxNumber ? adjustorFax : undefined;
       form.city = this.form.value.city != currentValues.city ? this.form.value.city : undefined;
       this.claimManager.loading = true;
-      console.log(currentValues.adjustorPhoneNumber,form)
       this.http.editClaim(form).map(r => r.json()).subscribe(res => {
         this.claimManager.loading = false;
         this.editing = false;
