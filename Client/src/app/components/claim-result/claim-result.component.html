@@ -1,6 +1,6 @@
 <ng-container *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
     <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
-        <form class="form-horizontal" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
+        <form class="form-horizontal" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" novalidate (change)="formChange()">
             <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
                 <address class="border-style">
                     <div class="form-group">
@@ -156,6 +156,7 @@
                             <ng-container *ngIf="!editing">{{claim.flex2}}</ng-container>
                             <ng-container *ngIf="editing">
                                 <select class="form-control" formControlName="claimFlex2Id">
+                                    <option value="">--No Flex--</option>
                                     <option *ngFor="let g of claimManager.selectedClaim.getFlex2" [value]="g.claimFlex2Id">{{g.flex2}}</option>
                                 </select>
                             </ng-container>

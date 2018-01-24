@@ -32,7 +32,12 @@ export class Claim {
 	address2: string;
     city: string;
     stateAbbreviation: string;
-	postalCode: any;
+    postalCode: any;
+    adjustorId:number;
+    payorId:number;
+    stateId:number;
+    genderId:number;
+    claimFlex2Id:number;
     private prescription: Array<Prescription> = [];
     //private prescriptionNote:Array<PrescriptionNote> = [];
     private prescriptionNote: Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();

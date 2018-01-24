@@ -147,6 +147,11 @@ export class ClaimManager {
               , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
             c.genders = claim.genders;
             c.states = claim.states;
+            c.adjustorId=claim.adjustorId;
+            c.payorId=claim.payorId;
+            c.genderId=claim.patientGenderId;
+            c.stateId=claim.stateId;
+            c.claimFlex2Id=claim.claimFlex2Id;
             this.claims = this.claims.set(claim.claimId, c);
           })
         } else/*   if(result.name) */ {
@@ -163,6 +168,11 @@ export class ClaimManager {
           c.gender = result.gender;
           c.genders = result.genders;
           c.states = result.states;
+          c.adjustorId=result.adjustorId;
+          c.payorId=result.payorId;
+          c.genderId=result.patientGenderId;
+          c.stateId=result.stateId;
+          c.claimFlex2Id=result.claimFlex2Id;
           this.claims = this.claims.set(result.claimId, c);
           const claim = this.claims.get(result.claimId);
           claim.setPrescription(result.prescriptions as Array<Prescription>);
@@ -265,6 +275,11 @@ export class ClaimManager {
           claim.states = result.states;
           claim.stateAbbreviation = result.stateAbbreviation;
           claim.postalCode = result.postalCode;
+          claim.adjustorId=result.adjustorId;
+          claim.payorId=result.payorId;
+          claim.genderId=result.patientGenderId;
+          claim.stateId=result.stateId;
+          claim.claimFlex2Id=result.claimFlex2Id;
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);
           claim.setEpisodes(result.episodes);

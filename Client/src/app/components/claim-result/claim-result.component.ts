@@ -25,6 +25,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   adjustorId: string = '';
   payor: any;
   adjustor: any;
+  lastForm: any;
   constructor(
     public claimManager: ClaimManager,
     private formBuilder: FormBuilder,
@@ -71,6 +72,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     let claimsLength = this.claimManager.claimsData;
+    this.editing = false;
+
   }
   edit() {
     this.editing = true;
@@ -78,30 +81,43 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.adjustorId = '';
     this.payor = undefined;
     this.adjustor = undefined;
-    let flex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.flex2 == this.claimManager.selectedClaim.flex2);
-    let gender = this.claimManager.selectedClaim.genders.find(g => g.genderName == this.claimManager.selectedClaim.gender);
-    let state = this.claimManager.selectedClaim.states.find(g => g.stateName.indexOf(this.claimManager.selectedClaim.stateAbbreviation) == 0);
     let dateOfBirth = this.dp.transform(this.claimManager.selectedClaim.dateOfBirth, "MM/dd/yyyy");
     let injuryDate = this.dp.transform(this.claimManager.selectedClaim.injuryDate, "MM/dd/yyyy");
     this.form.patchValue({
       claimId: this.claimManager.selectedClaim.claimId,
       dateOfBirth: dateOfBirth, // NULL
-      genderId: gender ? gender.genderId : null,
-      payorId: null,
-      adjustorId: null,
+      genderId: this.claimManager.selectedClaim.genderId,
+      payorId: this.claimManager.selectedClaim.payorId,
+      adjustorId: this.claimManager.selectedClaim.adjustorId,
       adjustorPhone: this.claimManager.selectedClaim.adjustorPhoneNumber,
       dateOfInjury: injuryDate,
-      claimFlex2Id: flex2 ? flex2.claimFlex2Id : undefined,
+      claimFlex2Id: this.claimManager.selectedClaim.claimFlex2Id,
       adjustorFax: this.claimManager.selectedClaim.adjustorFaxNumber, // NULL
       address1: this.claimManager.selectedClaim.address1, // NULL
       address2: this.claimManager.selectedClaim.address2, // NULL
       city: this.claimManager.selectedClaim.city, // NULL
-      stateId: state ? state.stateId : null,
+      stateId: this.claimManager.selectedClaim.stateId,
     });
+    this.lastForm = {
+      claimId: this.claimManager.selectedClaim.claimId,
+      dateOfBirth: dateOfBirth, // NULL
+      genderId: this.claimManager.selectedClaim.genderId,
+      payorId: this.claimManager.selectedClaim.payorId,
+      adjustorId: this.claimManager.selectedClaim.adjustorId,
+      adjustorPhone: this.claimManager.selectedClaim.adjustorPhoneNumber,
+      dateOfInjury: injuryDate,
+      claimFlex2Id: this.claimManager.selectedClaim.claimFlex2Id,
+      adjustorFax: this.claimManager.selectedClaim.adjustorFaxNumber, // NULL
+      address1: this.claimManager.selectedClaim.address1, // NULL
+      address2: this.claimManager.selectedClaim.address2, // NULL
+      city: this.claimManager.selectedClaim.city, // NULL
+      stateId: this.claimManager.selectedClaim.stateId,
+    };
+
     setTimeout(() => {
       this.payorId = this.claimManager.selectedClaim.carrier as string;
       this.adjustorId = this.claimManager.selectedClaim.adjustor as string;
-      $('#payorId').focus()
+
       $('#dateOfBirth').datepicker({
         autoclose: true
       });
@@ -121,45 +137,63 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     //this.minimize();
   }
 
+  formChange() {
+    console.log("Form changed...");
+  }
   save() {
     var key;
-    let currentValues = this.claimManager.selectedClaim;
+    this.form.value.adjustorPhone = $('#adjustorPhone').val() || '';
+    this.form.value.adjustorFax = $('#adjustorFax').val() || '';
+    let adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, ''),
+      adjustorFax = this.form.value.adjustorFax.replace(/[\D]/g, '');
+    this.form.value.adjustorPhone = adjustorPhone
+    this.form.value.adjustorFax = adjustorFax
+    let dob = this.dp.transform($('#dateOfBirth').val(), "MM/dd/yyyy");
+    let doi = this.dp.transform($('#dateOfInjury').val(), "MM/dd/yyyy");
+    this.form.value.dateOfBirth = dob
+    this.form.value.dateOfInjury = doi
+
     for (key in this.form.value) {
       if (this.form.value.hasOwnProperty(key)) {
         this.form.value[key] = this.form.value[key] == "" || (this.form.value[key] && String(this.form.value[key]).trim() == "") ? null : this.form.value[key];
       }
     }
-    if (!this.form.controls['payorId'].value) { //Check for the required payorId
+    console.log(this.form.value.claimId == this.lastForm.claimId)
+    console.log(this.form.value.dateOfBirth == this.lastForm.dateOfBirth)
+    console.log(this.form.value.genderId == this.lastForm.genderId)
+    console.log(this.form.value.payorId == this.lastForm.payorId)
+    console.log(this.form.value.adjustorId == this.lastForm.adjustorId)
+    console.log(this.form.value.adjustorPhone == this.lastForm.adjustorPhone)
+    console.log(this.form.value.dateOfInjury == this.lastForm.dateOfInjury,this.form.value.dateOfInjury, this.lastForm.dateOfInjury)
+    console.log(this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id)
+    console.log(this.form.value.adjustorFax == this.lastForm.adjustorFax)
+    console.log(this.form.value.address1 == this.lastForm.address1)
+    console.log(this.form.value.address2 == this.lastForm.address2)
+    console.log(this.form.value.city == this.lastForm.city)
+    console.log(this.form.value.stateId == this.lastForm.stateId)
+    if(this.form.value.claimId == this.lastForm.claimId && this.form.value.dateOfBirth == this.lastForm.dateOfBirth && this.form.value.genderId == this.lastForm.genderId && this.form.value.payorId == this.lastForm.payorId && this.form.value.adjustorId == this.lastForm.adjustorId && this.form.value.adjustorPhone == this.lastForm.adjustorPhone && this.form.value.dateOfInjury == this.lastForm.dateOfInjury && this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id && this.form.value.adjustorFax == this.lastForm.adjustorFax && this.form.value.address1 == this.lastForm.address1 && this.form.value.address2 == this.lastForm.address2 && this.form.value.city == this.lastForm.city && this.form.value.stateId == this.lastForm.stateId){
+      this.toast.warning('No changes were made.', 'Not saved');
+    }else if (!this.form.controls['payorId'].value) { //Check for the required payorId
       this.toast.warning('Please link a Carrier');
     } else if (!this.form.controls['genderId'].value) { //Check for the required payorId
       this.toast.warning('Please select a Gender');
     } else {
-      let flex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.flex2 == this.claimManager.selectedClaim.flex2);
-      let gender = currentValues.genders.find(g => g.genderName == currentValues.gender);
-      let state = currentValues.states.find(g => g.stateName.indexOf(currentValues.stateAbbreviation) == 0);
-      let dateOfBirth = this.dp.transform(currentValues.dateOfBirth, "MM/dd/yyyy");
-      let injuryDate = this.dp.transform(currentValues.injuryDate, "MM/dd/yyyy");
       let form: any = {};
-      let dob = this.dp.transform($('#dateOfBirth').val(), "MM/dd/yyyy");
-      let doi = this.dp.transform($('#dateOfInjury').val(), "MM/dd/yyyy");
-      this.form.value.adjustorPhone = $('#adjustorPhone').val() || '';
-      this.form.value.adjustorFax = $('#adjustorFax').val()  || '';
-      let adjustorPhone = this.form.value.adjustorPhone.replace( /[\D]/g,''),
-      adjustorFax = this.form.value.adjustorFax.replace( /[\D]/g,'');
       form.claimId = this.form.value.claimId;
       form.payorId = this.form.value.payorId;
       form.genderId = this.form.value.genderId;
       //check nullable values 
-      form.claimFlex2Id = this.form.value.claimFlex2Id != flex2.claimFlex2Id || (this.form.value.claimFlex2Id && !flex2) ? this.form.value.claimFlex2Id : undefined;
-      form.stateId = this.form.value.stateId != state.stateId || (this.form.value.stateId && !state) ? this.form.value.stateId : undefined;
-      form.dateOfBirth = dob != dateOfBirth ? dob : undefined, // NULL  
-      form.dateOfInjury = injuryDate != doi ? doi : undefined, // NULL  
-      form.address1 = this.form.value.address1 != currentValues.address1 ? this.form.value.address1 : undefined;
-      form.address2 = this.form.value.address2 != currentValues.address2 ? this.form.value.address2 : undefined;
-      form.adjustorId = this.adjustor && this.adjustor.adjustorName != currentValues.adjustor ? this.form.value.adjustorId : undefined;
-      form.adjustorPhone = adjustorPhone != currentValues.adjustorPhoneNumber ? adjustorPhone : undefined;
-      form.adjustorFax = adjustorFax != currentValues.adjustorFaxNumber ? adjustorFax : undefined;
-      form.city = this.form.value.city != currentValues.city ? this.form.value.city : undefined;
+      form.claimFlex2Id = this.form.value.claimFlex2Id != this.lastForm.claimFlex2Id ? this.form.value.claimFlex2Id : undefined;
+      form.stateId = this.form.value.stateId != this.lastForm.stateId ? this.form.value.stateId : undefined;
+      form.dateOfBirth = dob != this.lastForm.dateOfBirth ? this.form.value.dateOfBirth : undefined, // NULL  
+      form.dateOfInjury = this.lastForm.injuryDate != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
+      form.address1 = this.form.value.address1 != this.lastForm.address1 ? this.form.value.address1 : undefined;
+      form.address2 = this.form.value.address2 != this.lastForm.address2 ? this.form.value.address2 : undefined;
+      form.adjustorId = this.adjustor && this.adjustor.adjustorName != this.lastForm.adjustor ? this.form.value.adjustorId : undefined;
+      form.adjustorPhone = this.form.value.adjustorPhone != this.lastForm.adjustorPhone ? this.form.value.adjustorPhone : undefined;
+      form.adjustorFax = this.form.value.adjustorFax != this.lastForm.adjustorFax ? this.form.value.adjustorFax : undefined;
+      form.city = this.form.value.city != this.lastForm.city ? this.form.value.city : undefined;
+      //console.log(form);
       this.claimManager.loading = true;
       this.http.editClaim(form).map(r => r.json()).subscribe(res => {
         this.claimManager.loading = false;
@@ -168,6 +202,11 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         this.claimManager.selectedClaim.adjustor = this.adjustorId;
         if (form.payorId) {
           this.claimManager.selectedClaim.carrier = this.payorId;
+          this.claimManager.selectedClaim.payorId = form.payorId;
+        }
+        if (form.adjustorId) {
+          this.claimManager.selectedClaim.adjustorId = form.adjustorId;
+          this.claimManager.selectedClaim.adjustor = this.adjustorId;
         }
         if (form.adjustorPhone) {
           this.claimManager.selectedClaim.adjustorPhoneNumber = form.adjustorPhone;
@@ -175,11 +214,11 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         if (form.adjustorFax) {
           this.claimManager.selectedClaim.adjustorFaxNumber = form.adjustorFax;
         }
-        if (doi) {
-          this.claimManager.selectedClaim.injuryDate = new Date(doi);
+        if (form.dateOfInjury) {
+          this.claimManager.selectedClaim.injuryDate = new Date(form.dateOfInjury);
         }
-        if (dateOfBirth) {
-          this.claimManager.selectedClaim.dateOfBirth = new Date(dateOfBirth);
+        if (form.dateOfBirth) {
+          this.claimManager.selectedClaim.dateOfBirth = new Date(form.dateOfBirth);
         }
         if (form.city) {
           this.claimManager.selectedClaim.city = form.city;
@@ -187,9 +226,23 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         if (form.address1) {
           this.claimManager.selectedClaim.address1 = form.address1;
         }
+        if (form.address2) {
+          this.claimManager.selectedClaim.address2 = form.address2;
+        }
         if (form.claimFlex2Id) {
           let newFlex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.claimFlex2Id+"" == form.claimFlex2Id+"");      
           this.claimManager.selectedClaim.flex2 = newFlex2.flex2;
+          this.claimManager.selectedClaim.claimFlex2Id = form.claimFlex2Id;
+        }
+        if (form.genderId) {
+          let newGender = this.claimManager.selectedClaim.genders.find(g => g.genderId+"" == form.genderId+"");      
+          this.claimManager.selectedClaim.gender = newGender.genderName;
+          this.claimManager.selectedClaim.genderId = form.genderId;
+        }
+        if (form.stateId) {
+          let newState = this.claimManager.selectedClaim.states.find(g => g.stateId+"" == form.stateId+"");      
+          this.claimManager.selectedClaim.gender = newState.stateName;
+          this.claimManager.selectedClaim.stateId = form.stateId;
         }
       }, error => {
         this.claimManager.loading = false;
