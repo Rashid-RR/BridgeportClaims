@@ -142,7 +142,7 @@ export class ClaimManager {
           let res: Array<Claim> = result as Array<Claim>;
           this.claims = Immutable.OrderedMap<Number, Claim>();
           result.forEach((claim) => {
-            var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate, claim.gender,
+            var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate || claim.dateOfInjury, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorFaxNumber
               , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
             c.genders = claim.genders;
@@ -156,7 +156,7 @@ export class ClaimManager {
           })
         } else/*   if(result.name) */ {
           this.claims = Immutable.OrderedMap<Number, Claim>();
-          var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate, result.gender,
+          var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorFaxNumber
             , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode);
           c.dateOfBirth = result.dateOfBirth;
@@ -165,6 +165,7 @@ export class ClaimManager {
           c.adjustorFaxNumber = result.adjustorFaxNumber;
           c.eligibilityTermDate = result.eligibilityTermDate;
           c.dateEntered = result.dateEntered;
+          c.injuryDate = result.injuryDate || result.dateOfInjury;
           c.gender = result.gender;
           c.genders = result.genders;
           c.states = result.states;
@@ -291,6 +292,7 @@ export class ClaimManager {
           if (result.images) {
             claim.setImages(result.images);
           }
+          this.onClaimIdChanged.next(this.selected);
         }, err => {
           this.loading = false;
           const error = err.json();

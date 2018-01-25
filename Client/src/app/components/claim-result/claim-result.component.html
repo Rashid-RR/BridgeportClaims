@@ -59,7 +59,7 @@
                         <label class="col-sm-4">DOB: </label>
                         <div class="col-sm-8">
                             <ng-container *ngIf="!editing">
-                                {{claim.dateOfBirth | date:'shortDate'}}
+                                {{formatDate(claim.dateOfBirth)}}
                             </ng-container>
                             <ng-container *ngIf="editing">
                                 <input class="form-control" formControlName="dateOfBirth" type="text" id="dateOfBirth" />
@@ -89,7 +89,7 @@
                         <label class="col-sm-4"> Injury Date: </label>
                         <div class="col-sm-8">
                             <ng-container *ngIf="!editing">
-                                {{claim.injuryDate | date:'shortDate'}}
+                                {{formatDate(claim.injuryDate)}}
                             </ng-container>
                             <ng-container *ngIf="editing">
                                 <input class="form-control" formControlName="dateOfInjury" type="text" id="dateOfInjury" />
