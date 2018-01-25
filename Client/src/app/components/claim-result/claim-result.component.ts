@@ -188,7 +188,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       form.genderId = this.form.value.genderId != this.lastForm.genderId ? Number(this.form.value.genderId) : undefined;
       form.stateId = this.form.value.stateId != this.lastForm.stateId ?  Number(this.form.value.stateId) : undefined;
       form.dateOfBirth = dob != this.lastForm.dateOfBirth ? this.form.value.dateOfBirth : undefined, // NULL  
-      form.dateOfInjury = this.lastForm.injuryDate != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
+      form.dateOfInjury = this.lastForm.dateOfInjury != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
       form.address1 = this.form.value.address1 != this.lastForm.address1 ? this.form.value.address1 : undefined;
       form.address2 = this.form.value.address2 != this.lastForm.address2 ? this.form.value.address2 : undefined;
       form.adjustorId = this.adjustor && this.adjustor.adjustorName != this.lastForm.adjustor ?  Number(this.form.value.adjustorId) : undefined;
