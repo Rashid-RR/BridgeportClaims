@@ -1,8 +1,8 @@
 import { Component, AfterViewInit, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { ClaimManager } from "../../services/claim-manager";
-import { EventsService } from "../../services/events-service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ClaimManager } from '../../services/claim-manager';
+import { EventsService } from '../../services/events-service';
 import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { HttpService } from 'app/services/services.barrel';
 import { DatePipe } from '@angular/common';
@@ -19,10 +19,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   @Input() expand: Function;
   @Input() minimize: Function;
-  editing: boolean = false;
+  editing = false;
   form: FormGroup;
-  payorId: string = '';
-  adjustorId: string = '';
+  payorId = '';
+  adjustorId = '';
   payor: any;
   adjustor: any;
   lastForm: any;
@@ -48,14 +48,14 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       address1: [undefined], // NULL
       address2: [undefined], // NULL
       city: [undefined], // NULL
-      stateId: [undefined], //NULL
-    })
+      stateId: [undefined], // NULL
+    });
   }
   get payorAutoComplete(): string {
-    return this.http.baseUrl + "/payors/search/?searchText=:keyword";
+    return this.http.baseUrl + '/payors/search/?searchText=:keyword';
   }
   get adjustorAutoComplete(): string {
-    return this.http.baseUrl + "/adjustors/search/?searchText=:keyword";
+    return this.http.baseUrl + '/adjustors/search/?searchText=:keyword';
   }
   payorSelected($event) {
     if (this.payorId && $event.payorId) {
@@ -71,7 +71,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    let claimsLength = this.claimManager.claimsData;
+    const claimsLength = this.claimManager.claimsData;
     this.editing = false;
     this.claimManager.onClaimIdChanged.subscribe(res => {
       this.editing = false;
@@ -88,9 +88,14 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.adjustorId = '';
     this.payor = undefined;
     this.adjustor = undefined;
+<<<<<<< HEAD
     let dateOfBirth = this.formatDate(this.claimManager.selectedClaim.dateOfBirth as any);
     let injuryDate = this.formatDate(this.claimManager.selectedClaim.injuryDate  as any);
     console.log(this.claimManager.selectedClaim.stateId,this.claimManager.selectedClaim.stateAbbreviation)
+=======
+    const dateOfBirth = this.dp.transform(this.claimManager.selectedClaim.dateOfBirth, 'MM/dd/yyyy');
+    const injuryDate = this.dp.transform(this.claimManager.selectedClaim.injuryDate, 'MM/dd/yyyy');
+>>>>>>> b566e6a5fc2141e5cda42698804418f9254a6290
     this.form.patchValue({
       claimId: this.claimManager.selectedClaim.claimId,
       dateOfBirth: dateOfBirth, // NULL
@@ -142,7 +147,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   view(claimID: Number) {
     this.claimManager.getClaimsDataById(claimID);
     this.events.broadcast('minimize', []);
-    //this.minimize();
+    // this.minimize();
   }
 
   formChange() {
@@ -155,11 +160,12 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     return date;
   }
   save() {
-    var key;
+    let key: any;
     this.form.value.adjustorPhone = $('#adjustorPhone').val() || '';
     this.form.value.adjustorFax = $('#adjustorFax').val() || '';
-    let adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, ''),
+    const adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, ''),
       adjustorFax = this.form.value.adjustorFax.replace(/[\D]/g, '');
+<<<<<<< HEAD
     this.form.value.adjustorPhone = adjustorPhone
     this.form.value.adjustorFax = adjustorFax;
     console.log($('#dateOfBirth').val());
@@ -167,21 +173,52 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     let doi =$('#dateOfInjury').val()+"";
     this.form.value.dateOfBirth = dob
     this.form.value.dateOfInjury = doi
+=======
+    this.form.value.adjustorPhone = adjustorPhone;
+    this.form.value.adjustorFax = adjustorFax;
+    const dob = this.dp.transform($('#dateOfBirth').val(), 'MM/dd/yyyy');
+    const doi = this.dp.transform($('#dateOfInjury').val(), 'MM/dd/yyyy');
+    this.form.value.dateOfBirth = dob;
+    this.form.value.dateOfInjury = doi;
+>>>>>>> b566e6a5fc2141e5cda42698804418f9254a6290
 
     for (key in this.form.value) {
       if (this.form.value.hasOwnProperty(key)) {
-        this.form.value[key] = this.form.value[key] == "" || (this.form.value[key] && String(this.form.value[key]).trim() == "") ? null : this.form.value[key];
+        this.form.value[key] = this.form.value[key] == "" || (this.form.value[key] && String(this.form.value[key]).trim() === "") ? null : this.form.value[key];
       }
     }
+<<<<<<< HEAD
     if(this.form.value.claimId == this.lastForm.claimId && this.form.value.dateOfBirth == this.lastForm.dateOfBirth && this.form.value.genderId == this.lastForm.genderId && this.form.value.payorId == this.lastForm.payorId && this.form.value.adjustorId == this.lastForm.adjustorId && this.form.value.adjustorPhone == this.lastForm.adjustorPhone && this.form.value.dateOfInjury == this.lastForm.dateOfInjury && this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id && this.form.value.adjustorFax == this.lastForm.adjustorFax && this.form.value.address1 == this.lastForm.address1 && this.form.value.address2 == this.lastForm.address2 && this.form.value.city == this.lastForm.city && this.form.value.stateId == this.lastForm.stateId){
+=======
+    console.log(this.form.value.claimId == this.lastForm.claimId);
+    console.log(this.form.value.dateOfBirth == this.lastForm.dateOfBirth);
+    console.log(this.form.value.genderId == this.lastForm.genderId);
+    console.log(this.form.value.payorId == this.lastForm.payorId);
+    console.log(this.form.value.adjustorId == this.lastForm.adjustorId);
+    console.log(this.form.value.adjustorPhone == this.lastForm.adjustorPhone);
+    console.log(this.form.value.dateOfInjury == this.lastForm.dateOfInjury,this.form.value.dateOfInjury, this.lastForm.dateOfInjury);
+    console.log(this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id);
+    console.log(this.form.value.adjustorFax == this.lastForm.adjustorFax);
+    console.log(this.form.value.address1 == this.lastForm.address1);
+    console.log(this.form.value.address2 == this.lastForm.address2);
+    console.log(this.form.value.city == this.lastForm.city);
+    console.log(this.form.value.stateId == this.lastForm.stateId);
+    if (this.form.value.claimId == this.lastForm.claimId && this.form.value.dateOfBirth == this.lastForm.dateOfBirth &&
+       this.form.value.genderId == this.lastForm.genderId && this.form.value.payorId == this.lastForm.payorId &&
+        this.form.value.adjustorId == this.lastForm.adjustorId && this.form.value.adjustorPhone == this.lastForm.adjustorPhone &&
+         this.form.value.dateOfInjury == this.lastForm.dateOfInjury && this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id &&
+          this.form.value.adjustorFax == this.lastForm.adjustorFax && this.form.value.address1 == this.lastForm.address1 &&
+           this.form.value.address2 == this.lastForm.address2 && this.form.value.city == this.lastForm.city && this.form.value.stateId == this.lastForm.stateId) {
+>>>>>>> b566e6a5fc2141e5cda42698804418f9254a6290
       this.toast.warning('No changes were made.', 'Not saved');
-    }else if (!this.form.controls['payorId'].value) { //Check for the required payorId
+    } else if (!this.form.controls['payorId'].value) { //Check for the required payorId
       this.toast.warning('Please link a Carrier');
-    } else if (!this.form.controls['genderId'].value) { //Check for the required payorId
+    } else if (!this.form.controls['genderId'].value) { // Check for the required payorId
       this.toast.warning('Please select a Gender');
     } else {
       let form: any = {};
       form.claimId = this.form.value.claimId;
+<<<<<<< HEAD
       //check nullable values 
       form.claimFlex2Id = this.form.value.claimFlex2Id != this.lastForm.claimFlex2Id ?  Number(this.form.value.claimFlex2Id) : undefined;
       form.payorId = this.form.value.payorId != this.lastForm.payorId ?  Number(this.form.value.payorId) : undefined;
@@ -189,13 +226,22 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       form.stateId = this.form.value.stateId != this.lastForm.stateId ?  Number(this.form.value.stateId) : undefined;
       form.dateOfBirth = dob != this.lastForm.dateOfBirth ? this.form.value.dateOfBirth : undefined, // NULL  
       form.dateOfInjury = this.lastForm.injuryDate != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
+=======
+      form.payorId = this.form.value.payorId;
+      form.genderId = this.form.value.genderId;
+      // check nullable values
+      form.claimFlex2Id = this.form.value.claimFlex2Id != this.lastForm.claimFlex2Id ? this.form.value.claimFlex2Id : undefined;
+      form.stateId = this.form.value.stateId != this.lastForm.stateId ? this.form.value.stateId : undefined;
+      form.dateOfBirth = dob != this.lastForm.dateOfBirth ? this.form.value.dateOfBirth : undefined, // NULL
+      form.dateOfInjury = this.lastForm.injuryDate != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL
+>>>>>>> b566e6a5fc2141e5cda42698804418f9254a6290
       form.address1 = this.form.value.address1 != this.lastForm.address1 ? this.form.value.address1 : undefined;
       form.address2 = this.form.value.address2 != this.lastForm.address2 ? this.form.value.address2 : undefined;
       form.adjustorId = this.adjustor && this.adjustor.adjustorName != this.lastForm.adjustor ?  Number(this.form.value.adjustorId) : undefined;
       form.adjustorPhone = this.form.value.adjustorPhone != this.lastForm.adjustorPhone ? this.form.value.adjustorPhone : undefined;
       form.adjustorFax = this.form.value.adjustorFax != this.lastForm.adjustorFax ? this.form.value.adjustorFax : undefined;
       form.city = this.form.value.city != this.lastForm.city ? this.form.value.city : undefined;
-      //console.log(form);
+      // console.log(form);
       this.claimManager.loading = true;
       this.http.editClaim(form).map(r => r.json()).subscribe(res => {
         this.claimManager.loading = false;
@@ -232,25 +278,28 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           this.claimManager.selectedClaim.address2 = form.address2;
         }
         if (form.claimFlex2Id) {
-          let newFlex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.claimFlex2Id+"" == form.claimFlex2Id+"");      
+          const newFlex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.claimFlex2Id + '' == form.claimFlex2Id + '');
           this.claimManager.selectedClaim.flex2 = newFlex2.flex2;
           this.claimManager.selectedClaim.claimFlex2Id = form.claimFlex2Id;
         }
         if (form.genderId) {
-          let newGender = this.claimManager.selectedClaim.genders.find(g => g.genderId+"" == form.genderId+"");      
+          const newGender = this.claimManager.selectedClaim.genders.find(g => g.genderId + '' == form.genderId + '');
           this.claimManager.selectedClaim.gender = newGender.genderName;
           this.claimManager.selectedClaim.genderId = form.genderId;
         }
         if (form.stateId) {
+<<<<<<< HEAD
           let newState = this.claimManager.selectedClaim.states.find(g => g.stateId+"" == form.stateId+"");      
           this.claimManager.selectedClaim.stateAbbreviation = newState.stateName;
+=======
+          const newState = this.claimManager.selectedClaim.states.find(g => g.stateId + '' == form.stateId + '');
+          this.claimManager.selectedClaim.gender = newState.stateName;
+>>>>>>> b566e6a5fc2141e5cda42698804418f9254a6290
           this.claimManager.selectedClaim.stateId = form.stateId;
         }
       }, error => {
         this.claimManager.loading = false;
-      })
-
+      });
     }
-
   }
 }

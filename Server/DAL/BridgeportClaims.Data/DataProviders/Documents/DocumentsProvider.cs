@@ -63,7 +63,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     });
             });
 
-        public void ArchiveDocument(int documentId) =>
+        public void ArchiveDocument(int documentId, string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspArchiveDocument]", conn), cmd =>
@@ -76,6 +76,14 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     documentIdParam.SqlDbType = SqlDbType.Int;
                     documentIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(documentIdParam);
+                    var modifiedByUserIdParam = cmd.CreateParameter();
+                    modifiedByUserIdParam.Value = modifiedByUserId ?? (object) DBNull.Value;
+                    modifiedByUserIdParam.DbType = DbType.String;
+                    modifiedByUserIdParam.SqlDbType = SqlDbType.NVarChar;
+                    modifiedByUserIdParam.Size = 128;
+                    modifiedByUserIdParam.ParameterName = "@ModifiedByUserID";
+                    modifiedByUserIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(modifiedByUserIdParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
