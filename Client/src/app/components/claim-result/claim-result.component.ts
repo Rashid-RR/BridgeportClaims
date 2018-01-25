@@ -89,8 +89,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.payor = undefined;
     this.adjustor = undefined;
     let dateOfBirth = this.formatDate(this.claimManager.selectedClaim.dateOfBirth as any);
-    let injuryDate = this.formatDate(this.claimManager.selectedClaim.injuryDate  as any);
-    console.log(this.claimManager.selectedClaim.stateId,this.claimManager.selectedClaim.stateAbbreviation)
+    let injuryDate = this.formatDate(this.claimManager.selectedClaim.injuryDate as any);
+    console.log(this.claimManager.selectedClaim.stateId, this.claimManager.selectedClaim.stateAbbreviation)
     this.form.patchValue({
       claimId: this.claimManager.selectedClaim.claimId,
       dateOfBirth: dateOfBirth, // NULL
@@ -146,13 +146,17 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   formChange() {
-     
+
   }
   formatDate(input: String) {
-    if(!input) return null;
-    let d = input.toString().substring(0, 10)
-    let date = this.dp.transform(d, "MM/dd/y");
-    return date;
+    if (!input) return null;
+    if (input.indexOf("-") > -1) {
+      let date = input.split("T");
+      let d = date[0].split("-");
+      return d[1] + "/" + d[2] + "/" + d[0];
+    } else {
+      return input;
+    }
   }
   save() {
     let key: any;
@@ -162,9 +166,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       adjustorFax = this.form.value.adjustorFax.replace(/[\D]/g, '');
     this.form.value.adjustorPhone = adjustorPhone
     this.form.value.adjustorFax = adjustorFax;
-    console.log($('#dateOfBirth').val());
-    let dob = $('#dateOfBirth').val()+"";
-    let doi =$('#dateOfInjury').val()+"";
+    let dob = $('#dateOfBirth').val() + "";
+    let doi = $('#dateOfInjury').val() + "";
     this.form.value.dateOfBirth = dob
     this.form.value.dateOfInjury = doi
 
@@ -173,7 +176,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         this.form.value[key] = this.form.value[key] == "" || (this.form.value[key] && String(this.form.value[key]).trim() === "") ? null : this.form.value[key];
       }
     }
-    if(this.form.value.claimId == this.lastForm.claimId && this.form.value.dateOfBirth == this.lastForm.dateOfBirth && this.form.value.genderId == this.lastForm.genderId && this.form.value.payorId == this.lastForm.payorId && this.form.value.adjustorId == this.lastForm.adjustorId && this.form.value.adjustorPhone == this.lastForm.adjustorPhone && this.form.value.dateOfInjury == this.lastForm.dateOfInjury && this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id && this.form.value.adjustorFax == this.lastForm.adjustorFax && this.form.value.address1 == this.lastForm.address1 && this.form.value.address2 == this.lastForm.address2 && this.form.value.city == this.lastForm.city && this.form.value.stateId == this.lastForm.stateId){
+    if (this.form.value.claimId == this.lastForm.claimId && this.form.value.dateOfBirth == this.lastForm.dateOfBirth && this.form.value.genderId == this.lastForm.genderId && this.form.value.payorId == this.lastForm.payorId && this.form.value.adjustorId == this.lastForm.adjustorId && this.form.value.adjustorPhone == this.lastForm.adjustorPhone && this.form.value.dateOfInjury == this.lastForm.dateOfInjury && this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id && this.form.value.adjustorFax == this.lastForm.adjustorFax && this.form.value.address1 == this.lastForm.address1 && this.form.value.address2 == this.lastForm.address2 && this.form.value.city == this.lastForm.city && this.form.value.stateId == this.lastForm.stateId) {
       this.toast.warning('No changes were made.', 'Not saved');
     } else if (!this.form.controls['payorId'].value) { //Check for the required payorId
       this.toast.warning('Please link a Carrier');
@@ -183,15 +186,15 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       let form: any = {};
       form.claimId = this.form.value.claimId;
       //check nullable values 
-      form.claimFlex2Id = this.form.value.claimFlex2Id != this.lastForm.claimFlex2Id ?  Number(this.form.value.claimFlex2Id) : undefined;
-      form.payorId = this.form.value.payorId != this.lastForm.payorId ?  Number(this.form.value.payorId) : undefined;
+      form.claimFlex2Id = this.form.value.claimFlex2Id != this.lastForm.claimFlex2Id ? Number(this.form.value.claimFlex2Id) : undefined;
+      form.payorId = this.form.value.payorId != this.lastForm.payorId ? Number(this.form.value.payorId) : undefined;
       form.genderId = this.form.value.genderId != this.lastForm.genderId ? Number(this.form.value.genderId) : undefined;
-      form.stateId = this.form.value.stateId != this.lastForm.stateId ?  Number(this.form.value.stateId) : undefined;
+      form.stateId = this.form.value.stateId != this.lastForm.stateId ? Number(this.form.value.stateId) : undefined;
       form.dateOfBirth = dob != this.lastForm.dateOfBirth ? this.form.value.dateOfBirth : undefined, // NULL  
-      form.dateOfInjury = this.lastForm.dateOfInjury != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
-      form.address1 = this.form.value.address1 != this.lastForm.address1 ? this.form.value.address1 : undefined;
+        form.dateOfInjury = this.lastForm.dateOfInjury != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
+        form.address1 = this.form.value.address1 != this.lastForm.address1 ? this.form.value.address1 : undefined;
       form.address2 = this.form.value.address2 != this.lastForm.address2 ? this.form.value.address2 : undefined;
-      form.adjustorId = this.adjustor && this.adjustor.adjustorName != this.lastForm.adjustor ?  Number(this.form.value.adjustorId) : undefined;
+      form.adjustorId = this.adjustor && this.adjustor.adjustorName != this.lastForm.adjustor ? Number(this.form.value.adjustorId) : undefined;
       form.adjustorPhone = this.form.value.adjustorPhone != this.lastForm.adjustorPhone ? this.form.value.adjustorPhone : undefined;
       form.adjustorFax = this.form.value.adjustorFax != this.lastForm.adjustorFax ? this.form.value.adjustorFax : undefined;
       form.city = this.form.value.city != this.lastForm.city ? this.form.value.city : undefined;
@@ -242,7 +245,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           this.claimManager.selectedClaim.genderId = form.genderId;
         }
         if (form.stateId) {
-          let newState = this.claimManager.selectedClaim.states.find(g => g.stateId+"" == form.stateId+"");      
+          let newState = this.claimManager.selectedClaim.states.find(g => g.stateId + "" == form.stateId + "");
           this.claimManager.selectedClaim.stateAbbreviation = newState.stateName;
           this.claimManager.selectedClaim.stateId = form.stateId;
         }
