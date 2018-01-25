@@ -201,7 +201,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									ClaimNumber = s.c.ClaimNumber,
                                     AdjustorId = null == s.c.Adjustor ? (int?) null : s.c.Adjustor.AdjustorId,
                                     PayorId = s.c.Payor.PayorId,
-                                    StateId = null == s.c.JurisdictionStateId ? (int?) null : s.c.JurisdictionStateId.StateId,
+                                    StateId = null == s.p.StateId ? (int?) null : s.p.StateId.StateId,
                                     PatientGenderId = s.p.Gender.GenderId,
 								    ClaimFlex2Id = null == s.c.ClaimFlex2 ? (int?) null : s.c.ClaimFlex2.ClaimFlex2Id
                                 }).SingleOrDefault();
