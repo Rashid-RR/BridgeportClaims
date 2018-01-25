@@ -1,6 +1,6 @@
 <ng-container *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
     <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
-        <form class="form-horizontal" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" novalidate (change)="formChange()">
+        <form class="form-horizontal" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" novalidate>
             <div class="col-sm-6 invoice-col" *ngIf="claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId">
                 <address class="border-style">
                     <div class="form-group">

@@ -79,8 +79,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.adjustorId = '';
       this.payor = undefined;
       this.adjustor = undefined;
-    })
-
+    });
   }
   edit() {
     this.editing = true;
@@ -125,7 +124,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       this.payorId = this.claimManager.selectedClaim.carrier as string;
       this.adjustorId = this.claimManager.selectedClaim.adjustor as string;
-
       $('#dateOfBirth').datepicker({
         autoclose: true
       });
@@ -145,9 +143,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     // this.minimize();
   }
 
-  formChange() {
-
-  }
   formatDate(input: String) {
     if (!input) return null;
     if (input.indexOf("-") > -1) {
@@ -170,7 +165,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     let doi = $('#dateOfInjury').val() + "";
     this.form.value.dateOfBirth = dob
     this.form.value.dateOfInjury = doi
-
     for (key in this.form.value) {
       if (this.form.value.hasOwnProperty(key)) {
         this.form.value[key] = this.form.value[key] == "" || (this.form.value[key] && String(this.form.value[key]).trim() === "") ? null : this.form.value[key];
