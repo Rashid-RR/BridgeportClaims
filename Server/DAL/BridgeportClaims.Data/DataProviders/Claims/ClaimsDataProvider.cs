@@ -194,6 +194,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Flex2 = null != s.c.ClaimFlex2 ? s.c.ClaimFlex2.Flex2 : null,
 									Gender = null == s.p.Gender ? null : s.p.Gender.GenderName,
 									DateOfBirth = s.p.DateOfBirth,
+                                    DateOfInjury = s.c.DateOfInjury,
 									EligibilityTermDate = s.c.TermDate,
 									PatientPhoneNumber = s.p.PhoneNumber,
 									DateEntered = s.c.DateOfInjury,
