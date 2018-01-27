@@ -22,7 +22,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    _episodeTypeRepository = episodeTypeRepository;
 		}
 
-	    public IList<EpisodeResultsDto> GetEpisodes(bool resolved, string sortColumn, string sortDirection, int pageNumber) =>
+	    public IList<EpisodeResultsDto> GetEpisodes(bool resolved, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
@@ -58,6 +58,13 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                     pageNumberParam.Direction = ParameterDirection.Input;
 	                pageNumberParam.ParameterName = "@PageNumber";
                     cmd.Parameters.Add(pageNumberParam);
+	                var pageSizeParam = cmd.CreateParameter();
+	                pageSizeParam.DbType = DbType.Int32;
+                    pageSizeParam.SqlDbType = SqlDbType.BigInt;
+                    pageSizeParam.Direction = ParameterDirection.Input;
+	                pageSizeParam.Value = pageSize;
+	                pageSizeParam.ParameterName = "@PageSize";
+                    cmd.Parameters.Add(pageSizeParam);
 	                var totalPageSizeParam = cmd.CreateParameter();
 	                totalPageSizeParam.ParameterName = "@TotalPageSize";
                     totalPageSizeParam.Direction = ParameterDirection.Output;
@@ -105,7 +112,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		{
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
-				DisposableService.Using(() => new SqlCommand("uspSaveEpisode", conn), cmd =>
+				DisposableService.Using(() => new SqlCommand("dbo.uspSaveEpisode", conn), cmd =>
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
 					var epId = new SqlParameter

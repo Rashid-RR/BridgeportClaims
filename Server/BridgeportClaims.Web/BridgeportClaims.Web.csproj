@@ -325,6 +325,7 @@
     <Compile Include="Models\DiariesViewModel.cs" />
     <Compile Include="Models\DocumentIndexViewModel.cs" />
     <Compile Include="Models\EditClaimImageViewModel.cs" />
+    <Compile Include="Models\EpisodesViewModel.cs" />
     <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Email\Models\EmailViewModel.cs" />
     <Compile Include="Models\PaymentPosting.cs" />
