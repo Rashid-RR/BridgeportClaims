@@ -79,7 +79,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                         var episodeIdOrdinal = reader.GetOrdinal("EpisodeId");
                         var ownerOrdinal = reader.GetOrdinal("Owner");
                         var createdOrdinal = reader.GetOrdinal("Created");
-                        var patientNameOrdinal = reader.GetOrdinal("Patient");
+                        var patientNameOrdinal = reader.GetOrdinal("PatientName");
                         var claimNumberOrdinal = reader.GetOrdinal("ClaimNumber");
                         var typeOrdinal = reader.GetOrdinal("Type");
                         var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
