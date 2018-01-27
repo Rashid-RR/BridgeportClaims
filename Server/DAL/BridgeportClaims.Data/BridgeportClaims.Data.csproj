@@ -139,6 +139,8 @@
     <Compile Include="Dtos\DocumentsDto.cs" />
     <Compile Include="Dtos\DocumentTypeDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
+    <Compile Include="Dtos\EpisodeResultsDto.cs" />
+    <Compile Include="Dtos\EpisodesDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GenderDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
