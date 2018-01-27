@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
@@ -22,7 +21,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    _episodeTypeRepository = episodeTypeRepository;
 		}
 
-	    public IList<EpisodeResultsDto> GetEpisodes(bool resolved, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+	    public EpisodesDto GetEpisodes(bool resolved, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
@@ -71,7 +70,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                     totalPageSizeParam.DbType = DbType.Int32;
                     totalPageSizeParam.SqlDbType = SqlDbType.Int;
                     cmd.Parameters.Add(totalPageSizeParam);
-                    var retVal = new List<EpisodeResultsDto>();
+                    var list = new List<EpisodeResultsDto>();
+	                var retVal = new EpisodesDto();
 	                if (conn.State != ConnectionState.Open)
 	                    conn.Open();
                     DisposableService.Using(cmd.ExecuteReader, reader =>
@@ -99,11 +99,13 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                                 Carrier = !reader.IsDBNull(carrierOrdinal) ? reader.GetString(carrierOrdinal) : string.Empty,
                                 EpisodeNote = !reader.IsDBNull(episodeNoteOrdinal) ? reader.GetString(episodeNoteOrdinal) : string.Empty
                             };
-                            retVal.Add(result);
+                            list.Add(result);
                         }
                     });
 	                if (conn.State != ConnectionState.Closed)
 	                    conn.Close();
+	                retVal.EpisodeResults = list;
+	                retVal.TotalRowCount = totalPageSizeParam.Value as int? ?? default(int);
 	                return retVal;
 	            });
 	        });
