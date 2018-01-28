@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.CodeDom;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -15,10 +16,17 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	public class EpisodesDataProvider : IEpisodesDataProvider
 	{
 		private readonly IRepository<EpisodeType> _episodeTypeRepository;
+	    private readonly IRepository<Episode> _episodeRepository;
+	    private readonly IRepository<AspNetUsers> _usersRepository;
 
-		public EpisodesDataProvider(IRepository<EpisodeType> episodeTypeRepository)
+		public EpisodesDataProvider(
+            IRepository<EpisodeType> episodeTypeRepository, 
+            IRepository<AspNetUsers> usersRepository, 
+            IRepository<Episode> episodeRepository)
 		{
 		    _episodeTypeRepository = episodeTypeRepository;
+		    _usersRepository = usersRepository;
+		    _episodeRepository = episodeRepository;
 		}
 
 	    public EpisodesDto GetEpisodes(bool resolved, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
@@ -178,5 +186,15 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		        EpisodeTypeId = e.EpisodeTypeId,
 		        EpisodeTypeName = e.TypeName
 		    }).OrderBy(x => x.EpisodeTypeName).ToList();
+
+	    public void ResolveEpisode(int episodeId, string modifiedByUserId)
+	    {
+	        var episodeEntity = _episodeRepository.Get(episodeId);
+            if (null == episodeEntity)
+                throw new Exception($"Not not find Episode with ID {episodeId}");
+	        episodeEntity.UpdatedOnUtc = DateTime.UtcNow;
+            episodeEntity.ModifiedByUser = _usersRepository.Get(modifiedByUserId);
+            _episodeRepository.Save(episodeEntity);
+        }
 	}
 }

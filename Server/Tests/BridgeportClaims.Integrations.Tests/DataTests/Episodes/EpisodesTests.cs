@@ -1,20 +1,26 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Data.SessionFactory;
+using BridgeportClaims.Entities.DomainModels;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
 {
     [TestClass]
     public class EpisodesTests
     {
-        //private readonly IRepository<Episode> _episodeRepository;
-        //private readonly IRepository<AspNetUsers> _usersRepository;
+        private readonly IRepository<Episode> _episodeRepository;
+        private readonly IRepository<AspNetUsers> _usersRepository;
 
         public EpisodesTests()
         {
-            //_episodeRepository = new Repository<Episode>(FluentSessionProvider.GetSession());
-            //_usersRepository = new Repository<AspNetUsers>(FluentSessionProvider.GetSession());
+            _episodeRepository = new Repository<Episode>(FluentSessionProvider.GetSession());
+            _usersRepository = new Repository<AspNetUsers>(FluentSessionProvider.GetSession());
         }
 
-        /*[TestMethod]
+        [TestMethod]
         public void CanPullRandomEpisodeFromDb()
         {
             // Arrange, Act.
@@ -22,8 +28,8 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
                 s => new EpisodeTestDto
                 {
                     EpisodeId = s.EpisodeId,
-                    AcquiredUserId = s.AcquiredUserId,
-                    AssignedUserId = s.AssignedUserId,
+                    AcquiredUser = s.AcquiredUser,
+                    AssignedUser = s.AssignedUser,
                     Claim = s.Claim,
                     CreatedDateUtc = s.CreatedDateUtc,
                     CreatedOnUtc = s.CreatedOnUtc,
@@ -33,7 +39,8 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
                     ResolvedDateUtc = s.ResolvedDateUtc,
                     UpdatedOnUtc = s.UpdatedOnUtc,
                     RxNumber = s.RxNumber,
-                    ResolvedUserId = s.ResolvedUserId,
+                    ResolvedUser = s.ResolvedUser,
+                    ModifiedByUser = s.ModifiedByUser,
                     Role = s.Role,
                     Status = s.Status
                 }).SingleOrDefault();
@@ -46,8 +53,8 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
 
             var entity = new Episode
             {
-                AcquiredUserId = users[0],
-                AssignedUserId = users[1],
+                AcquiredUser = users[0],
+                AssignedUser = users[1],
                 Claim = episode.Claim,
                 CreatedDateUtc = episode.CreatedDateUtc,
                 CreatedOnUtc = episode.CreatedOnUtc,
@@ -57,13 +64,47 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
                 ResolvedDateUtc = episode.ResolvedDateUtc,
                 UpdatedOnUtc = episode.UpdatedOnUtc,
                 RxNumber = episode.RxNumber,
-                ResolvedUserId = users[2],
+                ResolvedUser = users[2],
+                ModifiedByUser = users[3],
                 Role = episode.Role,
                 Status = episode.Status
             };
 
             _episodeRepository.Save(entity);
-            
-        }*/
+        }
+
+        private class EpisodeTestDto
+        {
+            [Required]
+            public int EpisodeId { get; set; }
+            [Required]
+            public Claim Claim { get; set; }
+            public EpisodeType EpisodeType { get; set; }
+            public AspNetUsers AcquiredUser { get; set; }
+            public AspNetUsers AssignedUser { get; set; }
+            public AspNetUsers ResolvedUser { get; set; }
+            public AspNetUsers ModifiedByUser { get; set; }
+            public Pharmacy Pharmacy { get; set; }
+            public DocumentIndex DocumentIndex { get; set; }
+            [Required]
+            [StringLength(8000)]
+            public string Note { get; set; }
+            [StringLength(25)]
+            public string Role { get; set; }
+            [StringLength(100)]
+            public string RxNumber { get; set; }
+            [StringLength(1)]
+            public string Status { get; set; }
+            public DateTime? CreatedDateUtc { get; set; }
+            [StringLength(255)]
+            public string Description { get; set; }
+            public DateTime? ResolvedDateUtc { get; set; }
+
+            [Required]
+            public DateTime CreatedOnUtc { get; set; }
+
+            [Required]
+            public DateTime UpdatedOnUtc { get; set; }
+        }
     }
 }

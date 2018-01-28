@@ -19,10 +19,11 @@ namespace BridgeportClaims.Entities.DomainModels
 	        ClaimsUserHistory = new List<ClaimsUserHistory>();
 	        Diary = new List<Diary>();
 	        Document = new List<Document>();
-            DocumentIndex = new List<DocumentIndex>();
-	        ResolvedUserId = new List<Episode>();
-	        AcquiredUserId = new List<Episode>();
-	        AssignedUserId = new List<Episode>();
+	        DocumentIndex = new List<DocumentIndex>();
+	        AcquiredUser = new List<Episode>();
+	        AssignedUser = new List<Episode>();
+	        ResolvedUser = new List<Episode>();
+	        ModifiedByUser = new List<Episode>();
 	        Patient = new List<Patient>();
 	        PrescriptionNote = new List<PrescriptionNote>();
 	        PrescriptionPayment = new List<PrescriptionPayment>();
@@ -68,10 +69,11 @@ namespace BridgeportClaims.Entities.DomainModels
 	    public virtual IList<ClaimsUserHistory> ClaimsUserHistory { get; set; }
 	    public virtual IList<Diary> Diary { get; set; }
 	    public virtual IList<Document> Document { get; set; }
-        public virtual IList<DocumentIndex> DocumentIndex { get; set; }
-	    public virtual IList<Episode> ResolvedUserId { get; set; }
-	    public virtual IList<Episode> AcquiredUserId { get; set; }
-	    public virtual IList<Episode> AssignedUserId { get; set; }
+	    public virtual IList<DocumentIndex> DocumentIndex { get; set; }
+	    public virtual IList<Episode> AcquiredUser { get; set; }
+	    public virtual IList<Episode> AssignedUser { get; set; }
+	    public virtual IList<Episode> ResolvedUser { get; set; }
+	    public virtual IList<Episode> ModifiedByUser { get; set; }
 	    public virtual IList<Patient> Patient { get; set; }
 	    public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
 	    public virtual IList<PrescriptionPayment> PrescriptionPayment { get; set; }

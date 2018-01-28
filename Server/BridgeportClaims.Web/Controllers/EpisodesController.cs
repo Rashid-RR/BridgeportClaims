@@ -22,15 +22,37 @@ namespace BridgeportClaims.Web.Controllers
 		}
 
 	    [HttpPost]
-	    [Route("get")]
-	    public IHttpActionResult GetEpisodes(EpisodesViewModel model)
+	    [Route("resolved")]
+	    public async Task<IHttpActionResult> MarkEpisodeAsResolved(int episodeId)
 	    {
 	        try
 	        {
-	            var results = _episodesDataProvider.GetEpisodes(model.Resolved, model.SortColumn, model.SortDirection,
-                    model.PageNumber, model.PageSize);
-	            return Ok(results);
+	            return await Task.Run(() =>
+	            {
+	                var userId = User.Identity.GetUserId();
+                    _episodesDataProvider.ResolveEpisode(episodeId, userId);
+	                return Ok();
+	            });
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+	    }
 
+	    [HttpPost]
+	    [Route("get")]
+	    public async Task<IHttpActionResult> GetEpisodes(EpisodesViewModel model)
+	    {
+	        try
+	        {
+	            return await Task.Run(() =>
+	            {
+	                var results = _episodesDataProvider.GetEpisodes(model.Resolved, model.SortColumn, model.SortDirection,
+	                    model.PageNumber, model.PageSize);
+	                return Ok(results);
+                });
 	        }
 	        catch (Exception ex)
 	        {
