@@ -114,6 +114,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                    conn.Close();
 	                retVal.EpisodeResults = list;
 	                retVal.TotalRowCount = totalPageSizeParam.Value as int? ?? default(int);
+	                retVal.EpisodeTypes = GetEpisodeTypes();
 	                return retVal;
 	            });
 	        });
@@ -180,7 +181,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			});
 		}
 
-		public IList<EpisodeTypeDto> GetEpisodeTypes() => _episodeTypeRepository.GetAll()
+		public IList<EpisodeTypeDto> GetEpisodeTypes() => _episodeTypeRepository.GetAll()?
 		    .Select(e => new EpisodeTypeDto
 		    {
 		        EpisodeTypeId = e.EpisodeTypeId,

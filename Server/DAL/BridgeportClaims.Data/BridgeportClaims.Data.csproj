@@ -185,6 +185,7 @@
     <Compile Include="Mappings\DocumentIndexMap.cs" />
     <Compile Include="Mappings\DocumentMap.cs" />
     <Compile Include="Mappings\DocumentTypeMap.cs" />
+    <Compile Include="Mappings\EpisodeCategoryMap.cs" />
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />

@@ -17,6 +17,8 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual Pharmacy Pharmacy { get; set; }
 	    public virtual DocumentIndex DocumentIndex { get; set; }
 	    [Required]
+	    public virtual EpisodeCategory EpisodeCategory { get; set; }
+        [Required]
 	    [StringLength(8000)]
 	    public virtual string Note { get; set; }
 	    [StringLength(25)]

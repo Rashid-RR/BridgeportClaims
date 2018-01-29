@@ -86,6 +86,7 @@
     <Compile Include="DomainModels\DocumentIndex.cs" />
     <Compile Include="DomainModels\DocumentType.cs" />
     <Compile Include="DomainModels\Episode.cs" />
+    <Compile Include="DomainModels\EpisodeCategory.cs" />
     <Compile Include="DomainModels\EpisodeLink.cs" />
     <Compile Include="DomainModels\EpisodeLinkType.cs" />
     <Compile Include="DomainModels\EpisodeType.cs" />
