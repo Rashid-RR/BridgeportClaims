@@ -1,6 +1,5 @@
 import { Subject } from 'rxjs/Subject';
-import { Component, EventEmitter, Input, ViewChild, OnInit, NgZone, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit, NgZone } from '@angular/core';
 import { HttpService } from "../../services/http-service"
 import { EventsService } from "../../services/events-service"
 import { ClaimManager } from "../../services/claim-manager";
@@ -24,8 +23,7 @@ export class NewEpisodeComponent implements OnInit {
   searchText: string = '';
 
 
-  dropdownVisible: boolean = false;
-  form: FormGroup;
+  dropdownVisible: boolean = false; 
   loading: boolean = false
   showDropDown = new Subject<any>();
   constructor(
@@ -48,7 +46,7 @@ export class NewEpisodeComponent implements OnInit {
   payorSelected($event) {
     console.log($event);
     if (this.payorId && $event.payorId) {
-      this.form.patchValue({ payorId: $event.payorId }); 
+      this.claimManager.episodeForm.patchValue({ payorId: $event.payorId }); 
     }
   }
   pharmacySelected($event) {
@@ -56,7 +54,6 @@ export class NewEpisodeComponent implements OnInit {
       this.claimManager.episodeForm.patchValue({
         pharmacyName: $event.pharmacyName
       });
-      console.info(this.claimManager.episodeForm.value);
       setTimeout(() => {
         this.searchText = undefined;
         this.dropdownVisible = false
