@@ -31,7 +31,7 @@ namespace BridgeportClaims.Web.Controllers
 	            {
 	                var userId = User.Identity.GetUserId();
                     _episodesDataProvider.ResolveEpisode(episodeId, userId);
-	                return Ok();
+	                return Ok(new {message = "The episode was resolved successfully."});
 	            });
 	        }
 	        catch (Exception ex)

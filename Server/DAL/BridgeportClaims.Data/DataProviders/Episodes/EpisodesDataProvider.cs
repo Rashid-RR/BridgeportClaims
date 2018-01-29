@@ -190,11 +190,14 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	    public void ResolveEpisode(int episodeId, string modifiedByUserId)
 	    {
 	        var episodeEntity = _episodeRepository.Get(episodeId);
-            if (null == episodeEntity)
-                throw new Exception($"Not not find Episode with ID {episodeId}");
-	        episodeEntity.UpdatedOnUtc = DateTime.UtcNow;
-            episodeEntity.ModifiedByUser = _usersRepository.Get(modifiedByUserId);
-            _episodeRepository.Save(episodeEntity);
-        }
+	        if (null == episodeEntity)
+	            throw new Exception($"Not not find Episode with ID {episodeId}");
+	        var now = DateTime.UtcNow;
+	        var user = _usersRepository.Get(modifiedByUserId);
+	        episodeEntity.UpdatedOnUtc = now;
+	        episodeEntity.ModifiedByUser = user;
+	        episodeEntity.ResolvedDateUtc = now;
+	        _episodeRepository.Save(episodeEntity);
+	    }
 	}
 }
