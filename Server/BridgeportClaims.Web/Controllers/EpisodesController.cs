@@ -22,7 +22,7 @@ namespace BridgeportClaims.Web.Controllers
 		}
 
 	    [HttpPost]
-	    [Route("resolved")]
+	    [Route("resolve")]
 	    public async Task<IHttpActionResult> MarkEpisodeAsResolved(int episodeId)
 	    {
 	        try
