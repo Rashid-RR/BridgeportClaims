@@ -105,4 +105,5 @@ label.check-label{
     width: fit-content;
     margin-left:5px;
     cursor: pointer;
+    font-weight: normal;
   }

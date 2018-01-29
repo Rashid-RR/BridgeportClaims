@@ -5,7 +5,7 @@ import { ClaimManager } from "../../services/claim-manager";
 import { PrescriptionNoteType } from "../../models/prescription-note-type";
 import swal from "sweetalert2";
 import { ClaimNote } from "../../models/claim-note"
-import { Episode } from "../../models/episode"
+import { Episode } from "../../interfaces/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from "@angular/router";
 import { DatePipe, DecimalPipe } from '@angular/common';
@@ -300,7 +300,7 @@ export class ClaimsComponent implements OnInit {
     if (note) {
       note_text = note;
       }else{
-        note_text = episode.note ? episode.note : episode.noteText;
+        note_text = episode.episodeNote ? episode.episodeNote : episode.episodeNote;
      }
     }
 

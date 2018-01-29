@@ -70,10 +70,10 @@ tr:nth-of-type(even) {
 
 .top-header{
     height:56px;
-    width: calc(98% - 15px);
+    /* width: calc(98% - 15px);
     width: -webkit-calc(98% - 15px);
     width: -o-calc(98% - 15px);
-    width: -moz-calc(98% - 15px);
+    width: -moz-calc(98% - 15px); */
     position: absolute;
     overflow: hidden;
 }

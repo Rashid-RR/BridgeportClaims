@@ -19,7 +19,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   open: boolean = true;
   closed: Boolean = false;
   submitted: boolean = false;
-  isClosed: Boolean = false;
+  resolved: Boolean = false;
   constructor(
     public ds: EpisodeService,
     private dp: DatePipe,
@@ -46,14 +46,14 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
 
   setClosed($event, value) {
     if ($event.target.checked) {
-      this.isClosed = value;
+      this.resolved = value;
       this.search();
     }
   }
   search() {
     let startDate = this.dp.transform($('#startDate').val(), "MM/dd/yyyy");
     let endDate = this.dp.transform($('#endDate').val(), "MM/dd/yyyy");
-    this.ds.data.closed = this.isClosed;
+    this.ds.data.resolved = this.resolved;
     this.ds.data.startDate = startDate || null
     this.ds.data.endDate = endDate || null
     this.ds.search();
@@ -61,7 +61,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
 
   clearText() {
     this.ds.owner = null;
-    this.ds.diaryNote = null;
+    this.ds.episodeNote = null;
   }
   clearDates() {
     $('#startDate').val('');
@@ -71,7 +71,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     $('#startDate').val('');
     $('#endDate').val('');
     this.ds.owner = null;
-    this.ds.diaryNote = null;
+    this.ds.episodeNote = null;
   }
 
 }
