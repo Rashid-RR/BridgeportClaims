@@ -114,7 +114,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                    conn.Close();
 	                retVal.EpisodeResults = list;
 	                retVal.TotalRowCount = totalPageSizeParam.Value as int? ?? default(int);
-	                retVal.EpisodeTypes = GetEpisodeTypes();
 	                return retVal;
 	            });
 	        });
