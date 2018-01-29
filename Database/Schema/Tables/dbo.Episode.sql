@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[Episode]
 [PharmacyNABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DocumentID] [int] NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[EpisodeCategoryID] [int] NOT NULL CONSTRAINT [dfFake] DEFAULT ((1)),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -31,7 +32,9 @@ CREATE NONCLUSTERED INDEX [idxEpisodeAcquiredUserID] ON [dbo].[Episode] ([Acquir
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeAssignedUserID] ON [dbo].[Episode] ([AssignedUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeClaimIDEpisodeTypeIDIncludeAll] ON [dbo].[Episode] ([ClaimID], [EpisodeTypeID]) INCLUDE ([AcquiredUserID], [AssignedUserID], [CreatedDateUTC], [CreatedOnUTC], [Description], [DocumentID], [EpisodeID], [ModifiedByUserID], [Note], [PharmacyNABP], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeClaimIDEpisodeTypeIDIncludeAll] ON [dbo].[Episode] ([ClaimID], [EpisodeTypeID]) INCLUDE ([AcquiredUserID], [AssignedUserID], [CreatedDateUTC], [CreatedOnUTC], [Description], [DocumentID], [EpisodeCategoryID], [EpisodeID], [ModifiedByUserID], [Note], [PharmacyNABP], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (FILLFACTOR=90) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryID] ON [dbo].[Episode] ([EpisodeCategoryID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodePharmacyNABP] ON [dbo].[Episode] ([PharmacyNABP]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
@@ -44,6 +47,8 @@ GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeDocumentIDDocumentIndexDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[DocumentIndex] ([DocumentID])
+GO
+ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeEpisodeCategoryIDEpisodeCategoryEpisodeCategoryID] FOREIGN KEY ([EpisodeCategoryID]) REFERENCES [dbo].[EpisodeCategory] ([EpisodeCategoryID])
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeEpisodeTypeIDEpisodeTypeEpisodeTypeID] FOREIGN KEY ([EpisodeTypeID]) REFERENCES [dbo].[EpisodeType] ([EpisodeTypeID])
 GO

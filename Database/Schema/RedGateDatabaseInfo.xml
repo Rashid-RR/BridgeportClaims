@@ -57,7 +57,7 @@
     <DataWriteAllFilesInOneDirectory>True</DataWriteAllFilesInOneDirectory>
   </WriteToFileOptions>
   <DataFileSet>
-    <Count>19</Count>
+    <Count>20</Count>
     <DataFile>dbo.AspNetRoles_Data.sql</DataFile>
     <DataFile>dbo.Gender_Data.sql</DataFile>
     <DataFile>dbo.UsState_Data.sql</DataFile>
@@ -77,5 +77,6 @@
     <DataFile>dbo.ImportedEpisodes_Data.sql</DataFile>
     <DataFile>dbo.ClaimFlex2_Data.sql</DataFile>
     <DataFile>dbo.PrescriptionStatus_Data.sql</DataFile>
+    <DataFile>dbo.EpisodeCategory_Data.sql</DataFile>
   </DataFileSet>
 </DatabaseInformation>
