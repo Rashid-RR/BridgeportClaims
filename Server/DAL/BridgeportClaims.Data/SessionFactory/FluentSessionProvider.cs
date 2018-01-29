@@ -10,7 +10,6 @@ using NHibernate.Tool.hbm2ddl;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.StringConstants;
 using BridgeportClaims.Data.Mappings.Views;
-using cnm = BridgeportClaims.Data.Mappings.ClaimNoteMap;
 using System.Web;
 
 namespace BridgeportClaims.Data.SessionFactory
@@ -120,10 +119,11 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<DocumentTypeMap>();
 				    m.FluentMappings.Add<PrescriberMap>();
 					m.FluentMappings.Add<ClaimMap>();
-					m.FluentMappings.Add<cnm>();
+					m.FluentMappings.Add<ClaimNoteMap>();
 					m.FluentMappings.Add<ClaimNoteTypeMap>();
 					m.FluentMappings.Add<EpisodeMap>();
 					m.FluentMappings.Add<EpisodeTypeMap>();
+				    m.FluentMappings.Add<EpisodeCategoryMap>();
 					m.FluentMappings.Add<EpisodeLinkMap>();
 					m.FluentMappings.Add<EpisodeLinkTypeMap>();
 				    m.FluentMappings.Add<PrescriptionStatusMap>();

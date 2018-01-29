@@ -10,6 +10,7 @@ namespace BridgeportClaims.Entities.DomainModels
     {
         public Pharmacy()
         {
+            Episode = new List<Episode>();
             Prescription = new List<Prescription>();
         }
         [Required]
@@ -47,6 +48,7 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
+        public virtual IList<Episode> Episode { get; set; }
         public virtual IList<Prescription> Prescription { get; set; }
     }
 }

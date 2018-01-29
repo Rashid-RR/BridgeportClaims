@@ -139,6 +139,8 @@
     <Compile Include="Dtos\DocumentsDto.cs" />
     <Compile Include="Dtos\DocumentTypeDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
+    <Compile Include="Dtos\EpisodeResultsDto.cs" />
+    <Compile Include="Dtos\EpisodesDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
     <Compile Include="Dtos\GenderDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
@@ -183,6 +185,7 @@
     <Compile Include="Mappings\DocumentIndexMap.cs" />
     <Compile Include="Mappings\DocumentMap.cs" />
     <Compile Include="Mappings\DocumentTypeMap.cs" />
+    <Compile Include="Mappings\EpisodeCategoryMap.cs" />
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />

@@ -29,5 +29,7 @@ ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileName] UNIQUE NONCL
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileUrl] UNIQUE NONCLUSTERED  ([FileUrl]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxDocumentModifiedByUserID] ON [dbo].[Document] ([ModifiedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [fkDocumentModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

@@ -20,7 +20,6 @@ CREATE TABLE [dbo].[ClaimAudit]
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOnUTC] [datetime2] NOT NULL,
 [UpdatedOnUTC] [datetime2] NOT NULL,
-[DataVersion] [timestamp] NOT NULL,
 [Operation] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [SystemUser] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AuditDateUTC] [datetime2] NOT NULL

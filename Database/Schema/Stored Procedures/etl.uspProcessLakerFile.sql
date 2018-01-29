@@ -1064,9 +1064,13 @@ AS BEGIN
 	FROM    [etl].[LatestStagedLakerFileLoaded] AS [l]
 	WHERE	1 = 1;
 
+	-- Insert initial Audit Records
+	EXECUTE dbo.uspInsertInitialAuditRecords;
+
 	-- Enable Triggers
 	ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 END
+
 GO
