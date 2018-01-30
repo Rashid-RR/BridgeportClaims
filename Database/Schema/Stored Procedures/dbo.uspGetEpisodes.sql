@@ -6,14 +6,17 @@ GO
 	Author:			Jordan Gurney
 	Create Date:	11/29/2017
 	Description:	CRUD Proc inserting into [dbo].[DocumentIndex]
+	Modified:		Removed performance Hog: [dtme].[udfGetLocalDateTime]
 	Sample Execute:
-					EXEC [dbo].[uspGetEpisodes] @Resolved = 0,
-						@SortColumn = N'PatientName', @SortDirection = N'DESC',
-						@PageNumber = 1, @PageSize = 5000
+					DECLARE @TotalPageSize INT
+					EXEC [dbo].[uspGetEpisodes] @Resolved = 1, @OwnerID = 'e9c4cd49-251f-4782-97be-2e8f6d90c328',
+						@SortColumn = N'PatientName', @SortDirection = N'asc',
+						@PageNumber = 1, @PageSize = 50000, @TotalPageSize = @TotalPageSize
 */
 CREATE PROC [dbo].[uspGetEpisodes]
 (
 	@Resolved BIT,
+	@OwnerID NVARCHAR(128),
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
@@ -25,6 +28,13 @@ AS BEGIN
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
+
+		-- Param Sniffing
+		DECLARE @iResolved BIT = @Resolved,
+				@iSortColumn VARCHAR(50) = @SortColumn,
+				@iSortDirection VARCHAR(5) = @SortDirection,
+				@iPageNumber INTEGER = @PageNumber,
+				@iPageSize INTEGER = @PageSize;
 
 		CREATE TABLE [#Episodes](
 			[EpisodeId] [int] NOT NULL,
@@ -41,9 +51,9 @@ AS BEGIN
 		DECLARE @Spacing NVARCHAR(2) = N', ';
 		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber]
 				,[Type],[Pharmacy],[Carrier],[EpisodeNote])
-		SELECT          EpisodeId     = [ep].[EpisodeID],
-						[Owner]       = CONCAT([u].[LastName], @Spacing, [u].[FirstName])
-					  , [Created]     = [dtme].[udfGetLocalDateTime](ep.CreatedOnUTC)
+		SELECT          EpisodeId     = [ep].[EpisodeID]
+					  ,	[Owner]       = CONCAT([u].[LastName], @Spacing, [u].[FirstName])
+					  , [Created]     = ep.CreatedOnUTC
 					  , [PatientName] = CONCAT([pa].LastName, @Spacing, [pa].FirstName)
 					  , [ClaimNumber] = cl.ClaimNumber
 					  , [Type]        = et.TypeName
@@ -58,7 +68,8 @@ AS BEGIN
 			LEFT JOIN   dbo.EpisodeType     AS et ON ep.EpisodeTypeID = et.EpisodeTypeID
 			LEFT JOIN   dbo.DocumentIndex   AS di ON ep.DocumentID = di.DocumentID
 			LEFT JOIN   [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [ep].[AssignedUserID]
-		WHERE @Resolved = CASE WHEN ep.ResolvedDateUTC IS NOT NULL THEN 1 ELSE 0 END
+		WHERE @iResolved = CASE WHEN ep.ResolvedDateUTC IS NOT NULL THEN 1 ELSE 0 END
+			  AND (@OwnerID IS NULL OR [u].[ID] = @OwnerID)
 
 		SELECT @TotalPageSize = COUNT(*) FROM [#Episodes] AS [e]
 
@@ -72,44 +83,44 @@ AS BEGIN
              , [e].[Pharmacy]
              , [e].[Carrier]
              , [e].[EpisodeNote] FROM [#Episodes] AS [e]
-		ORDER BY CASE WHEN @SortColumn = 'EpisodeId' AND @SortDirection = 'ASC'
+		ORDER BY CASE WHEN @iSortColumn = 'EpisodeId' AND @iSortDirection = 'ASC'
 				THEN [e].[EpisodeID] END ASC,
-			 CASE WHEN @SortColumn = 'EpisodeId' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'EpisodeId' AND @iSortDirection = 'DESC'
 				THEN [e].[EpisodeID] END DESC,
-			 CASE WHEN @SortColumn = 'Owner' AND @SortDirection = 'ASC'
+			 CASE WHEN @iSortColumn = 'Owner' AND @iSortDirection = 'ASC'
 				THEN [e].[Owner] END ASC,
-			 CASE WHEN @SortColumn = 'Owner' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'Owner' AND @iSortDirection = 'DESC'
 				THEN [e].[Owner] END DESC,
-			 CASE WHEN @SortColumn = 'Created' AND @SortDirection = 'ASC'
+			 CASE WHEN @iSortColumn = 'Created' AND @iSortDirection = 'ASC'
 				THEN [e].[Created] END ASC,
-			 CASE WHEN @SortColumn = 'Created' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'Created' AND @iSortDirection = 'DESC'
 				THEN [e].[Created] END DESC,
-			 CASE WHEN @SortColumn = 'PatientName' AND @SortDirection = 'ASC'
+			 CASE WHEN @iSortColumn = 'PatientName' AND @iSortDirection = 'ASC'
 				THEN [e].[PatientName] END ASC,
-			 CASE WHEN @SortColumn = 'PatientName' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'PatientName' AND @iSortDirection = 'DESC'
 				THEN [e].[PatientName] END DESC,
-			 CASE WHEN @SortColumn = 'ClaimNumber' AND @SortDirection = 'ASC'
+			 CASE WHEN @iSortColumn = 'ClaimNumber' AND @iSortDirection = 'ASC'
 				THEN [e].[ClaimNumber] END ASC,
-			 CASE WHEN @SortColumn = 'ClaimNumber' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'ClaimNumber' AND @iSortDirection = 'DESC'
 				THEN [e].[ClaimNumber] END DESC,
-			 CASE WHEN @SortColumn = 'Type' AND @SortDirection = 'ASC'
+			 CASE WHEN @iSortColumn = 'Type' AND @iSortDirection = 'ASC'
 				THEN e.[Type] END ASC,
-			 CASE WHEN @SortColumn = 'Type' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'Type' AND @iSortDirection = 'DESC'
 				THEN e.[Type] END DESC,
-			 CASE WHEN @SortColumn = 'Pharmacy' AND @SortDirection = 'ASC'
+			 CASE WHEN @iSortColumn = 'Pharmacy' AND @iSortDirection = 'ASC'
 				THEN e.[Pharmacy] END ASC,
-			 CASE WHEN @SortColumn = 'Pharmacy' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'Pharmacy' AND @iSortDirection = 'DESC'
 				THEN e.[Pharmacy] END DESC,
-			 CASE WHEN @SortColumn = 'Carrier' AND @SortDirection = 'ASC'
+			 CASE WHEN @iSortColumn = 'Carrier' AND @iSortDirection = 'ASC'
 				THEN e.[Carrier] END ASC,
-			 CASE WHEN @SortColumn = 'Carrier' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'Carrier' AND @iSortDirection = 'DESC'
 				THEN e.[Carrier] END DESC,
-			 CASE WHEN @SortColumn = 'EpisodeNote' AND @SortDirection = 'ASC'
+			 CASE WHEN @iSortColumn = 'EpisodeNote' AND @iSortDirection = 'ASC'
 				THEN [e].[EpisodeNote] END ASC,
-			 CASE WHEN @SortColumn = 'EpisodeNote' AND @SortDirection = 'DESC'
+			 CASE WHEN @iSortColumn = 'EpisodeNote' AND @iSortDirection = 'DESC'
 				THEN [e].[EpisodeNote] END DESC
-		OFFSET @PageSize * (@PageNumber - 1) ROWS
-		FETCH NEXT @PageSize ROWS ONLY;
+		OFFSET @iPageSize * (@iPageNumber - 1) ROWS
+		FETCH NEXT @iPageSize ROWS ONLY;
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
