@@ -49,7 +49,7 @@ namespace BridgeportClaims.Web.Controllers
 	        {
 	            return await Task.Run(() =>
 	            {
-	                var results = _episodesDataProvider.GetEpisodes(model.Resolved, model.SortColumn, model.SortDirection,
+	                var results = _episodesDataProvider.GetEpisodes(model.Resolved, model.OwnerId, model.SortColumn, model.SortDirection,
 	                    model.PageNumber, model.PageSize);
 	                return Ok(results);
                 });

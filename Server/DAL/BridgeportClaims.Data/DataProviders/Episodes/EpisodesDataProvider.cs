@@ -29,7 +29,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    _episodeRepository = episodeRepository;
 		}
 
-	    public EpisodesDto GetEpisodes(bool resolved, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+	    public EpisodesDto GetEpisodes(bool resolved, string ownerId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
@@ -42,7 +42,15 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                resolvedParam.DbType = DbType.Boolean;
 	                resolvedParam.SqlDbType = SqlDbType.Bit;
 	                cmd.Parameters.Add(resolvedParam);
-	                var sortColumnParam = cmd.CreateParameter();
+	                var ownerIdParam = cmd.CreateParameter();
+	                ownerIdParam.Value = ownerId ?? (object) DBNull.Value;
+                    ownerIdParam.Direction = ParameterDirection.Input;
+                    ownerIdParam.DbType = DbType.String;
+	                ownerIdParam.Size = 128;
+	                ownerIdParam.SqlDbType = SqlDbType.NVarChar;
+	                ownerIdParam.ParameterName = "@OwnerID";
+                    cmd.Parameters.Add(ownerIdParam);
+                    var sortColumnParam = cmd.CreateParameter();
 	                sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
                     sortColumnParam.Direction = ParameterDirection.Input;
                     sortColumnParam.DbType= DbType.AnsiString;
@@ -99,7 +107,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                             {
                                 EpisodeId = !reader.IsDBNull(episodeIdOrdinal) ? reader.GetInt32(episodeIdOrdinal) : throw new Exception("Error, there cannot be a null Episode ID"),
                                 Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
-                                Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : (DateTime?) null,
+                                Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal).ToLocalTime() : (DateTime?) null,
                                 PatientName = !reader.IsDBNull(patientNameOrdinal) ? reader.GetString(patientNameOrdinal) : string.Empty,
                                 ClaimNumber = !reader.IsDBNull(claimNumberOrdinal) ? reader.GetString(claimNumberOrdinal) : string.Empty,
                                 Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,

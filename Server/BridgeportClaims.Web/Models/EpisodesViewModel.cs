@@ -6,6 +6,7 @@ namespace BridgeportClaims.Web.Models
     {
         [Required]
         public bool Resolved { get; set; }
+        public string OwnerId { get; set; } = null;
         [Required]
         public string SortColumn { get; set; }
         [Required]
