@@ -18,18 +18,27 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		private readonly IRepository<EpisodeType> _episodeTypeRepository;
 	    private readonly IRepository<Episode> _episodeRepository;
 	    private readonly IRepository<AspNetUsers> _usersRepository;
+	    private readonly IRepository<EpisodeCategory> _episodeCategoryRepository;
+	    private readonly IRepository<Claim> _claimRepository;
+	    private readonly IRepository<Pharmacy> _pharmacyRepository;
 
-		public EpisodesDataProvider(
+        public EpisodesDataProvider(
             IRepository<EpisodeType> episodeTypeRepository, 
             IRepository<AspNetUsers> usersRepository, 
-            IRepository<Episode> episodeRepository)
+            IRepository<Episode> episodeRepository, 
+            IRepository<EpisodeCategory> episodeCategoryRepository, 
+            IRepository<Claim> claimRepository, 
+            IRepository<Pharmacy> pharmacyRepository)
 		{
 		    _episodeTypeRepository = episodeTypeRepository;
 		    _usersRepository = usersRepository;
 		    _episodeRepository = episodeRepository;
+		    _episodeCategoryRepository = episodeCategoryRepository;
+		    _claimRepository = claimRepository;
+		    _pharmacyRepository = pharmacyRepository;
 		}
 
-	    public EpisodesDto GetEpisodes(bool resolved, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+	    public EpisodesDto GetEpisodes(bool resolved, string ownerId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
@@ -42,7 +51,15 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                resolvedParam.DbType = DbType.Boolean;
 	                resolvedParam.SqlDbType = SqlDbType.Bit;
 	                cmd.Parameters.Add(resolvedParam);
-	                var sortColumnParam = cmd.CreateParameter();
+	                var ownerIdParam = cmd.CreateParameter();
+	                ownerIdParam.Value = ownerId ?? (object) DBNull.Value;
+                    ownerIdParam.Direction = ParameterDirection.Input;
+                    ownerIdParam.DbType = DbType.String;
+	                ownerIdParam.Size = 128;
+	                ownerIdParam.SqlDbType = SqlDbType.NVarChar;
+	                ownerIdParam.ParameterName = "@OwnerID";
+                    cmd.Parameters.Add(ownerIdParam);
+                    var sortColumnParam = cmd.CreateParameter();
 	                sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
                     sortColumnParam.Direction = ParameterDirection.Input;
                     sortColumnParam.DbType= DbType.AnsiString;
@@ -99,7 +116,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                             {
                                 EpisodeId = !reader.IsDBNull(episodeIdOrdinal) ? reader.GetInt32(episodeIdOrdinal) : throw new Exception("Error, there cannot be a null Episode ID"),
                                 Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
-                                Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : (DateTime?) null,
+                                Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal).ToLocalTime() : (DateTime?) null,
                                 PatientName = !reader.IsDBNull(patientNameOrdinal) ? reader.GetString(patientNameOrdinal) : string.Empty,
                                 ClaimNumber = !reader.IsDBNull(claimNumberOrdinal) ? reader.GetString(claimNumberOrdinal) : string.Empty,
                                 Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
@@ -198,6 +215,27 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	        episodeEntity.ModifiedByUser = user;
 	        episodeEntity.ResolvedDateUtc = now;
 	        _episodeRepository.Save(episodeEntity);
+	    }
+
+	    public void SaveNewEpisode(int claimId, int? episodeTypeId, string pharmacyNabp, string rxNumber, string episodeText, string userId)
+	    {
+	        var cat = _episodeCategoryRepository?.GetMany(x => x.Code == "CALL")?.SingleOrDefault();
+            if (null == cat)
+                throw new Exception("Error. Could not find an Episode Category for Code 'CALL'");
+	        var user = _usersRepository.Get(userId);
+            var entity = new Episode
+	        {
+	            EpisodeCategory = cat,
+                UpdatedOnUtc = DateTime.UtcNow,
+                AssignedUser = user,
+                RxNumber = rxNumber,
+                EpisodeType = _episodeTypeRepository.Get(episodeTypeId),
+                Claim = _claimRepository.Get(claimId),
+                Pharmacy = _pharmacyRepository.Get(pharmacyNabp),
+                Note = episodeText,
+                ModifiedByUser = user
+            };
+            _episodeRepository.Save(entity);
 	    }
 	}
 }

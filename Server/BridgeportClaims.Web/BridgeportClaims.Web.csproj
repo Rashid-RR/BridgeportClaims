@@ -301,6 +301,7 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\ServerEventsController.cs" />
     <Compile Include="Controllers\TestChecksController.cs" />
+    <Compile Include="Controllers\TypesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="CustomActionResults\FileResult.cs" />
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
@@ -328,6 +329,7 @@
     <Compile Include="Models\EpisodesViewModel.cs" />
     <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Email\Models\EmailViewModel.cs" />
+    <Compile Include="Models\NewEpisodeViewModel.cs" />
     <Compile Include="Models\PaymentPosting.cs" />
     <Compile Include="Models\PaymentPostingViewModel.cs" />
     <Compile Include="Models\PaymentsSearchModel.cs" />
