@@ -39,16 +39,7 @@ export class NewEpisodeComponent implements OnInit {
 
   get autoCompletePharmacyName(): string {
     return this.http.baseUrl + "/reports/pharmacy-name/?pharmacyName=:keyword";
-  }
-  get payorAutoComplete(): string {
-    return this.http.baseUrl + '/payors/search/?searchText=:keyword';
-  }
-  payorSelected($event) {
-    console.log($event);
-    if (this.payorId && $event.payorId) {
-      this.claimManager.episodeForm.patchValue({ payorId: $event.payorId }); 
-    }
-  }
+  } 
   pharmacySelected($event) {
     if (this.searchText && $event.pharmacyName) {
       this.claimManager.episodeForm.patchValue({

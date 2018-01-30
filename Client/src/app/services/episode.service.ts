@@ -27,6 +27,7 @@ export class EpisodeService {
       isDefaultSort: true,
       /* startDate: null,
       endDate: null, */
+      ownerId:null,
       resolved: false,
       sortColumn: "Owner",
       sortDirection: "DESC",

@@ -65,7 +65,6 @@ export class ClaimManager {
     this.episodeForm = this.formBuilder.group({
       episodeId: [null], // only send on episode edit
       claimId: [null],
-      payorId: [null],
       rxNumber: [null],
       pharmacyName: [null],
       noteText: [''],
