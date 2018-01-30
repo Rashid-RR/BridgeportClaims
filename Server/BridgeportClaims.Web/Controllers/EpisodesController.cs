@@ -22,6 +22,26 @@ namespace BridgeportClaims.Web.Controllers
 		}
 
 	    [HttpPost]
+	    [Route("save")]
+	    public async Task<IHttpActionResult> SaveNewEpisode(NewEpisodeViewModel model)
+	    {
+	        try
+	        {
+	            return await Task.Run(() =>
+	            {
+	                var userId = User.Identity.GetUserId();
+	                _episodesDataProvider.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId, model.PharmacyNabp, model.RxNumber, model.EpisodeText, userId);
+	                return Ok(new {message = "The episode was saved successfully"});
+	            });
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+	        }
+        }
+
+	    [HttpPost]
 	    [Route("resolve")]
 	    public async Task<IHttpActionResult> MarkEpisodeAsResolved(int episodeId)
 	    {
@@ -88,7 +108,7 @@ namespace BridgeportClaims.Web.Controllers
 
 		[HttpGet]
 		[Route("getepisodetypes")]
-        [AllowAnonymous] // TODO: HACK: Front-end keeps throwing 401's from this.
+        [AllowAnonymous]
 		public async Task<IHttpActionResult> GetEpisodeTypes()
 		{
 			try

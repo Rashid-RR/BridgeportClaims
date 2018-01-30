@@ -18,15 +18,24 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		private readonly IRepository<EpisodeType> _episodeTypeRepository;
 	    private readonly IRepository<Episode> _episodeRepository;
 	    private readonly IRepository<AspNetUsers> _usersRepository;
+	    private readonly IRepository<EpisodeCategory> _episodeCategoryRepository;
+	    private readonly IRepository<Claim> _claimRepository;
+	    private readonly IRepository<Pharmacy> _pharmacyRepository;
 
-		public EpisodesDataProvider(
+        public EpisodesDataProvider(
             IRepository<EpisodeType> episodeTypeRepository, 
             IRepository<AspNetUsers> usersRepository, 
-            IRepository<Episode> episodeRepository)
+            IRepository<Episode> episodeRepository, 
+            IRepository<EpisodeCategory> episodeCategoryRepository, 
+            IRepository<Claim> claimRepository, 
+            IRepository<Pharmacy> pharmacyRepository)
 		{
 		    _episodeTypeRepository = episodeTypeRepository;
 		    _usersRepository = usersRepository;
 		    _episodeRepository = episodeRepository;
+		    _episodeCategoryRepository = episodeCategoryRepository;
+		    _claimRepository = claimRepository;
+		    _pharmacyRepository = pharmacyRepository;
 		}
 
 	    public EpisodesDto GetEpisodes(bool resolved, string ownerId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
@@ -206,6 +215,27 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	        episodeEntity.ModifiedByUser = user;
 	        episodeEntity.ResolvedDateUtc = now;
 	        _episodeRepository.Save(episodeEntity);
+	    }
+
+	    public void SaveNewEpisode(int claimId, int? episodeTypeId, string pharmacyNabp, string rxNumber, string episodeText, string userId)
+	    {
+	        var cat = _episodeCategoryRepository?.GetMany(x => x.Code == "CALL")?.SingleOrDefault();
+            if (null == cat)
+                throw new Exception("Error. Could not find an Episode Category for Code 'CALL'");
+	        var user = _usersRepository.Get(userId);
+            var entity = new Episode
+	        {
+	            EpisodeCategory = cat,
+                UpdatedOnUtc = DateTime.UtcNow,
+                AssignedUser = user,
+                RxNumber = rxNumber,
+                EpisodeType = _episodeTypeRepository.Get(episodeTypeId),
+                Claim = _claimRepository.Get(claimId),
+                Pharmacy = _pharmacyRepository.Get(pharmacyNabp),
+                Note = episodeText,
+                ModifiedByUser = user
+            };
+            _episodeRepository.Save(entity);
 	    }
 	}
 }
