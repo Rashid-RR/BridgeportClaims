@@ -38,7 +38,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    _pharmacyRepository = pharmacyRepository;
 		}
 
-	    public EpisodesDto GetEpisodes(bool resolved, string ownerId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+	    public EpisodesDto GetEpisodes(bool resolved, string ownerId, int? episodeCategoryId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
