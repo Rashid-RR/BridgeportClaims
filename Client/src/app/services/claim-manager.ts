@@ -63,12 +63,12 @@ export class ClaimManager {
       this.claims = Immutable.OrderedMap<Number, Claim>();
     });
     this.episodeForm = this.formBuilder.group({
-      episodeId: [null], // only send on episode edit
-      claimId: [null],
+      episodeId: [undefined], // only send on episode edit
+      claimId: [null, Validators.required],
       rxNumber: [null],
-      pharmacyName: [null],
-      noteText: [''],
-      episodeTypeId: ['']
+      pharmacyNabp: [null],
+      episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
+      episodeTypeId: [null]
     });
   }
 
@@ -76,6 +76,26 @@ export class ClaimManager {
     swal.clickCancel();
   }
   saveEpisode() {
+    if (this.episodeForm.valid) {
+      swal({ title: "", html: "Saving Episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
+      this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
+      this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
+      this.http.saveEpisode(this.episodeForm.value).single().map(r=>r.json()).subscribe(res => {
+        this.episodeForm.reset();
+        this.closeModal();
+        this.toast.success(res.message);
+      }, err => {
+        this.events.broadcast("edit-episode", { episodeId: this.episodeForm.value.episodeId, type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText })
+      });
+    } else {
+      if (this.episodeForm.controls['episodeText'].errors.required) {
+        this.toast.warning('Episode Note is required');
+      } else if (this.episodeForm.controls['episodeText'].errors.minlength) {
+        this.toast.warning('Episode Note must be at least 5 characters');
+      } else {
+
+      }
+    }
 
   }
   getHistory() {

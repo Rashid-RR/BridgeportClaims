@@ -20,6 +20,7 @@ export class EpisodeService {
   episodeNote: String;
   totalRowCount: number;
   episodeNoteTypes: Array<EpisodeNoteType> = []
+  owners: Array<{ownerId:any,owner:string}> = []
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private epf: EpisodesFilterPipe,
     private events: EventsService, private toast: ToastsManager) {
@@ -27,9 +28,9 @@ export class EpisodeService {
       isDefaultSort: true,
       /* startDate: null,
       endDate: null, */
-      ownerId:null,
+      OwnerID:null,
       resolved: false,
-      sortColumn: "Owner",
+      sortColumn: "Created",
       sortDirection: "DESC",
       pageNumber: 1,
       pageSize: 30
@@ -39,13 +40,22 @@ export class EpisodeService {
         this.episodeNoteTypes = result;
       }, err => {
         this.loading = false;
-        console.log(err);
+        let error = err.json();
+      });
+    this.http.getEpisodesOwners().map(res => { return res.json() })
+      .subscribe((result: Array<any>) => {
+        this.owners = result;
+      }, err => {
+        this.loading = false; 
         let error = err.json();
       });
   }
 
   refresh() {
 
+  }
+  get episodeTypes():Array<EpisodeNoteType>{
+    return this.episodeNoteTypes
   }
   get totalPages() {
     return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;

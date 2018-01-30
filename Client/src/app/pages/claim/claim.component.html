@@ -91,7 +91,7 @@
                                     <u>
                                         <img src="assets/img/iconepisodes.png">Episodes</u>
                                 </h4>
-                                <span class="tally pull-right" *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.episodes.length>0" style="margin-right:150px;">
+                                <span class="tally pull-right" *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.episodes.length>0" style="margin-right:200px;">
                                     <span style="margin-right: 1rem;">
                                         <span style="font-size:13pt">
                                             {{claimManager.selectedClaim.episodes.length}}
@@ -101,7 +101,7 @@
                                 <div class="box-tools pull-right">
                                     <div class="btn-group" data-toggle="btn-toggle">
                                         <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" title="New Episode" (click)="episode()">
-                                            <img src="assets/Episode.png" width="100px" class="add-btn" />
+                                            <img src="assets/Episode.png" class="add-btn" />
                                         </button>
                                     </div>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right" (click)="minimize('episodes')"

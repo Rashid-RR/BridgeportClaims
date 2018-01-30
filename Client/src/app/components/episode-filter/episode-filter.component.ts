@@ -12,10 +12,10 @@ declare var $: any;
   styleUrls: ['./episode-filter.component.css']
 })
 export class EpisodeFilterComponent implements OnInit, AfterViewInit {
-
-  diaryForm: FormGroup;
+ 
   startDate: String;
   endDate: String;
+  ownerId: string=null;
   open: boolean = true;
   closed: Boolean = false;
   submitted: boolean = false;
@@ -56,6 +56,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     this.ds.data.resolved = this.resolved;
     this.ds.data.startDate = startDate || null
     this.ds.data.endDate = endDate || null
+    this.ds.data.OwnerID = this.ownerId ? this.ownerId : null;
     this.ds.search();
   }
 

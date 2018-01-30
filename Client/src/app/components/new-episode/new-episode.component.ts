@@ -41,12 +41,9 @@ export class NewEpisodeComponent implements OnInit {
     return this.http.baseUrl + "/reports/pharmacy-name/?pharmacyName=:keyword";
   } 
   pharmacySelected($event) {
-    if (this.searchText && $event.pharmacyName) {
-      this.claimManager.episodeForm.patchValue({
-        pharmacyName: $event.pharmacyName
-      });
+    if (this.pharmacyName && $event.nabp) {
+      this.claimManager.episodeForm.controls['pharmacyNabp'].setValue($event.nabp)
       setTimeout(() => {
-        this.searchText = undefined;
         this.dropdownVisible = false
       }, 100);
     }
