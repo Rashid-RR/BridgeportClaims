@@ -101,7 +101,7 @@
                                 <div class="box-tools pull-right">
                                     <div class="btn-group" data-toggle="btn-toggle">
                                         <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" title="New Episode" (click)="episode()">
-                                            <img src="assets/img/add.png" class="add-btn" />
+                                            <img src="assets/Episode.png" width="100px" class="add-btn" />
                                         </button>
                                     </div>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right" (click)="minimize('episodes')"
@@ -259,3 +259,8 @@
         </div>
     </div>
 </div>
+<swal #episodeSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="paymeny-modal"
+[focusCancel]="false" title="Episode Entry">
+   <app-new-episode *swalPartial>    
+    </app-new-episode>
+  <swal>

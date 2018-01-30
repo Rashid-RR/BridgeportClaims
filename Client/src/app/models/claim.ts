@@ -6,7 +6,7 @@ import { DocumentType } from "./document-type";
 import { ClaimImage } from "./claim-image";
 import { PrescriptionNote } from "./prescription-note";
 import { ClaimNote } from "./claim-note";
-import { Episode } from "./episode";
+import { Episode } from "../interfaces/episode";
 import { ClaimFlex2 } from "./claim-flex2";
 import { PrescriptionStatuses } from "./prescription-statuses";
 import * as Immutable from 'immutable';

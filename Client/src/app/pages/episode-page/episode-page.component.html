@@ -35,7 +35,7 @@
                   <i class="fa fa-book" aria-hidden="true"></i> Episode Entries
                 </span>
                 <span class="total pull-right">
-                  <span *ngIf="ds.episodeFilterSize.length>0 && ds.episodeFilterSize.length!=ds.episodeList.length">
+                  <span *ngIf="ds.episodeFilterSize.length>=0 && ds.episodeFilterSize.length!=ds.episodeList.length">
                     <span style="font-size:13pt">{{ds.episodeFilterSize.length}}</span> Record{{ds.episodeFilterSize.length>1 ? 's':''}} filtered</span>
                   &nbsp;&nbsp; &nbsp;
                   <span *ngIf="ds.pageStart  && ds.episodeFilterSize.length==ds.episodeList.length" style="margin-right:100px;">

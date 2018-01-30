@@ -23,25 +23,9 @@ export class EpisodeResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-  }
-  showNote(diary: Diary) {
-    window.open("#/main/claims?claimId=" + diary.claimId + "&prescriptionNoteId=" + diary.prescriptionNoteId, "_blank");
+    this.episodeService.search();
   }
 
-  showNoteWindow(note: PrescriptionNote) {
-    let config = new WindowConfig("Prescription Note", new Size(250, 600))  //height, width
-    config.position = new CustomPosition(50 + Math.random() * 200, 100)//left,top
-    config.minusTop = 91;
-    config.centerInsideParent = false;
-    var temp = {}
-    config.forAny = [temp];
-    config.openAsMaximize = false;
-    this.myInjector.openWindow(DiaryScriptNoteWindowComponent, config)
-      .then((win: DiaryScriptNoteWindowComponent) => {
-        win.showNote(note);
-      })
-  }
   next() {
     this.episodeService.search(true);
   }

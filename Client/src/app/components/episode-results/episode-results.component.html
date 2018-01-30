@@ -41,7 +41,7 @@
                             </span>                            
                         </th>
                        <th>
-                            <span columnSort="insuranceCarrier" [sort-table]="myTable">    
+                            <span columnSort="carrier" [sort-table]="myTable">    
                                 Insurance Carrier
                             </span>
                         </th>
@@ -58,12 +58,12 @@
         <div class="table-responsive table-body">
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #episodeTable tabindex="0">
-                    <tr *ngFor="let episode of (episodeService.episodeList | filterDiary : episodeService.episodeNote : episodeService.owner);" (click)="showNote(episode)">
+                    <tr *ngFor="let episode of (episodeService.episodeList | episodePipe : episodeService.episodeNote : episodeService.owner);">
                         <td>
                             <div class="episodeCheckBox">
-                                <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="episode.diaryId"
+                                <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="episode.episodeId"
                                     #inv>
-                                <label [for]="episode.diaryId" (click)="inv.click()"></label>
+                                <label [for]="episode.episodeId" (click)="inv.click()"></label>
                             </div>
                         </td>
                         <td>{{episode.owner}}</td>
@@ -71,19 +71,19 @@
                         <td>{{episode.patientName}}</td>
                         <td>{{episode.claimNumber}}</td>
                         <td>{{episode.type}}</td>
-                        <td>{{episode.rxNumber}}</td>
-                        <td>{{episode.insuranceCarrier}}</td>
-                        <td>{{episode.diaryNote}}</td>
+                        <td>{{episode.pharmacy}}</td>
+                        <td>{{episode.carrier}}</td>
+                        <td>{{episode.episodeNote}}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="btn-group pagination-row">
-            <button type="button" class="btn btn-default  btn-md" [disabled]="episodeService.data.page<=1" (click)="prev()">Prev</button>
-            <button type="button" class="btn btn-default  selected btn-md" style="width:76px">   {{episodeService.data.page}}  of {{episodeService.totalPages}}</button>
+            <button type="button" class="btn btn-default  btn-md" [disabled]="episodeService.data.pageNumber<=1" (click)="prev()">Prev</button>
+            <button type="button" class="btn btn-default  selected btn-md" style="width:76px">   {{episodeService.data.pageNumber}}  of {{episodeService.totalPages}}</button>
             <button type="button" class="btn btn-default  btn-md" [disabled]="episodeService.end" (click)="next()">Next</button>
             <div class="input-group" style="width:164px">
-                <input class="form-control" [attr.placeholder]="episodeService.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)" (keyup.enter)="goto()" [disabled]="episodeService.totalPages==1">
+                <input class="form-control" [attr.placeholder]="episodeService.data.pageNumber" [(ngModel)]="goToPage" (keypress)="keyPress($event)" (keyup.enter)="goto()" [disabled]="episodeService.totalPages==1">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
                 </div>

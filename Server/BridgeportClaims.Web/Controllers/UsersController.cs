@@ -8,6 +8,8 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.UserRoles;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -18,11 +20,35 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IAspNetUsersProvider _aspNetUsersProvider;
         private readonly IAssignUsersToRolesProvider _assignUsersToRolesProvider;
+        private readonly IRepository<AspNetUsers> _usersRepository;
 
-        public UsersController(IAspNetUsersProvider aspNetUsersProvider, IAssignUsersToRolesProvider assignUsersToRolesProvider)
+        public UsersController(IAspNetUsersProvider aspNetUsersProvider, 
+            IAssignUsersToRolesProvider assignUsersToRolesProvider, 
+            IRepository<AspNetUsers> usersRepository)
         {
             _aspNetUsersProvider = aspNetUsersProvider;
             _assignUsersToRolesProvider = assignUsersToRolesProvider;
+            _usersRepository = usersRepository;
+        }
+
+        [HttpPost]
+        [Route("get-users")]
+        public async Task<IHttpActionResult> GetAllUsers()
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var users = _usersRepository?.GetAll()?.OrderBy(x => x.LastName)
+                        .ThenBy(y => y.FirstName).Select(s => new {OwnerId = s.Id, Owner = s.LastName + ", " + s.FirstName}).ToList();
+                    return Ok(users);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

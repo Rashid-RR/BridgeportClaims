@@ -53,6 +53,7 @@ import { DisplayRolesPipe } from './pipes/display-roles.pipe';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FilterUserPipe } from './pages/users/filter-user.pipe';
 import { DiariesFilterPipe } from './components/diary-results/diary-filter.pipe';
+import { EpisodesFilterPipe } from './components/episode-results/episode-filter.pipe';
 import { DecimalPipe } from '@angular/common';
 import { PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
         PaymentDetailedResultComponent,DiaryScriptNoteWindowComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent,
@@ -80,6 +81,7 @@ import { EpisodePageComponent } from './pages/episode-page/episode-page.componen
 import { EpisodeResultsComponent } from './components/episode-results/episode-results.component';
 import { EpisodeFilterComponent } from './components/episode-filter/episode-filter.component';
 import { EpisodeService } from 'app/services/episode.service';
+import { NewEpisodeComponent } from './components/new-episode/new-episode.component';
 
 @Pipe({name: 'safeStyle'})
 export class SafeStylePipe implements PipeTransform {
@@ -113,12 +115,12 @@ export class SafeUrlPipe implements PipeTransform {
     PhonePipe,DisplayRolesPipe, SafeStylePipe, SafeUrlPipe, ClaimsComponent, ProfileComponent,
     SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
      ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
-     UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, FilterUserPipe,DiariesFilterPipe, FileUploadComponent, FooterComponent,
+     UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, EpisodesFilterPipe,FilterUserPipe,DiariesFilterPipe, FileUploadComponent, FooterComponent,
      PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
      PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
-    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent
+    UnpaidScriptComponent,UnpaidScriptResultsComponent,UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent
   ],
   imports: [
     FormsModule,
@@ -137,7 +139,7 @@ export class SafeUrlPipe implements PipeTransform {
     Ng2Webstorage
   ],
   providers: [
-    PhonePipe,DecimalPipe, DatePipe,DiariesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
+    PhonePipe,DecimalPipe, DatePipe,DiariesFilterPipe,EpisodesFilterPipe,  HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
     PaymentScriptService, DiaryService,WindowsInjetor,UnpaidScriptService,AccountReceivableService,ReportLoaderService,SignalRService,
     DocumentManagerService,EpisodeService,
     {

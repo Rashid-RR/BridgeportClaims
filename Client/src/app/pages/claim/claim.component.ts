@@ -1,14 +1,16 @@
-import { Component, ViewContainerRef, OnInit, HostListener } from '@angular/core';
+import { Component, ViewChild, OnInit, HostListener } from '@angular/core';
 import { HttpService } from "../../services/http-service"
 import { EventsService } from "../../services/events-service"
 import { ClaimManager } from "../../services/claim-manager";
 import { PrescriptionNoteType } from "../../models/prescription-note-type";
 import swal from "sweetalert2";
 import { ClaimNote } from "../../models/claim-note"
-import { Episode } from "../../models/episode"
+import { Episode } from "../../interfaces/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from "@angular/router";
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+
 declare var $: any
 
 @Component({
@@ -18,9 +20,9 @@ declare var $: any
 })
 export class ClaimsComponent implements OnInit {
 
+  @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
+
   @HostListener("window:scroll", [])
-
-
   onWindowScroll() {
     if (window.pageYOffset > 200 && this.claimManager.isPrescriptionsExpanded) {
       let fixedBoxHeader = document.getElementById('pres-box-header');
@@ -44,10 +46,10 @@ export class ClaimsComponent implements OnInit {
 
   constructor(
     private router: Router,
+    public readonly swalTargets: SwalPartialTargets,
     public claimManager: ClaimManager,
     private http: HttpService,
     private dp: DatePipe,
-    private vcr: ViewContainerRef,
     private events: EventsService,
     private toast: ToastsManager
   ) {
@@ -91,8 +93,9 @@ export class ClaimsComponent implements OnInit {
 
   ngOnInit() {
     //$('body').addClass('sidebar-collapse');
-    this.events.on("edit-episode", (id: Number, type: String) => {
-      this.episode(id, type);
+    this.events.on("edit-episode", (episode:Episode) => {
+      console.log(episode);
+      this.episode(episode.episodeId, episode.type,(episode.episodeNote || episode['note']));
     })
     this.events.on("minimize", (...args) => {
       this.minimize(args[0]);
@@ -168,7 +171,7 @@ export class ClaimsComponent implements OnInit {
         showCancelButton: true,
         showLoaderOnConfirm: true,
         confirmButtonText: "Save",
-        cancelButtonClass:'button-on-top',
+        cancelButtonClass: 'button-on-top',
         customClass: 'prescription-modal',
         preConfirm: function () {
           return new Promise(function (resolve) {
@@ -280,7 +283,20 @@ export class ClaimsComponent implements OnInit {
   }
 
 
-  episode(id?: Number, TypeId?: String,note?:string) {
+  episode(id: number = null, TypeId: string = null, note: string = null) {
+
+    this.claimManager.episodeForm.reset();
+    this.claimManager.episodeForm.patchValue({
+      claimId: this.claimManager.selectedClaim.claimId,
+      episodeId: id, // only send on episode edit
+      noteText: note,
+      episodeTypeId: TypeId
+    });
+    this.episodeSwal.show().then((r) => {
+
+    })
+  }
+  episodeOld(id?: number, TypeId?: string, note?: string) {
     var episode: Episode;
 
     // console.log(id);
@@ -297,11 +313,11 @@ export class ClaimsComponent implements OnInit {
     });
     let note_text: String = '';
     if (episode) {
-    if (note) {
-      note_text = note;
-      }else{
-        note_text = episode.note ? episode.note : episode.noteText;
-     }
+      if (note) {
+        note_text = note;
+      } else {
+        note_text = episode.episodeNote ? episode.episodeNote : episode.episodeNote;
+      }
     }
 
     swal({
@@ -337,14 +353,14 @@ export class ClaimsComponent implements OnInit {
         let result = results.value;
         if (result[0] == "") {
           this.toast.warning('A blank note cannot be saved.');
-          setTimeout(() => {            
-            this.episode(id,result[1],result[0]);
+          setTimeout(() => {
+            this.episode(id, result[1], result[0]);
             $('#noteTextLabel').css({ "color": "red" })
           }, 200)
-        } else if(result[0].length <5) {
+        } else if (result[0].length < 5) {
           this.toast.warning('Note must be at least 5 characters.');
           setTimeout(() => {
-            this.episode(id,result[1],result[0]);
+            this.episode(id, result[1], result[0]);
             $('#noteTextLabel').css({ "color": "red" })
           }, 200)
         } else {
@@ -365,7 +381,7 @@ export class ClaimsComponent implements OnInit {
               this.toast.success(result.message);
             }, error => {
               setTimeout(() => {
-                this.episode(id,result[1],result[0]);
+                this.episode(id, result[1], result[0]);
                 this.toast.error('An internal system error has occurred. This will be investigated ASAP.');
               }, 200)
             })

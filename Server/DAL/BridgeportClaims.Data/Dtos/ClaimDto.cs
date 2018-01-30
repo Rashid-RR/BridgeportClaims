@@ -31,6 +31,7 @@ namespace BridgeportClaims.Data.Dtos
         public int? StateId { get; set; }
         public int PatientGenderId { get; set; }
         public int? ClaimFlex2Id { get; set; }
+	    public IList<EpisodeTypeDto> EpisodeTypes { get; set; }
         public DateTime? DateEntered { get; set; }
         public IList<GenderDto> Genders { get; set; }
         public IList<UsStateDto> States { get; set; }

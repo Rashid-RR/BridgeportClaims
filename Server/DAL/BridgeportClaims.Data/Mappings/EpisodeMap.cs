@@ -15,17 +15,21 @@ namespace BridgeportClaims.Data.Mappings
 		    Id(x => x.EpisodeId).GeneratedBy.Identity().Column("EpisodeID");
 		    References(x => x.Claim).Column("ClaimID");
 		    References(x => x.EpisodeType).Column("EpisodeTypeID");
-		    References(x => x.ResolvedUserId).Column("ResolvedUserID");
-		    References(x => x.AcquiredUserId).Column("AcquiredUserID");
-		    References(x => x.AssignedUserId).Column("AssignedUserID");
+		    References(x => x.ResolvedUser).Column("ResolvedUserID");
+		    References(x => x.AcquiredUser).Column("AcquiredUserID");
+		    References(x => x.AssignedUser).Column("AssignedUserID");
+		    References(x => x.Pharmacy).Column("PharmacyNABP");
+		    References(x => x.DocumentIndex).Column("DocumentID");
+		    References(x => x.ModifiedByUser).Column("ModifiedByUserID");
+		    References(x => x.EpisodeCategory).Column("EpisodeCategoryID");
 		    Map(x => x.Note).Column("Note").Not.Nullable().Length(8000);
 		    Map(x => x.Role).Column("Role").Length(25);
 		    Map(x => x.RxNumber).Column("RxNumber").Length(100);
 		    Map(x => x.Status).Column("Status").Length(1);
-		    Map(x => x.CreatedDateUtc).Column("CreatedDateUTC");
+		    Map(x => x.CreatedDateUtc).Column("CreatedDateUtc");
 		    Map(x => x.Description).Column("Description").Length(255);
-		    Map(x => x.ResolvedDateUtc).Column("ResolvedDateUTC");
-            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+		    Map(x => x.ResolvedDateUtc).Column("ResolvedDateUtc");
+		    Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
 		    Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
         }
 	}

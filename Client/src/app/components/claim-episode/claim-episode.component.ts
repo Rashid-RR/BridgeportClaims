@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ClaimManager} from "../../services/claim-manager";
 import {EventsService} from "../../services/events-service";
+import { Episode } from 'app/interfaces/episode';
 
 @Component({
   selector: 'app-claim-episode',
@@ -36,8 +37,8 @@ export class ClaimEpisodeComponent implements OnInit {
     }
     return 'not specified';
   }
-  edit(id:Number,type:String,role:String){
-      this.events.broadcast("edit-episode",id,type);    
+  edit(episode:Episode){
+      this.events.broadcast("edit-episode",episode);    
   }
 
 }

@@ -8,6 +8,7 @@ import { DocumentType } from '../models/document-type';
 import { Prescription } from '../models/prescription';
 import { ClaimNote } from '../models/claim-note';
 import { PrescriptionNoteType } from '../models/prescription-note-type';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EpisodeNoteType } from '../models/episode-note-type';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
@@ -18,6 +19,9 @@ import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../components/confirm.component';
 import { PhonePipe } from 'app/pipes/phone-pipe';
+import swal from "sweetalert2";
+
+
 declare var $: any;
 @Injectable()
 export class ClaimManager {
@@ -45,9 +49,10 @@ export class ClaimManager {
   isPaymentsExpanded: boolean;
   isImagesExpanded: boolean;
   activeToast: Toast;
+  episodeForm: FormGroup;
 
   constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService, private events: EventsService,
-    private router: Router, private toast: ToastsManager,
+    private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder,
     private dialogService: DialogService) {
     this.getHistory();
     this.events.on('loadHistory', () => {
@@ -57,8 +62,22 @@ export class ClaimManager {
       this.selected = undefined;
       this.claims = Immutable.OrderedMap<Number, Claim>();
     });
+    this.episodeForm = this.formBuilder.group({
+      episodeId: [null], // only send on episode edit
+      claimId: [null],
+      rxNumber: [null],
+      pharmacyName: [null],
+      noteText: [''],
+      episodeTypeId: ['']
+    });
   }
 
+  closeModal() {
+    swal.clickCancel();
+  }
+  saveEpisode() {
+
+  }
   getHistory() {
     this.auth.isLoggedIn.single().subscribe(res => {
       if (res == true) {
@@ -147,11 +166,11 @@ export class ClaimManager {
               , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
             c.genders = claim.genders;
             c.states = claim.states;
-            c.adjustorId=claim.adjustorId;
-            c.payorId=claim.payorId;
-            c.genderId=claim.patientGenderId;
-            c.stateId=claim.stateId;
-            c.claimFlex2Id=claim.claimFlex2Id;
+            c.adjustorId = claim.adjustorId;
+            c.payorId = claim.payorId;
+            c.genderId = claim.patientGenderId;
+            c.stateId = claim.stateId;
+            c.claimFlex2Id = claim.claimFlex2Id;
             this.claims = this.claims.set(claim.claimId, c);
           })
         } else/*   if(result.name) */ {
@@ -169,11 +188,11 @@ export class ClaimManager {
           c.gender = result.gender;
           c.genders = result.genders;
           c.states = result.states;
-          c.adjustorId=result.adjustorId;
-          c.payorId=result.payorId;
-          c.genderId=result.patientGenderId;
-          c.stateId=result.stateId;
-          c.claimFlex2Id=result.claimFlex2Id;
+          c.adjustorId = result.adjustorId;
+          c.payorId = result.payorId;
+          c.genderId = result.patientGenderId;
+          c.stateId = result.stateId;
+          c.claimFlex2Id = result.claimFlex2Id;
           this.claims = this.claims.set(result.claimId, c);
           const claim = this.claims.get(result.claimId);
           claim.setPrescription(result.prescriptions as Array<Prescription>);
@@ -190,6 +209,9 @@ export class ClaimManager {
           claim.setPrescriptionStatuses(result.prescriptionStatuses);
           if (addHistory && result.claimId) {
             this.addHistory(result.claimId);
+          }
+          if (result.episodeTypes) {
+            this.episodeNoteTypes = result.episodeTypes;
           }
           this.onClaimIdChanged.next(this.selected);
         }
@@ -218,15 +240,18 @@ export class ClaimManager {
             // console.log(err);
             // let error = err.json();
           })
-        this.http.getEpisodesNoteTypes().map(res => { return res.json() })
-          .subscribe((result: Array<any>) => {
-            // console.log("Episode Notes", result)
-            this.episodeNoteTypes = result;
-          }, err => {
-            this.loading = false;
-            console.log(err);
-            let error = err.json();
-          });
+
+        if (!this.episodeNoteTypes) {
+          this.http.getEpisodesNoteTypes().map(res => { return res.json() })
+            .subscribe((result: Array<any>) => {
+              // console.log("Episode Notes", result)
+              this.episodeNoteTypes = result;
+            }, err => {
+              this.loading = false;
+              console.log(err);
+              let error = err.json();
+            });
+        }
       })
   }
 
@@ -276,11 +301,11 @@ export class ClaimManager {
           claim.states = result.states;
           claim.stateAbbreviation = result.stateAbbreviation;
           claim.postalCode = result.postalCode;
-          claim.adjustorId=result.adjustorId;
-          claim.payorId=result.payorId;
-          claim.genderId=result.patientGenderId;
-          claim.stateId=result.stateId;
-          claim.claimFlex2Id=result.claimFlex2Id;
+          claim.adjustorId = result.adjustorId;
+          claim.payorId = result.payorId;
+          claim.genderId = result.patientGenderId;
+          claim.stateId = result.stateId;
+          claim.claimFlex2Id = result.claimFlex2Id;
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);
           claim.setEpisodes(result.episodes);
@@ -291,6 +316,9 @@ export class ClaimManager {
           claim.setDocumentTypes(result.documentTypes);
           if (result.images) {
             claim.setImages(result.images);
+          }
+          if (result.episodeTypes) {
+            this.episodeNoteTypes = result.episodeTypes;
           }
           this.onClaimIdChanged.next(this.selected);
         }, err => {

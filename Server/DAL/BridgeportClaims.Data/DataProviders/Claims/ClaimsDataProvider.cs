@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
+using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
@@ -22,7 +23,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	public class ClaimsDataProvider : IClaimsDataProvider
 	{
 		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
-		private readonly ISessionFactory _factory;
+	    private readonly IEpisodesDataProvider _episodesDataProvider;
+        private readonly ISessionFactory _factory;
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
 		private readonly IRepository<Claim> _claimRepository;
 		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
@@ -38,7 +40,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			IPaymentsDataProvider paymentsDataProvider, 
             IClaimImageProvider claimImageProvider, 
             IRepository<UsState> usStateRepository, 
-            IRepository<AspNetUsers> usersRepository)
+            IRepository<AspNetUsers> usersRepository, 
+            IEpisodesDataProvider episodesDataProvider)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
 			_claimRepository = claimRepository;
@@ -47,6 +50,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		    _claimImageProvider = claimImageProvider;
 		    _usStateRepository = usStateRepository;
 		    _usersRepository = usersRepository;
+		    _episodesDataProvider = episodesDataProvider;
 		    _factory = factory;
 		}
 
@@ -289,8 +293,12 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						        .List<GenderDto>();
 						    if (null != genders)
 						        claimDto.Genders = genders;
-							// Claim Prescriptions
-							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
+                            // Episodes Types
+						    var episodeTypes = _episodesDataProvider?.GetEpisodeTypes();
+						    if (null != episodeTypes)
+						        claimDto.EpisodeTypes = episodeTypes;
+                            // Claim Prescriptions
+                            claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
 									 @"SELECT DISTINCT

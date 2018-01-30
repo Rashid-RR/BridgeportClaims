@@ -19,7 +19,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
 
         private static string GetPharmacyNameSqlQuery(string pharmacyName)
             => $@"DECLARE @PharmacyName VARCHAR(60) = '{pharmacyName}'
-                  SELECT P.PharmacyName FROM dbo.Pharmacy AS p
+                  SELECT P.NABP, P.PharmacyName FROM dbo.Pharmacy AS p
                   WHERE p.PharmacyName LIKE '%' + @PharmacyName + '%'";
 
         public IList<PharmacyNameDto> GetPharmacyNames(string pharmacyName)
@@ -33,11 +33,13 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     return DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
                         var pharmacyNameOrdinal = reader.GetOrdinal("PharmacyName");
+                        var pharmacyNabpOrdinal = reader.GetOrdinal("NABP");
                         IList<PharmacyNameDto> retVal = new List<PharmacyNameDto>();
                         while (reader.Read())
                         {
                             var pharmacyNameDto = new PharmacyNameDto
                             {
+                                Nabp = !reader.IsDBNull(pharmacyNabpOrdinal) ? reader.GetString(pharmacyNabpOrdinal) : string.Empty,
                                 PharmacyName = !reader.IsDBNull(pharmacyNameOrdinal) ? reader.GetString(pharmacyNameOrdinal) : string.Empty
                             };
                             if (null != pharmacyNameDto.PharmacyName && pharmacyNameDto.PharmacyName.IsNotNullOrWhiteSpace())
