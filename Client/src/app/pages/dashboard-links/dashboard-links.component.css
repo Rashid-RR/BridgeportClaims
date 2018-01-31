@@ -104,7 +104,7 @@ li.reports {
     width:100%;
 	min-height: 145px;
 }
-@media(max-width:1165px) and (min-width:768px){
+@media(max-width:1111px) and (min-width:768px){
     #private-nav .grey-box {
         min-height: 220px;
     }
