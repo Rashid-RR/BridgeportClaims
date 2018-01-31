@@ -21,7 +21,7 @@
     text-align: center;
     margin-top: 4rem;
 }
-/* #private-nav  ul li {
+/* #private-nav   {
     display: inline-block;
     min-width: 205px;
     min-height: 60px;
@@ -31,7 +31,7 @@
     margin: 0 2rem;
 }
 
-#private-nav  ul li:hover {
+#private-nav  :hover {
     -webkit-box-shadow: 1px 1px 8px 1px #444;
     box-shadow: 1px 1px 8px 1px #333;
 } */
@@ -77,23 +77,42 @@ li.reports {
     box-sizing: border-box;
 }
 
-.parallel {
+.row.parallel {
 	text-align: center;
+    padding: 20px; 
+    margin:0px;
 } 
+.row.parallel div[class^=col-]{
+    padding-bottom:20px;
+}
+.row.parallel div[class^=col-]:nth-child(1),
+.row.parallel div[class^=col-]:nth-child(3),
+.row.parallel div[class^=col-]:nth-child(5)
+ {
+    padding-right:10px;
+}
 
-#private-nav ul li.grey-box {
+.row.parallel div[class^=col-]:nth-child(2),
+.row.parallel div[class^=col-]:nth-child(4),
+.row.parallel div[class^=col-]:nth-child(6)
+ {
+    padding-left:10px;
+}
+#private-nav .grey-box {
 	background-color: #ededed;
-	border-radius: 5px;
-	padding: 10px;
-	margin: 7px 7px;
-	max-width: 500px;
-	width: 100%;
-	display: inline-block;
-	min-height: 135px;
+    border-radius: 5px; 
+    width:100%;
+	min-height: 145px;
+}
+@media(max-width:1165px) and (min-width:768px){
+    #private-nav .grey-box {
+        min-height: 220px;
+    }
+
 }
 .img-section {
     float: left;
-    width: 90px;
+    width: 125px;
     height: 100%;
     border-right: 1px solid #cacaca;
     min-height: 115px;
@@ -108,22 +127,22 @@ li.reports {
     padding-right: 10px;
 }
 
-#private-nav ul li.grey-box .img-section .dashboard-img {
+#private-nav .grey-box .img-section .dashboard-img {
     position: relative;
 }
 
-#private-nav ul li.grey-box .img-section > span {
+#private-nav .grey-box .img-section > span {
     text-transform: uppercase;
     font-size: 12px;
     margin-top: 7px;
     line-height: 1;
 }
 
-#private-nav ul li.grey-box .img-section .dashboard-img > img {
+#private-nav .grey-box .img-section .dashboard-img > img {
     width: 30px;
 }
 
-#private-nav ul li.grey-box .img-section span.badge-dashboard {
+#private-nav .grey-box .img-section span.badge-dashboard {
     position: absolute;
     width: 25px;
     height: 25px;
@@ -137,12 +156,10 @@ li.reports {
     text-align: center;
     font-size: 10px;
 }
-
-
 .content-right-section {
     float: left;
     padding-left: 15px;
-    width: 80%;
+    width: calc(100% - 130px);
 }
 
 .content-right-section .upper-description {
