@@ -56,7 +56,7 @@
             <div class="form-group">
                 <label>Owner name</label>
                 <select class="form-control" name="owner" [(ngModel)]="ownerId" (focus)="submitted=false">
-                    <option  value="">Any Owner</option>
+                    <option  value="">All Owners</option>
                     <option *ngFor="let e of ds.owners" [value]="e.ownerId">{{e.owner}}</option>
                 </select>
             </div>
@@ -75,6 +75,7 @@
             <div class="form-group">
                 <label>Episode Type</label>
                 <select class="form-control" name="episodeNote" (focus)="submitted=false">
+                    <option  value="">All Episode Types</option>
                     <option *ngFor="let e of ds.episodeTypes" [value]="e.episodeTypeId">{{e.episodeTypeName}}</option>
                 </select>
             </div>
