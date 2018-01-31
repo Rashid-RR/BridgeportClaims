@@ -7,6 +7,9 @@ import { DiaryScriptNoteWindowComponent } from "../../components/components-barr
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../ng-window";
 import { Router } from "@angular/router";
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { DialogService } from 'ng2-bootstrap-modal';
+
+import { ConfirmComponent } from '../../components/confirm.component';
 
 @Component({
   selector: 'app-episode-results',
@@ -17,7 +20,8 @@ export class EpisodeResultsComponent implements OnInit {
 
   goToPage: any = '';
   activeToast: Toast;
-  constructor(private _router: Router, public episodeService: EpisodeService, private http: HttpService,
+  constructor(
+    private dialogService: DialogService,private _router: Router, public episodeService: EpisodeService, private http: HttpService,
     private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
 
   }
@@ -26,6 +30,29 @@ export class EpisodeResultsComponent implements OnInit {
     this.episodeService.search();
   }
 
+  markAsResolved($event,episode){
+    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Mark Episode as Resolved",
+      message: "Are you sure you with to resolve this episode?"
+    })
+      .subscribe((isConfirmed) => {
+         if (isConfirmed) {
+        this.episodeService.loading = true
+        this.http.markEpisodeAsSolved(episode.episodeId).map(r => { return r.json() }).single().subscribe(res => {
+          this.toast.success(res.message); 
+          this.episodeService.loading = false;
+          this.episodeService.episodes = this.episodeService.episodes.delete(episode.episodeId)
+        }, error => {
+          this.toast.error(error.message);
+          $event.target.checked=false;
+          this.episodeService.loading = false;
+        });
+      }
+      else {
+        $event.target.checked=false;
+       }
+    });
+  }
   next() {
     this.episodeService.search(true);
   }

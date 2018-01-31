@@ -16,6 +16,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   startDate: String;
   endDate: String;
   ownerId: string=null;
+  episodeCategoryId: string=null;
   open: boolean = true;
   closed: Boolean = false;
   submitted: boolean = false;
@@ -57,6 +58,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     this.ds.data.startDate = startDate || null
     this.ds.data.endDate = endDate || null
     this.ds.data.OwnerID = this.ownerId ? this.ownerId : null;
+    this.ds.data.episodeCategoryId = Number(this.episodeCategoryId) ? this.episodeCategoryId : null;
     this.ds.search();
   }
 

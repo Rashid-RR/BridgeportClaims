@@ -5,7 +5,7 @@
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="episodeService.onSortColumn($event)" #myTable='table-sort'>
-                        <th>
+                        <th *ngIf="!episodeService.data.resolved">
                             <span>
                                 Resolved
                             </span>
@@ -59,12 +59,9 @@
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #episodeTable tabindex="0">
                     <tr *ngFor="let episode of (episodeService.episodeList | episodePipe : episodeService.episodeNote : episodeService.owner);">
-                        <td>
-                            <div class="episodeCheckBox">
-                                <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="episode.episodeId"
-                                    #inv>
-                                <label [for]="episode.episodeId" (click)="inv.click()"></label>
-                            </div>
+                        <td *ngIf="!episodeService.data.resolved"> 
+                            <input type="checkbox" name="check" value="None" id="checkbox-h"  #inv (change)="markAsResolved($event,episode)" [checked]="episodeService.data.resolved" [disabled]="episodeService.data.resolved">
+                            <label  (click)="inv.click()"></label>                             
                         </td>
                         <td>{{episode.owner}}</td>
                         <td>{{episode.created  | date:"shortDate"}}</td>

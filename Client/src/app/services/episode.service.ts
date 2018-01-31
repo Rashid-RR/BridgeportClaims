@@ -28,6 +28,7 @@ export class EpisodeService {
       isDefaultSort: true,
       /* startDate: null,
       endDate: null, */
+      episodeCategoryId:null,
       OwnerID:null,
       resolved: false,
       sortColumn: "Created",

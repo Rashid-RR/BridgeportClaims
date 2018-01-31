@@ -63,8 +63,18 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
+                <label>Episode Category</label>
+                <select class="form-control" name="episodeCategoryId" [(ngModel)]="episodeCategoryId" (focus)="submitted=false">
+                    <option value="">All</option>
+                    <option value="1">Call</option>
+                    <option value="2">Image</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
                 <label>Episode Type</label>
-                <select class="form-control" name="episodeNote" [(ngModel)]="ds.episodeNote" (focus)="submitted=false">
+                <select class="form-control" name="episodeNote" (focus)="submitted=false">
                     <option *ngFor="let e of ds.episodeTypes" [value]="e.episodeTypeId">{{e.episodeTypeName}}</option>
                 </select>
             </div>
