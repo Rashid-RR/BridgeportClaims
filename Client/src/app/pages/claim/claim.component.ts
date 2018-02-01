@@ -290,6 +290,7 @@ export class ClaimsComponent implements OnInit {
       claimId: this.claimManager.selectedClaim.claimId,
       episodeId: id, // only send on episode edit
       episodeText: note,
+      pharmacyNabp:'',
       episodeTypeId: TypeId
     });
     this.episodeSwal.show().then((r) => {

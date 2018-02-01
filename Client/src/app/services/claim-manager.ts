@@ -66,7 +66,7 @@ export class ClaimManager {
       episodeId: [undefined], // only send on episode edit
       claimId: [null, Validators.required],
       rxNumber: [null],
-      pharmacyNabp: [null],
+      pharmacyNabp: [null,Validators.required],
       episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
       episodeTypeId: [null]
     });
@@ -92,7 +92,9 @@ export class ClaimManager {
         this.toast.warning('Episode Note is required');
       } else if (this.episodeForm.controls['episodeText'].errors.minlength) {
         this.toast.warning('Episode Note must be at least 5 characters');
-      } else {
+      } else if (this.episodeForm.controls['pharmacyNabp'].errors.required) {
+        this.toast.warning('Pharmacy Name is required');
+      }else {
 
       }
     }
