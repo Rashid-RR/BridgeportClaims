@@ -37,14 +37,6 @@
             </div>
         </div>
         <div class="col-md-1 no-padding left2p5">
-            <div class="form-group green">
-                <label>&nbsp;</label>
-                <input type="radio" id="f-option" name="selector" (click)="setClosed($event,true)" [checked]="resolved" />
-                <label for="f-option" class="form-control border0 text-right">Resolved</label>
-                <label class="check" for="f-option"></label>
-            </div>
-        </div>
-        <div class="col-md-1 no-padding red">
             <div class="form-group red">
                 <label>&nbsp;</label>
                 <input type="radio" id="f-option1" name="selector" (click)="setClosed($event,false)" [checked]="!resolved" />
@@ -52,11 +44,19 @@
                 <label class="check" for="f-option1"></label>
             </div>
         </div>
+        <div class="col-md-1 no-padding red">
+            <div class="form-group green">
+                <label>&nbsp;</label>
+                <input type="radio" id="f-option" name="selector" (click)="setClosed($event,true)" [checked]="resolved" />
+                <label for="f-option" class="form-control border0 text-right">Resolved</label>
+                <label class="check" for="f-option"></label>
+            </div>
+        </div>
         <div class="col-md-2" style="padding-left: 35px;">
             <div class="form-group">
                 <label>Owner name</label>
                 <select class="form-control" name="owner" [(ngModel)]="ownerId" (focus)="submitted=false">
-                    <option  value="">All Owners</option>
+                    <option value="">All Owners</option>
                     <option *ngFor="let e of ds.owners" [value]="e.ownerId">{{e.owner}}</option>
                 </select>
             </div>
@@ -75,7 +75,7 @@
             <div class="form-group">
                 <label>Episode Type</label>
                 <select class="form-control" name="episodeNote" (focus)="submitted=false">
-                    <option  value="">All Episode Types</option>
+                    <option value="">All Episode Types</option>
                     <option *ngFor="let e of ds.episodeTypes" [value]="e.episodeTypeId">{{e.episodeTypeName}}</option>
                 </select>
             </div>
