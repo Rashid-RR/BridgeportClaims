@@ -5,10 +5,8 @@
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="episodeService.onSortColumn($event)" #myTable='table-sort'>
-                        <th *ngIf="!episodeService.data.resolved">
-                            <span>
-                                Resolved
-                            </span>
+                        <th *ngIf="!episodeService.data.resolved"> 
+                            Resolved 
                         </th>
                         <th>
                             <span columnSort="owner" [sort-table]="myTable">
