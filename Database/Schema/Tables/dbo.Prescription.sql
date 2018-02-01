@@ -42,6 +42,7 @@ CREATE TABLE [dbo].[Prescription]
 [ReversedDate] [datetime2] NULL,
 [IsReversed] AS (CONVERT([bit],case  when [ReversedDate] IS NOT NULL then (1) else (0) end,(0))),
 [PrescriptionStatusID] [int] NULL,
+[Adjudicated] [money] NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -87,8 +88,6 @@ CREATE NONCLUSTERED INDEX [idxPrescriptionPrescriptionStatusID] ON [dbo].[Prescr
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionReversedDateIncludes] ON [dbo].[Prescription] ([ReversedDate]) INCLUDE ([BilledAmount], [ClaimID], [DateFilled], [InvoiceID], [LabelName], [PharmacyNABP], [PrescriptionID], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxPrescriptionUpdatedOnUTC] ON [dbo].[Prescription] ([UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionInvoiceIDInvoiceInvoiceID] FOREIGN KEY ([InvoiceID]) REFERENCES [dbo].[Invoice] ([InvoiceID])
@@ -96,6 +95,20 @@ GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionPharmacyNABPPharmacyNABP] FOREIGN KEY ([PharmacyNABP]) REFERENCES [dbo].[Pharmacy] ([NABP])
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionPrescriptionStatusIDPrescriptionStatusPrescriptionStatusID] FOREIGN KEY ([PrescriptionStatusID]) REFERENCES [dbo].[PrescriptionStatus] ([PrescriptionStatusID])
+GO
+SET ANSI_NULLS ON
+GO
+SET ANSI_PADDING ON
+GO
+SET ANSI_WARNINGS ON
+GO
+SET ARITHABORT ON
+GO
+SET CONCAT_NULL_YIELDS_NULL ON
+GO
+SET NUMERIC_ROUNDABORT OFF
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
