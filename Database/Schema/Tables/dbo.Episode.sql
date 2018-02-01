@@ -10,13 +10,13 @@ CREATE TABLE [dbo].[Episode]
 [AssignedUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [RxNumber] [varchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Status] [char] (1) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[CreatedDateUTC] [datetime2] NULL,
+[Created] [date] NULL,
 [Description] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ResolvedDateUTC] [datetime2] NULL,
 [PharmacyNABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DocumentID] [int] NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[EpisodeCategoryID] [int] NOT NULL CONSTRAINT [dfFake] DEFAULT ((1)),
+[EpisodeCategoryID] [int] NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -32,7 +32,7 @@ CREATE NONCLUSTERED INDEX [idxEpisodeAcquiredUserID] ON [dbo].[Episode] ([Acquir
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeAssignedUserID] ON [dbo].[Episode] ([AssignedUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeClaimIDEpisodeTypeIDIncludeAll] ON [dbo].[Episode] ([ClaimID], [EpisodeTypeID]) INCLUDE ([AcquiredUserID], [AssignedUserID], [CreatedDateUTC], [CreatedOnUTC], [Description], [DocumentID], [EpisodeCategoryID], [EpisodeID], [ModifiedByUserID], [Note], [PharmacyNABP], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (FILLFACTOR=90) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeCreatedClaimIDPharmacyNABPEpisodeTypeIDAssignedUserIDEpisodeCategoryID] ON [dbo].[Episode] ([Created], [ClaimID], [PharmacyNABP], [EpisodeTypeID], [AssignedUserID], [EpisodeCategoryID]) INCLUDE ([EpisodeID], [Note]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryID] ON [dbo].[Episode] ([EpisodeCategoryID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
