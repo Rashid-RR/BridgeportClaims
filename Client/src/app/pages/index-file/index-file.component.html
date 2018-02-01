@@ -1,3 +1,21 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <ol class="breadcrumb pull-left">
+                <li>
+                    <a routerLink="/">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="[]">
+                        Index File
+                    </a>
+                </li>
+            </ol>
+        </section>
+    </div>
+</div>
 <div class="box">
     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="box-header bg-head-box">
         <h2 class="box-title text-center panel-head">
@@ -64,10 +82,14 @@
                     <div class="form-group">
                         <label>&nbsp;</label>
                         <span>
-                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="!linkClaim" type="button" (click)="linkClaim=true"> <i class="fa fa-plus-circle"></i>Link to Claim</button>
-                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="linkClaim" type="button" (click)="linkClaim=false"> <i class="fa fa-ban"></i> Unlink Claim</button>
-                            <button class="color-palette btn bg-darkblue btn-flat  btn-md" type="button" (click)="cancel()"> <i class="fa fa-chevron-left"></i>Cancel</button>
-                            <button class="color-palette btn bg-darkRed btn-flat  btn-md" type="button" (click)="archive()"> <i class="fa fa-trash"></i>Archive</button>
+                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="!linkClaim" type="button" (click)="linkClaim=true">
+                                <i class="fa fa-plus-circle"></i>Link to Claim</button>
+                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="linkClaim" type="button" (click)="linkClaim=false">
+                                <i class="fa fa-ban"></i> Unlink Claim</button>
+                            <button class="color-palette btn bg-darkblue btn-flat  btn-md" type="button" (click)="cancel()">
+                                <i class="fa fa-chevron-left"></i>Cancel</button>
+                            <button class="color-palette btn bg-darkRed btn-flat  btn-md" type="button" (click)="archive()">
+                                <i class="fa fa-trash"></i>Archive</button>
                         </span>
                     </div>
                 </div>
@@ -80,12 +102,14 @@
                             <div class="input-group">
                                 <div class="input-group-addon exactMatchCheckBox">
                                     <input type="checkbox" name="check" id="exactMatchCheckBox" [checked]="ds.exactMatch" (change)="checkMatch($event)" #inv>
-                                    <label for="exactMatchCheckBox" class="match"></label> <label for="exactMatchCheckBox">Exact Match</label>
+                                    <label for="exactMatchCheckBox" class="match"></label>
+                                    <label for="exactMatchCheckBox">Exact Match</label>
                                 </div>
                                 <input class="form-control" [(ngModel)]="ds.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
                                     name="searchText" id="searchText" [source]="ds.autoCompleteClaim" [service]="1" [method]="1"
-                                    min-chars="2" list-formatter="lastName , firstName - claimNumber - groupNumber" [http-method]="'post'" [exactMatch]="ds.exactMatch"
-                                    [autocomplete-dropdown-event-emitter]="showDropDown" [no-match-found-text]="'No Claim Found'"  (keyup)="lastInput($event)" (valueChanged)="claimSelected($event)">
+                                    min-chars="2" list-formatter="lastName , firstName - claimNumber - groupNumber" [http-method]="'post'"
+                                    [exactMatch]="ds.exactMatch" [autocomplete-dropdown-event-emitter]="showDropDown" [no-match-found-text]="'No Claim Found'"
+                                    (keyup)="lastInput($event)" (valueChanged)="claimSelected($event)">
                             </div>
                         </div>
                     </div>

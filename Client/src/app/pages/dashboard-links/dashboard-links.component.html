@@ -1,6 +1,23 @@
 <div class="row">
+  <div class="col-md-12">
+    <section class="content-header">
+      <ol class="breadcrumb pull-left">
+        <li>
+          <a routerLink="/">
+            <i class="fa fa-home"></i> Home
+          </a>
+        </li>
+        <li class="active">
+          <a routerLink="/main/private">
+            Dashboard
+          </a>
+        </li>
+      </ol>
+    </section>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-12 full-height">
-
     <div id="private-nav">
       <div class="row parallel">
         <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
@@ -44,7 +61,7 @@
         </div>
         <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
-            <a class="img-section"  [routerLink]="'/main/diary'">
+            <a class="img-section" [routerLink]="'/main/diary'">
               <div class="dashboard-img">
                 <img src="assets/img/diary.png">
                 <span class="badge-dashboard badge">237</span>
@@ -89,7 +106,7 @@
 
         <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
-            <a class="img-section"  [routerLink]="'/main/unpaid-scripts'">
+            <a class="img-section" [routerLink]="'/main/unpaid-scripts'">
               <div class="dashboard-img">
                 <img src="assets/img/005-credit-cards-payment.png ">
                 <span class="badge-dashboard badge">19</span>
@@ -101,7 +118,7 @@
 
         <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
-            <a class="img-section"  [routerLink]="'/main/claims'">
+            <a class="img-section" [routerLink]="'/main/claims'">
               <div class="dashboard-img">
                 <img src="assets/img/007-claim.png">
                 <span class="badge-dashboard badge">31</span>
@@ -113,7 +130,7 @@
 
         <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
-            <a class="img-section"  [routerLink]="'/main/reports/account-receivable'">
+            <a class="img-section" [routerLink]="'/main/reports/account-receivable'">
               <div class="dashboard-img">
                 <img src="assets/img/001-newspaper.png">
                 <span class="badge-dashboard badge">31</span>
@@ -126,7 +143,7 @@
 
         <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
-            <a class="img-section"  [routerLink]="'/main/claims'">
+            <a class="img-section" [routerLink]="'/main/claims'">
               <div class="dashboard-img">
                 <img src="assets/img/006-medical-prescription.png">
                 <span class="badge-dashboard badge">96</span>

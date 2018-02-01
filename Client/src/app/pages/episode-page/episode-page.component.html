@@ -1,4 +1,22 @@
 <div class="row">
+  <div class="col-md-12">
+    <section class="content-header">
+      <ol class="breadcrumb pull-left">
+        <li>
+          <a routerLink="/">
+            <i class="fa fa-home"></i> Home
+          </a>
+        </li>
+        <li class="active">
+          <a [routerLink]="[]">
+            Episodes
+          </a>
+        </li>
+      </ol>
+    </section>
+  </div>
+</div>
+<div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="box" id="modalWindowMax">
       <div class="box-header with-border">
@@ -39,7 +57,7 @@
                     <span style="font-size:13pt">{{ds.episodeFilterSize.length}}</span> Record{{ds.episodeFilterSize.length>1 ? 's':''}} filtered</span>
                   &nbsp;&nbsp; &nbsp;
                   <span *ngIf="ds.pageStart  && ds.episodeFilterSize.length==ds.episodeList.length" style="margin-right:100px;">
-                  {{ds.pageStart+ " to "+ds.pageEnd}}</span>
+                    {{ds.pageStart+ " to "+ds.pageEnd}}</span>
                   <span *ngIf="ds.episodeList.length>0">
                     <span style="font-size:13pt">{{ds.totalRowCount}}</span> Record{{ds.totalRowCount>1 ? 's':''}} found</span>
                 </span>

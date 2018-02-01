@@ -1,4 +1,22 @@
 <div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <ol class="breadcrumb pull-left">
+                <li>
+                    <a routerLink="/">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="[]">
+                        Unindexed Images
+                    </a>
+                </li>
+            </ol>
+        </section>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box" id="modalWindowMax">
             <div class="box-header with-border">
@@ -60,10 +78,10 @@
                                                 <li class="dropdown-submenu">
                                                     <a tabindex="-1">Date Created</a>
                                                     <ul class="dropdown-menu">
-                                                        <li  (click)="ds.onSortColumn({'column':'creationTimeLocal','dir':'asc'})">
+                                                        <li (click)="ds.onSortColumn({'column':'creationTimeLocal','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li  (click)="ds.onSortColumn({'column':'creationTimeLocal','dir':'desc'})">
+                                                        <li (click)="ds.onSortColumn({'column':'creationTimeLocal','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
@@ -74,7 +92,7 @@
                                                         <li (click)="ds.onSortColumn({'column':'fileSize','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li  (click)="ds.onSortColumn({'column':'fileSize','dir':'desc'})">
+                                                        <li (click)="ds.onSortColumn({'column':'fileSize','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
@@ -87,7 +105,7 @@
                                                         <li (click)="ds.onSortColumn({'column':'lastAccessTimeLocal','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li  (click)="ds.onSortColumn({'column':'lastAccessTimeLocal','dir':'desc'})">
+                                                        <li (click)="ds.onSortColumn({'column':'lastAccessTimeLocal','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
@@ -97,10 +115,10 @@
                                                         Last Write
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        <li  (click)="ds.onSortColumn({'column':'    lastWriteTimeLocal','dir':'asc'})">
+                                                        <li (click)="ds.onSortColumn({'column':'    lastWriteTimeLocal','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li  (click)="ds.onSortColumn({'column':'    lastWriteTimeLocal','dir':'desc'})">
+                                                        <li (click)="ds.onSortColumn({'column':'    lastWriteTimeLocal','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>

@@ -598,3 +598,13 @@
   /*   .sidebar-menu{
       text-align:left
     } */
+  .row div .content-header{
+    height:40px;
+  }        
+.content-header>.breadcrumb{
+  left: 20px; 
+  float: none; 
+  top: 0px;
+  padding-top:10px;
+  
+}

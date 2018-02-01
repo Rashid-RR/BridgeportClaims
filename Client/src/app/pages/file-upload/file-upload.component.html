@@ -1,7 +1,25 @@
 <div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <ol class="breadcrumb pull-left">
+                <li>
+                    <a routerLink="/">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="[]">
+                        File Upload
+                    </a>
+                </li>
+            </ol>
+        </section>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box">
-             <div class="box-header with-border">
+            <div class="box-header with-border">
                 <h3 class="box-title">File Upload</h3>
             </div>
             <div class="box-body">
@@ -13,8 +31,8 @@
                         <!-- File Upload For CSV -->
                         <div class="image-upload">
                             <label for="file-input-csv">
-                                    <img src="assets/img/Laker_File_Upload.jpg" style="pointer-events: none; width: 300px; "/>
-                                </label>
+                                <img src="assets/img/Laker_File_Upload.jpg" style="pointer-events: none; width: 300px; " />
+                            </label>
                             <input id="file-input-csv" accept=".csv" type="file" ng2FileSelect [uploader]="uploaderCsv" multiple />
                         </div>
                     </div>
@@ -22,8 +40,8 @@
                         <!-- File Upload For XLSX  -->
                         <div class="image-upload">
                             <label for="file-input-excel">
-                                    <img src="assets/img/Payment_File_Upload.jpg" style="pointer-events: none; width: 300px; "/>
-                                </label>
+                                <img src="assets/img/Payment_File_Upload.jpg" style="pointer-events: none; width: 300px; " />
+                            </label>
                             <input id="file-input-excel" accept=".xlsx" type="file" ng2FileSelect [uploader]="uploaderExcel" multiple />
                         </div>
                     </div>
@@ -31,15 +49,16 @@
                         <!-- File Upload For XLSX  -->
                         <div class="image-upload">
                             <label for="file-input-misc">
-                                    <img src="assets/img/Misc_File_Upload.png" style="pointer-events: none; width: 300px; "/>
-                                </label>
+                                <img src="assets/img/Misc_File_Upload.png" style="pointer-events: none; width: 300px; " />
+                            </label>
                             <input id="file-input-misc" accept="*.*" type="file" ng2FileSelect [uploader]="uploaderMisc" multiple />
                         </div>
                     </div>
 
                     <div class="col-md-12" style="margin-bottom: 40px">
                         <h3>Upload queue</h3>
-                        <p>Queue length: {{ uploaderCsv?.queue?.length + uploaderExcel?.queue?.length + uploaderMisc?.queue?.length }}</p>
+                        <p>Queue length: {{ uploaderCsv?.queue?.length + uploaderExcel?.queue?.length + uploaderMisc?.queue?.length
+                            }}</p>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -52,7 +71,9 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of queueFiles">
-                                    <td><strong>{{ item?.file?.name }}</strong></td>
+                                    <td>
+                                        <strong>{{ item?.file?.name }}</strong>
+                                    </td>
                                     <!--<td *ngIf="uploader.isHTML5" nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
                                         <td *ngIf="uploader.isHTML5">
                                             <div class="progress" style="margin-bottom: 0;">
@@ -60,20 +81,26 @@
                                             </div>
                                         </td> -->
                                     <td class="text-center">
-                                        <span *ngIf="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
-                                        <span *ngIf="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
-                                        <span *ngIf="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                        <span *ngIf="item.isSuccess">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                        </span>
+                                        <span *ngIf="item.isCancel">
+                                            <i class="glyphicon glyphicon-ban-circle"></i>
+                                        </span>
+                                        <span *ngIf="item.isError">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </span>
                                     </td>
                                     <td nowrap>
                                         <button type="button" class="btn btn-success btn-xs" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
-                                                <span class="glyphicon glyphicon-upload"></span> Upload
-                                            </button>
+                                            <span class="glyphicon glyphicon-upload"></span> Upload
+                                        </button>
                                         <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()" [disabled]="!item.isUploading">
-                                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel
-                                            </button>
+                                            <span class="glyphicon glyphicon-ban-circle"></span> Cancel
+                                        </button>
                                         <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
-                                                <span class="glyphicon glyphicon-trash"></span> Remove
-                                            </button>
+                                            <span class="glyphicon glyphicon-trash"></span> Remove
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -87,14 +114,14 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-success btn-s" (click)="uploaderCsv.uploadAll()" [disabled]="!uploaderCsv.getNotUploadedItems().length">
-                                        <span class="glyphicon glyphicon-upload"></span> Upload all
-                                    </button>
+                                <span class="glyphicon glyphicon-upload"></span> Upload all
+                            </button>
                             <button type="button" class="btn btn-warning btn-s" (click)="uploaderCsv.cancelAll()" [disabled]="!uploaderCsv.isUploading">
-                                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                                    </button>
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                            </button>
                             <button type="button" class="btn btn-danger btn-s" (click)="uploaderCsv.clearQueue()" [disabled]="!uploaderCsv.queue.length">
-                                        <span class="glyphicon glyphicon-trash"></span> Remove all
-                                    </button>
+                                <span class="glyphicon glyphicon-trash"></span> Remove all
+                            </button>
                         </div>
                         <div>
                             <div>
@@ -104,14 +131,14 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-success btn-s" (click)="uploaderExcel.uploadAll()" [disabled]="!uploaderExcel.getNotUploadedItems().length">
-                                    <span class="glyphicon glyphicon-upload"></span> Upload all
-                                </button>
+                                <span class="glyphicon glyphicon-upload"></span> Upload all
+                            </button>
                             <button type="button" class="btn btn-warning btn-s" (click)="uploaderExcel.cancelAll()" [disabled]="!uploaderExcel.isUploading">
-                                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                                </button>
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                            </button>
                             <button type="button" class="btn btn-danger btn-s" (click)="uploaderExcel.clearQueue()" [disabled]="!uploaderExcel.queue.length">
-                                    <span class="glyphicon glyphicon-trash"></span> Remove all
-                                </button>
+                                <span class="glyphicon glyphicon-trash"></span> Remove all
+                            </button>
                         </div>
                         <div>
                             <div>
@@ -121,14 +148,14 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-success btn-s" (click)="uploaderMisc.uploadAll()" [disabled]="!uploaderMisc.getNotUploadedItems().length">
-                                    <span class="glyphicon glyphicon-upload"></span> Upload all
-                                </button>
+                                <span class="glyphicon glyphicon-upload"></span> Upload all
+                            </button>
                             <button type="button" class="btn btn-warning btn-s" (click)="uploaderMisc.cancelAll()" [disabled]="!uploaderMisc.isUploading">
-                                    <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                                </button>
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                            </button>
                             <button type="button" class="btn btn-danger btn-s" (click)="uploaderMisc.clearQueue()" [disabled]="!uploaderMisc.queue.length">
-                                    <span class="glyphicon glyphicon-trash"></span> Remove all
-                                </button>
+                                <span class="glyphicon glyphicon-trash"></span> Remove all
+                            </button>
                         </div>
 
                     </div>
@@ -139,15 +166,15 @@
                         <div class="box">
                             <div class="box-header bg-head-box">
                                 <h4 class="box-title text-center panel-head">
-                                    <u><i class="fa fa-upload"></i> Uploaded Files</u>
+                                    <u>
+                                        <i class="fa fa-upload"></i> Uploaded Files</u>
                                 </h4>
                                 <span class="tally pull-right" *ngIf="importedFiles && importedFiles.length>0" style="margin-right:20px;">
-                                        <span>
-                                            <span style="font-size:13pt">
-                                                {{importedFiles.length}}
-                                                </span> Record{{importedFiles.length>1 ?
-                                's':''}} found
-                                </span>
+                                    <span>
+                                        <span style="font-size:13pt">
+                                            {{importedFiles.length}}
+                                        </span> Record{{importedFiles.length>1 ? 's':''}} found
+                                    </span>
                                 </span>
                                 <div class="box-tools pull-right">
 
@@ -168,12 +195,24 @@
                                     </thead>
                                     <tbody>
                                         <tr *ngFor="let file of importedFiles">
-                                            <td><strong>{{ file?.fileName }}</strong></td>
-                                            <td><strong>{{ file?.fileExtension }}</strong></td>
-                                            <td><strong>{{ file?.fileSize }}</strong></td>
-                                            <td><strong>{{ file?.fileType }}</strong></td>
-                                            <td><strong>{{ file?.processed }}</strong></td>
-                                            <td><strong>{{ file?.createdOn  | date:"shortDate" }} {{ file?.createdOn  | date:"shortTime"}}</strong>                                                </td>
+                                            <td>
+                                                <strong>{{ file?.fileName }}</strong>
+                                            </td>
+                                            <td>
+                                                <strong>{{ file?.fileExtension }}</strong>
+                                            </td>
+                                            <td>
+                                                <strong>{{ file?.fileSize }}</strong>
+                                            </td>
+                                            <td>
+                                                <strong>{{ file?.fileType }}</strong>
+                                            </td>
+                                            <td>
+                                                <strong>{{ file?.processed }}</strong>
+                                            </td>
+                                            <td>
+                                                <strong>{{ file?.createdOn | date:"shortDate" }} {{ file?.createdOn | date:"shortTime"}}</strong>
+                                            </td>
                                             <td nowrap>
                                                 <button *ngIf="file.fileType=='Payment Import' && !file.processed" type="button" class="btn bg-purple btn-xs" (click)="process(file)">
                                                     <span class="glyphicon glyphicon-import"></span> Import Payments
