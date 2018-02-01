@@ -88,11 +88,11 @@ export class ClaimManager {
         this.events.broadcast("edit-episode", { episodeId: this.episodeForm.value.episodeId, type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText })
       });
     } else {
-      if (this.episodeForm.controls['episodeText'].errors.required) {
+      if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
         this.toast.warning('Episode Note is required');
-      } else if (this.episodeForm.controls['episodeText'].errors.minlength) {
+      } else if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.minlength) {
         this.toast.warning('Episode Note must be at least 5 characters');
-      } else if (this.episodeForm.controls['pharmacyNabp'].errors.required) {
+      } else if (this.episodeForm.controls['pharmacyNabp'].errors && this.episodeForm.controls['pharmacyNabp'].errors.required) {
         this.toast.warning('Pharmacy Name is required');
       }else {
 
