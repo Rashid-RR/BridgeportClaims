@@ -1,3 +1,21 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <ol class="breadcrumb pull-left">
+                <li>
+                    <a routerLink="/">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="[]">
+                        Login
+                    </a>
+                </li>
+            </ol>
+        </section>
+    </div>
+</div>
 <div class="box no-border">
     <div class="box-body">
         <div class="row">
@@ -7,26 +25,32 @@
                 </div>
             </div>
         </div>
-        <div class="row">    
+        <div class="row">
             <div class="col-lg-12">
                 <div class="box center-form no-border">
-                    <div class="box-body"> 
+                    <div class="box-body">
                         <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
                             <h3>Please sign in</h3>
                             <div class="form-group">
-                                <input type="text" name="email" class="form-control" placeholder="Email address" formControlName="email" (focus)="submitted=false" required focus-on>
+                                <input type="text" name="email" class="form-control" placeholder="Email address" formControlName="email" (focus)="submitted=false"
+                                    required focus-on>
                                 <p class="text-danger form-control-static" *ngIf="form.get('email').value!='' && form.get('email').errors && submitted">Incorrect email</p>
                                 <p class="text-danger form-control-static" *ngIf="form.get('email').value =='' && submitted">Email is required</p>
                             </div>
                             <div class="form-group">
-                                <input type="password" name="password" class="form-control bottom" placeholder="Password" formControlName="password" required (focus)="submitted=false">
-                                <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email or password'}}</p>
+                                <input type="password" name="password" class="form-control bottom" placeholder="Password" formControlName="password" required
+                                    (focus)="submitted=false">
+                                <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email
+                                    or password'}}</p>
                             </div>
                             <div class="form-group">
-                                <span class="help-block"><a [routerLink]="'/recover-lost-password'">Forgotten password?</a></span>
+                                <span class="help-block">
+                                    <a [routerLink]="'/recover-lost-password'">Forgotten password?</a>
+                                </span>
                             </div>
                             <div class="checkbox">
-                                <label><input type="checkbox" value="true" formControlName="rememberMe"> Remember me</label>
+                                <label>
+                                    <input type="checkbox" value="true" formControlName="rememberMe"> Remember me</label>
                             </div>
                             <button class="btn btn-primary btn-block" type="submit" (click)="login()">Sign in</button>
                         </form>
@@ -36,6 +60,7 @@
         </div>
     </div>
     <div class="overlay" *ngIf="submitted" style="text-align:center;">
-            <img src="assets/1.gif"><br/>
-        </div> 
+        <img src="assets/1.gif">
+        <br/>
+    </div>
 </div>

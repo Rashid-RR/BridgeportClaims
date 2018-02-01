@@ -1,14 +1,38 @@
 <div class="wrapper">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="content-header">
+                <ol class="breadcrumb pull-left">
+                    <li>
+                        <a routerLink="/">
+                            <i class="fa fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a [routerLink]="[]">
+                            Confirm Email
+                        </a>
+                    </li>
+                </ol>
+            </section>
+        </div>
+    </div>
     <div class="row" *ngIf="confirmed==0">
         <div class="col-md-8 col-md-offset-2">
-            <br><br><br>
+            <br>
+            <br>
+            <br>
             <div class="box">
                 <div class="box-body text-center">
-                    <br><br><br>
+                    <br>
+                    <br>
+                    <br>
                     <h2>
                         Confirming your email address ...
                     </h2>
-                    <br><br><br>
+                    <br>
+                    <br>
+                    <br>
                 </div>
                 <div class="overlay" *ngIf="loading" style="text-align:center;">
                     <img src="assets/1.gif">

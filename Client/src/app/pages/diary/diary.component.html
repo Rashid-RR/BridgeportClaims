@@ -1,4 +1,22 @@
 <div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <ol class="breadcrumb pull-left">
+                <li>
+                    <a routerLink="/">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="[]">
+                        Diary
+                    </a>
+                </li>
+            </ol>
+        </section>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box" id="modalWindowMax">
             <div class="box-header with-border">
@@ -20,7 +38,7 @@
                                     </h4>
                                 </span>
                             </div>
-                            <div class="box-body"  style="padding: 0px 15px;" id="collapseOne" class="panel-collapse collapse in collapse out">
+                            <div class="box-body" style="padding: 0px 15px;" id="collapseOne" class="panel-collapse collapse in collapse out">
                                 <app-diary-input></app-diary-input>
                             </div>
                         </div>
@@ -35,9 +53,14 @@
                                     <i class="fa fa-book" aria-hidden="true"></i> Diary Entries
                                 </span>
                                 <span class="total pull-right">
-                                    <span *ngIf="ds.diaryFilterSize.length>0 && ds.diaryFilterSize.length!=ds.diaryList.length"><span style="font-size:13pt">{{ds.diaryFilterSize.length}}</span> Record{{ds.diaryFilterSize.length>1 ? 's':''}} filtered</span>
-                                    &nbsp;&nbsp; &nbsp;<span *ngIf="ds.pageStart  && ds.diaryFilterSize.length==ds.diaryList.length" style="margin-right:100px;"> {{ds.pageStart+ " to "+ds.pageEnd}}</span>
-                                    <span *ngIf="ds.diaryList.length>0"><span style="font-size:13pt">{{ds.totalRowCount}}</span> Record{{ds.totalRowCount>1 ? 's':''}} found</span>
+                                    <span *ngIf="ds.diaryFilterSize.length>0 && ds.diaryFilterSize.length!=ds.diaryList.length">
+                                        <span style="font-size:13pt">{{ds.diaryFilterSize.length}}</span> Record{{ds.diaryFilterSize.length>1 ? 's':''}}
+                                        filtered</span>
+                                    &nbsp;&nbsp; &nbsp;
+                                    <span *ngIf="ds.pageStart  && ds.diaryFilterSize.length==ds.diaryList.length"
+                                        style="margin-right:100px;"> {{ds.pageStart+ " to "+ds.pageEnd}}</span>
+                                    <span *ngIf="ds.diaryList.length>0">
+                                        <span style="font-size:13pt">{{ds.totalRowCount}}</span> Record{{ds.totalRowCount>1 ? 's':''}} found</span>
                                 </span>
                             </div>
                             <div class="box-body diary-results">
