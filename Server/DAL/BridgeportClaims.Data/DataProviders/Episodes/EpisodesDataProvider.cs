@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
@@ -254,6 +255,9 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
             if (null == cat)
                 throw new Exception("Error. Could not find an Episode Category for Code 'CALL'");
 	        var user = _usersRepository.Get(userId);
+	        var pharmacy = pharmacyNabp.IsNotNullOrWhiteSpace()
+	            ? _pharmacyRepository?.GetSingleOrDefault(x => x.PharmacyName.ToLower() == pharmacyNabp.ToLower())
+	            : null;
             var entity = new Episode
 	        {
 	            EpisodeCategory = cat,
@@ -262,7 +266,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                 RxNumber = rxNumber,
                 EpisodeType = _episodeTypeRepository.Get(episodeTypeId),
                 Claim = _claimRepository.Get(claimId),
-                Pharmacy = _pharmacyRepository.Get(pharmacyNabp),
+                Pharmacy = pharmacy,
                 Note = episodeText,
                 ModifiedByUser = user
             };
