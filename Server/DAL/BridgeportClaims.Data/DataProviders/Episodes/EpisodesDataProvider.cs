@@ -187,10 +187,10 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					};
 					var cd = new SqlParameter
 					{
-						ParameterName = "@CreatedDateUTC",
-						Value = DateTime.UtcNow,
-						DbType = DbType.DateTime2,
-						SqlDbType = SqlDbType.DateTime2
+						ParameterName = "@Created",
+						Value = DateTime.UtcNow.Date,
+						DbType = DbType.Date,
+						SqlDbType = SqlDbType.Date
 					};
 					var uId = new SqlParameter
 					{
@@ -222,6 +222,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				    if (conn.State != ConnectionState.Open)
 				        conn.Open();
                     cmd.ExecuteNonQuery();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
 				});
 			});
 		}
