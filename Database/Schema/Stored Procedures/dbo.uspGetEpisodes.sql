@@ -33,6 +33,9 @@ AS BEGIN
 	BEGIN TRY
 		BEGIN TRAN;
 
+		IF @EpisodeCategoryID NOT IN (1,2)
+			SET @EpisodeCategoryID = NULL; -- HACK: fix on front-end.
+
 		-- Param Sniffing
 		DECLARE @iResolved BIT = @Resolved,
 				@iOwnerID NVARCHAR(128) = @OwnerID,
@@ -78,7 +81,11 @@ AS BEGIN
 			LEFT JOIN   dbo.DocumentIndex   AS di ON ep.DocumentID = di.DocumentID
 			LEFT JOIN   [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [ep].[AssignedUserID]
 		WHERE @iResolved = CASE WHEN ep.ResolvedDateUTC IS NOT NULL THEN 1 ELSE 0 END
-			  AND (@OwnerID IS NULL OR [u].[ID] = @OwnerID)
+			  AND (@OwnerID IS NULL OR [u].[ID] = @iOwnerID)
+			  AND (@iEpisodeCategoryID = ep.[EpisodeCategoryID] OR @iEpisodeCategoryID IS NULL)
+			  AND (@iStartDate IS NULL OR ep.[Created] >= @iStartDate)
+			  AND (@iEndDate IS NULL OR ep.[Created] <= @iEndDate)
+			  AND (@iEpisodeTypeID IS NULL OR ep.[EpisodeTypeID] = @iEpisodeTypeID)
 
 		SELECT @TotalPageSize = COUNT(*) FROM [#Episodes] AS [e]
 

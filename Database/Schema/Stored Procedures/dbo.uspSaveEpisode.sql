@@ -7,13 +7,13 @@ GO
 	Create Date:	7/7/2017
 	Description:	Adds or Inserts an Episode.
 	Sample Execute:
-					EXEC [dbo].[uspSaveEpisode] 15, 95, '3/15/2017', 'hello!!!!!!!!!!!!!!!!!!!!!!', 'yo yo y oyo '
+					EXEC [dbo].[uspSaveEpisode] 15, 95, '3/15/2017', 'text', 'yo yo y oyo '
 */
 CREATE PROC [dbo].[uspSaveEpisode]
 (
 	@EpisodeID INT,
 	@ClaimID INT,
-	@CreatedDateUTC DATETIME2,
+	@Created DATE,
 	@AssignedUserID NVARCHAR(128),
 	@Note VARCHAR(1000),
 	@EpisodeTypeID INT
@@ -39,14 +39,14 @@ BEGIN
 	MERGE [dbo].[Episode] AS tgt
 	USING (SELECT @EpisodeID EpisodeID,
 				  @ClaimID ClaimID,
-				  @CreatedDateUTC CreatedDateUTC,
+				  @Created Created,
 				  @AssignedUserID AssignedUserID,
 				  @Note Note,
 				  @EpisodeTypeID EpisodeTypeID) AS src
 	       ON [tgt].[EpisodeID] = [src].[EpisodeID]
 	WHEN NOT MATCHED BY TARGET THEN
-		INSERT ([ClaimID], [CreatedDateUTC], [AssignedUserID], [Note], [EpisodeTypeID])
-		VALUES (src.[ClaimID], src.[CreatedDateUTC], src.[AssignedUserID], src.[Note], [src].[EpisodeTypeID])
+		INSERT ([ClaimID], [Created], [AssignedUserID], [Note], [EpisodeTypeID])
+		VALUES (src.[ClaimID], src.[Created], src.[AssignedUserID], src.[Note], [src].[EpisodeTypeID])
 	WHEN MATCHED THEN
 		UPDATE SET  [tgt].[ClaimID] = [src].[ClaimID],
 					[tgt].[AssignedUserID] = [src].[AssignedUserID],

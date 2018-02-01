@@ -38,12 +38,27 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    _pharmacyRepository = pharmacyRepository;
 		}
 
-	    public EpisodesDto GetEpisodes(bool resolved, string ownerId, int? episodeCategoryId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+	    public EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId,
+            int? episodeCategoryId, int? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
 	            {
 	                cmd.CommandType = CommandType.StoredProcedure;
+	                var startDateParam = cmd.CreateParameter();
+	                startDateParam.Value = startDate ?? (object) DBNull.Value;
+	                startDateParam.ParameterName = "@StartDate";
+	                startDateParam.DbType = DbType.Date;
+                    startDateParam.SqlDbType = SqlDbType.Date;
+                    startDateParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(startDateParam);
+	                var endDateParam = cmd.CreateParameter();
+	                endDateParam.Value = endDate ?? (object) DBNull.Value;
+                    endDateParam.Direction = ParameterDirection.Input;
+                    endDateParam.DbType = DbType.Date;
+	                endDateParam.SqlDbType = SqlDbType.Date;
+	                endDateParam.ParameterName = "@EndDate";
+                    cmd.Parameters.Add(endDateParam);
 	                var resolvedParam = cmd.CreateParameter();
 	                resolvedParam.Direction = ParameterDirection.Input;
 	                resolvedParam.Value = resolved;
@@ -59,6 +74,20 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                ownerIdParam.SqlDbType = SqlDbType.NVarChar;
 	                ownerIdParam.ParameterName = "@OwnerID";
                     cmd.Parameters.Add(ownerIdParam);
+	                var episodeCategoryIdParam = cmd.CreateParameter();
+	                episodeCategoryIdParam.Direction = ParameterDirection.Input;
+	                episodeCategoryIdParam.Value = episodeCategoryId ?? (object) DBNull.Value;
+                    episodeCategoryIdParam.DbType = DbType.Int32;
+                    episodeCategoryIdParam.SqlDbType = SqlDbType.Int;
+	                episodeCategoryIdParam.ParameterName = "@EpisodeCategoryID";
+                    cmd.Parameters.Add(episodeCategoryIdParam);
+	                var episodeTypeIdParam = cmd.CreateParameter();
+	                episodeTypeIdParam.Direction = ParameterDirection.Input;
+	                episodeTypeIdParam.Value = episodeCategoryId ?? (object)DBNull.Value;
+	                episodeTypeIdParam.DbType = DbType.Int32;
+	                episodeTypeIdParam.SqlDbType = SqlDbType.Int;
+	                episodeTypeIdParam.ParameterName = "@EpisodeTypeID";
+	                cmd.Parameters.Add(episodeTypeIdParam);
                     var sortColumnParam = cmd.CreateParameter();
 	                sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
                     sortColumnParam.Direction = ParameterDirection.Input;
@@ -158,10 +187,10 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					};
 					var cd = new SqlParameter
 					{
-						ParameterName = "@CreatedDateUTC",
-						Value = DateTime.UtcNow,
-						DbType = DbType.DateTime2,
-						SqlDbType = SqlDbType.DateTime2
+						ParameterName = "@Created",
+						Value = DateTime.UtcNow.Date,
+						DbType = DbType.Date,
+						SqlDbType = SqlDbType.Date
 					};
 					var uId = new SqlParameter
 					{
@@ -193,6 +222,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				    if (conn.State != ConnectionState.Open)
 				        conn.Open();
                     cmd.ExecuteNonQuery();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
 				});
 			});
 		}

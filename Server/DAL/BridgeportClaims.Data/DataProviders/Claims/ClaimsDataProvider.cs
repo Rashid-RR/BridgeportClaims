@@ -234,7 +234,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							// Claim Episodes
 							var episodes = session.CreateSQLQuery(
 								  @"SELECT EpisodeId = [e].[EpisodeID]
-										 , [Date] = [e].[CreatedDateUTC]
+										 , [Date] = [e].[Created]
 										 , [By] = [u].[FirstName] + ' ' + [u].[LastName]
 										 , [e].[Role]										 
 										 , [e].[Note]

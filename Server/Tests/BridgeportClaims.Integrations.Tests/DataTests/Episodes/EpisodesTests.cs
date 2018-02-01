@@ -13,15 +13,17 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
     {
         private readonly IRepository<Episode> _episodeRepository;
         private readonly IRepository<AspNetUsers> _usersRepository;
+        private readonly IRepository<EpisodeCategory> _episodeCategoryRepository;
 
         public EpisodesTests()
         {
+            _episodeCategoryRepository = new Repository<EpisodeCategory>(FluentSessionProvider.GetSession());
             _episodeRepository = new Repository<Episode>(FluentSessionProvider.GetSession());
             _usersRepository = new Repository<AspNetUsers>(FluentSessionProvider.GetSession());
         }
 
-        [TestMethod]
-        public void CanPullRandomEpisodeFromDb()
+        /*[TestMethod]
+        public void CanSaveNewEpisode()
         {
             // Arrange, Act.
             var episode = _episodeRepository?.GetAll()?.OrderByDescending(x => x.EpisodeId).Take(1).Select(
@@ -31,7 +33,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
                     AcquiredUser = s.AcquiredUser,
                     AssignedUser = s.AssignedUser,
                     Claim = s.Claim,
-                    CreatedDateUtc = s.CreatedDateUtc,
+                    CreatedDateUtc = s.Created,
                     CreatedOnUtc = s.CreatedOnUtc,
                     Description = s.Description,
                     EpisodeType = s.EpisodeType,
@@ -42,7 +44,8 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
                     ResolvedUser = s.ResolvedUser,
                     ModifiedByUser = s.ModifiedByUser,
                     Role = s.Role,
-                    Status = s.Status
+                    Status = s.Status,
+                    EpisodeCategory = s.EpisodeCategory
                 }).SingleOrDefault();
 
             var users = _usersRepository.GetAll()?.OrderBy(x => Guid.NewGuid()).ToArray();
@@ -56,7 +59,7 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
                 AcquiredUser = users[0],
                 AssignedUser = users[1],
                 Claim = episode.Claim,
-                CreatedDateUtc = episode.CreatedDateUtc,
+                Created = episode.CreatedDateUtc,
                 CreatedOnUtc = episode.CreatedOnUtc,
                 Description = episode.Description,
                 EpisodeType = episode.EpisodeType,
@@ -67,11 +70,12 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
                 ResolvedUser = users[2],
                 ModifiedByUser = users[3],
                 Role = episode.Role,
-                Status = episode.Status
+                Status = episode.Status,
+                EpisodeCategory = _episodeCategoryRepository.GetMany(x => x.Code == "IMAGE").Single()
             };
 
             _episodeRepository.Save(entity);
-        }
+        }*/
 
         private class EpisodeTestDto
         {
@@ -86,6 +90,8 @@ namespace BridgeportClaims.Integrations.Tests.DataTests.Episodes
             public AspNetUsers ModifiedByUser { get; set; }
             public Pharmacy Pharmacy { get; set; }
             public DocumentIndex DocumentIndex { get; set; }
+            [Required]
+            public EpisodeCategory EpisodeCategory { get; set; }
             [Required]
             [StringLength(8000)]
             public string Note { get; set; }
