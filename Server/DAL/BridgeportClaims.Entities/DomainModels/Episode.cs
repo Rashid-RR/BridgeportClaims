@@ -8,17 +8,17 @@ namespace BridgeportClaims.Entities.DomainModels
 		[Required]
 	    public virtual int EpisodeId { get; set; }
 	    [Required]
-	    public virtual Claim Claim { get; set; }
+        public virtual Claim Claim { get; set; }
 	    public virtual EpisodeType EpisodeType { get; set; }
-        public virtual AspNetUsers AcquiredUser { get; set; }
-        public virtual AspNetUsers AssignedUser { get; set; }
-        public virtual AspNetUsers ResolvedUser { get; set; }
+	    public virtual AspNetUsers ResolvedUser { get; set; }
+	    public virtual AspNetUsers AcquiredUser { get; set; }
+	    public virtual AspNetUsers AssignedUser { get; set; }
 	    public virtual AspNetUsers ModifiedByUser { get; set; }
-        public virtual Pharmacy Pharmacy { get; set; }
+	    public virtual Pharmacy Pharmacy { get; set; }
 	    public virtual DocumentIndex DocumentIndex { get; set; }
-	    [Required]
-	    public virtual EpisodeCategory EpisodeCategory { get; set; }
         [Required]
+        public virtual EpisodeCategory EpisodeCategory { get; set; }
+	    [Required]
 	    [StringLength(8000)]
 	    public virtual string Note { get; set; }
 	    [StringLength(25)]
@@ -27,7 +27,7 @@ namespace BridgeportClaims.Entities.DomainModels
 	    public virtual string RxNumber { get; set; }
 	    [StringLength(1)]
 	    public virtual string Status { get; set; }
-	    public virtual DateTime? CreatedDateUtc { get; set; }
+	    public virtual DateTime? Created { get; set; }
 	    [StringLength(255)]
 	    public virtual string Description { get; set; }
 	    public virtual DateTime? ResolvedDateUtc { get; set; }

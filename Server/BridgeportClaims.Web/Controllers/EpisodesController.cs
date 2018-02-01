@@ -63,14 +63,14 @@ namespace BridgeportClaims.Web.Controllers
 
 	    [HttpPost]
 	    [Route("get")]
-	    public async Task<IHttpActionResult> GetEpisodes(EpisodesViewModel model)
+	    public async Task<IHttpActionResult> GetEpisodes(EpisodesViewModel m)
 	    {
 	        try
 	        {
 	            return await Task.Run(() =>
 	            {
-	                var results = _episodesDataProvider.GetEpisodes(model.Resolved, model.OwnerId, model.EpisodeCategoryId,
-                        model.SortColumn, model.SortDirection, model.PageNumber, model.PageSize);
+	                var results = _episodesDataProvider.GetEpisodes(m.StartDate, m.EndDate, m.Resolved, m.OwnerId,
+	                    m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize);
 	                return Ok(results);
                 });
 	        }
