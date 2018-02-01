@@ -16,8 +16,7 @@ declare var $: any
   styleUrls: ['./new-episode.component.css']
 })
 export class NewEpisodeComponent implements OnInit {
-
-  pharmacyName: string = '';
+ 
   payorId: any = '';
   submitted: boolean = false;
   searchText: string = '';
@@ -41,7 +40,7 @@ export class NewEpisodeComponent implements OnInit {
     return this.http.baseUrl + "/reports/pharmacy-name/?pharmacyName=:keyword";
   } 
   pharmacySelected($event) {
-    if (this.pharmacyName && $event.nabp) {
+    if (this.claimManager.pharmacyName && $event.nabp) {
       this.claimManager.episodeForm.controls['pharmacyNabp'].setValue($event.nabp)
       setTimeout(() => {
         this.dropdownVisible = false
@@ -49,6 +48,7 @@ export class NewEpisodeComponent implements OnInit {
     }
   }
   ngOnInit() {
+    this.claimManager.pharmacyName='';
   }
 
 }

@@ -25,10 +25,10 @@ export class EpisodeService {
     private epf: EpisodesFilterPipe,
     private events: EventsService, private toast: ToastsManager) {
     this.data = {
-      isDefaultSort: true,
-      /* startDate: null,
-      endDate: null, */
+      startDate: null,
+      endDate: null,
       episodeCategoryId:null,
+      episodeTypeId:null,
       OwnerID:null,
       resolved: false,
       sortColumn: "Created",

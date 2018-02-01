@@ -28,7 +28,7 @@
       </div>
       <div class="form-group">
         <label id="pharmacyName">Pharmacy Name</label>
-        <input class="form-control" type="text" [z-index]="'99999999'" (valueChanged)="pharmacySelected($event)" auto-complete [(ngModel)]="pharmacyName"
+        <input class="form-control" type="text" [z-index]="'99999999'" (valueChanged)="pharmacySelected($event)" auto-complete [(ngModel)]="claimManager.pharmacyName"
           name="pharmacyName" [source]="autoCompletePharmacyName" [service]="1" [method]="1" min-chars="2" list-formatter="pharmacyName"
           [http-method]="'post'" [no-match-found-text]="'No Pharmacy Names Found'" [ngModelOptions]="{standalone: true}">
       </div>

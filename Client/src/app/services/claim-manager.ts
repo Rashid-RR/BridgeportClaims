@@ -39,6 +39,7 @@ export class ClaimManager {
   private episodeNoteTypes: Array<EpisodeNoteType> = []
 
   searchText: string = '';
+  pharmacyName: string = '';
   exactMatch: boolean = false;
   // Expanded Table Properties
   isClaimsExpanded: boolean;
@@ -63,10 +64,10 @@ export class ClaimManager {
       this.claims = Immutable.OrderedMap<Number, Claim>();
     });
     this.episodeForm = this.formBuilder.group({
-      episodeId: [undefined], // only send on episode edit
+      //episodeId: [undefined], // only send on episode edit
       claimId: [null, Validators.required],
       rxNumber: [null],
-      pharmacyNabp: [null,Validators.required],
+      pharmacyNabp: [null],
       episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
       episodeTypeId: [null]
     });
@@ -76,10 +77,13 @@ export class ClaimManager {
     swal.clickCancel();
   }
   saveEpisode() {
-    if (this.episodeForm.valid) {
+    if (this.episodeForm.controls['pharmacyNabp'].value==null && this.pharmacyName) {
+      this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
+    }else if (this.episodeForm.valid) {
       swal({ title: "", html: "Saving Episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
-      this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
+      //this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
+      let form =this.episodeForm.value;
       this.http.saveEpisode(this.episodeForm.value).single().map(r=>r.json()).subscribe(res => {
         this.episodeForm.reset();
         this.closeModal();

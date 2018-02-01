@@ -93,8 +93,7 @@ export class ClaimsComponent implements OnInit {
 
   ngOnInit() {
     //$('body').addClass('sidebar-collapse');
-    this.events.on("edit-episode", (episode:Episode) => {
-      console.log(episode);
+    this.events.on("edit-episode", (episode:Episode) => { 
       this.episode(episode.episodeId, episode.type,(episode.episodeNote || episode['note']));
     })
     this.events.on("minimize", (...args) => {
@@ -288,9 +287,9 @@ export class ClaimsComponent implements OnInit {
     this.claimManager.episodeForm.reset();
     this.claimManager.episodeForm.patchValue({
       claimId: this.claimManager.selectedClaim.claimId,
-      episodeId: id, // only send on episode edit
+      //episodeId: id, // only send on episode edit
       episodeText: note,
-      pharmacyNabp:'',
+      pharmacyNabp:null,
       episodeTypeId: TypeId
     });
     this.episodeSwal.show().then((r) => {

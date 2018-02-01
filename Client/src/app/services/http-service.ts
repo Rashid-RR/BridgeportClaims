@@ -404,6 +404,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  addEpisode(data): Observable<Response> {
+    return this.http.post(this.baseUrl + '/episodes/saveepisode', data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
   handleResponseError(res: Response) {
     if (res.status == 401) {

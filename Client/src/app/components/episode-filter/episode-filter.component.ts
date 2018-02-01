@@ -17,6 +17,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   endDate: String;
   ownerId: string=null;
   episodeCategoryId: string=null;
+  episodeTypeId: string=null;
   open: boolean = true;
   closed: Boolean = false;
   submitted: boolean = false;
@@ -52,29 +53,28 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     }
   }
   search() {
-    let startDate = this.dp.transform($('#startDate').val(), "MM/dd/yyyy");
-    let endDate = this.dp.transform($('#endDate').val(), "MM/dd/yyyy");
+    let startDate = this.dp.transform($('#startDate').val(), "dd/MM/yyyy");
+    let endDate = this.dp.transform($('#endDate').val(), "dd/MM/yyyy");
     this.ds.data.resolved = this.resolved;
     this.ds.data.startDate = startDate || null
     this.ds.data.endDate = endDate || null
     this.ds.data.OwnerID = this.ownerId ? this.ownerId : null;
-    this.ds.data.episodeCategoryId = Number(this.episodeCategoryId) ? this.episodeCategoryId : null;
+    this.ds.data.episodeCategoryId = this.episodeCategoryId ? Number(this.episodeCategoryId) : null;
+    this.ds.data.episodeTypeId = this.episodeTypeId ? Number(this.episodeTypeId) : null;
     this.ds.search();
   }
 
-  clearText() {
-    this.ds.owner = null;
-    this.ds.episodeNote = null;
-  }
-  clearDates() {
-    $('#startDate').val('');
-    $('#endDate').val('');
+  refresh() {
+    this.ds.search();
   }
   reset() {
     $('#startDate').val('');
     $('#endDate').val('');
+    this.ownerId = null;
     this.ds.owner = null;
     this.ds.episodeNote = null;
+    this.episodeCategoryId = null;
+    this.episodeTypeId = null;
   }
 
 }
