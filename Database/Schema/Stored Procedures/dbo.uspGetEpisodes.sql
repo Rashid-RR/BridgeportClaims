@@ -15,8 +15,12 @@ GO
 */
 CREATE PROC [dbo].[uspGetEpisodes]
 (
+	@StartDate DATE,
+	@EndDate DATE,
 	@Resolved BIT,
 	@OwnerID NVARCHAR(128),
+	@EpisodeCategoryID INTEGER,
+	@EpisodeTypeID INTEGER,
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
@@ -31,10 +35,15 @@ AS BEGIN
 
 		-- Param Sniffing
 		DECLARE @iResolved BIT = @Resolved,
+				@iOwnerID NVARCHAR(128) = @OwnerID,
+				@iEpisodeCategoryID INTEGER = @EpisodeCategoryID,
+				@iEpisodeTypeID INTEGER = @EpisodeTypeID,
+				@iStartDate DATE = @StartDate,
+				@iEndDate DATE = @EndDate,
 				@iSortColumn VARCHAR(50) = @SortColumn,
 				@iSortDirection VARCHAR(5) = @SortDirection,
 				@iPageNumber INTEGER = @PageNumber,
-				@iPageSize INTEGER = @PageSize;
+				@iPageSize INTEGER = @PageSize
 
 		CREATE TABLE [#Episodes](
 			[EpisodeId] [int] NOT NULL,
@@ -53,7 +62,7 @@ AS BEGIN
 				,[Type],[Pharmacy],[Carrier],[EpisodeNote])
 		SELECT          EpisodeId     = [ep].[EpisodeID]
 					  ,	[Owner]       = CONCAT([u].[LastName], @Spacing, [u].[FirstName])
-					  , [Created]     = ep.CreatedOnUTC
+					  , [Created]     = ep.Created
 					  , [PatientName] = CONCAT([pa].LastName, @Spacing, [pa].FirstName)
 					  , [ClaimNumber] = cl.ClaimNumber
 					  , [Type]        = et.TypeName
@@ -143,4 +152,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 GO
