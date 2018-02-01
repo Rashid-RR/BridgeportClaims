@@ -52,7 +52,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                resolvedParam.SqlDbType = SqlDbType.Bit;
 	                cmd.Parameters.Add(resolvedParam);
 	                var ownerIdParam = cmd.CreateParameter();
-	                ownerIdParam.Value = ownerId ?? (object) DBNull.Value;O
+	                ownerIdParam.Value = ownerId ?? (object) DBNull.Value;
                     ownerIdParam.Direction = ParameterDirection.Input;
                     ownerIdParam.DbType = DbType.String;
 	                ownerIdParam.Size = 128;

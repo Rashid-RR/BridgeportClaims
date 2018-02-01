@@ -2,6 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+
 CREATE VIEW [dbo].[vwPrescriptionNote]
 	WITH SCHEMABINDING
 	AS	
@@ -18,6 +19,4 @@ GO
 
 CREATE UNIQUE CLUSTERED INDEX [idxUqClusVwPrescriptionNote] ON [dbo].[vwPrescriptionNote] ([PrescriptionID], [PrescriptionNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 
-GO
-CREATE NONCLUSTERED INDEX [idxVwPrescriptionNoteClaimIDPrescriptionIDIncludeAll] ON [dbo].[vwPrescriptionNote] ([ClaimID], [PrescriptionID]) INCLUDE ([DateFilled], [LabelName], [NoteAuthor], [NoteCreatedOn], [NoteText], [NoteUpdatedOn], [PrescriptionNoteID], [PrescriptionNoteType], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO

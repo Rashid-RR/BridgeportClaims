@@ -834,12 +834,12 @@ AS BEGIN
 	-- Actual Prescription Import
 	INSERT INTO [dbo].[Prescription] ([ClaimID],[DateSubmitted],[RxNumber],[DateFilled],[RefillDate],[RefillNumber],[MONY],
 				[DAW],[Quantity],[DaySupply],[NDC],[LabelName],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],
-				[BilledAmount],[PayIngrCost],[PayDispFee],[PayTax],[PayableAmount],[DEA],[PrescriberNPI],[AWPUnit],[Usual],
+				[BilledAmount],[PayIngrCost],[PayDispFee],[PayTax],[PayableAmount],[Adjudicated],[DEA],[PrescriberNPI],[AWPUnit],[Usual],
 				[Compound],[Strength],[GPIGenName],[TheraClass],[Generic],[PharmacyNABP],[Prescriber],[TransactionType],[TranID],
 				[InvoiceID],[ETLRowID],[CreatedOnUTC],[UpdatedOnUTC])
 	SELECT	[n].[ClaimID],[n].[3],[n].[60],[n].[61],[n].[62],[n].[63]
 			,[n].[64],[n].[65],[n].[66],[n].[67],[n].[68],[n].[69],[n].[70],[n].[71],[n].[72],[n].[73]
-			,[n].[74],[n].[75],[n].[76],[n].[77],[n].[78],[n].[79],[n].[80],[n].[81],[n].[105],[n].[122],
+			,[n].[74],[n].[75],[n].[76],[n].[77],[n].[78],[n].[79],[n].[79],[n].[80],[n].[81],[n].[105],[n].[122],
 			CAST(ISNULL([n].[123],'') AS VARCHAR(8000)) -- TODO: Remove at some point, this column is non-nullable.
 			,[n].[137],[n].[143],[n].[146]
 			,'Y',[89],[82],CAST('' AS VARCHAR(8000)),CAST('' AS VARCHAR(8000)),[n].[InvoiceID],[n].[RowID],@UTCNow,@UTCNow -- Question for Adam: this isn't in the mapping file. [Generic],[PharmacyNABP]
@@ -913,6 +913,7 @@ AS BEGIN
 		[Usual] [decimal](18, 0) NULL,
 		[Prescriber] [varchar](100) NULL,
 		[PayableAmount] [money] NOT NULL,
+		[Adjudicated] [money] NULL,
 		[BilledAmount] [money] NOT NULL,
 		[TransactionType] [char](1) NOT NULL,
 		[Compound] [char](1) NOT NULL,
@@ -946,12 +947,12 @@ AS BEGIN
 	))
 	INSERT #PrescriptionUpdate ([PrescriptionID],[ClaimID],[DateSubmitted],[RxNumber],[DateFilled],[RefillDate],[RefillNumber],[MONY],
 				[DAW],[Quantity],[DaySupply],[NDC],[LabelName],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],
-				[BilledAmount],[PayIngrCost],[PayDispFee],[PayTax],[PayableAmount],[DEA],[PrescriberNPI],[AWPUnit],[Usual],
+				[BilledAmount],[PayIngrCost],[PayDispFee],[PayTax],[PayableAmount],[Adjudicated],[DEA],[PrescriberNPI],[AWPUnit],[Usual],
 				[Compound],[Strength],[GPIGenName],[TheraClass],[Generic],[PharmacyNABP],[Prescriber],[TransactionType],[TranID],
 				[InvoiceID],[ETLRowID],[CreatedOnUTC],[UpdatedOnUTC])
 	SELECT	[n].[PrescriptionID], [n].[ClaimID],[n].[3],[n].[60],[n].[61],[n].[62],[n].[63]
 			,[n].[64],[n].[65],[n].[66],[n].[67],[n].[68],[n].[69],[n].[70],[n].[71],[n].[72],[n].[73]
-			,[n].[74],[n].[75],[n].[76],[n].[77],[n].[78],[n].[79],[n].[80],[n].[81],[n].[105],[n].[122],
+			,[n].[74],[n].[75],[n].[76],[n].[77],[n].[78],[n].[79],[n].[79],[n].[80],[n].[81],[n].[105],[n].[122],
 			CAST(ISNULL([n].[123],'') AS VARCHAR(8000)) -- TODO: Remove at some point, this column is non-nullable.
 			,[n].[137],[n].[143],[n].[146]
 			,'Y',[89],[82],CAST('' AS VARCHAR(8000)),CAST('' AS VARCHAR(8000)),[n].[InvoiceID],[n].[RowID],@UTCNow,@UTCNow -- Question for Adam: this isn't in the mapping file. [Generic],[PharmacyNABP]
@@ -959,18 +960,18 @@ AS BEGIN
 
 	WITH UpdatedPrescriptionsCTE AS
 	(
-		SELECT	[PrescriptionID] ,[ClaimID] ,[RxNumber] ,[DateSubmitted] ,[DateFilled] ,[LabelName] ,[NDC] ,[Quantity] ,[DaySupply] ,[Generic] ,[PharmacyNABP] ,[AWPUnit] ,[Usual] ,[Prescriber] ,[PayableAmount] ,[BilledAmount] ,[TransactionType] ,[Compound] ,[TranID] ,[RefillDate],[RefillNumber],[MONY],[DAW],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],[PayIngrCost],[PayDispFee],[PayTax],[DEA],[PrescriberNPI],[Strength],[GPIGenName],[TheraClass],[InvoiceID],[ETLRowID],[AWP]
+		SELECT	[PrescriptionID] ,[ClaimID] ,[RxNumber] ,[DateSubmitted] ,[DateFilled] ,[LabelName] ,[NDC] ,[Quantity] ,[DaySupply] ,[Generic] ,[PharmacyNABP] ,[AWPUnit] ,[Usual] ,[Prescriber] ,[PayableAmount] ,[Adjudicated] ,[BilledAmount] ,[TransactionType] ,[Compound] ,[TranID] ,[RefillDate],[RefillNumber],[MONY],[DAW],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],[PayIngrCost],[PayDispFee],[PayTax],[DEA],[PrescriberNPI],[Strength],[GPIGenName],[TheraClass],[InvoiceID],[ETLRowID],[AWP]
 		FROM	#PrescriptionUpdate
 		EXCEPT
-		SELECT	[PrescriptionID] ,[ClaimID] ,[RxNumber] ,[DateSubmitted] ,[DateFilled] ,[LabelName] ,[NDC] ,[Quantity] ,[DaySupply] ,[Generic] ,[PharmacyNABP] ,[AWPUnit] ,[Usual] ,[Prescriber] ,[PayableAmount] ,[BilledAmount] ,[TransactionType] ,[Compound] ,[TranID] ,[RefillDate],[RefillNumber],[MONY],[DAW],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],[PayIngrCost],[PayDispFee],[PayTax],[DEA],[PrescriberNPI],[Strength],[GPIGenName],[TheraClass],[InvoiceID],[ETLRowID],[AWP]
+		SELECT	[PrescriptionID] ,[ClaimID] ,[RxNumber] ,[DateSubmitted] ,[DateFilled] ,[LabelName] ,[NDC] ,[Quantity] ,[DaySupply] ,[Generic] ,[PharmacyNABP] ,[AWPUnit] ,[Usual] ,[Prescriber] ,[PayableAmount] ,[Adjudicated] ,[BilledAmount] ,[TransactionType] ,[Compound] ,[TranID] ,[RefillDate],[RefillNumber],[MONY],[DAW],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],[PayIngrCost],[PayDispFee],[PayTax],[DEA],[PrescriberNPI],[Strength],[GPIGenName],[TheraClass],[InvoiceID],[ETLRowID],[AWP]
 		FROM	[dbo].[Prescription]
 	
 		UNION
     
-		SELECT	[PrescriptionID] ,[ClaimID] ,[RxNumber] ,[DateSubmitted] ,[DateFilled] ,[LabelName] ,[NDC] ,[Quantity] ,[DaySupply] ,[Generic] ,[PharmacyNABP] ,[AWPUnit] ,[Usual] ,[Prescriber] ,[PayableAmount] ,[BilledAmount] ,[TransactionType] ,[Compound] ,[TranID] ,[RefillDate],[RefillNumber],[MONY],[DAW],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],[PayIngrCost],[PayDispFee],[PayTax],[DEA],[PrescriberNPI],[Strength],[GPIGenName],[TheraClass],[InvoiceID],[ETLRowID],[AWP]
+		SELECT	[PrescriptionID] ,[ClaimID] ,[RxNumber] ,[DateSubmitted] ,[DateFilled] ,[LabelName] ,[NDC] ,[Quantity] ,[DaySupply] ,[Generic] ,[PharmacyNABP] ,[AWPUnit] ,[Usual] ,[Prescriber] ,[PayableAmount] ,[Adjudicated], [BilledAmount] ,[TransactionType] ,[Compound] ,[TranID] ,[RefillDate],[RefillNumber],[MONY],[DAW],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],[PayIngrCost],[PayDispFee],[PayTax],[DEA],[PrescriberNPI],[Strength],[GPIGenName],[TheraClass],[InvoiceID],[ETLRowID],[AWP]
 		FROM	[dbo].[Prescription]
 		EXCEPT
-		SELECT	[PrescriptionID] ,[ClaimID] ,[RxNumber] ,[DateSubmitted] ,[DateFilled] ,[LabelName] ,[NDC] ,[Quantity] ,[DaySupply] ,[Generic] ,[PharmacyNABP] ,[AWPUnit] ,[Usual] ,[Prescriber] ,[PayableAmount] ,[BilledAmount] ,[TransactionType] ,[Compound] ,[TranID] ,[RefillDate],[RefillNumber],[MONY],[DAW],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],[PayIngrCost],[PayDispFee],[PayTax],[DEA],[PrescriberNPI],[Strength],[GPIGenName],[TheraClass],[InvoiceID],[ETLRowID],[AWP]
+		SELECT	[PrescriptionID] ,[ClaimID] ,[RxNumber] ,[DateSubmitted] ,[DateFilled] ,[LabelName] ,[NDC] ,[Quantity] ,[DaySupply] ,[Generic] ,[PharmacyNABP] ,[AWPUnit] ,[Usual] ,[Prescriber] ,[PayableAmount] ,[Adjudicated], [BilledAmount] ,[TransactionType] ,[Compound] ,[TranID] ,[RefillDate],[RefillNumber],[MONY],[DAW],[GPI],[BillIngrCost],[BillDispFee],[BilledTax],[BilledCopay],[PayIngrCost],[PayDispFee],[PayTax],[DEA],[PrescriberNPI],[Strength],[GPIGenName],[TheraClass],[InvoiceID],[ETLRowID],[AWP]
 		FROM	#PrescriptionUpdate
 	)
 	UPDATE [p] SET [p].[Prescriber] = [c].[Prescriber], 
@@ -988,6 +989,7 @@ AS BEGIN
 				   p.[AWPUnit] = c.[AWPUnit],
 				   p.[Usual] = c.[Usual],
 				   p.[PayableAmount] = c.[PayableAmount],
+				   p.[Adjudicated] = c.[Adjudicated],
 				   p.[BilledAmount] = c.[BilledAmount],
 				   p.[TransactionType] = c.[TransactionType],
 				   p.[Compound] = c.[Compound],
