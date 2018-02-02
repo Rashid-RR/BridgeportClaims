@@ -61,8 +61,7 @@ AS BEGIN
 		);
 
 		DECLARE @Spacing NVARCHAR(2) = N', ';
-		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber]
-				,[Type],[Pharmacy],[Carrier],[EpisodeNote])
+		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber],[Type],[Pharmacy],[Carrier],[EpisodeNote])
 		SELECT          EpisodeId     = [ep].[EpisodeID]
 					  ,	[Owner]       = CONCAT([u].[LastName], @Spacing, [u].[FirstName])
 					  , [Created]     = ep.Created
@@ -76,7 +75,7 @@ AS BEGIN
 			INNER JOIN  dbo.Claim           AS cl ON ep.ClaimID = cl.ClaimID
 			INNER JOIN  dbo.Patient         AS pa ON cl.PatientID = pa.PatientID
 			INNER JOIN  dbo.Payor           AS py ON cl.PayorID = py.PayorID
-			INNER JOIN  dbo.Pharmacy        AS ph ON ep.[PharmacyNABP] = ph.NABP
+			LEFT JOIN  dbo.Pharmacy        AS ph ON ep.[PharmacyNABP] = ph.NABP
 			LEFT JOIN   dbo.EpisodeType     AS et ON ep.EpisodeTypeID = et.EpisodeTypeID
 			LEFT JOIN   dbo.DocumentIndex   AS di ON ep.DocumentID = di.DocumentID
 			LEFT JOIN   [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [ep].[AssignedUserID]
@@ -159,5 +158,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 
 GO
