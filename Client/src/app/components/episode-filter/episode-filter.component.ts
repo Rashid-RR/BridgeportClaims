@@ -65,7 +65,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   }
 
   refresh() {
-    this.ds.data= this.data = {
+    this.ds.data=  {
       startDate: null,
       endDate: null,
       episodeCategoryId:null,
