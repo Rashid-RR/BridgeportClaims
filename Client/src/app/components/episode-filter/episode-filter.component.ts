@@ -65,6 +65,20 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   }
 
   refresh() {
+    this.ds.data= this.data = {
+      startDate: null,
+      endDate: null,
+      episodeCategoryId:null,
+      episodeTypeId:null,
+      OwnerID:null,
+      resolved: false,
+      sortColumn: "Created",
+      sortDirection: "DESC",
+      pageNumber: 1,
+      pageSize: 30
+    };
+    this.reset();
+    this.resolved=false;
     this.ds.search();
   }
   reset() {
