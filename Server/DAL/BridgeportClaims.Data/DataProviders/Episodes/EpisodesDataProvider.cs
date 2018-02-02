@@ -126,7 +126,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                     cmd.Parameters.Add(episodeCategoryIdParam);
 	                var episodeTypeIdParam = cmd.CreateParameter();
 	                episodeTypeIdParam.Direction = ParameterDirection.Input;
-	                episodeTypeIdParam.Value = episodeCategoryId ?? (object)DBNull.Value;
+	                episodeTypeIdParam.Value = episodeTypeId ?? (object)DBNull.Value;
 	                episodeTypeIdParam.DbType = DbType.Int32;
 	                episodeTypeIdParam.SqlDbType = SqlDbType.Int;
 	                episodeTypeIdParam.ParameterName = "@EpisodeTypeID";
@@ -298,15 +298,16 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                 throw new Exception("Error. Could not find an Episode Category for Code 'CALL'");
 	        var user = _usersRepository.Get(userId);
 	        var pharmacy = pharmacyNabp.IsNotNullOrWhiteSpace()
-	            ? _pharmacyRepository?.GetSingleOrDefault(x => x.PharmacyName.ToLower() == pharmacyNabp.ToLower())
+	            ? _pharmacyRepository?.GetSingleOrDefault(x => x.Nabp.ToLower() == pharmacyNabp.ToLower())
 	            : null;
+	        var type = _episodeTypeRepository?.GetFirstOrDefault(x => x.EpisodeTypeId == episodeTypeId);
             var entity = new Episode
 	        {
 	            EpisodeCategory = cat,
                 UpdatedOnUtc = DateTime.UtcNow,
                 AssignedUser = user,
                 RxNumber = rxNumber,
-                EpisodeType = _episodeTypeRepository.Get(episodeTypeId),
+                EpisodeType = type,
                 Claim = _claimRepository.Get(claimId),
                 Pharmacy = pharmacy,
                 Note = episodeText,
