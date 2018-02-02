@@ -17,6 +17,7 @@ export class EpisodeService {
   episodes: Immutable.OrderedMap<Number, Episode> = Immutable.OrderedMap<Number, Episode>();
   data: any = {};
   owner: String;
+  goToPage: any = '';
   episodeNote: String;
   totalRowCount: number;
   episodeNoteTypes: Array<EpisodeNoteType> = []
@@ -109,6 +110,10 @@ export class EpisodeService {
           if (page && result.episodeResults && result.episodeResults.length>0) {
             this.data.pageNumber = page;
           }
+          if(!prev && !next && ! page){
+            this.data.pageNumber=this.totalRowCount==0  ? null :1;            
+            this.goToPage = this.totalRowCount==0  ? null : this.data.pageNumber;
+          }
           setTimeout(() => {
             //this.events.broadcast('payment-amountRemaining',result)
           }, 200);
@@ -126,7 +131,7 @@ export class EpisodeService {
     return new Array(this.data.pageNumber);
   }
   get pageStart() {
-    return this.episodeList.length > 1 ? ((this.data.pageNumber - 1) * this.data.pageSize) + 1 : null;
+    return this.totalRowCount==0 ? 0 : (this.totalRowCount>0 && this.episodeList.length > 1 ? ((this.data.pageNumber - 1) * this.data.pageSize) + 1 : null);
   }
   get pageEnd() {
     return this.episodeList.length > 1 ? (this.data.pageSize > this.episodeList.length ? ((this.data.pageNumber - 1) * this.data.pageSize) + this.episodeList.length : (this.data.pageNumber) * this.data.pageSize) : null;

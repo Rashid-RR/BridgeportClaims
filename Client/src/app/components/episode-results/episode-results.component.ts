@@ -18,7 +18,6 @@ import { ConfirmComponent } from '../../components/confirm.component';
 })
 export class EpisodeResultsComponent implements OnInit {
 
-  goToPage: any = '';
   activeToast: Toast;
   constructor(
     private dialogService: DialogService,private _router: Router, public episodeService: EpisodeService, private http: HttpService,
@@ -61,8 +60,8 @@ export class EpisodeResultsComponent implements OnInit {
   }
 
   goto() {
-    let page = Number.parseInt(this.goToPage);
-    if (!this.goToPage || isNaN(page)) {
+    let page = Number.parseInt(this.episodeService.goToPage);
+    if (!this.episodeService.goToPage || isNaN(page)) {
       /* if(this.activeToast && this.activeToast.timeoutId){
         this.activeToast.message =  'Invalid page number entered'
         }else{
@@ -86,7 +85,7 @@ export class EpisodeResultsComponent implements OnInit {
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
     let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    let input = Number(this.episodeService.goToPage + "" + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {

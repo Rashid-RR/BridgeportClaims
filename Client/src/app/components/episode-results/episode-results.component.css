@@ -56,7 +56,7 @@ tr:nth-of-type(even) {
 .top-header table{
     height:99%;
 }
-tbody>tr:hover {
+tbody>tr:hover,tbody>tr.no-result {
     background: #b6f1ff !important;
     cursor: pointer;
   }
