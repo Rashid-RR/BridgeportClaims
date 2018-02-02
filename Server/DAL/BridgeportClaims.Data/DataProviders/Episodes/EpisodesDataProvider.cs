@@ -22,6 +22,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	    private readonly IRepository<EpisodeCategory> _episodeCategoryRepository;
 	    private readonly IRepository<Claim> _claimRepository;
 	    private readonly IRepository<Pharmacy> _pharmacyRepository;
+	    private readonly IRepository<DocumentIndex> _documentIndexRepository;
+	    private const string EpisodeCategory = "IMAGE";
 
         public EpisodesDataProvider(
             IRepository<EpisodeType> episodeTypeRepository, 
@@ -29,7 +31,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
             IRepository<Episode> episodeRepository, 
             IRepository<EpisodeCategory> episodeCategoryRepository, 
             IRepository<Claim> claimRepository, 
-            IRepository<Pharmacy> pharmacyRepository)
+            IRepository<Pharmacy> pharmacyRepository, 
+            IRepository<DocumentIndex> documentIndexRepository)
 		{
 		    _episodeTypeRepository = episodeTypeRepository;
 		    _usersRepository = usersRepository;
@@ -37,7 +40,46 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    _episodeCategoryRepository = episodeCategoryRepository;
 		    _claimRepository = claimRepository;
 		    _pharmacyRepository = pharmacyRepository;
+		    _documentIndexRepository = documentIndexRepository;
 		}
+
+	    /// <summary>
+	    /// 
+	    /// </summary>
+	    /// <param name="claimId"></param>
+	    /// <param name="userId"></param>
+	    /// <param name="fileNameNote"></param>
+	    /// <param name="created"></param>
+	    /// <param name="documentId"></param>
+	    /// <param name="documentTypeId">TODO: Find which Document Types need to create an Episode. For now, ignore it.</param>
+	    /// <param name="rxNumber"></param>
+	    /// <exception cref="Exception"></exception>
+	    public void CreateImageCategoryEpisode(int claimId, string userId, string fileNameNote, 
+            DateTime created, int documentId, int documentTypeId, string rxNumber = null)
+	    {
+	        var episodeEntity = new Episode();
+	        var claim = _claimRepository?.GetSingleOrDefault(x => x.ClaimId == claimId);
+            var now = DateTime.UtcNow;
+            var user = _usersRepository?.GetSingleOrDefault(x => x.Id == userId);
+            if (null == user)
+                throw new Exception($"Error. Could not locate user with User Id \"{userId}\"");
+	        episodeEntity.ModifiedByUser = user;
+	        episodeEntity.AssignedUser = user;
+	        episodeEntity.CreatedOnUtc = now;
+	        episodeEntity.DocumentIndex = _documentIndexRepository?.GetFirstOrDefault(x => x.DocumentId == documentId) ??
+	                                      throw new Exception($"Error. Could not find document with Document Id {documentId}");
+            episodeEntity.UpdatedOnUtc = now;
+	        episodeEntity.Created = created;
+	        episodeEntity.Claim = claim ?? throw new Exception($"Error. Could not locate a Claim with Claim Id {claimId}.");
+	        episodeEntity.Note = fileNameNote;
+	        var cat = _episodeCategoryRepository?.GetFirstOrDefault(x => x.Code == "IMAGE");
+            episodeEntity.EpisodeCategory = cat ?? throw new Exception($"Error. Could not locate the episode category \"{EpisodeCategory}\"");
+	        if (rxNumber.IsNotNullOrWhiteSpace())
+	            episodeEntity.RxNumber = rxNumber;
+	        episodeEntity.ResolvedDateUtc = null;
+	        episodeEntity.ResolvedUser = null;
+	        _episodeRepository.Save(episodeEntity);
+        }
 
 	    public EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId,
             int? episodeCategoryId, int? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
@@ -84,7 +126,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                     cmd.Parameters.Add(episodeCategoryIdParam);
 	                var episodeTypeIdParam = cmd.CreateParameter();
 	                episodeTypeIdParam.Direction = ParameterDirection.Input;
-	                episodeTypeIdParam.Value = episodeCategoryId ?? (object)DBNull.Value;
+	                episodeTypeIdParam.Value = episodeTypeId ?? (object)DBNull.Value;
 	                episodeTypeIdParam.DbType = DbType.Int32;
 	                episodeTypeIdParam.SqlDbType = SqlDbType.Int;
 	                episodeTypeIdParam.ParameterName = "@EpisodeTypeID";
@@ -256,15 +298,16 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                 throw new Exception("Error. Could not find an Episode Category for Code 'CALL'");
 	        var user = _usersRepository.Get(userId);
 	        var pharmacy = pharmacyNabp.IsNotNullOrWhiteSpace()
-	            ? _pharmacyRepository?.GetSingleOrDefault(x => x.PharmacyName.ToLower() == pharmacyNabp.ToLower())
+	            ? _pharmacyRepository?.GetSingleOrDefault(x => x.Nabp.ToLower() == pharmacyNabp.ToLower())
 	            : null;
+	        var type = _episodeTypeRepository?.GetFirstOrDefault(x => x.EpisodeTypeId == episodeTypeId);
             var entity = new Episode
 	        {
 	            EpisodeCategory = cat,
                 UpdatedOnUtc = DateTime.UtcNow,
                 AssignedUser = user,
                 RxNumber = rxNumber,
-                EpisodeType = _episodeTypeRepository.Get(episodeTypeId),
+                EpisodeType = type,
                 Claim = _claimRepository.Get(claimId),
                 Pharmacy = pharmacy,
                 Note = episodeText,

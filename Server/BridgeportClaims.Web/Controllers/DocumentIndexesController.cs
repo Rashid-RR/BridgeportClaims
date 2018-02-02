@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
+using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -17,11 +18,14 @@ namespace BridgeportClaims.Web.Controllers
     public class DocumentIndexesController : BaseApiController
     {
         private readonly IDocumentIndexProvider _documentIndexProvider;
+        private readonly IEpisodesDataProvider _episodesDataProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public DocumentIndexesController(IDocumentIndexProvider documentIndexProvider)
+        public DocumentIndexesController(IDocumentIndexProvider documentIndexProvider, 
+            IEpisodesDataProvider episodesDataProvider)
         {
             _documentIndexProvider = documentIndexProvider;
+            _episodesDataProvider = episodesDataProvider;
         }
 
         [HttpPost]
@@ -43,6 +47,8 @@ namespace BridgeportClaims.Web.Controllers
                         var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                         hubContext.Clients.All.indexedDocument(model.DocumentId);
                     }
+                    _episodesDataProvider.CreateImageCategoryEpisode(model.ClaimId, userId, ".pdf", // TODO: Figure out Episode NOTE; I
+                        DateTime.Now.ToLocalTime(), model.DocumentId, model.DocumentTypeId ,model.RxNumber);
                     var msg = $"The image was {(wasUpdate ? "reindexed" : "indexed")} successfully.";
                     if (cs.AppIsInDebugMode)
                         Logger.Info($"Document ID: {model.DocumentId}. {msg}");
