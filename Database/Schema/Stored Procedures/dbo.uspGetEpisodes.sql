@@ -9,9 +9,7 @@ GO
 	Modified:		Removed performance Hog: [dtme].[udfGetLocalDateTime]
 	Sample Execute:
 					DECLARE @TotalPageSize INT
-					EXEC [dbo].[uspGetEpisodes] @Resolved = 1, @OwnerID = 'e9c4cd49-251f-4782-97be-2e8f6d90c328',
-						@SortColumn = N'PatientName', @SortDirection = N'asc',
-						@PageNumber = 1, @PageSize = 50000, @TotalPageSize = @TotalPageSize
+					EXEC [dbo].[uspGetEpisodes] NULL,NULL,0,NULL,1,NULL,'Created','ASC',1,50000,  @TotalPageSize OUTPUT
 */
 CREATE   PROC [dbo].[uspGetEpisodes]
 (
@@ -96,11 +94,13 @@ AS BEGIN
              , [e].[Owner]
              , [e].[Created]
              , [e].[PatientName]
-             , [e].[ClaimNumber]
+             , [e].[ClaimNumber]	
              , [e].[Type]
              , [e].[Pharmacy]
              , [e].[Carrier]
-             , [e].[EpisodeNote] FROM [#Episodes] AS [e]
+             , [e].[EpisodeNote]
+			 , [e].[FileUrl]
+		FROM [#Episodes] AS [e]
 		ORDER BY CASE WHEN @iSortColumn = 'EpisodeId' AND @iSortDirection = 'ASC'
 				THEN [e].[EpisodeID] END ASC,
 			 CASE WHEN @iSortColumn = 'EpisodeId' AND @iSortDirection = 'DESC'
@@ -136,6 +136,10 @@ AS BEGIN
 			 CASE WHEN @iSortColumn = 'EpisodeNote' AND @iSortDirection = 'ASC'
 				THEN [e].[EpisodeNote] END ASC,
 			 CASE WHEN @iSortColumn = 'EpisodeNote' AND @iSortDirection = 'DESC'
+				THEN [e].[EpisodeNote] END DESC,
+			 CASE WHEN @iSortColumn = 'FileUrl' AND @iSortDirection = 'ASC'
+				THEN [e].[EpisodeNote] END ASC,
+			 CASE WHEN @iSortColumn = 'FileUrl' AND @iSortDirection = 'DESC'
 				THEN [e].[EpisodeNote] END DESC
 		OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 		FETCH NEXT @iPageSize ROWS ONLY;
@@ -161,4 +165,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 GO
