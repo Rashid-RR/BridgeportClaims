@@ -40,7 +40,8 @@ export class EpisodeResultsComponent implements OnInit {
         this.http.markEpisodeAsSolved(episode.episodeId).map(r => { return r.json() }).single().subscribe(res => {
           this.toast.success(res.message); 
           this.episodeService.loading = false;
-          this.episodeService.episodes = this.episodeService.episodes.delete(episode.episodeId)
+          this.episodeService.episodes = this.episodeService.episodes.delete(episode.episodeId);
+          this.episodeService.totalRowCount--;
         }, error => {
           this.toast.error(error.message);
           $event.target.checked=false;

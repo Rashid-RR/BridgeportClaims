@@ -1,5 +1,8 @@
 .center-form{
-        width: 500px;
-        margin: auto;
-        background: #fafafa;
+    width: 500px;
+    margin: auto;
+    background: #fafafa;
+}
+.login-logo{
+    margin-bottom:5px;
 }
