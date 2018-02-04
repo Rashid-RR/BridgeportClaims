@@ -82,6 +82,8 @@
     <Compile Include="DataProviders\ClaimsEdit\IClaimsEditProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
+    <Compile Include="DataProviders\Dashboards\DashboardProvider.cs" />
+    <Compile Include="DataProviders\Dashboards\IDashboardProvider.cs" />
     <Compile Include="DataProviders\DateDisplay\DateDisplayProvider.cs" />
     <Compile Include="DataProviders\DateDisplay\IDateDisplayProvider.cs" />
     <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="Dtos\ClaimNoteDto.cs" />
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
+    <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\DiariesDto.cs" />
     <Compile Include="Dtos\DiaryResultDto.cs" />
@@ -184,6 +187,7 @@
     <Compile Include="Mappings\DiaryMap.cs" />
     <Compile Include="Mappings\DocumentIndexMap.cs" />
     <Compile Include="Mappings\DocumentMap.cs" />
+    <Compile Include="Mappings\DocumentTypeEpisodeTypeMappingMap.cs" />
     <Compile Include="Mappings\DocumentTypeMap.cs" />
     <Compile Include="Mappings\EpisodeCategoryMap.cs" />
     <Compile Include="Mappings\EpisodeLinkMap.cs" />

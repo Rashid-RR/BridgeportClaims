@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { EpisodeService, HttpService } from "../../services/services.barrel";
-import { Diary } from "../../models/diary";
-import { Claim } from "../../models/claim";
-import { PrescriptionNote } from "../../models/prescription-note";
-import { DiaryScriptNoteWindowComponent } from "../../components/components-barrel";
-import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../ng-window";
-import { Router } from "@angular/router";
+import { EpisodeService, HttpService } from '../../services/services.barrel';
+import { Diary } from '../../models/diary';
+import { Claim } from '../../models/claim';
+import { PrescriptionNote } from '../../models/prescription-note';
+import { DiaryScriptNoteWindowComponent } from '../../components/components-barrel';
+import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
+import { Router } from '@angular/router';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 
@@ -30,26 +30,25 @@ export class EpisodeResultsComponent implements OnInit {
   }
 
   markAsResolved($event,episode){
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Mark Episode as Resolved",
-      message: "Are you sure you with to resolve this episode?"
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Mark Episode as Resolved',
+      message: 'Are you sure you with to resolve this episode?'
     })
       .subscribe((isConfirmed) => {
          if (isConfirmed) {
-        this.episodeService.loading = true
-        this.http.markEpisodeAsSolved(episode.episodeId).map(r => { return r.json() }).single().subscribe(res => {
-          this.toast.success(res.message); 
+        this.episodeService.loading = true;
+        this.http.markEpisodeAsSolved(episode.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
+          this.toast.success(res.message);
           this.episodeService.loading = false;
           this.episodeService.episodes = this.episodeService.episodes.delete(episode.episodeId);
           this.episodeService.totalRowCount--;
         }, error => {
           this.toast.error(error.message);
-          $event.target.checked=false;
+          $event.target.checked = false;
           this.episodeService.loading = false;
         });
-      }
-      else {
-        $event.target.checked=false;
+      } else {
+        $event.target.checked = false;
        }
     });
   }
@@ -61,7 +60,7 @@ export class EpisodeResultsComponent implements OnInit {
   }
 
   goto() {
-    let page = Number.parseInt(this.episodeService.goToPage);
+    const page = Number.parseInt(this.episodeService.goToPage);
     if (!this.episodeService.goToPage || isNaN(page)) {
       /* if(this.activeToast && this.activeToast.timeoutId){
         this.activeToast.message =  'Invalid page number entered'
@@ -74,19 +73,19 @@ export class EpisodeResultsComponent implements OnInit {
       this.episodeService.search(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.episodeService.totalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.episodeService.totalPages;
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.episodeService.totalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }
 
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.episodeService.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.episodeService.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {

@@ -56,6 +56,8 @@ ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [pkPrescription] PRIMARY KEY CLU
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionClaimIDIncludes] ON [dbo].[Prescription] ([ClaimID]) INCLUDE ([LabelName], [PayableAmount], [RefillDate], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionCreatedOnUTCIncludeIsReversed] ON [dbo].[Prescription] ([CreatedOnUTC]) INCLUDE ([IsReversed]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 SET ANSI_NULLS ON
 GO
 SET ANSI_PADDING ON
@@ -87,6 +89,20 @@ GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionPharmacyNABPPharmacyNABP] FOREIGN KEY ([PharmacyNABP]) REFERENCES [dbo].[Pharmacy] ([NABP])
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionPrescriptionStatusIDPrescriptionStatusPrescriptionStatusID] FOREIGN KEY ([PrescriptionStatusID]) REFERENCES [dbo].[PrescriptionStatus] ([PrescriptionStatusID])
+GO
+SET ANSI_NULLS ON
+GO
+SET ANSI_PADDING ON
+GO
+SET ANSI_WARNINGS ON
+GO
+SET ARITHABORT ON
+GO
+SET CONCAT_NULL_YIELDS_NULL ON
+GO
+SET NUMERIC_ROUNDABORT OFF
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO

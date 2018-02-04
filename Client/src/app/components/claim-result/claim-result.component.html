@@ -36,7 +36,7 @@
                     </div>
                     <div class="form-group" *ngIf="!editing">
                         <label class="col-sm-4">City \ State \ Zip: </label>
-                        <div class="col-sm-8">{{claim.city}}, {{claim.stateAbbreviation}} {{claim.postalCode}}</div>
+                        <div class="col-sm-8">{{claim.city}}, {{claim.stateAbbreviation}} &nbsp;{{claim.postalCode}}</div>
                     </div>
                     <ng-container *ngIf="editing">
                         <div class="form-group" [class.editing]="editing">

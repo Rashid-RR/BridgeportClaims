@@ -6,8 +6,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 {
 	public interface IEpisodesDataProvider
 	{
-	    void CreateImageCategoryEpisode(int claimId, string userId, string fileNameNote,
-	        DateTime created, int documentId, int documentTypeId, string rxNumber = null);
+	    bool CreateImageCategoryEpisode(int documentTypeId, int claimId, string rxNumber, string userId, int documentId);
         EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId,
 	        int? episodeCategoryId, int? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize);
         void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string noteText, int? episodeTypeId);

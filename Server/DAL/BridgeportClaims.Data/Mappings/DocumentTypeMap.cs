@@ -15,9 +15,11 @@ namespace BridgeportClaims.Data.Mappings
             Id(x => x.DocumentTypeId).GeneratedBy.Assigned().Column("DocumentTypeID");
             Map(x => x.TypeName).Column("TypeName").Not.Nullable().Length(255);
             Map(x => x.Code).Column("Code").Not.Nullable().Unique().Length(10);
+            Map(x => x.CreatesEpisode).Column("CreatesEpisode").Not.Nullable();
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.DocumentIndex).KeyColumn("DocumentTypeID");
+            HasMany(x => x.DocumentTypeEpisodeTypeMapping).KeyColumn("DocumentTypeID");
         }
     }
 }

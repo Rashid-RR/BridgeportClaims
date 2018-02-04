@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[Episode]
 [EpisodeID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NOT NULL,
 [Note] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[EpisodeTypeID] [int] NULL,
+[EpisodeTypeID] [tinyint] NULL,
 [Role] [varchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ResolvedUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AcquiredUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
