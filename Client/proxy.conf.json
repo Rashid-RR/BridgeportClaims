@@ -1,20 +1,20 @@
 {
   "/api": {
-    "target": "https://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
+    "target": "https://bridgeportclaims-staging.azurewebsites.net",
     "changeOrigin": true,
     "secure": true,
     "logLevel": "debug",
     "ws":true
   },
   "/oauth": {
-    "target": "https://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
+    "target": "https://bridgeportclaims-staging.azurewebsites.net",
     "changeOrigin": true,
     "secure": true,
     "logLevel": "debug",
     "ws":true
   },
   "/signalr": {
-    "target": "https://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net",
+    "target": "https://bridgeportclaims-staging.azurewebsites.net",
     "changeOrigin": true,
     "secure": true,
     "logLevel": "debug",
