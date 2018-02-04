@@ -3,6 +3,7 @@ CREATE TABLE [dbo].[DocumentType]
 [DocumentTypeID] [tinyint] NOT NULL IDENTITY(1, 1),
 [TypeName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [Code] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[CreatesEpisode] [bit] NOT NULL CONSTRAINT [dfDocumentTypeCreatesEpisode] DEFAULT ((0)),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentTypeCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentTypeUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
