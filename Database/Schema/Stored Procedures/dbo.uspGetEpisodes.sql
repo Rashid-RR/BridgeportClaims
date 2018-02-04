@@ -11,7 +11,7 @@ GO
 					DECLARE @TotalPageSize INT
 					EXEC [dbo].[uspGetEpisodes] NULL,NULL,0,NULL,1,NULL,'Created','ASC',1,50000,  @TotalPageSize OUTPUT
 */
-CREATE   PROC [dbo].[uspGetEpisodes]
+CREATE PROC [dbo].[uspGetEpisodes]
 (
 	@StartDate DATE,
 	@EndDate DATE,
@@ -78,7 +78,8 @@ AS BEGIN
 			INNER JOIN  dbo.Payor           AS py ON cl.PayorID = py.PayorID
 			LEFT JOIN   dbo.Pharmacy        AS ph ON ep.[PharmacyNABP] = ph.NABP
 			LEFT JOIN   dbo.EpisodeType     AS et ON ep.EpisodeTypeID = et.EpisodeTypeID
-			LEFT JOIN   dbo.Document		AS d  ON d.[DocumentID] = ep.[DocumentID]
+			LEFT JOIN   dbo.Document		AS d  INNER JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
+											ON d.[DocumentID] = ep.[DocumentID]
 			LEFT JOIN   [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [ep].[AssignedUserID]
 		WHERE @iResolved = CASE WHEN ep.ResolvedDateUTC IS NOT NULL THEN 1 ELSE 0 END
 			  AND (@OwnerID IS NULL OR [u].[ID] = @iOwnerID)
@@ -165,5 +166,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 
 GO
