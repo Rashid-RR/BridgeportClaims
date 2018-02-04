@@ -7,9 +7,14 @@
                         <i class="fa fa-home"></i> Home
                     </a>
                 </li>
+                <li>
+                    <a routerLink="/main/reports">
+                        Reports
+                    </a>
+                </li>
                 <li class="active">
                     <a [routerLink]="[]">
-                        Reports - {{reportloader.currentURL}}
+                        {{reportloader.current}}
                     </a>
                 </li>
             </ol>
