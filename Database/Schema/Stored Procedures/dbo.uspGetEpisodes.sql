@@ -13,7 +13,7 @@ GO
 						@SortColumn = N'PatientName', @SortDirection = N'asc',
 						@PageNumber = 1, @PageSize = 50000, @TotalPageSize = @TotalPageSize
 */
-CREATE PROC [dbo].[uspGetEpisodes]
+CREATE   PROC [dbo].[uspGetEpisodes]
 (
 	@StartDate DATE,
 	@EndDate DATE,
@@ -57,11 +57,13 @@ AS BEGIN
 			[Type] [varchar](255) NULL,
 			[Pharmacy] [varchar](60) NULL,
 			[Carrier] [varchar](255) NOT NULL,
-			[EpisodeNote] [varchar](8000) NOT NULL
+			[EpisodeNote] [varchar](8000) NOT NULL,
+			[FileUrl] [nvarchar] (500) NULL
 		);
 
 		DECLARE @Spacing NVARCHAR(2) = N', ';
-		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber],[Type],[Pharmacy],[Carrier],[EpisodeNote])
+		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber],
+				[Type],[Pharmacy],[Carrier],[EpisodeNote], [FileUrl])
 		SELECT          EpisodeId     = [ep].[EpisodeID]
 					  ,	[Owner]       = CONCAT([u].[LastName], @Spacing, [u].[FirstName])
 					  , [Created]     = ep.Created
@@ -71,13 +73,14 @@ AS BEGIN
 					  , [Pharmacy]    = ph.PharmacyName
 					  , [Carrier]     = py.GroupName
 					  , [EpisodeNote] = ep.Note
+					  , [d].[FileUrl]
 		FROM            dbo.Episode         AS ep
 			INNER JOIN  dbo.Claim           AS cl ON ep.ClaimID = cl.ClaimID
 			INNER JOIN  dbo.Patient         AS pa ON cl.PatientID = pa.PatientID
 			INNER JOIN  dbo.Payor           AS py ON cl.PayorID = py.PayorID
-			LEFT JOIN  dbo.Pharmacy        AS ph ON ep.[PharmacyNABP] = ph.NABP
+			LEFT JOIN   dbo.Pharmacy        AS ph ON ep.[PharmacyNABP] = ph.NABP
 			LEFT JOIN   dbo.EpisodeType     AS et ON ep.EpisodeTypeID = et.EpisodeTypeID
-			LEFT JOIN   dbo.DocumentIndex   AS di ON ep.DocumentID = di.DocumentID
+			LEFT JOIN   dbo.Document		AS d  ON d.[DocumentID] = ep.[DocumentID]
 			LEFT JOIN   [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [ep].[AssignedUserID]
 		WHERE @iResolved = CASE WHEN ep.ResolvedDateUTC IS NOT NULL THEN 1 ELSE 0 END
 			  AND (@OwnerID IS NULL OR [u].[ID] = @iOwnerID)
@@ -158,6 +161,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
-
-
 GO

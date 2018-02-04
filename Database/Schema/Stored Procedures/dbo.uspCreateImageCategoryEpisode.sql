@@ -1,0 +1,113 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+/* 
+ =============================================
+ Author:			Jordan Gurney
+ Create date:		2/3/2018
+ Description:		Saves a new "Image" category Episode record if certain
+					criteria are met - which can be found below.
+ Example Execute:
+					EXECUTE [dbo].[uspCreateImageCategoryEpisode]
+ =============================================
+*/
+CREATE   PROCEDURE [dbo].[uspCreateImageCategoryEpisode]
+(
+	@DocumentTypeID TINYINT,
+	@ClaimID INTEGER,
+	@RxNumber VARCHAR(100),
+	@UserID NVARCHAR(128),
+	@DocumentID INTEGER,
+	@EpisodeCreated BIT OUTPUT
+)
+AS BEGIN
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+    BEGIN TRY
+        BEGIN TRAN;
+
+		DECLARE @CreateEpisode BIT, 
+				@UtcNow DATETIME2 = SYSUTCDATETIME(),
+				@LocalNow DATE = CONVERT(DATE, [dtme].[udfGetLocalDate]()),
+				@PrntMsg NVARCHAR(500);
+
+		IF NOT EXISTS (SELECT * FROM [dbo].[Claim] AS [c] WHERE [c].[ClaimID] = @ClaimID)
+			BEGIN
+				SET @PrntMsg = N'Error, Claim ID ' + CONVERT(NVARCHAR, @ClaimID) + ' doesn''t exist.';
+				RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
+				IF (@@TRANCOUNT > 0)
+					ROLLBACK;
+				RETURN;
+			END
+
+		DECLARE @EpisodeCategoryID INTEGER
+		SELECT  @EpisodeCategoryID = [ec].[EpisodeCategoryID]
+		FROM    [dbo].[EpisodeCategory] AS [ec]
+		WHERE   [ec].[Code] = 'IMAGE'
+			
+		SELECT  @CreateEpisode = CAST(COUNT(*) AS BIT)
+		FROM    [dbo].[DocumentType] AS [dt]
+		WHERE   [dt].[DocumentTypeID] = @DocumentTypeID
+				AND [dt].[CreatesEpisode] = 1
+
+		IF @CreateEpisode = 0
+			BEGIN
+				IF (@@TRANCOUNT > 0)
+					ROLLBACK;
+				RAISERROR(N'No action necessary', 1, 1) WITH NOWAIT;
+				RETURN;
+			END
+		ELSE
+			BEGIN
+				INSERT INTO [dbo].[Episode]
+				(   [ClaimID]
+				  , [Note]
+				  , [EpisodeTypeID]
+				  , [AssignedUserID]
+				  , [RxNumber]
+				  , [Created]
+				  , [DocumentID]
+				  , [ModifiedByUserID]
+				  , [EpisodeCategoryID]
+				  , [CreatedOnUTC]
+				  , [UpdatedOnUTC])
+				SELECT  @ClaimID
+					  , ISNULL((SELECT [d].[FileName] 
+						 FROM	[dbo].[Document] AS [d]
+						 WHERE	[d].[DocumentID] = @DocumentID), '')
+					  ,(SELECT  [m].[EpisodeTypeID]
+						FROM    dbo.[DocumentTypeEpisodeTypeMapping] AS [m]
+						WHERE   [m].[DocumentTypeID] = @DocumentTypeID)
+					  , @UserID
+					  , @RxNumber
+					  , @LocalNow
+					  , @DocumentID
+					  , @UserID
+					  , @EpisodeCategoryID
+					  , @UtcNow
+					  , @UtcNow
+			END
+			
+		IF (@@TRANCOUNT > 0)
+			COMMIT;
+    END TRY
+    BEGIN CATCH     
+		IF (@@TRANCOUNT > 0)
+			ROLLBACK;
+				
+		DECLARE @ErrSeverity INT = ERROR_SEVERITY()
+			, @ErrState INT = ERROR_STATE()
+			, @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
+			, @ErrLine INT = ERROR_LINE()
+			, @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
+
+		RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
+			@ErrSeverity,		-- Severity
+			@ErrState,			-- State
+			@ErrProc,			-- First argument (string)
+			@ErrLine,			-- Second argument (int)
+			@ErrMsg);			-- First argument (string)
+    END CATCH
+END
+GO
