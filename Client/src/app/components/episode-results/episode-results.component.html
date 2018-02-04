@@ -6,7 +6,7 @@
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="episodeService.onSortColumn($event)" #myTable='table-sort'>
                         <th *ngIf="!episodeService.data.resolved">
-                            Resolved
+                            <span>Resolved</span>
                         </th>
                         <th>
                             <span columnSort="owner" [sort-table]="myTable">
@@ -44,6 +44,11 @@
                             </span>
                         </th>
                         <th>
+                            <span columnSort="fileUrl" [sort-table]="myTable">
+                                Images
+                            </span>
+                        </th>
+                        <th>
                             <span columnSort="episodeNote" [sort-table]="myTable">
                                 Episode Note
                             </span>
@@ -74,6 +79,7 @@
                         <td>{{episode.type}}</td>
                         <td>{{episode.pharmacy}}</td>
                         <td>{{episode.carrier}}</td>
+                        <td><i class="fa fa-2x fa-file-pdf-o text-red" *ngIf="episode.fileUrl" (click)="openFile(episode.fileUrl)"></i></td>
                         <td>{{episode.episodeNote}}</td>
                     </tr>
                 </tbody>

@@ -10,6 +10,8 @@ import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 
 import { ConfirmComponent } from '../../components/confirm.component';
+import { DocumentItem } from 'app/models/document';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-episode-results',
@@ -57,6 +59,12 @@ export class EpisodeResultsComponent implements OnInit {
   }
   prev() {
     this.episodeService.search(false, true);
+  }
+  openFile(fileUrl: string ) {
+     let id = UUID.UUID();
+     let file = {fileUrl:fileUrl,documentId:id} as DocumentItem
+     localStorage.setItem('file-' + id, JSON.stringify(file));
+     window.open('#/main/indexed-image/' + id, '_blank');
   }
 
   goto() {

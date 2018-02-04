@@ -7,5 +7,6 @@ export interface Episode {
     type: string;
     pharmacy: string;
     carrier: string;
+    fileUrl: string;
     episodeNote:string;
   }
