@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.CodeDom;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -22,8 +21,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	    private readonly IRepository<EpisodeCategory> _episodeCategoryRepository;
 	    private readonly IRepository<Claim> _claimRepository;
 	    private readonly IRepository<Pharmacy> _pharmacyRepository;
-	    private readonly IRepository<DocumentIndex> _documentIndexRepository;
-	    private const string EpisodeCategory = "IMAGE";
 
         public EpisodesDataProvider(
             IRepository<EpisodeType> episodeTypeRepository, 
@@ -31,8 +28,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
             IRepository<Episode> episodeRepository, 
             IRepository<EpisodeCategory> episodeCategoryRepository, 
             IRepository<Claim> claimRepository, 
-            IRepository<Pharmacy> pharmacyRepository, 
-            IRepository<DocumentIndex> documentIndexRepository)
+            IRepository<Pharmacy> pharmacyRepository)
 		{
 		    _episodeTypeRepository = episodeTypeRepository;
 		    _usersRepository = usersRepository;
@@ -40,46 +36,76 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    _episodeCategoryRepository = episodeCategoryRepository;
 		    _claimRepository = claimRepository;
 		    _pharmacyRepository = pharmacyRepository;
-		    _documentIndexRepository = documentIndexRepository;
 		}
 
 	    /// <summary>
-	    /// 
+	    /// Calls a stored proc responsible for inserting a new Episode depending on the Document Type that was chosen.
 	    /// </summary>
 	    /// <param name="claimId"></param>
 	    /// <param name="userId"></param>
 	    /// <param name="fileNameNote"></param>
 	    /// <param name="created"></param>
 	    /// <param name="documentId"></param>
-	    /// <param name="documentTypeId">TODO: Find which Document Types need to create an Episode. For now, ignore it.</param>
+	    /// <param name="documentTypeId"></param>
 	    /// <param name="rxNumber"></param>
-	    /// <exception cref="Exception"></exception>
-	    public void CreateImageCategoryEpisode(int claimId, string userId, string fileNameNote, 
-            DateTime created, int documentId, int documentTypeId, string rxNumber = null)
-	    {
-	        var episodeEntity = new Episode();
-	        var claim = _claimRepository?.GetSingleOrDefault(x => x.ClaimId == claimId);
-            var now = DateTime.UtcNow;
-            var user = _usersRepository?.GetSingleOrDefault(x => x.Id == userId);
-            if (null == user)
-                throw new Exception($"Error. Could not locate user with User Id \"{userId}\"");
-	        episodeEntity.ModifiedByUser = user;
-	        episodeEntity.AssignedUser = user;
-	        episodeEntity.CreatedOnUtc = now;
-	        episodeEntity.DocumentIndex = _documentIndexRepository?.GetFirstOrDefault(x => x.DocumentId == documentId) ??
-	                                      throw new Exception($"Error. Could not find document with Document Id {documentId}");
-            episodeEntity.UpdatedOnUtc = now;
-	        episodeEntity.Created = created;
-	        episodeEntity.Claim = claim ?? throw new Exception($"Error. Could not locate a Claim with Claim Id {claimId}.");
-	        episodeEntity.Note = fileNameNote;
-	        var cat = _episodeCategoryRepository?.GetFirstOrDefault(x => x.Code == "IMAGE");
-            episodeEntity.EpisodeCategory = cat ?? throw new Exception($"Error. Could not locate the episode category \"{EpisodeCategory}\"");
-	        if (rxNumber.IsNotNullOrWhiteSpace())
-	            episodeEntity.RxNumber = rxNumber;
-	        episodeEntity.ResolvedDateUtc = null;
-	        episodeEntity.ResolvedUser = null;
-	        _episodeRepository.Save(episodeEntity);
-        }
+	    /// <param name="note"></param>
+	    public bool CreateImageCategoryEpisode(int documentTypeId, int claimId, string rxNumber, string userId, int documentId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspCreateImageCategoryEpisode]", conn), cmd =>
+	            {
+	                var documentTypeIdParam = cmd.CreateParameter();
+                    documentTypeIdParam.Direction = ParameterDirection.Input;
+	                documentTypeIdParam.DbType = DbType.Byte;
+	                documentTypeIdParam.SqlDbType = SqlDbType.TinyInt;
+	                documentTypeIdParam.ParameterName = "@DocumentTypeID";
+	                documentTypeIdParam.Value = documentId;
+                    cmd.Parameters.Add(documentTypeIdParam);
+	                var claimIdParam = cmd.CreateParameter();
+                    claimIdParam.Direction = ParameterDirection.Input;
+	                claimIdParam.DbType = DbType.Int32;
+                    claimIdParam.SqlDbType = SqlDbType.Int;
+	                claimIdParam.ParameterName = "@ClaimID";
+	                claimIdParam.Value = claimId;
+                    cmd.Parameters.Add(claimIdParam);
+	                var rxNumberParam = cmd.CreateParameter();
+	                rxNumberParam.Value = rxNumber ?? (object) DBNull.Value;
+	                rxNumberParam.Size = 100;
+	                rxNumberParam.ParameterName = "@RxNumber";
+                    rxNumberParam.Direction = ParameterDirection.Input;
+                    rxNumberParam.DbType = DbType.AnsiString;
+	                rxNumberParam.SqlDbType = SqlDbType.VarChar;
+                    cmd.Parameters.Add(rxNumberParam);
+	                var userIdParam = cmd.CreateParameter();
+	                userIdParam.Value = userId ?? throw new ArgumentNullException(nameof(userId));
+                    userIdParam.DbType = DbType.String;
+	                userIdParam.SqlDbType = SqlDbType.NVarChar;
+	                userIdParam.Size = 128;
+	                userIdParam.ParameterName = "@UserID";
+                    userIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(userIdParam);
+	                var documentIdParam = cmd.CreateParameter();
+	                documentIdParam.Value = default(int) == documentId ? throw new Exception($"Error, document Id {documentId} is not a valid document.") : documentId;
+	                documentIdParam.DbType = DbType.Int32;
+                    documentIdParam.SqlDbType = SqlDbType.Int;
+	                documentIdParam.ParameterName = "@DocumentID";
+	                documentIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(documentIdParam);
+	                var episodeCreatedParam = cmd.CreateParameter();
+	                episodeCreatedParam.ParameterName = "@EpisodeCreated";
+	                episodeCreatedParam.DbType = DbType.Boolean;
+	                episodeCreatedParam.SqlDbType = SqlDbType.Bit;
+                    episodeCreatedParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(episodeCreatedParam);
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+	                cmd.ExecuteNonQuery();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+	                var retVal = episodeCreatedParam.Value as bool?;
+	                return retVal ?? throw new Exception("Error. The value of the output parameter was null");
+	            });
+	        });
 
 	    public EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId,
             int? episodeCategoryId, int? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
@@ -182,6 +208,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                         var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
                         var carrierOrdinal = reader.GetOrdinal("Carrier");
                         var episodeNoteOrdinal = reader.GetOrdinal("EpisodeNote");
+                        var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
                         while (reader.Read())
                         {
                             var result = new EpisodeResultsDto
@@ -194,7 +221,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                                 Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
                                 Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
                                 Carrier = !reader.IsDBNull(carrierOrdinal) ? reader.GetString(carrierOrdinal) : string.Empty,
-                                EpisodeNote = !reader.IsDBNull(episodeNoteOrdinal) ? reader.GetString(episodeNoteOrdinal) : string.Empty
+                                EpisodeNote = !reader.IsDBNull(episodeNoteOrdinal) ? reader.GetString(episodeNoteOrdinal) : string.Empty,
+                                FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty
                             };
                             list.Add(result);
                         }

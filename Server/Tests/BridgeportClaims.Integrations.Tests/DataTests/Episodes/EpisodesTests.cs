@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.SessionFactory;
 using BridgeportClaims.Entities.DomainModels;

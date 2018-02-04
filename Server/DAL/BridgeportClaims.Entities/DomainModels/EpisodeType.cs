@@ -11,9 +11,10 @@ namespace BridgeportClaims.Entities.DomainModels
 		public EpisodeType()
 		{
 			Episode = new List<Episode>();
-		}
+		    DocumentTypeEpisodeTypeMapping = new List<DocumentTypeEpisodeTypeMapping>();
+        }
 		[Required]
-		public virtual int EpisodeTypeId { get; set; }
+		public virtual byte EpisodeTypeId { get; set; }
 		[Required]
 		[StringLength(255)]
 		public virtual string TypeName { get; set; }
@@ -26,6 +27,7 @@ namespace BridgeportClaims.Entities.DomainModels
 		public virtual DateTime CreatedOnUtc { get; set; }
 		[Required]
 		public virtual DateTime UpdatedOnUtc { get; set; }
-		public virtual IList<Episode> Episode { get; set; }
+	    public virtual IList<DocumentTypeEpisodeTypeMapping> DocumentTypeEpisodeTypeMapping { get; set; }
+        public virtual IList<Episode> Episode { get; set; }
 	}
 }

@@ -21,7 +21,7 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IEpisodesDataProvider _episodesDataProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public DocumentIndexesController(IDocumentIndexProvider documentIndexProvider, 
+        public DocumentIndexesController(IDocumentIndexProvider documentIndexProvider,
             IEpisodesDataProvider episodesDataProvider)
         {
             _documentIndexProvider = documentIndexProvider;
@@ -47,18 +47,22 @@ namespace BridgeportClaims.Web.Controllers
                         var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                         hubContext.Clients.All.indexedDocument(model.DocumentId);
                     }
-                    _episodesDataProvider.CreateImageCategoryEpisode(model.ClaimId, userId, ".pdf", // TODO: Figure out Episode NOTE; I
-                        DateTime.Now.ToLocalTime(), model.DocumentId, model.DocumentTypeId ,model.RxNumber);
+                    var episodeCreated = _episodesDataProvider.CreateImageCategoryEpisode(model.DocumentTypeId,
+                        model.ClaimId, model.RxNumber, userId, model.DocumentId);
                     var msg = $"The image was {(wasUpdate ? "reindexed" : "indexed")} successfully.";
-                    if (cs.AppIsInDebugMode)
-                        Logger.Info($"Document ID: {model.DocumentId}. {msg}");
+                    if (episodeCreated)
+                        msg += " And a new episode was created.";
+                    if (!cs.AppIsInDebugMode) return Ok(new {message = msg});
+                    if (episodeCreated)
+                        Logger.Info("An episode was created.");
+                    Logger.Info($"Document ID: {model.DocumentId}. {msg}");
                     return Ok(new {message = msg});
                 });
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
     }
