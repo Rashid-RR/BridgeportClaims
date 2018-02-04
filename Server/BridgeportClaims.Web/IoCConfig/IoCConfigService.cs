@@ -33,6 +33,7 @@ using BridgeportClaims.Data.DataProviders.AdjustorSearches;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
+using BridgeportClaims.Data.DataProviders.Dashboards;
 using BridgeportClaims.Data.DataProviders.Diaries;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
 using BridgeportClaims.Data.DataProviders.Documents;
@@ -76,6 +77,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ClaimsEditProvider>().As<IClaimsEditProvider>().InstancePerRequest();
             builder.RegisterType<PayorSearchProvider>().As<IPayorSearchProvider>().InstancePerRequest();
             builder.RegisterType<AdjustorSearchProvider>().As<IAdjustorSearchProvider>().InstancePerRequest();
+            builder.RegisterType<DashboardProvider>().As<IDashboardProvider>().InstancePerRequest();
 
             // SignalR
             var hubConfig = new HubConfiguration();

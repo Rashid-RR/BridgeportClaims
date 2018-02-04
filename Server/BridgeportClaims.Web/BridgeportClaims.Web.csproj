@@ -283,6 +283,7 @@
     <Compile Include="Controllers\CacheController.cs" />
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
     <Compile Include="Controllers\DocumentIndexesController.cs" />
     <Compile Include="Controllers\DocumentsController.cs" />
