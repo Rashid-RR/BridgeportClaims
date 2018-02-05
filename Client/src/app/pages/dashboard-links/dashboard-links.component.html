@@ -20,23 +20,24 @@
   <div class="col-md-12 full-height">
     <div id="private-nav">
       <div class="row parallel">
-        <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/unindexed-images'">
               <div class="dashboard-img">
                 <img src="assets/img/002-pdf.png">
-                <span class="badge-dashboard badge">15</span>
+                <span class="badge-dashboard badge">{{summary.totalImagesIndexed}}</span>
               </div>
               <span>Unindexed Images</span>
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
                 <p>
-                  <strong>15 NEW</strong>
+                  <strong>{{summary.totalImagesIndexed}} NEW</strong>
                   <span>Un-indexed Images</span>
                   <i>(in the last 24 hours)</i>
                 </p>
               </div>
+              <i class="fa fa-2x fa-caret-down progress-caret" style="left: calc(90% - 4px);"></i>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width: 90%; height: 25px;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">8550</div>
               </div>
@@ -46,65 +47,64 @@
               </ul>
               <div class="status-information">
                 <span class="status-information-label">latest Scanned Images</span>
-                <a href="" class="status-information-badge">189734.pdf</a>
-                <a href="" class="status-information-badge">189734.pdf</a>
-                <a href="" class="status-information-badge">189734.pdf</a>
+                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
               </div>
               <div class="status-information">
                 <span class="status-information-label">latest Indexed Images</span>
-                <a href="" class="status-information-badge">189734.pdf</a>
-                <a href="" class="status-information-badge">189734.pdf</a>
-                <a href="" class="status-information-badge">189734.pdf</a>
+                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/diary'">
               <div class="dashboard-img">
                 <img src="assets/img/diary.png">
-                <span class="badge-dashboard badge">237</span>
+                <span class="badge-dashboard badge">{{summary.diariesAdded}}</span>
               </div>
               <span>Diaries</span>
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
                 <p>
-                  <strong>15 NEW</strong>
-                  <span>Un-indexed Images</span>
-                  <i>(in the last 24 hours)</i>
+                  <strong>{{summary.diariesAdded}} OUTSTANDING</strong>
+                  <span>Diaries</span>
                 </p>
               </div>
+              <i class="fa fa-2x fa-caret-down progress-caret" style="left: calc(70% - 4px);"></i>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 70%; height: 25px;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">411</div>
-                237
+                <div class="progress-bar" role="progressbar" style="width: 70%; height: 25px;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
+                {{summary.totalDiariesUnResolved}}
               </div>
               <ul class="status-in-word">
-                <li class="completed">8550 Indexed Images</li>
+                <li class="completed">{{summary.totalDiariesResolved}} Complete</li>
                 <li class="recent">12 Recent
                   <i>(last 48 hrs)</i>
                 </li>
-                <li class="outstanding">988 Unindexed Images</li>
+                <li class="outstanding">{{summary.totalDiariesUnResolved}} Outstanding</li>
               </ul>
               <div class="status-information">
                 <span class="status-information-label">Top Producers</span>
-                <a href="" class="status-information-badge">Employee1</a>
+                <a [routerLink]="[]" class="status-information-badge">Employee1</a>
+                <a [routerLink]="[]" class="status-information-badge">Employee5</a>
+                <a [routerLink]="[]" class="status-information-badge">Employee6</a>
               </div>
               <div class="status-information">
-                <span class="status-information-label">latest Indexed Images</span>
-                <a href="" class="status-information-badge">189734.pdf</a>
-              </div>
-
-              <div class="status-information">
-                <span class="status-information-label">latest Indexed Images</span>
-                <a href="" class="status-information-badge">189734.pdf</a>
+                <span class="status-information-label">In the last 48 hours</span>
+                <a [routerLink]="[]" class="status-information-badge no-bg">6 Diaries</a>
+                <a [routerLink]="[]" class="status-information-badge no-bg">2 Diaries</a>
+                <a [routerLink]="[]" class="status-information-badge no-bg">4 Diaries</a>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/unpaid-scripts'">
               <div class="dashboard-img">
@@ -113,10 +113,44 @@
               </div>
               <span>Unpaid Scripts</span>
             </a>
+            <div class="content-right-section">
+              <div class="upper-description text-left">
+                <span class="row">
+                  <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
+                    <strong>{{summary.totalImagesIndexed}} NEW</strong>
+                    <span>Unpaid Invoices</span>
+                  </div>
+                  <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
+                    <strong> $21,405 </strong>
+                    <span>Total Unpaid</span>
+                  </div>
+                </span>
+                <div class="status-information">
+                  <span class="label row">Latest Unpaid</span>
+                </div>
+                <div class="status-information">
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                </div>
+                <div class="status-information">
+                  <span class="label row">Latest Paid</span>
+                </div>
+                <div class="status-information">
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/claims'">
               <div class="dashboard-img">
@@ -125,31 +159,96 @@
               </div>
               <span>Claims</span>
             </a>
+            <div class="content-right-section">
+              <div class="upper-description text-left">
+                <p>
+                  <strong>{{summary.totalImagesIndexed}} NEW</strong>
+                  <span>Claims</span>
+                </p>
+                <div class="status-information">
+                  <span class="label row">Latest Claims</span>
+                </div>
+                <div class="status-information">
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                </div>
+                <div class="status-information">
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/reports/account-receivable'">
               <div class="dashboard-img">
                 <img src="assets/img/001-newspaper.png">
-                <span class="badge-dashboard badge">31</span>
+                <span class="badge-dashboard badge">{{summary.newInvoicesPrinted}}</span>
               </div>
               <span>Accounts Receivable
               </span>
             </a>
+            <div class="content-right-section">
+              <div class="upper-description text-left">
+                <p>
+                  <strong>{{summary.newInvoicesPrinted}} NEW</strong>
+                  <span>Reports</span>
+                </p>
+                <div class="status-information">
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div class="col-lg-6 co-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/claims'">
               <div class="dashboard-img">
                 <img src="assets/img/006-medical-prescription.png">
-                <span class="badge-dashboard badge">96</span>
+                <span class="badge-dashboard badge">{{summary.newPrescriptions}}</span>
               </div>
               <span>Prescriptions</span>
             </a>
+            <div class="content-right-section">
+              <div class="upper-description text-left">
+                <p>
+                  <strong>{{summary.newPrescriptions}} NEW</strong>
+                  <span>Prescriptions</span>
+                </p>
+                <div class="status-information">
+                  <span class="label row">Latest Prescriptions</span>
+                </div>
+                <div class="status-information">
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                </div>
+                <div class="status-information">
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                  <a href="" class="status-information-badge">189734.pdf</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

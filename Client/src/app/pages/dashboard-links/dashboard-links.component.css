@@ -109,7 +109,8 @@ li.reports {
 	background-color: #ededed;
     border-radius: 5px; 
     width:100%;
-	min-height: 145px;
+    min-height: 165px;
+    padding:8px;
 }
 @media(max-width:1111px) and (min-width:768px){
     #private-nav .grey-box {
@@ -147,13 +148,13 @@ li.reports {
 }
 
 #private-nav .grey-box .img-section .dashboard-img > img {
-    width: 30px;
+    width: 40px;
 }
 
 #private-nav .grey-box .img-section span.badge-dashboard {
     position: absolute;
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     right: -10px;
     top: -8px;
     background-color: #992727;
@@ -166,12 +167,13 @@ li.reports {
 }
 .content-right-section {
     float: left;
+    position: relative;
     padding-left: 15px;
     width: calc(100% - 130px);
 }
 
 .content-right-section .upper-description {
-
+    padding: 5px 0px;
 }
  
 .content-right-section .upper-description strong {
@@ -227,7 +229,7 @@ li.reports {
     -ms-flex: 1;           /* IE 10 */
     flex: 1;  
     font-size: 9px;
-    text-align: center;
+    text-align: left;
 }
 
 #private-nav .content-right-section ul.status-in-word li.completed {
@@ -292,10 +294,27 @@ li.reports {
     height: 17px;
     line-height: 19px;
     transition: 0.3s;
+    text-align:center;
 }
 
 #private-nav .content-right-section a.status-information-badge:hover {
     text-decoration: none;
     background-color: #263238;
     color: #7d7d7d;
+}
+#private-nav .content-right-section a.status-information-badge.no-bg {
+    text-decoration: none;
+    background-color:transparent;
+    color:black;
+    border:none;
+}
+.label.row{
+    font-weight: 200 !important;
+    font-size:12pt !important;
+    color:gray  !important;
+}
+.progress-caret {
+    position: absolute;
+    top: 10px;
+    color: #992727;
 }
