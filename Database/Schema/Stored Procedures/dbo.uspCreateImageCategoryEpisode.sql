@@ -53,6 +53,7 @@ AS BEGIN
 
 		IF @CreateEpisode = 0
 			BEGIN
+				SET @EpisodeCreated = 0;
 				IF (@@TRANCOUNT > 0)
 					ROLLBACK;
 				RAISERROR(N'No action necessary', 1, 1) WITH NOWAIT;
@@ -60,6 +61,7 @@ AS BEGIN
 			END
 		ELSE
 			BEGIN
+				SET @EpisodeCreated = 1;
 				INSERT INTO [dbo].[Episode]
 				(   [ClaimID]
 				  , [Note]
@@ -110,4 +112,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 GO

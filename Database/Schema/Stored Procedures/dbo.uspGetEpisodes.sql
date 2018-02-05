@@ -18,7 +18,7 @@ CREATE PROC [dbo].[uspGetEpisodes]
 	@Resolved BIT,
 	@OwnerID NVARCHAR(128),
 	@EpisodeCategoryID INTEGER,
-	@EpisodeTypeID INTEGER,
+	@EpisodeTypeID TINYINT,
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
@@ -38,7 +38,7 @@ AS BEGIN
 		DECLARE @iResolved BIT = @Resolved,
 				@iOwnerID NVARCHAR(128) = @OwnerID,
 				@iEpisodeCategoryID INTEGER = @EpisodeCategoryID,
-				@iEpisodeTypeID INTEGER = @EpisodeTypeID,
+				@iEpisodeTypeID TINYINT = @EpisodeTypeID,
 				@iStartDate DATE = @StartDate,
 				@iEndDate DATE = @EndDate,
 				@iSortColumn VARCHAR(50) = @SortColumn,
@@ -166,6 +166,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
-
-
 GO
