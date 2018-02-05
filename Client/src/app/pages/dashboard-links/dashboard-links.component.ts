@@ -14,6 +14,23 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   preload = 'auto';
   categories: Array<any> = [];
   data: Array<any> = [];
+  summary: any = {
+    lastWorkDate: null,
+    totalImagesScanned: null,
+    totalImagesIndexed: null,
+    totalImagesRemaining: null,
+    diariesAdded: null,
+    newClaims: null,
+    newEpisodes: null,
+    newInvoicesPrinted: null,
+    newPaymentsPosted: null,
+    newPrescriptions: null,
+    newReversedPrescriptions: null,
+    totalDiariesResolved: null,
+    totalDiariesUnResolved: null,
+    totalResolvedEpisodes: null,
+    totalUnresolvedEpisodes: null
+  }
   constructor(
     private http: HttpService,
     private events: EventsService,
@@ -22,10 +39,14 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngAfterViewInit() {
-     
+
   }
   ngOnInit() {
-
+    this.http.getKPIs().map(res => { return res.json(); })
+      .subscribe((result: any) => {
+        console.log(result);
+        this.summary = result;
+      }, err => null);
   }
 
   get allowed(): Boolean {

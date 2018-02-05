@@ -675,5 +675,12 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getKPIs(): Observable<Response> {
+    return this.http.post(this.baseUrl + '/dashboard/kpi',{}, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
 }
