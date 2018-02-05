@@ -229,9 +229,14 @@ input[type='checkbox'] {
     background-position: 50% -35px;
   }
   /**Use this to adjust the width for the first column*/
-    tr>th:first-child,
-    tr>td:first-child {
+    tr>th:not(.resolved):first-child,
+    tr>td:not(.resolved):first-child {
         width:7%;
+    }
+    tr>th.resolved:first-child,
+    tr>td.resolved:first-child {
+        width:0%;
+        display: none;
     }
     /**Use this to adjust the width for the second column*/
     tr>th:nth-child(2),
@@ -277,10 +282,15 @@ input[type='checkbox'] {
         width: 4%;
     }
     /**Use this to adjust the width for the nineth column*/
-    tr>th:nth-child(10),
-    tr>td:nth-child(10)
+    tr>th:not(.resolved):nth-child(10),
+    tr>td:not(.resolved):nth-child(10)
     {
         width: 33%;
+    }
+    tr>th.resolved:nth-child(10),
+    tr>td.resolved:nth-child(10)
+    {
+        width: 40%;
     }
 /*     @media screen  and (min-width:800px){
         tr>th:nth-child(8)

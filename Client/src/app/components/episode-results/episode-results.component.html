@@ -5,7 +5,7 @@
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="episodeService.onSortColumn($event)" #myTable='table-sort'>
-                        <th *ngIf="!episodeService.data.resolved">
+                        <th [class.resolved]="episodeService.data.resolved">
                             <span>Resolved</span>
                         </th>
                         <th>
@@ -48,7 +48,7 @@
                                 Images
                             </span>
                         </th>
-                        <th>
+                        <th  [class.resolved]="episodeService.data.resolved">
                             <span columnSort="episodeNote" [sort-table]="myTable">
                                 Episode Note
                             </span>
@@ -67,7 +67,7 @@
                         </td>
                     </tr>
                     <tr *ngFor="let episode of (episodeService.episodeList | episodePipe : episodeService.episodeNote : episodeService.owner);">
-                        <td *ngIf="!episodeService.data.resolved">
+                        <td [class.resolved]="episodeService.data.resolved">
                             <input type="checkbox" name="check" value="None" id="checkbox-h" #inv (change)="markAsResolved($event,episode)" [checked]="episodeService.data.resolved"
                                 [disabled]="episodeService.data.resolved">
                             <label (click)="inv.click()"></label>
@@ -80,7 +80,7 @@
                         <td>{{episode.pharmacy}}</td>
                         <td>{{episode.carrier}}</td>
                         <td><i class="fa fa-2x fa-file-pdf-o text-red" *ngIf="episode.fileUrl" (click)="openFile(episode.fileUrl)"></i></td>
-                        <td>{{episode.episodeNote}}</td>
+                        <td  [class.resolved]="episodeService.data.resolved">{{episode.episodeNote}}</td>
                     </tr>
                 </tbody>
             </table>
