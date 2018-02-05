@@ -300,7 +300,7 @@ li.reports {
 #private-nav .content-right-section a.status-information-badge:hover {
     text-decoration: none;
     background-color: #263238;
-    color: #7d7d7d;
+    color: #fff;
 }
 #private-nav .content-right-section a.status-information-badge.no-bg {
     text-decoration: none;
