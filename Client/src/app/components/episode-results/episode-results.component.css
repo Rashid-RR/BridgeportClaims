@@ -282,9 +282,9 @@ input[type='checkbox'] {
     {
         width: 33%;
     }
-    @media screen  and (min-width:800px){
+/*     @media screen  and (min-width:800px){
         tr>th:nth-child(8)
         {
             width: 12%;
         }
-    }
+    } */
