@@ -3,6 +3,7 @@ import { HttpService } from '../../services/http-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { EventsService } from '../../services/events-service';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { DomSanitizer } from '@angular/platform-browser';
 declare var Highcharts: any;
 
 @Component({
@@ -14,11 +15,11 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   preload = 'auto';
   categories: Array<any> = [];
   data: Array<any> = [];
-  summary: any = {
+  summary = {
     lastWorkDate:  "2018-02-05T00:00:00.0000000",
     totalImagesScanned: 70,
-    totalImagesIndexed: 33,
-    totalImagesRemaining: 113,
+    totalImagesIndexed: 70,
+    totalImagesRemaining: 33,
     diariesAdded: 53,
     newClaims: 53,
     newEpisodes: 22,
@@ -26,7 +27,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     newPaymentsPosted: 33,
     newPrescriptions: 90,
     newReversedPrescriptions: 39,
-    totalDiariesResolved: 41,
+    totalDiariesResolved: 11,
     totalDiariesUnResolved: 54,
     totalResolvedEpisodes: 76,
     totalUnresolvedEpisodes: 11
@@ -35,18 +36,60 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     private http: HttpService,
     private events: EventsService,
     private dp: DatePipe,
+    private sanitizer: DomSanitizer,
     private profileManager: ProfileManager
   ) { }
 
   ngAfterViewInit() {
 
   }
+
+  sanitize(style){
+    return this.sanitizer.bypassSecurityTrustStyle(style);
+  }
   ngOnInit() {
+    console.log((0/0 || 0));
     this.http.getKPIs().map(res => { return res.json(); })
       .subscribe((result: any) => {
         console.log(result);
-        //this.summary = result;
+        this.summary = result;
       }, err => null);
+  }
+
+  get totalImagesIndexed(){
+       return (100*(this.summary.totalImagesIndexed || 0)/this.totalImages) || 0;
+  }
+  get totalImagesRemaining(){
+       return (100*(this.summary.totalImagesRemaining || 0)/this.totalImages) || 0;
+  }
+
+  get totalImages(){
+      let total = (this.summary.totalImagesIndexed || 0)+(this.summary.totalImagesRemaining || 0);
+      return total || 0;
+  }
+
+  get totalDiariesResolved(){
+       return (100*(this.summary.totalDiariesResolved || 0)/this.totalDiaries) || 0;
+  }
+  get totalDiariesUnResolved(){
+       return (100*(this.summary.totalDiariesUnResolved || 0)/this.totalDiaries) || 0;
+  }
+
+  get totalDiaries(){
+      let total = (this.summary.totalDiariesResolved || 0)+(this.summary.totalDiariesUnResolved || 0);
+      return total || 0;
+  }
+
+  get totalResolvedEpisodes(){
+       return (100*(this.summary.totalResolvedEpisodes || 0)/this.totalEpisodes ) || 0;
+  }
+  get totalUnresolvedEpisodes(){
+       return (100*(this.summary.totalUnresolvedEpisodes || 0)/this.totalEpisodes ) || 0;
+  }
+
+  get totalEpisodes(){
+      let total = (this.summary.totalUnresolvedEpisodes || 0)+(this.summary.totalResolvedEpisodes || 0);
+      return total || 0;
   }
 
   get allowed(): Boolean {

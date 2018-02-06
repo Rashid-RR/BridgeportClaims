@@ -25,25 +25,27 @@
             <a class="img-section" [routerLink]="'/main/unindexed-images'">
               <div class="dashboard-img">
                 <img src="assets/img/002-pdf.png">
-                <span class="badge-dashboard badge">{{summary.totalImagesIndexed}}</span>
+                <span class="badge-dashboard badge">{{summary.totalImagesScanned}}</span>
               </div>
               <span>Unindexed Images</span>
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
                 <p>
-                  <strong>{{summary.totalImagesIndexed}} NEW</strong>
+                  <strong>{{summary.totalImagesScanned}} NEW</strong>
                   <span>Un-indexed Images</span>
                   <i>(in the last 24 hours)</i>
                 </p>
               </div>
-              <i class="fa fa-2x fa-caret-down progress-caret" style="left: calc(90% - 4px);"></i>
+              <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalImagesIndexed>0 ? sanitize('left:calc('+totalImagesIndexed+'% * 0.989)') : sanitize('left:8px'))"></i>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 90%; height: 25px;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">8550</div>
+                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalImagesIndexed" [attr.aria-valuenow]="totalImagesIndexed"
+                  aria-valuemin="0" aria-valuemax="100">{{summary.totalImagesIndexed}}</div>
+                {{summary.totalImagesRemaining}}
               </div>
               <ul class="status-in-word">
-                <li class="completed">8550 Indexed Images</li>
-                <li class="outstanding">988 Unindexed Images</li>
+                <li class="completed" [style.width.%]="totalImagesIndexed>0 ? totalImagesIndexed : 50">{{summary.totalImagesIndexed}} Indexed Images</li>
+                <li class="outstanding" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50">{{summary.totalImagesRemaining}} Unindexed Images</li>
               </ul>
               <div class="status-information">
                 <span class="status-information-label">latest Scanned Images</span>
@@ -76,14 +78,14 @@
                   <span>Diaries </span>created on {{formatDate(summary.lastWorkDate)}}
                 </p>
               </div>
-              <i class="fa fa-2x fa-caret-down progress-caret" style="left: calc(70% - 4px);"></i>
+              <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalDiariesResolved>0 ? sanitize('left:calc('+totalDiariesResolved+'% * 0.989)') : sanitize('left:8px'))"></i>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 70%; height: 25px;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
+                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalDiariesResolved" [attr.aria-valuenow]="totalDiariesResolved" aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
                 {{summary.totalDiariesUnResolved}}
               </div>
               <ul class="status-in-word">
-                <li class="completed" style="width: 70%;">{{summary.totalDiariesResolved}} Resolved</li>
-                <li class="outstanding" style="width: 30%;">{{summary.totalDiariesUnResolved}} Outstanding</li>
+                <li class="completed" [style.width.%]="(totalDiariesResolved>0 ? totalDiariesResolved : 50)">{{summary.totalDiariesResolved}} Resolved</li>
+                <li class="outstanding" [style.width.%]="(totalDiariesUnResolved>0 ? totalDiariesUnResolved : 50)">{{summary.totalDiariesUnResolved}} Outstanding</li>
               </ul>
               <div class="status-information">
                 <span class="status-information-label">&nbsp;</span>
@@ -100,7 +102,34 @@
             </div>
           </div>
         </div>
-
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+          <div class="grey-box">
+            <a class="img-section" [routerLink]="'/main/diary'">
+              <div class="dashboard-img">
+                <img src="assets/img/iconepisodes.png" style="background: black;">
+                <span class="badge-dashboard badge">{{summary.newEpisodes}}</span>
+              </div>
+              <span>Episodes</span>
+            </a>
+            <div class="content-right-section">
+              <div class="upper-description text-left">
+                <p>
+                  <strong>{{summary.newEpisodes}} NEW </strong>
+                  <span>Episodes </span>created on {{formatDate(summary.lastWorkDate)}}
+                </p>
+              </div>
+              <i class="fa fa-2x fa-caret-down progress-caret"  [style]="(totalResolvedEpisodes>0 ? sanitize('left:calc('+totalResolvedEpisodes+'% * 0.989)'): sanitize('left:8px'))"></i>
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalResolvedEpisodes" aria-valuenow="totalResolvedEpisodes" aria-valuemin="0" aria-valuemax="100">{{summary.totalResolvedEpisodes}}</div>
+                {{summary.totalUnresolvedEpisodes}}
+              </div>
+              <ul class="status-in-word">
+                <li class="completed" [style.width.%]="(totalResolvedEpisodes>0 ? totalResolvedEpisodes : 50)">{{summary.totalResolvedEpisodes}} Resolved</li>
+                <li class="outstanding" [style.width.%]="(totalUnresolvedEpisodes>0 ? totalUnresolvedEpisodes : 50)">{{summary.totalUnresolvedEpisodes}} Outstanding</li>
+              </ul>
+            </div>
+          </div>
+        </div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/unpaid-scripts'">
@@ -114,11 +143,11 @@
               <div class="upper-description text-left">
                 <span class="row">
                   <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
-                    <strong>{{summary.totalImagesIndexed}} NEW</strong>
+                    <strong>{{summary.newInvoicesPrinted}} NEW</strong>
                     <span>Unpaid Invoices</span>
                   </div>
                   <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
-                    <strong> $21,405 </strong>
+                    <strong> {{summary.newPaymentsPosted | currency:'USD':'1.2-2'}} </strong>
                     <span>Total Unpaid</span>
                   </div>
                 </span>
@@ -159,7 +188,7 @@
             <div class="content-right-section">
               <div class="upper-description text-left">
                 <p>
-                  <strong>{{summary.totalImagesIndexed}} NEW</strong>
+                  <strong>{{summary.newClaims}} NEW</strong>
                   <span>Claims</span>
                 </p>
                 <div class="status-information">
@@ -183,35 +212,6 @@
             </div>
           </div>
         </div>
-
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-          <div class="grey-box">
-            <a class="img-section" [routerLink]="'/main/reports/account-receivable'">
-              <div class="dashboard-img">
-                <img src="assets/img/001-newspaper.png">
-                <span class="badge-dashboard badge">{{summary.newInvoicesPrinted}}</span>
-              </div>
-              <span>Accounts Receivable
-              </span>
-            </a>
-            <div class="content-right-section">
-              <div class="upper-description text-left">
-                <p>
-                  <strong>{{summary.newInvoicesPrinted}} NEW</strong>
-                  <span>Reports</span>
-                </p>
-                <div class="status-information">
-                  <a href="" class="status-information-badge">189734.pdf</a>
-                  <a href="" class="status-information-badge">189734.pdf</a>
-                  <a href="" class="status-information-badge">189734.pdf</a>
-                  <a href="" class="status-information-badge">189734.pdf</a>
-                  <a href="" class="status-information-badge">189734.pdf</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/claims'">
@@ -224,15 +224,15 @@
             <div class="content-right-section">
               <div class="upper-description text-left">
                 <span class="row">
-                    <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
-                        <strong>{{summary.newPrescriptions}} NEW</strong>
-                        <span>Prescriptions</span>
-                    </div>
-                    <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
-                        <strong>{{summary.newReversedPrescriptions}} REVERSED</strong>
-                        <span>Prescriptions</span>
-                    </div>
-                  </span>
+                  <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
+                    <strong>{{summary.newPrescriptions}} NEW</strong>
+                    <span>Prescriptions</span>
+                  </div>
+                  <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
+                    <strong>{{summary.newReversedPrescriptions}} REVERSED</strong>
+                    <span>Prescriptions</span>
+                  </div>
+                </span>
                 <div class="status-information">
                   <span class="label row">Latest Prescriptions</span>
                 </div>

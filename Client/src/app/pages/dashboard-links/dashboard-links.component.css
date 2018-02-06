@@ -255,6 +255,7 @@ li.reports {
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 600;
     justify-content: flex-start;
+    overflow: hidden;
 }
 
 
@@ -318,6 +319,15 @@ li.reports {
 }
 .progress-caret {
     position: absolute;
-    top: 10px;
+    top: 14px;
     color: #992727;
+}
+.progress-bar:after {
+    background: green;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 0px;
+    z-index: 121212;
+    top: -100%;
 }
