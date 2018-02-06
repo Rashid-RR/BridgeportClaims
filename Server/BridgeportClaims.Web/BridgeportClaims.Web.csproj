@@ -435,7 +435,6 @@
     <Content Include="assets\style.css" />
     <Content Include="assets\tick.png" />
     <Content Include="assets\Users_Icon_Design.png" />
-    <Content Include="boxed-bg.7799dece2c79854f63f0.jpg" />
     <Content Include="EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -446,13 +445,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
-    <Content Include="favicon.ico" />
-    <Content Include="fontawesome-webfont.2641fadf03fdf2cba0a7.svg" />
-    <Content Include="glyphicons-halflings-regular.89889688147bd7575d63.svg" />
-    <Content Include="glyphicons-halflings-regular.9205b7c124d2bb82172f.svg" />
-    <Content Include="index.html" />
-    <Content Include="inline.bb2ebcd3640ebb93b222.bundle.js" />
-    <Content Include="main.7ba577ddbe443055fb97.bundle.js" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -885,17 +877,6 @@
     <Content Include="assets\scss\_bootstrap-variables.scss" />
     <Content Include="assets\scss\_custom-variables.scss" />
     <Content Include="assets\scss\_custom.scss" />
-    <Content Include="fontawesome-webfont.1dc35d25e61d819a9c35.ttf" />
-    <Content Include="fontawesome-webfont.25a32416abee198dd821.eot" />
-    <Content Include="fontawesome-webfont.c8ddf1e5e5bf3682bc7b.woff" />
-    <Content Include="fontawesome-webfont.e6cf7c6ec7c2d6f670ae.woff2" />
-    <Content Include="glyphicons-halflings-regular.448c34a56d699c29117a.woff2" />
-    <Content Include="glyphicons-halflings-regular.68ed1dac06bf0409c18a.woff" />
-    <Content Include="glyphicons-halflings-regular.7ad17c6085dee9a33787.eot" />
-    <Content Include="glyphicons-halflings-regular.e18bbf611f2a2e43afc0.ttf" />
-    <Content Include="glyphicons-halflings-regular.e49d52e74b7689a0727d.ttf" />
-    <Content Include="glyphicons-halflings-regular.f4769f9bdb7466be6508.eot" />
-    <Content Include="glyphicons-halflings-regular.fa2772327f55d8198301.woff" />
     <None Include="Properties\PublishProfiles\BridgeportClaims - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -905,14 +886,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="polaris%402x.78fe5012ba83d554949a.png" />
-    <Content Include="polyfills.6c182cc68624efb5c090.bundle.js" />
-    <Content Include="scripts.c8ea447dedccc8b0be5e.bundle.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
     <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
     <Content Include="Scripts\server.js" />
-    <Content Include="styles.dee0327beb5fc426a01c.bundle.css" />
-    <Content Include="vendor.32b1573ce01d3129e309.bundle.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
