@@ -90,6 +90,16 @@ export class EpisodeResultsComponent implements OnInit {
     }
   }
 
+  formatDate(input: String) {
+    if (!input) return null;
+    if (input.indexOf("-") > -1) {
+      let date = input.split("T");
+      let d = date[0].split("-");
+      return d[1] + "/" + d[2] + "/" + d[0];
+    } else {
+      return input;
+    }
+  }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
     const inputChar = String.fromCharCode(event.charCode);

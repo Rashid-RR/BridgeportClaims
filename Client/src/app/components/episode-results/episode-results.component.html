@@ -73,7 +73,7 @@
                             <label (click)="inv.click()"></label>
                         </td>
                         <td>{{episode.owner}}</td>
-                        <td>{{episode.created | date:"shortDate"}}</td>
+                        <td>{{formatDate(episode.created)}}</td>
                         <td>{{episode.patientName}}</td>
                         <td>{{episode.claimNumber}}</td>
                         <td>{{episode.type}}</td>
