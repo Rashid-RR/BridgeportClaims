@@ -34,8 +34,7 @@ namespace BridgeportClaims.Data.Dtos
         public string Carrier { get; set; }
 
         [Required]
-        [StringLength(8000)]
-        public string EpisodeNote { get; set; }
+        public int EpisodeNoteCount { get; set; }
 
         [StringLength(500)]
         public string FileUrl { get; set; }

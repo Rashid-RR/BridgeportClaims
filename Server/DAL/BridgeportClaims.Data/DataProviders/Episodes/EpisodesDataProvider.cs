@@ -205,7 +205,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                         var typeOrdinal = reader.GetOrdinal("Type");
                         var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
                         var carrierOrdinal = reader.GetOrdinal("Carrier");
-                        var episodeNoteOrdinal = reader.GetOrdinal("EpisodeNote");
+                        var episodeNoteCountOrdinal = reader.GetOrdinal("EpisodeNoteCount");
                         var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
                         while (reader.Read())
                         {
@@ -219,7 +219,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
                                 Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
                                 Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
                                 Carrier = !reader.IsDBNull(carrierOrdinal) ? reader.GetString(carrierOrdinal) : string.Empty,
-                                EpisodeNote = !reader.IsDBNull(episodeNoteOrdinal) ? reader.GetString(episodeNoteOrdinal) : string.Empty,
+                                EpisodeNoteCount = !reader.IsDBNull(episodeNoteCountOrdinal) ? reader.GetInt32(episodeNoteCountOrdinal) : default (int),
                                 FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty
                             };
                             list.Add(result);

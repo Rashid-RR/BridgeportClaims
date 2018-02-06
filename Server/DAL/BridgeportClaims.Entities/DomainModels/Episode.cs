@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
 	public class Episode
 	{
-		[Required]
+	    public Episode()
+	    {
+	        EpisodeNote = new List<EpisodeNote>();
+	    }
+        [Required]
 	    public virtual int EpisodeId { get; set; }
 	    [Required]
         public virtual Claim Claim { get; set; }
@@ -35,5 +40,6 @@ namespace BridgeportClaims.Entities.DomainModels
 	    public virtual DateTime CreatedOnUtc { get; set; }
 	    [Required]
 	    public virtual DateTime UpdatedOnUtc { get; set; }
+	    public virtual IList<EpisodeNote> EpisodeNote { get; set; }
     }
 }
