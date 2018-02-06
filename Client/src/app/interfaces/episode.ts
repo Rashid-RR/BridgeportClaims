@@ -9,4 +9,5 @@ export interface Episode {
     carrier: string;
     fileUrl: string;
     episodeNote:string;
+    episodeNoteCount:number;
   }

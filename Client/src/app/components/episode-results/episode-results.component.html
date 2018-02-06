@@ -5,11 +5,14 @@
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="episodeService.onSortColumn($event)" #myTable='table-sort'>
+                        <th>
+                            <span>Acquire</span>
+                        </th>
                         <th [class.resolved]="episodeService.data.resolved">
-                            <span>Resolved</span>
+                            <span>Resolve</span>
                         </th>
                         <th>
-                            <span columnSort="owner" [sort-table]="myTable">
+                            <span columnSort="episodeId" [sort-table]="myTable">
                                 ID
                             </span>
                         </th>
@@ -53,9 +56,9 @@
                                 Images
                             </span>
                         </th>
-                        <th  [class.resolved]="episodeService.data.resolved">
+                        <th [class.resolved]="episodeService.data.resolved">
                             <span columnSort="episodeNote" [sort-table]="myTable">
-                                Episode Note
+                                Note Count
                             </span>
                         </th>
                     </tr>
@@ -67,11 +70,16 @@
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #episodeTable tabindex="0">
                     <tr *ngIf="episodeService.totalRowCount==0" class="no-result">
-                        <td colspan="9" class="no-result">
+                        <td colspan="11" class="no-result">
                             No Episode Found matching your search criteria
                         </td>
                     </tr>
                     <tr *ngFor="let episode of (episodeService.episodeList | episodePipe : episodeService.episodeNote : episodeService.owner);">
+                        <td>
+                            <button type="button" class="btn btn-primary btn-xs" (click)="acquire(episode)">
+                                <span class="fa fa-check-square"></span> Acquire
+                            </button>
+                        </td>
                         <td [class.resolved]="episodeService.data.resolved">
                             <input type="checkbox" name="check" value="None" id="checkbox-h" #inv (change)="markAsResolved($event,episode)" [checked]="episodeService.data.resolved"
                                 [disabled]="episodeService.data.resolved">
@@ -85,8 +93,13 @@
                         <td>{{episode.type}}</td>
                         <td>{{episode.pharmacy}}</td>
                         <td>{{episode.carrier}}</td>
-                        <td><i class="fa fa-2x fa-file-pdf-o text-red" *ngIf="episode.fileUrl" (click)="openFile(episode.fileUrl)"></i></td>
-                        <td  [class.resolved]="episodeService.data.resolved">{{episode.episodeNote}}</td>
+                        <td>
+                            <i class="fa fa-2x fa-file-pdf-o text-red" *ngIf="episode.fileUrl" (click)="openFile(episode.fileUrl)"></i>
+                        </td>
+                        <td [class.resolved]="episodeService.data.resolved" *ngIf="episode.episodeNoteCount">
+                            <a class="label label-info bg-vdarkgrey" (click)="showNotes(episode.episodeId)">{{episode.episodeNoteCount}}</a>
+                        </td>
+                        <td [class.resolved]="episodeService.data.resolved" *ngIf="!episode.episodeNoteCount">{{episode.episodeNoteCount}}</td>
                     </tr>
                 </tbody>
             </table>

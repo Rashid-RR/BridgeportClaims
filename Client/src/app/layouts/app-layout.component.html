@@ -2,7 +2,7 @@
     <!--top header -->
     <app-header></app-header>
     <app-sidebar *ngIf="isLoggedIn"></app-sidebar>
-    <div class="content-wrapper" [class.no-overflow]="currentURL=='/main/payments' || currentURL=='/main/diary'  || currentURL=='/main/reports/account-receivable' || currentURL=='/main/reports/list' || currentURL=='/main/unpaid-scripts'">
+    <div class="content-wrapper" [class.no-overflow]="currentURL=='/main/payments' || currentURL=='/main/diary'  || currentURL=='/main/reports/account-receivable' || currentURL=='/main/reports/list' || currentURL=='/main/unpaid-scripts' || currentURL=='/main/unindexed-images'">
         <div #toastContainer> </div>
         <router-outlet></router-outlet>
         <app-footer></app-footer>

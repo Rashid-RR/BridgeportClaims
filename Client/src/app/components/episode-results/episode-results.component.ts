@@ -12,6 +12,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DocumentItem } from 'app/models/document';
 import { UUID } from 'angular2-uuid';
+import { Episode } from 'app/interfaces/episode';
 
 @Component({
   selector: 'app-episode-results',
@@ -31,6 +32,9 @@ export class EpisodeResultsComponent implements OnInit {
     this.episodeService.search();
   }
 
+  acquire(episode:Episode){
+
+  }
   markAsResolved($event,episode){
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Mark Episode as Resolved',
