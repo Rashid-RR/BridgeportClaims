@@ -96,10 +96,9 @@
                         <td>
                             <i class="fa fa-2x fa-file-pdf-o text-red" *ngIf="episode.fileUrl" (click)="openFile(episode.fileUrl)"></i>
                         </td>
-                        <td [class.resolved]="episodeService.data.resolved" *ngIf="episode.episodeNoteCount">
-                            <a class="label label-info bg-vdarkgrey" (click)="showNotes(episode.episodeId)">{{episode.episodeNoteCount}}</a>
+                        <td [class.resolved]="episodeService.data.resolved">
+                            <a class="label label-info bg-vdarkgrey" (click)="showNoteWindow(episode)">{{episode.episodeNoteCount}}</a>
                         </td>
-                        <td [class.resolved]="episodeService.data.resolved" *ngIf="!episode.episodeNoteCount">{{episode.episodeNoteCount}}</td>
                     </tr>
                 </tbody>
             </table>

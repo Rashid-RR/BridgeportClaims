@@ -182,7 +182,7 @@ thead span {
     cursor: pointer;
     top: 2px;
 }
-
+ 
 .episodeCheckBox input[type=checkbox]:checked+label:after {
     opacity: 1;
 }
@@ -233,7 +233,7 @@ input[type='checkbox'] {
   tr>td:nth-child(1) {
       width:5%;
   }
-  tr>th:not(.resolved):nth-child(2),
+    tr>th:not(.resolved):nth-child(2),
     tr>td:not(.resolved):nth-child(2) {
         width:6%;
     }
@@ -300,9 +300,3 @@ input[type='checkbox'] {
     {
         width: 19%;
     }
-/*     @media screen  and (min-width:800px){
-        tr>th:nth-child(8)
-        {
-            width: 12%;
-        }
-    } */

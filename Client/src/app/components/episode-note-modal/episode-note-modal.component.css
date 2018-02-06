@@ -1,0 +1,35 @@
+.top-header,.table-body{
+    width:98%;
+    overflow:hidden;
+}
+.expanded{
+    height:calc(100% - 175px);
+    overflow:hidden;
+}
+.expanded .col-sm-12.body{
+    height:100%;
+    overflow:hidden;
+}
+.expanded .col-sm-12.body .table-body{ 
+    overflow:hidden; 
+    height:calc(100% - 35px);
+    overflow-y:auto;
+}
+.products-list>.item{
+    padding: 5px;    
+    padding-left: 10px; 
+    cursor: pointer; 
+    margin: 0px;  
+}
+.top-header .products-list.product-list-in-box  {
+    border-bottom:2px solid black;
+}
+.top-header .products-list.product-list-in-box>.item {
+    background: #fbeede !important;
+}
+.products-list>.item:nth-of-type(odd) {
+    background: #fff8ef;
+}
+.products-list>.item:nth-of-type(even) {
+    background: #fbeede;
+}

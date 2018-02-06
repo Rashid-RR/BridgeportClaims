@@ -61,7 +61,7 @@ import { DecimalPipe } from '@angular/common';
 import {
   PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
   PaymentDetailedResultComponent, DiaryScriptNoteWindowComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
-  AccountReceivableSearchComponent, AccountReceivableResultComponent,
+  AccountReceivableSearchComponent, AccountReceivableResultComponent,EpisodeNoteModalComponent,
   UnindexedImageFilterComponent, UnindexedImageListComponent
 } from './components/components-barrel';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
@@ -123,7 +123,7 @@ export class SafeUrlPipe implements PipeTransform {
     PaymentComponent, PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
     PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
-    DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,
+    DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,EpisodeNoteModalComponent,
     UnpaidScriptComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent
   ],
   imports: [
@@ -152,7 +152,7 @@ export class SafeUrlPipe implements PipeTransform {
     }],
   entryComponents: [
     UnindexedImageFileComponent,
-    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, DiaryScriptNoteWindowComponent, AppComponent
+    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, DiaryScriptNoteWindowComponent,EpisodeNoteModalComponent, AppComponent
   ],
   bootstrap: [AppComponent]
 })

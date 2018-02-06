@@ -1,72 +1,177 @@
-import { Component, OnInit,ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
-import {PaymentScriptService} from '../../services/payment-script-service';
-import {EventsService} from '../../services/events-service';
-import { Subject } from 'rxjs/Subject';
-declare var $:any;
+import { EpisodeService } from "../../services/episode.service"
+import { EventsService } from "../../services/events-service"
+import { WindowInstance } from "../ng-window/WindowInstance";
+import { Episode } from 'app/interfaces/episode';
+
+declare var $: any;
 
 @Component({
-  selector: 'app-add-script-modal',
-  templateUrl: './add-script-modal.component.html',
-  styleUrls: ['./add-script-modal.component.css']
+  selector: 'app-episode-note-modal-window',
+  templateUrl: './episode-note-modal.component.html',
+  styleUrls: ['./episode-note-modal.component.css']
 })
-export class AddScriptModalComponent implements OnInit, AfterViewInit {
+export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('lastname') lastname: ElementRef;
-  dropdownVisible= false;
-  searchText = '';
-  showDropDown = new Subject<any>();
+  episode: Episode;
+  episodeNotes = [
+  {
+    "owner": "Test Test",
+    "created": "2018-09-16T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Gurney, Jordan",
+    "created": "2018-09-14T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "TestLastName, TestFirstName",
+    "created": "2018-09-13T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-09-12T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-09-07T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Aftab, Ahmed",
+    "created": "2018-08-19T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Gurney, Jordan",
+    "created": "2018-08-09T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-08-09T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
 
-  constructor(private payment: PaymentScriptService, private events: EventsService,
+  {
+    "owner": "Gurney, Jordan",
+    "created": "2018-08-03T00:00:00.0000000+00:00",
+    "note": 0
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-07-17T00:00:00.0000000+00:00",
+    "note": 0
+  },
+  {
+    "owner": "Mansha1, Waseem1",
+    "created": "2018-07-12T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-06-29T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-06-29T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Condie, Adam",
+    "created": "2018-06-11T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Aftab, Ahmed",
+    "created": "2018-06-08T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Masood, Atiq",
+    "created": "2018-06-06T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Mansha1, Waseem1",
+    "created": "2018-05-23T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-05-22T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Sarwari, Ahmad",
+    "created": "2018-04-28T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Todor, Csaba",
+    "created": "2018-04-27T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Condie, Adam",
+    "created": "2018-04-12T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-04-09T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-03-19T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  },
+  {
+    "owner": "Test Test",
+    "created": "2018-03-13T00:00:00.0000000+00:00",
+    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
+  }]
+  noteText:'';
+  constructor(
+    public dialog: WindowInstance,
+    private episodeService: EpisodeService,
+    private events: EventsService,
     private toast: ToastsManager) {
 
   }
 
   ngOnInit() {
+    this.dialog.config.BlockParentUI = true;
+  }
+  saveNote(){
+    if(!this.noteText){
+      this.toast.warning("Please type in the note text")
+    }else{
+        console.log("Ready to send to API (",this.noteText,")");
+    }
 
   }
-  ngAfterViewInit() {
-    $('#datepicker').datepicker({
-      autoclose: true
-    });
-    this.lastname.nativeElement.focus();
-  }
-  checkMatch($event) {
-    this.payment.exactMatch = $event.target.checked;
-    this.showDropDown.next($event.target.checked);
-  }
-
-  claimSelected($event) {
-    if (this.searchText && $event.claimId) {
-      this.payment.form.patchValue({
-        claimId: $event.claimId,
-        claimNumber: $event.claimNumber,
-        firstName: $event.firstName,
-        groupNumber: $event.groupNumber,
-        lastName: $event.lastName
-      });
-      this.toast.info($event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber +
-      ' has been loaded. Wait for a few seconds to load details...',
-       'Claim Loaded', {toastLife : 3000, enableHTML: true, positionClass: 'toast-top-center' })
-        .then((toast: Toast) => {
-          const toasts: Array<HTMLElement> = $('.toast-message');
-          for (let i = 0; i < toasts.length; i++) {
-            const msg = toasts[i];
-            if (msg.innerHTML === toast.message) {
-              msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
-              msg.parentNode.parentElement.style.position = 'fixed';
-            }
-          }
-          this.payment.search();
-        });
-      setTimeout(() => {
-        this.searchText = undefined;
-        this.dropdownVisible = false;
-      }, 100);
+  formatDate(input: String) {
+    if (!input) return null;
+    if (input.indexOf("-") > -1) {
+      let date = input.split("T");
+      let d = date[0].split("-");
+      return d[1] + "/" + d[2] + "/" + d[0];
+    } else {
+      return input;
     }
   }
-  lastInput($event) {
-    this.searchText = $event.target.value;
+  ngAfterViewInit() {
+
   }
 
+  showNote(episode: Episode) {
+    this.episode = episode;
+  }
 }

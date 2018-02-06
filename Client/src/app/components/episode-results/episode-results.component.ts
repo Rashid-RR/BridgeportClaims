@@ -3,7 +3,7 @@ import { EpisodeService, HttpService } from '../../services/services.barrel';
 import { Diary } from '../../models/diary';
 import { Claim } from '../../models/claim';
 import { PrescriptionNote } from '../../models/prescription-note';
-import { DiaryScriptNoteWindowComponent } from '../../components/components-barrel';
+import { EpisodeNoteModalComponent } from '../../components/components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
 import { Router } from '@angular/router';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -23,7 +23,7 @@ export class EpisodeResultsComponent implements OnInit {
 
   activeToast: Toast;
   constructor(
-    private dialogService: DialogService,private _router: Router, public episodeService: EpisodeService, private http: HttpService,
+    private dialogService: DialogService, private _router: Router, public episodeService: EpisodeService, private http: HttpService,
     private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
 
   }
@@ -31,32 +31,45 @@ export class EpisodeResultsComponent implements OnInit {
   ngOnInit() {
     this.episodeService.search();
   }
+  showNoteWindow(episode: Episode) {
+    let config = new WindowConfig("Episode Note", new Size(400, 700))  //height, width
+    config.position = new CustomPosition(90 + Math.random() * 200, 60)//left,top
+    config.minusTop = 91;
+    config.centerInsideParent = true;
+    var temp = {}
+    config.forAny = [temp];
+    config.openAsMaximize = false;
+    this.myInjector.openWindow(EpisodeNoteModalComponent, config)
+      .then((win: EpisodeNoteModalComponent) => {
+        win.showNote(episode);
+      })
+  }
 
-  acquire(episode:Episode){
+  acquire(episode: Episode) {
 
   }
-  markAsResolved($event,episode){
+  markAsResolved($event, episode) {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Mark Episode as Resolved',
       message: 'Are you sure you with to resolve this episode?'
     })
       .subscribe((isConfirmed) => {
-         if (isConfirmed) {
-        this.episodeService.loading = true;
-        this.http.markEpisodeAsSolved(episode.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
-          this.toast.success(res.message);
-          this.episodeService.loading = false;
-          this.episodeService.episodes = this.episodeService.episodes.delete(episode.episodeId);
-          this.episodeService.totalRowCount--;
-        }, error => {
-          this.toast.error(error.message);
+        if (isConfirmed) {
+          this.episodeService.loading = true;
+          this.http.markEpisodeAsSolved(episode.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
+            this.toast.success(res.message);
+            this.episodeService.loading = false;
+            this.episodeService.episodes = this.episodeService.episodes.delete(episode.episodeId);
+            this.episodeService.totalRowCount--;
+          }, error => {
+            this.toast.error(error.message);
+            $event.target.checked = false;
+            this.episodeService.loading = false;
+          });
+        } else {
           $event.target.checked = false;
-          this.episodeService.loading = false;
-        });
-      } else {
-        $event.target.checked = false;
-       }
-    });
+        }
+      });
   }
   next() {
     this.episodeService.search(true);
@@ -64,11 +77,11 @@ export class EpisodeResultsComponent implements OnInit {
   prev() {
     this.episodeService.search(false, true);
   }
-  openFile(fileUrl: string ) {
-     let id = UUID.UUID();
-     let file = {fileUrl:fileUrl,documentId:id} as DocumentItem
-     localStorage.setItem('file-' + id, JSON.stringify(file));
-     window.open('#/main/indexed-image/' + id, '_blank');
+  openFile(fileUrl: string) {
+    let id = UUID.UUID();
+    let file = { fileUrl: fileUrl, documentId: id } as DocumentItem
+    localStorage.setItem('file-' + id, JSON.stringify(file));
+    window.open('#/main/indexed-image/' + id, '_blank');
   }
 
   goto() {
