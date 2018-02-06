@@ -193,6 +193,7 @@
     <Compile Include="Mappings\EpisodeLinkMap.cs" />
     <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
     <Compile Include="Mappings\EpisodeMap.cs" />
+    <Compile Include="Mappings\EpisodeNoteMap.cs" />
     <Compile Include="Mappings\EpisodeTypeMap.cs" />
     <Compile Include="Mappings\GenderMap.cs" />
     <Compile Include="Mappings\ImportFileMap.cs" />
