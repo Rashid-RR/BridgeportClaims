@@ -223,10 +223,16 @@
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
-                <p>
-                  <strong>{{summary.newPrescriptions}} NEW</strong>
-                  <span>Prescriptions</span>
-                </p>
+                <span class="row">
+                    <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
+                        <strong>{{summary.newPrescriptions}} NEW</strong>
+                        <span>Prescriptions</span>
+                    </div>
+                    <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
+                        <strong>{{summary.newReversedPrescriptions}} REVERSED</strong>
+                        <span>Prescriptions</span>
+                    </div>
+                  </span>
                 <div class="status-information">
                   <span class="label row">Latest Prescriptions</span>
                 </div>

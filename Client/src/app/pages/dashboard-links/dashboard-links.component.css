@@ -88,6 +88,8 @@ li.reports {
 	text-align: center;
     padding: 20px; 
     margin:0px;
+    display: flex;
+    flex-wrap: wrap;
 } 
 .row.parallel div[class^=col-]{
     padding-bottom:20px;
