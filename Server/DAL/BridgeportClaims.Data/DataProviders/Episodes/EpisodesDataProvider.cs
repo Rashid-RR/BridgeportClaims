@@ -43,23 +43,21 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	    /// </summary>
 	    /// <param name="claimId"></param>
 	    /// <param name="userId"></param>
-	    /// <param name="fileNameNote"></param>
-	    /// <param name="created"></param>
 	    /// <param name="documentId"></param>
 	    /// <param name="documentTypeId"></param>
 	    /// <param name="rxNumber"></param>
-	    /// <param name="note"></param>
-	    public bool CreateImageCategoryEpisode(int documentTypeId, int claimId, string rxNumber, string userId, int documentId) =>
+	    public bool CreateImageCategoryEpisode(byte documentTypeId, int claimId, string rxNumber, string userId, int documentId) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspCreateImageCategoryEpisode]", conn), cmd =>
 	            {
+                    cmd.CommandType = CommandType.StoredProcedure;
 	                var documentTypeIdParam = cmd.CreateParameter();
                     documentTypeIdParam.Direction = ParameterDirection.Input;
 	                documentTypeIdParam.DbType = DbType.Byte;
 	                documentTypeIdParam.SqlDbType = SqlDbType.TinyInt;
 	                documentTypeIdParam.ParameterName = "@DocumentTypeID";
-	                documentTypeIdParam.Value = documentId;
+	                documentTypeIdParam.Value = documentTypeId;
                     cmd.Parameters.Add(documentTypeIdParam);
 	                var claimIdParam = cmd.CreateParameter();
                     claimIdParam.Direction = ParameterDirection.Input;
@@ -108,7 +106,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	        });
 
 	    public EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId,
-            int? episodeCategoryId, int? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+            int? episodeCategoryId, byte? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
@@ -153,8 +151,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                var episodeTypeIdParam = cmd.CreateParameter();
 	                episodeTypeIdParam.Direction = ParameterDirection.Input;
 	                episodeTypeIdParam.Value = episodeTypeId ?? (object)DBNull.Value;
-	                episodeTypeIdParam.DbType = DbType.Int32;
-	                episodeTypeIdParam.SqlDbType = SqlDbType.Int;
+	                episodeTypeIdParam.DbType = DbType.Byte;
+	                episodeTypeIdParam.SqlDbType = SqlDbType.TinyInt;
 	                episodeTypeIdParam.ParameterName = "@EpisodeTypeID";
 	                cmd.Parameters.Add(episodeTypeIdParam);
                     var sortColumnParam = cmd.CreateParameter();
@@ -235,7 +233,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	            });
 	        });
 
-		public void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string noteText, int? episodeTypeId)
+		public void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string noteText, byte? episodeTypeId)
 		{
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
@@ -281,8 +279,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					{
 						ParameterName = "@EpisodeTypeID",
 						Value = (object) episodeTypeId ?? DBNull.Value,
-						DbType = DbType.Int32,
-						SqlDbType = SqlDbType.Int
+						DbType = DbType.Byte,
+						SqlDbType = SqlDbType.TinyInt
 					};
 					cmd.Parameters.Add(epId);
 					cmd.Parameters.Add(clId);
@@ -319,7 +317,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	        _episodeRepository.Save(episodeEntity);
 	    }
 
-	    public void SaveNewEpisode(int claimId, int? episodeTypeId, string pharmacyNabp, string rxNumber, string episodeText, string userId)
+	    public void SaveNewEpisode(int claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber, string episodeText, string userId)
 	    {
 	        var cat = _episodeCategoryRepository?.GetMany(x => x.Code == "CALL")?.SingleOrDefault();
             if (null == cat)

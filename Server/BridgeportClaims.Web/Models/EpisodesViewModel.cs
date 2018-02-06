@@ -11,7 +11,7 @@ namespace BridgeportClaims.Web.Models
         public bool Resolved { get; set; }
         public string OwnerId { get; set; }
         public int? EpisodeCategoryId { get; set; }
-        public int? EpisodeTypeId { get; set; }
+        public byte? EpisodeTypeId { get; set; }
         [Required]
         public string SortColumn { get; set; }
         [Required]

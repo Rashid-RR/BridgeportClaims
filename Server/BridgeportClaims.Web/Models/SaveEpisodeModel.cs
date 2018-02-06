@@ -10,6 +10,6 @@ namespace BridgeportClaims.Web.Models
 		[Required]
 		[MinLength(1)]
 		public string NoteText { get; set; }
-		public int? EpisodeTypeId { get; set; }
+		public byte? EpisodeTypeId { get; set; }
 	}
 }
