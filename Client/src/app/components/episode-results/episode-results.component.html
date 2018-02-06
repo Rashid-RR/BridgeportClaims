@@ -10,6 +10,11 @@
                         </th>
                         <th>
                             <span columnSort="owner" [sort-table]="myTable">
+                                ID
+                            </span>
+                        </th>
+                        <th>
+                            <span columnSort="owner" [sort-table]="myTable">
                                 Owner
                             </span>
                         </th>
@@ -72,6 +77,7 @@
                                 [disabled]="episodeService.data.resolved">
                             <label (click)="inv.click()"></label>
                         </td>
+                        <td>{{episode.episodeId}}</td>
                         <td>{{episode.owner}}</td>
                         <td>{{formatDate(episode.created)}}</td>
                         <td>{{episode.patientName}}</td>
