@@ -7,7 +7,7 @@ namespace BridgeportClaims.Web.Models
     {
         public int DocumentId { get; set; }
         public int ClaimId { get; set; }
-        public int DocumentTypeId { get; set; }
+        public byte DocumentTypeId { get; set; }
         public DateTime? RxDate { get; set; }
         public string RxNumber { get; set; }
         public string InvoiceNumber { get; set; }

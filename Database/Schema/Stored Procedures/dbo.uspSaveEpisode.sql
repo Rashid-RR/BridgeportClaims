@@ -16,7 +16,7 @@ CREATE PROC [dbo].[uspSaveEpisode]
 	@Created DATE,
 	@AssignedUserID NVARCHAR(128),
 	@Note VARCHAR(1000),
-	@EpisodeTypeID INT
+	@EpisodeTypeID TINYINT
 )
 AS 
 BEGIN

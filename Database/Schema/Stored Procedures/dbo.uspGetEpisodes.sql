@@ -18,7 +18,7 @@ CREATE PROC [dbo].[uspGetEpisodes]
 	@Resolved BIT,
 	@OwnerID NVARCHAR(128),
 	@EpisodeCategoryID INTEGER,
-	@EpisodeTypeID INTEGER,
+	@EpisodeTypeID TINYINT,
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
@@ -38,7 +38,7 @@ AS BEGIN
 		DECLARE @iResolved BIT = @Resolved,
 				@iOwnerID NVARCHAR(128) = @OwnerID,
 				@iEpisodeCategoryID INTEGER = @EpisodeCategoryID,
-				@iEpisodeTypeID INTEGER = @EpisodeTypeID,
+				@iEpisodeTypeID TINYINT = @EpisodeTypeID,
 				@iStartDate DATE = @StartDate,
 				@iEndDate DATE = @EndDate,
 				@iSortColumn VARCHAR(50) = @SortColumn,
@@ -55,13 +55,13 @@ AS BEGIN
 			[Type] [varchar](255) NULL,
 			[Pharmacy] [varchar](60) NULL,
 			[Carrier] [varchar](255) NOT NULL,
-			[EpisodeNote] [varchar](8000) NOT NULL,
+			EpisodeNoteCount INT NOT NULL,
 			[FileUrl] [nvarchar] (500) NULL
 		);
 
 		DECLARE @Spacing NVARCHAR(2) = N', ';
 		INSERT INTO [#Episodes] ([EpisodeId],[Owner],[Created],[PatientName],[ClaimNumber],
-				[Type],[Pharmacy],[Carrier],[EpisodeNote], [FileUrl])
+				[Type],[Pharmacy],[Carrier],[EpisodeNoteCount], [FileUrl])
 		SELECT          EpisodeId     = [ep].[EpisodeID]
 					  ,	[Owner]       = CONCAT([u].[LastName], @Spacing, [u].[FirstName])
 					  , [Created]     = ep.Created
@@ -70,7 +70,7 @@ AS BEGIN
 					  , [Type]        = et.TypeName
 					  , [Pharmacy]    = ph.PharmacyName
 					  , [Carrier]     = py.GroupName
-					  , [EpisodeNote] = ep.Note
+					  , EpisodeNoteCount = (SELECT COUNT(*) FROM [dbo].[EpisodeNote] AS [en] WHERE [en].[EpisodeID] = [ep].[EpisodeID])
 					  , [d].[FileUrl]
 		FROM            dbo.Episode         AS ep
 			INNER JOIN  dbo.Claim           AS cl ON ep.ClaimID = cl.ClaimID
@@ -99,7 +99,7 @@ AS BEGIN
              , [e].[Type]
              , [e].[Pharmacy]
              , [e].[Carrier]
-             , [e].[EpisodeNote]
+             , [e].EpisodeNoteCount
 			 , [e].[FileUrl]
 		FROM [#Episodes] AS [e]
 		ORDER BY CASE WHEN @iSortColumn = 'EpisodeId' AND @iSortDirection = 'ASC'
@@ -134,14 +134,14 @@ AS BEGIN
 				THEN e.[Carrier] END ASC,
 			 CASE WHEN @iSortColumn = 'Carrier' AND @iSortDirection = 'DESC'
 				THEN e.[Carrier] END DESC,
-			 CASE WHEN @iSortColumn = 'EpisodeNote' AND @iSortDirection = 'ASC'
-				THEN [e].[EpisodeNote] END ASC,
-			 CASE WHEN @iSortColumn = 'EpisodeNote' AND @iSortDirection = 'DESC'
-				THEN [e].[EpisodeNote] END DESC,
+			 CASE WHEN @iSortColumn = 'EpisodeNoteCount' AND @iSortDirection = 'ASC'
+				THEN [e].EpisodeNoteCount END ASC,
+			 CASE WHEN @iSortColumn = 'EpisodeNoteCount' AND @iSortDirection = 'DESC'
+				THEN [e].EpisodeNoteCount END DESC,
 			 CASE WHEN @iSortColumn = 'FileUrl' AND @iSortDirection = 'ASC'
-				THEN [e].[EpisodeNote] END ASC,
+				THEN [e].[FileUrl] END ASC,
 			 CASE WHEN @iSortColumn = 'FileUrl' AND @iSortDirection = 'DESC'
-				THEN [e].[EpisodeNote] END DESC
+				THEN [e].[FileUrl] END DESC
 		OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 		FETCH NEXT @iPageSize ROWS ONLY;
 
@@ -166,6 +166,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
-
 
 GO
