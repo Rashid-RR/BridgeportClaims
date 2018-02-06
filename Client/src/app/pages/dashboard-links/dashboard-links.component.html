@@ -72,8 +72,8 @@
             <div class="content-right-section">
               <div class="upper-description text-left">
                 <p>
-                  <strong>{{summary.diariesAdded}} OUTSTANDING</strong>
-                  <span>Diaries</span>
+                  <strong>{{summary.diariesAdded}} NEW </strong>
+                  <span>Diaries </span>created on {{formatDate(summary.lastWorkDate)}}
                 </p>
               </div>
               <i class="fa fa-2x fa-caret-down progress-caret" style="left: calc(70% - 4px);"></i>
@@ -82,20 +82,17 @@
                 {{summary.totalDiariesUnResolved}}
               </div>
               <ul class="status-in-word">
-                <li class="completed">{{summary.totalDiariesResolved}} Complete</li>
-                <li class="recent">12 Recent
-                  <i>(last 48 hrs)</i>
-                </li>
-                <li class="outstanding">{{summary.totalDiariesUnResolved}} Outstanding</li>
+                <li class="completed" style="width: 70%;">{{summary.totalDiariesResolved}} Resolved</li>
+                <li class="outstanding" style="width: 30%;">{{summary.totalDiariesUnResolved}} Outstanding</li>
               </ul>
               <div class="status-information">
-                <span class="status-information-label">Top Producers</span>
+                <span class="status-information-label">&nbsp;</span>
                 <a [routerLink]="[]" class="status-information-badge">Employee1</a>
                 <a [routerLink]="[]" class="status-information-badge">Employee5</a>
                 <a [routerLink]="[]" class="status-information-badge">Employee6</a>
               </div>
               <div class="status-information">
-                <span class="status-information-label">In the last 48 hours</span>
+                <span class="status-information-label">&nbsp;</span>
                 <a [routerLink]="[]" class="status-information-badge no-bg">6 Diaries</a>
                 <a [routerLink]="[]" class="status-information-badge no-bg">2 Diaries</a>
                 <a [routerLink]="[]" class="status-information-badge no-bg">4 Diaries</a>
