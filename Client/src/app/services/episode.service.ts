@@ -9,6 +9,7 @@ import { SortColumnInfo } from "../directives/table-sort.directive";
 import { EpisodesFilterPipe } from "../components/episode-results/episode-filter.pipe"
 import { Episode } from 'app/interfaces/episode';
 import { EpisodeNoteType } from 'app/models/episode-note-type';
+import { ArraySortPipe } from 'app/pipes/sort.pipe';
 
 @Injectable()
 export class EpisodeService {
@@ -23,7 +24,7 @@ export class EpisodeService {
   episodeNoteTypes: Array<EpisodeNoteType> = []
   owners: Array<{ownerId:any,owner:string}> = []
   constructor(private http: HttpService, private formBuilder: FormBuilder,
-    private epf: EpisodesFilterPipe,
+    private epf: EpisodesFilterPipe, private sortPipe:ArraySortPipe,
     private events: EventsService, private toast: ToastsManager) {
     this.data = {
       startDate: null,
@@ -95,6 +96,9 @@ export class EpisodeService {
         .subscribe((result: any) => {
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
+          if(this.data.sortColumn=='fileUrl'){
+            result.episodeResults = this.sortPipe.transform(result.episodeResults,this.data.sortColumn,this.data.sortDirection);
+          }
           this.episodes = Immutable.OrderedMap<Number, Episode>();
           result.episodeResults.forEach((episode: Episode) => {
             try {
