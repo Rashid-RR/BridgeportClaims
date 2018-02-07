@@ -282,7 +282,7 @@ export class ClaimsComponent implements OnInit {
   }
 
 
-  episode(id: number = undefined, TypeId: string = null, note: string = null) {
+  episode(id: number = undefined, TypeId: string = "1", note: string = null) {
 
     this.claimManager.episodeForm.reset();
     this.claimManager.episodeForm.patchValue({
