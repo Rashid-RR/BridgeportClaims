@@ -112,7 +112,6 @@ li.reports {
     border-radius: 5px; 
     width:100%;
     min-height: 165px;
-    padding:8px;
 }
 @media(max-width:1111px) and (min-width:768px){
     #private-nav .grey-box {
@@ -126,6 +125,7 @@ li.reports {
     height: 100%;
     border-right: 1px solid #cacaca;
     min-height: 115px;
+    height: 165px;
     display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
     display: -ms-flexbox;  /* TWEENER - IE 10 */
     display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
@@ -147,6 +147,9 @@ li.reports {
     font-size: 12px;
     margin-top: 7px;
     line-height: 1;
+}
+#private-nav .grey-box .img-section,#private-nav .grey-box .content-right-section {    
+    padding:8px;
 }
 
 #private-nav .grey-box .img-section .dashboard-img > img {
@@ -176,8 +179,12 @@ li.reports {
 
 .content-right-section .upper-description {
     padding: 5px 0px;
+    letter-spacing: 1px;
 }
  
+.upper-description text-left p i{
+    margin-left: 5px;
+}
 .content-right-section .upper-description strong {
     color: #992727;
     font-size: 13pt;
@@ -319,7 +326,7 @@ li.reports {
 }
 .progress-caret {
     position: absolute;
-    top: 14px;
+    top: 21px;
     color: #992727;
 }
 .progress-bar:after {

@@ -87,6 +87,9 @@
       background: #992727;
       color: #fff;
     }
+    .text-darkRed{
+      color:#992727
+    }
 
     .swal2-modal.paymeny-modal .swal2-content .bg-darkblue {
       background-color: #414772;
