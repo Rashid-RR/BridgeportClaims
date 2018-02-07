@@ -46,12 +46,27 @@ export class EpisodeResultsComponent implements OnInit {
   }
 
   acquire(episode: Episode) {
-
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Acquire Episode',
+      message: 'Are you sure you want to acquire this episode?'
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.episodeService.loading = true;
+          this.http.acquireEpisode(episode.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
+            this.toast.success(res.message);
+            this.episodeService.loading = false; 
+          }, error => {
+            this.toast.error(error.message); 
+            this.episodeService.loading = false;
+          });
+        }
+      });
   }
   markAsResolved($event, episode) {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Mark Episode as Resolved',
-      message: 'Are you sure you with to resolve this episode?'
+      message: 'Are you sure you want to resolve this episode?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
