@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Data.DataProviders.EpisodeNotes;
 using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -15,11 +17,69 @@ namespace BridgeportClaims.Web.Controllers
 	{
 		private readonly IEpisodesDataProvider _episodesDataProvider;
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+	    private readonly IEpisodeNoteProvider _episodeNoteProvider;
 
-		public EpisodesController(IEpisodesDataProvider episodesDataProvider)
-		{
-			_episodesDataProvider = episodesDataProvider;
-		}
+        public EpisodesController(IEpisodesDataProvider episodesDataProvider, IEpisodeNoteProvider episodeNoteProvider)
+        {
+            _episodesDataProvider = episodesDataProvider;
+            _episodeNoteProvider = episodeNoteProvider;
+        }
+
+	    [HttpPost]
+	    [Route("acquire")]
+	    public IHttpActionResult AcquireEpisode(int episodeId)
+	    {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                _episodesDataProvider.AcquireEpisode(episodeId, userId);
+                return Ok(new {message = "The episode was acquired successfully."});
+            }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+	        }
+        }
+
+	    [HttpPost]
+	    [Route("note-modal")]
+	    public IHttpActionResult GetEpisodeNotes(int episodeId)
+	    {
+	        try
+	        {
+	            var query = _episodeNoteProvider.GetEpisodeNotes(episodeId);
+	            var results = query.GroupBy(q => new
+	                {
+	                    q.Id,
+	                    q.ClaimNumber,
+	                    q.EpisodeCreated,
+	                    q.Owner,
+	                    q.PatientName
+	                })
+	                .Select(gcs => new EpisodeNoteHeaderModel
+	                {
+	                    Id = gcs.Key.Id,
+	                    Owner = gcs.Key.Owner,
+	                    EpisodeCreated = gcs.Key.EpisodeCreated,
+	                    PatientName = gcs.Key.PatientName,
+	                    ClaimNumber = gcs.Key.ClaimNumber,
+	                    EpisodeNotes = gcs.Select(x => new EpisodeNoteModel
+	                        {
+	                            NoteCreated = x.NoteCreated,
+	                            NoteText = x.NoteText,
+	                            WrittenBy = x.WrittenBy
+	                        })
+	                        .ToList()
+	                });
+                return Ok(results);
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+	    }
 
 	    [HttpPost]
 	    [Route("save")]

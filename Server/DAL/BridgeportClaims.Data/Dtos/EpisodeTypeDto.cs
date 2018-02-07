@@ -7,5 +7,6 @@ namespace BridgeportClaims.Data.Dtos
 	{
 		public int EpisodeTypeId { get; set; }
 		public string EpisodeTypeName { get; set; }
+        public byte SortOrder { get; set; }
 	}
 }
