@@ -23,7 +23,9 @@ namespace BridgeportClaims.Entities.DomainModels
 		public virtual string Code { get; set; }
 		[StringLength(1000)]
 		public virtual string Description { get; set; }
-		[Required]
+	    [Required]
+	    public virtual byte SortOrder { get; set; }
+        [Required]
 		public virtual DateTime CreatedOnUtc { get; set; }
 		[Required]
 		public virtual DateTime UpdatedOnUtc { get; set; }

@@ -296,7 +296,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                             // Episodes Types
 						    var episodeTypes = _episodesDataProvider?.GetEpisodeTypes();
 						    if (null != episodeTypes)
-						        claimDto.EpisodeTypes = episodeTypes;
+						        claimDto.EpisodeTypes = episodeTypes.OrderBy(x => x.SortOrder).ToList();
                             // Claim Prescriptions
                             claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
 							// Prescription Notes

@@ -13,6 +13,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
         IList<EpisodeTypeDto> GetEpisodeTypes();
         void ResolveEpisode(int episodeId, string modifiedByUserId);
 	    void SaveNewEpisode(int claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber, string episodeText, string userId);
-
-	}
+        void AcquireEpisode(int episodeId, string userId);
+    }
 }

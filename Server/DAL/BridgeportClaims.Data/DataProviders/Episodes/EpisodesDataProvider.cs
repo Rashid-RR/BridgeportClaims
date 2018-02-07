@@ -301,7 +301,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    .Select(e => new EpisodeTypeDto
 		    {
 		        EpisodeTypeId = e.EpisodeTypeId,
-		        EpisodeTypeName = e.TypeName
+		        EpisodeTypeName = e.TypeName,
+                SortOrder = e.SortOrder
 		    }).OrderBy(x => x.EpisodeTypeName).ToList();
 
 	    public void ResolveEpisode(int episodeId, string modifiedByUserId)
@@ -341,5 +342,21 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
             };
             _episodeRepository.Save(entity);
 	    }
+
+	    public void AcquireEpisode(int episodeId, string userId)
+	    {
+	        var episode = _episodeRepository.GetSingleOrDefault(x => x.EpisodeId == episodeId);
+            if (null == episode)
+                throw new Exception($"Coult not find Episode Id {episodeId}");
+	        var user = _usersRepository.GetSingleOrDefault(x => x.Id == userId);
+            if (null == user)
+                throw new Exception($"Error. Could not find a user with Id \"{userId}\"");
+            if (null == episode.AcquiredUser)
+	            episode.AcquiredUser = user;
+	        episode.AssignedUser = user;
+	        episode.ModifiedByUser = user;
+	        episode.UpdatedOnUtc = DateTime.UtcNow;
+	        _episodeRepository.Update(episode);
+        }
 	}
 }

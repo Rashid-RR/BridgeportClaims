@@ -16,7 +16,8 @@ namespace BridgeportClaims.Data.Mappings
 		    Map(x => x.TypeName).Column("TypeName").Not.Nullable().Length(255);
 		    Map(x => x.Code).Column("Code").Not.Nullable().Unique().Length(10);
 		    Map(x => x.Description).Column("Description").Length(1000);
-		    Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
+		    Map(x => x.SortOrder).Column("SortOrder").Not.Nullable().Unique().Precision(3);
+            Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
 		    Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
 		    HasMany(x => x.DocumentTypeEpisodeTypeMapping).KeyColumn("EpisodeTypeID");
 		    HasMany(x => x.Episode).KeyColumn("EpisodeTypeID");
