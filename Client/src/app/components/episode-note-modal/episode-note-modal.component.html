@@ -1,0 +1,58 @@
+<div class="container-fluid" *ngIf="episode">
+  <b>
+    <div class="row heading" style="text-align:center;">
+      <div class="col-xs-1">ID</div>
+      <div class="col-xs-2" style="padding-left:0px;">Owner</div>
+      <div class="col-xs-1">Created</div>
+      <div class="col-xs-3">Patient Name</div>
+      <div class="col-xs-5">Claim #</div>
+    </div>
+  </b>
+  <div class="row" style="text-align:center;">
+    <div class="col-xs-1"> {{episode.episodeId}} </div>
+    <div class="col-xs-2" style="padding-left:0px;"> {{episode.owner}} </div>
+    <div class="col-xs-1"> {{formatDate(episode.created)}} </div>
+    <div class="col-xs-3"> {{episode.patientName}} </div>
+    <div class="col-xs-5"> {{episode.claimNumber}} </div>
+  </div>
+</div>
+<div class="row" style="padding:0px 20px;margin-top: 0.2rem;">
+  <label id="noteTextLabel">Add Note</label>
+  <textarea rows="3" class="col-xs-12" [(ngModel)]="noteText"></textarea>
+</div>
+<div class="row" style="padding-top: 0.2rem;padding:5px 20px;">
+  <button class="btn bg-darkRed pull-right" (click)="saveNote()">Save</button>
+</div>
+<div class="row expanded">
+  <div class="col-sm-12 body" style="overflow:hidden;">
+    <div class="table-responsive top-header">
+      <ul class="products-list product-list-in-box">
+        <li class="item row">
+          <div class="col-md-2">
+            Written By
+          </div>
+          <div class="col-md-2">
+            Created On
+          </div>
+          <div class="col-md-8">
+            Note
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="table-responsive table-body">
+      <ul class="products-list product-list-in-box">
+        <li class="item row" *ngFor="let note of episodeNotes">
+          <div class="col-md-2">
+            {{note.owner}}
+          </div>
+          <div class="col-md-2">
+            {{formatDate(note.created)}}
+          </div>
+          <div class="col-md-8">
+            {{note.note}}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>

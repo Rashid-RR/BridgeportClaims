@@ -101,6 +101,7 @@ export class EpisodeService {
           }
           this.episodes = Immutable.OrderedMap<Number, Episode>();
           result.episodeResults.forEach((episode: Episode) => {
+            episode.episodeNoteCount = Math.round(Math.random()*10);
             try {
               this.episodes = this.episodes.set(episode['episodeId'], episode);
             } catch (e) { }

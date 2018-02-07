@@ -88,6 +88,8 @@ li.reports {
 	text-align: center;
     padding: 20px; 
     margin:0px;
+    display: flex;
+    flex-wrap: wrap;
 } 
 .row.parallel div[class^=col-]{
     padding-bottom:20px;
@@ -201,12 +203,12 @@ li.reports {
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 800;
     line-height: 25px;
-    color: #b64545;
+    color: #fff;
 }
 
 .progress-bar {  
     background-color: #263238;
-    color: #43535b;    
+    color: #ffffff;    
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 800;
     line-height: 25px;
@@ -223,11 +225,11 @@ li.reports {
 }
 
 #private-nav .content-right-section ul.status-in-word li {
-    -webkit-box-flex: 1;   /* OLD - iOS 6-, Safari 3.1-6 */
+   /*  -webkit-box-flex: 1; */   /* OLD - iOS 6-, Safari 3.1-6 */
     width: 33%;            /* For old syntax, otherwise collapses. */
-    -webkit-flex: 1;       /* Safari 6.1+. iOS 7.1+, BB10 */
-    -ms-flex: 1;           /* IE 10 */
-    flex: 1;  
+    /*-webkit-flex: 1;       /* Safari 6.1+. iOS 7.1+, BB10 * /
+    -ms-flex: 1;           /* IE 10 * /
+    flex: 1;  */
     font-size: 9px;
     text-align: left;
 }
@@ -252,6 +254,8 @@ li.reports {
     color: #992727;
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 600;
+    justify-content: flex-start;
+    overflow: hidden;
 }
 
 
@@ -315,6 +319,15 @@ li.reports {
 }
 .progress-caret {
     position: absolute;
-    top: 10px;
+    top: 14px;
     color: #992727;
+}
+.progress-bar:after {
+    background: green;
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    right: 0px;
+    z-index: 121212;
+    top: -100%;
 }
