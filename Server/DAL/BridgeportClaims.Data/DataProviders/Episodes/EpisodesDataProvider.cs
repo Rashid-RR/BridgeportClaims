@@ -16,6 +16,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	public class EpisodesDataProvider : IEpisodesDataProvider
 	{
 		private readonly IRepository<EpisodeType> _episodeTypeRepository;
+	    private readonly IRepository<EpisodeNote> _episodeNoteRepository;
 	    private readonly IRepository<Episode> _episodeRepository;
 	    private readonly IRepository<AspNetUsers> _usersRepository;
 	    private readonly IRepository<EpisodeCategory> _episodeCategoryRepository;
@@ -28,7 +29,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
             IRepository<Episode> episodeRepository, 
             IRepository<EpisodeCategory> episodeCategoryRepository, 
             IRepository<Claim> claimRepository, 
-            IRepository<Pharmacy> pharmacyRepository)
+            IRepository<Pharmacy> pharmacyRepository, 
+            IRepository<EpisodeNote> episodeNoteRepository)
 		{
 		    _episodeTypeRepository = episodeTypeRepository;
 		    _usersRepository = usersRepository;
@@ -36,6 +38,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		    _episodeCategoryRepository = episodeCategoryRepository;
 		    _claimRepository = claimRepository;
 		    _pharmacyRepository = pharmacyRepository;
+		    _episodeNoteRepository = episodeNoteRepository;
 		}
 
 	    /// <summary>
@@ -357,6 +360,28 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	        episode.ModifiedByUser = user;
 	        episode.UpdatedOnUtc = DateTime.UtcNow;
 	        _episodeRepository.Update(episode);
+        }
+
+        /// <summary>
+        /// Saves a new Episode Note object to the databse.
+        /// </summary>
+        /// <param name="episodeId"></param>
+        /// <param name="note"></param>
+        /// <param name="userId"></param>
+        /// <param name="today"></param>
+	    public void SaveEpisodeNote(int episodeId, string note, string userId, DateTime today)
+	    {
+	        var utcNow = DateTime.UtcNow;
+            var enote = new EpisodeNote();
+	        var user = _usersRepository.Get(userId);
+            var episode = _episodeRepository.Get(episodeId);
+            enote.Created = today;
+	        enote.NoteText = note;
+	        enote.CreatedOnUtc = utcNow;
+	        enote.Episode = episode ?? throw new Exception($"Error, count not retrieve Episode Id {episodeId}");
+	        enote.UpdatedOnUtc = utcNow;
+	        enote.WrittenByUser = user ?? throw new Exception($"Error. Could not fine User Id \"{userId}\"");
+            _episodeNoteRepository.Save(enote);
         }
 	}
 }

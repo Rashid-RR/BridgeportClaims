@@ -3,8 +3,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.EpisodeNotes;
 using BridgeportClaims.Data.DataProviders.Episodes;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;
@@ -18,11 +21,41 @@ namespace BridgeportClaims.Web.Controllers
 		private readonly IEpisodesDataProvider _episodesDataProvider;
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 	    private readonly IEpisodeNoteProvider _episodeNoteProvider;
+	    private readonly IRepository<AspNetUsers> _usersRepository;
 
-        public EpisodesController(IEpisodesDataProvider episodesDataProvider, IEpisodeNoteProvider episodeNoteProvider)
+        public EpisodesController(IEpisodesDataProvider episodesDataProvider, IEpisodeNoteProvider episodeNoteProvider, IRepository<AspNetUsers> usersRepository)
         {
             _episodesDataProvider = episodesDataProvider;
             _episodeNoteProvider = episodeNoteProvider;
+            _usersRepository = usersRepository;
+        }
+
+	    [HttpPost]
+	    [Route("save-note")]
+	    public async Task<IHttpActionResult> SaveEpisodeNote(SaveEpisodeNoteModel model)
+	    {
+	        try
+	        {
+	            return await Task.Run(() =>
+	            {
+	                var user = _usersRepository.Get(User.Identity.GetUserId());
+	                if (null == user)
+	                    throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
+	                var today = DateTime.UtcNow.ToMountainTime();
+                    _episodesDataProvider.SaveEpisodeNote(model.EpisodeId, model.Note, user.Id, today);
+                    return Ok(new
+	                {
+	                    message = "The episode note was saved successfully.",
+	                    Owner = $"{user.FirstName} {user.LastName}",
+                        Created = today
+                    });
+	            });
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+	        }
         }
 
 	    [HttpPost]
@@ -31,9 +64,15 @@ namespace BridgeportClaims.Web.Controllers
 	    {
             try
             {
-                var userId = User.Identity.GetUserId();
-                _episodesDataProvider.AcquireEpisode(episodeId, userId);
-                return Ok(new {message = "The episode was acquired successfully."});
+                var user = _usersRepository.Get(User.Identity.GetUserId());
+                if (null == user)
+                    throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
+                _episodesDataProvider.AcquireEpisode(episodeId, user.Id);
+                return Ok(new
+                {
+                    message = "The episode was acquired successfully.",
+                    Owner = $"{user.FirstName} {user.LastName}"
+                });
             }
 	        catch (Exception ex)
 	        {
