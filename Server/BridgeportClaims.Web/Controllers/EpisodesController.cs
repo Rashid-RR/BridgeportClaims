@@ -32,7 +32,7 @@ namespace BridgeportClaims.Web.Controllers
 
 	    [HttpPost]
 	    [Route("save-note")]
-	    public async Task<IHttpActionResult> SaveEpisodeNote(int episodeId, string note)
+	    public async Task<IHttpActionResult> SaveEpisodeNote(SaveEpisodeNoteModel model)
 	    {
 	        try
 	        {
@@ -42,7 +42,7 @@ namespace BridgeportClaims.Web.Controllers
 	                if (null == user)
 	                    throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
 	                var today = DateTime.UtcNow.ToMountainTime();
-                    _episodesDataProvider.SaveEpisodeNote(episodeId, note, user.Id, today);
+                    _episodesDataProvider.SaveEpisodeNote(model.EpisodeId, model.Note, user.Id, today);
                     return Ok(new
 	                {
 	                    message = "The episode note was saved successfully.",
