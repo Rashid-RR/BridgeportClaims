@@ -100,11 +100,12 @@ export class DocumentManagerService {
       let document = this.documents.get(id)
       console.log(document);
       if (document) {
+        let doc = JSON.parse(JSON.stringify(document));//copy document
         document.edited = true;
         this.documents = this.documents.set(id, document);
         setTimeout(() => {
           if (this.adminOrAsociate) {
-            this.toast.success(this.documents.get(id).fileName + ' has been indexed...');
+            this.toast.success(doc.fileName + ' has been indexed...');
           }
           this.documents = this.documents.delete(id);
           this.totalRowCount--;
