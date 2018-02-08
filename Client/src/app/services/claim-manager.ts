@@ -69,7 +69,7 @@ export class ClaimManager {
       rxNumber: [null],
       pharmacyNabp: [null],
       episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
-      episodeTypeId: [null]
+      episodeTypeId: ["1"]
     });
   }
 

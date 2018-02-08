@@ -4,6 +4,7 @@ import { EpisodeService } from "../../services/episode.service"
 import { EventsService } from "../../services/events-service"
 import { WindowInstance } from "../ng-window/WindowInstance";
 import { Episode } from 'app/interfaces/episode';
+import { HttpService } from 'app/services/services.barrel';
 
 declare var $: any;
 
@@ -15,145 +16,34 @@ declare var $: any;
 export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
 
   episode: Episode;
-  episodeNotes = [
-  {
-    "owner": "Test Test",
-    "created": "2018-09-16T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Gurney, Jordan",
-    "created": "2018-09-14T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "TestLastName, TestFirstName",
-    "created": "2018-09-13T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-09-12T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-09-07T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Aftab, Ahmed",
-    "created": "2018-08-19T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Gurney, Jordan",
-    "created": "2018-08-09T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-08-09T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-
-  {
-    "owner": "Gurney, Jordan",
-    "created": "2018-08-03T00:00:00.0000000+00:00",
-    "note": 0
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-07-17T00:00:00.0000000+00:00",
-    "note": 0
-  },
-  {
-    "owner": "Mansha1, Waseem1",
-    "created": "2018-07-12T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-06-29T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-06-29T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Condie, Adam",
-    "created": "2018-06-11T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Aftab, Ahmed",
-    "created": "2018-06-08T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Masood, Atiq",
-    "created": "2018-06-06T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Mansha1, Waseem1",
-    "created": "2018-05-23T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-05-22T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Sarwari, Ahmad",
-    "created": "2018-04-28T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Todor, Csaba",
-    "created": "2018-04-27T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Condie, Adam",
-    "created": "2018-04-12T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-04-09T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-03-19T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  },
-  {
-    "owner": "Test Test",
-    "created": "2018-03-13T00:00:00.0000000+00:00",
-    "note": "plorum quartu novum nomen si parte quo esset si quantare imaginator quo, volcans et regit, brevens, fecundio"
-  }]
-  noteText:'';
+  episodeNotes:Array<{writtenBy:string,noteCreated:any,noteText:string}>=[];
+  noteText: '';
+  loading: boolean = false;
   constructor(
     public dialog: WindowInstance,
     private episodeService: EpisodeService,
     private events: EventsService,
+    private http: HttpService,
     private toast: ToastsManager) {
 
   }
 
   ngOnInit() {
     this.dialog.config.BlockParentUI = true;
+    this.loading = true;
+    this.http.getEpisodeNotes(this.episode.episodeId).map(r => r.json()).single().subscribe(r => {
+      let result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
+      this.episodeNotes = result.episodeNotes;  
+      this.loading = false;
+    }, err => { 
+      this.loading = false;
+    });
   }
-  saveNote(){
-    if(!this.noteText){
+  saveNote() {
+    if (!this.noteText) {
       this.toast.warning("Please type in the note text")
-    }else{
-        console.log("Ready to send to API (",this.noteText,")");
+    } else {
+      console.log("Ready to send to API (", this.noteText, ")");
     }
 
   }

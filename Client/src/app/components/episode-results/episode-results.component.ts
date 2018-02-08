@@ -35,7 +35,7 @@ export class EpisodeResultsComponent implements OnInit {
     let config = new WindowConfig("Episode Note", new Size(400, 700))  //height, width
     config.position = new CustomPosition(90 + Math.random() * 200, 60)//left,top
     config.minusTop = 91;
-    config.centerInsideParent = true;
+    config.centerInsideParent = false;
     var temp = {}
     config.forAny = [temp];
     config.openAsMaximize = false;
@@ -46,12 +46,27 @@ export class EpisodeResultsComponent implements OnInit {
   }
 
   acquire(episode: Episode) {
-
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Acquire Episode',
+      message: 'Are you sure you want to acquire this episode?'
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.episodeService.loading = true;
+          this.http.acquireEpisode(episode.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
+            this.toast.success(res.message);
+            this.episodeService.loading = false; 
+          }, error => {
+            this.toast.error(error.message); 
+            this.episodeService.loading = false;
+          });
+        }
+      });
   }
   markAsResolved($event, episode) {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Mark Episode as Resolved',
-      message: 'Are you sure you with to resolve this episode?'
+      message: 'Are you sure you want to resolve this episode?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {

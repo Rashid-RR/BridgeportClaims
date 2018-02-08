@@ -384,7 +384,7 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
                         if (this._isDragging)
                         {
                             //this.mydragCode(mouseUpEvent);
-                            //  this.dragStop.next(mouseUpEvent);
+                             // this.dragStop.next(mouseUpEvent);
                         }
                     })
                         .zip(clickObservable.map((clickEvent: MouseEvent) =>
@@ -588,11 +588,11 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
 
     public onDragStart(event: Event)
     {
-       // this._originalWidth = this.dialogInstance.config.size.width;
-       // this._originalHeight = this.dialogInstance.config.size.height;
+         this._originalWidth = this.dialogInstance.config.size.width;
+       this._originalHeight = this.dialogInstance.config.size.height;
         this._originalLeft = this.dialogInstance.config.position.left;
         this._originalTop = this.dialogInstance.config.position.top;
-        //  this.resizeStart.next(event);
+        //this.resizeStart.next(event);
     }
 
 

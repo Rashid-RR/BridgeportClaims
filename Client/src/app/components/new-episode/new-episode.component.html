@@ -22,7 +22,6 @@
       <div class="form-group">
         <label id="episodeNoteTypeLabel">Episode type</label>
         <select class="form-control" id="episodeTypeId" formControlName="episodeTypeId">
-          <option value="" selected style="color:purple">Select Episode Type</option>
           <option *ngFor="let note of claimManager.EpisodeNoteTypes" [value]="note.episodeTypeId"> {{note.episodeTypeName}} </option>
         </select>
       </div>

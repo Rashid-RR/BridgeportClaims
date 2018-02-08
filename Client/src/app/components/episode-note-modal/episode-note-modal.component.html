@@ -42,17 +42,22 @@
     </div>
     <div class="table-responsive table-body">
       <ul class="products-list product-list-in-box">
-        <li class="item row" *ngFor="let note of episodeNotes">
-          <div class="col-md-2">
-            {{note.owner}}
-          </div>
-          <div class="col-md-2">
-            {{formatDate(note.created)}}
-          </div>
-          <div class="col-md-8">
-            {{note.note}}
-          </div>
+        <li class="item row text-center" *ngIf="loading">
+          <i class="fa fa-spinner text-darkRed fa-spin fa-4x"></i>
         </li>
+        <ng-container *ngIf="!loading">
+          <li class="item row" *ngFor="let note of episodeNotes">
+            <div class="col-md-2">
+              {{note.writtenBy}}
+            </div>
+            <div class="col-md-2">
+              {{formatDate(note.noteCreated)}}
+            </div>
+            <div class="col-md-8">
+              {{note.noteText}}
+            </div>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </div>
