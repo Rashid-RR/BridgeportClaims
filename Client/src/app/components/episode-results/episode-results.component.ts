@@ -56,6 +56,7 @@ export class EpisodeResultsComponent implements OnInit {
           this.http.acquireEpisode(episode.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false; 
+            episode.owner = res.owner;            
           }, error => {
             this.toast.error(error.message); 
             this.episodeService.loading = false;
