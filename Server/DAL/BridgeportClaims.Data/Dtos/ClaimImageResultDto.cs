@@ -11,9 +11,16 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         public DateTime Created { get; set; }
         [Required]
+        [StringLength(255)]
         public string Type { get; set; }
         public DateTime? RxDate { get; set; }
+        [StringLength(100)]
         public string RxNumber { get; set; }
+        [StringLength(100)]
+        public string InvoiceNumber { get; set; }
+        public DateTime? InjuryDate { get; set; }
+        [StringLength(255)]
+        public string AttorneyName { get; set; }
         [Required]
         [StringLength(1000)]
         public string FileName { get; set; }

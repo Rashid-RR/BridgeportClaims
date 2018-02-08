@@ -14,5 +14,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
         void ResolveEpisode(int episodeId, string modifiedByUserId);
 	    void SaveNewEpisode(int claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber, string episodeText, string userId);
         void AcquireEpisode(int episodeId, string userId);
+        void SaveEpisodeNote(int episodeId, string note, string userId, DateTime today);
     }
 }
