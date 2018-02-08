@@ -11,8 +11,8 @@ import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
 import swal from "sweetalert2";
+
 declare var $: any
 
 @Injectable()
@@ -67,7 +67,7 @@ export class PaymentScriptService {
         }
     }
     search() {
-        let rxDate = this.dp.transform($('#datepicker').val(), "dd/M/yyyy"); 
+        let rxDate = this.dp.transform($('#datepicker').val(), "MM/dd/yyyy"); 
         if (
             this.form.get('claimNumber').value  == null && this.form.get('firstName').value  == null && this.form.get('lastName').value  == null && this.form.get('rxNumber').value  == null && rxDate == null
         ) {

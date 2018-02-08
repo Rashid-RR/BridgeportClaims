@@ -33,7 +33,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-    let date = this.dp.transform($('#date').val(), "dd/M/yyyy");  
+    let date = this.dp.transform($('#date').val(), "MM/dd/yyyy");  
     //if(this.startDate && this.endDate){
       this.ds.data.date = date || null 
       this.ds.data.fileName = this.fileName || null 

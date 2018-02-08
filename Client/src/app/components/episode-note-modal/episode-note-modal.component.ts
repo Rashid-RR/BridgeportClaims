@@ -5,8 +5,9 @@ import { EventsService } from "../../services/events-service"
 import { WindowInstance } from "../ng-window/WindowInstance";
 import { Episode } from 'app/interfaces/episode';
 import { HttpService } from 'app/services/services.barrel';
-
+import swal from "sweetalert2";
 declare var $: any;
+
 
 @Component({
   selector: 'app-episode-note-modal-window',
@@ -16,7 +17,7 @@ declare var $: any;
 export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
 
   episode: Episode;
-  episodeNotes:Array<{writtenBy:string,noteCreated:any,noteText:string}>=[];
+  episodeNotes: Array<{ writtenBy: string, noteCreated: any, noteText: string }> = [];
   noteText: '';
   loading: boolean = false;
   constructor(
@@ -33,9 +34,9 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.http.getEpisodeNotes(this.episode.episodeId).map(r => r.json()).single().subscribe(r => {
       let result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
-      this.episodeNotes = result.episodeNotes;  
+      this.episodeNotes = result.episodeNotes;
       this.loading = false;
-    }, err => { 
+    }, err => {
       this.loading = false;
     });
   }
@@ -43,7 +44,24 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     if (!this.noteText) {
       this.toast.warning("Please type in the note text")
     } else {
-      console.log("Ready to send to API (", this.noteText, ")");
+      swal({
+        title: "",
+        html: "Saving note... <br/> <img src='assets/1.gif'>",
+        showConfirmButton: false
+      }).catch(swal.noop);
+      this.http.saveEpisodeNote({ episodeId: this.episode.episodeId, note: this.noteText }).map(r => r.json()).single().subscribe(r => {
+        let result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
+        this.episodeNotes.splice(0, 0, { writtenBy: result.owner, noteCreated: result.created, noteText: this.noteText });
+        let episode  = this.episodeService.episodes.get(this.episode.episodeId);
+        episode.episodeNoteCount++;
+        this.episodeService.episodes = this.episodeService.episodes.set(this.episode.episodeId,episode);
+        this.loading = false;
+        this.noteText = '';
+        swal.clickCancel();
+      }, err => {
+        this.loading = false;
+        swal.clickCancel();
+      });
     }
 
   }
