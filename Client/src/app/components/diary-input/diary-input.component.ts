@@ -51,8 +51,8 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     }
   }
   search() {
-    let startDate = this.dp.transform($('#startDate').val(), "MM/dd/yyyy");
-    let endDate = this.dp.transform($('#endDate').val(), "MM/dd/yyyy");
+    let startDate = this.dp.transform($('#startDate').val(), "dd/MM/yyyy");
+    let endDate = this.dp.transform($('#endDate').val(), "dd/MM/yyyy");
     this.ds.data.closed=this.isClosed;
     //if(this.startDate && this.endDate){
       this.ds.data.startDate = startDate || null
