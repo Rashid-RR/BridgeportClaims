@@ -1,15 +1,13 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
     public sealed class UnpaidScriptsViewModel
     {
         [Required]
         public bool IsDefaultSort { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
         [StringLength(50)]
         [Required]
         public string Sort { get; set; }

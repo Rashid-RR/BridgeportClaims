@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BridgeportClaims.Data.Dtos
 {
@@ -8,7 +7,7 @@ namespace BridgeportClaims.Data.Dtos
         public int ClaimId { get; set; }
         public string NoteText { get; set; }
         public int PrescriptionNoteTypeId { get; set; }
-        public DateTime? FollowUpDate { get; set; }
+        public string FollowUpDate { get; set; }
         public bool IsDiaryEntry => null != FollowUpDate;
         public IList<int> Prescriptions { get; set; }
         public int? PrescriptionNoteId { get; set; }

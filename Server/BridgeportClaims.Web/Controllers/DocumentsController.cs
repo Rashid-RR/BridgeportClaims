@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.Dtos;
@@ -73,7 +74,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var results = _documentsProvider.GetDocuments(model.Date, model.Archived, model.FileName, model.Sort,
+                    var results = _documentsProvider.GetDocuments(model.Date.ToNullableFormattedDateTime(), model.Archived, model.FileName, model.Sort,
                         model.SortDirection, model.Page,
                         model.PageSize);
                     return Ok(results);
@@ -88,13 +89,14 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IHttpActionResult AddSignalRDocument(DocumentResultDto dto)
+        public IHttpActionResult AddSignalRDocument(DocumentModel model)
         {
             try
             {
                 var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
-                hubContext.Clients.All.newDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
-                    , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath, dto.FileUrl);
+                hubContext.Clients.All.newDocument(model.DocumentId, model.FileName, model.Extension, model.FileSize
+                    , model.CreationTimeLocal.ToFormattedDateTime(), model.LastAccessTimeLocal.ToFormattedDateTime(), 
+                    model.LastWriteTimeLocal.ToFormattedDateTime(), model.FullFilePath, model.FileUrl);
                 return Ok(new {message = "A new document has just been added."});
             }
             catch (Exception ex)
@@ -106,14 +108,14 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("edit")]
-        public IHttpActionResult EditSignalRDocument(DocumentResultDto dto)
+        public IHttpActionResult EditSignalRDocument(DocumentModel model)
         {
             try
             {
                 var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
-                hubContext.Clients.All.modifiedDocument(dto.DocumentId, dto.FileName, dto.Extension, dto.FileSize
-                    , dto.CreationTimeLocal, dto.LastAccessTimeLocal, dto.LastWriteTimeLocal, dto.FullFilePath,
-                    dto.FileUrl);
+                hubContext.Clients.All.modifiedDocument(model.DocumentId, model.FileName, model.Extension, model.FileSize
+                    , model.CreationTimeLocal.ToFormattedDateTime(), model.LastAccessTimeLocal.ToFormattedDateTime(),
+                    model.LastWriteTimeLocal.ToFormattedDateTime(), model.FullFilePath, model.FileUrl);
                 return Ok(new {message = "A document has just been modified."});
             }
             catch (Exception ex)

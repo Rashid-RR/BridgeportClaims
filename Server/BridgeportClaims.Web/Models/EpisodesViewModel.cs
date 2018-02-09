@@ -1,12 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
     public sealed class EpisodesViewModel
     {
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
         [Required]
         public bool Resolved { get; set; }
         public string OwnerId { get; set; }

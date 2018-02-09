@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using NHibernate;
 using NHibernate.Transform;
@@ -91,7 +92,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 				                cmd.Parameters.Add(prescriptionNoteIdSqlParameter);
 				            }
 				            var diaryFollowUpDateParameter = new SqlParameter("@FollowUpDate", SqlDbType.Date)
-				                {Value = dto.IsDiaryEntry ? dto.FollowUpDate : (object) DBNull.Value};
+				                {Value = dto.IsDiaryEntry ? dto.FollowUpDate.ToNullableFormattedDateTime() : (object) DBNull.Value};
 				            cmd.Parameters.Add(diaryFollowUpDateParameter);
 				            var dt = CreateDataTable(dto.Prescriptions);
 				            var prescriptionSqlParameter = new SqlParameter("@Prescription", SqlDbType.Structured)

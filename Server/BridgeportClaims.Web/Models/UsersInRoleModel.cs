@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    public sealed class                                                                                                                                                                                                                         UsersInRoleModel
+    public sealed class UsersInRoleModel
     {
         public string Id { get; set; }
         public IList<string> EnrolledUsers { get; set; }

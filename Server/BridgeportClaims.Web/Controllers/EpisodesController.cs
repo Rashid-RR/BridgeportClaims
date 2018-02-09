@@ -159,8 +159,9 @@ namespace BridgeportClaims.Web.Controllers
 	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
 	    }
+        
 
-	    [HttpPost]
+        [HttpPost]
 	    [Route("get")]
 	    public async Task<IHttpActionResult> GetEpisodes(EpisodesViewModel m)
 	    {
@@ -168,7 +169,7 @@ namespace BridgeportClaims.Web.Controllers
 	        {
 	            return await Task.Run(() =>
 	            {
-	                var results = _episodesDataProvider.GetEpisodes(m.StartDate, m.EndDate, m.Resolved, m.OwnerId,
+                    var results = _episodesDataProvider.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(), m.EndDate.ToNullableFormattedDateTime(), m.Resolved, m.OwnerId,
 	                    m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize);
 	                return Ok(results);
                 });
