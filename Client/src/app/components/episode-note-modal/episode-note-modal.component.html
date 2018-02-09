@@ -2,18 +2,18 @@
   <b>
     <div class="row heading" style="text-align:center;">
       <div class="col-xs-1">ID</div>
-      <div class="col-xs-2" style="padding-left:0px;">Owner</div>
-      <div class="col-xs-1">Created</div>
-      <div class="col-xs-3">Patient Name</div>
-      <div class="col-xs-5">Claim #</div>
+      <div class="col-xs-4" style="padding-left:0px;">Owner</div>
+      <div class="col-xs-2">Created</div>
+      <div class="col-xs-4">Patient Name</div>
+      <div class="col-xs-1" style="padding: 0px;">Claim #</div>
     </div>
   </b>
   <div class="row" style="text-align:center;">
     <div class="col-xs-1"> {{episode.episodeId}} </div>
-    <div class="col-xs-2" style="padding-left:0px;"> {{episode.owner}} </div>
-    <div class="col-xs-1"> {{formatDate(episode.created)}} </div>
-    <div class="col-xs-3"> {{episode.patientName}} </div>
-    <div class="col-xs-5"> {{episode.claimNumber}} </div>
+    <div class="col-xs-4" style="padding-left:0px;"> {{episode.owner}} </div>
+    <div class="col-xs-2"> {{formatDate(episode.created)}} </div>
+    <div class="col-xs-4"> {{episode.patientName}} </div>
+    <div class="col-xs-1" style="padding: 0px;">{{episode.claimNumber}} </div>
   </div>
 </div>
 <div class="row" style="padding:0px 20px;margin-top: 0.2rem;">

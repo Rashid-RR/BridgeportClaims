@@ -32,7 +32,7 @@ export class EpisodeResultsComponent implements OnInit {
     this.episodeService.search();
   }
   showNoteWindow(episode: Episode) {
-    let config = new WindowConfig("Episode Note", new Size(400, 700))  //height, width
+    let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
     
     config.position = new CustomPosition((window.innerWidth-700)/2+50, 60)//left,top
     config.minusTop = 0;
