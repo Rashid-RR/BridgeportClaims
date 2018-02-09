@@ -49,7 +49,7 @@ export class EpisodeResultsComponent implements OnInit {
       })
   }
 
-  acquire(episode: Episode) {
+  acquire(episode: Episode) {    
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Acquire Episode',
       message: 'Are you sure you want to acquire this episode?'
@@ -97,9 +97,11 @@ export class EpisodeResultsComponent implements OnInit {
   prev() {
     this.episodeService.search(false, true);
   }
-  openFile(fileUrl: string) {
+  openFile(episode: Episode) {
     let id = UUID.UUID();
-    let file = { fileUrl: fileUrl, documentId: id } as DocumentItem
+    let doc:any = episode;
+    doc.documentId = id
+    let file = doc as any
     localStorage.setItem('file-' + id, JSON.stringify(file));
     window.open('#/main/indexed-image/' + id, '_blank');
   }

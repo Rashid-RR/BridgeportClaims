@@ -55,7 +55,10 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
         let result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
         this.episodeNotes.splice(0, 0, { writtenBy: result.owner, noteCreated: result.created, noteText: this.noteText });
         let episode = this.episodeService.episodes.get(this.episode.episodeId);
-        episode.episodeNoteCount++;
+        if(episode){
+          episode.episodeNoteCount++;
+        }
+        this.events.broadcast("episode-note-updated",{episodeId:this.episode.episodeId,episodeNoteCount:this.episodeNotes.length});
         this.toast.success(result.message);
         this.episodeService.episodes = this.episodeService.episodes.set(this.episode.episodeId, episode);
         this.loading = false;

@@ -2,9 +2,11 @@
     <div class="col-sm-12 expanded">
         <div class="box">
             <div class="box-header bg-head-box text-center">
-                <img src="assets/img/back.png" class="pull-left" *ngIf="!isIndexedImage" (click)="cancel()" style="cursor:pointer;margin:-8px 0px;"
-                />
-                <h2 class="box-title text-center" *ngIf="file">{{file.fileName}}</h2>
+                <img src="assets/img/back.png" class="pull-left" *ngIf="!isIndexedImage" (click)="cancel()" style="cursor:pointer;margin:-8px 0px;"/>
+                <h2 class="box-title text-center" *ngIf="file">
+                    {{file.fileName}}
+                    <button class="btn btn-primary" *ngIf="file.episodeNoteCount>=0" (click)="showNoteWindow()">Open Episode Note{{file.episodeNoteCount!=1 ? 's':''}}: {{file.episodeNoteCount}}</button>
+                </h2>
             </div>
             <div class="box-body" id="fileCanvas">
 

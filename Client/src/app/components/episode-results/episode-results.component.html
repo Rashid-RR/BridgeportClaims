@@ -94,7 +94,7 @@
                         <td>{{episode.pharmacy}}</td>
                         <td>{{episode.carrier}}</td>
                         <td>
-                            <i class="fa fa-2x fa-file-pdf-o text-red" *ngIf="episode.fileUrl" (click)="openFile(episode.fileUrl)"></i>
+                            <i class="fa fa-2x fa-file-pdf-o text-red" *ngIf="episode.fileUrl" (click)="openFile(episode)"></i>
                         </td>
                         <td [class.resolved]="episodeService.data.resolved">
                             <a class="label label-info bg-vdarkgrey" (click)="showNoteWindow(episode)">{{episode.episodeNoteCount}}</a>
