@@ -67,6 +67,10 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     }
 
   }
+  formatText(noteText:string=''){
+    console.log({txt:noteText},noteText)
+    return noteText.replace(/\\n/g, '<br/>');
+  }
   formatDate(input: String) {
     if (!input) return null;
     if (input.indexOf("-") > -1) {
