@@ -34,7 +34,9 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     this.loading = true;
     this.http.getEpisodeNotes(this.episode.episodeId).map(r => r.json()).single().subscribe(r => {
       let result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
-      this.episodeNotes = result.episodeNotes;
+      if (result && result.episodeNotes) {
+        this.episodeNotes = result.episodeNotes;
+      }
       this.loading = false;
     }, err => {
       this.loading = false;
@@ -52,23 +54,22 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
       this.http.saveEpisodeNote({ episodeId: this.episode.episodeId, note: this.noteText }).map(r => r.json()).single().subscribe(r => {
         let result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
         this.episodeNotes.splice(0, 0, { writtenBy: result.owner, noteCreated: result.created, noteText: this.noteText });
-        let episode  = this.episodeService.episodes.get(this.episode.episodeId);
+        let episode = this.episodeService.episodes.get(this.episode.episodeId);
         episode.episodeNoteCount++;
-        this.toast.success(result.message);            
-        this.episodeService.episodes = this.episodeService.episodes.set(this.episode.episodeId,episode);
+        this.toast.success(result.message);
+        this.episodeService.episodes = this.episodeService.episodes.set(this.episode.episodeId, episode);
         this.loading = false;
         this.noteText = '';
         swal.clickCancel();
       }, err => {
         this.loading = false;
-        this.toast.error(err.message); 
+        this.toast.error(err.message);
         swal.clickCancel();
       });
     }
 
   }
-  formatText(noteText:string=''){
-    console.log({txt:noteText},noteText)
+  formatText(noteText: string = '') {
     return noteText.replace(/\\n/g, '<br/>');
   }
   formatDate(input: String) {
