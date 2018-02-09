@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
 using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Web.Hubs;
@@ -40,8 +41,8 @@ namespace BridgeportClaims.Web.Controllers
                         throw new ArgumentNullException(nameof(model));
                     var userId = User.Identity.GetUserId();
                     var wasUpdate = _documentIndexProvider.UpsertDocumentIndex(model.DocumentId, model.ClaimId,
-                        model.DocumentTypeId, model.RxDate, model.RxNumber,
-                        model.InvoiceNumber, model.InjuryDate, model.AttorneyName, userId);
+                        model.DocumentTypeId, model.RxDate.ToNullableFormattedDateTime(), model.RxNumber,
+                        model.InvoiceNumber, model.InjuryDate.ToNullableFormattedDateTime(), model.AttorneyName, userId);
                     if (model.DocumentId != default(int))
                     {
                         var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();

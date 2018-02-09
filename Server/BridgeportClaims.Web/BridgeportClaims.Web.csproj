@@ -299,7 +299,6 @@
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\ServerEventsController.cs" />
     <Compile Include="Controllers\TestChecksController.cs" />
-    <Compile Include="Controllers\TypesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="CustomActionResults\FileResult.cs" />
     <Compile Include="Email\EmailModelGeneration\EmailModelEnum.cs" />
@@ -323,6 +322,7 @@
     <Compile Include="Models\CreateRoleBindingModel.cs" />
     <Compile Include="Models\DiariesViewModel.cs" />
     <Compile Include="Models\DocumentIndexViewModel.cs" />
+    <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\EditClaimImageViewModel.cs" />
     <Compile Include="Models\EpisodeNoteHeaderModel.cs" />
     <Compile Include="Models\EpisodeNoteModel.cs" />

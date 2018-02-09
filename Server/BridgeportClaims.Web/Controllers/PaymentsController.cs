@@ -108,7 +108,7 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var payments = _paymentsDataProvider.GetClaimsWithPrescriptionCounts(model.ClaimNumber,
-                        model.FirstName, model.LastName, model.RxDate, model.InvoiceNumber);
+                        model.FirstName, model.LastName, model.RxDate.ToNullableFormattedDateTime(), model.InvoiceNumber);
                     return Ok(payments);
                 });
             }

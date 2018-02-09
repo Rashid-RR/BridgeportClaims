@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Enums;
@@ -31,8 +32,8 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var list = _prescriptionsProvider.GetUnpaidScripts(model.IsDefaultSort, model.StartDate, model.EndDate,
-                    model.Sort, model.SortDirection, model.Page, model.PageSize);
+                var list = _prescriptionsProvider.GetUnpaidScripts(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), 
+                    model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(list);
             }
             catch (Exception ex)

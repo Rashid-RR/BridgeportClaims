@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
@@ -57,7 +58,7 @@ namespace BridgeportClaims.Web.Controllers
                 var docIndex = _documentIndexRepository.Get(model.DocumentId);
                 if (null == docIndex)
                     throw new Exception($"Error, the image could not be found with the Id of {model.DocumentId}.");
-                docIndex.RxDate = model.RxDate;
+                docIndex.RxDate = model.RxDate.ToNullableFormattedDateTime();
                 docIndex.RxNumber = model.RxNumber;
                 var docType = _documentTypeRepository.Get(model.DocumentTypeId);
                 docIndex.DocumentType = docType;

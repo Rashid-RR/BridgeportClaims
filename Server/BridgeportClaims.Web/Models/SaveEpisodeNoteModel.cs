@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace BridgeportClaims.Web.Models
+﻿namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
     public sealed class SaveEpisodeNoteModel
     {
         public int EpisodeId { get; set; }

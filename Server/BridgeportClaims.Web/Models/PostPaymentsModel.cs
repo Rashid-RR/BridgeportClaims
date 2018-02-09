@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
     public sealed class PostPaymentsModel
     {
         [Required]

@@ -2,6 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -50,7 +51,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var userId = User.Identity.GetUserId();
                     _provider.UpdatePrescriptionPayment(model.PrescriptionPaymentId, model.CheckNumber, model.AmountPaid,
-                        model.DatePosted, model.PrescriptionId, userId);
+                        model.DatePosted.ToNullableFormattedDateTime(), model.PrescriptionId, userId);
                     return Ok(new { message = "The prescription payment was updated successfully." });
                 });
             }
