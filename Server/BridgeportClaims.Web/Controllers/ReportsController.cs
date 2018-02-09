@@ -33,7 +33,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             get
             {
-                var now = DateTime.Now.ToLocalTime();
+                var now = DateTime.UtcNow.ToMountainTime();
                 var thisMonth = new DateTime(now.Year, now.Month, 1);
                 var month12 = thisMonth.ToString(Format);
                 var month11 = thisMonth.AddMonths(-1).ToString(Format);
