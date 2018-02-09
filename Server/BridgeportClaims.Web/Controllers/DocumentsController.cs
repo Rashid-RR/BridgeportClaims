@@ -73,7 +73,8 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var results = _documentsProvider.GetDocuments(model.Date, model.Archived, model.FileName, model.Sort,
+                    var date = null != model.Date ? DateTime.ParseExact(model.Date, "MM/dd/yyyy", null) : (DateTime?) null;
+                    var results = _documentsProvider.GetDocuments(date, model.Archived, model.FileName, model.Sort,
                         model.SortDirection, model.Page,
                         model.PageSize);
                     return Ok(results);

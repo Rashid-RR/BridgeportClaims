@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Diaries;
 using BridgeportClaims.Web.Models;
 using NLog;
@@ -41,7 +42,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var results = _diaryProvider.GetDiaries(model.IsDefaultSort, model.StartDate, model.EndDate,
+                var results = _diaryProvider.GetDiaries(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), model.EndDate.ToNullableFormattedDateTime(),
                     model.Sort, model.SortDirection, model.Page, model.PageSize, model.Closed);
                 return Ok(results);
             }

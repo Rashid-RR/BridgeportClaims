@@ -1,12 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
     public sealed class DocumentViewModel
     {
-        public DateTime? Date { get; set; }
+        public string Date { get; set; }
         public bool Archived { get; set; }
         public string FileName { get; set; }
         [Required]
