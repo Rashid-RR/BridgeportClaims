@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="AuthenticationTests.cs" />
     <Compile Include="Caching\MemoryCacherTests.cs" />
-    <Compile Include="DateTimeTests\DateTimeTest.cs" />
     <Compile Include="Dtos\DtosTests.cs" />
     <Compile Include="PaymentPostings\PaymentPostingsTests.cs" />
     <Compile Include="Payments\PaymentsTests.cs" />
