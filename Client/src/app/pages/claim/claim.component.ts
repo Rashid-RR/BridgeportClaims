@@ -249,7 +249,7 @@ export class ClaimsComponent implements OnInit {
             swal({ title: "", html: "Adding note to Diary... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
           }, 200)
           //let followUpDate = $("#datepicker").val();
-          let followUpDate = this.dp.transform($("#datepicker").val(), "dd/MM/yyyy");
+          let followUpDate = this.dp.transform($("#datepicker").val(), "MM/dd/yyyy");
           this.http.savePrescriptionNote(
             {
               claimId: this.claimManager.selectedClaim.claimId,
