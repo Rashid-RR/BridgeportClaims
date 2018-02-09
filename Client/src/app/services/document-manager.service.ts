@@ -97,8 +97,7 @@ export class DocumentManagerService {
       }
     })
     this.events.on("indexed-image", (id: any) => {
-      let document = this.documents.get(id)
-      console.log(document);
+      let document = this.documents.get(id);
       if (document) {
         let doc = JSON.parse(JSON.stringify(document));//copy document
         document.edited = true;

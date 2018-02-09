@@ -33,8 +33,12 @@ export class EpisodeResultsComponent implements OnInit {
   }
   showNoteWindow(episode: Episode) {
     let config = new WindowConfig("Episode Note", new Size(400, 700))  //height, width
-    config.position = new CustomPosition(90 + Math.random() * 200, 60)//left,top
-    config.minusTop = 91;
+    
+    config.position = new CustomPosition((window.innerWidth-700)/2+50, 60)//left,top
+    config.minusTop = 0;
+    config.minusHeight = 0;
+    config.minusLeft = 0;
+    config.minusWidth = 0;
     config.centerInsideParent = false;
     var temp = {}
     config.forAny = [temp];

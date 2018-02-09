@@ -46,6 +46,9 @@
           <i class="fa fa-spinner text-darkRed fa-spin fa-4x"></i>
         </li>
         <ng-container *ngIf="!loading">
+          <li class="item row text-center" *ngIf="episodeNotes && episodeNotes.length==0">
+            No notes added yet
+          </li>
           <li class="item row" *ngFor="let note of episodeNotes">
             <div class="col-md-2">
               {{note.writtenBy}}
