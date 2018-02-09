@@ -1,13 +1,6 @@
 export class ClaimImage{
-    documentId: number;
-	created: Date;
-	fileName: string;
-	fileUrl: string;
-	type: String;
-	rxNumber: Number;
-	rxDate: Date;
-    constructor(created: Date,type: String,rxNumber: Number,rxDate: Date,fileName: string,
-        diaryNote:  String,fileUrl:string,documentId?: number){
+    constructor(public created: Date,public type: String,public rxNumber: Number,public rxDate: Date,public fileName: string,
+        public diaryNote:  String,public fileUrl: string,public documentId?: number,public injuryDate?:Date,public attorneyName?:string,public invoiceNumber?:number){
         this.documentId = documentId; 
         this.created=created 
         this.type = type

@@ -29,10 +29,26 @@
                 </span>
               </th>
               <th>
+                <span columnSort="invoiceNumber" [sort-table]="myTable">
+                  Invoice Number
+                </span>
+              </th>
+              <th>
+                <span columnSort="injuryDate" [sort-table]="myTable">
+                  Injury Date
+                </span>
+              </th>
+              <th>
+                <span columnSort="attorneyName" [sort-table]="myTable">
+                 Attoney Name
+                </span>
+              </th>
+              <th>
                 <span columnSort="fileName" [sort-table]="myTable">
                   File
                 </span>
               </th>
+              <th>&nbsp;</th>
             </tr>
           </thead>
           <tbody>
@@ -66,6 +82,21 @@
                     <input class="form-control" name="rxNumber" formControlName="rxNumber">
                   </div>
                 </td>
+                <td>
+                    <div class="input-group">
+                      <input class="form-control" name="invoiceNumber" formControlName="invoiceNumber">
+                    </div>
+                  </td>
+                  <td>
+                      <div class="input-group">
+                        <input class="form-control" name="injuryDate"  id="injuryDate" formControlName="injuryDate">
+                      </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                          <input class="form-control" name="attorneyName" formControlName="attorneyName">
+                        </div>
+                      </td>
                 <td>&nbsp;</td>
                 <td>
                   <button type="button" class="btn btn-primary btn-xs" (click)="saveImage(image)" id="saveImageButton">
@@ -84,6 +115,9 @@
                 <td (click)="openAttachment(image)">{{image.type}}</td>
                 <td (click)="openAttachment(image)">{{image.rxDate | date:"shortDate"}}</td>
                 <td (click)="openAttachment(image)">{{image.rxNumber}}</td>
+                <td (click)="openAttachment(image)">{{image.invoiceNumber}}</td>
+                <td (click)="openAttachment(image)">{{image.injuryDate | date:"shortDate"}}</td>
+                <td (click)="openAttachment(image)">{{image.attorneyName}}</td>
                 <td (click)="openAttachment(image)" style="color:rgb(97, 157, 180)">
                   {{image.fileName}}
                 </td>

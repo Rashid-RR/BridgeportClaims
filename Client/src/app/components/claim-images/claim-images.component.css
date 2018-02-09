@@ -35,26 +35,30 @@ tr>td:first-child{
 tr>th:nth-child(2),
 tr>td:nth-child(2),
 tr>th:nth-child(3),
-tr>td:nth-child(3){
-  width:11%
-}
+tr>td:nth-child(3),
 tr>th:nth-child(4),
-tr>td:nth-child(4)
-{
-  width:13%;
-}
+tr>td:nth-child(4),
 tr>th:nth-child(5),
-tr>td:nth-child(5)
+tr>td:nth-child(5),
+tr>th:nth-child(7),
+tr>td:nth-child(7){
+  width:8%
+}
+tr>th:nth-child(6),
+tr>td:nth-child(6),
+tr>th:nth-child(8),
+tr>td:nth-child(8)
+{
+  width:11%;
+}
+tr>th:nth-child(9),
+tr>td:nth-child(9)
 {
   width:15%;
 }
-tr>th:nth-child(6),
-tr>td:nth-child(6){
-  width: 18%;
-}
 tr>th:last-child,
 tr>td:last-child{
-  width: 25%;
+  width: calc(23% - 20px);
 }
 tbody>tr:hover {
   background: #b6f1ff !important;

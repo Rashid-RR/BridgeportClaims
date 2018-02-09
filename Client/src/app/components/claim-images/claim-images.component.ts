@@ -10,7 +10,7 @@ import { UnindexedImageFileComponent } from "../../pages/unindexed-image-file/un
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
-import { DatePipe,DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 declare var $: any;
 
@@ -32,7 +32,7 @@ export class ClaimImagesComponent implements OnInit {
     private dialogService: DialogService,
     private formBuilder: FormBuilder,
     private ngZone: NgZone,
-    private dp:DatePipe,
+    private dp: DatePipe,
     private toast: ToastsManager,
     private http: HttpService) { }
 
@@ -43,6 +43,9 @@ export class ClaimImagesComponent implements OnInit {
       documentTypeId: [null, Validators.compose([Validators.required])],
       rxDate: [null],
       rxNumber: [null],
+      injuryDate: [null],
+      attorneyName: [null],
+      invoiceNumber: [null],
     });
 
   }
@@ -56,24 +59,29 @@ export class ClaimImagesComponent implements OnInit {
   }
 
   saveImage(image: any) {
-    if(this.form.get('documentTypeId').valid ){
+    if (this.form.get('documentTypeId').valid) {
       this.claimManager.loading = true
-      let rxDate  = this.dp.transform($("#datepicker").val(),"MM/dd/yyyy");
+      let rxDate = this.dp.transform($("#datepicker").val(), "MM/dd/yyyy");
+      let injuryDate = this.dp.transform($("#injuryDate").val(), "MM/dd/yyyy");
       let data = Object.assign(this.form.value);
       data.rxDate = rxDate;
-      this.http.updateDocumentIndex(data).map(r=>{return r.json()}).single().subscribe(res=>{              
-          this.toast.success(res.message); 
-          this.claimManager.loading = false; 
-          image.rxDate = $("#datepicker").val();         
-          image.rxNumber = data.rxNumber;
-          let type = this.claimManager.selectedClaim.documentTypes.find(t=>t.documentTypeId==this.form.get('documentTypeId').value);
-          image.type = type.typeName;
-          this.cancel();
-      },error=>{                          
+      data.injuryDate = injuryDate;
+      this.http.updateDocumentIndex(data).map(r => { return r.json() }).single().subscribe(res => {
+        this.toast.success(res.message);
+        this.claimManager.loading = false;
+        image.rxDate = $("#datepicker").val();
+        image.injuryDate = $("#injuryDate").val();
+        image.rxNumber = data.rxNumber;
+        image.invoiceNumber = data.invoiceNumber;
+        image.attorneyName = data.attorneyName;
+        let type = this.claimManager.selectedClaim.documentTypes.find(t => t.documentTypeId == this.form.get('documentTypeId').value);
+        image.type = type.typeName;
+        this.cancel();
+      }, error => {
         this.toast.error(error.message);
         this.claimManager.loading = false;
       });
-    }else{
+    } else {
       this.toast.warning("You must fill the type field");
     }
   }
@@ -97,7 +105,7 @@ export class ClaimImagesComponent implements OnInit {
         else { }
       });
   }
-  removeImage(image:ClaimImage) {
+  removeImage(image: ClaimImage) {
     for (var i = 0; i < this.claimManager.selectedClaim.images.length; i++) {
       if (image.documentId == this.claimManager.selectedClaim.images[i].documentId) {
         this.claimManager.selectedClaim.images.splice(i, 1);
@@ -106,29 +114,36 @@ export class ClaimImagesComponent implements OnInit {
   }
   update(image: any) {
     this.editing = true;
-    this.editingDocumentId = image.documentId; 
+    this.editingDocumentId = image.documentId;
     this.form.patchValue({
       claimId: this.claimManager.selectedClaim.claimId,
-      documentId:image.documentId,
+      documentId: image.documentId,
       rxDate: image.rxDate,
-      rxNumber: image.rxNumber
+      rxNumber: image.rxNumber,
+      injuryDate: image.injuryDate,
+      attorneyName: image.attorneyName,
+      invoiceNumber: image.invoiceNumber,
     });
-    let type = this.claimManager.selectedClaim.documentTypes.find(t=>t.typeName==image.type)
-    try{
+    let type = this.claimManager.selectedClaim.documentTypes.find(t => t.typeName == image.type)
+    try {
       this.form.get('documentTypeId').setValue(type.documentTypeId);
-    }catch(e){}    
-    setTimeout(()=>{
+    } catch (e) { }
+    setTimeout(() => {
       $('#datepicker').datepicker({
         autoclose: true
       });
-      $("#datepicker").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+      $("#datepicker").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
+      $('#injuryDate').datepicker({
+        autoclose: true
+      });
+      $("#injuryDate").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
       $("[inputs-mask]").inputmask();
       $("[data-mask]").inputmask();
-    },500)
+    }, 500)
   }
   cancel() {
     this.editing = false;
-    this.editingDocumentId = undefined;  
+    this.editingDocumentId = undefined;
     this.form.reset();
   }
 
