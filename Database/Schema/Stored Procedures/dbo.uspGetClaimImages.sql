@@ -30,16 +30,22 @@ AS
 			[Type] [varchar](255) NOT NULL,
 			[RxDate] [datetime2](7) NULL,
 			[RxNumber] [varchar](100) NULL,
+			[InvoiceNumber] VARCHAR(100) NULL,
+			[InjuryDate] DATE NULL,
+			[AttorneyName] VARCHAR(255) NULL,
 			[FileName] [varchar](1000) NOT NULL,
 			[FileUrl] [nvarchar](500) NOT NULL
 		);
 
-		INSERT [#Images] ([DocumentID],[Created],[Type],[RxDate],[RxNumber],[FileName],[FileUrl])
+		INSERT [#Images] ([DocumentID],[Created],[Type],[RxDate],[RxNumber],[InvoiceNumber],[InjuryDate],[AttorneyName],[FileName],[FileUrl])
 		SELECT          DocumentId = [d].[DocumentID]
 					  , Created = [d].[CreationTimeLocal]
 					  , [Type]  = [dt].[TypeName]
 					  , [di].[RxDate]
 					  , [di].[RxNumber]
+					  , [di].[InvoiceNumber]
+					  , [di].[InjuryDate]
+					  , [di].[AttorneyName]
 					  , [d].[FileName]
 					  , [d].[FileUrl]
 		FROM            [dbo].[Document]      AS [d]
@@ -54,6 +60,9 @@ AS
              , [i].[Type]
              , [i].[RxDate]
              , [i].[RxNumber]
+			 , [i].[InvoiceNumber]
+			 , [i].[InjuryDate]
+			 , [i].[AttorneyName]
              , [i].[FileName]
 			 , [i].[FileUrl]
 		FROM [#Images] AS [i]
@@ -77,6 +86,18 @@ AS
 					THEN [i].[RxNumber] END ASC,
 				 CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'DESC'
 					THEN [i].[RxNumber] END DESC,
+				 CASE WHEN @SortColumn = 'InvoiceNumber' AND @SortDirection = 'ASC'
+					THEN [i].[InvoiceNumber] END ASC,
+				 CASE WHEN @SortColumn = 'InvoiceNumber' AND @SortDirection = 'DESC'
+					THEN [i].[InvoiceNumber] END DESC,
+				 CASE WHEN @SortColumn = 'InjuryDate' AND @SortDirection = 'ASC'
+					THEN [i].[InjuryDate] END ASC,
+				 CASE WHEN @SortColumn = 'InjuryDate' AND @SortDirection = 'DESC'
+					THEN [i].[InjuryDate] END DESC,
+				 CASE WHEN @SortColumn = 'AttorneyName' AND @SortDirection = 'ASC'
+					THEN [i].[AttorneyName] END ASC,
+				 CASE WHEN @SortColumn = 'AttorneyName' AND @SortDirection = 'DESC'
+					THEN [i].[AttorneyName] END DESC,
 				 CASE WHEN @SortColumn = 'FileName' AND @SortDirection = 'ASC'
 					THEN [i].[FileName] END ASC,
 				 CASE WHEN @SortColumn = 'FileName' AND @SortDirection = 'DESC'
@@ -104,5 +125,6 @@ AS
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
+
 
 GO
