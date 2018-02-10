@@ -41,6 +41,7 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     }, err => {
       this.loading = false;
     });
+    window.scrollTo(0, 0);
   }
   saveNote() {
     if (!this.noteText) {

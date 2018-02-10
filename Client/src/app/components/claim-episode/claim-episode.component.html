@@ -7,7 +7,8 @@
                         <th>Date</th>
                         <th>By</th>
                         <th>Role</th>
-                        <th>Notes</th>
+                        <th>Note Text</th>
+                        <th>Note Count</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -18,9 +19,13 @@
                         <td>{{episode.role}}</td>
                         <td>{{episode.note}}</td>
                         <td>
+                            <a class="label label-info bg-vdarkgrey" (click)="showNoteWindow(episode)">{{episode.noteCount || episode.episodeNoteCount || 0}}
+                            </a>
+                        </td>
+                        <td>
                             <button type="button" class="btn btn-flat bg-darkRed btn-xs pull-right" (click)="edit(episode)" title="Edit Episode">
-                            <span class="glyphicon glyphicon-edit"></span>
-                            Edit</button>
+                                <span class="glyphicon glyphicon-edit"></span>
+                                Edit</button>
                         </td>
                     </tr>
                 </tbody>
