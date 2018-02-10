@@ -18,8 +18,10 @@ import { Router } from '@angular/router';
 import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../components/confirm.component';
+import { Episode } from '../interfaces/episode';
 import { PhonePipe } from 'app/pipes/phone-pipe';
 import swal from "sweetalert2";
+import { ProfileManager } from 'app/services/services.barrel';
 
 
 declare var $: any;
@@ -53,7 +55,7 @@ export class ClaimManager {
   episodeForm: FormGroup;
 
   constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService, private events: EventsService,
-    private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder,
+    private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder,private profileManager:ProfileManager,
     private dialogService: DialogService) {
     this.getHistory();
     this.events.on('loadHistory', () => {
@@ -84,7 +86,9 @@ export class ClaimManager {
       //this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       let form =this.episodeForm.value;
-      this.http.saveEpisode(this.episodeForm.value).single().map(r=>r.json()).subscribe(res => {
+      this.http.saveEpisode(this.episodeForm.value).single().map(r=>r.json()).subscribe(res => {        
+        let claim = this.claims.get(form.claimId);
+        claim.episodes.splice(0, 0,{by:this.profileManager.profile.firstName+" "+this.profileManager.profile.lastName,owner:this.profileManager.profile.firstName+" "+this.profileManager.profile.lastName,date:"2018-10-27T00:00:00.0000000",episodeId:form.episodeId,note:form.episodeText,role:null} as any);
         this.episodeForm.reset();
         this.closeModal();
         this.toast.success(res.message);
