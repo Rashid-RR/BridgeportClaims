@@ -74,7 +74,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		{
 			var methodName = MethodBase.GetCurrentMethod().Name;
 			if (cs.AppIsInDebugMode)
-				Logger.Info($"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
+				Logger.Info($"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
 			var oldestLakeFileName = _importFileRepository.GetMany(x => !x.Processed)
 				.Where(f => null != f.FileName && f.FileName.StartsWith(c.LakeFileNameStartsWithString))
 				.OrderBy(f => f.CreatedOnUtc)

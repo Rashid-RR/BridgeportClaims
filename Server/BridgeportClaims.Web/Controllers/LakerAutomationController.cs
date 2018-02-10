@@ -4,6 +4,7 @@ using System.Net;
 using System.Web.Http;
 using System.Threading.Tasks;
 using BridgeportClaims.Business.LakerFileProcess;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
 using BridgeportClaims.Web.BackgroundWork;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
@@ -45,7 +46,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var userEmail = User.Identity.GetUserName();
                     if (cs.AppIsInDebugMode)
-                        Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToLocalTime():M/d/yyyy h:mm:ss tt}");
+                        Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
                     var tuple = _lakerFileProcessor.ProcessOldestLakerFile();
                     string msg;
                     if (tuple.Item1 == c.NoLakerFilesToImportToast)
