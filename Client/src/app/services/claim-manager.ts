@@ -88,7 +88,7 @@ export class ClaimManager {
       let form =this.episodeForm.value;
       this.http.saveEpisode(this.episodeForm.value).single().map(r=>r.json()).subscribe(res => {        
         let claim = this.claims.get(form.claimId);
-        claim.episodes.splice(0, 0,{by:this.profileManager.profile.firstName+" "+this.profileManager.profile.lastName,owner:this.profileManager.profile.firstName+" "+this.profileManager.profile.lastName,date:"2018-10-27T00:00:00.0000000",episodeId:form.episodeId,note:form.episodeText,role:null} as any);
+        claim.episodes.splice(0, 0,{by:this.profileManager.profile.firstName+" "+this.profileManager.profile.lastName,owner:this.profileManager.profile.firstName+" "+this.profileManager.profile.lastName,date:new Date,episodeId:form.episodeId,note:form.episodeText,role:null} as any);
         this.episodeForm.reset();
         this.closeModal();
         this.toast.success(res.message);
