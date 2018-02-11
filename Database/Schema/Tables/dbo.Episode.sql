@@ -2,7 +2,6 @@ CREATE TABLE [dbo].[Episode]
 (
 [EpisodeID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NOT NULL,
-[Note] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [EpisodeTypeID] [tinyint] NULL,
 [Role] [varchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ResolvedUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -32,9 +31,11 @@ CREATE NONCLUSTERED INDEX [idxEpisodeAcquiredUserID] ON [dbo].[Episode] ([Acquir
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeAssignedUserID] ON [dbo].[Episode] ([AssignedUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeCreatedClaimIDPharmacyNABPEpisodeTypeIDAssignedUserIDEpisodeCategoryID] ON [dbo].[Episode] ([Created], [ClaimID], [PharmacyNABP], [EpisodeTypeID], [AssignedUserID], [EpisodeCategoryID]) INCLUDE ([EpisodeID], [Note]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeCreatedClaimIDPharmacyNABPEpisodeTypeIDAssignedUserIDEpisodeCategoryIDIncludeEpisodeID] ON [dbo].[Episode] ([Created], [ClaimID], [PharmacyNABP], [EpisodeTypeID], [AssignedUserID], [EpisodeCategoryID]) INCLUDE ([EpisodeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryID] ON [dbo].[Episode] ([EpisodeCategoryID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryIDIncludes] ON [dbo].[Episode] ([EpisodeCategoryID]) INCLUDE ([AssignedUserID], [Created], [EpisodeID], [EpisodeTypeID], [PharmacyNABP], [ResolvedDateUTC], [Role], [RxNumber]) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodePharmacyNABP] ON [dbo].[Episode] ([PharmacyNABP]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
