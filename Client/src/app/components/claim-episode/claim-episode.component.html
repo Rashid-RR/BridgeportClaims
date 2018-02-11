@@ -4,28 +4,36 @@
             <table class="table no-margin table-striped">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>By</th>
+                        <th>ID</th>
+                        <th>Created</th>
+                        <th>Owner</th>
+                        <th>Type</th>
                         <th>Role</th>
-                        <th>Note Text</th>
-                        <th>Note Count</th>
-                        <th>&nbsp;</th>
+                        <th>Pharmacy</th>
+                        <th>Rx Number</th>
+                        <th>Category</th>
+                        <th>Resolved</th>
+                        <th>Note Count</th> 
                     </tr>
                 </thead>
                 <tbody *ngIf="claimManager.selectedClaim">
                     <tr *ngFor="let episode of claimManager.selectedClaim.episodes">
-                        <td>{{episode.date | date:"shortDate"}}</td>
-                        <td>{{episode.by}}</td>
+                        <td>{{episode.id}}</td>
+                        <td>{{episode.created | date:"shortDate"}}</td>
+                        <td>{{episode.owner}}</td>
+                        <td>{{episode.type}}</td>
                         <td>{{episode.role}}</td>
-                        <td>{{episode.note}}</td>
+                        <td>{{episode.pharmacy}}</td>
+                        <td>{{episode.rxNumber}}</td>
+                        <td>{{episode.category}}</td>
+                        <td [class.resolved]="episode.resolved">
+                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv  [checked]="episode.resolved"
+                                [disabled]="1">
+                            <label (click)="inv.click()"></label>
+                        </td>
                         <td>
                             <a class="label label-info bg-vdarkgrey" (click)="showNoteWindow(episode)">{{episode.noteCount || episode.episodeNoteCount || 0}}
                             </a>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-flat bg-darkRed btn-xs pull-right" (click)="edit(episode)" title="Edit Episode">
-                                <span class="glyphicon glyphicon-edit"></span>
-                                Edit</button>
                         </td>
                     </tr>
                 </tbody>

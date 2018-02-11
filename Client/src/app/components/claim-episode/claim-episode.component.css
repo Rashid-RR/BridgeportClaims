@@ -53,22 +53,19 @@ th {
   flex-direction: column;
   flex-shrink: 1;
   flex-grow: 1;
-}
-
-tr>th,
-tr>td {
-  width: 100%;
-}
-
-tr>td {
-  /* align-self: center; */
-  /* border: 0; */
-}
+} 
 
 tr>th:first-child,
-tr>td:first-child {
-  max-width: 63px;
-  padding-left: 0rem !important;
+tr>td:first-child,
+tr>th:nth-child(7),
+tr>td:nth-child(7),
+tr>th:nth-child(8),
+tr>td:nth-child(8),
+tr>th:nth-child(9),
+tr>td:nth-child(9),
+tr>th:nth-child(10),
+tr>td:nth-child(10)  {
+  width: 6%; 
 }
 
 /*ROW COLOR CHANGE*/
@@ -85,19 +82,14 @@ tr:nth-of-type(even) {
 tr>th:nth-child(2),
 tr>td:nth-child(2),
 tr>th:nth-child(3),
-tr>td:nth-child(3) {
-  width: 14%;
-}
-
+tr>td:nth-child(3),
 tr>th:nth-child(4),
-tr>td:nth-child(4) {
-  width: calc(72% - 171px);
-}
+tr>td:nth-child(4),
 tr>th:nth-child(5),
 tr>td:nth-child(5),
 tr>th:nth-child(6),
 tr>td:nth-child(6) {
-  width: 57px;
+  width: 14%;
 }
 
 .edit-btn {

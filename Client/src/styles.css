@@ -611,3 +611,45 @@
   padding-top:10px;
   
 }
+
+/*======================
+Check Boxes Styles
+========================*/
+input[type='checkbox'] {
+  opacity: 0;
+  z-index: -1;
+}
+
+input[type='checkbox']#checkbox-h{
+    display:none
+}
+input[type='checkbox'] + label {
+  width: 35px;
+  height: 35px;
+  display: block;
+  position: relative;
+  margin: auto;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  text-indent: -999px;
+  overflow: hidden;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+/*-------------------
+#checkbox-h style
+------------------*/
+input[type='checkbox']#checkbox-h + label {
+  border: 1px solid #000;
+  background: transparent url(assets/tick.png) no-repeat;
+  background-position: 50% 0;
+  background-size: 35px 70px;
+  transition: 0.4s ease background;
+  -moz-transition: 0.4s ease background;
+  -webkit-transition: 0.4s ease background;
+}
+
+input[type='checkbox']#checkbox-h:checked + label {
+  background-position: 50% -35px;
+}
