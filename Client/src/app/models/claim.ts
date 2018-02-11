@@ -115,7 +115,7 @@ export class Claim {
         }
     }
     get episodes(): Array<Episode> {
-        return this.episode.slice(0,10);
+        return this.episode;
     }
     setFlex2(claimFlex2s: Array<ClaimFlex2>) {
         if (claimFlex2s) {
