@@ -15,10 +15,10 @@
     background: #ffefef;
 }
 .expanded{
-    height: calc(100vh - 250px);
-    height: -moz-calc(100vh - 250px);
-    height: -webkit-calc(100vh - 250px);
-    height: -o-calc(100vh - 250px);
+    height: calc(100vh - 280px);
+    height: -moz-calc(100vh - 280px);
+    height: -webkit-calc(100vh - 280px);
+    height: -o-calc(100vh - 280px);
     overflow:hidden;
 }
 .top-header{
@@ -30,11 +30,11 @@
 .table-body{
     position: absolute;
     top:31px;
-    height: calc(100% - 2px);
-    max-height: calc(100% - 2px);
-    max-height: -moz-calc(100% - 2px);
-    max-height: -webkit-calc(100% - 2px);
-    max-height: -o-calc(100% - 2px);
+    height: calc(100% - 80px);
+    max-height: calc(100% - 80px);
+    max-height: -moz-calc(100% - 80px);
+    max-height: -webkit-calc(100% - 82px);
+    max-height: -o-calc(100% - 82px);
     overflow-y: auto;
     overflow-x: hidden;
 } 
