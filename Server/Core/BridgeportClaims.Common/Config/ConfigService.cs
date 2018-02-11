@@ -20,6 +20,9 @@ namespace BridgeportClaims.Common.Config
         public static string GetDbConnStr() 
             => cm.ConnectionStrings[c.DbConnStrName].ConnectionString;
 
+        public static string GetSecureDbConnStr()
+            => cm.ConnectionStrings[c.SecureDbConnStrName].ConnectionString;
+
         public static bool AppIsInDebugMode
             => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode));
     }

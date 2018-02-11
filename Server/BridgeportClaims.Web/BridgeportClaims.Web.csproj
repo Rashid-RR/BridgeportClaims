@@ -277,6 +277,7 @@
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
     <Compile Include="BackgroundWork\BackgroundWorkerProvider.cs" />
     <Compile Include="Controllers\AdjustorsController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CacheController.cs" />
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />

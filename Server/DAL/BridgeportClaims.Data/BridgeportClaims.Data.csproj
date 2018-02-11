@@ -74,6 +74,8 @@
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
     <Compile Include="DataProviders\AdjustorSearches\AdjustorSearchProvider.cs" />
     <Compile Include="DataProviders\AdjustorSearches\IAdjustorSearchProvider.cs" />
+    <Compile Include="DataProviders\AdminFunctions\AdminFunctionsProvider.cs" />
+    <Compile Include="DataProviders\AdminFunctions\IAdminFunctionsProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\ClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\IClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
@@ -149,6 +151,7 @@
     <Compile Include="Dtos\EpisodeResultsDto.cs" />
     <Compile Include="Dtos\EpisodesDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
+    <Compile Include="Dtos\FirewallSetting.cs" />
     <Compile Include="Dtos\GenderDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
     <Compile Include="Dtos\GroupNameDto.cs" />

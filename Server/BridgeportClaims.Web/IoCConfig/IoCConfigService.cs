@@ -30,6 +30,7 @@ using BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes;
 using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
 using BridgeportClaims.Data.DataProviders.AdjustorSearches;
+using BridgeportClaims.Data.DataProviders.AdminFunctions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
@@ -80,6 +81,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<AdjustorSearchProvider>().As<IAdjustorSearchProvider>().InstancePerRequest();
             builder.RegisterType<DashboardProvider>().As<IDashboardProvider>().InstancePerRequest();
             builder.RegisterType<EpisodeNoteProvider>().As<IEpisodeNoteProvider>().InstancePerRequest();
+            builder.RegisterType<AdminFunctionsProvider>().As<IAdminFunctionsProvider>().InstancePerRequest();
 
             // SignalR
             var hubConfig = new HubConfiguration();
