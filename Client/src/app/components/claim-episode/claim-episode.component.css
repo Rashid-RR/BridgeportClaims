@@ -67,7 +67,7 @@ tr>td {
 
 tr>th:first-child,
 tr>td:first-child {
-  max-width: 59px;
+  max-width: 63px;
   padding-left: 0rem !important;
 }
 
@@ -86,16 +86,17 @@ tr>th:nth-child(2),
 tr>td:nth-child(2),
 tr>th:nth-child(3),
 tr>td:nth-child(3) {
-  max-width: calc(14% - 38px);;
+  width: 14%;
 }
 
 tr>th:nth-child(4),
 tr>td:nth-child(4) {
-  width: calc(51% - 38px);
+  width: calc(72% - 171px);
 }
-
 tr>th:nth-child(5),
-tr>td:nth-child(5) {
+tr>td:nth-child(5),
+tr>th:nth-child(6),
+tr>td:nth-child(6) {
   width: 57px;
 }
 

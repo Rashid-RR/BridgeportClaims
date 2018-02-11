@@ -95,7 +95,8 @@ export class UnindexedImageFileComponent implements OnInit {
     var docInitParams: any = {};
     docInitParams.url = this.file.fileUrl;
     docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
-    $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - 110px);border: none;"></iframe>');
+    let minusHeight = this.router.url =='/main/unindexed-images' ? 300 : 110;
+    $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - '+minusHeight+'px);border: none;"></iframe>');
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
     }
