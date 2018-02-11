@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
-using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
@@ -19,25 +18,16 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	    private readonly IRepository<EpisodeNote> _episodeNoteRepository;
 	    private readonly IRepository<Episode> _episodeRepository;
 	    private readonly IRepository<AspNetUsers> _usersRepository;
-	    private readonly IRepository<EpisodeCategory> _episodeCategoryRepository;
-	    private readonly IRepository<Claim> _claimRepository;
-	    private readonly IRepository<Pharmacy> _pharmacyRepository;
 
         public EpisodesDataProvider(
             IRepository<EpisodeType> episodeTypeRepository, 
             IRepository<AspNetUsers> usersRepository, 
-            IRepository<Episode> episodeRepository, 
-            IRepository<EpisodeCategory> episodeCategoryRepository, 
-            IRepository<Claim> claimRepository, 
-            IRepository<Pharmacy> pharmacyRepository, 
+            IRepository<Episode> episodeRepository,
             IRepository<EpisodeNote> episodeNoteRepository)
 		{
 		    _episodeTypeRepository = episodeTypeRepository;
 		    _usersRepository = usersRepository;
 		    _episodeRepository = episodeRepository;
-		    _episodeCategoryRepository = episodeCategoryRepository;
-		    _claimRepository = claimRepository;
-		    _pharmacyRepository = pharmacyRepository;
 		    _episodeNoteRepository = episodeNoteRepository;
 		}
 
@@ -321,30 +311,95 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	        _episodeRepository.Save(episodeEntity);
 	    }
 
-	    public void SaveNewEpisode(int claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber, string episodeText, string userId)
-	    {
-	        var cat = _episodeCategoryRepository?.GetMany(x => x.Code == "CALL")?.SingleOrDefault();
-            if (null == cat)
-                throw new Exception("Error. Could not find an Episode Category for Code 'CALL'");
-	        var user = _usersRepository.Get(userId);
-	        var pharmacy = pharmacyNabp.IsNotNullOrWhiteSpace()
-	            ? _pharmacyRepository?.GetSingleOrDefault(x => x.Nabp.ToLower() == pharmacyNabp.ToLower())
-	            : null;
-	        var type = _episodeTypeRepository?.GetFirstOrDefault(x => x.EpisodeTypeId == episodeTypeId);
-            var entity = new Episode
+	    public EpisodeBladeDto SaveNewEpisode(int claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber,
+	        string episodeText, string userId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
-	            EpisodeCategory = cat,
-                UpdatedOnUtc = DateTime.UtcNow,
-                AssignedUser = user,
-                RxNumber = rxNumber,
-                EpisodeType = type,
-                Claim = _claimRepository.Get(claimId),
-                Pharmacy = pharmacy,
-                Note = episodeText,
-                ModifiedByUser = user
-            };
-            _episodeRepository.Save(entity);
-	    }
+	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspSaveNewEpisode]", conn), cmd =>
+	            {
+	                cmd.CommandType = CommandType.StoredProcedure;	                
+	                var claimIdParam = cmd.CreateParameter();
+	                claimIdParam.Value = claimId;
+	                claimIdParam.ParameterName = "@ClaimID";
+	                claimIdParam.DbType = DbType.Int32;
+	                claimIdParam.SqlDbType = SqlDbType.Int;
+	                claimIdParam.Direction = ParameterDirection.Input;
+	                cmd.Parameters.Add(claimIdParam);
+	                var episodeTypeIdParam = cmd.CreateParameter();
+	                episodeTypeIdParam.Value = episodeTypeId ?? (byte) 1;
+                    episodeTypeIdParam.ParameterName = "@EpisodeTypeID";
+                    episodeTypeIdParam.DbType = DbType.Byte;
+	                episodeTypeIdParam.SqlDbType = SqlDbType.TinyInt;
+                    episodeTypeIdParam.Direction = ParameterDirection.Input;
+	                cmd.Parameters.Add(episodeTypeIdParam);
+	                var pharmacyNabpParam = cmd.CreateParameter();
+	                pharmacyNabpParam.Value = pharmacyNabp ?? (object) DBNull.Value;
+	                pharmacyNabpParam.ParameterName = "@PharmacyNABP";
+	                pharmacyNabpParam.DbType = DbType.AnsiString;
+	                pharmacyNabpParam.SqlDbType = SqlDbType.VarChar;
+	                pharmacyNabpParam.Size = 7;
+	                pharmacyNabpParam.Direction = ParameterDirection.Input;
+	                cmd.Parameters.Add(pharmacyNabpParam);
+	                var rxNumberParam = cmd.CreateParameter();
+	                rxNumberParam.Value = rxNumber ?? (object)DBNull.Value;
+	                rxNumberParam.ParameterName = "@RxNumber";
+	                rxNumberParam.DbType = DbType.AnsiString;
+	                rxNumberParam.SqlDbType = SqlDbType.VarChar;
+	                rxNumberParam.Size = 100;
+	                rxNumberParam.Direction = ParameterDirection.Input;
+	                cmd.Parameters.Add(rxNumberParam);
+	                var noteTextParam = cmd.CreateParameter();
+	                noteTextParam.Value = episodeText ?? (object)DBNull.Value;
+	                noteTextParam.ParameterName = "@NoteText";
+	                noteTextParam.DbType = DbType.AnsiString;
+	                noteTextParam.SqlDbType = SqlDbType.VarChar;
+	                noteTextParam.Size = 8000;
+	                noteTextParam.Direction = ParameterDirection.Input;
+	                cmd.Parameters.Add(noteTextParam);
+	                var userIdParam = cmd.CreateParameter();
+	                userIdParam.Value = userId ?? (object)DBNull.Value;
+	                userIdParam.ParameterName = "@UserID";
+	                userIdParam.DbType = DbType.String;
+	                userIdParam.SqlDbType = SqlDbType.NVarChar;
+	                userIdParam.Size = 128;
+	                userIdParam.Direction = ParameterDirection.Input;
+	                cmd.Parameters.Add(userIdParam);
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+	                return DisposableService.Using(cmd.ExecuteReader, reader =>
+	                {
+	                    var idOrdinal = reader.GetOrdinal("Id");
+	                    var createdOrdinal = reader.GetOrdinal("Created");
+	                    var ownerOrdinal = reader.GetOrdinal("Owner");
+	                    var typeOrdinal = reader.GetOrdinal("Type");
+	                    var roleOrdinal = reader.GetOrdinal("Role");
+	                    var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
+	                    var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
+	                    var categoryOrdinal = reader.GetOrdinal("Category");
+	                    var resolvedOrdinal = reader.GetOrdinal("Resolved");
+	                    var noteCountOrdinal = reader.GetOrdinal("NoteCount");
+	                    var list = new List<EpisodeBladeDto>();
+	                    while (reader.Read())
+	                    {
+	                        var episodeBladeDto = new EpisodeBladeDto
+	                        {
+	                            Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
+	                            Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow,
+	                            Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
+	                            Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
+	                            Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
+	                            Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
+	                            RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
+	                            Category = !reader.IsDBNull(categoryOrdinal) ? reader.GetString(categoryOrdinal) : string.Empty,
+	                            Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
+	                            NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
+                            };
+                            list.Add(episodeBladeDto);
+                        }
+	                    return list.SingleOrDefault();
+	                });
+	            });
+            });
 
 	    public void AcquireEpisode(int episodeId, string userId)
 	    {

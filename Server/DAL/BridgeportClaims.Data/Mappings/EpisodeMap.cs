@@ -22,7 +22,6 @@ namespace BridgeportClaims.Data.Mappings
 		    References(x => x.DocumentIndex).Column("DocumentID");
 		    References(x => x.ModifiedByUser).Column("ModifiedByUserID");
 		    References(x => x.EpisodeCategory).Column("EpisodeCategoryID");
-		    Map(x => x.Note).Column("Note").Not.Nullable().Length(8000);
 		    Map(x => x.Role).Column("Role").Length(25);
 		    Map(x => x.RxNumber).Column("RxNumber").Length(100);
 		    Map(x => x.Status).Column("Status").Length(1);

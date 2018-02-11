@@ -178,6 +178,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodesBlade]", conn), cmd =>
 	            {
+                    cmd.CommandType = CommandType.StoredProcedure;
 	                IList<EpisodeBladeDto> retVal = new List<EpisodeBladeDto>();
 	                var claimIdParam = cmd.CreateParameter();
 	                claimIdParam.DbType = DbType.Int32;
@@ -216,20 +217,23 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	                    var categoryOrdinal = reader.GetOrdinal("Category");
 	                    var resolvedOrdinal = reader.GetOrdinal("Resolved");
 	                    var noteCountOrdinal = reader.GetOrdinal("NoteCount");
-                        var result = new EpisodeBladeDto
-	                    {
-	                        Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
-	                        Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow.ToMountainTime(),
-	                        Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
-	                        Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
-	                        Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
-	                        Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
-	                        RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
-	                        Category = !reader.IsDBNull(categoryOrdinal) ? reader.GetString(categoryOrdinal) : string.Empty,
-	                        Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
-	                        NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
-                        };
-                        retVal.Add(result);
+                        while (reader.Read())
+                        {
+                            var result = new EpisodeBladeDto
+	                        {
+	                            Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
+	                            Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow.ToMountainTime(),
+	                            Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
+	                            Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
+	                            Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
+	                            Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
+	                            RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
+	                            Category = !reader.IsDBNull(categoryOrdinal) ? reader.GetString(categoryOrdinal) : string.Empty,
+	                            Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
+	                            NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
+                            };
+                            retVal.Add(result);
+                        }
 	                });
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();

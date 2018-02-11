@@ -6,6 +6,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.EpisodeNotes;
 using BridgeportClaims.Data.DataProviders.Episodes;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Web.Models;
@@ -129,8 +130,13 @@ namespace BridgeportClaims.Web.Controllers
 	            return await Task.Run(() =>
 	            {
 	                var userId = User.Identity.GetUserId();
-	                _episodesDataProvider.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId, model.PharmacyNabp, model.RxNumber, model.EpisodeText, userId);
-	                return Ok(new {message = "The episode was saved successfully"});
+	                var retVal = new NewEpisodeSaveDto
+	                {
+	                    Episode = _episodesDataProvider.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId,
+	                        model.PharmacyNabp, model.RxNumber, model.EpisodeText, userId),
+	                    Message = "The episode was saved successfully"
+	                };
+	                return Ok(retVal);
 	            });
 	        }
 	        catch (Exception ex)

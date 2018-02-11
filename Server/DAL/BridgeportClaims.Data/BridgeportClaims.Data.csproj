@@ -157,6 +157,7 @@
     <Compile Include="Dtos\AcctPayableDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
+    <Compile Include="Dtos\NewEpisodeSaveDto.cs" />
     <Compile Include="Dtos\PaymentPostingDto.cs" />
     <Compile Include="Dtos\PaymentTotalsDto.cs" />
     <Compile Include="Dtos\PayorSearchResultsDto.cs" />
