@@ -26,6 +26,25 @@ namespace BridgeportClaims.Web.Controllers
             _claimsEditProvider = claimsEditProvider;
         }
 
+	    [HttpPost]
+	    [Route("sort-episodes")]
+	    public async Task<IHttpActionResult> SortEpisodes(SortEpisodeModel model)
+	    {
+	        try
+	        {
+	            return await Task.Run(() =>
+	            {
+	                var results = _claimsDataProvider.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection);
+	                return Ok(results);
+                });
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+	    }
+
         [HttpPost]
 	    [Route("edit-claim")]
 	    public async Task<IHttpActionResult> EditClaim(ClaimEditModel model)

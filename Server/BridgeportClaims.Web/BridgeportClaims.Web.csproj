@@ -341,6 +341,7 @@
     <Compile Include="Models\SaveEpisodeModel.cs" />
     <Compile Include="Models\DocumentViewModel.cs" />
     <Compile Include="Models\SaveEpisodeNoteModel.cs" />
+    <Compile Include="Models\SortEpisodeModel.cs" />
     <Compile Include="Models\SuspenseViewModel.cs" />
     <Compile Include="Models\UnpaidScriptsDto.cs" />
     <Compile Include="Models\UnpaidScriptsViewModel.cs" />

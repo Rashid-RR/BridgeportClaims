@@ -9,7 +9,6 @@ using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.StringConstants;
-using BridgeportClaims.Data.Mappings.Views;
 using System.Web;
 
 namespace BridgeportClaims.Data.SessionFactory
@@ -146,7 +145,6 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<PrescriptionNoteTypeMap>();
 					m.FluentMappings.Add<UsStateMap>();
 					m.FluentMappings.Add<PrescriptionNoteMappingMap>();
-					m.FluentMappings.Add<VwClaimInfoMap>();
 				})
 				.ExposeConfiguration(cfg => new SchemaExport(cfg).Create(false, false))
 				.ExposeConfiguration(c => c.SetProperty("current_session_context_class", "call"))

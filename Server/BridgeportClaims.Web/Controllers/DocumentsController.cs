@@ -6,7 +6,6 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
-using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;

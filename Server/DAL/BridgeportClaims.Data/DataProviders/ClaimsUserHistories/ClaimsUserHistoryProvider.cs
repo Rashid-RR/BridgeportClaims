@@ -5,10 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.StoredProcedureExecutors;
-using BridgeportClaims.Entities.DomainModels;
-using BridgeportClaims.Entities.DomainModels.Views;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -17,16 +14,10 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
     public class ClaimsUserHistoryProvider : IClaimsUserHistoryProvider
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
-        private readonly IRepository<VwClaimInfo> _vwClaimInfoRepository;
-        private readonly IRepository<ClaimsUserHistory> _claimsUserHistoryRepository;
 
-        public ClaimsUserHistoryProvider(IStoredProcedureExecutor storedProcedureExecutor, 
-            IRepository<VwClaimInfo> vwClaimInfoRepository, 
-            IRepository<ClaimsUserHistory> claimsUserHistoryRepository)
+        public ClaimsUserHistoryProvider(IStoredProcedureExecutor storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
-            _vwClaimInfoRepository = vwClaimInfoRepository;
-            _claimsUserHistoryRepository = claimsUserHistoryRepository;
         }
 
         public IList<ClaimsUserHistoryDto> GetClaimsUserHistory(string userId) =>
@@ -39,7 +30,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
                     cmd.CommandType = CommandType.StoredProcedure;
                     var userIdParam = cmd.CreateParameter();
                     userIdParam.Direction = ParameterDirection.Input;
-                    userIdParam.DbType = DbType.StringFixedLength;
+                    userIdParam.DbType = DbType.String;
                     userIdParam.Size = 128;
                     userIdParam.SqlDbType = SqlDbType.NVarChar;
                     userIdParam.ParameterName = "@UserID";

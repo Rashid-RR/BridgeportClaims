@@ -147,7 +147,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     var userIdParam = cmd.CreateParameter();
                     userIdParam.Value = userId;
                     userIdParam.ParameterName = "@UserID";
-                    userIdParam.DbType = DbType.StringFixedLength;
+                    userIdParam.DbType = DbType.String;
                     userIdParam.SqlDbType = SqlDbType.NVarChar;
                     userIdParam.Size = 128;
                     userIdParam.Direction = ParameterDirection.Input;
