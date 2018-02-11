@@ -3,20 +3,47 @@
         <div class="table-responsive">
             <table class="table no-margin table-striped">
                 <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Created</th>
-                        <th>Owner</th>
-                        <th>Type</th>
-                        <th>Role</th>
-                        <th>Pharmacy</th>
-                        <th>Rx Number</th>
-                        <th>Category</th>
-                        <th>Resolved</th>
-                        <th>Note Count</th> 
+                    <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'>
+                        <th>
+                            <span columnSort="id" [sort-table]="myTable">ID</span>
+                        </th>
+                        <th>
+                            <span columnSort="created" [sort-table]="myTable">Created</span>
+                        </th>
+                        <th>
+                            <span columnSort="owner" [sort-table]="myTable">Owner</span>
+                        </th>
+                        <th>
+                            <span columnSort="type" [sort-table]="myTable">Type</span>
+                        </th>
+                        <th>
+                            <span columnSort="role" [sort-table]="myTable">Role</span>
+                        </th>
+                        <th>
+                            <span columnSort="pharmacy" [sort-table]="myTable">Pharmacy</span>
+                        </th>
+                        <th>
+                            <span columnSort="rxNumber" [sort-table]="myTable">Rx Number</span>
+                        </th>
+                        <th>
+                            <span columnSort="category" [sort-table]="myTable">Category</span>
+                        </th>
+                        <th>
+                            <span columnSort="resolved" [sort-table]="myTable">Resolved</span>
+                        </th>
+                        <th>
+                            <span columnSort="noteCount" [sort-table]="myTable">Note Count</span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody *ngIf="claimManager.selectedClaim">
+                    <ng-container *ngIf="claimManager.loadingEpisodes">
+                        <div class="loader" style="align-self: center;margin-top: 40px;">
+                            <a>
+                                <img src="assets/img/Spinner.gif">
+                            </a>
+                        </div>
+                    </ng-container>
                     <tr *ngFor="let episode of claimManager.selectedClaim.episodes">
                         <td>{{episode.id}}</td>
                         <td>{{episode.created | date:"shortDate"}}</td>
@@ -27,8 +54,7 @@
                         <td>{{episode.rxNumber}}</td>
                         <td>{{episode.category}}</td>
                         <td [class.resolved]="episode.resolved">
-                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv  [checked]="episode.resolved"
-                                [disabled]="1">
+                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv [checked]="episode.resolved" [disabled]="1">
                             <label (click)="inv.click()"></label>
                         </td>
                         <td>
