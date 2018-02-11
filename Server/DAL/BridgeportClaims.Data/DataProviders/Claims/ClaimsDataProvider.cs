@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Data.DataProviders.Payments;
@@ -16,6 +17,7 @@ using NHibernate;
 using NHibernate.Transform;
 using NLog;
 using c = BridgeportClaims.Common.StringConstants.Constants;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 
 namespace BridgeportClaims.Data.DataProviders.Claims
@@ -171,6 +173,74 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	        return op;
 	    }
 
+	    public IList<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodesBlade]", conn), cmd =>
+	            {
+                    cmd.CommandType = CommandType.StoredProcedure;
+	                IList<EpisodeBladeDto> retVal = new List<EpisodeBladeDto>();
+	                var claimIdParam = cmd.CreateParameter();
+	                claimIdParam.DbType = DbType.Int32;
+                    claimIdParam.SqlDbType = SqlDbType.Int;
+	                claimIdParam.Value = claimId;
+	                claimIdParam.ParameterName = "@ClaimID";
+                    claimIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(claimIdParam);
+	                var sortColumnParam = cmd.CreateParameter();
+	                sortColumnParam.DbType = DbType.AnsiString;
+	                sortColumnParam.SqlDbType = SqlDbType.VarChar;
+	                sortColumnParam.Size = 50;
+	                sortColumnParam.ParameterName = "@SortColumn";
+                    sortColumnParam.Direction = ParameterDirection.Input;
+	                sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
+                    cmd.Parameters.Add(sortColumnParam);
+	                var sortDirectionParam = cmd.CreateParameter();
+	                sortDirectionParam.Value = sortDirection ?? (object) DBNull.Value;
+                    sortDirectionParam.DbType = DbType.AnsiString;
+	                sortDirectionParam.SqlDbType = SqlDbType.VarChar;
+	                sortDirectionParam.Size = 5;
+	                sortDirectionParam.ParameterName = "@SortDirection";
+                    sortDirectionParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(sortDirectionParam);
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+	                DisposableService.Using(cmd.ExecuteReader, reader =>
+	                {
+	                    var idOrdinal = reader.GetOrdinal("Id");
+	                    var createdOrdinal = reader.GetOrdinal("Created");
+	                    var ownerOrdinal = reader.GetOrdinal("Owner");
+	                    var typeOrdinal = reader.GetOrdinal("Type");
+	                    var roleOrdinal = reader.GetOrdinal("Role");
+	                    var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
+	                    var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
+	                    var categoryOrdinal = reader.GetOrdinal("Category");
+	                    var resolvedOrdinal = reader.GetOrdinal("Resolved");
+	                    var noteCountOrdinal = reader.GetOrdinal("NoteCount");
+                        while (reader.Read())
+                        {
+                            var result = new EpisodeBladeDto
+	                        {
+	                            Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
+	                            Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow.ToMountainTime(),
+	                            Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
+	                            Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
+	                            Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
+	                            Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
+	                            RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
+	                            Category = !reader.IsDBNull(categoryOrdinal) ? reader.GetString(categoryOrdinal) : string.Empty,
+	                            Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
+	                            NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
+                            };
+                            retVal.Add(result);
+                        }
+	                });
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+	                return retVal;
+	            });
+	        });
+
         public ClaimDto GetClaimsDataByClaimId(int claimId)
 		{
 			return DisposableService.Using(() => _factory.OpenSession(), session =>
@@ -232,22 +302,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							if (null != claimNoteDto)
 								claimDto.ClaimNotes = claimNoteDto;
 							// Claim Episodes
-							var episodes = session.CreateSQLQuery(
-								  @"SELECT EpisodeId = [e].[EpisodeID]
-										 , [Date] = [e].[Created]
-										 , [By] = [u].[FirstName] + ' ' + [u].[LastName]
-										 , [e].[Role]										 
-										 , [e].[Note]
-									FROM   [dbo].[Episode] AS [e] 
-											INNER JOIN [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [e].[AssignedUserID]
-											LEFT JOIN [dbo].[EpisodeType] AS [et] ON [et].[EpisodeTypeID] = [e].[EpisodeTypeID]
-									WHERE  [e].[ClaimID] = :ClaimID")
-								.SetMaxResults(5000)
-								.SetInt32("ClaimID", claimId)
-								.SetResultTransformer(Transformers.AliasToBean(typeof(EpisodeDto)))
-								.List<EpisodeDto>();
-							if (null != episodes)
-								claimDto.Episodes = episodes.OrderByDescending(x => x.Date).ToList();
+						    var episodes = GetEpisodesBlade(claimId, "Created", "DESC");
+						    if (null != episodes)
+						        claimDto.Episodes = episodes;
 						    var documentTypes = session.CreateSQLQuery(@"SELECT  DocumentTypeId = [dt].[DocumentTypeID]
                                                                                , [dt].[TypeName]
                                                                          FROM    [dbo].[DocumentType] AS [dt]")

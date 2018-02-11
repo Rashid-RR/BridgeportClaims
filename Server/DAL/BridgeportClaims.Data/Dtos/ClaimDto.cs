@@ -38,7 +38,7 @@ namespace BridgeportClaims.Data.Dtos
         public IList<DocumentTypeDto> DocumentTypes { get; set; }
 		public IList<ClaimFlex2Dto> ClaimFlex2s { get; set; }
 		public IList<ClaimNoteDto> ClaimNotes { get; set; }
-		public IList<EpisodeDto> Episodes { get;set;}
+		public IList<EpisodeBladeDto> Episodes { get;set;}
 		public IList<PrescriptionStatusDto> PrescriptionStatuses { get; set; }
 		public IList<PrescriptionDto> Prescriptions { get; set; }
 		public IList<ScriptNoteDto> PrescriptionNotes { get; set; }

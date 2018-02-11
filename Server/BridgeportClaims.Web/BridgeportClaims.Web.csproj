@@ -277,6 +277,7 @@
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
     <Compile Include="BackgroundWork\BackgroundWorkerProvider.cs" />
     <Compile Include="Controllers\AdjustorsController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CacheController.cs" />
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="Models\SaveEpisodeModel.cs" />
     <Compile Include="Models\DocumentViewModel.cs" />
     <Compile Include="Models\SaveEpisodeNoteModel.cs" />
+    <Compile Include="Models\SortEpisodeModel.cs" />
     <Compile Include="Models\SuspenseViewModel.cs" />
     <Compile Include="Models\UnpaidScriptsDto.cs" />
     <Compile Include="Models\UnpaidScriptsViewModel.cs" />

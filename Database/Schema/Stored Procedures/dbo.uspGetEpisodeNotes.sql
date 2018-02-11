@@ -28,8 +28,8 @@ AS BEGIN
 			INNER JOIN [dbo].[Episode] AS [e] ON [e].[EpisodeID] = [en].[EpisodeID]
 			INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [e].[ClaimID]
 			INNER JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
-			INNER JOIN [dbo].[AspNetUsers] AS own ON own.[ID] = e.[AssignedUserID]
-			INNER JOIN  [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [en].[WrittenByUserID]
+			LEFT JOIN [dbo].[AspNetUsers] AS own ON own.[ID] = e.[AssignedUserID]
+			LEFT JOIN  [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [en].[WrittenByUserID]
 		WHERE           [en].[EpisodeID] = @EpisodeID
 			
 		IF (@@TRANCOUNT > 0)

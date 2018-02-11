@@ -108,7 +108,6 @@
     <Compile Include="DomainModels\PrescriptionStatus.cs" />
     <Compile Include="DomainModels\Suspense.cs" />
     <Compile Include="DomainModels\UsState.cs" />
-    <Compile Include="DomainModels\Views\VwClaimInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\PayorViewModel.cs" />
   </ItemGroup>

@@ -12,8 +12,8 @@ using BridgeportClaims.Web.Infrastructure;
 
 namespace BridgeportClaims.Web.Controllers
 {
-	[RoutePrefix("api/fileupload")]
-	[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
+    [RoutePrefix("api/fileupload")]
 	public class FileUploadController : BaseApiController
 	{
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();

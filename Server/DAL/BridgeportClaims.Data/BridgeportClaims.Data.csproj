@@ -74,6 +74,8 @@
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
     <Compile Include="DataProviders\AdjustorSearches\AdjustorSearchProvider.cs" />
     <Compile Include="DataProviders\AdjustorSearches\IAdjustorSearchProvider.cs" />
+    <Compile Include="DataProviders\AdminFunctions\AdminFunctionsProvider.cs" />
+    <Compile Include="DataProviders\AdminFunctions\IAdminFunctionsProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\ClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\IClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
@@ -143,11 +145,13 @@
     <Compile Include="Dtos\DocumentResultDto.cs" />
     <Compile Include="Dtos\DocumentsDto.cs" />
     <Compile Include="Dtos\DocumentTypeDto.cs" />
+    <Compile Include="Dtos\EpisodeBladeDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeNotesDto.cs" />
     <Compile Include="Dtos\EpisodeResultsDto.cs" />
     <Compile Include="Dtos\EpisodesDto.cs" />
     <Compile Include="Dtos\EpisodeTypeDto.cs" />
+    <Compile Include="Dtos\FirewallSetting.cs" />
     <Compile Include="Dtos\GenderDto.cs" />
     <Compile Include="Dtos\GetClaimsSearchResults.cs" />
     <Compile Include="Dtos\GroupNameDto.cs" />
@@ -156,6 +160,7 @@
     <Compile Include="Dtos\AcctPayableDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
+    <Compile Include="Dtos\NewEpisodeSaveDto.cs" />
     <Compile Include="Dtos\PaymentPostingDto.cs" />
     <Compile Include="Dtos\PaymentTotalsDto.cs" />
     <Compile Include="Dtos\PayorSearchResultsDto.cs" />
@@ -214,7 +219,6 @@
     <Compile Include="Mappings\PrescriptionStatusMap.cs" />
     <Compile Include="Mappings\SuspenseMap.cs" />
     <Compile Include="Mappings\UsStateMap.cs" />
-    <Compile Include="Mappings\Views\VwClaimInfoMap.cs" />
     <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionFactory\StoredProcedureExecutors\BaseRepository.cs" />

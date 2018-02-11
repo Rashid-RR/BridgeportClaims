@@ -82,6 +82,8 @@ CREATE NONCLUSTERED INDEX [idxPrescriptionPrescriberNPI] ON [dbo].[Prescription]
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionPrescriptionStatusID] ON [dbo].[Prescription] ([PrescriptionStatusID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionRxNumberIncludeClaimID] ON [dbo].[Prescription] ([RxNumber]) INCLUDE ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionInvoiceIDInvoiceInvoiceID] FOREIGN KEY ([InvoiceID]) REFERENCES [dbo].[Invoice] ([InvoiceID])
@@ -89,6 +91,20 @@ GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionPharmacyNABPPharmacyNABP] FOREIGN KEY ([PharmacyNABP]) REFERENCES [dbo].[Pharmacy] ([NABP])
 GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [fkPrescriptionPrescriptionStatusIDPrescriptionStatusPrescriptionStatusID] FOREIGN KEY ([PrescriptionStatusID]) REFERENCES [dbo].[PrescriptionStatus] ([PrescriptionStatusID])
+GO
+SET ANSI_NULLS ON
+GO
+SET ANSI_PADDING ON
+GO
+SET ANSI_WARNINGS ON
+GO
+SET ARITHABORT ON
+GO
+SET CONCAT_NULL_YIELDS_NULL ON
+GO
+SET NUMERIC_ROUNDABORT OFF
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO

@@ -23,9 +23,6 @@ namespace BridgeportClaims.Entities.DomainModels
 	    public virtual DocumentIndex DocumentIndex { get; set; }
         [Required]
         public virtual EpisodeCategory EpisodeCategory { get; set; }
-	    [Required]
-	    [StringLength(8000)]
-	    public virtual string Note { get; set; }
 	    [StringLength(25)]
 	    public virtual string Role { get; set; }
 	    [StringLength(100)]
