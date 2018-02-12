@@ -43,14 +43,17 @@
                                 <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email
                                     or password'}}</p>
                             </div>
-                            <div class="form-group">
-                                <span class="help-block">
-                                    <a [routerLink]="'/recover-lost-password'">Forgotten password?</a>
+                            <div class="form-group row">
+                                <div class="col-sm-6" style="display:flex;flex-direction:row;">
+                                    <div style="width:40px">
+                                        <input type="checkbox" name="check" value="None" id="checkbox-h" #inv value="true" formControlName="rememberMe">
+                                        <label for="checkbox-h"></label>
+                                    </div>
+                                    <div style="width:calc(100% - 41px);font-weight:510;line-height:35px;cursor:pointer;" (click)="inv.click()">Remember me</div>
+                                </div>
+                                <span class="help-block col-sm-6">
+                                    <a [routerLink]="'/recover-lost-password'" class="pull-right">Forgotten password?</a>
                                 </span>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value="true" formControlName="rememberMe"> Remember me</label>
                             </div>
                             <button class="btn btn-primary btn-block" type="submit" (click)="login()">Sign in</button>
                         </form>
