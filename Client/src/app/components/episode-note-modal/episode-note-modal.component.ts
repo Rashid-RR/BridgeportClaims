@@ -17,7 +17,7 @@ declare var $: any;
 export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
 
   episode: Episode;
-  episodeNotes: Array<{ writtenBy: string, noteCreated: any, noteText: string }> = [];
+  episodeNotes: Array<{ episodeId:any,writtenBy: string, noteCreated: any, noteText: string }> = [];
   noteText: '';
   loading: boolean = false;
   constructor(
@@ -54,7 +54,7 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
       }).catch(swal.noop);
       this.http.saveEpisodeNote({ episodeId: this.episode.episodeId, note: this.noteText }).map(r => r.json()).single().subscribe(r => {
         let result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
-        this.episodeNotes.splice(0, 0, { writtenBy: result.owner, noteCreated: result.created, noteText: this.noteText });
+        this.episodeNotes.splice(0, 0, { episodeId:this.episode.episodeId,writtenBy: result.owner, noteCreated: result.created, noteText: this.noteText });
         let episode = this.episodeService.episodes.get(this.episode.episodeId);
         if(episode){
           episode.episodeNoteCount++;

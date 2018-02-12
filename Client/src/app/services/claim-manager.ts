@@ -66,6 +66,7 @@ export class ClaimManager {
       this.selected = undefined;
       this.claims = Immutable.OrderedMap<Number, Claim>();
     });
+    
     this.episodeForm = this.formBuilder.group({
       //episodeId: [undefined], // only send on episode edit
       claimId: [null, Validators.required],

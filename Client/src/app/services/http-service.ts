@@ -731,5 +731,19 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  createFirewallSetting(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/admin/create-firewall-setting',data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  deleteFirewallSetting(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/admin/delete-firewall-setting/?ruleName='+data.ruleName,data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
 }
