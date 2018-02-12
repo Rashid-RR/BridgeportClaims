@@ -225,71 +225,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                return retVal;
 	            });
 	        });
-
-		public void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string noteText, byte? episodeTypeId)
-		{
-			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-			{
-				DisposableService.Using(() => new SqlCommand("dbo.uspSaveEpisode", conn), cmd =>
-				{
-					cmd.CommandType = CommandType.StoredProcedure;
-					var epId = new SqlParameter
-					{
-						ParameterName = "@EpisodeID",
-						Value = (object) episodeId ?? DBNull.Value,
-						DbType = DbType.Int32,
-						SqlDbType = SqlDbType.Int
-					};
-					var clId = new SqlParameter
-					{
-						ParameterName = "@ClaimID",
-						Value = claimId,
-						DbType = DbType.Int32,
-						SqlDbType = SqlDbType.Int
-					};
-					var cd = new SqlParameter
-					{
-						ParameterName = "@Created",
-						Value = DateTime.UtcNow.Date,
-						DbType = DbType.Date,
-						SqlDbType = SqlDbType.Date
-					};
-					var uId = new SqlParameter
-					{
-						ParameterName = "@AssignedUserID",
-						Value = by,
-						DbType = DbType.String,
-						SqlDbType = SqlDbType.NVarChar
-					};
-					var note = new SqlParameter
-					{
-						ParameterName = "@Note",
-						Value = (object) noteText ?? DBNull.Value,
-						DbType = DbType.String,
-						SqlDbType = SqlDbType.VarChar
-					};
-					var etId = new SqlParameter
-					{
-						ParameterName = "@EpisodeTypeID",
-						Value = (object) episodeTypeId ?? DBNull.Value,
-						DbType = DbType.Byte,
-						SqlDbType = SqlDbType.TinyInt
-					};
-					cmd.Parameters.Add(epId);
-					cmd.Parameters.Add(clId);
-					cmd.Parameters.Add(cd);
-					cmd.Parameters.Add(uId);
-					cmd.Parameters.Add(note);
-					cmd.Parameters.Add(etId);
-				    if (conn.State != ConnectionState.Open)
-				        conn.Open();
-                    cmd.ExecuteNonQuery();
-                    if (conn.State != ConnectionState.Closed)
-                        conn.Close();
-				});
-			});
-		}
-
+        
 		public IList<EpisodeTypeDto> GetEpisodeTypes() => _episodeTypeRepository.GetAll()?
 		    .Select(e => new EpisodeTypeDto
 		    {

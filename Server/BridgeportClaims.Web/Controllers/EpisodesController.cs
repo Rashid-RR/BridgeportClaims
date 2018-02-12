@@ -187,31 +187,6 @@ namespace BridgeportClaims.Web.Controllers
             }
 	    }
 
-		[HttpPost]
-		[Route("saveepisode")]
-		public async Task<IHttpActionResult> AddOrUpdateEpisode([FromBody] SaveEpisodeModel model)
-		{
-			try
-			{
-				return await Task.Run(() =>
-				{
-					if (!ModelState.IsValid)
-						return GetBadRequestFormattedErrorMessages();
-					var userId = User.Identity.GetUserId();
-					if (null == userId)
-						throw new ArgumentNullException(nameof(userId));
-					_episodesDataProvider.AddOrUpdateEpisode(model.EpisodeId, model.ClaimId, userId, model.NoteText,
-						model.EpisodeTypeId);
-					return Ok(new { message = "Episode was saved Successfully" });
-				});
-			}
-			catch (Exception ex)
-			{
-				Logger.Error(ex);
-				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-			}
-		}
-
 		[HttpGet]
 		[Route("getepisodetypes")]
         [AllowAnonymous]
