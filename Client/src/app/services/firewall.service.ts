@@ -35,7 +35,7 @@ export class FirewallService {
     };
     this.form = this.formBuilder.group({
       endIpAddress: [null, Validators.required],
-      ruleName: [null, Validators.required],
+      ruleName: [null, Validators.compose([Validators.required, Validators.pattern(new RegExp(/^[a-z]+$/i))])],
       startIpAddress: [null, Validators.required]
     });
     this.search();
@@ -50,6 +50,7 @@ export class FirewallService {
       .subscribe((result: any) => {
         this.loading = false;
         this.firewalls = this.firewalls.delete(fw.ruleName);
+        this.toast.success(result.message);        
       }, err => {
         this.loading = false;
         try {
@@ -126,7 +127,12 @@ export class FirewallService {
     this.form.controls['startIpAddress'].setValue($('#startIpAddress').val())
     this.form.controls['endIpAddress'].setValue($('#endIpAddress').val())
     if (!this.form.valid) {
+      if(this.form.controls['ruleName'].errors && this.form.controls['ruleName'].errors.pattern){
+        this.toast.warning('Rule Name must be alphabetic only');
+
+      }else{
       this.toast.warning('Please fill in all the form fields');
+      }
     } else {
       this.loading = true;
       this.http.createFirewallSetting(this.form.value).map(res => { return res.json(); })
@@ -134,6 +140,7 @@ export class FirewallService {
           let form = this.form.value;
           this.firewalls = this.firewalls.set(form.ruleName, form);
           this.loading = false;
+          this.toast.success(result.message);        
           this.form.reset();
         }, err => {
           this.loading = false;
