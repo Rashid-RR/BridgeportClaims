@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public class GetClaimsSearchResults
     {
         [Required]
@@ -20,6 +19,6 @@ namespace BridgeportClaims.Data.Dtos
         [StringLength(255)]
         public virtual string Carrier { get; set; }
         [StringLength(15)]
-        public virtual string InjuryDate { get; set; }
+        public virtual DateTime? InjuryDate { get; set; }
     }
 }
