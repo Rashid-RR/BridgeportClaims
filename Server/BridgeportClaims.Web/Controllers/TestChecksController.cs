@@ -34,7 +34,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var testClaimId = Convert.ToInt32(cs.GetAppSetting(c.TestClaimIdKey));
                     _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation();
-                    var retVal = _claimsDataProvider.GetClaimsDataByClaimId(testClaimId);
+                    var retVal = _claimsDataProvider.GetClaimsDataByClaimId(testClaimId, Guid.NewGuid().ToString());
                     return Ok(retVal);
                 });
             }

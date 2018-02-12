@@ -173,7 +173,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	        return op;
 	    }
 
-	    public IList<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection) =>
+	    public IList<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection, string userId) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodesBlade]", conn), cmd =>
@@ -203,6 +203,14 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	                sortDirectionParam.ParameterName = "@SortDirection";
                     sortDirectionParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(sortDirectionParam);
+	                var userIdParam = cmd.CreateParameter();
+	                userIdParam.Value = userId ?? (object) DBNull.Value;
+	                userIdParam.DbType = DbType.String;
+	                userIdParam.SqlDbType = SqlDbType.NVarChar;
+	                userIdParam.Size = 128;
+	                userIdParam.ParameterName = "@UserID";
+	                userIdParam.Direction = ParameterDirection.Input;
+	                cmd.Parameters.Add(userIdParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
 	                DisposableService.Using(cmd.ExecuteReader, reader =>
@@ -241,7 +249,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	            });
 	        });
 
-        public ClaimDto GetClaimsDataByClaimId(int claimId)
+        public ClaimDto GetClaimsDataByClaimId(int claimId, string userId)
 		{
 			return DisposableService.Using(() => _factory.OpenSession(), session =>
 			{
@@ -302,7 +310,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							if (null != claimNoteDto)
 								claimDto.ClaimNotes = claimNoteDto;
 							// Claim Episodes
-						    var episodes = GetEpisodesBlade(claimId, "Created", "DESC");
+						    var episodes = GetEpisodesBlade(claimId, "Created", "DESC", userId);
 						    if (null != episodes)
 						        claimDto.Episodes = episodes;
 						    var documentTypes = session.CreateSQLQuery(@"SELECT  DocumentTypeId = [dt].[DocumentTypeID]

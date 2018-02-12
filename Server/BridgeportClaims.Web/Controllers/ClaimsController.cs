@@ -34,7 +34,10 @@ namespace BridgeportClaims.Web.Controllers
 	        {
 	            return await Task.Run(() =>
 	            {
-	                var results = _claimsDataProvider.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection);
+	                var userId = User.Identity.GetUserId();
+                    if (null == userId)
+                        throw new Exception("Error, could not find the logged in user.");
+	                var results = _claimsDataProvider.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection, userId);
 	                return Ok(results);
                 });
 	        }
@@ -111,7 +114,11 @@ namespace BridgeportClaims.Web.Controllers
 
 		private IHttpActionResult GetClaimsDataByClaimId(int claimId)
 		{
-			return	Ok(_claimsDataProvider.GetClaimsDataByClaimId(claimId));
+		    var userId = User.Identity.GetUserId();
+		    if (null == userId)
+		        throw new Exception("Error, could not find the logged in user.");
+		    var results = _claimsDataProvider.GetClaimsDataByClaimId(claimId, userId);
+            return Ok(results);
 		}
 
 
@@ -124,6 +131,8 @@ namespace BridgeportClaims.Web.Controllers
 	            return await Task.Run(() =>
 	            {
 	                var userId = User.Identity.GetUserId();
+                    if (null == userId)
+                        throw new Exception("Error, could not find the logged in user.");
 	                var msg = string.Empty;
 	                var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id, userId);
 	                switch (operation)
