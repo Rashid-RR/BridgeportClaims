@@ -37,5 +37,43 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("delete-firewall-setting")]
+        public async Task<IHttpActionResult> DeleteFirewallSetting(string ruleName)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    _adminFunctionsProvider.DeleteFirewallSetting(ruleName);
+                    return Ok(new {message = $"The firewall rule '{ruleName}' was removed successfully."});
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("create-firewall-setting")]
+        public async Task<IHttpActionResult> CreateFirewallSetting()
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    _adminFunctionsProvider.AddFirewallSetting("","","");
+                    return Ok(new { message = $"The firewall rule '' was created successfully." });
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
     }
 }
