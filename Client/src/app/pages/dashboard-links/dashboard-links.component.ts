@@ -47,11 +47,9 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   sanitize(style){
     return this.sanitizer.bypassSecurityTrustStyle(style);
   }
-  ngOnInit() {
-    console.log((0/0 || 0));
+  ngOnInit() { 
     this.http.getKPIs().map(res => { return res.json(); })
-      .subscribe((result: any) => {
-        console.log(result);
+      .subscribe((result: any) => { 
         this.summary = result;
       }, err => null);
   }

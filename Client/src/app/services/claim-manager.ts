@@ -33,6 +33,7 @@ export class ClaimManager {
   selected: Number;
   loading: Boolean = false;
   loadingHistory: Boolean = false;
+  loadingEpisodes: Boolean = false;
   loadingPayment: Boolean = false;
   loadingPrescription: Boolean = false;
   loadingImage: Boolean = false;
@@ -88,7 +89,7 @@ export class ClaimManager {
       let form =this.episodeForm.value;
       this.http.saveEpisode(this.episodeForm.value).single().map(r=>r.json()).subscribe(res => {        
         let claim = this.claims.get(form.claimId);
-        claim.episodes.splice(0, 0,{by:this.profileManager.profile.firstName+" "+this.profileManager.profile.lastName,owner:this.profileManager.profile.firstName+" "+this.profileManager.profile.lastName,date:new Date,episodeId:form.episodeId,note:form.episodeText,role:null} as any);
+        claim.episodes.splice(0, 0,res.episode as Episode);
         this.episodeForm.reset();
         this.closeModal();
         this.toast.success(res.message);
@@ -227,7 +228,7 @@ export class ClaimManager {
           const claim = this.claims.get(result.claimId);
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);
-          claim.setEpisodes(result.episodes);
+          claim.setEpisodes(result.episodes); 
           claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
           claim.setPrescriptionNotes(result.prescriptionNotes);
           claim.setFlex2(result.claimFlex2s);

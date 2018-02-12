@@ -404,6 +404,27 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  sortEpisodes(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
+    page: Number = 1, pageSize: Number = 30) {
+    // api/prescriptions/sort/?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=30
+    let params = new URLSearchParams();
+    params.append('claimId', claimId.toString());
+    if (sort) {
+      params.append('sortColumn', sort.toString());
+      params.append('sortDirection', sortDir.toUpperCase());
+    }
+    if (page >= 1) {
+      params.append('page', page.toString());
+    }
+    params.append('pageSize', pageSize.toString());
+    let options = new RequestOptions({ body: params, headers: this.headers });
+    const s = this.http.post(this.baseUrl + '/claims/sort-episodes', '', options)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
   saveEpisodeNote(data): Observable<Response> {
     return this.http.post(this.baseUrl + '/episodes/save-note', data, { headers: this.headers })
       .catch(err => {
@@ -698,6 +719,13 @@ export class HttpService {
   }
   getKPIs(): Observable<Response> {
     return this.http.post(this.baseUrl + '/dashboard/kpi',{}, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  getFirewallSettings(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/admin/firewall',data, { headers: this.headers })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

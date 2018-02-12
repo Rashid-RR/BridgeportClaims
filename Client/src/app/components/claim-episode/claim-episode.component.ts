@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component,ViewChild,ElementRef, OnInit } from '@angular/core';
 import { EpisodeNoteModalComponent } from '../../components/components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
 import {ClaimManager} from "../../services/claim-manager";
 import {EventsService} from "../../services/events-service";
 import { Episode } from 'app/interfaces/episode';
+import { SortColumnInfo } from '../../directives/table-sort.directive';
+import { HttpService } from '../../services/http-service';
 
 @Component({
   selector: 'app-claim-episode',
@@ -12,7 +14,10 @@ import { Episode } from 'app/interfaces/episode';
 })
 export class ClaimEpisodeComponent implements OnInit {
 
-  constructor(private myInjector: WindowsInjetor,public claimManager:ClaimManager,private events:EventsService) { }
+
+  @ViewChild('prescriptionTable') table: ElementRef;
+  sortColumn: SortColumnInfo;
+  constructor(private myInjector: WindowsInjetor,public claimManager:ClaimManager,private events:EventsService,private http:HttpService) { }
 
   ngOnInit() {
   
@@ -49,5 +54,28 @@ export class ClaimEpisodeComponent implements OnInit {
   edit(episode:Episode){
       this.events.broadcast("edit-episode",episode);    
   }
+  onSortColumn(info: SortColumnInfo) {
+    this.sortColumn = info;
+    this.fetchData();
+  }
+  fetchData() {
+    this.claimManager.loadingEpisodes = true;
+      const page = 1;
+      const page_size = 30;
+      let sort = 'RxDate';
+      let sort_dir: 'asc' | 'desc' = 'desc';
+      if (this.sortColumn) {
+        sort = this.sortColumn.column;
+        sort_dir = this.sortColumn.dir;
+      }
+      this.http.sortEpisodes(this.claimManager.selectedClaim.claimId, sort, sort_dir,
+        page, page_size).map(p => p.json())
+        .subscribe(results => {
+          this.claimManager.selectedClaim.setEpisodes(results);
+          this.claimManager.loadingEpisodes = false;
+        },err=>{
+          this.claimManager.loadingEpisodes = false;
+        });
+    }
 
 }

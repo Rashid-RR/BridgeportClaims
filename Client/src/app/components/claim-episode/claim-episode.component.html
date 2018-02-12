@@ -3,29 +3,63 @@
         <div class="table-responsive">
             <table class="table no-margin table-striped">
                 <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>By</th>
-                        <th>Role</th>
-                        <th>Note Text</th>
-                        <th>Note Count</th>
-                        <th>&nbsp;</th>
+                    <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'>
+                        <th>
+                            <span columnSort="id" [sort-table]="myTable">ID</span>
+                        </th>
+                        <th>
+                            <span columnSort="created" [sort-table]="myTable">Created</span>
+                        </th>
+                        <th>
+                            <span columnSort="owner" [sort-table]="myTable">Owner</span>
+                        </th>
+                        <th>
+                            <span columnSort="type" [sort-table]="myTable">Type</span>
+                        </th>
+                        <th>
+                            <span columnSort="role" [sort-table]="myTable">Role</span>
+                        </th>
+                        <th>
+                            <span columnSort="pharmacy" [sort-table]="myTable">Pharmacy</span>
+                        </th>
+                        <th>
+                            <span columnSort="rxNumber" [sort-table]="myTable">Rx Number</span>
+                        </th>
+                        <th>
+                            <span columnSort="category" [sort-table]="myTable">Category</span>
+                        </th>
+                        <th>
+                            <span columnSort="resolved" [sort-table]="myTable">Resolved</span>
+                        </th>
+                        <th>
+                            <span columnSort="noteCount" [sort-table]="myTable">Note Count</span>
+                        </th>
                     </tr>
                 </thead>
                 <tbody *ngIf="claimManager.selectedClaim">
+                    <ng-container *ngIf="claimManager.loadingEpisodes">
+                        <div class="loader" style="align-self: center;margin-top: 40px;">
+                            <a>
+                                <img src="assets/img/Spinner.gif">
+                            </a>
+                        </div>
+                    </ng-container>
                     <tr *ngFor="let episode of claimManager.selectedClaim.episodes">
-                        <td>{{episode.date | date:"shortDate"}}</td>
-                        <td>{{episode.by}}</td>
+                        <td>{{episode.id}}</td>
+                        <td>{{episode.created | date:"shortDate"}}</td>
+                        <td>{{episode.owner}}</td>
+                        <td>{{episode.type}}</td>
                         <td>{{episode.role}}</td>
-                        <td>{{episode.note}}</td>
+                        <td>{{episode.pharmacy}}</td>
+                        <td>{{episode.rxNumber}}</td>
+                        <td>{{episode.category}}</td>
+                        <td [class.resolved]="episode.resolved">
+                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv [checked]="episode.resolved" [disabled]="1">
+                            <label (click)="inv.click()"></label>
+                        </td>
                         <td>
                             <a class="label label-info bg-vdarkgrey" (click)="showNoteWindow(episode)">{{episode.noteCount || episode.episodeNoteCount || 0}}
                             </a>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-flat bg-darkRed btn-xs pull-right" (click)="edit(episode)" title="Edit Episode">
-                                <span class="glyphicon glyphicon-edit"></span>
-                                Edit</button>
                         </td>
                     </tr>
                 </tbody>

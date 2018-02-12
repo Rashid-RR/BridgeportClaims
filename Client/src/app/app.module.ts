@@ -37,7 +37,7 @@ import { DiaryComponent } from './pages/diary/diary.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 // services
 import {
-  SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager,
+  SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager,FirewallService,
   PaymentScriptService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, DocumentManagerService
 } from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
@@ -86,6 +86,9 @@ import { EpisodeResultsComponent } from './components/episode-results/episode-re
 import { EpisodeFilterComponent } from './components/episode-filter/episode-filter.component';
 import { EpisodeService } from 'app/services/episode.service';
 import { NewEpisodeComponent } from './components/new-episode/new-episode.component';
+import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-settings.component';
+import { FirewallFilterComponent } from './components/firewall-filter/firewall-filter.component';
+import { FirewallGridComponent } from './components/firewall-grid/firewall-grid.component';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -124,7 +127,7 @@ export class SafeUrlPipe implements PipeTransform {
     PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,EpisodeNoteModalComponent,
-    UnpaidScriptComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent
+    UnpaidScriptComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent
   ],
   imports: [
     FormsModule,
@@ -145,7 +148,7 @@ export class SafeUrlPipe implements PipeTransform {
   providers: [
     ArraySortPipe,PhonePipe, DecimalPipe, DatePipe, DiariesFilterPipe, EpisodesFilterPipe, HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
     PaymentScriptService, DiaryService, WindowsInjetor, UnpaidScriptService, AccountReceivableService, ReportLoaderService, SignalRService,
-    DocumentManagerService, EpisodeService,
+    DocumentManagerService, EpisodeService,FirewallService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

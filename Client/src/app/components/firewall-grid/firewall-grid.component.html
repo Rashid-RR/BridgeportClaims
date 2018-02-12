@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-sm-12 expanded" style="overflow:hidden;">
+    <div class="table-responsive top-header" *ngIf="firewallService.display=='list'">
+      <ul class="products-list product-list-in-box">
+        <li class="item row" style="font-weight: 600">
+          <div class="col-md-3">
+            Rule Name
+          </div>
+          <div class="col-md-3">
+            Start IP Address
+          </div>
+          <div class="col-md-3">
+            End IP Address
+          </div>
+          <div class="col-md-3">
+            &nbsp;
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="table-responsive table-body" *ngIf="firewallService.display=='list'">
+      <ul class="products-list product-list-in-box">
+        <li class="item row" *ngFor="let fw of firewallService.firewallList" [class.edited]="fw.edited" [class.added]="fw.added"
+          [class.deleted]="fw.deleted">
+          <div class="col-md-3">
+            {{fw.ruleName}}
+          </div>
+          <div class="col-md-3">
+            {{fw.startIpAddress}}
+          </div>
+          <div class="col-md-3">
+            {{fw.endIpAddress}}
+          </div>
+          <div class="col-md-3">
+            <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="delete(fw)">
+              <span class="glyphicon glyphicon-trash"></span> Delete
+            </button>
+          </div>
+        </li>
+        <li class="item row">
+          <div class="col-md-12"> &nbsp; </div>
+        </li>
+      </ul>
+    </div>
+    <!--  <div class="btn-group pagination-row">
+        <button type="button" class="btn btn-default  btn-md" [disabled]="firewallService.data.page<=1" (click)="prev()">Prev</button>
+        <button type="button" class="btn btn-default  selected btn-md" style="width:76px"> {{firewallService.data.page}} of {{firewallService.totalPages}}</button>
+        <button type="button" class="btn btn-default  btn-md" [disabled]="firewallService.end" (click)="next()">Next</button>
+        <div class="input-group" style="width:164px">
+          <input class="form-control" [attr.placeholder]="firewallService.data.page" [(ngModel)]="goToPage" [ngModelOptions]="{standalone: true}" (keypress)="keyPress($event)" (keyup.enter)="goto()">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
+          </div>
+        </div>
+      </div> -->
+  </div>
+</div>
