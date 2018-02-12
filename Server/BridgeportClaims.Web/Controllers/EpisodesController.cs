@@ -175,8 +175,11 @@ namespace BridgeportClaims.Web.Controllers
 	        {
 	            return await Task.Run(() =>
 	            {
+	                var userId = User.Identity.GetUserId();
+                    if (null == userId)
+                        throw new Exception("Error, could not find logged in user.");
                     var results = _episodesDataProvider.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(), m.EndDate.ToNullableFormattedDateTime(), m.Resolved, m.OwnerId,
-	                    m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize);
+	                    m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize, userId);
 	                return Ok(results);
                 });
 	        }

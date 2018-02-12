@@ -98,8 +98,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	            });
 	        });
 
-	    public EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId,
-            int? episodeCategoryId, byte? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+	    public EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId, int? episodeCategoryId, 
+            byte? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize, string userId) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
@@ -178,7 +178,15 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	                pageSizeParam.Value = pageSize;
 	                pageSizeParam.ParameterName = "@PageSize";
                     cmd.Parameters.Add(pageSizeParam);
-	                var totalPageSizeParam = cmd.CreateParameter();
+	                var userIdParam = cmd.CreateParameter();
+	                userIdParam.Value = userId ?? (object)DBNull.Value;
+	                userIdParam.Direction = ParameterDirection.Input;
+	                userIdParam.DbType = DbType.String;
+	                userIdParam.Size = 128;
+	                userIdParam.SqlDbType = SqlDbType.NVarChar;
+	                userIdParam.ParameterName = "@UserID";
+	                cmd.Parameters.Add(userIdParam);
+                    var totalPageSizeParam = cmd.CreateParameter();
 	                totalPageSizeParam.ParameterName = "@TotalPageSize";
                     totalPageSizeParam.Direction = ParameterDirection.Output;
                     totalPageSizeParam.DbType = DbType.Int32;
