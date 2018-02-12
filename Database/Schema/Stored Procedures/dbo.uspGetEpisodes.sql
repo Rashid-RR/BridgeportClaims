@@ -23,6 +23,7 @@ CREATE PROC [dbo].[uspGetEpisodes]
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
+	@UserID NVARCHAR(128),
 	@TotalPageSize INTEGER OUTPUT
 )
 AS BEGIN
@@ -47,7 +48,7 @@ AS BEGIN
 				@iPageSize INTEGER = @PageSize
 
 		CREATE TABLE [#Episodes](
-			[EpisodeId] [int] NOT NULL,
+			[EpisodeId] [int] NOT NULL PRIMARY KEY,
 			[Owner] [nvarchar](202) NOT NULL,
 			[Created] [datetime2](7) NULL,
 			[PatientName] [nvarchar](312) NOT NULL,
@@ -73,15 +74,18 @@ AS BEGIN
 					  , EpisodeNoteCount = (SELECT COUNT(*) FROM [dbo].[EpisodeNote] AS [en] WHERE [en].[EpisodeID] = [ep].[EpisodeID])
 					  , [d].[FileUrl]
 		FROM            dbo.Episode         AS ep
+			INNER JOIN  dbo.EpisodeType     AS et ON ep.EpisodeTypeID = et.EpisodeTypeID
+			INNER JOIN  dbo.EpisodeTypeUsersMapping AS m ON m.EpisodeTypeID = et.[EpisodeTypeID]
 			INNER JOIN  dbo.Claim           AS cl ON ep.ClaimID = cl.ClaimID
 			INNER JOIN  dbo.Patient         AS pa ON cl.PatientID = pa.PatientID
 			INNER JOIN  dbo.Payor           AS py ON cl.PayorID = py.PayorID
 			LEFT JOIN   dbo.Pharmacy        AS ph ON ep.[PharmacyNABP] = ph.NABP
-			LEFT JOIN   dbo.EpisodeType     AS et ON ep.EpisodeTypeID = et.EpisodeTypeID
 			LEFT JOIN   dbo.Document		AS d  INNER JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
 											ON d.[DocumentID] = ep.[DocumentID]
 			LEFT JOIN   [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [ep].[AssignedUserID]
-		WHERE @iResolved = CASE WHEN ep.ResolvedDateUTC IS NOT NULL THEN 1 ELSE 0 END
+		WHERE 1 = 1
+			  AND m.UserID = @UserID
+			  AND @iResolved = CASE WHEN ep.ResolvedDateUTC IS NOT NULL THEN 1 ELSE 0 END
 			  AND (@OwnerID IS NULL OR [u].[ID] = @iOwnerID)
 			  AND (@iEpisodeCategoryID = ep.[EpisodeCategoryID] OR @iEpisodeCategoryID IS NULL)
 			  AND (@iStartDate IS NULL OR ep.[Created] >= @iStartDate)
@@ -166,5 +170,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
-
 GO
