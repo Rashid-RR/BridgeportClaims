@@ -35,8 +35,11 @@ export class ClaimEpisodeComponent implements OnInit {
     return 'not specified';
   }
   showNoteWindow(episode: Episode) {
+    if(!episode.episodeId && episode['id']){
+      episode.episodeId = episode['id'];
+    }
+    console.log(episode);
     let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
-    
     config.position = new CustomPosition((window.innerWidth-700)/2+50, 60)//left,top
     config.minusTop = 0;
     config.minusHeight = 0;
