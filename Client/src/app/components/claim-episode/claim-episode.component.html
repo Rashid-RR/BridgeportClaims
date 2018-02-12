@@ -54,7 +54,7 @@
                         <td>{{episode.rxNumber}}</td>
                         <td>{{episode.category}}</td>
                         <td [class.resolved]="episode.resolved">
-                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv [checked]="episode.resolved" [disabled]="1">
+                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv [checked]="episode.resolved" (change)="markAsResolved($event,episode)" [disabled]="episode.resolved">
                             <label (click)="inv.click()"></label>
                         </td>
                         <td>

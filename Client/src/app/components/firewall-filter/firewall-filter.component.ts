@@ -19,12 +19,8 @@ export class FirewallFilterComponent implements OnInit, AfterViewInit {
     $('[inputs-mask]').inputmask();
     $('[data-mask]').inputmask();
   }
-
   clear() {
     this.firewallService.form.reset();
-  }
-  save() {
-
-  }
+  } 
 
 }

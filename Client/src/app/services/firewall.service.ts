@@ -5,28 +5,28 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
-import { SortColumnInfo } from "../directives/table-sort.directive"; 
+import { SortColumnInfo } from "../directives/table-sort.directive";
 import { ArraySortPipe } from 'app/pipes/sort.pipe';
 import { Firewall } from '../interfaces/firewall';
-
+declare var $: any;
 @Injectable()
 export class FirewallService {
 
   loading: boolean = false;
   firewalls: Immutable.OrderedMap<any, Firewall> = Immutable.OrderedMap<Number, Firewall>();
   data: any = {};
-  display: string="list";
-  goToPage: any = ''; 
-  totalRowCount: number; 
-  form:FormGroup;
-  constructor(private http: HttpService, private formBuilder: FormBuilder, private sortPipe:ArraySortPipe,
+  display: string = "list";
+  goToPage: any = '';
+  totalRowCount: number;
+  form: FormGroup;
+  constructor(private http: HttpService, private formBuilder: FormBuilder, private sortPipe: ArraySortPipe,
     private events: EventsService, private toast: ToastsManager) {
     this.data = {
       startDate: null,
       endDate: null,
-      FirewallCategoryId:null,
-      FirewallTypeId:null,
-      OwnerID:null,
+      FirewallCategoryId: null,
+      FirewallTypeId: null,
+      OwnerID: null,
       resolved: false,
       sortColumn: "Created",
       sortDirection: "DESC",
@@ -34,20 +34,32 @@ export class FirewallService {
       pageSize: 30
     };
     this.form = this.formBuilder.group({
-        endIpAddress: [null],
-        ruleName: [null],
-        startIpAddress:[null]
-      });
+      endIpAddress: [null, Validators.required],
+      ruleName: [null, Validators.required],
+      startIpAddress: [null, Validators.required]
+    });
     this.search();
   }
 
   refresh() {
 
   }
-  deleteFirewall(fw:Firewall){
-      console.log("To implement...");
+  deleteFirewall(fw: Firewall) {
+    this.loading = true;
+    this.http.deleteFirewallSetting(fw).map(res => { return res.json(); })
+      .subscribe((result: any) => {
+        this.loading = false;
+        this.firewalls = this.firewalls.delete(fw.ruleName);
+      }, err => {
+        this.loading = false;
+        try {
+          const error = err.json();
+        } catch (e) { }
+      }, () => {
+        this.events.broadcast('Firewall-list-updated');
+      });
   }
- 
+
   get totalPages() {
     return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;
   }
@@ -81,28 +93,25 @@ export class FirewallService {
         .subscribe((result: any) => {
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
-           this.firewalls = Immutable.OrderedMap<any, Firewall>();
+          this.firewalls = Immutable.OrderedMap<any, Firewall>();
           result.forEach((firewall: Firewall) => {
             try {
               this.firewalls = this.firewalls.set(firewall.ruleName, firewall);
             } catch (e) { }
           });
-          if (next && result && result.length>0) {
+          if (next && result && result.length > 0) {
             this.data.pageNumber++;
           }
           if (prev) {
             this.data.pageNumber--;
           }
-          if (page && result && result.length>0) {
+          if (page && result && result.length > 0) {
             this.data.pageNumber = page;
           }
-          if(!prev && !next && ! page){
-            this.data.pageNumber=this.totalRowCount==0  ? null :1;            
-            this.goToPage = this.totalRowCount==0  ? null : this.data.pageNumber;
+          if (!prev && !next && !page) {
+            this.data.pageNumber = this.totalRowCount == 0 ? null : 1;
+            this.goToPage = this.totalRowCount == 0 ? null : this.data.pageNumber;
           }
-          setTimeout(() => {
-            //this.events.broadcast('payment-amountRemaining',result)
-          }, 200);
         }, err => {
           this.loading = false;
           try {
@@ -113,11 +122,32 @@ export class FirewallService {
         });
     }
   }
+  save() {
+    this.form.controls['startIpAddress'].setValue($('#startIpAddress').val())
+    this.form.controls['endIpAddress'].setValue($('#endIpAddress').val())
+    if (!this.form.valid) {
+      this.toast.warning('Please fill in all the form fields');
+    } else {
+      this.loading = true;
+      this.http.createFirewallSetting(this.form.value).map(res => { return res.json(); })
+        .subscribe((result: any) => {
+          let form = this.form.value;
+          this.firewalls = this.firewalls.set(form.ruleName, form);
+          this.loading = false;
+          this.form.reset();
+        }, err => {
+          this.loading = false;
+          try {
+            const error = err.json();
+          } catch (e) { }
+        });
+    }
+  }
   get pages(): Array<any> {
     return new Array(this.data.pageNumber);
   }
   get pageStart() {
-    return this.totalRowCount==0 ? 0 : (this.totalRowCount>0 && this.firewallList.length > 1 ? ((this.data.pageNumber - 1) * this.data.pageSize) + 1 : null);
+    return this.totalRowCount == 0 ? 0 : (this.totalRowCount > 0 && this.firewallList.length > 1 ? ((this.data.pageNumber - 1) * this.data.pageSize) + 1 : null);
   }
   get pageEnd() {
     return this.firewallList.length > 1 ? (this.data.pageSize > this.firewallList.length ? ((this.data.pageNumber - 1) * this.data.pageSize) + this.firewallList.length : (this.data.pageNumber) * this.data.pageSize) : null;

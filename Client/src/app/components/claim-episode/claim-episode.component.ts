@@ -1,12 +1,15 @@
-import { Component,ViewChild,ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { EpisodeNoteModalComponent } from '../../components/components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
-import {ClaimManager} from "../../services/claim-manager";
-import {EventsService} from "../../services/events-service";
+import { ClaimManager } from "../../services/claim-manager";
+import { EventsService } from "../../services/events-service";
 import { Episode } from 'app/interfaces/episode';
 import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+import { ConfirmComponent } from '../../components/confirm.component';
 @Component({
   selector: 'app-claim-episode',
   templateUrl: './claim-episode.component.html',
@@ -17,16 +20,23 @@ export class ClaimEpisodeComponent implements OnInit {
 
   @ViewChild('prescriptionTable') table: ElementRef;
   sortColumn: SortColumnInfo;
-  constructor(private myInjector: WindowsInjetor,public claimManager:ClaimManager,private events:EventsService,private http:HttpService) { }
+  constructor(private myInjector: WindowsInjetor, private dialogService: DialogService, public claimManager: ClaimManager, private events: EventsService, private http: HttpService, private toast: ToastsManager) { }
 
   ngOnInit() {
-  
+    this.events.on("episode-note-updated", (episode: Episode) => {
+      this.claimManager.selectedClaim.episodes.forEach(ep => {
+        if (episode.episodeId == ep.episodeId) {
+          ep.episodeNoteCount = episode.episodeNoteCount;
+          ep.noteCount = episode.episodeNoteCount;
+        }
+      });
+    });
   }
 
   getTypeName(id: number): string {
     // find in list for item to get name!!
     if (id) {
-      let item =this.claimManager.EpisodeNoteTypes.find(p => p.episodeRoleId == id);
+      let item = this.claimManager.EpisodeNoteTypes.find(p => p.episodeRoleId == id);
       if (item) {
         return item.episodeRoleName;
       }
@@ -35,9 +45,11 @@ export class ClaimEpisodeComponent implements OnInit {
     return 'not specified';
   }
   showNoteWindow(episode: Episode) {
+    if (!episode.episodeId && episode['id']) {
+      episode.episodeId = episode['id'];
+    }
     let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
-    
-    config.position = new CustomPosition((window.innerWidth-700)/2+50, 60)//left,top
+    config.position = new CustomPosition((window.innerWidth - 700) / 2 + 50, 60)//left,top
     config.minusTop = 0;
     config.minusHeight = 0;
     config.minusLeft = 0;
@@ -51,8 +63,8 @@ export class ClaimEpisodeComponent implements OnInit {
         win.showNote(episode);
       })
   }
-  edit(episode:Episode){
-      this.events.broadcast("edit-episode",episode);    
+  edit(episode: Episode) {
+    this.events.broadcast("edit-episode", episode);
   }
   onSortColumn(info: SortColumnInfo) {
     this.sortColumn = info;
@@ -60,22 +72,44 @@ export class ClaimEpisodeComponent implements OnInit {
   }
   fetchData() {
     this.claimManager.loadingEpisodes = true;
-      const page = 1;
-      const page_size = 30;
-      let sort = 'RxDate';
-      let sort_dir: 'asc' | 'desc' = 'desc';
-      if (this.sortColumn) {
-        sort = this.sortColumn.column;
-        sort_dir = this.sortColumn.dir;
-      }
-      this.http.sortEpisodes(this.claimManager.selectedClaim.claimId, sort, sort_dir,
-        page, page_size).map(p => p.json())
-        .subscribe(results => {
-          this.claimManager.selectedClaim.setEpisodes(results);
-          this.claimManager.loadingEpisodes = false;
-        },err=>{
-          this.claimManager.loadingEpisodes = false;
-        });
+    const page = 1;
+    const page_size = 30;
+    let sort = 'RxDate';
+    let sort_dir: 'asc' | 'desc' = 'desc';
+    if (this.sortColumn) {
+      sort = this.sortColumn.column;
+      sort_dir = this.sortColumn.dir;
     }
+    this.http.sortEpisodes(this.claimManager.selectedClaim.claimId, sort, sort_dir,
+      page, page_size).map(p => p.json())
+      .subscribe(results => {
+        this.claimManager.selectedClaim.setEpisodes(results);
+        this.claimManager.loadingEpisodes = false;
+      }, err => {
+        this.claimManager.loadingEpisodes = false;
+      });
+  }
+  markAsResolved($event, episode) {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Mark Episode as Resolved',
+      message: 'Are you sure you want to resolve this episode?'
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.claimManager.loading = true;
+          this.http.markEpisodeAsSolved(episode.episodeId || episode['id']).map(r => { return r.json(); }).single().subscribe(res => {
+            this.toast.success(res.message);
+            this.claimManager.loading = false;
+            episode.resolved = true;           
+          }, error => {
+            this.toast.error(error.message);
+            $event.target.checked = false;
+            this.claimManager.loading = false;
+          });
+        } else {
+          $event.target.checked = false;
+        }
+      });
+  }
 
 }
