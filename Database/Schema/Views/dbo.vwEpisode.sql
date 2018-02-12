@@ -17,6 +17,7 @@ SELECT          Id        = e.[EpisodeID]
                 (   SELECT  COUNT(*)
                     FROM    [dbo].[EpisodeNote] AS [en]
                     WHERE   en.[EpisodeID] = e.[EpisodeID])
+			  , e.[ClaimID]
 FROM            [dbo].[Episode]         AS [e]
     INNER JOIN  [dbo].[Claim]           AS [c] ON [c].[ClaimID] = [e].[ClaimID]
     INNER JOIN  [dbo].[Patient]         AS [p] ON [p].[PatientID] = [c].[PatientID]

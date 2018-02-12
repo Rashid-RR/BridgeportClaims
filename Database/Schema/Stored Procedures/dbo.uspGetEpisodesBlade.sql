@@ -35,6 +35,7 @@ AS BEGIN
 					  , [Resolved]
 					  , [NoteCount]
 				FROM    dbo.vwEpisode
+				WHERE	[ClaimID] = @ClaimID
 			)
 			SELECT [c].[Id]
                  , [c].[Created]
@@ -109,4 +110,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 GO

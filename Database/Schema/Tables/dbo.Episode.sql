@@ -2,7 +2,7 @@ CREATE TABLE [dbo].[Episode]
 (
 [EpisodeID] [int] NOT NULL IDENTITY(1, 1),
 [ClaimID] [int] NOT NULL,
-[EpisodeTypeID] [tinyint] NULL,
+[EpisodeTypeID] [tinyint] NOT NULL,
 [Role] [varchar] (25) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ResolvedUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AcquiredUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -29,15 +29,9 @@ ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [pkEpisode] PRIMARY KEY CLUSTERED  ([
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeAcquiredUserID] ON [dbo].[Episode] ([AcquiredUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeAssignedUserID] ON [dbo].[Episode] ([AssignedUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
 CREATE NONCLUSTERED INDEX [idxEpisodeCreatedClaimIDPharmacyNABPEpisodeTypeIDAssignedUserIDEpisodeCategoryIDIncludeEpisodeID] ON [dbo].[Episode] ([Created], [ClaimID], [PharmacyNABP], [EpisodeTypeID], [AssignedUserID], [EpisodeCategoryID]) INCLUDE ([EpisodeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryID] ON [dbo].[Episode] ([EpisodeCategoryID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
-CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryIDIncludes] ON [dbo].[Episode] ([EpisodeCategoryID]) INCLUDE ([AssignedUserID], [Created], [EpisodeID], [EpisodeTypeID], [PharmacyNABP], [ResolvedDateUTC], [Role], [RxNumber]) ON [PRIMARY]
-GO
-CREATE NONCLUSTERED INDEX [idxEpisodePharmacyNABP] ON [dbo].[Episode] ([PharmacyNABP]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryIDIncludes] ON [dbo].[Episode] ([EpisodeCategoryID]) INCLUDE ([AssignedUserID], [Created], [EpisodeID], [EpisodeTypeID], [PharmacyNABP], [ResolvedDateUTC], [Role], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeResolvedUserID] ON [dbo].[Episode] ([ResolvedUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
