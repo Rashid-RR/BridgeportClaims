@@ -56,7 +56,9 @@ th {
 } 
 
 tr>th:first-child,
-tr>td:first-child,
+tr>td:first-child{
+  width:6%;
+}
 tr>th:nth-child(7),
 tr>td:nth-child(7),
 tr>th:nth-child(8),
@@ -65,7 +67,7 @@ tr>th:nth-child(9),
 tr>td:nth-child(9),
 tr>th:nth-child(10),
 tr>td:nth-child(10)  {
-  width: 6%; 
+  width: 10%; 
 }
 
 /*ROW COLOR CHANGE*/
@@ -89,7 +91,7 @@ tr>th:nth-child(5),
 tr>td:nth-child(5),
 tr>th:nth-child(6),
 tr>td:nth-child(6) {
-  width: 14%;
+  width: 11.2%;
 }
 
 .edit-btn {

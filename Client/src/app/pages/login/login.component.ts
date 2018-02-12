@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.submitted = true;
-        this.http.login('userName=' + this.form.get('email').value + '&password=' + this.form.get('password').value + "&grant_type=password", { 'Content-Type': 'x-www-form-urlencoded' }).subscribe(res => {
+        this.http.login('userName=' + this.form.get('email').value + '&password=' + this.form.get('password').value + '&rememberMe=' + this.form.get('rememberMe').value + "&grant_type=password", { 'Content-Type': 'x-www-form-urlencoded' }).subscribe(res => {
           let data = res.json();
           this.http.setAuth(data.access_token);
           localStorage.setItem("user", JSON.stringify(data));            
