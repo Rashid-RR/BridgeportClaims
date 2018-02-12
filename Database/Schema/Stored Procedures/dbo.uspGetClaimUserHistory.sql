@@ -16,7 +16,7 @@ CREATE PROCEDURE [dbo].[uspGetClaimUserHistory] @UserID NVARCHAR(128)
 AS BEGIN
 	SELECT          ClaimId = v.[ClaimID]
 				  , v.[ClaimNumber]
-				  , v.[Name]
+				  , v.[FirstName] + ' ' + v.[LastName] [Name]
 				  , v.[InjuryDate]
 				  , v.[Carrier]
 				  , CreatedOnUtc = c.[CreatedOnUTC]
