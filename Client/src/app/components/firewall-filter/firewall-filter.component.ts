@@ -1,30 +1,30 @@
-import { Component, OnInit ,AfterViewInit } from '@angular/core';
+import { Component, OnInit , AfterViewInit } from '@angular/core';
 import { FirewallService } from '../../services/firewall.service';
 
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-firewall-filter',
   templateUrl: './firewall-filter.component.html',
   styleUrls: ['./firewall-filter.component.css']
 })
-export class FirewallFilterComponent implements OnInit ,AfterViewInit{
+export class FirewallFilterComponent implements OnInit, AfterViewInit {
 
-  constructor(private firewallService:FirewallService) { }
+  constructor(private firewallService: FirewallService) { }
 
   ngOnInit() {
   }
 
   ngAfterViewInit() {
-    $("[inputs-mask]").inputmask();
-    $("[data-mask]").inputmask();
+    $('[inputs-mask]').inputmask();
+    $('[data-mask]').inputmask();
   }
 
-  clear(){
+  clear() {
     this.firewallService.form.reset();
   }
-  save(){
-    
+  save() {
+
   }
 
 }

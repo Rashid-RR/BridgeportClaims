@@ -16,22 +16,19 @@ export class FirewallGridComponent implements OnInit {
     private dialogService: DialogService) { }
 
   ngOnInit() {
-  } 
+  }
 
-  delete(fw:Firewall){
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Delete Firewall Setting",
-      message: "Are you sure you wish to permanently delete the Firewall Rule named" + fw.ruleName + "?"
-    })
-      .subscribe((isConfirmed) => {
-        //We get dialog result
+  delete (fw: Firewall) {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Delete Firewall Setting',
+      message: 'Are you sure you wish to permanently delete the firewall rule "' + fw.ruleName + '"?'
+    }).subscribe((isConfirmed) => {
+        // We get dialog result
         if (isConfirmed) {
           this.firewallService.deleteFirewall(fw);
-        }
-        else {
+        } else {
 
         }
       });
   }
-
 }

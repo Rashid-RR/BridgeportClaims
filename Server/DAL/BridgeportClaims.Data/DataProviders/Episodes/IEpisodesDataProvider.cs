@@ -9,7 +9,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	    bool CreateImageCategoryEpisode(byte documentTypeId, int claimId, string rxNumber, string userId, int documentId);
         EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId,
 	        int? episodeCategoryId, byte? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize);
-	    void AddOrUpdateEpisode(int? episodeId, int claimId, string by, string noteText, byte? episodeTypeId);
         IList<EpisodeTypeDto> GetEpisodeTypes();
         void ResolveEpisode(int episodeId, string modifiedByUserId);
 	    EpisodeBladeDto SaveNewEpisode(int claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber, string episodeText, string userId);

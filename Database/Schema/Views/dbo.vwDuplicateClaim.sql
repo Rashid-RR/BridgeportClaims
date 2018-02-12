@@ -14,7 +14,7 @@ AS ( SELECT   [c].[ClaimNumber]
    )
 SELECT [ci].[ClaimNumber]
      , [c].[PersonCode]
-     , PatientName = [ci].[Name]
+     , PatientName = ci.[FirstName] + ' ' + ci.[LastName]
      , [ci].[Carrier]
      , [ci].[InjuryDate]
      , [c].[PolicyNumber]
