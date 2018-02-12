@@ -12,7 +12,7 @@ GO
 					EXECUTE [dbo].[uspCreateImageCategoryEpisode]
  =============================================
 */
-CREATE   PROCEDURE [dbo].[uspCreateImageCategoryEpisode]
+CREATE PROCEDURE [dbo].[uspCreateImageCategoryEpisode]
 (
 	@DocumentTypeID TINYINT,
 	@ClaimID INTEGER,
@@ -64,7 +64,6 @@ AS BEGIN
 				SET @EpisodeCreated = 1;
 				INSERT INTO [dbo].[Episode]
 				(   [ClaimID]
-				  , [Note]
 				  , [EpisodeTypeID]
 				  , [AssignedUserID]
 				  , [RxNumber]
@@ -75,9 +74,6 @@ AS BEGIN
 				  , [CreatedOnUTC]
 				  , [UpdatedOnUTC])
 				SELECT  @ClaimID
-					  , ISNULL((SELECT [d].[FileName] 
-						 FROM	[dbo].[Document] AS [d]
-						 WHERE	[d].[DocumentID] = @DocumentID), '')
 					  ,(SELECT  [m].[EpisodeTypeID]
 						FROM    dbo.[DocumentTypeEpisodeTypeMapping] AS [m]
 						WHERE   [m].[DocumentTypeID] = @DocumentTypeID)
