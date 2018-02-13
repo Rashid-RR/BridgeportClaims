@@ -87,7 +87,7 @@ export class DragEvent
 </div>
 
 
-<div class="titleBar"  style="cursor:pointer" (dblclick)="headerDblclick($event)"  >
+<div class="titleBar"  style="cursor:pointer;" (dblclick)="headerDblclick($event)"  >
     <span class="title">{{dialogInstance.config.Title}} </span><div class="iconGroup">
     <span   [style.display]="dialogInstance.config.canMinimize==false? 'none' : 'inline' " [class]="MinimizeStatus == false ? 'glyphicon glyphicon-minus' : 'glyphicon glyphicon-plus' "     (click)="minimize($event)"></span >
     <span [style.display]="dialogInstance.config.canMaximize==false? 'none' : 'inline' "   [class]="MaxmizeStatus == false ? 'glyphicon glyphicon-resize-full' : 'glyphicon glyphicon-resize-small' "  (click)="maximize($event)"></span>
@@ -205,7 +205,7 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
     {
         if (!this.dialogInstance.config.canMaximize)
             return;
-        var x=0,y=0;            
+        var x=0,y=53;            
         $(".ngPopup .titleBar .iconGroup").css({"margin-top":"0px"});
         $(".ngPopup .titleBar .iconGroup span").css({"color":"lightgrey"});
         let win = $("body:not(.sidebar-collapse)");
@@ -226,7 +226,7 @@ export  class BootstrapWindowContainer implements OnDestroy ,AfterViewInit {
             }
 
 
-            this.dialogInstance.config.position.top =this.dialogInstance.config.minusTop;//jQuery('#af-header-0')[0].offsetHeight
+            this.dialogInstance.config.position.top =53 //this.dialogInstance.config.minusTop;//jQuery('#af-header-0')[0].offsetHeight
             if(win.length==0){
                 this.dialogInstance.config.minusLeft = 50
             }else{

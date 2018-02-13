@@ -9,7 +9,7 @@
                             <span *ngIf="checkAll"  class="pull-left">Uncheck All</span>
                             <br>
                                 -->
-                            <div class="paymentCheckBox checkAll"> 
+                            <div class="commonCheckBox checkAll"> 
                                 <input type="checkbox" id="claimsCheckBox" name="check" value="None" (change)="claimsCheckBox($event)">
                                     <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
                             </div>&nbsp;<i class="fa rotate fa-exchange"></i>
@@ -35,7 +35,7 @@
                             <span *ngIf="checkAll"  class="pull-left">Uncheck All</span>
                             <br>
                              - ->
-                           <div class="paymentCheckBox checkAll"> 
+                           <div class="commonCheckBox checkAll"> 
                                 <input type="checkbox" id="claimsCheckBox" name="check" value="None" (change)="claimsCheckBox($event)">
                                   <label for="claimsCheckBox" (click)="activateClaimCheckBoxes()"></label> 
                             </div>&nbsp;<i class="fa rotate fa-exchange"></i>
@@ -53,7 +53,7 @@
                 <tbody *ngIf="paymentService.detailedClaimsData" class="overflowable" #prescriptionTable  tabindex="0">
                     <tr *ngFor="let claim of paymentService.detailedClaimsData;let i=index" [class.bgBlue]="claim.selected || checkAll" (click)="inv.click()" [id]="'row'+i" [attr.prescription]="claim | json" [class.isReversed]="claim.isReversed">
                         <td>
-                             <div class="paymentCheckBox"> 
+                             <div class="commonCheckBox"> 
                                 <input type="checkbox" name="check" value="None" (change)="select(claim,$event,i)" [id]="claim.claimNumber" [attr.labelName]="claim.labelName" [checked]="(claim.selected || checkAll)" (click)="inv.click()" class="claimCheckBox" #inv>
                                  <label [for]="claim.claimId" (click)="inv.click()"></label>
                             </div>

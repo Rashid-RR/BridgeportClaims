@@ -20,6 +20,7 @@ export class UnindexedImageComponent implements OnInit, AfterViewInit {
     this.events.on("archived-image", (id: any) => {
       this.ds.cancel();
     });
+    this
   }
   ngAfterViewInit() {
 

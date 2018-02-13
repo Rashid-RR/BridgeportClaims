@@ -18,7 +18,7 @@ export class PromiseCompleter<R> {
 
 
 export class global{
-    private static _MaxZIndex:number = 10;
+    private static _MaxZIndex:number = 12;
     static get MaxZIndex():number {
         return this._MaxZIndex;
     }

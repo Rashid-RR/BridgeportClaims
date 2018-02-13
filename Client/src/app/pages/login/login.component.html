@@ -45,11 +45,11 @@
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6" style="display:flex;flex-direction:row;">
-                                    <div style="width:40px">
+                                    <div style="width:40px" class="commonCheckBox">
                                         <input type="checkbox" name="check" value="None" id="checkbox-h" #inv value="true" formControlName="rememberMe">
                                         <label for="checkbox-h"></label>
                                     </div>
-                                    <div style="width:calc(100% - 41px);font-weight:510;line-height:35px;cursor:pointer;" (click)="inv.click()">Remember me</div>
+                                    <div style="width:calc(100% - 41px);font-weight:510;line-height:15px;cursor:pointer;" (click)="inv.click()">Remember me</div>
                                 </div>
                                 <span class="help-block col-sm-6">
                                     <a [routerLink]="'/recover-lost-password'" class="pull-right">Forgotten password?</a>

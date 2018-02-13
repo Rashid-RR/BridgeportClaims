@@ -22,7 +22,7 @@
       <div class="row parallel">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
-            <a class="img-section" [routerLink]="'/main/unindexed-images'">
+            <a class="img-section" [routerLink]="'/main/unindexed-images/'+simpleDate(summary.lastWorkDate)">
               <div class="dashboard-img">
                 <img src="assets/img/002-pdf.png">
                 <span class="badge-dashboard badge">{{summary.totalImagesScanned}}</span>
@@ -31,23 +31,32 @@
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
+                <span class="row">
+                  <span class="col-md-12 col-sm-12 text-center" style="font-weight:600;">
+                    Metrics based on previous working day - {{formatDate(summary.lastWorkDate)}}
+                  </span>
+                </span>
                 <p>
-                  <strong>{{summary.totalImagesScanned}} NEW</strong>
-                  <span>Un-indexed Images</span>
-                  <i>(in the last 24 hours)</i>
+                  <strong>{{summary.totalImagesScanned}} Images scanned</strong>
+                  <span>(total images in)</span>
                 </p>
               </div>
-              <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalImagesIndexed>0 ? sanitize('left:calc('+totalImagesIndexed+'% * 0.989)') : sanitize('left:8px'))"></i>
-              <div class="progress">
+              <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalImagesIndexed>0 ? sanitize('top:57px;left:calc('+totalImagesIndexed+'% * 0.989)') : sanitize('top:57px;left:8px'))"></i>
+              <ul class="status-in-word" style="margin-top: 0px;">
+                <li class="completed" style="visibility:hidden;" [style.width.%]="totalImagesIndexed"></li>
+                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="totalImagesIndexed>0 ? 0 : 5.5" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50"
+                  [style.padding-bottom.px]="8">{{summary.totalImagesRemaining}} Unindexed Images</li>
+              </ul>
+              <div class="progress" [style.margin-top.px]="3">
                 <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalImagesIndexed" [attr.aria-valuenow]="totalImagesIndexed"
                   aria-valuemin="0" aria-valuemax="100">{{summary.totalImagesIndexed}}</div>
                 {{summary.totalImagesRemaining}}
               </div>
               <ul class="status-in-word">
-                <li class="completed" [style.width.%]="totalImagesIndexed>0 ? totalImagesIndexed : 50">{{summary.totalImagesIndexed}} Indexed Images</li>
-                <li class="outstanding" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50">{{summary.totalImagesRemaining}} Unindexed Images</li>
+                <li class="completed" [style.width.%]="totalImagesIndexed>0 ? totalImagesIndexed : 50">{{summary.totalImagesIndexed}} Images Indexed (total images out)</li>
+                <li class="outstanding" style="visibility:hidden" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50"></li>
               </ul>
-              <div class="status-information">
+              <!--  <div class="status-information">
                 <span class="status-information-label">latest Scanned Images</span>
                 <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
                 <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
@@ -58,7 +67,7 @@
                 <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
                 <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
                 <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -80,7 +89,8 @@
               </div>
               <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalDiariesResolved>0 ? sanitize('left:calc('+totalDiariesResolved+'% * 0.989)') : sanitize('left:8px'))"></i>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalDiariesResolved" [attr.aria-valuenow]="totalDiariesResolved" aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
+                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalDiariesResolved" [attr.aria-valuenow]="totalDiariesResolved"
+                  aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
                 {{summary.totalDiariesUnResolved}}
               </div>
               <ul class="status-in-word">
@@ -118,9 +128,10 @@
                   <span>Episodes </span>created on {{formatDate(summary.lastWorkDate)}}
                 </p>
               </div>
-              <i class="fa fa-2x fa-caret-down progress-caret"  [style]="(totalResolvedEpisodes>0 ? sanitize('left:calc('+totalResolvedEpisodes+'% * 0.989)'): sanitize('left:8px'))"></i>
+              <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalResolvedEpisodes>0 ? sanitize('left:calc('+totalResolvedEpisodes+'% * 0.989)'): sanitize('left:8px'))"></i>
               <div class="progress">
-                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalResolvedEpisodes" aria-valuenow="totalResolvedEpisodes" aria-valuemin="0" aria-valuemax="100">{{summary.totalResolvedEpisodes}}</div>
+                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalResolvedEpisodes" aria-valuenow="totalResolvedEpisodes"
+                  aria-valuemin="0" aria-valuemax="100">{{summary.totalResolvedEpisodes}}</div>
                 {{summary.totalUnresolvedEpisodes}}
               </div>
               <ul class="status-in-word">

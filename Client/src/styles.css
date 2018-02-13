@@ -279,50 +279,7 @@
       flex-shrink: 1;
       flex-grow: 1;
     }
-    /*  Checkbox Style */
-
-    .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox {
-      position: relative;
-      margin: -2px 5px;
-    }
-
-    .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox label {
-      width: 15px;
-      height: 15px;
-      cursor: pointer;
-      position: absolute;
-      top: 2px;
-      left: 0px;
-      background: #fcfff4;
-      background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-      background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-      border-radius: 4px;
-      box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-    }
-
-    .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox label:after {
-      content: '';
-      width: 9px;
-      height: 6px;
-      position: absolute;
-      top: 4px;
-      left: 3px;
-      border: 2px solid #333;
-      border-top: none;
-      border-right: none;
-      background: transparent;
-      opacity: 0;
-      -webkit-transform: rotate(-45deg);
-      transform: rotate(-45deg);
-    }
-
-    .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
-      transform: rotate(-90deg);
-      margin-top: 5px;
-      position: absolute;
-      margin-left: 2px;
-    }
-
+    
     @media screen and (max-width: 300px) {
       .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
         margin-left: 2px;
@@ -333,26 +290,6 @@
       .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
         margin-left: 7px;
       }
-    }
-
-    .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox label:hover::after {
-      opacity: 0.5;
-    }
-
-    .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox input[type=checkbox] {
-      position: absolute;
-      z-index: 9;
-      opacity: 0;
-      width: 15px;
-      height: 15px;
-      margin: 0px;
-      cursor: pointer;
-      left: 0px;
-      top: 2px;
-    }
-
-    .swal2-modal.paymeny-modal .swal2-content .paymentCheckBox input[type=checkbox]:checked+label:after {
-      opacity: 1;
     }
 
     .swal2-modal.paymeny-modal .swal2-content .bg-darkblue {
@@ -615,45 +552,63 @@
 /*======================
 Check Boxes Styles
 ========================*/
-input[type='checkbox'] {
-  opacity: 0;
-  z-index: -1;
-}
 
-input[type='checkbox']#checkbox-h{
-    display:none
-}
-input[type='checkbox'] + label {
-  width: 35px;
-  height: 35px;
-  display: block;
+
+/* app Checkbox Style */
+
+.commonCheckBox {
   position: relative;
-  margin: auto;
-  box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  text-indent: -999px;
-  overflow: hidden;
-  border: 1px solid #000;
+  margin: -2px 5px;
+}
+
+.commonCheckBox label:first-of-type {
+  width: 15px;
+  height: 15px;
   cursor: pointer;
-}
-/*-------------------
-#checkbox-h style
-------------------*/
-input[type='checkbox']#checkbox-h + label {
-  border: 1px solid #000;
-  background: transparent url(assets/tick.png) no-repeat;
-  background-position: 50% 0;
-  background-size: 35px 70px;
-  transition: 0.4s ease background;
-  -moz-transition: 0.4s ease background;
-  -webkit-transition: 0.4s ease background;
+  position: absolute;
+  top: 2px;
+  left: 0;
+  background: #fcfff4;
+  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 4px;
+  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-input[type='checkbox']#checkbox-h:checked + label {
-  background-position: 50% -35px;
+.commonCheckBox label:first-of-type:after {
+  content: '';
+  width: 9px;
+  height: 6px;
+  position: absolute;
+  top: 4px;
+  left: 3px;
+  border: 2px solid #333;
+  border-top: none;
+  border-right: none;
+  background: transparent;
+  opacity: 0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
+.commonCheckBox label:first-of-type:hover::after {
+  opacity: 0.5;
+}
+
+.commonCheckBox input[type=checkbox] {
+  position: absolute;
+  z-index: 9;
+  opacity: 0;
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  cursor: pointer;
+  top: 2px;
+}
+
+.commonCheckBox input[type=checkbox]:checked+label:first-of-type:after {
+  opacity: 1;
+} 
 /*SORT*/
 thead span {
   cursor: pointer;
@@ -668,3 +623,4 @@ thead span {
   font-size: 1.4rem;
   color: #666;
 }
+ 

@@ -17,9 +17,9 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   data: Array<any> = [];
   summary = {
     lastWorkDate:  "2018-02-05T00:00:00.0000000",
-    totalImagesScanned: 70,
-    totalImagesIndexed: 70,
-    totalImagesRemaining: 33,
+    totalImagesScanned: 46,
+    totalImagesIndexed: 8,
+    totalImagesRemaining: 38,
     diariesAdded: 53,
     newClaims: 53,
     newEpisodes: 22,
@@ -104,5 +104,14 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
       return input;
     }
   }
-
+  simpleDate(input: String) {
+    if (!input) return null;
+    if (input.indexOf("-") > -1) {
+      let date = input.split("T");
+      let d = date[0].split("-");
+      return d[1] + "-" + d[2] + "-" + d[0];
+    } else {
+      return input;
+    }
+  }
 }

@@ -54,8 +54,11 @@
                         <td>{{episode.rxNumber}}</td>
                         <td>{{episode.category}}</td>
                         <td [class.resolved]="episode.resolved">
-                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv [checked]="episode.resolved" (change)="markAsResolved($event,episode)" [disabled]="episode.resolved">
-                            <label (click)="inv.click()"></label>
+                            <div class="commonCheckBox">
+                                <input type="checkbox" name="check" value="None" [id]="'checkbox-h'+(episode.id || episode.episodeId)" #inv [checked]="episode.resolved" (change)="markAsResolved($event,episode)"
+                                    [disabled]="episode.resolved">
+                                <label for="'checkbox-h'+(episode.id || episode.episodeId)"></label>
+                            </div>
                         </td>
                         <td>
                             <a class="label label-info bg-vdarkgrey" (click)="showNoteWindow(episode)">{{episode.noteCount || episode.episodeNoteCount || 0}}
