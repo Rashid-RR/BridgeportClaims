@@ -43,8 +43,9 @@
               </div>
               <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalImagesIndexed>0 ? sanitize('top:57px;left:calc('+totalImagesIndexed+'% * 0.989)') : sanitize('top:57px;left:8px'))"></i>
               <ul class="status-in-word" style="margin-top: 0px;">
-                <li class="completed" style="visibility:hidden;" [style.width.%]="totalImagesIndexed>0 ? totalImagesIndexed : 50"></li>
-                <li class="outstanding" [style.margin-top.px]="-7" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50" [style.padding-bottom.px]="8">{{summary.totalImagesRemaining}} Unindexed Images</li>
+                <li class="completed" style="visibility:hidden;" [style.width.%]="totalImagesIndexed"></li>
+                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="totalImagesIndexed>0 ? 0 : 5.5" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50"
+                  [style.padding-bottom.px]="8">{{summary.totalImagesRemaining}} Unindexed Images</li>
               </ul>
               <div class="progress" [style.margin-top.px]="3">
                 <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalImagesIndexed" [attr.aria-valuenow]="totalImagesIndexed"
