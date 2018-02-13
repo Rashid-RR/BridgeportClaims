@@ -99,61 +99,7 @@ label.check-label{
     margin-left: 2.5%;
   }
 
-
-.archivedCheckBox {
-  position: relative;
-  margin: -2px 5px;
-}
-
-.archivedCheckBox label.archived {
-  width: 15px;
-  height: 15px;
-  cursor: pointer;
-  position: absolute;
-  top: 2px;
-  left: 0;
-  background: #fcfff4;
-  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
-  border-radius: 4px;
-  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.archivedCheckBox label.archived:after {
-  content: '';
-  width: 9px;
-  height: 6px;
-  position: absolute;
-  top: 4px;
-  left: 3px;
-  border: 2px solid #333;
-  border-top: none;
-  border-right: none;
-  background: transparent;
-  opacity: 0;
-  -webkit-transform: rotate(-45deg);
-  transform: rotate(-45deg);
-}
-
-.archivedCheckBox label.archived:hover::after {
-  opacity: 0.5;
-}
-
-.archivedCheckBox input[type=checkbox] {
-  position: absolute;
-  z-index: 9;
-  opacity: 0;
-  width: 15px;
-  height: 15px;
-  margin: 0;
-  cursor: pointer;
-  top: 2px;
-}
-
-.archivedCheckBox input[type=checkbox]:checked+label.archived:after {
-  opacity: 1;
-}
-.archivedCheckBox label:not(.archived){
+.commonCheckBox label:not(.archived){
   font-weight: normal;
   margin-left:20px;
   margin-top: 5px;
