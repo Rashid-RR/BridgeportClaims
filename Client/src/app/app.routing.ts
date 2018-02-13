@@ -130,6 +130,10 @@ export const routes: Routes = [
             component: UnindexedImageComponent,
           },
           {
+            path: 'unindexed-images/:date',
+            component: UnindexedImageComponent,
+          },
+          {
             path: 'unpaid-scripts',
             component: UnpaidScriptComponent
           },

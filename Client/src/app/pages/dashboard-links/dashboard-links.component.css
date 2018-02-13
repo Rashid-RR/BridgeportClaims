@@ -111,7 +111,7 @@ li.reports {
 	background-color: #ededed;
     border-radius: 5px; 
     width:100%;
-    min-height: 165px;
+    min-height: 186px;
 }
 @media(max-width:1111px) and (min-width:768px){
     #private-nav .grey-box {
@@ -125,7 +125,7 @@ li.reports {
     height: 100%;
     border-right: 1px solid #cacaca;
     min-height: 115px;
-    height: 165px;
+    height: 186px;
     display: -webkit-box;  /* OLD - iOS 6-, Safari 3.1-6, BB7 */
     display: -ms-flexbox;  /* TWEENER - IE 10 */
     display: -webkit-flex; /* NEW - Safari 6.1+. iOS 7.1+, BB10 */
@@ -187,15 +187,14 @@ li.reports {
 }
 .content-right-section .upper-description strong {
     color: #992727;
-    font-size: 13pt;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-size: 12pt;
+    font-weight: normal;
 }
 
 .content-right-section .upper-description span {
     color: #263238;
-    font-size: 13pt;
-    font-weight: 600;
+    font-size: 12pt;
+    font-weight: normal;
 }
 
 .content-right-section .upper-description i {
@@ -326,7 +325,7 @@ li.reports {
 }
 .progress-caret {
     position: absolute;
-    top: 21px;
+    top: 19px;
     color: #992727;
 }
 .progress-bar:after {

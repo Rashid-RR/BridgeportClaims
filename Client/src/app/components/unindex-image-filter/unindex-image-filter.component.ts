@@ -1,10 +1,11 @@
-import { Component, OnInit,AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-unindex-image-filter',
@@ -13,12 +14,13 @@ declare var $:any;
 })
 export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
 
-  date:string;
-  fileName:string;
-  submitted:boolean=false;
+  date: string;
+  fileName: string;
+  submitted: boolean = false;
   constructor(
-    public ds:DocumentManagerService,
+    public ds: DocumentManagerService,
     private dp: DatePipe,
+    private route: ActivatedRoute,
     private toast: ToastsManager,
     private fb: FormBuilder) { }
 
@@ -30,26 +32,33 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
     $('#date').datepicker({
       autoclose: true
     });
+    this.route.params.subscribe(params => {
+      if (params['date']) {
+        this.date = params['date'].replace(/\-/g, "/");
+        this.ds.data.date = this.date;
+        this.ds.search();
+      }
+    });
   }
 
   search() {
-    let date = this.dp.transform($('#date').val(), "MM/dd/yyyy");  
+    let date = this.dp.transform($('#date').val(), "MM/dd/yyyy");
     //if(this.startDate && this.endDate){
-      this.ds.data.date = date || null 
-      this.ds.data.fileName = this.fileName || null 
-      this.ds.search();
-   /*  }else{
-        this.toast.warning("Ensure you select both start date and end date");
-    } */
+    this.ds.data.date = date || null
+    this.ds.data.fileName = this.fileName || null
+    this.ds.search();
+    /*  }else{
+         this.toast.warning("Ensure you select both start date and end date");
+     } */
   }
-  filter($event){
+  filter($event) {
     this.ds.data.archived = $event.target.checked;
-    
+
   }
 
- 
-  clearDates(){
-    $('#date').val(''); 
+
+  clearDates() {
+    $('#date').val('');
     this.fileName = '';
   }
 
