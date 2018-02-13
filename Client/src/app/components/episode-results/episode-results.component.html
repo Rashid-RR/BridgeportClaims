@@ -81,9 +81,11 @@
                             </button>
                         </td>
                         <td [class.resolved]="episodeService.data.resolved">
-                            <input type="checkbox" name="check" value="None" id="checkbox-h" #inv (change)="markAsResolved($event,episode)" [checked]="episodeService.data.resolved"
-                                [disabled]="episodeService.data.resolved">
-                            <label (click)="inv.click()"></label>
+                            <div class="commonCheckBox">
+                                <input type="checkbox" name="check" value="None" [id]="'checkbox-h'+episode.episodeId" #inv (change)="markAsResolved($event,episode)" [checked]="episodeService.data.resolved"
+                                    [disabled]="episodeService.data.resolved">
+                                <label [for]="'checkbox-h'+episode.episodeId"></label>
+                            </div>
                         </td>
                         <td>{{episode.episodeId}}</td>
                         <td>{{episode.owner}}</td>
