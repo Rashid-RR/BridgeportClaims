@@ -35,7 +35,7 @@ export class FirewallService {
     };
     this.form = this.formBuilder.group({
       endIpAddress: [null, Validators.required],
-      ruleName: [null, Validators.compose([Validators.required, Validators.pattern(new RegExp(/^[a-z]+$/i))])],
+      ruleName: [null, Validators.compose([Validators.required, Validators.pattern(new RegExp(/^[a-z0-9]+$/i))])],
       startIpAddress: [null, Validators.required]
     });
     this.search();
@@ -128,7 +128,7 @@ export class FirewallService {
     this.form.controls['endIpAddress'].setValue($('#endIpAddress').val())
     if (!this.form.valid) {
       if (this.form.controls['ruleName'].errors && this.form.controls['ruleName'].errors.pattern) {
-        this.toast.warning('Rule Name must be alphabetic only');
+        this.toast.warning('Rule Name must be alphanumeric only');
       } else {
         this.toast.warning('Please fill in all the form fields');
       }
