@@ -44,7 +44,7 @@
       </li>
       <li [class.active]="router.url.indexOf('/main/episodes')>-1">
         <a [routerLink]="!disableLinks ? '/main/episodes' : []" [class.disabled]="disableLinks">
-          <img style='width: 25px;' src="assets/img/iconepisodes.png">
+          <img style='width: 25px;' src="assets/img/episodes.png">
           <span>Episodes</span>
         </a>
       </li>
@@ -54,7 +54,7 @@
       </li>
       <li [class.active]="router.url.indexOf('/main/unindexed-images')>-1">
         <a [routerLink]="!disableLinks ? '/main/unindexed-images' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
-          <img style='width: 25px;' src="assets/img/unidex.png">
+          <img src="assets/img/unidex.png">
           <span>Unindexed Images</span>
         </a>
       </li>
@@ -82,7 +82,7 @@
       </li>
       <li [class.active]="router.url.indexOf('/main/firewall')>-1">
         <a [routerLink]="!disableLinks ? '/main/firewall'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
-          <img style='width: 25px;' src="assets/img/user.png">
+          <img style='width: 25px;' src="assets/img/firewall.png">
           <span>Firewall Settings</span>
         </a>
       </li>
