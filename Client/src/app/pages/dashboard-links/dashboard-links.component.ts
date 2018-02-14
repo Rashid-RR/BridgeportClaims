@@ -53,7 +53,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   ngOnInit() { 
     this.http.getKPIs().map(res => { return res.json(); })
       .subscribe((result: any) => { 
-        //this.summary = result;
+        this.summary = result;
       }, err => null);
   }
 
