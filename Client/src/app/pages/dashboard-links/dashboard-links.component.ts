@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component,ElementRef,ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { EventsService } from '../../services/events-service';
@@ -15,6 +15,8 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   preload = 'auto';
   categories: Array<any> = [];
   data: Array<any> = [];
+  win=window;
+  @ViewChild('images') images:ElementRef;
   summary = {
     lastWorkDate:  "2018-02-05T00:00:00.0000000",
     totalImagesScanned: 92,
@@ -65,6 +67,10 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   get totalImages(){
       let total = (this.summary.totalImagesIndexed || 0)+(this.summary.totalImagesRemaining || 0);
       return total || 0;
+  }
+
+  get imagesSliderPosition(){
+    return this.images.nativeElement.offsetTop;
   }
 
   get totalDiariesResolved(){

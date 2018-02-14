@@ -41,33 +41,21 @@
                   <span>(total images in)</span>
                 </p>
               </div>
-              <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalImagesIndexed>0 ? sanitize('top:57px;left:calc('+totalImagesIndexed+'% * 0.989)') : sanitize('top:57px;left:8px'))"></i>
-              <ul class="status-in-word" style="margin-top: 0px;">
+              <ul class="status-in-word top" style="margin-top: 0px;">
                 <li class="completed" style="visibility:hidden;" [style.width.%]="totalImagesIndexed"></li>
-                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="totalImagesIndexed>0 ? 0 : 5.5" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50"
-                  [style.padding-bottom.px]="8">{{summary.totalImagesRemaining}} Unindexed Images</li>
+                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="totalImagesIndexed>0 ? 0 : 5.5" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50">
+                  {{summary.totalImagesRemaining}} Unindexed Images
+                </li>
               </ul>
               <div class="progress" [style.margin-top.px]="3">
                 <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalImagesIndexed" [attr.aria-valuenow]="totalImagesIndexed"
                   aria-valuemin="0" aria-valuemax="100">{{summary.totalImagesIndexed}}</div>
                 {{summary.totalImagesRemaining}}
               </div>
-              <ul class="status-in-word">
-                <li class="completed" [style.width.%]="totalImagesIndexed>0 ? totalImagesIndexed : 50">{{summary.totalImagesIndexed}} Images Indexed (total images out)</li>
-                <li class="outstanding" style="visibility:hidden" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50"></li>
+              <ul class="status-in-word  bottom">
+                <li class="completed" style="width:max-content">{{summary.totalImagesIndexed}} Images Indexed (total images out)</li>
+                <li class="outstanding" style="visibility:hidden" style="width:max-content"></li>
               </ul>
-              <!--  <div class="status-information">
-                <span class="status-information-label">latest Scanned Images</span>
-                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-              </div>
-              <div class="status-information">
-                <span class="status-information-label">latest Indexed Images</span>
-                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-              </div> -->
             </div>
           </div>
         </div>
@@ -82,33 +70,30 @@
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
+                <span class="row">
+                  <span class="col-md-12 col-sm-12 text-center" style="font-weight:600;">
+                    Metrics based on previous working day - {{formatDate(summary.lastWorkDate)}}
+                  </span>
+                </span>
                 <p>
-                  <strong>{{summary.diariesAdded}} NEW </strong>
-                  <span>Diaries </span>created on {{formatDate(summary.lastWorkDate)}}
+                  <strong>{{summary.diariesAdded}} Diaries added</strong>
                 </p>
               </div>
-              <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalDiariesResolved>0 ? sanitize('left:calc('+totalDiariesResolved+'% * 0.989)') : sanitize('left:8px'))"></i>
-              <div class="progress">
+              <ul class="status-in-word top" style="margin-top: 0px;">
+                <li class="completed" style="visibility:hidden;" [style.width.%]="totalDiariesResolved"></li>
+                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="totalDiariesUnResolved>0 ? 0 : 5.5" [style.width.%]="totalDiariesUnResolved>0 ? totalDiariesUnResolved : 50">
+                  {{summary.totalDiariesUnResolved}} Unresolved
+                </li>
+              </ul>
+              <div class="progress" [style.margin-top.px]="3" #images>
                 <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalDiariesResolved" [attr.aria-valuenow]="totalDiariesResolved"
                   aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
-                {{summary.totalDiariesUnResolved}}
+                {{summary.totalDiariesResolved}}
               </div>
-              <ul class="status-in-word">
-                <li class="completed" [style.width.%]="(totalDiariesResolved>0 ? totalDiariesResolved : 50)">{{summary.totalDiariesResolved}} Resolved</li>
-                <li class="outstanding" [style.width.%]="(totalDiariesUnResolved>0 ? totalDiariesUnResolved : 50)">{{summary.totalDiariesUnResolved}} Outstanding</li>
+              <ul class="status-in-word bottom">
+                <li class="completed" style="width:max-content">{{summary.totalDiariesResolved}} Resolved</li>
+                <li class="outstanding" style="visibility:hidden;" style="width:max-content"></li>
               </ul>
-              <div class="status-information">
-                <span class="status-information-label">&nbsp;</span>
-                <a [routerLink]="[]" class="status-information-badge">Employee1</a>
-                <a [routerLink]="[]" class="status-information-badge">Employee5</a>
-                <a [routerLink]="[]" class="status-information-badge">Employee6</a>
-              </div>
-              <div class="status-information">
-                <span class="status-information-label">&nbsp;</span>
-                <a [routerLink]="[]" class="status-information-badge no-bg">6 Diaries</a>
-                <a [routerLink]="[]" class="status-information-badge no-bg">2 Diaries</a>
-                <a [routerLink]="[]" class="status-information-badge no-bg">4 Diaries</a>
-              </div>
             </div>
           </div>
         </div>
@@ -123,20 +108,27 @@
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
+                <span class="row">
+                  <span class="col-md-12 col-sm-12 text-center" style="font-weight:600;">
+                    Metrics based on previous working day - {{formatDate(summary.lastWorkDate)}}
+                  </span>
+                </span>
                 <p>
-                  <strong>{{summary.newEpisodes}} NEW </strong>
-                  <span>Episodes </span>created on {{formatDate(summary.lastWorkDate)}}
+                  <strong>{{summary.newEpisodes}} new episodes</strong>
                 </p>
               </div>
-              <i class="fa fa-2x fa-caret-down progress-caret" [style]="(totalResolvedEpisodes>0 ? sanitize('left:calc('+totalResolvedEpisodes+'% * 0.989)'): sanitize('left:8px'))"></i>
+              <ul class="status-in-word top">
+                <li class="completed" style="visibility:hidden" [style.width.%]="(totalResolvedEpisodes>0 ? totalResolvedEpisodes : 50)">{{summary.totalResolvedEpisodes}} Resolved</li>
+                <li class="outstanding" [style.width.%]="(totalUnresolvedEpisodes>0 ? totalUnresolvedEpisodes : 50)">{{summary.totalUnresolvedEpisodes}} Outstanding</li>
+              </ul>
               <div class="progress">
                 <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalResolvedEpisodes" aria-valuenow="totalResolvedEpisodes"
                   aria-valuemin="0" aria-valuemax="100">{{summary.totalResolvedEpisodes}}</div>
                 {{summary.totalUnresolvedEpisodes}}
               </div>
-              <ul class="status-in-word">
-                <li class="completed" [style.width.%]="(totalResolvedEpisodes>0 ? totalResolvedEpisodes : 50)">{{summary.totalResolvedEpisodes}} Resolved</li>
-                <li class="outstanding" [style.width.%]="(totalUnresolvedEpisodes>0 ? totalUnresolvedEpisodes : 50)">{{summary.totalUnresolvedEpisodes}} Outstanding</li>
+              <ul class="status-in-word bottom">
+                <li class="completed" style="width:max-content">{{summary.totalResolvedEpisodes}} Resolved</li>
+                <li class="outstanding" style="visibility:hidden">{{summary.totalUnresolvedEpisodes}} Outstanding</li>
               </ul>
             </div>
           </div>
@@ -152,7 +144,7 @@
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
-                <span class="row">
+                <!-- <span class="row">
                   <div class="col-md-6 col-sm-6" style="padding-bottom:3px;">
                     <strong>{{summary.newInvoicesPrinted}} NEW</strong>
                     <span>Unpaid Invoices</span>
@@ -181,7 +173,7 @@
                   <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
                   <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
                   <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -198,11 +190,16 @@
             </a>
             <div class="content-right-section">
               <div class="upper-description text-left">
+                <span class="row">
+                  <span class="col-md-12 col-sm-12 text-center" style="font-weight:600;">
+                    Metrics based on previous working day - {{formatDate(summary.lastWorkDate)}}
+                  </span>
+                </span>
                 <p>
                   <strong>{{summary.newClaims}} NEW</strong>
                   <span>Claims</span>
                 </p>
-                <div class="status-information">
+                <!-- <div class="status-information">
                   <span class="label row">Latest Claims</span>
                 </div>
                 <div class="status-information">
@@ -218,7 +215,7 @@
                   <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
                   <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
                   <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -244,7 +241,7 @@
                     <span>Prescriptions</span>
                   </div>
                 </span>
-                <div class="status-information">
+                <!-- <div class="status-information">
                   <span class="label row">Latest Prescriptions</span>
                 </div>
                 <div class="status-information">
@@ -260,18 +257,18 @@
                   <a href="" class="status-information-badge">189734.pdf</a>
                   <a href="" class="status-information-badge">189734.pdf</a>
                   <a href="" class="status-information-badge">189734.pdf</a>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="font-size:14pt;padding:0px;">
           Window File Watcher Service Status
-        </div>          
+        </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  text-center">
-            <img src="assets/filewatcher-sick.png" *ngIf="!summary.fileWatcherHealthy" class="img-sqaure" width="100px">
-            <img src="assets/filewatcher-healthy.png" *ngIf="summary.fileWatcherHealthy"  class="img-sqaure"  width="100px">
-        </div>          
+          <img src="assets/filewatcher-sick.png" *ngIf="!summary.fileWatcherHealthy" class="img-sqaure" width="100px">
+          <img src="assets/filewatcher-healthy.png" *ngIf="summary.fileWatcherHealthy" class="img-sqaure" width="100px">
+        </div>
       </div>
     </div>
   </div>

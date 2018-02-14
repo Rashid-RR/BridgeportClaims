@@ -218,7 +218,7 @@ li.reports {
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 800;
     line-height: 25px;
-    position: relative;
+    position: absolute;
 }
 
 #private-nav .content-right-section ul.status-in-word {
@@ -325,15 +325,27 @@ li.reports {
 }
 .progress-caret {
     position: absolute;
-    top: 19px;
+    bottom: 50px;
     color: #992727;
 }
-.progress-bar:after {
-    background: green;
+.progress-bar:after { 
     position: absolute;
     width: 16px;
     height: 16px;
     right: 0px;
-    z-index: 121212;
-    top: -100%;
+    top: -80%;
+    content: url(../../../assets/img/marker.png) !important;
+    display: table-cell;
+    margin-right:-5px !important;
+    vertical-align: bottom !important; 
 }
+.status-in-word.top li:before{ 
+    content:none !important;
+}
+.status-in-word.bottom li:nth-of-type(2):before{ 
+    content:none !important;
+}
+.status-in-word.top li{
+    content:none !important;
+    padding-left:21px !important;
+} 
