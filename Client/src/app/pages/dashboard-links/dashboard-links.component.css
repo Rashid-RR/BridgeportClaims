@@ -236,7 +236,7 @@ li.reports {
     /*-webkit-flex: 1;       /* Safari 6.1+. iOS 7.1+, BB10 * /
     -ms-flex: 1;           /* IE 10 * /
     flex: 1;  */
-    font-size: 9px;
+    font-size: 12px;
     text-align: left;
 }
 
@@ -297,7 +297,7 @@ li.reports {
     background-color: #d4d4d4;
     font-family: 'Montserrat', sans-serif !important;
     color: #7d7d7d;
-    font-size: 9px;
+    font-size: 12px;
     flex: 1;
     border-radius: 100px;
     margin: 0 3px;

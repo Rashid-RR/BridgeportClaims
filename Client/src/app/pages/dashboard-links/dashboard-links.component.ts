@@ -17,9 +17,9 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   data: Array<any> = [];
   summary = {
     lastWorkDate:  "2018-02-05T00:00:00.0000000",
-    totalImagesScanned: 46,
-    totalImagesIndexed: 8,
-    totalImagesRemaining: 38,
+    totalImagesScanned: 92,
+    totalImagesIndexed: 69,
+    totalImagesRemaining: 23,
     diariesAdded: 53,
     newClaims: 53,
     newEpisodes: 22,
@@ -50,7 +50,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   ngOnInit() { 
     this.http.getKPIs().map(res => { return res.json(); })
       .subscribe((result: any) => { 
-        this.summary = result;
+        //this.summary = result;
       }, err => null);
   }
 
