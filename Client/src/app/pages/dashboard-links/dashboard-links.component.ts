@@ -22,7 +22,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     totalImagesScanned: 92,
     totalImagesIndexed: 69,
     totalImagesRemaining: 23,
-    fileWatcherHealthy:true,
+    fileWatcherHealthy: true,
     diariesAdded: 53,
     newClaims: 53,
     newEpisodes: 22,
@@ -53,7 +53,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   ngOnInit() { 
     this.http.getKPIs().map(res => { return res.json(); })
       .subscribe((result: any) => { 
-        //this.summary = result;
+        this.summary = result;
       }, err => null);
   }
 
@@ -67,6 +67,10 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   get totalImages(){
       let total = (this.summary.totalImagesIndexed || 0)+(this.summary.totalImagesRemaining || 0);
       return total || 0;
+  }
+
+  get fileWatcherHealthy() {
+    return this.fileWatcherHealthy;
   }
 
   get imagesSliderPosition(){
