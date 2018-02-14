@@ -24,7 +24,9 @@ namespace BridgeportClaims.Entities.DomainModels
 	        AssignedUser = new List<Episode>();
 	        ResolvedUser = new List<Episode>();
 	        ModifiedByUser = new List<Episode>();
-	        Patient = new List<Patient>();
+	        EpisodeNote = new List<EpisodeNote>();
+	        EpisodeTypeUsersMapping = new List<EpisodeTypeUsersMapping>();
+            Patient = new List<Patient>();
 	        PrescriptionNote = new List<PrescriptionNote>();
 	        PrescriptionPayment = new List<PrescriptionPayment>();
 	        Suspense = new List<Suspense>();
@@ -74,7 +76,9 @@ namespace BridgeportClaims.Entities.DomainModels
 	    public virtual IList<Episode> AssignedUser { get; set; }
 	    public virtual IList<Episode> ResolvedUser { get; set; }
 	    public virtual IList<Episode> ModifiedByUser { get; set; }
-	    public virtual IList<Patient> Patient { get; set; }
+	    public virtual IList<EpisodeNote> EpisodeNote { get; set; }
+	    public virtual IList<EpisodeTypeUsersMapping> EpisodeTypeUsersMapping { get; set; }
+        public virtual IList<Patient> Patient { get; set; }
 	    public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
 	    public virtual IList<PrescriptionPayment> PrescriptionPayment { get; set; }
 	    public virtual IList<Suspense> Suspense { get; set; }

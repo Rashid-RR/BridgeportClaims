@@ -17,42 +17,49 @@ CREATE PROC [dbo].[uspGetClaimsSearchResults]
 AS
 BEGIN
     SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+	IF (@RxNumber IS NOT NULL OR @InvoiceNumber IS NOT NULL)
+		BEGIN
+			CREATE TABLE #Prescriptions
+			(
+				ClaimID INT NOT NULL PRIMARY KEY
+			);
+			INSERT INTO #Prescriptions ([ClaimID])
+			SELECT	p.[ClaimID] 
+			FROM	[dbo].[Prescription] AS [p]
+					LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
+			WHERE	(@InvoiceNumber = i.[InvoiceNumber] OR @InvoiceNumber IS NULL)
+					AND ([p].[RxNumber] = @RxNumber OR @RxNumber IS NULL)
+			GROUP BY p.[ClaimID]
 
-	WITH ClaimsCTE AS
-	(
-			SELECT c.ClaimID
-			FROM   [dbo].[vwClaimInfo] AS c WITH (NOEXPAND)
-			WHERE  c.ClaimNumber LIKE '%' + @ClaimNumber + '%'
-		  
-			UNION
-
-			SELECT c.ClaimID
+			SELECT c.ClaimId
+				 , c.PayorId
+				 , c.ClaimNumber
+				 , c.LastName
+				 , c.FirstName
+				 , c.Carrier
+				 , c.InjuryDate
 			FROM   [dbo].[vwClaimInfo] c WITH (NOEXPAND)
-			WHERE  c.FirstName LIKE '%' + @FirstName + '%'
-				   OR c.LastName LIKE '%' + @LastName + '%'
-			
-			UNION
-
-			SELECT p.ClaimID
-			FROM   dbo.Invoice AS i
-				   INNER JOIN dbo.Prescription AS p ON p.InvoiceID = i.InvoiceID
-			WHERE  i.InvoiceNumber = @InvoiceNumber
-
-			UNION
-
-			SELECT p.ClaimID
-			FROM   dbo.Prescription AS p
-			WHERE  p.RxNumber = @RxNumber
-    )
-    SELECT c.ClaimId
-		 , c.PayorId
-         , c.ClaimNumber
-         , c.LastName
-         , c.FirstName
-         , c.Carrier
-         , c.InjuryDate
-    FROM   [dbo].[vwClaimInfo] c WITH (NOEXPAND)
-           INNER JOIN ClaimsCTE cte ON cte.ClaimID = c.ClaimId
+				   INNER JOIN [#Prescriptions] AS [p] ON [p].[ClaimID] = [c].[ClaimID]
+			WHERE  1 = 1
+				   AND (c.ClaimNumber LIKE '%' + @ClaimNumber + '%' OR @ClaimNumber IS NULL)
+				   AND (c.FirstName LIKE '%' + @FirstName + '%' OR @FirstName IS NULL)
+				   AND (c.LastName LIKE '%' + @LastName + '%' OR @LastName IS NULL)
+		END
+	ELSE
+		BEGIN
+			SELECT c.ClaimId
+				 , c.PayorId
+				 , c.ClaimNumber
+				 , c.LastName
+				 , c.FirstName
+				 , c.Carrier
+				 , c.InjuryDate
+			FROM   [dbo].[vwClaimInfo] c WITH (NOEXPAND)
+			WHERE  1 = 1
+				   AND (c.ClaimNumber LIKE '%' + @ClaimNumber + '%' OR @ClaimNumber IS NULL)
+				   AND (c.FirstName LIKE '%' + @FirstName + '%' OR @FirstName IS NULL)
+				   AND (c.LastName LIKE '%' + @LastName + '%' OR @LastName IS NULL)
+		END
 END
-
 GO

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
@@ -16,11 +17,11 @@ namespace BridgeportClaims.Web.Models
         [StringLength(50)]
         public string FileSize { get; set; }
         [Required]
-        public string CreationTimeLocal { get; set; }
+        public DateTime CreationTimeLocal { get; set; }
         [Required]
-        public string LastAccessTimeLocal { get; set; }
+        public DateTime LastAccessTimeLocal { get; set; }
         [Required]
-        public string LastWriteTimeLocal { get; set; }
+        public DateTime LastWriteTimeLocal { get; set; }
         [Required]
         [StringLength(4000)]
         public string FullFilePath { get; set; }

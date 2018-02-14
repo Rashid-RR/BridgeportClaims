@@ -94,8 +94,8 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                 hubContext.Clients.All.newDocument(model.DocumentId, model.FileName, model.Extension, model.FileSize
-                    , model.CreationTimeLocal.ToFormattedDateTime(), model.LastAccessTimeLocal.ToFormattedDateTime(), 
-                    model.LastWriteTimeLocal.ToFormattedDateTime(), model.FullFilePath, model.FileUrl);
+                    , model.CreationTimeLocal, model.LastAccessTimeLocal, 
+                    model.LastWriteTimeLocal, model.FullFilePath, model.FileUrl);
                 return Ok(new {message = "A new document has just been added."});
             }
             catch (Exception ex)
@@ -113,8 +113,8 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                 hubContext.Clients.All.modifiedDocument(model.DocumentId, model.FileName, model.Extension, model.FileSize
-                    , model.CreationTimeLocal.ToFormattedDateTime(), model.LastAccessTimeLocal.ToFormattedDateTime(),
-                    model.LastWriteTimeLocal.ToFormattedDateTime(), model.FullFilePath, model.FileUrl);
+                    , model.CreationTimeLocal, model.LastAccessTimeLocal,
+                    model.LastWriteTimeLocal, model.FullFilePath, model.FileUrl);
                 return Ok(new {message = "A document has just been modified."});
             }
             catch (Exception ex)

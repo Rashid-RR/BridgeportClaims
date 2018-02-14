@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class DashboardDto
     {
         public DateTime? LastWorkDate { get; set; }
@@ -20,5 +19,6 @@ namespace BridgeportClaims.Data.Dtos
         public int? NewEpisodes { get; set; }
         public int? TotalResolvedEpisodes { get; set; }
         public int? TotalUnresolvedEpisodes { get; set; }
+        public bool FileWatcherHealthy { get; set; }
     }
 }

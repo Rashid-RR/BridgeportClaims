@@ -131,6 +131,7 @@ namespace BridgeportClaims.Data.SessionFactory
 					m.FluentMappings.Add<PrescriptionPaymentMap>();
 					m.FluentMappings.Add<ClaimPaymentMap>();
 				    m.FluentMappings.Add<ClaimFlex2Map>();
+				    m.FluentMappings.Add<EpisodeTypeUsersMappingMap>();
 				    m.FluentMappings.Add<SuspenseMap>();
 					m.FluentMappings.Add<InvoiceMap>();
 					m.FluentMappings.Add<PharmacyMap>();

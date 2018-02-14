@@ -203,6 +203,7 @@
     <Compile Include="Mappings\EpisodeMap.cs" />
     <Compile Include="Mappings\EpisodeNoteMap.cs" />
     <Compile Include="Mappings\EpisodeTypeMap.cs" />
+    <Compile Include="Mappings\EpisodeTypeUsersMappingMap.cs" />
     <Compile Include="Mappings\GenderMap.cs" />
     <Compile Include="Mappings\ImportFileMap.cs" />
     <Compile Include="Mappings\ImportFileTypeMap.cs" />

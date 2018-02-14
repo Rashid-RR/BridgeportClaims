@@ -8,35 +8,62 @@ GO
  Create date:		2/10/2018
  Description:		Gets the Episodes for the Episodes blade
  Example Execute:
-					EXECUTE [dbo].[uspGetEpisodesBlade] 775, 'Type', 'desc'
+					DECLARE @UserID NVARCHAR(128)
+					SELECT TOP (1) @UserID = ID FROM dbo.AspNetUsers
+					EXECUTE [dbo].[uspGetEpisodesBlade] 775, 'Type', 'desc', @UserID
  =============================================
 */
 CREATE PROC [dbo].[uspGetEpisodesBlade]
 (
 	@ClaimID INTEGER,
 	@SortColumn VARCHAR(50),
-	@SortDirection VARCHAR(5)
+	@SortDirection VARCHAR(5),
+	@UserID NVARCHAR(128)
 )
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
     BEGIN TRY
         BEGIN TRAN;
-			WITH EpisodesCTE AS
+			CREATE TABLE #Episodes
 			(
-				SELECT  [Id]
-					  , [Created]
-					  , [Owner]
-					  , [Type]
-					  , [Role]
-					  , [Pharmacy]
-					  , [RxNumber]
-					  , [Category]
-					  , [Resolved]
-					  , [NoteCount]
-				FROM    dbo.vwEpisode
-				WHERE	[ClaimID] = @ClaimID
+				[Id] [int] NOT NULL PRIMARY KEY,
+				[Created] [date] NULL,
+				[Owner] [nvarchar](201) NULL,
+				[Type] [varchar](255) NOT NULL,
+				[Role] [varchar](25) NULL,
+				[Pharmacy] [varchar](60) NULL,
+				[RxNumber] [varchar](100) NULL,
+				[Category] [varchar](255) NOT NULL,
+				[Resolved] [bit] NULL,
+				[NoteCount] [int] NULL
 			)
+			INSERT INTO [#Episodes]
+			(   [Id]
+			  , [Created]
+			  , [Owner]
+			  , [Type]
+			  , [Role]
+			  , [Pharmacy]
+			  , [RxNumber]
+			  , [Category]
+			  , [Resolved]
+			  , [NoteCount])
+			SELECT  e.[Id]
+					, e.[Created]
+					, e.[Owner]
+					, e.[Type]
+					, e.[Role]
+					, e.[Pharmacy]
+					, e.[RxNumber]
+					, e.[Category]
+					, e.[Resolved]
+					, e.[NoteCount]
+			FROM    dbo.vwEpisode AS e
+					INNER JOIN [dbo].[EpisodeTypeUsersMapping] AS [m] ON [m].[EpisodeTypeID] = e.[EpisodeTypeID]
+			WHERE	[ClaimID] = @ClaimID
+					AND m.[UserID] = @UserID
+			
 			SELECT [c].[Id]
                  , [c].[Created]
                  , [c].[Owner]
@@ -47,7 +74,7 @@ AS BEGIN
                  , [c].[Category]
                  , [c].[Resolved]
                  , [c].[NoteCount]
-			FROM [EpisodesCTE] c
+			FROM [#Episodes] c
 			ORDER BY CASE WHEN @SortColumn = 'Id' AND @SortDirection = 'ASC'
 					THEN [c].[Id] END ASC,
 				 CASE WHEN @SortColumn = 'Id' AND @SortDirection = 'DESC'
@@ -110,5 +137,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 
 GO

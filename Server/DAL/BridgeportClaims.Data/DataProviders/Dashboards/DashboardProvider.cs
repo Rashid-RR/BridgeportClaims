@@ -35,6 +35,7 @@ namespace BridgeportClaims.Data.DataProviders.Dashboards
                         var newEpisodesOrdinal = reader.GetOrdinal("NewEpisodes");
                         var totalResolvedEpisodesOrdinal = reader.GetOrdinal("TotalResolvedEpisodes");
                         var totalUnresolvedEpisodesOrdinal = reader.GetOrdinal("TotalUnresolvedEpisodes");
+                        var fileWatcherHealthyOrdinal = reader.GetOrdinal("FileWatcherHealthy");
                         while (reader.Read())
                         {
                             dashboardDto.LastWorkDate = !reader.IsDBNull(lastWorkDateOrdinal) ? reader.GetDateTime(lastWorkDateOrdinal) : (DateTime?) null;
@@ -52,6 +53,7 @@ namespace BridgeportClaims.Data.DataProviders.Dashboards
                             dashboardDto.NewEpisodes = !reader.IsDBNull(newEpisodesOrdinal) ? reader.GetInt32(newEpisodesOrdinal) : (int?)null;
                             dashboardDto.TotalResolvedEpisodes = !reader.IsDBNull(totalResolvedEpisodesOrdinal) ? reader.GetInt32(totalResolvedEpisodesOrdinal) : (int?)null;
                             dashboardDto.TotalUnresolvedEpisodes = !reader.IsDBNull(totalUnresolvedEpisodesOrdinal) ? reader.GetInt32(totalUnresolvedEpisodesOrdinal) : (int?)null;
+                            dashboardDto.FileWatcherHealthy = !reader.IsDBNull(fileWatcherHealthyOrdinal) ? reader.GetBoolean(fileWatcherHealthyOrdinal) : throw new ArgumentNullException(nameof(fileWatcherHealthyOrdinal));
                         }
                     });
                     if (conn.State != ConnectionState.Closed)

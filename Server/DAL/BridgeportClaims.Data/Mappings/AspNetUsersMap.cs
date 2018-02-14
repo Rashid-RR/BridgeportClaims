@@ -41,6 +41,8 @@ namespace BridgeportClaims.Data.Mappings
             HasMany(x => x.AssignedUser).KeyColumn("AssignedUserID");
             HasMany(x => x.ModifiedByUser).KeyColumn("ModifiedByUserID");
             HasMany(x => x.ResolvedUser).KeyColumn("ResolvedUserID");
+            HasMany(x => x.EpisodeNote).KeyColumn("WrittenByUserID");
+            HasMany(x => x.EpisodeTypeUsersMapping).KeyColumn("UserID");
             HasMany(x => x.Patient).KeyColumn("ModifiedByUserID");
             HasMany(x => x.PrescriptionNote).KeyColumn("EnteredByUserID");
             HasMany(x => x.PrescriptionPayment).KeyColumn("UserID");
