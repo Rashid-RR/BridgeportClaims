@@ -265,6 +265,13 @@
             </div>
           </div>
         </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="font-size:14pt;padding:0px;">
+          Window File Watcher Service Status
+        </div>          
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  text-center">
+            <img src="assets/filewatcher-sick.png" *ngIf="!summary.fileWatcherHealthy" class="img-sqaure" width="100px">
+            <img src="assets/filewatcher-healthy.png" *ngIf="summary.fileWatcherHealthy"  class="img-sqaure"  width="100px">
+        </div>          
       </div>
     </div>
   </div>

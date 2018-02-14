@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, NgZone, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -20,6 +20,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
   constructor(
     public ds: DocumentManagerService,
     private dp: DatePipe,
+    private zone: NgZone,
     private route: ActivatedRoute,
     private toast: ToastsManager,
     private fb: FormBuilder) { }
@@ -36,7 +37,9 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
       if (params['date']) {
         this.date = params['date'].replace(/\-/g, "/");
         this.ds.data.date = this.date;
-        this.ds.search();
+        this.zone.run(() => {
+          this.ds.search();
+        })
       }
     });
   }

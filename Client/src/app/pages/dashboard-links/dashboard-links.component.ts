@@ -20,6 +20,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     totalImagesScanned: 92,
     totalImagesIndexed: 69,
     totalImagesRemaining: 23,
+    fileWatcherHealthy:true,
     diariesAdded: 53,
     newClaims: 53,
     newEpisodes: 22,
