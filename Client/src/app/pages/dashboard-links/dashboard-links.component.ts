@@ -18,7 +18,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   win=window;
   @ViewChild('images') images:ElementRef;
   summary = {
-    lastWorkDate:  "2018-02-05T00:00:00.0000000",
+    lastWorkDate:  new Date(),
     totalImagesScanned: 92,
     totalImagesIndexed: 69,
     totalImagesRemaining: 23,
