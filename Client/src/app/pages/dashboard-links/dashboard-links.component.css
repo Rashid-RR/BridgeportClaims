@@ -218,6 +218,8 @@ li.reports {
     font-family: 'Montserrat', sans-serif !important;
     font-weight: 800;
     line-height: 25px;
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
     position: absolute;
 }
 

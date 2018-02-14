@@ -18,22 +18,22 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   win=window;
   @ViewChild('images') images:ElementRef;
   summary = {
-    lastWorkDate:  new Date().toISOString(),
-    totalImagesScanned: 92,
-    totalImagesIndexed: 69,
-    totalImagesRemaining: 23,
+    lastWorkDate:  null,
+    totalImagesScanned: null,
+    totalImagesIndexed: null,
+    totalImagesRemaining: null,
     fileWatcherHealthy: true,
-    diariesAdded: 53,
-    newClaims: 53,
-    newEpisodes: 22,
-    newInvoicesPrinted: 6,
-    newPaymentsPosted: 33,
-    newPrescriptions: 90,
-    newReversedPrescriptions: 39,
-    totalDiariesResolved: 11,
-    totalDiariesUnResolved: 54,
-    totalResolvedEpisodes: 76,
-    totalUnresolvedEpisodes: 11
+    diariesAdded: null,
+    newClaims: null,
+    newEpisodes: null,
+    newInvoicesPrinted: null,
+    newPaymentsPosted: null,
+    newPrescriptions: null,
+    newReversedPrescriptions: null,
+    totalDiariesResolved: null,
+    totalDiariesUnResolved: null,
+    totalResolvedEpisodes: null,
+    totalUnresolvedEpisodes: null
   }
   constructor(
     private http: HttpService,
