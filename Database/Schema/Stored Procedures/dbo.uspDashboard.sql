@@ -40,7 +40,17 @@ AS BEGIN
 				@TotalReversedPrescriptions INT,
 				@TotalNewEpisodes INT,
 				@TotalResolvedEpisodes INT,
-				@TotalUnresolvedEpisodes INT;
+				@TotalUnresolvedEpisodes INT,
+				@FileWatcherHealthy BIT;
+
+		SELECT      TOP (@One) @FileWatcherHealthy = CONVERT(BIT,IIF([nl].[Level] = 'Info', 1, 0))
+		FROM        [util].[NLog] AS [nl]
+		WHERE		nl.[MachineName] = 'BPSERVER'
+		ORDER BY    nl.[NLogID] DESC
+
+		IF @FileWatcherHealthy IS NULL
+			SET @FileWatcherHealthy = 0;
+
 
 		SELECT  @TotalNewEpisodes = SUM(IIF([e].[Created] = @LastWorkDay, 1, 0)),
 				@TotalResolvedEpisodes = SUM(IIF([e].[ResolvedDateUTC] IS NOT NULL, 1, 0)),
@@ -59,6 +69,7 @@ AS BEGIN
 			  , d.[DocumentDate]
 		FROM    [dbo].[Document] AS [d]
 		WHERE   [d].[DocumentDate] = @LastWorkDay
+				AND [d].[Archived] = 0
 
 
 		SELECT  @TotalImagesScannedYesterday = COUNT(*)
@@ -95,7 +106,8 @@ AS BEGIN
 				NewPaymentsPosted = (SELECT SUM([pp].[AmountPaid]) FROM [dbo].[PrescriptionPayment] AS [pp] WHERE [pp].[DatePosted] = @LastWorkDay),
 				NewEpisodes = @TotalNewEpisodes,
 				TotalResolvedEpisodes = @TotalResolvedEpisodes,
-				TotalUnresolvedEpisodes = @TotalUnresolvedEpisodes
+				TotalUnresolvedEpisodes = @TotalUnresolvedEpisodes,
+				FileWatcherHealthy = @FileWatcherHealthy
 		FROM    [dbo].[Diary] AS [d]
 		WHERE   d.[CreatedDate] = @LastWorkDay
 
@@ -121,4 +133,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
+
 GO
