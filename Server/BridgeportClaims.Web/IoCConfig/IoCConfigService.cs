@@ -44,6 +44,7 @@ using BridgeportClaims.Data.DataProviders.PayorSearches;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.DataProviders.Reports;
+using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
 using Microsoft.AspNet.SignalR;
 
@@ -82,6 +83,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DashboardProvider>().As<IDashboardProvider>().InstancePerRequest();
             builder.RegisterType<EpisodeNoteProvider>().As<IEpisodeNoteProvider>().InstancePerRequest();
             builder.RegisterType<AdminFunctionsProvider>().As<IAdminFunctionsProvider>().InstancePerRequest();
+            builder.RegisterType<UsersProvider>().As<IUsersProvider>().InstancePerRequest();
 
             // SignalR
             var hubConfig = new HubConfiguration();

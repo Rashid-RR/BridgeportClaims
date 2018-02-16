@@ -126,6 +126,8 @@
     <Compile Include="DataProviders\PrescriptionNotes\PrescriptionNotesDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionNoteTypes\IPrescriptionNoteTypesDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionNoteTypes\PrescriptionNoteTypesDataProvider.cs" />
+    <Compile Include="DataProviders\Users\IUsersProvider.cs" />
+    <Compile Include="DataProviders\Users\UsersProvider.cs" />
     <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
     <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
     <Compile Include="Dtos\AccountsReceivableDto.cs" />
@@ -178,6 +180,7 @@
     <Compile Include="Dtos\ScriptNoteDto.cs" />
     <Compile Include="Dtos\UnpaidScriptResultDto.cs" />
     <Compile Include="Dtos\UnpaidScriptsDto.cs" />
+    <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Dtos\UsStateDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />
     <Compile Include="Mappings\AdjustorMap.cs" />
