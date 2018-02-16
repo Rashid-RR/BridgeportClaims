@@ -114,8 +114,7 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				var query = _episodeNoteProvider.GetEpisodeNotes(episodeId);
-				var results = query.GroupBy(q => new
+				var results = _episodeNoteProvider.GetEpisodeNotes(episodeId)?.GroupBy(q => new
 					{
 						q.Id,
 						q.ClaimNumber,
