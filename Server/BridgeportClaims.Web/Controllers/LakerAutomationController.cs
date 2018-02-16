@@ -1,12 +1,12 @@
 ﻿using NLog;
 using System;
 using System.Net;
+using System.Threading;
 using System.Web.Http;
 using System.Threading.Tasks;
 using BridgeportClaims.Business.LakerFileProcess;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
-using BridgeportClaims.Web.BackgroundWork;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Web.EmailTemplates;
@@ -46,19 +46,24 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var userEmail = User.Identity.GetUserName();
                     if (cs.AppIsInDebugMode)
-                        Logger.Info($"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
+                        Logger.Info(
+                            $"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
                     var tuple = _lakerFileProcessor.ProcessOldestLakerFile();
                     string msg;
                     if (tuple.Item1 == c.NoLakerFilesToImportToast)
                         msg = c.NoLakerFilesToImportToast;
                     else
                     {
-                        ProcessBackgroundLakerImport(tuple.Item1, tuple.Item2, userEmail);
+                        StartBackgroundThread(async delegate
+                        {
+                            await ProcessBackgroundLakerImport(tuple.Item1, tuple.Item2, userEmail);
+                        });
                         msg = $"The Laker file import process has been started for \"{tuple.Item1}\"." +
                               " It will take a few minutes.... So we'll send you an email when " +
                               "it's done.";
                     }
-                    return Ok(new { message = msg});
+
+                    return Ok(new {message = msg});
                 });
             }
             catch (Exception ex)
@@ -68,10 +73,17 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        private void ProcessBackgroundLakerImport(string lakerFileName, string fullLakerFileTemporaryPath, string userEmail)
+        private static void StartBackgroundThread(ThreadStart threadStart)
         {
-            string msg;
-            BackgroundWorkerProvider.Run((s, e) =>
+            if (threadStart == null) return;
+            var thread = new Thread(threadStart) {IsBackground = true};
+            thread.Start();
+        }
+
+        private async Task ProcessBackgroundLakerImport(string lakerFileName, string fullLakerFileTemporaryPath,
+            string userEmail)
+        {
+            try
             {
                 // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
                 var dataTable = _importFileProvider.RetreiveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
@@ -79,36 +91,22 @@ namespace BridgeportClaims.Web.Controllers
                 _importFileProvider.LakerImportFileProcedureCall(dataTable);
                 // Finally, use the newly imported file, to Upsert the database.
                 if (cs.AppIsInDebugMode)
-                    Logger.Info("In the belly of the beast, Background worker process.");
+                    Logger.Info("About to call EtlLakerFile()...");
                 _importFileProvider.EtlLakerFile(lakerFileName);
                 // And finally, mark the file processed.
                 _importFileProvider.MarkFileProcessed(lakerFileName);
-                e.Result = lakerFileName;
-            }, async (s, e) =>
-            {
+
                 if (cs.AppIsInDebugMode)
-                    Logger.Info("Run Worker Completed event handler");
-                if (null != e.Error)
-                {
-                    Logger.Error(e.Error);
-                    msg = $"The Laker Import Process encountered and error: {e.Error.Message}";
-                }
-                else if (e.Cancelled)
-                {
-                    Logger.Warn("Background Worker Process for the Laker File cancelled.");
-                    msg = "The Laker Import Process was Cancelled before it could finish successfully. Any changes have been rolled back.";
-                }
-                else
-                {
-                    msg = "The Laker File Import Process Ran Successfully!";
-                }
-                await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty, EmailModelEnum.LakerImportStatus);
-            }, (s, e) =>
+                    Logger.Info("The file was marked as completed.");
+                const string msg = "The Laker File Import Process Ran Successfully!";
+                await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
+                    EmailModelEnum.LakerImportStatus);
+            }
+            catch (Exception ex)
             {
-                if (!cs.AppIsInDebugMode) return;
-                Logger.Info($"Progress percentage: {e.ProgressPercentage}");
-                Logger.Info("User state: {e.UserState.ToString()}");
-            });
+                Logger.Error(ex);
+                throw;
+            }
         }
     }
 }
