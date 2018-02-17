@@ -573,6 +573,20 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  assignEpisode(id: any,userId:UUID): Observable<Response> {
+    return this.http.post(this.baseUrl + '/episodes/assign/?episodeId='+id+'&userId='+userId, {}, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  userToAssignEpisode(): Observable<Response> {
+    return this.http.post(this.baseUrl + '/users/get-users-to-assign', {}, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   getEpisodeNotes(id: any): Observable<Response> {
     return this.http.post(this.baseUrl + '/episodes/note-modal/?episodeId='+id, {}, { headers: this.headers })
       .catch(err => {

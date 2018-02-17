@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { EpisodeService, HttpService } from '../../services/services.barrel';
 import { Diary } from '../../models/diary';
 import { Claim } from '../../models/claim';
@@ -13,6 +13,7 @@ import { ConfirmComponent } from '../../components/confirm.component';
 import { DocumentItem } from 'app/models/document';
 import { UUID } from 'angular2-uuid';
 import { Episode } from 'app/interfaces/episode';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 
 @Component({
   selector: 'app-episode-results',
@@ -22,6 +23,8 @@ import { Episode } from 'app/interfaces/episode';
 export class EpisodeResultsComponent implements OnInit {
 
   activeToast: Toast;
+
+  @ViewChild('episodeActionSwal') private episodeSwal: SwalComponent;
   constructor(
     private dialogService: DialogService, private _router: Router, public episodeService: EpisodeService, private http: HttpService,
     private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
@@ -49,6 +52,12 @@ export class EpisodeResultsComponent implements OnInit {
       })
   }
 
+  assign(episode: Episode) { 
+    this.episodeService.episodetoAssign = episode;
+    this.episodeSwal.show().then((r) => {
+        
+    })
+  }
   acquire(episode: Episode) {    
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Acquire Episode',

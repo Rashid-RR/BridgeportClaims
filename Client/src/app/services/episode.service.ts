@@ -10,6 +10,7 @@ import { EpisodesFilterPipe } from "../components/episode-results/episode-filter
 import { Episode } from 'app/interfaces/episode';
 import { EpisodeNoteType } from 'app/models/episode-note-type';
 import { ArraySortPipe } from 'app/pipes/sort.pipe';
+import swal from "sweetalert2";
 
 @Injectable()
 export class EpisodeService {
@@ -21,6 +22,7 @@ export class EpisodeService {
   goToPage: any = '';
   episodeNote: String;
   totalRowCount: number;
+  episodetoAssign:Episode;
   episodeNoteTypes: Array<EpisodeNoteType> = []
   owners: Array<{ownerId:any,owner:string}> = []
   constructor(private http: HttpService, private formBuilder: FormBuilder,
@@ -75,7 +77,9 @@ export class EpisodeService {
     this.data.sortDirection = info.dir;
     this.search();
   }
-
+  closeModal() {
+    swal.clickCancel();
+  }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');

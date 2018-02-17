@@ -624,3 +624,6 @@ thead span {
   color: #666;
 }
  
+.swal2-shown .modal.show.in{
+  z-index: 999999 !important;
+}

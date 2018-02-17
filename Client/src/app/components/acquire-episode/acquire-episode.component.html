@@ -1,0 +1,63 @@
+<button class="close-button" (click)="episodeService.closeModal()">
+  <i class="fa fa-times"></i>
+</button>
+<br/><br/>
+<div class="box no-border">
+  <div class="box-header bg-head-box" style="color:white">
+    <h3 class="box-title">Acquire / Assign Episode</h3>
+  </div>
+  <div class="box-body" style="border: none;">
+    <div class="row invoice-info text-left">
+      <div class="col-sm-12 invoice-col">
+        <div class="nav-tabs-custom">
+          <ul class="nav nav-tabs -pull-right">
+            <li>
+              <a href="#1a" data-toggle="tab">Acquire</a>
+            </li>
+            <li>
+              <a href="#2a" data-toggle="tab">Assign</a>
+            </li>
+            <li>
+              <a href="#3a" data-toggle="tab active" style="visibility:hidden">Select</a>
+            </li>
+          </ul>
+          <div class="tab-content clearfix">
+            <div class="tab-pane" id="1a">
+              <div class="form-group">
+                <button class="btn bg-darkRed btn-flat  btn-small search-claims" type="button" (click)="acquire()">
+                  <i class="fa fa-check-square"></i> Acquire Now
+                </button>
+              </div>
+            </div>
+            <div class="tab-pane" id="2a">
+              <div class="form-group">
+                <label id="episodeNoteTypeLabel">User</label>
+                <select class="form-control" [(ngModel)]="user">
+                  <option *ngFor="let u of users" [value]="u.id"> {{u.firstName}} {{u.lastName}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <button class="btn bg-darkRed btn-flat pull-right btn-small search-claims" type="button" (click)="assign()">
+                  <i class="fa fa-check-square"></i> Save Assignment
+                </button>
+              </div>
+            </div>
+            <div class="tab-pane active" id="3a">
+              Select action above
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="overlay" *ngIf="episodeService.loading">
+      <img src="assets/1.gif">
+  </div>
+  <div class="box-footer">
+    <div class="form-group">
+      <button class="btn bg-darkblue btn-flat pull-right btn-small clear-inputs" type="button" (click)="episodeService.closeModal()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

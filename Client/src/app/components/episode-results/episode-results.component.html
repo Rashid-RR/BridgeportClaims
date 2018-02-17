@@ -75,15 +75,15 @@
                         </td>
                     </tr>
                     <tr *ngFor="let episode of (episodeService.episodeList | episodePipe : episodeService.episodeNote : episodeService.owner);">
-                        <td>
-                            <button type="button" class="btn btn-primary btn-xs" (click)="acquire(episode)">
-                                <span class="fa fa-check-square"></span> Acquire
+                        <td class="dropdown">                           
+                             <button type="button" class="btn btn-primary btn-xs" (click)="assign(episode)">
+                                <span class="fa fa-list-ul"></span> Action
                             </button>
                         </td>
                         <td [class.resolved]="episodeService.data.resolved">
                             <div class="commonCheckBox">
-                                <input type="checkbox" name="check" value="None" [id]="'checkbox-h'+episode.episodeId" #inv (change)="markAsResolved($event,episode)" [checked]="episodeService.data.resolved"
-                                    [disabled]="episodeService.data.resolved">
+                                <input type="checkbox" name="check" value="None" [id]="'checkbox-h'+episode.episodeId" #inv (change)="markAsResolved($event,episode)"
+                                    [checked]="episodeService.data.resolved" [disabled]="episodeService.data.resolved">
                                 <label [for]="'checkbox-h'+episode.episodeId"></label>
                             </div>
                         </td>
@@ -119,3 +119,5 @@
         </div>
     </div>
 </div>
+
+<swal #episodeActionSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="paymeny-modal" [focusCancel]="false" title="Acquire or Assign Episode"><app-acquire-episode *swalPartial></app-acquire-episode><swal>

@@ -1,0 +1,9 @@
+  .nav-pills > li > a {
+    padding: 5px
+  }
+  .tab-content {
+    padding : 35px 15px;
+  }
+  .nav-tabs-custom{
+    box-shadow: none;
+  }
