@@ -68,7 +68,7 @@ namespace BridgeportClaims.Web.Controllers
 				var user = _usersRepository.Get(User.Identity.GetUserId());
 				if (null == user)
 					throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
-				_episodesDataProvider.AssignOrAcquireEpisode(episodeId, user.Id);
+				_episodesDataProvider.AssignOrAcquireEpisode(episodeId, user.Id, user.Id);
 				return Ok(new
 				{
 					message = "The episode was acquired successfully.",
@@ -90,10 +90,11 @@ namespace BridgeportClaims.Web.Controllers
 			{
 				return await Task.Run(() =>
 				{
+					var modifiedByUserId = User.Identity.GetUserId();
 					var user = _usersRepository.Get(userId);
 					if (null == user)
 						throw new Exception($"Error, could not retrieve the user from Id: {userId}");
-					_episodesDataProvider.AssignOrAcquireEpisode(episodeId, userId);
+					_episodesDataProvider.AssignOrAcquireEpisode(episodeId, userId, modifiedByUserId);
 					return Ok(new
 					{
 						message = "The episode was assigned successfully.",

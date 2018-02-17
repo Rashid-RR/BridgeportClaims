@@ -345,7 +345,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				});
 			});
 
-		public void AssignOrAcquireEpisode(int episodeId, string userId)
+		public void AssignOrAcquireEpisode(int episodeId, string userId, string modifiedByUserId)
 		{
 			var episode = _episodeRepository.GetSingleOrDefault(x => x.EpisodeId == episodeId);
 			if (null == episode)
@@ -353,10 +353,13 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			var user = _usersRepository.GetSingleOrDefault(x => x.Id == userId);
 			if (null == user)
 				throw new Exception($"Error. Could not find a user with Id \"{userId}\"");
+			var modifiedByUser = _usersRepository.GetSingleOrDefault(x => x.Id == modifiedByUserId);
+			if (null == modifiedByUser)
+				throw new Exception($"Error, could not find a user with Id \"{modifiedByUserId}\"");
 			if (null == episode.AcquiredUser)
 				episode.AcquiredUser = user;
 			episode.AssignedUser = user;
-			episode.ModifiedByUser = user;
+			episode.ModifiedByUser = modifiedByUser;
 			episode.UpdatedOnUtc = DateTime.UtcNow;
 			_episodeRepository.Update(episode);
 		}
