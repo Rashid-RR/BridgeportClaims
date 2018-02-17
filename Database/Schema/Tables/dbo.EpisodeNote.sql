@@ -16,7 +16,7 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[EpisodeNote] ADD CONSTRAINT [pkEpisodeNote] PRIMARY KEY CLUSTERED  ([EpisodeNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeNoteEpisodeIDWrittenByUserIDIncludes] ON [dbo].[EpisodeNote] ([EpisodeID], [WrittenByUserID]) INCLUDE ([Created], [NoteText]) WITH (FILLFACTOR=90) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeNoteEpisodeIDWrittenByUserIDIncludes] ON [dbo].[EpisodeNote] ([EpisodeID], [WrittenByUserID]) INCLUDE ([Created], [NoteText]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[EpisodeNote] ADD CONSTRAINT [fkEpisodeNoteEpisodeIDEpisodeEpisodeID] FOREIGN KEY ([EpisodeID]) REFERENCES [dbo].[Episode] ([EpisodeID])
 GO

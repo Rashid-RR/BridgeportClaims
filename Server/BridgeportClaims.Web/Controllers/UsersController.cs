@@ -8,6 +8,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.UserRoles;
+using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
 
@@ -21,14 +22,32 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IAspNetUsersProvider _aspNetUsersProvider;
         private readonly IAssignUsersToRolesProvider _assignUsersToRolesProvider;
         private readonly IRepository<AspNetUsers> _usersRepository;
+        private readonly IUsersProvider _usersProvider;
 
         public UsersController(IAspNetUsersProvider aspNetUsersProvider, 
             IAssignUsersToRolesProvider assignUsersToRolesProvider, 
-            IRepository<AspNetUsers> usersRepository)
+            IRepository<AspNetUsers> usersRepository, 
+            IUsersProvider usersProvider)
         {
             _aspNetUsersProvider = aspNetUsersProvider;
             _assignUsersToRolesProvider = assignUsersToRolesProvider;
             _usersRepository = usersRepository;
+            _usersProvider = usersProvider;
+        }
+
+        [HttpPost]
+        [Route("get-users-to-assign")]
+        public async Task<IHttpActionResult> GetUsersToAssign()
+        {
+            try
+            {
+                return await Task.Run(() => Ok(_usersProvider.GetUsers()));
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

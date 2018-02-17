@@ -334,7 +334,6 @@
     <Compile Include="App_Start\AutomapperStartup.cs" />
     <Compile Include="Attributes\DenyActionAttribute.cs" />
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
-    <Compile Include="BackgroundWork\BackgroundWorkerProvider.cs" />
     <Compile Include="Controllers\AdjustorsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CacheController.cs" />
