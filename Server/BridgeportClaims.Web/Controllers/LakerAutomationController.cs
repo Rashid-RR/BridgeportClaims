@@ -56,7 +56,7 @@ namespace BridgeportClaims.Web.Controllers
                     {
                         StartBackgroundThread(async delegate
                         {
-                            await ProcessBackgroundLakerImport(tuple.Item1, tuple.Item2, userEmail);
+                            await ProcessLakerImport(tuple.Item1, tuple.Item2, userEmail);
                         });
                         msg = $"The Laker file import process has been started for \"{tuple.Item1}\"." +
                               " It will take a few minutes.... So we'll send you an email when " +
@@ -80,7 +80,7 @@ namespace BridgeportClaims.Web.Controllers
             thread.Start();
         }
 
-        private async Task ProcessBackgroundLakerImport(string lakerFileName, string fullLakerFileTemporaryPath,
+        private async Task ProcessLakerImport(string lakerFileName, string fullLakerFileTemporaryPath,
             string userEmail)
         {
             try

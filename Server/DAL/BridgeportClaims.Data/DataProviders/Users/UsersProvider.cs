@@ -10,8 +10,8 @@ namespace BridgeportClaims.Data.DataProviders.Users
     public class UsersProvider : IUsersProvider
     {
         private readonly IRepository<AspNetUsers> _usersRepository;
-        private const string Jordan = "jordan";
-        private const string Gurney = "gurney";
+        private const string Jordan = "Jordan";
+        private const string Gurney = "Gurney";
 
         public UsersProvider(IRepository<AspNetUsers> usersRepository)
         {
@@ -19,9 +19,8 @@ namespace BridgeportClaims.Data.DataProviders.Users
         }
 
         public IEnumerable<UserDto> GetUsers() => _usersRepository.GetMany(x =>
-                x.LockoutEnabled && null != x.LockoutEndDateUtc && x.LockoutEndDateUtc.Value > DateTime.UtcNow &&
-                null != x.FirstName && x.FirstName.ToLower() != Jordan && null != x.LastName &&
-                x.LastName.ToLower() != Gurney)
-            .Select(u => new UserDto {Id = u.Id, FirstName = u.FirstName, LastName = u.LastName});
+                (null == x.LockoutEndDateUtc || x.LockoutEnabled && null != x.LockoutEndDateUtc && x.LockoutEndDateUtc.Value > DateTime.UtcNow)
+                && (null != x.FirstName && x.FirstName != Jordan || null != x.LastName && x.LastName != Gurney)
+                ).Select(u => new UserDto {Id = u.Id, FirstName = u.FirstName, LastName = u.LastName});
     }
 }
