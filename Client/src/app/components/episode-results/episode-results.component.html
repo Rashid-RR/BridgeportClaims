@@ -6,7 +6,7 @@
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="episodeService.onSortColumn($event)" #myTable='table-sort'>
                         <th>
-                            <span>Acquire</span>
+                            <span>Action</span>
                         </th>
                         <th [class.resolved]="episodeService.data.resolved">
                             <span>Resolve</span>
@@ -75,7 +75,7 @@
                         </td>
                     </tr>
                     <tr *ngFor="let episode of (episodeService.episodeList | episodePipe : episodeService.episodeNote : episodeService.owner);">
-                        <td class="dropdown">                           
+                        <td class="dropdown">
                              <button type="button" class="btn btn-primary btn-xs" (click)="assign(episode)">
                                 <span class="fa fa-list-ul"></span> Action
                             </button>
