@@ -6,10 +6,12 @@ import { EventsService } from "../../services/events-service";
 import { Episode } from 'app/interfaces/episode';
 import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
+import { EpisodeService } from "../../services/episode.service";
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 import { ConfirmComponent } from '../../components/confirm.component';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
 @Component({
   selector: 'app-claim-episode',
   templateUrl: './claim-episode.component.html',
@@ -19,8 +21,9 @@ export class ClaimEpisodeComponent implements OnInit {
 
 
   @ViewChild('prescriptionTable') table: ElementRef;
+  @ViewChild('episodeActionSwal') private episodeSwal: SwalComponent;
   sortColumn: SortColumnInfo;
-  constructor(private myInjector: WindowsInjetor, private dialogService: DialogService, public claimManager: ClaimManager, private events: EventsService, private http: HttpService, private toast: ToastsManager) { }
+  constructor(public episodeService: EpisodeService,private myInjector: WindowsInjetor, private dialogService: DialogService, public claimManager: ClaimManager, private events: EventsService, private http: HttpService, private toast: ToastsManager) { }
 
   ngOnInit() {
     this.events.on("episode-note-updated", (episode: Episode) => {
@@ -88,6 +91,12 @@ export class ClaimEpisodeComponent implements OnInit {
       }, err => {
         this.claimManager.loadingEpisodes = false;
       });
+  }
+  assign(episode: Episode) { 
+    this.episodeService.episodetoAssign = episode;
+    this.episodeSwal.show().then((r) => {
+        
+    })
   }
   markAsResolved($event, episode) {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
