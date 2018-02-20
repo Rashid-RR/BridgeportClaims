@@ -11,7 +11,6 @@ using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Excel.ExcelPackageFactory;
-using BridgeportClaims.Pdf.ITextPdfFactory;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
 
@@ -64,27 +63,6 @@ namespace BridgeportClaims.Web.Controllers
                     {12, month12}
                 };
                 return retVal;
-            }
-        }
-
-        [HttpPost]
-        [Route("scripts-pdf")]
-        public async Task<IHttpActionResult> GetPrescriptionsPdf()
-        {
-            try
-            {
-                return await Task.Run(() =>
-                {
-                    var pdfFactory = new PdfFactory();
-                    pdfFactory.GeneratePdf(new DataTable("tablename"));
-                    const string msg = "The PDF was generated successfully";
-                    return Ok(new {message = msg});
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 

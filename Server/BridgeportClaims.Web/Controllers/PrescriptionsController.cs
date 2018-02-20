@@ -2,10 +2,12 @@
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Business.PrescriptionReports;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Enums;
+using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
 using NLog;
 
@@ -18,12 +20,36 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IClaimsDataProvider _claimsDataProvider;
         private readonly IPrescriptionsProvider _prescriptionsProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly IPrescriptionReportFactory _prescriptionReportFactory;
 
-        public PrescriptionsController(IClaimsDataProvider claimsDataProvider,
-            IPrescriptionsProvider prescriptionsProvider)
+        public PrescriptionsController(
+            IClaimsDataProvider claimsDataProvider,
+            IPrescriptionsProvider prescriptionsProvider, 
+            IPrescriptionReportFactory prescriptionReportFactory)
         {
             _claimsDataProvider = claimsDataProvider;
             _prescriptionsProvider = prescriptionsProvider;
+            _prescriptionReportFactory = prescriptionReportFactory;
+        }
+
+        [HttpPost]
+        [Route("scripts-pdf")]
+        public async Task<IHttpActionResult> GetPrescriptionsPdf(int claimId)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var path = _prescriptionReportFactory.GeneratePrescriptionReport(claimId);
+                    var fileName = "Me.pdf";
+                    return new FileResult(path, fileName, "application/pdf");
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

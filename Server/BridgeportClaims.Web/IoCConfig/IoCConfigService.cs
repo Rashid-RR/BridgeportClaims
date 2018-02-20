@@ -8,6 +8,7 @@ using BridgeportClaims.Business.LakerFileProcess;
 using BridgeportClaims.Web.Email;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Business.Payments;
+using BridgeportClaims.Business.PrescriptionReports;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.SessionFactory;
 using BridgeportClaims.Entities.Automappers;
@@ -47,6 +48,7 @@ using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
 using Microsoft.AspNet.SignalR;
+using BridgeportClaims.Pdf.ITextPdfFactory;
 
 namespace BridgeportClaims.Web.IoCConfig
 {
@@ -84,6 +86,8 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<EpisodeNoteProvider>().As<IEpisodeNoteProvider>().InstancePerRequest();
             builder.RegisterType<AdminFunctionsProvider>().As<IAdminFunctionsProvider>().InstancePerRequest();
             builder.RegisterType<UsersProvider>().As<IUsersProvider>().InstancePerRequest();
+            builder.RegisterType<PdfFactory>().As<IPdfFactory>().InstancePerRequest();
+            builder.RegisterType<PrescriptionReportFactory>().As<IPrescriptionReportFactory>().InstancePerRequest();
 
             // SignalR
             var hubConfig = new HubConfiguration();
