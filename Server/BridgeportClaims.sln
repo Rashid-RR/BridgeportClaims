@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Integrations.Tests", "Tests\BridgeportClaims.Integrations.Tests\BridgeportClaims.Integrations.Tests.csproj", "{668F549D-CDB6-4E3B-8B25-C1BC2B6B1CAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Pdf", "BridgeportClaims.Pdf\BridgeportClaims.Pdf.csproj", "{791943DB-823B-43A0-87F8-05A6443628C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Pdf", "Utilities\BridgeportClaims.Pdf\BridgeportClaims.Pdf.csproj", "{791943DB-823B-43A0-87F8-05A6443628C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
