@@ -24,5 +24,6 @@ namespace BridgeportClaims.Web.Models
         public int? StateId { get; set; } = DefaultInt;
         public string PostalCode { get; set; } = DefaultString;
         public int? ClaimFlex2Id { get; set; } = DefaultInt;
+        public string AdjustorExtension { get; set; } = DefaultString;
     }
 }

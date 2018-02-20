@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
         private const string DefaultString = "NULL";
 
         public void EditClaim(int claimId, string modifiedByUserId, DateTime? dateOfBirth, int genderId, int payorId, int? adjustorId, string adjustorPhone,
-            DateTime? dateOfInjury, string adjustorFax, string address1, string address2, string city, int? stateId, string postalCode, int? claimFlex2Id) =>
+            DateTime? dateOfInjury, string adjustorFax, string address1, string address2, string city, int? stateId, string postalCode, int? claimFlex2Id, string adjustorExt) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspEditClaim]", conn), cmd =>
@@ -169,6 +169,17 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsEdit
                         claimFlex2IdParam.Value = claimFlex2Id ?? (object) DBNull.Value;
                         claimFlex2IdParam.ParameterName = "@ClaimFlex2ID";
                         cmd.Parameters.Add(claimFlex2IdParam);
+                    }
+                    if (adjustorExt != DefaultString)
+                    {
+                        var adjustorExtParam = cmd.CreateParameter();
+                        adjustorExtParam.Value = adjustorExt ?? (object) DBNull.Value;
+                        adjustorExtParam.Direction = ParameterDirection.Input;
+                        adjustorExtParam.DbType = DbType.AnsiString;
+                        adjustorExtParam.SqlDbType = SqlDbType.VarChar;
+                        adjustorExtParam.Size = 10;
+                        adjustorExtParam.ParameterName = "@AdjustorExtension";
+                        cmd.Parameters.Add(adjustorExtParam);
                     }
                     if (conn.State != ConnectionState.Open)
                         conn.Open();

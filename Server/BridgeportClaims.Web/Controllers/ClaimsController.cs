@@ -71,13 +71,14 @@ namespace BridgeportClaims.Web.Controllers
 	                var postalCode = model.PostalCode;
 	                var claimFlex2Id = model.ClaimFlex2Id;
                     var userId = User?.Identity?.GetUserId();
-	                if (null == userId)
+	                var ext = model.AdjustorExtension;
+                    if (null == userId)
 	                    throw new Exception("Could not locate the authenticated user.");
 	                _claimsEditProvider.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null : "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
 	                        : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
 	                        adjustorId, adjustorPhone, null == dateOfInjury ? (DateTime?) null : "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
 	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax,
-                            address1, address2, city, stateId, postalCode, claimFlex2Id);
+                            address1, address2, city, stateId, postalCode, claimFlex2Id, ext);
 	                return Ok(new {message = "The claim was updated successfully."});
 	            });
 	        }
