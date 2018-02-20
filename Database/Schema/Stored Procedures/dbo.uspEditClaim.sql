@@ -25,7 +25,8 @@ CREATE PROCEDURE [dbo].[uspEditClaim]
 	@City VARCHAR(155) = 'NULL',
 	@StateID INTEGER = -1,
 	@PostalCode varchar(100) = 'NULL',
-	@ClaimFlex2ID INTEGER = -1
+	@ClaimFlex2ID INTEGER = -1,
+	@AdjustorExtension VARCHAR(10) = 'NULL'
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -108,12 +109,13 @@ AS BEGIN
 
 		-- UPDATE Adjustor
 		IF (@AdjustorPhone != 'NULL' OR @AdjustorPhone IS NULL
-			OR @AdjustorFax != 'NULL' OR @AdjustorFax IS NULL)
+			OR @AdjustorFax != 'NULL' OR @AdjustorFax IS NULL OR @AdjustorExtension IS NULL OR @AdjustorExtension != 'NULL')
 			BEGIN
 				UPDATE          [a]
 				SET             [a].[PhoneNumber] = CASE WHEN @AdjustorPhone = 'NULL' THEN [a].[PhoneNumber] ELSE @AdjustorPhone END,
 								[a].[FaxNumber] = CASE WHEN @AdjustorFax = 'NULL' THEN [a].[FaxNumber] ELSE @AdjustorFax END,
 								[a].[ModifiedByUserID] = @ModifiedByUserID,
+								[a].[Extension] = CASE WHEN @AdjustorExtension = 'NULL' THEN [a].[Extension] ELSE @AdjustorExtension END,
 								[a].[UpdatedOnUTC] = @UtcNow
 				FROM            [dbo].[Claim]    AS [c]
 					INNER JOIN  [dbo].[Adjustor] AS [a] ON [a].[AdjustorID] = [c].[AdjusterID]

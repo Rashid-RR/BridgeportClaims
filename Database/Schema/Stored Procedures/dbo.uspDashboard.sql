@@ -95,9 +95,9 @@ AS BEGIN
 				@TotalImagesScannedYesterday TotalImagesScanned, 
 				@TotalImagesIndexedYesterday TotalImagesIndexed,
 				@TotalImagesRemainingYesterday TotalImagesRemaining,
-				DiariesAdded = COUNT(*),
-				TotalDiariesResolved = SUM(IIF([d].[DateResolved] IS NOT NULL, 1, 0)),
-				TotalDiariesUnResolved = SUM(IIF([d].[DateResolved] IS NOT NULL, 0, 1)),
+				DiariesAdded = ISNULL(COUNT(*),0),
+				TotalDiariesResolved = ISNULL(SUM(IIF([d].[DateResolved] IS NOT NULL, 1, 0)),0),
+				TotalDiariesUnResolved = ISNULL(SUM(IIF([d].[DateResolved] IS NOT NULL, 0, 1)),0),
 				NewClaims = (SELECT COUNT(*) FROM [dbo].[Claim] AS [c]
 				WHERE CONVERT(DATE, [c].[CreatedOnUTC]) >= @LastWorkDay),
 				NewPrescriptions = @TotalNewPrescriptions,
@@ -133,6 +133,7 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 
 
 GO

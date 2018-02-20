@@ -51,17 +51,39 @@ namespace BridgeportClaims.Common.Extensions
             return table;
         }
 
+        /// <summary>
+        /// SetOrdinal of DataTable columns based on the index of the columnNames array. Removes invalid column names first.
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <param name="columnNames"></param>
+        /// <remarks> http://stackoverflow.com/questions/3757997/how-to-change-datatable-colums-order </remarks>
+        public static void SetColumnsOrder(this DataTable dt, params string[] columnNames)
+        {
+            if (null == columnNames)
+                throw new ArgumentNullException(nameof(columnNames));
+
+            var listColNames = columnNames.ToList();
+
+            //Remove invalid column names.
+            foreach (var colName in columnNames)
+                if (!dt.Columns.Contains(colName))
+                    listColNames.Remove(colName);
+
+            foreach (var colName in listColNames)
+                dt.Columns[colName].SetOrdinal(listColNames.IndexOf(colName));
+        }
+
         public static DataTable ToDataTable<T>(this IEnumerable<T> values) where T : class, new()
         {
             var table = new DataTable();
             var enumerable = values as T[] ?? values.ToArray();
             var members = enumerable.First().GetType().GetProperties();
             foreach (var member in members)
-                table.Columns.Add(member.Name, member.PropertyType);
+                table.Columns.Add(member.Name, Nullable.GetUnderlyingType(member.PropertyType) ?? member.PropertyType);
             foreach (var value in enumerable)
             {
                 var row = table.NewRow();
-                row.ItemArray = members.Select(s => s.GetValue(value)).ToArray();
+                row.ItemArray = members.Select(s => s.GetValue(value) ?? DBNull.Value).ToArray();
                 table.Rows.Add(row);
             }
             return table;

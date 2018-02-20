@@ -51,6 +51,8 @@
     <Compile Include="Models\PaymentInputsModel.cs" />
     <Compile Include="Payments\IPaymentsBusiness.cs" />
     <Compile Include="Payments\PaymentsBusiness.cs" />
+    <Compile Include="PrescriptionReports\IPrescriptionReportFactory.cs" />
+    <Compile Include="PrescriptionReports\PrescriptionReportFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +63,10 @@
     <ProjectReference Include="..\..\DAL\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
       <Project>{efbeb7f6-9648-4475-ad19-8f5dab3e5876}</Project>
       <Name>BridgeportClaims.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\BridgeportClaims.Pdf\BridgeportClaims.Pdf.csproj">
+      <Project>{791943db-823b-43a0-87f8-05a6443628c3}</Project>
+      <Name>BridgeportClaims.Pdf</Name>
     </ProjectReference>
     <ProjectReference Include="..\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
       <Project>{61afc490-da0f-4f71-ab27-427e64fbf7d0}</Project>
