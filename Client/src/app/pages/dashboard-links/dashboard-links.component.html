@@ -42,14 +42,17 @@
                 </p>
               </div>
               <ul class="status-in-word top" style="margin-top: 0px;">
-                <li class="completed" style="visibility:hidden;" [style.width.%]="totalImagesIndexed"></li>
-                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="totalImagesIndexed>0 ? 0 : 5.5" [style.width.%]="totalImagesRemaining>0 ? totalImagesRemaining : 50">
+                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="((100-totalImagesIndexed)/100*imagesProgress.clientWidth)>170 ? (totalImagesIndexed/100*imagesProgress.clientWidth)+(totalImagesIndexed ==0 ? 12 : 0) : 0"
+                  [style.padding-right.px]="((100-totalImagesIndexed)/100*imagesProgress.clientWidth)>170 ? 0: ((100-totalImagesIndexed)/100*imagesProgress.clientWidth)+12"
+                  [style.text-align]="((100-totalImagesIndexed)/100*imagesProgress.clientWidth)>170 ? 'left' : 'right'" [style.width.%]="100">
                   {{summary.totalImagesRemaining}} Unindexed Images
                 </li>
+                <li class="completed" style="visibility:hidden;"></li>
               </ul>
-              <div class="progress" [style.margin-top.px]="3">
-                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalImagesIndexed" [attr.aria-valuenow]="totalImagesIndexed"
-                  aria-valuemin="0" aria-valuemax="100">{{summary.totalImagesIndexed}}</div>
+              <div class="progress" [style.margin-top.px]="3" #imagesProgress>
+                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.px]="totalImagesIndexed/100*imagesProgress.clientWidth"
+                  [style.border-bottom-right-radius.px]="totalImagesIndexed>99.5 ? 7 : 0" [style.border-top-right-radius.px]="totalImagesIndexed>99.5 ? 7 : 0"
+                  [attr.aria-valuenow]="totalImagesIndexed" aria-valuemin="0" aria-valuemax="100">{{summary.totalImagesIndexed}}</div>
                 {{summary.totalImagesRemaining}}
               </div>
               <ul class="status-in-word  bottom">
@@ -80,12 +83,15 @@
                 </p>
               </div>
               <ul class="status-in-word top" style="margin-top: 0px;">
-                <li class="completed" style="visibility:hidden;" [style.width.%]="totalDiariesResolved"></li>
-                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="totalDiariesUnResolved>0 ? 0 : 5.5" [style.width.%]="totalDiariesUnResolved>0 ? totalDiariesUnResolved : 50">
+                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="((100-totalDiariesResolved)/100*diariesProgress.clientWidth)>130 ? (totalDiariesResolved/100*diariesProgress.clientWidth)+(totalDiariesResolved ==0 ? 12 : 0) : 0"
+                  [style.padding-right.px]="((100-totalDiariesResolved)/100*diariesProgress.clientWidth)>130 ? 0: ((100-totalDiariesResolved)/100*diariesProgress.clientWidth)+12"
+                  [style.text-align]="((100-totalDiariesResolved)/100*diariesProgress.clientWidth)>130 ? 'left' : 'right'"
+                  [style.width.%]="100">
                   {{summary.totalDiariesUnResolved}} Unresolved
                 </li>
+                <li class="completed" style="visibility:hidden;"></li>
               </ul>
-              <div class="progress" [style.margin-top.px]="3" #images>
+              <div class="progress" [style.margin-top.px]="3" #diariesProgress>
                 <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalDiariesResolved" [attr.aria-valuenow]="totalDiariesResolved"
                   aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
                 {{summary.totalDiariesResolved}}
@@ -118,12 +124,18 @@
                 </p>
               </div>
               <ul class="status-in-word top">
-                <li class="completed" style="visibility:hidden" [style.width.%]="(totalResolvedEpisodes>0 ? totalResolvedEpisodes : 50)">{{summary.totalResolvedEpisodes}} Resolved</li>
-                <li class="outstanding" [style.width.%]="(totalUnresolvedEpisodes>0 ? totalUnresolvedEpisodes : 50)">{{summary.totalUnresolvedEpisodes}} Outstanding</li>
+                <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="((100-totalResolvedEpisodes)/100*episodeProgres.clientWidth)>130 ? (totalResolvedEpisodes/100*episodeProgres.clientWidth)+(totalResolvedEpisodes ==0 ? 12 : 0) : 0"
+                  [style.padding-right.px]="((100-totalResolvedEpisodes)/100*episodeProgres.clientWidth)>130 ? 0: ((100-totalResolvedEpisodes)/100*episodeProgres.clientWidth)+12"
+                  [style.text-align]="((100-totalResolvedEpisodes)/100*episodeProgres.clientWidth)>130 ? 'left' : 'right'"
+                  [style.width.%]="100">
+                  {{summary.totalUnresolvedEpisodes}} Outstanding
+                </li>
+                <li class="completed" style="visibility:hidden"></li>
               </ul>
-              <div class="progress">
+              <div class="progress" #episodeProgres>
                 <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalResolvedEpisodes" aria-valuenow="totalResolvedEpisodes"
-                  aria-valuemin="0" aria-valuemax="100">{{summary.totalResolvedEpisodes}}</div>
+                  aria-valuemin="0" aria-valuemax="100" [style.border-bottom-right-radius.px]="totalResolvedEpisodes>99.5 ? 7 : 0"
+                  [style.border-top-right-radius.px]="totalResolvedEpisodes>99.5 ? 7 : 0">{{summary.totalResolvedEpisodes}}</div>
                 {{summary.totalUnresolvedEpisodes}}
               </div>
               <ul class="status-in-word bottom">
