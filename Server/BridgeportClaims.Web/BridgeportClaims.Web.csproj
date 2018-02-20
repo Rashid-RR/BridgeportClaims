@@ -425,6 +425,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BridgeportClaims.Pdf\BridgeportClaims.Pdf.csproj">
+      <Project>{791943db-823b-43a0-87f8-05a6443628c3}</Project>
+      <Name>BridgeportClaims.Pdf</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Core\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
       <Project>{ecbbfbd1-dbab-486b-a50b-7b2de864f29f}</Project>
       <Name>BridgeportClaims.Business</Name>
