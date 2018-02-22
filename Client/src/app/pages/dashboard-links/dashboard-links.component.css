@@ -210,6 +210,8 @@ li.reports {
     font-weight: 800;
     line-height: 25px;
     color: #fff;
+    overflow: visible;
+    position: relative;
 }
 
 .progress-bar {  
@@ -234,7 +236,7 @@ li.reports {
 
 #private-nav .content-right-section ul.status-in-word li {
    /*  -webkit-box-flex: 1; */   /* OLD - iOS 6-, Safari 3.1-6 */
-    width: 33%;            /* For old syntax, otherwise collapses. */
+    /* width: 33%;   */          /* For old syntax, otherwise collapses. */
     /*-webkit-flex: 1;       /* Safari 6.1+. iOS 7.1+, BB10 * /
     -ms-flex: 1;           /* IE 10 * /
     flex: 1;  */
@@ -344,10 +346,19 @@ li.reports {
 .status-in-word.top li:before{ 
     content:none !important;
 }
+.status-in-word.top{ 
+    flex-direction: row-reverse;
+}
 .status-in-word.bottom li:nth-of-type(2):before{ 
     content:none !important;
 }
+.status-in-word.top li:nth-of-type(1){   
+    text-align: right;
+}   
+.status-in-word.top li:nth-of-type(2){  
+    padding-right: 10px;
+}
 .status-in-word.top li{
     content:none !important;
-    padding-left:21px !important;
+    /* padding-left:12px !important; */
 } 
