@@ -22,7 +22,7 @@ import { Episode } from '../interfaces/episode';
 import { PhonePipe } from 'app/pipes/phone-pipe';
 import swal from "sweetalert2";
 import { ProfileManager } from 'app/services/services.barrel';
-
+import * as FileSaver from 'file-saver'; 
 
 declare var $: any;
 @Injectable()
@@ -415,4 +415,6 @@ export class ClaimManager {
         }
       });
   }
+
+
 }

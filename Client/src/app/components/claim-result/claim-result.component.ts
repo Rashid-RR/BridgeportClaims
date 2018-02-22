@@ -163,7 +163,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     let dob = $('#dateOfBirth').val() + "";
     let doi = $('#dateOfInjury').val() + "";
     this.form.value.dateOfBirth = dob
-    this.form.value.dateOfInjury = doi; 
+    this.form.value.dateOfInjury = doi;
     for (key in this.form.value) {
       if (this.form.value.hasOwnProperty(key)) {
         this.form.value[key] = this.form.value[key] == "" || (this.form.value[key] && String(this.form.value[key]).trim() === "") ? null : this.form.value[key];
