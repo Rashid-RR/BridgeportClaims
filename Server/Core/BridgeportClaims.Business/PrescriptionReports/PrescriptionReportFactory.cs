@@ -1,4 +1,5 @@
-﻿using BridgeportClaims.Common.Extensions;
+﻿using System.Data;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Pdf.ITextPdfFactory;
 
@@ -8,6 +9,14 @@ namespace BridgeportClaims.Business.PrescriptionReports
     {
         private readonly IClaimsDataProvider _claimsDataProvider;
         private readonly IPdfFactory _pdfFactory;
+        private const string InvoiceDate = "InvoiceDate";
+        private const string InvoiceNumber = "InvoiceNumber";
+        private const string LabelName = "LabelName";
+        private const string BillTo = "BillTo";
+        private const string RxNumber = "RxNumber";
+        private const string RxDate = "RxDate";
+        private const string InvoiceAmount = "InvoiceAmount";
+        private const string AmountPaid = "AmountPaid";
 
         public PrescriptionReportFactory(IClaimsDataProvider claimsDataProvider, IPdfFactory pdfFactory)
         {
@@ -21,6 +30,13 @@ namespace BridgeportClaims.Business.PrescriptionReports
             var dt = data?.ToDataTable();
             if (null == dt)
                 return null;
+            FormatPrescriptionReportDataTable(dt);
+            var pdfFullFilePath = _pdfFactory.GeneratePdf(dt);
+            return pdfFullFilePath;
+        }
+
+        private static void FormatPrescriptionReportDataTable(DataTable dt)
+        {
             dt.Columns.Remove("PrescriptionId");
             dt.Columns.Remove("Status");
             dt.Columns.Remove("NoteCount");
@@ -30,10 +46,15 @@ namespace BridgeportClaims.Business.PrescriptionReports
             dt.Columns.Remove("PharmacyName");
             dt.Columns.Remove("PrescriptionNdc");
             dt.Columns.Remove("PrescriberPhone");
-            dt.SetColumnsOrder("InvoiceDate", "InvoiceNumber", "LabelName", "BillTo", "RxNumber", "RxDate",
-                "InvoiceAmount", "AmountPaid", "Outstanding");
-            var pdfFullFilePath = _pdfFactory.GeneratePdf(dt);
-            return pdfFullFilePath;
+            dt.SetColumnsOrder(InvoiceDate, InvoiceNumber, LabelName, BillTo, RxNumber, RxDate, InvoiceAmount, AmountPaid, "Outstanding");
+            dt.Columns[InvoiceDate].ColumnName = "Inv Date";
+            dt.Columns[InvoiceNumber].ColumnName = "Inv #";
+            dt.Columns[LabelName].ColumnName = "Label Name";
+            dt.Columns[BillTo].ColumnName = "Bill To";
+            dt.Columns[RxNumber].ColumnName = "Rx #";
+            dt.Columns[RxDate].ColumnName = "Rx Date";
+            dt.Columns[InvoiceAmount].ColumnName = "Inv Amt";
+            dt.Columns[AmountPaid].ColumnName = "Amt Paid";
         }
     }
 }

@@ -17,7 +17,8 @@ namespace BridgeportClaims.Data.Dtos
 		public string Carrier { get; set; }
 		public string Adjustor { get; set; }
 		public string AdjustorPhoneNumber { get; set; }
-		public string AdjustorFaxNumber { get; set; }
+	    public string AdjustorExtension { get; set; }
+        public string AdjustorFaxNumber { get; set; }
 		public DateTime? EligibilityTermDate { get; set; }
 		public string Flex2 { get; set; }
 		public string Address1 { get; set; }
