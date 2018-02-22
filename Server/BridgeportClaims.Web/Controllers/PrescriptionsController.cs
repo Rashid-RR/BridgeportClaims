@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -9,7 +10,6 @@ using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
-using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {

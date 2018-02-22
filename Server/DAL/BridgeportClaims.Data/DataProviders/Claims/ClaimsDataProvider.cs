@@ -272,6 +272,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								    PostalCode = s.p.PostalCode,
                                     Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
 									AdjustorPhoneNumber = null == s.c.Adjustor ? null : s.c.Adjustor.PhoneNumber,
+                                    AdjustorExtension = null == s.c.Adjustor ? null : s.c.Adjustor.Extension,
 									Carrier = null == s.c.Payor ? null : s.c.Payor.GroupName,									
 									Flex2 = null != s.c.ClaimFlex2 ? s.c.ClaimFlex2.Flex2 : null,
 									Gender = null == s.p.Gender ? null : s.p.Gender.GenderName,
