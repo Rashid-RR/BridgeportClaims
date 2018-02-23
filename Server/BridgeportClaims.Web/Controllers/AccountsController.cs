@@ -55,20 +55,20 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 if (!ModelState.IsValid) return BadRequest(ModelState);
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByNameAsync(model.Email).ConfigureAwait(false);
                 if (null == user)
                     return BadRequest("The email that you have entered does not exist within the system.");
                 // If user has to activate his email to confirm his account, the use code listing below
-                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id).ConfigureAwait(false))
                     return BadRequest(
                         "You must confirm your email address from your registration before confirming your password");
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var code = await UserManager.GeneratePasswordResetTokenAsync(user.Id).ConfigureAwait(false);
                 // var callbackUrl = new Uri(Url.Link(c.ResetPasswordRouteAction, new {userId = user.Id, code}));
                 var callbackUrl = GetCallbackUrlForEmail(EmailType.ResetPassword, user.Id, code);
                 await UserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
-                    callbackUrl.AbsoluteUri);
+                    callbackUrl.AbsoluteUri).ConfigureAwait(false);
                 return Ok(new {message = "Please check your Email. An Email has been sent to Reset your Password"});
 
                 // If we got this far, something failed, redisplay form
@@ -82,7 +82,7 @@ namespace BridgeportClaims.Web.Controllers
 
         private Uri GetCallbackUrlForEmail(EmailType type, string userId, string code)
         {
-            var route = string.Empty;
+            string route;
             switch (type)
             {
                 case EmailType.ResetPassword:
@@ -129,13 +129,14 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var user = await UserManager.FindByIdAsync(model.UserId);
+
+                var user = await UserManager.FindByIdAsync(model.UserId).ConfigureAwait(false);
                 if (null == user)
                 {
                     // Don't reveal that the user does not exist (security hole)
                     return Ok();
                 }
-                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+                var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password).ConfigureAwait(false);
                 if (result.Succeeded)
                     return Ok(new {message = "The Password was Reset Successfully"});
                 string error = null;
@@ -161,7 +162,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await UserManager.FindByNameAsync(User.Identity.Name);
+                var user = await UserManager.FindByNameAsync(User.Identity.Name).ConfigureAwait(false);
                 return GetUserInfoViewModelFromApplicationUser(user);
             }
             catch (Exception ex)
@@ -207,19 +208,20 @@ namespace BridgeportClaims.Web.Controllers
                     RegisteredDate = DateTime.UtcNow.Date
                 };
                 // Register to the Database
-                var addUserResult = await AppUserManager.CreateAsync(user, createUserModel.Password);
+                var addUserResult =
+                    await AppUserManager.CreateAsync(user, createUserModel.Password).ConfigureAwait(false);
                 if (!addUserResult.Succeeded)
                     return GetErrorResult(addUserResult);
                 var locationHeader = new Uri(Url.Link(c.GetUserByIdAction, new {id = user.Id}));
                 // Email
-                var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id).ConfigureAwait(false);
                 // Generate link for the email.
                 var callbackUrl = GetCallbackUrlForEmail(EmailType.Registration, user.Id, code);
                 // the line below can be uncommented, in place of the two lines above, to generate a link directly to the API.
                 // var callbackUrl = new Uri(Url.Link(c.ConfirmEmailRouteAction, new { userId = user.Id, code }));
                 // This is so wrong. We're using the Full Name for the Email Subject, and the Absolute Activation Uri for the Email body.
                 await AppUserManager.SendEmailAsync(user.Id, $"{user.FirstName} {user.LastName}",
-                    callbackUrl.AbsoluteUri);
+                    callbackUrl.AbsoluteUri).ConfigureAwait(false);
 
                 return Created(locationHeader, TheModelFactory.Create(user));
             }
@@ -242,7 +244,7 @@ namespace BridgeportClaims.Web.Controllers
                     ModelState.AddModelError("", "User Id and Code are required");
                     return BadRequest(ModelState);
                 }
-                var result = await AppUserManager.ConfirmEmailAsync(userId, code);
+                var result = await AppUserManager.ConfirmEmailAsync(userId, code).ConfigureAwait(false);
                 return result.Succeeded ? Ok() : GetErrorResult(result);
             }
             catch (Exception ex)
@@ -279,7 +281,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await UserManager.FindByIdAsync(id);
+                var user = await UserManager.FindByIdAsync(id).ConfigureAwait(false);
                 if (user != null)
                     return Ok(TheModelFactory.Create(user));
                 return NotFound();
@@ -298,7 +300,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await UserManager.FindByNameAsync(username);
+                var user = await UserManager.FindByNameAsync(username).ConfigureAwait(false);
                 if (null != user)
                     return Ok(GetUserInfoViewModelFromApplicationUser(user));
                 return NotFound();
@@ -319,7 +321,7 @@ namespace BridgeportClaims.Web.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
                 var result = await AppUserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                    model.NewPassword);
+                    model.NewPassword).ConfigureAwait(false);
                 return !result.Succeeded ? GetErrorResult(result) : Ok();
             }
             catch (Exception ex)
@@ -336,11 +338,11 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var user = await AppUserManager.FindByIdAsync(id);
+                var user = await AppUserManager.FindByIdAsync(id).ConfigureAwait(false);
                 if (null == user)
                     return Content(HttpStatusCode.NotAcceptable,
                         new {message = "Error. The user was not found."});
-                var result = await AppUserManager.DeleteAsync(user);
+                var result = await AppUserManager.DeleteAsync(user).ConfigureAwait(false);
                 return !result.Succeeded ? GetErrorResult(result) : Ok(new {message="The User was Deleted Successfully."});
             }
             catch (Exception ex)

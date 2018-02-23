@@ -12,19 +12,19 @@ using BridgeportClaims.Web.Infrastructure;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [RoutePrefix("api/fileupload")]
+	[Authorize(Roles = "Admin")]
+	[RoutePrefix("api/fileupload")]
 	public class FileUploadController : BaseApiController
 	{
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-	    private readonly IImportFileProvider _importFileProvider;
+		private readonly IImportFileProvider _importFileProvider;
 
-	    public FileUploadController(IImportFileProvider importFileProvider)
-	    {
-	        _importFileProvider = importFileProvider;
-	    }
+		public FileUploadController(IImportFileProvider importFileProvider)
+		{
+			_importFileProvider = importFileProvider;
+		}
 
-	    [HttpDelete]
+		[HttpDelete]
 		[Route("delete")]
 		public async Task<IHttpActionResult> DeleteImportFile(int importFileId)
 		{
@@ -32,15 +32,15 @@ namespace BridgeportClaims.Web.Controllers
 			{
 				return await Task.Run(() =>
 				{
-				    _importFileProvider.DeleteImportFile(importFileId);
+					_importFileProvider.DeleteImportFile(importFileId);
 					return Ok(new { message = "Deleted the Import File Successfully"});
 				});
 			}
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-			    return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
+				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+			}
 		}
 
 		[HttpGet]
@@ -58,8 +58,8 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Error(ex);
-			    return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
+				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+			}
 		}
 
 		[HttpPost]
@@ -90,14 +90,14 @@ namespace BridgeportClaims.Web.Controllers
 					try
 					{
 						if (0 < file.Value.Length)
-						    _importFileProvider.SaveFileToDatabase(file.Value, fileName, ext, description);
+							_importFileProvider.SaveFileToDatabase(file.Value, fileName, ext, description);
 					}
 					catch (Exception ex)
 					{
 						Logger.Error(ex,
 							$"The file: {fileName}, with the description: {description} was not copied successfully");
-					    return Content(HttpStatusCode.NotAcceptable, ex.GetBaseException().Message);
-                    }
+						return Content(HttpStatusCode.NotAcceptable, ex.GetBaseException().Message);
+					}
 					finally
 					{
 						file.Value.Dispose();
