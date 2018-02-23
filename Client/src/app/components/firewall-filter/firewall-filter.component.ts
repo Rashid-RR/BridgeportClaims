@@ -10,7 +10,7 @@ declare var $: any;
 })
 export class FirewallFilterComponent implements OnInit, AfterViewInit {
 
-  constructor(private firewallService: FirewallService) { }
+  constructor(public firewallService: FirewallService) { }
 
   ngOnInit() {
   }
