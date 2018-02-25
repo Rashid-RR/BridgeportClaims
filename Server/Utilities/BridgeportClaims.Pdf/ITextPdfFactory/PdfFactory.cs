@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.IO;
 using BridgeportClaims.Common.Disposable;
-using iText.Kernel.Pdf;
-using iText.Layout;
-using iText.Layout.Element;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+
 
 namespace BridgeportClaims.Pdf.ITextPdfFactory
 {
@@ -13,17 +13,27 @@ namespace BridgeportClaims.Pdf.ITextPdfFactory
         {
             const string fileName = "Test.pdf";
             var fullFilePath = Path.Combine(Path.GetTempPath(), fileName);
-            return DisposableService.Using(() => new PdfWriter(fullFilePath), writer =>
+            ExportDataTableToPdf(dt, fullFilePath, "Friendly Name");
+            return "";
+        }
+
+        void ExportDataTableToPdf(DataTable dt, string pdfPath, string header)
+        {
+            using (var fs = new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                return DisposableService.Using(() => new PdfDocument(writer), pdf =>
+                using (var doc = new Document())
                 {
-                    return DisposableService.Using(() => new Document(pdf), doc =>
+                    doc.SetPageSize(PageSize.A4);
+                    using (var writer = PdfWriter.GetInstance(doc, fs))
                     {
-                        doc.Add(new Paragraph("Yo Yo Yo"));
-                        return fullFilePath;
-                    });
-                });
-            });
+                        if (!doc.IsOpen())
+                            doc.Open();
+                        
+                        // Report Header.
+                        BaseFont btntHead = BaseFont.CreateFont()
+                    }
+                }
+            }
         }
     }
 }
