@@ -10,6 +10,9 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from "@angular/router";
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { AccountReceivableService } from '../../services/services.barrel';
+import * as FileSaver from 'file-saver'; 
+import { Response } from '@angular/http';
 
 declare var $: any
 
@@ -51,7 +54,8 @@ export class ClaimsComponent implements OnInit {
     private http: HttpService,
     private dp: DatePipe,
     private events: EventsService,
-    private toast: ToastsManager
+    private toast: ToastsManager,
+    private ar:AccountReceivableService,
   ) {
 
   }
@@ -295,6 +299,21 @@ export class ClaimsComponent implements OnInit {
     this.episodeSwal.show().then((r) => {
 
     })
+  }
+
+  exportPDF(){
+    this.claimManager.loading = true; 
+    this.http.exportPrescriptions({claimId:this.claimManager.selectedClaim.claimId})
+    .subscribe((result) => {
+      this.claimManager.loading = false;   
+      this.ar.downloadFile(result);
+    }, err => {
+      console.log(err);
+      this.claimManager.loading = false; 
+      try {
+        const error = err.json(); 
+      } catch (e) { }
+    });
   }
  
   addNote(noteText: String = "", TypeId?: String) {

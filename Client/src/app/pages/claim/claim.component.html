@@ -145,7 +145,7 @@
                                     <u>
                                         <img src="assets/img/iconPrescriptions.png">Prescriptions</u>
                                 </h4>
-                                <span class="tally pull-right" *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.prescriptions.length>0" style="margin-right:150px;">
+                                <span class="tally pull-right" *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.prescriptions.length>0" style="margin-right:250px;">
                                     <span class="totalInvoiced">
                                         Total Invoiced:
                                         <span style="font-size:13pt">
@@ -168,6 +168,9 @@
                                     <div class="btn-group" data-toggle="btn-toggle">
                                         <button class="btn btn-flat btn-sm bg-vdarkgrey no-padding" type="button" (click)="addPrescriptionNote()">
                                             <img src="assets/img/add.png" class="add-btn" />
+                                        </button>
+                                        <button class="btn btn-flat btn-sm bg-vdarkgrey no-padding" type="button" (click)="exportPDF()">
+                                            <img src="assets/img/export-pdf.png" class="add-btn" />
                                         </button>
                                     </div>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm" id="pres-min" (click)="minimize('prescriptions')"

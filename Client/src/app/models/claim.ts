@@ -24,6 +24,7 @@ export class Claim {
     carrier: String;
     adjustor: String;
     adjustorPhoneNumber: String;
+    adjustorExtension: String;
     dateEntered: Date;
     eligibilityTermDate: Date;
     adjustorFaxNumber: String;
@@ -53,7 +54,7 @@ export class Claim {
     states:{ stateId:number,stateName:string}[]=[]
     constructor(claimId: Number, claimNumber: Number, dateOfBirth: Date, injuryDate: Date,
         gender: String, carrier: String, adjustor: String, adjustorPhoneNumber: String, dateEntered: Date, adjustorFaxNumber: String, name?: String, firstName?: String, lastName?: String, flex2?: String, eligibilityTermDate?: Date,
-        address1?:string,address2?: string,city?: string, stateAbbreviation?: string,  postalCode?: any,genders?:any) {
+        address1?:string,address2?: string,city?: string, stateAbbreviation?: string,  postalCode?: any,genders?:any,adjustorExtension?:string) {
         this.claimId = claimId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -75,6 +76,7 @@ export class Claim {
         this.adjustorFaxNumber = adjustorFaxNumber;
         this.eligibilityTermDate = eligibilityTermDate; 
         this.genders = genders;
+        this.adjustorExtension = adjustorExtension;
     }
 
     setPrescription(prescription: Array<Prescription>) {

@@ -759,5 +759,12 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  exportPrescriptions(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + "/prescriptions/scripts-pdf/?claimId="+data.claimId,data, {responseType:ResponseContentType.Blob,headers:this.headers})    
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
 }

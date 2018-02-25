@@ -22,7 +22,7 @@ import { Episode } from '../interfaces/episode';
 import { PhonePipe } from 'app/pipes/phone-pipe';
 import swal from "sweetalert2";
 import { ProfileManager } from 'app/services/services.barrel';
-
+import * as FileSaver from 'file-saver'; 
 
 declare var $: any;
 @Injectable()
@@ -195,7 +195,7 @@ export class ClaimManager {
           result.forEach((claim) => {
             var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate || claim.dateOfInjury, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorFaxNumber
-              , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode);
+              , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode,claim.genders,claim.adjustorExtension);
             c.genders = claim.genders;
             c.states = claim.states;
             c.adjustorId = claim.adjustorId;
@@ -209,7 +209,7 @@ export class ClaimManager {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorFaxNumber
-            , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode);
+            , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode,result.genders,result.adjustorExtension);
           c.dateOfBirth = result.dateOfBirth;
           c.adjustor = result.adjustor;
           c.adjustorPhoneNumber = result.adjustorPhoneNumber;
@@ -321,6 +321,7 @@ export class ClaimManager {
           this.loading = false;
           claim.dateOfBirth = result.dateOfBirth;
           claim.adjustor = result.adjustor;
+          claim.adjustorExtension = result.adjustorExtension;
           claim.adjustorPhoneNumber = result.adjustorPhoneNumber;
           claim.adjustorFaxNumber = result.adjustorFaxNumber;
           claim.eligibilityTermDate = result.eligibilityTermDate;
@@ -414,4 +415,6 @@ export class ClaimManager {
         }
       });
   }
+
+
 }

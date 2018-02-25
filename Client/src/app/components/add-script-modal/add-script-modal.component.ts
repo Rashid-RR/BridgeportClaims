@@ -13,11 +13,12 @@ declare var $:any;
 export class AddScriptModalComponent implements OnInit, AfterViewInit {
 
   @ViewChild('lastname') lastname: ElementRef;
+  submitted= false;
   dropdownVisible= false;
   searchText = '';
   showDropDown = new Subject<any>();
 
-  constructor(private payment: PaymentScriptService, private events: EventsService,
+  constructor(public payment: PaymentScriptService, private events: EventsService,
     private toast: ToastsManager) {
 
   }
