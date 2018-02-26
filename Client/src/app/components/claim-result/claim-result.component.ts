@@ -157,7 +157,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
   save() {
     let key: any;
-    this.form.value.adjustorExtension = $('#adjustorPhone').val() || '';
+    this.form.value.adjustorPhone = $('#adjustorPhone').val() || '';
     this.form.value.adjustorFax = $('#adjustorFax').val() || '';
     const  adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, '')
     const  adjustorFax = this.form.value.adjustorFax.replace(/[\D]/g, '');
