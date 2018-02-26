@@ -42,6 +42,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       claimFlex2Id: [undefined],
       payorId: [undefined],
       adjustorId: [undefined],
+      adjustorPhone: [undefined],
       adjustorExtension: [undefined,Validators.maxLength(10)],
       dateOfInjury: [undefined],
       adjustorFax: [undefined], // NULL
