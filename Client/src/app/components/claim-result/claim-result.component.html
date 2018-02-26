@@ -132,6 +132,16 @@
                         </div>
                     </div>
                     <div class="form-group" [class.editing]="editing">
+                        <label class="col-sm-4"> Adjustor Ph : </label>
+                        <div class="col-sm-8">
+                            <ng-container *ngIf="!editing">{{claim.adjustorPhoneNumber | phone:[]}}</ng-container>
+                            <ng-container *ngIf="editing">
+                                <input class="form-control" type="text" id="adjustorPhone" formControlName="adjustorPhone" data-inputmask='"mask": "(999) 999-9999"'
+                                    data-mask/>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="form-group" [class.editing]="editing">
                         <label class="col-sm-4"> Adjustor Ext : </label>
                         <div class="col-sm-8">
                             <ng-container *ngIf="!editing">{{claim.adjustorExtension}}</ng-container>

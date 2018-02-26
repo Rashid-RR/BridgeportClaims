@@ -95,6 +95,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       genderId: this.claimManager.selectedClaim.genderId,
       payorId: this.claimManager.selectedClaim.payorId,
       adjustorId: this.claimManager.selectedClaim.adjustorId,
+      adjustorPhone: this.claimManager.selectedClaim.adjustorPhoneNumber,
       adjustorExtension: this.claimManager.selectedClaim.adjustorExtension,
       dateOfInjury: injuryDate,
       claimFlex2Id: this.claimManager.selectedClaim.claimFlex2Id,
@@ -111,6 +112,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       payorId: this.claimManager.selectedClaim.payorId,
       adjustorId: this.claimManager.selectedClaim.adjustorId,
       adjustorExtension: this.claimManager.selectedClaim.adjustorExtension,
+      adjustorPhone: this.claimManager.selectedClaim.adjustorPhoneNumber,
       dateOfInjury: injuryDate,
       claimFlex2Id: this.claimManager.selectedClaim.claimFlex2Id,
       adjustorFax: this.claimManager.selectedClaim.adjustorFaxNumber, // NULL
@@ -154,11 +156,11 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
   save() {
     let key: any;
-    //this.form.value.adjustorExtension = $('#adjustorPhone').val() || '';
+    this.form.value.adjustorExtension = $('#adjustorPhone').val() || '';
     this.form.value.adjustorFax = $('#adjustorFax').val() || '';
-    //const  adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, '')
+    const  adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, '')
     const  adjustorFax = this.form.value.adjustorFax.replace(/[\D]/g, '');
-    //this.form.value.adjustorPhone = adjustorPhone
+    this.form.value.adjustorPhone = adjustorPhone
     this.form.value.adjustorFax = adjustorFax;
     let dob = $('#dateOfBirth').val() + "";
     let doi = $('#dateOfInjury').val() + "";
