@@ -109,7 +109,8 @@ export class ClaimsComponent implements OnInit {
     this.router.routerState.root.queryParams.subscribe(params => {
       if (params['claimId']) {
         this.claimManager.search({ claimId: params['claimId'] });
-
+      }else if (params['claimNumber']) {
+        this.claimManager.search({ claimNumber: params['claimNumber'] });
       }
     });
   }

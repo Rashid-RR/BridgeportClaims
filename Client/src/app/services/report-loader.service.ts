@@ -11,7 +11,6 @@ export class ReportLoaderService {
       this.router.events.subscribe(e=>{
         if(e instanceof NavigationEnd){
           this.routes=this.router.url.split("/");
-          console.log(this.router.url,this.routes);
         }
       })
   }

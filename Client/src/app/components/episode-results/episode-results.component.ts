@@ -100,6 +100,10 @@ export class EpisodeResultsComponent implements OnInit {
         }
       });
   }
+  openClaim(episode:Episode){
+    console.log(episode);
+    window.open('#/main/claims?claimNumber=' + episode.claimNumber, '_blank');
+  }
   next() {
     this.episodeService.search(true);
   }
