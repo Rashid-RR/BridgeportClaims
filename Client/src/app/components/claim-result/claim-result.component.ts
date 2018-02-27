@@ -194,6 +194,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       form.address2 = this.form.value.address2 != this.lastForm.address2 ? this.form.value.address2 : undefined;
       form.adjustorId = this.adjustor && this.adjustor.adjustorName != this.lastForm.adjustor ? (this.form.value.adjustorId == null ? null : Number(this.form.value.adjustorId)) : undefined;
       form.adjustorExtension = this.form.value.adjustorExtension != this.lastForm.adjustorExtension ? this.form.value.adjustorExtension : undefined;
+      form.adjustorPhone = this.form.value.adjustorPhone != this.lastForm.adjustorPhone ? this.form.value.adjustorPhone : undefined;
       form.adjustorFax = this.form.value.adjustorFax != this.lastForm.adjustorFax ? this.form.value.adjustorFax : undefined;
       form.city = this.form.value.city != this.lastForm.city ? this.form.value.city : undefined;
       // console.log(form);
@@ -216,6 +217,9 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         }
         if (form.adjustorFax) {
           this.claimManager.selectedClaim.adjustorFaxNumber = form.adjustorFax;
+        }
+        if (form.adjustorPhone) {
+          this.claimManager.selectedClaim.adjustorPhoneNumber = form.adjustorPhone;
         }
         if (form.dateOfInjury) {
           this.claimManager.selectedClaim.injuryDate = form.dateOfInjury;
