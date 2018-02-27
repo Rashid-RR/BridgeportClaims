@@ -630,3 +630,18 @@ thead span {
 .swal2-shown .modal.show.in{
   z-index: 999999 !important;
 }
+
+.ngPopup > .modal-dialog{
+  height:auto !important;
+  margin-bottom:0px;
+}
+
+.ngPopup > .modal-dialog .modal-content{
+  min-height:300px;
+}
+.ngPopup > .modal-dialog .modal-content textarea{
+  resize: vertical !important;
+}
+modal-backdrop .modal-backdrop.in{
+  z-index:-1 !important;
+}
