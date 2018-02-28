@@ -223,7 +223,7 @@
                                 <td *ngIf="claim.name">{{claim.name}}</td>
                                 <td *ngIf="!claim.name">{{claim.firstName}} {{claim.lastName}}</td>
                                 <td>{{claim.carrier}}</td>
-                                <td>{{claim.injuryDate}}</td>
+                                <td>{{formatDate(claim.injuryDate)}}</td>
                                 <td>
                                     <button class="btn btn-flat btn-sm bg-vdarkgrey view-btn" style="font-size:9pt" (click)="view(claim.claimId)">
                                         View </button>
