@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Web", "BridgeportClaims.Web\BridgeportClaims.Web.csproj", "{7B61BC98-9190-4576-9858-81279D5D2B47}"
 EndProject
@@ -28,6 +28,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj", "{61AFC490-DA0F-4F71-AB27-427E64FBF7D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Pdf", "Utilities\BridgeportClaims.Pdf\BridgeportClaims.Pdf.csproj", "{791943DB-823B-43A0-87F8-05A6443628C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Word", "BridgeportClaims.Word\BridgeportClaims.Word.csproj", "{C456B82F-66C5-4B31-AF99-81E8933C3A4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{791943DB-823B-43A0-87F8-05A6443628C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{791943DB-823B-43A0-87F8-05A6443628C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{791943DB-823B-43A0-87F8-05A6443628C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C456B82F-66C5-4B31-AF99-81E8933C3A4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C456B82F-66C5-4B31-AF99-81E8933C3A4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C456B82F-66C5-4B31-AF99-81E8933C3A4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C456B82F-66C5-4B31-AF99-81E8933C3A4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,6 +90,7 @@ Global
 		{0E70AD77-202B-411B-B724-98C63D0A6407} = {4ABD8A8B-F305-4353-B286-94BAFFC6C5E4}
 		{61AFC490-DA0F-4F71-AB27-427E64FBF7D0} = {03550A53-4FF1-4D62-AE38-5CDBA6DD7B66}
 		{791943DB-823B-43A0-87F8-05A6443628C3} = {4ABD8A8B-F305-4353-B286-94BAFFC6C5E4}
+		{C456B82F-66C5-4B31-AF99-81E8933C3A4C} = {4ABD8A8B-F305-4353-B286-94BAFFC6C5E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6EA9ABD7-C4BC-41BB-A799-C6EDBD09AAC8}
