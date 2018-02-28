@@ -29,7 +29,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     _cache.DeleteAll();
                     return Ok(new {message = "Cache cleared successfully."});
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

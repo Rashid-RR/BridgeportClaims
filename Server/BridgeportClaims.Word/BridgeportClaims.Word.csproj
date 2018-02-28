@@ -50,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Factories\WordFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WordProvider\IWordDocumentProvider.cs" />
     <Compile Include="WordProvider\WordDocumentProvider.cs" />
   </ItemGroup>
   <ItemGroup>

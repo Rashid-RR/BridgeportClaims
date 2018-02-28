@@ -18,78 +18,83 @@ namespace BridgeportClaims.Web.Controllers
 	{
 		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 		private readonly IClaimsDataProvider _claimsDataProvider;
-	    private readonly IClaimsEditProvider _claimsEditProvider;
+		private readonly IClaimsEditProvider _claimsEditProvider;
 
-        public ClaimsController(IClaimsDataProvider claimsDataProvider, IClaimsEditProvider claimsEditProvider)
-        {
-            _claimsDataProvider = claimsDataProvider;
-            _claimsEditProvider = claimsEditProvider;
-        }
+		public ClaimsController(IClaimsDataProvider claimsDataProvider, IClaimsEditProvider claimsEditProvider)
+		{
+			_claimsDataProvider = claimsDataProvider;
+			_claimsEditProvider = claimsEditProvider;
+		}
 
-	    [HttpPost]
-	    [Route("sort-episodes")]
-	    public async Task<IHttpActionResult> SortEpisodes(SortEpisodeModel model)
-	    {
-	        try
-	        {
-	            return await Task.Run(() =>
-	            {
-	                var userId = User.Identity.GetUserId();
-                    if (null == userId)
-                        throw new Exception("Error, could not find the logged in user.");
-	                var results = _claimsDataProvider.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection, userId);
-	                return Ok(results);
-                });
-	        }
-	        catch (Exception ex)
-	        {
-	            Logger.Error(ex);
-	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-	    }
+		[HttpPost]
+		[Route("sort-episodes")]
+		public async Task<IHttpActionResult> SortEpisodes(SortEpisodeModel model)
+		{
+			try
+			{
+				return await Task.Run(() =>
+				{
+					var userId = User.Identity.GetUserId();
+					if (null == userId)
+						throw new Exception("Error, could not find the logged in user.");
+					var results =
+						_claimsDataProvider.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection, userId);
+					return Ok(results);
+				}).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex);
+				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+			}
+		}
 
-        [HttpPost]
-	    [Route("edit-claim")]
-	    public async Task<IHttpActionResult> EditClaim(ClaimEditModel model)
-	    {
-	        try
-	        {
-	            return await Task.Run(() =>
-	            {
-	                var claimId = model.ClaimId;
-	                var dateOfBirth = model.DateOfBirth;
-                    var genderId = model.GenderId;
-	                var payorId = model.PayorId;
-	                var adjustorId = model.AdjustorId;
-                    var adjustorPhone = model.AdjustorPhone;
-                    var dateOfInjury = model.DateOfInjury;
-                    var adjustorFax = model.AdjustorFax;
-	                var address1 = model.Address1;
-	                var address2 = model.Address2;
-                    var city = model.City;
-                    var stateId = model.StateId;
-	                var postalCode = model.PostalCode;
-	                var claimFlex2Id = model.ClaimFlex2Id;
-                    var userId = User?.Identity?.GetUserId();
-	                var ext = model.AdjustorExtension;
-                    if (null == userId)
-	                    throw new Exception("Could not locate the authenticated user.");
-	                _claimsEditProvider.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null : "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
-	                        : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
-	                        adjustorId, adjustorPhone, null == dateOfInjury ? (DateTime?) null : "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
-	                        : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax,
-                            address1, address2, city, stateId, postalCode, claimFlex2Id, ext);
-	                return Ok(new {message = "The claim was updated successfully."});
-	            });
-	        }
-	        catch (Exception ex)
-	        {
-	            Logger.Error(ex);
-	            return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
-	        }
-	    }
+		[HttpPost]
+		[Route("edit-claim")]
+		public async Task<IHttpActionResult> EditClaim(ClaimEditModel model)
+		{
+			try
+			{
+			    return await Task.Run(() =>
+			    {
+			        var claimId = model.ClaimId;
+			        var dateOfBirth = model.DateOfBirth;
+			        var genderId = model.GenderId;
+			        var payorId = model.PayorId;
+			        var adjustorId = model.AdjustorId;
+			        var adjustorPhone = model.AdjustorPhone;
+			        var dateOfInjury = model.DateOfInjury;
+			        var adjustorFax = model.AdjustorFax;
+			        var address1 = model.Address1;
+			        var address2 = model.Address2;
+			        var city = model.City;
+			        var stateId = model.StateId;
+			        var postalCode = model.PostalCode;
+			        var claimFlex2Id = model.ClaimFlex2Id;
+			        var userId = User?.Identity?.GetUserId();
+			        var ext = model.AdjustorExtension;
+			        if (null == userId)
+			            throw new Exception("Could not locate the authenticated user.");
+			        _claimsEditProvider.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null
+			            : "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
+			            : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt
+			            : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
+			            adjustorId, adjustorPhone, null == dateOfInjury ? (DateTime?) null
+			            : "NULL" == dateOfInjury ? new DateTime(1901, 1, 1)
+			            : DateTime.TryParse(dateOfInjury, out DateTime dat) ? dat
+			            : throw new Exception($"Could not parse Date Time value {dateOfInjury}"), adjustorFax,
+			            address1, address2, city, stateId, postalCode, claimFlex2Id, ext);
+			        return Ok(new {message = "The claim was updated successfully."});
+			    }).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex);
+				return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+			}
+		}
 
-        [HttpPost]
+		[HttpPost]
 		[Route("getclaimsdata")]
 		public IHttpActionResult GetClaimsData([FromBody] ClaimsSearchViewModel model)
 		{
@@ -115,48 +120,49 @@ namespace BridgeportClaims.Web.Controllers
 
 		private IHttpActionResult GetClaimsDataByClaimId(int claimId)
 		{
-		    var userId = User.Identity.GetUserId();
-		    if (null == userId)
-		        throw new Exception("Error, could not find the logged in user.");
-		    var results = _claimsDataProvider.GetClaimsDataByClaimId(claimId, userId);
-            return Ok(results);
+			var userId = User.Identity.GetUserId();
+			if (null == userId)
+				throw new Exception("Error, could not find the logged in user.");
+			var results = _claimsDataProvider.GetClaimsDataByClaimId(claimId, userId);
+			return Ok(results);
 		}
 
 
-	    [HttpPost]
-	    [Route("set-flex2")]
-	    public async Task<IHttpActionResult> SetClaimFlex2(int claimId, int claimFlex2Id)
-	    {
-	        try
-	        {
-	            return await Task.Run(() =>
-	            {
-	                var userId = User.Identity.GetUserId();
-                    if (null == userId)
-                        throw new Exception("Error, could not find the logged in user.");
-	                var msg = string.Empty;
-	                var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id, userId);
-	                switch (operation)
-	                {
-	                    case EntityOperation.Add:
-	                        msg = "The claim's Flex2 was added successfully.";
-	                        break;
-	                    case EntityOperation.Update:
-	                        msg = "The claim's Flex2 was updated successfully.";
-	                        break;
-	                    case EntityOperation.Delete:
-	                        break;
-	                    default:
-	                        throw new ArgumentOutOfRangeException();
-	                }
-	                return Ok(new { message = msg });
-	            });
-	        }
-	        catch (Exception ex)
-	        {
-	            Logger.Error(ex);
-	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-	        }
-	    }
-    }
+		[HttpPost]
+		[Route("set-flex2")]
+		public async Task<IHttpActionResult> SetClaimFlex2(int claimId, int claimFlex2Id)
+		{
+			try
+			{
+			    return await Task.Run(() =>
+			    {
+			        var userId = User.Identity.GetUserId();
+			        if (null == userId)
+			            throw new Exception("Error, could not find the logged in user.");
+			        var msg = string.Empty;
+			        var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id, userId);
+			        switch (operation)
+			        {
+			            case EntityOperation.Add:
+			                msg = "The claim's Flex2 was added successfully.";
+			                break;
+			            case EntityOperation.Update:
+			                msg = "The claim's Flex2 was updated successfully.";
+			                break;
+			            case EntityOperation.Delete:
+			                break;
+			            default:
+			                throw new ArgumentOutOfRangeException();
+			        }
+
+			        return Ok(new {message = msg});
+			    }).ConfigureAwait(false);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex);
+				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+			}
+		}
+	}
 }

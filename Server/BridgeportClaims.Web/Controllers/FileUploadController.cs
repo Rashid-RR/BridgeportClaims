@@ -30,11 +30,11 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				return await Task.Run(() =>
-				{
-					_importFileProvider.DeleteImportFile(importFileId);
-					return Ok(new { message = "Deleted the Import File Successfully"});
-				});
+			    return await Task.Run(() =>
+			    {
+			        _importFileProvider.DeleteImportFile(importFileId);
+			        return Ok(new {message = "Deleted the Import File Successfully"});
+			    }).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -49,11 +49,11 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				return await Task.Run(() =>
-				{
-					var files = _importFileProvider.GetImportFileDtos();
-					return Ok(files);
-				});
+			    return await Task.Run(() =>
+			    {
+			        var files = _importFileProvider.GetImportFileDtos();
+			        return Ok(files);
+			    }).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -73,7 +73,7 @@ namespace BridgeportClaims.Web.Controllers
 
 				// Read the file and form data.
 				var provider = new MultipartFormDataMemoryStreamProvider();
-				await Request.Content.ReadAsMultipartAsync(provider);
+			    await Request.Content.ReadAsMultipartAsync(provider).ConfigureAwait(false);
 
 				// Extract the fields from the form data.
 				var description = provider.FormData["description"];

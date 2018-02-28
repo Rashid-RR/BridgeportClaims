@@ -48,6 +48,7 @@ using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using BridgeportClaims.Pdf.Factories;
+using BridgeportClaims.Word.WordProvider;
 using Microsoft.AspNet.SignalR;
 
 namespace BridgeportClaims.Web.IoCConfig
@@ -88,6 +89,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<UsersProvider>().As<IUsersProvider>().InstancePerRequest();
             builder.RegisterType<PdfFactory>().As<IPdfFactory>().InstancePerRequest();
             builder.RegisterType<PrescriptionReportFactory>().As<IPrescriptionReportFactory>().InstancePerRequest();
+            builder.RegisterType<WordDocumentProvider>().As<IWordDocumentProvider>().InstancePerRequest();
 
             // SignalR
             var hubConfig = new HubConfiguration();

@@ -30,7 +30,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     _claimsUserHistoryProvider.InsertClaimsUserHistory(User.Identity.GetUserId(), claimId);
                     return Ok(new {message = "Claim History Item Added Successfully"});
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return await Task.Run(() => Ok(
-                    _claimsUserHistoryProvider.GetClaimsUserHistory(User.Identity.GetUserId())));
+                    _claimsUserHistoryProvider.GetClaimsUserHistory(User.Identity.GetUserId()))).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

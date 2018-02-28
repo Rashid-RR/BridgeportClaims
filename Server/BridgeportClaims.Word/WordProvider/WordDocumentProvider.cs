@@ -1,22 +1,23 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.IO;
 using Microsoft.Office.Interop.Word;
-using NLog;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Word.WordProvider
 {
-    public class WordDocumentProvider
+    public class WordDocumentProvider : IWordDocumentProvider
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private const string FileName = "IMELetter.docx";
-        private const string FilePath = @"C:\Users\Public\IME Letter.docx";
+        private const string FileName = c.ImeLetterName; // TODO: Embedded Resource.
+        private readonly string _filePath = $@"C:\Users\Public\{FileName}";
 
         public string GetWordDocument()
         {
             var ap = new Application();
             try
             {
-                var doc = ap.Documents.Open(FilePath, ReadOnly: false, Visible: false);
+                var doc = ap.Documents.Open(_filePath, ReadOnly: false, Visible: false);
                 doc.Activate();
                 var sel = ap.Selection;
                 if (null != sel)
@@ -61,8 +62,7 @@ namespace BridgeportClaims.Word.WordProvider
                 }
                 
                 var path = Path.GetTempPath();
-                const string fileName = "IME Letter.docx";
-                var fullFilePath = Path.Combine(path, fileName);
+                var fullFilePath = Path.Combine(path, FileName);
                 ap.ActiveDocument.SaveAs(fullFilePath);
                 return fullFilePath;
             }

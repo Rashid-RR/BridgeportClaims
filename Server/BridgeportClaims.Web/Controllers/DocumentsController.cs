@@ -38,10 +38,11 @@ namespace BridgeportClaims.Web.Controllers
                     // Database call
                     _documentsProvider.ArchiveDocument(documentId, userId);
                     // SignalR Call
-                    var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                    var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager
+                        .GetHubContext<DocumentsHub>();
                     hubContext.Clients.All.archivedDocument(documentId);
                     return Ok(new {message = "The document was archived successfully."});
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -73,11 +74,12 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var results = _documentsProvider.GetDocuments(model.Date.ToNullableFormattedDateTime(), model.Archived, model.FileName, model.Sort,
+                    var results = _documentsProvider.GetDocuments(model.Date.ToNullableFormattedDateTime(),
+                        model.Archived, model.FileName, model.Sort,
                         model.SortDirection, model.Page,
                         model.PageSize);
                     return Ok(results);
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

@@ -37,20 +37,20 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				return await Task.Run(() =>
-				{
-					var user = _usersRepository.Get(User.Identity.GetUserId());
-					if (null == user)
-						throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
-					var today = DateTime.UtcNow.ToMountainTime();
-					_episodesDataProvider.SaveEpisodeNote(model.EpisodeId, model.Note, user.Id, today);
-					return Ok(new
-					{
-						message = "The episode note was saved successfully.",
-						Owner = $"{user.FirstName} {user.LastName}",
-						Created = today
-					});
-				});
+			    return await Task.Run(() =>
+			    {
+			        var user = _usersRepository.Get(User.Identity.GetUserId());
+			        if (null == user)
+			            throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
+			        var today = DateTime.UtcNow.ToMountainTime();
+			        _episodesDataProvider.SaveEpisodeNote(model.EpisodeId, model.Note, user.Id, today);
+			        return Ok(new
+			        {
+			            message = "The episode note was saved successfully.",
+			            Owner = $"{user.FirstName} {user.LastName}",
+			            Created = today
+			        });
+			    }).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -88,19 +88,19 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				return await Task.Run(() =>
-				{
-					var modifiedByUserId = User.Identity.GetUserId();
-					var user = _usersRepository.Get(userId);
-					if (null == user)
-						throw new Exception($"Error, could not retrieve the user from Id: {userId}");
-					_episodesDataProvider.AssignOrAcquireEpisode(episodeId, userId, modifiedByUserId);
-					return Ok(new
-					{
-						message = "The episode was assigned successfully.",
-						Owner = $"{user.FirstName} {user.LastName}"
-					});
-				});
+			    return await Task.Run(() =>
+			    {
+			        var modifiedByUserId = User.Identity.GetUserId();
+			        var user = _usersRepository.Get(userId);
+			        if (null == user)
+			            throw new Exception($"Error, could not retrieve the user from Id: {userId}");
+			        _episodesDataProvider.AssignOrAcquireEpisode(episodeId, userId, modifiedByUserId);
+			        return Ok(new
+			        {
+			            message = "The episode was assigned successfully.",
+			            Owner = $"{user.FirstName} {user.LastName}"
+			        });
+			    }).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -153,17 +153,17 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				return await Task.Run(() =>
-				{
-					var userId = User.Identity.GetUserId();
-					var retVal = new NewEpisodeSaveDto
-					{
-						Episode = _episodesDataProvider.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId,
-							model.PharmacyNabp, model.RxNumber, model.EpisodeText, userId),
-						Message = "The episode was saved successfully"
-					};
-					return Ok(retVal);
-				});
+			    return await Task.Run(() =>
+			    {
+			        var userId = User.Identity.GetUserId();
+			        var retVal = new NewEpisodeSaveDto
+			        {
+			            Episode = _episodesDataProvider.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId,
+			                model.PharmacyNabp, model.RxNumber, model.EpisodeText, userId),
+			            Message = "The episode was saved successfully"
+			        };
+			        return Ok(retVal);
+			    }).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -178,12 +178,12 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				return await Task.Run(() =>
-				{
-					var userId = User.Identity.GetUserId();
-					_episodesDataProvider.ResolveEpisode(episodeId, userId);
-					return Ok(new {message = "The episode was resolved successfully."});
-				});
+			    return await Task.Run(() =>
+			    {
+			        var userId = User.Identity.GetUserId();
+			        _episodesDataProvider.ResolveEpisode(episodeId, userId);
+			        return Ok(new {message = "The episode was resolved successfully."});
+			    }).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -199,15 +199,16 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				return await Task.Run(() =>
-				{
-					var userId = User.Identity.GetUserId();
-					if (null == userId)
-						throw new Exception("Error, could not find logged in user.");
-					var results = _episodesDataProvider.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(), m.EndDate.ToNullableFormattedDateTime(), m.Resolved, m.OwnerId,
-						m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize, userId);
-					return Ok(results);
-				});
+			    return await Task.Run(() =>
+			    {
+			        var userId = User.Identity.GetUserId();
+			        if (null == userId)
+			            throw new Exception("Error, could not find logged in user.");
+			        var results = _episodesDataProvider.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(),
+			            m.EndDate.ToNullableFormattedDateTime(), m.Resolved, m.OwnerId,
+			            m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize, userId);
+			        return Ok(results);
+			    }).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -223,7 +224,7 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				return await Task.Run(() => Ok(_episodesDataProvider.GetEpisodeTypes()));
+			    return await Task.Run(() => Ok(_episodesDataProvider.GetEpisodeTypes())).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{

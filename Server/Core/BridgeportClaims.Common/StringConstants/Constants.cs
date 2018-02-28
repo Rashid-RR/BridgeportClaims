@@ -47,5 +47,6 @@
         public const string NoLakerFilesToImportToast = "No Laker Files were found to import.";
         public const string LakerImportStatus = "The Laker Import Process has Completed.";
         public const string SecureDbConnStrName = "BridgeportClaimsSecureConnectionString";
+        public const string ImeLetterName = "IME Letter.docx";
     }
 }

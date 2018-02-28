@@ -42,12 +42,14 @@ namespace BridgeportClaims.Web.Controllers
                     var userId = User.Identity.GetUserId();
                     var wasUpdate = _documentIndexProvider.UpsertDocumentIndex(model.DocumentId, model.ClaimId,
                         model.DocumentTypeId, model.RxDate.ToNullableFormattedDateTime(), model.RxNumber,
-                        model.InvoiceNumber, model.InjuryDate.ToNullableFormattedDateTime(), model.AttorneyName, userId);
+                        model.InvoiceNumber, model.InjuryDate.ToNullableFormattedDateTime(), model.AttorneyName,
+                        userId);
                     if (model.DocumentId != default(int))
                     {
                         var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                         hubContext.Clients.All.indexedDocument(model.DocumentId);
                     }
+
                     var episodeCreated = _episodesDataProvider.CreateImageCategoryEpisode(model.DocumentTypeId,
                         model.ClaimId, model.RxNumber, userId, model.DocumentId);
                     var msg = $"The image was {(wasUpdate ? "reindexed" : "indexed")} successfully.";
@@ -58,7 +60,7 @@ namespace BridgeportClaims.Web.Controllers
                         Logger.Info("An episode was created.");
                     Logger.Info($"Document ID: {model.DocumentId}. {msg}");
                     return Ok(new {message = msg});
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

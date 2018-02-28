@@ -34,8 +34,8 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return await Task.Run(() 
-                    => Ok(_claimNotesDataProvider.GetClaimNoteTypes()));
+                return await Task.Run(()
+                    => Ok(_claimNotesDataProvider.GetClaimNoteTypes())).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -55,7 +55,7 @@ namespace BridgeportClaims.Web.Controllers
                 await Task.Run(() =>
                 {
                     claimNote = _claimNoteRepository.GetSingleOrDefault(x => x.Claim.ClaimId == claimId);
-                });
+                }).ConfigureAwait(false);
                 if (null != claimNote)
                     return Ok(claimNote);
                 return NotFound();
@@ -82,8 +82,8 @@ namespace BridgeportClaims.Web.Controllers
                     if (null == _claimRepository.Get(claimId))
                         throw new Exception($"An error has occurred, claim Id {claimId} doesn't exist");
                     _claimNotesDataProvider.AddOrUpdateNote(claimId, noteText, userId, noteTypeId);
-                    return Ok(new { message = "The Claim Note was Saved Successfully"});
-                });
+                    return Ok(new {message = "The Claim Note was Saved Successfully"});
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

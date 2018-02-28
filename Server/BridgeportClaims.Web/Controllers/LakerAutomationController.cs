@@ -55,16 +55,15 @@ namespace BridgeportClaims.Web.Controllers
                     else
                     {
                         StartBackgroundThread(async delegate
-                        {
-                            await ProcessLakerImport(tuple.Item1, tuple.Item2, userEmail);
-                        });
+                            {
+                                await ProcessLakerImport(tuple.Item1, tuple.Item2, userEmail).ConfigureAwait(false);
+                            });
                         msg = $"The Laker file import process has been started for \"{tuple.Item1}\"." +
                               " It will take a few minutes.... So we'll send you an email when " +
                               "it's done.";
                     }
-
                     return Ok(new {message = msg});
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -100,7 +99,7 @@ namespace BridgeportClaims.Web.Controllers
                     Logger.Info("The file was marked as completed.");
                 const string msg = "The Laker File Import Process Ran Successfully!";
                 await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
-                    EmailModelEnum.LakerImportStatus);
+                    EmailModelEnum.LakerImportStatus).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

@@ -31,7 +31,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var results = _adminFunctionsProvider.GetFirewallSettings();
                     return Ok(results);
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     _adminFunctionsProvider.DeleteFirewallSetting(ruleName);
                     return Ok(new {message = $"The firewall rule '{ruleName}' was removed successfully."});
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -73,9 +73,10 @@ namespace BridgeportClaims.Web.Controllers
                         throw new ArgumentNullException(nameof(model.StartIpAddress));
                     if (model.EndIpAddress.IsNullOrWhiteSpace())
                         throw new ArgumentNullException(nameof(model.EndIpAddress));
-                    _adminFunctionsProvider.AddFirewallSetting(model.RuleName, model.StartIpAddress, model.EndIpAddress);
-                    return Ok(new { message = $"The firewall rule '{model.RuleName}' was created successfully." });
-                });
+                    _adminFunctionsProvider.AddFirewallSetting(model.RuleName, model.StartIpAddress,
+                        model.EndIpAddress);
+                    return Ok(new {message = $"The firewall rule '{model.RuleName}' was created successfully."});
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

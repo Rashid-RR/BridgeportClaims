@@ -265,7 +265,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var retVal = AppUserManager.Users.ToList().Select(u => TheModelFactory.Create(u));
                     return Ok(retVal.OrderBy(x => x.Email).ToList());
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

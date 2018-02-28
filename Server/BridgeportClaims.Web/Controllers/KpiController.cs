@@ -29,7 +29,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var results = _kpiProvider.GetPaymentTotalsDtos();
                     return Ok(results);
-                });
+                }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

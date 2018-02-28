@@ -283,6 +283,7 @@
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\KpiController.cs" />
     <Compile Include="Controllers\LakerAutomationController.cs" />
+    <Compile Include="Controllers\LettersController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
