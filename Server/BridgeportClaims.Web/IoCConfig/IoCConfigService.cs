@@ -20,7 +20,6 @@ using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.DataProviders.UserRoles;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
-using BridgeportClaims.Data.StoredProcedureExecutors;
 using BridgeportClaims.Data.DataProviders.UserOptions;
 using BridgeportClaims.Data.DataProviders.DateDisplay;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
@@ -47,8 +46,9 @@ using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
+using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
+using BridgeportClaims.Pdf.Factories;
 using Microsoft.AspNet.SignalR;
-using BridgeportClaims.Pdf.ITextPdfFactory;
 
 namespace BridgeportClaims.Web.IoCConfig
 {

@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="Adapters\ExcelDataReaderAdapter.cs" />
     <Compile Include="Adapters\OleDbExcelAdapter.cs" />
-    <Compile Include="ExcelPackageFactory\ExcelFactory.cs" />
+    <Compile Include="Factories\ExcelFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

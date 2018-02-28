@@ -4,9 +4,12 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.UserOptions;
+using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Web.EmailTemplates;
+using BridgeportClaims.Word.Factories;
+using BridgeportClaims.Word.WordProvider;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -26,6 +29,24 @@ namespace BridgeportClaims.Web.Controllers
             _dbccUserOptionsProvider = dbccUserOptionsProvider;
             _claimsDataProvider = claimsDataProvider;
             _emailService = emailService;
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("download")]
+        public IHttpActionResult Download()
+        {
+            try
+            {
+                var wordDocumentProvider = new WordDocumentProvider();
+                var path = wordDocumentProvider.GetWordDocument();
+                return new FileResult(path, "IME Letter.docx", "application/msword");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                throw;
+            }
         }
 
         [HttpGet]

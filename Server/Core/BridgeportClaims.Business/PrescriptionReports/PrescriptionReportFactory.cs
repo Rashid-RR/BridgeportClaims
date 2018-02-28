@@ -1,7 +1,7 @@
 ﻿using System.Data;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
-using BridgeportClaims.Pdf.ITextPdfFactory;
+using BridgeportClaims.Pdf.Factories;
 
 namespace BridgeportClaims.Business.PrescriptionReports
 {

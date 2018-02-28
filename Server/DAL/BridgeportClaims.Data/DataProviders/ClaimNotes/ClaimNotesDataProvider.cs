@@ -3,7 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimNotes

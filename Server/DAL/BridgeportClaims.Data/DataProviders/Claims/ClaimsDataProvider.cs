@@ -11,7 +11,7 @@ using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 using NHibernate;
 using NHibernate.Transform;

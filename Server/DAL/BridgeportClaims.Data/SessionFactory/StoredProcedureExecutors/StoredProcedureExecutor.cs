@@ -4,12 +4,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Data.NHibernate;
 using NHibernate;
 using NHibernate.Transform;
-using BridgeportClaims.Data.NHibernate;
 using NLog;
 
-namespace BridgeportClaims.Data.StoredProcedureExecutors
+namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
 {
     public class StoredProcedureExecutor : IStoredProcedureExecutor
     {

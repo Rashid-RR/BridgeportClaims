@@ -5,11 +5,11 @@ using BridgeportClaims.Common.Disposable;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 
-namespace BridgeportClaims.Excel.ExcelPackageFactory
+namespace BridgeportClaims.Excel.Factories
 {
-    public class ExcelFactory
+    public static class ExcelFactory
     {
-        public string GetExcelFilePathFromDataTable(DataTable dt, string workSheetName, string fileName) => 
+        public static string GetExcelFilePathFromDataTable(DataTable dt, string workSheetName, string fileName) => 
             DisposableService.Using(() => new ExcelPackage(), pck =>
             {
                 var wsDt = pck.Workbook?.Worksheets?.Add(workSheetName);

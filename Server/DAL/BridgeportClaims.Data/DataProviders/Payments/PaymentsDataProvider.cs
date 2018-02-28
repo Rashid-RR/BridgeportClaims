@@ -10,7 +10,7 @@ using BridgeportClaims.Excel.Adapters;
 using BridgeportClaims.Common.DataTables;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
-using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 

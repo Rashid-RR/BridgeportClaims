@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Entities.ViewModels;
 

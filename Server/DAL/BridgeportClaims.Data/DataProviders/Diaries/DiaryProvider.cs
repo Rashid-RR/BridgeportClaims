@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Diaries

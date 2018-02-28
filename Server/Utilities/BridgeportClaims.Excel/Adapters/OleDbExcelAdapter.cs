@@ -8,7 +8,7 @@ using f = System.IO.File;
 
 namespace BridgeportClaims.Excel.Adapters
 {
-    public class OleDbExcelAdapter
+    public static class OleDbExcelAdapter
     {
         public static DataTable GetDataTableFromExcel(byte[] fileBytes, bool hasHeaders)
         {

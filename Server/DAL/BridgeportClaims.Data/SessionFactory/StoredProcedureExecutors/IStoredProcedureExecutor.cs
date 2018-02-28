@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace BridgeportClaims.Data.StoredProcedureExecutors
+namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
 {
     public interface IStoredProcedureExecutor
     {

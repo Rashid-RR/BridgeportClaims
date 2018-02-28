@@ -10,7 +10,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Reports;
-using BridgeportClaims.Excel.ExcelPackageFactory;
+using BridgeportClaims.Excel.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
 
@@ -148,9 +148,8 @@ namespace BridgeportClaims.Web.Controllers
                     var dataTable = report.ToDynamicLinqDataTable();
                     if (null == dataTable)
                         throw new Exception("Could not create a data table from the report.");
-                    var excelFactory = new ExcelFactory();
                     var fileName = "AccountsReceivableReport" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.xlsx";
-                    var fullFilePath = excelFactory.GetExcelFilePathFromDataTable(dataTable, "Accounts Receivable", fileName);
+                    var fullFilePath = ExcelFactory.GetExcelFilePathFromDataTable(dataTable, "Accounts Receivable", fileName);
                     return new FileResult(fullFilePath, fileName, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
                 });
             }

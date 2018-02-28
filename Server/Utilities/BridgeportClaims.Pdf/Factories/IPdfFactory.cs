@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace BridgeportClaims.Pdf.ITextPdfFactory
+namespace BridgeportClaims.Pdf.Factories
 {
     public interface IPdfFactory
     {

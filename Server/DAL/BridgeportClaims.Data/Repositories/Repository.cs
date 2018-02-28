@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using BridgeportClaims.Data.StoredProcedureExecutors;
+using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using NHibernate;
 
 namespace BridgeportClaims.Data.Repositories
 {
+    /// <inheritdoc cref="BaseRepository" />
     /// <summary>
     /// Implementation of the IRepository pattern. No logging done at this level.
     /// </summary>

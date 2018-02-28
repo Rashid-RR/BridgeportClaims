@@ -3,13 +3,12 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using BridgeportClaims.Common.Disposable;
-using iTextSharp.text.pdf.draw;
 using BridgeportClaims.Common.Extensions;
-using iTextSharp.text.pdf;
 using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.pdf.draw;
 
-
-namespace BridgeportClaims.Pdf.ITextPdfFactory
+namespace BridgeportClaims.Pdf.Factories
 {
     public class PdfFactory : IPdfFactory
     {
