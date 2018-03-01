@@ -11,7 +11,7 @@ import { Router } from "@angular/router";
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { AccountReceivableService } from '../../services/services.barrel';
-import * as FileSaver from 'file-saver'; 
+import * as FileSaver from 'file-saver';
 import { Response } from '@angular/http';
 
 declare var $: any
@@ -55,7 +55,7 @@ export class ClaimsComponent implements OnInit {
     private dp: DatePipe,
     private events: EventsService,
     private toast: ToastsManager,
-    private ar:AccountReceivableService,
+    private ar: AccountReceivableService,
   ) {
 
   }
@@ -97,8 +97,8 @@ export class ClaimsComponent implements OnInit {
 
   ngOnInit() {
     //$('body').addClass('sidebar-collapse');
-    this.events.on("edit-episode", (episode:Episode) => { 
-      this.episode(episode.episodeId, episode.type,(episode.episodeNote || episode['note']));
+    this.events.on("edit-episode", (episode: Episode) => {
+      this.episode(episode.episodeId, episode.type, (episode.episodeNote || episode['note']));
     })
     this.events.on("minimize", (...args) => {
       this.minimize(args[0]);
@@ -109,7 +109,7 @@ export class ClaimsComponent implements OnInit {
     this.router.routerState.root.queryParams.subscribe(params => {
       if (params['claimId']) {
         this.claimManager.search({ claimId: params['claimId'] });
-      }else if (params['claimNumber']) {
+      } else if (params['claimNumber']) {
         this.claimManager.search({ claimNumber: params['claimNumber'] });
       }
     });
@@ -294,7 +294,7 @@ export class ClaimsComponent implements OnInit {
       claimId: this.claimManager.selectedClaim.claimId,
       //episodeId: id, // only send on episode edit
       episodeText: note,
-      pharmacyNabp:null,
+      pharmacyNabp: null,
       episodeTypeId: TypeId
     });
     this.episodeSwal.show().then((r) => {
@@ -302,21 +302,44 @@ export class ClaimsComponent implements OnInit {
     })
   }
 
-  exportPDF(){
-    this.claimManager.loading = true; 
-    this.http.exportPrescriptions({claimId:this.claimManager.selectedClaim.claimId})
-    .subscribe((result) => {
-      this.claimManager.loading = false;   
-      this.ar.downloadFile(result);
-    }, err => {
-      console.log(err);
-      this.claimManager.loading = false; 
-      try {
-        const error = err.json(); 
-      } catch (e) { }
-    });
+  exportIME() {
+    if (!this.claimManager.selectedClaim) {
+      this.toast.warning('No claim loaded!');
+    } else {
+      this.claimManager.loading = true;
+      this.http.exportIMELetter({ claimId: this.claimManager.selectedClaim.claimId })
+        .subscribe((result) => {
+          this.claimManager.loading = false;
+          this.ar.downloadFile(result);
+        }, err => {
+          console.log(err);
+          this.toast.error(err.statusText);
+          this.claimManager.loading = false;
+          try {
+            const error = err.json();
+          } catch (e) { }
+        });
+    }
   }
- 
+  exportPDF() {
+    if (!this.claimManager.selectedClaim) {
+      this.toast.warning('No claim loaded!');
+    } else {
+      this.claimManager.loading = true;
+      this.http.exportPrescriptions({ claimId: this.claimManager.selectedClaim.claimId })
+        .subscribe((result) => {
+          this.claimManager.loading = false;
+          this.ar.downloadFile(result);
+        }, err => {
+          console.log(err);
+          this.claimManager.loading = false;
+          try {
+            const error = err.json();
+          } catch (e) { }
+        });
+    }
+  }
+
   addNote(noteText: String = "", TypeId?: String) {
     let selectedNotes = [];
     noteText = noteText.replace(/\\n/g, '&#13;');

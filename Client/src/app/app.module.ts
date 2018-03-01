@@ -90,6 +90,7 @@ import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-se
 import { FirewallFilterComponent } from './components/firewall-filter/firewall-filter.component';
 import { FirewallGridComponent } from './components/firewall-grid/firewall-grid.component';
 import { AcquireEpisodeComponent } from './components/acquire-episode/acquire-episode.component';
+import { TestComponent } from './pages/test/test.component';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -128,7 +129,7 @@ export class SafeUrlPipe implements PipeTransform {
     PaymentDetailedResultComponent,
     ColumnSortDirective, TableSortDirective,
     DiaryComponent, DiaryInputComponent, DiaryResultsComponent, DiaryScriptNoteWindowComponent,EpisodeNoteModalComponent,
-    UnpaidScriptComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent
+    UnpaidScriptComponent, UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, AccountReceivableResultComponent, AccountReceivableSearchComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, AddScriptModalComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent
   ],
   imports: [
     FormsModule,

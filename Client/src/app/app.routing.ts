@@ -38,6 +38,7 @@ import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-li
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { EpisodePageComponent } from 'app/pages/episode-page/episode-page.component';
 import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-settings.component';
+import { TestComponent } from './pages/test/test.component';
 
 export const routes: Routes = [
   {
@@ -60,6 +61,10 @@ export const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent
+      },
+      {
+        path: 'test',
+        component: TestComponent
       }
       , {
         path: 'recover-lost-password',

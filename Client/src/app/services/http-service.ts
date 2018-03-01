@@ -766,5 +766,12 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  exportIMELetter(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + "/letters/ime/?claimId="+data.claimId,data, {responseType:ResponseContentType.Blob,headers:this.headers})    
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
 }
