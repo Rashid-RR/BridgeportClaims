@@ -30,7 +30,7 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var fullFilePath = _wordDocumentProvider.GetWordDocument();
-                    return new FileResult(fullFilePath, c.ImeLetterName, "application/msword");
+                    return Ok(fullFilePath); //new FileResult(fullFilePath, c.ImeLetterName, "application/msword");
                 }).ConfigureAwait(false);
             }
             catch (Exception ex)
