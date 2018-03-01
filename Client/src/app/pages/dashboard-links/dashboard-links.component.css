@@ -337,7 +337,7 @@ li.reports {
     position: absolute;
     width: 16px;
     height: 16px;
-    right: 0px;
+    right: 4px;
     top: -80%;
     content: url(../../../assets/img/marker.png) !important;
     display: table-cell;
