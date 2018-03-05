@@ -30,7 +30,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                if (letterType.ToLower() != "be" || letterType.ToLower() != "pip" || letterType.ToLower() != "ime")
+                if (letterType.ToLower() != "be" && letterType.ToLower() != "pip" && letterType.ToLower() != "ime")
                     ThrowLetterTypeException(letterType);
                 return await Task.Run(() =>
                 {
