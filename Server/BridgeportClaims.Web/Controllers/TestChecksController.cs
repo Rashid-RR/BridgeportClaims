@@ -20,8 +20,10 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IEmailService _emailService;
 
-        public TestChecksController(IDbccUserOptionsProvider dbccUserOptionsProvider, 
-            IClaimsDataProvider claimsDataProvider, IEmailService emailService)
+        public TestChecksController(
+            IDbccUserOptionsProvider dbccUserOptionsProvider, 
+            IClaimsDataProvider claimsDataProvider, 
+            IEmailService emailService)
         {
             _dbccUserOptionsProvider = dbccUserOptionsProvider;
             _claimsDataProvider = claimsDataProvider;

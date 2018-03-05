@@ -16,7 +16,7 @@ namespace BridgeportClaims.Data.DataProviders.AdminFunctions
 											, r.[start_ip_address] StartIpAddress
 											, r.[end_ip_address] EndIpAddress
 									   FROM sys.firewall_rules AS r
-									   WHERE r.[name] NOT IN (N'AllowInternalAzureIPs', N'AllowJGurney', N'AllowJGurney1')";
+									   WHERE r.[name] != N'AllowInternalAzureIPs' AND r.[name] NOT LIKE N'AllowJGurney%'";
 
 		#endregion
 

@@ -48,5 +48,8 @@
         public const string LakerImportStatus = "The Laker Import Process has Completed.";
         public const string SecureDbConnStrName = "BridgeportClaimsSecureConnectionString";
         public const string ImeLetterName = "IME Letter.docx";
+        public const string ImeLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.IME Letter.docx";
+        public const string BenefitsExhaustedLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.Benefits Exhausted Letter.docx";
+        public const string PipAppLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.PIP App Letter.docx";
     }
 }
