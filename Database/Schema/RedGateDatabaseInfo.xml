@@ -5,7 +5,7 @@
   <DefaultSchema>dbo</DefaultSchema>
   <DefaultUser>dbo</DefaultUser>
   <DefaultFilegroup>PRIMARY</DefaultFilegroup>
-  <DatabaseVersion>14</DatabaseVersion>
+  <DatabaseVersion>13</DatabaseVersion>
   <IsAzure>False</IsAzure>
   <MaxDataFileSize>10485760</MaxDataFileSize>
   <WriteToFileOptions>
@@ -57,7 +57,7 @@
     <DataWriteAllFilesInOneDirectory>True</DataWriteAllFilesInOneDirectory>
   </WriteToFileOptions>
   <DataFileSet>
-    <Count>23</Count>
+    <Count>24</Count>
     <DataFile>dbo.AspNetRoles_Data.sql</DataFile>
     <DataFile>dbo.Gender_Data.sql</DataFile>
     <DataFile>dbo.UsState_Data.sql</DataFile>
@@ -81,5 +81,6 @@
     <DataFile>dbo.DocumentType_Data.sql</DataFile>
     <DataFile>dbo.DocumentTypeEpisodeTypeMapping_Data.sql</DataFile>
     <DataFile>dbo.EpisodeTypeUsersMapping_Data.sql</DataFile>
+    <DataFile>dbo.FileType_Data.sql</DataFile>
   </DataFileSet>
 </DatabaseInformation>
