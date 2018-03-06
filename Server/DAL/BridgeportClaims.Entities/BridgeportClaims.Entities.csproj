@@ -93,10 +93,12 @@
     <Compile Include="DomainModels\EpisodeNote.cs" />
     <Compile Include="DomainModels\EpisodeType.cs" />
     <Compile Include="DomainModels\EpisodeTypeUsersMapping.cs" />
+    <Compile Include="DomainModels\FileType.cs" />
     <Compile Include="DomainModels\Gender.cs" />
     <Compile Include="DomainModels\ImportFile.cs" />
     <Compile Include="DomainModels\ImportFileType.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
+    <Compile Include="DomainModels\InvoiceIndex.cs" />
     <Compile Include="DomainModels\Patient.cs" />
     <Compile Include="DomainModels\Payor.cs" />
     <Compile Include="DomainModels\Pharmacy.cs" />

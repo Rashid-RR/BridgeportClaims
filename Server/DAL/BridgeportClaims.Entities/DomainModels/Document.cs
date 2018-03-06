@@ -11,10 +11,13 @@ namespace BridgeportClaims.Entities.DomainModels
         public Document()
         {
             DocumentIndex = new List<DocumentIndex>();
+            InvoiceIndex = new List<InvoiceIndex>();
         }
         [Required]
         public virtual int DocumentId { get; set; }
         public virtual AspNetUsers ModifiedByUser { get; set; }
+        [Required]
+        public virtual FileType FileType { get; set; }
         [Required]
         [StringLength(1000)]
         public virtual string FileName { get; set; }
@@ -49,5 +52,6 @@ namespace BridgeportClaims.Entities.DomainModels
         [Required]
         public virtual DateTime UpdatedOnUtc { get; set; }
         public virtual IList<DocumentIndex> DocumentIndex { get; set; }
+        public virtual IList<InvoiceIndex> InvoiceIndex { get; set; }
     }
 }

@@ -195,6 +195,7 @@
     <Compile Include="Mappings\ClaimNoteTypeMap.cs" />
     <Compile Include="Mappings\ClaimPaymentMap.cs" />
     <Compile Include="Mappings\ClaimsUserHistoryMap.cs" />
+    <Compile Include="Mappings\FileTypeMap.cs" />
     <Compile Include="Mappings\DiaryMap.cs" />
     <Compile Include="Mappings\DocumentIndexMap.cs" />
     <Compile Include="Mappings\DocumentMap.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Mappings\GenderMap.cs" />
     <Compile Include="Mappings\ImportFileMap.cs" />
     <Compile Include="Mappings\ImportFileTypeMap.cs" />
+    <Compile Include="Mappings\InvoiceIndexMap.cs" />
     <Compile Include="Mappings\InvoiceMap.cs" />
     <Compile Include="Mappings\PatientMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />

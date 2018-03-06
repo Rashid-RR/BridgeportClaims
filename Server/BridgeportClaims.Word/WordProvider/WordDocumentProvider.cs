@@ -1,10 +1,14 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Text.RegularExpressions;
+using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Word.Templating;
 using DocumentFormat.OpenXml.Packaging;
 
 namespace BridgeportClaims.Word.WordProvider
 {
+    [SuppressMessage("ReSharper", "ImplicitlyCapturedClosure")]
     public class WordDocumentProvider : IWordDocumentProvider
     {
         // TODO: Handle templating of each letter type.
@@ -17,29 +21,26 @@ namespace BridgeportClaims.Word.WordProvider
             // Delete file if it already exists
             if (File.Exists(fullFilePath))
                 File.Delete(fullFilePath);
-
-            var buffer = document.ToBytes();
-            using (var ms = new MemoryStream())
+            
+            DisposableService.Using(() => new MemoryStream(), ms =>
             {
+                var buffer = document.ToBytes();
                 ms.Write(buffer, 0, buffer.Length);
                 File.WriteAllBytes(fullFilePath, ms.ToArray());
-            }
-            using (var wordDoc = WordprocessingDocument.Open(fullFilePath, true))
+            });
+            var docText = string.Empty;
+            DisposableService.Using(() => WordprocessingDocument.Open(fullFilePath, true), wordDoc =>
             {
-                string docText = null;
-                using (var sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
+                DisposableService.Using(() => new StreamReader(wordDoc.MainDocumentPart.GetStream()), sr =>
                 {
                     docText = sr.ReadToEnd();
-                }
-
-                var regexText = new Regex("Patient.FirstName");
-                docText = regexText.Replace(docText, "Joe");
-
-                using (var sw = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
+                });
+                docText = WordTemplater.TransformDocumentText(docText);
+                DisposableService.Using(() => new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)), sw =>
                 {
                     sw.Write(docText);
-                }
-            }
+                });
+            });
             return fullFilePath;
         }
     }
