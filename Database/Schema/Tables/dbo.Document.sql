@@ -14,6 +14,7 @@ CREATE TABLE [dbo].[Document]
 [ByteCount] [bigint] NOT NULL,
 [Archived] [bit] NOT NULL CONSTRAINT [dfDocumentArchived] DEFAULT ((0)),
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[FileTypeID] [tinyint] NOT NULL CONSTRAINT [dfDocumentFileType] DEFAULT ((1)),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -28,6 +29,8 @@ GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileName] UNIQUE NONCLUSTERED  ([FileName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileUrl] UNIQUE NONCLUSTERED  ([FileUrl]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Document] ADD CONSTRAINT [fkDocumentFileTypeIDFileTypeFileTypeID] FOREIGN KEY ([FileTypeID]) REFERENCES [dbo].[FileType] ([FileTypeID])
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [fkDocumentModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

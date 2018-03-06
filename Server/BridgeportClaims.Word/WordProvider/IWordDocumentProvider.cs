@@ -1,7 +1,9 @@
-﻿namespace BridgeportClaims.Word.WordProvider
+using System.IO;
+
+namespace BridgeportClaims.Word.WordProvider
 {
     public interface IWordDocumentProvider
     {
-        string GetWordDocument();
+        string CreateTemplatedWordDocument(Stream document);
     }
 }

@@ -77,7 +77,7 @@ AS BEGIN
 					  ,(SELECT  [m].[EpisodeTypeID]
 						FROM    dbo.[DocumentTypeEpisodeTypeMapping] AS [m]
 						WHERE   [m].[DocumentTypeID] = @DocumentTypeID)
-					  , @UserID
+					  , NULL
 					  , @RxNumber
 					  , @LocalNow
 					  , @DocumentID
@@ -108,5 +108,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 
 GO
