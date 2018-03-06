@@ -58,8 +58,6 @@
         "../node_modules/highcharts/highcharts.js",
         "../node_modules/highcharts/modules/data.js",
         "../node_modules/highcharts/modules/drilldown.js",
-        "../node_modules/@microsoft/office-js/dist/office.js",
-        "../node_modules/@microsoft/office-js/dist/word-web-16.00.js",
         "assets/js/app.js",
         "assets/js/vegas.js",
         "assets/js/jquery.countdownTimer.min.js",

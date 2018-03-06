@@ -22,12 +22,18 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Claims</h3>
                 <div class="box-tools pull-right">
-                    <div class="btn-group" data-toggle="btn-toggle"  style="box-shadow: 0px 1px 1px 1px black; margin-top: -3px;border:1px black;">
+                    <div class="btn-group" data-toggle="btn-toggle"  style="box-shadow: 0px 1px 1px 1px black; margin-top: -3px;border:1px black;" *ngIf="claimManager.selectedClaim">
                         <button class="btn btn-flat btn-sm" type="button" style="line-height:  24px;  padding: 4px 10px 1px 10px;font-weight:  bold; font-size: 13pt;">
                             Letters:
                         </button>
-                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportIME()" style="line-height:  25px;  padding: 1px 10px;font-weight:  normal; font-size: 13pt;">
+                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('be')" style="line-height:  25px;  padding: 1px 10px;font-weight:  normal; font-size: 13pt;">
+                            <img src="assets/letter.png" height="25px" />Benefits Exhausted
+                        </button>
+                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('ime')" style="line-height:  25px;  padding: 1px 10px;font-weight:  normal; font-size: 13pt;">
                             <img src="assets/letter.png" height="25px" /> IME Letter
+                        </button>
+                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('pip')" style="line-height:  25px;  padding: 1px 10px;font-weight:  normal; font-size: 13pt;">
+                            <img src="assets/letter.png" height="25px" /> Pip App
                         </button>
                     </div>
                 </div>
@@ -152,8 +158,7 @@
                         <div class="box" id="pres-box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4">
                             <div class="box-header bg-head-box" id="pres-box-header">
                                 <h4 class="box-title text-center panel-head">
-                                    <u>
-                                        <img src="assets/img/iconPrescriptions.png">Prescriptions</u>
+                                    <u><img src="assets/img/iconPrescriptions.png">Prescriptions</u>
                                 </h4>
                                 <span class="tally pull-right" *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.prescriptions.length>0" style="margin-right:250px;">
                                     <span class="totalInvoiced">
@@ -180,7 +185,7 @@
                                             <img src="assets/img/add.png" class="add-btn" />
                                         </button>
                                         <button style="display: none;" class="btn btn-flat btn-sm bg-vdarkgrey no-padding" type="button" (click)="exportPDF()">
-                                            <img src="assets/img/export-pdf.png" class="add-btn" />
+                                            <img src="assets/B-2.png" class="add-btn" />
                                         </button>
                                     </div>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm" id="pres-min" (click)="minimize('prescriptions')"
