@@ -175,7 +175,9 @@ export class AccountReceivableService {
     let blob = new Blob([data.blob()], { 
       type:data.headers.get('content-type')// 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // must match the Accept type
    }); 
-   let filename = data.headers.get('content-disposition').replace('attachment; filename=','');;
+   let filename = data.headers.get('content-disposition').replace('attachment; filename=','');
+   filename = filename.replace(/"/g,'');
+   console.log(filename);
    FileSaver.saveAs(blob, filename);
     /* var url= window.URL.createObjectURL(blob);
     window.open(url); */

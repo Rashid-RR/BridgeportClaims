@@ -302,12 +302,12 @@ export class ClaimsComponent implements OnInit {
     })
   }
 
-  exportIME() {
+  exportLetter(type) {
     if (!this.claimManager.selectedClaim) {
       this.toast.warning('No claim loaded!');
     } else {
       this.claimManager.loading = true;
-      this.http.exportIMELetter({ claimId: this.claimManager.selectedClaim.claimId })
+      this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId,type:type })
         .subscribe((result) => {
           this.claimManager.loading = false;
           this.ar.downloadFile(result);
