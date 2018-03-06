@@ -35,23 +35,27 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var type = default(LetterType);
+                    var fileName = string.Empty;
                     switch (letterType.ToLower())
                     {
                         case "be":
                             type = LetterType.BenExhaust;
+                            fileName = c.BenefitsExhaustedLetter;
                             break;
                         case "pip":
                             type = LetterType.PipApp;
+                            fileName = c.PipAppLetter;
                             break;
                         case "ime":
                             type = LetterType.Ime;
+                            fileName = c.ImeLetterName;
                             break;
                         default:
                             ThrowLetterTypeException(letterType);
                             break;
                     }
                     var fullFilePath = _wordFileDriver.GetLetterByType(type);
-                    return new FileResult(fullFilePath, c.ImeLetterName, DocxContentType);
+                    return new FileResult(fullFilePath, fileName, DocxContentType);
                 }).ConfigureAwait(false);
 
             }
