@@ -5,13 +5,14 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.LetterGenerations
 {
     public class LetterGenerationProvider : ILetterGenerationProvider
     {
         public LetterGenerationDto GetLetterGenerationData(int claimId, string userId) =>
-            DisposableService.Using(() => new SqlConnection(), conn =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspLetterGenerationData]", conn), cmd =>
                 {
@@ -26,8 +27,9 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                     var userIdParam = cmd.CreateParameter();
                     userIdParam.Value = userId ?? (object) DBNull.Value;
                     userIdParam.ParameterName = "@UserID";
-                    userIdParam.DbType = DbType.Int32;
-                    userIdParam.SqlDbType = SqlDbType.Int;
+                    userIdParam.DbType = DbType.String;
+                    userIdParam.SqlDbType = SqlDbType.NVarChar;
+                    userIdParam.Size = 128;
                     userIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(userIdParam);
                     var retVal = new List<LetterGenerationDto>();
