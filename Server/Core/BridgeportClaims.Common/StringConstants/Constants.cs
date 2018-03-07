@@ -51,7 +51,7 @@
         public const string BenefitsExhaustedLetter = "BenefitsExhaustedLetter.docx";
         public const string PipAppLetter = "PIP App Letter.docx";
         public const string ImeLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.IME Letter.docx";
-        public const string BenefitsExhaustedLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.Benefits Exhausted Letter.docx";
+        public const string BenefitsExhaustedLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.BenefitsExhaustedLetter.docx";
         public const string PipAppLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.PIP App Letter.docx";
     }
 }
