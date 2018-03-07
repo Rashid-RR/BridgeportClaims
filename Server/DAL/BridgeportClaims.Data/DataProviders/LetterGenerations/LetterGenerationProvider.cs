@@ -49,23 +49,25 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                         var userFirstNameParam = reader.GetOrdinal("UserFirstName");
                         var userLastNameParam = reader.GetOrdinal("UserLastName");
                         var pharmacyNameParam = reader.GetOrdinal("PharmacyName");
-
-                        var letterGenerationDto = new LetterGenerationDto
-                        {
-                            TodaysDate = !reader.IsDBNull(todaysDateParam) ? reader.GetString(todaysDateParam) : string.Empty,
-                            FirstName = !reader.IsDBNull(firstNameParam) ? reader.GetString(firstNameParam) : string.Empty,
-                            LastName = !reader.IsDBNull(lastNameParam) ? reader.GetString(lastNameParam) : string.Empty,
-                            Address1 = !reader.IsDBNull(address1Param) ? reader.GetString(address1Param) : string.Empty,
-                            Address2 = !reader.IsDBNull(address2Param) ? reader.GetString(address2Param) : string.Empty,
-                            City = !reader.IsDBNull(cityParam) ? reader.GetString(cityParam) : string.Empty,
-                            StateCode = !reader.IsDBNull(stateCodeParam) ? reader.GetString(stateCodeParam) : string.Empty,
-                            PostalCode = !reader.IsDBNull(postalCodeParam) ? reader.GetString(postalCodeParam) : string.Empty,
-                            GroupName = !reader.IsDBNull(groupNameParam) ? reader.GetString(groupNameParam) : string.Empty,
-                            UserFirstName = !reader.IsDBNull(userFirstNameParam) ? reader.GetString(userFirstNameParam) : string.Empty,
-                            UserLastName = !reader.IsDBNull(userLastNameParam) ? reader.GetString(userLastNameParam) : string.Empty,
-                            PharmacyName = !reader.IsDBNull(pharmacyNameParam) ? reader.GetString(pharmacyNameParam) : string.Empty,
-                        };
-                        retVal.Add(letterGenerationDto);
+                        while (reader.Read())
+                        { 
+                            var letterGenerationDto = new LetterGenerationDto
+                            {
+                                TodaysDate = !reader.IsDBNull(todaysDateParam) ? reader.GetString(todaysDateParam) : string.Empty,
+                                FirstName = !reader.IsDBNull(firstNameParam) ? reader.GetString(firstNameParam) : string.Empty,
+                                LastName = !reader.IsDBNull(lastNameParam) ? reader.GetString(lastNameParam) : string.Empty,
+                                Address1 = !reader.IsDBNull(address1Param) ? reader.GetString(address1Param) : string.Empty,
+                                Address2 = !reader.IsDBNull(address2Param) ? reader.GetString(address2Param) : string.Empty,
+                                City = !reader.IsDBNull(cityParam) ? reader.GetString(cityParam) : string.Empty,
+                                StateCode = !reader.IsDBNull(stateCodeParam) ? reader.GetString(stateCodeParam) : string.Empty,
+                                PostalCode = !reader.IsDBNull(postalCodeParam) ? reader.GetString(postalCodeParam) : string.Empty,
+                                GroupName = !reader.IsDBNull(groupNameParam) ? reader.GetString(groupNameParam) : string.Empty,
+                                UserFirstName = !reader.IsDBNull(userFirstNameParam) ? reader.GetString(userFirstNameParam) : string.Empty,
+                                UserLastName = !reader.IsDBNull(userLastNameParam) ? reader.GetString(userLastNameParam) : string.Empty,
+                                PharmacyName = !reader.IsDBNull(pharmacyNameParam) ? reader.GetString(pharmacyNameParam) : string.Empty,
+                            };
+                            retVal.Add(letterGenerationDto);
+                        }
                     });
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();

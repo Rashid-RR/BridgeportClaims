@@ -153,7 +153,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="app.config" />
-    <EmbeddedResource Include="EmbeddedResources\Benefits Exhausted Letter.docx">
+    <EmbeddedResource Include="EmbeddedResources\BenefitsExhaustedLetter.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="EmbeddedResources\PIP App Letter.docx">
