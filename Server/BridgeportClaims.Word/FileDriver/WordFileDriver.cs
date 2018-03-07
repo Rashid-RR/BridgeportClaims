@@ -38,9 +38,9 @@ namespace BridgeportClaims.Word.FileDriver
             return stream;
         }
 
-        public string GetLetterByType(LetterType type)
+        public string GetLetterByType(int claimId, string userId, LetterType type)
         {
-            var path = _wordDocumentProvider.CreateTemplatedWordDocument(GetManifestResourcStream(type));
+            var path = _wordDocumentProvider.CreateTemplatedWordDocument(claimId, userId, GetManifestResourcStream(type), type);
             return path;
         }
     }

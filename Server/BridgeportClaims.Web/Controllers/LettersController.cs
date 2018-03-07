@@ -3,9 +3,11 @@ using NLog;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.FileDriver;
+using Microsoft.AspNet.Identity;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
@@ -32,6 +34,9 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (letterType.ToLower() != "be" && letterType.ToLower() != "pip" && letterType.ToLower() != "ime")
                     ThrowLetterTypeException(letterType);
+                var userId = User.Identity.GetUserId();
+                if (userId.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(userId));
                 return await Task.Run(() =>
                 {
                     var type = default(LetterType);
@@ -54,7 +59,7 @@ namespace BridgeportClaims.Web.Controllers
                             ThrowLetterTypeException(letterType);
                             break;
                     }
-                    var fullFilePath = _wordFileDriver.GetLetterByType(type);
+                    var fullFilePath = _wordFileDriver.GetLetterByType(claimId, userId, type);
                     return new FileResult(fullFilePath, fileName, DocxContentType);
                 }).ConfigureAwait(false);
 
@@ -66,7 +71,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        private void ThrowLetterTypeException(string letterType)
+        private static void ThrowLetterTypeException(string letterType)
         {
             throw new Exception($"Error, the only letter types allowed are 'be', 'pip' or 'ime'. You passed in '{letterType}'");
         }

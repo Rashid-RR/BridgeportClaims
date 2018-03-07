@@ -102,6 +102,8 @@
     <Compile Include="DataProviders\ImportFiles\ImportFileProvider.cs" />
     <Compile Include="DataProviders\KPI\IKpiProvider.cs" />
     <Compile Include="DataProviders\KPI\KpiProvider.cs" />
+    <Compile Include="DataProviders\LetterGenerations\ILetterGenerationProvider.cs" />
+    <Compile Include="DataProviders\LetterGenerations\LetterGenerationProvider.cs" />
     <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
     <Compile Include="DataProviders\PayorSearches\IPayorSearchProvider.cs" />
@@ -162,6 +164,7 @@
     <Compile Include="Dtos\AcctPayableDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
+    <Compile Include="Dtos\LetterGenerationDto.cs" />
     <Compile Include="Dtos\NewEpisodeSaveDto.cs" />
     <Compile Include="Dtos\PaymentPostingDto.cs" />
     <Compile Include="Dtos\PaymentTotalsDto.cs" />
