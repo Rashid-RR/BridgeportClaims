@@ -22,18 +22,15 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Claims</h3>
                 <div class="box-tools pull-right">
-                    <div class="btn-group" data-toggle="btn-toggle"  style="box-shadow: 0px 1px 1px 1px black; margin-top: -3px;border:1px black;" *ngIf="claimManager.selectedClaim">
-                        <button class="btn btn-flat btn-sm" type="button" style="line-height:  24px;  padding: 4px 10px 1px 10px;font-weight:  bold; font-size: 13pt;">
-                            Letters:
+                    <div class="btn-group" data-toggle="btn-toggle" *ngIf="claimManager.selectedClaim">
+                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('be')">
+                            <img src="assets/img/benefits-exhaust.png" />
                         </button>
-                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('be')" style="line-height:  25px;  padding: 1px 10px;font-weight:  normal; font-size: 13pt;">
-                            <img src="assets/letter.png" height="25px" />Benefits Exhausted
+                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('ime')">
+                            <img src="assets/img/ime-letter.png" />
                         </button>
-                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('ime')" style="line-height:  25px;  padding: 1px 10px;font-weight:  normal; font-size: 13pt;">
-                            <img src="assets/letter.png" height="25px" /> IME Letter
-                        </button>
-                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('pip')" style="line-height:  25px;  padding: 1px 10px;font-weight:  normal; font-size: 13pt;">
-                            <img src="assets/letter.png" height="25px" /> Pip App
+                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('pip')">
+                            <img src="assets/img/pip-app.png" />
                         </button>
                     </div>
                 </div>

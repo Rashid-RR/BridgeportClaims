@@ -35,12 +35,11 @@ namespace BridgeportClaims.Word.Templating
             var r4 = new Regex("Patient.Address1");
             docText = r4.Replace(docText,
                 data.Address1.IsNotNullOrWhiteSpace()
-                    ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.Address1)
+                    ? CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.Address1) +
+                      (data.Address2.IsNotNullOrWhiteSpace()
+                          ? Environment.NewLine + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.Address2)
+                          : string.Empty)
                     : string.Empty);
-            if (data.Address2.IsNotNullOrWhiteSpace())
-            {
-                docText = docText + Environment.NewLine + CultureInfo.CurrentCulture.TextInfo.ToTitleCase(data.Address2);
-            }
             var r5 = new Regex("Patient.City");
             docText = r5.Replace(docText,
                 data.City.IsNotNullOrWhiteSpace()
