@@ -20,7 +20,7 @@ namespace BridgeportClaims.Word.WordProvider
             _wordTemplater = wordTemplater;
         }
         
-        public string CreateTemplatedWordDocument(int claimId, string userId, Stream document, LetterType type)
+        public string CreateTemplatedWordDocument(int claimId, string userId, Stream document, LetterType type, int prescriptionId)
         {
             
             var path = Path.GetTempPath();
@@ -43,7 +43,7 @@ namespace BridgeportClaims.Word.WordProvider
                 {
                     docText = sr.ReadToEnd();
                 });
-                docText = _wordTemplater.TransformDocumentText(claimId, userId, docText);
+                docText = _wordTemplater.TransformDocumentText(claimId, userId, docText, prescriptionId);
                 DisposableService.Using(() => new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)), sw =>
                 {
                     sw.Write(docText);

@@ -5,6 +5,6 @@ namespace BridgeportClaims.Word.WordProvider
 {
     public interface IWordDocumentProvider
     {
-        string CreateTemplatedWordDocument(int claimId, string userId, Stream document, LetterType type);
+        string CreateTemplatedWordDocument(int claimId, string userId, Stream document, LetterType type, int prescriptionId);
     }
 }

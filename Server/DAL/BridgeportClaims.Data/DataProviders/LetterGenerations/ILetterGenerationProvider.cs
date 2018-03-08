@@ -4,6 +4,6 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
 {
     public interface ILetterGenerationProvider
     {
-        LetterGenerationDto GetLetterGenerationData(int claimId, string userId);
+        LetterGenerationDto GetLetterGenerationData(int claimId, string userId, int prescriptionId);
     }
 }

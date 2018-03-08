@@ -11,7 +11,7 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
 {
     public class LetterGenerationProvider : ILetterGenerationProvider
     {
-        public LetterGenerationDto GetLetterGenerationData(int claimId, string userId) =>
+        public LetterGenerationDto GetLetterGenerationData(int claimId, string userId, int prescriptionId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspLetterGenerationData]", conn), cmd =>
@@ -32,6 +32,13 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                     userIdParam.Size = 128;
                     userIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(userIdParam);
+                    var prescriptionIdParam = cmd.CreateParameter();
+                    prescriptionIdParam.Value = prescriptionId;
+                    prescriptionIdParam.Direction = ParameterDirection.Input;
+                    prescriptionIdParam.DbType = DbType.Int32;
+                    prescriptionIdParam.SqlDbType= SqlDbType.Int;
+                    prescriptionIdParam.ParameterName = "@PrescriptionID";
+                    cmd.Parameters.Add(prescriptionIdParam);
                     var retVal = new List<LetterGenerationDto>();
                     if (conn.State != ConnectionState.Open)
                         conn.Open();

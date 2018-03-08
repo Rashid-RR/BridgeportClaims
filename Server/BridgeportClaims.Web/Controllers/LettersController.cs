@@ -28,7 +28,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("download")]
-        public async Task<IHttpActionResult> GetImeLetter(int claimId, string letterType)
+        public async Task<IHttpActionResult> GetImeLetter(int claimId, string letterType, int prescriptionId)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace BridgeportClaims.Web.Controllers
                             ThrowLetterTypeException(letterType);
                             break;
                     }
-                    var fullFilePath = _wordFileDriver.GetLetterByType(claimId, userId, type);
+                    var fullFilePath = _wordFileDriver.GetLetterByType(claimId, userId, type, prescriptionId);
                     return new FileResult(fullFilePath, fileName, DocxContentType);
                 }).ConfigureAwait(false);
 

@@ -15,9 +15,9 @@ namespace BridgeportClaims.Word.Templating
             _letterGenerationProvider = letterGenerationProvider;
         }
 
-        public string TransformDocumentText(int claimId, string userId, string docText)
+        public string TransformDocumentText(int claimId, string userId, string docText, int prescriptionId)
         {
-            var data = _letterGenerationProvider.GetLetterGenerationData(claimId, userId);
+            var data = _letterGenerationProvider.GetLetterGenerationData(claimId, userId, prescriptionId);
             var ti = new CultureInfo("en-US", false).TextInfo;
             if (null == data)
                 throw new ArgumentNullException(nameof(data));
