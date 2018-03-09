@@ -46,6 +46,7 @@ export class ClaimsComponent implements OnInit {
   }
   expanded: Boolean = false
   expandedBlade: Number = 0;
+  over: boolean[];
 
   constructor(
     private router: Router,
@@ -57,7 +58,8 @@ export class ClaimsComponent implements OnInit {
     private toast: ToastsManager,
     private ar: AccountReceivableService,
   ) {
-
+    this.over = new Array(3);
+    this.over.fill(false);
   }
 
   expand(expanded: Boolean, expandedBlade: Number, table: string) {
@@ -306,19 +308,28 @@ export class ClaimsComponent implements OnInit {
     if (!this.claimManager.selectedClaim) {
       this.toast.warning('No claim loaded!');
     } else {
-      this.claimManager.loading = true;
-      this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId,type:type })
-        .subscribe((result) => {
-          this.claimManager.loading = false;
-          this.ar.downloadFile(result);
-        }, err => {
-          console.log(err);
-          this.toast.error(err.statusText);
-          this.claimManager.loading = false;
-          try {
-            const error = err.json();
-          } catch (e) { }
-        });
+      let prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected == true);
+      if (prescriptions.length == 0) {
+        this.toast.warning('Please select one prescription before generating a letter.', null,
+        { toastLife: 10000,showCloseButton:true }).then((toast: any) =>null)
+      } else if (prescriptions.length > 1) {
+        this.toast.warning('Please select only one prescription before generating a letter.', null,
+        { toastLife: 10000,showCloseButton:true }).then((toast:any) =>null)
+      } else {
+        this.claimManager.loading = true;
+        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type,prescriptionId:prescriptions[0].prescriptionId })
+          .subscribe((result) => {
+            this.claimManager.loading = false;
+            this.ar.downloadFile(result);
+          }, err => {
+            console.log(err);
+            this.toast.error(err.statusText);
+            this.claimManager.loading = false;
+            try {
+              const error = err.json();
+            } catch (e) { }
+          });
+      }
     }
   }
   exportPDF() {

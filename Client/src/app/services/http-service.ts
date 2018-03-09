@@ -767,7 +767,7 @@ export class HttpService {
       });
   }
   exportLetter(data:any): Observable<Response> {
-    return this.http.post(this.baseUrl + "/letters/download/?claimId="+data.claimId+"&letterType="+data.type,data, {responseType:ResponseContentType.Blob,headers:this.headers})    
+    return this.http.post(this.baseUrl + "/letters/download/?claimId="+data.claimId+"&letterType="+data.type+"&prescriptionId="+data.prescriptionId,data, {responseType:ResponseContentType.Blob,headers:this.headers})    
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

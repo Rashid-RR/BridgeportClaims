@@ -224,3 +224,12 @@ app-claim{
 .totalInvoiced,.totalOutstanding{
   color:lightgreen
 }
+
+
+button.be,
+button.ime,
+button.pip
+{
+  line-height:25px;
+  padding:0px;
+}
