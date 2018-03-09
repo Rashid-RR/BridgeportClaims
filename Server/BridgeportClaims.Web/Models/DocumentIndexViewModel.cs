@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace BridgeportClaims.Web.Models
+﻿namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
     public sealed class DocumentIndexViewModel
     {
         public int DocumentId { get; set; }

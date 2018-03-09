@@ -13,7 +13,7 @@ namespace BridgeportClaims.Tests.Caching
     {
         private class TestValue
         {
-            public string Value { get; set; }
+            public string Value { get; }
             public TestValue(string value)
             {
                 Value = value;

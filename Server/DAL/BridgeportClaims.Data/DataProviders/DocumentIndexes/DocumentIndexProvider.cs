@@ -2,12 +2,23 @@
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Entities.DomainModels;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
 {
     public class DocumentIndexProvider : IDocumentIndexProvider
     {
+        private readonly IRepository<InvoiceIndex> _invoiceIndexRepository;
+        private readonly IRepository<AspNetUsers> _aspNetUsersRepository;
+
+        public DocumentIndexProvider(IRepository<InvoiceIndex> invoiceIndexRepository, IRepository<AspNetUsers> aspNetUsersRepository)
+        {
+            _invoiceIndexRepository = invoiceIndexRepository;
+            _aspNetUsersRepository = aspNetUsersRepository;
+        }
+
         public void DeleteDocumentIndex(int documentId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -115,5 +126,22 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     return existsParam.Value as bool? ?? default(bool);
                 });
             });
+
+        public void InsertInvoiceIndex(int documentId, string invoiceNumber, string userId)
+        {
+            var now = DateTime.UtcNow;
+            var user = _aspNetUsersRepository.Get(userId);
+            if (null == user)
+                throw new Exception($"Could not find user with the User Id {userId}");
+            var indexIndex = new InvoiceIndex
+            {
+                CreatedOnUtc = now,
+                UpdatedOnUtc = now,
+                DocumentId = documentId,
+                ModifiedByUser = user,
+                InvoiceNumber = invoiceNumber
+            };
+            _invoiceIndexRepository.Save(indexIndex);
+        }
     }
 }

@@ -75,7 +75,7 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var results = _documentsProvider.GetDocuments(model.Date.ToNullableFormattedDateTime(),
-                        model.Archived, model.FileName, model.Sort,
+                        model.Archived, model.FileName, model.FileTypeId, model.Sort,
                         model.SortDirection, model.Page,
                         model.PageSize);
                     return Ok(results);
