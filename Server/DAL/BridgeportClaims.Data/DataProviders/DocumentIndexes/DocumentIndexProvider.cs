@@ -12,11 +12,12 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
     {
         private readonly IRepository<InvoiceIndex> _invoiceIndexRepository;
         private readonly IRepository<AspNetUsers> _aspNetUsersRepository;
-
-        public DocumentIndexProvider(IRepository<InvoiceIndex> invoiceIndexRepository, IRepository<AspNetUsers> aspNetUsersRepository)
+        private readonly IRepository<Document> _documentRepository;
+        public DocumentIndexProvider(IRepository<InvoiceIndex> invoiceIndexRepository, IRepository<AspNetUsers> aspNetUsersRepository, IRepository<Document> documentRepository)
         {
             _invoiceIndexRepository = invoiceIndexRepository;
             _aspNetUsersRepository = aspNetUsersRepository;
+            _documentRepository = documentRepository;
         }
 
         public void DeleteDocumentIndex(int documentId) =>
@@ -127,21 +128,41 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                 });
             });
 
-        public void InsertInvoiceIndex(int documentId, string invoiceNumber, string userId)
-        {
-            var now = DateTime.UtcNow;
-            var user = _aspNetUsersRepository.Get(userId);
-            if (null == user)
-                throw new Exception($"Could not find user with the User Id {userId}");
-            var indexIndex = new InvoiceIndex
+        public void InsertInvoiceIndex(int documentId, string invoiceNumber, string userId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                CreatedOnUtc = now,
-                UpdatedOnUtc = now,
-                DocumentId = documentId,
-                ModifiedByUser = user,
-                InvoiceNumber = invoiceNumber
-            };
-            _invoiceIndexRepository.Save(indexIndex);
-        }
+                DisposableService.Using(() => new SqlCommand("[dbo].[uspInvoiceIndexInsert]", conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var documentIdParam = cmd.CreateParameter();
+                    documentIdParam.Value = documentId;
+                    documentIdParam.ParameterName = "@DocumentID";
+                    documentIdParam.DbType = DbType.Int32;
+                    documentIdParam.SqlDbType = SqlDbType.Int;
+                    documentIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(documentIdParam);
+                    var invoiceNumberParam = cmd.CreateParameter();
+                    invoiceNumberParam.Value = invoiceNumber ?? (object) DBNull.Value;
+                    invoiceNumberParam.DbType = DbType.AnsiString;
+                    invoiceNumberParam.SqlDbType = SqlDbType.VarChar;
+                    invoiceNumberParam.Size = 100;
+                    invoiceNumberParam.Direction = ParameterDirection.Input;
+                    invoiceNumberParam.ParameterName = "@InvoiceNumber";
+                    cmd.Parameters.Add(invoiceNumberParam);
+                    var modifiedByUserIdParam = cmd.CreateParameter();
+                    modifiedByUserIdParam.Value = userId ?? (object) DBNull.Value;
+                    modifiedByUserIdParam.DbType = DbType.String;
+                    modifiedByUserIdParam.SqlDbType = SqlDbType.NVarChar;
+                    modifiedByUserIdParam.Size = 128;
+                    modifiedByUserIdParam.Direction = ParameterDirection.Input;
+                    modifiedByUserIdParam.ParameterName = "@ModifiedByUserID";
+                    cmd.Parameters.Add(modifiedByUserIdParam);
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    cmd.ExecuteNonQuery();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+                });
+            });
     }
 }

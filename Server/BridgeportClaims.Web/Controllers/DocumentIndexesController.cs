@@ -31,24 +31,21 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("index-invoice")]
-        public async Task<IHttpActionResult> IndexInvoiceDocument(int documentId, string invoiceNumber)
+        public IHttpActionResult IndexInvoiceDocument(int documentId, string invoiceNumber)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    if (0 == documentId)
-                        throw new Exception("Invalid document Id");
-                    var userId = User.Identity.GetUserId();
-                    _documentIndexProvider.InsertInvoiceIndex(documentId, invoiceNumber, userId);
-                    const string msg = "The invoice was indexed successfully.";
-                    return Ok(new {message = msg});
-                });
+                if (0 == documentId)
+                    throw new Exception("Invalid document Id");
+                var userId = User.Identity.GetUserId();
+                _documentIndexProvider.InsertInvoiceIndex(documentId, invoiceNumber, userId);
+                const string msg = "The invoice was indexed successfully.";
+                return Ok(new {message = msg});
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
