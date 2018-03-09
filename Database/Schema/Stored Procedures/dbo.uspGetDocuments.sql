@@ -9,7 +9,7 @@ GO
 	Modified:		1/16/2018 to add an Archived bit flag.
 	Sample Execute:
 					DECLARE @TotalRows INT
-					EXEC [dbo].[uspGetDocuments] '2017-11-24', 'sp201711245300', 'CreationTime', 'desc', 1, 500, @TotalRows OUTPUT
+					EXEC [dbo].[uspGetDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, 2, @TotalRows OUTPUT
 					SELECT @TotalRows TotalRows
 */
 CREATE PROC [dbo].[uspGetDocuments]
@@ -21,6 +21,7 @@ CREATE PROC [dbo].[uspGetDocuments]
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
+	@FileTypeID INTEGER,
 	@TotalRows INTEGER OUTPUT
 )
 AS BEGIN
@@ -52,6 +53,7 @@ AS BEGIN
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
 		AND ([d].[FileName] LIKE CONCAT(@WildCard, @FileName, @WildCard) OR @FileName IS NULL)
 		AND [d].[Archived] = @Archived
+		AND [d].[FileTypeID] = @FileTypeID
 
 	SELECT @TotalRows = COUNT(*) FROM [#Document]
 
@@ -104,4 +106,5 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
 GO
