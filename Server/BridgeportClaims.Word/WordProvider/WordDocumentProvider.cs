@@ -1,46 +1,75 @@
-﻿using System.IO;
-using System.Text.RegularExpressions;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Word.Enums;
+using BridgeportClaims.Word.Templating;
 using DocumentFormat.OpenXml.Packaging;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Word.WordProvider
 {
+    [SuppressMessage("ReSharper", "ImplicitlyCapturedClosure")]
     public class WordDocumentProvider : IWordDocumentProvider
     {
-        // TODO: Handle templating of each letter type.
-        public string CreateTemplatedWordDocument(Stream document)
+        private readonly IWordTemplater _wordTemplater;
+
+        public WordDocumentProvider(IWordTemplater wordTemplater)
         {
-            const string fileName = "IME Letter.docx";
+            _wordTemplater = wordTemplater;
+        }
+        
+        public string CreateTemplatedWordDocument(int claimId, string userId, Stream document, LetterType type, int prescriptionId)
+        {
+            
             var path = Path.GetTempPath();
-            var fullFilePath = Path.Combine(path, fileName);
+            var fullFilePath = Path.Combine(path, GetFileName(type));
 
             // Delete file if it already exists
             if (File.Exists(fullFilePath))
                 File.Delete(fullFilePath);
-
-            var buffer = document.ToBytes();
-            using (var ms = new MemoryStream())
+            
+            DisposableService.Using(() => new MemoryStream(), ms =>
             {
+                var buffer = document.ToBytes();
                 ms.Write(buffer, 0, buffer.Length);
                 File.WriteAllBytes(fullFilePath, ms.ToArray());
-            }
-            using (var wordDoc = WordprocessingDocument.Open(fullFilePath, true))
+            });
+            var docText = string.Empty;
+            DisposableService.Using(() => WordprocessingDocument.Open(fullFilePath, true), wordDoc =>
             {
-                string docText = null;
-                using (var sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
+                DisposableService.Using(() => new StreamReader(wordDoc.MainDocumentPart.GetStream()), sr =>
                 {
                     docText = sr.ReadToEnd();
-                }
-
-                var regexText = new Regex("Patient.FirstName");
-                docText = regexText.Replace(docText, "Joe");
-
-                using (var sw = new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)))
+                });
+                docText = _wordTemplater.TransformDocumentText(claimId, userId, docText, prescriptionId);
+                DisposableService.Using(() => new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)), sw =>
                 {
                     sw.Write(docText);
-                }
-            }
+                });
+            });
             return fullFilePath;
+        }
+
+        private string GetFileName(LetterType type)
+        {
+            string fileName;
+            switch (type)
+            {
+                case LetterType.Ime:
+                    fileName = c.ImeLetterName;
+                    break;
+                case LetterType.BenExhaust:
+                    fileName = c.BenefitsExhaustedLetter;
+                    break;
+                case LetterType.PipApp:
+                    fileName = c.PipAppLetter;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+            return fileName;
         }
     }
 }

@@ -22,9 +22,9 @@
             <div class="box-header with-border">
                 <h3 class="box-title">Claims</h3>
                 <div class="box-tools pull-right">
-                    <div class="btn-group" data-toggle="btn-toggle"  style="box-shadow: 0px 1px 1px 1px black; margin-top: -3px;border:1px black;" *ngIf="claimManager.selectedClaim">
-                        <button class="btn btn-flat btn-sm" type="button" style="line-height:  24px;  padding: 4px 10px 1px 10px;font-weight:  bold; font-size: 13pt;">
-                            Letters:
+                    <div class="btn-group" data-toggle="btn-toggle" *ngIf="claimManager.selectedClaim">
+                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('be')">
+                            <img src="assets/img/benefits-exhaust.png" />
                         </button>
                         <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">
                             <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true"  (mouseout)="over[0] = false" height="31px">

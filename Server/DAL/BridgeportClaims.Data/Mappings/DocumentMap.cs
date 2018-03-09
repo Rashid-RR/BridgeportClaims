@@ -14,6 +14,7 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.DocumentId).GeneratedBy.Identity().Column("DocumentID");
             References(x => x.ModifiedByUser).Column("ModifiedByUserID");
+            References(x => x.FileType).Column("FileTypeID");
             Map(x => x.FileName).Column("FileName").Not.Nullable().Unique().Length(1000);
             Map(x => x.Extension).Column("Extension").Not.Nullable().Length(50);
             Map(x => x.FileSize).Column("FileSize").Not.Nullable().Length(50);
@@ -29,6 +30,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.DocumentIndex).KeyColumn("DocumentID");
+            HasMany(x => x.InvoiceIndex).KeyColumn("DocumentID");
         }
     }
 }

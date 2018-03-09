@@ -8,6 +8,8 @@ namespace BridgeportClaims.Web.Models
         public bool Archived { get; set; }
         public string FileName { get; set; }
         [Required]
+        public int FileTypeId { get; set; }
+        [Required]
         [StringLength(50)]
         public string Sort { get; set; }
         [Required]

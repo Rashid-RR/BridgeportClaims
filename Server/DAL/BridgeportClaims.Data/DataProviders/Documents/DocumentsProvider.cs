@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Web.UI.WebControls;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
@@ -92,7 +93,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 });
             });
 
-        public DocumentsDto GetDocuments(DateTime? date, bool archived, string fileName, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+        public DocumentsDto GetDocuments(DateTime? date, bool archived, string fileName, int fileTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocuments]", conn), cmd =>
@@ -150,6 +151,13 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     pageSizeParam.SqlDbType = SqlDbType.Int;
                     pageSizeParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(pageSizeParam);
+                    var fileTypeIdParam = cmd.CreateParameter();
+                    fileTypeIdParam.DbType = DbType.Int32;
+                    fileTypeIdParam.SqlDbType = SqlDbType.Int;
+                    fileTypeIdParam.Direction = ParameterDirection.Input;
+                    fileTypeIdParam.Value = fileTypeId;
+                    fileTypeIdParam.ParameterName = "@FileTypeID";
+                    cmd.Parameters.Add(fileTypeIdParam);
                     var totalRowsParam = cmd.CreateParameter();
                     totalRowsParam.ParameterName = "@TotalRows";
                     totalRowsParam.DbType = DbType.Int32;

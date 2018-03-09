@@ -30,6 +30,26 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("index-invoice")]
+        public IHttpActionResult IndexInvoiceDocument(int documentId, string invoiceNumber)
+        {
+            try
+            {
+                if (0 == documentId)
+                    throw new Exception("Invalid document Id");
+                var userId = User.Identity.GetUserId();
+                _documentIndexProvider.InsertInvoiceIndex(documentId, invoiceNumber, userId);
+                const string msg = "The invoice was indexed successfully.";
+                return Ok(new {message = msg});
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
         [Route("save")]
         public async Task<IHttpActionResult> SaveDocumentIndex(DocumentIndexViewModel model)
         {

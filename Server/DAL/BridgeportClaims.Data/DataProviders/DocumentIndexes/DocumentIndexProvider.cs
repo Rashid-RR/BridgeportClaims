@@ -2,12 +2,24 @@
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Data.Repositories;
+using BridgeportClaims.Entities.DomainModels;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
 {
     public class DocumentIndexProvider : IDocumentIndexProvider
     {
+        private readonly IRepository<InvoiceIndex> _invoiceIndexRepository;
+        private readonly IRepository<AspNetUsers> _aspNetUsersRepository;
+        private readonly IRepository<Document> _documentRepository;
+        public DocumentIndexProvider(IRepository<InvoiceIndex> invoiceIndexRepository, IRepository<AspNetUsers> aspNetUsersRepository, IRepository<Document> documentRepository)
+        {
+            _invoiceIndexRepository = invoiceIndexRepository;
+            _aspNetUsersRepository = aspNetUsersRepository;
+            _documentRepository = documentRepository;
+        }
+
         public void DeleteDocumentIndex(int documentId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -113,6 +125,43 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     cmd.ExecuteNonQuery();
                     conn.Close();
                     return existsParam.Value as bool? ?? default(bool);
+                });
+            });
+
+        public void InsertInvoiceIndex(int documentId, string invoiceNumber, string userId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                DisposableService.Using(() => new SqlCommand("[dbo].[uspInvoiceIndexInsert]", conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    var documentIdParam = cmd.CreateParameter();
+                    documentIdParam.Value = documentId;
+                    documentIdParam.ParameterName = "@DocumentID";
+                    documentIdParam.DbType = DbType.Int32;
+                    documentIdParam.SqlDbType = SqlDbType.Int;
+                    documentIdParam.Direction = ParameterDirection.Input;
+                    cmd.Parameters.Add(documentIdParam);
+                    var invoiceNumberParam = cmd.CreateParameter();
+                    invoiceNumberParam.Value = invoiceNumber ?? (object) DBNull.Value;
+                    invoiceNumberParam.DbType = DbType.AnsiString;
+                    invoiceNumberParam.SqlDbType = SqlDbType.VarChar;
+                    invoiceNumberParam.Size = 100;
+                    invoiceNumberParam.Direction = ParameterDirection.Input;
+                    invoiceNumberParam.ParameterName = "@InvoiceNumber";
+                    cmd.Parameters.Add(invoiceNumberParam);
+                    var modifiedByUserIdParam = cmd.CreateParameter();
+                    modifiedByUserIdParam.Value = userId ?? (object) DBNull.Value;
+                    modifiedByUserIdParam.DbType = DbType.String;
+                    modifiedByUserIdParam.SqlDbType = SqlDbType.NVarChar;
+                    modifiedByUserIdParam.Size = 128;
+                    modifiedByUserIdParam.Direction = ParameterDirection.Input;
+                    modifiedByUserIdParam.ParameterName = "@ModifiedByUserID";
+                    cmd.Parameters.Add(modifiedByUserIdParam);
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    cmd.ExecuteNonQuery();
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
                 });
             });
     }
