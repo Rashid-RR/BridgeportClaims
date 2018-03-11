@@ -19,21 +19,18 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box">
-            <div class="box-header with-border">
+            <div class="box-header with-border"  style="height:50px;line-height:50px;padding-top:0px;padding-bottom:0px;">
                 <h3 class="box-title">Claims</h3>
-                <div class="box-tools pull-right">
+                <div class="box-tools pull-right" style="top:0px">
                     <div class="btn-group" data-toggle="btn-toggle" *ngIf="claimManager.selectedClaim">
-                        <button class="btn btn-flat btn-sm btn-default" type="button" (click)="exportLetter('be')">
-                            <img src="assets/img/benefits-exhaust.png" />
-                        </button>
                         <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">
-                            <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true"  (mouseout)="over[0] = false" height="31px">
+                            <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true"  (mouseout)="over[0] = false" height="46px">
                         </button>
                         <button class="btn btn-flat btn-sm ime" type="button" (click)="exportLetter('ime')">
-                            <img [src]="over[1] ? 'assets/img/ime/Hover.png' : 'assets/img/ime/Normal.png'" (mouseover)="over[1] = true"  (mouseout)="over[1] = false" height="31px">
+                            <img [src]="over[1] ? 'assets/img/ime/Hover.png' : 'assets/img/ime/Normal.png'" (mouseover)="over[1] = true"  (mouseout)="over[1] = false" height="46px">
                         </button>
                         <button class="btn btn-flat btn-sm pip" type="button" (click)="exportLetter('pip')">
-                            <img [src]="over[2] ? 'assets/img/pip/Hover.png' : 'assets/img/pip/Normal.png'" (mouseover)="over[2] = true"  (mouseout)="over[2] = false" height="31px">
+                            <img [src]="over[2] ? 'assets/img/pip/Hover.png' : 'assets/img/pip/Normal.png'" (mouseover)="over[2] = true"  (mouseout)="over[2] = false" height="46px">
                         </button>
                     </div>
                 </div>
