@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using BridgeportClaims.Business.Logging;
 using NLog;
 
@@ -21,17 +18,18 @@ namespace BridgeportClaims.FileWatcherService
         {
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += FileWatcherServiceUnhandledExceptionHandler;
-            /*
-            var service = new BridgeportClaimsWindowsService();
+            #if DEBUG
+            var service = new ServiceInstaller();
             service.OnDebug();
             Thread.Sleep(Timeout.Infinite);
-            */
+            #else
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
                 new ServiceInstaller()
             };
             ServiceBase.Run(ServicesToRun);
+            #endif
         }
 
         private static void FileWatcherServiceUnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
