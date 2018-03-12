@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[Payor]
 [FaxNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Notes] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Contact] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[LetterName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL CONSTRAINT [dfPayorLetterNameBillToName] DEFAULT (''),
 [ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPayorCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPayorUpdatedOnUTC] DEFAULT (sysutcdatetime()),
@@ -22,6 +23,28 @@ WITH
 (
 DATA_COMPRESSION = ROW
 )
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+/* 
+ =============================================
+ Author:			Jordan Gurney
+ Create date:		3/11/2018
+ Description:		User Trigger to update newly inserted dbo.Payor records with
+					the value of the BillToName column as the LetterName column.
+ =============================================
+*/
+CREATE TRIGGER [dbo].[utPayorLetterNameBillToName]
+  ON [dbo].[Payor]
+AFTER INSERT
+AS BEGIN
+	UPDATE	p
+	SET		p.LetterName = i.BillToName
+	FROM	Inserted  AS i
+			INNER JOIN  dbo.Payor AS p ON p.PayorID = i.PayorID;
+END
 GO
 ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [pkPayor] PRIMARY KEY CLUSTERED  ([PayorID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO

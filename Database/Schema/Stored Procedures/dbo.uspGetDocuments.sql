@@ -27,6 +27,11 @@ CREATE PROC [dbo].[uspGetDocuments]
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
+	
+	-- If an explicit value of 1 or 2 was not passed in, default it to 1.
+	IF @FileTypeID NOT IN (1, 2) OR @FileTypeID IS NULL
+		SET @FileTypeID = 1;
+
 	DECLARE @WildCard CHAR(1) = '%';
 	CREATE TABLE #Document
 	(
@@ -47,9 +52,12 @@ AS BEGIN
 		[LastWriteTimeLocal],[FullFilePath],[FileUrl],[ByteCount])
 	SELECT [d].[DocumentID],[d].[FileName],[d].[Extension],[d].[FileSize],[d].[CreationTimeLocal]
 		,[d].[LastAccessTimeLocal],[d].[LastWriteTimeLocal],[d].[FullFilePath],[d].[FileUrl],[d].[ByteCount]
-	FROM [dbo].[Document] AS [d] LEFT JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
+	FROM [dbo].[Document] AS [d] 
+		 LEFT JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
+		 LEFT JOIN [dbo].[InvoiceIndex] AS [ii] ON [ii].[DocumentID] = [d].[DocumentID]
 	WHERE 1 = 1
 		AND [di].[DocumentID] IS NULL
+		AND [ii].[DocumentID] IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
 		AND ([d].[FileName] LIKE CONCAT(@WildCard, @FileName, @WildCard) OR @FileName IS NULL)
 		AND [d].[Archived] = @Archived
@@ -106,5 +114,6 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
 
 GO
