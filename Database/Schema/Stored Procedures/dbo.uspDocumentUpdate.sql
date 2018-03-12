@@ -10,7 +10,7 @@ GO
 					EXEC [dbo].[uspDocumentUpdate] 
 */
 CREATE PROC [dbo].[uspDocumentUpdate]
-    @DocumentID INT,
+    @DocumentID INTEGER,
     @FileName VARCHAR(1000),
     @Extension VARCHAR(50),
     @FileSize VARCHAR(50),
@@ -20,7 +20,8 @@ CREATE PROC [dbo].[uspDocumentUpdate]
     @DirectoryName VARCHAR(255),
     @FullFilePath NVARCHAR(4000),
     @FileUrl NVARCHAR(4000),
-	@ByteCount BIGINT
+	@ByteCount BIGINT,
+	@FileTypeID TINYINT
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
@@ -32,8 +33,16 @@ AS BEGIN
 		UPDATE [dbo].[Document]
 		SET    [FileName] = @FileName, [Extension] = @Extension, [FileSize] = @FileSize, [CreationTimeLocal] = @CreationTimeLocal,
 			 [LastAccessTimeLocal] = @LastAccessTimeLocal, [LastWriteTimeLocal] = @LastWriteTimeLocal, [DirectoryName]
-			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [ByteCount] = @ByteCount, [UpdatedOnUTC] = @UtcNow
+			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [ByteCount] = @ByteCount, [FileTypeID] = @FileTypeID,
+			   [UpdatedOnUTC] = @UtcNow
 		WHERE  [DocumentID] = @DocumentID
+		IF (@@ROWCOUNT > 1)
+			BEGIN
+				IF (@@TRANCOUNT > 0)
+					ROLLBACK;
+				RAISERROR(N'Error. More then one row was affected from this Update.', 16, 1) WITH NOWAIT;
+				RETURN;
+			END
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT
@@ -56,4 +65,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 GO
