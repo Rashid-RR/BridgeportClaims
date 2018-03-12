@@ -191,6 +191,34 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_30B457F90085429E82937301FA6EA47A"
+            {
+            "Name" = "8:Primary output from BridgeportClaims.FileWatcherService (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_278AE9F28A424A3F8560A1908785BF6A"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_6FBC9F30_6057_4A15_A493_9373E8DF9941"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_6C04D195E65840AD9B7B68380AF4667E"
+            {
+            "Name" = "8:Primary output from BridgeportClaims.FileWatcherService (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_278AE9F28A424A3F8560A1908785BF6A"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:1"
+            "Identifier" = "8:_A5298932_A781_4876_B28E_F8C193869407"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
         }
         "DefaultFeature"
         {
