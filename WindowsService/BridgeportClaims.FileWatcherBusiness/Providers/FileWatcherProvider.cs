@@ -23,32 +23,42 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
         private readonly FileSystemWatcher _fileWatcher;
         private static readonly LoggingService LoggingService = LoggingService.Instance;
         private static readonly Logger Logger = LoggingService.Logger;
-        private readonly ImageDataProvider _imageDataProvider;
-        private readonly string _pathToRemove = cs.GetAppSetting(c.ImagesFileLocationKey);
-        private readonly string _rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
+        private readonly DocumentDataProvider _documentDataProvider;
+        private readonly string _pathToRemove;
+        private readonly string _rootDomain;
         private FileType InternalFileType { get; }
 
-        protected static string GetFileSize(long length) => IoHelper.GetFileSize(length);
+        private static string GetFileSize(long length) => IoHelper.GetFileSize(length);
 
         protected FileWatcherProvider(FileType fileType)
         {
             InternalFileType = fileType;
-            _imageDataProvider = new ImageDataProvider();
+            _pathToRemove = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey :
+                fileType == FileType.Invoices ? c.InvoicesFileLocationKey :
+                throw new Exception($"Error, could not find a valid file type for arguement {nameof(fileType)}"));
+            _rootDomain = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesRootDomainNameKey :
+                fileType == FileType.Invoices ? c.InvoicesRootDomainNameKey :
+                throw new Exception($"Error, could not find a valid file type for arguement {nameof(fileType)}"));
+            _documentDataProvider = new DocumentDataProvider();
             _fileWatcher = new FileSystemWatcher(GetFileLocation(fileType))
             {
                 NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.LastAccess |
-                               NotifyFilters.LastWrite
+                               NotifyFilters.LastWrite | NotifyFilters.Size
             };
             _fileWatcher.Created += _fileWatcher_Created;
             _fileWatcher.Deleted += _fileWatcher_Deleted;
             _fileWatcher.Changed += _fileWatcher_Changed;
+            _fileWatcher.Renamed += _fileWatcher_Renamed;
+            _fileWatcher.Error += _fileWatcher_Error;
             _fileWatcher.EnableRaisingEvents = true;
             _fileWatcher.IncludeSubdirectories = true;
         }
 
-        private bool FileWasModified(FileInfo fileInfo)
+        private bool FileWasModified(FileInfo fileInfo, string oldFileName = null)
         {
-            var dbDoc = _imageDataProvider.GetDocumentByFileName(fileInfo.Name);
+            var dbDoc = _documentDataProvider.GetDocumentByFileName(oldFileName ?? fileInfo.Name, (byte) InternalFileType);
+            if (null == dbDoc)
+                return true;
             var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
             return dbDoc.FileName != fileInfo.Name ||
                    dbDoc.Extension != fileInfo.Extension ||
@@ -64,7 +74,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
 
         private static void CallSignalRApi(SignalRMethodType type, FileInfo fileInfo, string fileSize, string url, int documentId, FileType fileType)
         {
-            if (null == fileInfo)
+            if (null == fileInfo && type != SignalRMethodType.Delete)
                 throw new ArgumentNullException(nameof(fileInfo));
             DocumentDto dto = null;
             if (type != SignalRMethodType.Delete)
@@ -110,7 +120,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 // Database call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the database call to insert document {fileInfo.Name} within {methodName} method on {now}.");
-                var documentId = _imageDataProvider.InsertDocument(fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime,
+                var documentId = _documentDataProvider.InsertDocument(fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime,
                     fileInfo.LastAccessTime, fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte) InternalFileType);
                 // Api Call
                 if (cs.AppIsInDebugMode)
@@ -121,6 +131,68 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                     return;
                 }
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was created.");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+            }
+        }
+
+        //  This method is called when the FileSystemWatcher detects an error.
+        private static void _fileWatcher_Error(object source, ErrorEventArgs e)
+        {
+            var ex = e?.GetException();
+            if (null != ex)
+            {
+                if (ex.GetType() == typeof(InternalBufferOverflowException))
+                {
+                    //  This can happen if Windows is reporting many file system events quickly 
+                    //  and internal buffer of the  FileSystemWatcher is not large enough to handle this
+                    //  rate of events. The InternalBufferOverflowException error informs the application
+                    //  that some of the file system events are being lost.
+                    Logger.Fatal(ex, $"The file system watcher experienced an internal buffer overflow: {ex.Message}");
+                }
+                Logger.Error(ex, $"The FileSystemWatcher has detected an error: {ex.Message}");
+            }
+            else
+            {
+                Logger.Error($"An error was detected in the File System Watcher, but an Exception could not be retrieved from the {nameof(ErrorEventArgs)} class.");
+            }
+        }
+
+        private void _fileWatcher_Renamed(object sender, RenamedEventArgs e)
+        {
+            try
+            {
+                if (e.FullPath.Right(4) != ".pdf")
+                    return;
+                if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
+                    return; //ignore directories, only process files
+                // Ensure that the changed file has at least one changed property worth updating
+                var fileInfo = new FileInfo(e.FullPath);
+                var needsModification = FileWasModified(fileInfo, e.OldName);
+                if (!needsModification)
+                    return; // no modification necessary.
+                var methodName = MethodBase.GetCurrentMethod().Name;
+                var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+                var fileSize = GetFileSize(fileInfo.Length);
+                var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
+                // Database call
+                if (cs.AppIsInDebugMode)
+                    Logger.Info($"Starting the database call to update document {fileInfo.Name} within {methodName} method on {now}.");
+                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(e.OldName, (byte)InternalFileType);
+                _documentDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime,
+                    fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte)InternalFileType);
+                // Api Call
+                if (cs.AppIsInDebugMode)
+                    Logger.Info($"Starting the API call to update document {fileInfo.Name} within {methodName} method on {now}.");
+                CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url, documentId, InternalFileType);
+                if (!cs.AppIsInDebugMode)
+                {
+                    return;
+                }
+                LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was renamed.");
+
             }
             catch (Exception ex)
             {
@@ -147,13 +219,13 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
                 // Database call
                 if (cs.AppIsInDebugMode)
-                    Logger.Info($"Starting the database call to insert document {fileInfo.Name} within {methodName} method on {now}.");
-                var documentId = _imageDataProvider.GetDocumentIdByDocumentName(fileInfo.Name);
-                _imageDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime,
+                    Logger.Info($"Starting the database call to update document {fileInfo.Name} within {methodName} method on {now}.");
+                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(fileInfo.Name, (byte) InternalFileType);
+                _documentDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime,
                     fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte) InternalFileType);
                 // Api Call
                 if (cs.AppIsInDebugMode)
-                    Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
+                    Logger.Info($"Starting the API call to update document {fileInfo.Name} within {methodName} method on {now}.");
                 CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url, documentId, InternalFileType);
                 if (!cs.AppIsInDebugMode)
                 {
@@ -198,21 +270,30 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 var fileName = Path.GetFileName(e.FullPath);
-                var documentId = _imageDataProvider.GetDocumentIdByDocumentName(fileName);
+                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(fileName, (byte) InternalFileType);
                 if (documentId != default(int))
                 {
-                    _imageDataProvider.DeleteDocument(documentId);
-                    if (!cs.AppIsInDebugMode) return;
+                    _documentDataProvider.DeleteDocument(documentId);
+                    if (!cs.AppIsInDebugMode)
+                    {
+                        return;
+                    }
                     LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was deleted.");
                 }
                 else
                 {
                     if (cs.AppIsInDebugMode)
-                        LoggingService.LogDebugMessage(methodName, now, $"The document with the name {fileName} was not found in the database.");
+                    {
+                        LoggingService.LogDebugMessage(methodName, now,
+                            $"The document with the name {fileName} was not found in the database.");
+                    }
                 }
                 // Api Call
                 if (cs.AppIsInDebugMode)
-                    Logger.Info($"Starting the API call to add document {fileName} within {methodName} method on {now}.");
+                {
+                    Logger.Info(
+                        $"Starting the API call to add document {fileName} within {methodName} method on {now}.");
+                }
                 CallSignalRApi(SignalRMethodType.Delete, null, null, null, documentId, InternalFileType);
             }
             catch (Exception ex)

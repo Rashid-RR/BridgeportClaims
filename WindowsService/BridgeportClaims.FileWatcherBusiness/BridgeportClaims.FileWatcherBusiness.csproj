@@ -52,7 +52,7 @@
     <Compile Include="ApiProvider\ApiCallerProvider.cs" />
     <Compile Include="Caching\CacheManager.cs" />
     <Compile Include="ConfigService\ConfigService.cs" />
-    <Compile Include="DAL\ImageDataProvider.cs" />
+    <Compile Include="DAL\DocumentDataProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Dto\DocumentDto.cs" />
     <Compile Include="Enums\FileType.cs" />

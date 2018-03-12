@@ -14,23 +14,24 @@ namespace BridgeportClaims.FileWatcherBusiness.Proxy
 {
     public class ProxyProvider
     {
-        private readonly ImageDataProvider _imageDataProvider;
+        private readonly DocumentDataProvider _documentDataProvider;
         private readonly ILogger _logger = LoggingService.Instance.Logger;
 
         public ProxyProvider()
         {
-            _imageDataProvider = new ImageDataProvider();
+            _documentDataProvider = new DocumentDataProvider();
         }
 
-        private void MergeDocuments(DataTable dt)
+        private void MergeDocuments(DataTable dt, FileType fileType)
         {
             try
             {
-                _imageDataProvider.MergeDocuments(dt);
+                _documentDataProvider.MergeDocuments(dt, fileType);
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
+                throw;
             }
         }
 
@@ -64,12 +65,13 @@ namespace BridgeportClaims.FileWatcherBusiness.Proxy
                 var dt = IoHelper.TraverseDirectories(fileLocation, rootDomain, fileType)?.ToDataTable();
                 if (null != dt)
                 {
-                    MergeDocuments(dt);
+                    MergeDocuments(dt, fileType);
                 }
             }
             catch (Exception ex)
             {
                 _logger.Error(ex);
+                throw;
             }
         }
     }

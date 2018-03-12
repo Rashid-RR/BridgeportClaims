@@ -5,15 +5,16 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.FileWatcherBusiness.Disposable;
 using BridgeportClaims.FileWatcherBusiness.Dto;
+using BridgeportClaims.FileWatcherBusiness.Enums;
 using cm = BridgeportClaims.FileWatcherBusiness.ConfigService.ConfigService;
 
 namespace BridgeportClaims.FileWatcherBusiness.DAL
 {
-    public class ImageDataProvider
+    public class DocumentDataProvider
     {
         private readonly string _dbConnStr = cm.GetDbConnStr();
 
-        internal DocumentDto GetDocumentByFileName(string fileName) =>
+        internal DocumentDto GetDocumentByFileName(string fileName, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentSelectByFileName]", conn), cmd =>
@@ -27,6 +28,14 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     fileNameParam.SqlDbType = SqlDbType.VarChar;
                     fileNameParam.ParameterName = "@FileName";
                     cmd.Parameters.Add(fileNameParam);
+                    var fileTypeIdParam = cmd.CreateParameter();
+                    fileTypeIdParam.Direction = ParameterDirection.Input;
+                    fileTypeIdParam.Value = fileTypeId;
+                    fileTypeIdParam.DbType = DbType.Byte;
+                    fileTypeIdParam.SqlDbType = SqlDbType.TinyInt;
+                    fileTypeIdParam.ParameterName = "@FileTypeID";
+                    cmd.Parameters.Add(fileTypeIdParam);
+                    
                     var retVal = new List<DocumentDto>();
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
@@ -42,6 +51,7 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                         var fullFilePathOrdinal = reader.GetOrdinal("FullFilePath");
                         var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
                         var byteCountOrdinal = reader.GetOrdinal("ByteCount");
+                        var fileTypeIdOrdinal = reader.GetOrdinal("FileTypeID");
                         while (reader.Read())
                         {
                             var result = new DocumentDto
@@ -55,7 +65,8 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                                 DirectoryName = !reader.IsDBNull(directoryNameOrdinal) ? reader.GetString(directoryNameOrdinal) : string.Empty,
                                 FullFilePath = !reader.IsDBNull(fullFilePathOrdinal) ? reader.GetString(fullFilePathOrdinal) : string.Empty,
                                 FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty,
-                                ByteCount = !reader.IsDBNull(byteCountOrdinal) ? reader.GetInt64(byteCountOrdinal) : default(long)
+                                ByteCount = !reader.IsDBNull(byteCountOrdinal) ? reader.GetInt64(byteCountOrdinal) : default(long),
+                                FileTypeId = !reader.IsDBNull(fileTypeIdOrdinal) ? reader.GetByte(fileTypeIdOrdinal) : default(byte)
                             };
                             retVal.Add(result);
                         }
@@ -64,7 +75,7 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                         throw new Exception($"Error, more than one row was retrieved from the database for file name {fileName}, which should be unique.");
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();
-                    return retVal.Single();
+                    return retVal.SingleOrDefault();
                 });
             });
 
@@ -89,7 +100,7 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                 });
             });
 
-        internal int GetDocumentIdByDocumentName(string fileName) =>
+        internal int GetDocumentIdByDocumentName(string fileName, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocumentIDByDocumentName]", conn), cmd =>
@@ -103,6 +114,13 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     fileNameParam.Size = 1000;
                     fileNameParam.Value = fileName ?? (object)DBNull.Value;
                     cmd.Parameters.Add(fileNameParam);
+                    var fileTypeIdParam = cmd.CreateParameter();
+                    fileTypeIdParam.Direction = ParameterDirection.Input;
+                    fileTypeIdParam.DbType = DbType.Byte;
+                    fileTypeIdParam.SqlDbType = SqlDbType.TinyInt;
+                    fileTypeIdParam.Value = fileTypeId;
+                    fileTypeIdParam.ParameterName = "@FileTypeID";
+                    cmd.Parameters.Add(fileTypeIdParam);
                     var documentIdParam = cmd.CreateParameter();
                     documentIdParam.ParameterName = "@DocumentID";
                     documentIdParam.Direction = ParameterDirection.Output;
@@ -328,10 +346,13 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                 });
             });
 
-        public void MergeDocuments(DataTable dt) =>
+        public void MergeDocuments(DataTable dt, FileType fileType) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
-                DisposableService.Using(() => new SqlCommand("[dbo].[uspMergeDocuments]", conn), cmd =>
+                var proc = fileType == FileType.Images ? "[dbo].[uspMergeImageDocuments]" :
+                    fileType == FileType.Invoices ? "[dbo].[uspMergeInvoiceDocuments]" :
+                    throw new Exception($"Error, could not find a valid file type for arguement {nameof(fileType)}");
+                DisposableService.Using(() => new SqlCommand(proc, conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     var documentsParam = cmd.CreateParameter();
