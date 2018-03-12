@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2002
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.FileWatcherService", "BridgeportClaims.FileWatcherService\BridgeportClaims.FileWatcherService.csproj", "{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Business", "BridgeportClaims.Business\BridgeportClaims.Business.csproj", "{5428CC94-F786-4325-AC99-0479C41A7BA7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5428CC94-F786-4325-AC99-0479C41A7BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5428CC94-F786-4325-AC99-0479C41A7BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5428CC94-F786-4325-AC99-0479C41A7BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5428CC94-F786-4325-AC99-0479C41A7BA7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {62A5D093-E42C-4514-AD4D-397C1B74A3DB}
+	EndGlobalSection
+EndGlobal
