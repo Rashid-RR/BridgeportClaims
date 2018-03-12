@@ -2,24 +2,12 @@
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
 {
     public class DocumentIndexProvider : IDocumentIndexProvider
     {
-        private readonly IRepository<InvoiceIndex> _invoiceIndexRepository;
-        private readonly IRepository<AspNetUsers> _aspNetUsersRepository;
-        private readonly IRepository<Document> _documentRepository;
-        public DocumentIndexProvider(IRepository<InvoiceIndex> invoiceIndexRepository, IRepository<AspNetUsers> aspNetUsersRepository, IRepository<Document> documentRepository)
-        {
-            _invoiceIndexRepository = invoiceIndexRepository;
-            _aspNetUsersRepository = aspNetUsersRepository;
-            _documentRepository = documentRepository;
-        }
-
         public void DeleteDocumentIndex(int documentId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {

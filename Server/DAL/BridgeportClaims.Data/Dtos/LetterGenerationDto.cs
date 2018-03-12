@@ -24,7 +24,7 @@ namespace BridgeportClaims.Data.Dtos
         public string PostalCode { get; set; }
         [Required]
         [StringLength(255)]
-        public string GroupName { get; set; }
+        public string LetterName { get; set; }
         [StringLength(100)]
         public string UserFirstName { get; set; }
         [StringLength(100)]

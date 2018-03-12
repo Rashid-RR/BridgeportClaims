@@ -61,9 +61,7 @@ namespace BridgeportClaims.Word.Templating
                     : string.Empty);
             var r9 = new Regex("Payor.GroupName");
             docText = r9.Replace(docText,
-                data.GroupName.IsNotNullOrWhiteSpace()
-                    ? ti.ToTitleCase(ti.ToLower(data.GroupName))
-                    : string.Empty);
+                data.LetterName.IsNotNullOrWhiteSpace() ? data.LetterName : string.Empty);
             var r10 = new Regex("AspNetUsers.FirstName");
             docText = r10.Replace(docText,
                 data.UserFirstName.IsNotNullOrWhiteSpace()

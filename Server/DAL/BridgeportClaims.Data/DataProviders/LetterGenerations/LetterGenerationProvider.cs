@@ -52,7 +52,7 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                         var cityParam = reader.GetOrdinal("City");
                         var stateCodeParam = reader.GetOrdinal("StateCode");
                         var postalCodeParam = reader.GetOrdinal("PostalCode");
-                        var groupNameParam = reader.GetOrdinal("GroupName");
+                        var letterNameParam = reader.GetOrdinal("LetterName");
                         var userFirstNameParam = reader.GetOrdinal("UserFirstName");
                         var userLastNameParam = reader.GetOrdinal("UserLastName");
                         var pharmacyNameParam = reader.GetOrdinal("PharmacyName");
@@ -68,7 +68,7 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                                 City = !reader.IsDBNull(cityParam) ? reader.GetString(cityParam) : string.Empty,
                                 StateCode = !reader.IsDBNull(stateCodeParam) ? reader.GetString(stateCodeParam) : string.Empty,
                                 PostalCode = !reader.IsDBNull(postalCodeParam) ? reader.GetString(postalCodeParam) : string.Empty,
-                                GroupName = !reader.IsDBNull(groupNameParam) ? reader.GetString(groupNameParam) : string.Empty,
+                                LetterName = !reader.IsDBNull(letterNameParam) ? reader.GetString(letterNameParam) : string.Empty,
                                 UserFirstName = !reader.IsDBNull(userFirstNameParam) ? reader.GetString(userFirstNameParam) : string.Empty,
                                 UserLastName = !reader.IsDBNull(userLastNameParam) ? reader.GetString(userLastNameParam) : string.Empty,
                                 PharmacyName = !reader.IsDBNull(pharmacyNameParam) ? reader.GetString(pharmacyNameParam) : string.Empty,

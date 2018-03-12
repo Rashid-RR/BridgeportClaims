@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Linq.Expressions;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
@@ -22,15 +20,8 @@ namespace BridgeportClaims.Data.DataProviders.Payors
             _storedProcedureExecutor = storedProcedureExecutor;
         }
 
-        public Payor GetPayorById(int id) => _payorRepository.Get(id);
-
-        public IEnumerable<Payor> GetManyPayors(Expression<Func<Payor, bool>> predicate) =>
-            _payorRepository.GetMany(predicate);
-
         public IEnumerable<Payor> GetAllPayors()
             => _payorRepository.GetAll();
-
-        public IEnumerable<Payor> GetTopPayors(int top) => _payorRepository.GetTop(top);
 
         public IList<PayorViewModel> GetPaginatedPayors(int pageNumber, int pageSize)
         {
@@ -50,17 +41,5 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 "EXEC [dbo].[uspGetPayors] :PageNumber, :PageSize",
                 new List<SqlParameter> {pageNumberParam, pageSizeParam}).ToList();
         }
-
-        public void InsertPayor(Payor payor)
-            => _payorRepository.Save(payor);
-
-        public void UpdatePayor(Payor payor)
-            => _payorRepository.Update(payor);
-
-        public void DeletePayor(Payor payor)
-            => _payorRepository.Delete(payor);
-
-        public void DeletePayorByPayorId(int id)
-            => _payorRepository.Delete(GetPayorById(id));
     }
 }
