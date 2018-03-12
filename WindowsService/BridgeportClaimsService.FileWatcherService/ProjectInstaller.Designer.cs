@@ -37,14 +37,14 @@ namespace BridgeportClaimsService.FileWatcherService
             this.BridgeportClaimsWindowsServiceProcessInstaller.Account = ServiceAccount.LocalSystem;
             this.BridgeportClaimsWindowsServiceProcessInstaller.Password = null;
             this.BridgeportClaimsWindowsServiceProcessInstaller.Username = null;
-            this.BridgeportClaimsWindowsServiceProcessInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.BridgeportClaimsWindowsServiceProcessInstaller_AfterInstall_1);
+            this.BridgeportClaimsWindowsServiceProcessInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.BridgeportClaimsWindowsServiceInstaller_AfterInstall);
             // 
             // BridgeportClaimsWindowsServiceInstaller
             // 
             this.BridgeportClaimsWindowsServiceInstaller.DisplayName = "Bridgeport Claims File Watcher";
             this.BridgeportClaimsWindowsServiceInstaller.ServiceName = "BridgeportFileWatcher";
             this.BridgeportClaimsWindowsServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
-            this.BridgeportClaimsWindowsServiceInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.BridgeportClaimsWindowsServiceInstaller_AfterInstall_1);
+            this.BridgeportClaimsWindowsServiceInstaller.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.BridgeportClaimsWindowsServiceInstaller_AfterInstall);
             // 
             // ProjectInstaller
             // 

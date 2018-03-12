@@ -135,28 +135,40 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             catch (Exception ex)
             {
                 Logger.Error(ex);
+                throw;
             }
         }
 
         //  This method is called when the FileSystemWatcher detects an error.
         private static void _fileWatcher_Error(object source, ErrorEventArgs e)
         {
-            var ex = e?.GetException();
-            if (null != ex)
+            try
             {
-                if (ex.GetType() == typeof(InternalBufferOverflowException))
+                var ex = e?.GetException();
+                if (null != ex)
                 {
-                    //  This can happen if Windows is reporting many file system events quickly 
-                    //  and internal buffer of the  FileSystemWatcher is not large enough to handle this
-                    //  rate of events. The InternalBufferOverflowException error informs the application
-                    //  that some of the file system events are being lost.
-                    Logger.Fatal(ex, $"The file system watcher experienced an internal buffer overflow: {ex.Message}");
+                    if (ex.GetType() == typeof(InternalBufferOverflowException))
+                    {
+                        //  This can happen if Windows is reporting many file system events quickly 
+                        //  and internal buffer of the  FileSystemWatcher is not large enough to handle this
+                        //  rate of events. The InternalBufferOverflowException error informs the application
+                        //  that some of the file system events are being lost.
+                        Logger.Fatal(ex,
+                            $"The file system watcher experienced an internal buffer overflow: {ex.Message}");
+                    }
+
+                    Logger.Error(ex, $"The FileSystemWatcher has detected an error: {ex.Message}");
                 }
-                Logger.Error(ex, $"The FileSystemWatcher has detected an error: {ex.Message}");
+                else
+                {
+                    Logger.Error(
+                        $"An error was detected in the File System Watcher, but an Exception could not be retrieved from the {nameof(ErrorEventArgs)} class.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Logger.Error($"An error was detected in the File System Watcher, but an Exception could not be retrieved from the {nameof(ErrorEventArgs)} class.");
+                Logger.Error(ex);
+                throw;
             }
         }
 
@@ -197,6 +209,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             catch (Exception ex)
             {
                 Logger.Error(ex);
+                throw;
             }
         }
 
@@ -236,6 +249,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             catch (Exception ex)
             {
                 Logger.Error(ex);
+                throw;
             }
         }
 
@@ -257,7 +271,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return string.Empty;
+                throw;
             }
         }
 
@@ -299,6 +313,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             catch (Exception ex)
             {
                 Logger.Error(ex);
+                throw;
             }
         }
     }

@@ -34,6 +34,7 @@ namespace BridgeportClaimsService.FileWatcherService
             catch (Exception ex)
             {
                 Logger.Error(ex);
+                throw;
             }
             #endif
         }
@@ -42,6 +43,7 @@ namespace BridgeportClaimsService.FileWatcherService
         {
             var ex = (Exception) args.ExceptionObject;
             Logger.Fatal(ex, "A fatal exception was thrown.");
+            throw ex;
         }
     }
 }

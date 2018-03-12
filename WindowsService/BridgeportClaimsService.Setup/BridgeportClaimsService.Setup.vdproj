@@ -15,68 +15,62 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0307373A6EAB5573B55B2FC4D9D41D5F"
+        "OwnerKey" = "8:_FB00CE1A8E609D5FC954DD6446A65951"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_0307373A6EAB5573B55B2FC4D9D41D5F"
+        "OwnerKey" = "8:_25FCCF52AC8041C48695BDAA70A81F7E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_25FCCF52AC8041C48695BDAA70A81F7E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_6295469DC45749AF808C028E43D33CE5"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_4C3D280DBE966A2D58D447D975CCB49C"
+        "OwnerKey" = "8:_FB00CE1A8E609D5FC954DD6446A65951"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_70EE3B596C46FAFE31230A26B7D93E12"
-        "OwnerKey" = "8:_6295469DC45749AF808C028E43D33CE5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_70EE3B596C46FAFE31230A26B7D93E12"
+        "MsmKey" = "8:_4C3D280DBE966A2D58D447D975CCB49C"
         "OwnerKey" = "8:_25FCCF52AC8041C48695BDAA70A81F7E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_759592CD1BE30A7CE5E040C01954A177"
-        "OwnerKey" = "8:_DC179CC34AF486CFEC99CD273C27251E"
+        "MsmKey" = "8:_D339F3A7786C590E2944F305BA5CC047"
+        "OwnerKey" = "8:_4C3D280DBE966A2D58D447D975CCB49C"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_759592CD1BE30A7CE5E040C01954A177"
+        "MsmKey" = "8:_D339F3A7786C590E2944F305BA5CC047"
         "OwnerKey" = "8:_25FCCF52AC8041C48695BDAA70A81F7E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_759592CD1BE30A7CE5E040C01954A177"
-        "OwnerKey" = "8:_6295469DC45749AF808C028E43D33CE5"
+        "MsmKey" = "8:_EA9D399C7838188463D5F053F3BB7133"
+        "OwnerKey" = "8:_FB00CE1A8E609D5FC954DD6446A65951"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DC179CC34AF486CFEC99CD273C27251E"
-        "OwnerKey" = "8:_70EE3B596C46FAFE31230A26B7D93E12"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_DC179CC34AF486CFEC99CD273C27251E"
+        "MsmKey" = "8:_EA9D399C7838188463D5F053F3BB7133"
         "OwnerKey" = "8:_25FCCF52AC8041C48695BDAA70A81F7E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DC179CC34AF486CFEC99CD273C27251E"
-        "OwnerKey" = "8:_6295469DC45749AF808C028E43D33CE5"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_759592CD1BE30A7CE5E040C01954A177"
+        "MsmKey" = "8:_FB00CE1A8E609D5FC954DD6446A65951"
+        "OwnerKey" = "8:_25FCCF52AC8041C48695BDAA70A81F7E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -88,19 +82,31 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_6295469DC45749AF808C028E43D33CE5"
+        "OwnerKey" = "8:_FB00CE1A8E609D5FC954DD6446A65951"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_70EE3B596C46FAFE31230A26B7D93E12"
+        "OwnerKey" = "8:_EA9D399C7838188463D5F053F3BB7133"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_DC179CC34AF486CFEC99CD273C27251E"
+        "OwnerKey" = "8:_4C3D280DBE966A2D58D447D975CCB49C"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D339F3A7786C590E2944F305BA5CC047"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0307373A6EAB5573B55B2FC4D9D41D5F"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -121,6 +127,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -137,6 +151,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -147,7 +177,7 @@
             {
             "Name" = "8:Primary output from BridgeportClaimsService.FileWatcherService (Active)"
             "Condition" = "8:"
-            "Object" = "8:_6295469DC45749AF808C028E43D33CE5"
+            "Object" = "8:"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
             "Arguments" = "8:"
@@ -161,7 +191,7 @@
             {
             "Name" = "8:Primary output from BridgeportClaimsService.FileWatcherService (Active)"
             "Condition" = "8:"
-            "Object" = "8:_6295469DC45749AF808C028E43D33CE5"
+            "Object" = "8:"
             "FileType" = "3:2"
             "InstallAction" = "3:4"
             "Arguments" = "8:"
@@ -194,20 +224,46 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_70EE3B596C46FAFE31230A26B7D93E12"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_0307373A6EAB5573B55B2FC4D9D41D5F"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BridgeportClaims.FileWatcherBusiness, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_70EE3B596C46FAFE31230A26B7D93E12"
+                }
+            "SourcePath" = "8:ServiceStack.Text.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F8244CC4B3404395B0F280ACBC4AB0B9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4C3D280DBE966A2D58D447D975CCB49C"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_4C3D280DBE966A2D58D447D975CCB49C"
                     {
-                    "Name" = "8:BridgeportClaims.FileWatcherBusiness.dll"
+                    "Name" = "8:NLog.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:BridgeportClaims.FileWatcherBusiness.dll"
+            "SourcePath" = "8:NLog.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1AFF576D0CE7470B8BA052CDB918923F"
@@ -225,14 +281,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_759592CD1BE30A7CE5E040C01954A177"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D339F3A7786C590E2944F305BA5CC047"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                 "ScatterAssemblies"
                 {
-                    "_759592CD1BE30A7CE5E040C01954A177"
+                    "_D339F3A7786C590E2944F305BA5CC047"
                     {
                     "Name" = "8:System.IO.Compression.dll"
                     "Attributes" = "3:512"
@@ -256,20 +312,46 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_DC179CC34AF486CFEC99CD273C27251E"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_EA9D399C7838188463D5F053F3BB7133"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_DC179CC34AF486CFEC99CD273C27251E"
+                    "_EA9D399C7838188463D5F053F3BB7133"
                     {
-                    "Name" = "8:NLog.dll"
+                    "Name" = "8:System.Net.Http.dll"
                     "Attributes" = "3:512"
                     }
                 }
-            "SourcePath" = "8:NLog.dll"
+            "SourcePath" = "8:System.Net.Http.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_F8244CC4B3404395B0F280ACBC4AB0B9"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_FB00CE1A8E609D5FC954DD6446A65951"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:BridgeportClaims.FileWatcherBusiness, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                }
+            "SourcePath" = "8:BridgeportClaims.FileWatcherBusiness.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1AFF576D0CE7470B8BA052CDB918923F"
@@ -344,7 +426,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Bridgeport File Watcher"
         "ProductCode" = "8:{25C88C9D-681A-419B-9DAD-500F32CD7B3E}"
-        "PackageCode" = "8:{DBF8348C-8208-4E70-BC52-9415C2149E9C}"
+        "PackageCode" = "8:{07287441-085E-4A59-947E-A52253B9889F}"
         "UpgradeCode" = "8:{AB16660B-69E7-4A4E-B27E-50ED57571F25}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -869,34 +951,6 @@
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_F8244CC4B3404395B0F280ACBC4AB0B9"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:"
-            "OutputGroupCanonicalName" = "8:Built"
-            "OutputProjectGuid" = "8:{8983C929-2C54-4E90-A804-BE9C2B28B90D}"
-            "ShowKeyOutput" = "11:TRUE"
-                "ExcludeFilters"
-                {
-                }
-            }
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_6295469DC45749AF808C028E43D33CE5"
-            {
-            "SourcePath" = "8:..\\BridgeportClaimsService.FileWatcherService\\obj\\Release\\BridgeportClaimsService.FileWatcherService.exe"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_1AFF576D0CE7470B8BA052CDB918923F"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
