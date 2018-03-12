@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.ServiceProcess;
 using BridgeportClaims.FileWatcherBusiness.Enums;
@@ -29,6 +30,7 @@ namespace BridgeportClaimsService.FileWatcherService
         {
             try
             {
+                Debugger.Break();
                 var proxyProvider = new ProxyProvider();
                 proxyProvider.InitializeFirstImageFileTraversalIfNecessary(FileType.Images);
                 proxyProvider.InitializeFirstImageFileTraversalIfNecessary(FileType.Invoices);

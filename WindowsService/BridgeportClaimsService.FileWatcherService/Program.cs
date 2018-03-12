@@ -17,11 +17,11 @@ namespace BridgeportClaimsService.FileWatcherService
         {
             var currentDomain = AppDomain.CurrentDomain;
             currentDomain.UnhandledException += FileWatcherServiceUnhandledExceptionHandler;
-            #if DEBUG
+            /*
             var service = new BridgeportClaimsWindowsService();
             service.OnDebug();
             Thread.Sleep(Timeout.Infinite);
-            #else
+            */
             
             try
             {   
@@ -36,7 +36,6 @@ namespace BridgeportClaimsService.FileWatcherService
                 Logger.Error(ex);
                 throw;
             }
-            #endif
         }
 
         private static void FileWatcherServiceUnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
