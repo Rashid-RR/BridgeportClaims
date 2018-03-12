@@ -28,10 +28,10 @@ namespace BridgeportClaimsService.FileWatcherService
         private void BridgeportClaimsWindowsServiceInstaller_AfterInstall(object sender,
             System.Configuration.Install.InstallEventArgs e)
         {
-            using (var serviceController = new ServiceController())
-            {
-                serviceController.Start();
-            }
+            //using (var serviceController = new ServiceController())
+            //{
+            //    serviceController.Start();
+            //}
         }
     }
 }
