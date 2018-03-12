@@ -4,34 +4,37 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using BridgeportClaims.FileWatcherBusiness.ApiProvider;
+using BridgeportClaims.FileWatcherBusiness.Extensions;
 using BridgeportClaims.FileWatcherBusiness.DAL;
 using BridgeportClaims.FileWatcherBusiness.Dto;
 using BridgeportClaims.FileWatcherBusiness.Enums;
-using BridgeportClaims.FileWatcherBusiness.Extensions;
 using BridgeportClaims.FileWatcherBusiness.IO;
 using BridgeportClaims.FileWatcherBusiness.Logging;
 using BridgeportClaims.FileWatcherBusiness.URL;
 using c = BridgeportClaims.FileWatcherBusiness.StringConstants.Constants;
 using cs = BridgeportClaims.FileWatcherBusiness.ConfigService.ConfigService;
 
+
 namespace BridgeportClaims.FileWatcherBusiness.Providers
 {
     [SuppressMessage("ReSharper", "PrivateFieldCanBeConvertedToLocalVariable")]
-    public class FileWatcherProvider
+    public abstract class FileWatcherProvider
     {
         private readonly FileSystemWatcher _fileWatcher;
         private static readonly LoggingService LoggingService = LoggingService.Instance;
         private static readonly Logger Logger = LoggingService.Logger;
         private readonly ImageDataProvider _imageDataProvider;
-        private readonly string _pathToRemove = cs.GetAppSetting(c.FileLocationKey);
+        private readonly string _pathToRemove = cs.GetAppSetting(c.ImagesFileLocationKey);
         private readonly string _rootDomain = cs.GetAppSetting(c.ImagesRootDomainNameKey);
+        private FileType InternalFileType { get; }
 
-        private static string GetFileSize(long length) => IoHelper.GetFileSize(length);
+        protected static string GetFileSize(long length) => IoHelper.GetFileSize(length);
 
-        public FileWatcherProvider()
+        protected FileWatcherProvider(FileType fileType)
         {
+            InternalFileType = fileType;
             _imageDataProvider = new ImageDataProvider();
-            _fileWatcher = new FileSystemWatcher(GetFileLocation())
+            _fileWatcher = new FileSystemWatcher(GetFileLocation(fileType))
             {
                 NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime | NotifyFilters.LastAccess |
                                NotifyFilters.LastWrite
@@ -43,8 +46,26 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             _fileWatcher.IncludeSubdirectories = true;
         }
 
-        private static void CallSignalRApi(SignalRMethodType type, FileInfo fileInfo, string fileSize, string url, int documentId)
+        private bool FileWasModified(FileInfo fileInfo)
         {
+            var dbDoc = _imageDataProvider.GetDocumentByFileName(fileInfo.Name);
+            var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
+            return dbDoc.FileName != fileInfo.Name ||
+                   dbDoc.Extension != fileInfo.Extension ||
+                   dbDoc.FileSize != GetFileSize(fileInfo.Length) ||
+                   dbDoc.CreationTimeLocal != fileInfo.CreationTime ||
+                   dbDoc.LastAccessTimeLocal != fileInfo.LastAccessTime ||
+                   dbDoc.LastWriteTimeLocal != fileInfo.LastWriteTime ||
+                   dbDoc.DirectoryName != fileInfo.DirectoryName ||
+                   dbDoc.FullFilePath != fileInfo.FullName ||
+                   dbDoc.FileUrl != url ||
+                   dbDoc.ByteCount != fileInfo.Length;
+        }
+
+        private static void CallSignalRApi(SignalRMethodType type, FileInfo fileInfo, string fileSize, string url, int documentId, FileType fileType)
+        {
+            if (null == fileInfo)
+                throw new ArgumentNullException(nameof(fileInfo));
             DocumentDto dto = null;
             if (type != SignalRMethodType.Delete)
             {
@@ -60,7 +81,8 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                     FullFilePath = fileInfo.FullName,
                     LastAccessTimeLocal = fileInfo.LastAccessTime,
                     LastWriteTimeLocal = fileInfo.LastWriteTime,
-                    ByteCount = fileInfo.Length
+                    ByteCount = fileInfo.Length,
+                    FileTypeId = (byte)fileType
                 };
             }
             var apiClient = new ApiCallerProvider();
@@ -70,26 +92,6 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
             var succeededApiCall = apiClient.CallSignalRApiMethod(type, token, dto, documentId).GetAwaiter().GetResult();
             if (!succeededApiCall)
                 throw new Exception("Error, the API call to \"CallSignalRApiMethod\" failed.");
-        }
-
-        private static string GetFileLocation()
-        {
-            try
-            {
-                if (cs.AppIsInDebugMode)
-                {
-                    var method = MethodBase.GetCurrentMethod().Name;
-                    var now = DateTime.Now.ToString(LoggingService.TimeFormat);
-                    LoggingService.LogDebugMessage(method, now);
-                }
-                var value = cs.GetAppSetting(c.FileLocationKey);
-                return value.IsNotNullOrWhiteSpace() ? value : string.Empty;
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                throw;
-            }
         }
 
         private void _fileWatcher_Created(object sender, FileSystemEventArgs e)
@@ -109,18 +111,20 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the database call to insert document {fileInfo.Name} within {methodName} method on {now}.");
                 var documentId = _imageDataProvider.InsertDocument(fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime,
-                    fileInfo.LastAccessTime, fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length);
+                    fileInfo.LastAccessTime, fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte) InternalFileType);
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
-                CallSignalRApi(SignalRMethodType.Add, fileInfo, fileSize, url, documentId);
-                if (!cs.AppIsInDebugMode) return;
+                CallSignalRApi(SignalRMethodType.Add, fileInfo, fileSize, url, documentId, InternalFileType);
+                if (!cs.AppIsInDebugMode)
+                {
+                    return;
+                }
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was created.");
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
             }
         }
 
@@ -145,36 +149,44 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the database call to insert document {fileInfo.Name} within {methodName} method on {now}.");
                 var documentId = _imageDataProvider.GetDocumentIdByDocumentName(fileInfo.Name);
-                _imageDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime, 
-                    fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length);
+                _imageDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime,
+                    fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte) InternalFileType);
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
-                CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url, documentId);
-                if (!cs.AppIsInDebugMode) return;
+                CallSignalRApi(SignalRMethodType.Modify, fileInfo, fileSize, url, documentId, InternalFileType);
+                if (!cs.AppIsInDebugMode)
+                {
+                    return;
+                }
                 LoggingService.LogDebugMessage(methodName, now, $"The DocumentID {documentId} was updated.");
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
             }
         }
 
-        private bool FileWasModified(FileInfo fileInfo)
+        private static string GetFileLocation(FileType fileType)
         {
-            var dbDoc = _imageDataProvider.GetDocumentByFileName(fileInfo.Name);
-            var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
-            return dbDoc.FileName != fileInfo.Name ||
-                   dbDoc.Extension != fileInfo.Extension ||
-                   dbDoc.FileSize != GetFileSize(fileInfo.Length) ||
-                   dbDoc.CreationTimeLocal != fileInfo.CreationTime ||
-                   dbDoc.LastAccessTimeLocal != fileInfo.LastAccessTime ||
-                   dbDoc.LastWriteTimeLocal != fileInfo.LastWriteTime ||
-                   dbDoc.DirectoryName != fileInfo.DirectoryName ||
-                   dbDoc.FullFilePath != fileInfo.FullName ||
-                   dbDoc.FileUrl != url ||
-                   dbDoc.ByteCount != fileInfo.Length;
+            try
+            {
+                if (cs.AppIsInDebugMode)
+                {
+                    var method = MethodBase.GetCurrentMethod().Name;
+                    var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+                    LoggingService.LogDebugMessage(method, now);
+                }
+                var value = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey :
+                    fileType == FileType.Invoices ? c.InvoicesFileLocationKey :
+                    throw new Exception($"Error, could not find a valid type for arguement {nameof(fileType)}"));
+                return value.IsNotNullOrWhiteSpace() ? value : string.Empty;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return string.Empty;
+            }
         }
 
         private void _fileWatcher_Deleted(object sender, FileSystemEventArgs e)
@@ -201,12 +213,11 @@ namespace BridgeportClaims.FileWatcherBusiness.Providers
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to add document {fileName} within {methodName} method on {now}.");
-                CallSignalRApi(SignalRMethodType.Delete, null, null, null, documentId);
+                CallSignalRApi(SignalRMethodType.Delete, null, null, null, documentId, InternalFileType);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                throw;
             }
         }
     }

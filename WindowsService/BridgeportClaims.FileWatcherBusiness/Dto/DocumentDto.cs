@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.FileWatcherBusiness.Dto
 {
-    [Serializable]
     public sealed class DocumentDto
     {
         public int DocumentId { get; set; }
@@ -32,5 +31,7 @@ namespace BridgeportClaims.FileWatcherBusiness.Dto
         public string FileUrl { get; set; }
         [Required]
         public long ByteCount { get; set; }
+        [Required]
+        public byte FileTypeId { get; set; }
     }
 }

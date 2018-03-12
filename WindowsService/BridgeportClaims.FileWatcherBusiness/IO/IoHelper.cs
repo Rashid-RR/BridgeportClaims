@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using BridgeportClaims.FileWatcherBusiness.Dto;
+using BridgeportClaims.FileWatcherBusiness.Enums;
 using BridgeportClaims.FileWatcherBusiness.Logging;
 using BridgeportClaims.FileWatcherBusiness.URL;
 using c = BridgeportClaims.FileWatcherBusiness.StringConstants.Constants;
@@ -30,12 +31,13 @@ namespace BridgeportClaims.FileWatcherBusiness.IO
             return size;
         }
 
-        public static IEnumerable<DocumentDto> TraverseDirectories(string path, string rootDomain)
+        public static IEnumerable<DocumentDto> TraverseDirectories(string path, string rootDomain, FileType fileType)
         {
             try
             {
                 var files = Directory.EnumerateFiles(path, "*.pdf", SearchOption.AllDirectories).ToList();
-                var pathToRemove = cs.GetAppSetting(c.FileLocationKey);
+                var pathToRemove = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey : fileType == FileType.Invoices ? c.InvoicesFileLocationKey:
+                    throw new Exception($"Error, could not file a valid file type for the {nameof(fileType)} arguement."));
                 if (!files.Any())
                     return null;
                 return files.Select(file => new FileInfo(file))
@@ -50,7 +52,8 @@ namespace BridgeportClaims.FileWatcherBusiness.IO
                         FullFilePath = f.FullName,
                         LastAccessTimeLocal = f.LastAccessTime,
                         LastWriteTimeLocal = f.LastWriteTime,
-                        ByteCount = f.Length
+                        ByteCount = f.Length,
+                        FileTypeId = (byte) fileType
                     })
                     .AsEnumerable();
             }
@@ -61,7 +64,7 @@ namespace BridgeportClaims.FileWatcherBusiness.IO
                 if (cs.AppIsInDebugMode)
                     LoggingService.LogDebugMessage(method, now, ex.Message);
                 LoggingService.Instance.Logger.Error(ex);
-                throw;
+                return null;
             }
         }
     }

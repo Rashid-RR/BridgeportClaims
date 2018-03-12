@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using BridgeportClaims.FileWatcherBusiness.DAL;
 using BridgeportClaims.FileWatcherBusiness.Dto;
 using BridgeportClaims.FileWatcherBusiness.Enums;
 using BridgeportClaims.FileWatcherBusiness.Logging;
@@ -29,7 +28,7 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
             var client = new HttpClient();
             var authUrlPath = cs.GetAppSetting(c.AuthenticationApiUrlKey);
             var request = new HttpRequestMessage(HttpMethod.Post, _apiHostName + authUrlPath);
-            var methodName = MethodBase.GetCurrentMethod().Name;
+            const string methodName = "GetAuthenticationBearerTokenAsync";
             var now = DateTime.Now.ToString("G");
             try
             {
@@ -40,10 +39,10 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
                     {"grant_type", "password"}
                 };
                 request.Content = new FormUrlEncodedContent(dictionary);
-                var result = await client.SendAsync(request);
+                var result = await client.SendAsync(request).ConfigureAwait(false);
                 if (!result.IsSuccessStatusCode)
                     return null;
-                var jsonString = await result.Content.ReadAsStringAsync();
+                var jsonString = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var jObj = JsonObject.Parse(jsonString);
                 var token = jObj.Get<string>(AccessToken);
                 if (string.IsNullOrWhiteSpace(token) || !cs.AppIsInDebugMode) return token;
@@ -55,7 +54,7 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
             {
                 Logger.Info($"Did not successfully retreive an Authentication bearer token from method {methodName} on {now}.");
                 Logger.Error(ex);
-                throw;
+                return string.Empty;
             }
             finally
             {
@@ -66,7 +65,7 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
 
         internal async Task<bool> CallSignalRApiMethod(SignalRMethodType type, string token, DocumentDto dto, int documentId)
         {
-            var methodName = MethodBase.GetCurrentMethod().Name;
+            const string methodName = "CallSignalRApiMethod";
             var now = DateTime.Now.ToString(LoggingService.TimeFormat);
             if (cs.AppIsInDebugMode)
                 Logger.Info($"Now entering the {methodName} method on {now}.");
@@ -85,10 +84,10 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
                     var content = new StringContent(jsonObj, Encoding.UTF8, "application/json");
                     req.Content = content;
                 }
-                var result = await client.SendAsync(req);
+                var result = await client.SendAsync(req).ConfigureAwait(false);
                 if (!result.IsSuccessStatusCode)
                     return false;
-                var jsonString = await result.Content.ReadAsStringAsync();
+                var jsonString = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var jObj = JsonObject.Parse(jsonString);
                 var message = jObj.Get<string>(Message);
                 if (cs.AppIsInDebugMode)
@@ -100,7 +99,7 @@ namespace BridgeportClaims.FileWatcherBusiness.ApiProvider
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Did not successfully retreive an Authentication bearer token from method {methodName} on {now}.");
                 Logger.Error(ex);
-                throw;
+                return false;
             }
             finally
             {

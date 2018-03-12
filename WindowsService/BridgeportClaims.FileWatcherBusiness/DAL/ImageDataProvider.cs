@@ -9,7 +9,7 @@ using cm = BridgeportClaims.FileWatcherBusiness.ConfigService.ConfigService;
 
 namespace BridgeportClaims.FileWatcherBusiness.DAL
 {
-    internal class ImageDataProvider
+    public class ImageDataProvider
     {
         private readonly string _dbConnStr = cm.GetDbConnStr();
 
@@ -119,7 +119,7 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
             });
 
         internal void UpdateDocument(int documentId, string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
-            DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, long byteCount) =>
+            DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, long byteCount, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentUpdate]", conn), cmd =>
@@ -208,6 +208,13 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     byteCountParam.SqlDbType = SqlDbType.BigInt;
                     byteCountParam.ParameterName = "@ByteCount";
                     cmd.Parameters.Add(byteCountParam);
+                    var fileTypeIdParam = cmd.CreateParameter();
+                    fileTypeIdParam.Direction = ParameterDirection.Input;
+                    fileTypeIdParam.Value = fileTypeId;
+                    fileTypeIdParam.DbType = DbType.Byte;
+                    fileTypeIdParam.SqlDbType = SqlDbType.TinyInt;
+                    fileTypeIdParam.ParameterName = "@FileTypeID";
+                    cmd.Parameters.Add(fileTypeIdParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
@@ -217,7 +224,7 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
             });
 
         internal int InsertDocument(string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
-                DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, long byteCount) =>
+                DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, long byteCount, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentInsert]", conn), cmd =>
@@ -299,6 +306,13 @@ namespace BridgeportClaims.FileWatcherBusiness.DAL
                     byteCountParam.SqlDbType = SqlDbType.BigInt;
                     byteCountParam.ParameterName = "@ByteCount";
                     cmd.Parameters.Add(byteCountParam);
+                    var fileTypeIdParam = cmd.CreateParameter();
+                    fileTypeIdParam.Direction = ParameterDirection.Input;
+                    fileTypeIdParam.Value = fileTypeId;
+                    fileTypeIdParam.DbType = DbType.Byte;
+                    fileTypeIdParam.SqlDbType = SqlDbType.TinyInt;
+                    fileTypeIdParam.ParameterName = "@FileTypeID";
+                    cmd.Parameters.Add(fileTypeIdParam);
                     var documentIdParam = cmd.CreateParameter();
                     documentIdParam.ParameterName = "@DocumentID";
                     documentIdParam.Direction = ParameterDirection.Output;
