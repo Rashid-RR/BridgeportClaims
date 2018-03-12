@@ -5,11 +5,11 @@ GO
 /*
 	Author:			Jordan Gurney
 	Create Date:	11/30/2017
-	Description:	Uses a DataTable to do a SQL MERGE on [dbo].[Document].
+	Description:	Uses a DataTable to do a SQL MERGE on [dbo].[vwInvoiceDocument] (a view that filters to only invoice document types).
 	Sample Execute:
-					EXEC [dbo].[uspMergeDocuments]
+					EXEC [dbo].[uspMergeInvoiceDocuments]
 */
-CREATE PROC [dbo].[uspMergeDocuments]
+CREATE PROCEDURE [dbo].[uspMergeInvoiceDocuments]
     @Documents dbo.udtDocument READONLY
 AS BEGIN
 	SET NOCOUNT ON;
@@ -19,7 +19,7 @@ AS BEGIN
 
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
 	
-		MERGE [dbo].[Document] AS [tgt]
+		MERGE [dbo].[vwInvoiceDocument] AS [tgt]
 		USING (SELECT [d].[FileName]
                     , [d].[Extension]
                     , [d].[FileSize]
@@ -30,13 +30,15 @@ AS BEGIN
                     , [d].[FullFilePath]
                     , [d].[FileUrl]
 					, [d].[ByteCount]
+					, [d].[FileTypeID]
 				FROM @Documents AS [d]) AS [src]
 				ON [tgt].[FileName] = [src].[FileName]
 		WHEN NOT MATCHED BY TARGET THEN
 			INSERT ([FileName], [Extension], [FileSize], [CreationTimeLocal], [LastAccessTimeLocal], [LastWriteTimeLocal],
-				[DirectoryName], [FullFilePath], [FileUrl], [ByteCount], [CreatedOnUTC], [UpdatedOnUTC])
+				[DirectoryName], [FullFilePath], [FileUrl], [ByteCount], [FileTypeID], [CreatedOnUTC], [UpdatedOnUTC])
 			VALUES ([src].[FileName], [src].[Extension], [src].[FileSize], [src].[CreationTimeLocal], [src].[LastAccessTimeLocal],
-				[src].[LastWriteTimeLocal], [src].[DirectoryName], [src].[FullFilePath], [src].[FileUrl], [src].[ByteCount], @UtcNow, @UtcNow)
+				[src].[LastWriteTimeLocal], [src].[DirectoryName], [src].[FullFilePath], [src].[FileUrl], [src].[ByteCount],
+				[src].[FileTypeID], @UtcNow, @UtcNow)
 		WHEN MATCHED THEN
 			UPDATE SET [tgt].[Extension] = [src].[Extension],
 					   [tgt].[FileSize] = [src].[FileSize],
@@ -47,6 +49,7 @@ AS BEGIN
 					   [tgt].[FullFilePath] = [src].[FullFilePath],
 					   [tgt].[FileUrl] = [src].[FileUrl],
 					   [tgt].[ByteCount] = [src].[ByteCount],
+					   [tgt].[FileTypeID] = [src].[FileTypeID],
 					   [tgt].[UpdatedOnUTC] = @UtcNow
 		WHEN NOT MATCHED BY SOURCE
 			THEN DELETE;

@@ -32,18 +32,48 @@ GO
  =============================================
  Author:			Jordan Gurney
  Create date:		3/11/2018
- Description:		User Trigger to update newly inserted dbo.Payor records with
-					the value of the BillToName column as the LetterName column.
+ Description:		User Trigger to change the insert behavior of an insert into dbo.Payor
+					which uses the value of the BillToName column for the LetterName column.
  =============================================
 */
-CREATE TRIGGER [dbo].[utPayorLetterNameBillToName]
-  ON [dbo].[Payor]
-AFTER INSERT
+CREATE TRIGGER [dbo].[utPayorLetterNameBillToName] ON [dbo].[Payor]
+INSTEAD OF INSERT
 AS BEGIN
-	UPDATE	p
-	SET		p.LetterName = i.BillToName
-	FROM	Inserted  AS i
-			INNER JOIN  dbo.Payor AS p ON p.PayorID = i.PayorID;
+SET NOCOUNT ON;
+INSERT INTO [dbo].[Payor]
+(   [GroupName]
+  , [BillToName]
+  , [BillToAddress1]
+  , [BillToAddress2]
+  , [BillToCity]
+  , [BillToStateID]
+  , [BillToPostalCode]
+  , [PhoneNumber]
+  , [AlternatePhoneNumber]
+  , [FaxNumber]
+  , [Notes]
+  , [Contact]
+  , [LetterName]
+  , [ETLRowID]
+  , [CreatedOnUTC]
+  , [UpdatedOnUTC])
+SELECT [i].[GroupName]
+     , [i].[BillToName]
+     , [i].[BillToAddress1]
+     , [i].[BillToAddress2]
+     , [i].[BillToCity]
+     , [i].[BillToStateID]
+     , [i].[BillToPostalCode]
+     , [i].[PhoneNumber]
+     , [i].[AlternatePhoneNumber]
+     , [i].[FaxNumber]
+     , [i].[Notes]
+     , [i].[Contact]
+     , [i].[BillToName] -- This is the key to this trigger. Making the LetterName equal to the BillToName
+     , [i].[ETLRowID]
+     , [i].[CreatedOnUTC]
+     , [i].[UpdatedOnUTC]
+FROM Inserted i
 END
 GO
 ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [pkPayor] PRIMARY KEY CLUSTERED  ([PayorID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]

@@ -8,11 +8,12 @@ GO
 	Description:	CRUD Proc for Deleting in table [dbo].[Document]
 	Sample Execute:
 					DECLARE @DocumentID INT
-					EXEC [dbo].[uspGetDocumentIDByDocumentName] 'csp201711255300.pdf', @DocumentID = @DocumentID OUTPUT
+					EXEC [dbo].[uspGetDocumentIDByDocumentName] 'csp201711255314.pdf', 1, @DocumentID = @DocumentID OUTPUT
 					SELECT @DocumentID DocumentID
 */
 CREATE PROC [dbo].[uspGetDocumentIDByDocumentName]
 	@FileName VARCHAR(1000),
+	@FileTypeID TINYINT,
 	@DocumentID INT OUTPUT
 AS BEGIN
 	SET NOCOUNT ON;
@@ -23,6 +24,7 @@ AS BEGIN
 		SELECT @DocumentID = [d].[DocumentID]
 		FROM   [dbo].[Document] AS [d]
 		WHERE  [d].[FileName] = @FileName
+			   AND [d].[FileTypeID] = @FileTypeID;
 	
 		IF (@@TRANCOUNT > 0)
 			COMMIT

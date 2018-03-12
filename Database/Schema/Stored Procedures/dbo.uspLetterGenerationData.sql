@@ -40,7 +40,7 @@ AS BEGIN
 					  , p.[City]
 					  , us.[StateCode]
 					  , p.[PostalCode]
-					  , [pay].[GroupName]
+					  , [pay].[LetterName]
 					  , @FirstName UserFirstName
 					  , @LastName UserLastName
 					  ,(SELECT [p].[PharmacyName]
@@ -73,4 +73,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 GO
