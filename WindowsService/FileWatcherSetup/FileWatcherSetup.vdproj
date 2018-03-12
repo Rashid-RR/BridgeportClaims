@@ -454,7 +454,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Bridgeport File Watcher Service"
         "ProductCode" = "8:{FDF15C19-9A75-47FA-9A35-C5A73293658D}"
-        "PackageCode" = "8:{308FC067-E837-41AD-9868-E7E14836BC28}"
+        "PackageCode" = "8:{8CEE2497-6C4E-405E-8651-0EF4121B0795}"
         "UpgradeCode" = "8:{84F1F1AD-916E-411D-B251-50C2835CA2F7}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
