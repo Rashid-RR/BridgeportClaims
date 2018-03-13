@@ -25,46 +25,46 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	public class ClaimsDataProvider : IClaimsDataProvider
 	{
 		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
-	    private readonly IEpisodesDataProvider _episodesDataProvider;
-        private readonly ISessionFactory _factory;
+		private readonly IEpisodesDataProvider _episodesDataProvider;
+		private readonly ISessionFactory _factory;
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
 		private readonly IRepository<Claim> _claimRepository;
 		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
-	    private readonly IRepository<UsState> _usStateRepository;
-	    private readonly IClaimImageProvider _claimImageProvider;
-	    private readonly IRepository<AspNetUsers> _usersRepository;
-	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+		private readonly IRepository<UsState> _usStateRepository;
+		private readonly IClaimImageProvider _claimImageProvider;
+		private readonly IRepository<AspNetUsers> _usersRepository;
+		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ClaimsDataProvider(ISessionFactory factory, 
+		public ClaimsDataProvider(ISessionFactory factory, 
 			IStoredProcedureExecutor storedProcedureExecutor, 
 			IRepository<Claim> claimRepository, 
 			IRepository<ClaimFlex2> claimFlex2Repository, 
 			IPaymentsDataProvider paymentsDataProvider, 
-            IClaimImageProvider claimImageProvider, 
-            IRepository<UsState> usStateRepository, 
-            IRepository<AspNetUsers> usersRepository, 
-            IEpisodesDataProvider episodesDataProvider)
+			IClaimImageProvider claimImageProvider, 
+			IRepository<UsState> usStateRepository, 
+			IRepository<AspNetUsers> usersRepository, 
+			IEpisodesDataProvider episodesDataProvider)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
 			_claimRepository = claimRepository;
 			_claimFlex2Repository = claimFlex2Repository;
 			_paymentsDataProvider = paymentsDataProvider;
-		    _claimImageProvider = claimImageProvider;
-		    _usStateRepository = usStateRepository;
-		    _usersRepository = usersRepository;
-		    _episodesDataProvider = episodesDataProvider;
-		    _factory = factory;
+			_claimImageProvider = claimImageProvider;
+			_usStateRepository = usStateRepository;
+			_usersRepository = usersRepository;
+			_episodesDataProvider = episodesDataProvider;
+			_factory = factory;
 		}
 
-	    private IList<UsStateDto> GetUsStates()
-	    {
-	        var states = _usStateRepository.GetAll()?.Select(s => new UsStateDto
-	        {
-	            StateId = s.StateId,
-	            StateName = s.StateCode + " - " + s.StateName
-	        });
-	        return states?.OrderBy(x => x.StateName).ToList();
-	    }
+		private IList<UsStateDto> GetUsStates()
+		{
+			var states = _usStateRepository.GetAll()?.Select(s => new UsStateDto
+			{
+				StateId = s.StateId,
+				StateName = s.StateCode + " - " + s.StateName
+			});
+			return states?.OrderBy(x => x.StateName).ToList();
+		}
 
 		public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
 			string rxNumber, string invoiceNumber)
@@ -159,97 +159,97 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 		}
 
 
-	    public EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id, string modifiedByUserId)
-	    {
-	        var claim = _claimRepository.Get(claimId);
-	        if (null == claim)
-	            throw new ArgumentNullException(nameof(claim));
-	        var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
-	        var op = null == claim.ClaimFlex2 ? EntityOperation.Add : EntityOperation.Update;
-	        claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
-	        claim.UpdatedOnUtc = DateTime.UtcNow;
-	        claim.ModifiedByUserId = _usersRepository.Get(modifiedByUserId);
-            _claimRepository.Update(claim);
-	        return op;
-	    }
+		public EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id, string modifiedByUserId)
+		{
+			var claim = _claimRepository.Get(claimId);
+			if (null == claim)
+				throw new ArgumentNullException(nameof(claim));
+			var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
+			var op = null == claim.ClaimFlex2 ? EntityOperation.Add : EntityOperation.Update;
+			claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
+			claim.UpdatedOnUtc = DateTime.UtcNow;
+			claim.ModifiedByUserId = _usersRepository.Get(modifiedByUserId);
+			_claimRepository.Update(claim);
+			return op;
+		}
 
-	    public IList<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection, string userId) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodesBlade]", conn), cmd =>
-	            {
-                    cmd.CommandType = CommandType.StoredProcedure;
-	                IList<EpisodeBladeDto> retVal = new List<EpisodeBladeDto>();
-	                var claimIdParam = cmd.CreateParameter();
-	                claimIdParam.DbType = DbType.Int32;
-                    claimIdParam.SqlDbType = SqlDbType.Int;
-	                claimIdParam.Value = claimId;
-	                claimIdParam.ParameterName = "@ClaimID";
-                    claimIdParam.Direction = ParameterDirection.Input;
-                    cmd.Parameters.Add(claimIdParam);
-	                var sortColumnParam = cmd.CreateParameter();
-	                sortColumnParam.DbType = DbType.AnsiString;
-	                sortColumnParam.SqlDbType = SqlDbType.VarChar;
-	                sortColumnParam.Size = 50;
-	                sortColumnParam.ParameterName = "@SortColumn";
-                    sortColumnParam.Direction = ParameterDirection.Input;
-	                sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
-                    cmd.Parameters.Add(sortColumnParam);
-	                var sortDirectionParam = cmd.CreateParameter();
-	                sortDirectionParam.Value = sortDirection ?? (object) DBNull.Value;
-                    sortDirectionParam.DbType = DbType.AnsiString;
-	                sortDirectionParam.SqlDbType = SqlDbType.VarChar;
-	                sortDirectionParam.Size = 5;
-	                sortDirectionParam.ParameterName = "@SortDirection";
-                    sortDirectionParam.Direction = ParameterDirection.Input;
-                    cmd.Parameters.Add(sortDirectionParam);
-	                var userIdParam = cmd.CreateParameter();
-	                userIdParam.Value = userId ?? (object) DBNull.Value;
-	                userIdParam.DbType = DbType.String;
-	                userIdParam.SqlDbType = SqlDbType.NVarChar;
-	                userIdParam.Size = 128;
-	                userIdParam.ParameterName = "@UserID";
-	                userIdParam.Direction = ParameterDirection.Input;
-	                cmd.Parameters.Add(userIdParam);
-                    if (conn.State != ConnectionState.Open)
-                        conn.Open();
-	                DisposableService.Using(cmd.ExecuteReader, reader =>
-	                {
-	                    var idOrdinal = reader.GetOrdinal("Id");
-	                    var createdOrdinal = reader.GetOrdinal("Created");
-	                    var ownerOrdinal = reader.GetOrdinal("Owner");
-	                    var typeOrdinal = reader.GetOrdinal("Type");
-	                    var roleOrdinal = reader.GetOrdinal("Role");
-	                    var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
-	                    var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
-	                    var categoryOrdinal = reader.GetOrdinal("Category");
-	                    var resolvedOrdinal = reader.GetOrdinal("Resolved");
-	                    var noteCountOrdinal = reader.GetOrdinal("NoteCount");
-                        while (reader.Read())
-                        {
-                            var result = new EpisodeBladeDto
-	                        {
-	                            Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
-	                            Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow.ToMountainTime(),
-	                            Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
-	                            Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
-	                            Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
-	                            Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
-	                            RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
-	                            Category = !reader.IsDBNull(categoryOrdinal) ? reader.GetString(categoryOrdinal) : string.Empty,
-	                            Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
-	                            NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
-                            };
-                            retVal.Add(result);
-                        }
-	                });
-                    if (conn.State != ConnectionState.Closed)
-                        conn.Close();
-	                return retVal;
-	            });
-	        });
+		public IList<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection, string userId) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodesBlade]", conn), cmd =>
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					IList<EpisodeBladeDto> retVal = new List<EpisodeBladeDto>();
+					var claimIdParam = cmd.CreateParameter();
+					claimIdParam.DbType = DbType.Int32;
+					claimIdParam.SqlDbType = SqlDbType.Int;
+					claimIdParam.Value = claimId;
+					claimIdParam.ParameterName = "@ClaimID";
+					claimIdParam.Direction = ParameterDirection.Input;
+					cmd.Parameters.Add(claimIdParam);
+					var sortColumnParam = cmd.CreateParameter();
+					sortColumnParam.DbType = DbType.AnsiString;
+					sortColumnParam.SqlDbType = SqlDbType.VarChar;
+					sortColumnParam.Size = 50;
+					sortColumnParam.ParameterName = "@SortColumn";
+					sortColumnParam.Direction = ParameterDirection.Input;
+					sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
+					cmd.Parameters.Add(sortColumnParam);
+					var sortDirectionParam = cmd.CreateParameter();
+					sortDirectionParam.Value = sortDirection ?? (object) DBNull.Value;
+					sortDirectionParam.DbType = DbType.AnsiString;
+					sortDirectionParam.SqlDbType = SqlDbType.VarChar;
+					sortDirectionParam.Size = 5;
+					sortDirectionParam.ParameterName = "@SortDirection";
+					sortDirectionParam.Direction = ParameterDirection.Input;
+					cmd.Parameters.Add(sortDirectionParam);
+					var userIdParam = cmd.CreateParameter();
+					userIdParam.Value = userId ?? (object) DBNull.Value;
+					userIdParam.DbType = DbType.String;
+					userIdParam.SqlDbType = SqlDbType.NVarChar;
+					userIdParam.Size = 128;
+					userIdParam.ParameterName = "@UserID";
+					userIdParam.Direction = ParameterDirection.Input;
+					cmd.Parameters.Add(userIdParam);
+					if (conn.State != ConnectionState.Open)
+						conn.Open();
+					DisposableService.Using(cmd.ExecuteReader, reader =>
+					{
+						var idOrdinal = reader.GetOrdinal("Id");
+						var createdOrdinal = reader.GetOrdinal("Created");
+						var ownerOrdinal = reader.GetOrdinal("Owner");
+						var typeOrdinal = reader.GetOrdinal("Type");
+						var roleOrdinal = reader.GetOrdinal("Role");
+						var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
+						var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
+						var categoryOrdinal = reader.GetOrdinal("Category");
+						var resolvedOrdinal = reader.GetOrdinal("Resolved");
+						var noteCountOrdinal = reader.GetOrdinal("NoteCount");
+						while (reader.Read())
+						{
+							var result = new EpisodeBladeDto
+							{
+								Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
+								Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow.ToMountainTime(),
+								Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
+								Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
+								Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
+								Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
+								RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
+								Category = !reader.IsDBNull(categoryOrdinal) ? reader.GetString(categoryOrdinal) : string.Empty,
+								Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
+								NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
+							};
+							retVal.Add(result);
+						}
+					});
+					if (conn.State != ConnectionState.Closed)
+						conn.Close();
+					return retVal;
+				});
+			});
 
-        public ClaimDto GetClaimsDataByClaimId(int claimId, string userId)
+		public ClaimDto GetClaimsDataByClaimId(int claimId, string userId)
 		{
 			return DisposableService.Using(() => _factory.OpenSession(), session =>
 			{
@@ -267,27 +267,27 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Name = s.p.FirstName + " " + s.p.LastName,
 									Address1 = s.p.Address1,
 									Address2 = s.p.Address2,
-                                    City = s.p.City,
-                                    StateAbbreviation = null == s.p.StateId ? null : s.p.StateId.StateCode,
-								    PostalCode = s.p.PostalCode,
-                                    Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
+									City = s.p.City,
+									StateAbbreviation = null == s.p.StateId ? null : s.p.StateId.StateCode,
+									PostalCode = s.p.PostalCode,
+									Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
 									AdjustorPhoneNumber = null == s.c.Adjustor ? null : s.c.Adjustor.PhoneNumber,
-                                    AdjustorExtension = null == s.c.Adjustor ? null : s.c.Adjustor.Extension,
+									AdjustorExtension = null == s.c.Adjustor ? null : s.c.Adjustor.Extension,
 									Carrier = null == s.c.Payor ? null : s.c.Payor.GroupName,									
 									Flex2 = null != s.c.ClaimFlex2 ? s.c.ClaimFlex2.Flex2 : null,
 									Gender = null == s.p.Gender ? null : s.p.Gender.GenderName,
 									DateOfBirth = s.p.DateOfBirth,
-                                    DateOfInjury = s.c.DateOfInjury,
+									DateOfInjury = s.c.DateOfInjury,
 									EligibilityTermDate = s.c.TermDate,
 									PatientPhoneNumber = s.p.PhoneNumber,
 									DateEntered = s.c.DateOfInjury,
 									ClaimNumber = s.c.ClaimNumber,
-                                    AdjustorId = null == s.c.Adjustor ? (int?) null : s.c.Adjustor.AdjustorId,
-                                    PayorId = s.c.Payor.PayorId,
-                                    StateId = null == s.p.StateId ? (int?) null : s.p.StateId.StateId,
-                                    PatientGenderId = s.p.Gender.GenderId,
-								    ClaimFlex2Id = null == s.c.ClaimFlex2 ? (int?) null : s.c.ClaimFlex2.ClaimFlex2Id
-                                }).SingleOrDefault();
+									AdjustorId = null == s.c.Adjustor ? (int?) null : s.c.Adjustor.AdjustorId,
+									PayorId = s.c.Payor.PayorId,
+									StateId = null == s.p.StateId ? (int?) null : s.p.StateId.StateId,
+									PatientGenderId = s.p.Gender.GenderId,
+									ClaimFlex2Id = null == s.c.ClaimFlex2 ? (int?) null : s.c.ClaimFlex2.ClaimFlex2Id
+								}).SingleOrDefault();
 							if (null == claimDto)
 								return null;
 							// ClaimFlex2 Drop-Down Values
@@ -295,8 +295,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetMaxResults(100)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(ClaimFlex2Dto)))
 								.List<ClaimFlex2Dto>();
-						    if (null != claimFlex2Dto)
-						        claimDto.ClaimFlex2s = claimFlex2Dto.OrderBy(x => x.Flex2).ToList();
+							if (null != claimFlex2Dto)
+								claimDto.ClaimFlex2s = claimFlex2Dto.OrderBy(x => x.Flex2).ToList();
 							// Claim Note
 							var claimNoteDto = session.CreateSQLQuery(
 									@"SELECT cnt.[TypeName] NoteType, [cn]. [NoteText]
@@ -311,18 +311,18 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							if (null != claimNoteDto)
 								claimDto.ClaimNotes = claimNoteDto;
 							// Claim Episodes
-						    var episodes = GetEpisodesBlade(claimId, "Created", "DESC", userId);
-						    if (null != episodes)
-						        claimDto.Episodes = episodes;
-						    var documentTypes = session.CreateSQLQuery(@"SELECT  DocumentTypeId = [dt].[DocumentTypeID]
-                                                                               , [dt].[TypeName]
-                                                                         FROM    [dbo].[DocumentType] AS [dt]")
-						        .SetMaxResults(5000)
-						        .SetResultTransformer(Transformers.AliasToBean(typeof(DocumentTypeDto)))
-						        .List<DocumentTypeDto>();
-						    if (null != documentTypes)
-						        claimDto.DocumentTypes = documentTypes.OrderBy(x => x.TypeName).ToList();
-                            var acctPayableDtos = session.CreateSQLQuery(
+							var episodes = GetEpisodesBlade(claimId, "Created", "DESC", userId);
+							if (null != episodes)
+								claimDto.Episodes = episodes;
+							var documentTypes = session.CreateSQLQuery(@"SELECT  DocumentTypeId = [dt].[DocumentTypeID]
+																			   , [dt].[TypeName]
+																		 FROM    [dbo].[DocumentType] AS [dt]")
+								.SetMaxResults(5000)
+								.SetResultTransformer(Transformers.AliasToBean(typeof(DocumentTypeDto)))
+								.List<DocumentTypeDto>();
+							if (null != documentTypes)
+								claimDto.DocumentTypes = documentTypes.OrderBy(x => x.TypeName).ToList();
+							var acctPayableDtos = session.CreateSQLQuery(
 							  @"SELECT [Date] = [p].[DatePosted]
 									 , [p].[CheckNumber]
 									 , [p2].[RxNumber]
@@ -336,35 +336,35 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetResultTransformer(Transformers.AliasToBean(typeof(AcctPayableDto)))
 								.List<AcctPayableDto>();
 							claimDto.AcctPayables = acctPayableDtos;
-                            // U.S. States
-						    var states = GetUsStates();
-						    if (null != states)
-						        claimDto.States = states;
+							// U.S. States
+							var states = GetUsStates();
+							if (null != states)
+								claimDto.States = states;
 							// Prescription Statuses
 							var prescriptionStatuses = session.CreateSQLQuery("SELECT ps.PrescriptionStatusID PrescriptionStatusId, ps.StatusName FROM dbo.PrescriptionStatus AS ps")
 								.SetMaxResults(100)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionStatusDto)))
 								.List<PrescriptionStatusDto>();
-						    if (null != prescriptionStatuses)
-						        claimDto.PrescriptionStatuses = prescriptionStatuses.OrderBy(x => x.StatusName).ToList();
+							if (null != prescriptionStatuses)
+								claimDto.PrescriptionStatuses = prescriptionStatuses.OrderBy(x => x.StatusName).ToList();
 							// Payments
 							var payments = _paymentsDataProvider.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, 5000, "RxNumber", "ASC");
 							if (null != payments)
 								claimDto.Payments = payments;
-                            // Genders
-						    var genders = session
-						        .CreateSQLQuery("SELECT GenderId = [g].[GenderID], [g].[GenderName] FROM [dbo].[Gender] AS [g]")
-						        .SetMaxResults(30)
-						        .SetResultTransformer(Transformers.AliasToBean(typeof(GenderDto)))
-						        .List<GenderDto>();
-						    if (null != genders)
-						        claimDto.Genders = genders;
-                            // Episodes Types
-						    var episodeTypes = _episodesDataProvider?.GetEpisodeTypes();
-						    if (null != episodeTypes)
-						        claimDto.EpisodeTypes = episodeTypes.OrderBy(x => x.SortOrder).ToList();
-                            // Claim Prescriptions
-                            claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
+							// Genders
+							var genders = session
+								.CreateSQLQuery("SELECT GenderId = [g].[GenderID], [g].[GenderName] FROM [dbo].[Gender] AS [g]")
+								.SetMaxResults(30)
+								.SetResultTransformer(Transformers.AliasToBean(typeof(GenderDto)))
+								.List<GenderDto>();
+							if (null != genders)
+								claimDto.Genders = genders;
+							// Episodes Types
+							var episodeTypes = _episodesDataProvider?.GetEpisodeTypes();
+							if (null != episodeTypes)
+								claimDto.EpisodeTypes = episodeTypes.OrderBy(x => x.SortOrder).ToList();
+							// Claim Prescriptions
+							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
 							// Prescription Notes
 							var prescriptionNotesDtos = session.CreateSQLQuery(
 									 @"SELECT DISTINCT
@@ -409,16 +409,16 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									Type = gcs.Key.Type
 								}).ToList();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
-						    var imageResults = _claimImageProvider.GetClaimImages(claimId, "Created", "DESC", 1, 5000);
-						    claimDto.Images = imageResults.ClaimImages;
+							var imageResults = _claimImageProvider.GetClaimImages(claimId, "Created", "DESC", 1, 5000);
+							claimDto.Images = imageResults.ClaimImages;
 							if (tx.IsActive)
 								tx.Commit();
 							return claimDto;
 						}
 						catch (Exception ex)
 						{
-						    Logger.Error(ex);
-                            if (tx.IsActive)
+							Logger.Error(ex);
+							if (tx.IsActive)
 								tx.Rollback();
 							throw;
 						}
