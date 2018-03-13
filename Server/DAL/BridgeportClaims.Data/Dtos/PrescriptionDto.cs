@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class PrescriptionDto
     {
         public int PrescriptionId { get; set; }
@@ -23,5 +22,7 @@ namespace BridgeportClaims.Data.Dtos
         public string PharmacyName { get; set; }
         public string PrescriptionNdc { get; set; }
         public string PrescriberPhone { get; set; }
+        public bool InvoiceIsIndexed { get; set; }
+        public string InvoiceUrl { get; set; }
     }
 }
