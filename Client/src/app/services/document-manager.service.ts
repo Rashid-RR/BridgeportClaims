@@ -14,18 +14,34 @@ import { ProfileManager } from './profile-manager';
 export class DocumentManagerService {
   loading: Boolean = false;
   documents: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
+  invoices: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
   documentTypes: Immutable.OrderedMap<any, DocumentType> = Immutable.OrderedMap<any, DocumentType>();
   data: any = {};
+  invoiceData: any = {};
   display: string = 'list';
+  invDisplay: string = 'list';
   totalRowCount: number;
+  totalInvoiceRowCount: number;
   searchText: string = '';
   newIndex: boolean = false;
+  newInvoice: boolean = false;
   file: DocumentItem;
+  invoiceFile: DocumentItem;
   exactMatch: boolean = false;
   constructor(private profileManager: ProfileManager, private http: HttpService, private formBuilder: FormBuilder, private _ngZone: NgZone,
     private events: EventsService, private toast: ToastsManager) {
     this.data = {
       date: null,
+      isIndexed: false,
+      sort: "DocumentID",
+      sortDirection: "ASC",
+      page: 1,
+      fileTypeId:1,
+      pageSize: 30
+    };
+    this.invoiceData = {
+      date: null,
+      fileTypeId:2,
       isIndexed: false,
       sort: "DocumentID",
       sortDirection: "ASC",
@@ -112,6 +128,7 @@ export class DocumentManagerService {
       }
     })
     this.search();
+    this.searchInvoices();
   }
 
   get autoCompleteClaim(): string {
@@ -124,6 +141,13 @@ export class DocumentManagerService {
     this.data.page = 1;
     this.data.sortDirection = info.dir.toUpperCase();
     this.search();
+  }
+  onInvoiceSortColumn(info: SortColumnInfo) {
+    this.data.isDefaultSort = false;
+    this.data.sort = info.column;
+    this.data.page = 1;
+    this.data.sortDirection = info.dir.toUpperCase();
+    this.searchInvoices();
   }
   get pages(): Array<any> {
     return new Array(this.data.page);
@@ -153,9 +177,17 @@ export class DocumentManagerService {
       this.toast.success(r.message);
     }, err => null);
   }
-  cancel() {
-    this.newIndex = false;
-    this.file = undefined;
+  cancel(type) {
+    switch(type){
+      case 'image':
+        this.newIndex = false;
+        this.file = undefined;
+      break;
+      case 'invoice':
+        this.newInvoice = false;
+        this.invoiceFile = undefined;
+      break;
+    }
   }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.data) {
@@ -210,12 +242,81 @@ export class DocumentManagerService {
         });
     }
   }
+  searchInvoices(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
+    if (!this.invoiceData) {
+      if (this.adminOrAsociate) {
+        this.toast.warning('Please populate at least one search field.');
+      }
+    } else {
+      this.loading = true;
+      let invoiceData = JSON.parse(JSON.stringify(this.invoiceData)); //copy invoiceData instead of memory referencing
+
+      if (next) {
+        invoiceData.page++;
+      }
+      if (prev && invoiceData.page > 1) {
+        invoiceData.page--;
+      }
+      if (page) {
+        invoiceData.page = page;
+      }
+      this.http.getDocuments(invoiceData).map(res => { return res.json(); })
+        .subscribe((result: any) => {
+          //console.log(result);
+          this.loading = false;
+          this.totalRowCount = result.totalRowCount;
+          this.invoices = Immutable.OrderedMap<any, DocumentItem>();
+          result.documentResults.forEach((doc: DocumentItem) => {
+            try {
+              this.invoices = this.invoices.set(doc.documentId, doc);
+            } catch (e) { }
+          });
+          result.documentTypes.forEach((type: DocumentType) => {
+            try {
+              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+            } catch (e) { }
+          });
+          if (next) {
+            this.invoiceData.page++;
+          }
+          if (prev && this.invoiceData.page != invoiceData.page) {
+            this.invoiceData.page--;
+          }
+          if (page) {
+            this.invoiceData.page = page;
+          }
+        }, err => {
+          this.loading = false;
+          try {
+            const error = err.json();
+          } catch (e) { }
+        }, () => {
+          this.events.broadcast('document-list-updated');
+        });
+    }
+  }
   get allowed(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
   }
   get adminOrAsociate(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));
   }
-
-
+  get invPages(): Array<any> {
+    return new Array(this.invoiceData.page);
+  }
+  get invoiceList(): Array<DocumentItem> {
+    return this.invoices.toArray();
+  }
+  get invPageStart() {
+    return this.invoiceList.length > 1 ? ((this.invoiceData.page - 1) * this.invoiceData.pageSize) + 1 : null;
+  }
+  get invPageEnd() {
+    return this.invoiceList.length > 1 ? (this.invoiceData.pageSize > this.invoiceList.length ? ((this.invoiceData.page - 1) * this.invoiceData.pageSize) + this.invoiceList.length : (this.invoiceData.page) * this.invoiceData.pageSize) : null;
+  }
+  get invTotalPages() {
+    return this.totalInvoiceRowCount ? Math.ceil(this.totalInvoiceRowCount / this.invoiceData.pageSize) : 0;
+  }
+  get invEnd(): Boolean {
+    return this.invPageStart && this.invoiceData.pageSize > this.invoiceList.length;
+  }
 }

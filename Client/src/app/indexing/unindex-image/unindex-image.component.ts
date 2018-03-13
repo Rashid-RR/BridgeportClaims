@@ -6,7 +6,7 @@ declare var $: any;
 
 
 @Component({
-  selector: 'app-unindex-image',
+  selector: 'indexing-unindex-image',
   templateUrl: './unindex-image.component.html',
   styleUrls: ['./unindex-image.component.css'],
 })
@@ -19,8 +19,7 @@ export class UnindexedImageComponent implements OnInit, AfterViewInit {
     this.ds.cancel('image');
     this.events.on("archived-image", (id: any) => {
       this.ds.cancel('image');
-    });
-    this
+    }); 
   }
   ngAfterViewInit() {
 

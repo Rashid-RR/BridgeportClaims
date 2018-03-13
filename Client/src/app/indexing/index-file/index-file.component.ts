@@ -14,7 +14,7 @@ import { ConfirmComponent } from '../../components/confirm.component';
 declare var $: any;
 
 @Component({
-  selector: 'app-index-file',
+  selector: 'indexing-index-file',
   templateUrl: './index-file.component.html',
   styleUrls: ['./index-file.component.css']
 })

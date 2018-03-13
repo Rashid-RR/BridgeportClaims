@@ -130,6 +130,7 @@ export const routes: Routes = [
             path: 'indexed-image/:id',
             component: UnindexedImageFileComponent,
           },
+          { path: 'indexing', loadChildren: './indexing/indexing.module#IndexingModule' },
           {
             path: 'unindexed-images',
             component: UnindexedImageComponent,

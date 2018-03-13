@@ -52,10 +52,16 @@
         <i class="fa fa-sitemap"></i>
         <span>INDEXING</span>
       </li>
-      <li [class.active]="router.url.indexOf('/main/unindexed-images')>-1">
+      <!-- <li [class.active]="router.url.indexOf('/main/unindexed-images')>-1">
         <a [routerLink]="!disableLinks ? '/main/unindexed-images' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
           <img src="assets/img/unidex.png">
-          <span>Unindexed Images</span>
+          <span>Indexing</span>
+        </a>
+      </li> -->
+      <li [class.active]="router.url.indexOf('/main/indexing')>-1">
+        <a [routerLink]="!disableLinks ? '/main/indexing' : []" *ngIf="adminOrAsociate" [class.disabled]="disableLinks">
+          <img src="assets/img/unidex.png">
+          <span>Indexing</span>
         </a>
       </li>
       <li class="header" style="color:white;font-size:14pt" *ngIf="allowed">

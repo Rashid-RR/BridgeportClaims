@@ -1,33 +1,18 @@
 <div class="row">
-    <div class="col-md-12">
-        <section class="content-header">
-            <ol class="breadcrumb pull-left">
-                <li>
-                    <a routerLink="/">
-                        <i class="fa fa-home"></i> Home
-                    </a>
-                </li>
-                <li class="active">
-                    <a [routerLink]="[]">
-                        Indexing
-                    </a>
-                </li>
-            </ol>
-        </section>
-    </div>
-</div>
-<div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box" id="modalWindowMax">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Indexing</h3>
+            </div>
             <div class="box-body">
                 <!-- Input Form -->
                 <div class="row search">
                     <div class="col-sm-12" id="accordion">
-                        <div class="box no-border" style="padding: 0px;margin-bottom:0rem;" *ngIf="!ds.newIndex">
+                        <div class="box no-border" style="padding: 0px;margin-bottom:0rem;">
                             <div class="box-header bg-head-box">
                                 <span class="blade-title panel-head">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseInv">
                                             <i class="fa fa-search white" aria-hidden="true"></i>
                                             <span class="left5 right5 white">Search and Filter</span>
                                             <i class="fa fa-filter white" aria-hidden="true"></i>
@@ -35,15 +20,14 @@
                                     </h4>
                                 </span>
                             </div>
-                            <div class="box-body" style="padding: 0px 15px;" id="collapseOne" class="panel-collapse collapse in">
-                                <app-unindex-image-filter></app-unindex-image-filter>
+                            <div class="box-body" style="padding: 0px 15px;" id="collapseInv" class="panel-collapse collapse in">
+                                <indexing-unindex-image-filter></indexing-unindex-image-filter>
                             </div>
                         </div>
-                        <app-index-file *ngIf="ds.newIndex" [file]="ds.file"></app-index-file>
                     </div>
                 </div>
                 <!-- Document Results -->
-                <div class="row" *ngIf="!ds.newIndex">
+                <div class="row">
                     <div class="col-sm-12" id="accordion">
                         <div class="box">
                             <div class="box-header bg-head-box">
@@ -51,9 +35,9 @@
                                     <i class="fa fa-book" aria-hidden="true"></i> Documents
                                 </span>
                                 <span class="total">
-                                    <span *ngIf="ds.pageStart" style="margin-right:100px;"> {{ds.pageStart+ " to "+ds.pageEnd}}</span>
-                                    <span *ngIf="ds.documentList.length>0">
-                                        <span style="font-size:13pt">{{ds.totalRowCount}}</span> Record{{ds.totalRowCount>1 ? 's':''}} found</span>
+                                    <span *ngIf="ds.invPageStart" style="margin-right:100px;"> {{ds.invPageStart+ " to "+ds.invPageEnd}}</span>
+                                    <span *ngIf="ds.invoices.length>0">
+                                        <span style="font-size:13pt">{{ds.totalInvoiceRowCount}}</span> Record{{ds.totalInvoiceRowCount>1 ? 's':''}} found</span>
                                 </span>
                                 <div class="box-tools pull-right">
                                     <div class="btn-group">
@@ -62,72 +46,72 @@
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li class="dropdown-submenu" [class.active]="ds.data.sort=='fileName'">
+                                                <li class="dropdown-submenu">
                                                     <a tabindex="-1">Name</a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='fileName' && ds.data.sortDirection=='ASC'" (click)="ds.onSortColumn({'column':'fileName','dir':'asc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'fileName','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='fileName' && ds.data.sortDirection=='DESC'" (click)="ds.onSortColumn({'column':'fileName','dir':'desc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'fileName','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown-submenu" [class.active]="ds.data.sort=='CreationTime'">
+                                                <li class="dropdown-submenu">
                                                     <a tabindex="-1">Date Created</a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='CreationTime' && ds.data.sortDirection=='ASC'" (click)="ds.onSortColumn({'column':'CreationTime','dir':'asc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'creationTimeLocal','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='CreationTime' && ds.data.sortDirection=='DESC'" (click)="ds.onSortColumn({'column':'CreationTime','dir':'desc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'creationTimeLocal','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown-submenu" [class.active]="ds.data.sort=='fileSize'">
+                                                <li class="dropdown-submenu">
                                                     <a class="test" tabindex="-1">Size</a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='fileSize' && ds.data.sortDirection=='ASC'" (click)="ds.onSortColumn({'column':'fileSize','dir':'asc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'fileSize','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='fileSize' && ds.data.sortDirection=='DESC'" (click)="ds.onSortColumn({'column':'fileSize','dir':'desc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'fileSize','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown-submenu" [class.active]="ds.data.sort=='LastAccessTime'">
+                                                <li class="dropdown-submenu">
                                                     <a class="test" tabindex="-1">
                                                         Last Accessed
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='LastAccessTime' && ds.data.sortDirection=='ASC'" (click)="ds.onSortColumn({'column':'LastAccessTime','dir':'asc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'lastAccessTimeLocal','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='LastAccessTime' && ds.data.sortDirection=='DESC'" (click)="ds.onSortColumn({'column':'LastAccessTime','dir':'desc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'lastAccessTimeLocal','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
                                                 </li>
-                                                <li class="dropdown-submenu" [class.active]="ds.data.sort=='LastWriteTime'">
+                                                <li class="dropdown-submenu">
                                                     <a class="test" tabindex="-1">
                                                         Last Write
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='LastWriteTime' && ds.data.sortDirection=='ASC'" (click)="ds.onSortColumn({'column':'LastWriteTime','dir':'asc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'    lastWriteTimeLocal','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='LastWriteTime' && ds.data.sortDirection=='DESC'" (click)="ds.onSortColumn({'column':'LastWriteTime','dir':'desc'})">
+                                                        <li (click)="ds.onInvoiceSortColumn({'column':'    lastWriteTimeLocal','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </div>
-                                        <button type="button" *ngIf="ds.display=='list'" class="pull-right transparent btn btn-flat btn-sm" (click)="ds.display='grid'"
+                                        <button type="button" *ngIf="ds.invDisplay=='list'" class="pull-right transparent btn btn-flat btn-sm" (click)="ds.invDisplay='grid'"
                                             title="Grid View">
                                             <i class="fa fa-th"></i>
                                         </button>
-                                        <button type="button" *ngIf="ds.display=='grid'" class="pull-right  transparent btn btn-flat btn-sm" (click)="ds.display='list'"
+                                        <button type="button" *ngIf="ds.invDisplay=='grid'" class="pull-right  transparent btn btn-flat btn-sm" (click)="ds.invDisplay='list'"
                                             title="List View">
                                             <i class="fa fa-list"></i>
                                         </button>
@@ -135,12 +119,11 @@
                                 </div>
                             </div>
                             <div class="box-body documents">
-                                <app-unindex-image-list></app-unindex-image-list>
+                                <indexing-unindexed-invoice-list></indexing-unindexed-invoice-list>
                             </div>
                         </div>
                     </div>
                 </div>
-                <app-unindexed-image-file *ngIf="ds.newIndex" [file]="ds.file"></app-unindexed-image-file>
             </div>
             <div class="overlay" *ngIf="ds.loading">
                 <img src="assets/1.gif">

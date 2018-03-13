@@ -1,0 +1,14 @@
+.bg-head-box {
+    background: #992727;
+    z-index: 3;
+    color: #fff;
+}
+#docCanvas{
+    width:100%;
+    height:calc(100vh - 170px);
+    border: none;
+}
+.expanded .box-body{
+    height:calc(100vh - 245px);
+    overflow:hidden;
+}

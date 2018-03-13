@@ -15,7 +15,7 @@ import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../compon
 declare var $: any;
 
 @Component({
-  selector: 'app-unindexed-image-file',
+  selector: 'indexing-unindexed-image-file',
   templateUrl: './unindexed-image-file.component.html',
   styleUrls: ['./unindexed-image-file.component.css']
 })
@@ -24,6 +24,8 @@ export class UnindexedImageFileComponent implements OnInit {
   loading: boolean = false;
   sanitizedURL: any;
   @Input() file: any;
+  @Input() type: any;
+  fileId:number=new Date().getTime();
   constructor(
     public router: Router, private nativeHttp: Http, private ds: DocumentManagerService,
     private route: ActivatedRoute, private toast: ToastsManager, private events: EventsService,
@@ -89,14 +91,15 @@ export class UnindexedImageFileComponent implements OnInit {
   }
   cancel() {
     this.events.broadcast("reset-indexing-form", true);
-    this.ds.cancel('image');
+    console.log(this.type);
+    this.ds.cancel(this.type);
   }
   showFile() {
     var docInitParams: any = {};
     docInitParams.url = this.file.fileUrl;
     docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
-    let minusHeight = this.router.url =='/main/unindexed-images' ? 300 : 110;
-    $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - '+minusHeight+'px);border: none;"></iframe>');
+    let minusHeight = this.router.url =='/main/unindexed-images' ? 300 : 245;
+    $("#fileCanvas"+this.fileId).html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - '+minusHeight+'px);border: none;"></iframe>');
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
     }
