@@ -56,7 +56,7 @@ namespace BridgeportClaims.Business.Providers
 
         private bool FileWasModified(FileInfo fileInfo, string oldFileName = null)
         {
-            var dbDoc = _documentDataProvider.GetDocumentByFileName(oldFileName ?? fileInfo.Name, (byte) InternalFileType);
+            var dbDoc = _documentDataProvider.GetDocumentByFileName(oldFileName ?? fileInfo.FullName, (byte) InternalFileType);
             if (null == dbDoc)
                 return true;
             var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
@@ -182,7 +182,7 @@ namespace BridgeportClaims.Business.Providers
                     return; //ignore directories, only process files
                 // Ensure that the changed file has at least one changed property worth updating
                 var fileInfo = new FileInfo(e.FullPath);
-                var needsModification = FileWasModified(fileInfo, e.OldName);
+                var needsModification = FileWasModified(fileInfo, e.OldFullPath);
                 if (!needsModification)
                     return; // no modification necessary.
                 var methodName = MethodBase.GetCurrentMethod().Name;
@@ -192,7 +192,7 @@ namespace BridgeportClaims.Business.Providers
                 // Database call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the database call to update document {fileInfo.Name} within {methodName} method on {now}.");
-                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(e.OldName, (byte)InternalFileType);
+                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(e.OldFullPath, (byte)InternalFileType);
                 _documentDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime,
                     fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte)InternalFileType);
                 // Api Call
@@ -233,7 +233,7 @@ namespace BridgeportClaims.Business.Providers
                 // Database call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the database call to update document {fileInfo.Name} within {methodName} method on {now}.");
-                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(fileInfo.Name, (byte) InternalFileType);
+                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(fileInfo.FullName, (byte) InternalFileType);
                 _documentDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime,
                     fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte) InternalFileType);
                 // Api Call
@@ -284,7 +284,7 @@ namespace BridgeportClaims.Business.Providers
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 var fileName = Path.GetFileName(e.FullPath);
-                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(fileName, (byte) InternalFileType);
+                var documentId = _documentDataProvider.GetDocumentIdByDocumentName(e.FullPath, (byte) InternalFileType);
                 if (documentId != default(int))
                 {
                     _documentDataProvider.DeleteDocument(documentId);
@@ -299,7 +299,7 @@ namespace BridgeportClaims.Business.Providers
                     if (cs.AppIsInDebugMode)
                     {
                         LoggingService.LogDebugMessage(methodName, now,
-                            $"The document with the name {fileName} was not found in the database.");
+                            $"The document with the full file path: {e.FullPath} was not found in the database.");
                     }
                 }
                 // Api Call

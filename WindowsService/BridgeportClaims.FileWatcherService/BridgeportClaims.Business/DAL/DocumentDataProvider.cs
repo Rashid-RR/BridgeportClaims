@@ -14,20 +14,20 @@ namespace BridgeportClaims.Business.DAL
     {
         private readonly string _dbConnStr = cm.GetDbConnStr();
 
-        internal DocumentDto GetDocumentByFileName(string fileName, byte fileTypeId) =>
+        internal DocumentDto GetDocumentByFileName(string fullFileName, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentSelectByFileName]", conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    var fileNameParam = cmd.CreateParameter();
-                    fileNameParam.Direction = ParameterDirection.Input;
-                    fileNameParam.Value = fileName ?? (object) DBNull.Value;
-                    fileNameParam.DbType = DbType.AnsiStringFixedLength;
-                    fileNameParam.Size = 1000;
-                    fileNameParam.SqlDbType = SqlDbType.VarChar;
-                    fileNameParam.ParameterName = "@FileName";
-                    cmd.Parameters.Add(fileNameParam);
+                    var fullFileNameParam = cmd.CreateParameter();
+                    fullFileNameParam.Direction = ParameterDirection.Input;
+                    fullFileNameParam.Value = fullFileName ?? (object) DBNull.Value;
+                    fullFileNameParam.DbType = DbType.String;
+                    fullFileNameParam.Size = 4000;
+                    fullFileNameParam.SqlDbType = SqlDbType.NVarChar;
+                    fullFileNameParam.ParameterName = "@FullFileName";
+                    cmd.Parameters.Add(fullFileNameParam);
                     var fileTypeIdParam = cmd.CreateParameter();
                     fileTypeIdParam.Direction = ParameterDirection.Input;
                     fileTypeIdParam.Value = fileTypeId;
@@ -72,7 +72,7 @@ namespace BridgeportClaims.Business.DAL
                         }
                     });
                     if (retVal.Count > 1)
-                        throw new Exception($"Error, more than one row was retrieved from the database for file name {fileName}, which should be unique.");
+                        throw new Exception($"Error, more than one row was retrieved from the database for file name {fullFileName}, which should be unique.");
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();
                     return retVal.SingleOrDefault();
@@ -100,7 +100,7 @@ namespace BridgeportClaims.Business.DAL
                 });
             });
 
-        internal int GetDocumentIdByDocumentName(string fileName, byte fileTypeId) =>
+        internal int GetDocumentIdByDocumentName(string fullFileName, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocumentIDByDocumentName]", conn), cmd =>
@@ -108,11 +108,11 @@ namespace BridgeportClaims.Business.DAL
                     cmd.CommandType = CommandType.StoredProcedure;
                     var fileNameParam = cmd.CreateParameter();
                     fileNameParam.Direction = ParameterDirection.Input;
-                    fileNameParam.DbType = DbType.AnsiStringFixedLength;
-                    fileNameParam.SqlDbType = SqlDbType.VarChar;
-                    fileNameParam.ParameterName = "@FileName";
-                    fileNameParam.Size = 1000;
-                    fileNameParam.Value = fileName ?? (object)DBNull.Value;
+                    fileNameParam.DbType = DbType.String;
+                    fileNameParam.SqlDbType = SqlDbType.NVarChar;
+                    fileNameParam.ParameterName = "@FullFileName";
+                    fileNameParam.Size = 4000;
+                    fileNameParam.Value = fullFileName ?? (object)DBNull.Value;
                     cmd.Parameters.Add(fileNameParam);
                     var fileTypeIdParam = cmd.CreateParameter();
                     fileTypeIdParam.Direction = ParameterDirection.Input;
@@ -152,7 +152,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(documentIdParam);
                     var fileNameParam = cmd.CreateParameter();
                     fileNameParam.Direction = ParameterDirection.Input;
-                    fileNameParam.DbType = DbType.AnsiStringFixedLength;
+                    fileNameParam.DbType = DbType.AnsiString;
                     fileNameParam.SqlDbType = SqlDbType.VarChar;
                     fileNameParam.ParameterName = "@FileName";
                     fileNameParam.Size = 1000;
@@ -160,7 +160,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(fileNameParam);
                     var extensionParam = cmd.CreateParameter();
                     extensionParam.Direction = ParameterDirection.Input;
-                    extensionParam.DbType = DbType.AnsiStringFixedLength;
+                    extensionParam.DbType = DbType.AnsiString;
                     extensionParam.SqlDbType = SqlDbType.VarChar;
                     extensionParam.ParameterName = "@Extension";
                     extensionParam.Value = extension ?? (object)DBNull.Value;
@@ -168,7 +168,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(extensionParam);
                     var fileSizeParam = cmd.CreateParameter();
                     fileSizeParam.Direction = ParameterDirection.Input;
-                    fileSizeParam.DbType = DbType.AnsiStringFixedLength;
+                    fileSizeParam.DbType = DbType.AnsiString;
                     fileSizeParam.SqlDbType = SqlDbType.VarChar;
                     fileSizeParam.Size = 50;
                     fileSizeParam.ParameterName = "@FileSize";
@@ -197,7 +197,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(lastWriteTimeParam);
                     var directoryNameParam = cmd.CreateParameter();
                     directoryNameParam.Size = 255;
-                    directoryNameParam.DbType = DbType.AnsiStringFixedLength;
+                    directoryNameParam.DbType = DbType.AnsiString;
                     directoryNameParam.SqlDbType = SqlDbType.VarChar;
                     directoryNameParam.ParameterName = "@DirectoryName";
                     directoryNameParam.Value = directoryName ?? (object)DBNull.Value;
@@ -205,7 +205,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(directoryNameParam);
                     var fullFilePathParam = cmd.CreateParameter();
                     fullFilePathParam.Direction = ParameterDirection.Input;
-                    fullFilePathParam.DbType = DbType.StringFixedLength;
+                    fullFilePathParam.DbType = DbType.String;
                     fullFilePathParam.SqlDbType = SqlDbType.NVarChar;
                     fullFilePathParam.ParameterName = "@FullFilePath";
                     fullFilePathParam.Size = 4000;
@@ -215,7 +215,7 @@ namespace BridgeportClaims.Business.DAL
                     fileUrlParam.ParameterName = "@FileUrl";
                     fileUrlParam.Direction = ParameterDirection.Input;
                     fileUrlParam.Value = fileUrl ?? (object)DBNull.Value;
-                    fileUrlParam.DbType = DbType.StringFixedLength;
+                    fileUrlParam.DbType = DbType.String;
                     fileUrlParam.SqlDbType = SqlDbType.NVarChar;
                     fileUrlParam.Size = 4000;
                     cmd.Parameters.Add(fileUrlParam);
@@ -250,7 +250,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.CommandType = CommandType.StoredProcedure;
                     var fileNameParam = cmd.CreateParameter();
                     fileNameParam.Direction = ParameterDirection.Input;
-                    fileNameParam.DbType = DbType.AnsiStringFixedLength;
+                    fileNameParam.DbType = DbType.AnsiString;
                     fileNameParam.SqlDbType = SqlDbType.VarChar;
                     fileNameParam.ParameterName = "@FileName";
                     fileNameParam.Size = 1000;
@@ -258,7 +258,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(fileNameParam);
                     var extensionParam = cmd.CreateParameter();
                     extensionParam.Direction = ParameterDirection.Input;
-                    extensionParam.DbType = DbType.AnsiStringFixedLength;
+                    extensionParam.DbType = DbType.AnsiString;
                     extensionParam.SqlDbType = SqlDbType.VarChar;
                     extensionParam.ParameterName = "@Extension";
                     extensionParam.Value = extension ?? (object) DBNull.Value;
@@ -266,7 +266,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(extensionParam);
                     var fileSizeParam = cmd.CreateParameter();
                     fileSizeParam.Direction = ParameterDirection.Input;
-                    fileSizeParam.DbType = DbType.AnsiStringFixedLength;
+                    fileSizeParam.DbType = DbType.AnsiString;
                     fileSizeParam.SqlDbType = SqlDbType.VarChar;
                     fileSizeParam.Size = 50;
                     fileSizeParam.ParameterName = "@FileSize";
@@ -295,7 +295,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(lastWriteTimeParam);
                     var directoryNameParam = cmd.CreateParameter();
                     directoryNameParam.Size = 255;
-                    directoryNameParam.DbType = DbType.AnsiStringFixedLength;
+                    directoryNameParam.DbType = DbType.AnsiString;
                     directoryNameParam.SqlDbType = SqlDbType.VarChar;
                     directoryNameParam.ParameterName = "@DirectoryName";
                     directoryNameParam.Value = directoryName ?? (object) DBNull.Value;
@@ -303,7 +303,7 @@ namespace BridgeportClaims.Business.DAL
                     cmd.Parameters.Add(directoryNameParam);
                     var fullFilePathParam = cmd.CreateParameter();
                     fullFilePathParam.Direction = ParameterDirection.Input;
-                    fullFilePathParam.DbType = DbType.StringFixedLength;
+                    fullFilePathParam.DbType = DbType.String;
                     fullFilePathParam.SqlDbType = SqlDbType.NVarChar;
                     fullFilePathParam.ParameterName = "@FullFilePath";
                     fullFilePathParam.Size = 4000;
@@ -313,7 +313,7 @@ namespace BridgeportClaims.Business.DAL
                     fileUrlParam.ParameterName = "@FileUrl";
                     fileUrlParam.Direction = ParameterDirection.Input;
                     fileUrlParam.Value = fileUrl ?? (object) DBNull.Value;
-                    fileUrlParam.DbType = DbType.StringFixedLength;
+                    fileUrlParam.DbType = DbType.String;
                     fileUrlParam.SqlDbType = SqlDbType.NVarChar;
                     fileUrlParam.Size = 4000;
                     cmd.Parameters.Add(fileUrlParam);
@@ -355,6 +355,7 @@ namespace BridgeportClaims.Business.DAL
                 DisposableService.Using(() => new SqlCommand(proc, conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandTimeout = 240;
                     var documentsParam = cmd.CreateParameter();
                     documentsParam.SqlDbType = SqlDbType.Structured;
                     documentsParam.Direction = ParameterDirection.Input;
