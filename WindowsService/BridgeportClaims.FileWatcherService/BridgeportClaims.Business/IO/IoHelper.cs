@@ -35,7 +35,8 @@ namespace BridgeportClaims.Business.IO
         {
             try
             {
-                var files = Directory.EnumerateFiles(path, "*.pdf", SearchOption.AllDirectories).ToList();
+                var files = Directory.EnumerateFiles(path, c.PdfPattern, SearchOption.AllDirectories)
+                    .Where(x => !x.Contains($@"\{c.PrintablesString}\")).ToList();
                 var pathToRemove = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey : fileType == FileType.Invoices ? c.InvoicesFileLocationKey:
                     throw new Exception($"Error, could not file a valid file type for the {nameof(fileType)} arguement."));
                 if (!files.Any())

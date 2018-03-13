@@ -14,5 +14,7 @@
         public const string SignalRAddMethodApiUrlKey = "SignalRAddMethodApiUrl";
         public const string SignalRModifyMethodApiUrlKey = "SignalRModifyMethodApiUrl";
         public const string SignalRDeleteMethodApiUrlKey = "SignalRDeleteMethodApiUrl";
+        public const string PrintablesString = "Printables";
+        public const string PdfPattern = "*.pdf";
     }
 }
