@@ -17,6 +17,10 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [pkDiary] PRIMARY KEY CLUSTERED  ([DiaryID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxDiaryCreatedDate] ON [dbo].[Diary] ([CreatedDate]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxDiaryDateResolved] ON [dbo].[Diary] ([DateResolved]) ON [PRIMARY]
+GO
 CREATE NONCLUSTERED INDEX [idxDiaryPrescriptionNoteIDAssignedToUserIDIncludeAll] ON [dbo].[Diary] ([PrescriptionNoteID], [AssignedToUserID]) INCLUDE ([CreatedOnUTC], [DateResolved], [DiaryID], [FollowUpDate], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Diary] ADD CONSTRAINT [fkDiaryAssignedToUserIDAspNetUsersID] FOREIGN KEY ([AssignedToUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])

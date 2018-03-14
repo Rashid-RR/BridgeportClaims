@@ -18,6 +18,10 @@ AS BEGIN
 	ALTER TABLE [dbo].[Adjustor] DISABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Claim] DISABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Patient] DISABLE TRIGGER ALL;
+
+	-- Stage preliminary data before the data import
+	EXECUTE [dbo].[uspGenerateNotifications] @IsBeforeDataImport = 1
+
 	BEGIN TRAN;
 	EXEC [etl].[uspCleanupStagedLakerFileAddedColumns]
 	EXEC [etl].[uspAddStagedLakerFileETLColumns]
@@ -1069,10 +1073,14 @@ AS BEGIN
 	-- Insert initial Audit Records
 	EXECUTE dbo.uspInsertInitialAuditRecords;
 
+	-- Generate Notifications after the data import.
+	EXECUTE [dbo].[uspGenerateNotifications] @IsBeforeDataImport = 0
+
 	-- Enable Triggers
 	ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 END
+
 
 GO

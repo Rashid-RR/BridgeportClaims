@@ -26,7 +26,13 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [pkDocument] PRIMARY KEY CLUSTERED  ([DocumentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxDocumentArchivedFileTypeIDIncludes] ON [dbo].[Document] ([Archived], [FileTypeID]) INCLUDE ([ByteCount], [CreatedOnUTC], [CreationTimeLocal], [DataVersion], [DirectoryName], [Extension], [FileName], [FileSize], [FileUrl], [FullFilePath], [LastAccessTimeLocal], [LastWriteTimeLocal], [ModifiedByUserID], [UpdatedOnUTC]) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileNameFileTypeID] UNIQUE NONCLUSTERED  ([FileName], [FileTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxDocumentFileTypeID] ON [dbo].[Document] ([FileTypeID]) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxDocumentFileTypeIDIncludeFileName] ON [dbo].[Document] ([FileTypeID]) INCLUDE ([FileName]) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileUrl] UNIQUE NONCLUSTERED  ([FileUrl]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO

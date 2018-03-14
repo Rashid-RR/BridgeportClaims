@@ -15,6 +15,8 @@ ALTER TABLE [dbo].[PrescriptionNoteMapping] ADD CONSTRAINT [pkPrescriptionNoteMa
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionNoteMappingIncludeAll] ON [dbo].[PrescriptionNoteMapping] ([PrescriptionID], [PrescriptionNoteID]) INCLUDE ([CreatedOnUTC], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPrescriptionNoteMappingPrescriptionNoteID] ON [dbo].[PrescriptionNoteMapping] ([PrescriptionNoteID]) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[PrescriptionNoteMapping] ADD CONSTRAINT [fkPrescriptionNoteMappingPrescriptionIDPrescriptionPrescriptionID] FOREIGN KEY ([PrescriptionID]) REFERENCES [dbo].[Prescription] ([PrescriptionID])
 GO
 ALTER TABLE [dbo].[PrescriptionNoteMapping] ADD CONSTRAINT [fkPrescriptionNoteMappingPrescriptionNoteIDPrescriptionNotePrescriptionNoteID] FOREIGN KEY ([PrescriptionNoteID]) REFERENCES [dbo].[PrescriptionNote] ([PrescriptionNoteID])

@@ -17,6 +17,8 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[Notification] ADD CONSTRAINT [pkNotification] PRIMARY KEY CLUSTERED  ([NotificationID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxNotificationNotificationTypeID] ON [dbo].[Notification] ([NotificationTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Notification] ADD CONSTRAINT [fkNotificationDismissedByUserIDAspNetUsersID] FOREIGN KEY ([DismissedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
 ALTER TABLE [dbo].[Notification] ADD CONSTRAINT [fkNotificationNotificationTypeIDNotificationTypeNotificationTypeID] FOREIGN KEY ([NotificationTypeID]) REFERENCES [dbo].[NotificationType] ([NotificationTypeID])
