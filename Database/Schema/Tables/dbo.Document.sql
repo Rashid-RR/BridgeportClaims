@@ -28,7 +28,21 @@ ALTER TABLE [dbo].[Document] ADD CONSTRAINT [pkDocument] PRIMARY KEY CLUSTERED  
 GO
 CREATE NONCLUSTERED INDEX [idxDocumentArchivedFileTypeIDIncludes] ON [dbo].[Document] ([Archived], [FileTypeID]) INCLUDE ([ByteCount], [CreatedOnUTC], [CreationTimeLocal], [DataVersion], [DirectoryName], [Extension], [FileName], [FileSize], [FileUrl], [FullFilePath], [LastAccessTimeLocal], [LastWriteTimeLocal], [ModifiedByUserID], [UpdatedOnUTC]) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Document] ADD CONSTRAINT [idxUqDocumentFileNameFileTypeID] UNIQUE NONCLUSTERED  ([FileName], [FileTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+SET ANSI_NULLS ON
+GO
+SET ANSI_PADDING ON
+GO
+SET ANSI_WARNINGS ON
+GO
+SET ARITHABORT ON
+GO
+SET CONCAT_NULL_YIELDS_NULL ON
+GO
+SET NUMERIC_ROUNDABORT OFF
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [idxUqDocumentFileNameFiltered] ON [dbo].[Document] ([FileName]) WHERE ([FileTypeID]=(1)) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDocumentFileTypeID] ON [dbo].[Document] ([FileTypeID]) ON [PRIMARY]
 GO

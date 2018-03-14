@@ -49,6 +49,8 @@ AS BEGIN
 		 , PharmacyName = ISNULL(ph.PharmacyName, '')
 		 , PrescriptionNdc = p.[NDC]
 		 , PrescriberPhone = ISNULL([prb].[Phone], '')
+         , InvoiceIsIndexed = CONVERT(BIT, IIF([ii].[DocumentID] IS NOT NULL, 1, 0))
+		 , InvoiceUrl = [d].[FileUrl]
 	FROM   [dbo].[Prescription] AS [p]
 		   INNER JOIN dbo.Pharmacy AS ph ON ph.NABP = p.PharmacyNABP
 		   INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
@@ -56,6 +58,8 @@ AS BEGIN
 		   LEFT JOIN [dbo].[Invoice] AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
 		   LEFT JOIN [dbo].[Prescriber] AS [prb] ON [prb].[PrescriberNPI] = [p].[PrescriberNPI]
 		   LEFT JOIN dbo.PrescriptionStatus AS ps ON ps.PrescriptionStatusID = p.PrescriptionStatusID
+           LEFT JOIN [dbo].[InvoiceIndex] AS [ii] INNER JOIN [dbo].[Document] AS [d] ON [d].[DocumentID] = [ii].[DocumentID]
+					 ON [ii].[InvoiceNumber] = i.[InvoiceNumber]
 	WHERE  [p].[ClaimID] = @ClaimID
 	ORDER BY CASE WHEN @SortColumn = 'PrescriptionId' AND @SortDirection = 'ASC'
 				THEN [p].[PrescriptionID] END ASC,
