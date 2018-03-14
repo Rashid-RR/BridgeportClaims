@@ -3,6 +3,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Notifications.PayorLetterName;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -29,10 +30,14 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
+                    if (model.LetterName.IsNullOrWhiteSpace())
+                        throw new ArgumentNullException(nameof(model.LetterName));
+                    if (model.NotificationId == default(int))
+                        throw new Exception($"Error, the notification Id {model.NotificationId} doesn't exist.");
                     var userId = User.Identity.GetUserId();
                     _payorLetterNameProvider.SavePayorLetterNameNotification(model.NotificationId, userId,
                         model.LetterName);
-                    return Ok();
+                    return Ok(new {message = $"The letter name {model.LetterName} was saved successfully."});
 
                 });
             }

@@ -167,11 +167,12 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("updatename/{id:guid}")]
-        public async Task<IHttpActionResult> UpdateName(string id, string firstName = null, string lastName = null)
+        public async Task<IHttpActionResult> UpdateName(string id, string firstName = null, 
+            string lastName = null, string extension = null)
         {
             try
             {
-                if (firstName.IsNullOrWhiteSpace() && lastName.IsNullOrWhiteSpace())
+                if (firstName.IsNullOrWhiteSpace() && lastName.IsNullOrWhiteSpace() && extension.IsNullOrWhiteSpace())
                     throw new Exception($"Error, the {nameof(firstName)} parameter and the {nameof(lastName)}" +
                                         " parameter cannot both be null or empty.");
                 return await Task.Run(() =>
