@@ -2,31 +2,12 @@
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
-                <label>Date</label>
-                <div class="input-group date">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <input class="form-control pull-right" id="date" name="date" type="text" [(ngModel)]="date" (focus)="submitted=false" data-inputmask="'alias': 'mm/dd/yyyy'"
-                        data-mask focus-on>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
                 <label>File Name</label>
                 <div class="input-group date">
                     <div class="input-group-addon">
                         <i class="fa fa-file-text"></i>
                     </div>
                     <input class="form-control pull-right" id="fileName" name="fileName" type="text" [(ngModel)]="fileName" (focus)="submitted=false">
-                    <span class="input-group-addon">
-                        <div class="commonCheckBox">
-                            <input class="archivedCheck" name="check" type="checkbox" id="archivedCheck" (change)="filter($event)">
-                            <label for="archivedCheck" class="archived"></label>
-                            <label for="archivedCheck">Archived</label>
-                        </div> 
-                    </span>
                 </div>
             </div>
         </div>
@@ -37,7 +18,7 @@
                 <span>
                     <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="search()">
                         <i class="fa fa-search"></i> Search</button> &nbsp;
-                    <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clearDates()">
+                    <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clearFilters()">
                         <i class="fa fa-eraser"></i> Clear Filters</button>
                 </span>
             </div>
