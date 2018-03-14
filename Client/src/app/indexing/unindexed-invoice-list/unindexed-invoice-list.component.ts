@@ -52,7 +52,8 @@ export class UnindexedInvoiceListComponent implements OnInit {
     ]);
   };
   next() {
-    this.ds.search(true);
+    this.ds.searchInvoices(true);
+    this.goToPage ='';
   }
   openFile(file: DocumentItem) {
     this.ds.loading = true;
@@ -75,20 +76,21 @@ export class UnindexedInvoiceListComponent implements OnInit {
     let page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
 
-    } else if (page > 0 && page <= this.ds.totalPages) {
-      this.ds.search(false, false, page);
+    } else if (page > 0 && page <= this.ds.invTotalPages) {
+      this.ds.searchInvoices(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invTotalPages
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages).then((toast: Toast) => {
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invTotalPages).then((toast: Toast) => {
           this.activeToast = toast;
         })
       }
     }
   }
   prev() {
-    this.ds.search(false, true);
+    this.ds.searchInvoices(false, true);
+    this.goToPage ='';
   }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;

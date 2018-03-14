@@ -53,6 +53,7 @@ export class UnindexedImageListComponent implements OnInit {
   };
   next() {
     this.ds.search(true);
+    this.goToPage ='';
   }
   openFile(file: DocumentItem) {
     this.ds.loading = true;
@@ -89,6 +90,7 @@ export class UnindexedImageListComponent implements OnInit {
   }
   prev() {
     this.ds.search(false, true);
+    this.goToPage ='';
   }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;

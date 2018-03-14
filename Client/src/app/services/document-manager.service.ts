@@ -264,7 +264,7 @@ export class DocumentManagerService {
         .subscribe((result: any) => {
           //console.log(result);
           this.loading = false;
-          this.totalRowCount = result.totalRowCount;
+          this.totalInvoiceRowCount = result.totalRowCount;
           this.invoices = Immutable.OrderedMap<any, DocumentItem>();
           result.documentResults.forEach((doc: DocumentItem) => {
             try {

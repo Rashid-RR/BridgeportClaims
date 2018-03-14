@@ -30,13 +30,10 @@ export class UnindexedInvoiceFilterComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     // Date picker
-    $('#date').datepicker({
-      autoclose: true
-    });
+
     this.route.params.subscribe(params => {
       if (params['date']) {
         this.date = params['date'].replace(/\-/g, "/");
-        this.ds.invoiceData.date = this.date;
         this.zone.run(() => { 
         })
       }
@@ -44,23 +41,12 @@ export class UnindexedInvoiceFilterComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-    let date = this.dp.transform($('#date').val(), "MM/dd/yyyy");
-    //if(this.startDate && this.endDate){
-    this.ds.invoiceData.date = date || null
+    this.ds.invoiceData.date = null
     this.ds.invoiceData.fileName = this.fileName || null
-    this.ds.searchInvoices();
-    /*  }else{
-         this.toast.warning("Ensure you select both start date and end date");
-     } */
-  }
-  filter($event) {
-    this.ds.invoiceData.archived = $event.target.checked;
-
+    this.ds.searchInvoices(); 
   }
 
-
-  clearDates() {
-    $('#date').val('');
+  clearFilters() {
     this.fileName = '';
   }
 
