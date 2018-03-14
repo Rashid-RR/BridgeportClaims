@@ -38,10 +38,10 @@ namespace BridgeportClaims.Data.DataProviders.Notifications.PayorLetterName
                         {
                             var result = new NotificationDto
                             {
-                                Notificationid = reader.GetInt32(notificationIdOrdinal),
-                                Generateddate = reader.GetDateTime(generatedDateOrdinal),
-                                Messagetext = !reader.IsDBNull(messageTextOrdinal) ? reader.GetString(messageTextOrdinal) : string.Empty,
-                                Notificationtype = !reader.IsDBNull(notificationTypeOrdinal) ? reader.GetString(notificationTypeOrdinal) : string.Empty
+                                NotificationId = reader.GetInt32(notificationIdOrdinal),
+                                GeneratedDate = reader.GetDateTime(generatedDateOrdinal),
+                                MessageText = !reader.IsDBNull(messageTextOrdinal) ? reader.GetString(messageTextOrdinal) : string.Empty,
+                                NotificationType = !reader.IsDBNull(notificationTypeOrdinal) ? reader.GetString(notificationTypeOrdinal) : string.Empty
                             };
                             retVal.Add(result);
                         }
