@@ -6,6 +6,7 @@ CREATE TABLE [dbo].[Notification]
 [IsDismissed] [bit] NOT NULL CONSTRAINT [dfNotificationIsDismissed] DEFAULT ((0)),
 [DismissedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [NotificationTypeID] [tinyint] NOT NULL,
+[DismissedDate] [date] NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfNotificationCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfNotificationUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL

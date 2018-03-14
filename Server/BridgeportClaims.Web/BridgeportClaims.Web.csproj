@@ -368,6 +368,7 @@
     <Compile Include="Controllers\KpiController.cs" />
     <Compile Include="Controllers\LakerAutomationController.cs" />
     <Compile Include="Controllers\LettersController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\PayorsController.cs" />
     <Compile Include="Controllers\PrescriptionNotesController.cs" />
@@ -420,6 +421,7 @@
     <Compile Include="Models\SaveEpisodeModel.cs" />
     <Compile Include="Models\DocumentViewModel.cs" />
     <Compile Include="Models\SaveEpisodeNoteModel.cs" />
+    <Compile Include="Models\SavePayorLetterNameModel.cs" />
     <Compile Include="Models\SortEpisodeModel.cs" />
     <Compile Include="Models\SuspenseViewModel.cs" />
     <Compile Include="Models\UnpaidScriptsDto.cs" />

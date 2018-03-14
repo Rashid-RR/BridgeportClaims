@@ -11,15 +11,17 @@ GO
 					EXECUTE [dbo].[uspUpdatePayorLetterName] 1, 'AAA'
  =============================================
 */
-CREATE   PROC [dbo].[uspUpdatePayorLetterName] @PayorID INTEGER, @LetterName VARCHAR(255)
+CREATE PROC [dbo].[uspUpdatePayorLetterName] @PayorID INTEGER, @LetterName VARCHAR(255)
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
     BEGIN TRY
         BEGIN TRAN;
+
+        DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
 			
 		UPDATE  [dbo].[Payor]
-		SET     [LetterName] = @LetterName
+		SET     [LetterName] = @LetterName, UpdatedOnUTC = @UtcNow
 		WHERE   [PayorID] = @PayorID
 			
 		IF (@@TRANCOUNT > 0)
@@ -43,4 +45,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 GO

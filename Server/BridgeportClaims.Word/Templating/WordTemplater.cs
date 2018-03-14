@@ -46,7 +46,7 @@ namespace BridgeportClaims.Word.Templating
             var r5 = new Regex("Patient.City");
             docText = r5.Replace(docText,
                 data.City.IsNotNullOrWhiteSpace()
-                    ? ti.ToTitleCase(ti.ToLower(data.City))
+                    ? ti.ToTitleCase(ti.ToLower(data.City)) + ","
                     : string.Empty);
             var r6 = new Regex("UsState.StateCode");
             docText = r6.Replace(docText,

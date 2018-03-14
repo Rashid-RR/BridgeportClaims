@@ -41,6 +41,7 @@ using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.EpisodeNotes;
 using BridgeportClaims.Data.DataProviders.KPI;
 using BridgeportClaims.Data.DataProviders.LetterGenerations;
+using BridgeportClaims.Data.DataProviders.Notifications.PayorLetterName;
 using BridgeportClaims.Data.DataProviders.PayorSearches;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
@@ -96,6 +97,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<WordFileDriver>().As<IWordFileDriver>().InstancePerRequest();
             builder.RegisterType<LetterGenerationProvider>().As<ILetterGenerationProvider>().InstancePerRequest();
             builder.RegisterType<WordTemplater>().As<IWordTemplater>().InstancePerRequest();
+            builder.RegisterType<PayorLetterNameProvider>().As<IPayorLetterNameProvider>().InstancePerRequest();
 
             // SignalR
             var hubConfig = new HubConfiguration();
