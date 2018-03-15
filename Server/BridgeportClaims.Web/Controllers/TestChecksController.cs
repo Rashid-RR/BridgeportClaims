@@ -41,7 +41,18 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                _pdfFactory.MergePdfs(new[] { new Uri("", UriKind.Absolute),  }, @"C:\Development\PDF\c.pdf");
+                _pdfFactory.MergePdfs(
+                    new[]
+                    {
+                        new Uri(
+                            "https://invoices.bridgeportclaims.com/2017/07-Jul/20170720/PROGRESSIVE - DE/INV1500_PROGRESSIVE - DE17342692401.pdf",
+                            UriKind.Absolute),
+                        new Uri(
+                            "https://invoices.bridgeportclaims.com/2017/07-Jul/20170720/PROGRESSIVE - DE/INV1500_PROGRESSIVE - DE17182323001.pdf",
+                            UriKind.Absolute),
+                        new Uri("https://images.bridgeportclaims.com/03-17/20170324/csp201703240039.pdf",
+                            UriKind.Absolute)
+                    }, @"C:\Development\PDF\c.pdf");
                 await _emailService.SendEmail<EmailTemplateProvider>("jordangurney@gmail.com", "Test Message",
                     string.Empty,
                     EmailModelEnum.LakerImportStatus);

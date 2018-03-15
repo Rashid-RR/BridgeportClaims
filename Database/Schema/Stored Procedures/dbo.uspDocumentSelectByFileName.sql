@@ -10,9 +10,9 @@ GO
 					EXEC [dbo].[uspDocumentSelectByFileName] 'csp201711245306.pdf'
 */
 CREATE PROC [dbo].[uspDocumentSelectByFileName]
-    @FileName VARCHAR(1000),
+    @FullFileName NVARCHAR(4000),
 	@FileTypeID TINYINT
-AS 
+AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 
@@ -28,6 +28,7 @@ AS
 		  , [ByteCount]
 		  , [FileTypeID]
 	FROM    [dbo].[Document]
-	WHERE   [FileName] = @FileName
+	WHERE   [FullFilePath] = @FullFileName
 			AND [FileTypeID] = @FileTypeID
+END
 GO
