@@ -219,6 +219,9 @@
     <Compile Include="Mappings\ImportFileTypeMap.cs" />
     <Compile Include="Mappings\InvoiceIndexMap.cs" />
     <Compile Include="Mappings\InvoiceMap.cs" />
+    <Compile Include="Mappings\NotificationConfigMap.cs" />
+    <Compile Include="Mappings\NotificationMap.cs" />
+    <Compile Include="Mappings\NotificationTypeMap.cs" />
     <Compile Include="Mappings\PatientMap.cs" />
     <Compile Include="Mappings\PayorMap.cs" />
     <Compile Include="Mappings\PharmacyMap.cs" />

@@ -99,6 +99,9 @@
     <Compile Include="DomainModels\ImportFileType.cs" />
     <Compile Include="DomainModels\Invoice.cs" />
     <Compile Include="DomainModels\InvoiceIndex.cs" />
+    <Compile Include="DomainModels\Notification.cs" />
+    <Compile Include="DomainModels\NotificationConfig.cs" />
+    <Compile Include="DomainModels\NotificationType.cs" />
     <Compile Include="DomainModels\Patient.cs" />
     <Compile Include="DomainModels\Payor.cs" />
     <Compile Include="DomainModels\Pharmacy.cs" />

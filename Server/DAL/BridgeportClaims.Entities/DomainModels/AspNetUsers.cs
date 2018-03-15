@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
 
 namespace BridgeportClaims.Entities.DomainModels
 {
-	[SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
 	public class AspNetUsers
 	{
 		public AspNetUsers()
@@ -26,11 +24,14 @@ namespace BridgeportClaims.Entities.DomainModels
 			ModifiedByUser = new List<Episode>();
 			EpisodeNote = new List<EpisodeNote>();
 			EpisodeTypeUsersMapping = new List<EpisodeTypeUsersMapping>();
+			InvoiceIndex = new List<InvoiceIndex>();
+			Notification = new List<Notification>();
 			Patient = new List<Patient>();
 			PrescriptionNote = new List<PrescriptionNote>();
 			PrescriptionPayment = new List<PrescriptionPayment>();
 			Suspense = new List<Suspense>();
 		}
+		[Required]
 		public virtual string Id { get; set; }
 		[Required]
 		[StringLength(100)]
@@ -62,6 +63,8 @@ namespace BridgeportClaims.Entities.DomainModels
 		public virtual bool LockoutEnabled { get; set; }
 		[Required]
 		public virtual int AccessFailedCount { get; set; }
+		[StringLength(30)]
+		public virtual string Extension { get; set; }
 		public virtual IList<Adjustor> Adjustor { get; set; }
 		public virtual IList<AspNetUserClaims> AspNetUserClaims { get; set; }
 		public virtual IList<AspNetUserLogins> AspNetUserLogins { get; set; }
@@ -78,6 +81,8 @@ namespace BridgeportClaims.Entities.DomainModels
 		public virtual IList<Episode> ModifiedByUser { get; set; }
 		public virtual IList<EpisodeNote> EpisodeNote { get; set; }
 		public virtual IList<EpisodeTypeUsersMapping> EpisodeTypeUsersMapping { get; set; }
+		public virtual IList<InvoiceIndex> InvoiceIndex { get; set; }
+		public virtual IList<Notification> Notification { get; set; }
 		public virtual IList<Patient> Patient { get; set; }
 		public virtual IList<PrescriptionNote> PrescriptionNote { get; set; }
 		public virtual IList<PrescriptionPayment> PrescriptionPayment { get; set; }

@@ -14,7 +14,7 @@ namespace BridgeportClaims.Data.DataProviders.Accounts
             _usersRepository = usersRepository;
         }
 
-        public void UpdateFirstOrLastName(string userId, string firstName, string lastName)
+        public void UpdatePersonalData(string userId, string firstName, string lastName, string extension)
         {
             var user = _usersRepository.Get(userId);
             if (null == user)
@@ -23,26 +23,8 @@ namespace BridgeportClaims.Data.DataProviders.Accounts
                 user.FirstName = firstName;
             if (lastName.IsNotNullOrWhiteSpace())
                 user.LastName = lastName;
-            _usersRepository.Update(user);
-        }
-
-        public void DeactivateUser(string userId)
-        {
-            var user = _usersRepository.Get(userId);
-            if (null == user)
-                throw new Exception($"The {nameof(user)} was not found from user Id: {userId}");
-            if (!user.LockoutEnabled)
-                user.LockoutEnabled = true;
-            user.LockoutEndDateUtc = DateTime.UtcNow.AddYears(200);
-            _usersRepository.Update(user);
-        }
-
-        public void ActivateUser(string userId)
-        {
-            var user = _usersRepository.Get(userId);
-            if (null == user)
-                throw new Exception($"The {nameof(user)} was not found from user Id: {userId}");
-            user.LockoutEndDateUtc = null;
+            if (extension.IsNotNullOrWhiteSpace())
+                user.Extension = extension;
             _usersRepository.Update(user);
         }
     }

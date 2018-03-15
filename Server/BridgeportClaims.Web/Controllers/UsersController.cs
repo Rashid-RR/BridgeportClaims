@@ -177,7 +177,7 @@ namespace BridgeportClaims.Web.Controllers
                                         " parameter cannot both be null or empty.");
                 return await Task.Run(() =>
                 {
-                    _aspNetUsersProvider.UpdateFirstOrLastName(id, firstName, lastName);
+                    _aspNetUsersProvider.UpdatePersonalData(id, firstName, lastName, extension);
                     return Ok(new {message = "Name has been Updated Successfully"});
                 });
             }
