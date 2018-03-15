@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -27,6 +28,41 @@ namespace BridgeportClaims.Pdf.Factories
             return fullFilePath;
         }
 
+        public bool MergePdfs(IEnumerable<Uri> fileUrls, string targetPdf)
+        {
+            var merged = true;
+            using (var stream = new FileStream(targetPdf, FileMode.Create))
+            {
+                using (var document = new Document())
+                {
+                    using (var pdf = new PdfCopy(document, stream))
+                    {
+                        PdfReader reader = null;
+                        try
+                        {
+                            document.Open();
+                            foreach (var url in fileUrls)
+                            {
+                                reader = new PdfReader(url);
+                                pdf.AddDocument(reader);
+                                reader.Close();
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            merged = false;
+                            reader?.Close();
+                        }
+                        finally
+                        {
+                            document.Close();
+                        }
+                    }
+                }
+            }
+            return merged;
+        }
+
         private static void ExportDataTableToPdf(DataTable dt, string pdfPath, string header, string claimantName, DateTime dateOfBirth)
         {
             DisposableService.Using(() => new FileStream(pdfPath, FileMode.Create, FileAccess.Write, FileShare.None), fs =>
@@ -38,6 +74,7 @@ namespace BridgeportClaims.Pdf.Factories
                     {
                         if (!doc.IsOpen())
                             doc.Open();
+                        doc.NewPage();
 
                         // Report Header.
                         var btntHead = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
