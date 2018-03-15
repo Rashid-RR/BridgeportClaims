@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.Mappings
             DynamicUpdate();
             LazyLoad();
             Id(x => x.PayorId).GeneratedBy.Identity().Column("PayorID");
-            References(x => x.BillToStateId).Column("BillToStateID");
+            References(x => x.BillToState).Column("BillToStateID");
             Map(x => x.GroupName).Column("GroupName").Not.Nullable().Unique().Length(255);
             Map(x => x.BillToName).Column("BillToName").Not.Nullable().Length(255);
             Map(x => x.BillToAddress1).Column("BillToAddress1").Length(255);
@@ -25,6 +25,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.FaxNumber).Column("FaxNumber").Length(30);
             Map(x => x.Notes).Column("Notes").Length(8000);
             Map(x => x.Contact).Column("Contact").Length(255);
+            Map(x => x.LetterName).Column("LetterName").Not.Nullable().Length(255);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
             HasMany(x => x.Adjustor).KeyColumn("PayorID");

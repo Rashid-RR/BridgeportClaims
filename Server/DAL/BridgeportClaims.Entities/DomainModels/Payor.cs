@@ -15,7 +15,7 @@ namespace BridgeportClaims.Entities.DomainModels
         }
         [Required]
         public virtual int PayorId { get; set; }
-        public virtual UsState BillToStateId { get; set; }
+        public virtual UsState BillToState { get; set; }
         [Required]
         [StringLength(255)]
         public virtual string GroupName { get; set; }
@@ -40,6 +40,9 @@ namespace BridgeportClaims.Entities.DomainModels
         public virtual string Notes { get; set; }
         [StringLength(255)]
         public virtual string Contact { get; set; }
+        [Required]
+        [StringLength(255)]
+        public virtual string LetterName { get; set; }
         [Required]
         public virtual DateTime CreatedOnUtc { get; set; }
         [Required]
