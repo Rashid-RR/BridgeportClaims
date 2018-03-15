@@ -221,8 +221,8 @@ export class HttpService {
       });
     return s;
   }
-  changeusername(firstName, lastName, id): Observable<Response> {
-    const s = this.http.post(this.baseUrl + '/users/updatename/' + id + '?firstName=' + firstName + '&lastName=' + lastName,
+  changeusername(firstName, lastName, id,extension:string): Observable<Response> {
+    const s = this.http.post(this.baseUrl + '/users/updatename/' + id + '?firstName=' + firstName + '&lastName=' + lastName+"&extension="+extension,
       '', { headers: this.headers })
       .catch(err => {
         this.handleResponseError(err);

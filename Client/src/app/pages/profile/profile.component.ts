@@ -40,6 +40,7 @@ export class ProfileComponent implements OnInit {
       firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
       lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required])],
       oldPassword: [''],
+      extension: [''],
       newPassword: [""],
       confirmPassword: [""]
     });
@@ -53,7 +54,7 @@ export class ProfileComponent implements OnInit {
     if (this.form.valid && !this.loading) {
       this.loading = true;
       try {
-        this.http.changeusername(this.form.value.firstName, this.form.value.lastName, this.profileManager.profile.id).subscribe(res => {
+        this.http.changeusername(this.form.value.firstName, this.form.value.lastName, this.profileManager.profile.id,this.form.value.extension).subscribe(res => {
           this.toast.success('User name updated successfully');
           this.profileManager.profile.firstName = this.form.value.firstName;
           this.profileManager.profile.lastName = this.form.value.lastName;
@@ -76,7 +77,7 @@ export class ProfileComponent implements OnInit {
   }
   submitForm(form: any): void {
     if (this.form.valid && this.form.dirty) {
-      if (this.form.value.firstName != this.profileManager.profile.firstName || this.form.value.lastName != this.profileManager.profile.lastName) {
+      if (this.form.value.firstName != this.profileManager.profile.firstName || this.form.value.lastName != this.profileManager.profile.lastName || this.form.value.extension != this.profileManager.profile.extension) {
         this.updateUserInfo();
       }
       if (this.form.get('oldPassword').value != '' || this.form.get('newPassword').value != '' || this.form.get('confirmPassword').value != '') {

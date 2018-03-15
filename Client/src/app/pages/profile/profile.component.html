@@ -39,6 +39,14 @@
                                 <!--<p class="text-danger form-control-static" *ngIf="form.get('lastName').errors && submitted">Last Name is required!</p>-->
                             </div>
                             <div class="form-group">
+                                <label>Extension</label>
+                                <input type="text" name="extension" formControlName="extension" class="form-control" value="{{profileManager.profile.extension}}">
+                                <!--<p class="text-danger form-control-static" *ngIf="form.get('lastName').errors && submitted">Last Name is required!</p>-->
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block" [disabled]="!form.dirty"> Update </button>
+                            </div>
+                            <div class="form-group">
                                 <input type="password" formControlName="oldPassword" class="form-control" placeholder="Current password" ng-model="currentPassword">
                                 <p class="text-danger form-control-static" *ngIf="form.get('oldPassword').errors && submitted">
                                     Current password is required!</p>

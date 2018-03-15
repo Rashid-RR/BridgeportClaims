@@ -35,7 +35,8 @@ export class UserProfile {
   email: string;
   createdOn: Date;
   roles?:Array<String>;
-constructor(id:UUID,login:string,firstName:string,lastName:string,email:string,userName?:string,avatarUrl?:URL,createdOn?:Date,roles?:Array<String>){
+  extension:any;
+constructor(id:UUID,login:string,firstName:string,lastName:string,email:string,userName?:string,avatarUrl?:URL,createdOn?:Date,roles?:Array<String>,extension?:any){
     this.id=id;
     this.login=login;
     this.userName=userName;
@@ -44,5 +45,6 @@ constructor(id:UUID,login:string,firstName:string,lastName:string,email:string,u
     this.avatarUrl=avatarUrl;
     this.email=email;
     this.roles=roles;
+    this.extension=extension;
   }
 }
