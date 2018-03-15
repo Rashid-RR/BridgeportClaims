@@ -48,7 +48,7 @@ namespace BridgeportClaims.Pdf.Factories
                                 reader.Close();
                             });
                         }
-                        catch (Exception)
+                        catch
                         {
                             merged = false;
                             reader?.Close();

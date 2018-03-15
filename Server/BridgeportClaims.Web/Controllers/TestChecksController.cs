@@ -52,7 +52,7 @@ namespace BridgeportClaims.Web.Controllers
                             UriKind.Absolute),
                         new Uri("https://images.bridgeportclaims.com/03-17/20170324/csp201703240039.pdf",
                             UriKind.Absolute)
-                    }, @"C:\Development\PDF\c.pdf");
+                    }, @"C:\Development\PDF\cc.pdf");
                 await _emailService.SendEmail<EmailTemplateProvider>("jordangurney@gmail.com", "Test Message",
                     string.Empty,
                     EmailModelEnum.LakerImportStatus);
