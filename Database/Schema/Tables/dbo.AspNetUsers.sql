@@ -14,7 +14,8 @@ CREATE TABLE [dbo].[AspNetUsers]
 [TwoFactorEnabled] [bit] NOT NULL,
 [LockoutEndDateUtc] [datetime] NULL,
 [LockoutEnabled] [bit] NOT NULL,
-[AccessFailedCount] [int] NOT NULL
+[AccessFailedCount] [int] NOT NULL,
+[Extension] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 WITH
 (
