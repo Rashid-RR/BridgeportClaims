@@ -27,11 +27,11 @@
 .table-body{
     position: absolute;
     top:31px;
-    height: calc(100% - 160px);
-    max-height: calc(100% - 160px);
-    max-height: -moz-calc(100% - 160px);
-    max-height: -webkit-calc(100% - 160px);
-    max-height: -o-calc(100% - 160px);
+    height: calc(100% - 110px);
+    max-height: calc(100% - 110px);
+    max-height: -moz-calc(100% - 110px);
+    max-height: -webkit-calc(100% - 110px);
+    max-height: -o-calc(100% - 110px);
     overflow-y: auto;
     overflow-x: hidden;
 } 

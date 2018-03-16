@@ -177,10 +177,7 @@ export class AccountReceivableService {
    }); 
    let filename = data.headers.get('content-disposition').replace('attachment; filename=','');
    filename = filename.replace(/"/g,'');
-   console.log(filename);
    FileSaver.saveAs(blob, filename);
-    /* var url= window.URL.createObjectURL(blob);
-    window.open(url); */
   }
 
 }

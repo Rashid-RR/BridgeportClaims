@@ -98,7 +98,7 @@ export class UnindexedImageFileComponent implements OnInit {
     var docInitParams: any = {};
     docInitParams.url = this.file.fileUrl;
     docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
-    let minusHeight = this.router.url =='/main/unindexed-images' ? 300 : 245;
+    let minusHeight = this.isIndexedImage ? 100 : 245;
     $("#fileCanvas"+this.fileId).html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - '+minusHeight+'px);border: none;"></iframe>');
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
@@ -106,7 +106,7 @@ export class UnindexedImageFileComponent implements OnInit {
   }
 
   get isIndexedImage() {
-    return this.router.url.indexOf("main/indexed-image") > -1;
+    return this.router.url.indexOf("main/indexing/indexed-image") > -1;
   }
 
 

@@ -9,6 +9,10 @@
     border: none;
 }
 .expanded .box-body{
-    height:calc(100vh - 245px);
+    height:calc(100vh - 100px);
     overflow:hidden;
+}
+.expanded:not(.exp) .box-body{
+    height:calc(100vh - 245px);
+
 }

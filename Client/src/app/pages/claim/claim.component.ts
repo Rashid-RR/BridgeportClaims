@@ -13,6 +13,7 @@ import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { AccountReceivableService } from '../../services/services.barrel';
 import * as FileSaver from 'file-saver';
 import { Response } from '@angular/http';
+import { UUID } from 'angular2-uuid';
 
 declare var $: any
 
@@ -329,6 +330,32 @@ export class ClaimsComponent implements OnInit {
               const error = err.json();
             } catch (e) { }
           });
+      }
+    }
+  }
+  viewFile(type) {
+    if (!this.claimManager.selectedClaim) {
+      this.toast.warning('No claim loaded!');
+    } else {
+      let prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected == true);
+      if (prescriptions.length == 0) {
+        this.toast.warning('Please select one prescription to view invoice.', null,
+        { toastLife: 10000,showCloseButton:true }).then((toast: any) =>null)
+      } else if (prescriptions.length > 1) {
+        this.toast.warning('Please select only one prescription to view invoice.', null,
+        { toastLife: 10000,showCloseButton:true }).then((toast:any) =>null)
+      }else if (!prescriptions[0].invoiceUrl) {
+        this.toast.warning('Invoice file not found in selected prescription', null,
+        { toastLife: 10000,showCloseButton:true }).then((toast:any) =>null)
+      } else {
+       //https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245300.pdf used for testing
+          let id = UUID.UUID();
+          let doc:any = {fileUrl:prescriptions[0].invoiceUrl};
+          doc.documentId = id
+          let file = doc as any
+          console.log(file);
+          localStorage.setItem('file-' + id, JSON.stringify(file));
+          window.open('#/main/indexing/indexed-image/' + id, '_blank');
       }
     }
   }

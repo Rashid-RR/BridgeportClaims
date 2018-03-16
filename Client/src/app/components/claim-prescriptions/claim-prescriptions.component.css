@@ -272,3 +272,15 @@ tbody>tr:hover td::selection {
 td .btn-group.open .dropdown-toggle {
     box-shadow: none;
 }
+
+.invoiceIsIndexed{
+    font-weight: bold;
+}
+.invoiceIsIndexed:not(.bgBlue),.invoiceIsIndexed:not(.bgBlue) td,.invoiceIsIndexed:not(.bgBlue):hover td,
+.invoiceIsIndexed:not(.bgBlue) td .btn-group button.dropdown-toggle.status{
+    color:blue !important;
+}
+.bgBlue.invoiceIsIndexed, .bgBlue.invoiceIsIndexed td, .bgBlue.invoiceIsIndexed:hover td,
+.bgBlue.invoiceIsIndexed td .btn-group button.dropdown-toggle.status{
+    color:white !important;
+}

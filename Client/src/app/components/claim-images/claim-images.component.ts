@@ -51,7 +51,7 @@ export class ClaimImagesComponent implements OnInit {
   }
   openAttachment(image: ClaimImage) {
     localStorage.setItem('file-' + image.documentId, JSON.stringify(image));
-    window.open('#/main/indexed-image/' + image.documentId, '_blank');
+    window.open('#/main/indexing/indexed-image/' + image.documentId, '_blank');
   }
   onSortColumn(info: SortColumnInfo) {
     this.sortColumn = info;

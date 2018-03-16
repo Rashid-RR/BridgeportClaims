@@ -116,7 +116,7 @@ export class EpisodeResultsComponent implements OnInit {
     doc.documentId = id
     let file = doc as any
     localStorage.setItem('file-' + id, JSON.stringify(file));
-    window.open('#/main/indexed-image/' + id, '_blank');
+    window.open('#/main/indexing/indexed-image/' + id, '_blank');
   }
 
   goto() {
