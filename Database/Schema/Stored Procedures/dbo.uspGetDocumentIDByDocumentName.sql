@@ -12,7 +12,7 @@ GO
 					SELECT @DocumentID DocumentID
 */
 CREATE PROC [dbo].[uspGetDocumentIDByDocumentName]
-	@FileName VARCHAR(1000),
+	@FullFileName NVARCHAR(4000),
 	@FileTypeID TINYINT,
 	@DocumentID INT OUTPUT
 AS BEGIN
@@ -23,7 +23,7 @@ AS BEGIN
 	
 		SELECT @DocumentID = [d].[DocumentID]
 		FROM   [dbo].[Document] AS [d]
-		WHERE  [d].[FileName] = @FileName
+		WHERE  [d].[FullFilePath] = @FullFileName
 			   AND [d].[FileTypeID] = @FileTypeID;
 	
 		IF (@@TRANCOUNT > 0)
@@ -47,4 +47,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 GO

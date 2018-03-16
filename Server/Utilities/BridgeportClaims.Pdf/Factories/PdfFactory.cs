@@ -31,35 +31,35 @@ namespace BridgeportClaims.Pdf.Factories
         public bool MergePdfs(IEnumerable<Uri> fileUrls, string targetPdf)
         {
             var merged = true;
-            using (var stream = new FileStream(targetPdf, FileMode.Create))
+            DisposableService.Using(() => new FileStream(targetPdf, FileMode.Create), stream =>
             {
-                using (var document = new Document())
+                DisposableService.Using(() => new Document(), doc =>
                 {
-                    using (var pdf = new PdfCopy(document, stream))
+                    DisposableService.Using(() => new PdfCopy(doc, stream), pdf =>
                     {
                         PdfReader reader = null;
                         try
                         {
-                            document.Open();
-                            foreach (var url in fileUrls)
+                            doc.Open();
+                            fileUrls.ForEach(url =>
                             {
                                 reader = new PdfReader(url);
                                 pdf.AddDocument(reader);
                                 reader.Close();
-                            }
+                            });
                         }
-                        catch (Exception)
+                        catch
                         {
                             merged = false;
                             reader?.Close();
                         }
                         finally
                         {
-                            document.Close();
+                            doc.Close();
                         }
-                    }
-                }
-            }
+                    });
+                });
+            });
             return merged;
         }
 
