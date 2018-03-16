@@ -1,0 +1,56 @@
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}
+
+.top-header {
+  width: 98%;
+  height: 38px;
+  position: absolute;
+  overflow: hidden;
+  left:1.2%;
+  border-bottom: 1px solid #fff;
+}
+
+.table-body {
+  width: 98%;
+  margin-top: 37px;
+  overflow-y: auto;
+  margin-left:1.2%;
+}
+table {
+  table-layout: fixed;
+  width: 100% !important;
+  overflow-x: hidden;
+}
+
+thead,
+tbody {
+  overflow-y: hidden !important;
+}
+
+td,
+th {
+  font-size: 9pt;
+  word-wrap: break-word;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+
+tr>th:first-child,
+tr>td:first-child{
+  width: 50%;
+}
+
+tr>th:nth-child(2),
+tr>td:nth-child(2),
+tr>th:nth-child(3),
+tr>td:nth-child(3) {
+  width: 25%;
+  text-align: right;
+  word-wrap: normal;
+  padding-right: 12px !important
+}

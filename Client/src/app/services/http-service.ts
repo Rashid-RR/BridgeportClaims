@@ -780,5 +780,19 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getNotifications(data?:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/notifications/get',data, {headers:this.headers})    
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  saveLetterNotifications(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/notifications/save-payor-letter-name',data, {headers:this.headers})    
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
 
 }

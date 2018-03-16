@@ -55,6 +55,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
       .subscribe((result: any) => {
         this.summary = result;
       }, err => null);
+    
   }
 
   get totalImagesIndexed(){
