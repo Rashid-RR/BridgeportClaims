@@ -58,6 +58,7 @@ export class ProfileComponent implements OnInit {
           this.toast.success('User name updated successfully');
           this.profileManager.profile.firstName = this.form.value.firstName;
           this.profileManager.profile.lastName = this.form.value.lastName;
+          this.profileManager.profile.extension = this.form.value.extension;
           this.registered = true
           this.loading = false;
         }, error => {
