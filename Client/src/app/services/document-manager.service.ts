@@ -143,10 +143,10 @@ export class DocumentManagerService {
     this.search();
   }
   onInvoiceSortColumn(info: SortColumnInfo) {
-    this.data.isDefaultSort = false;
-    this.data.sort = info.column;
-    this.data.page = 1;
-    this.data.sortDirection = info.dir.toUpperCase();
+    this.invoiceData.isDefaultSort = false;
+    this.invoiceData.sort = info.column;
+    this.invoiceData.page = 1;
+    this.invoiceData.sortDirection = info.dir.toUpperCase();
     this.searchInvoices();
   }
   get pages(): Array<any> {
