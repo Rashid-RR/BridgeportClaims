@@ -1,5 +1,6 @@
 ﻿using NLog;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -8,6 +9,7 @@ using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Enums;
+using BridgeportClaims.Pdf.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
 
@@ -18,18 +20,44 @@ namespace BridgeportClaims.Web.Controllers
     public class PrescriptionsController : BaseApiController
     {
         private readonly IClaimsDataProvider _claimsDataProvider;
-        private readonly IPrescriptionsProvider _prescriptionsProvider;
+        private readonly IPrescriptionsDataProvider _prescriptionsDataProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IPrescriptionReportFactory _prescriptionReportFactory;
+        private readonly IPdfFactory _pdfFactory;
 
         public PrescriptionsController(
             IClaimsDataProvider claimsDataProvider,
-            IPrescriptionsProvider prescriptionsProvider, 
-            IPrescriptionReportFactory prescriptionReportFactory)
+            IPrescriptionsDataProvider prescriptionsDataProvider, 
+            IPrescriptionReportFactory prescriptionReportFactory, 
+            IPdfFactory pdfFactory)
         {
             _claimsDataProvider = claimsDataProvider;
-            _prescriptionsProvider = prescriptionsProvider;
+            _prescriptionsDataProvider = prescriptionsDataProvider;
             _prescriptionReportFactory = prescriptionReportFactory;
+            _pdfFactory = pdfFactory;
+        }
+
+        [HttpPost]
+        [Route("multi-page-invoices")]
+        public async Task<IHttpActionResult> GetMultiPageInvoices(MultiPageInvoicesModel model)
+        {
+            try
+            {
+                if (null == model)
+                    throw new Exception("Error. No data was provided for this method.");
+                return await Task.Run(() =>
+                {
+                    var fileUrls = _prescriptionsDataProvider.GetFileUrlsFromPrescriptionIds(model.PrescriptionIds);
+                    if (_pdfFactory.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), ""))
+                        return Ok();
+                    throw new Exception("The merge PDF's method failed.");
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -58,7 +86,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var list = _prescriptionsProvider.GetUnpaidScripts(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), 
+                var list = _prescriptionsDataProvider.GetUnpaidScripts(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), 
                     model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(list);
             }
@@ -95,7 +123,7 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var msg = string.Empty;
-                    var operation = _prescriptionsProvider.AddOrUpdatePrescriptionStatus(prescriptionId, prescriptionStatusId);
+                    var operation = _prescriptionsDataProvider.AddOrUpdatePrescriptionStatus(prescriptionId, prescriptionStatusId);
                     switch (operation)
                     {
                         case EntityOperation.Add:

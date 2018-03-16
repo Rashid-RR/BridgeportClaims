@@ -112,8 +112,8 @@
     <Compile Include="DataProviders\PayorSearches\PayorSearchProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\IPrescriptionPaymentProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\PrescriptionPaymentProvider.cs" />
-    <Compile Include="DataProviders\Prescriptions\IPrescriptionsProvider.cs" />
-    <Compile Include="DataProviders\Prescriptions\PrescriptionsProvider.cs" />
+    <Compile Include="DataProviders\Prescriptions\IPrescriptionsDataProvider.cs" />
+    <Compile Include="DataProviders\Prescriptions\PrescriptionsDataProvider.cs" />
     <Compile Include="DataProviders\Reports\IReportsDataProvider.cs" />
     <Compile Include="DataProviders\Reports\ReportsDataProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />

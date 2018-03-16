@@ -75,7 +75,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<LakerFileProcessor>().As<ILakerFileProcessor>().InstancePerRequest();
             builder.RegisterType<AspNetUsersProvider>().As<IAspNetUsersProvider>().InstancePerRequest();
             builder.RegisterType<DiaryProvider>().As<IDiaryProvider>().InstancePerRequest();
-            builder.RegisterType<PrescriptionsProvider>().As<IPrescriptionsProvider>().InstancePerRequest();
+            builder.RegisterType<PrescriptionsDataProvider>().As<IPrescriptionsDataProvider>().InstancePerRequest();
             builder.RegisterType<CsvReaderProvider>().As<ICsvReaderProvider>().InstancePerRequest();
             builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
             builder.RegisterType<ReportsDataProvider>().As<IReportsDataProvider>().InstancePerRequest();

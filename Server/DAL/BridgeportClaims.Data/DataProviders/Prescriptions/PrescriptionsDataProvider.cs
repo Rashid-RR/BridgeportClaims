@@ -12,12 +12,12 @@ using cs = BridgeportClaims.Common.Config.ConfigService;
 namespace BridgeportClaims.Data.DataProviders.Prescriptions
 {
     [System.Runtime.InteropServices.Guid("0028E4FF-0EE4-44FA-AF9C-3AFE551D7CAE")]
-    public class PrescriptionsProvider : IPrescriptionsProvider
+    public class PrescriptionsDataProvider : IPrescriptionsDataProvider
     {
         private readonly IRepository<Prescription> _prescriptionRepository;
         private readonly IRepository<PrescriptionStatus> _prescriptionStatusRepository;
 
-        public PrescriptionsProvider(IRepository<Prescription> prescriptionRepository, IRepository<PrescriptionStatus> prescriptionStatusRepository)
+        public PrescriptionsDataProvider(IRepository<Prescription> prescriptionRepository, IRepository<PrescriptionStatus> prescriptionStatusRepository)
         {
             _prescriptionRepository = prescriptionRepository;
             _prescriptionStatusRepository = prescriptionStatusRepository;
@@ -141,9 +141,19 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                             }
                         });
                         retVal.UnpaidScriptResults = retValResults;
-                        retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
+                        retVal.TotalRowCount = totalRowsParam.Value as int? ?? default (int);
                         return retVal;
                     });
                 });
-        }
+
+        public IList<string> GetFileUrlsFromPrescriptionIds(IList<int> modelPrescriptionIds) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+                {
+                    return DisposableService.Using(() => new SqlCommand("", conn), cmd =>
+                    {
+                        IList<string> retVal = new List<string>();
+                        return retVal;
+                    });
+                });
+    }
 }
