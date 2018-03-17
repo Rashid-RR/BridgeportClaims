@@ -25,7 +25,8 @@ export class UnindexedImageFileComponent implements OnInit {
   sanitizedURL: any;
   @Input() file: any;
   @Input() type: any;
-  fileId:number=new Date().getTime();
+  prescriptionIds: Array<any>
+  fileId: number = new Date().getTime();
   constructor(
     public router: Router, private nativeHttp: Http, private ds: DocumentManagerService,
     private route: ActivatedRoute, private toast: ToastsManager, private events: EventsService,
@@ -73,7 +74,7 @@ export class UnindexedImageFileComponent implements OnInit {
             this.events.on("episode-note-updated", (episode) => {
               if (episode.episodeId == this.file.episodeId) {
                 this.file.episodeNoteCount = episode.episodeNoteCount;
-                localStorage.setItem('file-' + params['id'],JSON.stringify(this.file));
+                localStorage.setItem('file-' + params['id'], JSON.stringify(this.file));
               }
             });
             this.nativeHttp.get(this.file.fileUrl).single().subscribe(r => {
@@ -91,15 +92,34 @@ export class UnindexedImageFileComponent implements OnInit {
   }
   cancel() {
     this.events.broadcast("reset-indexing-form", true);
-    console.log(this.type);
+    //console.log(this.type);
     this.ds.cancel(this.type);
   }
   showFile() {
     var docInitParams: any = {};
     docInitParams.url = this.file.fileUrl;
+
     docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
+
+    if (this.file.prescriptionIds && this.file.fileUrl) {
+      this.http.multipageInvoices({ PrescriptionIds: this.file.prescriptionIds })
+        .map(
+          (res) => {
+            return new Blob([res.blob()], { type: 'application/pdf' })
+          }).subscribe(r => {
+            var fileURL = URL.createObjectURL(r);
+            docInitParams.url = fileURL;
+            this.file.fileUrl = fileURL;
+            this.render(docInitParams);
+          });
+    } else {
+      this.render(docInitParams);
+    }
+  }
+
+  render(docInitParams: any = {}) {
     let minusHeight = this.isIndexedImage ? 100 : 245;
-    $("#fileCanvas"+this.fileId).html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - '+minusHeight+'px);border: none;"></iframe>');
+    $("#fileCanvas" + this.fileId).html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + docInitParams.url + '" allowfullscreen style="width:100%;height:calc(100vh - ' + minusHeight + 'px);border: none;"></iframe>');
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
     }

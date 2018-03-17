@@ -10061,7 +10061,6 @@ function getParameterByName(name, url) {
 
 //var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';
 var DEFAULT_URL = getParameterByName('url');
-console.log(DEFAULT_URL);
 ;
 var pdfjsWebApp = void 0;
 {

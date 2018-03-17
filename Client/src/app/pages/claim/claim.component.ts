@@ -338,27 +338,35 @@ export class ClaimsComponent implements OnInit {
       this.toast.warning('No claim loaded!');
     } else {
       let prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected == true);
+      let unIndexed = prescriptions.filter(p => p.invoiceIsIndexed == false);
+      let prescriptionId:Array<any>=[];
+      for(var i=0;i<prescriptions.length;i++){
+        prescriptionId.push(prescriptions[i].prescriptionId);
+      }
       if (prescriptions.length == 0) {
         this.toast.warning('Please select one prescription to view invoice.', null,
         { toastLife: 10000,showCloseButton:true }).then((toast: any) =>null)
-      } else if (prescriptions.length > 1) {
-        this.toast.warning('Please select only one prescription to view invoice.', null,
+      } else if (prescriptions.length > 1 && unIndexed.length>0) {
+        this.toast.warning('All Prescriptions selected must have Indexed Invoices in order to view them', null,
         { toastLife: 10000,showCloseButton:true }).then((toast:any) =>null)
-      }else if (!prescriptions[0].invoiceUrl) {
+      }else if (prescriptions.length==1 && !prescriptions[0].invoiceUrl) {
         this.toast.warning('Invoice file not found in selected prescription', null,
         { toastLife: 10000,showCloseButton:true }).then((toast:any) =>null)
       } else {
        //https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245300.pdf used for testing
           let id = UUID.UUID();
           let doc:any = {fileUrl:prescriptions[0].invoiceUrl};
+          if(prescriptions.length>1){
+            doc.prescriptionIds=prescriptionId;
+          }
           doc.documentId = id
-          let file = doc as any
-          console.log(file);
+          let file = doc as any 
           localStorage.setItem('file-' + id, JSON.stringify(file));
-          window.open('#/main/indexing/indexed-image/' + id, '_blank');
+          window.open('#/main/indexing/indexed-image/' + id, '_blank'); 
       }
     }
   }
+
   exportPDF() {
     if (!this.claimManager.selectedClaim) {
       this.toast.warning('No claim loaded!');
