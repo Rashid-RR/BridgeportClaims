@@ -29,7 +29,7 @@ namespace BridgeportClaims.Web.Controllers
 
         public PrescriptionsController(
             IClaimsDataProvider claimsDataProvider,
-            IPrescriptionsDataProvider prescriptionsDataProvider, 
+            IPrescriptionsDataProvider prescriptionsDataProvider,
             IPrescriptionReportFactory prescriptionReportFactory, 
             IPdfFactory pdfFactory)
         {

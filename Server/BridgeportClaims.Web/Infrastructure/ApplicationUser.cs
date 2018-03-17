@@ -19,6 +19,8 @@ namespace BridgeportClaims.Web.Infrastructure
         [MaxLength(201)]
         public string FullName => $"{FirstName} {LastName}";
         public DateTime RegisteredDate { get; set; }
+        [MaxLength(30)]
+        public string Extension { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

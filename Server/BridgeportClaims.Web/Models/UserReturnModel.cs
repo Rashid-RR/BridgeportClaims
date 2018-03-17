@@ -16,6 +16,7 @@ namespace BridgeportClaims.Web.Models
         public DateTime RegisteredDate { get; set; }
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
+        public string Extension { get; set; }
         public IList<string> Roles { get; set; }
         public IList<Claim> Claims { get; set; }
     }
