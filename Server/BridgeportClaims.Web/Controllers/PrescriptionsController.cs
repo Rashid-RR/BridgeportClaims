@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -38,29 +37,6 @@ namespace BridgeportClaims.Web.Controllers
             _prescriptionsDataProvider = prescriptionsDataProvider;
             _prescriptionReportFactory = prescriptionReportFactory;
             _pdfFactory = pdfFactory;
-        }
-
-        [HttpGet]
-        [Route("invoices")]
-        [AllowAnonymous]
-        public async Task<IHttpActionResult> GetInvoices(string prescriptionIds)
-        {
-            try
-            {
-                return await Task.Run(() =>
-                {
-                    var model = new MultiPageInvoicesModel
-                    {
-                        PrescriptionIds = prescriptionIds.Split(',').Select(int.Parse).ToList()
-                    };
-                    return GetMultiPageInvoices(model);
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
-            }
         }
 
         [HttpPost]
