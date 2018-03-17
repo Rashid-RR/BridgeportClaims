@@ -10,6 +10,6 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
         EntityOperation AddOrUpdatePrescriptionStatus(int prescriptionId, int prescriptionStatusId);
         UnpaidScriptsDto GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
             string sort, string sortDirection, int page, int pageSize);
-        IList<string> GetFileUrlsFromPrescriptionIds(IList<int> modelPrescriptionIds);
+        IEnumerable<string> GetFileUrlsFromPrescriptionIds(IEnumerable<PrescriptionIdDto> dtos);
     }
 }

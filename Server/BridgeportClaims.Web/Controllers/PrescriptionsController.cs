@@ -1,5 +1,7 @@
 ﻿using NLog;
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -8,6 +10,7 @@ using BridgeportClaims.Business.PrescriptionReports;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Pdf.Factories;
 using BridgeportClaims.Web.CustomActionResults;
@@ -37,6 +40,29 @@ namespace BridgeportClaims.Web.Controllers
             _pdfFactory = pdfFactory;
         }
 
+        [HttpGet]
+        [Route("invoices")]
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> GetInvoices(string prescriptionIds)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var model = new MultiPageInvoicesModel
+                    {
+                        PrescriptionIds = prescriptionIds.Split(',').Select(int.Parse).ToList()
+                    };
+                    return GetMultiPageInvoices(model);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
         [HttpPost]
         [Route("multi-page-invoices")]
         public async Task<IHttpActionResult> GetMultiPageInvoices(MultiPageInvoicesModel model)
@@ -47,9 +73,13 @@ namespace BridgeportClaims.Web.Controllers
                     throw new Exception("Error. No data was provided for this method.");
                 return await Task.Run(() =>
                 {
-                    var fileUrls = _prescriptionsDataProvider.GetFileUrlsFromPrescriptionIds(model.PrescriptionIds);
-                    if (_pdfFactory.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), ""))
-                        return Ok();
+                    IList<PrescriptionIdDto> dto = new List<PrescriptionIdDto>();
+                    model.PrescriptionIds.ForEach(x => dto.Add(GetPrescriptionIdDto(x)));
+                    var fileUrls = _prescriptionsDataProvider.GetFileUrlsFromPrescriptionIds(dto);
+                    var fileName = "Invoices_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
+                    var targetPdf = Path.Combine(Path.GetTempPath(), fileName);
+                    if (_pdfFactory.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
+                        return new FileResult(targetPdf, fileName, "application/pdf");
                     throw new Exception("The merge PDF's method failed.");
                 });
             }
@@ -59,6 +89,8 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
+
+        private static PrescriptionIdDto GetPrescriptionIdDto(int i) => new PrescriptionIdDto {PrescriptionID = i};
 
         [HttpPost]
         [Route("scripts-pdf")]

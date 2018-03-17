@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Data.Repositories;
@@ -11,7 +13,6 @@ using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Prescriptions
 {
-    [System.Runtime.InteropServices.Guid("0028E4FF-0EE4-44FA-AF9C-3AFE551D7CAE")]
     public class PrescriptionsDataProvider : IPrescriptionsDataProvider
     {
         private readonly IRepository<Prescription> _prescriptionRepository;
@@ -146,13 +147,34 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                     });
                 });
 
-        public IList<string> GetFileUrlsFromPrescriptionIds(IList<int> modelPrescriptionIds) =>
+        public IEnumerable<string> GetFileUrlsFromPrescriptionIds(IEnumerable<PrescriptionIdDto> dtos) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
                 {
-                    return DisposableService.Using(() => new SqlCommand("", conn), cmd =>
+                    if (null == dtos)
+                        throw new ArgumentNullException(nameof(dtos));
+                    return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetInvoiceUrlsFromPrescriptionIDs]", conn), cmd =>
                     {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        var prescriptionIdsParam = cmd.CreateParameter();
+                        prescriptionIdsParam.SqlDbType = SqlDbType.Structured;
+                        prescriptionIdsParam.TypeName = "dbo.udtPrescriptionID";
+                        prescriptionIdsParam.Direction = ParameterDirection.Input;
+                        prescriptionIdsParam.Value = dtos.ToDataTable();
+                        prescriptionIdsParam.ParameterName = "@PrescriptionIDs";
+                        cmd.Parameters.Add(prescriptionIdsParam);
                         IList<string> retVal = new List<string>();
-                        return retVal;
+                        if (conn.State != ConnectionState.Open)
+                            conn.Open();
+                        DisposableService.Using(cmd.ExecuteReader, reader =>
+                        {
+                            while (reader.Read())
+                            {
+                                var invoiceUrlOrdinal = reader.GetOrdinal("InvoiceUrl");
+                                var result = reader.GetString(invoiceUrlOrdinal);
+                                retVal.Add(result);
+                            }
+                        });
+                        return retVal.AsEnumerable();
                     });
                 });
     }

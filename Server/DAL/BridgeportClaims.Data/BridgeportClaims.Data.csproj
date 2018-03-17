@@ -176,6 +176,7 @@
     <Compile Include="Dtos\PostPaymentPrescriptionReturnDto.cs" />
     <Compile Include="Dtos\PostPaymentReturnDto.cs" />
     <Compile Include="Dtos\PrescriptionDto.cs" />
+    <Compile Include="Dtos\PrescriptionIdDto.cs" />
     <Compile Include="Dtos\PrescriptionNoteSaveDto.cs" />
     <Compile Include="Dtos\PrescriptionNotesDto.cs" />
     <Compile Include="Dtos\PrescriptionNoteTypesDto.cs" />

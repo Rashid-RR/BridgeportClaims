@@ -49,7 +49,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                         Direction = ParameterDirection.Input,
                         TypeName = "dbo.udtPrescriptionID"
                     };
-
                     var nextParam = new SqlParameter
                     {
                         DbType = DbType.String,
