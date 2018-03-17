@@ -74,6 +74,11 @@ export class NotificationComponent implements OnInit {
       this.http.saveLetterNotifications(this.form.value).single().subscribe(res=>{              
           this.toast.success('Letter name successfully updated'); 
           this.loadingNotification = false;
+          for (var i=0;i<this.notifications.length;i++){
+            if(this.notifications[i].notificationId=n.notificationId){
+              delete this.notifications[i];
+            }
+          }
           this.cancel();
       },error=>{                          
         this.toast.error('Could not update letter name');
