@@ -79,7 +79,7 @@ namespace BridgeportClaims.Web.Controllers
                     var fileName = "Invoices_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
                     var targetPdf = Path.Combine(Path.GetTempPath(), fileName);
                     if (_pdfFactory.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
-                        return new FileResult(targetPdf, fileName, "application/pdf");
+                        return new DisplayFileResult(targetPdf, fileName, "application/pdf");
                     throw new Exception("The merge PDF's method failed.");
                 });
             }
