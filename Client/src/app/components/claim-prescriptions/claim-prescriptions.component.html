@@ -61,7 +61,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="claimManager.selectedClaim.prescriptions">
-                        <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json" (click)="setSelected(prescription,prescription.selected)" (dblclick)="claimManager.showDetails(prescription)" [class.isReversed]="prescription.isReversed" [class.bgBlue]="prescription.selected"  [class.invoiceIsIndexed]="prescription.invoiceIsIndexed" >
+                        <tr *ngFor="let prescription of claimManager.selectedClaim.prescriptions;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json" (click)="setSelected(prescription,prescription.selected)" (dblclick)="claimManager.showDetails(prescription)" [class.isReversed]="prescription.isReversed" [class.bgBlue]="prescription.selected">
                             <td>
                                 <div class="commonCheckBox">
                                     <input type="checkbox" name="check" value="None" class="pescriptionCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName"
@@ -71,7 +71,7 @@
                                 </div>
                             </td>
                             <td>{{prescription.invoiceDate | date:"shortDate"}}</td>
-                            <td>{{prescription.invoiceNumber}}</td>
+                            <td  [class.invoiceIsIndexed]="prescription.invoiceIsIndexed">{{prescription.invoiceNumber}}</td>
                             <td>{{prescription.labelName}}</td>
                             <td>{{prescription.billTo}}</td>
                             <td>{{prescription.rxNumber}}</td>
