@@ -35,9 +35,13 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
   get sanitize(): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl('assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl);
   }
-  isHighlighted(title){
-    console.log(title.classList)
+  isHighlighted(id){ 
+    window.getSelection().selectAllChildren( document.getElementById( id ) );
+    document.execCommand("copy");
+    this.toast.info('Text copied, you can now paste it where you want to use it')
+    //window.getSelection().removeAllRanges();
   }
+
   showNoteWindow() {
     let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
 
