@@ -2,9 +2,11 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
@@ -23,7 +25,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
         public IList<KeyValuePair<int, string>> GetClaimNoteTypes() => _claimNoteTypeRepository.GetAll()
             .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).OrderBy(x => x.Value).ToList();
 
-        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId)
+        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId, string userId)
         {
             var listToAdd = new List<SqlParameter>();
             var claimIdParam = new SqlParameter
@@ -57,5 +59,21 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
             _storedProcedureExecutor.ExecuteNoResultStoredProcedure("EXEC dbo.uspAddOrUpdateClaimNote @ClaimID = :ClaimID, " +
                     "@NoteText = :NoteText, @EnteredByUserID = :EnteredByUserID, @NoteTypeID = :NoteTypeID", listToAdd);
         }
+
+        public void DeleteClaimNote(int claimId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                DisposableService.Using(() => new SqlCommand("DECLARE @ClaimdID INT = " + claimId + "; " +
+                                                             $"DELETE dbo.ClaimNote WHERE ClaimID = {claimId}", conn),
+                    cmd =>
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        if (conn.State != ConnectionState.Open)
+                            conn.Open();
+                        cmd.ExecuteNonQuery();
+                        if (conn.State != ConnectionState.Closed)
+                            conn.Close();
+                    });
+            });
     }
 }
