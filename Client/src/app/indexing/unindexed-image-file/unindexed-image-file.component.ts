@@ -21,7 +21,7 @@ declare var $: any;
 })
 export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
 
-  loading: boolean = false;
+  loading: boolean = true;
   sanitizedURL: any;
   @Input() file: any;
   @Input() type: any;
@@ -64,19 +64,16 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
       this.loading = true;
       this.nativeHttp.get(this.file.fileUrl).single().subscribe(r => {
         this.showFile();
-        this.loading = false;
       }, err => {
         this.showFile();
-        this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });
-        this.loading = false;
+        this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });        
       })
     } else {
       this.route.params.subscribe(params => {
         let file = localStorage.getItem('file-' + params['id']);
         if (file) {
           try {
-            this.file = JSON.parse(file) as any;
-            this.loading = true;
+            this.file = JSON.parse(file) as any; 
             this.events.on("episode-note-updated", (episode) => {
               if (episode.episodeId == this.file.episodeId) {
                 this.file.episodeNoteCount = episode.episodeNoteCount;
@@ -85,13 +82,14 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
             });
             this.nativeHttp.get(this.file.fileUrl).single().subscribe(r => {
               this.showFile();
-              this.loading = false;
             }, err => {
               this.showFile();
               this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });
-              this.loading = false;
+              
             })
-          } catch (e) { }
+          } catch (e) { 
+            this.loading = false;
+          }
         }
       });
     }
@@ -129,6 +127,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
     }
+    setTimeout(()=>{this.loading = false},200);
   }
 
   get isIndexedImage() {
