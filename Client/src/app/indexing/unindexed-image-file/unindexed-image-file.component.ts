@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,AfterViewInit } from '@angular/core';
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
 import { Http } from "@angular/http";
@@ -19,7 +19,7 @@ declare var $: any;
   templateUrl: './unindexed-image-file.component.html',
   styleUrls: ['./unindexed-image-file.component.css']
 })
-export class UnindexedImageFileComponent implements OnInit {
+export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
 
   loading: boolean = false;
   sanitizedURL: any;
@@ -34,6 +34,9 @@ export class UnindexedImageFileComponent implements OnInit {
   ) { }
   get sanitize(): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl('assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl);
+  }
+  isHighlighted(title){
+    console.log(title.classList)
   }
   showNoteWindow() {
     let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
@@ -51,6 +54,9 @@ export class UnindexedImageFileComponent implements OnInit {
       .then((win: EpisodeNoteModalComponent) => {
         win.showNote(this.file);
       })
+  }
+  ngAfterViewInit() {
+    $('[data-toggle="tooltip"]').tooltip(); 
   }
   ngOnInit() {
     var scale = 1.5;

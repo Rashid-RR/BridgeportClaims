@@ -59,7 +59,7 @@ export class ClaimsComponent implements OnInit {
     private toast: ToastsManager,
     private ar: AccountReceivableService,
   ) {
-    this.over = new Array(3);
+    this.over = new Array(4);
     this.over.fill(false);
   }
 
