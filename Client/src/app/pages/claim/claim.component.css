@@ -225,6 +225,15 @@ app-claim{
   color:lightgreen
 }
 
+.btn.delete-btn{
+  border: 1px solid white !important;
+  background: transparent !important;
+  color:white !important; 
+  height: 25px;
+  font-size: 14px;
+  margin-top: 5px;
+  padding:0px 5px !important;
+}
 
 button.be,
 button.ime,

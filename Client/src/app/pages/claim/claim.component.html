@@ -105,6 +105,9 @@
                                             *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note">
                                             <img src="assets/img/edit.png" class="add-btn" />
                                         </button>
+                                        <button type="button" class="btn btn-flat delete-btn btn-sm no-padding" (click)="deleteNote()" *ngIf="claimManager.selectedClaim.claimNotes">
+                                            <i class="fa fa-trash"></i> Delete Note
+                                        </button>
                                     </div>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right" (click)="minimize('notes')"
                                         title="Minimize">

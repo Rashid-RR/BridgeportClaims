@@ -14,6 +14,8 @@ import { AccountReceivableService } from '../../services/services.barrel';
 import * as FileSaver from 'file-saver';
 import { Response } from '@angular/http';
 import { UUID } from 'angular2-uuid';
+import { DialogService } from "ng2-bootstrap-modal";
+import { ConfirmComponent } from '../../components/confirm.component';
 
 declare var $: any
 
@@ -53,6 +55,7 @@ export class ClaimsComponent implements OnInit {
     private router: Router,
     public readonly swalTargets: SwalPartialTargets,
     public claimManager: ClaimManager,
+    private dialogService: DialogService,
     private http: HttpService,
     private dp: DatePipe,
     private events: EventsService,
@@ -68,6 +71,26 @@ export class ClaimsComponent implements OnInit {
     this.expandedBlade = expandedBlade;
     this.initializeExpandedTableBooleanValue(table);
 
+  }
+  deleteNote() {
+    if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
+      let disposable = this.dialogService.addDialog(ConfirmComponent, {
+        title: "Delete Claim Note",
+        message: "Are you sure you wish to remove this note ?"
+      })
+        .subscribe((isConfirmed) => {
+          if (isConfirmed) {
+            this.claimManager.loading = true;
+            this.http.deleteClaimNote({ claimId: this.claimManager.selectedClaim.claimId }).map(r => r.json()).subscribe(r => {
+              this.toast.success(r.message);
+              this.claimManager.selectedClaim.claimNote = undefined;
+            }, err => {
+              let result = err.json()
+              this.toast.error(result.message);
+            })
+          }
+        })
+    }
   }
   minimize(table: string) {
     this.expanded = false;
@@ -312,13 +335,13 @@ export class ClaimsComponent implements OnInit {
       let prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected == true);
       if (prescriptions.length == 0) {
         this.toast.warning('Please select one prescription before generating a letter.', null,
-        { toastLife: 10000,showCloseButton:true }).then((toast: any) =>null)
+          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null)
       } else if (prescriptions.length > 1) {
         this.toast.warning('Please select only one prescription before generating a letter.', null,
-        { toastLife: 10000,showCloseButton:true }).then((toast:any) =>null)
+          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null)
       } else {
         this.claimManager.loading = true;
-        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type,prescriptionId:prescriptions[0].prescriptionId })
+        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type, prescriptionId: prescriptions[0].prescriptionId })
           .subscribe((result) => {
             this.claimManager.loading = false;
             this.ar.downloadFile(result);
@@ -339,30 +362,30 @@ export class ClaimsComponent implements OnInit {
     } else {
       let prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected == true);
       let unIndexed = prescriptions.filter(p => p.invoiceIsIndexed == false);
-      let prescriptionId:Array<any>=[];
-      for(var i=0;i<prescriptions.length;i++){
+      let prescriptionId: Array<any> = [];
+      for (var i = 0; i < prescriptions.length; i++) {
         prescriptionId.push(prescriptions[i].prescriptionId);
       }
       if (prescriptions.length == 0) {
         this.toast.warning('Please select one prescription to view invoice.', null,
-        { toastLife: 10000,showCloseButton:true }).then((toast: any) =>null)
-      } else if (prescriptions.length > 1 && unIndexed.length>0) {
+          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null)
+      } else if (prescriptions.length > 1 && unIndexed.length > 0) {
         this.toast.warning('All Prescriptions selected must have Indexed Invoices in order to view them', null,
-        { toastLife: 10000,showCloseButton:true }).then((toast:any) =>null)
-      }else if (prescriptions.length==1 && !prescriptions[0].invoiceUrl) {
+          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null)
+      } else if (prescriptions.length == 1 && !prescriptions[0].invoiceUrl) {
         this.toast.warning('Invoice file not found in selected prescription', null,
-        { toastLife: 10000,showCloseButton:true }).then((toast:any) =>null)
+          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null)
       } else {
-       //https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245300.pdf used for testing
-          let id = UUID.UUID();
-          let doc:any = {fileUrl:prescriptions[0].invoiceUrl};
-          if(prescriptions.length>1){
-            doc.prescriptionIds=prescriptionId;
-          }
-          doc.documentId = id
-          let file = doc as any 
-          localStorage.setItem('file-' + id, JSON.stringify(file));
-          window.open('#/main/indexing/indexed-image/' + id, '_blank'); 
+        //https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245300.pdf used for testing
+        let id = UUID.UUID();
+        let doc: any = { fileUrl: prescriptions[0].invoiceUrl };
+        if (prescriptions.length > 1) {
+          doc.prescriptionIds = prescriptionId;
+        }
+        doc.documentId = id
+        let file = doc as any
+        localStorage.setItem('file-' + id, JSON.stringify(file));
+        window.open('#/main/indexing/indexed-image/' + id, '_blank');
       }
     }
   }
