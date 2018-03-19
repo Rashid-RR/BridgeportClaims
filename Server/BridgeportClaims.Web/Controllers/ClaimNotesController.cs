@@ -6,7 +6,6 @@ using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
-using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
@@ -21,7 +20,7 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IClaimNotesDataProvider _claimNotesDataProvider;
         private readonly IRepository<ClaimNote> _claimNoteRepository;
 
-        public ClaimNotesController(IClaimNotesDataProvider claimNotesDataProvider, 
+        public ClaimNotesController(IClaimNotesDataProvider claimNotesDataProvider,
             IRepository<ClaimNote> claimNoteRepository, IRepository<Claim> claimRepository)
         {
             _claimNotesDataProvider = claimNotesDataProvider;
@@ -43,8 +42,27 @@ namespace BridgeportClaims.Web.Controllers
                 Logger.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
-
         }
+
+          /*[HttpDelete]
+            [Route("delete")]
+            public async Task<IHttpActionResult> DeleteClaimNote(int claimId)
+            {
+                try
+                {
+                    return await Task.Run(() =>
+                    {
+                        _claimNotesDataProvider.DeleteClaimNote(claimId);
+                        return Ok(new {message = "The claim not was deleted successfully."});
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex);
+                    return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                }
+            }*/
+
 
         [HttpPost]
         [Route("{claimId:int}", Name = c.GetClaimNoteAction)]
@@ -68,49 +86,28 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("delete")]
-        public async Task<IHttpActionResult> DeleteClaimNote(int claimId)
-        {
-            try
-            {
-                return await Task.Run(() =>
-                {
-                    _claimNotesDataProvider.DeleteClaimNote(claimId);
-                    return Ok(new {message = "The claim not was deleted successfully."});
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
         [HttpPost]
         [Route("savenote")]
-        public async Task<IHttpActionResult> SaveNote(SaveClaimNoteModel model)
+        public async Task<IHttpActionResult> SaveNote(int claimId, string noteText, int? noteTypeId)
         {
             try
             {
                 return await Task.Run(() =>
                 {
-                    if (null == model)
-                        throw new ArgumentNullException(nameof(model));
                     var userId = User.Identity.GetUserId();
                     if (null == userId)
                         throw new ArgumentNullException(nameof(userId));
                     // validate that the Claim exists
-                    if (null == _claimRepository.Get(model.ClaimId))
-                        throw new Exception($"An error has occurred, claim Id {model.ClaimId} doesn't exist");
-                    _claimNotesDataProvider.AddOrUpdateNote(model.ClaimId, model.NoteText, userId, model.NoteTypeId, userId);
-                    return Ok(new {message = "The Claim Note was Saved Successfully"});
+                    if (null == _claimRepository.Get(claimId))
+                        throw new Exception($"An error has occurred, claim Id {claimId} doesn't exist");
+                    _claimNotesDataProvider.AddOrUpdateNote(claimId, noteText, userId, noteTypeId);
+                    return Ok(new { message = "The Claim Note was Saved Successfully" });
                 }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
     }
