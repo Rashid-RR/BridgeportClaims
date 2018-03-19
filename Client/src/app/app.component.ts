@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.http.userFromId(us.id).single().map(r=>r.json()).subscribe( res => {
                 //console.log(res);
                 this.profileManager.profile.roles = res.roles; 
+                this.profileManager.profile.extension = res.extension; 
             },(error)=>{
               //console.log(error)
             });
