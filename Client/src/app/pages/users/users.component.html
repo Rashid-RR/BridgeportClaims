@@ -62,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-11 col-lg-offset-1">
+                    <div class="col-lg-12">
                         <div class="panel panel-default">
                             <div class="panel-heading" style="background-color:#992727;color:#fff">
                                 <h4 class="panel-title">
@@ -80,6 +80,7 @@
                                         <th>Active</th>
                                         <th>Email Confirmed</th>
                                         <th>Registered Date</th>
+                                        <th>Extension</th>
                                         <th>Indexer</th>
                                         <th>Admin</th>
                                     </tr>
@@ -97,7 +98,8 @@
                                                 </div>
                                             </td>
                                             <td>{{user.emailConfirmed}}</td>
-                                            <td class="center">{{user.registeredDate | date:"shortDate"}}</td>
+                                            <td class="center">{{user.registeredDate | date:"shortDate"}}</td>                                            
+                                            <td>{{user.extension}}</td>
                                             <td class="center-in">
                                                 <label class="checkboxFive">
                                                     <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.indexer" (ngModelChange)="showRoleConfirm(i,indexerRole,$event)"
