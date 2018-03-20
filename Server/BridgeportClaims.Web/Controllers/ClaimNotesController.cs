@@ -103,7 +103,7 @@ namespace BridgeportClaims.Web.Controllers
                     // validate that the Claim exists
                     if (null == _claimRepository.Get(model.ClaimId))
                         throw new Exception($"An error has occurred, claim Id {model.ClaimId} doesn't exist");
-                    _claimNotesDataProvider.AddOrUpdateNote(model.ClaimId, model.NoteText, userId, model.NoteTypeId, userId);
+                    _claimNotesDataProvider.AddOrUpdateNote(model.ClaimId, model.NoteText, userId, model.NoteTypeId);
                     return Ok(new { message = "The Claim Note was Saved Successfully" });
                 }).ConfigureAwait(false);
             }
