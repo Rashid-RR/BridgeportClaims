@@ -47,7 +47,7 @@
                 <div class="row data" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
                     <div [class.col-sm-5]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)"
                         *ngIf="!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" style="padding-right:0px;">
-                        <p class="text-center" style="margin:  0px;height:50px">&nbsp;</p>
+                        <p class="text-center" style="margin:  0px;height:60px">&nbsp;</p>
                         <div class="box" *ngIf="(!expanded && expandedBlade==0) || expandedBlade==1">
                             <div class="box-header bg-head-box">
                                 <h4 class="box-title text-center panel-head">
@@ -159,7 +159,7 @@
                     </div>
                     <div [class.col-sm-7]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)"
                         *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" style="padding-left:0px;">
-                        <p class="text-center" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4" style="margin:  0px;height:50px">
+                        <p class="text-center" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4" style="margin:  0px;height:60px;line-height:60px">
                             <button class="btn btn-flat btn-sm pip pull-left" type="button" (click)="viewFile()">
                                 <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true" (mouseout)="over[3] = false"
                                     height="50px">

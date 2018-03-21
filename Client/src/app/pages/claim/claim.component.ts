@@ -482,7 +482,7 @@ export class ClaimsComponent implements OnInit {
             let err = error.json();
             setTimeout(() => {
               this.addNote(result[1], result[0]);
-              this.toast.warning(err.error_description);
+              this.toast.error(err.Message);
             }, 200)
           })
         }
