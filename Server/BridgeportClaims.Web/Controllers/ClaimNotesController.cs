@@ -21,7 +21,7 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IClaimNotesDataProvider _claimNotesDataProvider;
         private readonly IRepository<ClaimNote> _claimNoteRepository;
 
-        public ClaimNotesController(IClaimNotesDataProvider claimNotesDataProvider, 
+        public ClaimNotesController(IClaimNotesDataProvider claimNotesDataProvider,
             IRepository<ClaimNote> claimNoteRepository, IRepository<Claim> claimRepository)
         {
             _claimNotesDataProvider = claimNotesDataProvider;
@@ -77,7 +77,7 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     _claimNotesDataProvider.DeleteClaimNote(claimId);
-                    return Ok(new {message = "The claim not was deleted successfully."});
+                    return Ok(new { message = "The claim not was deleted successfully." });
                 });
             }
             catch (Exception ex)
@@ -103,14 +103,14 @@ namespace BridgeportClaims.Web.Controllers
                     // validate that the Claim exists
                     if (null == _claimRepository.Get(model.ClaimId))
                         throw new Exception($"An error has occurred, claim Id {model.ClaimId} doesn't exist");
-                    _claimNotesDataProvider.AddOrUpdateNote(model.ClaimId, model.NoteText, userId, model.NoteTypeId, userId);
-                    return Ok(new {message = "The Claim Note was Saved Successfully"});
+                    _claimNotesDataProvider.AddOrUpdateNote(model.ClaimId, model.NoteText, userId, model.NoteTypeId);
+                    return Ok(new { message = "The Claim Note was Saved Successfully" });
                 }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
     }

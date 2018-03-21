@@ -25,7 +25,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
         public IList<KeyValuePair<int, string>> GetClaimNoteTypes() => _claimNoteTypeRepository.GetAll()
             .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).OrderBy(x => x.Value).ToList();
 
-        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId, string userId)
+        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId)
         {
             var listToAdd = new List<SqlParameter>();
             var claimIdParam = new SqlParameter
