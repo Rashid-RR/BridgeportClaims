@@ -160,10 +160,7 @@
                     <div [class.col-sm-7]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)"
                         *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" style="padding-left:0px;">
                         <p class="text-center" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4" style="margin:  0px;height:60px;line-height:60px">
-                            <button class="btn btn-flat btn-sm pip pull-left" type="button" (click)="viewFile()">
-                                <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true" (mouseout)="over[3] = false"
-                                    height="50px">
-                            </button>
+                            <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true" (mouseout)="over[3] = false" height="60px" class="pull-left">
                             Invoice #'s in blue have been indexed...
                         </p>
                         <div class="box" id="pres-box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4">
