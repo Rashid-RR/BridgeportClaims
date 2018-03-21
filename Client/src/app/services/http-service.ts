@@ -389,7 +389,7 @@ export class HttpService {
     return s;
   }
   deleteClaimNote(data): Observable<Response> {
-    const s = this.http.delete(this.baseUrl + '/claimnotes/delete/?claimId=' + data.claimId, { headers: this.headers })
+    const s = this.http.delete(this.baseUrl + '/claimnotes/delete?claimId=' + data.claimId, { headers: this.headers })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

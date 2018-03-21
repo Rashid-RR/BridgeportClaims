@@ -84,9 +84,11 @@ export class ClaimsComponent implements OnInit {
             this.http.deleteClaimNote({ claimId: this.claimManager.selectedClaim.claimId }).map(r => r.json()).subscribe(r => {
               this.toast.success(r.message);
               this.claimManager.selectedClaim.claimNote = undefined;
+              this.claimManager.loading = false;
             }, err => {
               let result = err.json()
-              this.toast.error(result.message);
+              this.toast.error(result.Message);
+              this.claimManager.loading = false;
             })
           }
         })
