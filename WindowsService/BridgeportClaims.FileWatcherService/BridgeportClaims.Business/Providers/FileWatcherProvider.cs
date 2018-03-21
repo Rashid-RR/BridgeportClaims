@@ -79,6 +79,8 @@ namespace BridgeportClaims.Business.Providers
             DocumentDto dto = null;
             if (type != SignalRMethodType.Delete)
             {
+                if (null == fileInfo)
+                    throw new ArgumentNullException(nameof(fileInfo));
                 dto = new DocumentDto
                 {
                     DocumentId = documentId,
@@ -108,10 +110,14 @@ namespace BridgeportClaims.Business.Providers
         {
             try
             {
+                if (e.FullPath.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(e.FullPath));
                 if (e.FullPath.Right(4) != ".pdf")
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
+                if (e.FullPath.Contains($@"{c.PrintablesString}"))
+                    return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 var fileInfo = new FileInfo(e.FullPath);
@@ -176,10 +182,14 @@ namespace BridgeportClaims.Business.Providers
         {
             try
             {
+                if (e.FullPath.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(e.FullPath));
                 if (e.FullPath.Right(4) != ".pdf")
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
+                if (e.FullPath.Contains($@"{c.PrintablesString}"))
+                    return;
                 // Ensure that the changed file has at least one changed property worth updating
                 var fileInfo = new FileInfo(e.FullPath);
                 var needsModification = FileWasModified(fileInfo, e.OldFullPath);
@@ -217,10 +227,14 @@ namespace BridgeportClaims.Business.Providers
         {
             try
             {
+                if (e.FullPath.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(e.FullPath));
                 if (e.FullPath.Right(4) != ".pdf")
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
+                if (e.FullPath.Contains($@"{c.PrintablesString}"))
+                    return;
                 // Ensure that the changed file has at least one changed property worth updating
                 var fileInfo = new FileInfo(e.FullPath);
                 var needsModification = FileWasModified(fileInfo);
@@ -279,7 +293,9 @@ namespace BridgeportClaims.Business.Providers
         {
             try
             {
-                if (e.FullPath.Right(4) != ".pdf") // This is already, by nature, ignore directories.
+                if (e.FullPath.Right(4) != ".pdf")
+                    return;
+                if (e.FullPath.Contains($@"{c.PrintablesString}"))
                     return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
