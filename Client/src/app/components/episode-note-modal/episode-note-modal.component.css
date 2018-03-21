@@ -39,11 +39,16 @@ pre.noteText {
     margin:0px;
     font-size: inherit;
     line-height: inherit;
-     color: inherit;
-     word-break: break-all;
-     word-wrap:inherit;
+    color: inherit;
+    word-break: break-all;
+    word-wrap:inherit;
     background-color:transparent;
     border: none;
     border-radius: none;
     overflow: hidden;
+    white-space: pre-wrap;       /* css-3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word; 
 }
