@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,AfterViewInit } from '@angular/core';
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
 import { Http } from "@angular/http";
@@ -19,9 +19,9 @@ declare var $: any;
   templateUrl: './unindexed-image-file.component.html',
   styleUrls: ['./unindexed-image-file.component.css']
 })
-export class UnindexedImageFileComponent implements OnInit {
+export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
 
-  loading: boolean = false;
+  loading: boolean = true;
   sanitizedURL: any;
   @Input() file: any;
   @Input() type: any;
@@ -35,6 +35,13 @@ export class UnindexedImageFileComponent implements OnInit {
   get sanitize(): SafeResourceUrl {
     return this.sanitizer.bypassSecurityTrustResourceUrl('assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl);
   }
+  isHighlighted(id){ 
+    window.getSelection().selectAllChildren( document.getElementById( id ) );
+    document.execCommand("copy");
+    this.toast.info('Text copied, you can now paste it where you want to use it')
+    //window.getSelection().removeAllRanges();
+  }
+
   showNoteWindow() {
     let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
 
@@ -52,25 +59,25 @@ export class UnindexedImageFileComponent implements OnInit {
         win.showNote(this.file);
       })
   }
+  ngAfterViewInit() {
+    $('[data-toggle="tooltip"]').tooltip(); 
+  }
   ngOnInit() {
     var scale = 1.5;
     if (this.file) {
       this.loading = true;
       this.nativeHttp.get(this.file.fileUrl).single().subscribe(r => {
         this.showFile();
-        this.loading = false;
       }, err => {
         this.showFile();
-        this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });
-        this.loading = false;
+        this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });        
       })
     } else {
       this.route.params.subscribe(params => {
         let file = localStorage.getItem('file-' + params['id']);
         if (file) {
           try {
-            this.file = JSON.parse(file) as any;
-            this.loading = true;
+            this.file = JSON.parse(file) as any; 
             this.events.on("episode-note-updated", (episode) => {
               if (episode.episodeId == this.file.episodeId) {
                 this.file.episodeNoteCount = episode.episodeNoteCount;
@@ -79,13 +86,14 @@ export class UnindexedImageFileComponent implements OnInit {
             });
             this.nativeHttp.get(this.file.fileUrl).single().subscribe(r => {
               this.showFile();
-              this.loading = false;
             }, err => {
               this.showFile();
               this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });
-              this.loading = false;
+              
             })
-          } catch (e) { }
+          } catch (e) { 
+            this.loading = false;
+          }
         }
       });
     }
@@ -123,6 +131,7 @@ export class UnindexedImageFileComponent implements OnInit {
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
     }
+    setTimeout(()=>{this.loading = false},200);
   }
 
   get isIndexedImage() {

@@ -75,7 +75,7 @@ export class NotificationComponent implements OnInit {
           this.toast.success('Letter name successfully updated'); 
           this.loadingNotification = false;
           for (var i=0;i<this.notifications.length;i++){
-            if(this.notifications[i].notificationId=n.notificationId){ 
+            if(this.notifications[i].notificationId==n.notificationId){ 
               this.notifications.splice(i,1);
             }
           }

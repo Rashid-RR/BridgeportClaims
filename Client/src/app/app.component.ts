@@ -43,9 +43,10 @@ export class AppComponent implements OnInit, OnDestroy {
           this.profileManager.profile = profile;
           let auth = localStorage.getItem("token");
           if(window.location.hash.indexOf("#/confirm-email")!==0){         
-            this.http.userFromId(us.id).single().subscribe( res => {
+            this.http.userFromId(us.id).single().map(r=>r.json()).subscribe( res => {
                 //console.log(res);
-                this.profileManager.profile.roles = res.json().roles; 
+                this.profileManager.profile.roles = res.roles; 
+                this.profileManager.profile.extension = res.extension; 
             },(error)=>{
               //console.log(error)
             });

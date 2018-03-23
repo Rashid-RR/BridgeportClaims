@@ -381,8 +381,15 @@ export class HttpService {
   }
 
   saveClaimNote(data): Observable<Response> {
-    const s = this.http.post(this.baseUrl + '/claimnotes/savenote?claimId=' + data.claimId + '&noteText=' + data.noteText +
-      '&noteTypeId=' + data.noteTypeId, {}, { headers: this.headers })
+    const s = this.http.post(this.baseUrl + '/claimnotes/savenote', data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+  deleteClaimNote(data): Observable<Response> {
+    const s = this.http.delete(this.baseUrl + '/claimnotes/delete?claimId=' + data.claimId, { headers: this.headers })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

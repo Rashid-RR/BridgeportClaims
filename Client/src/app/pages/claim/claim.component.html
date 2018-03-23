@@ -19,21 +19,21 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12">
         <div class="box">
-            <div class="box-header with-border"  style="height:37px;line-height:37px;padding-top:0px;padding-bottom:0px;">
+            <div class="box-header with-border" style="height:37px;line-height:37px;padding-top:0px;padding-bottom:0px;">
                 <h3 class="box-title">Claims</h3>
                 <div class="box-tools pull-right" style="top:0px">
                     <div class="btn-group" data-toggle="btn-toggle" *ngIf="claimManager.selectedClaim">
                         <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">
-                            <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true"  (mouseout)="over[0] = false" height="35px">
+                            <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true" (mouseout)="over[0] = false"
+                                height="35px">
                         </button>
                         <button class="btn btn-flat btn-sm ime" type="button" (click)="exportLetter('ime')">
-                            <img [src]="over[1] ? 'assets/img/ime/Hover.png' : 'assets/img/ime/Normal.png'" (mouseover)="over[1] = true"  (mouseout)="over[1] = false" height="35px">
+                            <img [src]="over[1] ? 'assets/img/ime/Hover.png' : 'assets/img/ime/Normal.png'" (mouseover)="over[1] = true" (mouseout)="over[1] = false"
+                                height="35px">
                         </button>
                         <button class="btn btn-flat btn-sm pip" type="button" (click)="exportLetter('pip')">
-                            <img [src]="over[2] ? 'assets/img/pip/Hover.png' : 'assets/img/pip/Normal.png'" (mouseover)="over[2] = true"  (mouseout)="over[2] = false" height="35px">
-                        </button>
-                        <button class="btn btn-flat btn-sm bg-darkRed" type="button" (click)="viewFile()" height="38px" style="margin:2px;font-size:11pt;padding: 3px 10px;"> 
-                            View Invoice(s)
+                            <img [src]="over[2] ? 'assets/img/pip/Hover.png' : 'assets/img/pip/Normal.png'" (mouseover)="over[2] = true" (mouseout)="over[2] = false"
+                                height="35px">
                         </button>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="row data" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
                     <div [class.col-sm-5]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)"
                         *ngIf="!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" style="padding-right:0px;">
-                        <p class="text-center" style="margin:  0px;">&nbsp;</p>
+                        <p class="text-center" style="margin:  0px;height:60px">&nbsp;</p>
                         <div class="box" *ngIf="(!expanded && expandedBlade==0) || expandedBlade==1">
                             <div class="box-header bg-head-box">
                                 <h4 class="box-title text-center panel-head">
@@ -105,6 +105,9 @@
                                             *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note">
                                             <img src="assets/img/edit.png" class="add-btn" />
                                         </button>
+                                        <button type="button" class="btn btn-flat delete-btn btn-sm no-padding" (click)="deleteNote()" *ngIf="claimManager.selectedClaim.claimNotes">
+                                            <i class="fa fa-trash"></i> Delete Note
+                                        </button>
                                     </div>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right" (click)="minimize('notes')"
                                         title="Minimize">
@@ -156,11 +159,15 @@
                     </div>
                     <div [class.col-sm-7]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)"
                         *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)" style="padding-left:0px;">
-                        <p class="text-center" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4" style="margin:  0px;">Invoice #'s in blue have been indexed...</p>
+                        <p class="text-center" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4" style="margin:  0px;height:60px;line-height:60px">
+                            <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true" (mouseout)="over[3] = false" height="60px" (click)="viewFile()" class="pull-left" style="cursor: pointer;">
+                            Invoice #'s in blue have been indexed...
+                        </p>
                         <div class="box" id="pres-box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4">
                             <div class="box-header bg-head-box" id="pres-box-header">
                                 <h4 class="box-title text-center panel-head">
-                                    <u><img src="assets/img/iconPrescriptions.png">Prescriptions</u>
+                                    <u>
+                                        <img src="assets/img/iconPrescriptions.png">Prescriptions</u>
                                 </h4>
                                 <span class="tally pull-right" *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.prescriptions.length>0" style="margin-right:250px;">
                                     <span class="totalInvoiced">

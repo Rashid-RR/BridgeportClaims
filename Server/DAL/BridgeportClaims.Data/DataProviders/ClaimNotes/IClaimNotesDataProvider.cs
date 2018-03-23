@@ -6,5 +6,6 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
     {
         IList<KeyValuePair<int, string>> GetClaimNoteTypes();
         void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId);
+        void DeleteClaimNote(int claimId);
     }
 }

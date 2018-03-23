@@ -40,7 +40,7 @@ export class ProfileComponent implements OnInit {
       firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
       lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required])],
       oldPassword: [''],
-      extension: [''],
+      extension: [this.profileManager.profile.extension],
       newPassword: [""],
       confirmPassword: [""]
     });
