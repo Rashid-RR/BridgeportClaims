@@ -16,6 +16,8 @@ CREATE VIEW [dbo].[vwPrescriptionNote]
 				ON [pn].[PrescriptionNoteID] = [pnm].[PrescriptionNoteID]
 			INNER JOIN [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [pn].[EnteredByUserID]
 GO
+CREATE NONCLUSTERED INDEX [idxvwPrescriptionNoteClaimID] ON [dbo].[vwPrescriptionNote] ([ClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 
 CREATE UNIQUE CLUSTERED INDEX [idxUqClusVwPrescriptionNote] ON [dbo].[vwPrescriptionNote] ([PrescriptionID], [PrescriptionNoteID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 
