@@ -59,7 +59,8 @@
     <Compile Include="Enums\SignalRMethodType.cs" />
     <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="IO\IoHelper.cs" />
+    <Compile Include="Helpers\DateTimeHelper.cs" />
+    <Compile Include="Helpers\IO\IoHelper.cs" />
     <Compile Include="Logging\LoggingConfigurator.cs" />
     <Compile Include="Logging\LoggingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

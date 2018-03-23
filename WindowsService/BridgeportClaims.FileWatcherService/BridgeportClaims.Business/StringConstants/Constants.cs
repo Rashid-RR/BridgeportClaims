@@ -16,5 +16,6 @@
         public const string SignalRDeleteMethodApiUrlKey = "SignalRDeleteMethodApiUrl";
         public const string PrintablesString = "Printables";
         public const string PdfPattern = "*.pdf";
+        public const string FileNameDateParsed = "yyyyMMdd";
     }
 }

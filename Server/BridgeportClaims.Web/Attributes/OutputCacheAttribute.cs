@@ -12,7 +12,6 @@ namespace BridgeportClaims.Web.Attributes
     public class BridgeportClaimsOutputCacheAttribute : ActionFilterAttribute
     {
         #region Private Members
-
         // cache length in seconds
         private readonly int _timespan;
         // client cache length in seconds
@@ -21,6 +20,8 @@ namespace BridgeportClaims.Web.Attributes
         private readonly bool _anonymousOnly;
         // cache key
         private string _cachekey;
+        public string VaryByParam;
+
         // cache repository
         private static readonly ObjectCache WebApiCache = MemoryCache.Default;
 
@@ -98,7 +99,7 @@ namespace BridgeportClaims.Web.Attributes
         {
             if (!(WebApiCache.Contains(_cachekey)))
             {
-                var body = actionExecutedContext.Response.Content.ReadAsStringAsync().Result;
+                var body = actionExecutedContext.Response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
                 WebApiCache.Add(_cachekey, body, DateTime.Now.AddSeconds(_timespan));
                 WebApiCache.Add(_cachekey + ":response-ct", actionExecutedContext.Response.Content.Headers.ContentType,
                     DateTime.Now.AddSeconds(_timespan));

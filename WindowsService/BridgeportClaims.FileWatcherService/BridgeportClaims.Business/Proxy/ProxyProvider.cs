@@ -4,7 +4,7 @@ using System.Reflection;
 using BridgeportClaims.Business.DAL;
 using BridgeportClaims.Business.Enums;
 using BridgeportClaims.Business.Extensions;
-using BridgeportClaims.Business.IO;
+using BridgeportClaims.Business.Helpers.IO;
 using BridgeportClaims.Business.Logging;
 using NLog;
 using cs = BridgeportClaims.Business.ConfigService.ConfigService;

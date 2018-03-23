@@ -137,7 +137,7 @@ namespace BridgeportClaims.Business.DAL
             });
 
         internal void UpdateDocument(int documentId, string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
-            DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, long byteCount, byte fileTypeId) =>
+            DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, DateTime? documentDate, long byteCount, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentUpdate]", conn), cmd =>
@@ -219,6 +219,13 @@ namespace BridgeportClaims.Business.DAL
                     fileUrlParam.SqlDbType = SqlDbType.NVarChar;
                     fileUrlParam.Size = 4000;
                     cmd.Parameters.Add(fileUrlParam);
+                    var documentDateParam = cmd.CreateParameter();
+                    documentDateParam.ParameterName = "@DocumentDate";
+                    documentDateParam.Direction = ParameterDirection.Input;
+                    documentDateParam.DbType = DbType.Date;
+                    documentDateParam.SqlDbType = SqlDbType.Date;
+                    documentDateParam.Value = documentDate ?? (object) DBNull.Value;
+                    cmd.Parameters.Add(documentDateParam);
                     var byteCountParam = cmd.CreateParameter();
                     byteCountParam.Direction = ParameterDirection.Input;
                     byteCountParam.Value = byteCount;
@@ -242,7 +249,8 @@ namespace BridgeportClaims.Business.DAL
             });
 
         internal int InsertDocument(string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
-                DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, long byteCount, byte fileTypeId) =>
+                DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, DateTime? documentDate,
+                long byteCount, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentInsert]", conn), cmd =>
@@ -317,6 +325,13 @@ namespace BridgeportClaims.Business.DAL
                     fileUrlParam.SqlDbType = SqlDbType.NVarChar;
                     fileUrlParam.Size = 4000;
                     cmd.Parameters.Add(fileUrlParam);
+                    var documentDateParam = cmd.CreateParameter();
+                    documentDateParam.ParameterName = "@DocumentDate";
+                    documentDateParam.Direction = ParameterDirection.Input;
+                    documentDateParam.Value = documentDate ?? (object) DBNull.Value;
+                    documentDateParam.DbType = DbType.Date;
+                    documentDateParam.SqlDbType = SqlDbType.Date;
+                    cmd.Parameters.Add(documentDateParam);
                     var byteCountParam = cmd.CreateParameter();
                     byteCountParam.Direction = ParameterDirection.Input;
                     byteCountParam.Value = byteCount;

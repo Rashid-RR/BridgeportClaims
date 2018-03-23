@@ -1,5 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
+using BridgeportClaims.Business.Extensions;
+using BridgeportClaims.Business.Helpers;
 
 namespace BridgeportClaims.Business.Dto
 {
@@ -29,6 +32,9 @@ namespace BridgeportClaims.Business.Dto
         [Required]
         [StringLength(4000)]
         public string FileUrl { get; set; }
+
+        public DateTime? DocumentDate => FileName?.ToParsedDateTime();
+
         [Required]
         public long ByteCount { get; set; }
         [Required]
