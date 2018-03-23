@@ -3,7 +3,9 @@
   color: #fff;
 }
 
-
+.box-header.with-border{
+  margin-bottom:0px;
+}
 
 .bg-vdarkgrey {
   background-color: #111d21 !important;
@@ -15,7 +17,7 @@
   color: #fff;
 }
 
-.form-group label {
+.form-group,.form-group label {
   margin-bottom: 0 !important;
 }
 .form-group input {
