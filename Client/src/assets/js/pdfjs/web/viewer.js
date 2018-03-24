@@ -10053,16 +10053,14 @@ function getParameterByName(name, url) {
   if (!url) url = window.location.href;
   name = name.replace(/[\[\]]/g, "\\$&");
   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-      results = regex.exec(url);
-      console.log(url,results)
+      results = regex.exec(url); 
   if (!results) return null;
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 function getDocumentLink(name, url) {
   if (!url) url = window.location.href;
-  var results = url.split(name+'='); 
-  console.log(name,results)
+  var results = url.split(name+'=');  
   if (!results) return null;
   if (!results[1]) return '';
   return decodeURIComponent(results[1].replace(/\+/g, " "));
