@@ -7,7 +7,8 @@ using BridgeportClaims.Business.DAL;
 using BridgeportClaims.Business.Dto;
 using BridgeportClaims.Business.Enums;
 using BridgeportClaims.Business.Extensions;
-using BridgeportClaims.Business.IO;
+using BridgeportClaims.Business.Helpers;
+using BridgeportClaims.Business.Helpers.IO;
 using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Business.URL;
 using NLog;
@@ -121,13 +122,14 @@ namespace BridgeportClaims.Business.Providers
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 var fileInfo = new FileInfo(e.FullPath);
+                var fileName = fileInfo.Name;
                 var fileSize = GetFileSize(fileInfo.Length);
                 var url = UrlHelper.GetUrlFromFullFileName(fileInfo.FullName, _rootDomain, _pathToRemove);
                 // Database call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the database call to insert document {fileInfo.Name} within {methodName} method on {now}.");
                 var documentId = _documentDataProvider.InsertDocument(fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime,
-                    fileInfo.LastAccessTime, fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte) InternalFileType);
+                    fileInfo.LastAccessTime, fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileName.ToParsedDateTime(), fileInfo.Length, (byte) InternalFileType);
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to add document {fileInfo.Name} within {methodName} method on {now}.");
@@ -192,6 +194,7 @@ namespace BridgeportClaims.Business.Providers
                     return;
                 // Ensure that the changed file has at least one changed property worth updating
                 var fileInfo = new FileInfo(e.FullPath);
+                var fileName = fileInfo.Name;
                 var needsModification = FileWasModified(fileInfo, e.OldFullPath);
                 if (!needsModification)
                     return; // no modification necessary.
@@ -204,7 +207,7 @@ namespace BridgeportClaims.Business.Providers
                     Logger.Info($"Starting the database call to update document {fileInfo.Name} within {methodName} method on {now}.");
                 var documentId = _documentDataProvider.GetDocumentIdByDocumentName(e.OldFullPath, (byte)InternalFileType);
                 _documentDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime,
-                    fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte)InternalFileType);
+                    fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileName.ToParsedDateTime(), fileInfo.Length, (byte)InternalFileType);
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to update document {fileInfo.Name} within {methodName} method on {now}.");
@@ -237,6 +240,7 @@ namespace BridgeportClaims.Business.Providers
                     return;
                 // Ensure that the changed file has at least one changed property worth updating
                 var fileInfo = new FileInfo(e.FullPath);
+                var fileName = fileInfo.Name;
                 var needsModification = FileWasModified(fileInfo);
                 if (!needsModification)
                     return; // no modification necessary.
@@ -249,7 +253,7 @@ namespace BridgeportClaims.Business.Providers
                     Logger.Info($"Starting the database call to update document {fileInfo.Name} within {methodName} method on {now}.");
                 var documentId = _documentDataProvider.GetDocumentIdByDocumentName(fileInfo.FullName, (byte) InternalFileType);
                 _documentDataProvider.UpdateDocument(documentId, fileInfo.Name, fileInfo.Extension, fileSize, fileInfo.CreationTime, fileInfo.LastAccessTime,
-                    fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileInfo.Length, (byte) InternalFileType);
+                    fileInfo.LastWriteTime, fileInfo.DirectoryName, fileInfo.FullName, url, fileName.ToParsedDateTime(), fileInfo.Length, (byte) InternalFileType);
                 // Api Call
                 if (cs.AppIsInDebugMode)
                     Logger.Info($"Starting the API call to update document {fileInfo.Name} within {methodName} method on {now}.");

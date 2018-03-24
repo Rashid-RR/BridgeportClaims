@@ -20,6 +20,7 @@ CREATE PROC [dbo].[uspDocumentUpdate]
     @DirectoryName VARCHAR(255),
     @FullFilePath NVARCHAR(4000),
     @FileUrl NVARCHAR(4000),
+    @DocumentDate DATE,
 	@ByteCount BIGINT,
 	@FileTypeID TINYINT
 AS BEGIN
@@ -33,7 +34,8 @@ AS BEGIN
 		UPDATE [dbo].[Document]
 		SET    [FileName] = @FileName, [Extension] = @Extension, [FileSize] = @FileSize, [CreationTimeLocal] = @CreationTimeLocal,
 			 [LastAccessTimeLocal] = @LastAccessTimeLocal, [LastWriteTimeLocal] = @LastWriteTimeLocal, [DirectoryName]
-			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [ByteCount] = @ByteCount, [FileTypeID] = @FileTypeID,
+			  = @DirectoryName, [FullFilePath] = @FullFilePath, [FileUrl] = @FileUrl, [DocumentDate] = @DocumentDate,
+               [ByteCount] = @ByteCount, [FileTypeID] = @FileTypeID,
 			   [UpdatedOnUTC] = @UtcNow
 		WHERE  [DocumentID] = @DocumentID
 		IF (@@ROWCOUNT > 1)
@@ -41,7 +43,7 @@ AS BEGIN
 				IF (@@TRANCOUNT > 0)
 					ROLLBACK;
 				RAISERROR(N'Error. More then one row was affected from this Update.', 16, 1) WITH NOWAIT;
-				RETURN;
+				RETURN -1;
 			END
 
 		IF (@@TRANCOUNT > 0)
@@ -65,5 +67,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 
 GO

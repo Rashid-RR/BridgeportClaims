@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Http;
+using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using c = BridgeportClaims.Common.StringConstants.Constants;
@@ -158,6 +159,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("UserInfo")]
+        [BridgeportClaimsOutputCache(120, 1200, false)]
         public async Task<UserInfoViewModel> GetUserInfo()
         {
             try

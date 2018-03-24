@@ -11,7 +11,7 @@ using BridgeportClaims.Business.URL;
 using c = BridgeportClaims.Business.StringConstants.Constants;
 using cs = BridgeportClaims.Business.ConfigService.ConfigService;
 
-namespace BridgeportClaims.Business.IO
+namespace BridgeportClaims.Business.Helpers.IO
 {
     public static class IoHelper
     {

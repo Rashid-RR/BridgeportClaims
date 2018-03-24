@@ -166,3 +166,5 @@ CREATE TABLE [etl].[StagedLakerFile]
 GO
 CREATE NONCLUSTERED INDEX [idxStagedLakerFileRowID] ON [etl].[StagedLakerFile] ([RowID]) INCLUDE ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxStagedLakerFileRowIDIncludePrescriptionID] ON [etl].[StagedLakerFile] ([RowID]) INCLUDE ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
