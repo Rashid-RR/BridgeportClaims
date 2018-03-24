@@ -9,7 +9,7 @@ GO
 	Sample Execute:
 					EXEC [dbo].[uspMergeInvoiceDocuments]
 */
-CREATE   PROCEDURE [dbo].[uspMergeInvoiceDocuments]
+CREATE PROCEDURE [dbo].[uspMergeInvoiceDocuments]
     @Documents dbo.udtDocument READONLY
 AS BEGIN
 	SET NOCOUNT ON;
@@ -29,15 +29,16 @@ AS BEGIN
                     , [d].[DirectoryName]
                     , [d].[FullFilePath]
                     , [d].[FileUrl]
+                    , [d].[DocumentDate]
 					, [d].[ByteCount]
 					, [d].[FileTypeID]
 				FROM @Documents AS [d]) AS [src]
 				ON [tgt].[FullFilePath] = [src].[FullFilePath]
 		WHEN NOT MATCHED BY TARGET THEN
 			INSERT ([FileName], [Extension], [FileSize], [CreationTimeLocal], [LastAccessTimeLocal], [LastWriteTimeLocal],
-				[DirectoryName], [FullFilePath], [FileUrl], [ByteCount], [FileTypeID], [CreatedOnUTC], [UpdatedOnUTC])
+				[DirectoryName], [FullFilePath], [FileUrl], [DocumentDate], [ByteCount], [FileTypeID], [CreatedOnUTC], [UpdatedOnUTC])
 			VALUES ([src].[FileName], [src].[Extension], [src].[FileSize], [src].[CreationTimeLocal], [src].[LastAccessTimeLocal],
-				[src].[LastWriteTimeLocal], [src].[DirectoryName], [src].[FullFilePath], [src].[FileUrl], [src].[ByteCount],
+				[src].[LastWriteTimeLocal], [src].[DirectoryName], [src].[FullFilePath], [src].[FileUrl], [src].[DocumentDate], [src].[ByteCount],
 				[src].[FileTypeID], @UtcNow, @UtcNow)
 		WHEN MATCHED THEN
 			UPDATE SET [tgt].[Extension] = [src].[Extension],
@@ -48,6 +49,7 @@ AS BEGIN
 					   [tgt].[DirectoryName] = [src].[DirectoryName],
 					   [tgt].[FullFilePath] = [src].[FullFilePath],
 					   [tgt].[FileUrl] = [src].[FileUrl],
+                       [tgt].[DocumentDate] = [src].[DocumentDate],
 					   [tgt].[ByteCount] = [src].[ByteCount],
 					   [tgt].[FileTypeID] = [src].[FileTypeID],
 					   [tgt].[UpdatedOnUTC] = @UtcNow
@@ -75,5 +77,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 
 GO
