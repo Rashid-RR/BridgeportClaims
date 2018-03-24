@@ -10054,13 +10054,22 @@ function getParameterByName(name, url) {
   name = name.replace(/[\[\]]/g, "\\$&");
   var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
       results = regex.exec(url);
+      console.log(url,results)
   if (!results) return null;
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+function getDocumentLink(name, url) {
+  if (!url) url = window.location.href;
+  var results = url.split(name+'='); 
+  console.log(name,results)
+  if (!results) return null;
+  if (!results[1]) return '';
+  return decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
 //var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';
-var DEFAULT_URL = getParameterByName('url');
+var DEFAULT_URL = getDocumentLink('url');
 ;
 var pdfjsWebApp = void 0;
 {

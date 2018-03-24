@@ -127,6 +127,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
 
   render(docInitParams: any = {}) {
     let minusHeight = this.isIndexedImage ? 100 : 245;
+    //$("#fileCanvas" + this.fileId).html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=https://invoices.bridgeportclaims.com/2017/06- Jun/20170613/GEICO - DE/Rebill as new claim # - INV1500_GEICO - DE050042481010104501.pdf" allowfullscreen style="width:100%;height:calc(100vh - ' + minusHeight + 'px);border: none;"></iframe>');
     $("#fileCanvas" + this.fileId).html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + docInitParams.url + '" allowfullscreen style="width:100%;height:calc(100vh - ' + minusHeight + 'px);border: none;"></iframe>');
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
