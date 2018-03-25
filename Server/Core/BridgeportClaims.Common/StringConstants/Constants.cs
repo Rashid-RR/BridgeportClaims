@@ -54,5 +54,7 @@
 		public const string BenefitsExhaustedLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.Benefits Exhausted Letter.docx";
 		public const string PipAppLetterManifestResource = "BridgeportClaims.Word.EmbeddedResources.PIP App Letter.docx";
 	    public const string ContentDispositionUniqueString = "inline; filename=";
+	    public const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+	    public const string BillingStatementName = "Billing Statement";
 	}
 }

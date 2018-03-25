@@ -24,7 +24,13 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 {
 	public class ClaimsDataProvider : IClaimsDataProvider
 	{
-		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+	    private const string Query =  @"DECLARE @ClaimID INTEGER = {0};
+                                        SELECT          CONCAT([p].[LastName], '_', [p].[FirstName]) LastNameFirstName
+                                        FROM            [dbo].[Patient] AS [p]
+                                            INNER JOIN  [dbo].[Claim]   AS [c] ON [c].[PatientID] = [p].[PatientID]
+                                        WHERE           [c].[ClaimID] = @ClaimID";
+
+        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
 		private readonly IEpisodesDataProvider _episodesDataProvider;
 		private readonly ISessionFactory _factory;
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
@@ -425,5 +431,29 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 					});
 			});
 		}
+
+	    public string GetLastNameAndFirstNameFromClaimId(int claimId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            var query = string.Format(Query, claimId);
+	            return DisposableService.Using(() => new SqlCommand(query, conn), cmd =>
+	            {
+	                cmd.CommandType = CommandType.Text;
+	                var retVal = string.Empty;
+	                if (conn.State != ConnectionState.Open)
+	                    conn.Open();
+	                DisposableService.Using(cmd.ExecuteReader, reader =>
+	                {
+	                    var lastNameFirstNameOrdinal = reader.GetOrdinal("LastNameFirstName");
+                        while (reader.Read())
+                        {
+                            retVal = reader.GetString(lastNameFirstNameOrdinal);
+                        }
+	                });
+	                if (conn.State != ConnectionState.Closed)
+	                    conn.Close();
+	                return retVal;
+	            });
+	        });
 	}
 }

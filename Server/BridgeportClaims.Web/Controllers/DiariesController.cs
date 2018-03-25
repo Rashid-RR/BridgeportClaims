@@ -59,7 +59,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var results = _diaryProvider.GetDiaries(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), model.EndDate.ToNullableFormattedDateTime(),
-                    model.Sort, model.SortDirection, model.Page, model.PageSize, model.Closed, null);
+                    model.Sort, model.SortDirection, model.Page, model.PageSize, model.Closed, model.UserId, model.NoteText);
                 return Ok(results);
             }
             catch (Exception ex)

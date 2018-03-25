@@ -1,7 +1,10 @@
-﻿namespace BridgeportClaims.Business.PrescriptionReports
+﻿using System.Data;
+
+namespace BridgeportClaims.Business.PrescriptionReports
 {
     public interface IPrescriptionReportFactory
     {
-        string GeneratePrescriptionReport(int claimId);
+        string GetLastNameAndFirstNameFromClaimId(int claimId);
+        DataTable GenerateBillingStatementDataTable(int claimId);
     }
 }

@@ -8,7 +8,7 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
     {
         IEnumerable<DiaryOwnerDto> GetDiaryOwners();
         DiariesDto GetDiaries(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sortColumn, string sortDirection, int pageNumber, int pageSize, bool closed, string userId);
+            string sortColumn, string sortDirection, int pageNumber, int pageSize, bool closed, string userId, string noteText);
         void RemoveDiary(int diaryId);
     }
 }

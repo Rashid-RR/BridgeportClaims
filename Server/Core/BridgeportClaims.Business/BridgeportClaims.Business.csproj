@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BillingStatement\BillingStatementProvider.cs" />
+    <Compile Include="BillingStatement\IBillingStatementProvider.cs" />
     <Compile Include="LakerFileProcess\ILakerFileProcessor.cs" />
     <Compile Include="LakerFileProcess\LakerFileProcessor.cs" />
     <Compile Include="Models\PaymentInputsModel.cs" />
@@ -63,6 +65,10 @@
     <ProjectReference Include="..\..\DAL\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
       <Project>{efbeb7f6-9648-4475-ad19-8f5dab3e5876}</Project>
       <Name>BridgeportClaims.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\BridgeportClaims.Excel\BridgeportClaims.Excel.csproj">
+      <Project>{df854117-1c14-4f92-935d-a740dded79df}</Project>
+      <Name>BridgeportClaims.Excel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utilities\BridgeportClaims.Pdf\BridgeportClaims.Pdf.csproj">
       <Project>{791943db-823b-43a0-87f8-05a6443628c3}</Project>

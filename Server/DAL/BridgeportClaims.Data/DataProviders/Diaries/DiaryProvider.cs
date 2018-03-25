@@ -49,7 +49,7 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
             });
 
         public DiariesDto GetDiaries(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sortColumn, string sortDirection, int pageNumber, int pageSize, bool closed, string userId)
+            string sortColumn, string sortDirection, int pageNumber, int pageSize, bool closed, string userId, string noteText)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDiaries]", conn), cmd =>
@@ -118,6 +118,14 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                     userIdParam.SqlDbType = SqlDbType.NVarChar;
                     userIdParam.Size = 128;
                     cmd.Parameters.Add(userIdParam);
+                    var noteTextParam = cmd.CreateParameter();
+                    noteTextParam.Direction = ParameterDirection.Input;
+                    noteTextParam.Value = noteText ?? (object)DBNull.Value;
+                    noteTextParam.ParameterName = "@NoteText";
+                    noteTextParam.DbType = DbType.AnsiString;
+                    noteTextParam.SqlDbType = SqlDbType.VarChar;
+                    noteTextParam.Size = 8000;
+                    cmd.Parameters.Add(noteTextParam);
                     var totalRowsParam = cmd.CreateParameter();
                     totalRowsParam.ParameterName = "@TotalRows";
                     totalRowsParam.DbType = DbType.Int32;

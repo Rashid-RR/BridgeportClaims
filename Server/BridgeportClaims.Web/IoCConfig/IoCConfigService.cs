@@ -4,6 +4,7 @@ using System.Web;
 using System.Data;
 using System.Reflection;
 using Autofac.Integration.WebApi;
+using BridgeportClaims.Business.BillingStatement;
 using BridgeportClaims.Business.LakerFileProcess;
 using BridgeportClaims.Web.Email;
 using BridgeportClaims.Common.Caching;
@@ -98,6 +99,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<LetterGenerationProvider>().As<ILetterGenerationProvider>().InstancePerRequest();
             builder.RegisterType<WordTemplater>().As<IWordTemplater>().InstancePerRequest();
             builder.RegisterType<PayorLetterNameProvider>().As<IPayorLetterNameProvider>().InstancePerRequest();
+            builder.RegisterType<BillingStatementProvider>().As<IBillingStatementProvider>().InstancePerRequest();
 
             // SignalR
             var hubConfig = new HubConfiguration();

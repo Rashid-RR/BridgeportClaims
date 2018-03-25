@@ -5,7 +5,7 @@ using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
-using BridgeportClaims.Business.PrescriptionReports;
+using BridgeportClaims.Business.BillingStatement;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
@@ -14,6 +14,7 @@ using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Pdf.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -24,19 +25,38 @@ namespace BridgeportClaims.Web.Controllers
         private readonly IClaimsDataProvider _claimsDataProvider;
         private readonly IPrescriptionsDataProvider _prescriptionsDataProvider;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IPrescriptionReportFactory _prescriptionReportFactory;
         private readonly IPdfFactory _pdfFactory;
+        private readonly IBillingStatementProvider _billingStatementProvider;
 
         public PrescriptionsController(
             IClaimsDataProvider claimsDataProvider,
             IPrescriptionsDataProvider prescriptionsDataProvider,
-            IPrescriptionReportFactory prescriptionReportFactory, 
-            IPdfFactory pdfFactory)
+            IPdfFactory pdfFactory, 
+            IBillingStatementProvider billingStatementProvider)
         {
             _claimsDataProvider = claimsDataProvider;
             _prescriptionsDataProvider = prescriptionsDataProvider;
-            _prescriptionReportFactory = prescriptionReportFactory;
             _pdfFactory = pdfFactory;
+            _billingStatementProvider = billingStatementProvider;
+        }
+
+        [HttpPost]
+        [Route("billing-statement")]
+        public async Task<IHttpActionResult> GetBillingStatement(int claimId)
+        {
+            try
+            {
+                return await Task.Run(() =>
+                {
+                    var fullFilePath = _billingStatementProvider.GenerateBillingStatementFullFilePath(claimId, out var fileName);
+                    return new FileResult(fullFilePath, fileName, c.ExcelContentType);
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -67,26 +87,6 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         private static PrescriptionIdDto GetPrescriptionIdDto(int i) => new PrescriptionIdDto {PrescriptionID = i};
-
-        [HttpPost]
-        [Route("scripts-pdf")]
-        public async Task<IHttpActionResult> GetPrescriptionsPdf(int claimId)
-        {
-            try
-            {
-                return await Task.Run(() =>
-                {
-                    var path = _prescriptionReportFactory.GeneratePrescriptionReport(claimId);
-                    var fileName = "Me.pdf";
-                    return new FileResult(path, fileName, "application/pdf");
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
 
         [HttpPost]
         [Route("unpaid")]

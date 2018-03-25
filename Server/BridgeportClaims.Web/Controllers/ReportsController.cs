@@ -13,6 +13,7 @@ using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Excel.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
+using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -150,7 +151,7 @@ namespace BridgeportClaims.Web.Controllers
                         throw new Exception("Could not create a data table from the report.");
                     var fileName = "AccountsReceivableReport" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.xlsx";
                     var fullFilePath = ExcelFactory.GetExcelFilePathFromDataTable(dataTable, "Accounts Receivable", fileName);
-                    return new FileResult(fullFilePath, fileName, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+                    return new FileResult(fullFilePath, fileName, c.ExcelContentType);
                 });
             }
             catch (Exception ex)
