@@ -18,3 +18,5 @@ ALTER TABLE [dbo].[Invoice] ADD CONSTRAINT [pkInvoice] PRIMARY KEY CLUSTERED  ([
 GO
 CREATE NONCLUSTERED INDEX [idxInvoiceInvoiceDate] ON [dbo].[Invoice] ([InvoiceDate]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxInvoiceInvoiceNumberIncludeInvoiceDate] ON [dbo].[Invoice] ([InvoiceNumber]) INCLUDE ([InvoiceDate]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO

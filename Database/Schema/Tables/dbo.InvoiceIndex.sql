@@ -14,6 +14,8 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[InvoiceIndex] ADD CONSTRAINT [pkInvoiceIndex] PRIMARY KEY CLUSTERED  ([DocumentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxInvoiceIndexInvoiceNumber] ON [dbo].[InvoiceIndex] ([InvoiceNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[InvoiceIndex] ADD CONSTRAINT [fkInvoiceIndexDocumentIDDocumentDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[Document] ([DocumentID])
 GO
 ALTER TABLE [dbo].[InvoiceIndex] ADD CONSTRAINT [fkInvoiceIndexModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])

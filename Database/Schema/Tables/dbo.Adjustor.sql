@@ -68,8 +68,6 @@ ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [pkAdjustor] PRIMARY KEY CLUSTERED  
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxUqAdjustorAdjustorNamePayorID] ON [dbo].[Adjustor] ([AdjustorName], [PayorID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxAdjustorModifiedByUserID] ON [dbo].[Adjustor] ([ModifiedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
 CREATE NONCLUSTERED INDEX [idxAdjustorPayorIDIncludeAll] ON [dbo].[Adjustor] ([PayorID]) INCLUDE ([AdjustorID], [AdjustorName], [CreatedOnUTC], [EmailAddress], [Extension], [FaxNumber], [ModifiedByUserID], [PhoneNumber], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[Adjustor] ADD CONSTRAINT [fkAdjustorModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
