@@ -26,12 +26,12 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     IList<DiaryOwnerDto> retVal = new List<DiaryOwnerDto>();
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
                     DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
                         var userIdOrdinal = reader.GetOrdinal("UserId");
                         var ownerOrdinal = reader.GetOrdinal("Owner");
-                        if (conn.State != ConnectionState.Open)
-                            conn.Open();
                         while (reader.Read())
                         {
                             var result = new DiaryOwnerDto
