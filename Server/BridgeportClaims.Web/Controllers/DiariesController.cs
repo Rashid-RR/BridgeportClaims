@@ -20,6 +20,22 @@ namespace BridgeportClaims.Web.Controllers
             _diaryProvider = diaryProvider;
         }
 
+        [HttpGet]
+        [Route("owners")]
+        public IHttpActionResult GetDiaryOwners()
+        {
+            try
+            {
+                var owners = _diaryProvider.GetDiaryOwners();
+                return Ok(owners);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
         [HttpPost]
         [Route("remove")]
         public IHttpActionResult RemoveDiary(int prescriptionNoteId)
@@ -43,7 +59,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var results = _diaryProvider.GetDiaries(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), model.EndDate.ToNullableFormattedDateTime(),
-                    model.Sort, model.SortDirection, model.Page, model.PageSize, model.Closed);
+                    model.Sort, model.SortDirection, model.Page, model.PageSize, model.Closed, null);
                 return Ok(results);
             }
             catch (Exception ex)

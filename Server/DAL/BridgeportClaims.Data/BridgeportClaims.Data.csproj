@@ -146,6 +146,7 @@
     <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\DiariesDto.cs" />
+    <Compile Include="Dtos\DiaryOwnerDto.cs" />
     <Compile Include="Dtos\DiaryResultDto.cs" />
     <Compile Include="Dtos\DocumentClaimSearchResultDto.cs" />
     <Compile Include="Dtos\DocumentResultDto.cs" />

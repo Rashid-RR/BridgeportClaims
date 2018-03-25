@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
@@ -18,8 +19,37 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
             _storedProcedureExecutor = storedProcedureExecutor;
         }
 
+        public IEnumerable<DiaryOwnerDto> GetDiaryOwners() =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDiaryOwners]", conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    IList<DiaryOwnerDto> retVal = new List<DiaryOwnerDto>();
+                    DisposableService.Using(cmd.ExecuteReader, reader =>
+                    {
+                        var userIdOrdinal = reader.GetOrdinal("UserId");
+                        var ownerOrdinal = reader.GetOrdinal("Owner");
+                        if (conn.State != ConnectionState.Open)
+                            conn.Open();
+                        while (reader.Read())
+                        {
+                            var result = new DiaryOwnerDto
+                            {
+                                UserId = !reader.IsDBNull(userIdOrdinal) ? reader.GetString(userIdOrdinal) : string.Empty,
+                                Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty
+                            };
+                            retVal.Add(result);
+                        }
+                    });
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+                    return retVal.AsEnumerable();
+                });
+            });
+
         public DiariesDto GetDiaries(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sortColumn, string sortDirection, int pageNumber, int pageSize, bool closed)
+            string sortColumn, string sortDirection, int pageNumber, int pageSize, bool closed, string userId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDiaries]", conn), cmd =>
@@ -80,6 +110,14 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                     closedParam.DbType = DbType.Boolean;
                     closedParam.SqlDbType = SqlDbType.Bit;
                     cmd.Parameters.Add(closedParam);
+                    var userIdParam = cmd.CreateParameter();
+                    userIdParam.Direction = ParameterDirection.Input;
+                    userIdParam.Value = userId ?? (object) DBNull.Value;
+                    userIdParam.ParameterName = "@UserID";
+                    userIdParam.DbType = DbType.String;
+                    userIdParam.SqlDbType = SqlDbType.NVarChar;
+                    userIdParam.Size = 128;
+                    cmd.Parameters.Add(userIdParam);
                     var totalRowsParam = cmd.CreateParameter();
                     totalRowsParam.ParameterName = "@TotalRows";
                     totalRowsParam.DbType = DbType.Int32;
