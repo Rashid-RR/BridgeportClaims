@@ -19,6 +19,8 @@ CREATE PROC [dbo].[uspGetDiaries]
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
 	@Closed BIT,
+	@UserID NVARCHAR(128),
+	@NoteText VARCHAR(8000),
 	@TotalRows INTEGER OUTPUT
 )
 AS BEGIN
@@ -75,6 +77,8 @@ AS BEGIN
 		INNER JOIN  dbo.Payor        AS pay ON pay.PayorID = c.PayorID
 	WHERE (d.FollowUpDate >= @StartDate OR @StartDate IS NULL) 
 		AND (d.FollowUpDate <= @EndDate OR @EndDate IS NULL)
+		AND (u.[ID] = @UserID OR @UserID IS NULL)
+		AND (pn.[NoteText] LIKE CONCAT('%', @NoteText, '%') OR @NoteText IS NULL)
 		AND @One = CASE WHEN @Closed = @False AND d.DateResolved IS NULL THEN @One
 					 WHEN @Closed = @True AND d.DateResolved IS NOT NULL THEN @One
 					 ELSE @Zero END
