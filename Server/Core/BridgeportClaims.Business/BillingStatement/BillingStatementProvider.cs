@@ -18,10 +18,10 @@ namespace BridgeportClaims.Business.BillingStatement
         public string GenerateBillingStatementFullFilePath(int claimId, out string fileName)
         {
             var dt = _prescriptionReportFactory.GenerateBillingStatementDataTable(claimId);
-            var lastNameFirstName = _prescriptionReportFactory.GetLastNameAndFirstNameFromClaimId(claimId);
+            var billingStatementDto = _prescriptionReportFactory.GetBillingStatementDto(claimId);
             var localNow = DateTime.UtcNow.ToMountainTime();
-            fileName = $"{lastNameFirstName}_Billing_Statement_{localNow:MM-dd-yy}";
-            var fullFilePath = ExcelFactory.GetBillingStatementExcelFilePathFromDataTable(dt, c.BillingStatementName, fileName);
+            fileName = $"{billingStatementDto.LastName}_{billingStatementDto.FirstName}_Billing_Statement_{localNow:MM-dd-yy}.xlsx";
+            var fullFilePath = ExcelFactory.GetBillingStatementExcelFilePathFromDataTable(dt, c.BillingStatementName, fileName, billingStatementDto);
             return fullFilePath;
         }
     }

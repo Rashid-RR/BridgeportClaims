@@ -1,10 +1,11 @@
 ﻿using System.Data;
+using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Business.PrescriptionReports
 {
     public interface IPrescriptionReportFactory
     {
-        string GetLastNameAndFirstNameFromClaimId(int claimId);
+        BillingStatementDto GetBillingStatementDto(int claimId);
         DataTable GenerateBillingStatementDataTable(int claimId);
     }
 }

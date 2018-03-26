@@ -38,7 +38,7 @@ namespace BridgeportClaims.Web.Controllers
             _memoryCacher = MemoryCacher.Instance;
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [Route("amount-remaining")]
         public async Task<IHttpActionResult> GetAmountRemaining(AmountRemainingModel model)
         {
@@ -55,7 +55,7 @@ namespace BridgeportClaims.Web.Controllers
                 Logger.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
-        }
+        }*/
 
         [HttpPost]
         [Route("payments-blade")]

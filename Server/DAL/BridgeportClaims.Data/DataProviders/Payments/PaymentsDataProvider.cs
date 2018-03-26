@@ -5,9 +5,6 @@ using System.Globalization;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;
-using BridgeportClaims.Common.Caching;
-using BridgeportClaims.Excel.Adapters;
-using BridgeportClaims.Common.DataTables;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
@@ -19,12 +16,10 @@ namespace BridgeportClaims.Data.DataProviders.Payments
     public class PaymentsDataProvider : IPaymentsDataProvider
     {
         private readonly IStoredProcedureExecutor _storedProcedureExecutor;
-        private readonly IMemoryCacher _memoryCacher;
 
         public PaymentsDataProvider(IStoredProcedureExecutor storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
-            _memoryCacher = MemoryCacher.Instance;
         }
 
         public decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber)
@@ -54,7 +49,8 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                         DbType = DbType.String,
                         SqlDbType = SqlDbType.VarChar,
                         Direction = ParameterDirection.Input,
-                        ParameterName = "@CheckNumber"
+                        ParameterName = "@CheckNumber",
+                        Value = checkNumber ?? (object) DBNull.Value
                     };
                     cmd.Parameters.Add(param);
                     cmd.Parameters.Add(outputParam);
@@ -83,21 +79,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             return paymentSearchResultsDtos?.OrderByDescending(x => x.RxDate).ToList();
         }
 
-        public void ImportPaymentFile(string fileName)
-        {
-            var fileBytes = GetBytesFromDb(fileName);
-            if (null == fileBytes)
-                throw new ArgumentNullException($"Error. The File \"{fileName}\" does not Exist in the Database");
-            var dt = ExcelDataReaderAdapter.ReadExcelFileIntoDataTable(fileBytes.ToArray());
-            if (null == dt)
-                throw new Exception("Error. Could not Populate the Data Table from the Excel File Bytes " +
-                                    "Returned from the Database");
-            var newDt = DataTableProvider.FormatDataTableForPaymentImport(dt, true);
-            if (null == newDt)
-                throw new Exception("Error. Could not Copy over Contents of the Original Data Table into the " +
-                                    "Cloned Data Table with String Column Types");
-            ImportDataTableIntoDb(newDt);
-        }
+        
 
         public void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
                     string toSuspenseNoteText, decimal? amountToPost, string userId, IList<PaymentPostingDto> paymentPostings)
@@ -302,7 +284,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             return paymentSearchResultsDtos ?? new List<ClaimsWithPrescriptionCountsDto>();
         }
 
-        private static IEnumerable<byte> GetBytesFromDb(string fileName) => DisposableService.Using(()
+        public IEnumerable<byte> GetBytesFromDb(string fileName) => DisposableService.Using(()
             => new SqlConnection(cs.GetDbConnStr()), conn =>
         {
             return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetFileBytesFromFileName]", conn),
@@ -322,7 +304,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 });
         });
 
-        private static void ImportDataTableIntoDb(DataTable dt) => DisposableService.Using(()
+        public void ImportDataTableIntoDb(DataTable dt) => DisposableService.Using(()
             => new SqlConnection(cs.GetDbConnStr()), conn =>
         {
             DisposableService.Using(() => new SqlCommand("dbo.uspImportPaymentFromDataTable", conn),

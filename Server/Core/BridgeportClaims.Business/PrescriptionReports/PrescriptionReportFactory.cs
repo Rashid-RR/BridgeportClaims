@@ -1,6 +1,7 @@
 ﻿using System.Data;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
+using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Business.PrescriptionReports
 {
@@ -21,8 +22,8 @@ namespace BridgeportClaims.Business.PrescriptionReports
             _claimsDataProvider = claimsDataProvider;
         }
 
-        public string GetLastNameAndFirstNameFromClaimId(int claimId) =>
-            _claimsDataProvider.GetLastNameAndFirstNameFromClaimId(claimId);
+        public BillingStatementDto GetBillingStatementDto(int claimId) =>
+            _claimsDataProvider.GetBillingStatementDto(claimId);
 
         public DataTable GenerateBillingStatementDataTable(int claimId)
         {

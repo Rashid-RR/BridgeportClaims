@@ -25,7 +25,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 	public class ClaimsDataProvider : IClaimsDataProvider
 	{
 	    private const string Query =  @"DECLARE @ClaimID INTEGER = {0};
-                                        SELECT          CONCAT([p].[LastName], '_', [p].[FirstName]) LastNameFirstName
+                                        SELECT          [p].[FirstName]
+                                                      , [p].[LastName]
+                                                      , [p].[DateOfBirth]
                                         FROM            [dbo].[Patient] AS [p]
                                             INNER JOIN  [dbo].[Claim]   AS [c] ON [c].[PatientID] = [p].[PatientID]
                                         WHERE           [c].[ClaimID] = @ClaimID";
@@ -432,22 +434,29 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			});
 		}
 
-	    public string GetLastNameAndFirstNameFromClaimId(int claimId) =>
+	    public BillingStatementDto GetBillingStatementDto(int claimId) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
 	            var query = string.Format(Query, claimId);
 	            return DisposableService.Using(() => new SqlCommand(query, conn), cmd =>
 	            {
 	                cmd.CommandType = CommandType.Text;
-	                var retVal = string.Empty;
+	                BillingStatementDto retVal = null;
 	                if (conn.State != ConnectionState.Open)
 	                    conn.Open();
 	                DisposableService.Using(cmd.ExecuteReader, reader =>
 	                {
-	                    var lastNameFirstNameOrdinal = reader.GetOrdinal("LastNameFirstName");
+	                    var firstNameOrdinal = reader.GetOrdinal("FirstName");
+	                    var lastNameOrdinal = reader.GetOrdinal("LastName");
+	                    var dateOfBirthOrdinal = reader.GetOrdinal("DateOfBirth");
                         while (reader.Read())
                         {
-                            retVal = reader.GetString(lastNameFirstNameOrdinal);
+                            retVal = new BillingStatementDto
+                            {
+                                FirstName = !reader.IsDBNull(firstNameOrdinal) ? reader.GetString(firstNameOrdinal) : string.Empty,
+                                LastName = !reader.IsDBNull(lastNameOrdinal) ? reader.GetString(lastNameOrdinal) : string.Empty,
+                                DateOfBirth = !reader.IsDBNull(dateOfBirthOrdinal) ? reader.GetDateTime(dateOfBirthOrdinal) : (DateTime?) null
+                            };
                         }
 	                });
 	                if (conn.State != ConnectionState.Closed)

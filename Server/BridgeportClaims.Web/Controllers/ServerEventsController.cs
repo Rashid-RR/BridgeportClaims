@@ -2,8 +2,8 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
-using BridgeportClaims.Data.DataProviders.Payments;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -12,13 +12,13 @@ namespace BridgeportClaims.Web.Controllers
     public class ServerEventsController : BaseApiController
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IPaymentsDataProvider _paymentsDataProvider;
+        private readonly IPaymentsBusiness _paymentsBusiness;
         private readonly IImportFileProvider _importFileProvider;
 
-        public ServerEventsController(IPaymentsDataProvider paymentsDataProvider,
+        public ServerEventsController(IPaymentsBusiness paymentsBusiness,
             IImportFileProvider importFileProvider)
         {
-            _paymentsDataProvider = paymentsDataProvider;
+            _paymentsBusiness = paymentsBusiness;
             _importFileProvider = importFileProvider;
         }
 
@@ -31,7 +31,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    _paymentsDataProvider.ImportPaymentFile(fileName);
+                    _paymentsBusiness.ImportPaymentFile(fileName);
                     _importFileProvider.MarkFileProcessed(fileName);
                     return Ok(new {message = "The Payment File was Processed Successfully"});
                 });

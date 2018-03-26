@@ -11,6 +11,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
         EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id, string modifiedByUserId);
         IList<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection, string userId);
         ClaimDto GetClaimsDataByClaimId(int claimId, string userId);
-        string GetLastNameAndFirstNameFromClaimId(int claimId);
+        BillingStatementDto GetBillingStatementDto(int claimId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders.Payments
@@ -7,7 +8,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
     public interface IPaymentsDataProvider
     {
         decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber);
-        void ImportPaymentFile(string fileName);
         void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
             string toSuspenseNoteText, decimal? amountToPost, string userId, IList<PaymentPostingDto> paymentPostings);
         IList<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
@@ -15,6 +15,8 @@ namespace BridgeportClaims.Data.DataProviders.Payments
         IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds);
         IList<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,
             string lastName, DateTime? rxDate, string invoiceNumber);
+        IEnumerable<byte> GetBytesFromDb(string fileName);
+        void ImportDataTableIntoDb(DataTable dt);
         PostPaymentReturnDto PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
             decimal checkAmount, decimal amountSelected, decimal amountToPost);
     }
