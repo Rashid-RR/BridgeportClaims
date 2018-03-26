@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Data;
+using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Threading;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
@@ -9,6 +12,7 @@ using DocumentFormat.OpenXml.Presentation;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using TableStyles = OfficeOpenXml.Table.TableStyles;
+using Spire.Xls;
 
 namespace BridgeportClaims.Excel.Factories
 {
@@ -76,6 +80,7 @@ namespace BridgeportClaims.Excel.Factories
                 excelWorksheet.Cells[rowCount + 1, colCount - 1].Value = "Total Outstanding";
                 excelWorksheet.Cells[rowCount + 1, colCount - 1].Style.Font.Bold = true;
                 excelWorksheet.Cells[rowCount + 1, colCount].Formula = $"=SUM(I6:I{rowCount})";
+                excelWorksheet.Cells[rowCount + 1, colCount].Calculate();
                 excelWorksheet.Cells[rowCount + 1, colCount].Style.Font.Bold = true;
                 excelWorksheet.Cells[rowCount + 1, colCount].Style.Border.Top.Style = ExcelBorderStyle.Medium;
                 excelWorksheet.Cells[rowCount + 1, colCount].Style.Border.Bottom.Style = ExcelBorderStyle.Double; 
@@ -85,7 +90,7 @@ namespace BridgeportClaims.Excel.Factories
                 excelWorksheet.Cells[1, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 excelWorksheet.Cells[2, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 excelWorksheet.Cells[3, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                var fullFilePath = Path.Combine(Path.GetTempPath(), fileName);
+                var fullFilePath = Path.Combine(Path.GetTempPath(), fileName + ".xlsx");
                 return DisposableService.Using(() => File.Create(fullFilePath), stream =>
                 {
                     pck.SaveAs(stream);

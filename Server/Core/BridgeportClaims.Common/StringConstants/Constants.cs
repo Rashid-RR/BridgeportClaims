@@ -56,5 +56,7 @@
 	    public const string ContentDispositionUniqueString = "inline; filename=";
 	    public const string ExcelContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 	    public const string BillingStatementName = "Billing Statement";
+	    public const string PdfContentType = "application/pdf";
+
 	}
 }
