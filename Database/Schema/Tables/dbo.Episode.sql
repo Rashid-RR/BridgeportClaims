@@ -41,7 +41,7 @@ ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeAssignedUserIDAspNetUsersID
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeClaimIDClaimClaimID] FOREIGN KEY ([ClaimID]) REFERENCES [dbo].[Claim] ([ClaimID])
 GO
-ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeDocumentIDDocumentIndexDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[DocumentIndex] ([DocumentID])
+ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeDocumentIDDocumentIndexDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[DocumentIndex] ([DocumentID]) ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[Episode] ADD CONSTRAINT [fkEpisodeEpisodeCategoryIDEpisodeCategoryEpisodeCategoryID] FOREIGN KEY ([EpisodeCategoryID]) REFERENCES [dbo].[EpisodeCategory] ([EpisodeCategoryID])
 GO
