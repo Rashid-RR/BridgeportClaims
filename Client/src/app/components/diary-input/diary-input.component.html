@@ -50,7 +50,7 @@
         <div class="col-md-2" style="padding-left: 35px;">
             <div class="form-group">
                 <label>Owner name</label>
-                <select class="form-control" name="owner" [(ngModel)]="ds.data.ownerId" (focus)="submitted=false">
+                <select class="form-control" name="owner" [(ngModel)]="ds.data.ownerId" (focus)="submitted=false" (change)="search()">
                     <option value="">All Owners</option>
                     <option *ngFor="let e of ds.owners" [value]="e.userId">{{e.owner}}</option>
                 </select>
