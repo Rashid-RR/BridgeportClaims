@@ -23,7 +23,10 @@
                 <h3 class="box-title">Claims</h3>
                 <div class="box-tools pull-right" style="top:0px">
                     <div class="btn-group" data-toggle="btn-toggle" *ngIf="claimManager.selectedClaim">
-                        <button class="btn btn-flat btn-sm  be" type="button" (click)="viewFile()" style="margin-top:-5px">
+                        <button class="btn btn-flat btn-sm  be" type="button" (click)="exportBilling()">
+                            <img [src]="over[4] ? 'assets/img/billing/Hover.png' : 'assets/img/billing/Normal.png'" (mouseover)="over[4] = true" (mouseout)="over[4] = false" height="35px"  class="pull-left" style="cursor: pointer;">
+                        </button>
+                        <button class="btn btn-flat btn-sm  be" type="button" (click)="viewFile()" style="background:transparent;border:none;margin-top:-5px">
                             <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true" (mouseout)="over[3] = false" height="50px"  class="pull-left" style="cursor: pointer;">
                         </button>
                         <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">

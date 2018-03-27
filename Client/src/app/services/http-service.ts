@@ -371,6 +371,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getDiaryOwners(): Observable<Response> {
+    return this.http.get(this.baseUrl + '/diary/owners', { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   getPrescriptionNotes(id: Number): Observable<Response> {
     const s = this.http.post(this.baseUrl + '/prescriptionnotes/getprescriptionnotes/?prescriptionId=' + id, {}, { headers: this.headers })
       .catch(err => {
@@ -775,6 +782,13 @@ export class HttpService {
   }
   exportPrescriptions(data:any): Observable<Response> {
     return this.http.post(this.baseUrl + "/prescriptions/scripts-pdf/?claimId="+data.claimId,data, {responseType:ResponseContentType.Blob,headers:this.headers})    
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  exportBillingStatement(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + "/prescriptions/billing-statement-excel/?claimId="+data.claimId,data, {responseType:ResponseContentType.Blob,headers:this.headers})    
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

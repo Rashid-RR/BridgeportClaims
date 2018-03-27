@@ -62,7 +62,7 @@ export class ClaimsComponent implements OnInit {
     private toast: ToastsManager,
     private ar: AccountReceivableService,
   ) {
-    this.over = new Array(4);
+    this.over = new Array(5);
     this.over.fill(false);
   }
 
@@ -398,6 +398,24 @@ export class ClaimsComponent implements OnInit {
     } else {
       this.claimManager.loading = true;
       this.http.exportPrescriptions({ claimId: this.claimManager.selectedClaim.claimId })
+        .subscribe((result) => {
+          this.claimManager.loading = false;
+          this.ar.downloadFile(result);
+        }, err => {
+          console.log(err);
+          this.claimManager.loading = false;
+          try {
+            const error = err.json();
+          } catch (e) { }
+        });
+    }
+  }
+  exportBilling() {
+    if (!this.claimManager.selectedClaim) {
+      this.toast.warning('No claim loaded!');
+    } else {
+      this.claimManager.loading = true;
+      this.http.exportBillingStatement({ claimId: this.claimManager.selectedClaim.claimId })
         .subscribe((result) => {
           this.claimManager.loading = false;
           this.ar.downloadFile(result);
