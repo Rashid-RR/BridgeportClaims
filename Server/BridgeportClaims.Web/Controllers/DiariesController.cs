@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
@@ -26,7 +27,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var owners = _diaryProvider.GetDiaryOwners();
+                var owners = _diaryProvider.GetDiaryOwners()?.OrderBy(x => x.Owner);
                 return Ok(owners);
             }
             catch (Exception ex)
