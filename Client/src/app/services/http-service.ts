@@ -780,6 +780,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  exportBillingStatement(data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + "/prescriptions/billing-statement-excel/?claimId="+data.claimId,data, {responseType:ResponseContentType.Blob,headers:this.headers})    
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   exportLetter(data:any): Observable<Response> {
     return this.http.post(this.baseUrl + "/letters/download/?claimId="+data.claimId+"&letterType="+data.type+"&prescriptionId="+data.prescriptionId,data, {responseType:ResponseContentType.Blob,headers:this.headers})    
       .catch(err => {
