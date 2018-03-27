@@ -371,6 +371,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getDiaryOwners(): Observable<Response> {
+    return this.http.get(this.baseUrl + '/diary/owners', { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   getPrescriptionNotes(id: Number): Observable<Response> {
     const s = this.http.post(this.baseUrl + '/prescriptionnotes/getprescriptionnotes/?prescriptionId=' + id, {}, { headers: this.headers })
       .catch(err => {

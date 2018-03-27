@@ -18,6 +18,7 @@ export class DiaryService {
   owner:String;
   diaryNote:String;
   totalRowCount:number;
+  owners: Array<{ownerId:any,owner:string}> = []
   constructor(private http: HttpService,private formBuilder: FormBuilder,
       private dp:DiariesFilterPipe,
      private events: EventsService, private toast: ToastsManager) { 
@@ -25,12 +26,22 @@ export class DiaryService {
       isDefaultSort: true,
       startDate: null,
       endDate: null,
+      noteText: null,
+      userId: null,
+      ownerId: null,
       closed:false,
       sort: "InsuranceCarrier",
       sortDirection: "ASC",
       page: 1,
       pageSize: 30
     };
+    this.http.getDiaryOwners().map(res => { return res.json() })
+      .subscribe((result: Array<any>) => {
+        this.owners = result;
+      }, err => {
+        this.loading = false; 
+        let error = err.json();
+      });
   }
 
   refresh() {

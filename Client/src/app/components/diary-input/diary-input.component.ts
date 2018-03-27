@@ -83,6 +83,9 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     //if(this.startDate && this.endDate){
     this.ds.data.startDate = startDate || null
     this.ds.data.endDate = endDate || null
+    this.ds.data.ownerId = this.ds.data.ownerId || null
+    this.ds.data.noteText = this.ds.data.noteText || null
+    this.ds.data.userId = this.ds.data.ownerId || null
     this.ds.search();
     /*  }else{
          this.toast.warning("Ensure you select both start date and end date");
