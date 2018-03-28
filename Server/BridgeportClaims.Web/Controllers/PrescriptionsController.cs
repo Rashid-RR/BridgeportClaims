@@ -11,7 +11,6 @@ using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
-using BridgeportClaims.Excel.Factories;
 using BridgeportClaims.Pdf.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;

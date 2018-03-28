@@ -24,15 +24,15 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 {
 	public class ClaimsDataProvider : IClaimsDataProvider
 	{
-	    private const string Query =  @"DECLARE @ClaimID INTEGER = {0};
-                                        SELECT          [p].[FirstName]
-                                                      , [p].[LastName]
-                                                      , [p].[DateOfBirth]
-                                        FROM            [dbo].[Patient] AS [p]
-                                            INNER JOIN  [dbo].[Claim]   AS [c] ON [c].[PatientID] = [p].[PatientID]
-                                        WHERE           [c].[ClaimID] = @ClaimID";
+		private const string Query =  @"DECLARE @ClaimID INTEGER = {0};
+										SELECT          [p].[FirstName]
+													  , [p].[LastName]
+													  , [p].[DateOfBirth]
+										FROM            [dbo].[Patient] AS [p]
+											INNER JOIN  [dbo].[Claim]   AS [c] ON [c].[PatientID] = [p].[PatientID]
+										WHERE           [c].[ClaimID] = @ClaimID";
 
-        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
 		private readonly IEpisodesDataProvider _episodesDataProvider;
 		private readonly ISessionFactory _factory;
 		private readonly IPaymentsDataProvider _paymentsDataProvider;
@@ -418,7 +418,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								}).ToList();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
 							var imageResults = _claimImageProvider.GetClaimImages(claimId, "Created", "DESC", 1, 5000);
-							claimDto.Images = imageResults.ClaimImages;
+							if (null != imageResults)
+								claimDto.Images = imageResults.ClaimImages;
 							if (tx.IsActive)
 								tx.Commit();
 							return claimDto;
@@ -434,35 +435,35 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			});
 		}
 
-	    public BillingStatementDto GetBillingStatementDto(int claimId) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            var query = string.Format(Query, claimId);
-	            return DisposableService.Using(() => new SqlCommand(query, conn), cmd =>
-	            {
-	                cmd.CommandType = CommandType.Text;
-	                BillingStatementDto retVal = null;
-	                if (conn.State != ConnectionState.Open)
-	                    conn.Open();
-	                DisposableService.Using(cmd.ExecuteReader, reader =>
-	                {
-	                    var firstNameOrdinal = reader.GetOrdinal("FirstName");
-	                    var lastNameOrdinal = reader.GetOrdinal("LastName");
-	                    var dateOfBirthOrdinal = reader.GetOrdinal("DateOfBirth");
-                        while (reader.Read())
-                        {
-                            retVal = new BillingStatementDto
-                            {
-                                FirstName = !reader.IsDBNull(firstNameOrdinal) ? reader.GetString(firstNameOrdinal) : string.Empty,
-                                LastName = !reader.IsDBNull(lastNameOrdinal) ? reader.GetString(lastNameOrdinal) : string.Empty,
-                                DateOfBirth = !reader.IsDBNull(dateOfBirthOrdinal) ? reader.GetDateTime(dateOfBirthOrdinal) : (DateTime?) null
-                            };
-                        }
-	                });
-	                if (conn.State != ConnectionState.Closed)
-	                    conn.Close();
-	                return retVal;
-	            });
-	        });
+		public BillingStatementDto GetBillingStatementDto(int claimId) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				var query = string.Format(Query, claimId);
+				return DisposableService.Using(() => new SqlCommand(query, conn), cmd =>
+				{
+					cmd.CommandType = CommandType.Text;
+					BillingStatementDto retVal = null;
+					if (conn.State != ConnectionState.Open)
+						conn.Open();
+					DisposableService.Using(cmd.ExecuteReader, reader =>
+					{
+						var firstNameOrdinal = reader.GetOrdinal("FirstName");
+						var lastNameOrdinal = reader.GetOrdinal("LastName");
+						var dateOfBirthOrdinal = reader.GetOrdinal("DateOfBirth");
+						while (reader.Read())
+						{
+							retVal = new BillingStatementDto
+							{
+								FirstName = !reader.IsDBNull(firstNameOrdinal) ? reader.GetString(firstNameOrdinal) : string.Empty,
+								LastName = !reader.IsDBNull(lastNameOrdinal) ? reader.GetString(lastNameOrdinal) : string.Empty,
+								DateOfBirth = !reader.IsDBNull(dateOfBirthOrdinal) ? reader.GetDateTime(dateOfBirthOrdinal) : (DateTime?) null
+							};
+						}
+					});
+					if (conn.State != ConnectionState.Closed)
+						conn.Close();
+					return retVal;
+				});
+			});
 	}
 }

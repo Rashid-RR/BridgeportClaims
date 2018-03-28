@@ -7,7 +7,8 @@ GO
 	Create Date:	12/13/2017
 	Description:	Proc that returns the results to be displayed in the Images blade of the Claims page.
 	Sample Execute:
-					EXEC [dbo].[uspGetClaimImages]
+					DECLARE @TotalRows INT
+                    EXEC [dbo].[uspGetClaimImages] 775, 'NoteCount', 'DESC', 1, 5000, @TotalRows OUTPUT
 */
 CREATE PROC [dbo].[uspGetClaimImages]
 (
@@ -18,7 +19,7 @@ CREATE PROC [dbo].[uspGetClaimImages]
 	@PageSize INTEGER,
 	@TotalRows INTEGER OUTPUT
 )
-AS 
+AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	BEGIN TRY
@@ -34,10 +35,13 @@ AS
 			[InjuryDate] DATE NULL,
 			[AttorneyName] VARCHAR(255) NULL,
 			[FileName] [varchar](1000) NOT NULL,
+            NoteCount INT NOT NULL,
+            EpisodeId INT NULL,
 			[FileUrl] [nvarchar](500) NOT NULL
 		);
 
-		INSERT [#Images] ([DocumentID],[Created],[Type],[RxDate],[RxNumber],[InvoiceNumber],[InjuryDate],[AttorneyName],[FileName],[FileUrl])
+		INSERT [#Images] ([DocumentID],[Created],[Type],[RxDate],[RxNumber],[InvoiceNumber],
+                            [InjuryDate],[AttorneyName],[FileName],[NoteCount],[EpisodeId],[FileUrl])
 		SELECT          DocumentId = [d].[DocumentID]
 					  , Created = [d].[CreationTimeLocal]
 					  , [Type]  = [dt].[TypeName]
@@ -47,10 +51,16 @@ AS
 					  , [di].[InjuryDate]
 					  , [di].[AttorneyName]
 					  , [d].[FileName]
+                      , NoteCount =
+                            ISNULL((SELECT  COUNT(*)
+                                    FROM    [dbo].[EpisodeNote] AS [en]
+                                    WHERE   en.[EpisodeID] = [e].[EpisodeID]), 0)
+                      , EpisodeId = e.[EpisodeID] 
 					  , [d].[FileUrl]
 		FROM            [dbo].[Document]      AS [d]
 			INNER JOIN  [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
 			INNER JOIN  [dbo].[DocumentType]  AS [dt] ON [dt].[DocumentTypeID] = [di].[DocumentTypeID]
+            LEFT JOIN   [dbo].[Episode] AS [e] ON [e].[DocumentID] = [d].[DocumentID]
 		WHERE		[di].[ClaimID] = @ClaimID
 
 		SELECT @TotalRows = COUNT(*) FROM [#Images]
@@ -64,6 +74,8 @@ AS
 			 , [i].[InjuryDate]
 			 , [i].[AttorneyName]
              , [i].[FileName]
+             , [i].[NoteCount]
+             , [i].[EpisodeId]
 			 , [i].[FileUrl]
 		FROM [#Images] AS [i]
 		ORDER BY CASE WHEN @SortColumn = 'DocumentID' AND @SortDirection = 'ASC'
@@ -101,7 +113,11 @@ AS
 				 CASE WHEN @SortColumn = 'FileName' AND @SortDirection = 'ASC'
 					THEN [i].[FileName] END ASC,
 				 CASE WHEN @SortColumn = 'FileName' AND @SortDirection = 'DESC'
-					THEN [i].[FileName] END DESC
+					THEN [i].[FileName] END DESC,
+                 CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'ASC'
+					THEN [i].[NoteCount] END ASC,
+				 CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'DESC'
+					THEN [i].[NoteCount] END DESC
 			OFFSET @PageSize * (@PageNumber - 1) ROWS
 			FETCH NEXT @PageSize ROWS ONLY;
 
@@ -125,6 +141,5 @@ AS
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
-
-
+END
 GO
