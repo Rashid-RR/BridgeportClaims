@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace BridgeportClaims.Data.Dtos
 {
     [Serializable]
     public sealed class DocumentResultDto
     {
+        private string _fileUrl;
         [Required]
         public int DocumentId { get; set; }
         [Required]
@@ -28,6 +30,10 @@ namespace BridgeportClaims.Data.Dtos
         public string FullFilePath { get; set; }
         [Required]
         [StringLength(4000)]
-        public string FileUrl { get; set; }
+        public string FileUrl
+        {
+            get => HttpUtility.UrlEncode(_fileUrl);
+            set => _fileUrl = value;
+        }
     }
 }
