@@ -66,7 +66,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
     var scale = 1.5;
     if (this.file) {
       this.loading = true;
-      this.nativeHttp.get(this.file.fileUrl).single().subscribe(r => {
+      this.nativeHttp.get(decodeURIComponent(this.file.fileUrl)).single().subscribe(r => {
         this.showFile();
       }, err => {
         this.showFile();
@@ -84,7 +84,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
                 localStorage.setItem('file-' + params['id'], JSON.stringify(this.file));
               }
             });
-            this.nativeHttp.get(this.file.fileUrl).single().subscribe(r => {
+            this.nativeHttp.get(decodeURIComponent(this.file.fileUrl)).single().subscribe(r => {
               this.showFile();
             }, err => {
               this.showFile();
