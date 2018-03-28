@@ -10068,6 +10068,7 @@ function getDocumentLink(name, url) {
 
 //var DEFAULT_URL = 'compressed.tracemonkey-pldi-09.pdf';
 var DEFAULT_URL = getDocumentLink('url');
+console.log('Default',DEFAULT_URL);
 ;
 var pdfjsWebApp = void 0;
 {

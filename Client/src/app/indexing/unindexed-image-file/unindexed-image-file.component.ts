@@ -62,11 +62,21 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
   ngAfterViewInit() {
     $('[data-toggle="tooltip"]').tooltip(); 
   }
+  getDocumentLink(name, url=undefined) {
+    if (!url) url = window.location.href;
+    var results = url.split(name+'=');  
+    if (!results) return null;
+    if (!results[1]) return '';
+    return decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
   ngOnInit() {
     var scale = 1.5;
+    var DEFAULT_URL = this.getDocumentLink('url','assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl);
+    console.log(DEFAULT_URL);
+
     if (this.file) {
       this.loading = true;
-      this.nativeHttp.get(decodeURIComponent(this.file.fileUrl)).single().subscribe(r => {
+      this.nativeHttp.get(DEFAULT_URL).single().subscribe(r => {
         this.showFile();
       }, err => {
         this.showFile();
@@ -75,7 +85,9 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
     } else {
       this.route.params.subscribe(params => {
         let file = localStorage.getItem('file-' + params['id']);
-        if (file) {
+        if (file && this.file && this.file.prescriptionIds) {
+          this.showFile();
+        }else  if (file){
           try {
             this.file = JSON.parse(file) as any; 
             this.events.on("episode-note-updated", (episode) => {
@@ -84,7 +96,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
                 localStorage.setItem('file-' + params['id'], JSON.stringify(this.file));
               }
             });
-            this.nativeHttp.get(decodeURIComponent(this.file.fileUrl)).single().subscribe(r => {
+            this.nativeHttp.get(DEFAULT_URL).single().subscribe(r => {
               this.showFile();
             }, err => {
               this.showFile();
