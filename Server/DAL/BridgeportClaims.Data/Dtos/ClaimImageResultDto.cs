@@ -1,11 +1,13 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace BridgeportClaims.Data.Dtos
 {
     [Serializable]
     public sealed class ClaimImageResultDto
     {
+        private string _fileUrl;
         [Required]
         public int DocumentId { get; set; }
         [Required]
@@ -25,7 +27,15 @@ namespace BridgeportClaims.Data.Dtos
         [StringLength(1000)]
         public string FileName { get; set; }
         [Required]
+        public int NoteCount { get; set; }
+        [Required]
+        public int EpisodeId { get; set; }
+        [Required]
         [StringLength(500)]
-        public string FileUrl { get; set; }
+        public string FileUrl
+        {
+            get => HttpUtility.UrlEncode(_fileUrl);
+            set => _fileUrl = value;
+        }
     }
 }

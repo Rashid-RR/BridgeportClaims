@@ -94,7 +94,7 @@ namespace BridgeportClaims.Excel.Factories
                 if (null != img)
                 {
                     var pic = excelWorksheet.Drawings.AddPicture("logo.png", img);
-                    pic.SetPosition(0, 0, colCount - 3, 10);
+                    pic.SetPosition(0, 10, colCount - 2, 20);
                 }
                 return DisposableService.Using(() => File.Create(fullFilePath), stream =>
                 {
