@@ -2,29 +2,30 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
+-- Stored Procedure
+
 /* 
  =============================================
  Author:			Jordan Gurney
  Create date:		2/10/2018
  Description:		Gets the Episodes for the Episodes blade
  Example Execute:
-					DECLARE @UserID NVARCHAR(128)
-					SELECT TOP (1) @UserID = ID FROM dbo.AspNetUsers
-					EXECUTE [dbo].[uspGetEpisodesBlade] 775, 'Type', 'desc', @UserID
+					EXECUTE [dbo].[uspGetEpisodesBlade] 775, 'Type', 'DESC'
  =============================================
 */
-CREATE PROC [dbo].[uspGetEpisodesBlade]
+CREATE   PROC [dbo].[uspGetEpisodesBlade]
 (
 	@ClaimID INTEGER,
 	@SortColumn VARCHAR(50),
-	@SortDirection VARCHAR(5),
-	@UserID NVARCHAR(128)
+	@SortDirection VARCHAR(5)
 )
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
     BEGIN TRY
         BEGIN TRAN;
+            DECLARE @Call CHAR(4) = 'CALL';
+
 			CREATE TABLE #Episodes
 			(
 				[Id] [int] NOT NULL PRIMARY KEY,
@@ -34,7 +35,6 @@ AS BEGIN
 				[Role] [varchar](25) NULL,
 				[Pharmacy] [varchar](60) NULL,
 				[RxNumber] [varchar](100) NULL,
-				[Category] [varchar](255) NOT NULL,
 				[Resolved] [bit] NULL,
 				[NoteCount] [int] NULL
 			)
@@ -46,7 +46,6 @@ AS BEGIN
 			  , [Role]
 			  , [Pharmacy]
 			  , [RxNumber]
-			  , [Category]
 			  , [Resolved]
 			  , [NoteCount])
 			SELECT  e.[Id]
@@ -56,14 +55,12 @@ AS BEGIN
 					, e.[Role]
 					, e.[Pharmacy]
 					, e.[RxNumber]
-					, e.[Category]
 					, e.[Resolved]
 					, e.[NoteCount]
-			FROM    dbo.vwEpisode AS e
-					INNER JOIN [dbo].[EpisodeTypeUsersMapping] AS [m] ON [m].[EpisodeTypeID] = e.[EpisodeTypeID]
-			WHERE	[ClaimID] = @ClaimID
-					AND m.[UserID] = @UserID
-			
+			FROM    [dbo].[vwEpisode] AS [e]
+			WHERE	[e].[ClaimID] = @ClaimID
+                    AND [e].[Category] = @Call
+
 			SELECT [c].[Id]
                  , [c].[Created]
                  , [c].[Owner]
@@ -71,7 +68,6 @@ AS BEGIN
                  , [c].[Role]
                  , [c].[Pharmacy]
                  , [c].[RxNumber]
-                 , [c].[Category]
                  , [c].[Resolved]
                  , [c].[NoteCount]
 			FROM [#Episodes] c
@@ -103,10 +99,6 @@ AS BEGIN
 					THEN [c].[RxNumber] END ASC,
 				 CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'DESC'
 					THEN [c].[RxNumber] END DESC,
-				 CASE WHEN @SortColumn = 'Category' AND @SortDirection = 'ASC'
-					THEN [c].[Category] END ASC,
-				 CASE WHEN @SortColumn = 'Category' AND @SortDirection = 'DESC'
-					THEN [c].[Category] END DESC,
 				 CASE WHEN @SortColumn = 'Resolved' AND @SortDirection = 'ASC'
 					THEN [c].[Resolved] END ASC,
 				 CASE WHEN @SortColumn = 'Resolved' AND @SortDirection = 'DESC'
@@ -115,14 +107,14 @@ AS BEGIN
 					THEN [c].[NoteCount] END ASC,
 				 CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'DESC'
 					THEN [c].[NoteCount] END DESC;
-			
+
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
     END TRY
     BEGIN CATCH     
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-				
+
 		DECLARE @ErrSeverity INT = ERROR_SEVERITY()
 			, @ErrState INT = ERROR_STATE()
 			, @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
@@ -137,6 +129,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
-
-
 GO
