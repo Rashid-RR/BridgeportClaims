@@ -48,6 +48,9 @@
                   File
                 </span>
               </th>
+              <th>
+                  <span columnSort="noteCount" [sort-table]="myTable">Note Count</span>
+              </th>
               <th>&nbsp;</th>
             </tr>
           </thead>
@@ -120,6 +123,13 @@
                 <td (click)="openAttachment(image)">{{image.attorneyName}}</td>
                 <td (click)="openAttachment(image)" style="color:rgb(97, 157, 180)">
                   {{image.fileName}}
+                </td>
+                <td>
+                    <a class="label label-info bg-vdarkgrey" *ngIf="image.noteCount && image.noteCount>0" (click)="showNoteWindow(image)">{{image.noteCount || 0}}
+                    </a>
+                    <span *ngIf="!image.noteCount || image.noteCount==0">
+                        0
+                    </span>
                 </td>
                 <td>
                   <button type="button" class="btn btn-primary btn-xs" (click)="update(image)">

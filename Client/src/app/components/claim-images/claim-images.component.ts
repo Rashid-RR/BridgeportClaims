@@ -5,6 +5,7 @@ import { DocumentItem } from "../../models/document";
 import { DocumentType } from "../../models/document-type";
 import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
+import { EpisodeNoteModalComponent } from '../../components/components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../ng-window";
 import { UnindexedImageFileComponent } from "../../pages/unindexed-image-file/unindexed-image-file.component";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -56,6 +57,25 @@ export class ClaimImagesComponent implements OnInit {
   onSortColumn(info: SortColumnInfo) {
     this.sortColumn = info;
     this.fetchData();
+  }
+  showNoteWindow(episode: any) {
+    if (!episode.episodeId && episode['episodeId']) {
+      episode.episodeId = episode['episodeId'];
+    }
+    let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
+    config.position = new CustomPosition((window.innerWidth - 700) / 2 + 50, 60)//left,top
+    config.minusTop = 0;
+    config.minusHeight = 0;
+    config.minusLeft = 0;
+    config.minusWidth = 0;
+    config.centerInsideParent = false;
+    var temp = {}
+    config.forAny = [temp];
+    config.openAsMaximize = false;
+    this.myInjector.openWindow(EpisodeNoteModalComponent, config)
+      .then((win: EpisodeNoteModalComponent) => {
+        win.showNote(episode);
+      })
   }
 
   saveImage(image: any) {

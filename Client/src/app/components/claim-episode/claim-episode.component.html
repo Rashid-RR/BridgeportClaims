@@ -26,9 +26,6 @@
                             <span columnSort="rxNumber" [sort-table]="myTable">Rx Number</span>
                         </th>
                         <th>
-                            <span columnSort="category" [sort-table]="myTable">Category</span>
-                        </th>
-                        <th>
                             <span columnSort="resolved" [sort-table]="myTable">Resolved</span>
                         </th>
                         <th>
@@ -51,8 +48,7 @@
                         <td>{{episode.type}}</td>
                         <td>{{episode.role}}</td>
                         <td>{{episode.pharmacy}}</td>
-                        <td>{{episode.rxNumber}}</td>
-                        <td>{{episode.category}}</td>
+                        <td>{{episode.rxNumber}}</td> 
                         <td [class.resolved]="episode.resolved">
                             <div class="commonCheckBox">
                                 <input type="checkbox" name="check" value="None" [id]="'checkbox-h'+(episode.id || episode.episodeId)" #inv [checked]="episode.resolved" (change)="markAsResolved($event,episode)"
