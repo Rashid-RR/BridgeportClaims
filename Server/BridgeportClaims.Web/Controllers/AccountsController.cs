@@ -159,7 +159,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("UserInfo")]
-        [BridgeportClaimsOutputCache(120, 1200, false)]
+        [NoCache]
         public async Task<UserInfoViewModel> GetUserInfo()
         {
             try
@@ -196,6 +196,7 @@ namespace BridgeportClaims.Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("create")]
+        [NoCache]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
         {
             try
