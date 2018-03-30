@@ -210,15 +210,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 					sortDirectionParam.Size = 5;
 					sortDirectionParam.ParameterName = "@SortDirection";
 					sortDirectionParam.Direction = ParameterDirection.Input;
-					cmd.Parameters.Add(sortDirectionParam);
-					var userIdParam = cmd.CreateParameter();
-					userIdParam.Value = userId ?? (object) DBNull.Value;
-					userIdParam.DbType = DbType.String;
-					userIdParam.SqlDbType = SqlDbType.NVarChar;
-					userIdParam.Size = 128;
-					userIdParam.ParameterName = "@UserID";
-					userIdParam.Direction = ParameterDirection.Input;
-					cmd.Parameters.Add(userIdParam);
+				    cmd.Parameters.Add(sortDirectionParam);
 					if (conn.State != ConnectionState.Open)
 						conn.Open();
 					DisposableService.Using(cmd.ExecuteReader, reader =>
