@@ -18,9 +18,6 @@ namespace BridgeportClaims.Data.Dtos
         public string Pharmacy { get; set; }
         [StringLength(100)]
         public string RxNumber { get; set; }
-        [Required]
-        [StringLength(255)]
-        public string Category { get; set; }
         public bool? Resolved { get; set; }
         public int? NoteCount { get; set; }
     }
