@@ -14,9 +14,11 @@ describe('client App', () => {
   it('App should navigate to login send test credentials then login', () => {
     //page.navigateTo();
     //expect(page.getPageText()).toContain('Claims!');
-    claimPage.navigateToLogin()
+    claimPage.navigateToLogin();
     claimPage.login();
     claimPage.loadClaims();
+    claimPage.loadClaim();
+    claimPage.checkClaimLoaded();
   });
   afterEach(function () {
     browser.manage().logs().get('browser').then(function (browserLog) {

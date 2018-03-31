@@ -1,12 +1,29 @@
 import { browser, element, by, protractor } from 'protractor';
 import { vars } from "./test-vars"
-export class ClaimsPage {
+export class ClaimsPage { 
+  constructor() { 
+  }
   navigateToLogin() {
     return browser.get('/#/login');
   }
   navigateToClaims() {
     return browser.get('/#/main/claims');
-
+  }
+  getFirstClaim() {
+    let elem = element.all(by.className('view-btn')).first();
+    var until = protractor.ExpectedConditions;
+    return browser.wait(until.visibilityOf(elem), 30000, 'GetClaimsData API took too long to load')
+  }
+  loadClaim() {
+    let elem = element.all(by.className('view-btn')).first();
+    return elem.click() 
+  }
+  checkClaimLoaded() {
+    return browser.driver.wait(() => {
+      var until = protractor.ExpectedConditions;
+      let elem = element(by.id('claimLoader'));
+      return browser.wait(until.presenceOf(elem), 30000, 'Claim took too long to appear in the DOM');
+    });
   }
   loadClaims() {
     this.navigateToClaims();
@@ -15,8 +32,7 @@ export class ClaimsPage {
     firstnameEl.sendKeys(vars.firstName);
     var until = protractor.ExpectedConditions;
     searchEl.click().then(r => {
-      let elem = element(by.id('claimLoader'));
-      browser.wait(until.presenceOf(elem), 30000, 'Element taking too long to appear in the DOM');
+      this.getFirstClaim();
     });
   }
   login() {
