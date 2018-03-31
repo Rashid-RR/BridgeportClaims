@@ -319,7 +319,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 						var roleOrdinal = reader.GetOrdinal("Role");
 						var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
 						var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
-						var categoryOrdinal = reader.GetOrdinal("Category");
 						var resolvedOrdinal = reader.GetOrdinal("Resolved");
 						var noteCountOrdinal = reader.GetOrdinal("NoteCount");
 						var list = new List<EpisodeBladeDto>();
@@ -334,7 +333,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 								Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
 								Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
 								RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
-								Category = !reader.IsDBNull(categoryOrdinal) ? reader.GetString(categoryOrdinal) : string.Empty,
 								Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
 								NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
 							};
