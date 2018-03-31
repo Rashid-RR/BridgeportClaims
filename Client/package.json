@@ -10,7 +10,8 @@
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e --proxy-config proxy.conf.json",
+    "e2e:local": "ng e2e --proxy-config proxy.conf.json"
   },
   "private": true,
   "dependencies": {

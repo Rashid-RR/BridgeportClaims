@@ -57,6 +57,7 @@ export class LoginComponent implements OnInit {
             localStorage.setItem("user", JSON.stringify(res));
             this.profileManager.profile = new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles);
             this.profileManager.setProfile(new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles));
+            this.profileManager.profileChanged.next();
            if(this.returnURL){
              let url = this.returnURL.split('?');
              let p={};

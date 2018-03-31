@@ -32,7 +32,20 @@ export class ProfileComponent implements OnInit {
   ) {
     /* console.log(this.profileManager.User);
     console.log(this.profileManager.profile); */
+    this.profileManager.profileChanged.subscribe(r=>{
+      this.form = this.formBuilder.group({
+        firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
+        lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required])],
+        oldPassword: [''],
+        extension: [this.profileManager.profile.extension],
+        newPassword: [""],
+        confirmPassword: [""]
+      });
+    })
+   
+  }
 
+  ngOnInit() {
     if (this.profileManager.profile == null) {
       this.profileManager.profile = new UserProfile('', '', '', '', '');
     }
@@ -44,10 +57,6 @@ export class ProfileComponent implements OnInit {
       newPassword: [""],
       confirmPassword: [""]
     });
-  }
-
-  ngOnInit() {
-
   }
 
   updateUserInfo() {

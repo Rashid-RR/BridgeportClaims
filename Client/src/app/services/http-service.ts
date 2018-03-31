@@ -249,7 +249,7 @@ export class HttpService {
   }
   //get user using id
   userFromId(id: UUID): Observable<Response> {
-    let s = this.http.get(this.baseUrl + "/Account/UserInfo", { headers: this.headers })
+    let s = this.http.get(this.baseUrl + "/Account/UserInfo?t="+(new Date().getTime()), { headers: this.headers })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
@@ -266,7 +266,7 @@ export class HttpService {
     return s;
   }
   profile(): Observable<Response> {
-    let s = this.http.get(this.baseUrl + "/Account/UserInfo", { headers: this.headers })
+    let s = this.http.get(this.baseUrl + "/Account/UserInfo?t="+(new Date().getTime()), { headers: this.headers })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

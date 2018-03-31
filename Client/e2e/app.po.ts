@@ -5,7 +5,7 @@ export class ClientPage {
     return browser.get('/');
   }
 
-  getParagraphText() {
-    return element(by.css('app-root h1')).getText();
+  getPageText() {
+    return element(by.id('private-nav')).getText();
   }
 }
