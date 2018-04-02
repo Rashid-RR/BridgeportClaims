@@ -19,12 +19,12 @@ import { UnindexedInvoiceFileListComponent } from './unindexed-invoice-file-list
 import { IndexFileComponent } from './index-file/index-file.component';
 import { ShContextMenuModule } from 'ng2-right-click-menu';
 import { ImagesInvoiceComponent } from './images-invoice/images-invoice.component';
+import { SharedModule } from '../shared';
 
 @NgModule({
   imports: [
-    ShContextMenuModule,
-    CommonModule,AutoCompleteModule,
-    FormsModule, ReactiveFormsModule,
+    SharedModule,
+    CommonModule,
     RouterModule.forChild(IndexingRoutes),
   ],
   declarations: [

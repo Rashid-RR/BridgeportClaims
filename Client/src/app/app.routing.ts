@@ -24,8 +24,6 @@ import { AuthGuard, SignalRService } from './services/services.barrel';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
-import { PaymentComponent } from './pages/payment/payment.component';
-import { DiaryComponent } from './pages/diary/diary.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 import { ReportComponent } from './pages/report/report.component';
 import { ReportListComponent } from './pages/report-list/report-list.component';
@@ -153,7 +151,7 @@ export const routes: Routes = [
           },
           {
             path: 'payments',
-            component: PaymentComponent
+            loadChildren: './payment/payment.module#PaymentModule' 
           },
           {
             path: 'fileupload',
@@ -161,7 +159,7 @@ export const routes: Routes = [
           },
           {
             path: 'diary',
-            component: DiaryComponent
+            loadChildren: './diaries/diaries.module#DiariesModule' 
           },
           {
             path: 'episodes',

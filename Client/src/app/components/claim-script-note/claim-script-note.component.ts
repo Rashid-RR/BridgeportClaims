@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { HttpService } from "../../services/http-service"
 import { PrescriptionNote } from "../../models/prescription-note"
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../ng-window";
-import { DiaryScriptNoteWindowComponent } from "../../components/components-barrel";
+import { ScriptNoteWindowComponent } from "../../components/components-barrel";
 declare var $: any;
 
 @Component({
@@ -53,8 +53,8 @@ export class ClaimScriptNoteComponent implements OnInit {
     var temp = {}
     config.forAny = [temp];
     config.openAsMaximize = false;
-    this.myInjector.openWindow(DiaryScriptNoteWindowComponent, config)
-      .then((win: DiaryScriptNoteWindowComponent) => {
+    this.myInjector.openWindow(ScriptNoteWindowComponent, config)
+      .then((win: ScriptNoteWindowComponent) => {
         win.showNote(note);
       })
   }

@@ -1,9 +1,9 @@
-import { Component, OnInit,ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
-import {PaymentScriptService} from '../../services/payment-script-service';
-import {EventsService} from '../../services/events-service';
+import { PaymentScriptService } from '../../services/payment-script-service';
+import { EventsService } from '../../services/events-service';
 import { Subject } from 'rxjs/Subject';
-declare var $:any;
+declare var $: any;
 
 @Component({
   selector: 'app-add-script-modal',
@@ -13,8 +13,8 @@ declare var $:any;
 export class AddScriptModalComponent implements OnInit, AfterViewInit {
 
   @ViewChild('lastname') lastname: ElementRef;
-  submitted= false;
-  dropdownVisible= false;
+  submitted = false;
+  dropdownVisible = false;
   searchText = '';
   showDropDown = new Subject<any>();
 
@@ -47,8 +47,8 @@ export class AddScriptModalComponent implements OnInit, AfterViewInit {
         lastName: $event.lastName
       });
       this.toast.info($event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber +
-      ' has been loaded. Wait for a few seconds to load details...',
-       'Claim Loaded', {toastLife : 3000, enableHTML: true, positionClass: 'toast-top-center' })
+        ' has been loaded. Wait for a few seconds to load details...',
+        'Claim Loaded', { toastLife: 3000, enableHTML: true, positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {

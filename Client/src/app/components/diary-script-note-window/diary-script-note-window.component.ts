@@ -1,6 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { PrescriptionNote } from "../../models/prescription-note"
-import {WindowInstance} from "../ng-window/WindowInstance"; 
+import {WindowInstance} from "../../components/ng-window/WindowInstance"; 
 
 declare var  $:any; 
 @Component({
@@ -8,7 +8,7 @@ declare var  $:any;
   templateUrl: './diary-script-note-window.component.html',
   styleUrls: ['./diary-script-note-window.component.css']
 })
-export class DiaryScriptNoteWindowComponent implements OnInit {
+export class ScriptNoteWindowComponent implements OnInit {
 
   note:PrescriptionNote;
   constructor(public dialog: WindowInstance){

@@ -38,6 +38,23 @@ export class ProfileManager{
       return s.map(res => res.json() as UserProfile);
     }
   }
+  userLoaded(userId: String): Observable<boolean> {
+    let v = this.userCache.get(userId);
+    if (v) {
+      return Observable.of(v.email ? true : false);
+    } else {         
+      let s = this.http.userFromId(userId);
+      s.subscribe(res => {
+        let u = res.json() as UserProfile;
+        this.userCache = this.userCache.set(u.email, u);
+      },err=>{
+        let error = err.json();
+      });
+      return s.map(res =>{
+        return res['email'] || (res.json() && res.json().email) ? true : false
+      });
+    }
+  }
   setProfile(u:UserProfile){
     let profile = new UserProfile(u.id || u.userName,u.login  || u.userName,u.firstName  || u.userName,u.lastName  || u.userName,u.email  || u.userName,u.userName,u.avatarUrl,u.createdOn);
     this.userCache = this.userCache.set(profile.email, profile);

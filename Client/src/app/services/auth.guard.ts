@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
       if (e) {
         return true;
       } else {
-        console.log("Onr", this.returnURL);
         this.router.navigate(['/login'], { queryParams: { 'returnURL': this.returnURL } });
         return false;
       }
@@ -41,6 +40,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
   }
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.returnURL = state.url;
+    let route = childRoute.url[0] || childRoute.parent.url[0];
     var user = localStorage.getItem("user");
     if (user === null || user.length == 0) {
       this.router.navigate(['/login'], { queryParams: { 'returnURL': this.returnURL } });
@@ -49,17 +49,18 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
     }
     try {
       let us = JSON.parse(user);
-      if (childRoute.url[0].path == 'users' || childRoute.url[0].path == 'reports' || childRoute.url[0].path == 'fileupload') {
+      if (route.path == 'users' || route.path == 'reports' || route.path == 'fileupload') {
         var allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin') > -1);
         return Observable.of(allowed)
-      } else if (childRoute.url[0].path == 'unindexed-images' || childRoute.url[0].path == 'indexing') {
+      } else if (route.path == 'unindexed-images' || route.path == 'indexing') {
         var allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));
         return Observable.of(allowed)
       } else {
-        return this.profileManager.userInfo(us.email).single().map(res => { return res.email ? true : false; })
+        return this.profileManager.userLoaded(us.email).single();
       }
     } catch (error) {
       let us = JSON.parse(user);
+      console.log(error); 
       if (state.url.indexOf('/main/indexing')>-1) {
         var allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));
         return Observable.of(allowed)
