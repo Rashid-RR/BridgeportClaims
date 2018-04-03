@@ -24,6 +24,7 @@ AS BEGIN
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
+        DECLARE @One INT = 1;
 
 		CREATE TABLE [#Images](
 			DocumentID [int] NOT NULL PRIMARY KEY CLUSTERED,
@@ -42,26 +43,36 @@ AS BEGIN
 
 		INSERT [#Images] ([DocumentID],[Created],[Type],[RxDate],[RxNumber],[InvoiceNumber],
                             [InjuryDate],[AttorneyName],[FileName],[NoteCount],[EpisodeId],[FileUrl])
-		SELECT          DocumentId = [d].[DocumentID]
-					  , Created = [d].[CreationTimeLocal]
-					  , [Type]  = [dt].[TypeName]
-					  , [di].[RxDate]
-					  , [di].[RxNumber]
-					  , [di].[InvoiceNumber]
-					  , [di].[InjuryDate]
-					  , [di].[AttorneyName]
-					  , [d].[FileName]
-                      , NoteCount =
-                            ISNULL((SELECT  COUNT(*)
-                                    FROM    [dbo].[EpisodeNote] AS [en]
-                                    WHERE   en.[EpisodeID] = [e].[EpisodeID]), 0)
-                      , EpisodeId = e.[EpisodeID] 
-					  , [d].[FileUrl]
-		FROM            [dbo].[Document]      AS [d]
-			INNER JOIN  [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
-			INNER JOIN  [dbo].[DocumentType]  AS [dt] ON [dt].[DocumentTypeID] = [di].[DocumentTypeID]
-            LEFT JOIN   [dbo].[Episode] AS [e] ON [e].[DocumentID] = [d].[DocumentID]
-		WHERE		[di].[ClaimID] = @ClaimID
+        SELECT          DocumentId = [d].[DocumentID]
+                      , Created    = [d].[CreationTimeLocal]
+                      , [Type]     = [dt].[TypeName]
+                      , [di].[RxDate]
+                      , [di].[RxNumber]
+                      , [di].[InvoiceNumber]
+                      , [di].[InjuryDate]
+                      , [di].[AttorneyName]
+                      , [d].[FileName]
+                      , NoteCount  = ISNULL((
+                                                SELECT      COUNT(*)
+                                                FROM        [dbo].[EpisodeNote] AS [en]
+                                                WHERE       [en].[EpisodeID] = [e].[EpisodeID]
+                                            )
+                                          , 0
+                                           )
+                      , EpisodeId  = [e].[EpisodeID]
+                      , [d].[FileUrl]
+        FROM            [dbo].[Document]      AS [d]
+            INNER JOIN  [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
+            INNER JOIN  [dbo].[DocumentType]  AS [dt] ON [dt].[DocumentTypeID] = [di].[DocumentTypeID]
+            OUTER APPLY
+                        (
+                            SELECT      TOP (@One)
+                                        [ie].[EpisodeID]
+                            FROM        [dbo].[Episode] AS [ie]
+                            WHERE       [ie].[DocumentID] = [d].[DocumentID]
+                            ORDER BY    [ie].[CreatedOnUTC] ASC
+                        ) AS [e]
+        WHERE           [di].[ClaimID] = @ClaimID
 
 		SELECT @TotalRows = COUNT(*) FROM [#Images]
 
@@ -142,4 +153,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 GO

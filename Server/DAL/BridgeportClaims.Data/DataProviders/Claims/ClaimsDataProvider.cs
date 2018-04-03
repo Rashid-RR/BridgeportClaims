@@ -32,26 +32,26 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 											INNER JOIN  [dbo].[Claim]   AS [c] ON [c].[PatientID] = [p].[PatientID]
 										WHERE           [c].[ClaimID] = @ClaimID";
 
-		private readonly IStoredProcedureExecutor _storedProcedureExecutor;
-		private readonly IEpisodesDataProvider _episodesDataProvider;
-		private readonly ISessionFactory _factory;
-		private readonly IPaymentsDataProvider _paymentsDataProvider;
-		private readonly IRepository<Claim> _claimRepository;
-		private readonly IRepository<ClaimFlex2> _claimFlex2Repository;
-		private readonly IRepository<UsState> _usStateRepository;
-		private readonly IClaimImageProvider _claimImageProvider;
-		private readonly IRepository<AspNetUsers> _usersRepository;
-		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+		private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
+		private readonly Lazy<IEpisodesDataProvider> _episodesDataProvider;
+		private readonly Lazy<ISessionFactory> _factory;
+		private readonly Lazy<IPaymentsDataProvider> _paymentsDataProvider;
+		private readonly Lazy<IRepository<Claim>> _claimRepository;
+		private readonly Lazy<IRepository<ClaimFlex2>> _claimFlex2Repository;
+		private readonly Lazy<IRepository<UsState>> _usStateRepository;
+		private readonly Lazy<IClaimImageProvider> _claimImageProvider;
+		private readonly Lazy<IRepository<AspNetUsers>> _usersRepository;
+		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-		public ClaimsDataProvider(ISessionFactory factory, 
-			IStoredProcedureExecutor storedProcedureExecutor, 
-			IRepository<Claim> claimRepository, 
-			IRepository<ClaimFlex2> claimFlex2Repository, 
-			IPaymentsDataProvider paymentsDataProvider, 
-			IClaimImageProvider claimImageProvider, 
-			IRepository<UsState> usStateRepository, 
-			IRepository<AspNetUsers> usersRepository, 
-			IEpisodesDataProvider episodesDataProvider)
+		public ClaimsDataProvider(Lazy<ISessionFactory> factory,
+			Lazy<IStoredProcedureExecutor> storedProcedureExecutor,
+			Lazy<IRepository<Claim>> claimRepository,
+			Lazy<IRepository<ClaimFlex2>> claimFlex2Repository,
+			Lazy<IPaymentsDataProvider> paymentsDataProvider,
+			Lazy<IClaimImageProvider> claimImageProvider,
+			Lazy<IRepository<UsState>> usStateRepository,
+			Lazy<IRepository<AspNetUsers>> usersRepository,
+			Lazy<IEpisodesDataProvider> episodesDataProvider)
 		{
 			_storedProcedureExecutor = storedProcedureExecutor;
 			_claimRepository = claimRepository;
@@ -66,12 +66,12 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 
 		private IList<UsStateDto> GetUsStates()
 		{
-			var states = _usStateRepository.GetAll()?.Select(s => new UsStateDto
+			var states = _usStateRepository.Value.GetAll()?.Select(s => new UsStateDto
 			{
 				StateId = s.StateId,
 				StateName = s.StateCode + " - " + s.StateName
-			});
-			return states?.OrderBy(x => x.StateName).ToList();
+			}) ?? new List<UsStateDto>();
+			return states.OrderBy(x => x.StateName).ToList();
 		}
 
 		public IList<GetClaimsSearchResults> GetClaimsData(string claimNumber, string firstName, string lastName,
@@ -112,7 +112,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 				DbType = DbType.String
 			};
 
-			var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<GetClaimsSearchResults>
+			var retVal = _storedProcedureExecutor.Value.ExecuteMultiResultStoredProcedure<GetClaimsSearchResults>
 			("EXECUTE dbo.uspGetClaimsSearchResults @ClaimNumber = :ClaimNumber, @FirstName = :FirstName, " +
 			 "@LastName = :LastName, @RxNumber = :RxNumber, @InvoiceNumber = :InvoiceNumber",
 				new List<SqlParameter>
@@ -159,7 +159,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 				Value = pageSize,
 				DbType = DbType.Int32
 			};
-			return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PrescriptionDto>(
+			return _storedProcedureExecutor.Value.ExecuteMultiResultStoredProcedure<PrescriptionDto>(
 					"EXECUTE [dbo].[uspGetPrescriptionDataForClaim] @ClaimID = :ClaimID, @SortColumn = :SortColumn, @SortDirection " +
 					"= :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize",
 					new List<SqlParameter> {claimIdParam, sortParam, sortDirectionParam, pageNumberParam, pageSizeParam})
@@ -169,15 +169,15 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 
 		public EntityOperation AddOrUpdateFlex2(int claimId, int claimFlex2Id, string modifiedByUserId)
 		{
-			var claim = _claimRepository.Get(claimId);
+			var claim = _claimRepository.Value.Get(claimId);
 			if (null == claim)
 				throw new ArgumentNullException(nameof(claim));
-			var claimFlex2 = _claimFlex2Repository.Get(claimFlex2Id);
+			var claimFlex2 = _claimFlex2Repository.Value.Get(claimFlex2Id);
 			var op = null == claim.ClaimFlex2 ? EntityOperation.Add : EntityOperation.Update;
 			claim.ClaimFlex2 = claimFlex2 ?? throw new ArgumentNullException(nameof(claimFlex2));
 			claim.UpdatedOnUtc = DateTime.UtcNow;
-			claim.ModifiedByUserId = _usersRepository.Get(modifiedByUserId);
-			_claimRepository.Update(claim);
+			claim.ModifiedByUserId = _usersRepository.Value.Get(modifiedByUserId);
+			_claimRepository.Value.Update(claim);
 			return op;
 		}
 
@@ -210,7 +210,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 					sortDirectionParam.Size = 5;
 					sortDirectionParam.ParameterName = "@SortDirection";
 					sortDirectionParam.Direction = ParameterDirection.Input;
-				    cmd.Parameters.Add(sortDirectionParam);
+					cmd.Parameters.Add(sortDirectionParam);
 					if (conn.State != ConnectionState.Open)
 						conn.Open();
 					DisposableService.Using(cmd.ExecuteReader, reader =>
@@ -249,7 +249,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 
 		public ClaimDto GetClaimsDataByClaimId(int claimId, string userId)
 		{
-			return DisposableService.Using(() => _factory.OpenSession(), session =>
+			return DisposableService.Using(() => _factory.Value.OpenSession(), session =>
 			{
 				return DisposableService.Using(() => session.BeginTransaction(IsolationLevel.ReadCommitted),
 					tx =>
@@ -346,7 +346,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							if (null != prescriptionStatuses)
 								claimDto.PrescriptionStatuses = prescriptionStatuses.OrderBy(x => x.StatusName).ToList();
 							// Payments
-							var payments = _paymentsDataProvider.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, 5000, "RxNumber", "ASC");
+							var payments = _paymentsDataProvider.Value.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, 5000, "RxNumber", "ASC");
 							if (null != payments)
 								claimDto.Payments = payments;
 							// Genders
@@ -358,7 +358,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							if (null != genders)
 								claimDto.Genders = genders;
 							// Episodes Types
-							var episodeTypes = _episodesDataProvider?.GetEpisodeTypes();
+							var episodeTypes = _episodesDataProvider.Value?.GetEpisodeTypes();
 							if (null != episodeTypes)
 								claimDto.EpisodeTypes = episodeTypes.OrderBy(x => x.SortOrder).ToList();
 							// Claim Prescriptions
@@ -384,30 +384,30 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
 								.List<PrescriptionNotesDto>();
 							var scriptNotesDtos = prescriptionNotesDtos?.GroupBy(r => new
-								{
-									r.ClaimId,
-									r.PrescriptionNoteId,
-									r.Type,
-									r.EnteredBy,
-									r.Note,
-									r.NoteUpdatedOn,
-									r.HasDiaryEntry
-								}).Select(gcs => new ScriptNoteDto
-								{
-									ClaimId = gcs.Key.ClaimId,
-									Scripts = gcs.Select(x => new ScriptDto {RxNumber = x.RxNumber, RxDate = x.RxDate})
-										.OrderByDescending(x => x.RxDate)
-										.ThenBy(x => x.RxNumber)
-										.ToList(),
-									EnteredBy = gcs.Key.EnteredBy,
-									HasDiaryEntry = gcs.Key.HasDiaryEntry,
-									Note = gcs.Key.Note,
-									NoteUpdatedOn = gcs.Key.NoteUpdatedOn,
-									PrescriptionNoteId = gcs.Key.PrescriptionNoteId,
-									Type = gcs.Key.Type
-								}).ToList();
+							{
+								r.ClaimId,
+								r.PrescriptionNoteId,
+								r.Type,
+								r.EnteredBy,
+								r.Note,
+								r.NoteUpdatedOn,
+								r.HasDiaryEntry
+							}).Select(gcs => new ScriptNoteDto
+							{
+								ClaimId = gcs.Key.ClaimId,
+								Scripts = gcs.Select(x => new ScriptDto {RxNumber = x.RxNumber, RxDate = x.RxDate})
+									.OrderByDescending(x => x.RxDate)
+									.ThenBy(x => x.RxNumber)
+									.ToList(),
+								EnteredBy = gcs.Key.EnteredBy,
+								HasDiaryEntry = gcs.Key.HasDiaryEntry,
+								Note = gcs.Key.Note,
+								NoteUpdatedOn = gcs.Key.NoteUpdatedOn,
+								PrescriptionNoteId = gcs.Key.PrescriptionNoteId,
+								Type = gcs.Key.Type
+							}).ToList() ?? new List<ScriptNoteDto>();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
-							var imageResults = _claimImageProvider.GetClaimImages(claimId, "Created", "DESC", 1, 5000);
+							var imageResults = _claimImageProvider.Value.GetClaimImages(claimId, "Created", "DESC", 1, 5000);
 							if (null != imageResults)
 								claimDto.Images = imageResults.ClaimImages;
 							if (tx.IsActive)
@@ -416,7 +416,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						}
 						catch (Exception ex)
 						{
-							Logger.Error(ex);
+							Logger.Value.Error(ex);
 							if (tx.IsActive)
 								tx.Rollback();
 							throw;

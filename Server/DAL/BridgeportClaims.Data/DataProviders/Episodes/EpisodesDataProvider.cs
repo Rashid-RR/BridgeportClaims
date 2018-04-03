@@ -14,16 +14,16 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	
 	public class EpisodesDataProvider : IEpisodesDataProvider
 	{
-		private readonly IRepository<EpisodeType> _episodeTypeRepository;
-		private readonly IRepository<EpisodeNote> _episodeNoteRepository;
-		private readonly IRepository<Episode> _episodeRepository;
-		private readonly IRepository<AspNetUsers> _usersRepository;
+		private readonly Lazy<IRepository<EpisodeType>> _episodeTypeRepository;
+		private readonly Lazy<IRepository<EpisodeNote>> _episodeNoteRepository;
+		private readonly Lazy<IRepository<Episode>> _episodeRepository;
+		private readonly Lazy<IRepository<AspNetUsers>> _usersRepository;
 
 		public EpisodesDataProvider(
-			IRepository<EpisodeType> episodeTypeRepository, 
-			IRepository<AspNetUsers> usersRepository, 
-			IRepository<Episode> episodeRepository,
-			IRepository<EpisodeNote> episodeNoteRepository)
+		    Lazy<IRepository<EpisodeType>> episodeTypeRepository,
+		    Lazy<IRepository<AspNetUsers>> usersRepository,
+		    Lazy<IRepository<Episode>> episodeRepository,
+		    Lazy<IRepository<EpisodeNote>> episodeNoteRepository)
 		{
 			_episodeTypeRepository = episodeTypeRepository;
 			_usersRepository = usersRepository;
@@ -234,7 +234,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				});
 			});
 		
-		public IList<EpisodeTypeDto> GetEpisodeTypes() => _episodeTypeRepository.GetAll()?
+		public IList<EpisodeTypeDto> GetEpisodeTypes() => _episodeTypeRepository.Value.GetAll()?
 			.Select(e => new EpisodeTypeDto
 			{
 				EpisodeTypeId = e.EpisodeTypeId,
@@ -244,15 +244,15 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 
 		public void ResolveEpisode(int episodeId, string modifiedByUserId)
 		{
-			var episodeEntity = _episodeRepository.Get(episodeId);
+			var episodeEntity = _episodeRepository.Value.Get(episodeId);
 			if (null == episodeEntity)
 				throw new Exception($"Not not find Episode with ID {episodeId}");
 			var now = DateTime.UtcNow;
-			var user = _usersRepository.Get(modifiedByUserId);
+			var user = _usersRepository.Value.Get(modifiedByUserId);
 			episodeEntity.UpdatedOnUtc = now;
 			episodeEntity.ModifiedByUser = user;
 			episodeEntity.ResolvedDateUtc = now;
-			_episodeRepository.Save(episodeEntity);
+			_episodeRepository.Value.Save(episodeEntity);
 		}
 
 		public EpisodeBladeDto SaveNewEpisode(int claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber,
@@ -345,13 +345,13 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 
 		public void AssignOrAcquireEpisode(int episodeId, string userId, string modifiedByUserId)
 		{
-			var episode = _episodeRepository.GetSingleOrDefault(x => x.EpisodeId == episodeId);
+			var episode = _episodeRepository.Value.GetSingleOrDefault(x => x.EpisodeId == episodeId);
 			if (null == episode)
 				throw new Exception($"Coult not find Episode Id {episodeId}");
-			var user = _usersRepository.GetSingleOrDefault(x => x.Id == userId);
+			var user = _usersRepository.Value.GetSingleOrDefault(x => x.Id == userId);
 			if (null == user)
 				throw new Exception($"Error. Could not find a user with Id \"{userId}\"");
-			var modifiedByUser = _usersRepository.GetSingleOrDefault(x => x.Id == modifiedByUserId);
+			var modifiedByUser = _usersRepository.Value.GetSingleOrDefault(x => x.Id == modifiedByUserId);
 			if (null == modifiedByUser)
 				throw new Exception($"Error, could not find a user with Id \"{modifiedByUserId}\"");
 			if (null == episode.AcquiredUser)
@@ -359,7 +359,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			episode.AssignedUser = user;
 			episode.ModifiedByUser = modifiedByUser;
 			episode.UpdatedOnUtc = DateTime.UtcNow;
-			_episodeRepository.Update(episode);
+			_episodeRepository.Value.Update(episode);
 		}
 
 		/// <summary>
@@ -373,15 +373,15 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 		{
 			var utcNow = DateTime.UtcNow;
 			var enote = new EpisodeNote();
-			var user = _usersRepository.Get(userId);
-			var episode = _episodeRepository.Get(episodeId);
+			var user = _usersRepository.Value.Get(userId);
+			var episode = _episodeRepository.Value.Get(episodeId);
 			enote.Created = today;
 			enote.NoteText = note;
 			enote.CreatedOnUtc = utcNow;
 			enote.Episode = episode ?? throw new Exception($"Error, count not retrieve Episode Id {episodeId}");
 			enote.UpdatedOnUtc = utcNow;
 			enote.WrittenByUser = user ?? throw new Exception($"Error. Could not fine User Id \"{userId}\"");
-			_episodeNoteRepository.Save(enote);
+			_episodeNoteRepository.Value.Save(enote);
 		}
 	}
 }

@@ -11,21 +11,21 @@ namespace BridgeportClaims.Data.DataProviders.DateDisplay
 {
     public class DateDisplayProvider : IDateDisplayProvider
     {
-        private readonly ISessionFactory _factory;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IMemoryCacher _memoryCacher;
+        private readonly Lazy<ISessionFactory> _factory;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<IMemoryCacher> _memoryCacher;
 
-        public DateDisplayProvider(ISessionFactory factory)
+        public DateDisplayProvider(Lazy<ISessionFactory> factory)
         {
             _factory = factory;
-            _memoryCacher = MemoryCacher.Instance;
+            _memoryCacher = new Lazy<IMemoryCacher>(() => MemoryCacher.Instance);
         }
 
         public string GetDateDisplay()
         {
-            var result = _memoryCacher.AddOrGetExisting(c.DateDisplayCacheKey, () =>
+            var result = _memoryCacher.Value.AddOrGetExisting(c.DateDisplayCacheKey, () =>
             {
-                return DisposableService.Using(() => _factory.OpenSession(), session =>
+                return DisposableService.Using(() => _factory.Value.OpenSession(), session =>
                 {
                     return DisposableService.Using(() => session.BeginTransaction(IsolationLevel.ReadCommitted),
                         transaction =>
@@ -40,7 +40,7 @@ namespace BridgeportClaims.Data.DataProviders.DateDisplay
                             }
                             catch (Exception ex)
                             {
-                                Logger.Error(ex);
+                                Logger.Value.Error(ex);
                                 throw;
                             }
                         });

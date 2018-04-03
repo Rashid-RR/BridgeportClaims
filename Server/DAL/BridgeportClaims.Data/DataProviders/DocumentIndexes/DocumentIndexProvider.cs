@@ -8,6 +8,38 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
 {
     public class DocumentIndexProvider : IDocumentIndexProvider
     {
+        public string InvoiceNumberExists(string invoiceNumber) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+                {
+                    return DisposableService.Using(() => new SqlCommand("[dbo].[uspInvoiceNumberExists]", conn),
+                        cmd =>
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            var invoiceNumberParam = cmd.CreateParameter();
+                            invoiceNumberParam.Value = invoiceNumber ?? (object) DBNull.Value;
+                            invoiceNumberParam.ParameterName = "@InvoiceNumber";
+                            invoiceNumberParam.DbType = DbType.AnsiString;
+                            invoiceNumberParam.Size = 100;
+                            invoiceNumberParam.SqlDbType = SqlDbType.VarChar;
+                            invoiceNumberParam.Direction = ParameterDirection.Input;
+                            cmd.Parameters.Add(invoiceNumberParam);
+                            var existsParam = cmd.CreateParameter();
+                            existsParam.Value = invoiceNumber ?? (object)DBNull.Value;
+                            existsParam.ParameterName = "@FileUrl";
+                            existsParam.DbType = DbType.String;
+                            existsParam.SqlDbType = SqlDbType.NVarChar;
+                            existsParam.Size = 500;
+                            existsParam.Direction = ParameterDirection.Output;
+                            cmd.Parameters.Add(existsParam);
+                            if (conn.State != ConnectionState.Open)
+                                conn.Open();
+                            cmd.ExecuteNonQuery();
+                            if (conn.State != ConnectionState.Closed)
+                                conn.Close();
+                            return existsParam.Value as string;
+                        });
+                });
+
         public void DeleteDocumentIndex(int documentId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {

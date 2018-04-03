@@ -13,9 +13,9 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
 {
     public class ClaimsUserHistoryProvider : IClaimsUserHistoryProvider
     {
-        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
 
-        public ClaimsUserHistoryProvider(IStoredProcedureExecutor storedProcedureExecutor)
+        public ClaimsUserHistoryProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
         }
@@ -81,7 +81,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
                 ParameterName = "UserID",
                 DbType = DbType.String
             };
-            _storedProcedureExecutor.ExecuteNoResultStoredProcedure(
+            _storedProcedureExecutor.Value.ExecuteNoResultStoredProcedure(
                 "EXEC dbo.uspInsertClaimsUserHistory @ClaimID = :ClaimID, @UserID = :UserID",
                 new List<SqlParameter> {claimIdParam, userIdParam});
         }
