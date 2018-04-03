@@ -86,7 +86,7 @@ import { NotificationComponent } from './components/notification/notification.co
     MainComponent,
     PasswordResetComponent,
     RegisterComponent, ReportComponent,
-    /* PhonePipe, DisplayRolesPipe,ArraySortPipe, SafeStylePipe, SafeUrlPipe, */ ClaimsComponent, ProfileComponent,
+    ClaimsComponent, ProfileComponent,
     SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
     ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
     UsersComponent, ChangePasswordComponent, ConfirmEmailComponent,  FileUploadComponent, FooterComponent,  
