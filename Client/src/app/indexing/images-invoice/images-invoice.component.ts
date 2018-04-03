@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'indexing-images-invoice',
@@ -7,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImagesInvoiceComponent implements OnInit {
 
-  active:string='1a';
-  constructor() { }
+  active: string = '1a';
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params['invoiceNumber']) {
+        this.active = '1b';
+      }
+    });
   }
 
 }

@@ -5,8 +5,6 @@ import { UnindexedImageFileComponent } from './unindexed-image-file/unindexed-im
 export const IndexingRoutes: Routes = [   
     {path: '', component: ImagesInvoiceComponent},
     {path: ':date', component: ImagesInvoiceComponent},
-    {
-        path: 'indexed-image/:id',
-        component: UnindexedImageFileComponent,
-      },
+    {path: 'invoice/:invoiceNumber/:id', component: ImagesInvoiceComponent},
+    {path: 'indexed-image/:id',component: UnindexedImageFileComponent},
 ];

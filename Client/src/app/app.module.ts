@@ -46,10 +46,6 @@ import { ClaimEpisodeComponent } from './components/claim-episode/claim-episode.
 import { ClaimScriptNoteComponent } from './components/claim-script-note/claim-script-note.component';
 import { UsersComponent } from './pages/users/users.component'; 
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
-/*  import {  UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
-  AccountReceivableSearchComponent, AccountReceivableResultComponent,EpisodeNoteModalComponent,
-  UnindexedImageFilterComponent, UnindexedImageListComponent,ScriptNoteWindowComponent
-} from './components/components-barrel'; */
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentService } from './services/payment-service'; 
