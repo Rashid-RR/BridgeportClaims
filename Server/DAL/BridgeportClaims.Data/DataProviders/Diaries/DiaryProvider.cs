@@ -12,9 +12,9 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
 {
     public class DiaryProvider : IDiaryProvider
     {
-        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
 
-        public DiaryProvider(IStoredProcedureExecutor storedProcedureExecutor)
+        public DiaryProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
         }
@@ -178,58 +178,10 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                     return retVal;
                 });
             });
-            /*var startDateParam = new SqlParameter
-            {
-                ParameterName = "StartDate",
-                DbType = DbType.Date,
-                Value = startDate
-            };
-            var endDateParam = new SqlParameter
-            {
-                ParameterName = "EndDate",
-                DbType = DbType.Date,
-                Value = endDate
-            };
-            var sortColumnParam = new SqlParameter
-            {
-                ParameterName = "SortColumn",
-                Value = sortColumn,
-                DbType = DbType.String
-            };
-            var sortDirectionParam = new SqlParameter
-            {
-                ParameterName = "SortDirection",
-                Value = sortDirection,
-                DbType = DbType.String
-            };
-            var pageNumberParam = new SqlParameter
-            {
-                ParameterName = "PageNumber",
-                DbType = DbType.Int32,
-                Value = pageNumber
-            };
-            var pageSizeParam = new SqlParameter
-            {
-                ParameterName = "PageSize",
-                DbType = DbType.Int32,
-                Value = pageSize
-            };
-            var closedParam = new SqlParameter
-            {
-                ParameterName = "Closed",
-                Value = closed,
-                DbType = DbType.Boolean
-            };
-            var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<DiariesDto>(
-                "EXECUTE [dbo].[uspGetDiaries] @IsDefaultSort = :IsDefaultSort, @StartDate = :StartDate," +
-                "@EndDate = :EndDate, @SortColumn = :SortColumn, @SortDirection = :SortDirection, @PageNumber = :PageNumber, @PageSize = :PageSize, @Closed = :Closed",
-                new List<SqlParameter> { isDefaultSortParam, startDateParam, endDateParam, sortColumnParam, sortDirectionParam, pageNumberParam, pageSizeParam, closedParam })?.ToList();
-            return retVal;
-        }*/
 
         public void RemoveDiary(int prescriptionNoteId)
         {
-            _storedProcedureExecutor.ExecuteNoResultStoredProcedure(
+            _storedProcedureExecutor.Value.ExecuteNoResultStoredProcedure(
                 "EXECUTE dbo.uspUpdateDiary @PrescriptionNoteID = :PrescriptionNoteID",
                 new List<SqlParameter>
                 {

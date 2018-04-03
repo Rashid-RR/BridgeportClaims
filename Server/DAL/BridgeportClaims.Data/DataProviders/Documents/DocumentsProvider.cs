@@ -13,15 +13,15 @@ namespace BridgeportClaims.Data.DataProviders.Documents
 {
     public class DocumentsProvider : IDocumentsProvider
     {
-        private readonly IRepository<Document> _documentRepository;
+        private readonly Lazy<IRepository<Document>> _documentRepository;
 
-        public DocumentsProvider(IRepository<Document> documentRepository)
+        public DocumentsProvider(Lazy<IRepository<Document>> documentRepository)
         {
             _documentRepository = documentRepository;
         }
 
         public IList<DocumentResultDto> GetDocumentByFileName(string fileName) =>
-            _documentRepository.GetMany(x => x.FileName.Contains(fileName))?.Select(doc => new DocumentResultDto
+            _documentRepository.Value.GetMany(x => x.FileName.Contains(fileName))?.Select(doc => new DocumentResultDto
             {
                 DocumentId = doc.DocumentId,
                 CreationTimeLocal = doc.CreationTimeLocal,

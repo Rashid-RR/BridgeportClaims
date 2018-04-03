@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -12,17 +13,17 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
     public class ClaimNotesDataProvider : IClaimNotesDataProvider
     {
-        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
-        private readonly IRepository<ClaimNoteType> _claimNoteTypeRepository;
+        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
+        private readonly Lazy<IRepository<ClaimNoteType>> _claimNoteTypeRepository;
 
-        public ClaimNotesDataProvider(IStoredProcedureExecutor storedProcedureExecutor, 
-            IRepository<ClaimNoteType> claimNoteTypeRepositor)
+        public ClaimNotesDataProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor, 
+            Lazy<IRepository<ClaimNoteType>> claimNoteTypeRepositor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
             _claimNoteTypeRepository = claimNoteTypeRepositor;
         }
 
-        public IList<KeyValuePair<int, string>> GetClaimNoteTypes() => _claimNoteTypeRepository.GetAll()
+        public IList<KeyValuePair<int, string>> GetClaimNoteTypes() => _claimNoteTypeRepository.Value.GetAll()
             .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).OrderBy(x => x.Value).ToList();
 
         public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId)
@@ -56,7 +57,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
             listToAdd.Add(claimIdParam);
             listToAdd.Add(noteParam);
             listToAdd.Add(enteredByUserIdParam);
-            _storedProcedureExecutor.ExecuteNoResultStoredProcedure("EXEC dbo.uspAddOrUpdateClaimNote @ClaimID = :ClaimID, " +
+            _storedProcedureExecutor.Value.ExecuteNoResultStoredProcedure("EXEC dbo.uspAddOrUpdateClaimNote @ClaimID = :ClaimID, " +
                     "@NoteText = :NoteText, @EnteredByUserID = :EnteredByUserID, @NoteTypeID = :NoteTypeID", listToAdd);
         }
 
