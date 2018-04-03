@@ -1,0 +1,77 @@
+import { NgModule, Pipe, PipeTransform } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { ConfirmComponent } from '../components/confirm.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { Ng2Webstorage } from 'ng2-webstorage';
+import { ShContextMenuModule } from 'ng2-right-click-menu';
+import { AutoCompleteModule } from '../auto-complete';
+import { WindowsInjetor, WindowBackdrop, BootstrapWindowContainer } from '../components/ng-window';
+import { FilterUserPipe } from '../pages/users/filter-user.pipe';
+import { DiariesFilterPipe } from '../diaries/diary-results/diary-filter.pipe';
+import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
+import {
+  UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
+  AccountReceivableSearchComponent, AccountReceivableResultComponent, EpisodeNoteModalComponent,
+  UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+} from '../components/components-barrel';
+import { ColumnSortDirective } from '../directives/column-sort.directive';
+import { TableSortDirective } from '../directives/table-sort.directive';
+import { PhonePipe } from '../pipes/phone-pipe';
+import { DisplayRolesPipe } from '../pipes/display-roles.pipe';
+import { ArraySortPipe } from '../pipes/sort.pipe';
+
+@Pipe({ name: 'safeStyle' })
+export class SafeStylePipe implements PipeTransform {
+  constructor(private sanitized: DomSanitizer) { }
+
+  transform(value: any) {
+    return this.sanitized.bypassSecurityTrustStyle(value);
+  }
+}
+@Pipe({ name: 'safeURL' })
+export class SafeUrlPipe implements PipeTransform {
+  constructor(private sanitized: DomSanitizer) { }
+  transform(value: any) {
+    return this.sanitized.bypassSecurityTrustUrl(value);
+  }
+}
+
+@NgModule({
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AutoCompleteModule,
+    ShContextMenuModule
+  ],
+  declarations: [
+    ConfirmComponent,BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
+    TableSortDirective, ColumnSortDirective,
+    DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe,SafeStylePipe, SafeUrlPipe,FilterUserPipe,DiariesFilterPipe,
+    UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
+    AccountReceivableSearchComponent, AccountReceivableResultComponent, EpisodeNoteModalComponent,
+    UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+  ],
+  providers:[
+    WindowsInjetor,
+    DisplayRolesPipe,ArraySortPipe,SafeStylePipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe,FilterUserPipe,DiariesFilterPipe
+  ],
+  exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AutoCompleteModule,
+    ShContextMenuModule,
+    TableSortDirective, ColumnSortDirective,
+    DisplayRolesPipe,ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe,SafeStylePipe,FilterUserPipe,DiariesFilterPipe,
+    UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
+    AccountReceivableSearchComponent, AccountReceivableResultComponent, EpisodeNoteModalComponent,
+    UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+  ],
+  entryComponents: [
+    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent
+  ],
+})
+export class SharedModule { }
