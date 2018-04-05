@@ -147,7 +147,7 @@ namespace BridgeportClaims.Web.Controllers
                         ? string.Join(", ", result.Errors.SelectMany(sm => sm))
                         : result.Errors.Select(x => x).FirstOrDefault();
                 }
-                Logger.Error(error);
+                Logger.Value.Error(error);
                 return GetBadRequestFormattedErrorMessages(result);
             }
             catch (Exception ex)

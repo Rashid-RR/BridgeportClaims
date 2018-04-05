@@ -94,7 +94,7 @@ namespace BridgeportClaims.Web.Controllers
 					}
 					catch (Exception ex)
 					{
-						Logger.Error(ex,
+						Logger.Value.Error(ex,
 							$"The file: {fileName}, with the description: {description} was not copied successfully");
 						return Content(HttpStatusCode.NotAcceptable, ex.GetBaseException().Message);
 					}
