@@ -10,7 +10,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/dashboard")]
     public class DashboardController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly IDashboardProvider _dashboardProvider;
 
         public DashboardController(IDashboardProvider dashboardProvider)
@@ -29,7 +29,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

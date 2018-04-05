@@ -24,7 +24,7 @@ namespace BridgeportClaims.Web.Controllers
     {
         private readonly IClaimsDataProvider _claimsDataProvider;
         private readonly IPrescriptionsDataProvider _prescriptionsDataProvider;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly IPdfFactory _pdfFactory;
         private readonly IBillingStatementProvider _billingStatementProvider;
 
@@ -54,7 +54,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -81,7 +81,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -100,7 +100,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -117,7 +117,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
@@ -150,7 +150,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }

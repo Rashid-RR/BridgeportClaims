@@ -14,7 +14,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/payors")]
     public class PayorsController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly IPayorsDataProvider _payorsDataProvider;
         private readonly IPayorSearchProvider _payorSearchProvider;
         private readonly IPayorMapper _payorMapper;
@@ -37,7 +37,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -52,7 +52,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -67,7 +67,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

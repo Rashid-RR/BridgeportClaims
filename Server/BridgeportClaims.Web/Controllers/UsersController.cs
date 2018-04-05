@@ -18,16 +18,16 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/users")]
     public class UsersController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IAspNetUsersProvider _aspNetUsersProvider;
-        private readonly IAssignUsersToRolesProvider _assignUsersToRolesProvider;
-        private readonly IRepository<AspNetUsers> _usersRepository;
-        private readonly IUsersProvider _usersProvider;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<IAspNetUsersProvider> _aspNetUsersProvider;
+        private readonly Lazy<IAssignUsersToRolesProvider> _assignUsersToRolesProvider;
+        private readonly Lazy<IRepository<AspNetUsers>> _usersRepository;
+        private readonly Lazy<IUsersProvider> _usersProvider;
 
-        public UsersController(IAspNetUsersProvider aspNetUsersProvider, 
-            IAssignUsersToRolesProvider assignUsersToRolesProvider, 
-            IRepository<AspNetUsers> usersRepository, 
-            IUsersProvider usersProvider)
+        public UsersController(Lazy<IAspNetUsersProvider> aspNetUsersProvider, 
+            Lazy<IAssignUsersToRolesProvider> assignUsersToRolesProvider, 
+            Lazy<IRepository<AspNetUsers>> usersRepository, 
+            Lazy<IUsersProvider> usersProvider)
         {
             _aspNetUsersProvider = aspNetUsersProvider;
             _assignUsersToRolesProvider = assignUsersToRolesProvider;
@@ -41,32 +41,34 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return await Task.Run(() => Ok(_usersProvider.GetUsers()));
+                return await Task.Run(() => Ok(_usersProvider.Value.GetUsers()));
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
         [HttpPost]
         [Route("get-users")]
-        public async Task<IHttpActionResult> GetAllUsers()
+        public IHttpActionResult GetAllUsers()
         {
             try
             {
-                return await Task.Run(() =>
+                var users = _usersRepository?.Value?.GetAll()?.OrderBy(x => x.LastName)
+                    .ThenBy(y => y.FirstName).Select(s => new {OwnerId = s.Id, Owner = s.LastName + ", " + s.FirstName})
+                    .ToList();
+                if (null == users)
                 {
-                    var users = _usersRepository?.GetAll()?.OrderBy(x => x.LastName)
-                        .ThenBy(y => y.FirstName).Select(s => new {OwnerId = s.Id, Owner = s.LastName + ", " + s.FirstName}).ToList();
-                    return Ok(users);
-                });
+                    return Content(HttpStatusCode.InternalServerError, new {message = "No users were located."});
+                }
+                return Ok(users);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -95,7 +97,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -115,7 +117,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -137,7 +139,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
@@ -153,13 +155,13 @@ namespace BridgeportClaims.Web.Controllers
                 if (roleName.IsNullOrWhiteSpace())
                     throw new ArgumentNullException(nameof(roleName));
                 var role = await AppRoleManager.FindByNameAsync(roleName);
-                _assignUsersToRolesProvider.AssignUserToRole(id, role.Id);
+                _assignUsersToRolesProvider.Value.AssignUserToRole(id, role.Id);
                 var userName = User.Identity.Name;
                 return Ok(new{message=$"The {role.Name} role was assigned to {userName} successfully."});
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
@@ -177,13 +179,13 @@ namespace BridgeportClaims.Web.Controllers
                                         " parameter cannot both be null or empty.");
                 return await Task.Run(() =>
                 {
-                    _aspNetUsersProvider.UpdatePersonalData(id, firstName, lastName, extension);
+                    _aspNetUsersProvider.Value.UpdatePersonalData(id, firstName, lastName, extension);
                     return Ok(new {message = "Name has been Updated Successfully"});
                 });
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

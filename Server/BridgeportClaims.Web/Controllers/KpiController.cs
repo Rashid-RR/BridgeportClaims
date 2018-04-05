@@ -12,7 +12,7 @@ namespace BridgeportClaims.Web.Controllers
     public class KpiController : BaseApiController
     {
         private readonly IKpiProvider _kpiProvider;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
         public KpiController(IKpiProvider kpiProvider)
         {
@@ -33,7 +33,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }

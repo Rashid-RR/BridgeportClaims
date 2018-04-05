@@ -8,7 +8,7 @@ namespace BridgeportClaims.Web.Middleware
 {
     public class GlobalExceptionMiddleware : OwinMiddleware
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         public GlobalExceptionMiddleware(OwinMiddleware next) : base(next) { }
         public override async Task Invoke(IOwinContext context)
         {
@@ -18,7 +18,7 @@ namespace BridgeportClaims.Web.Middleware
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }

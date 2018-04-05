@@ -20,7 +20,7 @@ namespace BridgeportClaims.Web.Controllers
 	public class EpisodesController : BaseApiController
 	{
 		private readonly IEpisodesDataProvider _episodesDataProvider;
-		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 		private readonly IEpisodeNoteProvider _episodeNoteProvider;
 		private readonly IRepository<AspNetUsers> _usersRepository;
 
@@ -54,7 +54,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -77,7 +77,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -104,7 +104,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -142,7 +142,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -167,7 +167,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -187,7 +187,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -212,7 +212,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -228,7 +228,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}

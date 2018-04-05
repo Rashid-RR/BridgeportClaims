@@ -11,7 +11,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/cache")]
     public class CacheController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly IMemoryCacher _cache;
 
         public CacheController()
@@ -33,7 +33,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

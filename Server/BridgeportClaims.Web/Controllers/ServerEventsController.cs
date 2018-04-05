@@ -11,12 +11,12 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/ServerEvents")]
     public class ServerEventsController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IPaymentsBusiness _paymentsBusiness;
-        private readonly IImportFileProvider _importFileProvider;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<IPaymentsBusiness> _paymentsBusiness;
+        private readonly Lazy<IImportFileProvider> _importFileProvider;
 
-        public ServerEventsController(IPaymentsBusiness paymentsBusiness,
-            IImportFileProvider importFileProvider)
+        public ServerEventsController(Lazy<IPaymentsBusiness> paymentsBusiness,
+            Lazy<IImportFileProvider> importFileProvider)
         {
             _paymentsBusiness = paymentsBusiness;
             _importFileProvider = importFileProvider;
@@ -31,14 +31,14 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    _paymentsBusiness.ImportPaymentFile(fileName);
-                    _importFileProvider.MarkFileProcessed(fileName);
+                    _paymentsBusiness.Value.ImportPaymentFile(fileName);
+                    _importFileProvider.Value.MarkFileProcessed(fileName);
                     return Ok(new {message = "The Payment File was Processed Successfully"});
                 });
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
 

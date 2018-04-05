@@ -21,11 +21,11 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/reports")]
     public class ReportsController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IReportsDataProvider _reportsDataProvider;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<IReportsDataProvider> _reportsDataProvider;
         private const string Format = "MMMM_yyyy";
 
-        public ReportsController(IReportsDataProvider reportsDataProvider)
+        public ReportsController(Lazy<IReportsDataProvider> reportsDataProvider)
         {
             _reportsDataProvider = reportsDataProvider;
         }
@@ -81,7 +81,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -90,7 +90,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var results = _reportsDataProvider.GetAccountsReceivableReport(groupName, pharmacyName);
+                var results = _reportsDataProvider.Value.GetAccountsReceivableReport(groupName, pharmacyName);
                 var selectStatement = $"new ( DateBilled, TotalInvoiced, Mnth1 as {MonthDictionary[1]}, Mnth2 as {MonthDictionary[2]}" +
                                       $", Mnth3 as {MonthDictionary[3]}, Mnth4 as {MonthDictionary[4]}, Mnth5 as {MonthDictionary[5]}, " +
                                       $"Mnth6 as {MonthDictionary[6]}, Mnth7 as {MonthDictionary[7]}, Mnth8 as {MonthDictionary[8]}" +
@@ -100,7 +100,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -111,11 +111,11 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_reportsDataProvider.GetGroupNames(groupName));
+                return Ok(_reportsDataProvider.Value.GetGroupNames(groupName));
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -126,11 +126,11 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_reportsDataProvider.GetPharmacyNames(pharmacyName));
+                return Ok(_reportsDataProvider.Value.GetPharmacyNames(pharmacyName));
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -156,7 +156,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

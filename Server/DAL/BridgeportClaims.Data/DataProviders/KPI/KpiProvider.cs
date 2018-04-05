@@ -11,17 +11,17 @@ namespace BridgeportClaims.Data.DataProviders.KPI
 {
     public class KpiProvider : IKpiProvider
     {
-        private readonly ISessionFactory _factory;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly Lazy<ISessionFactory> _factory;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-        public KpiProvider(ISessionFactory factory)
+        public KpiProvider(Lazy<ISessionFactory> factory)
         {
             _factory = factory;
         }
 
         public IList<PaymentTotalsDto> GetPaymentTotalsDtos()
         {
-            return DisposableService.Using(() => _factory.OpenSession(), session =>
+            return DisposableService.Using(() => _factory.Value.OpenSession(), session =>
             {
                 return DisposableService.Using(() => session.BeginTransaction(IsolationLevel.ReadCommitted),
                     tx =>
@@ -39,7 +39,7 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                         }
                         catch (Exception ex)
                         {
-                            Logger.Error(ex);
+                            Logger.Value.Error(ex);
                             if (tx.IsActive)
                                 tx.Rollback();
                             throw;
