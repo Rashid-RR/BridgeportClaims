@@ -7,11 +7,14 @@
     "start": "ng serve --host 0.0.0.0 --proxy-config proxy.conf.json",
     "local": "ng serve --host 0.0.0.0 --proxy-config proxy-conf-local.json",
     "start:dev": "ng serve --port 8000 --host 0.0.0.0  --proxy-config dev-proxy.conf.json",
+    "start:prod": "ng serve --port 8000 --host 0.0.0.0  --proxy-config prod-proxy.conf.json",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e --proxy-config proxy.conf.json",
-    "e2e:local": "ng e2e --proxy-config proxy.conf.json"
+    "e2e:dev": "ng e2e --proxy-config proxy.conf.json",
+    "e2e:local": "ng e2e --proxy-config proxy.conf-local.json",
+    "e2e:prod": "ng e2e --proxy-config prod-proxy.conf.json"
   },
   "private": true,
   "dependencies": {

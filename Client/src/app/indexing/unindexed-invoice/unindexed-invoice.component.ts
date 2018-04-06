@@ -84,10 +84,13 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
             doc.fileUrl=check.replace(/"/g,"");
             let file = doc as any
             localStorage.setItem('file-' + id, JSON.stringify(file));
-            window.open('#/main/indexing/invoice/'+this.form.value.invoiceNumber+'/' + id, '_blank');
+            var win = window.open('#/main/indexing/invoice/'+this.form.value.invoiceNumber+'/' + id, '_blank');
             this.ds.newInvoice = false;
             this.ds.invoiceFile = undefined;
             this.ds.loading = false;
+            if(!win){
+              this.toast.info('Please allow popups for this website');
+            }
           }
         })
       } catch (e) {
