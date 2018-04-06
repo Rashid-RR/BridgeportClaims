@@ -46,6 +46,9 @@ export class UnindexedInvoiceFilterComponent implements OnInit, AfterViewInit {
     this.ds.searchInvoices(); 
   }
 
+  filter($event) {
+    this.ds.invoiceData.archived = $event.target.checked;
+  }
   clearFilters() {
     this.fileName = '';
   }
