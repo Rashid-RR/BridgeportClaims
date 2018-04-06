@@ -13,10 +13,10 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/admin")]
     public class AdminController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IAdminFunctionsProvider _adminFunctionsProvider;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<IAdminFunctionsProvider> _adminFunctionsProvider;
 
-        public AdminController(IAdminFunctionsProvider adminFunctionsProvider)
+        public AdminController(Lazy<IAdminFunctionsProvider> adminFunctionsProvider)
         {
             _adminFunctionsProvider = adminFunctionsProvider;
         }
@@ -29,13 +29,13 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var results = _adminFunctionsProvider.GetFirewallSettings();
+                    var results = _adminFunctionsProvider.Value.GetFirewallSettings();
                     return Ok(results);
                 }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -48,13 +48,13 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    _adminFunctionsProvider.DeleteFirewallSetting(ruleName);
+                    _adminFunctionsProvider.Value.DeleteFirewallSetting(ruleName);
                     return Ok(new {message = $"The firewall rule '{ruleName}' was removed successfully."});
                 }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -73,14 +73,14 @@ namespace BridgeportClaims.Web.Controllers
                         throw new ArgumentNullException(nameof(model.StartIpAddress));
                     if (model.EndIpAddress.IsNullOrWhiteSpace())
                         throw new ArgumentNullException(nameof(model.EndIpAddress));
-                    _adminFunctionsProvider.AddFirewallSetting(model.RuleName, model.StartIpAddress,
+                    _adminFunctionsProvider.Value.AddFirewallSetting(model.RuleName, model.StartIpAddress,
                         model.EndIpAddress);
                     return Ok(new {message = $"The firewall rule '{model.RuleName}' was created successfully."});
                 }).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

@@ -10,9 +10,9 @@ namespace BridgeportClaims.Business.Payments
 {
     public class PaymentsBusiness : IPaymentsBusiness
     {
-        private readonly IPaymentsDataProvider _paymentsDataProvider;
+        private readonly Lazy<IPaymentsDataProvider> _paymentsDataProvider;
 
-        public PaymentsBusiness(IPaymentsDataProvider paymentsDataProvider)
+        public PaymentsBusiness(Lazy<IPaymentsDataProvider> paymentsDataProvider)
         {
             _paymentsDataProvider = paymentsDataProvider;
         }
@@ -25,7 +25,7 @@ namespace BridgeportClaims.Business.Payments
 
         public void ImportPaymentFile(string fileName)
         {
-            var fileBytes = _paymentsDataProvider.GetBytesFromDb(fileName);
+            var fileBytes = _paymentsDataProvider.Value.GetBytesFromDb(fileName);
             if (null == fileBytes)
                 throw new ArgumentNullException($"Error. The File \"{fileName}\" does not Exist in the Database");
             var dt = GetDataTableFromExcelBytes(fileBytes.ToArray());
@@ -36,7 +36,7 @@ namespace BridgeportClaims.Business.Payments
             if (null == newDt)
                 throw new Exception("Error. Could not Copy over Contents of the Original Data Table into the " +
                                     "Cloned Data Table with String Column Types");
-            _paymentsDataProvider.ImportDataTableIntoDb(newDt);
+            _paymentsDataProvider.Value.ImportDataTableIntoDb(newDt);
         }
     }
 }

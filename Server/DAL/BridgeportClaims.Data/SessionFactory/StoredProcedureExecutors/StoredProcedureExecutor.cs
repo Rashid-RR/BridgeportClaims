@@ -13,22 +13,22 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
 {
     public class StoredProcedureExecutor : IStoredProcedureExecutor
     {
-        private readonly ISession _session;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger(); 
+        private readonly Lazy<ISession> _session;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger); 
 
-        public StoredProcedureExecutor(ISession session)
+        public StoredProcedureExecutor(Lazy<ISession> session)
         {
             _session = session;
         }
 
         public void ExecuteNoResultStoredProcedure(string procedureNameExecStatement,
             IList<SqlParameter> parameters)
-            => DisposableService.Using(() => _session.BeginTransaction(IsolationLevel.ReadCommitted),
+            => DisposableService.Using(() => _session.Value.BeginTransaction(IsolationLevel.ReadCommitted),
                     transaction =>
                     {
                         try
                         {
-                            IQuery query = _session.CreateSQLQuery(procedureNameExecStatement);
+                            IQuery query = _session.Value.CreateSQLQuery(procedureNameExecStatement);
                             AddStoredProcedureParameters(query, parameters);
                             query.UniqueResult();
                             if (transaction.IsActive)
@@ -38,7 +38,7 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
                         {
                             if (transaction.IsActive)
                                 transaction.Rollback();
-                            Logger.Error(ex);
+                            Logger.Value.Error(ex);
                             throw;
                         }
                     });
@@ -46,12 +46,12 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
 
         public IEnumerable<T> ExecuteMultiResultStoredProcedure<T>(string procedureNameExecStatement, 
             IList<SqlParameter> parameters) => DisposableService.Using(() 
-                => _session.BeginTransaction(IsolationLevel.ReadCommitted),
+                => _session.Value.BeginTransaction(IsolationLevel.ReadCommitted),
             transaction =>
             {
                 try
                 {
-                    IQuery query = _session.CreateSQLQuery(procedureNameExecStatement);
+                    IQuery query = _session.Value.CreateSQLQuery(procedureNameExecStatement);
                     AddStoredProcedureParameters(query, parameters);
                     var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).List().Cast<T>();
                     if (transaction.IsActive)
@@ -60,7 +60,7 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex);
+                    Logger.Value.Error(ex);
                     if (transaction.IsActive)
                         transaction.Rollback();
                     throw;
@@ -69,12 +69,12 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
 
         public T ExecuteSingleResultStoredProcedure<T>(string procedureNameExecStatement,
             IList<SqlParameter> parameters) => DisposableService.Using(() 
-                => _session.BeginTransaction(IsolationLevel.ReadCommitted),
+                => _session.Value.BeginTransaction(IsolationLevel.ReadCommitted),
             transaction =>
             {
                 try
                 {
-                    IQuery query = _session.CreateSQLQuery(procedureNameExecStatement);
+                    IQuery query = _session.Value.CreateSQLQuery(procedureNameExecStatement);
                     AddStoredProcedureParameters(query, parameters);
                     var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
                     if (transaction.IsActive)
@@ -83,7 +83,7 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex);
+                    Logger.Value.Error(ex);
                     if (transaction.IsActive)
                         transaction.Rollback();
                     throw;
@@ -91,12 +91,12 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
             });
 
         public T ExecuteScalarStoredProcedure<T>(string procedureName, IList<SqlParameter> parameters)
-            => DisposableService.Using(() => _session.BeginTransaction(IsolationLevel.ReadCommitted),
+            => DisposableService.Using(() => _session.Value.BeginTransaction(IsolationLevel.ReadCommitted),
                 transaction =>
                 {
                     try
                     {
-                        var query = _session.GetNamedQuery(procedureName);
+                        var query = _session.Value.GetNamedQuery(procedureName);
                         AddStoredProcedureParameters(query, parameters);
                         var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
                         if (transaction.IsActive)
@@ -105,7 +105,7 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
                     }
                     catch (Exception ex)
                     {
-                        Logger.Error(ex);
+                        Logger.Value.Error(ex);
                         if (transaction.IsActive)
                             transaction.Rollback();
                         throw;
@@ -123,7 +123,7 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }

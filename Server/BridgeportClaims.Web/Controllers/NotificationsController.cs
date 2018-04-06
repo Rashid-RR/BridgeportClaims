@@ -15,7 +15,7 @@ namespace BridgeportClaims.Web.Controllers
     public class NotificationsController : BaseApiController
     {
         private readonly IPayorLetterNameProvider _payorLetterNameProvider;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
         public NotificationsController(IPayorLetterNameProvider payorLetterNameProvider)
         {
@@ -43,7 +43,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -63,7 +63,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

@@ -15,7 +15,7 @@ namespace BridgeportClaims.Web.Controllers
     public class PrescriptionPaymentsController : BaseApiController
     {
         private readonly IPrescriptionPaymentProvider _provider;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
         public PrescriptionPaymentsController(IPrescriptionPaymentProvider provider)
         {
@@ -36,7 +36,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

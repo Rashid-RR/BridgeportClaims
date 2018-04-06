@@ -11,7 +11,7 @@ namespace BridgeportClaims.Web.Providers
 {
     public class BridgeportClaimOAuthProvider : OAuthAuthorizationServerProvider
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private const string InvalidGrant = "invalid_grant";
 
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext ctx)
@@ -56,7 +56,7 @@ namespace BridgeportClaims.Web.Providers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }

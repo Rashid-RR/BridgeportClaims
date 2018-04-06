@@ -21,7 +21,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/laker")]
     public class LakerAutomationController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly ILakerFileProcessor _lakerFileProcessor;
         private readonly IImportFileProvider _importFileProvider;
         private readonly IEmailService _emailService;
@@ -46,7 +46,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var userEmail = User.Identity.GetUserName();
                     if (cs.AppIsInDebugMode)
-                        Logger.Info(
+                        Logger.Value.Info(
                             $"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
                     var tuple = _lakerFileProcessor.ProcessOldestLakerFile();
                     string msg;
@@ -67,7 +67,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -90,20 +90,20 @@ namespace BridgeportClaims.Web.Controllers
                 _importFileProvider.LakerImportFileProcedureCall(dataTable);
                 // Finally, use the newly imported file, to Upsert the database.
                 if (cs.AppIsInDebugMode)
-                    Logger.Info("About to call EtlLakerFile()...");
+                    Logger.Value.Info("About to call EtlLakerFile()...");
                 _importFileProvider.EtlLakerFile(lakerFileName);
                 // And finally, mark the file processed.
                 _importFileProvider.MarkFileProcessed(lakerFileName);
 
                 if (cs.AppIsInDebugMode)
-                    Logger.Info("The file was marked as completed.");
+                    Logger.Value.Info("The file was marked as completed.");
                 const string msg = "The Laker File Import Process Ran Successfully!";
                 await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
                     EmailModelEnum.LakerImportStatus).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }

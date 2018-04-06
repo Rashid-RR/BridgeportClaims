@@ -10,10 +10,10 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/adjustors")]
     public class AdjustorsController : BaseApiController
     {
-        private readonly IAdjustorSearchProvider _adjustorSearchProvider;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private readonly Lazy<IAdjustorSearchProvider> _adjustorSearchProvider;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-        public AdjustorsController(IAdjustorSearchProvider adjustorSearchProvider)
+        public AdjustorsController(Lazy<IAdjustorSearchProvider> adjustorSearchProvider)
         {
             _adjustorSearchProvider = adjustorSearchProvider;
         }
@@ -24,12 +24,12 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var results = _adjustorSearchProvider.GetAdjustorSearchResults(searchText);
+                var results = _adjustorSearchProvider.Value.GetAdjustorSearchResults(searchText);
                 return Ok(results);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

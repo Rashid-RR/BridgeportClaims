@@ -14,15 +14,15 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/image")]
     public class ImagesController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        private readonly IClaimImageProvider _claimImageProvider;
-        private readonly IRepository<DocumentIndex> _documentIndexRepository;
-        private readonly IRepository<DocumentType> _documentTypeRepository;
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<IClaimImageProvider> _claimImageProvider;
+        private readonly Lazy<IRepository<DocumentIndex>> _documentIndexRepository;
+        private readonly Lazy<IRepository<DocumentType>> _documentTypeRepository;
 
         public ImagesController(
-            IClaimImageProvider claimImageProvider, 
-            IRepository<DocumentIndex> documentIndexRepository, 
-            IRepository<DocumentType> documentTypeRepository)
+            Lazy<IClaimImageProvider> claimImageProvider, 
+            Lazy<IRepository<DocumentIndex>> documentIndexRepository, 
+            Lazy<IRepository<DocumentType>> documentTypeRepository)
         {
             _claimImageProvider = claimImageProvider;
             _documentIndexRepository = documentIndexRepository;
@@ -37,12 +37,12 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                var results = _claimImageProvider.GetClaimImages(model.ClaimId, model.Sort, model.SortDirection, model.Page, model.PageSize);
+                var results = _claimImageProvider.Value.GetClaimImages(model.ClaimId, model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(results);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -55,20 +55,20 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                var docIndex = _documentIndexRepository.Get(model.DocumentId);
+                var docIndex = _documentIndexRepository.Value.Get(model.DocumentId);
                 if (null == docIndex)
                     throw new Exception($"Error, the image could not be found with the Id of {model.DocumentId}.");
                 docIndex.RxDate = model.RxDate.ToNullableFormattedDateTime();
                 docIndex.RxNumber = model.RxNumber;
-                var docType = _documentTypeRepository.Get(model.DocumentTypeId);
+                var docType = _documentTypeRepository.Value.Get(model.DocumentTypeId);
                 docIndex.DocumentType = docType;
                 docIndex.UpdatedOnUtc = DateTime.UtcNow;
-                _documentIndexRepository.Update(docIndex);
+                _documentIndexRepository.Value.Update(docIndex);
                 return Ok(new {message = "The image was updated successfully."});
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
@@ -79,15 +79,15 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var entity = _documentIndexRepository.Get(documentId);
+                var entity = _documentIndexRepository.Value.Get(documentId);
                 if (null == entity)
                     throw new Exception($"Error, could not find the image with Id: {documentId}.");
-                _documentIndexRepository.Delete(entity);
+                _documentIndexRepository.Value.Delete(entity);
                 return Ok(new { message = "The image was reindexed successfully." });
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

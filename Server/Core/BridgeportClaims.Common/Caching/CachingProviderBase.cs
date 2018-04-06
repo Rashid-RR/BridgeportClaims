@@ -8,9 +8,8 @@ namespace BridgeportClaims.Common.Caching
 {
     public abstract class CachingProviderBase
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        protected MemoryCache Cache = new MemoryCache(c.CachingProvider);
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        protected Lazy<MemoryCache> Cache = new Lazy<MemoryCache>(() => new MemoryCache(c.CachingProvider));
         private static readonly object Semaphore  = new object();
         private readonly DateTimeOffset _defaultExpiry;
 
@@ -23,7 +22,7 @@ namespace BridgeportClaims.Common.Caching
         {
             lock (Semaphore)
             {
-                Cache.Set(key, value, _defaultExpiry);
+                Cache.Value.Set(key, value, _defaultExpiry);
             }
         }
 
@@ -31,8 +30,8 @@ namespace BridgeportClaims.Common.Caching
         {
             lock (Semaphore)
             {
-                if (Cache.Contains(key))
-                    Cache.Remove(key);
+                if (Cache.Value.Contains(key))
+                    Cache.Value.Remove(key);
             }
         }
 
@@ -41,7 +40,7 @@ namespace BridgeportClaims.Common.Caching
         protected void WriteToLog(string text)
         {
             if (cs.AppIsInDebugMode)
-                Logger.Info(text);
+                Logger.Value.Info(text);
         }
 
         #endregion

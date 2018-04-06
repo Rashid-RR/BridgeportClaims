@@ -10,13 +10,13 @@ namespace BridgeportClaims.Web.Models
 {   
     public sealed class ModelFactory
     {
-        private readonly UrlHelper _urlHelper;
+        private readonly Lazy<UrlHelper> _urlHelper;
         private readonly ApplicationUserManager _appUserManager;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
         public ModelFactory(HttpRequestMessage request, ApplicationUserManager appUserManager)
         {
-            _urlHelper = new UrlHelper(request);
+            _urlHelper = new Lazy<UrlHelper>(() => new UrlHelper(request));
             _appUserManager = appUserManager;
         }
 
@@ -26,7 +26,7 @@ namespace BridgeportClaims.Web.Models
             {
                 return new UserReturnModel
                 {
-                    Url = _urlHelper.Link(c.GetUserByIdAction, new {id = appUser.Id}),
+                    Url = _urlHelper.Value.Link(c.GetUserByIdAction, new {id = appUser.Id}),
                     Id = appUser.Id,
                     UserName = appUser.UserName,
                     FullName = $"{appUser.FirstName} {appUser.LastName}",
@@ -43,7 +43,7 @@ namespace BridgeportClaims.Web.Models
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -54,14 +54,14 @@ namespace BridgeportClaims.Web.Models
             {
                 return new RoleReturnModel
                 {
-                    Url = _urlHelper.Link(c.GetRoleByIdAction, new { id = appRole.Id }),
+                    Url = _urlHelper.Value.Link(c.GetRoleByIdAction, new { id = appRole.Id }),
                     Id = appRole.Id,
                     Name = appRole.Name
                 };
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }

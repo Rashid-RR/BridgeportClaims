@@ -7,7 +7,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
@@ -22,21 +21,19 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 {
 	public class ImportFileProvider : IImportFileProvider
 	{
-		private readonly IMemoryCacher _memoryCacher;
-		private readonly IRepository<ImportFile> _importFileRepository;
-		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-		private readonly ICsvReaderProvider _csvReaderProvider;
-	    private readonly IRepository<ImportFileType> _importFileTypeRepository;
+	    private readonly Lazy<IRepository<ImportFile>> _importFileRepository;
+		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+		private readonly Lazy<ICsvReaderProvider> _csvReaderProvider;
+		private readonly Lazy<IRepository<ImportFileType>> _importFileTypeRepository;
 
 		public ImportFileProvider(
-			IRepository<ImportFile> importFileRepository, 
-			ICsvReaderProvider csvReaderProvider, 
-            IRepository<ImportFileType> importFileTypeRepository)
+			Lazy<IRepository<ImportFile>> importFileRepository, 
+			Lazy<ICsvReaderProvider> csvReaderProvider, 
+			Lazy<IRepository<ImportFileType>> importFileTypeRepository)
 		{
-		    _memoryCacher = MemoryCacher.Instance;
 			_importFileRepository = importFileRepository;
 			_csvReaderProvider = csvReaderProvider;
-		    _importFileTypeRepository = importFileTypeRepository;
+			_importFileTypeRepository = importFileTypeRepository;
 		}
 
 		public void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false)
@@ -55,7 +52,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 					};
 					command.CommandType = CommandType.StoredProcedure;
 					command.Parameters.Add(udt);
-				    command.CommandTimeout = 600; // 10 minutes.
+					command.CommandTimeout = 600; // 10 minutes.
 					command.Parameters.Add(new SqlParameter
 					{
 						ParameterName = "@DebugOnly",
@@ -74,8 +71,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		{
 			var methodName = MethodBase.GetCurrentMethod().Name;
 			if (cs.AppIsInDebugMode)
-				Logger.Info($"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
-			var oldestLakeFileName = _importFileRepository.GetMany(x => !x.Processed)
+				Logger.Value.Info($"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
+			var oldestLakeFileName = _importFileRepository.Value.GetMany(x => !x.Processed)
 				.Where(f => null != f.FileName && f.FileName.StartsWith(c.LakeFileNameStartsWithString))
 				.OrderBy(f => f.CreatedOnUtc)
 				.Select(f => f.FileName).FirstOrDefault();
@@ -94,7 +91,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		{
 			if (fullFilePathOfLatestLakerFile.IsNullOrWhiteSpace())
 				throw new Exception("The full file path to the latest Laker CSV doesn't exist.");
-			var dt = _csvReaderProvider.ReadCsvFile(fullFilePathOfLatestLakerFile);
+			var dt = _csvReaderProvider.Value.ReadCsvFile(fullFilePathOfLatestLakerFile);
 			if (null == dt) throw new Exception($"Could not read CSV into Data Table from {fullFilePathOfLatestLakerFile}");
 			// Cleanup temporary file.
 			if (File.Exists(fullFilePathOfLatestLakerFile))
@@ -136,7 +133,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 				return DisposableService.Using(() => new SqlCommand("dbo.uspGetOldestLakerFileBytes", conn), cmd =>
 				{
 					cmd.CommandType = CommandType.StoredProcedure;
-				    cmd.CommandTimeout = 90; // 90 seconds, instead of 30
+					cmd.CommandTimeout = 90; // 90 seconds, instead of 30
 					if (conn.State != ConnectionState.Open)
 						conn.Open();
 					return DisposableService.Using(cmd.ExecuteReader, sqlDataReader =>
@@ -159,47 +156,47 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			});
 		}
 
-	    public IList<ImportFileDto> GetImportFileDtos()
-	        => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
-	        {
-	            var files = new List<ImportFileDto>();
-	            return DisposableService.Using(() => new SqlCommand("dbo.uspGetImportFile", connection), sqlCommand =>
-	            {
-	                sqlCommand.CommandType = CommandType.StoredProcedure;
-	                if (connection.State != ConnectionState.Open)
-	                    connection.Open();
-	                return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
-	                {
-	                    var importFileIdOrdinal = reader.GetOrdinal("ImportFileID");
-	                    var fileNameOrdinal = reader.GetOrdinal("FileName");
-	                    var fileExtensionOrdinal = reader.GetOrdinal("FileExtension");
-	                    var fileSizeOrdinal = reader.GetOrdinal("FileSize");
-	                    var fileTypeOrdinal = reader.GetOrdinal("FileType");
-	                    var processedOrdinal = reader.GetOrdinal("Processed");
-	                    var createdOnLocalOrdinal = reader.GetOrdinal("CreatedOnLocal");
+		public IList<ImportFileDto> GetImportFileDtos()
+			=> DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
+			{
+				var files = new List<ImportFileDto>();
+				return DisposableService.Using(() => new SqlCommand("dbo.uspGetImportFile", connection), sqlCommand =>
+				{
+					sqlCommand.CommandType = CommandType.StoredProcedure;
+					if (connection.State != ConnectionState.Open)
+						connection.Open();
+					return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
+					{
+						var importFileIdOrdinal = reader.GetOrdinal("ImportFileID");
+						var fileNameOrdinal = reader.GetOrdinal("FileName");
+						var fileExtensionOrdinal = reader.GetOrdinal("FileExtension");
+						var fileSizeOrdinal = reader.GetOrdinal("FileSize");
+						var fileTypeOrdinal = reader.GetOrdinal("FileType");
+						var processedOrdinal = reader.GetOrdinal("Processed");
+						var createdOnLocalOrdinal = reader.GetOrdinal("CreatedOnLocal");
 
-	                    while (reader.Read())
-	                    {
-	                        var file = new ImportFileDto
-	                        {
-	                            ImportFileId = reader.GetInt32(importFileIdOrdinal),
-	                            FileName = reader.GetString(fileNameOrdinal),
-	                            FileSize = reader.GetString(fileSizeOrdinal),
-	                            FileType = reader.GetString(fileTypeOrdinal),
-	                            Processed = reader.GetBoolean(processedOrdinal),
-	                            CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
-	                                ? reader.GetDateTime(createdOnLocalOrdinal)
-	                                : DateTime.Now
-	                        };
-	                        if (!reader.IsDBNull(fileExtensionOrdinal))
-	                            file.FileExtension = reader.GetString(fileExtensionOrdinal);
-	                        files.Add(file);
-	                    }
-	                    var retList = files.OrderByDescending(x => x.CreatedOn).ToList();
-	                    return retList;
-	                });
-	            });
-	        });
+						while (reader.Read())
+						{
+							var file = new ImportFileDto
+							{
+								ImportFileId = reader.GetInt32(importFileIdOrdinal),
+								FileName = reader.GetString(fileNameOrdinal),
+								FileSize = reader.GetString(fileSizeOrdinal),
+								FileType = reader.GetString(fileTypeOrdinal),
+								Processed = reader.GetBoolean(processedOrdinal),
+								CreatedOn = !reader.IsDBNull(createdOnLocalOrdinal)
+									? reader.GetDateTime(createdOnLocalOrdinal)
+									: DateTime.Now
+							};
+							if (!reader.IsDBNull(fileExtensionOrdinal))
+								file.FileExtension = reader.GetString(fileExtensionOrdinal);
+							files.Add(file);
+						}
+						var retList = files.OrderByDescending(x => x.CreatedOn).ToList();
+						return retList;
+					});
+				});
+			});
 
 		public void MarkFileProcessed(string fileName)
 		{
@@ -244,8 +241,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 					connection),
 					sqlCommand =>
 					{
-                        var tuple = GetImportFileTypeIdAndProcessedBoolByFileName(fileName);
-                        sqlCommand.CommandType = CommandType.Text;
+						var tuple = GetImportFileTypeIdAndProcessedBoolByFileName(fileName);
+						sqlCommand.CommandType = CommandType.Text;
 						sqlCommand.Parameters.Add("@FileBytes", SqlDbType.VarBinary, file.Length).Value = file;
 						sqlCommand.Parameters.Add("@FileName", SqlDbType.NVarChar, fileName.Length).Value = fileName;
 						if (fileExtension.IsNullOrWhiteSpace())
@@ -255,8 +252,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 						var fileSize = GetFileSize(file.Length);
 						sqlCommand.Parameters.Add("@FileSize", SqlDbType.VarChar,
 							fileSize.Length).Value = fileSize;
-					    sqlCommand.Parameters.Add("@ImportFileTypeID", SqlDbType.Int, 1).Value = tuple.Item1;
-					    sqlCommand.Parameters.Add("@Processed", SqlDbType.Bit).Value = tuple.Item2;
+						sqlCommand.Parameters.Add("@ImportFileTypeID", SqlDbType.Int, 1).Value = tuple.Item1;
+						sqlCommand.Parameters.Add("@Processed", SqlDbType.Bit).Value = tuple.Item2;
 						if (connection.State != ConnectionState.Open)
 							connection.Open();
 						sqlCommand.ExecuteNonQuery();
@@ -264,42 +261,42 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			});
 		}
 
-	    private Tuple<int, bool> GetImportFileTypeIdAndProcessedBoolByFileName(string fileName)
-	    {
-	        string code;
-	        var processed = false;
-	        // Laker Import	    LI
-	        // Payment Import   PI
-	        // Other            OT
-	        if (fileName.StartsWith("Billing_Claim_File_"))
-	            code = c.LakerImportImportFileTypeCode;
-	        else if (fileName.EndsWith("Payments.xlsx"))
-	            code = c.PaymentImportFileTypeCode;
-	        else
-	        {
-	            code = c.OtherImportFileTypeCode;
-	            processed = true;
-	        }
-	        var result = _importFileTypeRepository.GetSingleOrDefault(x => x.Code == code);
-            if (null == result)
-                throw new Exception("Error. The util.ImportFileType table does not have any records WHERE Code == 'OT'.");
-	        return new Tuple<int, bool>(result.ImportFileTypeId, processed);
-	    }
+		private Tuple<int, bool> GetImportFileTypeIdAndProcessedBoolByFileName(string fileName)
+		{
+			string code;
+			var processed = false;
+			// Laker Import	    LI
+			// Payment Import   PI
+			// Other            OT
+			if (fileName.StartsWith("Billing_Claim_File_"))
+				code = c.LakerImportImportFileTypeCode;
+			else if (fileName.EndsWith("Payments.xlsx"))
+				code = c.PaymentImportFileTypeCode;
+			else
+			{
+				code = c.OtherImportFileTypeCode;
+				processed = true;
+			}
+			var result = _importFileTypeRepository.Value.GetSingleOrDefault(x => x.Code == code);
+			if (null == result)
+				throw new Exception("Error. The util.ImportFileType table does not have any records WHERE Code == 'OT'.");
+			return new Tuple<int, bool>(result.ImportFileTypeId, processed);
+		}
 
-	    public void EtlLakerFile(string fileName)
+		public void EtlLakerFile(string fileName)
 		{
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
 			{
 				DisposableService.Using(() => new SqlCommand("etl.uspProcessLakerFile", connection), cmd =>
 				{
-				    var fileNameParam = cmd.CreateParameter();
-                    fileNameParam.Direction= ParameterDirection.Input;
-				    fileNameParam.Value = fileName ?? (object) DBNull.Value;
-				    fileNameParam.ParameterName = "@FileName";
-                    fileNameParam.DbType = DbType.AnsiString;
-				    fileNameParam.SqlDbType = SqlDbType.NVarChar;
-				    fileNameParam.Size = 255;
-                    cmd.Parameters.Add(fileNameParam);
+					var fileNameParam = cmd.CreateParameter();
+					fileNameParam.Direction= ParameterDirection.Input;
+					fileNameParam.Value = fileName ?? (object) DBNull.Value;
+					fileNameParam.ParameterName = "@FileName";
+					fileNameParam.DbType = DbType.AnsiString;
+					fileNameParam.SqlDbType = SqlDbType.NVarChar;
+					fileNameParam.Size = 255;
+					cmd.Parameters.Add(fileNameParam);
 					cmd.CommandType = CommandType.StoredProcedure;
 					cmd.CommandTimeout = 1800; // 30 Minutes.
 					if (connection.State != ConnectionState.Open)
@@ -322,5 +319,5 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 				size = byteCount.ToString(CultureInfo.InvariantCulture) + " Bytes";
 			return size;
 		}
-    }
+	}
 }

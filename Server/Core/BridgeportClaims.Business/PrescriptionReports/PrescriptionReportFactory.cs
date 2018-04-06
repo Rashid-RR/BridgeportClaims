@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.Dtos;
@@ -7,7 +8,7 @@ namespace BridgeportClaims.Business.PrescriptionReports
 {
     public class PrescriptionReportFactory : IPrescriptionReportFactory
     {
-        private readonly IClaimsDataProvider _claimsDataProvider;
+        private readonly Lazy<IClaimsDataProvider> _claimsDataProvider;
         private const string InvoiceDate = "InvoiceDate";
         private const string InvoiceNumber = "InvoiceNumber";
         private const string LabelName = "LabelName";
@@ -17,17 +18,17 @@ namespace BridgeportClaims.Business.PrescriptionReports
         private const string InvoiceAmount = "InvoiceAmount";
         private const string AmountPaid = "AmountPaid";
 
-        public PrescriptionReportFactory(IClaimsDataProvider claimsDataProvider)
+        public PrescriptionReportFactory(Lazy<IClaimsDataProvider> claimsDataProvider)
         {
             _claimsDataProvider = claimsDataProvider;
         }
 
         public BillingStatementDto GetBillingStatementDto(int claimId) =>
-            _claimsDataProvider.GetBillingStatementDto(claimId);
+            _claimsDataProvider.Value.GetBillingStatementDto(claimId);
 
         public DataTable GenerateBillingStatementDataTable(int claimId)
         {
-            var data = _claimsDataProvider.GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000);
+            var data = _claimsDataProvider.Value.GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000);
             var dt = data?.ToDataTable();
             if (null == dt)
                 return null;

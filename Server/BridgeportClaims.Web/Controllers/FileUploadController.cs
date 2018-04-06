@@ -16,7 +16,7 @@ namespace BridgeportClaims.Web.Controllers
 	[RoutePrefix("api/fileupload")]
 	public class FileUploadController : BaseApiController
 	{
-		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 		private readonly IImportFileProvider _importFileProvider;
 
 		public FileUploadController(IImportFileProvider importFileProvider)
@@ -38,7 +38,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -57,7 +57,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
@@ -94,7 +94,7 @@ namespace BridgeportClaims.Web.Controllers
 					}
 					catch (Exception ex)
 					{
-						Logger.Error(ex,
+						Logger.Value.Error(ex,
 							$"The file: {fileName}, with the description: {description} was not copied successfully");
 						return Content(HttpStatusCode.NotAcceptable, ex.GetBaseException().Message);
 					}
@@ -109,7 +109,7 @@ namespace BridgeportClaims.Web.Controllers
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Logger.Value.Error(ex);
 				return Content(HttpStatusCode.NotAcceptable, ex.GetBaseException().Message);
 			}
 		}

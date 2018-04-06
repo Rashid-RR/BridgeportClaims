@@ -6,9 +6,9 @@ namespace BridgeportClaims.Business.LakerFileProcess
 {
     public class LakerFileProcessor : ILakerFileProcessor
     {
-        private readonly IImportFileProvider _importFileProvider;
+        private readonly Lazy<IImportFileProvider> _importFileProvider;
 
-        public LakerFileProcessor(IImportFileProvider importFileProvider)
+        public LakerFileProcessor(Lazy<IImportFileProvider> importFileProvider)
         {
             _importFileProvider = importFileProvider;
         }
@@ -16,13 +16,13 @@ namespace BridgeportClaims.Business.LakerFileProcess
         public Tuple<string, string> ProcessOldestLakerFile()
         {
             // First, grab the bytes of the file from the database.
-            var tuple = _importFileProvider.GetOldestLakerFileBytes();
+            var tuple = _importFileProvider.Value.GetOldestLakerFileBytes();
             if (null == tuple)
                 return new Tuple<string, string>(c.NoLakerFilesToImportToast, null);
             // Which we'll return if this whole process is successful.
             var lakerFileName = tuple.Item1;
             // Take the file bytes, and save them to a temporary path in Windows
-            var fullLakerFileTemporaryPath = _importFileProvider.GetLakerFileTemporaryPath(tuple);
+            var fullLakerFileTemporaryPath = _importFileProvider.Value.GetLakerFileTemporaryPath(tuple);
             return new Tuple<string, string>(lakerFileName, fullLakerFileTemporaryPath);
         }
     }

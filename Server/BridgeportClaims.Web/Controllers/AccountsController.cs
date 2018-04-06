@@ -23,7 +23,7 @@ namespace BridgeportClaims.Web.Controllers
     [SuppressMessage("ReSharper", "ArrangeAccessorOwnerBody")]
     public class AccountsController : BaseApiController
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private ApplicationUserManager _userManager;
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
@@ -76,7 +76,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -147,12 +147,12 @@ namespace BridgeportClaims.Web.Controllers
                         ? string.Join(", ", result.Errors.SelectMany(sm => sm))
                         : result.Errors.Select(x => x).FirstOrDefault();
                 }
-                Logger.Error(error);
+                Logger.Value.Error(error);
                 return GetBadRequestFormattedErrorMessages(result);
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -169,7 +169,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -231,7 +231,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -253,7 +253,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -273,7 +273,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -292,7 +292,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -311,7 +311,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -330,7 +330,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
@@ -351,7 +351,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
@@ -384,7 +384,7 @@ namespace BridgeportClaims.Web.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Logger.Error(ex);
+                    Logger.Value.Error(ex);
                     throw;
                 }
             }

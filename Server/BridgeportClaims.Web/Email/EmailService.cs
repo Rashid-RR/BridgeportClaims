@@ -13,7 +13,7 @@ namespace BridgeportClaims.Web.Email
 {
     public class EmailService : IEmailService
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly IEmailModelGenerator _emailModelGenerator;
 
         public EmailService(IEmailModelGenerator emailModelGenerator)
@@ -78,7 +78,7 @@ namespace BridgeportClaims.Web.Email
             }
             catch (Exception ex)
             {
-                Logger.Error(ex, "SmtpClient Send() method");
+                Logger.Value.Error(ex, "SmtpClient Send() method");
                 throw;
             }
         }

@@ -18,7 +18,7 @@ namespace BridgeportClaims.Web.Controllers
     {
         private readonly IDbccUserOptionsProvider _dbccUserOptionsProvider;
         private readonly IClaimsDataProvider _claimsDataProvider;
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly IEmailService _emailService;
         private readonly IPdfFactory _pdfFactory;
 
@@ -63,7 +63,7 @@ namespace BridgeportClaims.Web.Controllers
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                Logger.Value.Error(ex);
                 throw;
             }
         }
