@@ -5,6 +5,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
+import swal from "sweetalert2";
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { DocumentItem } from '../models/document';
 import { DocumentType } from '../models/document-type';
@@ -36,12 +37,12 @@ export class DocumentManagerService {
       sort: "DocumentID",
       sortDirection: "ASC",
       page: 1,
-      fileTypeId:1,
+      fileTypeId: 1,
       pageSize: 30
     };
     this.invoiceData = {
       date: null,
-      fileTypeId:2,
+      fileTypeId: 2,
       isIndexed: false,
       sort: "DocumentID",
       sortDirection: "ASC",
@@ -178,15 +179,15 @@ export class DocumentManagerService {
     }, err => null);
   }
   cancel(type) {
-    switch(type){
+    switch (type) {
       case 'image':
         this.newIndex = false;
         this.file = undefined;
-      break;
+        break;
       case 'invoice':
         this.newInvoice = false;
         this.invoiceFile = undefined;
-      break;
+        break;
     }
   }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
@@ -318,5 +319,8 @@ export class DocumentManagerService {
   }
   get invEnd(): Boolean {
     return this.invPageStart && this.invoiceData.pageSize > this.invoiceList.length;
+  }
+  closeModal() {
+    try{swal.clickCancel();}catch(e){}
   }
 }

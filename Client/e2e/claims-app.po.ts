@@ -1,5 +1,5 @@
 import { browser, element, by, protractor } from 'protractor';
-import { vars } from "./test-vars"
+import { environment } from "../src/environments/environment"
 export class ClaimsPage { 
   constructor() { 
   }
@@ -29,7 +29,7 @@ export class ClaimsPage {
     this.navigateToClaims();
     let firstnameEl = element(by.name('firstName')),
       searchEl = element(by.id('claimSearchBtn'));
-    firstnameEl.sendKeys(vars.firstName);
+    firstnameEl.sendKeys(environment.vars.firstName);
     var until = protractor.ExpectedConditions;
     searchEl.click().then(r => {
       this.getFirstClaim();
@@ -39,8 +39,8 @@ export class ClaimsPage {
     let emailEl = element(by.name('email')),
       passwordEl = element(by.name('password')),
       loginEl = element(by.buttonText('Sign in'));
-    emailEl.sendKeys(vars.testEmail);
-    passwordEl.sendKeys(vars.testPWD);
+    emailEl.sendKeys(environment.vars.testEmail);
+    passwordEl.sendKeys(environment.vars.testPWD);
     loginEl.click().then(r => {
       return browser.driver.wait(function () {
         return browser.driver.getCurrentUrl().then(function (url) {

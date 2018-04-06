@@ -97,7 +97,7 @@ import { NotificationComponent } from './components/notification/notification.co
     RoutingModule,
     FileUploadModule,
     Ng2Webstorage,
-    SweetAlert2Module.forRoot(),
+    //SweetAlert2Module.forRoot(),
     ToastModule.forRoot(),
     BootstrapModalModule,
   ],

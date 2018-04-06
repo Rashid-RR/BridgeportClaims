@@ -6,6 +6,7 @@ import { ConfirmComponent } from '../components/confirm.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { Ng2Webstorage } from 'ng2-webstorage';
 import { ShContextMenuModule } from 'ng2-right-click-menu';
+import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { AutoCompleteModule } from '../auto-complete';
 import { WindowsInjetor, WindowBackdrop, BootstrapWindowContainer } from '../components/ng-window';
 import { FilterUserPipe } from '../pages/users/filter-user.pipe';
@@ -44,7 +45,8 @@ export class SafeUrlPipe implements PipeTransform {
     FormsModule,
     ReactiveFormsModule,
     AutoCompleteModule,
-    ShContextMenuModule
+    ShContextMenuModule,
+    SweetAlert2Module.forRoot(),
   ],
   declarations: [
     ConfirmComponent,BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
@@ -64,6 +66,7 @@ export class SafeUrlPipe implements PipeTransform {
     ReactiveFormsModule,
     AutoCompleteModule,
     ShContextMenuModule,
+    SweetAlert2Module,
     TableSortDirective, ColumnSortDirective,
     DisplayRolesPipe,ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe,SafeStylePipe,FilterUserPipe,DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,

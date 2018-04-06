@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventsService } from "../../services/events-service"
@@ -8,6 +8,8 @@ import { HttpService } from "../../services/http-service";
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 import { UUID } from 'angular2-uuid';
+import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import swal from "sweetalert2";
 declare var $: any;
 
 
@@ -20,8 +22,10 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
 
   file: DocumentItem;
   form: FormGroup;
+  @ViewChild('invoiceSwal') private invoiceSwal: SwalComponent;
   constructor(
     private dp: DatePipe,
+    public readonly swalTargets: SwalPartialTargets,
     private http: HttpService, private route: ActivatedRoute,
     private toast: ToastsManager, private formBuilder: FormBuilder, public ds: DocumentManagerService, private events: EventsService) {
     this.form = this.formBuilder.group({
@@ -31,8 +35,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
 
-    this.route.params.subscribe(params => {
-      console.log("Dabo..")
+    this.route.params.subscribe(params => { 
       if (params['invoiceNumber']) {
         console.log(params['invoiceNumber']);
         this.form.patchValue({ invoiceNumber: params['invoiceNumber'] });
@@ -72,6 +75,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
               this.ds.newInvoice = false;
               this.ds.invoiceFile = undefined;
               this.ds.loading = false;
+              this.ds.closeModal();
             }, requestError => {
               let err = requestError.json();
               this.toast.error(err.Message);
@@ -84,13 +88,13 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
             doc.fileUrl=check.replace(/"/g,"");
             let file = doc as any
             localStorage.setItem('file-' + id, JSON.stringify(file));
-            var win = window.open('#/main/indexing/invoice/'+this.form.value.invoiceNumber+'/' + id, '_blank');
-            this.ds.newInvoice = false;
-            this.ds.invoiceFile = undefined;
-            this.ds.loading = false;
-            if(!win){
-              this.toast.info('Please allow popups for this website');
-            }
+            //var win = window.open('#/main/indexing/invoice/'+this.form.value.invoiceNumber+'/' + id, '_blank');
+            /* this.ds.newInvoice = false;
+            this.ds.invoiceFile = undefined; */
+            this.invoiceSwal.show().then((r) => {
+
+            });
+            this.ds.loading = false;            
           }
         })
       } catch (e) {

@@ -163,9 +163,9 @@
         height: -webkit-calc(100vh - 420px) !important;
         height: -o-calc(100vh - 420px) !important;
     }    
-    .swal2-container{
+    /* .swal2-container{
         margin-left:-220px;
-    }
+    } */
     .swal2-modal.paymeny-modal .swal2-content{
       display:block !important;
     }
@@ -644,4 +644,27 @@ thead span {
 }
 modal-backdrop .modal-backdrop.in{
   z-index:-1 !important;
+}
+
+.swal2-modal.invoice-modal{
+  width:100% !important;
+  height:100% !important;
+}
+.swal2-modal.invoice-modal .swal2-content,
+.swal2-modal.invoice-modal .swal2-close
+{
+  display:block !important;
+  outline: none;
+  box-shadow: transparent;
+}
+.swal2-modal.invoice-modal .swal2-close
+{
+  font-size: 30pt;
+}
+.swal2-modal.invoice-modal .swal2-content form div.row{
+  display:flex;
+  flex-wrap: wrap;
+}
+.swal2-container{
+  padding: 2px;
 }

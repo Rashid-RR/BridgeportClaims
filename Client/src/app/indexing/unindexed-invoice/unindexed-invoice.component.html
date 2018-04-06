@@ -165,3 +165,6 @@
         </div>
     </div>
 </div>
+<swal #invoiceSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="invoice-modal" [focusCancel]="false" title="Re-index Invoice">
+    <indexing-unindexed-invoice *swalPartial></indexing-unindexed-invoice>
+</swal>
