@@ -171,11 +171,17 @@ export class DocumentManagerService {
   get end(): Boolean {
     return this.pageStart && this.data.pageSize > this.documentList.length;
   }
-  archive(id: number) {
+  archive(id: number,invoice=false) {
     this.loading = true;
     this.http.archiveDocument(id).map(r => r.json()).subscribe(r => {
       this.loading = false;
       this.toast.success(r.message);
+      this.cancel(invoice ? 'invoice':'image')
+      if(invoice){ 
+        this.invoices=this.invoices.delete(id);
+      }else{ 
+        this.documents=this.documents.delete(id);
+      }
     }, err => null);
   }
   cancel(type) {
@@ -251,7 +257,6 @@ export class DocumentManagerService {
     } else {
       this.loading = true;
       let invoiceData = JSON.parse(JSON.stringify(this.invoiceData)); //copy invoiceData instead of memory referencing
-
       if (next) {
         invoiceData.page++;
       }

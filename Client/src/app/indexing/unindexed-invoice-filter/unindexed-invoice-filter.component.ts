@@ -32,7 +32,7 @@ export class UnindexedInvoiceFilterComponent implements OnInit, AfterViewInit {
     // Date picker
 
     this.route.params.subscribe(params => {
-      if (params['date']) {
+      if (params['date'] && params['date'] !='invoice') {
         this.date = params['date'].replace(/\-/g, "/");
         this.zone.run(() => { 
         })

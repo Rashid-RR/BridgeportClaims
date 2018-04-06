@@ -34,7 +34,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
       autoclose: true
     });
     this.route.params.subscribe(params => {
-      if (params['date']) {
+      if (params['date'] && params['date'] !='invoice') {
         this.date = params['date'].replace(/\-/g, "/");
         this.ds.data.date = this.date;
         this.zone.run(() => {

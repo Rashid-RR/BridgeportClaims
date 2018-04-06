@@ -8,6 +8,8 @@ import { HttpService } from "../../services/http-service";
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 import { UUID } from 'angular2-uuid';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { ConfirmComponent } from '../../components/confirm.component';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import swal from "sweetalert2";
 declare var $: any;
@@ -25,6 +27,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
   @ViewChild('invoiceSwal') private invoiceSwal: SwalComponent;
   constructor(
     private dp: DatePipe,
+    private dialogService: DialogService,
     public readonly swalTargets: SwalPartialTargets,
     private http: HttpService, private route: ActivatedRoute,
     private toast: ToastsManager, private formBuilder: FormBuilder, public ds: DocumentManagerService, private events: EventsService) {
@@ -107,6 +110,17 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
       this.ds.loading = false;
       this.toast.warning(er, 'Please correct the folowing:', { enableHTML: true });
     }
+  }
+  archive() {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: "Archive Image",
+      message: "Are you sure you wish to archive "+(this.ds.invoiceFile.fileName || '')+"?"
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.ds.archive(this.ds.invoiceFile.documentId);
+        }
+      });
   }
   cancel() {
     this.form.reset();
