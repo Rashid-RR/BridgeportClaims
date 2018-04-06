@@ -9,6 +9,7 @@ using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
+using RazorEngine.Compilation.ImpromptuInterface;
 
 namespace BridgeportClaims.Web.Controllers
 { 
@@ -17,10 +18,10 @@ namespace BridgeportClaims.Web.Controllers
 	public class ClaimsController : BaseApiController
 	{
 		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-		private readonly IClaimsDataProvider _claimsDataProvider;
-		private readonly IClaimsEditProvider _claimsEditProvider;
+		private readonly Lazy<IClaimsDataProvider> _claimsDataProvider;
+		private readonly Lazy<IClaimsEditProvider> _claimsEditProvider;
 
-		public ClaimsController(IClaimsDataProvider claimsDataProvider, IClaimsEditProvider claimsEditProvider)
+		public ClaimsController(Lazy<IClaimsDataProvider> claimsDataProvider, Lazy<IClaimsEditProvider> claimsEditProvider)
 		{
 			_claimsDataProvider = claimsDataProvider;
 			_claimsEditProvider = claimsEditProvider;
@@ -38,7 +39,7 @@ namespace BridgeportClaims.Web.Controllers
 					if (null == userId)
 						throw new Exception("Error, could not find the logged in user.");
 					var results =
-						_claimsDataProvider.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection, userId);
+						_claimsDataProvider.Value.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection, userId);
 					return Ok(results);
 				}).ConfigureAwait(false);
 			}
@@ -75,7 +76,7 @@ namespace BridgeportClaims.Web.Controllers
 			        var ext = model.AdjustorExtension;
 			        if (null == userId)
 			            throw new Exception("Could not locate the authenticated user.");
-			        _claimsEditProvider.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null
+			        _claimsEditProvider.Value.EditClaim(claimId, userId, null == dateOfBirth ? (DateTime?) null
 			            : "NULL" == dateOfBirth ? new DateTime(1901, 1, 1)
 			            : DateTime.TryParse(dateOfBirth, out DateTime dt) ? dt
 			            : throw new Exception($"Could not parse Date Time value {dateOfBirth}"), genderId, payorId,
@@ -105,7 +106,7 @@ namespace BridgeportClaims.Web.Controllers
 				if (null != model.ClaimId) return GetClaimsDataByClaimId(model.ClaimId.Value);
 
 				// Search terms passed, so we're at least performing a search first to see if multiple results appear.
-				var claimsData = _claimsDataProvider.GetClaimsData(model.ClaimNumber,
+				var claimsData = _claimsDataProvider.Value.GetClaimsData(model.ClaimNumber,
 					model.FirstName, model.LastName, model.RxNumber, model.InvoiceNumber);
 				if (null != claimsData && claimsData.Count == 1)
 					return GetClaimsDataByClaimId(claimsData.Single().ClaimId);
@@ -123,7 +124,7 @@ namespace BridgeportClaims.Web.Controllers
 			var userId = User.Identity.GetUserId();
 			if (null == userId)
 				throw new Exception("Error, could not find the logged in user.");
-			var results = _claimsDataProvider.GetClaimsDataByClaimId(claimId, userId);
+			var results = _claimsDataProvider.Value.GetClaimsDataByClaimId(claimId, userId);
 			return Ok(results);
 		}
 
@@ -140,7 +141,7 @@ namespace BridgeportClaims.Web.Controllers
 			        if (null == userId)
 			            throw new Exception("Error, could not find the logged in user.");
 			        var msg = string.Empty;
-			        var operation = _claimsDataProvider.AddOrUpdateFlex2(claimId, claimFlex2Id, userId);
+			        var operation = _claimsDataProvider.Value.AddOrUpdateFlex2(claimId, claimFlex2Id, userId);
 			        switch (operation)
 			        {
 			            case EntityOperation.Add:

@@ -326,7 +326,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var methodName = MethodBase.GetCurrentMethod().Name;
                     if (!_memoryCacher.Contains(sessionId))
-                        Logger.Info($"The {methodName} method was called with no objects stored into session from ID {sessionId}.");
+                        Logger.Value.Info($"The {methodName} method was called with no objects stored into session from ID {sessionId}.");
                     _memoryCacher.Delete(sessionId);
                     return Ok(new {message = "The posted payments stored into cache have been cleared successfully."});
                 });

@@ -1,9 +1,9 @@
-﻿using NLog;
+﻿using BridgeportClaims.Common.Caching;
+using NLog;
 using System;
 using System.Net;
-using System.Web.Http;
 using System.Threading.Tasks;
-using BridgeportClaims.Common.Caching;
+using System.Web.Http;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -12,11 +12,11 @@ namespace BridgeportClaims.Web.Controllers
     public class CacheController : BaseApiController
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly IMemoryCacher _cache;
+        private readonly Lazy<IMemoryCacher> _cache;
 
         public CacheController()
         {
-            _cache = MemoryCacher.Instance;
+            _cache = new Lazy<IMemoryCacher>(() => MemoryCacher.Instance);
         }
 
         [HttpPost]
@@ -27,7 +27,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    _cache.DeleteAll();
+                    _cache.Value.DeleteAll();
                     return Ok(new {message = "Cache cleared successfully."});
                 }).ConfigureAwait(false);
             }

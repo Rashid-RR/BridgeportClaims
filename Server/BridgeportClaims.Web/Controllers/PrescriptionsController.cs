@@ -22,17 +22,17 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/prescriptions")]
     public class PrescriptionsController : BaseApiController
     {
-        private readonly IClaimsDataProvider _claimsDataProvider;
-        private readonly IPrescriptionsDataProvider _prescriptionsDataProvider;
+        private readonly Lazy<IClaimsDataProvider> _claimsDataProvider;
+        private readonly Lazy<IPrescriptionsDataProvider> _prescriptionsDataProvider;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly IPdfFactory _pdfFactory;
-        private readonly IBillingStatementProvider _billingStatementProvider;
+        private readonly Lazy<IPdfFactory> _pdfFactory;
+        private readonly Lazy<IBillingStatementProvider> _billingStatementProvider;
 
         public PrescriptionsController(
-            IClaimsDataProvider claimsDataProvider,
-            IPrescriptionsDataProvider prescriptionsDataProvider,
-            IPdfFactory pdfFactory, 
-            IBillingStatementProvider billingStatementProvider)
+            Lazy<IClaimsDataProvider> claimsDataProvider,
+            Lazy<IPrescriptionsDataProvider> prescriptionsDataProvider,
+            Lazy<IPdfFactory> pdfFactory,
+            Lazy<IBillingStatementProvider> billingStatementProvider)
         {
             _claimsDataProvider = claimsDataProvider;
             _prescriptionsDataProvider = prescriptionsDataProvider;
@@ -48,7 +48,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var fullFilePath = _billingStatementProvider.GenerateBillingStatementFullFilePath(claimId, out var fileName);
+                    var fullFilePath = _billingStatementProvider.Value.GenerateBillingStatementFullFilePath(claimId, out var fileName);
                     return new FileResult(fullFilePath, fileName, c.ExcelContentType);
                 });
             }
@@ -71,10 +71,10 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     IList<PrescriptionIdDto> dto = new List<PrescriptionIdDto>();
                     model.PrescriptionIds.ForEach(x => dto.Add(GetPrescriptionIdDto(x)));
-                    var fileUrls = _prescriptionsDataProvider.GetFileUrlsFromPrescriptionIds(dto);
+                    var fileUrls = _prescriptionsDataProvider.Value.GetFileUrlsFromPrescriptionIds(dto);
                     var fileName = "Invoices_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
                     var targetPdf = Path.Combine(Path.GetTempPath(), fileName);
-                    if (_pdfFactory.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
+                    if (_pdfFactory.Value.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
                         return new DisplayFileResult(targetPdf, fileName, "application/pdf");
                     throw new Exception("The merge PDF's method failed.");
                 });
@@ -94,7 +94,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var list = _prescriptionsDataProvider.GetUnpaidScripts(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), 
+                var list = _prescriptionsDataProvider.Value.GetUnpaidScripts(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), 
                     model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(list);
             }
@@ -113,7 +113,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return await Task.Run(() => Ok(
-                    _claimsDataProvider.GetPrescriptionDataByClaim(claimId, sort, sortDirection, page, pageSize)));
+                    _claimsDataProvider.Value.GetPrescriptionDataByClaim(claimId, sort, sortDirection, page, pageSize)));
             }
             catch (Exception ex)
             {
@@ -131,7 +131,7 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var msg = string.Empty;
-                    var operation = _prescriptionsDataProvider.AddOrUpdatePrescriptionStatus(prescriptionId, prescriptionStatusId);
+                    var operation = _prescriptionsDataProvider.Value.AddOrUpdatePrescriptionStatus(prescriptionId, prescriptionStatusId);
                     switch (operation)
                     {
                         case EntityOperation.Add:
