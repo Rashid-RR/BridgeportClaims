@@ -16,10 +16,12 @@
     overflow-y:auto;
 }
 .products-list>.item{
-    padding: 5px;    
-    padding-left: 10px; 
+    padding: 0px;
     cursor: pointer; 
     margin: 0px;  
+}
+.products-list>.item div[class^='col-']{
+    padding: 5px 15px;
 }
 .top-header .products-list.product-list-in-box  {
     border-bottom:2px solid black;

@@ -2,10 +2,12 @@
     padding: 0px 20px 0px 0px;
 }
 .products-list>.item{
-    padding: 5px;    
-    padding-left: 10px; 
+    padding: 0px;
     cursor: pointer; 
     margin: 0px;  
+}
+.products-list>.item div[class^='col-']{
+    padding: 5px 15px;
 }
 .products-list>.item:nth-of-type(odd) {
     background: #fbdede;

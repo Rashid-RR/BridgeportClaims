@@ -88,7 +88,6 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
             this.ds.newInvoice = false;
             this.ds.invoiceFile = undefined;
             this.ds.loading = false;
-            //open this in a new tab
           }
         })
       } catch (e) {
