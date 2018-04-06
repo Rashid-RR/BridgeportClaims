@@ -32,9 +32,9 @@ export class UnindexedInvoiceListComponent implements OnInit {
   ngOnInit() {
     this.items = [
       {
-        label: 'Feature coming soon',
+        label: '<span class="fa fa-trash text-red">Archive</span>',
         onClick: ($event)=>{
-          //this.archive($event.menuItem.id);
+          this.archive($event.menuItem.id);
         }
       }
     ];
@@ -44,9 +44,9 @@ export class UnindexedInvoiceListComponent implements OnInit {
     event.open([
       {
         id: id,
-        label: 'Feature coming soon',
+        label: '<span class="fa fa-trash text-red">Archive</span>',
         onClick: ($event) => {
-          //this.archive($event.menuItem.id);
+          this.archive($event.menuItem.id);
         }
       }
     ]);
