@@ -1,3 +1,4 @@
+INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (22, 30, '2018-02-22 08:29:15.0277977', '2018-02-22 08:29:15.0277977')
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (2, 10, '2018-02-06 01:00:28.4040571', '2018-02-06 01:00:28.4040571')
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (3, 22, '2018-02-06 16:44:54.0988139', '2018-02-06 16:44:54.0988139')
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (4, 6, '2018-02-06 16:45:00.4739746', '2018-02-06 16:45:00.4739746')
