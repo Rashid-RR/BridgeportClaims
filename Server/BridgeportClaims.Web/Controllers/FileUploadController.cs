@@ -17,9 +17,9 @@ namespace BridgeportClaims.Web.Controllers
 	public class FileUploadController : BaseApiController
 	{
 		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-		private readonly IImportFileProvider _importFileProvider;
+		private readonly Lazy<IImportFileProvider> _importFileProvider;
 
-		public FileUploadController(IImportFileProvider importFileProvider)
+		public FileUploadController(Lazy<IImportFileProvider> importFileProvider)
 		{
 			_importFileProvider = importFileProvider;
 		}
@@ -32,7 +32,7 @@ namespace BridgeportClaims.Web.Controllers
 			{
 			    return await Task.Run(() =>
 			    {
-			        _importFileProvider.DeleteImportFile(importFileId);
+			        _importFileProvider.Value.DeleteImportFile(importFileId);
 			        return Ok(new {message = "Deleted the Import File Successfully"});
 			    }).ConfigureAwait(false);
 			}
@@ -51,7 +51,7 @@ namespace BridgeportClaims.Web.Controllers
 			{
 			    return await Task.Run(() =>
 			    {
-			        var files = _importFileProvider.GetImportFileDtos();
+			        var files = _importFileProvider.Value.GetImportFileDtos();
 			        return Ok(files);
 			    }).ConfigureAwait(false);
 			}
@@ -90,7 +90,7 @@ namespace BridgeportClaims.Web.Controllers
 					try
 					{
 						if (0 < file.Value.Length)
-							_importFileProvider.SaveFileToDatabase(file.Value, fileName, ext, description);
+							_importFileProvider.Value.SaveFileToDatabase(file.Value, fileName, ext, description);
 					}
 					catch (Exception ex)
 					{

@@ -2,6 +2,8 @@
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
+// ReSharper disable once RedundantUsingDirective
+using FluentNHibernate.Conventions;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
@@ -148,10 +150,10 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                 });
             });
 
-        public void InsertInvoiceIndex(int documentId, string invoiceNumber, string userId) =>
+        public bool InsertInvoiceIndex(int documentId, string invoiceNumber, string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                DisposableService.Using(() => new SqlCommand("[dbo].[uspInvoiceIndexInsert]", conn), cmd =>
+                return DisposableService.Using(() => new SqlCommand("[dbo].[uspInvoiceIndexInsert]", conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     var documentIdParam = cmd.CreateParameter();
@@ -177,11 +179,20 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     modifiedByUserIdParam.Direction = ParameterDirection.Input;
                     modifiedByUserIdParam.ParameterName = "@ModifiedByUserID";
                     cmd.Parameters.Add(modifiedByUserIdParam);
+                    var alreadyExistsParam = cmd.CreateParameter();
+                    alreadyExistsParam.DbType = DbType.Boolean;
+                    alreadyExistsParam.SqlDbType = SqlDbType.Bit;
+                    alreadyExistsParam.Direction = ParameterDirection.Output;
+                    alreadyExistsParam.ParameterName = "@AlreadyExists";
+                    cmd.Parameters.Add(alreadyExistsParam);
                     if (conn.State != ConnectionState.Open)
                         conn.Open();
                     cmd.ExecuteNonQuery();
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();
+                    if (!(alreadyExistsParam.Value is bool retVal))
+                        throw new Exception("Error, could not retreive the value of the output parameter");
+                    return retVal as bool? ?? false;
                 });
             });
     }
