@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventsService } from "../../services/events-service"
@@ -24,6 +24,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
 
   file: DocumentItem;
   form: FormGroup;
+  @Input() invoiceNumber;
   @ViewChild('invoiceSwal') private invoiceSwal: SwalComponent;
   constructor(
     private dp: DatePipe,
@@ -37,24 +38,14 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
-
-    this.route.params.subscribe(params => { 
-      if (params['invoiceNumber']) {
-        console.log(params['invoiceNumber']);
-        this.form.patchValue({ invoiceNumber: params['invoiceNumber'] });
-        let file = localStorage.getItem('file-' + params['id']); 
-        this.ds.newInvoice = true;
-        this.ds.invoiceFile = JSON.parse(file) as DocumentItem;
-      }else{
-        this.events.broadcast("reset-indexing-form", true);
-        this.ds.cancel('invoice');
-      }
-    });
-    
+    this.form.patchValue({ invoiceNumber: this.invoiceNumber });
+    if (!this.invoiceNumber) {
+      this.events.broadcast("reset-indexing-form", true);
+      this.ds.cancel('invoice');
+    }
     this.events.on("archived-image", (id: any) => {
       this.ds.cancel('invoice');
     });
-
   }
   ngAfterViewInit() {
 
@@ -64,8 +55,8 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
     if (this.form.valid) {
       this.ds.loading = true;
       try {
-        this.http.checkInvoiceNumber(this.form.value).map(r => { return r.text() }).subscribe(check => {
-          if (check == null || check == 'null') {
+        this.http.checkInvoiceNumber(this.form.value).map(r => { return r.json() }).subscribe(check => {
+          if (!check || (!check.documentId && !check.invoiceNumberIsAlreadyIndexed)) {
             let data = this.form.value;
             data.documentId = this.ds.invoiceFile.documentId;
             this.ds.loading = true;
@@ -85,19 +76,16 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
               this.ds.loading = false;
             })
           } else {
-            let id = UUID.UUID();
-            let doc: any = {};
-            doc.documentId = id
-            doc.fileUrl=check.replace(/"/g,"");
-            let file = doc as any
-            localStorage.setItem('file-' + id, JSON.stringify(file));
+            let doc: any = check;
+            this.ds.invoiceFile = doc;
+            localStorage.setItem('file-' + doc.documentId, JSON.stringify(doc));
             //var win = window.open('#/main/indexing/invoice/'+this.form.value.invoiceNumber+'/' + id, '_blank');
-            /* this.ds.newInvoice = false;
-            this.ds.invoiceFile = undefined; */
+            this.ds.newInvoice = true;
             this.invoiceSwal.show().then((r) => {
 
             });
-            this.ds.loading = false;            
+            this.toast.error("The Invoice # "+this.form.controls['invoiceNumber'].value+" has already been used. Here is the Invoice that it has been indexed with "+this.form.controls['invoiceNumber'].value+":")
+            this.ds.loading = false;
           }
         })
       } catch (e) {
@@ -114,7 +102,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
   archive() {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: "Archive Image",
-      message: "Are you sure you wish to archive "+(this.ds.invoiceFile.fileName || '')+"?"
+      message: "Are you sure you wish to archive " + (this.ds.invoiceFile.fileName || '') + "?"
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {

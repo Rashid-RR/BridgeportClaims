@@ -170,5 +170,5 @@
     </div>
 </div>
 <swal #invoiceSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="invoice-modal" [focusCancel]="false" title="Re-index Invoice">
-    <indexing-unindexed-invoice *swalPartial></indexing-unindexed-invoice>
+    <indexing-unindexed-invoice [invoiceNumber]="form.controls['invoiceNumber'].value" *swalPartial></indexing-unindexed-invoice>
 </swal>
