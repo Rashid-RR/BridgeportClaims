@@ -647,8 +647,8 @@ modal-backdrop .modal-backdrop.in{
 }
 
 .swal2-modal.invoice-modal{
-  width:100% !important;
-  height:100% !important;
+  width:85% !important;
+  height:85% !important;
 }
 .swal2-modal.invoice-modal .swal2-content,
 .swal2-modal.invoice-modal .swal2-close
