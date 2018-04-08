@@ -13,10 +13,10 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/diary")]
     public class DiariesController : BaseApiController
     {
-        private readonly IDiaryProvider _diaryProvider;
+        private readonly Lazy<IDiaryProvider> _diaryProvider;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-        public DiariesController(IDiaryProvider diaryProvider)
+        public DiariesController(Lazy<IDiaryProvider> diaryProvider)
         {
             _diaryProvider = diaryProvider;
         }
@@ -27,7 +27,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var owners = _diaryProvider.GetDiaryOwners()?.OrderBy(x => x.Owner);
+                var owners = _diaryProvider.Value.GetDiaryOwners()?.OrderBy(x => x.Owner);
                 return Ok(owners);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                _diaryProvider.RemoveDiary(prescriptionNoteId);
+                _diaryProvider.Value.RemoveDiary(prescriptionNoteId);
                 return Ok(new {message = "The diary entry was removed successfully."});
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var results = _diaryProvider.GetDiaries(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), model.EndDate.ToNullableFormattedDateTime(),
+                var results = _diaryProvider.Value.GetDiaries(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), model.EndDate.ToNullableFormattedDateTime(),
                     model.Sort, model.SortDirection, model.Page, model.PageSize, model.Closed, model.UserId, model.NoteText);
                 return Ok(results);
             }

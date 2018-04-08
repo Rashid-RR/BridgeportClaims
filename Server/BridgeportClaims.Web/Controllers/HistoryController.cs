@@ -12,10 +12,10 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/history")]
     public class HistoryController : BaseApiController
     {
-        private readonly IClaimsUserHistoryProvider _claimsUserHistoryProvider;
+        private readonly Lazy<IClaimsUserHistoryProvider> _claimsUserHistoryProvider;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-        public HistoryController(IClaimsUserHistoryProvider claimsUserHistoryProvider)
+        public HistoryController(Lazy<IClaimsUserHistoryProvider> claimsUserHistoryProvider)
         {
             _claimsUserHistoryProvider = claimsUserHistoryProvider;
         }
@@ -28,7 +28,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    _claimsUserHistoryProvider.InsertClaimsUserHistory(User.Identity.GetUserId(), claimId);
+                    _claimsUserHistoryProvider.Value.InsertClaimsUserHistory(User.Identity.GetUserId(), claimId);
                     return Ok(new {message = "Claim History Item Added Successfully"});
                 }).ConfigureAwait(false);
             }
@@ -46,7 +46,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return await Task.Run(() => Ok(
-                    _claimsUserHistoryProvider.GetClaimsUserHistory(User.Identity.GetUserId()))).ConfigureAwait(false);
+                    _claimsUserHistoryProvider.Value.GetClaimsUserHistory(User.Identity.GetUserId()))).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

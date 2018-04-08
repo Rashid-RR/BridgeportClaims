@@ -22,14 +22,14 @@ namespace BridgeportClaims.Web.Controllers
     public class LakerAutomationController : BaseApiController
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly ILakerFileProcessor _lakerFileProcessor;
-        private readonly IImportFileProvider _importFileProvider;
-        private readonly IEmailService _emailService;
+        private readonly Lazy<ILakerFileProcessor> _lakerFileProcessor;
+        private readonly Lazy<IImportFileProvider> _importFileProvider;
+        private readonly Lazy<IEmailService> _emailService;
 
         public LakerAutomationController(
-            ILakerFileProcessor lakerFileProcessor, 
-            IImportFileProvider importFileProvider, 
-            IEmailService emailService)
+            Lazy<ILakerFileProcessor> lakerFileProcessor, 
+            Lazy<IImportFileProvider> importFileProvider, 
+            Lazy<IEmailService> emailService)
         {
             _lakerFileProcessor = lakerFileProcessor;
             _importFileProvider = importFileProvider;
@@ -48,7 +48,7 @@ namespace BridgeportClaims.Web.Controllers
                     if (cs.AppIsInDebugMode)
                         Logger.Value.Info(
                             $"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
-                    var tuple = _lakerFileProcessor.ProcessOldestLakerFile();
+                    var tuple = _lakerFileProcessor.Value.ProcessOldestLakerFile();
                     string msg;
                     if (tuple.Item1 == c.NoLakerFilesToImportToast)
                         msg = c.NoLakerFilesToImportToast;
@@ -85,20 +85,20 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
-                var dataTable = _importFileProvider.RetreiveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
+                var dataTable = _importFileProvider.Value.RetreiveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
                 // Import the new file, into the new Staged Laker File that will be imported into the database
-                _importFileProvider.LakerImportFileProcedureCall(dataTable);
+                _importFileProvider.Value.LakerImportFileProcedureCall(dataTable);
                 // Finally, use the newly imported file, to Upsert the database.
                 if (cs.AppIsInDebugMode)
                     Logger.Value.Info("About to call EtlLakerFile()...");
-                _importFileProvider.EtlLakerFile(lakerFileName);
+                _importFileProvider.Value.EtlLakerFile(lakerFileName);
                 // And finally, mark the file processed.
-                _importFileProvider.MarkFileProcessed(lakerFileName);
+                _importFileProvider.Value.MarkFileProcessed(lakerFileName);
 
                 if (cs.AppIsInDebugMode)
                     Logger.Value.Info("The file was marked as completed.");
                 const string msg = "The Laker File Import Process Ran Successfully!";
-                await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
+                await _emailService.Value.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
                     EmailModelEnum.LakerImportStatus).ConfigureAwait(false);
             }
             catch (Exception ex)

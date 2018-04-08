@@ -5,35 +5,28 @@ GO
 /* 
  =============================================
  Author:			Jordan Gurney
- Create date:		4/7/2018
- Description:		Deletes any InvoiceIndex record associated with it first, and then updates
-					the document to Archived = t
+ Create date:		4/3/2018
+ Description:		Checks whether or not an Invoice Number already exists.
  Example Execute:
-					EXECUTE [dbo].[uspArchiveDocument]
+					EXECUTE [dbo].[uspInvoiceNumberExists] '28062'
  =============================================
 */
-CREATE PROC [dbo].[uspArchiveDocument]
+CREATE PROC [dbo].[uspInvoiceNumberExists]
 (
-	@DocumentID INT,
-	@ModifiedByUserID NVARCHAR(128)
+	@InvoiceNumber VARCHAR(100),
+	@FileUrl NVARCHAR(500) OUTPUT
 )
 AS BEGIN
-	SET NOCOUNT, XACT_ABORT ON;
+	SET NOCOUNT ON;
+	SET XACT_ABORT ON;
     BEGIN TRY
         BEGIN TRAN;
-			
-		-- Remove any Index Invoicing.
-		DELETE	[ii]
-		FROM    [dbo].[InvoiceIndex] AS [ii]
-		WHERE   [ii].[DocumentID] = @DocumentID
+		
+		SELECT          @FileUrl = [d].[FileUrl]
+		FROM            [dbo].[InvoiceIndex] AS [ii]
+			INNER JOIN  [dbo].[Document]     AS [d] ON [d].[DocumentID] = [ii].[DocumentID]
+		WHERE           [ii].[InvoiceNumber] = @InvoiceNumber
 	
-		-- Update the actual document to Archivel
-		UPDATE  [dbo].[Document]
-		SET     [Archived] = 1,
-				[UpdatedOnUTC] = SYSUTCDATETIME(), 
-				[ModifiedByUserID] = @ModifiedByUserID
-		WHERE   [DocumentID] = @DocumentID
-			
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
     END TRY
@@ -55,4 +48,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 GO

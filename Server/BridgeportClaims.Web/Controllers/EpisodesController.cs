@@ -19,12 +19,15 @@ namespace BridgeportClaims.Web.Controllers
 	[RoutePrefix("api/episodes")]
 	public class EpisodesController : BaseApiController
 	{
-		private readonly IEpisodesDataProvider _episodesDataProvider;
+		private readonly Lazy<IEpisodesDataProvider> _episodesDataProvider;
 		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-		private readonly IEpisodeNoteProvider _episodeNoteProvider;
-		private readonly IRepository<AspNetUsers> _usersRepository;
+		private readonly Lazy<IEpisodeNoteProvider> _episodeNoteProvider;
+		private readonly Lazy<IRepository<AspNetUsers>> _usersRepository;
 
-		public EpisodesController(IEpisodesDataProvider episodesDataProvider, IEpisodeNoteProvider episodeNoteProvider, IRepository<AspNetUsers> usersRepository)
+		public EpisodesController(
+		    Lazy<IEpisodesDataProvider> episodesDataProvider, 
+		    Lazy<IEpisodeNoteProvider> episodeNoteProvider, 
+		    Lazy<IRepository<AspNetUsers>> usersRepository)
 		{
 			_episodesDataProvider = episodesDataProvider;
 			_episodeNoteProvider = episodeNoteProvider;
@@ -39,11 +42,11 @@ namespace BridgeportClaims.Web.Controllers
 			{
 			    return await Task.Run(() =>
 			    {
-			        var user = _usersRepository.Get(User.Identity.GetUserId());
+			        var user = _usersRepository.Value.Get(User.Identity.GetUserId());
 			        if (null == user)
 			            throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
 			        var today = DateTime.UtcNow.ToMountainTime();
-			        _episodesDataProvider.SaveEpisodeNote(model.EpisodeId, model.Note, user.Id, today);
+			        _episodesDataProvider.Value.SaveEpisodeNote(model.EpisodeId, model.Note, user.Id, today);
 			        return Ok(new
 			        {
 			            message = "The episode note was saved successfully.",
@@ -65,10 +68,10 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				var user = _usersRepository.Get(User.Identity.GetUserId());
+				var user = _usersRepository.Value.Get(User.Identity.GetUserId());
 				if (null == user)
 					throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
-				_episodesDataProvider.AssignOrAcquireEpisode(episodeId, user.Id, user.Id);
+				_episodesDataProvider.Value.AssignOrAcquireEpisode(episodeId, user.Id, user.Id);
 				return Ok(new
 				{
 					message = "The episode was acquired successfully.",
@@ -91,10 +94,10 @@ namespace BridgeportClaims.Web.Controllers
 			    return await Task.Run(() =>
 			    {
 			        var modifiedByUserId = User.Identity.GetUserId();
-			        var user = _usersRepository.Get(userId);
+			        var user = _usersRepository.Value.Get(userId);
 			        if (null == user)
 			            throw new Exception($"Error, could not retrieve the user from Id: {userId}");
-			        _episodesDataProvider.AssignOrAcquireEpisode(episodeId, userId, modifiedByUserId);
+			        _episodesDataProvider.Value.AssignOrAcquireEpisode(episodeId, userId, modifiedByUserId);
 			        return Ok(new
 			        {
 			            message = "The episode was assigned successfully.",
@@ -115,7 +118,7 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				var results = _episodeNoteProvider.GetEpisodeNotes(episodeId)?.GroupBy(q => new
+				var results = _episodeNoteProvider.Value.GetEpisodeNotes(episodeId)?.GroupBy(q => new
 					{
 						q.Id,
 						q.ClaimNumber,
@@ -158,7 +161,7 @@ namespace BridgeportClaims.Web.Controllers
 			        var userId = User.Identity.GetUserId();
 			        var retVal = new NewEpisodeSaveDto
 			        {
-			            Episode = _episodesDataProvider.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId,
+			            Episode = _episodesDataProvider.Value.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId,
 			                model.PharmacyNabp, model.RxNumber, model.EpisodeText, userId),
 			            Message = "The episode was saved successfully"
 			        };
@@ -181,7 +184,7 @@ namespace BridgeportClaims.Web.Controllers
 			    return await Task.Run(() =>
 			    {
 			        var userId = User.Identity.GetUserId();
-			        _episodesDataProvider.ResolveEpisode(episodeId, userId);
+			        _episodesDataProvider.Value.ResolveEpisode(episodeId, userId);
 			        return Ok(new {message = "The episode was resolved successfully."});
 			    }).ConfigureAwait(false);
 			}
@@ -204,7 +207,7 @@ namespace BridgeportClaims.Web.Controllers
 			        var userId = User.Identity.GetUserId();
 			        if (null == userId)
 			            throw new Exception("Error, could not find logged in user.");
-			        var results = _episodesDataProvider.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(),
+			        var results = _episodesDataProvider.Value.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(),
 			            m.EndDate.ToNullableFormattedDateTime(), m.Resolved, m.OwnerId,
 			            m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize, userId);
 			        return Ok(results);
@@ -224,7 +227,7 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-			    return await Task.Run(() => Ok(_episodesDataProvider.GetEpisodeTypes())).ConfigureAwait(false);
+			    return await Task.Run(() => Ok(_episodesDataProvider.Value.GetEpisodeTypes())).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{

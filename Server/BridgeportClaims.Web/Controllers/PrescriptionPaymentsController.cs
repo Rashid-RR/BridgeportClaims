@@ -14,10 +14,10 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/prescription-payments")]
     public class PrescriptionPaymentsController : BaseApiController
     {
-        private readonly IPrescriptionPaymentProvider _provider;
+        private readonly Lazy<IPrescriptionPaymentProvider> _provider;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-        public PrescriptionPaymentsController(IPrescriptionPaymentProvider provider)
+        public PrescriptionPaymentsController(Lazy<IPrescriptionPaymentProvider> provider)
         {
             _provider = provider;
         }
@@ -30,7 +30,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    _provider.DeletePrescriptionPayment(prescriptionPaymentId);
+                    _provider.Value.DeletePrescriptionPayment(prescriptionPaymentId);
                     return Ok(new {message = "The prescription payment was deleted successfully."});
                 });
             }
@@ -50,7 +50,7 @@ namespace BridgeportClaims.Web.Controllers
                 return await Task.Run(() =>
                 {
                     var userId = User.Identity.GetUserId();
-                    _provider.UpdatePrescriptionPayment(model.PrescriptionPaymentId, model.CheckNumber, model.AmountPaid,
+                    _provider.Value.UpdatePrescriptionPayment(model.PrescriptionPaymentId, model.CheckNumber, model.AmountPaid,
                         model.DatePosted.ToNullableFormattedDateTime(), model.PrescriptionId, userId);
                     return Ok(new { message = "The prescription payment was updated successfully." });
                 });

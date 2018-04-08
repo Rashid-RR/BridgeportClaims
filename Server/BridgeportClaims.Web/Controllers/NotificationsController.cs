@@ -14,10 +14,10 @@ namespace BridgeportClaims.Web.Controllers
     [Authorize(Roles = "User")]
     public class NotificationsController : BaseApiController
     {
-        private readonly IPayorLetterNameProvider _payorLetterNameProvider;
+        private readonly Lazy<IPayorLetterNameProvider> _payorLetterNameProvider;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-        public NotificationsController(IPayorLetterNameProvider payorLetterNameProvider)
+        public NotificationsController(Lazy<IPayorLetterNameProvider> payorLetterNameProvider)
         {
             _payorLetterNameProvider = payorLetterNameProvider;
         }
@@ -35,7 +35,7 @@ namespace BridgeportClaims.Web.Controllers
                     if (model.NotificationId == default(int))
                         throw new Exception($"Error, the notification Id {model.NotificationId} doesn't exist.");
                     var userId = User.Identity.GetUserId();
-                    _payorLetterNameProvider.SavePayorLetterNameNotification(model.NotificationId, userId,
+                    _payorLetterNameProvider.Value.SavePayorLetterNameNotification(model.NotificationId, userId,
                         model.LetterName);
                     return Ok(new {message = $"The letter name {model.LetterName} was saved successfully."});
 
@@ -56,7 +56,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var notifications = _payorLetterNameProvider.GetNotifications();
+                    var notifications = _payorLetterNameProvider.Value.GetNotifications();
                     return Ok(notifications);
 
                 }).ConfigureAwait(false);

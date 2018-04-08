@@ -9,9 +9,9 @@ namespace BridgeportClaims.Word.FileDriver
 {
     public class WordFileDriver : IWordFileDriver
     {
-        private readonly IWordDocumentProvider _wordDocumentProvider;
+        private readonly Lazy<IWordDocumentProvider> _wordDocumentProvider;
 
-        public WordFileDriver(IWordDocumentProvider wordDocumentProvider)
+        public WordFileDriver(Lazy<IWordDocumentProvider> wordDocumentProvider)
         {
             _wordDocumentProvider = wordDocumentProvider;
         }
@@ -40,7 +40,7 @@ namespace BridgeportClaims.Word.FileDriver
 
         public string GetLetterByType(int claimId, string userId, LetterType type, int prescriptionId)
         {
-            var path = _wordDocumentProvider.CreateTemplatedWordDocument(claimId, userId, GetManifestResourcStream(type), type, prescriptionId);
+            var path = _wordDocumentProvider.Value.CreateTemplatedWordDocument(claimId, userId, GetManifestResourcStream(type), type, prescriptionId);
             return path;
         }
     }

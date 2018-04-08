@@ -1,4 +1,7 @@
 SET IDENTITY_INSERT [dbo].[PrescriptionNoteType] ON
+INSERT INTO [dbo].[PrescriptionNoteType] ([PrescriptionNoteTypeID], [TypeName], [Code], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (7, 'Other', 'Other', '2018-03-14 20:11:02.6137447', '2018-03-14 20:11:02.6137447')
+SET IDENTITY_INSERT [dbo].[PrescriptionNoteType] OFF
+SET IDENTITY_INSERT [dbo].[PrescriptionNoteType] ON
 INSERT INTO [dbo].[PrescriptionNoteType] ([PrescriptionNoteTypeID], [TypeName], [Code], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (1, 'Med Records', 'MR', '2017-07-04 18:43:57.9245186', '2017-07-04 18:43:57.9245186')
 INSERT INTO [dbo].[PrescriptionNoteType] ([PrescriptionNoteTypeID], [TypeName], [Code], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (2, 'Non Formulary', 'NF', '2017-07-04 18:43:57.9245186', '2017-07-04 18:43:57.9245186')
 INSERT INTO [dbo].[PrescriptionNoteType] ([PrescriptionNoteTypeID], [TypeName], [Code], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (3, 'Not MVA Related', 'NMVAR', '2017-07-04 18:43:57.9245186', '2017-07-04 18:43:57.9245186')

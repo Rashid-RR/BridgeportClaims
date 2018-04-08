@@ -12,12 +12,28 @@ GO
 CREATE PROC [dbo].[uspInvoiceIndexInsert]
     @DocumentID int,
     @InvoiceNumber varchar(100),
-    @ModifiedByUserID nvarchar(128)
+    @ModifiedByUserID nvarchar(128),
+	@AlreadyExists BIT OUTPUT
 AS 
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
 	BEGIN TRY
 		BEGIN TRAN;
+		DECLARE @PrntMsg NVARCHAR(100)
+
+		IF EXISTS (SELECT * FROM [dbo].[InvoiceIndex] AS [ii] WHERE  [ii].[InvoiceNumber] = @InvoiceNumber)
+			SET @AlreadyExists = 1;
+		ELSE
+			SET @AlreadyExists = 0;
+
+		IF (@AlreadyExists = 1)
+			BEGIN
+				IF (@@TRANCOUNT > 0)
+					ROLLBACK;
+ 			 	SET @PrntMsg = N'An InvoiceIndex record already exists.';
+				RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
+				RETURN -1;
+			END
 
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
 		INSERT INTO [dbo].[InvoiceIndex] ([DocumentID], [InvoiceNumber], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])

@@ -1,13 +1,14 @@
 using System;
+using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
 {
     public interface IDocumentIndexProvider
     {
-        string InvoiceNumberExists(string invoiceNumber);
+        IndexedInvoiceDto GetIndexedInvoiceData(string invoiceNumber);
         void DeleteDocumentIndex(int documentId);
         bool UpsertDocumentIndex(int documentId, int claimId, int documentTypeId, DateTime? rxDate,
             string rxNumber, string invoiceNumber, DateTime? injuryDate, string attorneyName, string indexedByUserId);
-        void InsertInvoiceIndex(int documentId, string invoiceNumber, string userId);
+        bool InsertInvoiceIndex(int documentId, string invoiceNumber, string userId);
     }
 }

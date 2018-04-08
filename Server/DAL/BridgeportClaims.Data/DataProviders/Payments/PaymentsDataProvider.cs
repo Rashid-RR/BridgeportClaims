@@ -15,9 +15,9 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public class PaymentsDataProvider : IPaymentsDataProvider
     {
-        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
 
-        public PaymentsDataProvider(IStoredProcedureExecutor storedProcedureExecutor)
+        public PaymentsDataProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
         }
@@ -72,7 +72,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 Value = delimitedClaimIds,
                 DbType = DbType.String
             };
-            var paymentSearchResultsDtos = _storedProcedureExecutor
+            var paymentSearchResultsDtos = _storedProcedureExecutor.Value
                 .ExecuteMultiResultStoredProcedure<ClaimsWithPrescriptionDetailsDto>(
                     "EXEC [dbo].[uspGetClaimsWithPrescriptionDetails] @ClaimIDs = :ClaimIDs",
                     new List<SqlParameter> {claimIdParam});
@@ -245,7 +245,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             string firstName,
             string lastName, DateTime? rxDate, string invoiceNumber)
         {
-            var paymentSearchResultsDtos = _storedProcedureExecutor
+            var paymentSearchResultsDtos = _storedProcedureExecutor.Value
                 .ExecuteMultiResultStoredProcedure<ClaimsWithPrescriptionCountsDto>(
                     "EXEC [dbo].[uspGetClaimsWithPrescriptionCounts] @ClaimNumber = :ClaimNumber, @FirstName = :FirstName, " +
                     "@LastName = :LastName, @RxDate = :RxDate, @InvoiceNumber = :InvoiceNumber", new List<SqlParameter>

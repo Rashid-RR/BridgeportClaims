@@ -11,10 +11,10 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/kpi")]
     public class KpiController : BaseApiController
     {
-        private readonly IKpiProvider _kpiProvider;
+        private readonly Lazy<IKpiProvider> _kpiProvider;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-        public KpiController(IKpiProvider kpiProvider)
+        public KpiController(Lazy<IKpiProvider> kpiProvider)
         {
             _kpiProvider = kpiProvider;
         }
@@ -27,7 +27,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var results = _kpiProvider.GetPaymentTotalsDtos();
+                    var results = _kpiProvider.Value.GetPaymentTotalsDtos();
                     return Ok(results);
                 }).ConfigureAwait(false);
             }

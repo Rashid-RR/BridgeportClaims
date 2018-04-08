@@ -15,11 +15,11 @@ namespace BridgeportClaims.Web.Controllers
     public class PrescriptionNotesController : BaseApiController
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly IPrescriptionNoteTypesDataProvider _prescriptionNoteTypesDataProvider;
-        private readonly IPrescriptionNotesDataProvider _prescriptionNotesDataProvider;
+        private readonly Lazy<IPrescriptionNoteTypesDataProvider> _prescriptionNoteTypesDataProvider;
+        private readonly Lazy<IPrescriptionNotesDataProvider> _prescriptionNotesDataProvider;
 
-        public PrescriptionNotesController(IPrescriptionNoteTypesDataProvider prescriptionNoteTypesDataProvider,
-            IPrescriptionNotesDataProvider prescriptionNotesDataProvider)
+        public PrescriptionNotesController(Lazy<IPrescriptionNoteTypesDataProvider> prescriptionNoteTypesDataProvider,
+            Lazy<IPrescriptionNotesDataProvider> prescriptionNotesDataProvider)
         {
             _prescriptionNoteTypesDataProvider = prescriptionNoteTypesDataProvider;
             _prescriptionNotesDataProvider = prescriptionNotesDataProvider;
@@ -33,7 +33,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var notes = _prescriptionNotesDataProvider.GetPrescriptionNotesByPrescriptionId(prescriptionId);
+                    var notes = _prescriptionNotesDataProvider.Value.GetPrescriptionNotesByPrescriptionId(prescriptionId);
                     return Ok(notes);
                 });
             }
@@ -52,7 +52,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    _prescriptionNotesDataProvider.AddOrUpdatePrescriptionNote(
+                    _prescriptionNotesDataProvider.Value.AddOrUpdatePrescriptionNote(
                         dto, User.Identity.GetUserId());
                     return Ok(new {message = $"The {(dto.IsDiaryEntry ? "diary entry and " : string.Empty)}prescription note " +
                                              $"{(!dto.IsDiaryEntry ? "was" : "were")} saved successfully"});
@@ -75,7 +75,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var types = _prescriptionNoteTypesDataProvider.GetPrescriptionNoteTypes();
+                    var types = _prescriptionNoteTypesDataProvider.Value.GetPrescriptionNoteTypes();
                     return Ok(types);
                 });
             }

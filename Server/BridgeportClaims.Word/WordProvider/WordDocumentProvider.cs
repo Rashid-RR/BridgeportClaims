@@ -13,9 +13,9 @@ namespace BridgeportClaims.Word.WordProvider
     [SuppressMessage("ReSharper", "ImplicitlyCapturedClosure")]
     public class WordDocumentProvider : IWordDocumentProvider
     {
-        private readonly IWordTemplater _wordTemplater;
+        private readonly Lazy<IWordTemplater> _wordTemplater;
 
-        public WordDocumentProvider(IWordTemplater wordTemplater)
+        public WordDocumentProvider(Lazy<IWordTemplater> wordTemplater)
         {
             _wordTemplater = wordTemplater;
         }
@@ -43,7 +43,7 @@ namespace BridgeportClaims.Word.WordProvider
                 {
                     docText = sr.ReadToEnd();
                 });
-                docText = _wordTemplater.TransformDocumentText(claimId, userId, docText, prescriptionId);
+                docText = _wordTemplater.Value.TransformDocumentText(claimId, userId, docText, prescriptionId);
                 DisposableService.Using(() => new StreamWriter(wordDoc.MainDocumentPart.GetStream(FileMode.Create)), sw =>
                 {
                     sw.Write(docText);

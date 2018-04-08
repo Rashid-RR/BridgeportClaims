@@ -30,7 +30,8 @@ AS BEGIN
 		DECLARE @CreateEpisode BIT, 
 				@UtcNow DATETIME2 = SYSUTCDATETIME(),
 				@LocalNow DATE = CONVERT(DATE, [dtme].[udfGetLocalDate]()),
-				@PrntMsg NVARCHAR(500);
+				@PrntMsg NVARCHAR(500),
+				@EpisodeID INTEGER;
 
 		IF NOT EXISTS (SELECT * FROM [dbo].[Claim] AS [c] WHERE [c].[ClaimID] = @ClaimID)
 			BEGIN
@@ -61,6 +62,24 @@ AS BEGIN
 			END
 		ELSE
 			BEGIN
+				IF EXISTS (
+							SELECT  *
+							FROM    [dbo].[Episode] AS [e]
+							WHERE   [e].[DocumentID] = @DocumentID
+						  )
+					BEGIN
+						SELECT  @EpisodeID = [e].[EpisodeID]
+						FROM    [dbo].[Episode] AS [e]
+						WHERE   [e].[DocumentID] = @DocumentID
+
+						IF (@@TRANCOUNT > 0)
+							ROLLBACK;
+						SET @PrntMsg = N'Episode Id ' + CONVERT(NVARCHAR, @EpisodeID) + 
+									' has already been created for Document Id ' + CONVERT(NVARCHAR, @DocumentID)
+						RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
+						RETURN -1;
+					END
+
 				SET @EpisodeCreated = 1;
 				INSERT INTO [dbo].[Episode]
 				(   [ClaimID]
@@ -108,6 +127,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
-
-
 GO

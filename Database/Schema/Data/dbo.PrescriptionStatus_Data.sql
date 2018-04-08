@@ -1,4 +1,7 @@
 SET IDENTITY_INSERT [dbo].[PrescriptionStatus] ON
+INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (16, 'COB', '2018-03-12 19:49:57.2181967', '2018-03-12 19:49:57.2181967')
+SET IDENTITY_INSERT [dbo].[PrescriptionStatus] OFF
+SET IDENTITY_INSERT [dbo].[PrescriptionStatus] ON
 INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (1, 'Ben Exhaust', '2017-11-20 22:35:11.1640577', '2017-11-20 22:35:11.1640577')
 INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (2, 'Collection Activity', '2017-11-20 22:35:23.3061822', '2017-11-20 22:35:23.3061822')
 INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (3, 'Denial', '2017-11-20 22:35:30.9945925', '2017-11-20 22:35:30.9945925')

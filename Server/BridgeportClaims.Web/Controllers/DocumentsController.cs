@@ -17,10 +17,10 @@ namespace BridgeportClaims.Web.Controllers
     public class DocumentsController : BaseApiController
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly IDocumentsProvider _documentsProvider;
-        private readonly IClaimSearchProvider _claimSearchProvider;
+        private readonly Lazy<IDocumentsProvider> _documentsProvider;
+        private readonly Lazy<IClaimSearchProvider> _claimSearchProvider;
 
-        public DocumentsController(IDocumentsProvider documentsProvider, IClaimSearchProvider claimSearchProvider)
+        public DocumentsController(Lazy<IDocumentsProvider> documentsProvider, Lazy<IClaimSearchProvider> claimSearchProvider)
         {
             _documentsProvider = documentsProvider;
             _claimSearchProvider = claimSearchProvider;
@@ -36,7 +36,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     var userId = User.Identity.GetUserId();
                     // Database call
-                    _documentsProvider.ArchiveDocument(documentId, userId);
+                    _documentsProvider.Value.ArchiveDocument(documentId, userId);
                     // SignalR Call
                     var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager
                         .GetHubContext<DocumentsHub>();
@@ -57,7 +57,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_claimSearchProvider.GetDocumentClaimSearchResults(model.SearchText, model.ExactMatch, model.Delimiter));
+                return Ok(_claimSearchProvider.Value.GetDocumentClaimSearchResults(model.SearchText, model.ExactMatch, model.Delimiter));
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var results = _documentsProvider.GetDocuments(model.Date.ToNullableFormattedDateTime(),
+                    var results = _documentsProvider.Value.GetDocuments(model.Date.ToNullableFormattedDateTime(),
                         model.Archived, model.FileName, model.FileTypeId, model.Sort,
                         model.SortDirection, model.Page,
                         model.PageSize);
