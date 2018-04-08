@@ -5,6 +5,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
 using BridgeportClaims.Data.DataProviders.Episodes;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -37,8 +38,10 @@ namespace BridgeportClaims.Web.Controllers
             {
                 return await Task.Run(() =>
                 {
-                    var fileUrl = _documentIndexProvider.Value.InvoiceNumberExists(invoiceNumber);
-                    return Ok(fileUrl);
+                    var indexedInvoiceData = _documentIndexProvider.Value.GetIndexedInvoiceData(invoiceNumber) ?? new IndexedInvoiceDto();
+                    if (indexedInvoiceData.FileUrl.IsNullOrWhiteSpace())
+                        indexedInvoiceData.InvoiceNumberIsAlreadyIndexed = false;
+                    return Ok(indexedInvoiceData);
                 });
             }
             catch (Exception ex)

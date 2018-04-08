@@ -2,18 +2,17 @@
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
-// ReSharper disable once RedundantUsingDirective
-using FluentNHibernate.Conventions;
+using BridgeportClaims.Data.Dtos;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
 {
     public class DocumentIndexProvider : IDocumentIndexProvider
     {
-        public string InvoiceNumberExists(string invoiceNumber) =>
+        public IndexedInvoiceDto GetIndexedInvoiceData(string invoiceNumber) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
                 {
-                    return DisposableService.Using(() => new SqlCommand("[dbo].[uspInvoiceNumberExists]", conn),
+                    return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetIndexedInvoiceData]", conn),
                         cmd =>
                         {
                             cmd.CommandType = CommandType.StoredProcedure;
@@ -25,20 +24,27 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                             invoiceNumberParam.SqlDbType = SqlDbType.VarChar;
                             invoiceNumberParam.Direction = ParameterDirection.Input;
                             cmd.Parameters.Add(invoiceNumberParam);
-                            var existsParam = cmd.CreateParameter();
-                            existsParam.Value = invoiceNumber ?? (object)DBNull.Value;
-                            existsParam.ParameterName = "@FileUrl";
-                            existsParam.DbType = DbType.String;
-                            existsParam.SqlDbType = SqlDbType.NVarChar;
-                            existsParam.Size = 500;
-                            existsParam.Direction = ParameterDirection.Output;
-                            cmd.Parameters.Add(existsParam);
+                            IndexedInvoiceDto indexedInvoiceDto = null;
                             if (conn.State != ConnectionState.Open)
                                 conn.Open();
-                            cmd.ExecuteNonQuery();
+                            DisposableService.Using(cmd.ExecuteReader, reader =>
+                            {
+                                var documentIdOrdinal = reader.GetOrdinal("DocumentId");
+                                var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
+                                var invoiceNumberIsAlreadyIndexedOrdinal = reader.GetOrdinal("InvoiceNumberIsAlreadyIndexed");
+                                while (reader.Read())
+                                {
+                                    indexedInvoiceDto = new IndexedInvoiceDto
+                                    {
+                                        DocumentId = !reader.IsDBNull(documentIdOrdinal) ? reader.GetInt32(documentIdOrdinal) : default (int),
+                                        FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty,
+                                        InvoiceNumberIsAlreadyIndexed = !reader.IsDBNull(invoiceNumberIsAlreadyIndexedOrdinal) && reader.GetBoolean(invoiceNumberIsAlreadyIndexedOrdinal)
+                                    };
+                                }
+                            });
                             if (conn.State != ConnectionState.Closed)
                                 conn.Close();
-                            return existsParam.Value as string;
+                            return indexedInvoiceDto;
                         });
                 });
 
