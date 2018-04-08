@@ -8,16 +8,16 @@ namespace BridgeportClaims.Word.Templating
 {
     public class WordTemplater : IWordTemplater
     {
-        private readonly ILetterGenerationProvider _letterGenerationProvider;
+        private readonly Lazy<ILetterGenerationProvider> _letterGenerationProvider;
 
-        public WordTemplater(ILetterGenerationProvider letterGenerationProvider)
+        public WordTemplater(Lazy<ILetterGenerationProvider> letterGenerationProvider)
         {
             _letterGenerationProvider = letterGenerationProvider;
         }
 
         public string TransformDocumentText(int claimId, string userId, string docText, int prescriptionId)
         {
-            var data = _letterGenerationProvider.GetLetterGenerationData(claimId, userId, prescriptionId);
+            var data = _letterGenerationProvider.Value.GetLetterGenerationData(claimId, userId, prescriptionId);
             var ti = new CultureInfo("en-US", false).TextInfo;
             if (null == data)
                 throw new ArgumentNullException(nameof(data));

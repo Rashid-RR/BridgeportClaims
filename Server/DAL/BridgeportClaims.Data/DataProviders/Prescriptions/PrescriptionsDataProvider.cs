@@ -15,10 +15,10 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
 {
     public class PrescriptionsDataProvider : IPrescriptionsDataProvider
     {
-        private readonly IRepository<Prescription> _prescriptionRepository;
-        private readonly IRepository<PrescriptionStatus> _prescriptionStatusRepository;
+        private readonly Lazy<IRepository<Prescription>> _prescriptionRepository;
+        private readonly Lazy<IRepository<PrescriptionStatus>> _prescriptionStatusRepository;
 
-        public PrescriptionsDataProvider(IRepository<Prescription> prescriptionRepository, IRepository<PrescriptionStatus> prescriptionStatusRepository)
+        public PrescriptionsDataProvider(Lazy<IRepository<Prescription>> prescriptionRepository, Lazy<IRepository<PrescriptionStatus>> prescriptionStatusRepository)
         {
             _prescriptionRepository = prescriptionRepository;
             _prescriptionStatusRepository = prescriptionStatusRepository;
@@ -26,14 +26,14 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
 
         public EntityOperation AddOrUpdatePrescriptionStatus(int prescriptionId, int prescriptionStatusId)
         {
-            var prescription = _prescriptionRepository.Get(prescriptionId);
+            var prescription = _prescriptionRepository.Value.Get(prescriptionId);
             if (null == prescription)
                 throw new ArgumentNullException(nameof(prescription));
-            var prescriptionStatus = _prescriptionStatusRepository.Get(prescriptionStatusId);
+            var prescriptionStatus = _prescriptionStatusRepository.Value.Get(prescriptionStatusId);
             var op = null == prescription.PrescriptionStatus ? EntityOperation.Add : EntityOperation.Update;
             prescription.PrescriptionStatus = prescriptionStatus ?? throw new ArgumentNullException(nameof(prescriptionStatus));
             prescription.UpdatedOnUtc = DateTime.UtcNow;
-            _prescriptionRepository.Update(prescription);
+            _prescriptionRepository.Value.Update(prescription);
             return op;
         }
 

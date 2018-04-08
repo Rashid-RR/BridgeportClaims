@@ -10,9 +10,9 @@ namespace BridgeportClaims.Data.DataProviders.UserOptions
     public class DbccUserOptionsProvider : IDbccUserOptionsProvider
     {
         private const string ReadCommittedSnapshot = "READ_COMMITTED_SNAPSHOT";
-        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
 
-        public DbccUserOptionsProvider(IStoredProcedureExecutor storedProcedureExecutor)
+        public DbccUserOptionsProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
         {
             _storedProcedureExecutor = storedProcedureExecutor;
         }
@@ -20,7 +20,7 @@ namespace BridgeportClaims.Data.DataProviders.UserOptions
 
         public IList<DbccUserOptionsResults> GetDbccUserOptions()
         {
-            var retVal = _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<DbccUserOptionsResults>
+            var retVal = _storedProcedureExecutor.Value.ExecuteMultiResultStoredProcedure<DbccUserOptionsResults>
                 ("EXECUTE dbo.uspDbccUserOptions", new List<SqlParameter>()).ToList();
             return retVal;
         }

@@ -13,15 +13,15 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 {
 	public class PrescriptionNotesDataProvider : IPrescriptionNotesDataProvider
 	{
-		private readonly ISessionFactory _factory;
+		private readonly Lazy<ISessionFactory> _factory;
 
-		public PrescriptionNotesDataProvider(ISessionFactory factory)
+		public PrescriptionNotesDataProvider(Lazy<ISessionFactory> factory)
 		{
 			_factory = factory;
 		}
 
 		public IList<PrescriptionNotesDto> GetPrescriptionNotesByPrescriptionId(int prescriptionId) 
-			=> DisposableService.Using(() => _factory.OpenSession(),
+			=> DisposableService.Using(() => _factory.Value.OpenSession(),
 				session =>
 				{
 					return DisposableService.Using(() => session.BeginTransaction(IsolationLevel.ReadCommitted),

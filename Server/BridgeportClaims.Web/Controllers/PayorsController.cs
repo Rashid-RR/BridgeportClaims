@@ -15,11 +15,14 @@ namespace BridgeportClaims.Web.Controllers
     public class PayorsController : BaseApiController
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly IPayorsDataProvider _payorsDataProvider;
-        private readonly IPayorSearchProvider _payorSearchProvider;
-        private readonly IPayorMapper _payorMapper;
+        private readonly Lazy<IPayorsDataProvider> _payorsDataProvider;
+        private readonly Lazy<IPayorSearchProvider> _payorSearchProvider;
+        private readonly Lazy<IPayorMapper> _payorMapper;
 
-        public PayorsController(IPayorsDataProvider payorsDataProvider, IPayorMapper payorMapper, IPayorSearchProvider payorSearchProvider)
+        public PayorsController(
+            Lazy<IPayorsDataProvider> payorsDataProvider, 
+            Lazy<IPayorMapper> payorMapper, 
+            Lazy<IPayorSearchProvider> payorSearchProvider)
         {
             _payorsDataProvider = payorsDataProvider;
             _payorMapper = payorMapper;
@@ -32,7 +35,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var results = _payorSearchProvider.GetPayorSearchResults(searchText);
+                var results = _payorSearchProvider.Value.GetPayorSearchResults(searchText);
                 return Ok(results);
             }
             catch (Exception ex)
@@ -48,7 +51,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return await Task.Run(() => 
-                    Ok(_payorMapper.GetPayorViewModels(_payorsDataProvider.GetAllPayors().ToList())));
+                    Ok(_payorMapper.Value.GetPayorViewModels(_payorsDataProvider.Value.GetAllPayors().ToList())));
             }
             catch (Exception ex)
             {
@@ -63,7 +66,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return await Task.Run(() =>
-                    Ok(_payorsDataProvider.GetPaginatedPayors(pageNumber, pageSize).ToList()));
+                    Ok(_payorsDataProvider.Value.GetPaginatedPayors(pageNumber, pageSize).ToList()));
             }
             catch (Exception ex)
             {

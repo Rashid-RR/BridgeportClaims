@@ -10,9 +10,9 @@ namespace BridgeportClaims.Data.DataProviders.UserRoles
 {
     public class AssignUsersToRolesProvider : IAssignUsersToRolesProvider
     {
-        private readonly IStoredProcedureExecutor _execr;
+        private readonly Lazy<IStoredProcedureExecutor> _execr;
 
-        public AssignUsersToRolesProvider(IStoredProcedureExecutor execr)
+        public AssignUsersToRolesProvider(Lazy<IStoredProcedureExecutor> execr)
         {
             _execr = execr;
         }
@@ -63,7 +63,7 @@ namespace BridgeportClaims.Data.DataProviders.UserRoles
                     Value = role,
                     DbType = DbType.String
                 };
-                _execr.ExecuteNoResultStoredProcedure(
+                _execr.Value.ExecuteNoResultStoredProcedure(
                     "EXECUTE [dbo].[uspAssignUserToRole] @Email = :Email, @RoleName = :RoleName",
                     new List<SqlParameter> {emailParameter, roleNameParameter});
             }

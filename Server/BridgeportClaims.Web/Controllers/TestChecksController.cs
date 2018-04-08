@@ -16,17 +16,17 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/test")]
     public class TestChecksController : BaseApiController
     {
-        private readonly IDbccUserOptionsProvider _dbccUserOptionsProvider;
-        private readonly IClaimsDataProvider _claimsDataProvider;
+        private readonly Lazy<IDbccUserOptionsProvider> _dbccUserOptionsProvider;
+        private readonly Lazy<IClaimsDataProvider> _claimsDataProvider;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly IEmailService _emailService;
-        private readonly IPdfFactory _pdfFactory;
+        private readonly Lazy<IEmailService> _emailService;
+        private readonly Lazy<IPdfFactory> _pdfFactory;
 
         public TestChecksController(
-            IDbccUserOptionsProvider dbccUserOptionsProvider, 
-            IClaimsDataProvider claimsDataProvider, 
-            IEmailService emailService, 
-            IPdfFactory pdfFactory)
+            Lazy<IDbccUserOptionsProvider> dbccUserOptionsProvider, 
+            Lazy<IClaimsDataProvider> claimsDataProvider, 
+            Lazy<IEmailService> emailService, 
+            Lazy<IPdfFactory> pdfFactory)
         {
             _dbccUserOptionsProvider = dbccUserOptionsProvider;
             _claimsDataProvider = claimsDataProvider;
@@ -41,7 +41,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                _pdfFactory.MergePdfs(
+                _pdfFactory.Value.MergePdfs(
                     new[]
                     {
                         new Uri(
@@ -53,12 +53,12 @@ namespace BridgeportClaims.Web.Controllers
                         new Uri("https://images.bridgeportclaims.com/03-17/20170324/csp201703240039.pdf",
                             UriKind.Absolute)
                     }, @"C:\Development\PDF\cc.pdf");
-                await _emailService.SendEmail<EmailTemplateProvider>("jordangurney@gmail.com", "Test Message",
+                await _emailService.Value.SendEmail<EmailTemplateProvider>("jordangurney@gmail.com", "Test Message",
                     string.Empty,
                     EmailModelEnum.LakerImportStatus);
                 var testClaimId = Convert.ToInt32(cs.GetAppSetting(c.TestClaimIdKey));
-                _dbccUserOptionsProvider.IsSessionUsingReadCommittedSnapshotIsolation();
-                var retVal = _claimsDataProvider.GetClaimsDataByClaimId(testClaimId, Guid.NewGuid().ToString());
+                _dbccUserOptionsProvider.Value.IsSessionUsingReadCommittedSnapshotIsolation();
+                var retVal = _claimsDataProvider.Value.GetClaimsDataByClaimId(testClaimId, Guid.NewGuid().ToString());
                 return Ok(retVal);
             }
             catch (Exception ex)

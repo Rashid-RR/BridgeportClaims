@@ -17,10 +17,10 @@ namespace BridgeportClaims.Web.Controllers
     public class LettersController : BaseApiController
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly IWordFileDriver _wordFileDriver;
+        private readonly Lazy<IWordFileDriver> _wordFileDriver;
         private const string DocxContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
-        public LettersController(IWordFileDriver wordFileDriver)
+        public LettersController(Lazy<IWordFileDriver> wordFileDriver)
         {
             _wordFileDriver = wordFileDriver;
         }
@@ -59,7 +59,7 @@ namespace BridgeportClaims.Web.Controllers
                             ThrowLetterTypeException(letterType);
                             break;
                     }
-                    var fullFilePath = _wordFileDriver.GetLetterByType(claimId, userId, type, prescriptionId);
+                    var fullFilePath = _wordFileDriver.Value.GetLetterByType(claimId, userId, type, prescriptionId);
                     return new FileResult(fullFilePath, fileName, DocxContentType);
                 }).ConfigureAwait(false);
 

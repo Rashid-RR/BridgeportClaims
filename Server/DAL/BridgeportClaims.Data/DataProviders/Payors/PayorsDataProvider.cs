@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -11,17 +12,18 @@ namespace BridgeportClaims.Data.DataProviders.Payors
 {
     public class PayorsDataProvider : IPayorsDataProvider
     {
-        private readonly IRepository<Payor> _payorRepository;
-        private readonly IStoredProcedureExecutor _storedProcedureExecutor;
+        private readonly Lazy<IRepository<Payor>> _payorRepository;
+        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
 
-        public PayorsDataProvider(IRepository<Payor> payorRepository, IStoredProcedureExecutor storedProcedureExecutor)
+        public PayorsDataProvider(
+            Lazy<IRepository<Payor>> payorRepository, Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
         {
             _payorRepository = payorRepository;
             _storedProcedureExecutor = storedProcedureExecutor;
         }
 
         public IEnumerable<Payor> GetAllPayors()
-            => _payorRepository.GetAll();
+            => _payorRepository.Value.GetAll();
 
         public IList<PayorViewModel> GetPaginatedPayors(int pageNumber, int pageSize)
         {
@@ -37,7 +39,7 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 Value = pageSize,
                 DbType = DbType.Int32
             };
-            return _storedProcedureExecutor.ExecuteMultiResultStoredProcedure<PayorViewModel>(
+            return _storedProcedureExecutor.Value.ExecuteMultiResultStoredProcedure<PayorViewModel>(
                 "EXEC [dbo].[uspGetPayors] :PageNumber, :PageSize",
                 new List<SqlParameter> {pageNumberParam, pageSizeParam}).ToList();
         }
