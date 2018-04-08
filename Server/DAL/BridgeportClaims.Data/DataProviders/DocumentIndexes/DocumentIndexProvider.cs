@@ -36,8 +36,8 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                                 {
                                     indexedInvoiceDto = new IndexedInvoiceDto
                                     {
-                                        DocumentId = !reader.IsDBNull(documentIdOrdinal) ? reader.GetInt32(documentIdOrdinal) : default (int),
-                                        FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty,
+                                        DocumentId = !reader.IsDBNull(documentIdOrdinal) ? reader.GetInt32(documentIdOrdinal) : (int?) null,
+                                        FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : null,
                                         InvoiceNumberIsAlreadyIndexed = !reader.IsDBNull(invoiceNumberIsAlreadyIndexedOrdinal) && reader.GetBoolean(invoiceNumberIsAlreadyIndexedOrdinal)
                                     };
                                 }
