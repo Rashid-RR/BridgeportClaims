@@ -111,8 +111,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
     }
   }
   cancel() {
-    this.events.broadcast("reset-indexing-form", true);
-    //console.log(this.type);
+    this.events.broadcast("reset-indexing-form", true); 
     this.ds.cancel(this.type);
   }
   showFile() {
