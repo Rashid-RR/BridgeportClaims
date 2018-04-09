@@ -1,7 +1,15 @@
 import { browser, element, by, protractor } from 'protractor';
-import { environment } from "../src/environments/environment"
-export class ClaimsPage { 
-  constructor() { 
+import { environment as dev } from "../src/environments/environment"
+import { environment as local } from "../src/environments/environment.local"
+import { environment as prod } from "../src/environments/environment.prod"
+export class ClaimsPage {
+  environment: any;
+  constructor() {
+    console.log(browser.params);
+
+    this.environment = browser.params && browser.params.env && browser.params.env == 'prod' ?
+      prod : (browser.params && browser.params.env && browser.params.env == 'dev' ? dev : local);
+
   }
   navigateToLogin() {
     return browser.get('/#/login');
@@ -16,7 +24,7 @@ export class ClaimsPage {
   }
   loadClaim() {
     let elem = element.all(by.className('view-btn')).first();
-    return elem.click() 
+    return elem.click()
   }
   checkClaimLoaded() {
     return browser.driver.wait(() => {
@@ -29,7 +37,7 @@ export class ClaimsPage {
     this.navigateToClaims();
     let firstnameEl = element(by.name('firstName')),
       searchEl = element(by.id('claimSearchBtn'));
-    firstnameEl.sendKeys(environment.vars.firstName);
+    firstnameEl.sendKeys(this.environment.vars.firstName);
     var until = protractor.ExpectedConditions;
     searchEl.click().then(r => {
       this.getFirstClaim();
@@ -39,8 +47,8 @@ export class ClaimsPage {
     let emailEl = element(by.name('email')),
       passwordEl = element(by.name('password')),
       loginEl = element(by.buttonText('Sign in'));
-    emailEl.sendKeys(environment.vars.testEmail);
-    passwordEl.sendKeys(environment.vars.testPWD);
+    emailEl.sendKeys(this.environment.vars.testEmail);
+    passwordEl.sendKeys(this.environment.vars.testPWD);
     loginEl.click().then(r => {
       return browser.driver.wait(function () {
         return browser.driver.getCurrentUrl().then(function (url) {

@@ -12,9 +12,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e --proxy-config proxy.conf.json",
-    "e2e:dev": "ng e2e --env=dev --proxy-config proxy.conf.json",
-    "e2e:local": "ng e2e --env=local --proxy-config proxy.conf-local.json",
-    "e2e:prod": "ng e2e  --env=prod --proxy-config prod-proxy.conf.json"
+    "e2e:dev": "ng e2e --config protractor.conf.js  --env=dev --proxy-config proxy.conf.json",
+    "e2e:local": "ng e2e --config protractor-local.conf.js  --env=local --proxy-config proxy.conf-local.json",
+    "e2e:prod": "ng e2e  --config protractor-prod.conf.js --env=prod --proxy-config prod-proxy.conf.json"
   },
   "private": true,
   "dependencies": {

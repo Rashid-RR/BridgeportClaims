@@ -2,9 +2,9 @@ export const environment = {
   production: true,
   vars: {
     claimId: 776,
-    lastName: 'Blackwell',
+    lastName: 'Valone',
     firstName: 'Jamie',
-    testEmail: 'jogwayi@gmail.com',
-    testPWD: 'Password12#',
+    testEmail: 'jordangurney@gmail.com',
+    testPWD: 'Binah9991010',
   }
 };

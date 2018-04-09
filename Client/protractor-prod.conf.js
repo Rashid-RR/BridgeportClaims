@@ -8,15 +8,15 @@ exports.config = {
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
+  params:{
+    env:'prod'
+  },
   capabilities: {
     'browserName': 'chrome',
     loggingPrefs : {
        "driver": "INFO",
      "browser": "INFO" 
     }
-  },
-  params:{
-    env:'dev'
   },
   directConnect: true,
   baseUrl: 'http://localhost:800/',
