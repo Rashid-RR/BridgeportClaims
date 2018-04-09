@@ -32,12 +32,14 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                                 var documentIdOrdinal = reader.GetOrdinal("DocumentId");
                                 var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
                                 var invoiceNumberIsAlreadyIndexedOrdinal = reader.GetOrdinal("InvoiceNumberIsAlreadyIndexed");
+                                var fileNameOrdinal = reader.GetOrdinal("FileName");
                                 while (reader.Read())
                                 {
                                     indexedInvoiceDto = new IndexedInvoiceDto
                                     {
                                         DocumentId = !reader.IsDBNull(documentIdOrdinal) ? reader.GetInt32(documentIdOrdinal) : (int?) null,
                                         FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : null,
+                                        FileName = !reader.IsDBNull(fileNameOrdinal) ? reader.GetString(fileNameOrdinal) : null,
                                         InvoiceNumberIsAlreadyIndexed = !reader.IsDBNull(invoiceNumberIsAlreadyIndexedOrdinal) && reader.GetBoolean(invoiceNumberIsAlreadyIndexedOrdinal)
                                     };
                                 }
