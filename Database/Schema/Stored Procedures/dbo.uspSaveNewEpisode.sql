@@ -2,8 +2,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
--- Stored Procedure
-
 /* 
  =============================================
  Author:			Jordan Gurney
@@ -13,7 +11,7 @@ GO
 					EXECUTE [dbo].[uspSaveNewEpisode]
  =============================================
 */
-CREATE   PROC [dbo].[uspSaveNewEpisode]
+CREATE PROC [dbo].[uspSaveNewEpisode]
 (
 	@ClaimID INTEGER,
 	@EpisodeTypeID TINYINT,
@@ -29,9 +27,8 @@ AS BEGIN
         BEGIN TRAN;
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME(),
 				@Today DATE = CONVERT(DATE, [dtme].[udfGetLocalDate]());
-
+		
 		DECLARE @EpisodeCategoryID INTEGER, @EpisodeID INTEGER
-
 		SET @EpisodeCategoryID = [dbo].[udfGetEpisodeCategoryFromCode]('CALL');
 
 		INSERT INTO [dbo].[Episode]
@@ -78,14 +75,14 @@ AS BEGIN
               , [ve].[NoteCount]
 		FROM    [dbo].[vwEpisode] AS [ve]
 		WHERE   [ve].[Id] = @EpisodeID
-
+		
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
     END TRY
     BEGIN CATCH     
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-
+				
 		DECLARE @ErrSeverity INT = ERROR_SEVERITY()
 			, @ErrState INT = ERROR_STATE()
 			, @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()

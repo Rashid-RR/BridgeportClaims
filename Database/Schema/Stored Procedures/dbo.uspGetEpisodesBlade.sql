@@ -2,8 +2,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
--- Stored Procedure
-
 /* 
  =============================================
  Author:			Jordan Gurney
@@ -13,7 +11,7 @@ GO
 					EXECUTE [dbo].[uspGetEpisodesBlade] 775, 'Type', 'DESC'
  =============================================
 */
-CREATE   PROC [dbo].[uspGetEpisodesBlade]
+CREATE PROC [dbo].[uspGetEpisodesBlade]
 (
 	@ClaimID INTEGER,
 	@SortColumn VARCHAR(50),
