@@ -3,6 +3,7 @@ using NHibernate;
 using System.Web;
 using System.Data;
 using System.Reflection;
+using Autofac.Integration.Mef;
 using Autofac.Integration.WebApi;
 using BridgeportClaims.Business.BillingStatement;
 using BridgeportClaims.Business.LakerFileProcess;
@@ -63,6 +64,7 @@ namespace BridgeportClaims.Web.IoCConfig
         public static ContainerBuilder Configure()
         {
             var builder = new ContainerBuilder();
+            builder.RegisterModule(new LazyDependencyModule());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<DbccUserOptionsProvider>().As<IDbccUserOptionsProvider>().InstancePerRequest();
             builder.RegisterType<PayorsDataProvider>().As<IPayorsDataProvider>().InstancePerRequest();
