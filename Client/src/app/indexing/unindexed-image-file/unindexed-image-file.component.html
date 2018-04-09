@@ -4,7 +4,7 @@
             <div class="box-header bg-head-box text-center">
                 <img src="assets/img/back.png" class="pull-left" *ngIf="!isIndexedImage" (click)="cancel()" style="cursor:pointer;margin:-8px 0px;"/>
                 <h2 class="box-title text-center" *ngIf="file" data-placement="top" data-toggle="tooltip" id="titlel767546778" (dblclick)="isHighlighted('titlel767546778')" title="Double click to highlight all and copy to clipboard" style="padding:0px 20px;">
-                    {{file.fileName}}
+                    {{file.fileName}} <i class="fa fa-copy"></i>
                     <button class="btn btn-primary" *ngIf="file.episodeNoteCount>=0" (click)="showNoteWindow()">Open Episode Note{{file.episodeNoteCount!=1 ? 's':''}}: {{file.episodeNoteCount}}</button>
                 </h2>
             </div>

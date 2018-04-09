@@ -38,7 +38,8 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
   isHighlighted(id){ 
     window.getSelection().selectAllChildren( document.getElementById( id ) );
     document.execCommand("copy");
-    this.toast.info('Text copied, you can now paste it where you want to use it')
+    this.toast.success('File name copied to clipboard')
+    //this.toast.info('File name copied, you can now paste it where you want to use it')
     //window.getSelection().removeAllRanges();
   }
 
