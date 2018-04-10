@@ -108,6 +108,9 @@
       background: #084205;
       color: #fff;
     }
+    .swal2-modal.paymeny-modal .swal2-content .bg-DarkGreen:focus { 
+      color: #fff !important;
+    }
 
     .swal2-modal.paymeny-modal .swal2-content .bg-fullWhite {
       background: #fff;
@@ -514,15 +517,16 @@
     app-claim-result *:not(.fa):not(.btn){
        font-size: 14px;
     }
-    .bg-darkblue,.bg-darkblue:hover {
+    .bg-darkblue,.bg-darkblue:hover,.bg-darkblue:focus {
       background-color: #414772;
       color: #fff;
     }
-    .bg-DarkGreen, .bg-DarkGreen:hover {
+    .bg-DarkGreen, .bg-DarkGreen:hover , .bg-DarkGreen:focus 
+    {
       background: #084205;
       color: #fff;
     }
-    .bg-vdarkgrey,.bg-vdarkgrey:hover {
+    .bg-vdarkgrey,.bg-vdarkgrey:hover,.bg-vdarkgrey:focus {
       background-color: #111d21 !important;
       color: #fff;
     }
