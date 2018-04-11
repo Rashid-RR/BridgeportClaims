@@ -36,7 +36,9 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
     return this.sanitizer.bypassSecurityTrustResourceUrl('assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl);
   }
   isHighlighted(id){ 
-    window.getSelection().selectAllChildren( document.getElementById( id ) );
+    if (window.getSelection) {
+      window.getSelection().selectAllChildren( document.getElementById( id ) );
+    } 
     document.execCommand("copy");
     this.toast.success('File name copied to clipboard')
     //this.toast.info('File name copied, you can now paste it where you want to use it')
