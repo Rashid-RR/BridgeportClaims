@@ -25,6 +25,7 @@ AS BEGIN
 		SELECT          InvoiceNumberIsAlreadyIndexed = CONVERT(BIT, 1)
 					  , [d].[DocumentID] DocumentId
 					  , [d].[FileUrl]
+                      , [d].[FileName]
 		FROM            [dbo].[InvoiceIndex] AS [ii]
 			INNER JOIN  [dbo].[Document]     AS [d] ON [d].[DocumentID] = [ii].[DocumentID]
 		WHERE           [ii].[InvoiceNumber] = @InvoiceNumber
@@ -50,6 +51,7 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 
 
 GO
