@@ -16,6 +16,8 @@ ALTER TABLE [dbo].[InvoiceIndex] ADD CONSTRAINT [pkInvoiceIndex] PRIMARY KEY CLU
 GO
 CREATE NONCLUSTERED INDEX [idxInvoiceIndexInvoiceNumber] ON [dbo].[InvoiceIndex] ([InvoiceNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+ALTER TABLE [dbo].[InvoiceIndex] ADD CONSTRAINT [idxUqInvoiceIndexInvoiceNumber] UNIQUE NONCLUSTERED  ([InvoiceNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[InvoiceIndex] ADD CONSTRAINT [fkInvoiceIndexDocumentIDDocumentDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[Document] ([DocumentID]) ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[InvoiceIndex] ADD CONSTRAINT [fkInvoiceIndexModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])

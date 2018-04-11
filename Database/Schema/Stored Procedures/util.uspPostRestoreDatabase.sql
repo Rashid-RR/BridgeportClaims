@@ -11,7 +11,7 @@ GO
                     EXECUTE [util].[uspPostRestoreDatabase]
  =============================================
 */
-CREATE PROC [util].[uspPostRestoreDatabase]
+CREATE   PROC [util].[uspPostRestoreDatabase]
 AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
@@ -52,6 +52,7 @@ AS BEGIN
 		WHERE   [i].[type_desc] = N'SQL_LOGIN'
 				AND [i].[is_disabled] = 0
 				AND [i].[name] != N'sa'
+                AND 1 = 0
 
 		OPEN UserScriptCrsor;
 
