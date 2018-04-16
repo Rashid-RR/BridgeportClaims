@@ -9,7 +9,7 @@ export const environment = {
     claimId: 776,
     lastName: 'Blackwell',
     firstName: 'Jamie',
-    testEmail: 'jogwayi@gmail.com',
-    testPWD: 'Password12#',
+    testEmail: 'jordangurney@gmail.com',
+    testPWD: 'Binah9991010',
   }
 };
