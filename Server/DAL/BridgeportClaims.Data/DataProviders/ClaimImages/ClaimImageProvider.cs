@@ -74,6 +74,8 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                         var injuryDateOrdinal = reader.GetOrdinal("InjuryDate");
                         var attorneyNameOrdinal = reader.GetOrdinal("AttorneyName");
                         var fileNameOrdinal = reader.GetOrdinal("FileName");
+                        var noteCountOrdinal = reader.GetOrdinal("NoteCount");
+                        var episodeIdOrdinal = reader.GetOrdinal("EpisodeId");
                         var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
                         while (reader.Read())
                         {
@@ -88,6 +90,8 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                                 InjuryDate = !reader.IsDBNull(injuryDateOrdinal) ? reader.GetDateTime(injuryDateOrdinal) : (DateTime?) null,
                                 AttorneyName = !reader.IsDBNull(attorneyNameOrdinal) ? reader.GetString(attorneyNameOrdinal) : string.Empty,
                                 Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
+                                NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int),
+                                EpisodeId = !reader.IsDBNull(episodeIdOrdinal) ? reader.GetInt32(episodeIdOrdinal) : default (int),
                                 FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty
                             };
                             results.Add(result);
