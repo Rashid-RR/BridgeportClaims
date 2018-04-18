@@ -10,7 +10,7 @@ import {EventsService} from "./services/events-service";
 
   @Component({
   selector: 'app-root',
-  template: `<router-outlet></router-outlet>`
+  template: `<div  id="highlighter" style="width:0px !important;height:0px !important"></div><router-outlet></router-outlet>`
 })
 export class AppComponent implements OnInit, OnDestroy {
  

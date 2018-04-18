@@ -16,8 +16,7 @@
     overflow-y:auto;
 }
 .products-list>.item{
-    padding: 0px;
-    cursor: pointer; 
+    padding: 0px;  
     margin: 0px;  
 }
 .products-list>.item div[class^='col-']{
@@ -52,4 +51,11 @@ pre.noteText {
     white-space: -moz-pre-line;  /* Mozilla, since 1999 */
     white-space: -pre-line;      /* Opera 4-6 */
     white-space: -o-pre-line;    /* Opera 7 */ 
+}
+
+.noteCopy i.fa-copy{
+    display:none;
+}
+.noteCopy:hover i.fa-copy{
+    display:block;
 }

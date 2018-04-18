@@ -49,15 +49,16 @@
           <li class="item row text-center" *ngIf="episodeNotes && episodeNotes.length==0">
             No notes added yet
           </li>
-          <li class="item row" *ngFor="let note of episodeNotes">
+          <li class="item row noteCopy" *ngFor="let note of episodeNotes;let x=index">
             <div class="col-md-2">
               {{note.writtenBy}}
             </div>
             <div class="col-md-2">
               {{formatDate(note.noteCreated)}}
             </div>
-            <div class="col-md-8">
-              <pre class="noteText">{{note.noteText}}</pre>
+            <div class="col-md-8" style="padding-right: 20px;">
+                <i style="position:absolute;cursor:pointer;top:5px;right:5px;z-index:3" data-placement="top" data-toggle="tooltip" (click)="isHighlighted(note.noteText)" title="Click to copy note to clipboard" class="fa fa-2x text-primary fa-copy"></i>
+                <pre class="noteText" [id]="'episode'+x">{{note.noteText}}</pre>
             </div>
           </li>
         </ng-container>

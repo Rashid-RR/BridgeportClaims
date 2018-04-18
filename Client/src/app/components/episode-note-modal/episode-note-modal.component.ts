@@ -20,6 +20,7 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
   episodeNotes: Array<{ episodeId:any,writtenBy: string, noteCreated: any, noteText: string }> = [];
   noteText: '';
   loading: boolean = false;
+  higlighted:any;
   constructor(
     public dialog: WindowInstance,
     private episodeService: EpisodeService,
@@ -88,6 +89,14 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
 
+  }
+  isHighlighted(text){  
+    if (window.getSelection) {
+      $('#highlighter').html(text);
+      window.getSelection().selectAllChildren( document.getElementById( 'highlighter' ) );
+    }
+    document.execCommand("copy");
+    this.toast.success('Note copied to clipboard') 
   }
 
   showNote(episode: Episode) {
