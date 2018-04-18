@@ -39,7 +39,7 @@ AS BEGIN
 				RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
 				IF (@@TRANCOUNT > 0)
 					ROLLBACK;
-				RETURN;
+				RETURN -1;
 			END
 
 		DECLARE @EpisodeCategoryID INTEGER
@@ -58,7 +58,7 @@ AS BEGIN
 				IF (@@TRANCOUNT > 0)
 					ROLLBACK;
 				RAISERROR(N'No action necessary', 1, 1) WITH NOWAIT;
-				RETURN;
+				RETURN -1;
 			END
 		ELSE
 			BEGIN
@@ -76,7 +76,7 @@ AS BEGIN
 							ROLLBACK;
 						SET @PrntMsg = N'Episode Id ' + CONVERT(NVARCHAR, @EpisodeID) + 
 									' has already been created for Document Id ' + CONVERT(NVARCHAR, @DocumentID)
-						RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
+						RAISERROR(@PrntMsg, 1, 1) WITH NOWAIT;
 						RETURN -1;
 					END
 
@@ -127,4 +127,5 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
+
 GO
