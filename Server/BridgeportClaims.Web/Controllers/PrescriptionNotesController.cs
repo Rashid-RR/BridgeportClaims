@@ -27,41 +27,38 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("getprescriptionnotes")]
-        public async Task<IHttpActionResult> GetPrescriptionNotesByPrescriptionId(int prescriptionId)
+        public IHttpActionResult GetPrescriptionNotesByPrescriptionId(int prescriptionId)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var notes = _prescriptionNotesDataProvider.Value.GetPrescriptionNotesByPrescriptionId(prescriptionId);
-                    return Ok(notes);
-                });
+                var notes = _prescriptionNotesDataProvider.Value.GetPrescriptionNotesByPrescriptionId(prescriptionId);
+                return Ok(notes);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
         [HttpPost]
         [Route("savenote")]
-        public async Task<IHttpActionResult> AddOrUpdatePrescriptionNote(PrescriptionNoteSaveDto dto)
+        public IHttpActionResult AddOrUpdatePrescriptionNote(PrescriptionNoteSaveDto dto)
         {
             try
             {
-                return await Task.Run(() =>
+                _prescriptionNotesDataProvider.Value.AddOrUpdatePrescriptionNote(
+                    dto, User.Identity.GetUserId());
+                return Ok(new
                 {
-                    _prescriptionNotesDataProvider.Value.AddOrUpdatePrescriptionNote(
-                        dto, User.Identity.GetUserId());
-                    return Ok(new {message = $"The {(dto.IsDiaryEntry ? "diary entry and " : string.Empty)}prescription note " +
-                                             $"{(!dto.IsDiaryEntry ? "was" : "were")} saved successfully"});
+                    message = $"The {(dto.IsDiaryEntry ? "diary entry and " : string.Empty)}prescription note " +
+                              $"{(!dto.IsDiaryEntry ? "was" : "were")} saved successfully"
                 });
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -69,20 +66,17 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("notetypes")]
-        public async Task<IHttpActionResult> GetPrescriptionNoteTypes()
+        public IHttpActionResult GetPrescriptionNoteTypes()
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var types = _prescriptionNoteTypesDataProvider.Value.GetPrescriptionNoteTypes();
-                    return Ok(types);
-                });
+                var types = _prescriptionNoteTypesDataProvider.Value.GetPrescriptionNoteTypes();
+                return Ok(types);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
     }

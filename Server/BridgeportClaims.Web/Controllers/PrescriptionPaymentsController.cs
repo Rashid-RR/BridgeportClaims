@@ -24,36 +24,31 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("delete")]
-        public async Task<IHttpActionResult> DeletePrescriptionPayment(int prescriptionPaymentId)
+        public IHttpActionResult DeletePrescriptionPayment(int prescriptionPaymentId)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    _provider.Value.DeletePrescriptionPayment(prescriptionPaymentId);
-                    return Ok(new {message = "The prescription payment was deleted successfully."});
-                });
+                _provider.Value.DeletePrescriptionPayment(prescriptionPaymentId);
+                return Ok(new {message = "The prescription payment was deleted successfully."});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
         [HttpPost]
         [Route("update")]
-        public async Task<IHttpActionResult> UpdatePrescriptionPayment(PrescriptionPaymentViewModel model)
+        public IHttpActionResult UpdatePrescriptionPayment(PrescriptionPaymentViewModel model)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var userId = User.Identity.GetUserId();
-                    _provider.Value.UpdatePrescriptionPayment(model.PrescriptionPaymentId, model.CheckNumber, model.AmountPaid,
-                        model.DatePosted.ToNullableFormattedDateTime(), model.PrescriptionId, userId);
-                    return Ok(new { message = "The prescription payment was updated successfully." });
-                });
+                var userId = User.Identity.GetUserId();
+                _provider.Value.UpdatePrescriptionPayment(model.PrescriptionPaymentId, model.CheckNumber,
+                    model.AmountPaid,
+                    model.DatePosted.ToNullableFormattedDateTime(), model.PrescriptionId, userId);
+                return Ok(new {message = "The prescription payment was updated successfully."});
             }
             catch (Exception e)
             {

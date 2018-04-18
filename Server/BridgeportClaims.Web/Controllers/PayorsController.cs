@@ -46,12 +46,11 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetAllPayors()
+        public IHttpActionResult GetAllPayors()
         {
             try
             {
-                return await Task.Run(() => 
-                    Ok(_payorMapper.Value.GetPayorViewModels(_payorsDataProvider.Value.GetAllPayors().ToList())));
+                return Ok(_payorMapper.Value.GetPayorViewModels(_payorsDataProvider.Value.GetAllPayors().ToList()));
             }
             catch (Exception ex)
             {
@@ -61,12 +60,11 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IHttpActionResult> GetPayors(int pageNumber, int pageSize)
+        public IHttpActionResult GetPayors(int pageNumber, int pageSize)
         {
             try
             {
-                return await Task.Run(() =>
-                    Ok(_payorsDataProvider.Value.GetPaginatedPayors(pageNumber, pageSize).ToList()));
+                return Ok(_payorsDataProvider.Value.GetPaginatedPayors(pageNumber, pageSize).ToList());
             }
             catch (Exception ex)
             {

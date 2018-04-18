@@ -24,17 +24,14 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("ImportPaymentFile")]
-        public async Task<IHttpActionResult> ImportPaymentFile(string fileName)
+        public IHttpActionResult ImportPaymentFile(string fileName)
         {
 
             try
             {
-                return await Task.Run(() =>
-                {
-                    _paymentsBusiness.Value.ImportPaymentFile(fileName);
-                    _importFileProvider.Value.MarkFileProcessed(fileName);
-                    return Ok(new {message = "The Payment File was Processed Successfully"});
-                });
+                _paymentsBusiness.Value.ImportPaymentFile(fileName);
+                _importFileProvider.Value.MarkFileProcessed(fileName);
+                return Ok(new {message = "The Payment File was Processed Successfully"});
             }
             catch (Exception ex)
             {

@@ -69,20 +69,17 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("accounts-receivable")]
-        public async Task<IHttpActionResult> GetAccountsReceivableReport(AccountsReceivableViewModel model)
+        public IHttpActionResult GetAccountsReceivableReport(AccountsReceivableViewModel model)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var retVal = GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
-                    return Ok(retVal);
-                });
+                var retVal = GetAccountsReceivableReport(model.GroupName, model.PharmacyName);
+                return Ok(retVal);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 

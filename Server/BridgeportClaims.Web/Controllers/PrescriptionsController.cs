@@ -42,47 +42,42 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("billing-statement-excel")]
-        public async Task<IHttpActionResult> GetExcelBillingStatement(int claimId)
+        public IHttpActionResult GetExcelBillingStatement(int claimId)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var fullFilePath = _billingStatementProvider.Value.GenerateBillingStatementFullFilePath(claimId, out var fileName);
-                    return new FileResult(fullFilePath, fileName, c.ExcelContentType);
-                });
+                var fullFilePath =
+                    _billingStatementProvider.Value.GenerateBillingStatementFullFilePath(claimId, out var fileName);
+                return new FileResult(fullFilePath, fileName, c.ExcelContentType);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
         [HttpPost]
         [Route("multi-page-invoices")]
-        public async Task<IHttpActionResult> GetMultiPageInvoices(MultiPageInvoicesModel model)
+        public IHttpActionResult GetMultiPageInvoices(MultiPageInvoicesModel model)
         {
             try
             {
                 if (null == model)
                     throw new Exception("Error. No data was provided for this method.");
-                return await Task.Run(() =>
-                {
-                    IList<PrescriptionIdDto> dto = new List<PrescriptionIdDto>();
-                    model.PrescriptionIds.ForEach(x => dto.Add(GetPrescriptionIdDto(x)));
-                    var fileUrls = _prescriptionsDataProvider.Value.GetFileUrlsFromPrescriptionIds(dto);
-                    var fileName = "Invoices_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
-                    var targetPdf = Path.Combine(Path.GetTempPath(), fileName);
-                    if (_pdfFactory.Value.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
-                        return new DisplayFileResult(targetPdf, fileName, "application/pdf");
-                    throw new Exception("The merge PDF's method failed.");
-                });
+                IList<PrescriptionIdDto> dto = new List<PrescriptionIdDto>();
+                model.PrescriptionIds.ForEach(x => dto.Add(GetPrescriptionIdDto(x)));
+                var fileUrls = _prescriptionsDataProvider.Value.GetFileUrlsFromPrescriptionIds(dto);
+                var fileName = "Invoices_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
+                var targetPdf = Path.Combine(Path.GetTempPath(), fileName);
+                if (_pdfFactory.Value.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
+                    return new DisplayFileResult(targetPdf, fileName, "application/pdf");
+                throw new Exception("The merge PDF's method failed.");
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -107,13 +102,12 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("sort")]
-        public async Task<IHttpActionResult> SortPrescriptions(int claimId, string sort, string sortDirection, int page,
+        public IHttpActionResult SortPrescriptions(int claimId, string sort, string sortDirection, int page,
             int pageSize)
         {
             try
             {
-                return await Task.Run(() => Ok(
-                    _claimsDataProvider.Value.GetPrescriptionDataByClaim(claimId, sort, sortDirection, page, pageSize)));
+                return Ok(_claimsDataProvider.Value.GetPrescriptionDataByClaim(claimId, sort, sortDirection, page, pageSize));
             }
             catch (Exception ex)
             {
@@ -124,29 +118,28 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("set-status")]
-        public async Task<IHttpActionResult> SetPrescriptionStatus(int prescriptionId, int prescriptionStatusId)
+        public IHttpActionResult SetPrescriptionStatus(int prescriptionId, int prescriptionStatusId)
         {
             try
             {
-                return await Task.Run(() =>
+                var msg = string.Empty;
+                var operation =
+                    _prescriptionsDataProvider.Value.AddOrUpdatePrescriptionStatus(prescriptionId,
+                        prescriptionStatusId);
+                switch (operation)
                 {
-                    var msg = string.Empty;
-                    var operation = _prescriptionsDataProvider.Value.AddOrUpdatePrescriptionStatus(prescriptionId, prescriptionStatusId);
-                    switch (operation)
-                    {
-                        case EntityOperation.Add:
-                            msg = "The prescription's status was added successfully.";
-                            break;
-                        case EntityOperation.Update:
-                            msg = "The prescription's status was updated successfully.";
-                            break;
-                        case EntityOperation.Delete:
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                    return Ok(new {message = msg});
-                });
+                    case EntityOperation.Add:
+                        msg = "The prescription's status was added successfully.";
+                        break;
+                    case EntityOperation.Update:
+                        msg = "The prescription's status was updated successfully.";
+                        break;
+                    case EntityOperation.Delete:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                return Ok(new {message = msg});
             }
             catch (Exception ex)
             {
