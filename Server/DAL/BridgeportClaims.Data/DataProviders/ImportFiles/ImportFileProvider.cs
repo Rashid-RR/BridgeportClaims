@@ -21,22 +21,22 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 {
 	public class ImportFileProvider : IImportFileProvider
 	{
-	    private readonly Lazy<IRepository<ImportFile>> _importFileRepository;
+	    private readonly IRepository<ImportFile> _importFileRepository;
 		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-		private readonly Lazy<ICsvReaderProvider> _csvReaderProvider;
-		private readonly Lazy<IRepository<ImportFileType>> _importFileTypeRepository;
+		private readonly ICsvReaderProvider _csvReaderProvider;
+		private readonly IRepository<ImportFileType> _importFileTypeRepository;
 
-		public ImportFileProvider(
-			Lazy<IRepository<ImportFile>> importFileRepository, 
-			Lazy<ICsvReaderProvider> csvReaderProvider, 
-			Lazy<IRepository<ImportFileType>> importFileTypeRepository)
-		{
-			_importFileRepository = importFileRepository;
-			_csvReaderProvider = csvReaderProvider;
-			_importFileTypeRepository = importFileTypeRepository;
-		}
+	    public ImportFileProvider(IRepository<ImportFile> importFileRepository,
+	        ICsvReaderProvider csvReaderProvider, 
+	        IRepository<ImportFileType> importFileTypeRepository)
+	    {
+	        _importFileRepository = importFileRepository;
+	        _csvReaderProvider = csvReaderProvider;
+	        _importFileTypeRepository = importFileTypeRepository;
+	    }
 
-		public void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false)
+
+	    public void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false)
 		{
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
@@ -72,7 +72,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			var methodName = MethodBase.GetCurrentMethod().Name;
 			if (cs.AppIsInDebugMode)
 				Logger.Value.Info($"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
-			var oldestLakeFileName = _importFileRepository.Value.GetMany(x => !x.Processed)
+			var oldestLakeFileName = _importFileRepository.GetMany(x => !x.Processed)
 				.Where(f => null != f.FileName && f.FileName.StartsWith(c.LakeFileNameStartsWithString))
 				.OrderBy(f => f.CreatedOnUtc)
 				.Select(f => f.FileName).FirstOrDefault();
@@ -91,7 +91,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		{
 			if (fullFilePathOfLatestLakerFile.IsNullOrWhiteSpace())
 				throw new Exception("The full file path to the latest Laker CSV doesn't exist.");
-			var dt = _csvReaderProvider.Value.ReadCsvFile(fullFilePathOfLatestLakerFile);
+			var dt = _csvReaderProvider.ReadCsvFile(fullFilePathOfLatestLakerFile);
 			if (null == dt) throw new Exception($"Could not read CSV into Data Table from {fullFilePathOfLatestLakerFile}");
 			// Cleanup temporary file.
 			if (File.Exists(fullFilePathOfLatestLakerFile))
@@ -277,7 +277,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 				code = c.OtherImportFileTypeCode;
 				processed = true;
 			}
-			var result = _importFileTypeRepository.Value.GetSingleOrDefault(x => x.Code == code);
+			var result = _importFileTypeRepository.GetSingleOrDefault(x => x.Code == code);
 			if (null == result)
 				throw new Exception("Error. The util.ImportFileType table does not have any records WHERE Code == 'OT'.");
 			return new Tuple<int, bool>(result.ImportFileTypeId, processed);

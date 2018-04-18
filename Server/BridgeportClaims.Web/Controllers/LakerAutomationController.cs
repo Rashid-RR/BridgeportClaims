@@ -21,14 +21,14 @@ namespace BridgeportClaims.Web.Controllers
     public class LakerAutomationController : BaseApiController
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly Lazy<ILakerFileProcessor> _lakerFileProcessor;
-        private readonly Lazy<IImportFileProvider> _importFileProvider;
-        private readonly Lazy<IEmailService> _emailService;
+        private readonly ILakerFileProcessor _lakerFileProcessor;
+        private readonly IImportFileProvider _importFileProvider;
+        private readonly IEmailService _emailService;
 
         public LakerAutomationController(
-            Lazy<ILakerFileProcessor> lakerFileProcessor, 
-            Lazy<IImportFileProvider> importFileProvider, 
-            Lazy<IEmailService> emailService)
+            ILakerFileProcessor lakerFileProcessor, 
+            IImportFileProvider importFileProvider, 
+            IEmailService emailService)
         {
             _lakerFileProcessor = lakerFileProcessor;
             _importFileProvider = importFileProvider;
@@ -45,7 +45,7 @@ namespace BridgeportClaims.Web.Controllers
                 if (cs.AppIsInDebugMode)
                     Logger.Value.Info(
                         $"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
-                var tuple = _lakerFileProcessor.Value.ProcessOldestLakerFile();
+                var tuple = _lakerFileProcessor.ProcessOldestLakerFile();
                 string msg;
                 if (tuple.Item1 == c.NoLakerFilesToImportToast)
                     msg = c.NoLakerFilesToImportToast;
@@ -66,10 +66,9 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         private void StartBackgroundThread(string lakerFileName, string fullLakerFileTemporaryPath, string userEmail)
-        {
-            var task = Task.Factory.StartNew(() => ProcessLakerImport(lakerFileName, fullLakerFileTemporaryPath, userEmail), TaskCreationOptions.LongRunning);
-            task.Start();
-        }
+            => Task.Factory.StartNew(() => ProcessLakerImport(lakerFileName, fullLakerFileTemporaryPath, userEmail),
+                TaskCreationOptions.LongRunning);
+        
 
         private async Task ProcessLakerImport(string lakerFileName, string fullLakerFileTemporaryPath,
             string userEmail)
@@ -77,20 +76,20 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 // Take a third-party CSV reader, and turn that temporarily saved laker file into a Data Table.
-                var dataTable = _importFileProvider.Value.RetreiveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
+                var dataTable = _importFileProvider.RetreiveDataTableFromLatestLakerFile(fullLakerFileTemporaryPath);
                 // Import the new file, into the new Staged Laker File that will be imported into the database
-                _importFileProvider.Value.LakerImportFileProcedureCall(dataTable);
+                _importFileProvider.LakerImportFileProcedureCall(dataTable);
                 // Finally, use the newly imported file, to Upsert the database.
                 if (cs.AppIsInDebugMode)
                     Logger.Value.Info("About to call EtlLakerFile()...");
-                _importFileProvider.Value.EtlLakerFile(lakerFileName);
+                _importFileProvider.EtlLakerFile(lakerFileName);
                 // And finally, mark the file processed.
-                _importFileProvider.Value.MarkFileProcessed(lakerFileName);
+                _importFileProvider.MarkFileProcessed(lakerFileName);
 
                 if (cs.AppIsInDebugMode)
                     Logger.Value.Info("The file was marked as completed.");
                 const string msg = "The Laker File Import Process Ran Successfully!";
-                await _emailService.Value.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
+                await _emailService.SendEmail<EmailTemplateProvider>(userEmail, msg, string.Empty,
                     EmailModelEnum.LakerImportStatus).ConfigureAwait(false);
             }
             catch (Exception ex)
