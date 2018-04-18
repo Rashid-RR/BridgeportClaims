@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using Microsoft.AspNet.Identity;
@@ -22,31 +21,27 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("addclaim")]
-        public async Task<IHttpActionResult> AddClaimHistoryItem(int claimId)
+        public IHttpActionResult AddClaimHistoryItem(int claimId)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    _claimsUserHistoryProvider.Value.InsertClaimsUserHistory(User.Identity.GetUserId(), claimId);
-                    return Ok(new {message = "Claim History Item Added Successfully"});
-                }).ConfigureAwait(false);
+                _claimsUserHistoryProvider.Value.InsertClaimsUserHistory(User.Identity.GetUserId(), claimId);
+                return Ok(new {message = "Claim History Item Added Successfully"});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
         [HttpGet]
         [Route("claims")]
-        public async Task<IHttpActionResult> GetClaimHistory()
+        public IHttpActionResult GetClaimHistory()
         {
             try
             {
-                return await Task.Run(() => Ok(
-                    _claimsUserHistoryProvider.Value.GetClaimsUserHistory(User.Identity.GetUserId()))).ConfigureAwait(false);
+                return Ok(_claimsUserHistoryProvider.Value.GetClaimsUserHistory(User.Identity.GetUserId()));
             }
             catch (Exception ex)
             {

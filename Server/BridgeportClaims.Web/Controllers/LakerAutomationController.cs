@@ -1,7 +1,6 @@
 ﻿using NLog;
 using System;
 using System.Net;
-using System.Threading;
 using System.Web.Http;
 using System.Threading.Tasks;
 using BridgeportClaims.Business.LakerFileProcess;
@@ -38,45 +37,38 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("process")]
-        public async Task<IHttpActionResult> ProcessOldestLakerFile()
+        public IHttpActionResult ProcessOldestLakerFile()
         {
             try
             {
-                return await Task.Run(() =>
+                var userEmail = User.Identity.GetUserName();
+                if (cs.AppIsInDebugMode)
+                    Logger.Value.Info(
+                        $"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
+                var tuple = _lakerFileProcessor.Value.ProcessOldestLakerFile();
+                string msg;
+                if (tuple.Item1 == c.NoLakerFilesToImportToast)
+                    msg = c.NoLakerFilesToImportToast;
+                else
                 {
-                    var userEmail = User.Identity.GetUserName();
-                    if (cs.AppIsInDebugMode)
-                        Logger.Value.Info(
-                            $"Starting the Laker file Automation at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
-                    var tuple = _lakerFileProcessor.Value.ProcessOldestLakerFile();
-                    string msg;
-                    if (tuple.Item1 == c.NoLakerFilesToImportToast)
-                        msg = c.NoLakerFilesToImportToast;
-                    else
-                    {
-                        StartBackgroundThread(async delegate
-                            {
-                                await ProcessLakerImport(tuple.Item1, tuple.Item2, userEmail).ConfigureAwait(false);
-                            });
-                        msg = $"The Laker file import process has been started for \"{tuple.Item1}\"." +
-                              " It will take a few minutes.... So we'll send you an email when " +
-                              "it's done.";
-                    }
-                    return Ok(new {message = msg});
-                }).ConfigureAwait(false);
+                    StartBackgroundThread(tuple.Item1, tuple.Item2, userEmail);
+                    msg = $"The Laker file import process has been started for \"{tuple.Item1}\"." +
+                          " It will take a few minutes.... So we'll send you an email when " +
+                          "it's done.";
+                }
+                return Ok(new {message = msg});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
-        private static void StartBackgroundThread(ThreadStart threadStart)
+        private void StartBackgroundThread(string lakerFileName, string fullLakerFileTemporaryPath, string userEmail)
         {
-            if (threadStart == null) return;
-            var thread = new Thread(threadStart) {IsBackground = true};
-            thread.Start();
+            var task = Task.Factory.StartNew(() => ProcessLakerImport(lakerFileName, fullLakerFileTemporaryPath, userEmail), TaskCreationOptions.LongRunning);
+            task.Start();
         }
 
         private async Task ProcessLakerImport(string lakerFileName, string fullLakerFileTemporaryPath,

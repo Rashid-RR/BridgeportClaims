@@ -1,7 +1,6 @@
 ﻿using NLog;
 using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Notifications.PayorLetterName;
@@ -24,47 +23,39 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("save-payor-letter-name")]
-        public async Task<IHttpActionResult> SavePayorLetterNames(SavePayorLetterNameModel model)
+        public IHttpActionResult SavePayorLetterNames(SavePayorLetterNameModel model)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    if (model.LetterName.IsNullOrWhiteSpace())
-                        throw new ArgumentNullException(nameof(model.LetterName));
-                    if (model.NotificationId == default(int))
-                        throw new Exception($"Error, the notification Id {model.NotificationId} doesn't exist.");
-                    var userId = User.Identity.GetUserId();
-                    _payorLetterNameProvider.Value.SavePayorLetterNameNotification(model.NotificationId, userId,
-                        model.LetterName);
-                    return Ok(new {message = $"The letter name {model.LetterName} was saved successfully."});
-
-                });
+                if (model.LetterName.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(model.LetterName));
+                if (model.NotificationId == default(int))
+                    throw new Exception($"Error, the notification Id {model.NotificationId} doesn't exist.");
+                var userId = User.Identity.GetUserId();
+                _payorLetterNameProvider.Value.SavePayorLetterNameNotification(model.NotificationId, userId,
+                    model.LetterName);
+                return Ok(new {message = $"The letter name {model.LetterName} was saved successfully."});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
         [HttpPost]
         [Route("get")]
-        public async Task<IHttpActionResult> GetNotifications()
+        public IHttpActionResult GetNotifications()
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var notifications = _payorLetterNameProvider.Value.GetNotifications();
-                    return Ok(notifications);
-
-                }).ConfigureAwait(false);
+                var notifications = _payorLetterNameProvider.Value.GetNotifications();
+                return Ok(notifications);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
     }

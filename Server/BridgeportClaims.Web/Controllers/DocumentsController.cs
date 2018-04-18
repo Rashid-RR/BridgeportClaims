@@ -1,7 +1,6 @@
 ﻿using NLog;
 using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
@@ -28,26 +27,23 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("archive/{documentId}")]
-        public async Task<IHttpActionResult> ArchiveDocument(int documentId)
+        public IHttpActionResult ArchiveDocument(int documentId)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var userId = User.Identity.GetUserId();
-                    // Database call
-                    _documentsProvider.Value.ArchiveDocument(documentId, userId);
-                    // SignalR Call
-                    var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager
-                        .GetHubContext<DocumentsHub>();
-                    hubContext.Clients.All.archivedDocument(documentId);
-                    return Ok(new {message = "The document was archived successfully."});
-                }).ConfigureAwait(false);
+                var userId = User.Identity.GetUserId();
+                // Database call
+                _documentsProvider.Value.ArchiveDocument(documentId, userId);
+                // SignalR Call
+                var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager
+                    .GetHubContext<DocumentsHub>();
+                hubContext.Clients.All.archivedDocument(documentId);
+                return Ok(new {message = "The document was archived successfully."});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -68,23 +64,20 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get")]
-        public async Task<IHttpActionResult> GetDocuments(DocumentViewModel model)
+        public IHttpActionResult GetDocuments(DocumentViewModel model)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var results = _documentsProvider.Value.GetDocuments(model.Date.ToNullableFormattedDateTime(),
-                        model.Archived, model.FileName, model.FileTypeId, model.Sort,
-                        model.SortDirection, model.Page,
-                        model.PageSize);
-                    return Ok(results);
-                }).ConfigureAwait(false);
+                var results = _documentsProvider.Value.GetDocuments(model.Date.ToNullableFormattedDateTime(),
+                    model.Archived, model.FileName, model.FileTypeId, model.Sort,
+                    model.SortDirection, model.Page,
+                    model.PageSize);
+                return Ok(results);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 

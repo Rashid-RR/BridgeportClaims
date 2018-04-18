@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.KPI;
 using NLog;
@@ -21,15 +20,12 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("revenue")]
-        public async Task<IHttpActionResult> GetMonthlyRevenue()
+        public IHttpActionResult GetMonthlyRevenue()
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var results = _kpiProvider.Value.GetPaymentTotalsDtos();
-                    return Ok(results);
-                }).ConfigureAwait(false);
+                var results = _kpiProvider.Value.GetPaymentTotalsDtos();
+                return Ok(results);
             }
             catch (Exception ex)
             {

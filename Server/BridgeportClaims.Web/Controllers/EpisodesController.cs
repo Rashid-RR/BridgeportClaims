@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.EpisodeNotes;
@@ -36,30 +35,27 @@ namespace BridgeportClaims.Web.Controllers
 
 		[HttpPost]
 		[Route("save-note")]
-		public async Task<IHttpActionResult> SaveEpisodeNote(SaveEpisodeNoteModel model)
+		public IHttpActionResult SaveEpisodeNote(SaveEpisodeNoteModel model)
 		{
-			try
-			{
-			    return await Task.Run(() =>
-			    {
-			        var user = _usersRepository.Value.Get(User.Identity.GetUserId());
-			        if (null == user)
-			            throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
-			        var today = DateTime.UtcNow.ToMountainTime();
-			        _episodesDataProvider.Value.SaveEpisodeNote(model.EpisodeId, model.Note, user.Id, today);
-			        return Ok(new
-			        {
-			            message = "The episode note was saved successfully.",
-			            Owner = $"{user.FirstName} {user.LastName}",
-			            Created = today
-			        });
-			    }).ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-				Logger.Value.Error(ex);
-				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-			}
+		    try
+		    {
+		        var user = _usersRepository.Value.Get(User.Identity.GetUserId());
+		        if (null == user)
+		            throw new Exception($"Error, could not retrieve the user {User.Identity.Name}");
+		        var today = DateTime.UtcNow.ToMountainTime();
+		        _episodesDataProvider.Value.SaveEpisodeNote(model.EpisodeId, model.Note, user.Id, today);
+		        return Ok(new
+		        {
+		            message = "The episode note was saved successfully.",
+		            Owner = $"{user.FirstName} {user.LastName}",
+		            Created = today
+		        });
+		    }
+		    catch (Exception ex)
+		    {
+		        Logger.Value.Error(ex);
+		        return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+		    }
 		}
 
 		[HttpPost]
@@ -87,29 +83,26 @@ namespace BridgeportClaims.Web.Controllers
 
 		[HttpPost]
 		[Route("assign")]
-		public async Task<IHttpActionResult> AssignEpisode(int episodeId, string userId)
+		public IHttpActionResult AssignEpisode(int episodeId, string userId)
 		{
-			try
-			{
-			    return await Task.Run(() =>
-			    {
-			        var modifiedByUserId = User.Identity.GetUserId();
-			        var user = _usersRepository.Value.Get(userId);
-			        if (null == user)
-			            throw new Exception($"Error, could not retrieve the user from Id: {userId}");
-			        _episodesDataProvider.Value.AssignOrAcquireEpisode(episodeId, userId, modifiedByUserId);
-			        return Ok(new
-			        {
-			            message = "The episode was assigned successfully.",
-			            Owner = $"{user.FirstName} {user.LastName}"
-			        });
-			    }).ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-				Logger.Value.Error(ex);
-				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-			}
+		    try
+		    {
+		        var modifiedByUserId = User.Identity.GetUserId();
+		        var user = _usersRepository.Value.Get(userId);
+		        if (null == user)
+		            throw new Exception($"Error, could not retrieve the user from Id: {userId}");
+		        _episodesDataProvider.Value.AssignOrAcquireEpisode(episodeId, userId, modifiedByUserId);
+		        return Ok(new
+		        {
+		            message = "The episode was assigned successfully.",
+		            Owner = $"{user.FirstName} {user.LastName}"
+		        });
+		    }
+		    catch (Exception ex)
+		    {
+		        Logger.Value.Error(ex);
+		        return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+		    }
 		}
 
 		[HttpPost]
@@ -152,82 +145,73 @@ namespace BridgeportClaims.Web.Controllers
 
 		[HttpPost]
 		[Route("save")]
-		public async Task<IHttpActionResult> SaveNewEpisode(NewEpisodeViewModel model)
+		public IHttpActionResult SaveNewEpisode(NewEpisodeViewModel model)
 		{
-			try
-			{
-			    return await Task.Run(() =>
-			    {
-			        var userId = User.Identity.GetUserId();
-			        var retVal = new NewEpisodeSaveDto
-			        {
-			            Episode = _episodesDataProvider.Value.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId,
-			                model.PharmacyNabp, model.RxNumber, model.EpisodeText, userId),
-			            Message = "The episode was saved successfully"
-			        };
-			        return Ok(retVal);
-			    }).ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-				Logger.Value.Error(ex);
-				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-			}
+		    try
+		    {
+		        var userId = User.Identity.GetUserId();
+		        var retVal = new NewEpisodeSaveDto
+		        {
+		            Episode = _episodesDataProvider.Value.SaveNewEpisode(model.ClaimId, model.EpisodeTypeId,
+		                model.PharmacyNabp, model.RxNumber, model.EpisodeText, userId),
+		            Message = "The episode was saved successfully"
+		        };
+		        return Ok(retVal);
+		    }
+		    catch (Exception ex)
+		    {
+		        Logger.Value.Error(ex);
+		        return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+		    }
 		}
 
 		[HttpPost]
 		[Route("resolve")]
-		public async Task<IHttpActionResult> MarkEpisodeAsResolved(int episodeId)
+		public IHttpActionResult MarkEpisodeAsResolved(int episodeId)
 		{
-			try
-			{
-			    return await Task.Run(() =>
-			    {
-			        var userId = User.Identity.GetUserId();
-			        _episodesDataProvider.Value.ResolveEpisode(episodeId, userId);
-			        return Ok(new {message = "The episode was resolved successfully."});
-			    }).ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-				Logger.Value.Error(ex);
-				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-			}
+		    try
+		    {
+		        var userId = User.Identity.GetUserId();
+		        _episodesDataProvider.Value.ResolveEpisode(episodeId, userId);
+		        return Ok(new {message = "The episode was resolved successfully."});
+		    }
+		    catch (Exception ex)
+		    {
+		        Logger.Value.Error(ex);
+		        return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+		    }
 		}
 		
 
 		[HttpPost]
 		[Route("get")]
-		public async Task<IHttpActionResult> GetEpisodes(EpisodesViewModel m)
+		public IHttpActionResult GetEpisodes(EpisodesViewModel m)
 		{
-			try
-			{
-			    return await Task.Run(() =>
-			    {
-			        var userId = User.Identity.GetUserId();
-			        if (null == userId)
-			            throw new Exception("Error, could not find logged in user.");
-			        var results = _episodesDataProvider.Value.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(),
-			            m.EndDate.ToNullableFormattedDateTime(), m.Resolved, m.OwnerId,
-			            m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize, userId);
-			        return Ok(results);
-			    }).ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-				Logger.Value.Error(ex);
-				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-			}
+		    try
+		    {
+		        var userId = User.Identity.GetUserId();
+		        if (null == userId)
+		            throw new Exception("Error, could not find logged in user.");
+		        var results = _episodesDataProvider.Value.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(),
+		            m.EndDate.ToNullableFormattedDateTime(), m.Resolved, m.OwnerId,
+		            m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize, userId);
+		        return Ok(results);
+		    }
+		    catch (Exception ex)
+		    {
+		        Logger.Value.Error(ex);
+		        return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+		    }
 		}
 
 		[HttpGet]
 		[Route("getepisodetypes")]
 		[AllowAnonymous]
-		public async Task<IHttpActionResult> GetEpisodeTypes()
+		public IHttpActionResult GetEpisodeTypes()
 		{
 			try
 			{
-			    return await Task.Run(() => Ok(_episodesDataProvider.Value.GetEpisodeTypes())).ConfigureAwait(false);
+			    return Ok(_episodesDataProvider.Value.GetEpisodeTypes());
 			}
 			catch (Exception ex)
 			{

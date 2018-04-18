@@ -2,7 +2,6 @@
 using NLog;
 using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace BridgeportClaims.Web.Controllers
@@ -21,20 +20,17 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("clear")]
-        public async Task<IHttpActionResult> ClearCache()
+        public IHttpActionResult ClearCache()
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    _cache.Value.DeleteAll();
-                    return Ok(new {message = "Cache cleared successfully."});
-                }).ConfigureAwait(false);
+                _cache.Value.DeleteAll();
+                return Ok(new {message = "Cache cleared successfully."});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
     }

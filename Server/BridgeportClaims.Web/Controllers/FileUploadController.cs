@@ -26,34 +26,28 @@ namespace BridgeportClaims.Web.Controllers
 
 		[HttpDelete]
 		[Route("delete")]
-		public async Task<IHttpActionResult> DeleteImportFile(int importFileId)
+		public IHttpActionResult DeleteImportFile(int importFileId)
 		{
-			try
-			{
-			    return await Task.Run(() =>
-			    {
-			        _importFileProvider.Value.DeleteImportFile(importFileId);
-			        return Ok(new {message = "Deleted the Import File Successfully"});
-			    }).ConfigureAwait(false);
-			}
-			catch (Exception ex)
-			{
-				Logger.Value.Error(ex);
-				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-			}
+		    try
+		    {
+		        _importFileProvider.Value.DeleteImportFile(importFileId);
+		        return Ok(new {message = "Deleted the Import File Successfully"});
+		    }
+		    catch (Exception ex)
+		    {
+		        Logger.Value.Error(ex);
+		        return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+		    }
 		}
 
 		[HttpGet]
 		[Route("getfiles")]
-		public async Task<IHttpActionResult> GetImportFiles()
+		public IHttpActionResult GetImportFiles()
 		{
 			try
 			{
-			    return await Task.Run(() =>
-			    {
 			        var files = _importFileProvider.Value.GetImportFileDtos();
 			        return Ok(files);
-			    }).ConfigureAwait(false);
 			}
 			catch (Exception ex)
 			{
@@ -104,7 +98,6 @@ namespace BridgeportClaims.Web.Controllers
 					}
 					uploadedFiles.Add(fileName);
 				}
-
 				return Ok(new {message = "Successfully Uploaded: " + string.Join(", ", uploadedFiles)});
 			}
 			catch (Exception ex)

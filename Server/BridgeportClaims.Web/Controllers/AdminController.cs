@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.AdminFunctions;
@@ -23,65 +22,56 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("firewall")]
-        public async Task<IHttpActionResult> GetFirewallSettings()
+        public IHttpActionResult GetFirewallSettings()
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var results = _adminFunctionsProvider.Value.GetFirewallSettings();
-                    return Ok(results);
-                }).ConfigureAwait(false);
+                var results = _adminFunctionsProvider.Value.GetFirewallSettings();
+                return Ok(results);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
         [HttpPost]
         [Route("delete-firewall-setting")]
-        public async Task<IHttpActionResult> DeleteFirewallSetting(string ruleName)
+        public IHttpActionResult DeleteFirewallSetting(string ruleName)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    _adminFunctionsProvider.Value.DeleteFirewallSetting(ruleName);
-                    return Ok(new {message = $"The firewall rule '{ruleName}' was removed successfully."});
-                }).ConfigureAwait(false);
+                _adminFunctionsProvider.Value.DeleteFirewallSetting(ruleName);
+                return Ok(new {message = $"The firewall rule '{ruleName}' was removed successfully."});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
         [HttpPost]
         [Route("create-firewall-setting")]
-        public async Task<IHttpActionResult> CreateFirewallSetting(CreateFirewallSettingModel model)
+        public IHttpActionResult CreateFirewallSetting(CreateFirewallSettingModel model)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    if (model.RuleName.IsNullOrWhiteSpace())
-                        throw new ArgumentNullException(nameof(model.RuleName));
-                    if (model.StartIpAddress.IsNullOrWhiteSpace())
-                        throw new ArgumentNullException(nameof(model.StartIpAddress));
-                    if (model.EndIpAddress.IsNullOrWhiteSpace())
-                        throw new ArgumentNullException(nameof(model.EndIpAddress));
-                    _adminFunctionsProvider.Value.AddFirewallSetting(model.RuleName, model.StartIpAddress,
-                        model.EndIpAddress);
-                    return Ok(new {message = $"The firewall rule '{model.RuleName}' was created successfully."});
-                }).ConfigureAwait(false);
+                if (model.RuleName.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(model.RuleName));
+                if (model.StartIpAddress.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(model.StartIpAddress));
+                if (model.EndIpAddress.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(model.EndIpAddress));
+                _adminFunctionsProvider.Value.AddFirewallSetting(model.RuleName, model.StartIpAddress,
+                    model.EndIpAddress);
+                return Ok(new {message = $"The firewall rule '{model.RuleName}' was created successfully."});
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
     }

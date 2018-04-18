@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
@@ -32,22 +31,19 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("inv-num-exists")]
-        public async Task<IHttpActionResult> InvoiceNumberExists(string invoiceNumber)
+        public IHttpActionResult InvoiceNumberExists(string invoiceNumber)
         {
             try
             {
-                return await Task.Run(() =>
-                {
-                    var indexedInvoiceData = _documentIndexProvider.Value.GetIndexedInvoiceData(invoiceNumber) ?? new IndexedInvoiceDto();
-                    if (indexedInvoiceData.FileUrl.IsNullOrWhiteSpace())
-                        indexedInvoiceData.InvoiceNumberIsAlreadyIndexed = false;
-                    return Ok(indexedInvoiceData);
-                });
+                var indexedInvoiceData = _documentIndexProvider.Value.GetIndexedInvoiceData(invoiceNumber) ?? new IndexedInvoiceDto();
+                if (indexedInvoiceData.FileUrl.IsNullOrWhiteSpace())
+                    indexedInvoiceData.InvoiceNumberIsAlreadyIndexed = false;
+                return Ok(indexedInvoiceData);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -73,36 +69,33 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("save")]
-        public async Task<IHttpActionResult> SaveDocumentIndex(DocumentIndexViewModel model)
+        public IHttpActionResult SaveDocumentIndex(DocumentIndexViewModel model)
         {
             try
             {
-                return await Task.Run(() =>
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                var userId = User.Identity.GetUserId();
+                var wasUpdate = _documentIndexProvider.Value.UpsertDocumentIndex(model.DocumentId, model.ClaimId,
+                    model.DocumentTypeId, model.RxDate.ToNullableFormattedDateTime(), model.RxNumber,
+                    model.InvoiceNumber, model.InjuryDate.ToNullableFormattedDateTime(), model.AttorneyName,
+                    userId);
+                if (model.DocumentId != default(int))
                 {
-                    if (null == model)
-                        throw new ArgumentNullException(nameof(model));
-                    var userId = User.Identity.GetUserId();
-                    var wasUpdate = _documentIndexProvider.Value.UpsertDocumentIndex(model.DocumentId, model.ClaimId,
-                        model.DocumentTypeId, model.RxDate.ToNullableFormattedDateTime(), model.RxNumber,
-                        model.InvoiceNumber, model.InjuryDate.ToNullableFormattedDateTime(), model.AttorneyName,
-                        userId);
-                    if (model.DocumentId != default(int))
-                    {
-                        var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
-                        hubContext.Clients.All.indexedDocument(model.DocumentId);
-                    }
+                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                    hubContext.Clients.All.indexedDocument(model.DocumentId);
+                }
 
-                    var episodeCreated = _episodesDataProvider.Value.CreateImageCategoryEpisode(model.DocumentTypeId,
-                        model.ClaimId, model.RxNumber, userId, model.DocumentId);
-                    var msg = $"The image was {(wasUpdate ? "reindexed" : "indexed")} successfully.";
-                    if (episodeCreated)
-                        msg += " And a new episode was created.";
-                    if (!cs.AppIsInDebugMode) return Ok(new {message = msg});
-                    if (episodeCreated)
-                        Logger.Value.Info("An episode was created.");
-                    Logger.Value.Info($"Document ID: {model.DocumentId}. {msg}");
-                    return Ok(new {message = msg});
-                }).ConfigureAwait(false);
+                var episodeCreated = _episodesDataProvider.Value.CreateImageCategoryEpisode(model.DocumentTypeId,
+                    model.ClaimId, model.RxNumber, userId, model.DocumentId);
+                var msg = $"The image was {(wasUpdate ? "reindexed" : "indexed")} successfully.";
+                if (episodeCreated)
+                    msg += " And a new episode was created.";
+                if (!cs.AppIsInDebugMode) return Ok(new {message = msg});
+                if (episodeCreated)
+                    Logger.Value.Info("An episode was created.");
+                Logger.Value.Info($"Document ID: {model.DocumentId}. {msg}");
+                return Ok(new {message = msg});
             }
             catch (Exception ex)
             {
