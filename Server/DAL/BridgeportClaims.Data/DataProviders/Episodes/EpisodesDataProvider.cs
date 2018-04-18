@@ -327,7 +327,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 							var episodeBladeDto = new EpisodeBladeDto
 							{
 								Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
-								Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : DateTime.UtcNow,
+								Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : (DateTime?) null,
 								Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
 								Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
 								Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
