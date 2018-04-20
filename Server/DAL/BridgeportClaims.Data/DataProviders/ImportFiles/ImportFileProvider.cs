@@ -52,8 +52,8 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 					};
 					command.CommandType = CommandType.StoredProcedure;
 					command.Parameters.Add(udt);
-					command.CommandTimeout = 600; // 10 minutes.
-					command.Parameters.Add(new SqlParameter
+					command.CommandTimeout = 1600;
+				    command.Parameters.Add(new SqlParameter
 					{
 						ParameterName = "@DebugOnly",
 						SqlDbType = SqlDbType.Bit,

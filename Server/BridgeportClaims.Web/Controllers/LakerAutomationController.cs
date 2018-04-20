@@ -70,8 +70,7 @@ namespace BridgeportClaims.Web.Controllers
                 TaskCreationOptions.LongRunning);
         
 
-        private async Task ProcessLakerImport(string lakerFileName, string fullLakerFileTemporaryPath,
-            string userEmail)
+        private async Task ProcessLakerImport(string lakerFileName, string fullLakerFileTemporaryPath, string userEmail)
         {
             try
             {
