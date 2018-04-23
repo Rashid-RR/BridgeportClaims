@@ -31,10 +31,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\repos\NuGet\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.4.13\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="ServiceStack.Text, Version=5.0.0.0, Culture=neutral, PublicKeyToken=02c12cbda47e6587, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\repos\NuGet\ServiceStack.Text.5.0.2\lib\net45\ServiceStack.Text.dll</HintPath>
+      <HintPath>..\packages\ServiceStack.Text.5.0.2\lib\net45\ServiceStack.Text.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiProvider\ApiCallerProvider.cs" />
-    <Compile Include="Caching\CacheManager.cs" />
     <Compile Include="ConfigService\ConfigService.cs" />
     <Compile Include="DAL\DocumentDataProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />

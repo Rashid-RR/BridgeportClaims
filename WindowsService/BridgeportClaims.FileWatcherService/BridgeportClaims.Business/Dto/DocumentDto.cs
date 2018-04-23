@@ -1,7 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using BridgeportClaims.Business.Extensions;
 using BridgeportClaims.Business.Helpers;
 
 namespace BridgeportClaims.Business.Dto
