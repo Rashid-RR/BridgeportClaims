@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using LakerFileImporter.DAL.ImportFileProvider.Dtos;
@@ -44,6 +43,7 @@ namespace LakerFileImporter.DAL.ImportFileProvider
                         sqlCommand =>
                         {
                             sqlCommand.CommandType = CommandType.StoredProcedure;
+                            sqlCommand.CommandTimeout = 600;
                             if (connection.State != ConnectionState.Open)
                                 connection.Open();
                             return DisposableService.Using(sqlCommand.ExecuteReader, reader =>
@@ -79,69 +79,6 @@ namespace LakerFileImporter.DAL.ImportFileProvider
                             });
                         });
                 });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                throw;
-            }
-        }
-
-        internal void MarkFileProcessed(string fileName)
-        {
-            try
-            {
-                if (cs.AppIsInDebugMode)
-                {
-                    var methodName = MethodBase.GetCurrentMethod().Name;
-                    var now = DateTime.Now.ToString("G");
-                    Logger.Info("Now marking the file has having been successfully processed. " +
-                                $"TODO: store the results of the outcome in the database. This was logged in {methodName} on {now}.");
-                }
-                // Remove cached entries
-                const string sql = @"UPDATE i SET i.Processed = 1 FROM " +
-                                   "util.ImportFile AS i WHERE i.[FileName] = @FileName;";
-                DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
-                {
-                    DisposableService.Using(() => new SqlCommand(sql, connection), cmd =>
-                    {
-                        cmd.CommandType = CommandType.Text;
-                        var fileNameParam = new SqlParameter
-                        {
-                            Value = fileName,
-                            SqlDbType = SqlDbType.VarChar,
-                            DbType = DbType.String,
-                            ParameterName = "@FileName"
-                        };
-                        cmd.Parameters.Add(fileNameParam);
-                        if (connection.State != ConnectionState.Open)
-                            connection.Open();
-                        cmd.ExecuteNonQuery();
-                    });
-                });
-            }
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                throw;
-            }
-        }
-
-
-        internal static string GetFileSize(double byteCount)
-        {
-            try
-            {
-                var size = "0 Bytes";
-                if (byteCount >= 1073741824.0)
-                    size = $"{byteCount / 1073741824.0:##.##}" + " GB";
-                else if (byteCount >= 1048576.0)
-                    size = $"{byteCount / 1048576.0:##.##}" + " MB";
-                else if (byteCount >= 1024.0)
-                    size = $"{byteCount / 1024.0:##.##}" + " KB";
-                else if (byteCount > 0 && byteCount < 1024.0)
-                    size = byteCount.ToString(CultureInfo.InvariantCulture) + " Bytes";
-                return size;
             }
             catch (Exception ex)
             {
