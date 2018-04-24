@@ -12,13 +12,16 @@ GO
 CREATE PROC [dbo].[uspDissolveReversedPrescriptions]
 AS BEGIN
 	SET NOCOUNT ON;
+	ALTER TABLE [dbo].[Prescription] DISABLE TRIGGER [utPrescriptionReversedPricingUpdates];
 	BEGIN TRY
 		BEGIN TRAN;
 		DECLARE @RecordCount INT,
 				@PrntMsg NVARCHAR(500),
 				@Predicate CHAR(2) = '%R',
+				@UtcNow DATETIME2 = SYSUTCDATETIME(),
 				@TotalRows INT,
-				@rID INT, @pID INT;
+				@rID INT, 
+				@pID INT;
 
 		-- Testing
 		/*
@@ -70,18 +73,39 @@ AS BEGIN
 				RETURN;
 			END
 
+		DECLARE @Reversed TABLE
+		(   PrescriptionID INT   NOT NULL PRIMARY KEY CLUSTERED
+		  , iBilledAmount   MONEY NOT NULL
+		  , iPayableAmount  MONEY NOT NULL
+		  , dBilledAmount   MONEY NOT NULL
+		  , dPayableAmount  MONEY NOT NULL)
+
 		-- We have now sufficiently passed the QA checks. Let's get down to business.
-		UPDATE rp SET rp.BilledAmount = rp.BilledAmount + r.BilledAmount,
-		       rp.Quantity = rp.Quantity + r.Quantity,
-			   rp.DaySupply = rp.DaySupply + r.DaySupply,
-			   rp.Usual = rp.Usual + r.Usual,
-			   rp.PayableAmount = rp.PayableAmount + r.PayableAmount,
-			   rp.BillIngrCost = rp.BillIngrCost + r.BillIngrCost,
-			   rp.BillDispFee = rp.BillDispFee + r.BillDispFee,
-			   rp.PayIngrCost = rp.PayIngrCost + r.PayIngrCost,
-			   rp.PayDispFee = rp.PayDispFee + r.PayDispFee,
-			   rp.ReversedDate = r.DateSubmitted
-		FROM dbo.Prescription AS rp INNER JOIN #Returns AS r ON r.pID = rp.PrescriptionID;
+		UPDATE  rp
+		SET     rp.BilledAmount = rp.BilledAmount + r.BilledAmount
+              , rp.Quantity = rp.Quantity + r.Quantity
+              , rp.DaySupply = rp.DaySupply + r.DaySupply
+              , rp.Usual = rp.Usual + r.Usual
+              , rp.PayableAmount = rp.PayableAmount + r.PayableAmount
+              , rp.BillIngrCost = rp.BillIngrCost + r.BillIngrCost
+              , rp.BillDispFee = rp.BillDispFee + r.BillDispFee
+              , rp.PayIngrCost = rp.PayIngrCost + r.PayIngrCost
+              , rp.PayDispFee = rp.PayDispFee + r.PayDispFee
+              , rp.ReversedDate = r.DateSubmitted
+			  , rp.[UpdatedOnUTC] = @UtcNow
+		OUTPUT [Inserted].[PrescriptionID]
+			 , [Inserted].[BilledAmount]
+			 , [Inserted].[PayableAmount]
+			 , [Deleted].[BilledAmount]
+			 , [Deleted].[PayableAmount]
+		INTO @Reversed
+		(   [PrescriptionID]
+		  , [iBilledAmount]
+		  , [iPayableAmount]
+		  , [dBilledAmount]
+		  , [dPayableAmount])
+		FROM            dbo.Prescription AS rp
+			INNER JOIN  #Returns         AS r ON r.pID = rp.PrescriptionID;
 		SET @RecordCount = @@ROWCOUNT;
 		
 		IF (@RecordCount > @TotalRows)
@@ -111,15 +135,30 @@ AS BEGIN
 		CLOSE C;
 		DEALLOCATE C;
 
+		SET @UtcNow = SYSUTCDATETIME();
+
+		-- Update the Original Amounts
+		UPDATE [p] SET  [p].[BilledAmountOriginal] = CASE WHEN [r].[iBilledAmount] != [r].[dBilledAmount] THEN [r].[dBilledAmount] ELSE [p].[BilledAmountOriginal] END,
+						[p].[PayableAmount] = CASE WHEN [r].[iPayableAmount] != [r].[dPayableAmount] THEN [r].[dPayableAmount] ELSE [p].[PayableAmountOriginal] END,
+						[p].[UpdatedOnUTC] = @UtcNow
+		FROM            [dbo].[Prescription] AS [p]
+			INNER JOIN  @Reversed            AS [r] ON [r].[PrescriptionID] = [p].[PrescriptionID]
+		WHERE [r].[iPayableAmount] != [r].[dPayableAmount] OR [r].[iBilledAmount] != [r].[dBilledAmount];
+
 		IF (@@TRANCOUNT > 0)
-			COMMIT;
+			BEGIN
+				COMMIT;
+				ALTER TABLE [dbo].[Prescription] ENABLE TRIGGER [utPrescriptionReversedPricingUpdates];
+			END
 		IF (@@TRANCOUNT > 0)
 			RAISERROR(N'Transaction count is greater than zero when exiting routine.', 16, 1) WITH NOWAIT;
 	END TRY
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-				
+
+		ALTER TABLE [dbo].[Prescription] ENABLE TRIGGER [utPrescriptionReversedPricingUpdates];		
+
         DECLARE @ErrSeverity INT = ERROR_SEVERITY()
             , @ErrState INT = ERROR_STATE()
             , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
@@ -134,6 +173,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
-
-
 GO

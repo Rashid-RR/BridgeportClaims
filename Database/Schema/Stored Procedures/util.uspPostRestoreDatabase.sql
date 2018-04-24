@@ -11,7 +11,7 @@ GO
                     EXECUTE [util].[uspPostRestoreDatabase]
  =============================================
 */
-CREATE   PROC [util].[uspPostRestoreDatabase]
+CREATE PROC [util].[uspPostRestoreDatabase]
 AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
@@ -51,8 +51,7 @@ AS BEGIN
 		FROM    [master].[sys].[server_principals] i
 		WHERE   [i].[type_desc] = N'SQL_LOGIN'
 				AND [i].[is_disabled] = 0
-				AND [i].[name] != N'sa'
-                AND 1 = 0
+				AND [i].[name] NOT IN (N'sa', N'Yoursqldba')
 
 		OPEN UserScriptCrsor;
 
@@ -88,4 +87,5 @@ AS BEGIN
             @ErrMsg);            -- First argument (string)
     END CATCH
 END
+
 GO
