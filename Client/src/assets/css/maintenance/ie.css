@@ -1,0 +1,4 @@
+.body-bg {
+	background: #000;
+	filter: alpha(opacity=50);
+}
