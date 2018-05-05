@@ -21,6 +21,28 @@ namespace BridgeportClaims.Web.Controllers
             _diaryProvider = diaryProvider;
         }
 
+        [HttpPost]
+        [Route("update-follow-up-date")]
+        public IHttpActionResult UpdateFollowUpDate(FollowUpDateModel model)
+        {
+            try
+            {
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                if (default (int) == model.DiaryId)
+                    throw new ArgumentNullException(nameof(model.DiaryId));
+                if (default (DateTime) == model.FollowUpDate)
+                    throw new ArgumentNullException(nameof(model.FollowUpDate));
+                _diaryProvider.Value.UpdateDiaryFollowUpDate(model.DiaryId, model.FollowUpDate);
+                return Ok(new {message = "The follow-up date was updated successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("owners")]
         public IHttpActionResult GetDiaryOwners()

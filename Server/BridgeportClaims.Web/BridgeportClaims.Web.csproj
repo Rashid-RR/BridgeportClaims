@@ -384,6 +384,7 @@
     <Compile Include="Models\EpisodeNoteHeaderModel.cs" />
     <Compile Include="Models\EpisodeNoteModel.cs" />
     <Compile Include="Models\EpisodesViewModel.cs" />
+    <Compile Include="Models\FollowUpDateModel.cs" />
     <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Email\Models\EmailViewModel.cs" />
     <Compile Include="Models\MultiPageInvoicesModel.cs" />
