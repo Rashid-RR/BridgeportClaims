@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class ScriptDto
     {
         public DateTime RxDate { get; set; }
