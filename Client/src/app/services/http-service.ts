@@ -636,6 +636,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  updateDiaryFollowUpDate(prescriptionNoteId: any,data:any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/diary/update-follow-up-date?prescriptionNoteId=' + prescriptionNoteId, data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   unpaidScriptsList(data: any): Observable<Response> {
     return this.http.post(this.baseUrl + '/prescriptions/unpaid', data, { headers: this.headers })
       .catch(err => {

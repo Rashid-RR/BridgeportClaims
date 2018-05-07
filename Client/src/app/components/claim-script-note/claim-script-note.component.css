@@ -81,3 +81,6 @@ tr:nth-of-type(even) {
 .info-box.bg-green .info-box-content{
   margin-left:0px !important;
 }
+.custom-modal .swal2-content{
+  display:block;
+}

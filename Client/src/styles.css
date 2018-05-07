@@ -60,6 +60,12 @@
       width:-moz-calc(100vw - 580px) !important;
       width:-o-calc(100vw - 580px) !important;
     }
+    .swal2-modal.custom-modal {
+      width:calc(100vw * 1.799 / 3) !important;
+      width:-webkit-calc(100vw * 1.799 / 3) !important;
+      width:-moz-calc(100vw * 1.799 / 3) !important;
+      width:-o-calc(100vw * 1.799 / 3) !important;
+    }
     .swal2-modal.paymeny-modal.episodes{
         width:400px !important;
     }
@@ -169,6 +175,7 @@
     /* .swal2-container{
         margin-left:-220px;
     } */
+    .swal2-modal.custom-modal .swal2-content,
     .swal2-modal.paymeny-modal .swal2-content{
       display:block !important;
     }
@@ -671,4 +678,7 @@ modal-backdrop .modal-backdrop.in{
 }
 .swal2-container{
   padding: 2px;
+}
+thead{
+  overflow-x: hidden;
 }

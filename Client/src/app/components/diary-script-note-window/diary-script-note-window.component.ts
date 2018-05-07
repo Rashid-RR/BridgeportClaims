@@ -1,6 +1,10 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { PrescriptionNote } from "../../models/prescription-note"
 import {WindowInstance} from "../../components/ng-window/WindowInstance"; 
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { DatePipe, DecimalPipe } from '@angular/common';
+import swal from "sweetalert2";
+import { HttpService } from "../../services/http-service"
 
 declare var  $:any; 
 @Component({
@@ -11,7 +15,11 @@ declare var  $:any;
 export class ScriptNoteWindowComponent implements OnInit {
 
   note:PrescriptionNote;
-  constructor(public dialog: WindowInstance){
+   editFollowUpDate = false;
+  constructor(public dialog: WindowInstance,
+    private dp: DatePipe,
+    private http: HttpService,
+    private toast: ToastsManager){
    }
 
   ngOnInit() {
@@ -19,6 +27,32 @@ export class ScriptNoteWindowComponent implements OnInit {
   }
   showNote(note){
     this.note = note;
+  }
+  saveFollowUpDate() {
+    let followupDate = this.dp.transform($('#followupDate').val(), "MM/dd/yyyy");
+    if(followupDate){
+    swal({ title: "", html: "Saving changes... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
+      .catch(swal.noop);
+    this.http.updateDiaryFollowUpDate(this.note.prescriptionNoteId, { diaryId: this.note.diaryId, followUpDate: followupDate })
+      .map(res => { return res.json() }).subscribe(res => {
+        swal.close();
+        this.toast.success(res.message);
+        this.editFollowUpDate = false;
+      }, err => {
+        this.toast.error(err.message);
+      })
+      }else{
+        this.toast.error("Please select a follow-up date");
+      }
+  }
+  update() {
+    this.editFollowUpDate=true;
+    setTimeout(() => {
+      $("#followupDate").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
+      $('#followupDate').datepicker({
+        autoclose: true
+      });
+    }, 400);
   }
 
 }

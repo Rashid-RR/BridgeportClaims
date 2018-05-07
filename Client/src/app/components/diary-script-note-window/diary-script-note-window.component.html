@@ -19,3 +19,26 @@
     <label id="noteTextLabel">Note Text</label>
     <div style="background: #d6d8cc; padding: 2rem;"> {{note.note}} </div>
   </div>
+
+  <ng-container *ngIf="note.hasDiaryEntry && !editFollowUpDate">
+      <div class="form-group" style="margin-top: 1.2rem;">
+        <button class="color-palette btn btn-primary btn-flat btn-small" (click)="update()">
+          <i class="fa fa-pencil-square"></i> Change Follow-Up Date</button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="note.hasDiaryEntry && editFollowUpDate">
+      <div class="row">
+        <div class="col-xs-6 col-sm-8">
+          <div class="form-group" style="margin-top:0rem;">
+              <label id="noteTextLabel">New Follow-Up Date</label>
+            <input class="form-control" type="text" id="followupDate">
+          </div>
+        </div>
+        <div class="col-xs-6 col-sm-4">
+          <div class="form-group" style="margin-top: 1.8rem;">
+            <button class="color-palette btn bg-darkRed btn-flat btn-small" (click)="saveFollowUpDate()"> <i class="fa fa-save"></i> Save</button>
+            <button class="color-palette btn bg-darkblue btn-flat btn-small" (click)="editFollowUpDate=false">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>

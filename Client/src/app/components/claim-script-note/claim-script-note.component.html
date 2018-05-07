@@ -14,12 +14,14 @@
           </tr>
         </thead>
         <tbody *ngIf="claimManager.selectedClaim">
-          <tr *ngFor="let pNotes of claimManager.selectedClaim.prescriptionNotes" (click)="openScriptNotesModal(pNotes)">
+          <tr *ngFor="let pNotes of claimManager.selectedClaim.prescriptionNotes" (click)="scriptNotesModal(pNotes)">
             <td>{{pNotes.rxDate | date:"shortDate"}}</td>
             <td>{{pNotes.rxNumber}}</td>
             <td>{{pNotes.noteUpdatedOn | date:"shortDate"}}</td>
             <td>{{pNotes.type}}</td>
-            <td><img src="assets/img/if_Book_edit_33543.png" width="24px" *ngIf="pNotes.hasDiaryEntry"/></td>
+            <td>
+              <img src="assets/img/if_Book_edit_33543.png" width="24px" *ngIf="pNotes.hasDiaryEntry" />
+            </td>
             <td>{{pNotes.enteredBy}}</td>
             <td>{{pNotes.note}}</td>
           </tr>
@@ -28,3 +30,60 @@
     </div>
   </div>
 </div>
+<swal #diaryNoteSwal [showCancelButton]="true" [showCloseButton]="true" [showLoaderOnConfirm]="true" cancelButtonText="Done"
+  [showCancelButton]="true" [showConfirmButton]="false" customClass="custom-modal" confirmButtonText='Remove from Diary' [focusCancel]="true"
+  title="Script Note">
+  <div class="container-fluid" *swalPartial>
+    <ng-container *ngIf="note">
+      <div class="row heading">
+        <div class="col-xs-5">Rx Date(s) and Rx Number(s)</div>
+        <div class="col-xs-2">Updated</div>
+        <div class="col-xs-2">Note Type</div>
+        <div class="col-xs-2">By</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-5">
+          <div class="row" *ngFor="let s of note.scripts">
+            <div [class.col-xs-12]="note.scripts.length==1" [class.col-xs-6]="note.scripts.length>1">
+              <div class="info-box bg-green" style="min-height:50px">
+                <div class="info-box-content" style="margin-left:0px !important;padding:0px">
+                  <span class="info-box-text">{{s.rxDate|date:"shortDate"}}</span>
+                  <span class="info-box-number">{{s.rxNumber}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-2">{{note.noteUpdatedOn|date:"shortDate"}}</div>
+        <div class="col-xs-2 label label-info">{{note.type}}</div>
+        <div class="col-xs-2">{{note.enteredBy}}</div>
+      </div>
+      <div class="form-group" style="margin-top: 1.2rem;">
+        <label id="noteTextLabel">Note Text</label>
+        <div style="background: #d6d8cc; padding: 2rem;">{{note.note}}</div>
+      </div>
+      <ng-container *ngIf="note.hasDiaryEntry && !editFollowUpDate">
+        <div class="form-group" style="margin-top: 1.2rem;">
+          <button class="color-palette btn btn-primary btn-flat btn-small" (click)="update()">
+            <i class="fa fa-pencil-square"></i> Change Follow-Up Date</button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="note.hasDiaryEntry && editFollowUpDate">
+        <div class="row">
+          <div class="col-xs-6 col-sm-8">
+            <div class="form-group" style="margin-top: 0rem;">
+                <label id="noteTextLabel">New Follow-Up Date</label>
+              <input class="form-control" type="text" id="followupDate">
+            </div>
+          </div>
+          <div class="col-xs-6 col-sm-4">
+            <div class="form-group" style="margin-top: 1.8rem;">
+              <button class="color-palette btn bg-darkRed btn-flat btn-small" (click)="saveFollowUpDate()"> <i class="fa fa-save"></i> Save</button>
+              <button class="color-palette btn bg-darkblue btn-flat btn-small" (click)="editFollowUpDate=false">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+  <swal>
