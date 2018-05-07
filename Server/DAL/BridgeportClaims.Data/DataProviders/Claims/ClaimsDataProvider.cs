@@ -375,6 +375,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 													, [Note]               = [a].[NoteText]
 													, [NoteUpdatedOn]      = [a].[NoteUpdatedOn]
 													, HasDiaryEntry		   = CAST(CASE WHEN d.DiaryID IS NOT NULL THEN 1 ELSE 0 END AS BIT)
+                                                    , d.DiaryID DiaryId
 										FROM        [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
 													LEFT JOIN dbo.Diary AS d ON d.PrescriptionNoteID = a.PrescriptionNoteID AND d.DateResolved IS NULL
 										WHERE       [a].[ClaimID] = :ClaimID
@@ -391,7 +392,8 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								r.EnteredBy,
 								r.Note,
 								r.NoteUpdatedOn,
-								r.HasDiaryEntry
+								r.HasDiaryEntry,
+                                r.DiaryId
 							}).Select(gcs => new ScriptNoteDto
 							{
 								ClaimId = gcs.Key.ClaimId,
@@ -401,6 +403,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									.ToList(),
 								EnteredBy = gcs.Key.EnteredBy,
 								HasDiaryEntry = gcs.Key.HasDiaryEntry,
+                                DiaryId = gcs.Key.DiaryId,
 								Note = gcs.Key.Note,
 								NoteUpdatedOn = gcs.Key.NoteUpdatedOn,
 								PrescriptionNoteId = gcs.Key.PrescriptionNoteId,

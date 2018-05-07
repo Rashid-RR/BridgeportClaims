@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class ScriptNoteDto
     {
         public int ClaimId { get; set; }
@@ -14,5 +13,6 @@ namespace BridgeportClaims.Data.Dtos
         public string Note { get; set; }
         public DateTime? NoteUpdatedOn { get; set; }
         public bool HasDiaryEntry { get; set; }
+        public int? DiaryId { get; set; }
     }
 }

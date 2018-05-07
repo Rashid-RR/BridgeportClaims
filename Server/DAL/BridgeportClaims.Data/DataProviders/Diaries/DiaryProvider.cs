@@ -19,6 +19,34 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
             _storedProcedureExecutor = storedProcedureExecutor;
         }
 
+        public void UpdateDiaryFollowUpDate(int diaryId, DateTime followUpDate) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+                {
+                    DisposableService.Using(() => new SqlCommand("[dbo].[uspUpdateDiaryFollowUpDate]", conn), cmd =>
+                        {
+                            cmd.CommandType = CommandType.StoredProcedure;
+                            var diaryIdParam = cmd.CreateParameter();
+                            diaryIdParam.Value = diaryId;
+                            diaryIdParam.ParameterName = "@DiaryID";
+                            diaryIdParam.DbType = DbType.Int32;
+                            diaryIdParam.SqlDbType = SqlDbType.Int;
+                            diaryIdParam.Direction = ParameterDirection.Input;
+                            cmd.Parameters.Add(diaryIdParam);
+                            var followUpDateParam = cmd.CreateParameter();
+                            followUpDateParam.Direction = ParameterDirection.Input;
+                            followUpDateParam.DbType = DbType.Date;
+                            followUpDateParam.SqlDbType = SqlDbType.Date;
+                            followUpDateParam.Value = followUpDate;
+                            followUpDateParam.ParameterName = "@FollowUpDate";
+                            cmd.Parameters.Add(followUpDateParam);
+                            if (conn.State != ConnectionState.Open)
+                                conn.Open();
+                            cmd.ExecuteNonQuery();
+                            if (conn.State != ConnectionState.Closed)
+                                conn.Close();
+                        });
+                });
+
         public IEnumerable<DiaryOwnerDto> GetDiaryOwners() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
