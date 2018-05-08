@@ -54,57 +54,6 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-SET QUOTED_IDENTIFIER ON
-GO
-SET ANSI_NULLS ON
-GO
-/* 
- =============================================
- Author:            Jordan Gurney
- Create date:       4/18/2018
- Description:       Trigger to update the BilledAmountOriginal or PayableAmountOriginal columns.
- =============================================
-*/
-CREATE TRIGGER [dbo].[utPrescriptionReversedPricingUpdates]
-ON [dbo].[Prescription]
-AFTER UPDATE
-AS
-SET NOCOUNT ON;
-
-IF UPDATE([BilledAmount])
-    BEGIN
-        IF EXISTS
-        (
-            SELECT  *
-            FROM    [Inserted] AS [i]
-                    JOIN [Deleted] AS [d] ON [i].[PrescriptionID] = [d].[PrescriptionID]
-                                             AND   [i].[BilledAmount] != [d].[BilledAmount]
-        )
-            BEGIN
-                UPDATE  [p]
-                SET     [p].[BilledAmountOriginal] = [d].[BilledAmount]
-                FROM    [dbo].[Prescription] AS [p]
-                        INNER JOIN [Deleted] AS [d] ON [d].[PrescriptionID] = [p].[PrescriptionID]
-            END
-    END
-
-IF UPDATE([PayableAmount])
-    BEGIN
-        IF EXISTS
-        (
-            SELECT  *
-            FROM    [Inserted] AS [i]
-                    JOIN [Deleted] AS [d] ON [i].[PrescriptionID] = [d].[PrescriptionID]
-                                             AND   [i].[PayableAmount] != [d].[PayableAmount]
-        )
-            BEGIN
-                UPDATE  [p]
-                SET     [p].[PayableAmountOriginal] = [d].[PayableAmount]
-                FROM    [dbo].[Prescription] AS [p]
-                        INNER JOIN [Deleted] AS [d] ON [d].[PrescriptionID] = [p].[PrescriptionID]
-            END
-    END
-GO
 ALTER TABLE [dbo].[Prescription] ADD CONSTRAINT [pkPrescription] PRIMARY KEY CLUSTERED  ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionBilledAmountIncludes] ON [dbo].[Prescription] ([BilledAmount]) INCLUDE ([ClaimID], [InvoiceID], [PharmacyNABP]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
