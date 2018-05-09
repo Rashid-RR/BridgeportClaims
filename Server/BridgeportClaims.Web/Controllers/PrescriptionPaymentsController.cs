@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.PrescriptionPayments;

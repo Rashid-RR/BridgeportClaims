@@ -2,7 +2,6 @@
 using System;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.DataProviders.PayorSearches;

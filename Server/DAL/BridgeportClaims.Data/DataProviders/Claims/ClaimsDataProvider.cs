@@ -4,7 +4,6 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
-using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.Episodes;
 using BridgeportClaims.Data.DataProviders.Payments;

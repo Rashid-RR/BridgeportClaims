@@ -16,8 +16,7 @@ RETURNS @Table TABLE
 AS
 BEGIN
     DECLARE @Today DATE = CONVERT(DATE, dtme.udfGetLocalDate())
-    DECLARE @TwentyOneDaysAgo DATE = DATEADD(DAY, -20, @Today), 
-			@TwentyOne TINYINT = 21
+    DECLARE @StartingDay DATE, @TwentyOne TINYINT = 21;
 
 	DECLARE @Days TABLE (DatePosted DATE NOT NULL PRIMARY KEY)
 
@@ -27,6 +26,9 @@ BEGIN
 	WHERE		c.IsWeekend = 0
 				AND c.DateID <= @Today
 	ORDER BY	c.DateID DESC
+
+    SELECT @StartingDay = MIN([d].[DatePosted]) FROM @Days AS [d]
+
 	INSERT		@Table (DatePosted, TotalPosted)
 	SELECT      d.DatePosted
 			  , ISNULL(p.TotalPosted, 0.00) 
@@ -35,7 +37,7 @@ BEGIN
 				(   SELECT      DatePosted  = pp.DatePosted
 							  , TotalPosted = SUM(pp.AmountPaid)
 					FROM        dbo.PrescriptionPayment AS pp
-					WHERE       pp.DatePosted BETWEEN @TwentyOneDaysAgo AND @Today
+					WHERE       pp.DatePosted BETWEEN @StartingDay AND @Today
 					GROUP   BY  pp.DatePosted) AS p ON p.DatePosted = d.DatePosted
 	ORDER BY    d.DatePosted ASC
 	RETURN
