@@ -5,7 +5,6 @@ using System.Data;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Net;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;

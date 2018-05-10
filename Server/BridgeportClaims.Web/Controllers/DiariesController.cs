@@ -31,9 +31,9 @@ namespace BridgeportClaims.Web.Controllers
                     throw new ArgumentNullException(nameof(model));
                 if (default (int) == model.DiaryId)
                     throw new ArgumentNullException(nameof(model.DiaryId));
-                if (default (DateTime) == model.FollowUpDate)
+                if (default (DateTime) == model.FollowUpDate.ToFormattedDateTime())
                     throw new ArgumentNullException(nameof(model.FollowUpDate));
-                _diaryProvider.Value.UpdateDiaryFollowUpDate(model.DiaryId, model.FollowUpDate);
+                _diaryProvider.Value.UpdateDiaryFollowUpDate(model.DiaryId, model.FollowUpDate.ToFormattedDateTime());
                 return Ok(new {message = "The follow-up date was updated successfully."});
             }
             catch (Exception ex)

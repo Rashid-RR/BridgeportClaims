@@ -1,6 +1,5 @@
 ﻿using NLog;
 using System;
-using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Data.DataProviders.ImportFiles;

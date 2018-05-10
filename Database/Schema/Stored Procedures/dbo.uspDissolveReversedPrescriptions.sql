@@ -12,7 +12,6 @@ GO
 CREATE PROC [dbo].[uspDissolveReversedPrescriptions]
 AS BEGIN
 	SET NOCOUNT ON;
-	ALTER TABLE [dbo].[Prescription] DISABLE TRIGGER [utPrescriptionReversedPricingUpdates];
 	BEGIN TRY
 		BEGIN TRAN;
 		DECLARE @RecordCount INT,
@@ -148,7 +147,6 @@ AS BEGIN
 		IF (@@TRANCOUNT > 0)
 			BEGIN
 				COMMIT;
-				ALTER TABLE [dbo].[Prescription] ENABLE TRIGGER [utPrescriptionReversedPricingUpdates];
 			END
 		IF (@@TRANCOUNT > 0)
 			RAISERROR(N'Transaction count is greater than zero when exiting routine.', 16, 1) WITH NOWAIT;
@@ -156,8 +154,6 @@ AS BEGIN
 	BEGIN CATCH
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-
-		ALTER TABLE [dbo].[Prescription] ENABLE TRIGGER [utPrescriptionReversedPricingUpdates];		
 
         DECLARE @ErrSeverity INT = ERROR_SEVERITY()
             , @ErrState INT = ERROR_STATE()
