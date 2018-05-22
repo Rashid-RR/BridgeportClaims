@@ -1,5 +1,5 @@
 SET IDENTITY_INSERT [dbo].[PrescriptionStatus] ON
-INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (16, 'COB', '2018-03-12 19:49:57.2181967', '2018-03-12 19:49:57.2181967')
+INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (17, 'AOB', '2018-05-21 18:35:37.5226348', '2018-05-21 18:35:37.5226348')
 SET IDENTITY_INSERT [dbo].[PrescriptionStatus] OFF
 SET IDENTITY_INSERT [dbo].[PrescriptionStatus] ON
 INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (1, 'Ben Exhaust', '2017-11-20 22:35:11.1640577', '2017-11-20 22:35:11.1640577')
@@ -17,4 +17,5 @@ INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [C
 INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (13, 'Invoice Not Received', '2017-12-14 18:41:12.0340693', '2017-12-14 18:41:12.0340693')
 INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (14, 'Skipped Payment', '2018-01-15 19:18:10.4656421', '2018-01-15 19:18:10.4656421')
 INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (15, 'No Action Needed', '2018-01-23 16:47:56.2710315', '2018-01-23 16:47:56.2710315')
+INSERT INTO [dbo].[PrescriptionStatus] ([PrescriptionStatusID], [StatusName], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (16, 'COB', '2018-03-12 19:49:57.2181967', '2018-03-12 19:49:57.2181967')
 SET IDENTITY_INSERT [dbo].[PrescriptionStatus] OFF

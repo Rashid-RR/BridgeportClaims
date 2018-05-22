@@ -63,6 +63,7 @@ namespace BridgeportClaims.Web.IoCConfig
         public static ContainerBuilder Configure()
         {
             var builder = new ContainerBuilder();
+            builder.RegisterModule(new LazyDependencyModule())
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
             builder.RegisterType<DbccUserOptionsProvider>().As<IDbccUserOptionsProvider>().InstancePerRequest();
             builder.RegisterType<PayorsDataProvider>().As<IPayorsDataProvider>().InstancePerRequest();

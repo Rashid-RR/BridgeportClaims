@@ -1,5 +1,7 @@
 SET IDENTITY_INSERT [dbo].[EpisodeType] ON
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (37, 'BILLING STATEMENT', 'BLST', NULL, 5, '2018-04-23 20:23:33.2037591', '2018-04-23 20:23:33.2037591')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (40, 'MED RECORDS RCVD', 'MEDRCVD', NULL, 32, '2018-05-21 20:01:33.0890145', '2018-05-21 20:01:33.0890145')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (41, 'AOB REQUEST', 'AOBREQ', NULL, 33, '2018-05-21 20:13:45.4999306', '2018-05-21 20:13:45.4999306')
 SET IDENTITY_INSERT [dbo].[EpisodeType] OFF
 SET IDENTITY_INSERT [dbo].[EpisodeType] ON
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (1, 'NONE', 'NONE', NULL, 1, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
@@ -15,7 +17,7 @@ INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Descripti
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (7, 'LEGAL', 'LEGAL', NULL, 11, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (8, 'MAX BALANCE', 'MB', NULL, 14, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (9, 'MAX COST', 'MC', NULL, 15, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
-INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (10, 'MEDICAL RECORDS', 'MR', NULL, 16, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (10, 'MED RECORDS REQ', 'MR', NULL, 16, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (11, 'NON FORMULARY', 'NF', NULL, 18, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (12, 'PATIENT CALL', 'PC', NULL, 20, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (13, 'PATIENT NOT COVERED', 'PNC', NULL, 21, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')

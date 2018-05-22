@@ -1,4 +1,5 @@
-INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (22, 30, '2018-02-22 08:29:15.0277977', '2018-02-22 08:29:15.0277977')
+INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (23, 41, '2018-05-21 20:15:48.6251954', '2018-05-21 20:15:48.6251954')
+INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (25, 40, '2018-05-21 20:03:10.8392749', '2018-05-21 20:03:10.8392749')
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (2, 10, '2018-02-06 01:00:28.4040571', '2018-02-06 01:00:28.4040571')
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (3, 22, '2018-02-06 16:44:54.0988139', '2018-02-06 16:44:54.0988139')
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (4, 6, '2018-02-06 16:45:00.4739746', '2018-02-06 16:45:00.4739746')
@@ -16,3 +17,4 @@ INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTy
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (19, 28, '2018-02-06 16:46:34.6643313', '2018-02-06 16:46:34.6643313')
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (20, 5, '2018-02-06 16:46:39.6488954', '2018-02-06 16:46:39.6488954')
 INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (21, 29, '2018-02-06 19:38:42.4865212', '2018-02-06 19:38:42.4865212')
+INSERT INTO [dbo].[DocumentTypeEpisodeTypeMapping] ([DocumentTypeID], [EpisodeTypeID], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (22, 30, '2018-02-22 08:29:15.0277977', '2018-02-22 08:29:15.0277977')
