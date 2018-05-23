@@ -50,6 +50,45 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 });
             });
 
+        public IList<DuplicateClaimDto> GetDuplicateClaims()
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                return DisposableService.Using(() => new SqlCommand("[rpt].[uspGetDuplicateClaims]", conn), cmd =>
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    IList<DuplicateClaimDto> retVal = new List<DuplicateClaimDto>();
+                    if (conn.State != ConnectionState.Open)
+                        conn.Open();
+                    DisposableService.Using(cmd.ExecuteReader, reader =>
+                    {
+                        var lastNameOrdinal = reader.GetOrdinal("LastName");
+                        var firstNameOrdinal = reader.GetOrdinal("FirstName");
+                        var claimIdOrdinal = reader.GetOrdinal("ClaimID");
+                        var dateOfBirthOrdinal = reader.GetOrdinal("DateOfBirth");
+                        var claimNumberOrdinal = reader.GetOrdinal("ClaimNumber");
+                        var personCodeOrdinal = reader.GetOrdinal("PersonCode");
+                        var groupNameOrdinal = reader.GetOrdinal("GroupName");
+                        while (reader.Read())
+                        {
+                            var result = new DuplicateClaimDto
+                            {
+                                LastName = !reader.IsDBNull(lastNameOrdinal) ? reader.GetString(lastNameOrdinal) : null,
+                                FirstName = !reader.IsDBNull(firstNameOrdinal) ? reader.GetString(firstNameOrdinal) : null,
+                                ClaimId = reader.GetInt32(claimIdOrdinal),
+                                DateOfBirth = !reader.IsDBNull(dateOfBirthOrdinal) ? reader.GetDateTime(dateOfBirthOrdinal) : (DateTime?) null,
+                                ClaimNumber = !reader.IsDBNull(claimNumberOrdinal) ? reader.GetString(claimNumberOrdinal) : null,
+                                PersonCode = !reader.IsDBNull(personCodeOrdinal) ? reader.GetString(personCodeOrdinal) : null,
+                                GroupName = !reader.IsDBNull(groupNameOrdinal) ? reader.GetString(groupNameOrdinal) : null
+                            };
+                            retVal.Add(result);
+                        }
+                    });
+                    if (conn.State != ConnectionState.Closed)
+                        conn.Close();
+                    return retVal;
+                });
+            });
+
         public IList<GroupNameDto> GetGroupNames(string groupName)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {

@@ -155,6 +155,7 @@
     <Compile Include="Dtos\DocumentResultDto.cs" />
     <Compile Include="Dtos\DocumentsDto.cs" />
     <Compile Include="Dtos\DocumentTypeDto.cs" />
+    <Compile Include="Dtos\DuplicateClaimDto.cs" />
     <Compile Include="Dtos\EpisodeBladeDto.cs" />
     <Compile Include="Dtos\EpisodeDto.cs" />
     <Compile Include="Dtos\EpisodeNotesDto.cs" />

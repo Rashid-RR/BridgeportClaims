@@ -67,6 +67,22 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("duplicate-claims")]
+        public IHttpActionResult GetDuplicateClaims()
+        {
+            try
+            {
+                var retVal = _reportsDataProvider.Value.GetDuplicateClaims();
+                return Ok(retVal);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("accounts-receivable")]
         public IHttpActionResult GetAccountsReceivableReport(AccountsReceivableViewModel model)
         {
