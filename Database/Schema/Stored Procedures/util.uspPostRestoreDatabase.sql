@@ -48,10 +48,9 @@ AS BEGIN
 		-- remove all extraneous users.
 		DECLARE UserScriptCrsor CURSOR LOCAL FAST_FORWARD READ_ONLY FOR
 		SELECT  N'DROP USER ' + QUOTENAME([i].[name])
-		FROM    [master].[sys].[server_principals] i
-		WHERE   [i].[type_desc] = N'SQL_LOGIN'
-				AND [i].[is_disabled] = 0
-				AND [i].[name] NOT IN (N'sa', N'Yoursqldba')
+		FROM    [sys].[database_principals] i
+		WHERE   [i].[name] NOT IN ('public', 'dbo', 'guest', 'INFORMATION_SCHEMA', 'sys')
+                AND [i].[type_desc] = 'SQL_USER'
 
 		OPEN UserScriptCrsor;
 
@@ -87,5 +86,4 @@ AS BEGIN
             @ErrMsg);            -- First argument (string)
     END CATCH
 END
-
 GO

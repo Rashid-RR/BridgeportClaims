@@ -9,7 +9,7 @@ CREATE TABLE [dbo].[ClaimAudit]
 [PreviousClaimNumber] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PersonCode] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PayorID] [int] NOT NULL,
-[AdjusterID] [int] NULL,
+[AdjustorID] [int] NULL,
 [JurisdictionStateID] [int] NULL,
 [RelationCode] [tinyint] NULL,
 [TermDate] [datetime2] NULL,

@@ -13,30 +13,27 @@ GO
 */
 CREATE PROC [dbo].[uspDeDupeTable]
 (
-	@TableName SYSNAME, -- Includes column name.
-	@IDToRemove INT,
-	@IDToKeep INT,
-	@DebugOnly BIT = 0
+    @TableName SYSNAME, -- Includes column name.
+    @IDToRemove INT,
+    @IDToKeep INT,
+    @DebugOnly BIT = 0
 )
 AS BEGIN
-	SET NOCOUNT ON;
-	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
-	SET DEADLOCK_PRIORITY HIGH;
-	BEGIN TRY
-		BEGIN TRANSACTION;
+    SET NOCOUNT ON;
+    SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+    SET DEADLOCK_PRIORITY HIGH;
+    BEGIN TRY
+        BEGIN TRANSACTION;
 
 		IF @TableName NOT LIKE '%.%'
 			BEGIN
 				IF @@TRANCOUNT > 0
 					ROLLBACK
 				RAISERROR(N'Error. You must include the schema name in the table name parameter.', 16, 1) WITH NOWAIT
-				RETURN
+				RETURN -1;
 			END
 		
-		DECLARE @UtcNow DATETIME2 = dtme.udfGetUtcDate()
-			   ,@PrntMsg VARCHAR(1000)
-			   ,@RowCount INT
-			   ,@FkTableSchema SYSNAME
+		DECLARE @FkTableSchema SYSNAME
 			   ,@FkTableName SYSNAME
 			   ,@FkColumnName SYSNAME
 			   ,@SQLStatement NVARCHAR(4000)
@@ -48,7 +45,7 @@ AS BEGIN
 				IF @@TRANCOUNT > 0
 					ROLLBACK
 				RAISERROR(N'Error. Unable to parse a schema and table name from the @TableName parameter.', 16, 1) WITH NOWAIT
-				RETURN
+				RETURN -1;
 			END
 
 		DECLARE @QualifiedQuotedTableName SYSNAME = QUOTENAME(@Schema) + '.' + QUOTENAME(@Table)
@@ -59,7 +56,7 @@ AS BEGIN
 				IF @@TRANCOUNT > 0
 					ROLLBACK
 				RAISERROR(N'Error. Could no populate the @TableObjID variable', 16, 1) WITH NOWAIT
-				RETURN
+				RETURN -1;
 			END
 
 		-- If the table has a composite key, this function call will appropriately error.
@@ -102,23 +99,33 @@ AS BEGIN
 		CLOSE [FkCursor];
 		DEALLOCATE [FkCursor];
 
-		-- Finally, construct the delete statement.
-		SET @SQLStatement = N'DELETE ' + 
-					@QualifiedQuotedTableName + ' WHERE ' +
-					QUOTENAME(@TablePrimaryKeyColumnName) + ' = ' 
-					+ CONVERT(NVARCHAR, @IDToRemove)
-		IF @DebugOnly = 1
-			PRINT @SQLStatement
-		ELSE
-			EXECUTE [sys].[sp_executesql] @SQLStatement
+		-- Finally, construct the delete statement. As long as the table name is not Claim.
+        IF PARSENAME(@TableName, 1) = 'Claim'
+            BEGIN
+                SET @SQLStatement = N'INSERT dbo.[DuplicateClaim] ([DuplicateClaimID], [ReplacementClaimID]) ' +
+                                        N'VALUES (' + CONVERT(NVARCHAR, @IDToRemove) + ', ' + CONVERT(NVARCHAR, @IDToKeep) + ');';
+                    IF @DebugOnly = 1
+                        PRINT @SQLStatement
+                    ELSE
+                        EXECUTE [sys].[sp_executesql] @SQLStatement;
+            END
 
-		IF @@TRANCOUNT > 0
-			COMMIT
-	END TRY
-	BEGIN CATCH
-		IF @@TRANCOUNT > 0
-			ROLLBACK
-				
+        SET @SQLStatement = N'DELETE ' +
+            @QualifiedQuotedTableName + ' WHERE ' +
+            QUOTENAME(@TablePrimaryKeyColumnName) + ' = '
+            + CONVERT(NVARCHAR, @IDToRemove)
+        IF @DebugOnly = 1
+            PRINT @SQLStatement
+        ELSE
+            EXECUTE [sys].[sp_executesql] @SQLStatement
+
+        IF @@TRANCOUNT > 0
+            COMMIT
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK
+
         DECLARE @ErrSeverity INT = ERROR_SEVERITY()
             , @ErrState INT = ERROR_STATE()
             , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
@@ -126,11 +133,11 @@ AS BEGIN
             , @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE()
 
         RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
-			@ErrSeverity,		-- Severity
-			@ErrState,			-- State
-			@ErrProc,			-- First argument (string)
-			@ErrLine,			-- Second argument (int)
-			@ErrMsg)			-- First argument (string)
-	END CATCH
+            @ErrSeverity,		-- Severity
+            @ErrState,			-- State
+            @ErrProc,			-- First argument (string)
+            @ErrLine,			-- Second argument (int)
+            @ErrMsg)			-- First argument (string)
+    END CATCH
 END
 GO

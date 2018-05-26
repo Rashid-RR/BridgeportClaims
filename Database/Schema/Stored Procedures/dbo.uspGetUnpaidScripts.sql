@@ -78,7 +78,7 @@ AS BEGIN
 		INNER JOIN  dbo.Payor			AS pay ON c.PayorID = pay.PayorID
 		INNER JOIN  dbo.Pharmacy		AS ph ON p.PharmacyNABP = ph.NABP
 		INNER JOIN  dbo.UsState			AS us ON ph.StateID = us.StateID
-		LEFT JOIN   dbo.Adjustor		AS a ON c.AdjusterID = a.AdjustorID
+		LEFT JOIN   dbo.Adjustor		AS a ON [c].[AdjustorID] = a.AdjustorID
 	WHERE           (i.InvoiceDate >= @iStartDate OR @iStartDate IS NULL)
 					AND (i.InvoiceDate <= @iEndDate OR @iEndDate IS NULL)
 					AND 1 = CASE WHEN ph.StateID != @MI AND DATEDIFF(DAY, i.InvoiceDate, @LocalDate) > @NonMichiganThreshold THEN 1
@@ -188,5 +188,4 @@ AS BEGIN
 			OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 			FETCH NEXT @iPageSize ROWS ONLY;
 END
-
 GO

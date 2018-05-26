@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[Claim]
 [PreviousClaimNumber] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PersonCode] [char] (2) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PayorID] [int] NOT NULL,
-[AdjusterID] [int] NULL,
+[AdjustorID] [int] NULL,
 [JurisdictionStateID] [int] NULL,
 [RelationCode] [tinyint] NULL,
 [TermDate] [datetime2] NULL,
@@ -43,8 +43,8 @@ AS BEGIN
                 BEGIN 
         
                     INSERT  INTO dbo.ClaimAudit
-                            ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, AdjusterID, JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
-                            SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, AdjusterID, JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'UPDATE'
+                            ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
+                            SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'UPDATE'
                                    ,SUSER_SNAME()
                                    ,SYSUTCDATETIME()
                             FROM    INSERTED
@@ -53,9 +53,9 @@ AS BEGIN
             ELSE 
                 BEGIN 
                     INSERT  INTO dbo.ClaimAudit
-                            ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, AdjusterID, JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC
+                            ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC
                             )
-                            SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, AdjusterID, JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'INSERT'
+                            SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'INSERT'
                                    ,SUSER_SNAME()
                                    ,SYSUTCDATETIME()
                             FROM    INSERTED
@@ -64,8 +64,8 @@ AS BEGIN
     ELSE 
         BEGIN 
             INSERT  INTO dbo.ClaimAudit
-                    ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, AdjusterID, JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
-                    SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, AdjusterID, JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'DELETE'
+                    ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
+                    SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'DELETE'
                            ,SUSER_SNAME()
                            ,SYSUTCDATETIME()
                     FROM    DELETED
@@ -82,11 +82,11 @@ CREATE NONCLUSTERED INDEX [idxClaimCreatedOnUTCUpdatedOnUTC] ON [dbo].[Claim] ([
 GO
 CREATE NONCLUSTERED INDEX [idxClaimPatientIDPatientPatientID] ON [dbo].[Claim] ([PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxClaimPayorIDIncludes] ON [dbo].[Claim] ([PayorID]) INCLUDE ([AdjusterID], [ClaimID], [ClaimNumber], [CreatedOnUTC], [DateOfInjury], [IsFirstParty], [JurisdictionStateID], [PersonCode], [PolicyNumber], [PreviousClaimNumber], [RelationCode], [TermDate], [UniqueClaimNumber], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxClaimPayorIDIncludes] ON [dbo].[Claim] ([PayorID]) INCLUDE ([AdjustorID], [ClaimID], [ClaimNumber], [CreatedOnUTC], [DateOfInjury], [IsFirstParty], [JurisdictionStateID], [PersonCode], [PolicyNumber], [PreviousClaimNumber], [RelationCode], [TermDate], [UniqueClaimNumber], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxClaimPayorIDIncludeClaimNumberPatientID] ON [dbo].[Claim] ([PayorID]) INCLUDE ([ClaimNumber], [PatientID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimAdjusterIDAdjustorAdjustorID] FOREIGN KEY ([AdjusterID]) REFERENCES [dbo].[Adjustor] ([AdjustorID])
+ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimAdjusterIDAdjustorAdjustorID] FOREIGN KEY ([AdjustorID]) REFERENCES [dbo].[Adjustor] ([AdjustorID])
 GO
 ALTER TABLE [dbo].[Claim] ADD CONSTRAINT [fkClaimClaimFlex2IDClaimFlex2ClaimFlex2ID] FOREIGN KEY ([ClaimFlex2ID]) REFERENCES [dbo].[ClaimFlex2] ([ClaimFlex2ID])
 GO

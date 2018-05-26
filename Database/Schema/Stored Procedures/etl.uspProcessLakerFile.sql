@@ -535,7 +535,7 @@ AS BEGIN
 
 	-- Actual Claims Import
 	INSERT [dbo].[Claim] ([ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],
-	[TermDate],[PatientID],[PayorID],[AdjusterID],[ETLRowID],[IsFirstParty],[UpdatedOnUTC],[CreatedOnUTC])
+	[TermDate],[PatientID],[PayorID],[AdjustorID],[ETLRowID],[IsFirstParty],[UpdatedOnUTC],[CreatedOnUTC])
 	SELECT [s].[8],[s].[9],[s].[19],[s].[22],[s].[25],[s].[125],s.[PatientID],s.[PayorID],s.[AdjustorID],s.[ETLRowID],1,@UTCNow,@UTCNow
 	FROM #Claim  AS [s]
 	WHERE [RowNumber] = 1
@@ -605,12 +605,12 @@ AS BEGIN
 		SELECT	[ClaimID],[8],[9],[19],[22],[25],[125],[PatientID],[PayorID],[AdjustorID]
 		FROM	#ClaimUpdate c
 		EXCEPT
-		SELECT	[c].[ClaimID],[ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],[TermDate],[PatientID],[PayorID],[AdjusterID]
+		SELECT	[c].[ClaimID],[ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],[TermDate],[PatientID],[PayorID],[AdjustorID] AS [AdjusterID]
 		FROM	[dbo].[Claim] AS [c]
 		
 		UNION
 	
-		SELECT	[c].[ClaimID],[ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],[TermDate],[PatientID],[PayorID],[AdjusterID]
+		SELECT	[c].[ClaimID],[ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],[TermDate],[PatientID],[PayorID],[AdjustorID] AS [AdjusterID]
 		FROM	[dbo].[Claim] AS [c]
 		EXCEPT
 		SELECT	[ClaimID],[8],[9],[19],[22],[25],[125],[PatientID],[PayorID],[AdjustorID]
@@ -624,7 +624,7 @@ AS BEGIN
 				, [c].[TermDate] = [ct].[125]
 				, [c].[PatientID] = [ct].[PatientID]
 				, [c].[PayorID] = [ct].[PayorID]
-				, [c].[AdjusterID] = [ct].[AdjustorID]
+				, [c].[AdjustorID] = [ct].[AdjustorID]
 				, [c].[UpdatedOnUTC] = @UTCNow
 	FROM	[UpdatedClaimsCTE] AS [ct] INNER JOIN [dbo].[Claim] AS [c] ON [ct].[ClaimID] = [c].[ClaimID]
 	SET @UpdatedRowCount = @@ROWCOUNT
@@ -1081,6 +1081,4 @@ AS BEGIN
 	ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 END
-
-
 GO

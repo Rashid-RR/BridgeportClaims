@@ -18,5 +18,5 @@ ALTER TABLE [dbo].[NotificationConfig] ADD CONSTRAINT [pkNotificationConfig] PRI
 GO
 CREATE NONCLUSTERED INDEX [idxNotificationConfigNotificationTypeID] ON [dbo].[NotificationConfig] ([NotificationTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[NotificationConfig] ADD CONSTRAINT [fkcaNotificationTypeIDNotificationTypeNotificationTypeID] FOREIGN KEY ([NotificationTypeID]) REFERENCES [dbo].[NotificationType] ([NotificationTypeID])
+ALTER TABLE [dbo].[NotificationConfig] ADD CONSTRAINT [fkNotificationConfigNotificationTypeIDNotificationTypeNotificationTypeID] FOREIGN KEY ([NotificationTypeID]) REFERENCES [dbo].[NotificationType] ([NotificationTypeID])
 GO

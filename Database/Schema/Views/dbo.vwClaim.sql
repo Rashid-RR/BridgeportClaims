@@ -30,8 +30,7 @@ AS
     FROM   dbo.Claim c 
            LEFT JOIN dbo.Patient p INNER JOIN dbo.Gender g ON g.GenderID = p.GenderID ON p.PatientID = c.PatientID
            LEFT JOIN dbo.Payor pa ON pa.PayorID = c.PayorID
-           LEFT JOIN dbo.Adjustor a ON a.AdjustorID = c.AdjusterID
+           LEFT JOIN dbo.Adjustor a ON a.AdjustorID = [c].[AdjustorID]
            LEFT JOIN dbo.Prescription pre ON pre.ClaimID = c.ClaimID
 		   LEFT JOIN dbo.Invoice i ON i.InvoiceID = pre.InvoiceID
-
 GO

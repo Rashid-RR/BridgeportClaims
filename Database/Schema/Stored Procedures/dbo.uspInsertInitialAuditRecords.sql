@@ -24,7 +24,7 @@ AS
                                        , PreviousClaimNumber
                                        , PersonCode
                                        , PayorID
-                                       , AdjusterID
+                                       , [AdjustorID]
                                        , JurisdictionStateID
                                        , RelationCode
                                        , TermDate
@@ -46,7 +46,7 @@ AS
                  , c.PreviousClaimNumber
                  , c.PersonCode
                  , c.PayorID
-                 , c.AdjusterID
+                 , [c].[AdjustorID]
                  , c.JurisdictionStateID
                  , c.RelationCode
                  , c.TermDate
@@ -163,5 +163,4 @@ AS
                     , @ErrMsg); -- First argument (string)
         END CATCH
     END
-
 GO

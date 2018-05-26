@@ -88,7 +88,7 @@ AS BEGIN
 			BEGIN
 				UPDATE  [c]
 				SET     [c].[PayorID] = CASE WHEN @PayorID = -1 THEN [c].[PayorID] ELSE @PayorID END, 
-						[c].[AdjusterID] = CASE WHEN @AdjustorID = -1 THEN [c].[AdjusterID] ELSE @AdjustorID END,
+						[c].[AdjustorID] = CASE WHEN @AdjustorID = -1 THEN [c].[AdjustorID] ELSE @AdjustorID END,
 						[c].[DateOfInjury] = CASE WHEN @DateOfInjury = '1/1/1901' THEN [c].[DateOfInjury] ELSE @DateOfInjury END,
 						[c].[ClaimFlex2ID] = CASE WHEN @ClaimFlex2ID = -1 THEN [c].[ClaimFlex2ID] ELSE @ClaimFlex2ID END,
 						[c].[ModifiedByUserID] = @ModifiedByUserID,
@@ -118,7 +118,7 @@ AS BEGIN
 								[a].[Extension] = CASE WHEN @AdjustorExtension = 'NULL' THEN [a].[Extension] ELSE @AdjustorExtension END,
 								[a].[UpdatedOnUTC] = @UtcNow
 				FROM            [dbo].[Claim]    AS [c]
-					INNER JOIN  [dbo].[Adjustor] AS [a] ON [a].[AdjustorID] = [c].[AdjusterID]
+					INNER JOIN  [dbo].[Adjustor] AS [a] ON [a].[AdjustorID] = [c].[AdjustorID]
 				WHERE           [c].[ClaimID] = @ClaimID
 				SET @RowCount = @@ROWCOUNT
 

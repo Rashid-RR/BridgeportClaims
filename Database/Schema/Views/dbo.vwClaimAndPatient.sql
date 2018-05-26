@@ -32,7 +32,7 @@ SELECT [Name] = [p].[FirstName] + ' ' + [p].[LastName]
 FROM   [dbo].[Claim] AS [c]
        INNER JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
        LEFT JOIN [dbo].[Gender] AS [g] ON [g].[GenderID] = [p].[GenderID]
-       LEFT JOIN [dbo].[Adjustor] AS [a] ON [a].[AdjustorID] = [c].[AdjusterID]
+       LEFT JOIN [dbo].[Adjustor] AS [a] ON [a].[AdjustorID] = [c].[AdjustorID]
        LEFT JOIN [dbo].[Payor] AS [pa] ON [pa].[PayorID] = [c].[PayorID]
        LEFT JOIN [dbo].[UsState] AS uss ON [p].[StateID] = [uss].[StateID]
 GO
