@@ -25,10 +25,6 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
-import { ReportComponent } from './pages/report/report.component';
-import { ReportListComponent } from './pages/report-list/report-list.component';
-import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
-import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
 import { IndexFileComponent } from './pages/index-file/index-file.component';
@@ -93,33 +89,7 @@ export const routes: Routes = [
             path: 'profile',
             component: ProfileComponent
           },
-          {
-            path: 'reports',
-            component: ReportComponent,
-            children: [
-              {
-                path: '',
-                redirectTo: 'list',
-                pathMatch: 'full',
-              },
-              {
-                path: 'list',
-                component: ReportListComponent
-              },
-              {
-                path: 'revenue',
-                component: ReportSampleComponent
-              },
-              {
-                path: 'account-receivable',
-                component: ReportAccountReceivableComponent
-              },
-              {
-                path: 'sample',
-                component: ReportSampleComponent
-              }
-            ]
-          },
+          {path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },           
           {
             path: 'payors',
             component: PayorsComponent

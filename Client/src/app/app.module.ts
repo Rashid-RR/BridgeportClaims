@@ -49,10 +49,6 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PaymentService } from './services/payment-service'; 
-import { ReportComponent } from './pages/report/report.component';
-import { ReportListComponent } from './pages/report-list/report-list.component';
-import { ReportSampleComponent } from './pages/report-sample/report-sample.component';
-import { ReportAccountReceivableComponent } from './pages/report-account-receivable/report-account-receivable.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
 import { IndexFileComponent } from './pages/index-file/index-file.component';
@@ -81,12 +77,12 @@ import { NotificationComponent } from './components/notification/notification.co
     LoginComponent,
     MainComponent,
     PasswordResetComponent,
-    RegisterComponent, ReportComponent,
+    RegisterComponent, 
     ClaimsComponent, ProfileComponent,
     SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
     ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
     UsersComponent, ChangePasswordComponent, ConfirmEmailComponent,  FileUploadComponent, FooterComponent,  
-    UnpaidScriptComponent,  ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent,  UnindexedImageComponent,
+    UnpaidScriptComponent,UnindexedImageComponent,
     UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent, NotificationComponent
   ],
   imports: [

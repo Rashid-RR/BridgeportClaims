@@ -14,8 +14,7 @@ import { DiariesFilterPipe } from '../diaries/diary-results/diary-filter.pipe';
 import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
 import {
   UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
-  AccountReceivableSearchComponent, AccountReceivableResultComponent, EpisodeNoteModalComponent,
-  UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+   EpisodeNoteModalComponent,UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
 } from '../components/components-barrel';
 import { ColumnSortDirective } from '../directives/column-sort.directive';
 import { TableSortDirective } from '../directives/table-sort.directive';
@@ -53,8 +52,7 @@ export class SafeUrlPipe implements PipeTransform {
     TableSortDirective, ColumnSortDirective,
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe,SafeStylePipe, SafeUrlPipe,FilterUserPipe,DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
-    AccountReceivableSearchComponent, AccountReceivableResultComponent, EpisodeNoteModalComponent,
-    UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+     EpisodeNoteModalComponent,UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
   ],
   providers:[
     WindowsInjetor,
@@ -70,7 +68,7 @@ export class SafeUrlPipe implements PipeTransform {
     TableSortDirective, ColumnSortDirective,
     DisplayRolesPipe,ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe,SafeStylePipe,FilterUserPipe,DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
-    AccountReceivableSearchComponent, AccountReceivableResultComponent, EpisodeNoteModalComponent,
+    EpisodeNoteModalComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
   ],
   entryComponents: [

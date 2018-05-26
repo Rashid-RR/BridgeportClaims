@@ -1,68 +1,69 @@
+
 .account-receivable-results {
     background: #fbeede;
-}
-.account-receivable-results app-account-receivable-search form{
+  }
+  .account-receivable-results app-account-receivable-search form{
     background: #ffffff;
-}
-.page-title h3 {
+  }
+  .page-title h3 {
     margin: 0;
     padding: 10px 0 0 10px;
     font-weight: 400;
-}
-
-.box {
+  }
+  
+  .box {
     border: 1.5px solid #d2d6de;
     margin-bottom: 2rem;
-}
-.box .box-body {
+  }
+  .box .box-body {
     overflow-x: hidden;
-}
-.bg-head-box {
+  }
+  .bg-head-box {
     background: #992727;
     z-index: 3;
     color: #fff;
-}
-
-.blade-title {
+  }
+  
+  .blade-title {
     font-size: 18px;
-}
-
-.blade-title i {
+  }
+  
+  .blade-title i {
     margin-right: 10px;
-}
-
-.total {
+  }
+  
+  .total {
     display: block;
-}
-
-.diary-results {
+  }
+  
+  .diary-results {
     background: #fbeede;
-}
-
-.left5 {
+  }
+  
+  .left5 {
     margin-left: 5px;
-}
-
-.right5 {
+  }
+  
+  .right5 {
     margin-right: 15px;
-}
-
-.white {
+  }
+  
+  .white {
     color: #ffffff;
-}
-.transparent {
+  }
+  .transparent {
     background: transparent !important;
     color: white !important;
-}
-
-.not-allowed,
-.not-allowed .form-control {
+  }
+  
+  .not-allowed,
+  .not-allowed .form-control {
   cursor: not-allowed;
-}
-.bg-light-maroon{
+  }
+  .bg-light-maroon{
     background:#fbeede;
-}
-.bg-light-maroon:before{
+  }
+  .bg-light-maroon:before{
     content:'Coming Soon';
     left: 0%;
     width:100%;
@@ -76,8 +77,8 @@
     font: normal 110px/0 "Nova Flat", Helvetica, sans-serif;
     color: rgb(150, 59, 59);
     text-align: center;
-}
-
-.clickable{
+  }
+  
+  .clickable{
     cursor: pointer;
-}
+  }
