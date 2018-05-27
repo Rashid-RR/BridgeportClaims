@@ -22,7 +22,7 @@ namespace BridgeportClaims.Data.Mappings
             Map(x => x.Extension).Column("Extension").Length(10);
             Map(x => x.CreatedOnUtc).Column("CreatedOnUTC").Not.Nullable();
             Map(x => x.UpdatedOnUtc).Column("UpdatedOnUTC").Not.Nullable();
-            HasMany(x => x.Claim).KeyColumn("AdjusterID");
+            HasMany(x => x.Claim).KeyColumn("AdjustorID");
         }
     }
 }

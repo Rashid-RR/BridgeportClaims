@@ -1,15 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace BridgeportClaims.Data.Dtos
 {
     public sealed class DuplicateClaimDto
     {
-        public string LastName { get; set; }
-        public string FirstName { get; set; }
-        public int ClaimId { get; set; }
-        public DateTime? DateOfBirth { get; set; }
-        public string ClaimNumber { get; set; }
-        public string PersonCode { get; set; }
-        public string GroupName { get; set; }
+        public int TotalRowCount { get; set; }
+        public IList<DuplicateClaimResultsDto> Results { get; set; }
     }
 }

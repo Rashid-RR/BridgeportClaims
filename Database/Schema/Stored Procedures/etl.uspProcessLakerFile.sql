@@ -605,12 +605,12 @@ AS BEGIN
 		SELECT	[ClaimID],[8],[9],[19],[22],[25],[125],[PatientID],[PayorID],[AdjustorID]
 		FROM	#ClaimUpdate c
 		EXCEPT
-		SELECT	[c].[ClaimID],[ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],[TermDate],[PatientID],[PayorID],[AdjustorID] AS [AdjusterID]
+		SELECT	[c].[ClaimID],[ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],[TermDate],[PatientID],[PayorID],[AdjustorID]
 		FROM	[dbo].[Claim] AS [c]
 		
 		UNION
 	
-		SELECT	[c].[ClaimID],[ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],[TermDate],[PatientID],[PayorID],[AdjustorID] AS [AdjusterID]
+		SELECT	[c].[ClaimID],[ClaimNumber],[PersonCode],[DateOfInjury],[RelationCode],[PreviousClaimNumber],[TermDate],[PatientID],[PayorID],[AdjustorID]
 		FROM	[dbo].[Claim] AS [c]
 		EXCEPT
 		SELECT	[ClaimID],[8],[9],[19],[22],[25],[125],[PatientID],[PayorID],[AdjustorID]

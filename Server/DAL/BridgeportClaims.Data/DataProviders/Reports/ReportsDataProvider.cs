@@ -6,6 +6,7 @@ using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Reports
@@ -50,43 +51,24 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 });
             });
 
-        public IList<DuplicateClaimDto> GetDuplicateClaims()
+        public DuplicateClaimDto GetDuplicateClaims(string sort, string sortDirection, int page = -1, int pageSize = -1)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                return DisposableService.Using(() => new SqlCommand("[rpt].[uspGetDuplicateClaims]", conn), cmd =>
+                conn.Open();
+                var parameters = new DynamicParameters();
+                parameters.Add("@SortColumn", sort, DbType.AnsiString);
+                parameters.Add("@SortDirection", sortDirection, DbType.AnsiString);
+                parameters.Add("@PageNumber", page == -1 ? 1 : page, DbType.Int32);
+                parameters.Add("@PageSize", pageSize == -1 ? 5000 : pageSize, DbType.Int32);
+                parameters.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                var results = conn.Query<DuplicateClaimResultsDto>("[rpt].[uspGetDuplicateClaims]", parameters,
+                    commandType: CommandType.StoredProcedure);
+                var retVal = new DuplicateClaimDto
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    IList<DuplicateClaimDto> retVal = new List<DuplicateClaimDto>();
-                    if (conn.State != ConnectionState.Open)
-                        conn.Open();
-                    DisposableService.Using(cmd.ExecuteReader, reader =>
-                    {
-                        var lastNameOrdinal = reader.GetOrdinal("LastName");
-                        var firstNameOrdinal = reader.GetOrdinal("FirstName");
-                        var claimIdOrdinal = reader.GetOrdinal("ClaimID");
-                        var dateOfBirthOrdinal = reader.GetOrdinal("DateOfBirth");
-                        var claimNumberOrdinal = reader.GetOrdinal("ClaimNumber");
-                        var personCodeOrdinal = reader.GetOrdinal("PersonCode");
-                        var groupNameOrdinal = reader.GetOrdinal("GroupName");
-                        while (reader.Read())
-                        {
-                            var result = new DuplicateClaimDto
-                            {
-                                LastName = !reader.IsDBNull(lastNameOrdinal) ? reader.GetString(lastNameOrdinal) : null,
-                                FirstName = !reader.IsDBNull(firstNameOrdinal) ? reader.GetString(firstNameOrdinal) : null,
-                                ClaimId = reader.GetInt32(claimIdOrdinal),
-                                DateOfBirth = !reader.IsDBNull(dateOfBirthOrdinal) ? reader.GetDateTime(dateOfBirthOrdinal) : (DateTime?) null,
-                                ClaimNumber = !reader.IsDBNull(claimNumberOrdinal) ? reader.GetString(claimNumberOrdinal) : null,
-                                PersonCode = !reader.IsDBNull(personCodeOrdinal) ? reader.GetString(personCodeOrdinal) : null,
-                                GroupName = !reader.IsDBNull(groupNameOrdinal) ? reader.GetString(groupNameOrdinal) : null
-                            };
-                            retVal.Add(result);
-                        }
-                    });
-                    if (conn.State != ConnectionState.Closed)
-                        conn.Close();
-                    return retVal;
-                });
+                    Results = results?.ToList(),
+                    TotalRowCount = parameters.Get<int>("@TotalRows")
+                };
+                return retVal;
             });
 
         public IList<GroupNameDto> GetGroupNames(string groupName)

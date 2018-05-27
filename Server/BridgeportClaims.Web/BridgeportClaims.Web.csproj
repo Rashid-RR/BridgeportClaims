@@ -389,6 +389,7 @@
     <Compile Include="Email\Models\EmailViewModel.cs" />
     <Compile Include="Models\MultiPageInvoicesModel.cs" />
     <Compile Include="Models\NewEpisodeViewModel.cs" />
+    <Compile Include="Models\PaginationModel.cs" />
     <Compile Include="Models\PaymentPosting.cs" />
     <Compile Include="Models\PaymentPostingViewModel.cs" />
     <Compile Include="Models\PaymentsSearchModel.cs" />

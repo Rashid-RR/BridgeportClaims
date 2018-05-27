@@ -68,11 +68,12 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("duplicate-claims")]
-        public IHttpActionResult GetDuplicateClaims()
+        public IHttpActionResult GetDuplicateClaims(PaginationModel model)
         {
             try
             {
-                var retVal = _reportsDataProvider.Value.GetDuplicateClaims();
+                var retVal = _reportsDataProvider.Value.GetDuplicateClaims(model?.Sort, model?.SortDirection,
+                    model?.Page ?? -1, model?.PageSize ?? -1);
                 return Ok(retVal);
             }
             catch (Exception ex)

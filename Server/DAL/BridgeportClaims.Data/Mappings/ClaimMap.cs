@@ -14,7 +14,7 @@ namespace BridgeportClaims.Data.Mappings
             LazyLoad();
             Id(x => x.ClaimId).GeneratedBy.Identity().Column("ClaimID");
             References(x => x.Payor).Column("PayorID");
-            References(x => x.Adjustor).Column("AdjusterID");
+            References(x => x.Adjustor).Column("AdjustorID");
             References(x => x.JurisdictionStateId).Column("JurisdictionStateID");
             References(x => x.Patient).Column("PatientID");
             References(x => x.ClaimFlex2).Column("ClaimFlex2ID");
