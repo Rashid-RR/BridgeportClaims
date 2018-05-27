@@ -176,6 +176,7 @@
     <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
     <Compile Include="Dtos\IndexedInvoiceDto.cs" />
+    <Compile Include="Dtos\LeftRightClaimsDto.cs" />
     <Compile Include="Dtos\LetterGenerationDto.cs" />
     <Compile Include="Dtos\NewEpisodeSaveDto.cs" />
     <Compile Include="Dtos\NotificationDto.cs" />

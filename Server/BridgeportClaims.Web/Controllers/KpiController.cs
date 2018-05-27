@@ -19,6 +19,22 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("get-left-right-claims")]
+        public IHttpActionResult GetClaimComparisons(int leftClaimId, int rightClaimId)
+        {
+            try
+            {
+                var results = _kpiProvider.Value.GetClaimComparisons(leftClaimId, rightClaimId);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("revenue")]
         public IHttpActionResult GetMonthlyRevenue()
         {
