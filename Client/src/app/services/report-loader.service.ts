@@ -4,6 +4,30 @@ import { SortColumnInfo } from "../directives/table-sort.directive";
 import { Router, NavigationEnd } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
+export interface ComparisonClaim {
+  leftAdjustorId: number;//
+  leftAdjustorName: string;//
+  leftCarrier: string;//
+  leftClaimFlex2: any;//
+  leftClaimId: number;//
+  leftClaimNumber: string;//
+  leftDateOfBirth: Date;//
+  leftInjuryDate: Date;//
+  leftPatientId: number;//
+  leftPatientName: string;//
+  leftPayorId: number;//
+  rightAdjustorId: number;
+  rightAdjustorName: string;
+  rightCarrier: string;
+  rightClaimFlex2: any
+  rightClaimId: number;
+  rightClaimNumber: any;
+  rightDateOfBirth: Date;
+  rightInjuryDate: Date;
+  rightPatientId: number;
+  rightPatientName: string;
+  rightPayorId: number;
+}
 export interface DuplicateClaim {
   lastName: string,
   firstName: string,
@@ -11,7 +35,8 @@ export interface DuplicateClaim {
   dateOfBirth: Date,
   claimNumber: number,
   personCode: any,
-  groupName: string
+  groupName: string,
+  selected?: boolean
 }
 @Injectable()
 export class ReportLoaderService {
@@ -36,7 +61,9 @@ export class ReportLoaderService {
       pageSize: 30
     }
   }
-
+  get selectedClaims() {
+    return this.duplicates.filter(claim => claim.selected === true);
+  }
   fetchDuplicateClaims(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.data) {
       this.toast.warning('Please populate at least one search field.');
@@ -89,8 +116,8 @@ export class ReportLoaderService {
     this.data.isDefaultSort = false;
     this.data.sort = info.column;
     this.data.sortDirection = info.dir;
-    this.data.page= 1;
-    this.data.goToPage= '';
+    this.data.page = 1;
+    this.data.goToPage = '';
     this.fetchDuplicateClaims();
   }
   get totalPages() {

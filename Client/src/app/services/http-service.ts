@@ -672,6 +672,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getComparisonClaims(data?: any): Observable<Response> {
+    return this.http.post(this.baseUrl + `/kpi/get-left-right-claims/?leftClaimId=${data.leftClaimId}&rightClaimId=${data.rightClaimId}`, data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   getExport(data: any): Observable<Response> {
     let headers = this.headers;
     headers.append('accept', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

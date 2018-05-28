@@ -4,23 +4,23 @@ th {
     font-size: 9pt;
     font-family: 'Cambay', sans-serif !important;
 }
-tr>th:first-child,
-tr>td:first-child,
-tr>th:nth-child(2),
-tr>td:nth-child(2),
-tr>th:nth-child(3),
-tr>td:nth-child(3),
-tr>th:nth-child(4),
-tr>td:nth-child(4),
-tr>th:nth-child(5),
-tr>td:nth-child(5),
-tr>th:nth-child(6),
-tr>td:nth-child(6){
-    width: 14%;
-}
-tr>th:last-child,
-tr>td:last-child{
+table:not(.to-merge) tr>th:first-child,
+table:not(.to-merge)  tr>td:first-child{
     width: 16%;
+}
+table:not(.to-merge) tr>th:nth-child(2),
+table:not(.to-merge) tr>td:nth-child(2),
+table:not(.to-merge) tr>th:nth-child(3),
+table:not(.to-merge) tr>td:nth-child(3),
+table:not(.to-merge) tr>th:nth-child(4),
+table:not(.to-merge) tr>td:nth-child(4),
+table:not(.to-merge) tr>th:nth-child(5),
+table:not(.to-merge) tr>td:nth-child(5),
+table:not(.to-merge) tr>th:nth-child(6),
+table:not(.to-merge) tr>td:nth-child(6),
+table:not(.to-merge) tr>th:last-child,
+table:not(.to-merge) tr>td:last-child{
+    width: 12%;
 }
 
 /* ROW COLOR CHANGE*/
@@ -141,4 +141,26 @@ thead span {
 
 .pagination-row  .input-group .form-control{
     height:28px;
+}
+
+.container-fluid.merge .expanded{
+    overflow: hidden;
+    overflow-y: auto;
+}
+.container-fluid.merge .expanded .col-sm-6:nth-child(2) tr:nth-of-type(odd) {
+    background: #fbdede !important;
+}
+
+.container-fluid.merge .expanded .col-sm-6:nth-child(2) tr:nth-of-type(even) {
+    background: #ffefef !important;
+}
+.container-fluid.merge .expanded .col-sm-6:nth-child(2) tr:hover {
+        background: #ffb6b6 !important;
+        cursor: pointer;
+      }
+.container-fluid.merge .expanded td{
+    text-align: left;
+}
+.container-fluid.merge .expanded .commonCheckBox input[type=checkbox]{
+    z-index:0;
 }
