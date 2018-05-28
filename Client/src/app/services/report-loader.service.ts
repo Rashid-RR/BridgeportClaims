@@ -18,6 +18,7 @@ export class ReportLoaderService {
   loading: Boolean = false;
   current: String = 'List';
   currentURL: String = 'List';
+  goToPage: any = '';
   routes: string[] = [];
   duplicates: DuplicateClaim[] = [];
   data: any = {};
@@ -54,7 +55,7 @@ export class ReportLoaderService {
       }
       this.loading = true;
       this.http.duplicateClaims(this.data).single().map(r => r.json()).subscribe(r => {
-        this.duplicates = r.claimResults || r;
+        this.duplicates = r.results || r;
         this.totalRowCount = r.totalRowCount || r.length;
         this.loading = false;
         if (next) {
@@ -88,7 +89,9 @@ export class ReportLoaderService {
     this.data.isDefaultSort = false;
     this.data.sort = info.column;
     this.data.sortDirection = info.dir;
-    //this.fetchDuplicateClaims();
+    this.data.page= 1;
+    this.data.goToPage= '';
+    this.fetchDuplicateClaims();
   }
   get totalPages() {
     return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;

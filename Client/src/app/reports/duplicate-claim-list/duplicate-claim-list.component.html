@@ -4,7 +4,7 @@
     <div class="table-responsive top-header">
       <table class="table no-margin table-striped">
         <thead class="overflowable" id="fixed-thead">
-          <tr #myTable='table-sort' (tableSort)="reportloader.onSortColumn($event)">
+          <tr #myTable='table-sort' (tableSort)="reportloader.onSortColumn($event);goToPage=''">
             <th>
               <span columnSort="lastName" [sort-table]="myTable">Last Name</span>
             </th>
