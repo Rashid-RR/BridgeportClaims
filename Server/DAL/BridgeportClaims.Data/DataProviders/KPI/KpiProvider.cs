@@ -35,6 +35,17 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                 return results?.ToList();
             });
 
+        public bool SaveClaimMerge(int claimId, int duplicateClaimId, string claimNumber, int patientId,
+            DateTime? injuryDate)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                conn.Open();
+                DynamicParameters ps = new DynamicParameters();
+                ps.Add("", claimId, DbType.Int32);
+                conn.Execute("", ps, commandType: CommandType.StoredProcedure);
+                return true;
+            });
+
         public IList<PaymentTotalsDto> GetPaymentTotalsDtos()
         {
             return DisposableService.Using(() => _factory.Value.OpenSession(), session =>

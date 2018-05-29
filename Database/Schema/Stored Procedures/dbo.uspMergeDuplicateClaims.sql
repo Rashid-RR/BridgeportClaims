@@ -15,13 +15,13 @@ CREATE PROC [dbo].[uspMergeDuplicateClaims]
 (
     @ClaimID INT,
     @DuplicateClaimID INT,
-    @DateOfInjury DATE = '1/1/1901',
     @ClaimNumber VARCHAR(255) = '{NULL}',
-    @PersonCode CHAR(2) = '{}',
-    @PayorID INT = -1,
-    @AdjustorID INT = -1,
     @PatientID INT = -1,
-    @ClaimFlex2ID INT = -1
+    @DateOfInjury DATE = '1/1/1901',
+    @AdjustorID INT = -1,
+    @PayorID INT = -1,
+    @ClaimFlex2ID INT = -1,
+    @PersonCode CHAR(2) = '{}'
 )
 AS BEGIN
     SET NOCOUNT ON;
@@ -31,13 +31,13 @@ AS BEGIN
 
             DECLARE @RowCount INT, @PrntMsg NVARCHAR(500);
 
-            UPDATE  [c] SET [c].[DateOfInjury] = CASE WHEN @DateOfInjury != '1/1/1901' THEN @DateOfInjury ELSE [c].[DateOfInjury] END,
-                            [c].[ClaimNumber] = CASE WHEN @ClaimNumber != '{NULL}' THEN @ClaimNumber ELSE [c].[ClaimNumber] END,
-                            [c].[PersonCode] = CASE WHEN @PersonCode != '{}' THEN @PersonCode ELSE [c].[PersonCode] END,
-                            [c].[PayorID] = CASE WHEN @PayorID != -1 THEN @PayorID ELSE [c].[PayorID] END,
-                            [c].[AdjustorID] = CASE WHEN @AdjustorID != -1 THEN @AdjustorID ELSE [c].[AdjustorID] END,
+            UPDATE  [c] SET [c].[ClaimNumber] = CASE WHEN @ClaimNumber != '{NULL}' THEN @ClaimNumber ELSE [c].[ClaimNumber] END,
                             [c].[PatientID] = CASE WHEN @PatientID != -1 THEN @PatientID ELSE [c].[PatientID] END,
-                            [c].[ClaimFlex2ID] = CASE WHEN @ClaimFlex2ID != -1 THEN @ClaimFlex2ID ELSE [c].[ClaimFlex2ID] END
+                            [c].[DateOfInjury] = CASE WHEN @DateOfInjury != '1/1/1901' THEN @DateOfInjury ELSE [c].[DateOfInjury] END,
+                            [c].[AdjustorID] = CASE WHEN @AdjustorID != -1 THEN @AdjustorID ELSE [c].[AdjustorID] END,
+                            [c].[PayorID] = CASE WHEN @PayorID != -1 THEN @PayorID ELSE [c].[PayorID] END,
+                            [c].[ClaimFlex2ID] = CASE WHEN @ClaimFlex2ID != -1 THEN @ClaimFlex2ID ELSE [c].[ClaimFlex2ID] END,
+                            [c].[PersonCode] = CASE WHEN @PersonCode != '{}' THEN @PersonCode ELSE [c].[PersonCode] END
             FROM    [dbo].[Claim] AS [c]
             WHERE   [c].[ClaimID] = @ClaimID;
 
