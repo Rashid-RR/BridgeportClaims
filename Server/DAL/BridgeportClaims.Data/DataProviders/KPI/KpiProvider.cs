@@ -36,14 +36,35 @@ namespace BridgeportClaims.Data.DataProviders.KPI
             });
 
         public bool SaveClaimMerge(int claimId, int duplicateClaimId, string claimNumber, int patientId,
-            DateTime? injuryDate)
+            DateTime? injuryDate, int? adjustorId, int payorId, int? claimFlex2Id, string personCode)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                conn.Open();
-                DynamicParameters ps = new DynamicParameters();
-                ps.Add("", claimId, DbType.Int32);
-                conn.Execute("", ps, commandType: CommandType.StoredProcedure);
-                return true;
+                try
+                {
+                    const string sp = "[dbo].[uspMergeDuplicateClaims]";
+                    conn.Open();
+                    var ps = new DynamicParameters();
+                    ps.Add("@ClaimID", claimId, DbType.Int32);
+                    ps.Add("@DuplicateClaimID", duplicateClaimId, DbType.Int32);
+                    ps.Add("@ClaimNumber", claimNumber, DbType.AnsiString);
+                    ps.Add("@PatientID", patientId, DbType.Int32);
+                    ps.Add("@DateOfInjury", injuryDate, DbType.Date);
+                    ps.Add("@AdjustorID", adjustorId, DbType.Int32);
+                    ps.Add("@PayorID", payorId, DbType.Int32);
+                    ps.Add("@ClaimFlex2ID", claimFlex2Id, DbType.Int32);
+                    ps.Add("@PersonCode", personCode, DbType.AnsiString);
+                    var r = conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+                    if (-1 == r)
+                    {
+                        throw new Exception($"Error, the stored procedure {sp} did not execute properly.");
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Value.Error(ex);
+                    return false;
+                }
             });
 
         public IList<PaymentTotalsDto> GetPaymentTotalsDtos()
