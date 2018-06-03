@@ -679,6 +679,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getMergeClaims(data?: any): Observable<Response> {
+    return this.http.post(this.baseUrl + `/kpi/save-claim-merge/`, data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   getExport(data: any): Observable<Response> {
     let headers = this.headers;
     headers.append('accept', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

@@ -39,10 +39,15 @@ tr:nth-of-type(even) {
     overflow: hidden;     
 }
 .expanded{
-    height: calc(100vh - 290px);
+   /*  height: calc(100vh - 290px);
     height: -moz-calc(100vh - 290px);
     height: -webkit-calc(100vh - 290px);
-    height: -o-calc(100vh - 290px);
+    height: -o-calc(100vh - 290px); */
+
+    height: calc(100vh - 190px);
+    height: -moz-calc(100vh - 190px);
+    height: -webkit-calc(100vh - 190px);
+    height: -o-calc(100vh - 190px);
     overflow:hidden;
 }
 .top-header,.table-body{
@@ -60,7 +65,7 @@ tr:nth-of-type(even) {
 }
 .table-body{
     position: absolute;
-    top:40px;
+    top:45px;
     height: calc(100% - 110px);
     max-height: calc(100% - 110px);
     max-height: -moz-calc(100% - 110px);
@@ -69,6 +74,17 @@ tr:nth-of-type(even) {
     overflow-y: auto;
     overflow-x: hidden;
 } 
+.top-header.selection-mode{
+    height:85px;
+}
+.table-body.selection-mode{
+    top:85px;
+    height: calc(100% - 140px);
+    max-height: calc(100% - 140px);
+    max-height: -moz-calc(100% - 140px);
+    max-height: -webkit-calc(100% - 140px);
+    max-height: -o-calc(100% - 140px);
+}
 .top-header table{
     height:100%;
 }
