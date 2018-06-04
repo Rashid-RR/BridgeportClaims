@@ -29,10 +29,14 @@ namespace BridgeportClaims.Web.Controllers
             }
             try
             {
-                var results = _kpiProvider.Value.SaveClaimMerge(model.ClaimId, model.DuplicateClaimId,
+                var succeeded = _kpiProvider.Value.SaveClaimMerge(model.ClaimId, model.DuplicateClaimId,
                     model.ClaimNumber, model.PatientId
                     , model.InjuryDate, model.AdjustorId, model.PayorId, model.ClaimFlex2Id, model.PersonCode);
-                return Ok(results);
+                if (!succeeded)
+                {
+                    throw new Exception($"Error, something happened that didn't allow the database call to succeed.");
+                }
+                return Ok(new {message = "The claims were merged successfully."});
             }
             catch (Exception ex)
             {
