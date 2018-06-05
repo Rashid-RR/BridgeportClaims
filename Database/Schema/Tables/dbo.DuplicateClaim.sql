@@ -27,9 +27,9 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[DuplicateClaim] ADD CONSTRAINT [pkDuplicateClaim] PRIMARY KEY CLUSTERED  ([DuplicateClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
+ALTER TABLE [dbo].[DuplicateClaim] ADD CONSTRAINT [pkDuplicateClaim] PRIMARY KEY CLUSTERED  ([DuplicateClaimID]) WITH (DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxDuplicateClaimReplacementClaimID] ON [dbo].[DuplicateClaim] ([ReplacementClaimID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxDuplicateClaimReplacementClaimID] ON [dbo].[DuplicateClaim] ([ReplacementClaimID]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[DuplicateClaim] ADD CONSTRAINT [fkDuplicateClaimAdjustorIDAdjustorAdjustorID] FOREIGN KEY ([AdjustorID]) REFERENCES [dbo].[Adjustor] ([AdjustorID])
 GO

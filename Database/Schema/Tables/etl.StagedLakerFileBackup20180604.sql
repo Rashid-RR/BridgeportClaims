@@ -1,4 +1,4 @@
-CREATE TABLE [etl].[StagedLakerFileBackup20180524]
+CREATE TABLE [etl].[StagedLakerFileBackup20180604]
 (
 [RowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [2] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

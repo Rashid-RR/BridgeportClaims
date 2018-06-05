@@ -7,8 +7,9 @@ GO
  Author:            Jordan Gurney
  Create date:       5/26/2018
  Description:       Dedupes and merges the Claim data from one claim into another.
- Example Execute:
-                    EXECUTE [dbo].[uspMergeDuplicateClaims]
+ Example Execute:   DECLARE @I INT
+                    EXECUTE @I = [dbo].[uspMergeDuplicateClaims] 2392, 508,'3006686098',366,'12/10/2018', 898, 45, 5,'01'
+                    SELECT @I
  =============================================
 */
 CREATE PROC [dbo].[uspMergeDuplicateClaims]
@@ -76,4 +77,5 @@ AS BEGIN
             @ErrMsg);
     END CATCH
 END
+
 GO

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.KPI;
 using BridgeportClaims.Web.Models;
 using NLog;
@@ -31,7 +32,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var succeeded = _kpiProvider.Value.SaveClaimMerge(model.ClaimId, model.DuplicateClaimId,
                     model.ClaimNumber, model.PatientId
-                    , model.InjuryDate, model.AdjustorId, model.PayorId, model.ClaimFlex2Id, model.PersonCode);
+                    , model.InjuryDate.ToNullableFormattedDateTime(), model.AdjustorId, model.PayorId, model.ClaimFlex2Id, model.PersonCode);
                 if (!succeeded)
                 {
                     throw new Exception($"Error, something happened that didn't allow the database call to succeed.");
