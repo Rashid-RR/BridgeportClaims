@@ -22,6 +22,8 @@ AS BEGIN
     SET NOCOUNT ON;
     SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
     SET DEADLOCK_PRIORITY HIGH;
+    IF @DebugOnly IS NULL
+        SET @DebugOnly = 0;
     BEGIN TRY
         BEGIN TRANSACTION;
 
@@ -99,15 +101,19 @@ AS BEGIN
 		CLOSE [FkCursor];
 		DEALLOCATE [FkCursor];
 
-		-- Finally, construct the delete statement. As long as the table name is not Claim.
-        IF PARSENAME(@TableName, 1) = 'Claim'
+		-- Finally, log the old values from the Claim that we are removing.
+        IF PARSENAME(@TableName, 1) = 'Claim' AND @DebugOnly = 0
             BEGIN
-                SET @SQLStatement = N'INSERT dbo.[DuplicateClaim] ([DuplicateClaimID], [ReplacementClaimID]) ' +
-                                        N'VALUES (' + CONVERT(NVARCHAR, @IDToRemove) + ', ' + CONVERT(NVARCHAR, @IDToKeep) + ');';
-                    IF @DebugOnly = 1
-                        PRINT @SQLStatement
-                    ELSE
-                        EXECUTE [sys].[sp_executesql] @SQLStatement;
+                DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
+                INSERT  [dbo].[DuplicateClaim] ([DuplicateClaimID], [ReplacementClaimID], [PolicyNumber], [DateOfInjury]
+                               ,[IsFirstParty], [ClaimNumber], [PreviousClaimNumber], [PersonCode], [PayorID]
+                               ,[AdjustorID], [JurisdictionStateID], [RelationCode], [TermDate], [PatientID]
+                               ,[ETLRowID], [ClaimFlex2ID], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
+                SELECT   @IDToRemove, @IDToKeep, [c].[PolicyNumber],[c].[DateOfInjury],[c].[IsFirstParty],[c].[ClaimNumber],[c].[PreviousClaimNumber]
+                        ,[c].[PersonCode],[c].[PayorID],[c].[AdjustorID],[c].[JurisdictionStateID],[c].[RelationCode],[c].[TermDate]
+                        ,[c].[PatientID],[c].[ETLRowID],[c].[ClaimFlex2ID],[c].[ModifiedByUserID],@UtcNow,@UtcNow
+                FROM    [dbo].[Claim] AS [c]
+                WHERE   [c].[ClaimID] = @IDToRemove
             END
 
         SET @SQLStatement = N'DELETE ' +
@@ -140,4 +146,5 @@ AS BEGIN
             @ErrMsg)			-- First argument (string)
     END CATCH
 END
+
 GO

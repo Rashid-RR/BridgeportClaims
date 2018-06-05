@@ -2,7 +2,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-/* 
+/*
  =============================================
  Author:            Jordan Gurney
  Create date:       5/27/2018
@@ -30,6 +30,11 @@ AS BEGIN
            ,[LeftPayorID] = [l].[PayorID]
            ,[LeftCarrier] = [lca].[GroupName]
            ,[LeftClaimFlex2] = [lcf].[Flex2]
+           ,[LeftPrescriptionCount] = (
+                                  SELECT    COUNT(*)
+                                  FROM      [dbo].[Prescription] AS [p]
+                                  WHERE     [p].[ClaimID] = [l].[ClaimID]
+                                 )
            ,[RightClaimID] = [r].[ClaimID]
            ,[RightClaimNumber] = [r].[ClaimNumber]
            ,[RightPatientID] = [rpat].[PatientID]
@@ -41,6 +46,17 @@ AS BEGIN
            ,[RightPayorID] = [r].[PayorID]
            ,[RightCarrier] = [rca].[GroupName]
            ,[RightClaimFlex2] = [rcf].[Flex2]
+           ,[RightPrescriptionCount] = (
+                                  SELECT    COUNT(*)
+                                  FROM      [dbo].[Prescription] AS [ip]
+                                  WHERE     [ip].[ClaimID] = [r].[ClaimID]
+                                 )
+           ,[RightPrescriptionNotes] = (
+                                  SELECT    COUNT(*)
+                                  FROM      [dbo].[PrescriptionNoteMapping] AS [pn]
+                                            INNER JOIN [dbo].[Prescription] AS [iip] ON [iip].[PrescriptionID] = [pn].[PrescriptionID]
+                                  WHERE     [l].[ClaimID] = @LeftSideClaimID
+                                  )
     FROM    [dbo].[Claim] AS [l]
             INNER JOIN [dbo].[Patient] AS [lpat] ON [lpat].[PatientID] = [l].[PatientID]
             INNER JOIN [dbo].[Payor] AS [lca] ON [lca].[PayorID] = [l].[PayorID]
@@ -53,4 +69,5 @@ AS BEGIN
             LEFT JOIN [dbo].[ClaimFlex2] AS [rcf] ON [rcf].[ClaimFlex2ID] = [r].[ClaimFlex2ID]
     WHERE   [l].[ClaimID] = @LeftSideClaimID;
 END
+
 GO
