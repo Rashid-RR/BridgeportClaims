@@ -33,20 +33,21 @@ GO
 CREATE TRIGGER [dbo].[utClaimAudit] ON [dbo].[Claim] FOR INSERT, UPDATE, DELETE
 AS BEGIN
 	SET NOCOUNT ON;
-    IF ( SELECT COUNT(*)
-         FROM   INSERTED
-       ) > 0 
+    DECLARE @Now DATETIME2 = dtme.udfGetDate(), @User NVARCHAR(128) = SUSER_SNAME();
+    IF EXISTS ( SELECT *
+                FROM   INSERTED
+              )
         BEGIN 
-            IF ( SELECT COUNT(*)
-                 FROM   DELETED
-               ) > 0 
+            IF EXISTS ( SELECT *
+                        FROM   DELETED
+                      )
                 BEGIN 
         
                     INSERT  INTO dbo.ClaimAudit
                             ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
                             SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'UPDATE'
-                                   ,SUSER_SNAME()
-                                   ,SYSUTCDATETIME()
+                                   ,@User
+                                   ,@Now
                             FROM    INSERTED
            
                 END 
@@ -56,8 +57,8 @@ AS BEGIN
                             ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC
                             )
                             SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'INSERT'
-                                   ,SUSER_SNAME()
-                                   ,SYSUTCDATETIME()
+                                   ,@User
+                                   ,@Now
                             FROM    INSERTED
                 END 
         END 
@@ -66,8 +67,8 @@ AS BEGIN
             INSERT  INTO dbo.ClaimAudit
                     ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
                     SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'DELETE'
-                           ,SUSER_SNAME()
-                           ,SYSUTCDATETIME()
+                           ,@User
+                           ,@Now
                     FROM    DELETED
         END
 END
