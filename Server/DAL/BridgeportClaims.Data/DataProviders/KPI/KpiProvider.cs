@@ -35,8 +35,8 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                 return results?.ToList();
             });
 
-        public bool SaveClaimMerge(int claimId, int duplicateClaimId, string claimNumber, int patientId,
-            DateTime? injuryDate, int? adjustorId, int payorId, int? claimFlex2Id, string personCode)
+        public bool SaveClaimMerge(int claimId, int duplicateClaimId, string userId, string claimNumber, int patientId,
+            DateTime? injuryDate, int? adjustorId, int payorId, int? claimFlex2Id)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 try
@@ -46,13 +46,13 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                     var ps = new DynamicParameters();
                     ps.Add("@ClaimID", claimId, DbType.Int32);
                     ps.Add("@DuplicateClaimID", duplicateClaimId, DbType.Int32);
+                    ps.Add("@UserID", userId, DbType.String);
                     ps.Add("@ClaimNumber", claimNumber, DbType.AnsiString);
                     ps.Add("@PatientID", patientId, DbType.Int32);
                     ps.Add("@DateOfInjury", injuryDate, DbType.Date);
                     ps.Add("@AdjustorID", adjustorId, DbType.Int32);
                     ps.Add("@PayorID", payorId, DbType.Int32);
                     ps.Add("@ClaimFlex2ID", claimFlex2Id, DbType.Int32);
-                    ps.Add("@PersonCode", personCode, DbType.AnsiString);
                     var r = conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
                     if (-1 == r)
                     {

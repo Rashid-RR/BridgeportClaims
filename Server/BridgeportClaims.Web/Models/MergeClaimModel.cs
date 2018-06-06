@@ -12,6 +12,5 @@ namespace BridgeportClaims.Web.Models
         public int? AdjustorId { get; set; }
         public int PayorId { get; set; }
         public int? ClaimFlex2Id { get; set; }
-        public string PersonCode { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.KPI;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -20,19 +21,45 @@ namespace BridgeportClaims.Web.Controllers
             _kpiProvider = kpiProvider;
         }
 
-        [HttpPost]
-        [Route("save-claim-merge")]
-        public IHttpActionResult SaveClaimsMerge(MergeClaimModel model)
+        private void ValidateModel(MergeClaimModel model)
         {
             if (null == model)
             {
                 throw new ArgumentNullException(nameof(model));
             }
+            if (default(int) == model.ClaimId)
+            {
+                throw new ArgumentException($"{nameof(model.ClaimId)} cannot be zero.");
+            }
+            if (default(int) == model.DuplicateClaimId)
+            {
+                throw new ArgumentException($"{nameof(model.DuplicateClaimId)} cannot be zero.");
+            }
+            if (model.ClaimNumber.IsNullOrWhiteSpace())
+            {
+                throw new Exception($"{model.ClaimNumber} parameter cannot be empty.");
+            }
+            if (default(int) == model.PatientId)
+            {
+                throw new ArgumentException($"{nameof(model.PatientId)} cannot be zero.");
+            }
+            if (default(int) == model.PayorId)
+            {
+                throw new ArgumentException($"{nameof(model.PayorId)} cannot be zero.");
+            }
+        }
+
+        [HttpPost]
+        [Route("save-claim-merge")]
+        public IHttpActionResult SaveClaimsMerge(MergeClaimModel model)
+        {
+            ValidateModel(model);
             try
             {
-                var succeeded = _kpiProvider.Value.SaveClaimMerge(model.ClaimId, model.DuplicateClaimId,
+                var userId = User.Identity.GetUserId();
+                var succeeded = _kpiProvider.Value.SaveClaimMerge(model.ClaimId, model.DuplicateClaimId, userId,
                     model.ClaimNumber, model.PatientId
-                    , model.InjuryDate.ToNullableFormattedDateTime(), model.AdjustorId, model.PayorId, model.ClaimFlex2Id, model.PersonCode);
+                    , model.InjuryDate.ToNullableFormattedDateTime(), model.AdjustorId, model.PayorId, model.ClaimFlex2Id);
                 if (!succeeded)
                 {
                     throw new Exception($"Error, something happened that didn't allow the database call to succeed.");
