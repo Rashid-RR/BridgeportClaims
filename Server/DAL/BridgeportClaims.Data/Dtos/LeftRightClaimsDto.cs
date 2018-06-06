@@ -26,7 +26,8 @@ namespace BridgeportClaims.Data.Dtos
         [StringLength(255)]
         public string LeftCarrier { get; set; }
         [StringLength(10)]
-        public string LeftClaimFlex2 { get; set; }
+        public string LeftClaimFlex2Value { get; set; }
+        public int? LeftClaimFlex2Id { get; set; }
         [Required]
         public int RightClaimId { get; set; }
         [Required]
@@ -48,6 +49,7 @@ namespace BridgeportClaims.Data.Dtos
         [StringLength(255)]
         public string RightCarrier { get; set; }
         [StringLength(10)]
-        public string RightClaimFlex2 { get; set; }
+        public string RightClaimFlex2Value { get; set; }
+        public int? RightClaimFlex2Id { get; set; }
     }
 }

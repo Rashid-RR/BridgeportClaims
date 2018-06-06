@@ -486,9 +486,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>2095</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:2095/</IISUrl>
+          <IISUrl>http://localhost:2095/</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost:2095</IISAppRootUrl>
+          <IISAppRootUrl>https://localhost:44398</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
