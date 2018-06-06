@@ -16,6 +16,7 @@ CREATE PROC [dbo].[uspMergeDuplicateClaims]
 (
     @ClaimID INT,
     @DuplicateClaimID INT,
+    @UserID NVARCHAR(128),
     @ClaimNumber VARCHAR(255) = '{NULL}',
     @PatientID INT = -1,
     @DateOfInjury DATE = '1/1/1901',
@@ -54,7 +55,7 @@ AS BEGIN
                 END
 
             EXEC dbo.[uspDeDupeTable] @TableName = 'dbo.Claim', @IDToRemove = @DuplicateClaimID
-                                     ,@IDToKeep = @ClaimID, @DebugOnly = 0;
+                                     ,@IDToKeep = @ClaimID, @UserID = @UserID, @DebugOnly = 0;
 
         IF (@@TRANCOUNT > 0)
             COMMIT;
@@ -77,5 +78,4 @@ AS BEGIN
             @ErrMsg);
     END CATCH
 END
-
 GO

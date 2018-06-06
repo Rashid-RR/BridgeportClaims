@@ -16,6 +16,7 @@ CREATE PROC [dbo].[uspDeDupeTable]
     @TableName SYSNAME, -- Includes column name.
     @IDToRemove INT,
     @IDToKeep INT,
+    @UserID NVARCHAR(128),
     @DebugOnly BIT = 0
 )
 AS BEGIN
@@ -105,15 +106,8 @@ AS BEGIN
         IF PARSENAME(@TableName, 1) = 'Claim' AND @DebugOnly = 0
             BEGIN
                 DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
-                INSERT  [dbo].[DuplicateClaim] ([DuplicateClaimID], [ReplacementClaimID], [PolicyNumber], [DateOfInjury]
-                               ,[IsFirstParty], [ClaimNumber], [PreviousClaimNumber], [PersonCode], [PayorID]
-                               ,[AdjustorID], [JurisdictionStateID], [RelationCode], [TermDate], [PatientID]
-                               ,[ETLRowID], [ClaimFlex2ID], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
-                SELECT   @IDToRemove, @IDToKeep, [c].[PolicyNumber],[c].[DateOfInjury],[c].[IsFirstParty],[c].[ClaimNumber],[c].[PreviousClaimNumber]
-                        ,[c].[PersonCode],[c].[PayorID],[c].[AdjustorID],[c].[JurisdictionStateID],[c].[RelationCode],[c].[TermDate]
-                        ,[c].[PatientID],[c].[ETLRowID],[c].[ClaimFlex2ID],[c].[ModifiedByUserID],@UtcNow,@UtcNow
-                FROM    [dbo].[Claim] AS [c]
-                WHERE   [c].[ClaimID] = @IDToRemove
+                INSERT  [dbo].[DuplicateClaim] ([DuplicateClaimID], [ReplacementClaimID], [CreatedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
+                SELECT  @IDToRemove, @IDToKeep, @UserID, @UtcNow, @UtcNow;
             END
 
         SET @SQLStatement = N'DELETE ' +
@@ -146,5 +140,6 @@ AS BEGIN
             @ErrMsg)			-- First argument (string)
     END CATCH
 END
+
 
 GO
