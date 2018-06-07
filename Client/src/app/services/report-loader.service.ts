@@ -8,7 +8,8 @@ export interface ComparisonClaim {
   leftAdjustorId: number;//
   leftAdjustorName: string;//
   leftCarrier: string;//
-  leftClaimFlex2: any;//
+  leftClaimFlex2Id: any;//
+  leftClaimFlex2Value: any;//
   leftClaimId: number;//
   leftClaimNumber: string;//
   leftDateOfBirth: Date;//
@@ -19,7 +20,8 @@ export interface ComparisonClaim {
   rightAdjustorId: number;
   rightAdjustorName: string;
   rightCarrier: string;
-  rightClaimFlex2: any
+  rightClaimFlex2Id: any
+  rightClaimFlex2Value: any
   rightClaimId: number;
   rightClaimNumber: any;
   rightDateOfBirth: Date;
@@ -80,7 +82,6 @@ export class ReportLoaderService {
       if (page) {
         data.page = page;
       }
-      this.loading = true;
       this.http.duplicateClaims(this.data).single().map(r => r.json()).subscribe(r => {
         this.duplicates = r.results || r;
         this.totalRowCount = r.totalRowCount || r.length;

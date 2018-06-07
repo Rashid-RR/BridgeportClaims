@@ -680,7 +680,7 @@ export class HttpService {
       });
   }
   getMergeClaims(data?: any): Observable<Response> {
-    return this.http.post(this.baseUrl + `/kpi/save-claim-merge/`, data, { headers: this.headers })
+    return this.http.post(this.baseUrl + `/kpi/save-claim-merge`, data, { headers: this.headers })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

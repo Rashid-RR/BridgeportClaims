@@ -180,3 +180,11 @@ thead span {
 .container-fluid.merge .expanded .commonCheckBox input[type=checkbox]{
     z-index:0;
 }
+
+.commonCheckBox input[type=checkbox]:disabled+label:first-of-type{
+    background: rgba(147, 145, 141, 0.39) !important;
+    cursor: not-allowed;
+}
+.not-allowed td{
+    cursor: not-allowed;
+}

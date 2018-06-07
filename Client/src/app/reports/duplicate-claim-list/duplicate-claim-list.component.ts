@@ -21,12 +21,12 @@ export class DuplicateClaimListComponent implements OnInit {
   mergedClaim: any = {} as any;
   @ViewChild('claimActionSwal') private claimSwal: SwalComponent;
   comparisonClaims: ComparisonClaim = {} as ComparisonClaim
-  constructor(private dp: DatePipe,private http: HttpService, public reportloader: ReportLoaderService, private toast: ToastsManager) { }
+  constructor(private dp: DatePipe, private http: HttpService, public reportloader: ReportLoaderService, private toast: ToastsManager) { }
 
   ngOnInit() {
     this.reportloader.current = 'Duplicate Claims Report';
     this.reportloader.currentURL = 'duplicate-claims';
-    this.reportloader.loading = false;
+    //this.reportloader.loading = false;
   }
   merge(value: any, $event, index: string) {
     if (value == this.mergedClaim[index] && !$event.checked) {
@@ -37,26 +37,50 @@ export class DuplicateClaimListComponent implements OnInit {
   }
   closeModal() {
     this.deselectAll();
-    try{swal.clickCancel();}catch(e){}
+    try { swal.clickCancel(); } catch (e) { }
   }
   save() {
-    this.reportloader.loading = true;
-    let duplicate = this.reportloader.selectedClaims.find(c=>c.claimId!=this.mergedClaim.claimId)
+    let duplicate = this.reportloader.selectedClaims.find(c => c.claimId != this.mergedClaim.ClaimId)
     let form = JSON.parse(JSON.stringify(this.mergedClaim));
-    form.injuryDate = this.dp.transform(form.injuryDate, "MM/dd/yyyy");
-    form.dateOfBirth = this.dp.transform(form.dateOfBirth, "MM/dd/yyyy");      
-    form.duplicateClaimId=duplicate.claimId;
-    this.http.getMergeClaims(form)
-      .single().map(r => r.json()).subscribe(r => {
-        this.toast.success('Claim successfully merged').then((toast: Toast) => {
-          this.activeToast = toast;
-        })
-        this.deselectAll();
-        this.reportloader.fetchDuplicateClaims();
-        this.reportloader.loading = false;
-      }, err => {
-        this.reportloader.loading = false;
-      });
+    let InjuryDate = this.dp.transform(form.InjuryDate, "MM/dd/yyyy");
+    let DateOfBirth = this.dp.transform(form.DateOfBirth, "MM/dd/yyyy");
+    form.DuplicateClaimId = duplicate.claimId;
+    form.ClaimFlex2Id = form.ClaimFlex2Value == this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value ? this.comparisonClaims.rightClaimFlex2Id : undefined);
+    form.AdjustorId = form.AdjustorName == this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName ? this.comparisonClaims.rightAdjustorId : undefined);
+    form.PatientId = form.PatientName == this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
+    //form.PersonCode = this.reportloader.selectedClaims[0].personCode;
+    if(!form.ClaimFlex2Id){
+      delete form['ClaimFlex2Value']
+    }
+    if(!form.AdjustorId){
+      delete form['AdjustorId']
+    }
+    if(!form.PatientId){
+      delete form['PatientId']
+    }
+    delete form.PatientName;
+    delete form.AdjustorName;
+    delete form.ClaimFlex2Value;
+    if(InjuryDate) form.InjuryDate =InjuryDate
+    if(DateOfBirth) form.DateOfBirth =DateOfBirth;
+    console.log(form);
+    if (form.DuplicateClaimId && form.hasOwnProperty("ClaimFlex2Id") && form.hasOwnProperty("ClaimId") && form.hasOwnProperty("ClaimNumber") && form.hasOwnProperty("DateOfBirth") && form.hasOwnProperty("InjuryDate")
+      && form.hasOwnProperty("AdjustorId") && form.hasOwnProperty("PatientId") && form.hasOwnProperty("PayorId")) {
+      this.reportloader.loading = true;
+      this.http.getMergeClaims(form)
+        .single().map(r => r.json()).subscribe(r => {
+          this.toast.success('Claim successfully merged').then((toast: Toast) => {
+            this.activeToast = toast;
+          })
+          this.deselectAll();
+          this.reportloader.fetchDuplicateClaims();
+          this.reportloader.loading = false;
+        }, err => {
+          this.reportloader.loading = false;
+        });
+    } else {
+      this.toast.warning('Please choose a value for every field for these claims in order to save the merge...');
+    }
   }
   select(claim: DuplicateClaim, $event, index: number) {
     if ($event.checked) {
@@ -81,21 +105,22 @@ export class DuplicateClaimListComponent implements OnInit {
           this.activeToast = toast;
         })
       } else if (this.reportloader.selectedClaims.length == 2) {
-        this.activeToast.timeoutId=null;
+        this.activeToast.timeoutId = null;
         jQuery(".toast.toast-info").hide();
         this.showModal();
       }
-    }else{
-      this.toast.warning('You you have already chosen this claim for comparison.').then((toast: Toast) => { 
+    } else {
+      this.toast.warning('You you have already chosen this claim for comparison.').then((toast: Toast) => {
       })
-      $event.checked=true;
+      $event.checked = true;
     }
   }
 
   deselectAll() {
     this.reportloader.duplicates.forEach(c => {
       c.selected = false;
-    })
+    });
+    this.mergedClaim={};
   }
 
 
@@ -106,8 +131,19 @@ export class DuplicateClaimListComponent implements OnInit {
       .single().map(r => r.json()).subscribe(r => {
         this.reportloader.loading = false;
         this.comparisonClaims = Array.isArray(r) ? r[0] : r;
+        console.log(this.comparisonClaims);
+        Object.keys(this.comparisonClaims).forEach(k => {
+          if (k.indexOf('left') > -1) {
+            let right = k.replace('left', 'right');
+            let id = k.replace('left', '');
+            //id = id.substr(0,1).toLowerCase()+id.substring(1);
+            if (this.comparisonClaims[k] == this.comparisonClaims[right]) {
+              this.mergedClaim[id] = this.comparisonClaims[k];
+            }
+          }
+        })
         this.claimSwal.show().then((r) => {
-
+            //this.mergedClaim={};
         })
       }, err => {
         this.reportloader.loading = false;
