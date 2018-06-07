@@ -22,14 +22,22 @@ CREATE PROC [dbo].[uspMergeDuplicateClaims]
     @DateOfInjury DATE = '1/1/1901',
     @AdjustorID INT = -1,
     @PayorID INT = -1,
-    @ClaimFlex2ID INT = -1,
-    @PersonCode CHAR(2) = '{}'
+    @ClaimFlex2ID INT = -1
 )
 AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
     BEGIN TRY;
         BEGIN TRAN;
+
+            IF NOT EXISTS (SELECT * FROM [dbo].[Claim] AS [c] WHERE [c].[ClaimID] = @ClaimID)
+                OR NOT EXISTS (SELECT * FROM [dbo].[Claim] AS [c] WHERE [c].[ClaimID] = @DuplicateClaimID)
+                BEGIN
+                    IF (@@TRANCOUNT > 0)
+                        ROLLBACK;
+                    RAISERROR(N'Error. Both claims must exist (the ClaimID and DuplicateClaimID passed in)...', 16, 1) WITH NOWAIT;
+                    RETURN -1;
+                END
 
             DECLARE @RowCount INT, @PrntMsg NVARCHAR(500);
 
@@ -38,8 +46,7 @@ AS BEGIN
                             [c].[DateOfInjury] = CASE WHEN @DateOfInjury != '1/1/1901' THEN @DateOfInjury ELSE [c].[DateOfInjury] END,
                             [c].[AdjustorID] = CASE WHEN @AdjustorID != -1 THEN @AdjustorID ELSE [c].[AdjustorID] END,
                             [c].[PayorID] = CASE WHEN @PayorID != -1 THEN @PayorID ELSE [c].[PayorID] END,
-                            [c].[ClaimFlex2ID] = CASE WHEN @ClaimFlex2ID != -1 THEN @ClaimFlex2ID ELSE [c].[ClaimFlex2ID] END,
-                            [c].[PersonCode] = CASE WHEN @PersonCode != '{}' THEN @PersonCode ELSE [c].[PersonCode] END
+                            [c].[ClaimFlex2ID] = CASE WHEN @ClaimFlex2ID != -1 THEN @ClaimFlex2ID ELSE [c].[ClaimFlex2ID] END
             FROM    [dbo].[Claim] AS [c]
             WHERE   [c].[ClaimID] = @ClaimID;
 
@@ -78,4 +85,6 @@ AS BEGIN
             @ErrMsg);
     END CATCH
 END
+
+
 GO

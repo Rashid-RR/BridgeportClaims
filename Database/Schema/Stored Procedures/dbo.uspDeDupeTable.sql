@@ -42,6 +42,8 @@ AS BEGIN
 			   ,@SQLStatement NVARCHAR(4000)
 			   ,@Schema SYSNAME = PARSENAME(@TableName, 2)
 			   ,@Table SYSNAME = PARSENAME(@TableName, 1)
+               ,@RowCount INTEGER
+               ,@PrntMsg NVARCHAR(500);
 
 		IF @Schema IS NULL OR @Table IS NULL
 			BEGIN
@@ -61,6 +63,22 @@ AS BEGIN
 				RAISERROR(N'Error. Could no populate the @TableObjID variable', 16, 1) WITH NOWAIT
 				RETURN -1;
 			END
+
+         IF PARSENAME(@TableName, 1) = 'Claim' AND @DebugOnly = 0
+            BEGIN
+                -- Remove Claim Note from Duplicate Claims. TODO: Fix.
+                DELETE [dbo].[ClaimNote] WHERE [ClaimID] = @IDToRemove
+                SET @RowCount = @@ROWCOUNT;
+
+                IF (@RowCount NOT IN (1, 0))
+                    BEGIN
+                        IF (@@TRANCOUNT > 0)
+                            ROLLBACK;
+                        SET @PrntMsg = N'Error. ' + CONVERT(NVARCHAR, @RowCount) + N' rows were deleted from dbo.ClaimNote...';
+                        RAISERROR(@PrntMsg, 16, 1) WITH NOWAIT;
+                        RETURN -1;
+                    END
+            END
 
 		-- If the table has a composite key, this function call will appropriately error.
 		DECLARE @TablePrimaryKeyColumnName SYSNAME = util.udfGetPrimaryKeyColumnName(@TableName)
@@ -140,6 +158,7 @@ AS BEGIN
             @ErrMsg)			-- First argument (string)
     END CATCH
 END
+
 
 
 GO
