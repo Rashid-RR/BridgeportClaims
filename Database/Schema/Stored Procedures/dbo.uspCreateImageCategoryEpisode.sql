@@ -68,6 +68,8 @@ AS BEGIN
 							WHERE   [e].[DocumentID] = @DocumentID
 						  )
 					BEGIN
+                        SET @EpisodeCreated = 0;
+
 						SELECT  @EpisodeID = [e].[EpisodeID]
 						FROM    [dbo].[Episode] AS [e]
 						WHERE   [e].[DocumentID] = @DocumentID
@@ -127,5 +129,4 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
     END CATCH
 END
-
 GO
