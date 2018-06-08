@@ -53,11 +53,7 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                     ps.Add("@AdjustorID", adjustorId, DbType.Int32);
                     ps.Add("@PayorID", payorId, DbType.Int32);
                     ps.Add("@ClaimFlex2ID", claimFlex2Id, DbType.Int32);
-                    var r = conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
-                    if (-1 == r)
-                    {
-                        throw new Exception($"Error, the stored procedure {sp} did not execute properly.");
-                    }
+                    conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
                     return true;
                 }
                 catch (Exception ex)

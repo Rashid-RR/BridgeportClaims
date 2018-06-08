@@ -1,4 +1,6 @@
 ﻿using NLog;
+using System.Net;
+using System.Net.Http;
 using System;
 using System.Linq;
 using System.Security.Claims;
@@ -8,8 +10,6 @@ using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using System.Net.Http;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;

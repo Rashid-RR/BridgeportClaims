@@ -35,18 +35,6 @@ namespace BridgeportClaims.Web.Controllers
             {
                 throw new ArgumentException($"{nameof(model.DuplicateClaimId)} cannot be zero.");
             }
-            if (model.ClaimNumber.IsNullOrWhiteSpace())
-            {
-                throw new Exception($"{model.ClaimNumber} parameter cannot be empty.");
-            }
-            if (default(int) == model.PatientId)
-            {
-                throw new ArgumentException($"{nameof(model.PatientId)} cannot be zero.");
-            }
-            if (default(int) == model.PayorId)
-            {
-                throw new ArgumentException($"{nameof(model.PayorId)} cannot be zero.");
-            }
         }
 
         [HttpPost]
