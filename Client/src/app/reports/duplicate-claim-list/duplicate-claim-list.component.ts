@@ -48,6 +48,7 @@ export class DuplicateClaimListComponent implements OnInit {
     form.ClaimFlex2Id = form.ClaimFlex2Value == this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value ? this.comparisonClaims.rightClaimFlex2Id : undefined);
     form.AdjustorId = form.AdjustorName == this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName ? this.comparisonClaims.rightAdjustorId : undefined);
     form.PatientId = form.PatientName == this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
+    form.PayorId = form.Carrier == this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.PayorId ? this.comparisonClaims.rightPayorId : undefined);
     //form.PersonCode = this.reportloader.selectedClaims[0].personCode;
     if(!form.ClaimFlex2Id){
       delete form['ClaimFlex2Value']
@@ -58,8 +59,12 @@ export class DuplicateClaimListComponent implements OnInit {
     if(!form.PatientId){
       delete form['PatientId']
     }
+    if(!form.PayorId){
+      delete form['PayorId']
+    }
     delete form.PatientName;
     delete form.AdjustorName;
+    delete form.Carrier;
     delete form.ClaimFlex2Value;
     if(InjuryDate) form.InjuryDate =InjuryDate
     if(DateOfBirth) form.DateOfBirth =DateOfBirth;

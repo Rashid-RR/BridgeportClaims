@@ -127,16 +127,16 @@
                   <td>{{comparisonClaims.leftClaimId}}
                   </td>
                 </tr>
-                <tr [class.not-allowed]="comparisonClaims.leftPayorId==comparisonClaims.rightPayorId" (click)="comparisonClaims.leftPayorId!=comparisonClaims.rightPayorId?leftPayorId.checked=!leftPayorId.checked:[];comparisonClaims.leftPayorId!=comparisonClaims.rightPayorId?merge(comparisonClaims.leftPayorId,leftPayorId,'PayorId'):[]">
+                <tr [class.not-allowed]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier" (click)="comparisonClaims.leftCarrier!=comparisonClaims.rightCarrier?leftCarrier.checked=!leftCarrier.checked:[];comparisonClaims.leftCarrier!=comparisonClaims.rightCarrier?merge(comparisonClaims.leftCarrier,leftCarrier,'Carrier'):[]">
                   <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
                     <div class="commonCheckBox">
-                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftPayorId" [checked]="mergedClaim.PayorId==comparisonClaims.leftPayorId"
-                        class="claimCheckBox" #leftPayorId  [disabled]="comparisonClaims.leftPayorId==comparisonClaims.rightPayorId">
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftCarrier" [checked]="mergedClaim.Carrier==comparisonClaims.leftCarrier"
+                        class="claimCheckBox" #leftCarrier  [disabled]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier">
                       <label></label>
                     </div>
                   </td>
-                  <td>PayorId</td>
-                  <td>{{comparisonClaims.leftPayorId}}
+                  <td>Carrier</td>
+                  <td>{{comparisonClaims.leftCarrier}}
                   </td>
                 </tr>
                 <tr [class.not-allowed]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth" (click)="comparisonClaims.leftDateOfBirth!=comparisonClaims.rightDateOfBirth?leftDateOfBirth.checked=!leftDateOfBirth.checked:[];comparisonClaims.leftDateOfBirth!=comparisonClaims.rightDateOfBirth?merge(comparisonClaims.leftDateOfBirth,leftDateOfBirth,'DateOfBirth'):[]">
@@ -151,16 +151,16 @@
                   <td>{{reportloader.formatDate(comparisonClaims.leftDateOfBirth)}}
                   </td>
                 </tr>
-                <!-- <tr [class.not-allowed]="" (click)="leftPayorId.checked=!leftPayorId.checked;merge(comparisonClaims.leftPayorId,leftPayorId,'payorId')">
+                <!-- <tr [class.not-allowed]="" (click)="leftCarrier.checked=!leftCarrier.checked;merge(comparisonClaims.leftCarrier,leftCarrier,'Carrier')">
                   <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
                     <div class="commonCheckBox">
-                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftPayorId" [checked]="mergedClaim.payorId==comparisonClaims.leftPayorId"
-                        class="claimCheckBox" #leftPayorId>
+                      <input type="checkbox" name="check" value="None" [id]="'left'+comparisonClaims.leftCarrier" [checked]="mergedClaim.Carrier==comparisonClaims.leftCarrier"
+                        class="claimCheckBox" #leftCarrier>
                       <label></label>
                     </div>
                   </td>
                   <td>Payor ID</td>
-                  <td>{{comparisonClaims.leftPayorId}}
+                  <td>{{comparisonClaims.leftCarrier}}
                   </td>
                 </tr> -->
                 <tr [class.not-allowed]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate" (click)="comparisonClaims.leftInjuryDate!=comparisonClaims.rightInjuryDate?leftInjuryDate.checked=!leftInjuryDate.checked:[];comparisonClaims.leftInjuryDate!=comparisonClaims.rightInjuryDate?merge(comparisonClaims.leftInjuryDate,leftInjuryDate,'InjuryDate'):[]">
@@ -268,16 +268,16 @@
                   <td>{{comparisonClaims.rightClaimId}}
                   </td>
                 </tr>
-                <tr [class.not-allowed]="comparisonClaims.leftPayorId==comparisonClaims.rightPayorId" (click)="comparisonClaims.leftPayorId!=comparisonClaims.rightPayorId?rightPayorId.checked=!rightPayorId.checked:[];comparisonClaims.leftPayorId!=comparisonClaims.rightPayorId?merge(comparisonClaims.rightPayorId,rightPayorId,'PayorId'):[]">
+                <tr [class.not-allowed]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier" (click)="comparisonClaims.leftCarrier!=comparisonClaims.rightCarrier?rightCarrier.checked=!rightCarrier.checked:[];comparisonClaims.leftCarrier!=comparisonClaims.rightCarrier?merge(comparisonClaims.rightCarrier,rightCarrier,'Carrier'):[]">
                   <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
                     <div class="commonCheckBox">
-                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightPayorId" [checked]="mergedClaim.PayorId==comparisonClaims.rightPayorId"
-                        class="claimCheckBox" #rightPayorId  [disabled]="comparisonClaims.leftPayorId==comparisonClaims.rightPayorId">
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightCarrier" [checked]="mergedClaim.Carrier==comparisonClaims.rightCarrier"
+                        class="claimCheckBox" #rightCarrier  [disabled]="comparisonClaims.leftCarrier==comparisonClaims.rightCarrier">
                       <label></label>
                     </div>
                   </td>
-                  <td>PayorId</td>
-                  <td>{{comparisonClaims.rightPayorId}}
+                  <td>Carrier</td>
+                  <td>{{comparisonClaims.rightCarrier}}
                   </td>
                 </tr>
                 <tr [class.not-allowed]="comparisonClaims.leftDateOfBirth==comparisonClaims.rightDateOfBirth" (click)="comparisonClaims.leftDateOfBirth!=comparisonClaims.rightDateOfBirth?rightDateOfBirth.checked=!rightDateOfBirth.checked:[];comparisonClaims.leftDateOfBirth!=comparisonClaims.rightDateOfBirth?merge(comparisonClaims.rightDateOfBirth,rightDateOfBirth,'DateOfBirth'):[]">
@@ -292,16 +292,16 @@
                   <td>{{reportloader.formatDate(comparisonClaims.rightDateOfBirth)}}
                   </td>
                 </tr>
-                <!-- <tr [class.not-allowed]="" (click)="rightPayorId.checked=!rightPayorId.checked;merge(comparisonClaims.rightPayorId,rightPayorId,'payorId')">
+                <!-- <tr [class.not-allowed]="" (click)="rightCarrier.checked=!rightCarrier.checked;merge(comparisonClaims.rightCarrier,rightCarrier,'Carrier')">
                   <td style="padding-left: 0px; padding-right: 0px; width: 25px;">
                     <div class="commonCheckBox">
-                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightPayorId" [checked]="mergedClaim.payorId==comparisonClaims.rightPayorId"
-                        class="claimCheckBox" #rightPayorId>
+                      <input type="checkbox" name="check" value="None" [id]="'right'+comparisonClaims.rightCarrier" [checked]="mergedClaim.Carrier==comparisonClaims.rightCarrier"
+                        class="claimCheckBox" #rightCarrier>
                       <label></label>
                     </div>
                   </td>
                   <td>Payor ID</td>
-                  <td>{{comparisonClaims.rightPayorId}}
+                  <td>{{comparisonClaims.rightCarrier}}
                   </td>
                 </tr> -->
                 <tr [class.not-allowed]="comparisonClaims.leftInjuryDate==comparisonClaims.rightInjuryDate" (click)="comparisonClaims.leftInjuryDate!=comparisonClaims.rightInjuryDate?rightInjuryDate.checked=!rightInjuryDate.checked:[];comparisonClaims.leftInjuryDate!=comparisonClaims.rightInjuryDate?merge(comparisonClaims.rightInjuryDate,rightInjuryDate,'InjuryDate'):[]">
