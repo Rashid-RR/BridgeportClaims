@@ -54,6 +54,8 @@ AS
                        ,[Cnt] = COUNT(*)
             FROM        [dbo].[Claim] AS [c]
                         INNER JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
+                        LEFT JOIN [dbo].[DuplicateClaim] AS [dc] ON [dc].[DuplicateClaimID] = [c].[ClaimID]
+            WHERE       [dc].[DuplicateClaimID] IS NULL
             GROUP BY    SOUNDEX([p].[LastName])
                        ,SOUNDEX([p].[FirstName])
             HAVING      COUNT(*) > 1
