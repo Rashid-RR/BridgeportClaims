@@ -63,7 +63,6 @@ export class DuplicateClaimListComponent implements OnInit {
     delete form.ClaimFlex2Value;
     if(InjuryDate) form.InjuryDate =InjuryDate
     if(DateOfBirth) form.DateOfBirth =DateOfBirth;
-    console.log(form);
     if (form.DuplicateClaimId && form.hasOwnProperty("ClaimFlex2Id") && form.hasOwnProperty("ClaimId") && form.hasOwnProperty("ClaimNumber") && form.hasOwnProperty("DateOfBirth") && form.hasOwnProperty("InjuryDate")
       && form.hasOwnProperty("AdjustorId") && form.hasOwnProperty("PatientId") && form.hasOwnProperty("PayorId")) {
       this.reportloader.loading = true;
@@ -72,9 +71,9 @@ export class DuplicateClaimListComponent implements OnInit {
           this.toast.success('Claim successfully merged').then((toast: Toast) => {
             this.activeToast = toast;
           })
-          this.deselectAll();
+          this.closeModal();
           this.reportloader.fetchDuplicateClaims();
-          this.reportloader.loading = false;
+          
         }, err => {
           this.reportloader.loading = false;
         });
