@@ -16,7 +16,7 @@ CREATE PROC [dbo].[uspDeDupeTable]
     @TableName SYSNAME, -- Includes column name.
     @IDToRemove INT,
     @IDToKeep INT,
-    @UserID NVARCHAR(128),
+    @UserID NVARCHAR(128) = NULL,
     @DebugOnly BIT = 0
 )
 AS BEGIN
@@ -158,6 +158,7 @@ AS BEGIN
             @ErrMsg)			-- First argument (string)
     END CATCH
 END
+
 
 
 
