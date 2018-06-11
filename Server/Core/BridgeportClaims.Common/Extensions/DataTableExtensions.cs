@@ -34,7 +34,7 @@ namespace BridgeportClaims.Common.Extensions
             }
 
             // Add the property values as rows to the datatable
-            foreach (object item in items)
+            foreach (var item in items)
             {
                 var values = new object[props.Length];
 
@@ -45,6 +45,7 @@ namespace BridgeportClaims.Common.Extensions
                         values[i] = props[i].GetValue(item, null);
                     }
                 }
+
                 table.Rows.Add(values);
             }
 
@@ -73,7 +74,37 @@ namespace BridgeportClaims.Common.Extensions
                 dt.Columns[colName].SetOrdinal(listColNames.IndexOf(colName));
         }
 
-        public static DataTable ToDataTable<T>(this IEnumerable<T> values) where T : class, new()
+        public static DataTable ToDataTable<T>(this IEnumerable<T> collection)
+        {
+            var dt = new DataTable();
+            var t = typeof(T);
+            var pia = t.GetProperties();
+            //Create the columns in the DataTable
+            foreach (var pi in pia)
+            {
+                dt.Columns.Add(pi.Name, pi.PropertyType);
+            }
+
+            //Populate the table
+            foreach (var item in collection)
+            {
+                var dr = dt.NewRow();
+                dr.BeginEdit();
+                foreach (var pi in pia)
+                {
+                    dr[pi.Name] = pi.GetValue(item, null);
+                }
+
+                dr.EndEdit();
+                dt.Rows.Add(dr);
+            }
+
+            return dt;
+
+        }
+
+
+        public static DataTable ToFixedDataTable<T>(this IEnumerable<T> values) where T : class, new()
         {
             var table = new DataTable();
             var enumerable = values as T[] ?? values.ToArray();
@@ -86,10 +117,12 @@ namespace BridgeportClaims.Common.Extensions
                 row.ItemArray = members.Select(s => s.GetValue(value) ?? DBNull.Value).ToArray();
                 table.Rows.Add(row);
             }
+
             return table;
         }
 
-        public static DataTable CopyToDataTable<T>(this IEnumerable<T> source) => new ObjectShredder<T>().Shred(source, null, null);
+        public static DataTable ToShreddedDataTable<T>(this IEnumerable<T> source) =>
+            new ObjectShredder<T>().Shred(source, null, null);
 
         public static DataTable CopyToGenericDataTable<T>(this IEnumerable<T> source,
             DataTable table, LoadOption? options) => new ObjectShredder<T>().Shred(source, table, options);

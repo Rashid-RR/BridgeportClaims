@@ -29,7 +29,7 @@ namespace BridgeportClaims.Business.PrescriptionReports
         public DataTable GenerateBillingStatementDataTable(int claimId)
         {
             var data = _claimsDataProvider.Value.GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000);
-            var dt = data?.ToDataTable();
+            var dt = data?.ToFixedDataTable();
             if (null == dt)
                 return null;
             FormatPrescriptionReportDataTable(dt);

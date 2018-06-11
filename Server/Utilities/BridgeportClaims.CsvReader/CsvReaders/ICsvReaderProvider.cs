@@ -4,6 +4,6 @@ namespace BridgeportClaims.CsvReader.CsvReaders
 {
     public interface ICsvReaderProvider
     {
-        DataTable ReadCsvFile(string fullFilePath);
+        DataTable ReadCsvFile(string fullFilePath, bool useCsvTools);
     }
 }

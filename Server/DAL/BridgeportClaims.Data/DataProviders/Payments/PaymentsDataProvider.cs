@@ -136,7 +136,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     var paymentPostingsParam = cmd.CreateParameter();
                     paymentPostingsParam.Direction = ParameterDirection.Input;
                     paymentPostingsParam.SqlDbType = SqlDbType.Structured;
-                    paymentPostingsParam.Value = paymentPostings?.ToDataTable();
+                    paymentPostingsParam.Value = paymentPostings?.ToFixedDataTable();
                     paymentPostingsParam.ParameterName = "@PaymentPostings";
                     paymentPostingsParam.TypeName = "dbo.udtPaymentPosting";
                     cmd.Parameters.Add(paymentPostingsParam);

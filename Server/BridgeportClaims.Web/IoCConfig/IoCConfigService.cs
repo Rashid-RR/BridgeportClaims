@@ -81,6 +81,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ImportFileProvider>().As<IImportFileProvider>().InstancePerRequest();
             builder.RegisterType<ReportsDataProvider>().As<IReportsDataProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionPaymentProvider>().As<IPrescriptionPaymentProvider>().InstancePerRequest();
+            builder.RegisterType<CsvToolsProvider>().As<ICsvToolsProvider>().InstancePerRequest();
             builder.RegisterType<DocumentsProvider>().As<IDocumentsProvider>().InstancePerRequest();
             builder.RegisterType<DocumentIndexProvider>().As<IDocumentIndexProvider>().InstancePerRequest();
             builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();

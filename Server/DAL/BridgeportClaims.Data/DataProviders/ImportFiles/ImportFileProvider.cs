@@ -91,7 +91,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		{
 			if (fullFilePathOfLatestLakerFile.IsNullOrWhiteSpace())
 				throw new Exception("The full file path to the latest Laker CSV doesn't exist.");
-			var dt = _csvReaderProvider.ReadCsvFile(fullFilePathOfLatestLakerFile);
+            var dt = _csvReaderProvider.ReadCsvFile(fullFilePathOfLatestLakerFile, true);
 			if (null == dt) throw new Exception($"Could not read CSV into Data Table from {fullFilePathOfLatestLakerFile}");
 			// Cleanup temporary file.
 			if (File.Exists(fullFilePathOfLatestLakerFile))

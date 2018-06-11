@@ -54,7 +54,7 @@ export class DuplicateClaimListComponent implements OnInit {
       delete form['ClaimFlex2Value']
     }
     if(!form.AdjustorId){
-      delete form['AdjustorId']
+      delete form['AdjustorName']
     }
     if(!form.PatientId){
       delete form['PatientId']

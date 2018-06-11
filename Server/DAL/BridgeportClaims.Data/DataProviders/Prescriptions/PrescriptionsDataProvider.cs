@@ -159,7 +159,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         prescriptionIdsParam.SqlDbType = SqlDbType.Structured;
                         prescriptionIdsParam.TypeName = "dbo.udtPrescriptionID";
                         prescriptionIdsParam.Direction = ParameterDirection.Input;
-                        prescriptionIdsParam.Value = dtos.ToDataTable();
+                        prescriptionIdsParam.Value = dtos.ToFixedDataTable();
                         prescriptionIdsParam.ParameterName = "@PrescriptionIDs";
                         cmd.Parameters.Add(prescriptionIdsParam);
                         IList<string> retVal = new List<string>();
