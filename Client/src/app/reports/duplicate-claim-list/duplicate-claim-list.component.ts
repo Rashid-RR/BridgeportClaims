@@ -3,7 +3,7 @@ import { ReportLoaderService, ComparisonClaim, DuplicateClaim } from "../../serv
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Claim } from '../../models/claim';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
-import swal from "sweetalert2";
+import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
 import { DatePipe, DecimalPipe } from '@angular/common';
 
@@ -40,45 +40,49 @@ export class DuplicateClaimListComponent implements OnInit {
     try { swal.clickCancel(); } catch (e) { }
   }
   save() {
-    let duplicate = this.reportloader.selectedClaims.find(c => c.claimId != this.mergedClaim.ClaimId)
-    let form = JSON.parse(JSON.stringify(this.mergedClaim));
-    let InjuryDate = this.dp.transform(form.InjuryDate, "MM/dd/yyyy");
-    let DateOfBirth = this.dp.transform(form.DateOfBirth, "MM/dd/yyyy");
+    const duplicate = this.reportloader.selectedClaims.find(c => c.claimId !== this.mergedClaim.ClaimId);
+    const form = JSON.parse(JSON.stringify(this.mergedClaim));
+    const InjuryDate = this.dp.transform(form.InjuryDate, 'MM/dd/yyyy');
+    const DateOfBirth = this.dp.transform(form.DateOfBirth, 'MM/dd/yyyy');
     form.DuplicateClaimId = duplicate.claimId;
     form.ClaimFlex2Id = form.ClaimFlex2Value == this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value ? this.comparisonClaims.rightClaimFlex2Id : undefined);
     form.AdjustorId = form.AdjustorName == this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName ? this.comparisonClaims.rightAdjustorId : undefined);
     form.PatientId = form.PatientName == this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
     form.PayorId = form.Carrier == this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.PayorId ? this.comparisonClaims.rightPayorId : undefined);
     //form.PersonCode = this.reportloader.selectedClaims[0].personCode;
-    if(!form.ClaimFlex2Id){
-      delete form['ClaimFlex2Value']
+    if (!form.ClaimFlex2Id) {
+      delete form['ClaimFlex2Value'];
     }
-    if(!form.AdjustorId){
-      delete form['AdjustorName']
+    if (!form.AdjustorId) {
+      delete form['AdjustorName'];
     }
-    if(!form.PatientId){
-      delete form['PatientId']
+    if (!form.PatientId) {
+      delete form['PatientId'];
     }
-    if(!form.PayorId){
-      delete form['PayorId']
+    if (!form.PayorId) {
+      delete form['PayorId'];
     }
     delete form.PatientName;
     delete form.AdjustorName;
     delete form.Carrier;
     delete form.ClaimFlex2Value;
-    if(InjuryDate) form.InjuryDate =InjuryDate
-    if(DateOfBirth) form.DateOfBirth =DateOfBirth;
-    if (form.DuplicateClaimId && form.hasOwnProperty("ClaimFlex2Id") && form.hasOwnProperty("ClaimId") && form.hasOwnProperty("ClaimNumber") && form.hasOwnProperty("DateOfBirth") && form.hasOwnProperty("InjuryDate")
-      && form.hasOwnProperty("AdjustorId") && form.hasOwnProperty("PatientId") && form.hasOwnProperty("PayorId")) {
+    if (InjuryDate) {
+      form.InjuryDate = InjuryDate;
+    }
+    if (DateOfBirth) {
+      form.DateOfBirth = DateOfBirth;
+    }
+    if (form.DuplicateClaimId && form.hasOwnProperty('ClaimFlex2Id') && form.hasOwnProperty('ClaimId') &&
+    form.hasOwnProperty('ClaimNumber') && form.hasOwnProperty('DateOfBirth') && form.hasOwnProperty('InjuryDate')
+      && form.hasOwnProperty('AdjustorId') && form.hasOwnProperty('PatientId') && form.hasOwnProperty('PayorId')) {
       this.reportloader.loading = true;
       this.http.getMergeClaims(form)
         .single().map(r => r.json()).subscribe(r => {
           this.toast.success('Claim successfully merged').then((toast: Toast) => {
             this.activeToast = toast;
-          })
+          });
           this.closeModal();
           this.reportloader.fetchDuplicateClaims();
-          
         }, err => {
           this.reportloader.loading = false;
         });
@@ -94,7 +98,7 @@ export class DuplicateClaimListComponent implements OnInit {
       }
       claim.selected = $event.checked;
       if (this.selectMultiple) {
-        for (var i = this.lastSelectedIndex; i < index; i++) {
+        for (let i = this.lastSelectedIndex; i < index; i++) {
           try {
             let c = jQuery('#row' + i).attr('claim');
             let claim = JSON.parse(c);
