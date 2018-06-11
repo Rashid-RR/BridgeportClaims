@@ -33,7 +33,7 @@ AS BEGIN
 					, [d].[ByteCount]
 					, [d].[FileTypeID]
 				FROM @Documents AS [d]) AS [src]
-				ON [tgt].[FileName] = [src].[FileName]
+				ON [tgt].[FullFilePath] = [src].[FullFilePath]
 		WHEN NOT MATCHED BY TARGET THEN
 			INSERT ([FileName], [Extension], [FileSize], [CreationTimeLocal], [LastAccessTimeLocal], [LastWriteTimeLocal],
 				[DirectoryName], [FullFilePath], [FileUrl], [DocumentDate], [ByteCount], [FileTypeID], [CreatedOnUTC], [UpdatedOnUTC])
@@ -77,5 +77,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
 
 GO
