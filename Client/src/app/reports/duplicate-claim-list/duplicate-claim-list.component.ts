@@ -39,27 +39,38 @@ export class DuplicateClaimListComponent implements OnInit {
     this.deselectAll();
     try { swal.clickCancel(); } catch (e) { }
   }
+  checked(field:string,side:string){
+    return this.mergedClaim.hasOwnProperty(field) && this.mergedClaim[field]===this.comparisonClaims[`${side}${field}`];
+  }
   save() {
     let duplicate = this.reportloader.selectedClaims.find(c => c.claimId != this.mergedClaim.ClaimId)
     let form = JSON.parse(JSON.stringify(this.mergedClaim));
     let InjuryDate = this.dp.transform(form.InjuryDate, "MM/dd/yyyy");
     let DateOfBirth = this.dp.transform(form.DateOfBirth, "MM/dd/yyyy");
     form.DuplicateClaimId = duplicate.claimId;
-    form.ClaimFlex2Id = form.ClaimFlex2Value == this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value ? this.comparisonClaims.rightClaimFlex2Id : undefined);
-    form.AdjustorId = form.AdjustorName == this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName ? this.comparisonClaims.rightAdjustorId : undefined);
-    form.PatientId = form.PatientName == this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
-    form.PayorId = form.Carrier == this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.PayorId ? this.comparisonClaims.rightPayorId : undefined);
+    form.ClaimFlex2Id = form.ClaimFlex2Value === this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value ? this.comparisonClaims.rightClaimFlex2Id : undefined);
+    form.AdjustorId = form.AdjustorName === this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName ? this.comparisonClaims.rightAdjustorId : undefined);
+    form.PatientId = form.PatientName === this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
+    form.PayorId = form.Carrier === this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.Carrier ? this.comparisonClaims.rightPayorId : undefined);
     //form.PersonCode = this.reportloader.selectedClaims[0].personCode;
-    if(!form.ClaimFlex2Id){
-      delete form['ClaimFlex2Value']
+    if(!this.comparisonClaims.leftClaimFlex2Id && !this.comparisonClaims.rightClaimFlex2Id){
+      form['ClaimFlex2Id'] =null;
+    }else  if(form.ClaimFlex2Id===undefined){
+      delete form['ClaimFlex2Id']
     }
-    if(!form.AdjustorId){
-      delete form['AdjustorName']
+    if(!this.comparisonClaims.leftAdjustorId && !this.comparisonClaims.rightAdjustorId){
+      form['AdjustorId'] =null;
+    }else if(form.AdjustorId===undefined){
+      delete form['AdjustorId']
     }
-    if(!form.PatientId){
+    if(!this.comparisonClaims.leftPatientId && !this.comparisonClaims.rightPatientId){
+      form['PatientId'] =null;
+    }else if(form.PatientId===undefined){
       delete form['PatientId']
     }
-    if(!form.PayorId){
+    if(!this.comparisonClaims.leftPayorId && !this.comparisonClaims.rightPayorId){
+      form['PayorId'] =null;
+    }else if(form.PayorId===undefined){
       delete form['PayorId']
     }
     delete form.PatientName;
@@ -135,7 +146,6 @@ export class DuplicateClaimListComponent implements OnInit {
       .single().map(r => r.json()).subscribe(r => {
         this.reportloader.loading = false;
         this.comparisonClaims = Array.isArray(r) ? r[0] : r;
-        console.log(this.comparisonClaims);
         Object.keys(this.comparisonClaims).forEach(k => {
           if (k.indexOf('left') > -1) {
             let right = k.replace('left', 'right');
