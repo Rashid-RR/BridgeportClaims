@@ -1,9 +1,9 @@
-.small-box h4{
-    width:calc(100% - 103px);
-    overflow: hidden;
-}
 .row.list a.col-xs-3 {
     height:129px;
+    background-position-x: 5px !important;
+    background-position-y: 0 !important;
+    padding:5px;
+    background-size: 100% auto !important;
 }
 .row.list a.col-xs-3 .small-box{
     height:109px;
