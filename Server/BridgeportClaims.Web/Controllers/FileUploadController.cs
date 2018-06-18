@@ -103,7 +103,7 @@ namespace BridgeportClaims.Web.Controllers
 			catch (Exception ex)
 			{
 				Logger.Value.Error(ex);
-				return Content(HttpStatusCode.NotAcceptable, ex.GetBaseException().Message);
+				return Content(HttpStatusCode.NotAcceptable, ex?.GetBaseException()?.Message);
 			}
 		}
 	}
