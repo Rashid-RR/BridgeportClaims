@@ -223,8 +223,7 @@ BEGIN
 
   IF @Version >= 14
   BEGIN
-    SELECT @HostPlatform = host_platform
-    FROM sys.dm_os_host_info
+    SELECT @HostPlatform = 'Windows'
   END
   ELSE
   BEGIN
@@ -1738,6 +1737,4 @@ BEGIN
   ----------------------------------------------------------------------------------------------------
 
 END
-
-
 GO
