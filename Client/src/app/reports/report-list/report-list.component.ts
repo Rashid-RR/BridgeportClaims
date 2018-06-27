@@ -11,7 +11,7 @@ export class ReportListComponent implements OnInit {
   constructor(public reportloader:ReportLoaderService) { }
 
   ngOnInit() {
-    this.reportloader.current = 'List';
+    this.reportloader.current = 'Menu';
     this.reportloader.currentURL = 'list';
     this.reportloader.loading = false;
   }
