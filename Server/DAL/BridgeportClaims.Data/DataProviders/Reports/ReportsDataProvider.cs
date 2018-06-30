@@ -195,5 +195,23 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     throw;
                 }
             });
+
+        public bool RemoveShortPay(int prescriptionPaymentId, string userId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                try
+                {
+                    var cmd = "INSERT dbo.ShortPayExclusion (PrescriptionPaymentID, ModifiedByUserID)" +
+                              $"VALUES({prescriptionPaymentId}, '{userId}')";
+                    conn.Open();
+                    conn.Execute(cmd, commandType: CommandType.Text);
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Value.Error(ex);
+                    return false;
+                }
+            });
     }
 }

@@ -12,6 +12,7 @@ using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Excel.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
@@ -80,6 +81,25 @@ namespace BridgeportClaims.Web.Controllers
             {
                 Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("remove-shortpay")]
+        public IHttpActionResult RemoveShortPayReport(int prescriptionPaymentId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var result = _reportsDataProvider.Value.RemoveShortPay(prescriptionPaymentId, userId);
+                if (result)
+                    return Ok("This entry was removed from the short pay report successfully.");
+                throw new Exception("This entry was not removed from the short pay report");
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
