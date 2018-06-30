@@ -67,6 +67,23 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("shortpay")]
+        public IHttpActionResult GetShortPayReport(PaginationModel model)
+        {
+            try
+            {
+                var results = _reportsDataProvider.Value.GetShortPayReport(model?.Sort, model?.SortDirection,
+                    model?.Page ?? -1, model?.PageSize ?? -1);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("duplicate-claims")]
         public IHttpActionResult GetDuplicateClaims(PaginationModel model)
         {

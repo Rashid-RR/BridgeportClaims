@@ -104,7 +104,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                             conn.Open();
                         DisposableService.Using(cmd.ExecuteReader, reader =>
                         {
-                            var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionId");
+                            var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionPaymentId");
                             var claimIdOrdinal = reader.GetOrdinal("ClaimId");
                             var patientNameOrdinal = reader.GetOrdinal("PatientName");
                             var claimNumberOrdinal = reader.GetOrdinal("ClaimNumber");

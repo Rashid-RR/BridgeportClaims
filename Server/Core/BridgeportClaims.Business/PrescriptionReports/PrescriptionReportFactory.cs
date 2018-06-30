@@ -38,7 +38,7 @@ namespace BridgeportClaims.Business.PrescriptionReports
 
         private static void FormatPrescriptionReportDataTable(DataTable dt)
         {
-            dt.Columns.Remove("PrescriptionId");
+            dt.Columns.Remove("PrescriptionPaymentId");
             dt.Columns.Remove("Status");
             dt.Columns.Remove("NoteCount");
             dt.Columns.Remove("IsReversed");

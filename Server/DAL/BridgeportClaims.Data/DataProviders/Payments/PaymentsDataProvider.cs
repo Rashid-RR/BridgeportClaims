@@ -212,7 +212,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 return DisposableService.Using(cmd.ExecuteReader, reader =>
                 {
                     var prescriptionPaymentIdOrdinal = reader.GetOrdinal("PrescriptionPaymentId");
-                    var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionId");
+                    var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionPaymentId");
                     var postedDateOrdinal = reader.GetOrdinal("PostedDate");
                     var checkNumberOrdinal = reader.GetOrdinal("CheckNumber");
                     var checkAmtOrdinal = reader.GetOrdinal("CheckAmt");

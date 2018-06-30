@@ -38,7 +38,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 												, [p].[NoteText] [Note]
 												, [p].[NoteUpdatedOn] NoteUpdatedOn
 										FROM     [dbo].[vwPrescriptionNote] AS [p] WITH ( NOEXPAND )
-										WHERE    [p].[PrescriptionId] = :PrescriptionNoteId
+										WHERE    [p].[PrescriptionPaymentId] = :PrescriptionNoteId
 										ORDER BY [p].[NoteUpdatedOn] ASC")
 									.SetInt32("PrescriptionNoteId", prescriptionId)
 									.SetMaxResults(1000)
@@ -109,7 +109,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 		private static DataTable CreateDataTable(IEnumerable<int> prescriptionIds)
 		{
 			var table = new DataTable();
-			table.Columns.Add("PrescriptionId", typeof(int));
+			table.Columns.Add("PrescriptionPaymentId", typeof(int));
 			foreach (var prescriptionId in prescriptionIds)
 				table.Rows.Add(prescriptionId);
 			return table;

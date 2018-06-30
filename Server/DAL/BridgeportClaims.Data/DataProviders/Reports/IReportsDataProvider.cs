@@ -9,5 +9,6 @@ namespace BridgeportClaims.Data.DataProviders.Reports
         DuplicateClaimDto GetDuplicateClaims(string sort, string sortDirection, int page, int pageSize);
         IList<GroupNameDto> GetGroupNames(string groupName);
         IList<AccountsReceivableDto> GetAccountsReceivableReport(string groupName, string pharmacyName);
+        ShortPayDto GetShortPayReport(string sort, string sortDirection, int pageNumber, int pageSize);
     }
 }

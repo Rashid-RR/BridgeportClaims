@@ -7,12 +7,15 @@ using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using Dapper;
+using NLog;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Reports
 {
     public class ReportsDataProvider : IReportsDataProvider
     {
+        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+
         private static string GetGroupNameSqlQuery(string groupName)
             => $@"DECLARE @GroupName VARCHAR(255) = '{groupName}'
                   SELECT p.GroupName FROM dbo.Payor AS p
@@ -162,6 +165,35 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                         return retVal;
                     });
                 });
+            });
+
+        public ShortPayDto GetShortPayReport(string sort, string sortDirection, int page,
+            int pageSize) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                try
+                {
+                    const string sp = "[rpt].[uspGetShortpayReport]";
+                    conn.Open();
+                    var parameters = new DynamicParameters();
+                    parameters.Add("@SortColumn", sort, DbType.AnsiString);
+                    parameters.Add("@SortDirection", sortDirection, DbType.AnsiString);
+                    parameters.Add("@PageNumber", page == -1 ? 1 : page, DbType.Int32);
+                    parameters.Add("@PageSize", pageSize == -1 ? 5000 : pageSize, DbType.Int32);
+                    parameters.Add("@TotalRowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                    var results = conn.Query<ShortPayResultDto>(sp, commandType: CommandType.StoredProcedure, param: parameters);
+                    var retVal = new ShortPayDto
+                    {
+                        Results = results?.ToList(),
+                        TotalRowCount = parameters.Get<int>("@TotalRowCount")
+                    };
+                    return retVal;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Value.Error(ex);
+                    throw;
+                }
             });
     }
 }
