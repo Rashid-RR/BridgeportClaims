@@ -75,7 +75,7 @@ AS BEGIN
 				   ,i.InvoiceNumber
 			FROM    dbo.Claim AS c
 					INNER JOIN dbo.Payor AS pay ON c.PayorID = pay.PayorID
-					--INNER JOIN #Carriers ca ON pay.PayorID = ca.PayorID
+					INNER JOIN #Carriers ca ON pay.PayorID = ca.PayorID
 					INNER JOIN dbo.Patient AS p ON c.PatientID = p.PatientID
 					INNER JOIN dbo.Prescription AS pre ON c.ClaimID = pre.ClaimID
 					LEFT JOIN dbo.Invoice AS i ON pre.InvoiceID = i.InvoiceID
