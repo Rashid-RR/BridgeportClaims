@@ -29,6 +29,22 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("get-payors")]
+        public IHttpActionResult GetPayors()
+        {
+            try
+            {
+                var results = _payorsDataProvider.Value.GetPayors();
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("search")]
         public IHttpActionResult GetPayorSearchResults(string searchText)
         {

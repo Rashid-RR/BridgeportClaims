@@ -6,6 +6,8 @@ namespace BridgeportClaims.Data.Dtos
     public sealed class SkippedPaymentResultsDto
     {
         [Required]
+        public int RowId { get; set; }
+        [Required]
         public string ClaimNumber { get; set; }
         [Required]
         public string LastName { get; set; }

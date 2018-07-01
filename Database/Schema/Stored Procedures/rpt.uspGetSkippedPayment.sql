@@ -29,6 +29,7 @@ AS BEGIN
 			SET NOCOUNT ON;
 			SET XACT_ABORT ON;
 			CREATE TABLE #Results (
+				RowID INT NOT NULL,
 				[ClaimNumber] [varchar](255) NOT NULL,
 				[LastName] [varchar](155) NOT NULL,
 				[FirstName] [varchar](155) NOT NULL,
@@ -56,9 +57,10 @@ AS BEGIN
 					INSERT #Carriers (PayorID) SELECT PayorID FROM @Carriers
 				END
 
-			INSERT #Results (ClaimNumber,LastName,FirstName,AmountPaid,RxNumber,RxDate,AdjustorName,
+			INSERT #Results (RowID, ClaimNumber,LastName,FirstName,AmountPaid,RxNumber,RxDate,AdjustorName,
 							 AdjustorPh,Carrier,CarrierPh,ReversedDate,PrescriptionStatus,InvoiceNumber)
-			SELECT  c.ClaimNumber
+			SELECT  ROW_NUMBER() OVER (ORDER BY c.ClaimNumber ASC) RowID
+				   ,c.ClaimNumber
 				   ,p.LastName
 				   ,p.FirstName
 				   ,pp.AmountPaid
@@ -68,12 +70,12 @@ AS BEGIN
 				   ,AdjustorPh = a.PhoneNumber
 				   ,Carrier = pay.GroupName
 				   ,CarrierPh = pay.PhoneNumber
-				   ,pre.ReversedDate
+				   ,ReversedDate = FORMAT(pre.ReversedDate, 'M/d/yyyy')
 				   ,PrescriptionStatus = ps.StatusName
 				   ,i.InvoiceNumber
 			FROM    dbo.Claim AS c
 					INNER JOIN dbo.Payor AS pay ON c.PayorID = pay.PayorID
-					INNER JOIN #Carriers ca ON pay.PayorID = ca.PayorID
+					--INNER JOIN #Carriers ca ON pay.PayorID = ca.PayorID
 					INNER JOIN dbo.Patient AS p ON c.PatientID = p.PatientID
 					INNER JOIN dbo.Prescription AS pre ON c.ClaimID = pre.ClaimID
 					LEFT JOIN dbo.Invoice AS i ON pre.InvoiceID = i.InvoiceID
@@ -83,7 +85,8 @@ AS BEGIN
 					
 			SELECT @TotalRowCount = COUNT(*) FROM #Results AS r
 
-			SELECT r.ClaimNumber
+			SELECT r.RowID RowId
+				  ,r.ClaimNumber
                   ,r.LastName
                   ,r.FirstName
                   ,r.AmountPaid

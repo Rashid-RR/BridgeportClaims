@@ -72,17 +72,22 @@ namespace BridgeportClaims.Web.Controllers
         [Route("skippedpayment")]
         public IHttpActionResult GetSkippedPayment(CarriersModel model)
         {
-            
             try
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
                 if (default (int) == model.Page || default (int) == model.PageSize)
                     throw new Exception($"Error, the {nameof(model.Page)} and {nameof(model.PageSize)} parameters had invalid values.");
-                IList<CarrierDto> carrierDtos = model.PayorIds.Select(item => new CarrierDto {PayorID = item}).ToList();
-                var dt = carrierDtos.ToFixedDataTable();
-                var results = _reportsDataProvider.Value.GetSkippedPaymentReport(model.Page, model.PageSize, dt);
-                return Ok(results);
+                if (null != model.PayorIds && model.PayorIds.Any())
+                {
+                    IList<CarrierDto> carrierDtos = model.PayorIds.Select(item => new CarrierDto {PayorID = item}).ToList();
+                    var dt = carrierDtos.ToFixedDataTable();
+                    var results = _reportsDataProvider.Value.GetSkippedPaymentReport(model.Page, model.PageSize, dt);
+                    return Ok(results);
+                }
+                var dataTable = new DataTable();
+                dataTable.Columns.Add("PayorID");
+                return Ok(_reportsDataProvider.Value.GetSkippedPaymentReport(model.Page, model.PageSize, dataTable));
             }
             catch (Exception ex)
             {
