@@ -672,6 +672,27 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  skippedPaymentList(data?: any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/reports/skippedpayment', data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  shortPayList(data?: any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/reports/shortpay', data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  removeShortPay(data?: any): Observable<Response> {
+    return this.http.post(this.baseUrl + `/reports/remove-shortpay/?prescriptionPaymentId=${data.prescriptionPaymentId}`, data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   getComparisonClaims(data?: any): Observable<Response> {
     return this.http.post(this.baseUrl + `/kpi/get-left-right-claims/?leftClaimId=${data.leftClaimId}&rightClaimId=${data.rightClaimId}`, data, { headers: this.headers })
       .catch(err => {

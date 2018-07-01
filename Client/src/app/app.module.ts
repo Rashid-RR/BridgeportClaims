@@ -32,7 +32,7 @@ import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.compo
 // services
 import {
   SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager,FirewallService,
-  PaymentScriptService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, DocumentManagerService
+  PaymentScriptService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, DocumentManagerService,ShortPayService,SkippedPaymentService
 } from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
@@ -100,7 +100,7 @@ import { NotificationComponent } from './components/notification/notification.co
   providers: [
     DecimalPipe, DatePipe,
     HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
-    PaymentScriptService, DiaryService,  UnpaidScriptService, AccountReceivableService, ReportLoaderService, SignalRService,
+    PaymentScriptService, DiaryService,ShortPayService,SkippedPaymentService,  UnpaidScriptService, AccountReceivableService, ReportLoaderService, SignalRService,
     DocumentManagerService, EpisodeService,FirewallService,
     {
       provide: LocationStrategy,

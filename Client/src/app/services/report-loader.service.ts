@@ -82,7 +82,7 @@ export class ReportLoaderService {
       if (page) {
         data.page = page;
       }
-      this.http.duplicateClaims(this.data).single().map(r => r.json()).subscribe(r => {
+      this.http.duplicateClaims(data).single().map(r => r.json()).subscribe(r => {
         this.duplicates = r.results || r;
         this.totalRowCount = r.totalRowCount || r.length;
         this.loading = false;

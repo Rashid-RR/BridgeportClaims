@@ -4,7 +4,11 @@ import { ReportComponent } from './report/report.component';
 import { ReportListComponent } from './report-list/report-list.component';
 import { ReportSampleComponent } from './report-sample/report-sample.component';
 import { ReportAccountReceivableComponent } from './report-account-receivable/report-account-receivable.component';
+import { DuplicateClaimComponent } from './duplicate-claim/duplicate-claim.component';
 import { DuplicateClaimsComponent } from './duplicate-claims/duplicate-claims.component';
+import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicate-claim-manual.component';
+import { ShortPayComponent } from './short-pay/short-pay.component';
+import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
 
 
 export const ReportsRoutes: Routes = [
@@ -16,7 +20,16 @@ export const ReportsRoutes: Routes = [
             { path: 'revenue', component: ReportSampleComponent },
             { path: 'account-receivable', component: ReportAccountReceivableComponent },
             { path: 'sample', component: ReportSampleComponent },
-            { path: 'duplicate-claims', component: DuplicateClaimsComponent }
+            { path: 'shortpay', component: ShortPayComponent },
+            { path: 'skipped-payment', component: SkippedPaymentComponent },
+            {
+                path: 'duplicate-claims',
+                children: [
+                    { path: '', component: DuplicateClaimComponent },
+                    { path: 'auto', component: DuplicateClaimsComponent },
+                    { path: 'manual', component: DuplicateClaimManualComponent }
+                ]
+            }
         ]
     }
 ];

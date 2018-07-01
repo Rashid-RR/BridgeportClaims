@@ -49,18 +49,20 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
     }
     try {
       let us = JSON.parse(user);
-      if (route.path == 'users' || route.path == 'reports' || route.path == 'fileupload') {
+      if (route.path == 'users' || route.path == 'fileupload') {
         var allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin') > -1);
         return Observable.of(allowed)
-      } else if (route.path == 'unindexed-images' || route.path == 'indexing') {
+      } else if (state.url.indexOf('/main/reports')>-1 && (state.url.indexOf('/main/reports/skipped-payment')==-1 && state.url.indexOf('/main/reports/shortpay')==-1 && state.url.indexOf('/main/reports/list')==-1)) {
+        var allowed = (us.roles && us.roles instanceof Array && us.roles.indexOf('Admin') > -1);
+        return Observable.of(allowed)
+      }else if (route.path == 'unindexed-images' || route.path == 'indexing') {
         var allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));
         return Observable.of(allowed)
       } else {
         return this.profileManager.userLoaded(us.email).single();
       }
     } catch (error) {
-      let us = JSON.parse(user);
-      console.log(error); 
+      let us = JSON.parse(user); 
       if (state.url.indexOf('/main/indexing')>-1) {
         var allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));
         return Observable.of(allowed)

@@ -14,6 +14,14 @@ import {  AccountReceivableSearchComponent} from './account-receivable-search/ac
 import { AccountReceivableResultComponent} from './account-receivable-result/account-receivable-result.component';
 import { DuplicateClaimSearchComponent } from './duplicate-claim-search/duplicate-claim-search.component';
 import { DuplicateClaimListComponent } from './duplicate-claim-list/duplicate-claim-list.component';
+import { ShortPayReportComponent } from './short-pay-report/short-pay-report.component';
+import { SkippedPaymentListComponent } from './skipped-payment-list/skipped-payment-list.component';
+import { SkippedPaymentSearchComponent } from './skipped-payment-search/skipped-payment-search.component';
+import { ShortPaySearchComponent } from './short-pay-search/short-pay-search.component';
+import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
+import { ShortPayComponent } from './short-pay/short-pay.component';
+import { DuplicateClaimComponent } from './duplicate-claim/duplicate-claim.component';
+import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicate-claim-manual.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,7 +31,7 @@ import { DuplicateClaimListComponent } from './duplicate-claim-list/duplicate-cl
   ],
   declarations: [
     AccountReceivableSearchComponent,AccountReceivableResultComponent,
-    ReportComponent,ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, DuplicateClaimsComponent, DuplicateClaimSearchComponent, DuplicateClaimListComponent
+    ReportComponent,ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, DuplicateClaimsComponent, DuplicateClaimSearchComponent, DuplicateClaimListComponent, ShortPayReportComponent, SkippedPaymentListComponent, SkippedPaymentSearchComponent, ShortPaySearchComponent, SkippedPaymentComponent, ShortPayComponent, DuplicateClaimComponent, DuplicateClaimManualComponent
   ]
 })
 export class ReportsModule { }

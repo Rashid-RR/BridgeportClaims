@@ -69,7 +69,7 @@
         <span>ADMINISTRATION</span>
       </li>
       <li [class.active]="router.url.indexOf('/main/reports')>-1">
-        <a [routerLink]="!disableLinks ? '/main/reports'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
+        <a [routerLink]="!disableLinks ? '/main/reports'  : []" [class.disabled]="disableLinks">
           <i class="fa fa-bar-chart fa-fw"></i>
           <span>Reports</span>
         </a>

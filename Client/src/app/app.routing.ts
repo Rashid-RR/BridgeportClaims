@@ -77,64 +77,22 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
         children: [
-          {
-            path: 'private',
-            component: DashboardLinksComponent
-          },
-          {
-            path: 'firewall',
-            component: FirewallSettingsComponent
-          },
-          {
-            path: 'profile',
-            component: ProfileComponent
-          },
-          {path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },           
-          {
-            path: 'payors',
-            component: PayorsComponent
-          },
-          {
-            path: 'indexed-image/:id',
-            component: UnindexedImageFileComponent,
-          },
+          { path: 'private', component: DashboardLinksComponent },
+          { path: 'firewall', component: FirewallSettingsComponent },
+          { path: 'profile', component: ProfileComponent },
+          { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },
+          { path: 'payors', component: PayorsComponent },
+          { path: 'indexed-image/:id', component: UnindexedImageFileComponent, },
           { path: 'indexing', loadChildren: './indexing/indexing.module#IndexingModule' },
-          {
-            path: 'unindexed-images',
-            component: UnindexedImageComponent,
-          },
-          {
-            path: 'unindexed-images/:date',
-            component: UnindexedImageComponent,
-          },
-          {
-            path: 'unpaid-scripts',
-            component: UnpaidScriptComponent
-          },
-          {
-            path: 'users',
-            component: UsersComponent
-          },
-          {
-            path: 'claims',
-            component: ClaimsComponent
-          },
-          {
-            path: 'payments',
-            loadChildren: './payment/payment.module#PaymentModule' 
-          },
-          {
-            path: 'fileupload',
-            component: FileUploadComponent
-          },
-          {
-            path: 'diary',
-            loadChildren: './diaries/diaries.module#DiariesModule' 
-          },
-          {
-            path: 'episodes',
-            component: EpisodePageComponent
-          }
+          { path: 'unindexed-images', component: UnindexedImageComponent, },
+          { path: 'unindexed-images/:date', component: UnindexedImageComponent, },
+          { path: 'unpaid-scripts', component: UnpaidScriptComponent },
+          { path: 'users', component: UsersComponent },
+          { path: 'claims', component: ClaimsComponent },
+          { path: 'payments', loadChildren: './payment/payment.module#PaymentModule' },
+          { path: 'fileupload', component: FileUploadComponent },
+          { path: 'diary', loadChildren: './diaries/diaries.module#DiariesModule' },
+          { path: 'episodes', component: EpisodePageComponent }
         ]
       }
     ]
