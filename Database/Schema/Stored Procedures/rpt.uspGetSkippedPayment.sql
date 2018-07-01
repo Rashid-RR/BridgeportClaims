@@ -51,6 +51,10 @@ AS BEGIN
 				BEGIN
 					INSERT #Carriers (PayorID) SELECT p.PayorID FROM dbo.Payor AS p
 				END
+			ELSE
+				BEGIN
+					INSERT #Carriers (PayorID) SELECT PayorID FROM @Carriers
+				END
 
 			INSERT #Results (ClaimNumber,LastName,FirstName,AmountPaid,RxNumber,RxDate,AdjustorName,
 							 AdjustorPh,Carrier,CarrierPh,ReversedDate,PrescriptionStatus,InvoiceNumber)
