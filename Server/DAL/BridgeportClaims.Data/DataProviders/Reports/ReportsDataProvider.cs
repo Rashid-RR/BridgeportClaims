@@ -16,6 +16,23 @@ namespace BridgeportClaims.Data.DataProviders.Reports
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
+        public SkippedPaymentDto GetSkippedPaymentReport(DataTable carriers)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                conn.Open();
+                var parameters = new DynamicParameters();
+                parameters.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtPayorID]"));
+                parameters.Add("@TotalRowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                const string sp = "[rpt].[uspGetSkippedPayment]";
+                var query = conn.Query<SkippedPaymentResultsDto>(sp, parameters, commandType: CommandType.StoredProcedure);
+                var retVal = new SkippedPaymentDto
+                {
+                    Results = query?.ToList(),
+                    TotalRowCount = parameters.Get<int>("@TotalRowCount")
+                };
+                return retVal;
+            });
+
         private static string GetGroupNameSqlQuery(string groupName)
             => $@"DECLARE @GroupName VARCHAR(255) = '{groupName}'
                   SELECT p.GroupName FROM dbo.Payor AS p

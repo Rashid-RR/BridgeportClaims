@@ -68,6 +68,25 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("skippedpayment")]
+        public IHttpActionResult GetSkippedPayment(CarriersModel model)
+        {
+            try
+            {
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                var dt = model.PayorIds.ToDataTable();
+                var results = _reportsDataProvider.Value.GetSkippedPaymentReport(dt);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("shortpay")]
         public IHttpActionResult GetShortPayReport(PaginationModel model)
         {

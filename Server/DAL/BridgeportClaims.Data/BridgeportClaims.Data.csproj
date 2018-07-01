@@ -198,6 +198,8 @@
     <Compile Include="Dtos\ScriptNoteDto.cs" />
     <Compile Include="Dtos\ShortPayDto.cs" />
     <Compile Include="Dtos\ShortPayResultDto.cs" />
+    <Compile Include="Dtos\SkippedPaymentDto.cs" />
+    <Compile Include="Dtos\SkippedPaymentResultsDto.cs" />
     <Compile Include="Dtos\UnpaidScriptResultDto.cs" />
     <Compile Include="Dtos\UnpaidScriptsDto.cs" />
     <Compile Include="Dtos\UserDto.cs" />

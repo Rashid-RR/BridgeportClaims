@@ -368,6 +368,7 @@
     <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
     <Compile Include="Models\AccountsReceivableViewModel.cs" />
     <Compile Include="Models\AmountRemainingModel.cs" />
+    <Compile Include="Models\CarriersModel.cs" />
     <Compile Include="Models\ClaimDocumentViewModel.cs" />
     <Compile Include="Models\ClaimEditModel.cs" />
     <Compile Include="Models\ClaimImageViewModel.cs" />
