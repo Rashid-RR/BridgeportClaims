@@ -6,7 +6,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
 {
     public interface IReportsDataProvider
     {
-        SkippedPaymentDto GetSkippedPaymentReport(DataTable carriers);
+        SkippedPaymentDto GetSkippedPaymentReport(int page, int pageSize, DataTable carriers);
         IList<PharmacyNameDto> GetPharmacyNames(string pharmacyName);
         DuplicateClaimDto GetDuplicateClaims(string sort, string sortDirection, int page, int pageSize);
         IList<GroupNameDto> GetGroupNames(string groupName);

@@ -3,9 +3,8 @@
 namespace BridgeportClaims.Data.Dtos
 {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public sealed class PaymentPostingDto
+    public sealed class CarrierDto
     {
-        public int PrescriptionID { get; set; }
-        public decimal AmountPosted { get; set; }
+        public int PayorID { get; set; }
     }
 }

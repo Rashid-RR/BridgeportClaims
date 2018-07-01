@@ -9,6 +9,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Reports;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Excel.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
@@ -71,12 +72,16 @@ namespace BridgeportClaims.Web.Controllers
         [Route("skippedpayment")]
         public IHttpActionResult GetSkippedPayment(CarriersModel model)
         {
+            
             try
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                var dt = model.PayorIds.ToDataTable();
-                var results = _reportsDataProvider.Value.GetSkippedPaymentReport(dt);
+                if (default (int) == model.Page || default (int) == model.PageSize)
+                    throw new Exception($"Error, the {nameof(model.Page)} and {nameof(model.PageSize)} parameters had invalid values.");
+                IList<CarrierDto> carrierDtos = model.PayorIds.Select(item => new CarrierDto {PayorID = item}).ToList();
+                var dt = carrierDtos.ToFixedDataTable();
+                var results = _reportsDataProvider.Value.GetSkippedPaymentReport(model.Page, model.PageSize, dt);
                 return Ok(results);
             }
             catch (Exception ex)
