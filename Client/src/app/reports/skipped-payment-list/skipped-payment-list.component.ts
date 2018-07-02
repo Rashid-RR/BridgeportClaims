@@ -32,6 +32,22 @@ export class SkippedPaymentListComponent implements OnInit {
   next() {
     this.skipped.fetchSkippedPayReport(true);
   }
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+  
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    let input = Number(this.goToPage + "" + inputChar);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    } else if (!this.isNumeric(input)) {
+      event.preventDefault();
+    } else if (input < 1) {
+      event.preventDefault();
+    }
+  }
   prev() {
     this.skipped.fetchSkippedPayReport(false, true);
   }

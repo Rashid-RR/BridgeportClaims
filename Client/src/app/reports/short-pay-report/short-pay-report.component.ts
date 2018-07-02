@@ -36,7 +36,21 @@ export class ShortPayReportComponent implements OnInit {
   prev() {
     this.shortpay.fetchShortpayReport(false, true);
   }
-
+  keyPress(event: any) {
+    const pattern = /[0-9\+\-\ ]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    let input = Number(this.goToPage + "" + inputChar);
+    if (!pattern.test(inputChar)) {
+      event.preventDefault();
+    } else if (!this.isNumeric(input)) {
+      event.preventDefault();
+    } else if (input < 1) {
+      event.preventDefault();
+    }
+  }
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
   goto() {
     let page = Number.parseInt(this.goToPage);
     if (!this.goToPage || isNaN(page)) {
