@@ -9,7 +9,7 @@ GO
  Description:       Gets the results of the Short Pay Report 
  Example Execute:
 					DECLARE @TotalRowCount INT
-                    EXECUTE [rpt].[uspGetShortpayReport] NULL, NULL, 1, 5000, @TotalRowCount = @TotalRowCount OUTPUT
+                    EXECUTE [rpt].[uspGetShortpayReport] 'AmountPaid', 'ASC', 1, 5000, @TotalRowCount = @TotalRowCount OUTPUT
 					SELECT @TotalRowCount
  =============================================
 */
@@ -93,42 +93,42 @@ AS BEGIN
    ORDER BY CASE WHEN @IsDefaultSort = 1 THEN r.LastName END ASC,
 			CASE WHEN @IsDefaultSort = 1 THEN r.FirstName END ASC,
 			CASE WHEN @IsDefaultSort = 1 THEN r.ClaimNumber END ASC,
-			CASE WHEN @SortColumn = 'PrescriptionPaymentId' AND @SortDirection = 'ASC'
+			CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'PrescriptionPaymentId' AND @SortDirection = 'ASC'
 				  THEN r.PrescriptionPaymentId END ASC,
-			 CASE WHEN @SortColumn = 'PrescriptionPaymentId' AND @SortDirection = 'DESC'
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'PrescriptionPaymentId' AND @SortDirection = 'DESC'
 			      THEN r.PrescriptionPaymentId END DESC,
-			 CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'ASC'
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'RxNumber' AND @SortDirection = 'ASC'
 				  THEN r.RxNumber END ASC,
-			 CASE WHEN @SortColumn = 'RxNumber' AND @SortDirection = 'DESC'
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'RxNumber' AND @SortDirection = 'DESC'
 			      THEN r.RxNumber END DESC,
-			 CASE WHEN @SortColumn = 'RxDate' AND @SortDirection = 'ASC'
-				  THEN r.RxNumber END ASC,
-			 CASE WHEN @SortColumn = 'RxDate' AND @SortDirection = 'DESC'
-			      THEN r.RxNumber END DESC,
-			 CASE WHEN @SortColumn = 'BilledAmount' AND @SortDirection = 'ASC'
-				  THEN r.RxNumber END ASC,
-			 CASE WHEN @SortColumn = 'BilledAmount' AND @SortDirection = 'DESC'
-			      THEN r.RxNumber END DESC,
-			 CASE WHEN @SortColumn = 'AmountPaid' AND @SortDirection = 'ASC'
-				  THEN r.RxNumber END ASC,
-			 CASE WHEN @SortColumn = 'AmountPaid' AND @SortDirection = 'DESC'
-			      THEN r.RxNumber END DESC,
-			 CASE WHEN @SortColumn = 'LastName' AND @SortDirection = 'ASC'
-				  THEN r.RxNumber END ASC,
-			 CASE WHEN @SortColumn = 'LastName' AND @SortDirection = 'DESC'
-			      THEN r.RxNumber END DESC,
-			 CASE WHEN @SortColumn = 'FirstName' AND @SortDirection = 'ASC'
-				  THEN r.RxNumber END ASC,
-			 CASE WHEN @SortColumn = 'FirstName' AND @SortDirection = 'DESC'
-			      THEN r.RxNumber END DESC,
-			 CASE WHEN @SortColumn = 'ClaimNumber' AND @SortDirection = 'ASC'
-				  THEN r.RxNumber END ASC,
-			 CASE WHEN @SortColumn = 'ClaimNumber' AND @SortDirection = 'DESC'
-			      THEN r.RxNumber END DESC,
-			 CASE WHEN @SortColumn = 'PrescriptionStatus' AND @SortDirection = 'ASC'
-				  THEN r.RxNumber END ASC,
-			 CASE WHEN @SortColumn = 'PrescriptionStatus' AND @SortDirection = 'DESC'
-			      THEN r.RxNumber END DESC
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'RxDate' AND @SortDirection = 'ASC'
+				  THEN r.RxDate END ASC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'RxDate' AND @SortDirection = 'DESC'
+			      THEN r.RxDate END DESC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'BilledAmount' AND @SortDirection = 'ASC'
+				  THEN r.BilledAmount END ASC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'BilledAmount' AND @SortDirection = 'DESC'
+			      THEN r.BilledAmount END DESC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'AmountPaid' AND @SortDirection = 'ASC'
+				  THEN r.AmountPaid END ASC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'AmountPaid' AND @SortDirection = 'DESC'
+			      THEN r.AmountPaid END DESC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'LastName' AND @SortDirection = 'ASC'
+				  THEN r.LastName END ASC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'LastName' AND @SortDirection = 'DESC'
+			      THEN r.LastName END DESC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'FirstName' AND @SortDirection = 'ASC'
+				  THEN r.FirstName END ASC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'FirstName' AND @SortDirection = 'DESC'
+			      THEN r.FirstName END DESC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'ClaimNumber' AND @SortDirection = 'ASC'
+				  THEN r.ClaimNumber END ASC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'ClaimNumber' AND @SortDirection = 'DESC'
+			      THEN r.ClaimNumber END DESC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'PrescriptionStatus' AND @SortDirection = 'ASC'
+				  THEN r.PrescriptionStatus END ASC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'PrescriptionStatus' AND @SortDirection = 'DESC'
+			      THEN r.PrescriptionStatus END DESC
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END

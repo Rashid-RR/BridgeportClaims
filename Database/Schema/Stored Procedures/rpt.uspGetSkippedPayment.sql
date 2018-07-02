@@ -8,7 +8,8 @@ GO
  Create date:       7/1/2018
  Description:       Gets Skipped Payments report 
  Example Execute:
-                    EXECUTE [rpt].[uspGetSkippedPayment]
+					DECLARE @Carriers [dbo].[udtPayorID], @TotalRowCount INT
+                    EXECUTE [rpt].[uspGetSkippedPayment] @Carriers, 1, 5000, @TotalRowCount OUTPUT
  =============================================
 */
 CREATE PROC [rpt].[uspGetSkippedPayment]
@@ -126,4 +127,5 @@ AS BEGIN
             @ErrMsg);            -- First argument (string)
     END CATCH
 END
+
 GO

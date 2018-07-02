@@ -18,7 +18,7 @@ using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "User")]
     [RoutePrefix("api/reports")]
     public class ReportsController : BaseApiController
     {
@@ -133,6 +133,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("duplicate-claims")]
         public IHttpActionResult GetDuplicateClaims(PaginationModel model)
         {
@@ -150,6 +151,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("accounts-receivable")]
         public IHttpActionResult GetAccountsReceivableReport(AccountsReceivableViewModel model)
         {
@@ -185,6 +187,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("group-name")]
         public IHttpActionResult GetGroupNameAutoSuggest(string groupName)
         {
@@ -200,6 +203,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("pharmacy-name")]
         public IHttpActionResult GetPharmacyNameAutoSuggest(string pharmacyName)
         {
@@ -215,6 +219,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("excel-export")]
         public IHttpActionResult ExportExcel(AccountsReceivableViewModel model)
         {
