@@ -9,6 +9,7 @@ using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Prescriptions
@@ -37,11 +38,21 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             return op;
         }
 
+        public void ArchiveUnpaidScript(int prescriptionId, string userId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                conn.Open();
+                conn.Execute("[dbo].[uspUnpaidScriptsArchivedInsert]",
+                    new {PrescriptionID = prescriptionId, ModifiedByUserID = userId},
+                    commandType: CommandType.StoredProcedure);
+            });
+
         public UnpaidScriptsDto GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sort, string sortDirection, int page, int pageSize)
+            string sort, string sortDirection, int page, int pageSize, bool isArchived = false)
                 => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
                 {
-                    return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetUnpaidScripts]", conn), cmd =>
+                    var sp = !isArchived ? "[dbo].[uspGetUnpaidScripts]" : "[dbo].[uspGetArchivedUnpaidScripts]";
+                    return DisposableService.Using(() => new SqlCommand(sp, conn), cmd =>
                     {
                         var isDefaultSortParam = cmd.CreateParameter();
                         isDefaultSortParam.ParameterName = "@IsDefaultSort";
@@ -104,7 +115,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                             conn.Open();
                         DisposableService.Using(cmd.ExecuteReader, reader =>
                         {
-                            var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionPaymentId");
+                            var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionId");
                             var claimIdOrdinal = reader.GetOrdinal("ClaimId");
                             var patientNameOrdinal = reader.GetOrdinal("PatientName");
                             var claimNumberOrdinal = reader.GetOrdinal("ClaimNumber");

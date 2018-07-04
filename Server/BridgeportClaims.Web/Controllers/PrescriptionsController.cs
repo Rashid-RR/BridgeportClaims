@@ -13,6 +13,7 @@ using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Pdf.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
@@ -89,7 +90,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var list = _prescriptionsDataProvider.Value.GetUnpaidScripts(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), 
-                    model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page, model.PageSize);
+                    model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page, model.PageSize, model.IsArchived);
                 return Ok(list);
             }
             catch (Exception ex)
@@ -144,6 +145,29 @@ namespace BridgeportClaims.Web.Controllers
             {
                 Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
+        [Route("archive-unpaid-script")]
+        public IHttpActionResult ArchiveUnpaidScript(ArchiveUnpaidScriptModel model)
+        {
+            try
+            {
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                if (model.PrescriptionId == default (int))
+                    throw new Exception("Error, the prescription Id supplied is not valid.");
+                var userId = User.Identity.GetUserId();
+                if (userId.IsNullOrWhiteSpace())
+                    throw new ArgumentNullException(nameof(userId));
+                _prescriptionsDataProvider.Value.ArchiveUnpaidScript(model.PrescriptionId, userId);
+                return Ok(new {message = "Successfully archived this unpaid script."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
     }
