@@ -16,5 +16,5 @@ ALTER TABLE [dbo].[ShortPayExclusion] ADD CONSTRAINT [pkShortPayExclusion] PRIMA
 GO
 ALTER TABLE [dbo].[ShortPayExclusion] ADD CONSTRAINT [fkShortPayExclusionModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
-ALTER TABLE [dbo].[ShortPayExclusion] ADD CONSTRAINT [fkShortPayExclusionPrescriptionPaymentIDPrescriptionPrescriptionPaymentID] FOREIGN KEY ([PrescriptionPaymentID]) REFERENCES [dbo].[PrescriptionPayment] ([PrescriptionPaymentID])
+ALTER TABLE [dbo].[ShortPayExclusion] ADD CONSTRAINT [fkShortPayExclusionPrescriptionPaymentIDPrescriptionPaymentPrescriptionPaymentID] FOREIGN KEY ([PrescriptionPaymentID]) REFERENCES [dbo].[PrescriptionPayment] ([PrescriptionPaymentID])
 GO

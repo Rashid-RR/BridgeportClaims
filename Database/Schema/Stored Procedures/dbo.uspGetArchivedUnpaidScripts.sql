@@ -4,12 +4,12 @@ SET ANSI_NULLS ON
 GO
 /*
 	Author:			Jordan Gurney
-	Create Date:	10/11/2017
-	Description:	Gets the Unpaid Scripts
+	Create Date:	7/4/2018
+	Description:	Gets the Archived Unpaid Scripts
 	Sample Execute:
-					DECLARE @TotalRows INT; EXEC dbo.uspGetUnpaidScripts 1, NULL, NULL, 'RxDate', 'ASC', 1, 5000, @TotalRows OUTPUT
+					DECLARE @TotalRows INT; EXEC [dbo].[uspGetArchivedUnpaidScripts] 1, NULL, NULL, 'RxDate', 'ASC', 1, 5000, @TotalRows OUTPUT
 */
-CREATE PROC [dbo].[uspGetUnpaidScripts]
+CREATE PROC [dbo].[uspGetArchivedUnpaidScripts]
 (
 	@IsDefaultSort BIT,
 	@StartDate DATE,
@@ -33,22 +33,13 @@ AS BEGIN
 
 	IF @iIsDefaultSort IS NULL
 		SET @iIsDefaultSort = 0;
-	DECLARE @MI        INT				= dbo.udfGetStateIDByCode('MI')
-		  , @LocalDate DATE				= CONVERT(DATE, [dtme].[udfGetLocalDate]())
-		  , @NonMichiganThreshold INT	= 45
-		  , @MichiganThreshold INT		= 60;
 
 	CREATE TABLE #UnpaidScripts (PrescriptionId INT NOT NULL PRIMARY KEY, ClaimId INT NOT NULL,
 		PatientName VARCHAR(500) NOT NULL, ClaimNumber VARCHAR(255) NOT NULL, InvoiceNumber VARCHAR(100) NOT NULL,
 		InvoiceDate DATE NOT NULL, InvAmt MONEY NOT NULL, RxNumber VARCHAR(100) NOT NULL, RxDate DATETIME2 NOT NULL,
 		LabelName VARCHAR(25), InsuranceCarrier VARCHAR(255) NOT NULL, PharmacyState CHAR(2) NOT NULL,
 		AdjustorName VARCHAR(255), AdjustorPhone VARCHAR(30), AmountPaid MONEY NOT NULL,
-		LastName VARCHAR(155) NOT NULL, FirstName VARCHAR(155) NOT NULL)
-	CREATE TABLE #UnpaidScriptsFiltered (PrescriptionId INT NOT NULL PRIMARY KEY, ClaimId INT NOT NULL,
-		PatientName VARCHAR(500) NOT NULL, ClaimNumber VARCHAR(255) NOT NULL, InvoiceNumber VARCHAR(100) NOT NULL,
-		InvoiceDate DATE NOT NULL, InvAmt MONEY NOT NULL, RxNumber VARCHAR(100) NOT NULL, RxDate DATETIME2 NOT NULL,
-		LabelName VARCHAR(25),InsuranceCarrier VARCHAR(255) NOT NULL,PharmacyState CHAR(2) NOT NULL,AdjustorName 
-		VARCHAR(255), AdjustorPhone VARCHAR(30), LastName VARCHAR(155) NOT NULL, FirstName VARCHAR(155) NOT NULL)
+		LastName VARCHAR(155) NOT NULL, FirstName VARCHAR(155) NOT NULL);
 	INSERT #UnpaidScripts (PrescriptionId,ClaimId,PatientName,ClaimNumber,InvoiceNumber,InvoiceDate
 					,InvAmt,RxNumber,RxDate,LabelName,InsuranceCarrier,PharmacyState,AdjustorName
 					,AdjustorPhone,AmountPaid,LastName,FirstName)
@@ -72,6 +63,7 @@ AS BEGIN
 					, LastName		 = pat.LastName
 					, FirstName		 = pat.FirstName
 	FROM            dbo.Prescription	AS p
+		INNER JOIN  dbo.UnpaidScriptsArchived AS usa ON p.PrescriptionID = usa.PrescriptionID
 		INNER JOIN  dbo.Claim			AS c ON p.ClaimID = c.ClaimID
 		INNER JOIN  dbo.Invoice			AS i ON p.InvoiceID = i.InvoiceID
 		INNER JOIN  dbo.Patient			AS pat ON c.PatientID = pat.PatientID
@@ -79,38 +71,8 @@ AS BEGIN
 		INNER JOIN  dbo.Pharmacy		AS ph ON p.PharmacyNABP = ph.NABP
 		INNER JOIN  dbo.UsState			AS us ON ph.StateID = us.StateID
 		LEFT JOIN   dbo.Adjustor		AS a ON [c].[AdjustorID] = a.AdjustorID
-	WHERE           (i.InvoiceDate >= @iStartDate OR @iStartDate IS NULL)
-					AND (i.InvoiceDate <= @iEndDate OR @iEndDate IS NULL)
-					AND 1 = CASE WHEN ph.StateID != @MI AND DATEDIFF(DAY, i.InvoiceDate, @LocalDate) > @NonMichiganThreshold THEN 1
-									WHEN ph.StateID = @MI AND DATEDIFF(DAY, i.InvoiceDate, @LocalDate) > @MichiganThreshold THEN 1
-									ELSE 0
-							END
-					AND p.IsReversed = 0
-					AND c.TermDate > @LocalDate
-	INSERT #UnpaidScriptsFiltered (PrescriptionId,ClaimId,PatientName,ClaimNumber,InvoiceNumber,InvoiceDate
-	 ,InvAmt,RxNumber,RxDate,LabelName,InsuranceCarrier,PharmacyState,AdjustorName,AdjustorPhone,LastName,FirstName)
-	SELECT u.PrescriptionId
-			, u.ClaimId
-			, u.PatientName
-			, u.ClaimNumber
-			, u.InvoiceNumber
-			, u.InvoiceDate
-			, u.InvAmt
-			, u.RxNumber
-			, u.RxDate
-			, u.LabelName
-			, u.InsuranceCarrier
-			, u.PharmacyState
-			, u.AdjustorName
-			, u.AdjustorPhone
-			, u.LastName
-			, u.FirstName
-	FROM   #UnpaidScripts AS u
-		   LEFT JOIN dbo.UnpaidScriptsArchived AS a ON u.PrescriptionID = a.PrescriptionID
-	WHERE  ((u.AmountPaid < (u.InvAmt * 0.75)) OR u.InvAmt = 0)
-		   AND a.UnpaidScriptsArchivedID IS NULL
 
-	SELECT @TotalRows = COUNT(*) FROM #UnpaidScriptsFiltered
+	SELECT @TotalRows = COUNT(*) FROM #UnpaidScripts
 	
 	SELECT u.PrescriptionId
          , u.ClaimId
@@ -126,7 +88,7 @@ AS BEGIN
          , u.PharmacyState
          , u.AdjustorName
          , u.AdjustorPhone
-	FROM #UnpaidScriptsFiltered u
+	FROM #UnpaidScripts u
 	ORDER BY CASE WHEN @iIsDefaultSort = 1 THEN u.InsuranceCarrier END ASC,
 			 CASE WHEN @iIsDefaultSort = 1 THEN u.LastName END ASC,
 			 CASE WHEN @iIsDefaultSort = 1 THEN u.FirstName END ASC,
