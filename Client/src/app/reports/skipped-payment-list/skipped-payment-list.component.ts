@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ReportLoaderService, SkippedPaymentService } from "../../services/services.barrel";
+import { ReportLoaderService, SkippedPaymentService,HttpService } from "../../services/services.barrel";
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Subject } from 'rxjs/Subject';
+import {Payor} from "../../models/payor"
 
 @Component({
   selector: 'app-skipped-payment-list',
@@ -13,10 +15,10 @@ export class SkippedPaymentListComponent implements OnInit {
   
   goToPage: any = '';
   activeToast: Toast;
-  constructor(private dialogService: DialogService, private toast: ToastsManager, public skipped: SkippedPaymentService,public reportloader: ReportLoaderService) { }
+  constructor(private http:HttpService,private dialogService: DialogService, private toast: ToastsManager, public skipped: SkippedPaymentService,public reportloader: ReportLoaderService) { }
 
   ngOnInit() {
-    this.skipped.fetchSkippedPayReport();
+    this.skipped.getPayors(1)
   }
   remove(item) {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {

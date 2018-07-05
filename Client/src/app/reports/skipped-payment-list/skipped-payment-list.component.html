@@ -4,33 +4,45 @@
     <div class="table-responsive top-header">
       <table class="table no-margin table-striped">
         <thead class="overflowable" id="fixed-thead">
-          <tr #myTable='table-sort' (tableSort)="skipped.onSortColumn($event);goToPage=''">            
+          <tr >            
             <th>
-              <span columnSort="claimNumber" [sort-table]="myTable">Claim Number</span>
+              <span>Claim Number</span>
             </th>
             <th>
-              <span columnSort="lastName" [sort-table]="myTable">Last Name</span>
+              <span>Last Name</span>
             </th>
             <th>
-              <span columnSort="firstName" [sort-table]="myTable">First Name</span>
+              <span>First Name</span>
             </th>
             <th>
-              <span columnSort="amountPaid" [sort-table]="myTable">Amount Paid</span>
+              <span>Amount Paid</span>
             </th>
             <th>
-              <span columnSort="rxNumber" [sort-table]="myTable">Rx Number</span>
+              <span>Rx Number</span>
             </th>
             <th>
-              <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>
+              <span>Rx Date</span>
             </th>
             <th>
-              <span columnSort="reversedDate" [sort-table]="myTable">Reversed Date</span>
+              <span>Adjustor Name</span>
             </th>
             <th>
-              <span columnSort="prescriptionStatus" [sort-table]="myTable">Status</span>
+              <span>Adjustor Phone</span>
             </th>
             <th>
-              <span columnSort="invoiceNumber" [sort-table]="myTable">Invoice Number</span>
+              <span>Carrier</span>
+            </th>
+            <th>
+              <span>Carrier Phone</span>
+            </th>
+            <th>
+              <span>Reversed Date</span>
+            </th>
+            <th>
+              <span>Prescription Status</span>
+            </th>
+            <th>
+              <span>Invoice Number</span>
             </th>
           </tr>
         </thead>
@@ -47,7 +59,11 @@
               <td>{{p.firstName}}</td>
               <td>{{p.amountPaid}}</td>
               <td>{{p.rxNumber}}</td>
-              <td>{{reportloader.formatDate(p.rxFilled)}}</td>
+              <td>{{reportloader.formatDate(p.rxDate)}}</td>
+              <td>{{p.adjustorName}}</td>
+              <td>{{p.adjustorPh | phone:[]}}</td>
+              <td>{{p.carrier}}</td>
+              <td>{{p.carrierPh | phone:[]}}</td>
               <td>{{reportloader.formatDate(p.reversedDate)}}</td>
               <td>{{p.prescriptionStatus}} </td>
               <td>{{p.invoiceNumber}} </td>

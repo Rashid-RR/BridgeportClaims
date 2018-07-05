@@ -25,7 +25,7 @@ export class ShortPayReportComponent implements OnInit {
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.shortpay.removeShortpay(item.id);
+          this.shortpay.removeShortpay(item.prescriptionPaymentId);
         }
       });
   }

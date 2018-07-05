@@ -3,6 +3,10 @@ import { HttpService } from './http-service';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {Payor} from "../models/payor"
+import { Subject } from 'rxjs/Subject';
+
+declare var $:any;
 
 export interface SkippedPayment {
     lastName: string,
@@ -27,14 +31,27 @@ export class SkippedPaymentService {
     skippedPay: SkippedPayment[] = [];
     data: any = {};
     totalRowCount: number;
+    payors:Array<Payor>=[];
+    pageNumber:number;
+    pageSize:number =50;
+    payorListReady = new Subject<any>();
     constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
         this.data = {
-            sort: "RxNumber",
-            sortDirection: "DESC",
             page: 1,
             pageSize: 30
         }
     }
+    getPayors(pageNumber:number){
+        this.loading = true;
+        this.http.getPayorList(pageNumber,this.pageSize).map(res=>{this.loading = false;return res.json()}).subscribe(result=>{
+              this.payors = result;
+              this.pageNumber = pageNumber;
+              this.payorListReady.next();
+          },err=>{
+            console.log(err);
+            this.payorListReady.next();
+          })
+      }
     fetchSkippedPayReport(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
         if (!this.data) {
             this.toast.warning('Please populate at least one search field.');
@@ -72,14 +89,6 @@ export class SkippedPaymentService {
     removeskippedPay(id: number = undefined) {
         this.loading = true;
          
-    }
-    onSortColumn(info: SortColumnInfo) {
-        this.data.isDefaultSort = false;
-        this.data.sort = info.column;
-        this.data.sortDirection = info.dir;
-        this.data.page = 1;
-        this.data.goToPage = '';
-        this.fetchSkippedPayReport();
     }
     get totalPages() {
         return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;

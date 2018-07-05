@@ -281,6 +281,14 @@ export class HttpService {
       });
     return s;
   }
+  getPayorList(pageNumber: Number, pageSize: Number): Observable<Response> {
+    let s = this.http.post(this.baseUrl + "/payors/get-payors/?pageNumber=" + pageNumber + "&pageSize=" + pageSize,{}, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
   getUsers(pageNumber: Number, pageSize: Number): Observable<Response> {
     let s = this.http.get(this.baseUrl + "/account/users/?pageNumber=" + pageNumber + "&pageSize=" + pageSize, { headers: this.headers })
       .catch(err => {

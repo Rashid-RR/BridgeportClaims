@@ -1,3 +1,20 @@
-<p>
-  skipped-payment-search works!
-</p>
+<form role="form" class="row" autocomplete="off" autocapitalize="none" autocomplete="off">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label>Carriers</label>
+      <select class="form-control select2" id="payorSelection" multiple="multiple" data-placeholder="Select a State" size="1" style="width: 100%;">
+        <option *ngFor="let p of skipped.payors" [value]="p.payorId">{{p.carrier}}</option>
+      </select>
+    </div>
+  </div>  
+  <div class="col-sm-3 col-md-2 flex">
+      <div class="form-group">
+          <label>&nbsp;</label><br/>
+          <span>
+              <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="filter()"  style="margin-right:15px;"> <i class="fa fa-save" aria-hidden="true"></i> Filter</button>
+              <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clear()"> <i class="fa fa-eraser" aria-hidden="true"></i>  Clear selection</button>                               
+          </span>
+      </div>
+  </div> 
+</form>
+

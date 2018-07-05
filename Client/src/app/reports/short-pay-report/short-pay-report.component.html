@@ -4,19 +4,8 @@
     <div class="table-responsive top-header">
       <table class="table no-margin table-striped">
         <thead class="overflowable" id="fixed-thead">
-          <tr #myTable='table-sort' (tableSort)="shortpay.onSortColumn($event);goToPage=''">
-            <th>
-              <span columnSort="prescriptionPaymentId" [sort-table]="myTable">ID</span>
-            </th>
-            <th>
-              <span columnSort="lastName" [sort-table]="myTable">Last Name</span>
-            </th>
-            <th>
-              <span columnSort="firstName" [sort-table]="myTable">First Name</span>
-            </th>
-            <th>
-              <span columnSort="claimNumber" [sort-table]="myTable">Claim Number</span>
-            </th>
+          <tr #myTable='table-sort' (tableSort)="shortpay.onSortColumn($event);goToPage=''">            
+            
             <th>
               <span columnSort="rxNumber" [sort-table]="myTable">Rx Number</span>
             </th>
@@ -30,7 +19,16 @@
               <span columnSort="amountPaid" [sort-table]="myTable">Amount Paid</span>
             </th>
             <th>
-              <span columnSort="prescriptionStatus" [sort-table]="myTable">Status</span>
+              <span columnSort="lastName" [sort-table]="myTable">Last Name</span>
+            </th>
+            <th>
+              <span columnSort="firstName" [sort-table]="myTable">First Name</span>
+            </th>
+            <th>
+              <span columnSort="claimNumber" [sort-table]="myTable">Claim Number</span>
+            </th>
+            <th>
+              <span columnSort="prescriptionStatus" [sort-table]="myTable">Prescription Status</span>
             </th>
             <th>
               <span>Remove</span>
@@ -45,14 +43,13 @@
         <tbody class="overflowable" tabindex="0">
           <ng-container *ngFor="let p of shortpay.shortpayList">
             <tr>
-              <td>{{p.prescriptionPaymentId}}</td>
-              <td>{{p.lastName}}</td>
-              <td>{{p.firstName}}</td>
-              <td>{{p.claimNumber}}</td>
               <td>{{p.rxNumber}}</td>
               <td>{{reportloader.formatDate(p.rxDate)}}</td>
               <td>{{p.billedAmount}}</td>
               <td>{{p.amountPaid}}</td>
+              <td>{{p.lastName}}</td>
+              <td>{{p.firstName}}</td>
+              <td>{{p.claimNumber}}</td>
               <td>{{p.prescriptionStatus}} </td>
               <td>
                 <button type="button" class="btn btn-danger  btn-sm" [disabled]="shortpay.deleting==p.PrescriptionPaymentId" (click)="remove(p)">Remove</button>
