@@ -15,7 +15,7 @@ export class UnpaidScriptService {
   unpaidscripts: Immutable.OrderedMap<Number, UnpaidScript> = Immutable.OrderedMap<Number, UnpaidScript>();
   data:any={};
   totalRowCount:number;
-  constructor(private http: HttpService,private formBuilder: FormBuilder, private events: EventsService, private toast: ToastsManager) { 
+  constructor(private http: HttpService, private events: EventsService, private toast: ToastsManager) { 
     this.data ={
       isDefaultSort: true,
       startDate: null,
@@ -23,6 +23,7 @@ export class UnpaidScriptService {
       sort: 'RxDate',
       sortDirection: 'ASC',
       page: 1,
+      isArchived:false,
       pageSize: 30
     }; 
     //this.search();

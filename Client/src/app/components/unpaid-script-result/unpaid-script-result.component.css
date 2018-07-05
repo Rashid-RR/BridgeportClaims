@@ -7,7 +7,7 @@ th {
 tr>th:first-child,
 tr>td:first-child
 {
-    width:11%;
+    width:10%;
 }
 .btn-group.status
 {
@@ -54,15 +54,19 @@ tr>td:nth-child(7)
 
 tr>th:nth-child(8), 
 tr>td:nth-child(8){
-    width: 14%;
+    width: 12%;
 }
 tr>th:nth-child(9), 
 tr>td:nth-child(9),
 tr>th:nth-child(10),
 tr>td:nth-child(10),
+tr>th:nth-child(11),
+tr>td:nth-child(11){
+    width: 11%;
+}
 tr>th:last-child,
 tr>td:last-child{
-    width: 12%;
+    width: 6%;
 }
 
 /* ROW COLOR CHANGE*/

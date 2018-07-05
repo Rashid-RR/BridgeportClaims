@@ -566,6 +566,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  archivePrescription(data: any): Observable<Response> {
+    return this.http.post(this.baseUrl + '/prescriptions/archive-unpaid-script', data, { headers: this.headers })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   diaryList(data: any): Observable<Response> {
     return this.http.post(this.baseUrl + '/diary/get', data, { headers: this.headers })
       .catch(err => {

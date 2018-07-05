@@ -3,8 +3,6 @@ import { ReportLoaderService, SkippedPaymentService,HttpService } from "../../se
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Subject } from 'rxjs/Subject';
-import {Payor} from "../../models/payor"
 
 @Component({
   selector: 'app-skipped-payment-list',

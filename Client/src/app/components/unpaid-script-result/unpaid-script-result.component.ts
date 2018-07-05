@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { UnpaidScriptService, HttpService } from "../../services/services.barrel";
-import { Diary } from "../../models/diary";
-import { Claim } from "../../models/claim";
-import { PrescriptionNote } from "../../models/prescription-note";
-import { ScriptNoteWindowComponent } from "../../components/components-barrel";
-import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../ng-window";
+import { ConfirmComponent } from '../../components/confirm.component';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { WindowsInjetor } from "../ng-window";
 import { Router } from "@angular/router";
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 
@@ -16,13 +14,30 @@ import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 export class UnpaidScriptResultsComponent implements OnInit {
   goToPage: any = '';
   activeToast: Toast;
-  constructor(private _router: Router, public uss: UnpaidScriptService, private http: HttpService,
+  constructor(private dialogService: DialogService, private _router: Router, public uss: UnpaidScriptService, private http: HttpService,
     private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
 
   }
 
   ngOnInit() {
 
+  }
+  archive(u: any) {
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Archive Script',
+      message: `Would you like to archive this script`
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.http.archivePrescription({ prescriptionId: u.prescriptionId })
+            .single().map(r => r.json()).subscribe(r => {
+              this.toast.success(r.message);
+              this.uss.search();
+            }, err => {
+              this.toast.warning('Could not archive script');
+            })
+        }
+      });
   }
   next() {
     this.uss.search(true);

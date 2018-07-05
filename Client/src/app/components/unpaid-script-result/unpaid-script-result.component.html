@@ -5,12 +5,6 @@
             <table class="table no-margin table-striped">
                 <thead class="overflowable" id="fixed-thead">
                     <tr (tableSort)="uss.onSortColumn($event)" #myTable='table-sort'>
-                        <!-- <th>
-                            <span columnSort="owner" [sort-table]="myTable">Owner</span>
-                        </th>
-                        <th>
-                            <span columnSort="created" [sort-table]="myTable">Created</span>
-                        </th> -->
                         <th>
                             <span columnSort="patientName" [sort-table]="myTable">Patient Name</span>
                         </th>
@@ -27,10 +21,10 @@
                             <span columnSort="invAmt" [sort-table]="myTable">Inv Amt</span>
                         </th>
                         <th>
-                            <span columnSort="rxNumber" [sort-table]="myTable">Rx #</span>                            
+                            <span columnSort="rxNumber" [sort-table]="myTable">Rx #</span>
                         </th>
                         <th>
-                            <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>                            
+                            <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>
                         </th>
                         <th>
                             <span columnSort="labelName" [sort-table]="myTable">Label Name</span>
@@ -44,6 +38,7 @@
                         <th>
                             <span columnSort="adjustorPhone" [sort-table]="myTable">Adjustor Phone</span>
                         </th>
+                        <th>Archive</th>
                     </tr>
                 </thead>
             </table>
@@ -53,37 +48,31 @@
             <table class="table no-margin table-striped" id="maintable">
                 <tbody class="overflowable" #unpaidScriptTable tabindex="0">
                     <tr *ngFor="let unpaidScript of uss.unpaidScriptList;">
-                       <!--  <td>
-                            <div class="btn-group status">
-                                <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
-                                    {{unpaidScript.owner}} <i class="fa fa-sort pull-right"></i>
-                                </button>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a>Owner 1</a></li>
-                                    <li><a>Owner 2</a></li>
-                                    <li><a>Owner 3</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                        <td>{{unpaidScript.created  | date:"shortDate"}}</td>-->
                         <td>{{unpaidScript.patientName}}</td>
                         <td>{{unpaidScript.claimNumber}}</td>
                         <td>{{unpaidScript.invoiceNumber}}</td>
                         <td>{{unpaidScript.invoiceDate | date:"shortDate"}}</td>
-                        <td>{{unpaidScript.invAmt  | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{unpaidScript.invAmt | currency:'USD':true:'1.2-2'}}</td>
                         <td>{{unpaidScript.rxNumber}}</td>
                         <td>{{unpaidScript.rxDate | date:"shortDate"}}</td>
                         <td>{{unpaidScript.labelName}}</td>
                         <td>{{unpaidScript.insuranceCarrier}}</td>
                         <td>{{unpaidScript.adjustorName}}</td>
                         <td>{{unpaidScript.adjustorPhone}}</td>
+                        <td>
+                            <span *ngIf="!uss.data.isArchived">
+                                <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="archive(unpaidScript)">
+                                    <span class="glyphicon glyphicon-trash"></span> Archive
+                                </button>
+                            </span>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="btn-group pagination-row">
             <button type="button" class="btn btn-default  btn-md" [disabled]="uss.data.page<=1" (click)="prev()">Prev</button>
-            <button type="button" class="btn btn-default  selected btn-md">   {{uss.data.page}} of {{uss.totalPages}}</button>
+            <button type="button" class="btn btn-default  selected btn-md"> {{uss.data.page}} of {{uss.totalPages}}</button>
             <button type="button" class="btn btn-default  btn-md" [disabled]="uss.end" (click)="next()">Next</button>
             <div class="input-group" style="width:134px">
                 <input class="form-control" [attr.placeholder]="uss.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)" (keyup.enter)="goto()">

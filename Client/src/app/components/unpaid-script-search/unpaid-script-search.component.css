@@ -15,3 +15,8 @@ form .col-md-2.flex .form-group span{
     display:flex;
     flex-direction: row;
 }
+.commonCheckBox label:not(.archived){
+    font-weight: normal;
+    margin-left:20px;
+    margin-top: 5px;
+  }
