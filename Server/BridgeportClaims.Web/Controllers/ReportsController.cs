@@ -122,7 +122,7 @@ namespace BridgeportClaims.Web.Controllers
                 var userId = User.Identity.GetUserId();
                 var result = _reportsDataProvider.Value.RemoveShortPay(prescriptionPaymentId, userId);
                 if (result)
-                    return Ok("This entry was removed from the short pay report successfully.");
+                    return Ok(new { message = "This entry was removed from the short pay report successfully."});
                 throw new Exception("This entry was not removed from the short pay report");
             }
             catch (Exception ex)
