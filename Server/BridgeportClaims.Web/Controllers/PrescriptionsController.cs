@@ -89,8 +89,10 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var list = _prescriptionsDataProvider.Value.GetUnpaidScripts(model.IsDefaultSort, model.StartDate.ToNullableFormattedDateTime(), 
-                    model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page, model.PageSize, model.IsArchived);
+                var list = _prescriptionsDataProvider.Value.GetUnpaidScripts(model.IsDefaultSort,
+                    model.StartDate.ToNullableFormattedDateTime(),
+                    model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page,
+                    model.PageSize, model.IsArchived, model.PayorId);
                 return Ok(list);
             }
             catch (Exception ex)

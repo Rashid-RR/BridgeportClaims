@@ -204,6 +204,7 @@
     <Compile Include="Dtos\SkippedPaymentResultsDto.cs" />
     <Compile Include="Dtos\UnpaidScriptResultDto.cs" />
     <Compile Include="Dtos\UnpaidScriptsDto.cs" />
+    <Compile Include="Dtos\UnpaidScriptsMasterDto.cs" />
     <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Dtos\UsStateDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />

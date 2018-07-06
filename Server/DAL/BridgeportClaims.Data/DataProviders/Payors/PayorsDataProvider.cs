@@ -18,7 +18,7 @@ namespace BridgeportClaims.Data.DataProviders.Payors
     {
         private readonly Lazy<IRepository<Payor>> _payorRepository;
         private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
-        private const string Query = "SELECT TOP(30) p.PayorID PayorId, p.GroupName Carrier FROM dbo.Payor AS p";
+        private const string Query = "SELECT p.PayorID PayorId, p.GroupName Carrier FROM dbo.Payor AS p";
 
         public PayorsDataProvider(
             Lazy<IRepository<Payor>> payorRepository, Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
@@ -32,7 +32,7 @@ namespace BridgeportClaims.Data.DataProviders.Payors
             {
                 conn.Open();
                 var query = conn.Query<PayorDto>(Query, commandType: CommandType.Text);
-                return query;
+                return query?.OrderBy(x => x.Carrier);
             });
 
         public IEnumerable<Payor> GetAllPayors()

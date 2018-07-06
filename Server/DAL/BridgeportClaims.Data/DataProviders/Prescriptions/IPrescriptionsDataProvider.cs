@@ -9,8 +9,8 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
     {
         EntityOperation AddOrUpdatePrescriptionStatus(int prescriptionId, int prescriptionStatusId);
         void ArchiveUnpaidScript(int prescriptionId, string userId);
-        UnpaidScriptsDto GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sort, string sortDirection, int page, int pageSize, bool isArchived = false);
+        UnpaidScriptsMasterDto GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
+            string sort, string sortDirection, int page, int pageSize, bool isArchived, int? payorId);
         IEnumerable<string> GetFileUrlsFromPrescriptionIds(IEnumerable<PrescriptionIdDto> dtos);
     }
 }
