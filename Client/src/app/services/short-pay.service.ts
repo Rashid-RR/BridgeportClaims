@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { SortColumnInfo } from '../directives/table-sort.directive';
@@ -73,9 +74,8 @@ export class ShortPayService {
     removeShortpay(id: number = undefined) {
         this.loading = true;
         this.http.removeShortPay({ prescriptionPaymentId: id }).single().map(r => r.json()).subscribe(res => {
-            const result = res.json();
             this.loading = false;
-            this.toast.success(result.message);
+            this.toast.success(res.message);
             this.fetchShortpayReport();
         }, err => {
             this.loading = false;

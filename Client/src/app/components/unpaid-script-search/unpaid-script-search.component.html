@@ -27,7 +27,7 @@
         <div class="col-sm-3 col-md-2">
             <div class="form-group">
                 <label>Carrier</label>
-                <select class="form-control select2" id="payorsSelection" data-placeholder="Select a Carrier" size="1" style="width: 100%;">
+                <select class="form-control select2" id="payorsSelection" data-placeholder="Select a Carrier (click or start typing...)" size="1" style="width: 100%;">
                     <option></option>
                     <option *ngFor="let p of payors" [value]="p.payorId">{{p.carrier}}</option>
                 </select>

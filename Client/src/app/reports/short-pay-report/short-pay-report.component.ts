@@ -21,7 +21,7 @@ export class ShortPayReportComponent implements OnInit {
   remove(item) {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Remove shortpay',
-      message: `Remove shortpay with id ${item.prescriptionPaymentId}`
+      message: `Are you sure you want to remove this entry?`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {

@@ -25,7 +25,7 @@ export class UnpaidScriptResultsComponent implements OnInit {
   archive(u: any) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Archive Script',
-      message: `Would you like to archive this script`
+      message: `Are you sure you wish to archive this unpaid script?`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
