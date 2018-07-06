@@ -16,3 +16,11 @@ ALTER TABLE [dbo].[ClaimNoteType] ADD CONSTRAINT [pkClaimNoteType] PRIMARY KEY C
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxUqClaimNoteTypeCodeIncludeTypeName] ON [dbo].[ClaimNoteType] ([Code]) INCLUDE ([TypeName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+GRANT DELETE ON  [dbo].[ClaimNoteType] TO [acondie]
+GO
+GRANT INSERT ON  [dbo].[ClaimNoteType] TO [acondie]
+GO
+GRANT SELECT ON  [dbo].[ClaimNoteType] TO [acondie]
+GO
+GRANT UPDATE ON  [dbo].[ClaimNoteType] TO [acondie]
+GO

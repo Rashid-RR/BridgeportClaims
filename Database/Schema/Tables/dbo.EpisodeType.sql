@@ -20,3 +20,11 @@ ALTER TABLE [dbo].[EpisodeType] ADD CONSTRAINT [idxUqEpisodeTypeCode] UNIQUE NON
 GO
 ALTER TABLE [dbo].[EpisodeType] ADD CONSTRAINT [idxUqEpisodeTypeSortOrder] UNIQUE NONCLUSTERED  ([SortOrder]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+GRANT DELETE ON  [dbo].[EpisodeType] TO [acondie]
+GO
+GRANT INSERT ON  [dbo].[EpisodeType] TO [acondie]
+GO
+GRANT SELECT ON  [dbo].[EpisodeType] TO [acondie]
+GO
+GRANT UPDATE ON  [dbo].[EpisodeType] TO [acondie]
+GO

@@ -17,3 +17,11 @@ ALTER TABLE [dbo].[EpisodeTypeUsersMapping] ADD CONSTRAINT [fkEpisodeTypeUsersMa
 GO
 ALTER TABLE [dbo].[EpisodeTypeUsersMapping] ADD CONSTRAINT [fkEpisodeTypeUsersMappingUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
+GRANT DELETE ON  [dbo].[EpisodeTypeUsersMapping] TO [acondie]
+GO
+GRANT INSERT ON  [dbo].[EpisodeTypeUsersMapping] TO [acondie]
+GO
+GRANT SELECT ON  [dbo].[EpisodeTypeUsersMapping] TO [acondie]
+GO
+GRANT UPDATE ON  [dbo].[EpisodeTypeUsersMapping] TO [acondie]
+GO

@@ -48,4 +48,7 @@ AS BEGIN
 	END CATCH
 END
 
+
+GO
+GRANT EXECUTE ON  [dbo].[uspGetDocumentIDByDocumentName] TO [bridgeportClaimsWindowsServiceUser]
 GO

@@ -17,3 +17,11 @@ ALTER TABLE [dbo].[DocumentType] ADD CONSTRAINT [pkDocumentType] PRIMARY KEY CLU
 GO
 ALTER TABLE [dbo].[DocumentType] ADD CONSTRAINT [idxUqDocumentTypeCode] UNIQUE NONCLUSTERED  ([Code]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+GRANT DELETE ON  [dbo].[DocumentType] TO [acondie]
+GO
+GRANT INSERT ON  [dbo].[DocumentType] TO [acondie]
+GO
+GRANT SELECT ON  [dbo].[DocumentType] TO [acondie]
+GO
+GRANT UPDATE ON  [dbo].[DocumentType] TO [acondie]
+GO

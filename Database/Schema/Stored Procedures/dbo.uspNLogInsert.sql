@@ -65,4 +65,9 @@ BEGIN
            , @exception
            )
 END
+
+GO
+GRANT EXECUTE ON  [dbo].[uspNLogInsert] TO [bridgeportclaimslakerimporter]
+GO
+GRANT EXECUTE ON  [dbo].[uspNLogInsert] TO [bridgeportClaimsWindowsServiceUser]
 GO

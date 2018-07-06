@@ -16,3 +16,11 @@ ALTER TABLE [dbo].[PrescriptionNoteType] ADD CONSTRAINT [pkPrescriptionNoteType]
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxUqPrescriptionNoteTypeCodeIncludeTypeName] ON [dbo].[PrescriptionNoteType] ([Code]) INCLUDE ([TypeName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+GRANT DELETE ON  [dbo].[PrescriptionNoteType] TO [acondie]
+GO
+GRANT INSERT ON  [dbo].[PrescriptionNoteType] TO [acondie]
+GO
+GRANT SELECT ON  [dbo].[PrescriptionNoteType] TO [acondie]
+GO
+GRANT UPDATE ON  [dbo].[PrescriptionNoteType] TO [acondie]
+GO

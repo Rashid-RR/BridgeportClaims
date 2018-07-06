@@ -17,11 +17,13 @@ CREATE TABLE [util].[NLog]
 [RemoteAddress] [nvarchar] (100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Callsite] [nvarchar] (300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Exception] [nvarchar] (max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
-) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+) ON [PRIMARY]
 WITH
 (
 DATA_COMPRESSION = ROW
 )
 GO
 ALTER TABLE [util].[NLog] ADD CONSTRAINT [pkNLog] PRIMARY KEY CLUSTERED  ([NLogID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
+GO
+GRANT SELECT ON  [util].[NLog] TO [bridgeportClaimsWindowsServiceUser]
 GO

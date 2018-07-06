@@ -17,3 +17,11 @@ ALTER TABLE [dbo].[DocumentTypeEpisodeTypeMapping] ADD CONSTRAINT [fkDocumentTyp
 GO
 ALTER TABLE [dbo].[DocumentTypeEpisodeTypeMapping] ADD CONSTRAINT [fkDocumentTypeEpisodeTypeMappingEpisodeTypeIDEpisodeTypeEpisodeTypeID] FOREIGN KEY ([EpisodeTypeID]) REFERENCES [dbo].[EpisodeType] ([EpisodeTypeID])
 GO
+GRANT DELETE ON  [dbo].[DocumentTypeEpisodeTypeMapping] TO [acondie]
+GO
+GRANT INSERT ON  [dbo].[DocumentTypeEpisodeTypeMapping] TO [acondie]
+GO
+GRANT SELECT ON  [dbo].[DocumentTypeEpisodeTypeMapping] TO [acondie]
+GO
+GRANT UPDATE ON  [dbo].[DocumentTypeEpisodeTypeMapping] TO [acondie]
+GO

@@ -18,5 +18,9 @@ AS
 BEGIN
 	-- Seems arbitrary, but can be used for testing.
 	RETURN (dtme.udfGetLocalDateTime(SYSUTCDATETIME()))
-END 
+END
+GO
+GRANT EXECUTE ON  [dtme].[udfGetLocalDate] TO [acondie]
+GO
+GRANT EXECUTE ON  [dtme].[udfGetLocalDate] TO [teaton]
 GO

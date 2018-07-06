@@ -31,4 +31,7 @@ AS BEGIN
 	WHERE   [FullFilePath] = @FullFileName
 			AND [FileTypeID] = @FileTypeID
 END
+
+GO
+GRANT EXECUTE ON  [dbo].[uspDocumentSelectByFileName] TO [bridgeportClaimsWindowsServiceUser]
 GO

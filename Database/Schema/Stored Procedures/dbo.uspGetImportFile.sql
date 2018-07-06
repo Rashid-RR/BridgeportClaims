@@ -23,4 +23,7 @@ AS
         FROM   [util].[vwImportFile] AS [if]
     END
 
+
+GO
+GRANT EXECUTE ON  [dbo].[uspGetImportFile] TO [bridgeportclaimslakerimporter]
 GO

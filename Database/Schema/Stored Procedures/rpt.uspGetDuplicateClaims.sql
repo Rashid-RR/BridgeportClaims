@@ -103,4 +103,9 @@ AS
         OFFSET @iPageSize * (@iPageNumber - 1) ROWS
         FETCH NEXT @iPageSize ROWS ONLY;
     END
+
+GO
+GRANT EXECUTE ON  [rpt].[uspGetDuplicateClaims] TO [acondie]
+GO
+GRANT VIEW DEFINITION ON  [rpt].[uspGetDuplicateClaims] TO [acondie]
 GO

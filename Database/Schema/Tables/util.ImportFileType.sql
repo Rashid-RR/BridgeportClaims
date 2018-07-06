@@ -16,3 +16,11 @@ ALTER TABLE [util].[ImportFileType] ADD CONSTRAINT [pkImportFileType] PRIMARY KE
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxUqImportFileTypeTypeNameIncludeAll] ON [util].[ImportFileType] ([TypeName]) INCLUDE ([Code], [CreatedOnUTC], [ImportFileTypeID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+GRANT DELETE ON  [util].[ImportFileType] TO [acondie]
+GO
+GRANT INSERT ON  [util].[ImportFileType] TO [acondie]
+GO
+GRANT SELECT ON  [util].[ImportFileType] TO [acondie]
+GO
+GRANT UPDATE ON  [util].[ImportFileType] TO [acondie]
+GO

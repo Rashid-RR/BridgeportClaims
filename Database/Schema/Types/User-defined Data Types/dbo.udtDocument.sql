@@ -15,3 +15,5 @@ CREATE TYPE [dbo].[udtDocument] AS TABLE
 [FileTypeID] [tinyint] NOT NULL
 )
 GO
+GRANT EXECUTE ON TYPE:: [dbo].[udtDocument] TO [bridgeportClaimsWindowsServiceUser]
+GO

@@ -79,4 +79,7 @@ AS BEGIN
 END
 
 
+
+GO
+GRANT EXECUTE ON  [dbo].[uspMergeInvoiceDocuments] TO [bridgeportClaimsWindowsServiceUser]
 GO

@@ -69,4 +69,7 @@ AS BEGIN
 END
 
 
+
+GO
+GRANT EXECUTE ON  [dbo].[uspDocumentUpdate] TO [bridgeportClaimsWindowsServiceUser]
 GO

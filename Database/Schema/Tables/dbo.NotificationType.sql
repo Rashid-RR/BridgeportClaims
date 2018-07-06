@@ -17,3 +17,11 @@ ALTER TABLE [dbo].[NotificationType] ADD CONSTRAINT [pkNotificationType] PRIMARY
 GO
 ALTER TABLE [dbo].[NotificationType] ADD CONSTRAINT [idxUqNotificationTypeCode] UNIQUE NONCLUSTERED  ([Code]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+GRANT DELETE ON  [dbo].[NotificationType] TO [acondie]
+GO
+GRANT INSERT ON  [dbo].[NotificationType] TO [acondie]
+GO
+GRANT SELECT ON  [dbo].[NotificationType] TO [acondie]
+GO
+GRANT UPDATE ON  [dbo].[NotificationType] TO [acondie]
+GO

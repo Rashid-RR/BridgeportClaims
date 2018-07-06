@@ -14,3 +14,11 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[EpisodeLinkType] ADD CONSTRAINT [pkEpisodeLinkType] PRIMARY KEY CLUSTERED  ([EpisodeLinkTypeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+GRANT DELETE ON  [dbo].[EpisodeLinkType] TO [acondie]
+GO
+GRANT INSERT ON  [dbo].[EpisodeLinkType] TO [acondie]
+GO
+GRANT SELECT ON  [dbo].[EpisodeLinkType] TO [acondie]
+GO
+GRANT UPDATE ON  [dbo].[EpisodeLinkType] TO [acondie]
+GO

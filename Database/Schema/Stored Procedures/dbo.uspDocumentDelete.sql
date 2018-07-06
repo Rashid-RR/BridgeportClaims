@@ -50,4 +50,7 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
+GO
+GRANT EXECUTE ON  [dbo].[uspDocumentDelete] TO [bridgeportClaimsWindowsServiceUser]
 GO
