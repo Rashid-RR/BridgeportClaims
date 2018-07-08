@@ -14,7 +14,7 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[UnpaidScriptsArchived] ADD CONSTRAINT [pkUnpaidScriptsArchived] PRIMARY KEY CLUSTERED  ([UnpaidScriptsArchivedID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[UnpaidScriptsArchived] ADD CONSTRAINT [idxUqUnpaidScriptsArchivedPrescriptionID] UNIQUE NONCLUSTERED  ([PrescriptionID]) ON [PRIMARY]
+ALTER TABLE [dbo].[UnpaidScriptsArchived] ADD CONSTRAINT [idxUqUnpaidScriptsArchivedPrescriptionID] UNIQUE NONCLUSTERED  ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[UnpaidScriptsArchived] ADD CONSTRAINT [fkUnpaidScriptsArchivedModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

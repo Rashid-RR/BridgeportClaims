@@ -164,5 +164,5 @@ CREATE TABLE [etl].[StagedLakerFileBackup]
 [NABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxStagedLakerFileBackupRowIDIncludes] ON [etl].[StagedLakerFileBackup] ([RowID]) INCLUDE ([AcctPayableID], [AdjustorID], [ClaimID], [InvoiceID], [NABP], [PatientID], [PayorID], [PrescriptionID]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxStagedLakerFileBackupRowIDIncludes] ON [etl].[StagedLakerFileBackup] ([RowID]) INCLUDE ([AcctPayableID], [AdjustorID], [ClaimID], [InvoiceID], [NABP], [PatientID], [PayorID], [PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO

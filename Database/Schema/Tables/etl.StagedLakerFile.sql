@@ -164,5 +164,5 @@ CREATE TABLE [etl].[StagedLakerFile]
 [NABP] [varchar] (7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxStagedLakerFileRowID] ON [etl].[StagedLakerFile] ([RowID]) INCLUDE ([PrescriptionID]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxStagedLakerFileRowID] ON [etl].[StagedLakerFile] ([RowID]) INCLUDE ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO

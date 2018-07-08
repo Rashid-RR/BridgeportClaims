@@ -12,9 +12,15 @@ GO
  =============================================
 */
 CREATE PROC [util].[uspPostRestoreDatabase]
+(
+	@IgnoreUsers BIT = 1
+)
 AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
+
+	IF @IgnoreUsers IS NULL
+		SET @IgnoreUsers = 0;
 
 	IF @@SERVERNAME NOT LIKE '%\DB1'
 		RETURN -1;
@@ -45,25 +51,28 @@ AS BEGIN
 		CLOSE ScriptCrsor;
 		DEALLOCATE ScriptCrsor;
 
-		-- remove all extraneous users.
-		DECLARE UserScriptCrsor CURSOR LOCAL FAST_FORWARD READ_ONLY FOR
-		SELECT  N'DROP USER ' + QUOTENAME([i].[name])
-		FROM    [sys].[database_principals] i
-		WHERE   [i].[name] NOT IN ('public', 'dbo', 'guest', 'INFORMATION_SCHEMA', 'sys')
-                AND [i].[type_desc] = 'SQL_USER'
+		IF (@IgnoreUsers = 0)
+			BEGIN
+				-- remove all extraneous users.
+				DECLARE UserScriptCrsor CURSOR LOCAL FAST_FORWARD READ_ONLY FOR
+				SELECT  N'DROP USER ' + QUOTENAME([i].[name])
+				FROM    [sys].[database_principals] i
+				WHERE   [i].[name] NOT IN ('public', 'dbo', 'guest', 'INFORMATION_SCHEMA', 'sys')
+						AND [i].[type_desc] = 'SQL_USER'
 
-		OPEN UserScriptCrsor;
+				OPEN UserScriptCrsor;
 
-		FETCH NEXT FROM UserScriptCrsor INTO @Script
+				FETCH NEXT FROM UserScriptCrsor INTO @Script
 
-		WHILE @@FETCH_STATUS = 0
-		BEGIN
-			EXECUTE [sys].[sp_executesql] @Script
-			FETCH NEXT FROM UserScriptCrsor INTO @Script
-		END
+				WHILE @@FETCH_STATUS = 0
+				BEGIN
+					EXECUTE [sys].[sp_executesql] @Script
+					FETCH NEXT FROM UserScriptCrsor INTO @Script
+				END
 
-		CLOSE UserScriptCrsor;
-		DEALLOCATE UserScriptCrsor;
+				CLOSE UserScriptCrsor;
+				DEALLOCATE UserScriptCrsor;
+			END;
 
         IF (@@TRANCOUNT > 0)
             COMMIT;
