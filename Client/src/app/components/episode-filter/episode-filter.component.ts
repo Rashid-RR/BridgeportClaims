@@ -1,8 +1,13 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
+import swal from "sweetalert2";
+import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { PrescriptionNoteType } from "../../models/prescription-note-type";
+
 // Services
+import { HttpService } from "../../services/http-service"
 import { EpisodeService } from '../../services/episode.service';
 declare var $: any;
 
@@ -12,19 +17,22 @@ declare var $: any;
   styleUrls: ['./episode-filter.component.css']
 })
 export class EpisodeFilterComponent implements OnInit, AfterViewInit {
- 
+
   startDate: String;
   endDate: String;
-  ownerId: string=null;
-  episodeCategoryId: string=null;
-  episodeTypeId: string=null;
+  ownerId: string = null;
+  episodeCategoryId: string = null;
+  episodeTypeId: string = null;
   open: boolean = true;
   closed: Boolean = false;
   submitted: boolean = false;
   resolved: Boolean = false;
+  @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   constructor(
     public ds: EpisodeService,
     private dp: DatePipe,
+    public readonly swalTargets: SwalPartialTargets,
+    private http: HttpService,
     private toast: ToastsManager,
     private fb: FormBuilder
   ) {
@@ -32,6 +40,15 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.ds.loading = true;
+    this.http.getEpisodesNoteTypes().map(res => { return res.json() })
+      .subscribe((result: Array<any>) => {
+        this.ds.episodeNoteTypes = result;
+      }, err => {
+        this.ds.loading = false;
+        console.log(err);
+        let error = err.json();
+      });
   }
 
   ngAfterViewInit() {
@@ -65,12 +82,12 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   }
 
   refresh() {
-    this.ds.data=  {
+    this.ds.data = {
       startDate: null,
       endDate: null,
-      episodeCategoryId:null,
-      episodeTypeId:null,
-      OwnerID:null,
+      episodeCategoryId: null,
+      episodeTypeId: null,
+      OwnerID: null,
       resolved: false,
       sortColumn: "Created",
       sortDirection: "DESC",
@@ -78,7 +95,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
       pageSize: 30
     };
     this.reset();
-    this.resolved=false;
+    this.resolved = false;
     this.ds.search();
   }
   reset() {
@@ -90,5 +107,20 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     this.episodeCategoryId = null;
     this.episodeTypeId = null;
   }
+
+  episode(id: number = undefined, TypeId: string = "1", note: string = null) {
+
+    this.ds.episodeForm.reset();
+    this.ds.episodeForm.patchValue({
+      claimId: null,
+      episodeText: note,
+      pharmacyNabp: null,
+      episodeTypeId: TypeId
+    });
+    this.episodeSwal.show().then((r) => {
+
+    })
+  }
+
 
 }

@@ -11,8 +11,6 @@ import { Router } from "@angular/router";
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { AccountReceivableService } from '../../services/services.barrel';
-import * as FileSaver from 'file-saver';
-import { Response } from '@angular/http';
 import { UUID } from 'angular2-uuid';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';

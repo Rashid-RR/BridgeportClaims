@@ -20,7 +20,7 @@ export class SkippedPaymentSearchComponent implements OnInit ,AfterViewInit{
   ngOnInit() {
     this.skipped.payorListReady.subscribe(()=>{
       $("#payorSelection").select2();
-
+      this.filter();
     })
   }
 

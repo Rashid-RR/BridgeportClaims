@@ -50,15 +50,10 @@ tr:nth-of-type(even) {
     overflow: hidden;     
 }
 .expanded{
-   /*  height: calc(100vh - 290px);
+    height: calc(100vh - 290px);
     height: -moz-calc(100vh - 290px);
     height: -webkit-calc(100vh - 290px);
-    height: -o-calc(100vh - 290px); */
-
-    height: calc(100vh - 190px);
-    height: -moz-calc(100vh - 190px);
-    height: -webkit-calc(100vh - 190px);
-    height: -o-calc(100vh - 190px);
+    height: -o-calc(100vh - 290px); 
     overflow:hidden;
 }
 .top-header,.table-body{

@@ -25,6 +25,9 @@ export class EpisodeService {
   episodetoAssign:Episode;
   episodeNoteTypes: Array<EpisodeNoteType> = []
   owners: Array<{ownerId:any,owner:string}> = []
+  episodeForm: FormGroup
+  pharmacyName: string = '';
+
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private epf: EpisodesFilterPipe, private sortPipe:ArraySortPipe,
     private events: EventsService, private toast: ToastsManager) {
@@ -35,17 +38,24 @@ export class EpisodeService {
       episodeTypeId:null,
       OwnerID:null,
       resolved: false,
-      sortColumn: "Created",
+      sortColumn: "episodeId",
       sortDirection: "DESC",
       pageNumber: 1,
       pageSize: 30
     };
+
+    this.episodeForm = this.formBuilder.group({
+      claimId: [null],
+      rxNumber: [null],
+      pharmacyNabp: [null],
+      episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
+      episodeTypeId: ["1"]
+    });
     this.http.getEpisodesNoteTypes().map(res => { return res.json() })
       .subscribe((result: Array<any>) => {
         this.episodeNoteTypes = result;
-      }, err => {
+      }, () => {
         this.loading = false;
-        let error = err.json();
       });
     this.http.getEpisodesOwners().map(res => { return res.json() })
       .subscribe((result: Array<any>) => {
@@ -54,6 +64,38 @@ export class EpisodeService {
         this.loading = false; 
         let error = err.json();
       });
+  }
+  get EpisodeNoteTypes(): Array<any> {
+    return this.episodeNoteTypes;
+  }
+  saveEpisode() {
+    if (this.episodeForm.controls['pharmacyNabp'].value==null && this.pharmacyName) {
+      this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
+    }else if (this.episodeForm.valid) {
+      swal({ title: "", html: "Saving Episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
+      //this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
+      this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
+      let form =this.episodeForm.value;
+      this.http.saveEpisode(form).single().map(r=>r.json()).subscribe(res => {        
+        this.episodeForm.reset();
+        this.closeModal();
+        this.toast.success(res.message);
+        this.search();
+      }, () => {
+        this.events.broadcast("edit-episode", { episodeId: this.episodeForm.value.episodeId, type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText })
+      });
+    } else {
+      if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
+        this.toast.warning('Episode Note is required');
+      } else if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.minlength) {
+        this.toast.warning('Episode Note must be at least 5 characters');
+      } else if (this.episodeForm.controls['pharmacyNabp'].errors && this.episodeForm.controls['pharmacyNabp'].errors.required) {
+        this.toast.warning('Pharmacy Name is required');
+      }else {
+
+      }
+    }
+
   }
 
   refresh() {

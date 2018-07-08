@@ -33,10 +33,9 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.payorListReady.subscribe(() => {
+    this.us.payorListReady.subscribe(() => {
       $("#payorsSelection").select2();
     })
-    this.getPayors(1);
   }
   filter($event) {
     this.us.data.isArchived = $event.target.checked;
@@ -58,9 +57,9 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
     this.http.getPayorList(pageNumber, this.pageSize).map(res => { this.loading = false; return res.json() }).subscribe(result => {
       this.payors = result;
       this.pageNumber = pageNumber;
-      this.payorListReady.next();
-    }, err => {
-      this.payorListReady.next();
+      this.us.payorListReady.next();
+    }, () => {
+      this.us.payorListReady.next();
     })
   }
 
@@ -74,7 +73,8 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   }
   clearDates() {
     $('#startDate').val('');
-    $('#payorSelection').val(null).trigger('change');
+    $('#payorsSelection').val(null).trigger('change');
     $('#endDate').val('');
+    $('#archivedCheck').prop('checked',false);
   }
 }

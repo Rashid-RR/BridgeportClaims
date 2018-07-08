@@ -1,10 +1,6 @@
-import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
-import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import { Claim } from '../models/claim';
-import { DocumentItem } from '../models/document';
-import { DocumentType } from '../models/document-type';
 import { Prescription } from '../models/prescription';
 import { ClaimNote } from '../models/claim-note';
 import { PrescriptionNoteType } from '../models/prescription-note-type';
@@ -22,7 +18,6 @@ import { Episode } from '../interfaces/episode';
 import { PhonePipe } from 'app/pipes/phone-pipe';
 import swal from "sweetalert2";
 import { ProfileManager } from 'app/services/services.barrel';
-import * as FileSaver from 'file-saver'; 
 
 declare var $: any;
 @Injectable()

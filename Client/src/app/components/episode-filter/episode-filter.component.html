@@ -1,7 +1,7 @@
 <form role="form">
     <div class="row" style="display: flex;flex-direction:row">
-        <div class="col-md-2">
-            <div class="form-group">
+        <div class="col-md-3 flex">
+            <div class="form-group" style="margin-right:10px;">
                 <label>Start Date</label>
                 <div class="input-group date">
                     <div class="input-group-addon">
@@ -11,8 +11,6 @@
                         data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
                 </div>
             </div>
-        </div>
-        <div class="col-md-2">
             <div class="form-group">
                 <label>End Date</label>
                 <div class="input-group date">
@@ -40,7 +38,7 @@
                 <label class="check" for="f-option"></label>
             </div>
         </div>
-        <div class="col-md-2" style="padding-left: 35px;">
+        <div class="col-sm-3 flex" style="padding-left: 35px;">
             <div class="form-group">
                 <label>Owner name</label>
                 <select class="form-control" name="owner" [(ngModel)]="ownerId" (focus)="submitted=false">
@@ -48,9 +46,7 @@
                     <option *ngFor="let e of ds.owners" [value]="e.ownerId">{{e.owner}}</option>
                 </select>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="form-group">
+            <div class="form-group" style="width:145px;margin-right: 8px;margin-left: 8px;;">
                 <label>Episode Category</label>
                 <select class="form-control" name="episodeCategoryId" [(ngModel)]="episodeCategoryId" (focus)="submitted=false">
                     <option value="">All</option>
@@ -58,8 +54,6 @@
                     <option value="2">Image</option>
                 </select>
             </div>
-        </div>
-        <div class="col-md-2">
             <div class="form-group">
                 <label>Episode Type</label>
                 <select class="form-control" name="episodeNote" [(ngModel)]="episodeTypeId">
@@ -78,9 +72,16 @@
                     <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="reset()">
                         <i class="fa fa-eraser" aria-hidden="true"></i> Clear</button> &nbsp;
                     <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="refresh()">
-                        <i class="fa fa-refresh"></i> Refresh</button>
+                        <i class="fa fa-refresh"></i> Refresh</button> &nbsp;
+                        <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="episode()">
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add Episode</button>
                 </span>
             </div>
         </div>
     </div>
 </form>
+<swal #episodeSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="paymeny-modal" [focusCancel]="false"
+    title="Episode Entry">
+    <app-new-episode *swalPartial [episode]="true">
+    </app-new-episode>
+<swal>

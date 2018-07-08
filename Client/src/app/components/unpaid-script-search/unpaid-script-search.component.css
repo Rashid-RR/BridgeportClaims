@@ -6,17 +6,19 @@
     background: #992727;
     color: #fff;
   }
-form .col-md-2.flex{
+.flex65{
     width:165px;
     padding-right:2px;
     padding-left:2px;
 }
-form .col-md-2.flex .form-group span{
-    display:flex;
-    flex-direction: row;
-}
+
 .commonCheckBox label:not(.archived){
     font-weight: normal;
     margin-left:20px;
     margin-top: 5px;
+  }
+
+  .flex,.flex65.form-group span{
+      display: flex;
+      flex-direction: row;
   }

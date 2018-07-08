@@ -87,6 +87,9 @@ label.check-label{
    display:flex;
    flex-direction: row;
   }
+  .flex .form-group span button{
+    padding: 8px 6px 4px 6px;
+  }
   form .col-md-1:not(.no-padding){
    padding-right:5px;
    padding-left:5px;
@@ -106,4 +109,8 @@ label.check-label{
     margin-left:5px;
     cursor: pointer;
     font-weight: normal;
+  }
+  .flex{
+    display: flex;
+    flex-direction: row;
   }
