@@ -37,10 +37,8 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	        {
 	            const string sp = "[dbo].[uspAssociateEpisodeToClaim]";
                 conn.Open();
-	            var rowCount = conn.Execute(sp, new {EpisodeID = episodeId, ClaimID = claimId},
+	            conn.Execute(sp, new {EpisodeID = episodeId, ClaimID = claimId},
 	                commandType: CommandType.StoredProcedure);
-	            if (rowCount != 1)
-	                throw new Exception($"Error, the stored procedure {sp} did not execute successfully.");
 	        });
 
         /// <summary>
