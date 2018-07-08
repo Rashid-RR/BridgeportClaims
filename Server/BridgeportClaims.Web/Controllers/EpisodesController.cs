@@ -33,6 +33,28 @@ namespace BridgeportClaims.Web.Controllers
 			_usersRepository = usersRepository;
 		}
 
+	    [HttpPost]
+	    [Route("associate-to-claim")]
+	    public IHttpActionResult AssociateEpisodeToClaim(EpisodeClaimModel model)
+	    {
+	        try
+	        {
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                if (model.ClaimId == default (int))
+                    throw new Exception($"Invalid Claim Id {model.ClaimId}.");
+	            if (model.EpisodeId == default(int))
+	                throw new Exception($"Invalid Episode Id {model.EpisodeId}.");
+                _episodesDataProvider.Value.AssociateEpisodeToClaim(model.EpisodeId, model.ClaimId);
+	            return Ok(new {message = $"Episode Id {model.EpisodeId} was associated to Claim Id {model.ClaimId} successfully."});
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Value.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+	        }
+        }
+
 		[HttpPost]
 		[Route("save-note")]
 		public IHttpActionResult SaveEpisodeNote(SaveEpisodeNoteModel model)

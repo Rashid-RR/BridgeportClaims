@@ -7,6 +7,7 @@ using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Episodes
@@ -31,15 +32,26 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			_episodeNoteRepository = episodeNoteRepository;
 		}
 
-		/// <summary>
-		/// Calls a stored proc responsible for inserting a new Episode depending on the Document Type that was chosen.
-		/// </summary>
-		/// <param name="claimId"></param>
-		/// <param name="userId"></param>
-		/// <param name="documentId"></param>
-		/// <param name="documentTypeId"></param>
-		/// <param name="rxNumber"></param>
-		public bool CreateImageCategoryEpisode(byte documentTypeId, int claimId, string rxNumber, string userId, int documentId) =>
+	    public void AssociateEpisodeToClaim(int episodeId, int claimId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            const string sp = "[dbo].[uspAssociateEpisodeToClaim]";
+                conn.Open();
+	            var rowCount = conn.Execute(sp, new {EpisodeID = episodeId, ClaimID = claimId},
+	                commandType: CommandType.StoredProcedure);
+	            if (rowCount != 1)
+	                throw new Exception($"Error, the stored procedure {sp} did not execute successfully.");
+	        });
+
+        /// <summary>
+        /// Calls a stored proc responsible for inserting a new Episode depending on the Document Type that was chosen.
+        /// </summary>
+        /// <param name="claimId"></param>
+        /// <param name="userId"></param>
+        /// <param name="documentId"></param>
+        /// <param name="documentTypeId"></param>
+        /// <param name="rxNumber"></param>
+        public bool CreateImageCategoryEpisode(byte documentTypeId, int claimId, string rxNumber, string userId, int documentId) =>
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
 				return DisposableService.Using(() => new SqlCommand("[dbo].[uspCreateImageCategoryEpisode]", conn), cmd =>

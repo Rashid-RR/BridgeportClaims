@@ -383,6 +383,7 @@
     <Compile Include="Models\DocumentIndexViewModel.cs" />
     <Compile Include="Models\DocumentModel.cs" />
     <Compile Include="Models\EditClaimImageViewModel.cs" />
+    <Compile Include="Models\EpisodeClaimModel.cs" />
     <Compile Include="Models\EpisodeNoteHeaderModel.cs" />
     <Compile Include="Models\EpisodeNoteModel.cs" />
     <Compile Include="Models\EpisodesViewModel.cs" />
