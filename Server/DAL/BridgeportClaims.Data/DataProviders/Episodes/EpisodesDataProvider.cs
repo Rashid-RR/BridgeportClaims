@@ -76,7 +76,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					userIdParam.Direction = ParameterDirection.Input;
 					cmd.Parameters.Add(userIdParam);
 					var documentIdParam = cmd.CreateParameter();
-					documentIdParam.Value = default(int) == documentId ? throw new Exception($"Error, document Id {documentId} is not a valid document.") : documentId;
+					documentIdParam.Value = default == documentId ? throw new Exception($"Error, document Id {documentId} is not a valid document.") : documentId;
 					documentIdParam.DbType = DbType.Int32;
 					documentIdParam.SqlDbType = SqlDbType.Int;
 					documentIdParam.ParameterName = "@DocumentID";
@@ -165,7 +165,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					sortDirectionParam.SqlDbType = SqlDbType.VarChar;
 					cmd.Parameters.Add(sortDirectionParam);
 					var pageNumberParam = cmd.CreateParameter();
-					pageNumberParam.Value = default(int) == pageNumber ? 5000 : pageNumber;
+					pageNumberParam.Value = default == pageNumber ? 5000 : pageNumber;
 					pageNumberParam.DbType = DbType.Int32;
 					pageNumberParam.SqlDbType = SqlDbType.Int;
 					pageNumberParam.Direction = ParameterDirection.Input;
@@ -220,7 +220,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 								Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
 								Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
 								Carrier = !reader.IsDBNull(carrierOrdinal) ? reader.GetString(carrierOrdinal) : string.Empty,
-								EpisodeNoteCount = !reader.IsDBNull(episodeNoteCountOrdinal) ? reader.GetInt32(episodeNoteCountOrdinal) : default (int),
+								EpisodeNoteCount = !reader.IsDBNull(episodeNoteCountOrdinal) ? reader.GetInt32(episodeNoteCountOrdinal) : default,
 								FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty
 							};
 							list.Add(result);
@@ -229,7 +229,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					if (conn.State != ConnectionState.Closed)
 						conn.Close();
 					retVal.EpisodeResults = list;
-					retVal.TotalRowCount = totalPageSizeParam.Value as int? ?? default(int);
+					retVal.TotalRowCount = totalPageSizeParam.Value as int? ?? default;
 					return retVal;
 				});
 			});
@@ -255,7 +255,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			_episodeRepository.Value.Save(episodeEntity);
 		}
 
-		public EpisodeBladeDto SaveNewEpisode(int claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber,
+		public EpisodeBladeDto SaveNewEpisode(int? claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber,
 			string episodeText, string userId) =>
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
@@ -263,7 +263,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				{
 					cmd.CommandType = CommandType.StoredProcedure;	                
 					var claimIdParam = cmd.CreateParameter();
-					claimIdParam.Value = claimId;
+					claimIdParam.Value = claimId ?? (object) DBNull.Value;
 					claimIdParam.ParameterName = "@ClaimID";
 					claimIdParam.DbType = DbType.Int32;
 					claimIdParam.SqlDbType = SqlDbType.Int;
@@ -326,7 +326,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 						{
 							var episodeBladeDto = new EpisodeBladeDto
 							{
-								Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
+								Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default,
 								Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : (DateTime?) null,
 								Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
 								Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
@@ -334,7 +334,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 								Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
 								RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
 								Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
-								NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
+								NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default
 							};
 							list.Add(episodeBladeDto);
 						}

@@ -402,7 +402,6 @@
     <Compile Include="Models\ResetPasswordViewModel.cs" />
     <Compile Include="Models\RoleReturnModel.cs" />
     <Compile Include="Models\SaveClaimNoteModel.cs" />
-    <Compile Include="Models\SaveEpisodeModel.cs" />
     <Compile Include="Models\DocumentViewModel.cs" />
     <Compile Include="Models\SaveEpisodeNoteModel.cs" />
     <Compile Include="Models\SavePayorLetterNameModel.cs" />

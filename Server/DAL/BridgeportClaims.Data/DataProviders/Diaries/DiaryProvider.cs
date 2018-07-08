@@ -202,7 +202,7 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                         }
                     });
                     retVal.DiaryResults = retValResults;
-                    retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
+                    retVal.TotalRowCount = totalRowsParam.Value as int? ?? default;
                     return retVal;
                 });
             });

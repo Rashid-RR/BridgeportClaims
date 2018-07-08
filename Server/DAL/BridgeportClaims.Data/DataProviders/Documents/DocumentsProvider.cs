@@ -195,7 +195,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                         }
                     });
                     retVal.DocumentResults = retValResults;
-                    retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
+                    retVal.TotalRowCount = totalRowsParam.Value as int? ?? default;
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();
                     retVal.DocumentTypes = GetDocumentTypes();

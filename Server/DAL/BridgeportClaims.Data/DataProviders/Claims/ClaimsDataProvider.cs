@@ -227,7 +227,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 						{
 							var result = new EpisodeBladeDto
 							{
-								Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default (int),
+								Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default,
 								Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : (DateTime?) null,
 								Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
 								Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
@@ -235,7 +235,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
 								RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
 								Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
-								NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int)
+								NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default
 							};
 							retVal.Add(result);
 						}

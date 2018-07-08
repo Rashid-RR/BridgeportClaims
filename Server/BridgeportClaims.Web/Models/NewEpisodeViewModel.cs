@@ -2,7 +2,7 @@
 {
     public sealed class NewEpisodeViewModel
     {
-        public int ClaimId { get; set; }
+        public int? ClaimId { get; set; }
         public byte? EpisodeTypeId { get; set; }
         public string PharmacyNabp { get; set; }
         public string RxNumber { get; set; }

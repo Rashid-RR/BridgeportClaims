@@ -51,7 +51,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
                             var injuryDate = !reader.IsDBNull(injuryDateOrdinal) ? reader.GetDateTime(injuryDateOrdinal) : (DateTime?)null;
                             var result = new ClaimsUserHistoryDto
                             {
-                                ClaimId = !reader.IsDBNull(claimIdOrdinal) ? reader.GetInt32(claimIdOrdinal) : default(int),
+                                ClaimId = !reader.IsDBNull(claimIdOrdinal) ? reader.GetInt32(claimIdOrdinal) : default,
                                 Carrier = !reader.IsDBNull(carrierOrdinal) ? reader.GetString(carrierOrdinal) : string.Empty,
                                 ClaimNumber = !reader.IsDBNull(claimNumberOrdinal) ? reader.GetString(claimNumberOrdinal) : string.Empty,
                                 InjuryDate = injuryDate?.ToString("M/d/yyyy"),

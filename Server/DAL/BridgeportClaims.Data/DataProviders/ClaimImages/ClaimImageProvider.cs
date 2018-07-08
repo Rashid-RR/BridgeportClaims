@@ -90,8 +90,8 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                                 InjuryDate = !reader.IsDBNull(injuryDateOrdinal) ? reader.GetDateTime(injuryDateOrdinal) : (DateTime?) null,
                                 AttorneyName = !reader.IsDBNull(attorneyNameOrdinal) ? reader.GetString(attorneyNameOrdinal) : string.Empty,
                                 Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
-                                NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default (int),
-                                EpisodeId = !reader.IsDBNull(episodeIdOrdinal) ? reader.GetInt32(episodeIdOrdinal) : default (int),
+                                NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default,
+                                EpisodeId = !reader.IsDBNull(episodeIdOrdinal) ? reader.GetInt32(episodeIdOrdinal) : default,
                                 FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty
                             };
                             results.Add(result);
@@ -99,7 +99,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                     });
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();
-                    retVal.TotalRowCount = totalRowsParam.Value as int? ?? default(int);
+                    retVal.TotalRowCount = totalRowsParam.Value as int? ?? default;
                     retVal.ClaimImages = results;
                     return retVal;
                 });

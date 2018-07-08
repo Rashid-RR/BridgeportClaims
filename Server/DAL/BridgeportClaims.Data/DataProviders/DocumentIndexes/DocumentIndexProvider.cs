@@ -154,7 +154,7 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                         conn.Open();
                     cmd.ExecuteNonQuery();
                     conn.Close();
-                    return existsParam.Value as bool? ?? default(bool);
+                    return existsParam.Value as bool? ?? default;
                 });
             });
 

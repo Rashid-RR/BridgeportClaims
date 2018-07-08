@@ -146,9 +146,9 @@ namespace BridgeportClaims.Tests.Payments
             Assert.IsFalse(_cache.Contains(secondKey));
         }
 
-        private static SaveEpisodeModel GenerateNewInstanceOfSameObject()
+        private static EpisodeNoteModel GenerateNewInstanceOfSameObject()
         {
-            return new SaveEpisodeModel();
+            return new EpisodeNoteModel();
         }
 
 
