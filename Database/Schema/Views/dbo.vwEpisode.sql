@@ -21,9 +21,10 @@ SELECT          Id        = e.[EpisodeID]
 			  , et.[EpisodeTypeID]
 FROM            [dbo].[Episode]         AS [e]
 	INNER JOIN  [dbo].[EpisodeType]     AS [et] ON [et].[EpisodeTypeID] = [e].[EpisodeTypeID]
-    INNER JOIN  [dbo].[Claim]           AS [c] ON [c].[ClaimID] = [e].[ClaimID]
-    INNER JOIN  [dbo].[Patient]         AS [p] ON [p].[PatientID] = [c].[PatientID]
+    LEFT JOIN  [dbo].[Claim]           AS [c] ON [c].[ClaimID] = [e].[ClaimID]
+    LEFT JOIN  [dbo].[Patient]         AS [p] ON [p].[PatientID] = [c].[PatientID]
     INNER JOIN  [dbo].[EpisodeCategory] AS [ec] ON [ec].[EpisodeCategoryID] = [e].[EpisodeCategoryID]
     LEFT JOIN   [dbo].[AspNetUsers]     AS [u] ON [u].[ID] = [e].[AssignedUserID]
     LEFT JOIN   [dbo].[Pharmacy]        AS [ph] ON [ph].[NABP] = [e].[PharmacyNABP]
+
 GO

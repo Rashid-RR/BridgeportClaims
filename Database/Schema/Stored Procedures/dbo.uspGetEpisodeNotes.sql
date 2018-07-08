@@ -26,8 +26,8 @@ AS BEGIN
 						CONCAT(u.[FirstName], @Space, u.[LastName]) WrittenBy, en.[Created] NoteCreated, en.[NoteText]
 		FROM            [dbo].[EpisodeNote] AS [en]
 			INNER JOIN [dbo].[Episode] AS [e] ON [e].[EpisodeID] = [en].[EpisodeID]
-			INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [e].[ClaimID]
-			INNER JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
+			LEFT JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [e].[ClaimID]
+			LEFT JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
 			LEFT JOIN [dbo].[AspNetUsers] AS own ON own.[ID] = e.[AssignedUserID]
 			LEFT JOIN  [dbo].[AspNetUsers] AS [u] ON [u].[ID] = [en].[WrittenByUserID]
 		WHERE           [en].[EpisodeID] = @EpisodeID

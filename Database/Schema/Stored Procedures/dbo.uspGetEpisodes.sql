@@ -51,11 +51,11 @@ AS BEGIN
 			[EpisodeId] [int] NOT NULL PRIMARY KEY,
 			[Owner] [nvarchar](202) NOT NULL,
 			[Created] [datetime2](7) NULL,
-			[PatientName] [nvarchar](312) NOT NULL,
-			[ClaimNumber] [varchar](255) NOT NULL,
+			[PatientName] [nvarchar](312) NULL,
+			[ClaimNumber] [varchar](255) NULL,
 			[Type] [varchar](255) NULL,
 			[Pharmacy] [varchar](60) NULL,
-			[Carrier] [varchar](255) NOT NULL,
+			[Carrier] [varchar](255) NULL,
 			EpisodeNoteCount INT NOT NULL,
 			[FileUrl] [nvarchar] (500) NULL
 		);
@@ -76,9 +76,9 @@ AS BEGIN
 		FROM            dbo.Episode         AS ep
 			INNER JOIN  dbo.EpisodeType     AS et ON ep.EpisodeTypeID = et.EpisodeTypeID
 			INNER JOIN  dbo.EpisodeTypeUsersMapping AS m ON m.EpisodeTypeID = et.[EpisodeTypeID]
-			INNER JOIN  dbo.Claim           AS cl ON ep.ClaimID = cl.ClaimID
-			INNER JOIN  dbo.Patient         AS pa ON cl.PatientID = pa.PatientID
-			INNER JOIN  dbo.Payor           AS py ON cl.PayorID = py.PayorID
+			LEFT JOIN  dbo.Claim           AS cl ON ep.ClaimID = cl.ClaimID
+			LEFT JOIN  dbo.Patient         AS pa ON cl.PatientID = pa.PatientID
+			LEFT JOIN  dbo.Payor           AS py ON cl.PayorID = py.PayorID
 			LEFT JOIN   dbo.Pharmacy        AS ph ON ep.[PharmacyNABP] = ph.NABP
 			LEFT JOIN   dbo.Document		AS d  INNER JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
 											ON d.[DocumentID] = ep.[DocumentID]
