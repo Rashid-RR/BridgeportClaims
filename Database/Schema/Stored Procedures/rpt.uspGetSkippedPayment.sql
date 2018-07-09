@@ -44,7 +44,7 @@ AS BEGIN
 				[FirstName] [varchar](155) NOT NULL,
 				[AmountPaid] [money] NULL,
 				[RxNumber] [varchar](100) NOT NULL,
-				[RxDate] [nvarchar](4000) NULL,
+				[RxDate] DATETIME2 NOT NULL,
 				[AdjustorName] [varchar](255) NULL,
 				[AdjustorPh] [varchar](30) NULL,
 				[Carrier] [varchar](255) NOT NULL,
@@ -240,12 +240,12 @@ AS BEGIN
                   ,r.FirstName
                   ,r.AmountPaid
                   ,r.RxNumber
-                  ,r.RxDate
+                  ,RxDate = FORMAT(r.RxDate, 'M/d/yyyy')
                   ,r.AdjustorName
                   ,r.AdjustorPh
                   ,r.Carrier
                   ,r.CarrierPh
-                  ,r.ReversedDate
+                  ,ReversedDate = FORMAT(r.ReversedDate, 'M/d/yyyy')
                   ,r.PrescriptionStatus
                   ,r.InvoiceNumber 
 			FROM #Results AS r
