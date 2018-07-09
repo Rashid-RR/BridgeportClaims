@@ -26,8 +26,8 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   payorListReady = new Subject<any>();
   constructor(
     private http: HttpService,
-    private us: UnpaidScriptService,
-    private dp: DatePipe
+    public us: UnpaidScriptService,
+    public dp: DatePipe
   ) {
 
   }
