@@ -30,7 +30,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 							try
 							{
 								var notes = session.CreateSQLQuery(
-										@"SELECT  [p].[ClaimID] ClaimId
+                                        @"SELECT  [p].[ClaimID] ClaimId
 												, [p].[PrescriptionNoteId] PrescriptionNoteId
 												, [p].[NoteUpdatedOn] [RxDate]
 												, [p].[PrescriptionNoteType] [Type]
@@ -38,9 +38,9 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 												, [p].[NoteText] [Note]
 												, [p].[NoteUpdatedOn] NoteUpdatedOn
 										FROM     [dbo].[vwPrescriptionNote] AS [p] WITH ( NOEXPAND )
-										WHERE    [p].[PrescriptionPaymentId] = :PrescriptionNoteId
+										WHERE    [p].[PrescriptionID] = :PrescriptionID
 										ORDER BY [p].[NoteUpdatedOn] ASC")
-									.SetInt32("PrescriptionNoteId", prescriptionId)
+									.SetInt32("PrescriptionID", prescriptionId)
 									.SetMaxResults(1000)
 									.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
 									.List<PrescriptionNotesDto>();
