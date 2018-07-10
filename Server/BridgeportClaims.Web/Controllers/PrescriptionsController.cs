@@ -1,7 +1,9 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Business.BillingStatement;
@@ -89,17 +91,36 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var list = _prescriptionsDataProvider.Value.GetUnpaidScripts(model.IsDefaultSort,
+                if (null != model.PayorIds && model.PayorIds.Any())
+                {
+                    IList<CarrierDto> carrierDtos =
+                        model.PayorIds.Select(item => new CarrierDto {PayorID = item}).ToList();
+                    var dt = carrierDtos.ToFixedDataTable();
+                    return ReturnUnpaidScripts(model.IsDefaultSort,
+                        model.StartDate.ToNullableFormattedDateTime(),
+                        model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page,
+                        model.PageSize, model.IsArchived, dt);
+                }
+                var dataTable = new DataTable();
+                dataTable.Columns.Add("PayorID");
+                return ReturnUnpaidScripts(model.IsDefaultSort,
                     model.StartDate.ToNullableFormattedDateTime(),
                     model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page,
-                    model.PageSize, model.IsArchived, model.PayorId);
-                return Ok(list);
+                    model.PageSize, model.IsArchived, dataTable);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
+        }
+
+        private IHttpActionResult ReturnUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
+            string sort, string sortDirection, int page, int pageSize, bool isArchived, DataTable carriers)
+        {
+            var results = _prescriptionsDataProvider.Value.GetUnpaidScripts(isDefaultSort, startDate, endDate, sort, sortDirection,
+                page, pageSize, isArchived, carriers);
+            return Ok(results);
         }
 
         [HttpPost]

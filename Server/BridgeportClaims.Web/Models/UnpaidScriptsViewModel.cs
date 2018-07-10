@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
@@ -19,6 +20,6 @@ namespace BridgeportClaims.Web.Models
         [Required]
         public int PageSize { get; set; }
         public bool IsArchived { get; set; }
-        public int? PayorId { get; set; }
+        public IEnumerable<int> PayorIds { get; set; }
     }
 }   

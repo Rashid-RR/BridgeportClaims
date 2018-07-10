@@ -48,7 +48,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             });
 
         public UnpaidScriptsMasterDto GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sort, string sortDirection, int page, int pageSize, bool isArchived, int? payorId)
+            string sort, string sortDirection, int page, int pageSize, bool isArchived, DataTable carriers)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 var sp = !isArchived ? "[dbo].[uspGetUnpaidScripts]" : "[dbo].[uspGetArchivedUnpaidScripts]";
@@ -61,18 +61,17 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 ps.Add("@SortDirection", sortDirection, DbType.AnsiString, ParameterDirection.Input, 5);
                 ps.Add("@PageNumber", page, DbType.Int32);
                 ps.Add("@PageSize", pageSize, DbType.Int32);
-                ps.Add("@PayorID", payorId, DbType.Int32);
+                ps.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtPayorID]"));
                 ps.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                var reader = conn.QueryMultiple(sp, ps, commandType: CommandType.StoredProcedure);
-                var unpaidScriptsDto = new UnpaidScriptsDto();
-                var payors = reader.Read<PayorDto>()?.ToList();
-                var unpaidScripts = reader.Read<UnpaidScriptResultDto>()?.ToList();
-                unpaidScriptsDto.UnpaidScriptResults = unpaidScripts;
-                unpaidScriptsDto.TotalRowCount = ps.Get<int>("@TotalRows");
+                var unpaidScripts = conn.Query<UnpaidScriptResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
+                var unpaidScriptsDto = new UnpaidScriptsDto
+                {
+                    UnpaidScriptResults = unpaidScripts?.ToList(),
+                    TotalRowCount = ps.Get<int>("@TotalRows")
+                };
                 var master = new UnpaidScriptsMasterDto
                 {
-                    UnpaidScripts = unpaidScriptsDto,
-                    Payors = payors?.OrderBy(x => x.Carrier).ToList()
+                    UnpaidScripts = unpaidScriptsDto
                 };
                 return master;
             });
