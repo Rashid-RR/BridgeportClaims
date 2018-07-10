@@ -7,7 +7,11 @@ GO
 	Create Date:	7/4/2018
 	Description:	Gets the Archived Unpaid Scripts
 	Sample Execute:
-					DECLARE @TotalRows INT; EXEC [dbo].[uspGetArchivedUnpaidScripts] 1, NULL, NULL, 'RxDate', 'ASC', 1, 5000, NULL, @TotalRows OUTPUT
+					DECLARE @Carriers [dbo].[udtPayorID];
+					INSERT @Carriers (PayorID) VALUES (49);
+					DECLARE @TotalRows INT; EXEC [dbo].[uspGetArchivedUnpaidScripts] 1, NULL, NULL, 'RxDate', 'ASC', 1, 30, @Carriers, @TotalRows OUTPUT SELECT @TotalRows
+					DELETE @Carriers
+					EXEC [dbo].[uspGetArchivedUnpaidScripts] 1, NULL, NULL, 'RxDate', 'ASC', 1, 30, @Carriers, @TotalRows OUTPUT SELECT @TotalRows
 */
 CREATE PROC [dbo].[uspGetArchivedUnpaidScripts]
 (
@@ -18,7 +22,7 @@ CREATE PROC [dbo].[uspGetArchivedUnpaidScripts]
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
-	@PayorID INTEGER,
+	@Carriers [dbo].[udtPayorID] READONLY,
 	@TotalRows INTEGER OUTPUT
 )
 AS BEGIN
@@ -30,8 +34,18 @@ AS BEGIN
 		  , @iEndDate DATE = @EndDate
 		  , @iSortDirection VARCHAR(5) = @SortDirection
 		  , @iPageNumber INTEGER = @PageNumber
-		  , @iPageSize INTEGER = @PageSize
-		  , @iPayorID INTEGER = @PayorID;
+		  , @iPageSize INTEGER = @PageSize;
+
+	CREATE TABLE #Carriers (PayorID INT NOT NULL PRIMARY KEY)
+
+	IF NOT EXISTS (SELECT * FROM @Carriers)
+		BEGIN
+			INSERT #Carriers (PayorID) SELECT p.PayorID FROM dbo.Payor AS p
+		END
+	ELSE
+		BEGIN
+			INSERT #Carriers (PayorID) SELECT PayorID FROM @Carriers
+		END
 
 	IF @iIsDefaultSort IS NULL
 		BEGIN
@@ -85,6 +99,7 @@ AS BEGIN
 		INNER JOIN  dbo.Invoice			AS i ON p.InvoiceID = i.InvoiceID
 		INNER JOIN  dbo.Patient			AS pat ON c.PatientID = pat.PatientID
 		INNER JOIN  dbo.Payor			AS pay ON c.PayorID = pay.PayorID
+		INNER JOIN  #Carriers           AS car ON car.PayorID = pay.PayorID
 		INNER JOIN  dbo.Pharmacy		AS ph ON p.PharmacyNABP = ph.NABP
 		INNER JOIN  dbo.UsState			AS us ON ph.StateID = us.StateID
 		LEFT JOIN   dbo.Adjustor		AS a ON [c].[AdjustorID] = a.AdjustorID
@@ -95,8 +110,7 @@ AS BEGIN
 									ELSE 0
 							END
 					AND p.IsReversed = 0
-					AND c.TermDate > @LocalDate
-					AND pay.PayorID = ISNULL(@iPayorID, pay.PayorID);
+					AND c.TermDate > @LocalDate;
 
 	INSERT #UnpaidScriptsFiltered (PrescriptionId,ClaimId,PatientName,ClaimNumber,InvoiceNumber,InvoiceDate
 	 ,InvAmt,RxNumber,RxDate,LabelName,PayorId,InsuranceCarrier,PharmacyState,AdjustorName,AdjustorPhone,LastName,FirstName)
@@ -121,8 +135,6 @@ AS BEGIN
 	WHERE  ((u.AmountPaid < (u.InvAmt * 0.75)) OR u.InvAmt = 0)
 
 	SELECT @TotalRows = COUNT(*) FROM #UnpaidScriptsFiltered;
-
-	SELECT DISTINCT u.PayorId, u.InsuranceCarrier Carrier FROM #UnpaidScriptsFiltered AS u;
 	
 	SELECT u.PrescriptionId
          , u.ClaimId
@@ -202,4 +214,5 @@ AS BEGIN
 			OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 			FETCH NEXT @iPageSize ROWS ONLY;
 END
+
 GO
