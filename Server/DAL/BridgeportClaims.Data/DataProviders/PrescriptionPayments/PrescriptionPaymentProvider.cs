@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
+using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
+using Dapper;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.PrescriptionPayments
 {
     public class PrescriptionPaymentProvider : IPrescriptionPaymentProvider
     {
         private readonly Lazy<IRepository<PrescriptionPayment>> _prescriptionPaymentRepository;
-        private readonly Lazy<IRepository<Prescription>> _prescriptionRepository;
-        private readonly Lazy<IRepository<AspNetUsers>> _usersRepository;
 
-        public PrescriptionPaymentProvider(Lazy<IRepository<PrescriptionPayment>> prescriptionPaymentRepository, 
-            Lazy<IRepository<Prescription>> prescriptionRepository, Lazy<IRepository<AspNetUsers>> usersRepository)
+        public PrescriptionPaymentProvider(Lazy<IRepository<PrescriptionPayment>> prescriptionPaymentRepository)
         {
             _prescriptionPaymentRepository = prescriptionPaymentRepository;
-            _prescriptionRepository = prescriptionRepository;
-            _usersRepository = usersRepository;
         }
 
         public void DeletePrescriptionPayment(int prescriptionPaymentId)
@@ -24,20 +24,19 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionPayments
         }
 
         public void UpdatePrescriptionPayment(int prescriptionPaymentId, string checkNumber, decimal amountPaid,
-            DateTime? datePosted, int prescriptionId, string userId)
-        {
-            var p = _prescriptionPaymentRepository.Value.Get(prescriptionPaymentId);
-            if (null == p)
-                throw new Exception($"Error, cannot find a Prescription Payment record with an ID of {prescriptionPaymentId}");
-            var now = DateTime.UtcNow;
-            p.CheckNumber = checkNumber;
-            p.AmountPaid = amountPaid;
-            p.DatePosted = datePosted;
-            p.Prescription = _prescriptionRepository.Value.Get(prescriptionId);
-            p.CreatedOnUtc = now;
-            p.UpdatedOnUtc = now;
-            p.UserId = _usersRepository.Value.Get(userId);
-            _prescriptionPaymentRepository.Value.Save(p);
-        }
+            DateTime? datePosted, int prescriptionId, string userId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspUpdatePrescriptionPayment]";
+                conn.Open();
+                conn.Execute(sp, new
+                {
+                    PrescriptionPaymentID = prescriptionPaymentId,
+                    CheckNumber = checkNumber,
+                    AmountPaid = amountPaid,
+                    DatePosted = datePosted,
+                    UserID = userId
+                }, commandType: CommandType.StoredProcedure);
+            });
     }
 }   
