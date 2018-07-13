@@ -246,13 +246,13 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 				});
 			});
 
-	    private static IEnumerable<ClaimDto> GetClaimsByClaimId(int claimId) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            const string sp = "[claims].[uspGetClaims]";
-	            conn.Open();
-	            return conn.Query<ClaimDto>(sp, new {ClaimID = claimId}, commandType: CommandType.StoredProcedure);
-	        });
+		private static IEnumerable<ClaimDto> GetClaimsByClaimId(int claimId) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[claims].[uspGetClaims]";
+				conn.Open();
+				return conn.Query<ClaimDto>(sp, new {ClaimID = claimId}, commandType: CommandType.StoredProcedure);
+			});
 
 		public ClaimDto GetClaimsDataByClaimId(int claimId, string userId)
 		{
@@ -263,7 +263,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 					{
 						try
 						{
-						    var claimDto = GetClaimsByClaimId(claimId)?.SingleOrDefault();
+							var claimDto = GetClaimsByClaimId(claimId)?.SingleOrDefault();
 							if (null == claimDto)
 								return null;
 							// ClaimFlex2 Drop-Down Values
@@ -342,7 +342,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							// Claim Prescriptions
 							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, ic.MaxRowCountForBladeInApp)?.ToList();
 							// Prescription Notes
-						    var prescriptionNotesDtos = GetPrescriptionNotes(claimId)?.ToList();
+							var prescriptionNotesDtos = GetPrescriptionNotes(claimId)?.ToList();
 							var scriptNotesDtos = prescriptionNotesDtos?.GroupBy(r => new
 							{
 								r.ClaimId,
@@ -387,15 +387,15 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			});
 		}
 
-	    private IEnumerable<PrescriptionNotesDto> GetPrescriptionNotes(int claimId) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            const string sp = "[claims].[uspGetPrescriptionNotes]";
-	            conn.Open();
-	            return conn.Query<PrescriptionNotesDto>(sp, new {ClaimID = claimId}, commandType: CommandType.StoredProcedure);
-	        });
+		private IEnumerable<PrescriptionNotesDto> GetPrescriptionNotes(int claimId) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[claims].[uspGetPrescriptionNotes]";
+				conn.Open();
+				return conn.Query<PrescriptionNotesDto>(sp, new {ClaimID = claimId}, commandType: CommandType.StoredProcedure);
+			});
 
-        public BillingStatementDto GetBillingStatementDto(int claimId) =>
+		public BillingStatementDto GetBillingStatementDto(int claimId) =>
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
 				var query = string.Format(Query, claimId);
