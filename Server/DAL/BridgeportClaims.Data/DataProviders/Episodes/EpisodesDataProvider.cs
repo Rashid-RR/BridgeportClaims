@@ -9,6 +9,7 @@ using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
 using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using ic = BridgeportClaims.Common.Constants.IntegerConstants;
 
 namespace BridgeportClaims.Data.DataProviders.Episodes
 {
@@ -175,7 +176,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					sortDirectionParam.SqlDbType = SqlDbType.VarChar;
 					cmd.Parameters.Add(sortDirectionParam);
 					var pageNumberParam = cmd.CreateParameter();
-					pageNumberParam.Value = default == pageNumber ? 5000 : pageNumber;
+					pageNumberParam.Value = default == pageNumber ? ic.MaxRowCountForBladeInApp : pageNumber;
 					pageNumberParam.DbType = DbType.Int32;
 					pageNumberParam.SqlDbType = SqlDbType.Int;
 					pageNumberParam.Direction = ParameterDirection.Input;

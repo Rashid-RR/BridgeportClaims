@@ -2,10 +2,10 @@
 using System.Net;
 using System.Net.Mail;
 using System.Management.Instrumentation;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Web.Email.Models;
 using cs = BridgeportClaims.Common.Config.ConfigService;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Email.EmailModelGeneration
 {
@@ -18,13 +18,13 @@ namespace BridgeportClaims.Web.Email.EmailModelGeneration
             switch (model.EmailModelEnum)
             {
                 case EmailModelEnum.PasswordReset:
-                    subject = c.PasswordResetTemplateEmailSubject;
+                    subject = StringConstants.PasswordResetTemplateEmailSubject;
                     break;
                 case EmailModelEnum.WelcomeActivation:
-                    subject = c.EmailWelcomeActivationTemplateEmailSubject;
+                    subject = StringConstants.EmailWelcomeActivationTemplateEmailSubject;
                     break;
                 case EmailModelEnum.LakerImportStatus:
-                    subject = c.LakerImportStatus;
+                    subject = StringConstants.LakerImportStatus;
                     break;
                 case EmailModelEnum.Unknown:
                     break;

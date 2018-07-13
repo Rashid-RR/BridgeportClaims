@@ -16,9 +16,8 @@ using Dapper;
 using NHibernate;
 using NHibernate.Transform;
 using NLog;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
-
+using ic = BridgeportClaims.Common.Constants.IntegerConstants;
 
 namespace BridgeportClaims.Data.DataProviders.Claims
 {
@@ -269,7 +268,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								return null;
 							// ClaimFlex2 Drop-Down Values
 							var claimFlex2Dto = session.CreateSQLQuery("SELECT ClaimFlex2ID ClaimFlex2Id, Flex2 FROM dbo.ClaimFlex2")
-								.SetMaxResults(100)
+								.SetMaxResults(ic.MaxRowCountForBladeInApp)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(ClaimFlex2Dto)))
 								.List<ClaimFlex2Dto>();
 							if (null != claimFlex2Dto)
@@ -294,7 +293,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							var documentTypes = session.CreateSQLQuery(@"SELECT  DocumentTypeId = [dt].[DocumentTypeID]
 																			   , [dt].[TypeName]
 																		 FROM    [dbo].[DocumentType] AS [dt]")
-								.SetMaxResults(5000)
+								.SetMaxResults(ic.MaxRowCountForBladeInApp)
 								.SetResultTransformer(Transformers.AliasToBean(typeof(DocumentTypeDto)))
 								.List<DocumentTypeDto>();
 							if (null != documentTypes)
@@ -325,7 +324,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							if (null != prescriptionStatuses)
 								claimDto.PrescriptionStatuses = prescriptionStatuses.OrderBy(x => x.StatusName).ToList();
 							// Payments
-							var payments = _paymentsDataProvider.Value.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, 5000, "RxNumber", "ASC");
+							var payments = _paymentsDataProvider.Value.GetPrescriptionPaymentsDtos(claimId, "RxDate", "DESC", 1, ic.MaxRowCountForBladeInApp, "RxNumber", "ASC");
 							if (null != payments)
 								claimDto.Payments = payments;
 							// Genders
@@ -341,28 +340,9 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 							if (null != episodeTypes)
 								claimDto.EpisodeTypes = episodeTypes.OrderBy(x => x.SortOrder).ToList();
 							// Claim Prescriptions
-							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, 5000)?.ToList();
+							claimDto.Prescriptions = GetPrescriptionDataByClaim(claimId, "RxDate", "DESC", 1, ic.MaxRowCountForBladeInApp)?.ToList();
 							// Prescription Notes
-							var prescriptionNotesDtos = session.CreateSQLQuery(
-									 @"SELECT DISTINCT
-													[ClaimId]              = [a].[ClaimID]
-													, [PrescriptionNoteId] = [a].[PrescriptionNoteID]
-													, RxDate               = a.DateFilled
-													, a.RxNumber
-													, [Type]               = [a].[PrescriptionNoteType]
-													, [EnteredBy]          = [a].[NoteAuthor]
-													, [Note]               = [a].[NoteText]
-													, [NoteUpdatedOn]      = [a].[NoteUpdatedOn]
-													, HasDiaryEntry		   = CAST(CASE WHEN d.DiaryID IS NOT NULL THEN 1 ELSE 0 END AS BIT)
-													, d.DiaryID DiaryId
-										FROM        [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
-													LEFT JOIN dbo.Diary AS d ON d.PrescriptionNoteID = a.PrescriptionNoteID AND d.DateResolved IS NULL
-										WHERE       [a].[ClaimID] = :ClaimID
-										ORDER BY    a.DateFilled DESC, a.RxNumber ASC")
-								.SetInt32("ClaimID", claimId)
-								.SetMaxResults(5000)
-								.SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
-								.List<PrescriptionNotesDto>();
+						    var prescriptionNotesDtos = GetPrescriptionNotes(claimId)?.ToList();
 							var scriptNotesDtos = prescriptionNotesDtos?.GroupBy(r => new
 							{
 								r.ClaimId,
@@ -389,7 +369,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								Type = gcs.Key.Type
 							}).ToList() ?? new List<ScriptNoteDto>();
 							claimDto.PrescriptionNotes = scriptNotesDtos;
-							var imageResults = _claimImageProvider.Value.GetClaimImages(claimId, "Created", "DESC", 1, 5000);
+							var imageResults = _claimImageProvider.Value.GetClaimImages(claimId, "Created", "DESC", 1, ic.MaxRowCountForBladeInApp);
 							if (null != imageResults)
 								claimDto.Images = imageResults.ClaimImages;
 							if (tx.IsActive)
@@ -407,7 +387,15 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			});
 		}
 
-		public BillingStatementDto GetBillingStatementDto(int claimId) =>
+	    private IEnumerable<PrescriptionNotesDto> GetPrescriptionNotes(int claimId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            const string sp = "[claims].[uspGetPrescriptionNotes]";
+	            conn.Open();
+	            return conn.Query<PrescriptionNotesDto>(sp, new {ClaimID = claimId}, commandType: CommandType.StoredProcedure);
+	        });
+
+        public BillingStatementDto GetBillingStatementDto(int claimId) =>
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
 				var query = string.Format(Query, claimId);

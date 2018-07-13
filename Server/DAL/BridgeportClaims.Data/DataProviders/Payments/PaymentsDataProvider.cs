@@ -5,11 +5,11 @@ using System.Globalization;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using cs = BridgeportClaims.Common.Config.ConfigService;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Data.DataProviders.Payments
 {
@@ -65,7 +65,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 
         public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
         {
-            var delimitedClaimIds = string.Join(c.Comma, claimIds);
+            var delimitedClaimIds = string.Join(StringConstants.Comma, claimIds);
             var claimIdParam = new SqlParameter
             {
                 ParameterName = "ClaimIDs",

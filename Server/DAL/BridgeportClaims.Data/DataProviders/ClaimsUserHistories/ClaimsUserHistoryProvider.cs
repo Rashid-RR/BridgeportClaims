@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
@@ -23,7 +23,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
         public IList<ClaimsUserHistoryDto> GetClaimsUserHistory(string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                var maxClaimsLookup = int.TryParse(cs.GetAppSetting(c.MaxClaimsLookupHistoryItemsKey), out int i) ? i : 22;
+                var maxClaimsLookup = int.TryParse(cs.GetAppSetting(StringConstants.MaxClaimsLookupHistoryItemsKey), out int i) ? i : 22;
                 return DisposableService.Using(() => new SqlCommand("dbo.uspGetClaimUserHistory", conn), cmd =>
                 {
                     IList<ClaimsUserHistoryDto> retVal = new List<ClaimsUserHistoryDto>();

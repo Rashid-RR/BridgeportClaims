@@ -2,13 +2,13 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.UserOptions;
 using BridgeportClaims.Pdf.Factories;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Web.EmailTemplates;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web.Controllers
@@ -56,7 +56,7 @@ namespace BridgeportClaims.Web.Controllers
                 await _emailService.Value.SendEmail<EmailTemplateProvider>("jordangurney@gmail.com", "Test Message",
                     string.Empty,
                     EmailModelEnum.LakerImportStatus);
-                var testClaimId = Convert.ToInt32(cs.GetAppSetting(c.TestClaimIdKey));
+                var testClaimId = Convert.ToInt32(cs.GetAppSetting(StringConstants.TestClaimIdKey));
                 _dbccUserOptionsProvider.Value.IsSessionUsingReadCommittedSnapshotIsolation();
                 var retVal = _claimsDataProvider.Value.GetClaimsDataByClaimId(testClaimId, Guid.NewGuid().ToString());
                 return Ok(retVal);

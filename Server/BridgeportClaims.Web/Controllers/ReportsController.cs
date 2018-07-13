@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Dynamic;
 using System.Net;
 using System.Web.Http;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Reports;
@@ -14,7 +15,6 @@ using BridgeportClaims.Excel.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -235,7 +235,7 @@ namespace BridgeportClaims.Web.Controllers
                         throw new Exception("Could not create a data table from the report.");
                     var fileName = "AccountsReceivableReport" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.xlsx";
                     var fullFilePath = ExcelFactory.GetExcelFilePathFromDataTable(dataTable, "Accounts Receivable", fileName);
-                    return new FileResult(fullFilePath, fileName, c.ExcelContentType);
+                    return new FileResult(fullFilePath, fileName, StringConstants.ExcelContentType);
                 });
             }
             catch (Exception ex)

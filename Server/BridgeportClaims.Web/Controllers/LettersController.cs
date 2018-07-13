@@ -2,12 +2,12 @@
 using NLog;
 using System.Net;
 using System.Web.Http;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.FileDriver;
 using Microsoft.AspNet.Identity;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -42,15 +42,15 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     case "be":
                         type = LetterType.BenExhaust;
-                        fileName = c.BenefitsExhaustedLetter;
+                        fileName = StringConstants.BenefitsExhaustedLetter;
                         break;
                     case "pip":
                         type = LetterType.PipApp;
-                        fileName = c.PipAppLetter;
+                        fileName = StringConstants.PipAppLetter;
                         break;
                     case "ime":
                         type = LetterType.Ime;
-                        fileName = c.ImeLetterName;
+                        fileName = StringConstants.ImeLetterName;
                         break;
                     default:
                         ThrowLetterTypeException(letterType);

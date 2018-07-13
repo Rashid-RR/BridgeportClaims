@@ -10,6 +10,7 @@ using NHibernate;
 using NHibernate.Transform;
 using NLog;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using ic = BridgeportClaims.Common.Constants.IntegerConstants;
 
 namespace BridgeportClaims.Data.DataProviders.KPI
 {
@@ -74,7 +75,7 @@ namespace BridgeportClaims.Data.DataProviders.KPI
                         {
                             var paymentTotals = session
                                 .CreateSQLQuery(@"SELECT DatePosted, TotalPosted FROM rpt.udfGetLastTwentyOneDaysRevenue()")
-                                .SetMaxResults(5000)
+                                .SetMaxResults(ic.MaxRowCountForBladeInApp)
                                 .SetResultTransformer(Transformers.AliasToBean(typeof(PaymentTotalsDto)))
                                 .List<PaymentTotalsDto>();
                             if (tx.IsActive)

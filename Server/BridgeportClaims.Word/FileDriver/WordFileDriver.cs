@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.WordProvider;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Word.FileDriver
 {
@@ -22,13 +22,13 @@ namespace BridgeportClaims.Word.FileDriver
             switch (type)
             {
                 case LetterType.Ime:
-                    resourceString = c.ImeLetterManifestResource;
+                    resourceString = StringConstants.ImeLetterManifestResource;
                     break;
                 case LetterType.BenExhaust:
-                    resourceString = c.BenefitsExhaustedLetterManifestResource;
+                    resourceString = StringConstants.BenefitsExhaustedLetterManifestResource;
                     break;
                 case LetterType.PipApp:
-                    resourceString = c.PipAppLetterManifestResource;
+                    resourceString = StringConstants.PipAppLetterManifestResource;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

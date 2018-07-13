@@ -9,6 +9,7 @@ using BridgeportClaims.Data.Dtos;
 using Dapper;
 using NLog;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using ic = BridgeportClaims.Common.Constants.IntegerConstants;
 
 namespace BridgeportClaims.Data.DataProviders.Reports
 {
@@ -81,7 +82,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 parameters.Add("@SortColumn", sort, DbType.AnsiString);
                 parameters.Add("@SortDirection", sortDirection, DbType.AnsiString);
                 parameters.Add("@PageNumber", page == -1 ? 1 : page, DbType.Int32);
-                parameters.Add("@PageSize", pageSize == -1 ? 5000 : pageSize, DbType.Int32);
+                parameters.Add("@PageSize", pageSize == -1 ? ic.MaxRowCountForBladeInApp : pageSize, DbType.Int32);
                 parameters.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var results = conn.Query<DuplicateClaimResultsDto>("[rpt].[uspGetDuplicateClaims]", parameters,
                     commandType: CommandType.StoredProcedure);
@@ -198,7 +199,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     parameters.Add("@SortColumn", sort, DbType.AnsiString);
                     parameters.Add("@SortDirection", sortDirection, DbType.AnsiString);
                     parameters.Add("@PageNumber", page == -1 ? 1 : page, DbType.Int32);
-                    parameters.Add("@PageSize", pageSize == -1 ? 5000 : pageSize, DbType.Int32);
+                    parameters.Add("@PageSize", pageSize == -1 ? ic.MaxRowCountForBladeInApp : pageSize, DbType.Int32);
                     parameters.Add("@TotalRowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
                     var results = conn.Query<ShortPayResultDto>(sp, commandType: CommandType.StoredProcedure, param: parameters);
                     var retVal = new ShortPayDto

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.Templating;
 using DocumentFormat.OpenXml.Packaging;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Word.WordProvider
 {
@@ -58,13 +58,13 @@ namespace BridgeportClaims.Word.WordProvider
             switch (type)
             {
                 case LetterType.Ime:
-                    fileName = c.ImeLetterName;
+                    fileName = StringConstants.ImeLetterName;
                     break;
                 case LetterType.BenExhaust:
-                    fileName = c.BenefitsExhaustedLetter;
+                    fileName = StringConstants.BenefitsExhaustedLetter;
                     break;
                 case LetterType.PipApp:
-                    fileName = c.PipAppLetter;
+                    fileName = StringConstants.PipAppLetter;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);

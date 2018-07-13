@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
+using BridgeportClaims.Common.Constants;
 using cm = System.Configuration.ConfigurationManager;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Common.Config
 {
@@ -18,12 +18,12 @@ namespace BridgeportClaims.Common.Config
         public static string GetAppSetting(string key) => cm.AppSettings[key];
 
         public static string GetDbConnStr() 
-            => cm.ConnectionStrings[c.DbConnStrName].ConnectionString;
+            => cm.ConnectionStrings[StringConstants.DbConnStrName].ConnectionString;
 
         public static string GetSecureDbConnStr()
-            => cm.ConnectionStrings[c.SecureDbConnStrName].ConnectionString;
+            => cm.ConnectionStrings[StringConstants.SecureDbConnStrName].ConnectionString;
 
         public static bool AppIsInDebugMode
-            => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode));
+            => Convert.ToBoolean(GetAppSetting(StringConstants.AppIsInDebugMode));
     }
 }

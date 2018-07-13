@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Business.BillingStatement;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
@@ -16,7 +17,6 @@ using BridgeportClaims.Pdf.Factories;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -50,7 +50,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var fullFilePath =
                     _billingStatementProvider.Value.GenerateBillingStatementFullFilePath(claimId, out var fileName);
-                return new FileResult(fullFilePath, fileName, c.ExcelContentType);
+                return new FileResult(fullFilePath, fileName, StringConstants.ExcelContentType);
             }
             catch (Exception ex)
             {

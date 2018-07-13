@@ -1,15 +1,15 @@
 ﻿using NLog;
 using System;
 using System.Runtime.Caching;
+using BridgeportClaims.Common.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Common.Caching
 {
     public abstract class CachingProviderBase
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        protected Lazy<MemoryCache> Cache = new Lazy<MemoryCache>(() => new MemoryCache(c.CachingProvider));
+        protected Lazy<MemoryCache> Cache = new Lazy<MemoryCache>(() => new MemoryCache(StringConstants.CachingProvider));
         private static readonly object Semaphore  = new object();
         private readonly DateTimeOffset _defaultExpiry;
 
