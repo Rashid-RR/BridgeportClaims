@@ -2,9 +2,9 @@
 using System;
 using System.Net.Http;
 using System.Web.Http.Routing;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Web.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Models
 {   
@@ -26,7 +26,7 @@ namespace BridgeportClaims.Web.Models
             {
                 return new UserReturnModel
                 {
-                    Url = _urlHelper.Value.Link(c.GetUserByIdAction, new {id = appUser.Id}),
+                    Url = _urlHelper.Value.Link(StringConstants.GetUserByIdAction, new {id = appUser.Id}),
                     Id = appUser.Id,
                     UserName = appUser.UserName,
                     FullName = $"{appUser.FirstName} {appUser.LastName}",
@@ -54,7 +54,7 @@ namespace BridgeportClaims.Web.Models
             {
                 return new RoleReturnModel
                 {
-                    Url = _urlHelper.Value.Link(c.GetRoleByIdAction, new { id = appRole.Id }),
+                    Url = _urlHelper.Value.Link(StringConstants.GetRoleByIdAction, new { id = appRole.Id }),
                     Id = appRole.Id,
                     Name = appRole.Name
                 };

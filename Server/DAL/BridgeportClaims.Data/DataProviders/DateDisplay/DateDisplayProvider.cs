@@ -2,9 +2,9 @@
 using System;
 using System.Data;
 using BridgeportClaims.Common.Caching;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using NHibernate;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 
 namespace BridgeportClaims.Data.DataProviders.DateDisplay
@@ -23,7 +23,7 @@ namespace BridgeportClaims.Data.DataProviders.DateDisplay
 
         public string GetDateDisplay()
         {
-            var result = _memoryCacher.Value.AddOrGetExisting(c.DateDisplayCacheKey, () =>
+            var result = _memoryCacher.Value.AddOrGetExisting(StringConstants.DateDisplayCacheKey, () =>
             {
                 return DisposableService.Using(() => _factory.Value.OpenSession(), session =>
                 {

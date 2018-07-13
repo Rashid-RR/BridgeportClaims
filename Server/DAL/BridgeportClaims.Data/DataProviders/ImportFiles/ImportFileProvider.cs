@@ -8,12 +8,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using BridgeportClaims.Common.Config;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using BridgeportClaims.CsvReader.CsvReaders;
 
@@ -73,7 +73,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			if (cs.AppIsInDebugMode)
 				Logger.Value.Info($"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
 			var oldestLakeFileName = _importFileRepository.GetMany(x => !x.Processed)
-				.Where(f => null != f.FileName && f.FileName.StartsWith(c.LakeFileNameStartsWithString))
+				.Where(f => null != f.FileName && f.FileName.StartsWith(StringConstants.LakeFileNameStartsWithString))
 				.OrderBy(f => f.CreatedOnUtc)
 				.Select(f => f.FileName).FirstOrDefault();
 			if (!oldestLakeFileName.IsNotNullOrWhiteSpace()) return string.Empty;
@@ -269,12 +269,12 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			// Payment Import   PI
 			// Other            OT
 			if (fileName.StartsWith("Billing_Claim_File_"))
-				code = c.LakerImportImportFileTypeCode;
+				code = StringConstants.LakerImportImportFileTypeCode;
 			else if (fileName.EndsWith("Payments.xlsx"))
-				code = c.PaymentImportFileTypeCode;
+				code = StringConstants.PaymentImportFileTypeCode;
 			else
 			{
-				code = c.OtherImportFileTypeCode;
+				code = StringConstants.OtherImportFileTypeCode;
 				processed = true;
 			}
 			var result = _importFileTypeRepository.GetSingleOrDefault(x => x.Code == code);

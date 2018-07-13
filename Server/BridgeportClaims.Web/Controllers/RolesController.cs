@@ -4,11 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -19,7 +19,7 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
         [HttpGet]
-        [Route("{id:guid}", Name = c.GetRoleByIdAction)]
+        [Route("{id:guid}", Name = StringConstants.GetRoleByIdAction)]
         public async Task<IHttpActionResult> GetRole(string id)
         {
             try
@@ -37,7 +37,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("", Name = c.GetAllRolesAction)]
+        [Route("", Name = StringConstants.GetAllRolesAction)]
         public IHttpActionResult GetAllRoles()
         {
             var roles = AppRoleManager.Roles;
@@ -59,7 +59,7 @@ namespace BridgeportClaims.Web.Controllers
                 if (!result.Succeeded)
                     return GetErrorResult(result);
 
-                var locationHeader = new Uri(Url.Link(c.GetRoleByIdAction, new {id = role.Id}));
+                var locationHeader = new Uri(Url.Link(StringConstants.GetRoleByIdAction, new {id = role.Id}));
                 return Created(locationHeader, TheModelFactory.Create(role));
             }
             catch (Exception ex)
@@ -124,7 +124,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route(c.ManageUsersInRoleAction)]
+        [Route(StringConstants.ManageUsersInRoleAction)]
         public async Task<IHttpActionResult> ManageUsersInRole(UsersInRoleModel model)
         {
             try

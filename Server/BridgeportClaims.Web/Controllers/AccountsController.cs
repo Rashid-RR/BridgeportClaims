@@ -10,10 +10,10 @@ using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using System.Diagnostics.CodeAnalysis;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web.Controllers
@@ -87,18 +87,18 @@ namespace BridgeportClaims.Web.Controllers
             switch (type)
             {
                 case EmailType.ResetPassword:
-                    route = c.ResetPasswordClientRoute;
+                    route = StringConstants.ResetPasswordClientRoute;
                     break;
                 case EmailType.Registration:
-                    route = c.ConfirmEmailClientRoute;
+                    route = StringConstants.ConfirmEmailClientRoute;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
             var baseUrl = BaseUri;
-            var serverLocalHostName = cs.GetAppSetting(c.ServerLocalHostNameKey);
-            var secureServerLocalHostName = cs.GetAppSetting(c.SecureServerLocalHostNameKey);
-            var clientLocalHostName = cs.GetAppSetting(c.ClientLocalHostNameKey);
+            var serverLocalHostName = cs.GetAppSetting(StringConstants.ServerLocalHostNameKey);
+            var secureServerLocalHostName = cs.GetAppSetting(StringConstants.SecureServerLocalHostNameKey);
+            var clientLocalHostName = cs.GetAppSetting(StringConstants.ClientLocalHostNameKey);
             if (!BaseUri.Contains(serverLocalHostName) && !BaseUri.Contains(secureServerLocalHostName))
                 return ConstructUri(baseUrl, route, userId, code);
             if (IsSecure)
@@ -121,7 +121,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        [Route("resetpassword", Name = c.ResetPasswordRouteAction)]
+        [Route("resetpassword", Name = StringConstants.ResetPasswordRouteAction)]
         public async Task<IHttpActionResult> ResetPassword([FromBody] ResetPasswordViewModel model)
         {
             try
@@ -216,7 +216,7 @@ namespace BridgeportClaims.Web.Controllers
                     await AppUserManager.CreateAsync(user, createUserModel.Password).ConfigureAwait(false);
                 if (!addUserResult.Succeeded)
                     return GetErrorResult(addUserResult);
-                var locationHeader = new Uri(Url.Link(c.GetUserByIdAction, new {id = user.Id}));
+                var locationHeader = new Uri(Url.Link(StringConstants.GetUserByIdAction, new {id = user.Id}));
                 // Email
                 var code = await AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id).ConfigureAwait(false);
                 // Generate link for the email.
@@ -238,7 +238,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("ConfirmEmail", Name = c.ConfirmEmailRouteAction)]
+        [Route("ConfirmEmail", Name = StringConstants.ConfirmEmailRouteAction)]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
         {
             try
@@ -279,7 +279,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("user/{id:guid}", Name = c.GetUserByIdAction)]
+        [Route("user/{id:guid}", Name = StringConstants.GetUserByIdAction)]
         [Authorize(Roles = "Admin")]
         public async Task<IHttpActionResult> GetUser(string id)
         {

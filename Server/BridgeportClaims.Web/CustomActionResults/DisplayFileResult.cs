@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using c = BridgeportClaims.Common.StringConstants.Constants;
+using BridgeportClaims.Common.Constants;
 
 namespace BridgeportClaims.Web.CustomActionResults
 {
@@ -33,7 +33,7 @@ namespace BridgeportClaims.Web.CustomActionResults
             };
             var contentType = _contentType ?? MimeMapping.GetMimeMapping(Path.GetExtension(_filePath));
             response.Content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
-            if (ContentDispositionHeaderValue.TryParse(c.ContentDispositionUniqueString + _fileName,
+            if (ContentDispositionHeaderValue.TryParse(StringConstants.ContentDispositionUniqueString + _fileName,
                 out var contentDisposition))
             {
                 response.Content.Headers.ContentDisposition = contentDisposition;

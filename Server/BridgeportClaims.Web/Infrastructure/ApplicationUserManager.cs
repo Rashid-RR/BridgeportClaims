@@ -1,11 +1,11 @@
 ﻿using System;
+using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Web.Email;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
-using c = BridgeportClaims.Common.StringConstants.Constants;
 
 namespace BridgeportClaims.Web.Infrastructure
 {
@@ -32,7 +32,7 @@ namespace BridgeportClaims.Web.Infrastructure
             if (dataProtectionProvider != null)
             {
                 appUserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(
-                    dataProtectionProvider.Create(c.AspNetIdentity))
+                    dataProtectionProvider.Create(StringConstants.AspNetIdentity))
                 {
                     //Code for email confirmation and reset password life time
                     TokenLifespan = TimeSpan.FromHours(6)

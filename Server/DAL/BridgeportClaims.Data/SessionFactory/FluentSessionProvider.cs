@@ -8,8 +8,8 @@ using NHibernate;
 using NHibernate.Context;
 using NHibernate.Tool.hbm2ddl;
 using BridgeportClaims.Common.Config;
-using BridgeportClaims.Common.StringConstants;
 using System.Web;
+using BridgeportClaims.Common.Constants;
 
 namespace BridgeportClaims.Data.SessionFactory
 {
@@ -165,7 +165,7 @@ namespace BridgeportClaims.Data.SessionFactory
 
 		private static MsSqlConfiguration CreateDbConfig()
 			=> MsSqlConfiguration.MsSql2012.ConnectionString(c =>
-					c.FromConnectionStringWithKey(Constants.DbConnStrName))
+					c.FromConnectionStringWithKey(StringConstants.DbConnStrName))
 				.AdoNetBatchSize(AppSettingsItems.Item1);
 	}
 }

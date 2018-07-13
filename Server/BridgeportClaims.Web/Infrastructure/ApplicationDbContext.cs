@@ -1,11 +1,11 @@
-﻿using BridgeportClaims.Common.StringConstants;
+﻿using BridgeportClaims.Common.Constants;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace BridgeportClaims.Web.Infrastructure
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext() : base(Constants.DbConnStrName, false)
+        public ApplicationDbContext() : base(StringConstants.DbConnStrName, false)
         {
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
