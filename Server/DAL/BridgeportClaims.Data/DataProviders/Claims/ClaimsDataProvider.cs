@@ -12,6 +12,7 @@ using BridgeportClaims.Data.Enums;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using BridgeportClaims.Entities.DomainModels;
+using Dapper;
 using NHibernate;
 using NHibernate.Transform;
 using NLog;
@@ -246,6 +247,14 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 				});
 			});
 
+	    private static IEnumerable<ClaimDto> GetClaimsByClaimId(int claimId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            const string sp = "[claims].[uspGetClaims]";
+	            conn.Open();
+	            return conn.Query<ClaimDto>(sp, new {ClaimID = claimId}, commandType: CommandType.StoredProcedure);
+	        });
+
 		public ClaimDto GetClaimsDataByClaimId(int claimId, string userId)
 		{
 			return DisposableService.Using(() => _factory.Value.OpenSession(), session =>
@@ -255,36 +264,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 					{
 						try
 						{
-							var claimDto = session.Query<Patient>()
-								.Join(session.Query<Claim>(), p => p.PatientId, c => c.Patient.PatientId, (p, c) => new {p, c})
-								.Where(w => w.c.ClaimId == claimId)
-								.Select(s => new ClaimDto
-								{
-									ClaimId = s.c.ClaimId,
-									Name = s.p.FirstName + " " + s.p.LastName,
-									Address1 = s.p.Address1,
-									Address2 = s.p.Address2,
-									City = s.p.City,
-									StateAbbreviation = null == s.p.StateId ? null : s.p.StateId.StateCode,
-									PostalCode = s.p.PostalCode,
-									Adjustor = null == s.c.Adjustor ? null : s.c.Adjustor.AdjustorName,
-									AdjustorPhoneNumber = null == s.c.Adjustor ? null : s.c.Adjustor.PhoneNumber,
-									AdjustorExtension = null == s.c.Adjustor ? null : s.c.Adjustor.Extension,
-									Carrier = null == s.c.Payor ? null : s.c.Payor.GroupName,									
-									Flex2 = null != s.c.ClaimFlex2 ? s.c.ClaimFlex2.Flex2 : null,
-									Gender = null == s.p.Gender ? null : s.p.Gender.GenderName,
-									DateOfBirth = s.p.DateOfBirth,
-									DateOfInjury = s.c.DateOfInjury,
-									EligibilityTermDate = s.c.TermDate,
-									PatientPhoneNumber = s.p.PhoneNumber,
-									DateEntered = s.c.DateOfInjury,
-									ClaimNumber = s.c.ClaimNumber,
-									AdjustorId = null == s.c.Adjustor ? (int?) null : s.c.Adjustor.AdjustorId,
-									PayorId = s.c.Payor.PayorId,
-									StateId = null == s.p.StateId ? (int?) null : s.p.StateId.StateId,
-									PatientGenderId = s.p.Gender.GenderId,
-									ClaimFlex2Id = null == s.c.ClaimFlex2 ? (int?) null : s.c.ClaimFlex2.ClaimFlex2Id
-								}).SingleOrDefault();
+						    var claimDto = GetClaimsByClaimId(claimId)?.SingleOrDefault();
 							if (null == claimDto)
 								return null;
 							// ClaimFlex2 Drop-Down Values
@@ -374,7 +354,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 													, [Note]               = [a].[NoteText]
 													, [NoteUpdatedOn]      = [a].[NoteUpdatedOn]
 													, HasDiaryEntry		   = CAST(CASE WHEN d.DiaryID IS NOT NULL THEN 1 ELSE 0 END AS BIT)
-                                                    , d.DiaryID DiaryId
+													, d.DiaryID DiaryId
 										FROM        [dbo].[vwPrescriptionNote] AS a WITH (NOEXPAND)
 													LEFT JOIN dbo.Diary AS d ON d.PrescriptionNoteID = a.PrescriptionNoteID AND d.DateResolved IS NULL
 										WHERE       [a].[ClaimID] = :ClaimID
@@ -392,7 +372,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 								r.Note,
 								r.NoteUpdatedOn,
 								r.HasDiaryEntry,
-                                r.DiaryId
+								r.DiaryId
 							}).Select(gcs => new ScriptNoteDto
 							{
 								ClaimId = gcs.Key.ClaimId,
@@ -402,7 +382,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 									.ToList(),
 								EnteredBy = gcs.Key.EnteredBy,
 								HasDiaryEntry = gcs.Key.HasDiaryEntry,
-                                DiaryId = gcs.Key.DiaryId,
+								DiaryId = gcs.Key.DiaryId,
 								Note = gcs.Key.Note,
 								NoteUpdatedOn = gcs.Key.NoteUpdatedOn,
 								PrescriptionNoteId = gcs.Key.PrescriptionNoteId,
