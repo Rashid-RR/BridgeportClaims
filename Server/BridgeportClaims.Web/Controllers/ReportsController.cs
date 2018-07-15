@@ -115,12 +115,12 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("remove-shortpay")]
-        public IHttpActionResult RemoveShortPayReport(int prescriptionPaymentId)
+        public IHttpActionResult RemoveShortPayReport(int prescriptionId)
         {
             try
             {
                 var userId = User.Identity.GetUserId();
-                var result = _reportsDataProvider.Value.RemoveShortPay(prescriptionPaymentId, userId);
+                var result = _reportsDataProvider.Value.RemoveShortPay(prescriptionId, userId);
                 if (result)
                     return Ok(new { message = "This entry was removed from the short pay report successfully."});
                 throw new Exception("This entry was not removed from the short pay report");
