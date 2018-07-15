@@ -178,30 +178,31 @@ namespace BridgeportClaims.Data.DataProviders.Claims
 			        const string spObj = "[claims].[uspGetClaimObjects]";
 			        var multiObj = conn.QueryMultiple(spObj, new {ClaimID = claimId},
 			            commandType: CommandType.StoredProcedure);
+                    // Document Types
 			        var documentTypes = multiObj.Read<DocumentTypeDto>()?.OrderBy(x => x.TypeName).ToList();
 			        if (null != documentTypes)
 			            claimDto.DocumentTypes = documentTypes;
 			        var acctPayableDtos = multiObj.Read<AcctPayableDto>()?.ToList();
 			        if (null != acctPayableDtos)
 			            claimDto.AcctPayables = acctPayableDtos;
-			        // U.S. States
-			        var states = multiObj.Read<UsStateDto>()?.OrderBy(x => x.StateName).ToList();
-			        if (null != states)
-			            claimDto.States = states;
 			        // Prescription Statuses
 			        var prescriptionStatuses =
-			            multiObj.Read<PrescriptionStatusDto>()?.OrderBy(x => x.StatusName)?.ToList();
+			            multiObj.Read<PrescriptionStatusDto>()?.OrderBy(x => x.StatusName).ToList();
 			        if (null != prescriptionStatuses)
 			            claimDto.PrescriptionStatuses = prescriptionStatuses;
+			        // Genders
+			        var genders = multiObj.Read<GenderDto>()?.ToList();
+			        if (null != genders)
+			            claimDto.Genders = genders;
+                    // U.S. States
+                    var states = multiObj.Read<UsStateDto>()?.OrderBy(x => x.StateName).ToList();
+			        if (null != states)
+			            claimDto.States = states;
 			        // Payments
 			        var payments = _paymentsDataProvider.Value.GetPrescriptionPaymentsDtos(
 			            claimId, "RxDate", "DESC", 1, ic.MaxRowCountForBladeInApp, "RxNumber", "ASC");
 			        if (null != payments)
 			            claimDto.Payments = payments;
-			        // Genders
-			        var genders = multiObj.Read<GenderDto>()?.ToList();
-			        if (null != genders)
-			            claimDto.Genders = genders;
 			        // Episodes Types
 			        var episodeTypes = _episodesDataProvider.Value?.GetEpisodeTypes();
 			        if (null != episodeTypes)
