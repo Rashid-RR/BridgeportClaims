@@ -20,7 +20,7 @@ export class UnpaidScriptResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.uss.getPayors(1)
   }
   archive(u: any) {
     this.dialogService.addDialog(ConfirmComponent, {

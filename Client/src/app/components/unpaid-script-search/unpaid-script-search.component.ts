@@ -40,8 +40,12 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   filter($event) {
     this.us.data.isArchived = $event.target.checked;
   }
+  
 
   ngAfterViewInit() {
+    if(this.us.payors && this.us.payors.length>0){
+      $("#payorsSelection").select2();
+    }
     // Date picker
     $('#startDate').datepicker({
       autoclose: true
@@ -52,19 +56,9 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
     $('#datemask').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
     $('[data-mask]').inputmask();
   }
-  getPayors(pageNumber: number) {
-    this.loading = true;
-    this.http.getPayorList(pageNumber, this.pageSize).map(res => { this.loading = false; return res.json() }).subscribe(result => {
-      this.payors = result;
-      this.pageNumber = pageNumber;
-      this.us.payorListReady.next();
-    }, () => {
-      this.us.payorListReady.next();
-    })
-  }
 
   search() {
-    this.us.data.payorId = $('#payorsSelection').val() || null;
+    this.us.data.payorIds=($('#payorsSelection').val()||undefined);
     let startDate = this.dp.transform($('#startDate').val(), "MM/dd/yyyy");
     let endDate = this.dp.transform($('#endDate').val(), "MM/dd/yyyy");
     this.us.data.startDate = startDate || null

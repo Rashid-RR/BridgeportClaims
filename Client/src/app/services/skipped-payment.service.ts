@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import {Payor} from "../models/payor"
+import { Payor } from "../models/payor"
 import { Subject } from 'rxjs/Subject';
 
-declare var $:any;
+declare var $: any;
 
 export interface SkippedPayment {
     lastName: string,
@@ -24,15 +24,15 @@ export interface SkippedPayment {
 export class SkippedPaymentService {
 
     loading: boolean = false;
-    deleting: boolean = false; 
+    deleting: boolean = false;
     goToPage: any = '';
     routes: string[] = [];
     skippedPay: SkippedPayment[] = [];
     data: any = {};
     totalRowCount: number;
-    payors:Array<Payor>=[];
-    pageNumber:number;
-    pageSize:number =50;
+    payors: Array<Payor> = [];
+    pageNumber: number;
+    pageSize: number = 50;
     payorListReady = new Subject<any>();
     constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
         this.data = {
@@ -40,17 +40,17 @@ export class SkippedPaymentService {
             pageSize: 30
         }
     }
-    getPayors(pageNumber:number){
+    getPayors(pageNumber: number) {
         this.loading = true;
-        this.http.getPayorList(pageNumber,this.pageSize).map(res=>{this.loading = false;return res.json()}).subscribe(result=>{
-              this.payors = result;
-              this.pageNumber = pageNumber;
-              this.payorListReady.next();
-          },err=>{
+        this.http.getPayorList(pageNumber, this.pageSize).map(res => { this.loading = false; return res.json() }).subscribe(result => {
+            this.payors = result;
+            this.pageNumber = pageNumber;
+            this.payorListReady.next();
+        }, err => {
             console.log(err);
             this.payorListReady.next();
-          })
-      }
+        })
+    }
     fetchSkippedPayReport(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
         if (!this.data) {
             this.toast.warning('Please populate at least one search field.');
@@ -87,7 +87,7 @@ export class SkippedPaymentService {
     }
     removeskippedPay(id: number = undefined) {
         this.loading = true;
-         
+
     }
     get totalPages() {
         return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;

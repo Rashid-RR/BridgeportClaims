@@ -23,14 +23,15 @@
             </div>
             <div class="form-group" style="max-width:275px;margin-right:15px">
                 <label>Carrier</label>
-                <select class="form-control select2" id="payorsSelection" data-placeholder="Select a Carrier (click or start typing...)"
+                <select class="form-control select2" id="payorsSelection" multiple="multiple" data-placeholder="Select one or more Carriers (click or start typing...)"
                     size="1" style="width: 100%;">
-                    <option></option>
                     <option *ngFor="let p of us.payors" [value]="p.payorId">{{p.carrier}}</option>
                 </select>
             </div>
             <div class="form-group" style="max-width:95px;margin-right:15px">
-                <label><br></label>
+                <label>
+                    <br>
+                </label>
                 <div class="input-group date" style="border-right: 1px solid #ccc;border-left: 1px solid #ccc;">
                     <span class="input-group-addon" style="padding:6px 0px;">
                         <div class="commonCheckBox">
@@ -41,7 +42,7 @@
                     </span>
                 </div>
             </div>
-            <div class="form-group flex65" >
+            <div class="form-group flex65">
                 <label>&nbsp;</label>
                 <br/>
                 <span>
