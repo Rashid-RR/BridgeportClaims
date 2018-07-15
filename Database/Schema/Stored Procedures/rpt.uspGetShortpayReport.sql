@@ -44,7 +44,8 @@ AS BEGIN
 	DECLARE @BilledAmountThreshold MONEY = 10
 
 	CREATE TABLE #Results (
-		[PrescriptionPaymentId] [int] NOT NULL PRIMARY KEY,
+		[PrescriptionId] [int] NOT NULL PRIMARY KEY,
+		ClaimId INT NOT NULL,
 		[RxNumber] [varchar](100) NOT NULL,
 		[RxDate] [nvarchar](4000) NULL,
 		[BilledAmount] [money] NOT NULL,
@@ -55,8 +56,9 @@ AS BEGIN
 		[PrescriptionStatus] [varchar](100) NULL
 	);
 
-	INSERT #Results (PrescriptionPaymentId,RxNumber,RxDate,BilledAmount,AmountPaid,LastName,FirstName,ClaimNumber,PrescriptionStatus)
-	SELECT  p2.PrescriptionPaymentID PrescriptionPaymentId
+	INSERT #Results (PrescriptionId,ClaimId,RxNumber,RxDate,BilledAmount,AmountPaid,LastName,FirstName,ClaimNumber,PrescriptionStatus)
+	SELECT  p1.PrescriptionID PrescriptionId
+		   ,c1.ClaimID ClaimId
 		   ,p1.RxNumber
 		   ,RxDate = FORMAT(p1.DateFilled, 'M/d/yyyy')
 		   ,p1.BilledAmount
@@ -66,21 +68,27 @@ AS BEGIN
 		   ,c1.ClaimNumber
 		   ,ps1.StatusName PrescriptionStatus
 	FROM    dbo.Prescription p1
-			INNER JOIN dbo.PrescriptionPayment p2 ON p1.PrescriptionID = p2.PrescriptionID
-			LEFT JOIN dbo.PrescriptionStatus ps1 ON p1.PrescriptionStatusID = ps1.PrescriptionStatusID
+			CROSS APPLY 
+            (
+                SELECT  AmountPaid = SUM(ip2.AmountPaid)
+                FROM    dbo.PrescriptionPayment ip2
+                WHERE   p1.PrescriptionID = ip2.PrescriptionID
+            ) AS p2
 			INNER JOIN dbo.Claim c1 ON p1.ClaimID = c1.ClaimID
 			INNER JOIN dbo.Patient p3 ON c1.PatientID = p3.PatientID
-			LEFT JOIN dbo.ShortPayExclusion s ON s.PrescriptionPaymentID = p2.PrescriptionPaymentID
+			LEFT JOIN dbo.PrescriptionStatus ps1 ON p1.PrescriptionStatusID = ps1.PrescriptionStatusID
+			LEFT JOIN dbo.ShortPayExclusion AS spe ON spe.PrescriptionID = p1.PrescriptionID
 	WHERE   ((p1.BilledAmount - p2.AmountPaid) / p1.BilledAmount > 0.75)
 			AND p1.BilledAmount > @BilledAmountThreshold
 			AND p2.AmountPaid > 0
 			AND p1.IsReversed = 0
 			AND p1.PrescriptionStatusID != @NoActionNeeded
-			AND s.ShortPayExclusionID IS NULL
+			AND spe.ShortPayExclusionID IS NULL;
 
 	SELECT @TotalRowCount = COUNT(*) FROM #Results AS r
 
-	SELECT r.PrescriptionPaymentId
+	SELECT r.PrescriptionId
+		  ,r.ClaimId
           ,r.RxNumber
           ,r.RxDate
           ,r.BilledAmount
@@ -93,10 +101,10 @@ AS BEGIN
    ORDER BY CASE WHEN @IsDefaultSort = 1 THEN r.LastName END ASC,
 			CASE WHEN @IsDefaultSort = 1 THEN r.FirstName END ASC,
 			CASE WHEN @IsDefaultSort = 1 THEN r.ClaimNumber END ASC,
-			CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'PrescriptionPaymentId' AND @SortDirection = 'ASC'
-				  THEN r.PrescriptionPaymentId END ASC,
-			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'PrescriptionPaymentId' AND @SortDirection = 'DESC'
-			      THEN r.PrescriptionPaymentId END DESC,
+			CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'PrescriptionId' AND @SortDirection = 'ASC'
+				  THEN r.PrescriptionId END ASC,
+			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'PrescriptionId' AND @SortDirection = 'DESC'
+			      THEN r.PrescriptionId END DESC,
 			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'RxNumber' AND @SortDirection = 'ASC'
 				  THEN r.RxNumber END ASC,
 			 CASE WHEN @IsDefaultSort = 0 AND @SortColumn = 'RxNumber' AND @SortDirection = 'DESC'
@@ -132,4 +140,7 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
+
+
 GO

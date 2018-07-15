@@ -1,6 +1,5 @@
 ﻿using System;
 using BridgeportClaims.Common.Extensions;
-using Castle.Core.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BridgeportClaims.Tests.DateTimeTests

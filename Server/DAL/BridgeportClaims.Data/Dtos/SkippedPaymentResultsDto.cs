@@ -8,6 +8,10 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         public int RowId { get; set; }
         [Required]
+        public int PrescriptionId { get; set; }
+        [Required]
+        public int ClaimId { get; set; }
+        [Required]
         public string ClaimNumber { get; set; }
         [Required]
         public string LastName { get; set; }

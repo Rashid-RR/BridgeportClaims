@@ -5,7 +5,6 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.DataProviders.PayorSearches;
-using BridgeportClaims.Entities.Automappers;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -16,15 +15,12 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IPayorsDataProvider> _payorsDataProvider;
         private readonly Lazy<IPayorSearchProvider> _payorSearchProvider;
-        private readonly Lazy<IPayorMapper> _payorMapper;
 
         public PayorsController(
-            Lazy<IPayorsDataProvider> payorsDataProvider, 
-            Lazy<IPayorMapper> payorMapper, 
+            Lazy<IPayorsDataProvider> payorsDataProvider,
             Lazy<IPayorSearchProvider> payorSearchProvider)
         {
             _payorsDataProvider = payorsDataProvider;
-            _payorMapper = payorMapper;
             _payorSearchProvider = payorSearchProvider;
         }
 
@@ -65,7 +61,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_payorMapper.Value.GetPayorViewModels(_payorsDataProvider.Value.GetAllPayors().ToList()));
+                return Ok(_payorsDataProvider.Value.GetAllPayors()?.ToList());
             }
             catch (Exception ex)
             {

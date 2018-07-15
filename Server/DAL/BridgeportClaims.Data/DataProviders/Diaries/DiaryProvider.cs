@@ -5,20 +5,13 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Diaries
 {
     public class DiaryProvider : IDiaryProvider
     {
-        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
-
-        public DiaryProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
-        {
-            _storedProcedureExecutor = storedProcedureExecutor;
-        }
-
         public void UpdateDiaryFollowUpDate(int diaryId, DateTime followUpDate) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
                 {
@@ -207,19 +200,13 @@ namespace BridgeportClaims.Data.DataProviders.Diaries
                 });
             });
 
-        public void RemoveDiary(int prescriptionNoteId)
-        {
-            _storedProcedureExecutor.Value.ExecuteNoResultStoredProcedure(
-                "EXECUTE dbo.uspUpdateDiary @PrescriptionNoteID = :PrescriptionNoteID",
-                new List<SqlParameter>
-                {
-                    new SqlParameter
-                    {
-                        ParameterName = "PrescriptionNoteID",
-                        DbType = DbType.Int32,
-                        Value = prescriptionNoteId
-                    }
-                });
-        }
+        public void RemoveDiary(int prescriptionNoteId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "dbo.uspUpdateDiary";
+                conn.Open();
+                conn.Execute(sp, new {PrescriptionNoteID = prescriptionNoteId},
+                    commandType: CommandType.StoredProcedure);
+            });
     }
 }

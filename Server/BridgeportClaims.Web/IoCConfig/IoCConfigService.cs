@@ -12,7 +12,6 @@ using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Business.PrescriptionReports;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Data.SessionFactory;
-using BridgeportClaims.Entities.Automappers;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.DataProviders.Episodes;
@@ -67,7 +66,6 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DbccUserOptionsProvider>().As<IDbccUserOptionsProvider>().InstancePerRequest();
             builder.RegisterType<PayorsDataProvider>().As<IPayorsDataProvider>().InstancePerRequest();
             builder.RegisterType<StoredProcedureExecutor>().As<IStoredProcedureExecutor>().InstancePerRequest();
-            builder.RegisterType<PayorMapper>().As<IPayorMapper>().InstancePerRequest();
             builder.RegisterType<ClaimsDataProvider>().As<IClaimsDataProvider>().InstancePerRequest();
             builder.RegisterType<EmailService>().As<IEmailService>().InstancePerRequest();
             builder.RegisterType<PrescriptionNoteTypesDataProvider>().As<IPrescriptionNoteTypesDataProvider>().InstancePerRequest();

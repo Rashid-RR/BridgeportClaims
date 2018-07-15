@@ -148,6 +148,7 @@
     <Compile Include="Dtos\ClaimImageResultDto.cs" />
     <Compile Include="Dtos\ClaimImagesDto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
+    <Compile Include="Dtos\ClaimNoteTypeDto.cs" />
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
     <Compile Include="Dtos\DashboardDto.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Dtos\PaymentPostingDto.cs" />
     <Compile Include="Dtos\PaymentTotalsDto.cs" />
     <Compile Include="Dtos\PayorDto.cs" />
+    <Compile Include="Dtos\PayorFullDto.cs" />
     <Compile Include="Dtos\PayorSearchResultsDto.cs" />
     <Compile Include="Dtos\PharmacyNameDto.cs" />
     <Compile Include="Dtos\PostPaymentPrescriptionReturnDto.cs" />

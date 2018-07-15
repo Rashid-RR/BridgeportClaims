@@ -5,7 +5,9 @@ namespace BridgeportClaims.Data.Dtos
     public sealed class ShortPayResultDto
     {
         [Required]
-        public int PrescriptionPaymentId { get; set; }
+        public int PrescriptionId { get; set; }
+        [Required]
+        public int ClaimId { get; set; }
         [Required]
         public string RxNumber { get; set; }
         public string RxDate { get; set; }
