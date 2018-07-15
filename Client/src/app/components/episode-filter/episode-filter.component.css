@@ -106,13 +106,19 @@ label.check-label{
     padding-top: 15px;
     display: flex;
     height: fit-content;
+    width: fit-content;
     flex-direction: column;
   }
   .search-container{
-    flex-wrap: wrap;
     padding:10px;
   }
-  @media (min-width: 800px){  
+
+  @media (max-width: 1020px){ 
+    .search-container{
+      flex-wrap: wrap; 
+    }
+  }
+  @media (min-width: 800px){
     .search-container{
       display: flex;
       flex-direction: row;
@@ -128,6 +134,9 @@ label.check-label{
       }
       .col-md-2 {
           width: 13%;
+      }
+      .field-lgr{
+        width:370px;
       }
       .col-md-3,
       .field-lg {
