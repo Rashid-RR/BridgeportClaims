@@ -137,7 +137,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         data.rxDate = this.dp.transform($('#rxDate').val(), "MM/dd/yyyy");
         data.injuryDate = this.dp.transform($('#injuryDate').val(), "MM/dd/yyyy");
         this.ds.loading = true;
-        this.http.saveDocumentIndex(this.form.value).map(r => { return r.json() }).subscribe(res => {
+        this.http.saveDocumentIndex(this.form.value).subscribe(res => {
           this.toast.success(res.message);
           this.submitted = false;
           this.form.reset();
@@ -148,7 +148,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
           this.ds.file = undefined;
           this.ds.loading = false;
         }, requestError => {
-          let err = requestError.json();
+          let err = requestError.error;
           this.toast.error(err.Message);
           this.submitted = false;
           this.ds.loading = false;

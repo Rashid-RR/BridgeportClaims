@@ -96,7 +96,7 @@ export class ClaimPaymentComponent implements OnInit {
     if(this.form.get('amountPaid').value && this.form.get('checkNumber').value && date ){
       this.claimManager.loading = true;
       this.form.controls['datePosted'].setValue(this.dp.transform(date, "shortDate"));
-      this.http.updatePrescriptionPayment(this.form.value).map(r=>{return r.json()}).single().subscribe(res=>{              
+      this.http.updatePrescriptionPayment(this.form.value).single().subscribe(res=>{              
           this.toast.success(res.message);
           //this.removePayment(payment);
           this.claimManager.loading = false;
@@ -158,7 +158,7 @@ export class ClaimPaymentComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.claimManager.loading = true
-          this.http.deletePrescriptionPayment(payment.prescriptionPaymentId).map(r=>{return r.json()}).single().subscribe(res=>{              
+          this.http.deletePrescriptionPayment(payment.prescriptionPaymentId).single().subscribe(res=>{              
               this.toast.success(res.message);
               this.removePayment(payment);
               this.claimManager.loading = false;
@@ -191,7 +191,7 @@ export class ClaimPaymentComponent implements OnInit {
     }
      this.loadingPayment = true;
     this.http.getPayments(this.claimManager.selectedClaim.claimId,sort, sort_dir,
-      page, page_size).map(p => p.json())
+      page, page_size)
       .subscribe(results => {
       // console.log("loader close");
         this.claimManager.selectedClaim.setPayment(results);

@@ -30,12 +30,12 @@ export class ProfileManager{
     } else {         
       let s = this.http.userFromId(userId);
       s.subscribe(res => {
-        let u = res.json() as UserProfile;
+        let u = res as UserProfile;
         this.userCache = this.userCache.set(u.email, u);
       },err=>{
-        let error = err.json();
+        let error = err.error;
       });
-      return s.map(res => res.json() as UserProfile);
+      return s.map(res => res as UserProfile);
     }
   }
   userLoaded(userId: String): Observable<boolean> {
@@ -45,13 +45,13 @@ export class ProfileManager{
     } else {         
       let s = this.http.userFromId(userId);
       s.subscribe(res => {
-        let u = res.json() as UserProfile;
+        let u = res as UserProfile;
         this.userCache = this.userCache.set(u.email, u);
       },err=>{
-        let error = err.json();
+        let error = err.error;
       });
       return s.map(res =>{
-        return res['email'] || (res.json() && res.json().email) ? true : false
+        return res['email'] || (res && res.email) ? true : false
       });
     }
   }

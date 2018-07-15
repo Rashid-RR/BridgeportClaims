@@ -24,7 +24,7 @@ export class ReportSampleComponent implements OnInit ,AfterViewInit{
     ngAfterViewInit() { 
       if(this.allowed){
         this.reportLoader.loading = true;
-        this.http.revenueByMonth({}).map(r=>{return r.json()}).subscribe((res:Array<{datePosted:Date,totalPosted:Number}>)=>{
+        this.http.revenueByMonth({}).subscribe((res:Array<{datePosted:Date,totalPosted:Number}>)=>{
           let drilldown:any=[];
           res.forEach(r=>{
             let date = this.dp.transform(r.datePosted, "M/d");

@@ -173,7 +173,7 @@ export class DocumentManagerService {
   }
   archive(id: number,invoice=false) {
     this.loading = true;
-    this.http.archiveDocument(id).map(r => r.json()).subscribe(r => {
+    this.http.archiveDocument(id).subscribe(r => {
       this.loading = false;
       this.toast.success(r.message);
       this.cancel(invoice ? 'invoice':'image')
@@ -214,7 +214,7 @@ export class DocumentManagerService {
       if (page) {
         data.page = page;
       }
-      this.http.getDocuments(data).map(res => { return res.json(); })
+      this.http.getDocuments(data)
         .subscribe((result: any) => {
           //console.log(result);
           this.loading = false;
@@ -242,7 +242,7 @@ export class DocumentManagerService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         }, () => {
           this.events.broadcast('document-list-updated');
@@ -266,7 +266,7 @@ export class DocumentManagerService {
       if (page) {
         invoiceData.page = page;
       }
-      this.http.getDocuments(invoiceData).map(res => { return res.json(); })
+      this.http.getDocuments(invoiceData)
         .subscribe((result: any) => {
           //console.log(result);
           this.loading = false;
@@ -294,7 +294,7 @@ export class DocumentManagerService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         }, () => {
           this.events.broadcast('document-list-updated');

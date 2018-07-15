@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
-import { Http, Headers } from "@angular/http";
+import { Router } from '@angular/router';
 import { HttpService } from "../../services/http-service"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 declare var $:any;
@@ -16,11 +15,8 @@ export class ConfirmEmailComponent implements OnInit {
   confirmed: Number = 0;
   loading = true;
   error='';
-  private hashChange: any;
   constructor(
-    private route: ActivatedRoute,
     private http: HttpService,
-    private req: Http,
     private router: Router,
     private toast: ToastsManager
   ) {
@@ -43,7 +39,7 @@ export class ConfirmEmailComponent implements OnInit {
                 this.confirmed = 1;
                 this.router.navigate(['/login']);
               }, error => {
-                let err = error.json() || ({ "Message": "Server error!" });
+                let err = error.error || ({ "Message": "Server error!" });
                 this.toast.error(err.Message);
                 this.loading = false;
                 this.confirmed = 2;

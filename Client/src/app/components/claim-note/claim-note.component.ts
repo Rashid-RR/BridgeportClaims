@@ -60,9 +60,8 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
             this.claimManager.selectedClaim.editing = false;
             this.claimManager.loading = false;
         }, (error) => {
-          console.log(error);
           this.claimManager.loading = false;
-          let err = error.json();
+          let err = error.error;
           this.toast.warning(err.error_description);
         })
       } catch (e) {

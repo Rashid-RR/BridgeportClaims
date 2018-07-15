@@ -88,7 +88,7 @@ export class DuplicateClaimListComponent implements OnInit {
       && form.hasOwnProperty('AdjustorId') && form.hasOwnProperty('PatientId') && form.hasOwnProperty('PayorId')) {
       this.reportloader.loading = true;
       this.http.getMergeClaims(form)
-        .single().map(r => r.json()).subscribe(r => {
+        .single().subscribe(r => {
           this.toast.success('Claim successfully merged').then((toast: Toast) => {
             this.activeToast = toast;
           });
@@ -147,7 +147,7 @@ export class DuplicateClaimListComponent implements OnInit {
   showModal() {
     this.reportloader.loading = true;
     this.http.getComparisonClaims({ leftClaimId: this.reportloader.selectedClaims[0].claimId, rightClaimId: this.reportloader.selectedClaims[1].claimId })
-      .single().map(r => r.json()).subscribe(r => {
+      .single().subscribe(r => {
         this.reportloader.loading = false;
         this.comparisonClaims = Array.isArray(r) ? r[0] : r;
         Object.keys(this.comparisonClaims).forEach(k => {

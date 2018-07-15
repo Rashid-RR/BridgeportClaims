@@ -1,19 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy, DecimalPipe, DatePipe } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AppComponent } from './app.component';  
+import { AppComponent } from './app.component';
 import { FileUploadModule } from 'ng2-file-upload';
-import { Ng2Webstorage } from 'ng2-webstorage';  
-import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
+import { Ng2Webstorage } from 'ng2-webstorage';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { SharedModule } from './shared';
 
 /* import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr'; */
- // Layouts
+// Layouts
 import { HeaderComponent } from './layouts/header/header.component';
 import { AppLayoutComponent } from './layouts/app-layout.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
@@ -31,8 +29,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 // services
 import {
-  SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager,FirewallService,
-  PaymentScriptService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, DocumentManagerService,ShortPayService,SkippedPaymentService
+  AuthInterceptor,SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, FirewallService,
+  PaymentScriptService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, DocumentManagerService, ShortPayService, SkippedPaymentService
 } from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
@@ -44,11 +42,11 @@ import { ClaimPrescriptionsComponent } from './components/claim-prescriptions/cl
 import { ClaimNoteComponent } from './components/claim-note/claim-note.component';
 import { ClaimEpisodeComponent } from './components/claim-episode/claim-episode.component';
 import { ClaimScriptNoteComponent } from './components/claim-script-note/claim-script-note.component';
-import { UsersComponent } from './pages/users/users.component'; 
+import { UsersComponent } from './pages/users/users.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
-import { PaymentService } from './services/payment-service'; 
+import { PaymentService } from './services/payment-service';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
 import { IndexFileComponent } from './pages/index-file/index-file.component';
@@ -65,7 +63,7 @@ import { FirewallGridComponent } from './components/firewall-grid/firewall-grid.
 import { AcquireEpisodeComponent } from './components/acquire-episode/acquire-episode.component';
 import { TestComponent } from './pages/test/test.component';
 import { NotificationComponent } from './components/notification/notification.component';
- 
+
 
 @NgModule({
   declarations: [
@@ -77,19 +75,19 @@ import { NotificationComponent } from './components/notification/notification.co
     LoginComponent,
     MainComponent,
     PasswordResetComponent,
-    RegisterComponent, 
+    RegisterComponent,
     ClaimsComponent, ProfileComponent,
     SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
     ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
-    UsersComponent, ChangePasswordComponent, ConfirmEmailComponent,  FileUploadComponent, FooterComponent,  
-    UnpaidScriptComponent,UnindexedImageComponent,
+    UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, FileUploadComponent, FooterComponent,
+    UnpaidScriptComponent, UnindexedImageComponent,
     UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent, NotificationComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    SharedModule, 
-    HttpModule,
+    SharedModule,
+    HttpClientModule,
     RoutingModule,
     FileUploadModule,
     Ng2Webstorage,
@@ -98,14 +96,15 @@ import { NotificationComponent } from './components/notification/notification.co
     BootstrapModalModule,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     DecimalPipe, DatePipe,
-    HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService,
-    PaymentScriptService, DiaryService,ShortPayService,SkippedPaymentService,  UnpaidScriptService, AccountReceivableService, ReportLoaderService, SignalRService,
-    DocumentManagerService, EpisodeService,FirewallService,
+    HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService, EpisodeService, FirewallService,
+    PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, SignalRService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
-    }], 
+    }
+  ],
   entryComponents: [
     UnindexedImageFileComponent,
     /* ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,EpisodeNoteModalComponent,*/ AppComponent

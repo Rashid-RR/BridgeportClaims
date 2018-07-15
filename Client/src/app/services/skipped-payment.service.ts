@@ -42,7 +42,7 @@ export class SkippedPaymentService {
     }
     getPayors(pageNumber: number) {
         this.loading = true;
-        this.http.getPayorList(pageNumber, this.pageSize).map(res => { this.loading = false; return res.json() }).subscribe(result => {
+        this.http.getPayorList(pageNumber, this.pageSize).map(res => { this.loading = false; return res}).subscribe(result => {
             this.payors = result;
             this.pageNumber = pageNumber;
             this.payorListReady.next();
@@ -67,7 +67,7 @@ export class SkippedPaymentService {
             if (page) {
                 data.page = page;
             }
-            this.http.skippedPaymentList(data).single().map(r => r.json()).subscribe(r => {
+            this.http.skippedPaymentList(data).single().subscribe(r => {
                 this.skippedPay = r.results || r;
                 this.totalRowCount = r.totalRowCount || r.length;
                 this.loading = false;

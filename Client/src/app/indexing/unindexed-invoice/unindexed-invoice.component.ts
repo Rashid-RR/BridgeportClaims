@@ -55,12 +55,12 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
     if (this.form.valid) {
       this.ds.loading = true;
       try {
-        this.http.checkInvoiceNumber(this.form.value).map(r => { return r.json() }).subscribe(check => {
+        this.http.checkInvoiceNumber(this.form.value).subscribe(check => {
           if (!check || (!check.documentId && !check.invoiceNumberIsAlreadyIndexed)) {
             let data = this.form.value;
             data.documentId = this.ds.invoiceFile.documentId;
             this.ds.loading = true;
-            this.http.saveInvoiceIndex(data).map(r => { return r.json() }).subscribe(res => {
+            this.http.saveInvoiceIndex(data).subscribe(res => {
               this.toast.success(res.message);
               this.ds.loading = false;
               this.form.reset();
@@ -71,7 +71,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
               this.ds.loading = false;
               this.ds.closeModal();
             }, requestError => {
-              let err = requestError.json();
+              let err = requestError.error;
               this.toast.error(err.Message);
               this.ds.loading = false;
             })

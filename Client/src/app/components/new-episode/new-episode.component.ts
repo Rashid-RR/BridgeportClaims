@@ -27,6 +27,7 @@ export class NewEpisodeComponent implements OnInit {
     private http: HttpService,
     public es:EpisodeService
   ) {
+    
   }
   closeModal() {
     swal.clickCancel();
@@ -48,9 +49,46 @@ export class NewEpisodeComponent implements OnInit {
       }, 100);
     }
   }
+  get auth(){
+    var user = localStorage.getItem('user');
+    try {
+      let us = JSON.parse(user);
+      return  `Bearer ${us.access_token}`;
+    } catch (error) {
+
+    }
+    return null
+  }
   ngOnInit() {
     this.es.pharmacyName='';
     this.claimManager.pharmacyName='';
+    /* this.es.payorListReady.subscribe(() => {
+      $("#ePayorsSelection").select2();
+    }) */
+  }
+  ngAfterViewInit() {
+    //if(this.es.payors && this.es.payors.length>0){
+      $("#ePayorsSelection").select2({
+        ajax: {
+          headers:{'Authorization':this.auth},
+          url: function (params) {
+            return '/api/reports/pharmacy-name/?pharmacyName='+params.term;
+          },
+          type: "POST",
+          processResults: function (data) {
+            console.log(data);
+            data.forEach(d => {
+                d.id=d.nabp,
+                d.text=d.pharmacyName
+            });
+            return {
+              results: (data||[])
+            };
+          }
+        }
+      });
+    //}
+
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { HttpService } from "../../services/http-service"
 import { EventsService } from "../../services/events-service"
 import { DocumentManagerService } from "../../services/document-manager.service"
@@ -25,7 +25,7 @@ export class UnindexedImageFileComponent implements OnInit {
   sanitizedURL: any;
   @Input() file: any;
   constructor(
-    public router: Router, private nativeHttp: Http, private ds: DocumentManagerService,
+    public router: Router, private nativeHttp: HttpClient, private ds: DocumentManagerService,
     private route: ActivatedRoute, private toast: ToastsManager, private events: EventsService,
     private http: HttpService, private sanitizer: DomSanitizer, private myInjector: WindowsInjetor,
   ) { }

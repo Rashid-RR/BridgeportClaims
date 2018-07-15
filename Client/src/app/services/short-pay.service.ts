@@ -51,7 +51,7 @@ export class ShortPayService {
             if (page) {
                 data.page = page;
             }
-            this.http.shortPayList(data).single().map(r => r.json()).subscribe(r => {
+            this.http.shortPayList(data).single().subscribe(r => {
                 this.shortpay = r.results || r;
                 this.totalRowCount = r.totalRowCount || r.length;
                 this.loading = false;
@@ -73,13 +73,13 @@ export class ShortPayService {
 
     removeShortpay(id: number = undefined) {
         this.loading = true;
-        this.http.removeShortPay({ prescriptionPaymentId: id }).single().map(r => r.json()).subscribe(res => {
+        this.http.removeShortPay({ prescriptionPaymentId: id }).single().subscribe(res => {
             this.loading = false;
             this.toast.success(res.message);
             this.fetchShortpayReport();
         }, err => {
             this.loading = false;
-            const error = err.json();
+            const error = err.error;
             this.toast.error(error.Message || error.message);
         });
     }

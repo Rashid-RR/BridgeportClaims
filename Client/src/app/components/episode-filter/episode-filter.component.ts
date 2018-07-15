@@ -41,13 +41,13 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.ds.loading = true;
-    this.http.getEpisodesNoteTypes().map(res => { return res.json() })
+    this.http.getEpisodesNoteTypes()
       .subscribe((result: Array<any>) => {
         this.ds.episodeNoteTypes = result;
       }, err => {
         this.ds.loading = false;
-        console.log(err);
-        let error = err.json();
+        let error = err.error
+        console.log(error);
       });
   }
 

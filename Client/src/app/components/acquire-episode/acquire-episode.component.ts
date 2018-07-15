@@ -21,7 +21,7 @@ export class AcquireEpisodeComponent implements OnInit {
   user: UUID;
   exactMatch: boolean = false;
   searchText: string = '';
-  placeholder: string = '';
+  placeholder: string = 'Start typing to search claims...';
   dropdownVisible: boolean = false;
   showDropDown = new Subject<any>();
   form: FormGroup;
@@ -77,7 +77,7 @@ export class AcquireEpisodeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.userToAssignEpisode().single().map(res => res.json()).subscribe(users => {
+    this.http.userToAssignEpisode().single().subscribe(users => {
       this.users = users;
     })
   }
@@ -89,7 +89,7 @@ export class AcquireEpisodeComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.acquireEpisode(this.episodeService.episodetoAssign.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
+          this.http.acquireEpisode(this.episodeService.episodetoAssign.episodeId).single().subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false;
             this.episodeService.episodetoAssign.owner = res.owner;
@@ -109,7 +109,7 @@ export class AcquireEpisodeComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.associateEpisodeClaim(this.form.value).map(r => { return r.json(); }).single().subscribe(res => {
+          this.http.associateEpisodeClaim(this.form.value).single().subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false;
             this.episodeService.episodetoAssign.claimNumber = this.form.value.claimNumber;
@@ -133,7 +133,7 @@ export class AcquireEpisodeComponent implements OnInit {
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
             this.episodeService.loading = true;
-            this.http.assignEpisode(this.episodeService.episodetoAssign.episodeId, u.id).map(r => { return r.json(); }).single().subscribe(res => {
+            this.http.assignEpisode(this.episodeService.episodetoAssign.episodeId, u.id).single().subscribe(res => {
               this.toast.success(res.message);
               this.episodeService.loading = false;
               this.episodeService.episodetoAssign.owner = res.owner;

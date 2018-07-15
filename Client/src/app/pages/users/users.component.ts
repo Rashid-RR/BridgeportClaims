@@ -61,7 +61,7 @@ export class UsersComponent implements OnInit {
 
   getUsers(pageNumber: number) {
     this.loading = true;
-    this.http.getUsers(pageNumber, this.pageSize).map(res => { this.loading = false; return res.json(); }).subscribe(result => {
+    this.http.getUsers(pageNumber, this.pageSize).map(res => { this.loading = false; return res}).subscribe(result => {
       result.forEach(element => {
 
         if (element.roles.includes(this.userRole)) {
@@ -93,7 +93,7 @@ export class UsersComponent implements OnInit {
 
   getRoles() {
     const data = '';
-    this.http.getRoles(data).map(res => { return res.json(); }).subscribe(result => {
+    this.http.getRoles(data).subscribe(result => {
       this.roles = result.reduce(function (result, role) {
         result[role.name] = { name: role.name, id: role.id, users: role.users };
         return result;
@@ -135,7 +135,7 @@ export class UsersComponent implements OnInit {
           this.users[index].deactivated = true;
           this.toast.success('The user was deactivated successfully.');
         }, error => {
-          const err = error.json();
+          const err = error.error;
           this.toast.error('A server error has occurred. Please contact your system administrator.');
         });
       } catch (e) {
@@ -147,7 +147,7 @@ export class UsersComponent implements OnInit {
           this.users[index].user = true;
           this.toast.success('The user was activated sucessfully.');
         }, error => {
-          const err = error.json();
+          const err = error.error;
           this.toast.error('A server error has occurred. Please contact your system administrator.');
         });
       } catch (e) {
@@ -228,7 +228,7 @@ export class UsersComponent implements OnInit {
         this.toast.success(msg);
 
       }, error => {
-        const err = error.json();
+        const err = error.error;
         this.toast.error('A server error has occurred. Please contact your system administrator.');
         console.log(err.message);
       });

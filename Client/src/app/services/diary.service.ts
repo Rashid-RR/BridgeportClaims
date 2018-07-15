@@ -35,12 +35,12 @@ export class DiaryService {
       page: 1,
       pageSize: 30
     };
-    this.http.getDiaryOwners().map(res => { return res.json() })
+    this.http.getDiaryOwners()
       .subscribe((result: Array<any>) => {
         this.owners = result;
       }, err => {
         this.loading = false;
-        let error = err.json();
+        let error = err.error;
       });
   }
 
@@ -82,7 +82,7 @@ export class DiaryService {
       if (page) {
         data.page = page;
       }
-      this.http.diaryList(data).map(res => { return res.json(); })
+      this.http.diaryList(data)
         .subscribe((result: any) => {
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
@@ -107,7 +107,7 @@ export class DiaryService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         }, () => {
           this.events.broadcast('diary-list-updated');

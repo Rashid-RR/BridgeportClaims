@@ -199,7 +199,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       form.city = this.form.value.city != this.lastForm.city ? this.form.value.city : undefined;
       // console.log(form);
       this.claimManager.loading = true;
-      this.http.editClaim(form).map(r => r.json()).subscribe(res => {
+      this.http.editClaim(form).subscribe(res => {
         this.claimManager.loading = false;
         this.editing = false;
         this.toast.success(res.message);

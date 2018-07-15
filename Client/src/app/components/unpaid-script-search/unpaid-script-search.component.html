@@ -23,7 +23,7 @@
             </div>
             <div class="form-group" style="max-width:275px;margin-right:15px">
                 <label>Carrier</label>
-                <select class="form-control select2" id="payorsSelection" multiple="multiple" data-placeholder="Select one or more Carriers (click or start typing...)"
+                <select class="form-control select2" id="payorsSelection" multiple="multiple" data-placeholder="Start typing to search pharmacies..."
                     size="1" style="width: 100%;">
                     <option *ngFor="let p of us.payors" [value]="p.payorId">{{p.carrier}}</option>
                 </select>

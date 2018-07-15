@@ -79,12 +79,12 @@ export class ClaimsComponent implements OnInit {
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
             this.claimManager.loading = true;
-            this.http.deleteClaimNote({ claimId: this.claimManager.selectedClaim.claimId }).map(r => r.json()).subscribe(r => {
+            this.http.deleteClaimNote({ claimId: this.claimManager.selectedClaim.claimId }).subscribe(r => {
               this.toast.success(r.message);
               this.claimManager.selectedClaim.claimNote = undefined;
               this.claimManager.loading = false;
             }, err => {
-              let result = err.json()
+              let result = err.error
               this.toast.error(result.Message);
               this.claimManager.loading = false;
             })
@@ -240,7 +240,7 @@ export class ClaimsComponent implements OnInit {
                 prescriptions: selectedNotes,
                 prescriptionNoteId: prescriptionNoteId
               }).single().subscribe(res => {
-                let result = res.json()
+                let result = res
                 swal.close();
                 this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
                 this.toast.success(result.message);
@@ -290,7 +290,7 @@ export class ClaimsComponent implements OnInit {
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
             }).single().subscribe(res => {
-              let result = res.json()
+              let result = res
               swal.close();
               this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
               this.toast.success(result.message);
@@ -350,7 +350,7 @@ export class ClaimsComponent implements OnInit {
             this.toast.error(err.statusText);
             this.claimManager.loading = false;
             try {
-              const error = err.json();
+              const error = err.error;
             } catch (e) { }
           });
       }
@@ -403,7 +403,7 @@ export class ClaimsComponent implements OnInit {
           console.log(err);
           this.claimManager.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         });
     }
@@ -421,7 +421,7 @@ export class ClaimsComponent implements OnInit {
           console.log(err);
           this.claimManager.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         });
     }
@@ -497,7 +497,7 @@ export class ClaimsComponent implements OnInit {
             swal.close();
             this.toast.success("Noted successfully saved");
           }, error => {
-            let err = error.json();
+            let err = error.error;
             setTimeout(() => {
               this.addNote(result[1], result[0]);
               this.toast.error(err.Message);

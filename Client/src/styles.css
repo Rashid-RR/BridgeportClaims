@@ -682,3 +682,6 @@ modal-backdrop .modal-backdrop.in{
 thead{
   overflow-x: hidden;
 }
+.select2-container.select2-container--open{
+  z-index:1070 !important;
+}

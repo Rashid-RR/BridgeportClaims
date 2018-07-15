@@ -2,7 +2,7 @@
   <div class="col-md-6">
     <div class="form-group">
       <label>Carriers</label>
-      <select class="form-control select2" id="payorSelection" multiple="multiple" data-placeholder="Select one or more Carriers (click or start typing...)" size="1" style="width: 100%;">
+      <select class="form-control select2" id="payorSelection" multiple="multiple" data-placeholder="Start typing to search pharmacies..." size="1" style="width: 100%;">
         <option *ngFor="let p of skipped.payors" [value]="p.payorId">{{p.carrier}}</option>
       </select>
     </div>

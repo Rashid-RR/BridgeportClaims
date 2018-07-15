@@ -36,7 +36,7 @@ export class HeaderComponent implements OnInit {
   }
 
   clearCache(){
-    this.http.clearCache().map(r=>{return r.json()}).subscribe(res=>{
+    this.http.clearCache().subscribe(res=>{
         this.toast.success(res.message);
     },err=>{
       this.toast.error(err.message);

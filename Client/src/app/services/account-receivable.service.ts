@@ -3,12 +3,7 @@ import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ReportLoaderService } from './report-loader.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
-import { UUID } from 'angular2-uuid';
-import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
-import { Diary } from '../models/diary';
-import { Response } from '@angular/http/src/static_response';
 import * as FileSaver from 'file-saver'; 
 
 @Injectable()
@@ -81,7 +76,7 @@ export class AccountReceivableService {
   }
   getExport(data:any){
     this.reportLoader.loading = true;
-    this.http.getExport(data).map(res => { return res.json(); })
+    this.http.getExport(data)
     .subscribe((result: Array<any>) => {
       this.reportLoader.loading = false; 
     }, error => {
@@ -108,7 +103,7 @@ export class AccountReceivableService {
       if(this.pharmacyNameParameter){
         data.pharmacyName=this.pharmacyNameParameter;
       }
-      this.http.accountReceivable(data).map(res => { return res.json(); })
+      this.http.accountReceivable(data)
         .subscribe((result: Array<any>) => {
           this.reportLoader.loading = false; 
           this.report= result; 
@@ -127,7 +122,7 @@ export class AccountReceivableService {
         }, err => {
           this.reportLoader.loading = false;
           try {
-            const error = err.json(); 
+            const error = err.error; 
           } catch (e) { }
         }, () => {
           this.events.broadcast('account-receivable-report-updated');
@@ -167,7 +162,7 @@ export class AccountReceivableService {
         }, err => {
           this.reportLoader.loading = false;
           try {
-            const error = err.json(); 
+            const error = err.error; 
           } catch (e) { }
         }); 
   }

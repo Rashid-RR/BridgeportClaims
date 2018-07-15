@@ -140,7 +140,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
           this.paymentService.prescriptionSelected = false;
           this.events.broadcast("disable-links", false);
           this.http.cancelPayment(this.paymentService.paymentPosting.sessionId)
-            .map(r => { return r.json() }).single().subscribe(res => {
+            .single().subscribe(res => {
               this.toast.success(res.message);
               this.paymentService.loading = false;
               this.events.broadcast("payment-closed", true);

@@ -1,11 +1,7 @@
 
-import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
-import { Observable } from 'rxjs/Observable';
-import { Prescription } from '../models/prescription';
 import { DetailedPaymentClaim } from '../models/detailed-payment-claim';
 import { PaymentClaim } from '../models/payment-claim';
-import { PrescriptionNoteType } from '../models/prescription-note-type';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
@@ -51,7 +47,7 @@ export class PaymentService {
           this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      this.http.getPaymentClaim(data).map(res => { return res.json(); })
+      this.http.getPaymentClaim(data)
         .subscribe((result: any) => {
           this.loading = false;
           if (result.length < 1) {
@@ -71,7 +67,7 @@ export class PaymentService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
             //console.log(error);
           } catch (e) { }
         }, () => {           
@@ -85,7 +81,7 @@ export class PaymentService {
           this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      this.http.paymentPosting(data).map(res => { return res.json(); })
+      this.http.paymentPosting(data)
         .single().subscribe((result: any) => {
           this.loading = false;
           this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
@@ -106,7 +102,7 @@ export class PaymentService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
             console.log(error);
           } catch (e) { }
         }, () => {
@@ -205,7 +201,7 @@ export class PaymentService {
   }
   finalizePosting(data:any){
     this.loading = true;
-    this.http.finalizePosting(data).map(res => { return res.json(); })
+    this.http.finalizePosting(data)
       .subscribe(result => {
         this.loading = false;
         //console.log(result);
@@ -229,7 +225,7 @@ export class PaymentService {
   }
   paymentToSuspense(data:any){
     this.loading = true;
-    this.http.paymentToSuspense(data).map(res => { return res.json(); })
+    this.http.paymentToSuspense(data)
       .subscribe(result => {
         this.loading = false;
         if (result.message) {
@@ -250,7 +246,7 @@ export class PaymentService {
   }
   deletePayment(data:any){
     this.loading = true;
-    this.http.deletePayment(data).map(res => { return res.json(); })
+    this.http.deletePayment(data)
       .subscribe(result => {
         this.loading = false;
         this.paymentPosting.payments = this.paymentPosting.payments.delete(data.id);
@@ -282,7 +278,7 @@ export class PaymentService {
       }
       if (ids.length > 0) {
       this.loading = true;
-      this.http.getDetailedPaymentClaim(ids,sort,sort_dir,page,page_size).map(res => { return res.json(); })
+      this.http.getDetailedPaymentClaim(ids,sort,sort_dir,page,page_size)
         .subscribe(result => {
           this.lastPrescriptionIds = ids;
           this.loading = false;
@@ -310,7 +306,7 @@ export class PaymentService {
         this.loadingPayment = false;
           this.loading = false;
           //console.log(err);
-          //const error = err.json();
+          //const error = err.error;
           this.events.broadcast('payment-updated',true);
         }, () => {
         });

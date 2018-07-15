@@ -86,7 +86,7 @@ export class ClaimImagesComponent implements OnInit {
       let data = Object.assign(this.form.value);
       data.rxDate = rxDate;
       data.injuryDate = injuryDate;
-      this.http.updateDocumentIndex(data).map(r => { return r.json() }).single().subscribe(res => {
+      this.http.updateDocumentIndex(data).single().subscribe(res => {
         this.toast.success(res.message);
         this.claimManager.loading = false;
         image.rxDate = $("#datepicker").val();
@@ -113,7 +113,7 @@ export class ClaimImagesComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.claimManager.loading = true
-          this.http.unindexImage(image.documentId).map(r => { return r.json() }).single().subscribe(res => {
+          this.http.unindexImage(image.documentId).subscribe(res => {
             this.toast.success(res.message);
             this.removeImage(image);
             this.claimManager.loading = false;
@@ -184,7 +184,7 @@ export class ClaimImagesComponent implements OnInit {
       data.sortDirection = this.sortColumn.dir.toUpperCase();
     }
 
-    this.http.getSortedImages(data).map(p => p.json())
+    this.http.getSortedImages(data)
       .subscribe(results => {
         this.claimManager.selectedClaim.setImages(results.claimImages);
         this.claimManager.loadingImage = false;

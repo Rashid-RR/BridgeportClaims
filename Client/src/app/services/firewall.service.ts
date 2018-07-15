@@ -46,7 +46,7 @@ export class FirewallService {
   }
   deleteFirewall(fw: Firewall) {
     this.loading = true;
-    this.http.deleteFirewallSetting(fw).map(res => { return res.json(); })
+    this.http.deleteFirewallSetting(fw)
       .subscribe((result: any) => {
         this.loading = false;
         this.firewalls = this.firewalls.delete(fw.ruleName);
@@ -54,7 +54,7 @@ export class FirewallService {
       }, err => {
         this.loading = false;
         try {
-          const error = err.json();
+          const error = err.error;
         } catch (e) { }
       }, () => {
         this.events.broadcast('Firewall-list-updated');
@@ -90,7 +90,7 @@ export class FirewallService {
       if (page) {
         data.pageNumber = page;
       }
-      this.http.getFirewallSettings(data).map(res => { return res.json(); })
+      this.http.getFirewallSettings(data)
         .subscribe((result: any) => {
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
@@ -116,7 +116,7 @@ export class FirewallService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         }, () => {
           this.events.broadcast('Firewall-list-updated');
@@ -134,7 +134,7 @@ export class FirewallService {
       }
     } else {
       this.loading = true;
-      this.http.createFirewallSetting(this.form.value).map(res => { return res.json(); })
+      this.http.createFirewallSetting(this.form.value)
         .subscribe((result: any) => {
           let form = this.form.value;
           this.firewalls = this.firewalls.set(form.ruleName, form);
@@ -144,7 +144,7 @@ export class FirewallService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         });
     }

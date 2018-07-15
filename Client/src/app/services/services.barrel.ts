@@ -4,6 +4,7 @@ export * from "./profile-manager";
 export * from "./claim-manager";
 export * from "./events-service";
 export * from "./auth.guard";
+export * from "./auth-interceptor.service";
 export * from "./signalr-service"
 export * from "./payment-service"
 export * from "./diary.service"

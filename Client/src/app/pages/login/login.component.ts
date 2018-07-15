@@ -46,17 +46,16 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.submitted = true;
-        this.http.login('userName=' + this.form.get('email').value + '&password=' + this.form.get('password').value + '&rememberMe=' + this.form.get('rememberMe').value + "&grant_type=password", { 'Content-Type': 'x-www-form-urlencoded' }).subscribe(res => {
-          let data = res.json();
+        this.http.login('userName=' + this.form.get('email').value + '&password=' + this.form.get('password').value + '&rememberMe=' + this.form.get('rememberMe').value + "&grant_type=password", { 'Content-Type': 'x-www-form-urlencoded' }).subscribe(data => {          
           this.http.setAuth(data.access_token);
           localStorage.setItem("user", JSON.stringify(data));            
-          this.http.profile().map(res => res.json()).subscribe(res => {
-            let user = res;
-            res.access_token = data.access_token;
+          this.http.profile().subscribe(user => {
+            
+            user.access_token = data.access_token;
             //res.roles=['Indexer','User']; for test
-            localStorage.setItem("user", JSON.stringify(res));
-            this.profileManager.profile = new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles);
-            this.profileManager.setProfile(new UserProfile(res.id || res.email, res.email, res.firstName, res.lastName, res.email, res.email, null, data.createdOn, res.roles));
+            localStorage.setItem("user", JSON.stringify(user));
+            this.profileManager.profile = new UserProfile(user.id || user.email, user.email, user.firstName, user.lastName, user.email, user.email, null, data.createdOn, user.roles);
+            this.profileManager.setProfile(new UserProfile(user.id || user.email, user.email, user.firstName, user.lastName, user.email, user.email, null, data.createdOn, user.roles));
             this.profileManager.profileChanged.next();
            if(this.returnURL){
              let url = this.returnURL.split('?');
@@ -78,11 +77,10 @@ export class LoginComponent implements OnInit {
             this.toast.success('Welcome back');
             this.events.broadcast("loadHistory",[]); 
           }, err => null)
-        }, (requestError) => {
+        }, (errors) => {
           this.submitted = false;
-          let err = requestError.json();
+          let err = errors.error
           this.form.get('password').setErrors({ 'auth': err.error_description })
-
           this.router.navigate(['/login']);
           if (err.error_description === undefined) {
             this.toast.error("An internal error has occurred. A system administrator is working to fix it A.S.A.P.");

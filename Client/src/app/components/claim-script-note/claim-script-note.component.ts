@@ -50,7 +50,7 @@ export class ClaimScriptNoteComponent implements OnInit {
       swal({ title: "", html: "Saving changes... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
         .catch(swal.noop);
       this.http.updateDiaryFollowUpDate(this.note.prescriptionNoteId, { diaryId: this.note.diaryId, followUpDate: followupDate })
-        .map(res => { return res.json() }).subscribe(res => {
+        .subscribe(res => {
           swal.close();
           this.toast.success(res.message);
           this.editFollowUpDate = false;
@@ -104,7 +104,7 @@ export class ClaimScriptNoteComponent implements OnInit {
         swal({ title: "", html: "Saving changes... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop)
           .catch(swal.noop);
         this.http.removeFromDiary(note.prescriptionNoteId)
-          .map(res => { return res.json() }).subscribe(res => {
+          .subscribe(res => {
             swal.close();
             this.toast.success(res.message);
             note.hasDiaryEntry = false;

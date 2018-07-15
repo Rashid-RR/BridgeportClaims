@@ -1,14 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
-
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { AppComponent } from './app.component';
-// Layouts
-import { HeaderComponent } from './layouts/header/header.component';
 import { AppLayoutComponent } from './layouts/app-layout.component';
-import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 // end of layouts
 import { LoginComponent } from './pages/login/login.component';
 import { DashboardLinksComponent } from './pages/dashboard-links/dashboard-links.component';
@@ -20,15 +12,13 @@ import { Error404Component } from './pages/error404/error404.component';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { UsersComponent } from './pages/users/users.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
-import { AuthGuard, SignalRService } from './services/services.barrel';
+import { AuthGuard } from './services/services.barrel';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
-import { IndexFileComponent } from './pages/index-file/index-file.component';
-import { UnindexedImageFileListComponent } from './pages/unindexed-image-file-list/unindexed-image-file-list.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { EpisodePageComponent } from 'app/pages/episode-page/episode-page.component';
 import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-settings.component';

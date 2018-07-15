@@ -46,7 +46,7 @@ export class ChangePasswordComponent implements OnInit {
 
         }, (error) => {          
           this.submitted = false;
-           let err = error.json();
+           let err = error.error;
           // console.log(err.Message);
           this.toast.error(err.Message);                 
         })

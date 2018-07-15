@@ -33,7 +33,7 @@ export class UnpaidScriptService {
   }
   getPayors(pageNumber:number){
     this.loading = true;
-    this.http.getPayorList(pageNumber,5000).map(res=>{this.loading = false;return res.json()}).subscribe(result=>{
+    this.http.getPayorList(pageNumber,5000).map(res=>{this.loading = false;return res;}).subscribe(result=>{
           this.payors = result;
           this.payorListReady.next();
       },err=>{
@@ -86,7 +86,7 @@ export class UnpaidScriptService {
       if (page && page > 0 && page <= this.totalPages) {
         data.page = page;
       }
-      this.http.unpaidScriptsList(data).map(res => { return res.json(); })
+      this.http.unpaidScriptsList(data)
         .subscribe((result: any) => {
           this.loading = false;
           this.isArchived=data.isArchived;
@@ -110,7 +110,7 @@ export class UnpaidScriptService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         }, () => {
           this.events.broadcast('unpaid-script-list-updated');

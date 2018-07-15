@@ -71,7 +71,7 @@ export class ProfileComponent implements OnInit {
           this.registered = true
           this.loading = false;
         }, error => {
-          let err = error.json() || ({ "Message": "Server error!" });
+          let err = error.error || ({ "Message": "Server error!" });
           error(err.Message);
           this.loading = false;
         })
@@ -111,7 +111,7 @@ export class ProfileComponent implements OnInit {
           this.registered = true
           this.loading = false;
         }, error => {
-          let err = error.json() || ({ "Message": "Server error!" });
+          let err = error.error || ({ "Message": "Server error!" });
           this.toast.error(err.Message);
           this.loading = false;
         })

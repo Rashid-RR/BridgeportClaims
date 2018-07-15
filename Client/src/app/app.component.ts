@@ -1,6 +1,5 @@
-import {AfterViewInit,Renderer2, Component,OnDestroy, OnInit, ViewContainerRef} from "@angular/core";
-import {Http,Headers} from "@angular/http";
-import { Router,NavigationEnd,ActivatedRoute } from '@angular/router';
+import {Component,OnDestroy, OnInit, ViewContainerRef} from "@angular/core";
+import { ActivatedRoute } from '@angular/router';
 import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
 import {HttpService,SignalRService} from "./services/services.barrel";
 import {ProfileManager} from "./services/profile-manager";
@@ -43,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.profileManager.profile = profile;
           let auth = localStorage.getItem("token");
           if(window.location.hash.indexOf("#/confirm-email")!==0){         
-            this.http.userFromId(us.id).single().map(r=>r.json()).subscribe( res => {
+            this.http.userFromId(us.id).single().subscribe( res => {
                 //console.log(res);
                 this.profileManager.profile.roles = res.roles; 
                 this.profileManager.profile.extension = res.extension; 

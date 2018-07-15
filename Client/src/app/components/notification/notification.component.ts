@@ -107,7 +107,7 @@ export class NotificationComponent implements OnInit {
 
   fetchData() {
     this.loadingNotification = true;
-    this.http.getNotifications().map(res => { return res.json(); })
+    this.http.getNotifications()
       .subscribe((result: any) => {
         this.loadingNotification = false;
         this.notifications = result;

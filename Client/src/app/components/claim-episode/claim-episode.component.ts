@@ -84,7 +84,7 @@ export class ClaimEpisodeComponent implements OnInit {
       sort_dir = this.sortColumn.dir;
     }
     this.http.sortEpisodes(this.claimManager.selectedClaim.claimId, sort, sort_dir,
-      page, page_size).map(p => p.json())
+      page, page_size)
       .subscribe(results => {
         this.claimManager.selectedClaim.setEpisodes(results);
         this.claimManager.loadingEpisodes = false;
@@ -106,7 +106,7 @@ export class ClaimEpisodeComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.claimManager.loading = true;
-          this.http.markEpisodeAsSolved(episode.episodeId || episode['id']).map(r => { return r.json(); }).single().subscribe(res => {
+          this.http.markEpisodeAsSolved(episode.episodeId || episode['id']).single().subscribe(res => {
             this.toast.success(res.message);
             this.claimManager.loading = false;
             episode.resolved = true;           

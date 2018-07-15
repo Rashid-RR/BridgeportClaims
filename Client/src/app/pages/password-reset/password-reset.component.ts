@@ -58,7 +58,7 @@ export class PasswordResetComponent implements OnInit {
           
         }, (error) => {          
           this.submitted = false;
-          let err = error.json();
+          let err = error.error;
           this.toast.error(err.Message);          
           if (error.status !== 500) {            
             this.form.get('email').setErrors({ 'auth': 'The email address entered is incorrect.' })

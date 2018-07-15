@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { UUID } from 'angular2-uuid';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { EpisodesFilterPipe } from "../components/episode-results/episode-filter.pipe"
@@ -11,6 +10,9 @@ import { Episode } from 'app/interfaces/episode';
 import { EpisodeNoteType } from 'app/models/episode-note-type';
 import { ArraySortPipe } from 'app/pipes/sort.pipe';
 import swal from "sweetalert2";
+import { Payor } from "../models/payor"
+import { Subject } from 'rxjs/Subject';
+declare var $:any;
 
 @Injectable()
 export class EpisodeService {
@@ -27,6 +29,9 @@ export class EpisodeService {
   owners: Array<{ownerId:any,owner:string}> = []
   episodeForm: FormGroup
   pharmacyName: string = '';
+  payors: Array<Payor> = [];
+  pageSize: number = 50;
+  payorListReady = new Subject<any>();
 
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private epf: EpisodesFilterPipe, private sortPipe:ArraySortPipe,
@@ -51,24 +56,26 @@ export class EpisodeService {
       episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
       episodeTypeId: ["1"]
     });
-    this.http.getEpisodesNoteTypes().map(res => { return res.json() })
+    this.http.getEpisodesNoteTypes()
       .subscribe((result: Array<any>) => {
         this.episodeNoteTypes = result;
       }, () => {
         this.loading = false;
       });
-    this.http.getEpisodesOwners().map(res => { return res.json() })
+    this.http.getEpisodesOwners()
       .subscribe((result: Array<any>) => {
         this.owners = result;
       }, err => {
         this.loading = false; 
-        let error = err.json();
+        let error = err.error;
       });
   }
   get EpisodeNoteTypes(): Array<any> {
     return this.episodeNoteTypes;
   }
   saveEpisode() {
+    var pharmacyNabp = $("#ePayorsSelection").val() || null;
+    this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
     if (this.episodeForm.controls['pharmacyNabp'].value==null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     }else if (this.episodeForm.valid) {
@@ -76,7 +83,7 @@ export class EpisodeService {
       //this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       let form =this.episodeForm.value;
-      this.http.saveEpisode(form).single().map(r=>r.json()).subscribe(res => {        
+      this.http.saveEpisode(form).single().subscribe(res => {        
         this.episodeForm.reset();
         this.closeModal();
         this.toast.success(res.message);
@@ -138,7 +145,7 @@ export class EpisodeService {
       if (page) {
         data.pageNumber = page;
       }
-      this.http.episodeList(data).map(res => { return res.json(); })
+      this.http.episodeList(data)
         .subscribe((result: any) => {
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
@@ -170,7 +177,7 @@ export class EpisodeService {
         }, err => {
           this.loading = false;
           try {
-            const error = err.json();
+            const error = err.error;
           } catch (e) { }
         }, () => {
           this.events.broadcast('episode-list-updated');

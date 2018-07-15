@@ -66,7 +66,7 @@ export class EpisodeResultsComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.acquireEpisode(episode.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
+          this.http.acquireEpisode(episode.episodeId).single().subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false; 
             episode.owner = res.owner;            
@@ -85,7 +85,7 @@ export class EpisodeResultsComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.markEpisodeAsSolved(episode.episodeId).map(r => { return r.json(); }).single().subscribe(res => {
+          this.http.markEpisodeAsSolved(episode.episodeId).single().subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false;
             this.episodeService.episodes = this.episodeService.episodes.delete(episode.episodeId);

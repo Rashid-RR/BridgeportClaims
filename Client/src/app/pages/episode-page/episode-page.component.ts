@@ -8,10 +8,10 @@ import { EpisodeService } from 'app/services/episode.service';
 })
 export class EpisodePageComponent implements OnInit {
 
-  constructor(
-    public ds: EpisodeService) { }
+  constructor(public ds: EpisodeService) { }
 
   ngOnInit() {
+    //this.ds.getPayors(1)
   }
 
 }

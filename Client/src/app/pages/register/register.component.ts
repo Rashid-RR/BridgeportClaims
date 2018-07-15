@@ -52,7 +52,7 @@ export class RegisterComponent implements OnInit {
             this.submitted = false;
             this.router.navigate(['/login']);
         },requestError => {
-            let err = requestError.json();            
+            let err = requestError.error;            
             this.toast.error(err.Message);
             this.submitted = false;
         })

@@ -2,8 +2,6 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { UnpaidScriptService, HttpService } from "../../services/services.barrel";
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { WindowsInjetor } from "../ng-window";
-import { Router } from "@angular/router";
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
@@ -14,8 +12,8 @@ import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 export class UnpaidScriptResultsComponent implements OnInit {
   goToPage: any = '';
   activeToast: Toast;
-  constructor(private dialogService: DialogService, private _router: Router, public uss: UnpaidScriptService, private http: HttpService,
-    private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
+  constructor(private dialogService: DialogService,  public uss: UnpaidScriptService, private http: HttpService,
+    public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
 
   }
 
@@ -30,7 +28,7 @@ export class UnpaidScriptResultsComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.http.archivePrescription({ prescriptionId: u.prescriptionId })
-            .single().map(r => r.json()).subscribe(r => {
+            .single().subscribe(r => {
               this.toast.success(r.message);
               this.uss.search();
             }, err => {

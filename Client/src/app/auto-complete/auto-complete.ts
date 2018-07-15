@@ -1,5 +1,5 @@
 import { Injectable, Optional } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import "rxjs/add/operator/map";
 
@@ -18,7 +18,7 @@ export class AutoComplete {
   public body: any;
   public filteredList: any[] = [];
 
-  constructor( @Optional() private http: Http) {
+  constructor( @Optional() private http: HttpClient) {
     // ...
   }
 
@@ -87,9 +87,8 @@ export class AutoComplete {
     }
     let httpRequest = this.httpMethod == "post" ? this.http.post(url, data, { headers: headers }) : this.http.get(url, { headers: this.headers });
     return httpRequest
-      .map(resp => resp.json())
       .map(resp => {
-        let list = resp.data || resp;
+        let list = resp['data'] || resp;
 
         if (this.pathToData) {
           let paths = this.pathToData.split(".");
