@@ -9,7 +9,7 @@ GO
 	Sample Execute:
 					EXEC dbo.uspGetClaimsSearchResults @FirstName = 'amie'
 */
-CREATE PROC [dbo].[uspGetClaimsSearchResults]
+CREATE PROC [claims].[uspGetClaimsSearchResults]
 (
     @ClaimNumber VARCHAR(255) = NULL, @FirstName VARCHAR(155) = NULL, 
     @LastName VARCHAR(155) = NULL, @RxNumber VARCHAR(100) = NULL, @InvoiceNumber NVARCHAR(100) = NULL

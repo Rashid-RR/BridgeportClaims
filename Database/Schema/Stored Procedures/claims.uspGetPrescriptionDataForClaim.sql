@@ -12,7 +12,7 @@ GO
 	Sample Execute:
 					EXEC dbo.uspGetPrescriptionDataForClaim 845, 'NoteCount', 'asc', 1, 5000
 */
-CREATE PROC [dbo].[uspGetPrescriptionDataForClaim]
+CREATE PROC [claims].[uspGetPrescriptionDataForClaim]
 (
 	@ClaimID INTEGER,
 	@SortColumn VARCHAR(50),
