@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
-using BridgeportClaims.Entities.DomainModels;
-using BridgeportClaims.Entities.ViewModels;
 using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -16,16 +11,7 @@ namespace BridgeportClaims.Data.DataProviders.Payors
 {
     public class PayorsDataProvider : IPayorsDataProvider
     {
-        private readonly Lazy<IRepository<Payor>> _payorRepository;
-        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
         private const string Query = "SELECT p.PayorID PayorId, p.GroupName Carrier FROM dbo.Payor AS p";
-
-        public PayorsDataProvider(
-            Lazy<IRepository<Payor>> payorRepository, Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
-        {
-            _payorRepository = payorRepository;
-            _storedProcedureExecutor = storedProcedureExecutor;
-        }
 
         public IEnumerable<PayorDto> GetPayors() => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
             conn =>
@@ -35,26 +21,15 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 return query?.OrderBy(x => x.Carrier);
             });
 
-        public IEnumerable<Payor> GetAllPayors()
-            => _payorRepository.Value.GetAll();
+        public IEnumerable<PayorFullDto> GetAllPayors()
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetPayors]";
+                conn.Open();
+                return conn.Query<PayorFullDto>(sp, commandType: CommandType.StoredProcedure);
+            });
 
-        public IList<PayorViewModel> GetPaginatedPayors(int pageNumber, int pageSize)
-        {
-            var pageNumberParam = new SqlParameter
-            {
-                ParameterName = "PageNumber",
-                Value = pageNumber,
-                DbType = DbType.Int32
-            };
-            var pageSizeParam = new SqlParameter
-            {
-                ParameterName = "PageSize",
-                Value = pageSize,
-                DbType = DbType.Int32
-            };
-            return _storedProcedureExecutor.Value.ExecuteMultiResultStoredProcedure<PayorViewModel>(
-                "EXEC [dbo].[uspGetPayors] :PageNumber, :PageSize",
-                new List<SqlParameter> {pageNumberParam, pageSizeParam}).ToList();
-        }
+        public IList<PayorFullDto> GetPaginatedPayors(int pageNumber, int pageSize) =>
+            GetAllPayors()?.ToList();
     }
 }

@@ -13,5 +13,6 @@ namespace BridgeportClaims.Data.DataProviders.Reports
         IList<AccountsReceivableDto> GetAccountsReceivableReport(string groupName, string pharmacyName);
         ShortPayDto GetShortPayReport(string sort, string sortDirection, int pageNumber, int pageSize);
         bool RemoveShortPay(int prescriptionId, string userId);
+        bool RemoveSkippedPayment(int prescriptionId, string userId);
     }
 }

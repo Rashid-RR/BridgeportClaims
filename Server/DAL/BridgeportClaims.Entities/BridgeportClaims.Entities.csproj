@@ -67,8 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Automappers\IPayorMapper.cs" />
-    <Compile Include="Automappers\PayorMapper.cs" />
     <Compile Include="DomainModels\Adjustor.cs" />
     <Compile Include="DomainModels\AspNetRoles.cs" />
     <Compile Include="DomainModels\AspNetUserClaims.cs" />
@@ -115,7 +113,6 @@
     <Compile Include="DomainModels\Suspense.cs" />
     <Compile Include="DomainModels\UsState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\PayorViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
