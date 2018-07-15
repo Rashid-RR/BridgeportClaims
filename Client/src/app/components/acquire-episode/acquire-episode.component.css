@@ -2,8 +2,23 @@
     padding: 5px
   }
   .tab-content {
-    padding : 35px 15px;
+    padding : 15px;
   }
   .nav-tabs-custom{
     box-shadow: none;
+  }
+  .commonCheckBox {
+    position: relative;
+    padding: 1px 10px;
+    min-width:41px;
+  }
+  
+  .commonCheckBox .match{
+    margin: 6px;
+  }
+  .commonCheckBox label:not(.match) { 
+    font-size:12px;
+    font-weight: 600;
+    padding-top: 7px;
+    margin-left: 20px;
   }

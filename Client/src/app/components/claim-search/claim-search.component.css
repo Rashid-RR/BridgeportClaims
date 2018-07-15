@@ -33,14 +33,42 @@
 .btn i {
   margin-right: 4px;
 }
-
+.search-container .field,
 .search-container .col-md-2,
 .search-container .col-md-1,
 .search-container .col-md-3 {
   padding-right: 0; 
 }
+.search-container .field,
 .search-container .col-md-2,
 .search-container .col-md-1{
   padding-left: 5px;
 }
 
+@media (min-width: 800px){  
+.search-container{
+  display: flex;
+  flex-direction: row;
+}
+.col-md-1,.field-sm {
+      min-width: 84px;
+      max-width: 8%;
+  }
+  .col-md-2 {
+      width: 13%;
+  }
+  .col-md-3,
+  .field-lg {
+    width: fit-content;
+  }  
+}
+
+.field-lg .form-group{
+  width: fit-content;
+  padding-top:17px;
+  display: flex;
+  flex-direction: row;
+}
+.field-lg .form-group button{
+  margin:5px 2.5px;
+}

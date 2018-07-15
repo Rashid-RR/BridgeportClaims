@@ -1,7 +1,8 @@
 <button class="close-button" (click)="episodeService.closeModal()">
   <i class="fa fa-times"></i>
 </button>
-<br/><br/>
+<br/>
+<br/>
 <div class="box no-border">
   <div class="box-header bg-head-box" style="color:white">
     <h3 class="box-title">Acquire / Assign Episode</h3>
@@ -18,7 +19,10 @@
               <a href="#2a" data-toggle="tab">Assign</a>
             </li>
             <li>
-              <a href="#3a" data-toggle="tab active" style="visibility:hidden">Select</a>
+              <a href="#3a" data-toggle="tab">Link to Claim</a>
+            </li>
+            <li>
+              <a href="#4a" data-toggle="tab active" style="visibility:hidden">Select</a>
             </li>
           </ul>
           <div class="tab-content clearfix">
@@ -42,7 +46,38 @@
                 </button>
               </div>
             </div>
-            <div class="tab-pane active" id="3a">
+            <div class="tab-pane" id="3a">
+              <div class="form-group" *ngIf="episodeService.episodetoAssign.claimNumber">
+                <label>Episode currently linked to Claim Number</label>
+                {{episodeService.episodetoAssign.claimNumber}}
+              </div>
+              <div class="form-group" *ngIf="form.value.claimNumber">
+                <label>Episode will be linked to Claim Number</label>
+                {{form.value.claimNumber}}
+                <i class="fa fa-close text-darkRed" (click)="form.reset();placeholder=''"></i>
+              </div>
+              <div class="form-group">
+                <label>Type Last Name, First Name or Claim Number</label>
+                <div class="input-group">
+                  <div class="input-group-addon commonCheckBox">
+                    <input type="checkbox" name="check" id="exactMatchCheckBox" [checked]="exactMatch" (change)="checkMatch($event)" #inv>
+                    <label for="exactMatchCheckBox" class="match"></label>
+                    <label for="exactMatchCheckBox"> Exact Match</label>
+                  </div>
+                  <input class="form-control" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
+                    name="searchText" id="searchText" [source]="autoCompleteClaim" [service]="1" [method]="1" min-chars="2"
+                    list-formatter="lastName , firstName - claimNumber - groupNumber" [http-method]="'post'" [exactMatch]="exactMatch"
+                    [autocomplete-dropdown-event-emitter]="showDropDown" [no-match-found-text]="'No Claim Found'" (keyup)="lastInput($event)"
+                    (valueChanged)="claimSelected($event)" [placeholder]="placeholder">
+                </div>
+              </div>
+              <div class="form-group">
+                <button class="btn bg-darkRed btn-flat pull-right btn-small search-claims" type="button" [disabled]="form.invalid" (click)="submitLink()">
+                  <i class="fa fa-save"></i> Associate Episode to Claim
+                </button>
+              </div>
+            </div>
+            <div class="tab-pane active" id="4a">
               Select action above
             </div>
           </div>
@@ -51,7 +86,7 @@
     </div>
   </div>
   <div class="overlay" *ngIf="episodeService.loading">
-      <img src="assets/1.gif">
+    <img src="assets/1.gif">
   </div>
   <div class="box-footer">
     <div class="form-group">

@@ -1,7 +1,7 @@
 <form role="form">
-    <div class="row" style="display: flex;flex-direction:row">
-        <div class="col-md-3 flex">
-            <div class="form-group" style="margin-right:10px;">
+    <div class="row search-container">
+        <div class="col-xs-6 col-md-3 flex">
+            <div class="form-group">
                 <label>Start Date</label>
                 <div class="input-group date">
                     <div class="input-group-addon">
@@ -22,23 +22,23 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-1 no-padding">
-            <div class="form-group no-padding red">
+        <div class="col-xs-6  flexb">
+            <span class="flex red">
                 <label>&nbsp;</label>
                 <input type="radio" id="f-option1" name="selector" (click)="setClosed($event,false)" [checked]="!resolved" />
-                <label for="f-option1" class="form-control border0 text-right">Unresolved</label>
                 <label class="check" for="f-option1"></label>
-            </div>
-        </div>
-        <div class="col-md-1 no-padding">
-            <div class="form-group green">
+                <label for="f-option1" class="form-control border0 text-right">Unresolved</label>
+                
+            </span>
+            <span class="flex green">
                 <label>&nbsp;</label>
                 <input type="radio" id="f-option" name="selector" (click)="setClosed($event,true)" [checked]="resolved" />
-                <label for="f-option" class="form-control border0 text-right">Resolved</label>
                 <label class="check" for="f-option"></label>
-            </div>
+                <label for="f-option" class="form-control border0 text-right">Resolved</label>
+               
+            </span>
         </div>
-        <div class="col-sm-3 flex" style="padding-left: 35px;">
+        <div class="col-xs-12 field field-lg field-lgr">
             <div class="form-group">
                 <label>Owner name</label>
                 <select class="form-control" name="owner" [(ngModel)]="ownerId" (focus)="submitted=false">
@@ -46,7 +46,7 @@
                     <option *ngFor="let e of ds.owners" [value]="e.ownerId">{{e.owner}}</option>
                 </select>
             </div>
-            <div class="form-group" style="width:145px;margin-right: 8px;margin-left: 8px;;">
+            <div class="form-group" style="min-width:165px;width:165px;margin: 0px 5px;">
                 <label>Episode Category</label>
                 <select class="form-control" name="episodeCategoryId" [(ngModel)]="episodeCategoryId" (focus)="submitted=false">
                     <option value="">All</option>
@@ -62,11 +62,8 @@
                 </select>
             </div>
         </div>
-        <div class="col-sm-4 col-md-4 flex">
+        <div class="col-xs-6 field field-lg">
             <div class="form-group">
-                <label>&nbsp;</label>
-                <br/>
-                <span>
                     <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="search()">
                         <i class="fa fa-search" aria-hidden="true"></i> Search</button> &nbsp;
                     <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="reset()">
@@ -74,8 +71,7 @@
                     <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="refresh()">
                         <i class="fa fa-refresh"></i> Refresh</button> &nbsp;
                         <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="episode()">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add Episode</button>
-                </span>
+                            <i class="fa fa-plus" aria-hidden="true"></i> Add Episode</button>               
             </div>
         </div>
     </div>

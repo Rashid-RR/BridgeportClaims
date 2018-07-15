@@ -1,8 +1,8 @@
 import { DocumentItem } from 'app/models/document';
 import { Router } from "@angular/router";
 import { Subject } from 'rxjs/Subject';
-import { Component, EventEmitter,Input, ViewChild, OnInit, NgZone, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Input,  OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
@@ -30,13 +30,11 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
   documentId: any;
   showDropDown = new Subject<any>();
   constructor(
-    private router: Router,
     private http: HttpService,
     private events: EventsService,
     private formBuilder: FormBuilder,
     public ds: DocumentManagerService,
     private dp: DatePipe,
-    private ngZone: NgZone,
     private dialogService: DialogService,
     private toast: ToastsManager
   ) {
