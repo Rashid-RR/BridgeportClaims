@@ -148,6 +148,7 @@
     <Compile Include="Dtos\ClaimImageResultDto.cs" />
     <Compile Include="Dtos\ClaimImagesDto.cs" />
     <Compile Include="Dtos\ClaimNoteDto.cs" />
+    <Compile Include="Dtos\ClaimNoteTypeDto.cs" />
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
     <Compile Include="Dtos\DashboardDto.cs" />

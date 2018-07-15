@@ -1,71 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
-using BridgeportClaims.Entities.DomainModels;
+using BridgeportClaims.Data.Dtos;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
     public class ClaimNotesDataProvider : IClaimNotesDataProvider
     {
-        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
-        private readonly Lazy<IRepository<ClaimNoteType>> _claimNoteTypeRepository;
+        public IList<KeyValuePair<int, string>> GetClaimNoteTypes() => DisposableService.Using(
+            () => new SqlConnection(cs.GetDbConnStr()),
+            conn =>
+            {
+                conn.Open();
+                var results = conn.Query<ClaimNoteTypeDto>(
+                    "SELECT cn.ClaimNoteTypeID ClaimNoteTypeId, cn.TypeName FROM dbo.ClaimNoteType cn",
+                    commandType: CommandType.Text);
+                return results?.Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName))
+                    .OrderBy(x => x.Value).ToList();
+            });
 
-        public ClaimNotesDataProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor, 
-            Lazy<IRepository<ClaimNoteType>> claimNoteTypeRepositor)
-        {
-            _storedProcedureExecutor = storedProcedureExecutor;
-            _claimNoteTypeRepository = claimNoteTypeRepositor;
-        }
-
-        public IList<KeyValuePair<int, string>> GetClaimNoteTypes() => _claimNoteTypeRepository.Value.GetAll()
-            .Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName)).OrderBy(x => x.Value).ToList();
-
-        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId)
-        {
-            var listToAdd = new List<SqlParameter>();
-            var claimIdParam = new SqlParameter
+        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                DbType = DbType.Int32,
-                Value = claimId,
-                ParameterName = "ClaimID"
-            };
-            var noteParam = new SqlParameter
-            {
-                DbType = DbType.String,
-                Value = note,
-                ParameterName = "NoteText"
-            };
-            var enteredByUserIdParam = new SqlParameter
-            {
-                DbType = DbType.String,
-                Value = enteredByUserId,
-                ParameterName = "EnteredByUserID"
-            };
-            var noteTypeIdParam = new SqlParameter
-            {
-                DbType = DbType.Int32,
-                Value = noteTypeId,
-                ParameterName = "NoteTypeID"
-            };
-            listToAdd.Add(noteTypeIdParam);
-            listToAdd.Add(claimIdParam);
-            listToAdd.Add(noteParam);
-            listToAdd.Add(enteredByUserIdParam);
-            _storedProcedureExecutor.Value.ExecuteNoResultStoredProcedure("EXEC dbo.uspAddOrUpdateClaimNote @ClaimID = :ClaimID, " +
-                    "@NoteText = :NoteText, @EnteredByUserID = :EnteredByUserID, @NoteTypeID = :NoteTypeID", listToAdd);
-        }
+                conn.Open();
+                var ps = new DynamicParameters();
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@NoteText", note, DbType.AnsiString);
+                ps.Add("@EnteredByUserID", enteredByUserId, DbType.String);
+                ps.Add("@NoteTypeID", noteTypeId, DbType.Int32);
+                conn.Execute("[claims].[uspAddOrUpdateClaimNote]", ps, commandType: CommandType.StoredProcedure);
+            });
 
         public void DeleteClaimNote(int claimId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("DECLARE @ClaimdID INT = " + claimId + "; " +
-                                                             $"DELETE dbo.ClaimNote WHERE ClaimID = {claimId}", conn),
+                                                             $"DELETE dbo.ClaimNote WHERE ClaimID = @ClaimdID;", conn),
                     cmd =>
                     {
                         cmd.CommandType = CommandType.Text;
