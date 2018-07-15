@@ -61,10 +61,10 @@ export class ClaimPaymentComponent implements OnInit {
 
   update(payment:Payment){
     this.editing=true;
+    console.log(payment);
     this.editingPaymentId = payment.prescriptionPaymentId
     let checkAmt = Number(payment.checkAmt).toFixed(2);
     let postedDate = this.dp.transform(payment.postedDate, "shortDate");
-    let rxDate = this.dp.transform(payment.rxDate, "shortDate");
     this.form = this.formBuilder.group({
         amountPaid:[checkAmt],
         checkNumber:[payment.checkNumber],
@@ -73,10 +73,10 @@ export class ClaimPaymentComponent implements OnInit {
         datePosted:[postedDate],        
     });
     setTimeout(()=>{
-      $('#datepicker').datepicker({
+      $('#datePostedPicker').datepicker({
         autoclose: true
       });
-      $("#datepicker").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
+      $("#datePostedPicker").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
       $("[inputs-mask]").inputmask();
       $("[data-mask]").inputmask();
     },500);
@@ -87,9 +87,15 @@ export class ClaimPaymentComponent implements OnInit {
         $("#savePaymentButton").click();
       }
   }
+  datePosted($event){
+    console.log($event);
+  }
   savePayment(payment:Payment){
-    if(this.form.get('amountPaid').value && this.form.get('checkNumber').value && this.form.get('datePosted').value ){
-      this.claimManager.loading = true
+    let d = $('#datePostedPicker').val();
+    let date =this.dp.transform(d, "shortDate");
+    if(this.form.get('amountPaid').value && this.form.get('checkNumber').value && date ){
+      this.claimManager.loading = true;
+      this.form.controls['datePosted'].setValue(this.dp.transform(date, "shortDate"));
       this.http.updatePrescriptionPayment(this.form.value).map(r=>{return r.json()}).single().subscribe(res=>{              
           this.toast.success(res.message);
           //this.removePayment(payment);

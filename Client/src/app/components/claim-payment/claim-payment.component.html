@@ -45,7 +45,7 @@
                 <ng-container *ngIf="editingPaymentId==pay.prescriptionPaymentId">
                   <td>
                     <div class="input-group">
-                      <input class="form-control" name="datePosted" formControlName="datePosted" (change)="textChange('datePosted')" (focus)="submitted=false" id="datepicker" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask>
+                      <input class="form-control" name="datePosted" formControlName="datePosted" (change)="textChange('datePosted')" (focus)="submitted=false" id="datePostedPicker"  inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask>
                     </div>
                   </td>
                   <td>

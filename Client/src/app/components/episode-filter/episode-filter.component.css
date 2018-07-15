@@ -103,7 +103,7 @@ label.check-label{
     flex-direction: row;
   }
   .flexb{
-    padding-top: 15px;
+    padding-top: 15px 4px 4px 0px;
     display: flex;
     height: fit-content;
     width: fit-content;
@@ -113,6 +113,22 @@ label.check-label{
     padding:10px;
   }
 
+    
+  .field-lg:not(.field-lgr) .form-group,.field-lgr{
+    width: fit-content;
+    padding-top:17px;
+    display: flex;
+    flex-direction: row;
+  }
+  .field-lgr,.field-lg{
+    padding:0px 2px;
+  }
+  .field-lgr{
+    padding-top:0px;
+  }
+  .field-lg .form-group button{
+    margin:5px 2px;
+  }
   @media (max-width: 1020px){ 
     .search-container{
       flex-wrap: wrap; 
@@ -135,27 +151,8 @@ label.check-label{
       .col-md-2 {
           width: 13%;
       }
-      .field-lgr{
-        width:370px;
-      }
       .col-md-3,
       .field-lg {
         width: fit-content;
-      }  
-    }
-    
-    .field-lg:not(.field-lgr) .form-group,.field-lgr{
-      width: fit-content;
-      padding-top:17px;
-      display: flex;
-      flex-direction: row;
-    }
-    .field-lgr,.field-lg{
-      padding:0px 2px;
-    }
-    .field-lgr{
-      padding-top:0px;
-    }
-    .field-lg .form-group button{
-      margin:5px 2px;
+      } 
     }
