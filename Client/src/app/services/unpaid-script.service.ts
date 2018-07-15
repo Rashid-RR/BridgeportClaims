@@ -15,6 +15,7 @@ export class UnpaidScriptService {
   unpaidscripts: Immutable.OrderedMap<Number, UnpaidScript> = Immutable.OrderedMap<Number, UnpaidScript>();
   data: any = {};
   totalRowCount: number;
+  isArchived: boolean = false;
   payors: Array<Payor> = [];
   payorListReady = new Subject<any>();
   constructor(private http: HttpService, private events: EventsService, private toast: ToastsManager) {
@@ -79,6 +80,7 @@ export class UnpaidScriptService {
         .subscribe((result: any) => {
           this.loading = false;
           this.payors = result.payors;
+          this.isArchived=data.isArchived;
           this.totalRowCount = result.unpaidScripts.totalRowCount || result.totalRowCount;
           this.unpaidscripts = Immutable.OrderedMap<Number, UnpaidScript>();
           this.payorListReady.next();
