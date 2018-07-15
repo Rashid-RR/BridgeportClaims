@@ -363,12 +363,10 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			if (null == user)
 				throw new Exception($"Error. Could not find a user with Id \"{userId}\"");
 			var modifiedByUser = _usersRepository.Value.GetSingleOrDefault(x => x.Id == modifiedByUserId);
-			if (null == modifiedByUser)
-				throw new Exception($"Error, could not find a user with Id \"{modifiedByUserId}\"");
-			if (null == episode.AcquiredUser)
+            if (null == episode.AcquiredUser)
 				episode.AcquiredUser = user;
 			episode.AssignedUser = user;
-			episode.ModifiedByUser = modifiedByUser;
+			episode.ModifiedByUser = modifiedByUser ?? throw new Exception($"Error, could not find a user with Id \"{modifiedByUserId}\"");
 			episode.UpdatedOnUtc = DateTime.UtcNow;
 			_episodeRepository.Value.Update(episode);
 		}
