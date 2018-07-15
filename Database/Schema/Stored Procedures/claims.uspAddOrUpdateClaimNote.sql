@@ -9,7 +9,7 @@ GO
 	Sample Execute:
 					EXEC dbo.uspAddOrUpdateClaimNote
 */
-CREATE PROC [dbo].[uspAddOrUpdateClaimNote]
+CREATE PROC [claims].[uspAddOrUpdateClaimNote]
 (
 	@ClaimID INT,
 	@NoteText VARCHAR(MAX),
@@ -37,7 +37,7 @@ AS BEGIN
 	ELSE
 		BEGIN
 			INSERT [dbo].[ClaimNote] ([ClaimID],[ClaimNoteTypeID],[NoteText],[EnteredByUserID],[CreatedOnUTC],[UpdatedOnUTC])
-			VALUES (@ClaimID, @NoteTypeID, @NoteText, @EnteredByUserID, @UTCNow, @UTCNow);               
+			VALUES (@ClaimID, @NoteTypeID, @NoteText, @EnteredByUserID, @UTCNow, @UTCNow);
 		END
 END
 GO

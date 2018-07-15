@@ -9,7 +9,7 @@ GO
  Description:       Gets Skipped Payments report 
  Example Execute:
 					DECLARE @Carriers [dbo].[udtPayorID], @TotalRowCount INT
-                    EXECUTE [rpt].[uspGetSkippedPayment] @Carriers, 1, 30, @TotalRowCount OUTPUT
+                    EXECUTE [rpt].[uspGetSkippedPayment] @Carriers, 1, 5000, @TotalRowCount OUTPUT
 					SELECT @TotalRowCount
  =============================================
 */
@@ -38,7 +38,9 @@ AS BEGIN
 			*/
 
 			CREATE TABLE #Results (
-				RowID INT NOT NULL PRIMARY KEY,
+				RowId INT NOT NULL PRIMARY KEY,
+				PrescriptionId INT NOT NULL,
+				ClaimId INT NOT NULL,
 				[ClaimNumber] [varchar](255) NOT NULL,
 				[LastName] [varchar](155) NOT NULL,
 				[FirstName] [varchar](155) NOT NULL,
@@ -143,7 +145,11 @@ AS BEGIN
 				UNION ALL
 				SELECT  mp.ClaimID, mp.PrescriptionID, mp.AmountPaid, mp.RxDate
 				FROM    #MadePayments AS mp
-			) AS a;
+			) AS a LEFT JOIN dbo.SkippedPaymentExclusion AS spe ON a.PrescriptionID = spe.PrescriptionID
+			WHERE 1 = CASE WHEN a.AmountPaid IS NULL AND spe.SkippedPaymentExclusionID IS NULL THEN 1
+					       WHEN a.AmountPaid IS NOT NULL THEN 1
+						   ELSE 0
+					  END
 
 			UPDATE ap SET ap.RxDate = DATEADD(MILLISECOND, ap.RowID, ap.RxDate) FROM #AllPayments AS ap;
 
@@ -200,9 +206,11 @@ AS BEGIN
 					-- recursive date
 					q.Rn = 1
 			)
-			INSERT #Results (RowID, ClaimNumber,LastName,FirstName,AmountPaid,RxNumber,RxDate,AdjustorName,
+			INSERT #Results (RowId, PrescriptionId, ClaimId, ClaimNumber,LastName,FirstName,AmountPaid,RxNumber,RxDate,AdjustorName,
 							 AdjustorPh,Carrier,CarrierPh,ReversedDate,PrescriptionStatus,InvoiceNumber)
-			SELECT  ROW_NUMBER() OVER (ORDER BY c.ClaimID ASC, c.RxDate ASC) RowID
+			SELECT  ROW_NUMBER() OVER (ORDER BY c.ClaimID ASC, c.RxDate ASC)
+				   ,pre.PrescriptionID
+				   ,cl.ClaimID
 				   ,cl.ClaimNumber
 				   ,p.LastName
 				   ,p.FirstName
@@ -232,9 +240,11 @@ AS BEGIN
 			ORDER BY c.ClaimID ASC, c.RxDate ASC
 			OPTION (MAXRECURSION 0);
 					
-			SELECT @TotalRowCount = COUNT(*) FROM #Results AS r
+			SELECT @TotalRowCount = COUNT(*) FROM #Results AS r;
 
-			SELECT r.RowID RowId
+			SELECT r.RowId
+				  ,r.PrescriptionId
+				  ,r.ClaimId
 				  ,r.ClaimNumber
                   ,r.LastName
                   ,r.FirstName
@@ -249,10 +259,9 @@ AS BEGIN
                   ,r.PrescriptionStatus
                   ,r.InvoiceNumber 
 			FROM #Results AS r
-			ORDER BY r.ClaimNumber, r.RxDate
+			ORDER BY r.ClaimId ASC, r.RxDate ASC
 			OFFSET @PageSize * (@PageNumber - 1) ROWS
 			FETCH NEXT @PageSize ROWS ONLY;
-        
             
         IF (@@TRANCOUNT > 0)
             COMMIT;

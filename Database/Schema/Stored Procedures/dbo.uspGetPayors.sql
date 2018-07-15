@@ -11,7 +11,10 @@ GO
 */
 CREATE PROC [dbo].[uspGetPayors] @PageNumber INT = 1, @PageSize INT = 10
 AS BEGIN
-    SET NOCOUNT ON
+    SET NOCOUNT ON;
+	SET XACT_ABORT ON;
+	SET @PageNumber = 1;
+	SET @PageSize = 5000;
     SELECT PayorId = p.PayorID
          , p.BillToName
          , p.BillToAddress1
@@ -27,10 +30,8 @@ AS BEGIN
          , CreatedOn = p.CreatedOnUTC
          , UpdatedOn = p.UpdatedOnUTC
     FROM dbo.Payor p LEFT JOIN dbo.UsState us ON us.StateID = p.BillToStateID
-    ORDER BY p.PayorID
+    ORDER BY p.GroupName ASC
     OFFSET @PageSize * (@PageNumber - 1) ROWS
     FETCH NEXT @PageSize ROWS ONLY;
 END
-
-
 GO
