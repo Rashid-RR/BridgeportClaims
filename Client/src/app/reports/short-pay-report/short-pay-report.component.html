@@ -43,14 +43,14 @@
         <tbody class="overflowable" tabindex="0">
           <ng-container *ngFor="let p of shortpay.shortpayList">
             <tr>
-              <td>{{p.rxNumber}}</td>
-              <td>{{reportloader.formatDate(p.rxDate)}}</td>
-              <td>{{p.billedAmount}}</td>
-              <td>{{p.amountPaid}}</td>
-              <td>{{p.lastName}}</td>
-              <td>{{p.firstName}}</td>
-              <td>{{p.claimNumber}}</td>
-              <td>{{p.prescriptionStatus}} </td>
+              <td (click)="showClaim(p.claimId)">{{p.rxNumber}}</td>
+              <td (click)="showClaim(p.claimId)">{{reportloader.formatDate(p.rxDate)}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.billedAmount}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.amountPaid}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.lastName}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.firstName}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.claimNumber}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.prescriptionStatus}} </td>
               <td>
                 <button type="button" class="btn btn-danger  btn-sm" [disabled]="shortpay.deleting==p.PrescriptionId" (click)="remove(p.prescriptionId)">Remove</button>
               </td>

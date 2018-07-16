@@ -52,6 +52,9 @@ export class ShortPayReportComponent implements OnInit {
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
+  showClaim(claimId: any) {
+    window.open("#/main/claims?claimId=" + claimId, "_blank");
+  }
   goto() {
     let page = Number.parseInt(this.goToPage);
     if (!this.goToPage || isNaN(page)) {
