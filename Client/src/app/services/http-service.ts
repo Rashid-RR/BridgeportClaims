@@ -708,6 +708,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  removeSkippedPay(data?: any): Observable<any> {
+    return this.http.post(this.baseUrl + `/reports/remove-skipped-payment/?prescriptionId=${data.prescriptionId}`, data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   getComparisonClaims(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/kpi/get-left-right-claims/?leftClaimId=${data.leftClaimId}&rightClaimId=${data.rightClaimId}`, data)
       .catch(err => {

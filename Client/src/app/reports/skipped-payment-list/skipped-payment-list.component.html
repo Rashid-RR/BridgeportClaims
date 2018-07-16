@@ -4,7 +4,7 @@
     <div class="table-responsive top-header">
       <table class="table no-margin table-striped">
         <thead class="overflowable" id="fixed-thead">
-          <tr >
+          <tr>
             <th>
               <span>Claim Number</span>
             </th>
@@ -44,6 +44,9 @@
             <th>
               <span>Invoice Number</span>
             </th>
+            <th>
+              <span>Remove</span>
+            </th>
           </tr>
         </thead>
       </table>
@@ -54,19 +57,24 @@
         <tbody class="overflowable" tabindex="0">
           <ng-container *ngFor="let p of skipped.skippedPayList">
             <tr>
-              <td>{{p.claimNumber}}</td>
-              <td>{{p.lastName}}</td>
-              <td>{{p.firstName}}</td>
-              <td>{{p.amountPaid}}</td>
-              <td>{{p.rxNumber}}</td>
-              <td>{{reportloader.formatDate(p.rxDate)}}</td>
-              <td>{{p.adjustorName}}</td>
-              <td>{{p.adjustorPh | phone:[]}}</td>
-              <td>{{p.carrier}}</td>
-              <td>{{p.carrierPh | phone:[]}}</td>
-              <td>{{reportloader.formatDate(p.reversedDate)}}</td>
-              <td>{{p.prescriptionStatus}} </td>
-              <td>{{p.invoiceNumber}} </td>
+              <td (click)="showClaim(p.claimId)">{{p.claimNumber}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.lastName}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.firstName}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.amountPaid}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.rxNumber}}</td>
+              <td (click)="showClaim(p.claimId)">{{reportloader.formatDate(p.rxDate)}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.adjustorName}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.adjustorPh | phone:[]}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.carrier}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.carrierPh | phone:[]}}</td>
+              <td (click)="showClaim(p.claimId)">{{reportloader.formatDate(p.reversedDate)}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.prescriptionStatus}} </td>
+              <td (click)="showClaim(p.claimId)">{{p.invoiceNumber}} </td>
+              <td>
+                <ng-container *ngIf="!p.amountPaid || p.amountPaid<=0">
+                  <button type="button" class="btn btn-danger  btn-sm" [disabled]="skipped.deleting==p.prescriptionId" (click)="remove(p.prescriptionId)">Remove</button>
+                </ng-container>
+              </td>
             </tr>
           </ng-container>
         </tbody>
@@ -77,8 +85,8 @@
       <button type="button" class="btn btn-default  selected btn-md" style="width:76px"> {{skipped.data.page}} of {{skipped.totalPages}}</button>
       <button type="button" class="btn btn-default  btn-md" [disabled]="skipped.end" (click)="next()">Next</button>
       <div class="input-group" style="width:164px">
-        <input class="form-control" [attr.placeholder]="skipped.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)"
-          (keyup.enter)="goto()" [disabled]="skipped.totalPages==1">
+        <input class="form-control" [attr.placeholder]="skipped.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)" (keyup.enter)="goto()"
+          [disabled]="skipped.totalPages==1">
         <div class="input-group-btn">
           <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
         </div>

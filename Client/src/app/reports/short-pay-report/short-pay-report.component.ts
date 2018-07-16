@@ -19,8 +19,8 @@ export class ShortPayReportComponent implements OnInit {
   ngOnInit() {
     this.shortpay.fetchShortpayReport();
   }
-  remove(prescriptionId) {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+  remove(prescriptionId:any) {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: 'Remove shortpay',
       message: `Are you sure you want to remove this entry?`
     })

@@ -18,14 +18,14 @@ export class SkippedPaymentListComponent implements OnInit {
   ngOnInit() {
     this.skipped.getPayors(1)
   }
-  remove(item) {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+  remove(prescriptionId:any) {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: 'Remove skipped payment',
-      message: `Remove skipped payment with id ${item.prescriptionPaymentId}`
+      message: `Are you sure you want to remove this entry`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.skipped.removeskippedPay(item.id);
+          this.skipped.removeSkippedPay(prescriptionId);
         }
       });
   }
@@ -47,7 +47,7 @@ export class SkippedPaymentListComponent implements OnInit {
     } else if (input < 1) {
       event.preventDefault();
     }
-  }
+  } 
   prev() {
     this.skipped.fetchSkippedPayReport(false, true);
   }
@@ -66,6 +66,10 @@ export class SkippedPaymentListComponent implements OnInit {
         })
       }
     }
+  }
+
+  showClaim(claimId: any) {
+    window.open("#/main/claims?claimId=" + claimId, "_blank");
   }
 
 }

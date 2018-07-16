@@ -51,6 +51,18 @@ export class SkippedPaymentService {
             this.payorListReady.next();
         })
     }
+    removeSkippedPay(id: number = undefined) {
+        this.loading = true;
+        this.http.removeSkippedPay({ prescriptionId: id }).single().subscribe(res => {
+            this.loading = false;
+            this.toast.success(res.message);
+            this.fetchSkippedPayReport();
+        }, err => {
+            this.loading = false;
+            const error = err.error;
+            this.toast.error(error.Message || error.message);
+        });
+    }
     fetchSkippedPayReport(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
         if (!this.data) {
             this.toast.warning('Please populate at least one search field.');
@@ -84,10 +96,6 @@ export class SkippedPaymentService {
                 this.loading = false;
             })
         }
-    }
-    removeskippedPay(id: number = undefined) {
-        this.loading = true;
-
     }
     get totalPages() {
         return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;
