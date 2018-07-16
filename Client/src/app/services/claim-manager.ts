@@ -25,6 +25,7 @@ declare var $: any;
 export class ClaimManager {
   onClaimIdChanged = new Subject<Number>();
   private claims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
+  public comparisonClaims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   private history: Array<Claim> = [];
   selected: Number;
   loading: Boolean = false;
@@ -52,7 +53,7 @@ export class ClaimManager {
   episodeForm: FormGroup;
 
   get selectedClaims() {
-    return this.claims.toArray().filter(claim => claim.selected === true);
+    return this.comparisonClaims.toArray();
   }
   formatDate(input: String) {
     if (!input) return null;
@@ -309,6 +310,7 @@ export class ClaimManager {
       c.selected = false;
       this.claims.set(c.claimId,c);
     });
+    this.comparisonClaims = Immutable.OrderedMap<Number, Claim>();;
   }
   claimsDataLength(): number {
     let claimsLength = this.claims.asImmutable().toArray().length;

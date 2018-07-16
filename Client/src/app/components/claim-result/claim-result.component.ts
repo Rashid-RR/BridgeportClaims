@@ -183,6 +183,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         }
       }
       this.lastSelectedIndex = index;
+      this.claimManager.comparisonClaims = this.claimManager.comparisonClaims.set(claim.claimId,claim);
 
       if (this.claimManager.selectedClaims.length == 1) {
         this.toast.info('You have selected a Claim to compare. Please select another', '', { toastLife: 15000, showCloseButton: true }).then((toast: Toast) => {
