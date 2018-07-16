@@ -24,7 +24,11 @@ form .col-md-2.flex .form-group span{
     padding-left:2px;
     padding-top: 25px;
 }
-.flex,.flex65.form-group span{
+.flex65.form-group button{
+    max-height:39px;
+}
+.flex,.flex65.form-group{
     display: flex;
     flex-direction: row;
+    flex-wrap: nowrap;
 }
