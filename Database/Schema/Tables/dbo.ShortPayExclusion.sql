@@ -7,8 +7,12 @@ CREATE TABLE [dbo].[ShortPayExclusion]
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfShortPayExclusionUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = ROW
+)
 GO
-ALTER TABLE [dbo].[ShortPayExclusion] ADD CONSTRAINT [pkShortPayExclusion] PRIMARY KEY CLUSTERED  ([ShortPayExclusionID]) WITH (FILLFACTOR=90) ON [PRIMARY]
+ALTER TABLE [dbo].[ShortPayExclusion] ADD CONSTRAINT [pkShortPayExclusion] PRIMARY KEY CLUSTERED  ([ShortPayExclusionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[ShortPayExclusion] ADD CONSTRAINT [fkShortPayExclusionModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

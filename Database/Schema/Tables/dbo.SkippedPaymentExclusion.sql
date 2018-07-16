@@ -7,8 +7,12 @@ CREATE TABLE [dbo].[SkippedPaymentExclusion]
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfSkippedPaymentExclusionUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
 ) ON [PRIMARY]
+WITH
+(
+DATA_COMPRESSION = ROW
+)
 GO
-ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [pkSkippedPaymentExclusion] PRIMARY KEY CLUSTERED  ([SkippedPaymentExclusionID]) ON [PRIMARY]
+ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [pkSkippedPaymentExclusion] PRIMARY KEY CLUSTERED  ([SkippedPaymentExclusionID]) WITH (DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [fkSkippedPaymentExclusionModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
