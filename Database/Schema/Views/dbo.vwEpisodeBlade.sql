@@ -2,7 +2,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_NULLS ON
 GO
-CREATE VIEW [dbo].[vwEpisode]
+
+CREATE VIEW [dbo].[vwEpisodeBlade]
 AS
 SELECT          Id        = e.[EpisodeID]
               , e.[Created]
@@ -26,5 +27,5 @@ FROM            [dbo].[Episode]         AS [e]
     INNER JOIN  [dbo].[EpisodeCategory] AS [ec] ON [ec].[EpisodeCategoryID] = [e].[EpisodeCategoryID]
     LEFT JOIN   [dbo].[AspNetUsers]     AS [u] ON [u].[ID] = [e].[AssignedUserID]
     LEFT JOIN   [dbo].[Pharmacy]        AS [ph] ON [ph].[NABP] = [e].[PharmacyNABP]
-
+WHERE			e.Archived = 0;
 GO

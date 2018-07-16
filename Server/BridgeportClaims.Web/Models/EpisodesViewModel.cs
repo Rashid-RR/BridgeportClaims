@@ -19,5 +19,6 @@ namespace BridgeportClaims.Web.Models
         public int PageNumber { get; set; }
         [Required]
         public int PageSize { get; set; }
+        public bool Archived { get; set; } = false;
     }
 }

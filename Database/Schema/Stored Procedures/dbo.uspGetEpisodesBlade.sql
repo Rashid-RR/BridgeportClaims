@@ -55,10 +55,10 @@ AS BEGIN
 					, e.[RxNumber]
 					, e.[Resolved]
 					, e.[NoteCount]
-			FROM    [dbo].[vwEpisode] AS [e]
+			FROM    dbo.vwEpisodeBlade AS [e]
 			WHERE	[e].[ClaimID] = @ClaimID
                     AND [e].[Category] = @Call
-
+			
 			SELECT [c].[Id]
                  , [c].[Created]
                  , [c].[Owner]
@@ -105,14 +105,14 @@ AS BEGIN
 					THEN [c].[NoteCount] END ASC,
 				 CASE WHEN @SortColumn = 'NoteCount' AND @SortDirection = 'DESC'
 					THEN [c].[NoteCount] END DESC;
-
+			
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
     END TRY
     BEGIN CATCH     
 		IF (@@TRANCOUNT > 0)
 			ROLLBACK;
-
+				
 		DECLARE @ErrSeverity INT = ERROR_SEVERITY()
 			, @ErrState INT = ERROR_STATE()
 			, @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()

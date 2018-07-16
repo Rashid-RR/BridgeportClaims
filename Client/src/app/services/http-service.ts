@@ -702,7 +702,7 @@ export class HttpService {
       });
   }
   removeShortPay(data?: any): Observable<any> {
-    return this.http.post(this.baseUrl + `/reports/remove-shortpay/?prescriptionPaymentId=${data.prescriptionPaymentId}`, data)
+    return this.http.post(this.baseUrl + `/reports/remove-shortpay/?prescriptionId=${data.prescriptionId}`, data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

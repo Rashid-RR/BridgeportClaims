@@ -52,7 +52,7 @@
               <td>{{p.claimNumber}}</td>
               <td>{{p.prescriptionStatus}} </td>
               <td>
-                <button type="button" class="btn btn-danger  btn-sm" [disabled]="shortpay.deleting==p.PrescriptionPaymentId" (click)="remove(p)">Remove</button>
+                <button type="button" class="btn btn-danger  btn-sm" [disabled]="shortpay.deleting==p.PrescriptionId" (click)="remove(p.prescriptionId)">Remove</button>
               </td>
             </tr>
           </ng-container>

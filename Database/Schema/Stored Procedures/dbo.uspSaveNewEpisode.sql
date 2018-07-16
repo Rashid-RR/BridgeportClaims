@@ -73,7 +73,7 @@ AS BEGIN
               , [ve].[RxNumber]
               , [ve].[Resolved]
               , [ve].[NoteCount]
-		FROM    [dbo].[vwEpisode] AS [ve]
+		FROM    dbo.vwEpisodeBlade AS [ve]
 		WHERE   [ve].[Id] = @EpisodeID
 		
 		IF (@@TRANCOUNT > 0)
