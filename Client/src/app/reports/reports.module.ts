@@ -10,8 +10,8 @@ import { ReportListComponent } from './report-list/report-list.component';
 import { ReportSampleComponent } from './report-sample/report-sample.component';
 import { ReportAccountReceivableComponent } from './report-account-receivable/report-account-receivable.component';
 import { DuplicateClaimsComponent } from './duplicate-claims/duplicate-claims.component';
-import {  AccountReceivableSearchComponent} from './account-receivable-search/account-receivable-search.component';
-import { AccountReceivableResultComponent} from './account-receivable-result/account-receivable-result.component';
+import { AccountReceivableSearchComponent } from './account-receivable-search/account-receivable-search.component';
+import { AccountReceivableResultComponent } from './account-receivable-result/account-receivable-result.component';
 import { DuplicateClaimSearchComponent } from './duplicate-claim-search/duplicate-claim-search.component';
 import { DuplicateClaimListComponent } from './duplicate-claim-list/duplicate-claim-list.component';
 import { ShortPayReportComponent } from './short-pay-report/short-pay-report.component';
@@ -30,8 +30,8 @@ import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicat
     RouterModule.forChild(ReportsRoutes),
   ],
   declarations: [
-    AccountReceivableSearchComponent,AccountReceivableResultComponent,
-    ReportComponent,ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, DuplicateClaimsComponent, DuplicateClaimSearchComponent, DuplicateClaimListComponent, ShortPayReportComponent, SkippedPaymentListComponent, SkippedPaymentSearchComponent, ShortPaySearchComponent, SkippedPaymentComponent, ShortPayComponent, DuplicateClaimComponent, DuplicateClaimManualComponent
+    AccountReceivableSearchComponent, AccountReceivableResultComponent,
+    ReportComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, DuplicateClaimsComponent, DuplicateClaimSearchComponent, DuplicateClaimListComponent, ShortPayReportComponent, SkippedPaymentListComponent, SkippedPaymentSearchComponent, ShortPaySearchComponent, SkippedPaymentComponent, ShortPayComponent, DuplicateClaimComponent, DuplicateClaimManualComponent
   ]
 })
 export class ReportsModule { }
