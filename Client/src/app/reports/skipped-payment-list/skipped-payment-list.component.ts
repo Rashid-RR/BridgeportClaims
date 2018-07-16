@@ -18,10 +18,11 @@ export class SkippedPaymentListComponent implements OnInit {
   ngOnInit() {
     this.skipped.getPayors(1)
   }
-  remove(prescriptionId:any) {
+ 
+  archive(prescriptionId:any) {
     this.dialogService.addDialog(ConfirmComponent, {
-      title: 'Remove skipped payment',
-      message: `Are you sure you want to remove this entry`
+      title: 'Archive skipped payment',
+      message: `Are you sure you want to archive this entry`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {

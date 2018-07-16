@@ -7,9 +7,23 @@
         <option *ngFor="let p of skipped.payors" [value]="p.payorId">{{p.carrier}}</option>
       </select>
     </div>
+    <div class="form-group flexb" style="max-width:95px;margin-right:15px">
+        <label>
+            <br>
+        </label>
+        <div class="input-group date" style="border-right: 1px solid #ccc;border-left: 1px solid #ccc;">
+            <span class="input-group-addon" style="padding:6px 0px;">
+                <div class="commonCheckBox flex">
+                    <input class="archivedCheck" name="check" type="checkbox" id="archivedCheck" (change)="filterArchive($event)">
+                    <label for="archivedCheck" class="archived"></label>
+                    <label for="archivedCheck">Archived</label>
+                </div>
+            </span>
+        </div>
+    </div>
     <div class="form-group flex65">
       <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="filter()" style="margin-right:15px;">
-          <i class="fa fa-save" aria-hidden="true"></i> Filter</button>
+          <i class="fa fa-save" aria-hidden="true"></i> Search</button>
         <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clear()">
           <i class="fa fa-eraser" aria-hidden="true"></i> Clear selection</button>      
     </div>

@@ -32,3 +32,23 @@ form .col-md-2.flex .form-group span{
     flex-direction: row;
     flex-wrap: nowrap;
 }
+.flexb{
+    padding: 0px;
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    flex-direction: column;
+  }
+.commonCheckBox {
+    padding:4px 0px;
+}
+.commonCheckBox label {
+    line-height:20px;
+    margin-left:2px;
+    margin-bottom: 0px;
+}
+.commonCheckBox label:first-of-type {
+    position: relative;
+    margin-right: 1px;
+    top:0px
+}

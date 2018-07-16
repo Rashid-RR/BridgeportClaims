@@ -23,7 +23,9 @@ export class SkippedPaymentSearchComponent implements OnInit ,AfterViewInit{
       this.filter();
     })
   }
-
+  filterArchive($event) {
+    this.skipped.data.archived = $event.target.checked;
+  }
   filter(){
     this.skipped.data.payorIds=($('#payorSelection').val()||undefined);
     this.skipped.fetchSkippedPayReport();

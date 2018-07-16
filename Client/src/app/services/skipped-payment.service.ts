@@ -37,6 +37,7 @@ export class SkippedPaymentService {
     constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
         this.data = {
             page: 1,
+            archived:false,
             pageSize: 30
         }
     }
