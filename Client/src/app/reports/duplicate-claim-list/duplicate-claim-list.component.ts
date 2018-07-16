@@ -1,11 +1,10 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { ReportLoaderService, ComparisonClaim, DuplicateClaim } from "../../services/services.barrel";
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { Claim } from '../../models/claim';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 declare var jQuery: any;
 @Component({

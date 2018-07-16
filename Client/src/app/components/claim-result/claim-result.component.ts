@@ -1,12 +1,14 @@
-import { Component, AfterViewInit, OnInit, Input } from '@angular/core';
+import { Component,  ViewChild,AfterViewInit, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ClaimManager } from '../../services/claim-manager';
 import { EventsService } from '../../services/events-service';
-import { AfterContentInit } from '@angular/core/src/metadata/lifecycle_hooks';
-import { HttpService } from 'app/services/services.barrel';
+import { Claim } from '../../models/claim';
+import { HttpService,ComparisonClaim } from 'app/services/services.barrel';
+import { ProfileManager } from "../../services/profile-manager";
 import { DatePipe } from '@angular/common';
-import { ToastsManager } from 'ng2-toastr/src/toast-manager';
+import { SwalComponent } from '@toverux/ngx-sweetalert2';
+import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import swal from 'sweetalert2';
 
 declare var $: any;
 
@@ -26,10 +28,17 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   payor: any;
   adjustor: any;
   lastForm: any;
+  activeToast: Toast;
+  selectMultiple: Boolean = false;
+  lastSelectedIndex: number;
+  mergedClaim: any = {} as any;
+  @ViewChild('claimActionSwal') private claimSwal: SwalComponent;
+  comparisonClaims: ComparisonClaim = {} as ComparisonClaim
+
   constructor(
     public claimManager: ClaimManager,
     private formBuilder: FormBuilder,
-    private router: Router,
+    private profileManager: ProfileManager,
     private toast: ToastsManager,
     private dp: DatePipe,
     private http: HttpService,
@@ -52,8 +61,143 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       stateId: [undefined], // NULL
     });
   }
+  get adminOnly(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
+  }
   get payorAutoComplete(): string {
     return this.http.baseUrl + '/payors/search/?searchText=:keyword';
+  }
+  merge(value: any, $event, index: string) {
+    if (value == this.mergedClaim[index] && !$event.checked) {
+      this.mergedClaim[index] = undefined;
+    } else {
+      this.mergedClaim[index] = $event.checked ? value : this.mergedClaim[index];
+    }
+  }
+  closeModal() {
+    this.claimManager.deselectAll();    
+    this.mergedClaim={};
+    try { swal.clickCancel(); } catch (e) { }
+  }
+  checked(field:string,side:string){
+    return this.mergedClaim.hasOwnProperty(field) && this.mergedClaim[field]===this.comparisonClaims[`${side}${field}`];
+  }
+  saveMerge() {
+    const duplicate = this.claimManager.selectedClaims.find(c => c.claimId !== this.mergedClaim.ClaimId);
+    const form = JSON.parse(JSON.stringify(this.mergedClaim));
+    const InjuryDate = this.dp.transform(form.InjuryDate, 'MM/dd/yyyy');
+    const DateOfBirth = this.dp.transform(form.DateOfBirth, 'MM/dd/yyyy');
+    form.DuplicateClaimId = duplicate.claimId;
+    form.ClaimFlex2Id = form.ClaimFlex2Value === this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value ? this.comparisonClaims.rightClaimFlex2Id : undefined);
+    form.AdjustorId = form.AdjustorName === this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName ? this.comparisonClaims.rightAdjustorId : undefined);
+    form.PatientId = form.PatientName === this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
+    form.PayorId = form.Carrier === this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.Carrier ? this.comparisonClaims.rightPayorId : undefined);
+    //form.PersonCode = this.claimManager.selectedClaims[0].personCode;
+    if(!this.comparisonClaims.leftClaimFlex2Id && !this.comparisonClaims.rightClaimFlex2Id){
+      form['ClaimFlex2Id'] =null;
+    }else  if(form.ClaimFlex2Id===undefined){
+      delete form['ClaimFlex2Id']
+    }
+    if(!this.comparisonClaims.leftAdjustorId && !this.comparisonClaims.rightAdjustorId){
+      form['AdjustorId'] =null;
+    }else if(form.AdjustorId===undefined){
+      delete form['AdjustorId']
+    }
+    if(!this.comparisonClaims.leftPatientId && !this.comparisonClaims.rightPatientId){
+      form['PatientId'] =null;
+    }else if(form.PatientId===undefined){
+      delete form['PatientId']
+    }
+    if(!this.comparisonClaims.leftPayorId && !this.comparisonClaims.rightPayorId){
+      form['PayorId'] =null;
+    }else if(form.PayorId===undefined){
+      delete form['PayorId']
+    }
+    delete form.PatientName;
+    delete form.AdjustorName;
+    delete form.Carrier;
+    delete form.ClaimFlex2Value;
+    if (InjuryDate) {
+      form.InjuryDate = InjuryDate;
+    }
+    if (DateOfBirth) {
+      form.DateOfBirth = DateOfBirth;
+    }
+    if (form.DuplicateClaimId && form.hasOwnProperty('ClaimFlex2Id') && form.hasOwnProperty('ClaimId') &&
+    form.hasOwnProperty('ClaimNumber') && form.hasOwnProperty('DateOfBirth') && form.hasOwnProperty('InjuryDate')
+      && form.hasOwnProperty('AdjustorId') && form.hasOwnProperty('PatientId') && form.hasOwnProperty('PayorId')) {
+      this.claimManager.loading = true;
+      this.http.getMergeClaims(form)
+        .single().subscribe(r => {
+          this.toast.success('Claim successfully merged').then((toast: Toast) => {
+            this.activeToast = toast;
+          });
+          this.closeModal();
+          this.events.broadcast("refresh-claims",[]);
+        }, err => {
+          this.claimManager.loading = false;
+        });
+    } else {
+      this.toast.warning('Please choose a value for every field for these claims in order to save the merge...');
+    }
+  }
+  showModal() {
+    this.claimManager.loading = true;
+    this.http.getComparisonClaims({ leftClaimId: this.claimManager.selectedClaims[0].claimId, rightClaimId: this.claimManager.selectedClaims[1].claimId })
+      .single().subscribe(r => {
+        this.claimManager.loading = false;
+        this.comparisonClaims = Array.isArray(r) ? r[0] : r;
+        Object.keys(this.comparisonClaims).forEach(k => {
+          if (k.indexOf('left') > -1) {
+            let right = k.replace('left', 'right');
+            let id = k.replace('left', '');
+            //id = id.substr(0,1).toLowerCase()+id.substring(1);
+            if (this.comparisonClaims[k] == this.comparisonClaims[right]) {
+              this.mergedClaim[id] = this.comparisonClaims[k];
+            }
+          }
+        })
+        this.claimSwal.show().then((r) => {
+            //this.mergedClaim={};
+        })
+      }, err => {
+        this.claimManager.loading = false;
+      });
+  }
+
+  select(claim: Claim, $event, index: number) {
+    if ($event.checked) {
+      if (this.claimManager.selectedClaims.length == 2 && $event.checked) {
+        this.showModal();
+        return;
+      }
+      claim.selected = $event.checked;
+      if (this.selectMultiple) {
+        for (let i = this.lastSelectedIndex; i < index; i++) {
+          try {
+            let c = $('#row' + i).attr('claim');
+            let claim = JSON.parse(c);
+            let data = this.claimManager.selectedClaims.find(c => c.claimId == claim.claimId);
+            data.selected = true;
+          } catch (e) { }
+        }
+      }
+      this.lastSelectedIndex = index;
+
+      if (this.claimManager.selectedClaims.length == 1) {
+        this.toast.info('You have selected a Claim to compare. Please select another', '', { toastLife: 15000, showCloseButton: true }).then((toast: Toast) => {
+          this.activeToast = toast;
+        })
+      } else if (this.claimManager.selectedClaims.length == 2) {
+        this.activeToast.timeoutId = null;
+        $(".toast.toast-info").hide();
+        this.showModal();
+      }
+    } else {
+      this.toast.warning('You you have already chosen this claim for comparison.').then((toast: Toast) => {
+      })
+      $event.checked = true;
+    }
   }
   get adjustorAutoComplete(): string {
     return this.http.baseUrl + '/adjustors/search/?searchText=:keyword';
@@ -155,6 +299,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       return input;
     }
   }
+  
   save() {
     let key: any;
     this.form.value.adjustorPhone = $('#adjustorPhone').val() || '';

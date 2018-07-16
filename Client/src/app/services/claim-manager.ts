@@ -4,7 +4,7 @@ import { Claim } from '../models/claim';
 import { Prescription } from '../models/prescription';
 import { ClaimNote } from '../models/claim-note';
 import { PrescriptionNoteType } from '../models/prescription-note-type';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
 import { EpisodeNoteType } from '../models/episode-note-type';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
@@ -51,6 +51,19 @@ export class ClaimManager {
   activeToast: Toast;
   episodeForm: FormGroup;
 
+  get selectedClaims() {
+    return this.claims.toArray().filter(claim => claim.selected === true);
+  }
+  formatDate(input: String) {
+    if (!input) return null;
+    if (input.indexOf("-") > -1) {
+      let date = input.split("T");
+      let d = date[0].split("-");
+      return d[1] + "/" + d[2] + "/" + d[0];
+    } else {
+      return input;
+    }
+  }
   constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService, private events: EventsService,
     private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder,private profileManager:ProfileManager,
     private dialogService: DialogService) {
@@ -290,6 +303,12 @@ export class ClaimManager {
   }
   get claimsData(): Claim[] {
     return this.claims.asImmutable().toArray();
+  }
+  deselectAll() {
+    this.claims.forEach(c => {
+      c.selected = false;
+      this.claims.set(c.claimId,c);
+    });
   }
   claimsDataLength(): number {
     let claimsLength = this.claims.asImmutable().toArray().length;

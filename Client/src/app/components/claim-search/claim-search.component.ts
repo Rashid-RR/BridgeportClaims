@@ -1,12 +1,12 @@
-import {Component, OnInit } from '@angular/core';
-import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from "@angular/forms";
+import { Router } from "@angular/router";
 import { Subject } from 'rxjs/Subject';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
-import {HttpService} from "../../services/http-service";
-import {ClaimManager} from "../../services/claim-manager";
-import {EventsService} from "../../services/events-service";
-declare var $:any;
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { HttpService } from "../../services/http-service";
+import { ClaimManager } from "../../services/claim-manager";
+import { EventsService } from "../../services/events-service";
+declare var $: any;
 
 @Component({
   selector: 'app-claim-search',
@@ -19,8 +19,8 @@ export class ClaimSearchComponent implements OnInit {
   submitted: boolean = false;
   showDropDown = new Subject<any>();
   searchText: string = '';
-  dropdownVisible:boolean=false;
-  constructor(public claimManager:ClaimManager,private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,
+  dropdownVisible: boolean = false;
+  constructor(public claimManager: ClaimManager, private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,
     private toast: ToastsManager) {
     this.form = this.formBuilder.group({
       claimNumber: [null],
@@ -33,35 +33,38 @@ export class ClaimSearchComponent implements OnInit {
   }
   ngOnInit() {
 
-    this.events.on("clear-claims", (status: boolean) => {
+    this.events.on("clear-claims", () => {
       this.form.reset();
+    });
+    this.events.on("refresh-claims", () => {
+      this.refresh();
     });
   }
 
- textChange(controlName:string){
-   if(this.form.get(controlName).value ==='undefined' || this.form.get(controlName).value ===''){
-     this.form.get(controlName).setValue(null);
-   }
- }
+  textChange(controlName: string) {
+    if (this.form.get(controlName).value === 'undefined' || this.form.get(controlName).value === '') {
+      this.form.get(controlName).setValue(null);
+    }
+  }
 
- checkMatch($event) {
-  this.claimManager.exactMatch = $event.target.checked;
-  this.showDropDown.next($event.target.checked);
-}
-lastInput($event) {
-  this.searchText = $event.target.value;
-}
-  search(){
+  checkMatch($event) {
+    this.claimManager.exactMatch = $event.target.checked;
+    this.showDropDown.next($event.target.checked);
+  }
+  lastInput($event) {
+    this.searchText = $event.target.value;
+  }
+  search() {
     this.claimManager.search(this.form.value);
   }
-  refresh(){
+  refresh() {
     var form = this.form.value;
-    if(this.claimManager.selectedClaim){
+    if (this.claimManager.selectedClaim) {
       form.claimId = this.claimManager.selectedClaim.claimId
     }
-    this.claimManager.search(form,false);
+    this.claimManager.search(form, false);
   }
-  clear(){
+  clear() {
     this.claimManager.selected = undefined;
     this.claimManager.clearClaimsData();
     this.form.patchValue({

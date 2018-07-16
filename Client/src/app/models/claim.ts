@@ -1,7 +1,6 @@
 // profile.ts
 import { Prescription } from "./prescription";
 import { Payment } from "./payment"; 
-import { DocumentItem } from "./document";
 import { DocumentType } from "./document-type";
 import { ClaimImage } from "./claim-image";
 import { PrescriptionNote } from "./prescription-note";
@@ -37,6 +36,7 @@ export class Claim {
     adjustorId:number;
     payorId:number;
     stateId:number;
+    selected:boolean;
     genderId:number;
     claimFlex2Id:number;
     private prescription: Array<Prescription> = [];
