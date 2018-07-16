@@ -5,8 +5,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using ic = BridgeportClaims.Common.Constants.IntegerConstants;
@@ -16,23 +14,6 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	
 	public class EpisodesDataProvider : IEpisodesDataProvider
 	{
-		private readonly Lazy<IRepository<EpisodeType>> _episodeTypeRepository;
-		private readonly Lazy<IRepository<EpisodeNote>> _episodeNoteRepository;
-		private readonly Lazy<IRepository<Episode>> _episodeRepository;
-		private readonly Lazy<IRepository<AspNetUsers>> _usersRepository;
-
-		public EpisodesDataProvider(
-		    Lazy<IRepository<EpisodeType>> episodeTypeRepository,
-		    Lazy<IRepository<AspNetUsers>> usersRepository,
-		    Lazy<IRepository<Episode>> episodeRepository,
-		    Lazy<IRepository<EpisodeNote>> episodeNoteRepository)
-		{
-			_episodeTypeRepository = episodeTypeRepository;
-			_usersRepository = usersRepository;
-			_episodeRepository = episodeRepository;
-			_episodeNoteRepository = episodeNoteRepository;
-		}
-
 	    public void AssociateEpisodeToClaim(int episodeId, int claimId) =>
 	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 	        {
@@ -110,7 +91,7 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 			});
 
 		public EpisodesDto GetEpisodes(DateTime? startDate, DateTime? endDate, bool resolved, string ownerId, int? episodeCategoryId, 
-			byte? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize, string userId) =>
+			byte? episodeTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize, string userId, bool archived) =>
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
 				return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodes]", conn), cmd =>
@@ -197,6 +178,13 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					userIdParam.SqlDbType = SqlDbType.NVarChar;
 					userIdParam.ParameterName = "@UserID";
 					cmd.Parameters.Add(userIdParam);
+				    var archivedParam = cmd.CreateParameter();
+				    archivedParam.Value = archived;
+				    archivedParam.Direction = ParameterDirection.Input;
+				    archivedParam.DbType = DbType.Boolean;
+				    archivedParam.SqlDbType = SqlDbType.Bit;
+				    archivedParam.ParameterName = "@Archived";
+				    cmd.Parameters.Add(archivedParam);
 					var totalPageSizeParam = cmd.CreateParameter();
 					totalPageSizeParam.ParameterName = "@TotalPageSize";
 					totalPageSizeParam.Direction = ParameterDirection.Output;
@@ -244,27 +232,24 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					return retVal;
 				});
 			});
-		
-		public IList<EpisodeTypeDto> GetEpisodeTypes() => _episodeTypeRepository.Value.GetAll()?
-			.Select(e => new EpisodeTypeDto
-			{
-				EpisodeTypeId = e.EpisodeTypeId,
-				EpisodeTypeName = e.TypeName,
-				SortOrder = e.SortOrder
-			}).OrderBy(x => x.EpisodeTypeName).ToList();
 
-		public void ResolveEpisode(int episodeId, string modifiedByUserId)
-		{
-			var episodeEntity = _episodeRepository.Value.Get(episodeId);
-			if (null == episodeEntity)
-				throw new Exception($"Not not find Episode with ID {episodeId}");
-			var now = DateTime.UtcNow;
-			var user = _usersRepository.Value.Get(modifiedByUserId);
-			episodeEntity.UpdatedOnUtc = now;
-			episodeEntity.ModifiedByUser = user;
-			episodeEntity.ResolvedDateUtc = now;
-			_episodeRepository.Value.Save(episodeEntity);
-		}
+	    public IEnumerable<EpisodeTypeDto> GetEpisodeTypes() =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+                const string query = "SELECT EpisodeTypeId = et.EpisodeTypeID, EpisodeTypeName = et.TypeName, et.SortOrder FROM dbo.EpisodeType AS et;";
+                conn.Open();
+	            return conn.Query<EpisodeTypeDto>(query, commandType: CommandType.Text)
+	                ?.OrderBy(x => x.EpisodeTypeName);
+	        });
+
+	    public void ResolveEpisode(int episodeId, string modifiedByUserId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            const string sp = "[dbo].[uspResolveEpisode]";
+	            conn.Open();
+	            conn.Execute(sp, new {EpisodeID = episodeId, ModifiedByUserID = modifiedByUserId},
+	                commandType: CommandType.StoredProcedure);
+	        });
 
 		public EpisodeBladeDto SaveNewEpisode(int? claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber,
 			string episodeText, string userId) =>
@@ -354,43 +339,38 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				});
 			});
 
-		public void AssignOrAcquireEpisode(int episodeId, string userId, string modifiedByUserId)
-		{
-			var episode = _episodeRepository.Value.GetSingleOrDefault(x => x.EpisodeId == episodeId);
-			if (null == episode)
-				throw new Exception($"Coult not find Episode Id {episodeId}");
-			var user = _usersRepository.Value.GetSingleOrDefault(x => x.Id == userId);
-			if (null == user)
-				throw new Exception($"Error. Could not find a user with Id \"{userId}\"");
-			var modifiedByUser = _usersRepository.Value.GetSingleOrDefault(x => x.Id == modifiedByUserId);
-            if (null == episode.AcquiredUser)
-				episode.AcquiredUser = user;
-			episode.AssignedUser = user;
-			episode.ModifiedByUser = modifiedByUser ?? throw new Exception($"Error, could not find a user with Id \"{modifiedByUserId}\"");
-			episode.UpdatedOnUtc = DateTime.UtcNow;
-			_episodeRepository.Value.Update(episode);
-		}
+	    public void AssignOrAcquireEpisode(int episodeId, string userId, string modifiedByUserId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            const string sp = "[dbo].[uspAssignOrAcquireEpisode]";
+                conn.Open();
+	            conn.Execute(sp, new {EpisodeID = episodeId, UserID = userId, ModifiedByUserID = modifiedByUserId},
+	                commandType: CommandType.StoredProcedure);
+	        });
 
-		/// <summary>
-		/// Saves a new Episode Note object to the databse.
-		/// </summary>
-		/// <param name="episodeId"></param>
-		/// <param name="note"></param>
-		/// <param name="userId"></param>
-		/// <param name="today"></param>
-		public void SaveEpisodeNote(int episodeId, string note, string userId, DateTime today)
-		{
-			var utcNow = DateTime.UtcNow;
-			var enote = new EpisodeNote();
-			var user = _usersRepository.Value.Get(userId);
-			var episode = _episodeRepository.Value.Get(episodeId);
-			enote.Created = today;
-			enote.NoteText = note;
-			enote.CreatedOnUtc = utcNow;
-			enote.Episode = episode ?? throw new Exception($"Error, count not retrieve Episode Id {episodeId}");
-			enote.UpdatedOnUtc = utcNow;
-			enote.WrittenByUser = user ?? throw new Exception($"Error. Could not fine User Id \"{userId}\"");
-			_episodeNoteRepository.Value.Save(enote);
-		}
+	    /// <summary>
+	    /// Saves a new Episode Note object to the databse.
+	    /// </summary>
+	    /// <param name="episodeId"></param>
+	    /// <param name="note"></param>
+	    /// <param name="userId"></param>
+	    /// <param name="today"></param>
+	    public void SaveEpisodeNote(int episodeId, string note, string userId, DateTime today) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            const string sp = "[dbo].[uspEpisodeNoteInsert]";
+                conn.Open();
+	            conn.Execute(sp, new {EpisodeID = episodeId, NoteText = note, UserID = userId, Today = today},
+	                commandType: CommandType.StoredProcedure);
+	        });
+
+
+        public void ArchiveEpisode(int episodeId) =>
+	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+	        {
+	            const string sp = "[dbo].[uspArchiveEpisode]";
+                conn.Open();
+	            conn.Execute(sp, new {EpisodeID = episodeId}, commandType: CommandType.StoredProcedure);
+	        });
 	}
 }

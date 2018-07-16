@@ -16,7 +16,6 @@ namespace BridgeportClaims.Web.Handlers
             {
                 return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             }
-
             return response;
         }
     }

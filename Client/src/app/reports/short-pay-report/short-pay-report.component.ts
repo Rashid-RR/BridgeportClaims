@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReportLoaderService, ShortPayService } from "../../services/services.barrel";
+import { ReportLoaderService, ShortPayService } from '../../services/services.barrel';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
@@ -13,19 +13,20 @@ export class ShortPayReportComponent implements OnInit {
 
   goToPage: any = '';
   activeToast: Toast;
-  constructor(private dialogService: DialogService, private toast: ToastsManager, public shortpay: ShortPayService,public reportloader: ReportLoaderService) { }
+  constructor(private dialogService: DialogService, private toast: ToastsManager, public shortpay: ShortPayService,
+    public reportloader: ReportLoaderService) { }
 
   ngOnInit() {
     this.shortpay.fetchShortpayReport();
   }
-  remove(item) {
+  remove(prescriptionId) {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Remove shortpay',
       message: `Are you sure you want to remove this entry?`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.shortpay.removeShortpay(item.prescriptionPaymentId);
+          this.shortpay.removeShortpay(prescriptionId);
         }
       });
   }

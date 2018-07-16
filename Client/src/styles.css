@@ -67,7 +67,8 @@
       width:-o-calc(100vw * 1.799 / 3) !important;
     }
     .swal2-modal.paymeny-modal.episodes{
-        width:400px !important;
+        width: 600px !important;
+        height: 500px !important;
     }
 
     .swal2-modal.paymeny-modal .swal2-content .bg-head-box {

@@ -203,7 +203,22 @@ namespace BridgeportClaims.Web.Controllers
 		        return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
 		    }
 		}
-		
+
+	    [HttpPost]
+	    [Route("archive")]
+	    public IHttpActionResult ArchiveEpisode(int episodeId)
+	    {
+	        try
+	        {
+	            _episodesDataProvider.Value.ArchiveEpisode(episodeId);
+	            return Ok(new {message = $"Episode Id #{episodeId} was archived successfully."});
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Value.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+	    }
 
 		[HttpPost]
 		[Route("get")]
@@ -216,7 +231,7 @@ namespace BridgeportClaims.Web.Controllers
 		            throw new Exception("Error, could not find logged in user.");
 		        var results = _episodesDataProvider.Value.GetEpisodes(m.StartDate.ToNullableFormattedDateTime(),
 		            m.EndDate.ToNullableFormattedDateTime(), m.Resolved, m.OwnerId,
-		            m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize, userId);
+		            m.EpisodeCategoryId, m.EpisodeTypeId, m.SortColumn, m.SortDirection, m.PageNumber, m.PageSize, userId, m.Archived);
 		        return Ok(results);
 		    }
 		    catch (Exception ex)

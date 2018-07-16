@@ -6,6 +6,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 export interface ShortPay {
+    prescriptionId: number;
+    claimId: number;
     lastName: string;
     firstName: string;
     rxNumber: number;
@@ -14,7 +16,6 @@ export interface ShortPay {
     billedAmount: any;
     amountPaid: number;
     prescriptionStatus: string;
-    prescriptionPaymentId?: number;
 }
 
 @Injectable()
@@ -33,7 +34,7 @@ export class ShortPayService {
             sortDirection: 'DESC',
             page: 1,
             pageSize: 30
-        }
+        };
     }
     fetchShortpayReport(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
         if (!this.data) {
@@ -73,7 +74,7 @@ export class ShortPayService {
 
     removeShortpay(id: number = undefined) {
         this.loading = true;
-        this.http.removeShortPay({ prescriptionPaymentId: id }).single().map(r => r.json()).subscribe(res => {
+        this.http.removeShortPay({ prescriptionId: id }).single().map(r => r.json()).subscribe(res => {
             this.loading = false;
             this.toast.success(res.message);
             this.fetchShortpayReport();
