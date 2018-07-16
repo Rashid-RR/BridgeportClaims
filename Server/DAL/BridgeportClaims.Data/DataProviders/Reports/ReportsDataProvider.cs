@@ -17,16 +17,16 @@ namespace BridgeportClaims.Data.DataProviders.Reports
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
-        public SkippedPaymentDto GetSkippedPaymentReport(int page, int pageSize, DataTable carriers)
+        public SkippedPaymentDto GetSkippedPaymentReport(int page, int pageSize, DataTable carriers, bool archived)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
+                var sp = archived ? "[rpt].[uspGetArchivedSkippedPayments]" : "[rpt].[uspGetSkippedPayment]";
                 conn.Open();
                 var parameters = new DynamicParameters();
                 parameters.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtPayorID]"));
                 parameters.Add("@PageNumber", dbType: DbType.Int32, direction: ParameterDirection.Input, value: page);
                 parameters.Add("@PageSize", dbType: DbType.Int32, direction: ParameterDirection.Input, value: pageSize);
                 parameters.Add("@TotalRowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                const string sp = "[rpt].[uspGetSkippedPayment]";
                 var query = conn.Query<SkippedPaymentResultsDto>(sp, parameters, commandType: CommandType.StoredProcedure);
                 var retVal = new SkippedPaymentDto
                 {

@@ -82,12 +82,12 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     IList<CarrierDto> carrierDtos = model.PayorIds.Select(item => new CarrierDto {PayorID = item}).ToList();
                     var dt = carrierDtos.ToFixedDataTable();
-                    var results = _reportsDataProvider.Value.GetSkippedPaymentReport(model.Page, model.PageSize, dt);
+                    var results = _reportsDataProvider.Value.GetSkippedPaymentReport(model.Page, model.PageSize, dt, model.Archived);
                     return Ok(results);
                 }
                 var dataTable = new DataTable();
                 dataTable.Columns.Add("PayorID");
-                return Ok(_reportsDataProvider.Value.GetSkippedPaymentReport(model.Page, model.PageSize, dataTable));
+                return Ok(_reportsDataProvider.Value.GetSkippedPaymentReport(model.Page, model.PageSize, dataTable, model.Archived));
             }
             catch (Exception ex)
             {
