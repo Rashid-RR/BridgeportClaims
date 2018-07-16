@@ -1,6 +1,6 @@
 <form role="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
     <div class="row">
-        <div class="col-md-9 flex">
+        <div class="col-md-12 flex">
             <div class="form-group" style="max-width:135px;margin-right:15px">
                 <label>Start Date</label>
                 <div class="input-group date">
@@ -21,7 +21,7 @@
                         data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
                 </div>
             </div>
-            <div class="form-group" style="max-width:275px;margin-right:15px">
+            <div class="form-group" style="min-width:400px;max-width:850px;margin-right:15px">
                 <label>Carrier</label>
                 <select class="form-control select2" id="payorsSelection" multiple="multiple" data-placeholder="Start typing to search pharmacies..."
                     size="1" style="width: 100%;">

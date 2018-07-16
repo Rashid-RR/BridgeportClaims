@@ -116,15 +116,16 @@ thead span {
     border-bottom: 0px;
 }
 .pagination-row{
-    position:absolute;
+    position:fixed;
     right: calc(50% - 214px);
-    bottom:15px;
+    bottom:1px;
     background: -webkit-linear-gradient(top, #fff 0%, #eeedec 40%, #faf6e9 100%);
     background: linear-gradient(to bottom, #fff 0%, #eeedec 40%, #faf6e9 100%);
     padding:5px 35px;
     width: 468px;
     border-radius:10px;
     text-align: center;
+    z-index: 99;
 }
 .pagination-row button:not(.goto){
     margin:5px;

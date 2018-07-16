@@ -70,7 +70,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="btn-group pagination-row">
+        <div class="btn-group pagination-row"><!-- [style.top.px]="docHeight">-->
             <button type="button" class="btn btn-default  btn-md" [disabled]="uss.data.page<=1" (click)="prev()">Prev</button>
             <button type="button" class="btn btn-default  selected btn-md"> {{uss.data.page}} of {{uss.totalPages}}</button>
             <button type="button" class="btn btn-default  btn-md" [disabled]="uss.end" (click)="next()">Next</button>
