@@ -623,6 +623,16 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  archiveEpisode(id: any): Observable<any> {
+    let params = new HttpParams()
+    .set('episodeId',id);
+    
+    return this.http.post(this.baseUrl + '/episodes/archive', {},{params:params})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   uploadFile(form: FormData): Observable<any> {
     return this.http.post(this.baseUrl + '/fileupload/upload', form)
       .catch(err => {

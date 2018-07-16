@@ -69,6 +69,9 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
       this.search();
     }
   }
+  filter($event) {
+    this.ds.data.archived = $event.target.checked;
+  }
   search() {
     let startDate = this.dp.transform($('#startDate').val(), "MM/dd/yyyy");
     let endDate = this.dp.transform($('#endDate').val(), "MM/dd/yyyy");

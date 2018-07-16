@@ -53,11 +53,11 @@ export class AcquireEpisodeComponent implements OnInit {
   claimSelected($event) {
     if (this.searchText && $event.claimId) {
       this.form.patchValue({
-        episodeId:this.episodeService.episodetoAssign.episodeId,
+        episodeId: this.episodeService.episodetoAssign.episodeId,
         claimNumber: $event.claimNumber,
         claimId: $event.claimId
       });
-      this.toast.info("Episode will be linked to " +$event.lastName + " " + $event.firstName + " " + $event.claimNumber, 'Claim Link ready to save', { enableHTML: true, positionClass: 'toast-top-center' })
+      this.toast.info("Episode will be linked to " + $event.lastName + " " + $event.firstName + " " + $event.claimNumber, 'Claim Link ready to save', { enableHTML: true, positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
@@ -69,7 +69,7 @@ export class AcquireEpisodeComponent implements OnInit {
           }
         })
       setTimeout(() => {
-        this.placeholder=$event.lastName + " " + $event.firstName + " ~ " + $event.claimNumber;      
+        this.placeholder = $event.lastName + " " + $event.firstName + " ~ " + $event.claimNumber;
         this.searchText = undefined;
         this.dropdownVisible = false
       }, 100);
@@ -104,7 +104,7 @@ export class AcquireEpisodeComponent implements OnInit {
   submitLink() {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Associate Episode to Claim',
-      message: 'Are you sure you want to associate this episode to Claim Number '+this.form.value.claimNumber+'?'
+      message: 'Are you sure you want to associate this episode to Claim Number ' + this.form.value.claimNumber + '?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
@@ -147,6 +147,26 @@ export class AcquireEpisodeComponent implements OnInit {
     } else {
       this.toast.warning("You need to select a user to assign the Episode!");
     }
+  }
+  archive() {
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Archive Episode',
+      message: "Are you sure you'd like to archive this episode?"
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.episodeService.loading = true;
+          this.http.archiveEpisode(this.episodeService.episodetoAssign.episodeId).single().subscribe(res => {
+            this.toast.success(res.message);
+            this.episodeService.loading = false;
+            this.episodeService.search();
+            this.episodeService.closeModal();
+          }, error => {
+            this.toast.error(error.message);
+            this.episodeService.loading = false;
+          });
+        }
+      });
   }
 
 }

@@ -93,6 +93,9 @@
       <button class="btn bg-darkblue btn-flat pull-right btn-small clear-inputs" type="button" (click)="episodeService.closeModal()">
         Cancel
       </button>
+      <button *ngIf="!episodeService.data.archived" class="btn bg-darkRed btn-flat pull-right btn-small search-claims" type="button"  (click)="archive()" style="margin-right:15px;">
+        <i class="fa fa-trash"></i> Archive
+      </button>
     </div>
   </div>
 </div>

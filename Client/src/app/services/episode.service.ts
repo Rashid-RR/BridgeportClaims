@@ -43,6 +43,7 @@ export class EpisodeService {
       episodeTypeId:null,
       OwnerID:null,
       resolved: false,
+      archived: false,
       sortColumn: "episodeId",
       sortDirection: "DESC",
       pageNumber: 1,

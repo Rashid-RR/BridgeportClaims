@@ -28,14 +28,14 @@
                 <input type="radio" id="f-option1" name="selector" (click)="setClosed($event,false)" [checked]="!resolved" />
                 <label class="check" for="f-option1"></label>
                 <label for="f-option1" class="form-control border0 text-right">Unresolved</label>
-                
+
             </span>
             <span class="flex green">
                 <label>&nbsp;</label>
                 <input type="radio" id="f-option" name="selector" (click)="setClosed($event,true)" [checked]="resolved" />
                 <label class="check" for="f-option"></label>
                 <label for="f-option" class="form-control border0 text-right">Resolved</label>
-               
+
             </span>
         </div>
         <div class="col-xs-12 field field-lg field-lgr">
@@ -62,16 +62,32 @@
                 </select>
             </div>
         </div>
+        <div class="col-xs-6 field flexb" style="padding:0px;">
+            <div class="form-group" style="max-width:95px;margin-right:0px">
+                <label>
+                    <br>
+                </label>
+                <div class="input-group date" style="border-right: 1px solid #ccc;border-left: 1px solid #ccc;">
+                    <span class="input-group-addon" style="padding:6px 0px;">
+                        <div class="commonCheckBox flex">
+                            <input class="archivedCheck" name="check" type="checkbox" id="archivedCheck" (change)="filter($event)">
+                            <label for="archivedCheck" class="archived"></label>
+                            <label for="archivedCheck">Archived</label>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
         <div class="col-xs-6 field field-lg">
             <div class="form-group">
-                    <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="search()">
-                        <i class="fa fa-search" aria-hidden="true"></i> Search</button> &nbsp;
-                    <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="reset()">
-                        <i class="fa fa-eraser" aria-hidden="true"></i> Clear</button> &nbsp;
-                    <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="refresh()">
-                        <i class="fa fa-refresh"></i> Refresh</button> &nbsp;
-                        <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="episode()">
-                            <i class="fa fa-plus" aria-hidden="true"></i> Add Episode</button>               
+                <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="search()">
+                    <i class="fa fa-search" aria-hidden="true"></i> Search</button> &nbsp;
+                <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="reset()">
+                    <i class="fa fa-eraser" aria-hidden="true"></i> Clear</button> &nbsp;
+                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="refresh()">
+                    <i class="fa fa-refresh"></i> Refresh</button> &nbsp;
+                <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="episode()">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add Episode</button>
             </div>
         </div>
     </div>
@@ -80,4 +96,4 @@
     title="Episode Entry">
     <app-new-episode *swalPartial [episode]="true">
     </app-new-episode>
-<swal>
+    <swal>

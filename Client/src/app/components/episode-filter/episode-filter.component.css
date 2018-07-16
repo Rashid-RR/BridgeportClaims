@@ -103,7 +103,7 @@ label.check-label{
     flex-direction: row;
   }
   .flexb{
-    padding-top: 15px 4px 4px 0px;
+    padding: 15px 4px 4px 0px;
     display: flex;
     height: fit-content;
     width: fit-content;
@@ -155,4 +155,13 @@ label.check-label{
       .field-lg {
         width: fit-content;
       } 
+    }
+    .commonCheckBox label {
+      line-height:17px;
+      margin-left:2px;
+    }
+    .commonCheckBox label:first-of-type {
+      position: relative;
+      margin-right: 1px;
+      top:0px
     }
