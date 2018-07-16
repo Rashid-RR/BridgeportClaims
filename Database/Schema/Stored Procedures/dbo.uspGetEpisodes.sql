@@ -5,8 +5,7 @@ GO
 /*
 	Author:			Jordan Gurney
 	Create Date:	11/29/2017
-	Description:	CRUD Proc inserting into [dbo].[DocumentIndex]
-	Modified:		Removed performance Hog: [dtme].[udfGetLocalDateTime]
+	Description:	Gets the Episodes for the Episodes page.
 	Sample Execute:
 					DECLARE @TotalPageSize INT
 					EXEC [dbo].[uspGetEpisodes] NULL,NULL,0,NULL,1,NULL,'Created','ASC',1,50000,  @TotalPageSize OUTPUT
@@ -24,6 +23,7 @@ CREATE PROC [dbo].[uspGetEpisodes]
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
 	@UserID NVARCHAR(128),
+	@Archived BIT,
 	@TotalPageSize INTEGER OUTPUT
 )
 AS BEGIN
@@ -32,8 +32,11 @@ AS BEGIN
 	BEGIN TRY
 		BEGIN TRAN;
 
-		IF @EpisodeCategoryID NOT IN (1,2)
+		IF @EpisodeCategoryID NOT IN (1, 2)
 			SET @EpisodeCategoryID = NULL; -- HACK: fix on front-end.
+
+		IF @Archived IS NULL
+			SET @Archived = 0;
 
 		-- Param Sniffing
 		DECLARE @iResolved BIT = @Resolved,
@@ -45,7 +48,8 @@ AS BEGIN
 				@iSortColumn VARCHAR(50) = @SortColumn,
 				@iSortDirection VARCHAR(5) = @SortDirection,
 				@iPageNumber INTEGER = @PageNumber,
-				@iPageSize INTEGER = @PageSize
+				@iPageSize INTEGER = @PageSize,
+				@iArchived BIT = @Archived;
 
 		CREATE TABLE [#Episodes](
 			[EpisodeId] [int] NOT NULL PRIMARY KEY,
@@ -91,9 +95,9 @@ AS BEGIN
 			  AND (@iStartDate IS NULL OR ep.[Created] >= @iStartDate)
 			  AND (@iEndDate IS NULL OR ep.[Created] <= @iEndDate)
 			  AND (@iEpisodeTypeID IS NULL OR ep.[EpisodeTypeID] = @iEpisodeTypeID)
+			  AND ep.Archived = @iArchived;
 
 		SELECT @TotalPageSize = COUNT(*) FROM [#Episodes] AS [e]
-
 
 		SELECT [e].[EpisodeId]
              , [e].[Owner]
@@ -170,4 +174,6 @@ AS BEGIN
 			@ErrMsg);			-- First argument (string)
 	END CATCH
 END
+
+
 GO
