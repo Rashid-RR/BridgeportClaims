@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[Episode]
 [DocumentID] [int] NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [EpisodeCategoryID] [int] NOT NULL,
+[Archived] [bit] NOT NULL CONSTRAINT [dfEpisodeArchived] DEFAULT ((0)),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfEpisodeUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -31,7 +32,7 @@ CREATE NONCLUSTERED INDEX [idxEpisodeClaimID] ON [dbo].[Episode] ([ClaimID]) WIT
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeCreatedClaimIDPharmacyNABPEpisodeTypeIDAssignedUserIDEpisodeCategoryIDIncludeEpisodeID] ON [dbo].[Episode] ([Created], [ClaimID], [PharmacyNABP], [EpisodeTypeID], [AssignedUserID], [EpisodeCategoryID]) INCLUDE ([EpisodeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxEpisodeDocumentIDIncludes] ON [dbo].[Episode] ([DocumentID]) INCLUDE ([AcquiredUserID], [AssignedUserID], [ClaimID], [Created], [CreatedOnUTC], [DataVersion], [Description], [EpisodeCategoryID], [EpisodeTypeID], [ModifiedByUserID], [PharmacyNABP], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxEpisodeDocumentIDIncludes] ON [dbo].[Episode] ([DocumentID]) INCLUDE ([AcquiredUserID], [Archived], [AssignedUserID], [ClaimID], [Created], [CreatedOnUTC], [Description], [EpisodeCategoryID], [EpisodeTypeID], [ModifiedByUserID], [PharmacyNABP], [ResolvedDateUTC], [ResolvedUserID], [Role], [RxNumber], [Status], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeEpisodeCategoryIDIncludes] ON [dbo].[Episode] ([EpisodeCategoryID]) INCLUDE ([AssignedUserID], [Created], [EpisodeID], [EpisodeTypeID], [PharmacyNABP], [ResolvedDateUTC], [Role], [RxNumber]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
