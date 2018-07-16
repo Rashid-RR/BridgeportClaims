@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Common", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Pdf", "Utilities\BridgeportClaims.Pdf\BridgeportClaims.Pdf.csproj", "{791943DB-823B-43A0-87F8-05A6443628C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Word", "BridgeportClaims.Word\BridgeportClaims.Word.csproj", "{FCA04FD6-7A01-4490-BA33-ABD47EF9B291}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Word", "Utilities\BridgeportClaims.Word\BridgeportClaims.Word.csproj", "{FCA04FD6-7A01-4490-BA33-ABD47EF9B291}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Integration.Tests", "Tests\BridgeportClaims.Integration.Tests\BridgeportClaims.Integration.Tests.csproj", "{31582991-1866-4B7C-BC34-AC5770DDE472}"
 EndProject
