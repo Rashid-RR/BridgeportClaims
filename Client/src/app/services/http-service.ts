@@ -870,21 +870,21 @@ export class HttpService {
       });
   }
   exportPrescriptions(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + "/prescriptions/scripts-pdf/?claimId=" + data.claimId, data, { responseType: 'blob' })
+    return this.http.post(this.baseUrl + "/prescriptions/scripts-pdf/?claimId=" + data.claimId, data, { observe: 'response',responseType: 'blob' })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
   exportBillingStatement(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + "/prescriptions/billing-statement-excel/?claimId=" + data.claimId, data, { responseType: 'blob' })
+    return this.http.post(this.baseUrl + "/prescriptions/billing-statement-excel/?claimId=" + data.claimId, data, { observe: 'response',responseType: 'blob' })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
   exportLetter(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + "/letters/download/?claimId=" + data.claimId + "&letterType=" + data.type + "&prescriptionId=" + data.prescriptionId, data, { responseType: 'blob' })
+    return this.http.post(this.baseUrl + "/letters/download/?claimId=" + data.claimId + "&letterType=" + data.type + "&prescriptionId=" + data.prescriptionId, data, { observe: 'response',responseType: 'blob' })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
@@ -905,7 +905,7 @@ export class HttpService {
       });
   }
   multipageInvoices(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/prescriptions/multi-page-invoices', data, { responseType: 'blob' })
+    return this.http.post(this.baseUrl + '/prescriptions/multi-page-invoices', data, { observe: 'response',responseType: 'blob' })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

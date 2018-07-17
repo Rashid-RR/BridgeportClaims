@@ -124,11 +124,8 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
 
     if (this.file.prescriptionIds && this.file.fileUrl) {
       this.http.multipageInvoices({ PrescriptionIds: this.file.prescriptionIds })
-        .map(
-          (res) => {
-            return new Blob([res.blob()], { type: 'application/pdf' })
-          }).subscribe(r => {
-            var fileURL = URL.createObjectURL(r);
+        .subscribe(r => {
+            var fileURL = URL.createObjectURL(r.body);
             docInitParams.url = fileURL;
             this.file.fileUrl = fileURL;
             this.render(docInitParams);
