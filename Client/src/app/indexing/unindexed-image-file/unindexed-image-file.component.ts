@@ -77,7 +77,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
     if (this.file) {
       this.loading = true;
       var DEFAULT_URL = this.getDocumentLink('url','assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl).replace(/#/g,'%23');
-      this.nativeHttp.get(DEFAULT_URL).single().subscribe(r => {
+      this.nativeHttp.get(DEFAULT_URL, { observe: 'response',responseType: 'blob' }).single().subscribe(r => {
         this.showFile();
       }, err => {
         this.showFile();
@@ -97,10 +97,13 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
                 localStorage.setItem('file-' + params['id'], JSON.stringify(this.file));
               }
             });
+            console.log(this.file);
+            console.log(this.file.fileUrl);
             var DEFAULT_URL = this.getDocumentLink('url','assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl).replace(/#/g,'%23');
-            this.nativeHttp.get(DEFAULT_URL).single().subscribe(r => {
+            this.nativeHttp.get(DEFAULT_URL, { observe: 'response',responseType: 'blob' }).single().subscribe(r => {
               this.showFile();
             }, err => {
+              console.log(err)
               this.showFile();
               this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });
               
