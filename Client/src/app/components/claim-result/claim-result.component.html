@@ -231,11 +231,11 @@
                     </thead>
                     <tbody>
                         <ng-container *ngFor="let claim of claimManager.claimsData">
-                            <tr [class.active]="claimManager.selected!==undefined && claim.claimId==claimManager.selectedClaim.claimId">
+                            <tr [class.active]="claimManager.selected !== undefined && claim.claimId == claimManager.selectedClaim.claimId">
                                 <ng-container *ngIf="adminOnly">
-                                    <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)">
+                                    <td (click)="tdRow.checked=!tdRow.checked; select(claim, tdRow, i)">
                                         <div class="commonCheckBox">
-                                            <input type="checkbox" name="check" value="None" [id]="claim.claimId" [checked]="claim.selected" class="claimCheckBox" #tdRow>
+                                            <input type="checkbox" name="check" value="None" [id]="claim.claimId" [checked]="claim.selected" (change)="select(claim, $event, i)" class="claimCheckBox" #tdRow>
                                             <label></label>
                                         </div>
                                     </td>

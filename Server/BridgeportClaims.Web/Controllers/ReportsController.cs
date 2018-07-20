@@ -211,7 +211,6 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [Route("group-name")]
         public IHttpActionResult GetGroupNameAutoSuggest(string groupName)
         {
@@ -227,7 +226,6 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         [Route("pharmacy-name")]
         public IHttpActionResult GetPharmacyNameAutoSuggest(string pharmacyName)
         {
