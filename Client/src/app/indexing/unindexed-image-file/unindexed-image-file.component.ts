@@ -73,13 +73,12 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
     return decodeURIComponent(results[1].replace(/\+/g, " "));
   }
   ngOnInit() {
-    var scale = 1.5;
     if (this.file) {
       this.loading = true;
       var DEFAULT_URL = this.getDocumentLink('url','assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl).replace(/#/g,'%23');
       this.nativeHttp.get(DEFAULT_URL, { observe: 'response',responseType: 'blob' }).single().subscribe(r => {
         this.showFile();
-      }, err => {
+      }, () => {
         this.showFile();
         this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });        
       })
@@ -100,8 +99,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit{
             var DEFAULT_URL = this.getDocumentLink('url','assets/js/pdfjs/web/viewer.html?url='+this.file.fileUrl).replace(/#/g,'%23');
             this.nativeHttp.get(DEFAULT_URL, { observe: 'response',responseType: 'blob' }).single().subscribe(r => {
               this.showFile();
-            }, err => {
-              console.log(err)
+            }, () => {
               this.showFile();
               this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });
               
