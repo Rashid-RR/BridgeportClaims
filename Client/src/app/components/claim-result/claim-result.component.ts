@@ -219,7 +219,6 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    const claimsLength = this.claimManager.claimsData;
     this.editing = false;
     this.claimManager.onClaimIdChanged.subscribe(res => {
       this.editing = false;
@@ -228,6 +227,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.payor = undefined;
       this.adjustor = undefined;
     });
+    console.log(this.adminOnly);
   }
   edit() {
     this.editing = true;
