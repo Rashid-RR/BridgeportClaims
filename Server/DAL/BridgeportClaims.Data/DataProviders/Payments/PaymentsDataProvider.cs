@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
-using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
