@@ -1,7 +1,7 @@
 <ng-container *ngIf="claimManager.dataSize==1 || claimManager.selected!==undefined">
     <div class="row invoice-info" *ngFor="let claim of claimManager.claimsData">
         <form class="form-horizontal" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" novalidate style="display:  flex;flex-direction:  row;flex-wrap:  wrap;">
-            <ng-container *ngIf="adminOnly">
+            <ng-container *ngIf="adminOnly && (claimManager.dataSize==1 || claim.claimId==claimManager.selectedClaim.claimId)">
                 <div class="col-sm-6 invoice-col">
                     <span style="text-align:left;height:25px;cursor:pointer;" *ngIf="claimManager.selectedClaims.length>0" (click)="claimManager.deselectAll();mergedClaim={};">
                         <div class="commonCheckBox" style="width: 20px;height: 20px;float:left">
@@ -16,7 +16,7 @@
                             <input type="checkbox" name="check" value="None" [id]="claim.claimId" [checked]="claim.selected" class="claimCheckBox" #tdSingleRow
                                 style="display:none;">
                             <label></label>
-                        </div> <span style="margin-left:40px;font-weight: 600;">Select for comparison</span>
+                        </div> <span style="margin-left:40px;font-weight: 600;">Select for merge</span>
                     </span>
                 </div>
             </ng-container>
@@ -241,7 +241,7 @@
                         </ng-container>
                         <tr>
                             <ng-container *ngIf="adminOnly">
-                                <th>Select 2 to compare</th>
+                                <th>Select 2 to merge</th>
                             </ng-container>
                             <th>Claim #</th>
                             <th>Name</th>
