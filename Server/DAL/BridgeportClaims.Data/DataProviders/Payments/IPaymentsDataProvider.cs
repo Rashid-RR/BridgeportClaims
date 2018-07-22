@@ -7,13 +7,12 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public interface IPaymentsDataProvider
     {
-        decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber);
         void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
             string toSuspenseNoteText, decimal? amountToPost, string userId, IList<PaymentPostingDto> paymentPostings);
         IList<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
             string direction, int pageNumber, int pageSize, string secondarySortColumn, string secondaryDirection);
-        IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds);
-        IList<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,
+        IEnumerable<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IEnumerable<int> claimIds);
+        IEnumerable<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,
             string lastName, DateTime? rxDate, string invoiceNumber);
         IEnumerable<byte> GetBytesFromDb(string fileName);
         void ImportDataTableIntoDb(DataTable dt);

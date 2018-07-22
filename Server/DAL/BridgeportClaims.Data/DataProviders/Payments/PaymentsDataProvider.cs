@@ -9,78 +9,23 @@ using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public class PaymentsDataProvider : IPaymentsDataProvider
     {
-        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
-
-        public PaymentsDataProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
-        {
-            _storedProcedureExecutor = storedProcedureExecutor;
-        }
-
-        public decimal GetAmountRemaining(IList<int> claimsIds, string checkNumber)
-        {
-            var outputParam = new SqlParameter
+        public IEnumerable<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IEnumerable<int> claimIds)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                ParameterName = "AmountRemaining",
-                DbType = DbType.Decimal,
-                SqlDbType = SqlDbType.Money,
-                Direction = ParameterDirection.Output
-            };
-            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {   
-                DisposableService.Using(() => new SqlCommand("[dbo].[uspGetAmountRemaining]", conn), cmd =>
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.CommandTimeout = 30;
-                    var param = new SqlParameter
-                    {
-                        ParameterName = "@ClaimIDs",
-                        SqlDbType = SqlDbType.Structured,
-                        Direction = ParameterDirection.Input,
-                        TypeName = "dbo.udtPrescriptionID"
-                    };
-                    var nextParam = new SqlParameter
-                    {
-                        DbType = DbType.String,
-                        SqlDbType = SqlDbType.VarChar,
-                        Direction = ParameterDirection.Input,
-                        ParameterName = "@CheckNumber",
-                        Value = checkNumber ?? (object) DBNull.Value
-                    };
-                    cmd.Parameters.Add(param);
-                    cmd.Parameters.Add(outputParam);
-                    cmd.Parameters.Add(nextParam);
-                    if (conn.State != ConnectionState.Open)
-                        conn.Open();
-                    cmd.ExecuteNonQuery();
-                });
+                var delimitedClaimIds = string.Join(StringConstants.Comma, claimIds);
+                const string sp = "[dbo].[uspGetClaimsWithPrescriptionDetails]";
+                conn.Open();
+                return conn.Query<ClaimsWithPrescriptionDetailsDto>(sp, new {ClaimIDs = delimitedClaimIds},
+                    commandType: CommandType.StoredProcedure)?.OrderByDescending(o => o.RxDate);
             });
-            return decimal.TryParse(outputParam.Value?.ToString(), out decimal d) ? d : new decimal();
-        }
-
-        public IList<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IList<int> claimIds)
-        {
-            var delimitedClaimIds = string.Join(StringConstants.Comma, claimIds);
-            var claimIdParam = new SqlParameter
-            {
-                ParameterName = "ClaimIDs",
-                Value = delimitedClaimIds,
-                DbType = DbType.String
-            };
-            var paymentSearchResultsDtos = _storedProcedureExecutor.Value
-                .ExecuteMultiResultStoredProcedure<ClaimsWithPrescriptionDetailsDto>(
-                    "EXEC [dbo].[uspGetClaimsWithPrescriptionDetails] @ClaimIDs = :ClaimIDs",
-                    new List<SqlParameter> {claimIdParam});
-            return paymentSearchResultsDtos?.OrderByDescending(x => x.RxDate).ToList();
-        }
-
         
-
         public void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
                     string toSuspenseNoteText, decimal? amountToPost, string userId, IList<PaymentPostingDto> paymentPostings)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
@@ -241,49 +186,22 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             });
         });
 
-        public IList<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber,
-            string firstName,
-            string lastName, DateTime? rxDate, string invoiceNumber)
-        {
-            var paymentSearchResultsDtos = _storedProcedureExecutor.Value
-                .ExecuteMultiResultStoredProcedure<ClaimsWithPrescriptionCountsDto>(
-                    "EXEC [dbo].[uspGetClaimsWithPrescriptionCounts] @ClaimNumber = :ClaimNumber, @FirstName = :FirstName, " +
-                    "@LastName = :LastName, @RxDate = :RxDate, @InvoiceNumber = :InvoiceNumber", new List<SqlParameter>
-                    {
-                        new SqlParameter
-                        {
-                            ParameterName = "ClaimNumber",
-                            Value = claimNumber,
-                            DbType = DbType.String
-                        },
-                        new SqlParameter
-                        {
-                            ParameterName = "FirstName",
-                            Value = firstName,
-                            DbType = DbType.String
-                        },
-                        new SqlParameter
-                        {
-                            ParameterName = "LastName",
-                            Value = lastName,
-                            DbType = DbType.String
-                        },
-                        new SqlParameter
-                        {
-                            ParameterName = "RxDate",
-                            Value = rxDate?.ToShortDateString(),
-                            DbType = DbType.String
-                        },
-                        new SqlParameter
-                        {
-                            ParameterName = "InvoiceNumber",
-                            Value = invoiceNumber,
-                            DbType = DbType.String
-                        }
-                    })?.ToList();
-            return paymentSearchResultsDtos ?? new List<ClaimsWithPrescriptionCountsDto>();
-        }
-
+        public IEnumerable<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber,
+            string firstName, string lastName, DateTime? rxDate, string invoiceNumber) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetClaimsWithPrescriptionCounts]";
+                conn.Open();
+                return conn.Query<ClaimsWithPrescriptionCountsDto>(sp, new
+                {
+                    ClaimNumber = claimNumber,
+                    FirstName = firstName,
+                    LastName = lastName,
+                    RxDate = rxDate,
+                    InvoiceNumber = invoiceNumber
+                }, commandType: CommandType.StoredProcedure);
+            });
+        
         public IEnumerable<byte> GetBytesFromDb(string fileName) => DisposableService.Using(()
             => new SqlConnection(cs.GetDbConnStr()), conn =>
         {

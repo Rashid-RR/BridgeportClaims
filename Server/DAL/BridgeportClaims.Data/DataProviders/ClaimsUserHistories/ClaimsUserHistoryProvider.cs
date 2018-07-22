@@ -6,24 +6,17 @@ using System.Linq;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
 {
     public class ClaimsUserHistoryProvider : IClaimsUserHistoryProvider
     {
-        private readonly Lazy<IStoredProcedureExecutor> _storedProcedureExecutor;
-
-        public ClaimsUserHistoryProvider(Lazy<IStoredProcedureExecutor> storedProcedureExecutor)
-        {
-            _storedProcedureExecutor = storedProcedureExecutor;
-        }
-
         public IList<ClaimsUserHistoryDto> GetClaimsUserHistory(string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                var maxClaimsLookup = int.TryParse(cs.GetAppSetting(StringConstants.MaxClaimsLookupHistoryItemsKey), out int i) ? i : 22;
+                var maxClaimsLookup = int.TryParse(cs.GetAppSetting(StringConstants.MaxClaimsLookupHistoryItemsKey), out var i) ? i : 22;
                 return DisposableService.Using(() => new SqlCommand("dbo.uspGetClaimUserHistory", conn), cmd =>
                 {
                     IList<ClaimsUserHistoryDto> retVal = new List<ClaimsUserHistoryDto>();
@@ -67,23 +60,12 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
                 });
             });
 
-        public void InsertClaimsUserHistory(string userId, int claimId)
-        {
-            var claimIdParam = new SqlParameter
+        public void InsertClaimsUserHistory(string userId, int claimId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                Value = claimId,
-                ParameterName = "ClaimID",
-                DbType = DbType.Int32
-            };
-            var userIdParam = new SqlParameter
-            {
-                Value = userId,
-                ParameterName = "UserID",
-                DbType = DbType.String
-            };
-            _storedProcedureExecutor.Value.ExecuteNoResultStoredProcedure(
-                "EXEC dbo.uspInsertClaimsUserHistory @ClaimID = :ClaimID, @UserID = :UserID",
-                new List<SqlParameter> {claimIdParam, userIdParam});
-        }
+                const string sp = "dbo.uspInsertClaimsUserHistory";
+                conn.Open();
+                conn.Execute(sp, new {ClaimID = claimId, UserID = userId}, commandType: CommandType.StoredProcedure);
+            });
     }
 }

@@ -3,20 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
-using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.UserRoles
 {
     public class AssignUsersToRolesProvider : IAssignUsersToRolesProvider
     {
-        private readonly Lazy<IStoredProcedureExecutor> _execr;
-
-        public AssignUsersToRolesProvider(Lazy<IStoredProcedureExecutor> execr)
-        {
-            _execr = execr;
-        }
-
         public void AssignUserToRole(string userId, string roleId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -47,27 +40,20 @@ namespace BridgeportClaims.Data.DataProviders.UserRoles
                 });
             });
 
-        public void AssignUsersToRoles(string userName, IList<string> roles)
+        public void AssignUsersToRoles(string userName, IEnumerable<string> roles)
         {
-            var emailParameter = new SqlParameter
-            {
-                ParameterName = "Email",
-                Value = userName,
-                DbType = DbType.String
-            };
             foreach (var role in roles)
             {
-                var roleNameParameter = new SqlParameter
+                DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
                 {
-                    ParameterName = "RoleName",
-                    Value = role,
-                    DbType = DbType.String
-                };
-                _execr.Value.ExecuteNoResultStoredProcedure(
-                    "EXECUTE [dbo].[uspAssignUserToRole] @Email = :Email, @RoleName = :RoleName",
-                    new List<SqlParameter> {emailParameter, roleNameParameter});
+                    const string sp = "[dbo].[uspAssignUserToRole]";
+                    var ps = new DynamicParameters();
+                    ps.Add("@Email", userName, DbType.String, ParameterDirection.Input, 256);
+                    ps.Add("@RoleName", role, DbType.String, ParameterDirection.Input, 256);
+                    conn.Open();
+                    conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+                });
             }
-            
         }
     }
 }

@@ -21,29 +21,6 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
             _session = session;
         }
 
-        public void ExecuteNoResultStoredProcedure(string procedureNameExecStatement,
-            IList<SqlParameter> parameters)
-            => DisposableService.Using(() => _session.Value.BeginTransaction(IsolationLevel.ReadCommitted),
-                    transaction =>
-                    {
-                        try
-                        {
-                            IQuery query = _session.Value.CreateSQLQuery(procedureNameExecStatement);
-                            AddStoredProcedureParameters(query, parameters);
-                            query.UniqueResult();
-                            if (transaction.IsActive)
-                                transaction.Commit();
-                        }
-                        catch (Exception ex)
-                        {
-                            if (transaction.IsActive)
-                                transaction.Rollback();
-                            Logger.Value.Error(ex);
-                            throw;
-                        }
-                    });
-        
-
         public IEnumerable<T> ExecuteMultiResultStoredProcedure<T>(string procedureNameExecStatement, 
             IList<SqlParameter> parameters) => DisposableService.Using(() 
                 => _session.Value.BeginTransaction(IsolationLevel.ReadCommitted),
@@ -66,51 +43,6 @@ namespace BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors
                     throw;
                 }
             });
-
-        public T ExecuteSingleResultStoredProcedure<T>(string procedureNameExecStatement,
-            IList<SqlParameter> parameters) => DisposableService.Using(() 
-                => _session.Value.BeginTransaction(IsolationLevel.ReadCommitted),
-            transaction =>
-            {
-                try
-                {
-                    IQuery query = _session.Value.CreateSQLQuery(procedureNameExecStatement);
-                    AddStoredProcedureParameters(query, parameters);
-                    var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
-                    if (transaction.IsActive)
-                        transaction.Commit();
-                    return result;
-                }
-                catch (Exception ex)
-                {
-                    Logger.Value.Error(ex);
-                    if (transaction.IsActive)
-                        transaction.Rollback();
-                    throw;
-                }
-            });
-
-        public T ExecuteScalarStoredProcedure<T>(string procedureName, IList<SqlParameter> parameters)
-            => DisposableService.Using(() => _session.Value.BeginTransaction(IsolationLevel.ReadCommitted),
-                transaction =>
-                {
-                    try
-                    {
-                        var query = _session.Value.GetNamedQuery(procedureName);
-                        AddStoredProcedureParameters(query, parameters);
-                        var result = query.SetResultTransformer(Transformers.AliasToBean(typeof(T))).UniqueResult<T>();
-                        if (transaction.IsActive)
-                            transaction.Commit();
-                        return result;
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Value.Error(ex);
-                        if (transaction.IsActive)
-                            transaction.Rollback();
-                        throw;
-                    }
-                });
 
         public static IQuery AddStoredProcedureParameters(IQuery query, IEnumerable<SqlParameter> parameters)
         {
