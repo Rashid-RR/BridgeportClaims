@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         var user = localStorage.getItem('user');
         let token = '';
-        if (user && req.url.indexOf('images.bridgeportclaims.com')==-1) {
+        if (user && (req.url.indexOf('images.bridgeportclaims.com')==-1 || req.url.indexOf('invoices.bridgeportclaims.com')==-1)) {
             try {
                 let us = JSON.parse(user);
                 token = us.access_token;
