@@ -72,11 +72,10 @@ export class NewEpisodeComponent implements OnInit {
         ajax: {
           headers:{'Authorization':this.auth},
           url: function (params) {
-            return '/api/reports/pharmacy-name/?pharmacyName='+params.term;
+            return '/api/reports/pharmacy-name/?pharmacyName='+(params.term||'');
           },
           type: "POST",
           processResults: function (data) {
-            console.log(data);
             data.forEach(d => {
                 d.id=d.nabp,
                 d.text=d.pharmacyName
