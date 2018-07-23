@@ -5,62 +5,19 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Documents
 {
     public class DocumentsProvider : IDocumentsProvider
-    {
-        private readonly Lazy<IRepository<Document>> _documentRepository;
-
-        public DocumentsProvider(Lazy<IRepository<Document>> documentRepository)
-        {
-            _documentRepository = documentRepository;
-        }
-
-        public IList<DocumentResultDto> GetDocumentByFileName(string fileName) =>
-            _documentRepository.Value.GetMany(x => x.FileName.Contains(fileName))?.Select(doc => new DocumentResultDto
-            {
-                DocumentId = doc.DocumentId,
-                CreationTimeLocal = doc.CreationTimeLocal,
-                Extension = doc.Extension,
-                FileName = doc.FileName,
-                FileSize = doc.FileSize,
-                FileUrl = doc.FileUrl,
-                FullFilePath = doc.FullFilePath,
-                LastAccessTimeLocal = doc.LastAccessTimeLocal,
-                LastWriteTimeLocal = doc.LastWriteTimeLocal
-            }).ToList();
-
-        public IList<DocumentTypeDto> GetDocumentTypes() =>
+    { 
+        public IEnumerable<DocumentTypeDto> GetDocumentTypes() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                return DisposableService.Using(() => new SqlCommand("SELECT [dt].[DocumentTypeID] DocumentTypeId, [dt].[TypeName] FROM [dbo].[DocumentType] AS [dt]", conn), cmd =>
-                    {
-                        IList<DocumentTypeDto> types = new List<DocumentTypeDto>();
-                        cmd.CommandType = CommandType.Text;
-                        if (conn.State != ConnectionState.Open)
-                            conn.Open();
-                        DisposableService.Using(cmd.ExecuteReader, reader =>
-                        {
-                            var documentTypeIdOrdinal = reader.GetOrdinal("DocumentTypeId");
-                            var typeNameOrdinal = reader.GetOrdinal("TypeName");
-                            while (reader.Read())
-                            {
-                                var documentTypeDto = new DocumentTypeDto
-                                {
-                                    DocumentTypeId = reader.GetByte(documentTypeIdOrdinal),
-                                    TypeName = reader.GetString(typeNameOrdinal)
-                                };
-                                types.Add(documentTypeDto);
-                            }
-                        });
-                        if (conn.State != ConnectionState.Closed)
-                            conn.Close();
-                        return types.OrderBy(x => x.TypeName).ToList();
-                    });
+                const string query = "SELECT [dt].[DocumentTypeID] DocumentTypeId, [dt].[TypeName] FROM [dbo].[DocumentType] AS [dt]";
+                conn.Open();
+                return conn.Query<DocumentTypeDto>(query, commandType: CommandType.Text)?.OrderBy(o => o.TypeName);
             });
 
         public void ArchiveDocument(int documentId, string modifiedByUserId) =>
@@ -198,7 +155,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     retVal.TotalRowCount = totalRowsParam.Value as int? ?? default;
                     if (conn.State != ConnectionState.Closed)
                         conn.Close();
-                    retVal.DocumentTypes = GetDocumentTypes();
+                    retVal.DocumentTypes = GetDocumentTypes()?.ToList();
                     return retVal;
                 });
             });
