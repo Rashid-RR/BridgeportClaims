@@ -18,7 +18,6 @@ CREATE PROC [etl].[uspStageNewLakerFile]
 	@DebugOnly BIT = 0
 )
 AS BEGIN
-	
 	/* Testing */
 	/*DECLARE @Base [etl].[udtLakerFile]
 	INSERT @Base (RowID) SELECT TOP (6376) NEWID() FROM sys.all_columns
@@ -77,7 +76,7 @@ AS BEGIN
 				IF @@TRANCOUNT > 0
 					ROLLBACK
 				RAISERROR(N'First sanity check failed. The StagedLakerFileBackup table doesn''t have the important ID''s populated.', 16, 1) WITH NOWAIT
-				RETURN
+				RETURN -1;
 			END
 
 		SELECT @StagedLakerFileRecordCount = COUNT(*) FROM etl.StagedLakerFile
@@ -104,7 +103,7 @@ AS BEGIN
 				IF @@TRANCOUNT > 0
 					ROLLBACK
 				RAISERROR(N'Second sanity check failed. The StagedLakerFile table doesn''t have the important ID''s populated.', 16, 1) WITH NOWAIT
-				RETURN
+				RETURN -1;
 			END
 
 		SET @FileDate = CONVERT(VARCHAR(20), dtme.udfGetLocalDate() ,112)
@@ -157,8 +156,15 @@ AS BEGIN
 		SET @SQLStatement = N'DROP TABLE etl.StagedLakerFile'
 		EXEC dbo.uspExecSQL @SQLStatement, @DebugOnly
 		
-		IF @DebugOnly = 0
-			SELECT * INTO etl.StagedLakerFile FROM @Base
+		IF (@DebugOnly = 0)
+			BEGIN
+				SELECT * INTO etl.StagedLakerFile FROM @Base;
+				SET @SQLStatement = N'CREATE NONCLUSTERED INDEX [idxStagedLakerFileRowID]
+				ON etl.StagedLakerFile ([RowID])
+				INCLUDE ([PrescriptionID])
+				WITH (FILLFACTOR = 90, DATA_COMPRESSION = PAGE);'
+				EXEC dbo.uspExecSQL @SQLStatement, @DebugOnly
+			END
 		ELSE
 			PRINT 'SELECT * INTO etl.StagedLakerFile FROM etl.StagedLakerFileBackup WHERE 1 = 2' -- Just something to create the table.
 			
@@ -170,7 +176,7 @@ AS BEGIN
 				IF @@TRANCOUNT > 0
 					ROLLBACK
 				RAISERROR(N'Forget it, the etl.StagedLakerFile isn''t ready. It doesn''t have 154 columns.', 16, 1) WITH NOWAIT
-				RETURN
+				RETURN -1;
 			END
 
 		-- Prepare the newly created etl.StagedLakerFile to go forth... and make us proud...
@@ -179,7 +185,7 @@ AS BEGIN
 
 		-- Before our final commit, ensure the backup table now has total records of the original staged laker file table.
 		SET @SQLStatement = N'IF (SELECT COUNT(*) FROM etl.StagedLakerFileBackup) != ' +
-			 CONVERT(NVARCHAR, CASE WHEN @DebugOnly = 1 THEN @StagedLakerFileBackupRecordCount ELSE @StagedLakerFileRecordCount END) +
+			 CONVERT(NVARCHAR(500), CASE WHEN @DebugOnly = 1 THEN @StagedLakerFileBackupRecordCount ELSE @StagedLakerFileRecordCount END) +
 			CHAR(10) + '    RAISERROR(N''Error. The count in the backup file doesn''''t match the count captured in the original StagedLakerFile.'', 16, 1) WITH NOWAIT;'
 		IF @DebugOnly = 1
 			PRINT @SQLStatement

@@ -7,7 +7,7 @@ GO
 	Create Date:	8/30/2017
 	Description:	"The Genius" Jeff Moden splitter.
 	Sample Execute:		
-					SELECT * FROM [util].[DelimitedSplit](',', N'45,84,84,k84k8,4k8,4k84,k4,54,5,k8,4k5,k5,4k5,4k')
+					SELECT * FROM [util].[udfDelimitedSplit](',', N'45,84,84,k84k8,4k8,4k84,k4,54,5,k8,4k5,k5,4k5,4k')
 */
 CREATE FUNCTION [util].[udfDelimitedSplit]
         (@Delimiter CHAR(1), @String VARCHAR(8000))

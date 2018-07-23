@@ -12,7 +12,7 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
-ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [pkSkippedPaymentExclusion] PRIMARY KEY CLUSTERED  ([SkippedPaymentExclusionID]) WITH (DATA_COMPRESSION = ROW) ON [PRIMARY]
+ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [pkSkippedPaymentExclusion] PRIMARY KEY CLUSTERED  ([SkippedPaymentExclusionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [fkSkippedPaymentExclusionModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

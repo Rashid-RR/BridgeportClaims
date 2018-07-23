@@ -55,16 +55,16 @@ AS BEGIN
 			BEGIN
 				-- remove all extraneous users.
 				DECLARE UserScriptCrsor CURSOR LOCAL FAST_FORWARD READ_ONLY FOR
-				SELECT  N'DROP USER ' + QUOTENAME([i].[name])
+				SELECT  N'ALTER USER ' + QUOTENAME([i].[name]) + N' WITH LOGIN = ' + QUOTENAME([i].[name]) + N';'
 				FROM    [sys].[database_principals] i
 				WHERE   [i].[name] NOT IN ('public', 'dbo', 'guest', 'INFORMATION_SCHEMA', 'sys')
-						AND [i].[type_desc] = 'SQL_USER'
+						AND [i].[type_desc] = N'SQL_USER'
 
 				OPEN UserScriptCrsor;
 
 				FETCH NEXT FROM UserScriptCrsor INTO @Script
 
-				WHILE @@FETCH_STATUS = 0
+				WHILE (@@FETCH_STATUS = 0)
 				BEGIN
 					EXECUTE [sys].[sp_executesql] @Script
 					FETCH NEXT FROM UserScriptCrsor INTO @Script
@@ -87,12 +87,8 @@ AS BEGIN
             , @ErrLine INT = ERROR_LINE()
             , @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE();
 
-        RAISERROR(N'%s (line %d): %s',    -- Message text w formatting
-            @ErrSeverity,        -- Severity
-            @ErrState,            -- State
-            @ErrProc,            -- First argument (string)
-            @ErrLine,            -- Second argument (int)
-            @ErrMsg);            -- First argument (string)
+        RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
     END CATCH
 END
+
 GO
