@@ -1,0 +1,341 @@
+/* Theme Name: BridgePort
+Theme URl: 
+Description: 
+Version: 1.0
+Author: 
+URl: 
+
+
+/* =Reset
+-------------------------------------------------------------- */
+
+.alignleft {
+	float: left;
+}
+.alignright {
+	float: right;
+}
+.aligncenter {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+img.alignleft,
+.wp-caption.alignleft {
+	margin:5px 12px 12px 0;
+}
+img.alignright,
+.wp-caption.alignright {
+	margin: 0 0 82px 24px;
+}
+img.aligncenter,
+.wp-caption.aligncenter {
+	clear: both;
+	margin-top: 12px;
+	margin-top: 0.857142857rem;
+	margin-bottom: 12px;
+	margin-bottom: 0.857142857rem;
+}
+*{
+	margin:0;
+	padding:0;
+	list-style:none;
+	box-sizing:border-box;
+}
+body{
+	font-family: 'Lato', sans-serif;
+	font-size:15px;
+}
+.clear{
+	clear:both;
+}
+img{
+	max-width:100%;
+	height:auto;
+}
+a{
+	text-decoration:none;
+}
+.main-wrapper{
+	margin:0 auto;
+	width:1170px;
+	position:relative;
+}
+header{
+	border-bottom:8px solid #334292;
+}
+.logo{
+	float:left;
+	padding:12px 0 24px 0;
+}
+.nav-area{
+	float:right;
+}
+.nav-area ul li{
+	display:inline-block;
+}
+.nav-area ul li a{
+	display:block;
+	padding:48px 24px 24px 24px;
+	color:#000;
+}
+.nav-area ul li a:hover, .nav-area ul li.current-menu-item a{
+	background:#4c62d9 url(images/nav-icon.png) center 24px no-repeat;
+	color:#fff;
+}
+.appointment-btn{
+	position:absolute;
+	right: -18px;
+	bottom: -98px;
+	z-index:99999999;
+}
+.slider-area,.banner-area{
+	position:relative;
+}
+.s3,.page-banner{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100% !important;
+}
+.slider-area li.inner-banner,.s3 li{
+	width:100% !important;
+}
+.caption-area{
+	position:absolute;
+	left:0;
+	top:18%;
+	width:100%;
+	color:#fff;
+}
+.caption-area h3{
+	text-align:center;
+	font-size:47px;
+}
+.caption-area h3 span{
+	font-size:35px;
+	display:block;
+}
+.caption-area p{
+	font-size:35px;
+	font-weight:300;
+	text-align:center;
+	padding:12px 0;
+}
+#nav{
+	position:absolute;
+	top:34%;
+	z-index:9999999999;
+	width:100%;
+	left:0;
+	text-align:center;
+}
+#nav a{
+	border:1px solid #fff;
+	width:8px;
+	height:8px;
+	border-radius: 8px;
+	display:inline-block;
+	font-size:0;
+	margin:0 6px 0 0;
+}
+#nav a.activeSlide{
+	background:#fff;
+}
+.home-boxes{
+	width:1170px;
+	margin:0 auto;
+	position:relative;
+	z-index:9999;
+	padding:544px 0 200px 0;
+}
+.home-boxes li{
+	float:left;
+	width:290px;
+	background:#f3f5f6;
+	min-height:314px;
+	cursor:pointer;
+	text-align:center;
+	color:#575757;
+	position:relative;
+}
+.home-boxes li h3{
+	font-size:24px;
+	padding:14px 0;
+}
+.home-boxes li p{
+	font-size:14px;
+	line-height:20px;
+}
+.home-boxes li:hover{
+	background:#7c3c36;
+	color:#fff;
+}
+.home-boxes li .image-area{
+	background:#e2e4e9;
+	width:290px;
+	height:150px;
+	padding:0 0 10px 0;
+	text-align:center;
+	display:table-cell;
+	vertical-align:bottom;
+}
+.home-boxes li:hover .image-area{
+	background:#773f3f;
+}
+.home-boxes li:hover .image-area img {
+    -webkit-filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1);
+}
+.home-boxes li a.read-more{
+	position:absolute;
+	background:url(images/read-more-btn.png) no-repeat;
+	width:39px;
+	height:35px;
+	left:42%;
+	bottom:0;
+}
+.banner-area{
+	padding:194px 0 134px 0;
+}
+.inner-content{
+	position:relative;
+	background:#f3f4f5;
+	padding:28px 48px;
+	min-height:448px;
+	color:#575757;
+	font-size:14px;
+	margin:0 0 40px 0;
+}
+.inner-content h2{
+	color:#334292;
+	font-size:30px;
+	padding:14px 0;
+}
+.inner-content p{
+	line-height:20px;
+	padding:6px 0;
+}
+.team-list{
+	text-align:center;
+	padding:30px 0;
+}
+.team-list li{
+	display:inline-block;
+	width:248px;
+	margin:0 18px 0 0;
+	border-bottom:5px solid #008fd5;
+}
+.team-list li .image-area{
+	width:247px;
+	height:220px;
+	overflow:hidden;
+}
+.team-list li h3{
+	color:#000;
+	padding:24px 0;
+	font-size:16px;
+	line-height:22px;
+	font-weight:600;
+}
+.team-list li h3 span{
+	display:block;
+	color:#008fd5;
+	font-size:13px;
+}
+.page-id-13 .inner-content ul li strong{
+	font-size:20px;
+	font-style:italic;
+	display:block;
+	padding:0 0 2px 0;
+}
+.page-id-13 .inner-content ul li.phone-icon{
+	background: url(images/phone-icon.png) left 16px no-repeat;
+	padding: 14px 0 20px 38px;
+}
+.page-id-13 .inner-content ul li.email-icon{
+	background: url(images/email-icon.png) left 4px no-repeat;
+	padding: 0 0 30px 38px;
+}
+.form-area{
+	background:#fff;
+	border:1px dotted #c0c0c0;
+	padding:30px;
+	min-height:330px;
+}
+.form-area table{
+	width:100%;
+}
+.form-area table td{
+	padding:0 0 18px 0;
+}
+.form-area table td+td{
+	padding:0 0 18px 38px;
+}
+.form-area input[type="tel"], .form-area input[type="text"], .form-area input[type="email"], .form-area textarea{
+	background:#f2f2f2;
+	border:none;
+	padding:16px;
+	outline:none;
+	width:100%;
+	font-family: 'Lato', sans-serif;
+	font-size:14px;
+	color:#b1aeae;
+}
+.form-area input[type="submit"]{
+	background:#71231b;
+	cursor:pointer;
+	padding:15px 40px;
+	color:#fff;
+	font-family: 'Lato', sans-serif;
+	border:none;
+	text-transform:uppercase;
+	margin:20px 0;
+}
+.form-area textarea{
+	resize:none;
+	height:124px;
+}
+.bridge-list{
+	padding:20px 0;
+}
+.bridge-list li{
+	float:left;
+	width:324px;
+	margin:0 34px 0 0;
+	padding:0 0 76px 0;
+}
+.bridge-list li h3{
+	font-size:22px;
+	color:#782e27;
+	padding:0 0 12px 0;
+}
+.bridge-list li p{
+	font-size:14px;
+	color:#575757;
+	line-height:20px;
+}
+footer{
+	background:#fff;
+	border-top: 8px solid #4c62d9;
+	padding:28px 0;
+	position:relative;
+	z-index:9999;
+	position:absolute;
+	bottom:30px;
+	left:0;
+	width:100%;
+}
+footer p{
+	font-size:14px;
+	color:#8a8a8a;
+	line-height:18px;
+	float:left;
+}
+footer ul{
+	float:right;
+}
+footer ul li{
+	display:inline-block;
+}
