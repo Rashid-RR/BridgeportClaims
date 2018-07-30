@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using BridgeportClaims.Common.Config;
+using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
+using Dapper;
 
 namespace BridgeportClaims.Data.DataProviders.Users
 {
@@ -17,6 +22,16 @@ namespace BridgeportClaims.Data.DataProviders.Users
         {
             _usersRepository = usersRepository;
         }
+
+        public UserDto GetUser(string userId) =>
+            DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), conn =>
+            {
+                const string sp = "dbo.uspGetUserNamesFromID";
+                conn.Open();
+                var ps = new DynamicParameters();
+                ps.Add("@UserName", userId, DbType.String, ParameterDirection.Input, 128);
+                return conn.Query<UserDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
+            });
 
         public IEnumerable<UserDto> GetUsers() => _usersRepository.Value.GetMany(x =>
                 (null == x.LockoutEndDateUtc || x.LockoutEnabled && null != x.LockoutEndDateUtc && x.LockoutEndDateUtc.Value > DateTime.UtcNow)
