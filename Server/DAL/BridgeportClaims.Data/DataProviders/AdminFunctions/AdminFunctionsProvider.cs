@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.AdminFunctions
@@ -39,6 +41,17 @@ namespace BridgeportClaims.Data.DataProviders.AdminFunctions
 		#endregion
 
 		#region Public Methods
+
+		public IEnumerable<InvoiceAmountDto> GetInvoiceAmounts(int claimId, string rxNumber, 
+			DateTime? rxDate = null, string invoiceNumber = null) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[dbo].[uspGetInvoiceInfo]";
+				conn.Open();
+				return conn.Query<InvoiceAmountDto>(sp,
+					new {ClaimID = claimId, RxNumber = rxNumber, RxDate = rxDate, InvoiceNumber = invoiceNumber},
+					commandType: CommandType.StoredProcedure);
+			});
 
 		public void DeleteFirewallSetting(string ruleName)
 		{
@@ -106,7 +119,16 @@ namespace BridgeportClaims.Data.DataProviders.AdminFunctions
 					});
 				});
 			});
-		
+
+		public void UpdateBilledAmount(int prescriptionId, decimal billedAmount) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[dbo].[uspUpdateBilledAmount]";
+				conn.Open();
+				conn.Execute(sp, new {PrescriptionID = prescriptionId, BilledAmount = billedAmount},
+					commandType: CommandType.StoredProcedure);
+			});
+
 		#endregion
 	}
 }
