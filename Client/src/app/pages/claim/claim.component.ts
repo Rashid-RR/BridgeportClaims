@@ -70,6 +70,9 @@ export class ClaimsComponent implements OnInit {
     this.initializeExpandedTableBooleanValue(table);
 
   }
+  get isVip(){
+    return this.claimManager.selectedClaim && this.claimManager.selectedClaim.isVip;
+  }
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
       let disposable = this.dialogService.addDialog(ConfirmComponent, {
@@ -378,7 +381,7 @@ export class ClaimsComponent implements OnInit {
       } else {
         //https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245300.pdf used for testing
         let id = UUID.UUID();
-        let doc: any = { fileUrl: prescriptions[0].invoiceUrl };
+        let doc: any = { fileUrl: prescriptions[0].invoiceUrl,fileName:prescriptions[0].fileName };
         if (prescriptions.length > 1) {
           doc.prescriptionIds = prescriptionId;
         }

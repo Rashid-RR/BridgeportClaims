@@ -686,3 +686,21 @@ thead{
 .select2-container.select2-container--open{
   z-index:1070 !important;
 }
+.isVip .box-header,
+.isVip .bg-head-box
+{
+  background: #002f58 !important;
+}
+.isVip .border-style
+{
+  border-left: 6px solid #002f58 !important;
+}
+.isVip .box-body,
+.isVip .box-body tr:nth-of-type(odd)
+{
+  background: #afcdd8 !important;
+}
+.isVip .box-body tr:nth-of-type(even)
+{
+  background: #cff1fd !important;
+}

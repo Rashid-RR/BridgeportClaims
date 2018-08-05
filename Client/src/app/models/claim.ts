@@ -37,6 +37,7 @@ export class Claim {
     payorId:number;
     stateId:number;
     selected:boolean;
+    isVip:boolean;
     genderId:number;
     claimFlex2Id:number;
     private prescription: Array<Prescription> = [];

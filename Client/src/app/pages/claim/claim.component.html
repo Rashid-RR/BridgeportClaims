@@ -50,7 +50,7 @@
                         <app-claim-search></app-claim-search>
                     </div>
                 </div>
-                <div class="row data" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
+                <div class="row data"  [class.isVip]="isVip" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
                     <div [class.col-sm-5]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)"
                         *ngIf="!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" style="padding-right:0px;">
                         <p class="text-center" style="margin:  0px;">&nbsp;</p>
