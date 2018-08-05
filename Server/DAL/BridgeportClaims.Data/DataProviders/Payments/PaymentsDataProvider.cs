@@ -335,7 +335,9 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             var table = new DataTable();
             table.Columns.Add("PrescriptionID", typeof(int));
             foreach (var id in ids)
+            {
                 table.Rows.Add(id);
+            }
             return table;
         }
     }

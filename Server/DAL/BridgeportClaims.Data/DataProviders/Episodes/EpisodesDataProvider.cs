@@ -14,24 +14,24 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 	
 	public class EpisodesDataProvider : IEpisodesDataProvider
 	{
-	    public void AssociateEpisodeToClaim(int episodeId, int claimId) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            const string sp = "[dbo].[uspAssociateEpisodeToClaim]";
-                conn.Open();
-	            conn.Execute(sp, new {EpisodeID = episodeId, ClaimID = claimId},
-	                commandType: CommandType.StoredProcedure);
-	        });
+		public void AssociateEpisodeToClaim(int episodeId, int claimId) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[dbo].[uspAssociateEpisodeToClaim]";
+				conn.Open();
+				conn.Execute(sp, new {EpisodeID = episodeId, ClaimID = claimId},
+					commandType: CommandType.StoredProcedure);
+			});
 
-        /// <summary>
-        /// Calls a stored proc responsible for inserting a new Episode depending on the Document Type that was chosen.
-        /// </summary>
-        /// <param name="claimId"></param>
-        /// <param name="userId"></param>
-        /// <param name="documentId"></param>
-        /// <param name="documentTypeId"></param>
-        /// <param name="rxNumber"></param>
-        public bool CreateImageCategoryEpisode(byte documentTypeId, int claimId, string rxNumber, string userId, int documentId) =>
+		/// <summary>
+		/// Calls a stored proc responsible for inserting a new Episode depending on the Document Type that was chosen.
+		/// </summary>
+		/// <param name="claimId"></param>
+		/// <param name="userId"></param>
+		/// <param name="documentId"></param>
+		/// <param name="documentTypeId"></param>
+		/// <param name="rxNumber"></param>
+		public bool CreateImageCategoryEpisode(byte documentTypeId, int claimId, string rxNumber, string userId, int documentId) =>
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
 				return DisposableService.Using(() => new SqlCommand("[dbo].[uspCreateImageCategoryEpisode]", conn), cmd =>
@@ -178,13 +178,13 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 					userIdParam.SqlDbType = SqlDbType.NVarChar;
 					userIdParam.ParameterName = "@UserID";
 					cmd.Parameters.Add(userIdParam);
-				    var archivedParam = cmd.CreateParameter();
-				    archivedParam.Value = archived;
-				    archivedParam.Direction = ParameterDirection.Input;
-				    archivedParam.DbType = DbType.Boolean;
-				    archivedParam.SqlDbType = SqlDbType.Bit;
-				    archivedParam.ParameterName = "@Archived";
-				    cmd.Parameters.Add(archivedParam);
+					var archivedParam = cmd.CreateParameter();
+					archivedParam.Value = archived;
+					archivedParam.Direction = ParameterDirection.Input;
+					archivedParam.DbType = DbType.Boolean;
+					archivedParam.SqlDbType = SqlDbType.Bit;
+					archivedParam.ParameterName = "@Archived";
+					cmd.Parameters.Add(archivedParam);
 					var totalPageSizeParam = cmd.CreateParameter();
 					totalPageSizeParam.ParameterName = "@TotalPageSize";
 					totalPageSizeParam.Direction = ParameterDirection.Output;
@@ -233,23 +233,23 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				});
 			});
 
-	    public IEnumerable<EpisodeTypeDto> GetEpisodeTypes() =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-                const string query = "SELECT EpisodeTypeId = et.EpisodeTypeID, EpisodeTypeName = et.TypeName, et.SortOrder FROM dbo.EpisodeType AS et;";
-                conn.Open();
-	            return conn.Query<EpisodeTypeDto>(query, commandType: CommandType.Text)
-	                ?.OrderBy(x => x.EpisodeTypeName);
-	        });
+		public IEnumerable<EpisodeTypeDto> GetEpisodeTypes() =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string query = "SELECT EpisodeTypeId = et.EpisodeTypeID, EpisodeTypeName = et.TypeName, et.SortOrder FROM dbo.EpisodeType AS et;";
+				conn.Open();
+				return conn.Query<EpisodeTypeDto>(query, commandType: CommandType.Text)
+					?.OrderBy(x => x.EpisodeTypeName);
+			});
 
-	    public void ResolveEpisode(int episodeId, string modifiedByUserId) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            const string sp = "[dbo].[uspResolveEpisode]";
-	            conn.Open();
-	            conn.Execute(sp, new {EpisodeID = episodeId, ModifiedByUserID = modifiedByUserId},
-	                commandType: CommandType.StoredProcedure);
-	        });
+		public void ResolveEpisode(int episodeId, string modifiedByUserId) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[dbo].[uspResolveEpisode]";
+				conn.Open();
+				conn.Execute(sp, new {EpisodeID = episodeId, ModifiedByUserID = modifiedByUserId},
+					commandType: CommandType.StoredProcedure);
+			});
 
 		public EpisodeBladeDto SaveNewEpisode(int? claimId, byte? episodeTypeId, string pharmacyNabp, string rxNumber,
 			string episodeText, string userId) =>
@@ -339,38 +339,38 @@ namespace BridgeportClaims.Data.DataProviders.Episodes
 				});
 			});
 
-	    public void AssignOrAcquireEpisode(int episodeId, string userId, string modifiedByUserId) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            const string sp = "[dbo].[uspAssignOrAcquireEpisode]";
-                conn.Open();
-	            conn.Execute(sp, new {EpisodeID = episodeId, UserID = userId, ModifiedByUserID = modifiedByUserId},
-	                commandType: CommandType.StoredProcedure);
-	        });
+		public void AssignOrAcquireEpisode(int episodeId, string userId, string modifiedByUserId) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[dbo].[uspAssignOrAcquireEpisode]";
+				conn.Open();
+				conn.Execute(sp, new {EpisodeID = episodeId, UserID = userId, ModifiedByUserID = modifiedByUserId},
+					commandType: CommandType.StoredProcedure);
+			});
 
-	    /// <summary>
-	    /// Saves a new Episode Note object to the databse.
-	    /// </summary>
-	    /// <param name="episodeId"></param>
-	    /// <param name="note"></param>
-	    /// <param name="userId"></param>
-	    /// <param name="today"></param>
-	    public void SaveEpisodeNote(int episodeId, string note, string userId, DateTime today) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            const string sp = "[dbo].[uspEpisodeNoteInsert]";
-                conn.Open();
-	            conn.Execute(sp, new {EpisodeID = episodeId, NoteText = note, UserID = userId, Today = today},
-	                commandType: CommandType.StoredProcedure);
-	        });
+		/// <summary>
+		/// Saves a new Episode Note object to the databse.
+		/// </summary>
+		/// <param name="episodeId"></param>
+		/// <param name="note"></param>
+		/// <param name="userId"></param>
+		/// <param name="today"></param>
+		public void SaveEpisodeNote(int episodeId, string note, string userId, DateTime today) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[dbo].[uspEpisodeNoteInsert]";
+				conn.Open();
+				conn.Execute(sp, new {EpisodeID = episodeId, NoteText = note, UserID = userId, Today = today},
+					commandType: CommandType.StoredProcedure);
+			});
 
 
-        public void ArchiveEpisode(int episodeId) =>
-	        DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-	        {
-	            const string sp = "[dbo].[uspArchiveEpisode]";
-                conn.Open();
-	            conn.Execute(sp, new {EpisodeID = episodeId}, commandType: CommandType.StoredProcedure);
-	        });
+		public void ArchiveEpisode(int episodeId) =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+			{
+				const string sp = "[dbo].[uspArchiveEpisode]";
+				conn.Open();
+				conn.Execute(sp, new {EpisodeID = episodeId}, commandType: CommandType.StoredProcedure);
+			});
 	}
 }

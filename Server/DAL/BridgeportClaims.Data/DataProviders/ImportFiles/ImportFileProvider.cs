@@ -21,22 +21,22 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 {
 	public class ImportFileProvider : IImportFileProvider
 	{
-	    private readonly IRepository<ImportFile> _importFileRepository;
+		private readonly IRepository<ImportFile> _importFileRepository;
 		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 		private readonly ICsvReaderProvider _csvReaderProvider;
 		private readonly IRepository<ImportFileType> _importFileTypeRepository;
 
-	    public ImportFileProvider(IRepository<ImportFile> importFileRepository,
-	        ICsvReaderProvider csvReaderProvider, 
-	        IRepository<ImportFileType> importFileTypeRepository)
-	    {
-	        _importFileRepository = importFileRepository;
-	        _csvReaderProvider = csvReaderProvider;
-	        _importFileTypeRepository = importFileTypeRepository;
-	    }
+		public ImportFileProvider(IRepository<ImportFile> importFileRepository,
+			ICsvReaderProvider csvReaderProvider, 
+			IRepository<ImportFileType> importFileTypeRepository)
+		{
+			_importFileRepository = importFileRepository;
+			_csvReaderProvider = csvReaderProvider;
+			_importFileTypeRepository = importFileTypeRepository;
+		}
 
 
-	    public void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false)
+		public void LakerImportFileProcedureCall(DataTable dataTable, bool debugOnly = false)
 		{
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
@@ -53,7 +53,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 					command.CommandType = CommandType.StoredProcedure;
 					command.Parameters.Add(udt);
 					command.CommandTimeout = 1600;
-				    command.Parameters.Add(new SqlParameter
+					command.Parameters.Add(new SqlParameter
 					{
 						ParameterName = "@DebugOnly",
 						SqlDbType = SqlDbType.Bit,
@@ -91,7 +91,7 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 		{
 			if (fullFilePathOfLatestLakerFile.IsNullOrWhiteSpace())
 				throw new Exception("The full file path to the latest Laker CSV doesn't exist.");
-            var dt = _csvReaderProvider.ReadCsvFile(fullFilePathOfLatestLakerFile, true);
+			var dt = _csvReaderProvider.ReadCsvFile(fullFilePathOfLatestLakerFile, true);
 			if (null == dt) throw new Exception($"Could not read CSV into Data Table from {fullFilePathOfLatestLakerFile}");
 			// Cleanup temporary file.
 			if (File.Exists(fullFilePathOfLatestLakerFile))

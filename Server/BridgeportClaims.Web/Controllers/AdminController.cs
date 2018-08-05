@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.AdminFunctions;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using NLog;
 
@@ -18,6 +20,39 @@ namespace BridgeportClaims.Web.Controllers
         public AdminController(Lazy<IAdminFunctionsProvider> adminFunctionsProvider)
         {
             _adminFunctionsProvider = adminFunctionsProvider;
+        }
+
+        [HttpPost]
+        [Route("get-invoice-amounts")]
+        public IHttpActionResult GetInvoiceAmounts(InvoiceAmountsModel model)
+        {
+            try
+            {
+                return Ok(_adminFunctionsProvider.Value.GetInvoiceAmounts(model.ClaimId, model.RxNumber,
+                              model.RxDate.ToNullableFormattedDateTime(), model.InvoiceNumber) ??
+                          new List<InvoiceAmountDto>());
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("update-billed-amount")]
+        public IHttpActionResult UpdateBilledAmount(int prescriptionId, decimal billedAmount)
+        {
+            try
+            {
+                _adminFunctionsProvider.Value.UpdateBilledAmount(prescriptionId, billedAmount);
+                return Ok(new {message = $"The billed amount was updated to {billedAmount:C} successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

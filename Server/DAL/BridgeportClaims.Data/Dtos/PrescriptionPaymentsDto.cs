@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class PrescriptionPaymentsDto
     {
         public int PrescriptionPaymentId { get; set; }
@@ -14,5 +13,6 @@ namespace BridgeportClaims.Data.Dtos
         public DateTime RxDate { get; set; }
         public string InvoiceNumber { get; set; }
         public bool IsReversed { get; set; }
+        public decimal PayableAmount { get; set; }
     }
 }
