@@ -231,13 +231,14 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 			});
 			if (null == file)
 				throw new ArgumentNullException(nameof(file));
-			DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()), connection =>
+			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), connection =>
 			{
 				DisposableService.Using(() => new SqlCommand(
-					@"INSERT [util].[ImportFile] ([FileBytes],[FileName],[FileExtension],
-							[FileSize],[ImportFileTypeID],[Processed],[CreatedOnUTC],[UpdatedOnUTC])
-					VALUES (@FileBytes, @FileName,@FileExtension,@FileSize,@ImportFileTypeID,
-							@Processed,SYSUTCDATETIME(),SYSUTCDATETIME())",
+					  @"DECLARE @UtcNow DATETIME2 = [dtme].[udfGetDate]();
+						INSERT [util].[ImportFile] ([FileBytes],[FileName],[FileExtension],
+								[FileSize],[ImportFileTypeID],[Processed],[CreatedOnUTC],[UpdatedOnUTC])
+						VALUES (@FileBytes, @FileName,@FileExtension,@FileSize,@ImportFileTypeID,
+								@Processed,@UtcNow,@UtcNow);",
 					connection),
 					sqlCommand =>
 					{

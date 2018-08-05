@@ -24,5 +24,6 @@ namespace BridgeportClaims.Data.Dtos
         public string PrescriberPhone { get; set; }
         public bool InvoiceIsIndexed { get; set; }
         public string InvoiceUrl { get; set; }
+        public string FileName { get; set; }
     }
 }
