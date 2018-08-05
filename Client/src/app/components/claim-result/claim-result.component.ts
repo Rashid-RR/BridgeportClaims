@@ -61,6 +61,17 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       stateId: [undefined], // NULL
     });
   }
+  get auth() {
+    var user = localStorage.getItem('user');
+    try {
+      let us = JSON.parse(user);
+      return `Bearer ${us.access_token}`;
+    } catch (error) {
+
+    }
+    return null
+  }
+
   get adminOnly(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) &&
       this.profileManager.profile.roles.indexOf('Admin') > -1)
@@ -219,14 +230,17 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.editing = false;
+    this.cancel();
     this.claimManager.onClaimIdChanged.subscribe(res => {
-      this.editing = false;
+      this.cancel();
       this.payorId = '';
       this.adjustorId = '';
       this.payor = undefined;
       this.adjustor = undefined;
     });
+  }
+  cancel() {
+    this.editing = false;
   }
   edit() {
     this.editing = true;
@@ -280,10 +294,64 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         autoclose: true
       });
       $('[data-mask]').inputmask();
+      this.enableSelect2();
     }, 1000);
   }
   ngAfterViewInit() {
 
+  }
+
+  enableSelect2() {
+    $("#eadjustorSelection").select2({
+      initSelection:  (element, callback) =>{
+        callback({ id: this.claimManager.selectedClaim.adjustorId, text: this.claimManager.selectedClaim.adjustor });
+      },
+      ajax: {
+        headers: { 'Authorization': this.auth },
+        url: function (params) {
+          return '/api/reports/pharmacy-name/?pharmacyName=' + (params.term || '');
+        },
+        type: "POST",
+        processResults: function (data) {
+          data.forEach(d => {
+            d.id = d.nabp,
+              d.text = d.pharmacyName
+          });
+          return {
+            results: (data || [])
+          };
+        }
+      }
+    }).on('change', ()=> {
+      var data = $("#eadjustorSelection option:selected").val();
+      this.adjustorId= $("#eadjustorSelection option:selected").text();
+      this.form.controls['adjustorId'].setValue(data);
+    })
+    $("#eCarrierSelection").select2({
+      initSelection:  (element, callback) =>{
+        callback({ id: this.claimManager.selectedClaim.payorId, text: this.claimManager.selectedClaim.carrier });
+      },
+      ajax: {
+        headers: { 'Authorization': this.auth },
+        url:  (params)=> {
+          return '/api/payors/search/?searchText=' + (params.term || this.claimManager.selectedClaim.carrier);
+        },
+        type: "POST",
+        processResults: function (data) {
+          data.forEach(d => {
+            d.id = d.payorId,
+            d.text = d.groupName
+          });
+          return {
+            results: (data || [])
+          };
+        }
+      }
+    }).on('change', ()=> {
+      var data = $("#eCarrierSelection option:selected").val();
+      this.payorId = $("#eCarrierSelection option:selected").text();
+      this.form.controls['payorId'].setValue(data);
+    })
   }
 
   view(claimID: Number) {
@@ -358,7 +426,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.claimManager.loading = true;
       this.http.editClaim(form).subscribe(res => {
         this.claimManager.loading = false;
-        this.editing = false;
+        this.cancel();
         this.toast.success(res.message);
         this.claimManager.selectedClaim.adjustor = this.adjustorId;
         if (form.payorId) {

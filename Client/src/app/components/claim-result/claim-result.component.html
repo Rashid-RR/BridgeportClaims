@@ -16,7 +16,8 @@
                             <input type="checkbox" name="check" value="None" [id]="claim.claimId" [checked]="claim.selected" class="claimCheckBox" #tdSingleRow
                                 style="display:none;">
                             <label></label>
-                        </div> <span style="margin-left:40px;font-weight: 600;">Select for merge</span>
+                        </div>
+                        <span style="margin-left:40px;font-weight: 600;">Select for merge</span>
                     </span>
                 </div>
             </ng-container>
@@ -129,26 +130,28 @@
                     </div>
                     <div class="form-group" [class.editing]="editing">
                         <label class="col-sm-4"> Carrier:</label>
-                        <div class="col-sm-8">
-                            <ng-container *ngIf="!editing"> {{claim.carrier}}</ng-container>
-                            <ng-container *ngIf="editing">
-                                <input class="form-control" type="text" id="payorId" [(ngModel)]="payorId" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
-                                    auto-complete name="payorId" [source]="payorAutoComplete" [service]="1" [method]="1" min-chars="2"
-                                    list-formatter="groupName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
-                                    [no-match-found-text]="'No Carrier Found'" (valueChanged)="payorSelected($event)" />
-                            </ng-container>
+                        <div class="col-sm-8" *ngIf="!editing">
+                            {{claim.carrier}}
+                        </div>
+                        <div class="col-sm-8" *ngIf="editing">
+                            <select class="form-control select2" id="eCarrierSelection" data-placeholder="Start typing to search Carrier..." size="1"
+                                style="width: 100%;">
+                            </select>
                         </div>
                     </div>
                     <div class="form-group" [class.editing]="editing">
                         <label class="col-sm-4"> Adjustor : </label>
-                        <div class="col-sm-8">
-                            <ng-container *ngIf="!editing">{{claim.adjustor}}</ng-container>
-                            <ng-container *ngIf="editing">
-                                <input class="form-control" type="text" id="adjustorId" [(ngModel)]="adjustorId" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
+                        <div class="col-sm-8" *ngIf="!editing">
+                            {{claim.adjustor}}
+                        </div>
+                        <div class="col-sm-8" *ngIf="editing">
+                            <select class="form-control select2" id="eadjustorSelection" data-placeholder="Start typing to search Adjustor..." size="1"
+                                style="width: 100%;">
+                            </select>
+                            <!--  <input class="form-control" type="text" id="adjustorId" [(ngModel)]="adjustorId" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'"
                                     auto-complete name="adjustorId" [source]="adjustorAutoComplete" [service]="1" [method]="1"
                                     min-chars="2" list-formatter="adjustorName" [http-method]="'post'" [autocomplete-dropdown-event-emitter]="showDropDown"
-                                    [no-match-found-text]="'No Adjustor Found'" (valueChanged)="adjustorSelected($event)" />
-                            </ng-container>
+                                    [no-match-found-text]="'No Adjustor Found'" (valueChanged)="adjustorSelected($event)" /> -->
                         </div>
                     </div>
                     <div class="form-group" [class.editing]="editing">
