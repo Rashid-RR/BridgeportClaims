@@ -65,8 +65,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
       this.prescriptions = res;
     }, err => {
       this.submitted = false;
-      this.toast.error(err.message);
-      console.log(err);
+      this.toast.error(err.message); 
     })
   }
   save() {
