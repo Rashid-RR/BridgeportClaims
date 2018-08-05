@@ -9,7 +9,7 @@ import 'rxjs/add/operator/map';
 import { UUID } from 'angular2-uuid';
 import { Router } from '@angular/router';
 import { EventsService } from './events-service';
-import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, Toast } from 'ng2-toastr';
 
 @Injectable()
 export class HttpService {
@@ -864,6 +864,23 @@ export class HttpService {
   }
   deleteFirewallSetting(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/delete-firewall-setting/?ruleName=' + data.ruleName, data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  invoiceAmounts(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + '/admin/get-invoice-amounts', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  updateBilledAmount(data: any): Observable<any> {
+    let params = new HttpParams()
+    .set('prescriptionId', data.prescriptionId)
+    .set('billedAmount', data.billedAmount);
+    return this.http.post(this.baseUrl + '/admin/update-billed-amount/', {},{params:params})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

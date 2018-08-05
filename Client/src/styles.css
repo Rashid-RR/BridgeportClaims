@@ -42,19 +42,19 @@
       text-decoration: none;
     }
 
-    .swal2-modal.paymeny-modal {
+    .swal2-modal.payment-modal {
       padding: 5px 10px !important;
       padding-left: 15px!important;
       margin-top: 174px !important;
     }
 
-    .swal2-modal.paymeny-modal:not(.episodes) {
+    .swal2-modal.payment-modal:not(.episodes):not(.search-modal) {
       width:calc(100vw - 780px) !important;
       width:-webkit-calc(100vw - 780px) !important;
       width:-moz-calc(100vw - 780px) !important;
       width:-o-calc(100vw - 780px) !important;
     }
-    .swal2-modal.paymeny-modal.custom {
+    .swal2-modal.payment-modal.custom {
       width:calc(100vw - 580px) !important;
       width:-webkit-calc(100vw - 580px) !important;
       width:-moz-calc(100vw - 580px) !important;
@@ -66,34 +66,45 @@
       width:-moz-calc(100vw * 1.799 / 3) !important;
       width:-o-calc(100vw * 1.799 / 3) !important;
     }
-    .swal2-modal.paymeny-modal.episodes{
+    .swal2-modal.payment-modal.episodes{
         width: 600px !important;
         height: 500px !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .bg-head-box {
+    .swal2-modal.payment-modal.search-modal{
+      height: calc(100vh - 40px);
+      margin-bottom: 1px !important;
+      margin-top: 30px !important;
+      width: 800px !important;
+    }
+    .swal2-modal.payment-modal.search-modal .swal2-content
+    {
+      height: calc(100vh - 50px);
+    }
+
+    .swal2-modal.payment-modal .swal2-content .bg-head-box {
       background: #992727;
       z-index: 3;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .panel-head {
+    .swal2-modal.payment-modal .swal2-content .panel-head {
       color: #fff;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .panel-head u {
+    .swal2-modal.payment-modal .swal2-content .panel-head u {
       text-decoration: none;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .panel-head img {
+    .swal2-modal.payment-modal .swal2-content .panel-head img {
       vertical-align: -5px;
       margin-right: 7px;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .panel-body-bg {
+    .swal2-modal.payment-modal .swal2-content .panel-body-bg {
       background: #fbeede;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .bg-darkRed,.btn.bg-darkRed {
+    .swal2-modal.payment-modal .swal2-content .bg-darkRed,.btn.bg-darkRed {
       background: #992727;
       color: #fff;
     }
@@ -101,53 +112,53 @@
       color:#992727
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .bg-darkblue {
+    .swal2-modal.payment-modal .swal2-content .bg-darkblue {
       background-color: #414772;
       color: #fff;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .not-allowed,
+    .swal2-modal.payment-modal .swal2-content .not-allowed,
     .not-allowed .form-control,a.not-allowed {
       cursor: not-allowed;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .bg-DarkGreen {
+    .swal2-modal.payment-modal .swal2-content .bg-DarkGreen {
       background: #084205;
       color: #fff;
     }
-    .swal2-modal.paymeny-modal .swal2-content .bg-DarkGreen:focus { 
+    .swal2-modal.payment-modal .swal2-content .bg-DarkGreen:focus { 
       color: #fff !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .bg-fullWhite {
+    .swal2-modal.payment-modal .swal2-content .bg-fullWhite {
       background: #fff;
       color: #992727;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .bg-fullWhite:hover {
+    .swal2-modal.payment-modal .swal2-content .bg-fullWhite:hover {
       box-shadow: none;
     }
 
-    .swal2-modal.paymeny-modal .swal2-title {
+    .swal2-modal.payment-modal .swal2-title {
       display: none;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content label,
-    .swal2-modal.paymeny-modal .swal2-content .form-group button
+    .swal2-modal.payment-modal .swal2-content label,
+    .swal2-modal.payment-modal .swal2-content .form-group button
     {
         font-size: 12px;
     }  
-    .swal2-modal.paymeny-modal .swal2-content label
+    .swal2-modal.payment-modal .swal2-content label
     {
         line-height: 1.42857143;
         color: #333;
         background-color: #fff;
     }  
-    .swal2-modal.paymeny-modal .swal2-content .payment-input form div.row{
+    .swal2-modal.payment-modal .swal2-content .payment-input form div.row{
         display:flex;
         flex-wrap: wrap;
     }
-    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col{
+    .swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col{
         width:33%;
         display:block;
         position: relative;        
@@ -155,44 +166,50 @@
         padding-right: 10px;
         padding-left: 0px;
     }
-    .swal2-modal.paymeny-modal.custom .swal2-content .payment-input form div div.search-col{
+    .swal2-modal.payment-modal.custom .swal2-content .payment-input form div div.search-col{
         width:16%;
     }
-    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
-    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2)
+    .swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
+    .swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2)
     {
         width:27.5% !important;
     }
-    .swal2-modal.paymeny-modal .swal2-content .payment-input form div div.search-col:last-child
+    .swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:last-child
     {
         width:44% !important;
     }
-    .swal2-modal.paymeny-modal .swal2-content .expanded{
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content .expanded{
         height: calc(100vh - 420px) !important;
         height: -moz-calc(100vh - 420px) !important;
         height: -webkit-calc(100vh - 420px) !important;
         height: -o-calc(100vh - 420px) !important;
     }    
+    .swal2-modal.payment-modal.search-modal .swal2-content .expanded{
+        height: calc(100vh - 255px) !important;
+        height: -moz-calc(100vh - 255px) !important;
+        height: -webkit-calc(100vh - 255px) !important;
+        height: -o-calc(100vh - 255px) !important;
+    }    
     /* .swal2-container{
         margin-left:-220px;
     } */
     .swal2-modal.custom-modal .swal2-content,
-    .swal2-modal.paymeny-modal .swal2-content{
+    .swal2-modal.payment-modal .swal2-content{
       display:block !important;
     }
-    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-2,
-    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,
-    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-1 {
+    .swal2-modal.payment-modal .swal2-content .payment-input .col-md-2,
+    .swal2-modal.payment-modal .swal2-content .payment-input .col-md-3,
+    .swal2-modal.payment-modal .swal2-content .payment-input .col-md-1 {
       padding-left: 0px !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .payment-input .col-md-3,
+    .swal2-modal.payment-modal .swal2-content .payment-input .col-md-3,
     {
       padding-right: 0px !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .tally,
-    .swal2-modal.paymeny-modal .swal2-content .tally * {
+    .swal2-modal.payment-modal .swal2-content .tally,
+    .swal2-modal.payment-modal .swal2-content .tally * {
       color: white;
       font-size: 10pt !important;
       font-family: "Comic Sans MS";
@@ -200,24 +217,24 @@
       flex-direction: row;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .claim-info.row,
+    .swal2-modal.payment-modal .swal2-content .claim-info.row,
     .col-sm-12.claim-col.expanded {
       margin: 0px;
       padding: 0px;
       overflow: hidden;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .box-body {
+    .swal2-modal.payment-modal .swal2-content .box-body {
       padding: 0px;
       border: 2px solid lightgray;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .table-responsive {
+    .swal2-modal.payment-modal .swal2-content .table-responsive {
       position: relative;
       overflow-x: hidden;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content #fixed-header {
+    .swal2-modal.payment-modal .swal2-content #fixed-header {
       position: absolute;
       top: 43px;
       background: #fbeede;
@@ -225,47 +242,47 @@
       padding: 1.6rem 0;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content table {
+    .swal2-modal.payment-modal .swal2-content table {
       table-layout: fixed;
       width: 100% !important;
       overflow-x: hidden;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content thead,
-    .swal2-modal.paymeny-modal .swal2-content tbody {
+    .swal2-modal.payment-modal .swal2-content thead,
+    .swal2-modal.payment-modal .swal2-content tbody {
       overflow-y: hidden !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content td,
-    .swal2-modal.paymeny-modal .swal2-content th {
+    .swal2-modal.payment-modal .swal2-content td,
+    .swal2-modal.payment-modal .swal2-content th {
       word-wrap: break-word;
       padding-left: 2px !important;
       font-size: 1.4rem;
       padding-right: 2px !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content textarea {
+    .swal2-modal.payment-modal .swal2-content textarea {
       resize: vertical;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tr>th,
-    .swal2-modal.paymeny-modal .swal2-content tr>td {
+    .swal2-modal.payment-modal .swal2-content tr>th,
+    .swal2-modal.payment-modal .swal2-content tr>td {
       font-size: 1.3rem;
       text-align: center;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content td>a.label {
+    .swal2-modal.payment-modal .swal2-content td>a.label {
       font-size: 1.2rem;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content table {
+    .swal2-modal.payment-modal .swal2-content table {
       display: flex;
       flex-direction: column;
       overflow: auto;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tbody,
-    .swal2-modal.paymeny-modal .swal2-content thead {
+    .swal2-modal.payment-modal .swal2-content tbody,
+    .swal2-modal.payment-modal .swal2-content thead {
       display: flex;
       flex-direction: column;
       flex-grow: 0;
@@ -273,21 +290,21 @@
       overflow-y: auto;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tbody.overflowable,
-    .swal2-modal.paymeny-modal .swal2-content thead.overflowable {
+    .swal2-modal.payment-modal .swal2-content tbody.overflowable,
+    .swal2-modal.payment-modal .swal2-content thead.overflowable {
       flex-grow: 1;
       flex-shrink: 1;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tr {
+    .swal2-modal.payment-modal .swal2-content tr {
       display: flex;
       flex-direction: row;
       flex-grow: 1;
       flex-shrink: 0;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content td,
-    .swal2-modal.paymeny-modal .swal2-content th {
+    .swal2-modal.payment-modal .swal2-content td,
+    .swal2-modal.payment-modal .swal2-content th {
       display: block;
       flex-direction: column;
       flex-shrink: 1;
@@ -295,55 +312,55 @@
     }
     
     @media screen and (max-width: 300px) {
-      .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
+      .swal2-modal.payment-modal .swal2-content .fa.rotate {
         margin-left: 2px;
       }
     }
 
     @media screen and (min-width: 300px) {
-      .swal2-modal.paymeny-modal .swal2-content .fa.rotate {
+      .swal2-modal.payment-modal .swal2-content .fa.rotate {
         margin-left: 7px;
       }
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .bg-darkblue {
+    .swal2-modal.payment-modal .swal2-content .bg-darkblue {
       background-color: #414772 !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tbody>tr.bgBlue {
+    .swal2-modal.payment-modal .swal2-content tbody>tr.bgBlue {
       background: #56a1ff !important;
       color: white;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tbody>tr.bgBlue td {
+    .swal2-modal.payment-modal .swal2-content tbody>tr.bgBlue td {
       color: white;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tbody>tr.bgBlue td::selection,
-    .swal2-modal.paymeny-modal .swal2-content tbody>tr.bgBlue td a::selection {
+    .swal2-modal.payment-modal .swal2-content tbody>tr.bgBlue td::selection,
+    .swal2-modal.payment-modal .swal2-content tbody>tr.bgBlue td a::selection {
       background: transparent !important;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tbody>tr:hover {
+    .swal2-modal.payment-modal .swal2-content tbody>tr:hover {
       background: #b6f1ff !important;
       cursor: pointer;
       color: #000;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content tbody>tr:hover td,
-    .swal2-modal.paymeny-modal .swal2-content tbody>tr:hover td::selection {
+    .swal2-modal.payment-modal .swal2-content tbody>tr:hover td,
+    .swal2-modal.payment-modal .swal2-content tbody>tr:hover td::selection {
       color: #000;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .claim-col {
+    .swal2-modal.payment-modal .swal2-content .claim-col {
       height: 60px;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .box {
+    .swal2-modal.payment-modal .swal2-content .box {
       margin-bottom: 1px;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .expanded {
+    .swal2-modal.payment-modal .swal2-content .expanded {
       height: calc(100vh - 330px);
       height: -moz-calc(100vh - 330px);
       height: -webkit-calc(100vh - 330px);
@@ -352,18 +369,18 @@
       overflow-y: auto;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .top-header,
+    .swal2-modal.payment-modal .swal2-content .top-header,
     .table-body {
       width: 99%;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .top-header {
+    .swal2-modal.payment-modal .swal2-content .top-header {
       height: 56px;
       position: absolute;
       overflow: hidden;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .table-body {
+    .swal2-modal.payment-modal .swal2-content .table-body {
       position: absolute;
       top: 56px;
       max-height: calc(100% - 56px);
@@ -373,11 +390,11 @@
       overflow-y: auto;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .close-button i {
+    .swal2-modal.payment-modal .swal2-content .close-button i {
       color: white;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .close-button {
+    .swal2-modal.payment-modal .swal2-content .close-button {
       width: 32px;
       height: 32px;
       border-radius: 50%;
@@ -391,7 +408,7 @@
       background: red;
     }
 
-    .swal2-modal.paymeny-modal .swal2-content .top-header table {
+    .swal2-modal.payment-modal .swal2-content .top-header table {
       height: 99%;
     }
     
@@ -435,23 +452,23 @@
     }
      body:not(.sidebar-collapse) .overlay>img {
       left: 45%;
-  }
-    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(1),
-    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(1)
+    }
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(1),
+    .swal2-modal.payment-modal .swal2-content tr>th:nth-child(1)
      {
       text-align: left !important;
     }
-    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(1),
-    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(1)
-    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(4),
-    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(4)
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(1),
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>th:nth-child(1)
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(4),
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>th:nth-child(4)
      {
       width:15% !important;
     }
-    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(2),
-    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(2),
-    .swal2-modal.paymeny-modal .swal2-content tr>th:nth-child(3),
-    .swal2-modal.paymeny-modal .swal2-content tr>td:nth-child(3)
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>th:nth-child(2),
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(2),
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>th:nth-child(3),
+    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(3)
      {
       width:35% !important;
     }
@@ -685,4 +702,22 @@ thead{
 }
 .select2-container.select2-container--open{
   z-index:1070 !important;
+}
+.isVip .box-header,
+.isVip .bg-head-box
+{
+  background: #002f58 !important;
+}
+.isVip .border-style
+{
+  border-left: 6px solid #002f58 !important;
+}
+.isVip .box-body,
+.isVip .box-body tr:nth-of-type(odd)
+{
+  background: #afcdd8 !important;
+}
+.isVip .box-body tr:nth-of-type(even)
+{
+  background: #cff1fd !important;
 }

@@ -187,14 +187,12 @@
             </div>
           </div>
         </div>
-
-
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style=" height: fit-content; ">
           <div class="grey-box">
             <a class="img-section" [routerLink]="'/main/claims'">
               <div class="dashboard-img">
                 <img src="assets/img/007-claim.png">
-                <span class="badge-dashboard badge">31</span>
+                <span class="badge-dashboard badge">{{summary.newClaims}}</span>
               </div>
               <span>Claims</span>
             </a>
@@ -209,26 +207,19 @@
                   <strong>{{summary.newClaims}} NEW</strong>
                   <span>Claims</span>
                 </p>
-                <!-- <div class="status-information">
-                  <span class="label row">Latest Claims</span>
-                </div>
-                <div class="status-information">
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                </div>
-                <div class="status-information">
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                  <a [routerLink]="[]" class="status-information-badge">189734.pdf</a>
-                </div> -->
               </div>
             </div>
           </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style=" height: fit-content; " *ngIf="allowed">
+          <div class="grey-box row" style="position:relative;max-height:186px;overflow:hidden;">
+            <h2 style="font-weight:600;font-size:12pt;padding:8px">Notifications</h2>
+            <app-notification></app-notification>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="font-size:14pt;padding:0px;">
               <br/>Windows File Watcher Service Status
@@ -239,13 +230,15 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" *ngIf="allowed">
-          <div class="grey-box row" style="position:relative;">
-              <h2 style="font-weight:600;font-size:12pt;padding:8px">Notifications</h2>
-              <app-notification></app-notification>
-          </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center" style="height:164px;padding-top:60px">
+            <img style="cursor:pointer;" [src]="over[0] ? 'assets/change-inv-amt-hover.png':'assets/change-inv-amt.png'" *ngIf="allowed" class="img-sqaure"  (mouseover)="over[0] = true" (mouseout)="over[0] = false" width="200px" (click)="search()">
         </div>
       </div>
     </div>
   </div>
 </div>
+<swal #searchSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="payment-modal search-modal" [focusCancel]="false"
+    title="Episode Entry">
+    <invoice-search-modal *swalPartial>
+    </invoice-search-modal>
+<swal>

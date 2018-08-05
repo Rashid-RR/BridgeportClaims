@@ -32,6 +32,8 @@ export class SkippedPaymentSearchComponent implements OnInit ,AfterViewInit{
   }
   clear(){
     $('#payorSelection').val(null).trigger('change');
+    this.skipped.data.archived=false;
+    $('input#archivedCheck').attr('checked', false).trigger('change');
   }
 
 }

@@ -14,9 +14,9 @@
         <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button" *ngIf="profileManager.profile">
             <i class="fa fa-align-justify"></i>
         </a>
-        <ul *ngIf="isTestDomain" class="nav navbar" style="width:  fit-content; clear:  none;display:  flex;  flex-direction: row;margin-right:  0px;float: left;">
+        <ul *ngIf="isTestDomain" class="nav navbar isTestDomain" style="width:  fit-content; clear:  none;display:  flex;  flex-direction: row;margin-right:  0px;float: left;">
             <li>
-                <a style="cursor:pointer;font-size: 22px;">THIS IS A TESTING SITE ONLY</a>
+                <a>THIS IS A TESTING SITE ONLY</a>
             </li>
         </ul>
         <!-- Top right menu items, also check if user is logged in-->
@@ -45,11 +45,11 @@
                             <strong>15.5</strong>
                         </small>
                     </li>
-                    <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
+                   <!--  <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
                         <a style="cursor:pointer" (click)="!disableLinks ? clearCache() : ''" [class.disabled]="disableLinks">
                             <i class="fa fa-refresh" aria-hidden="true"></i>
                             Clear Cache</a>
-                    </li>
+                    </li> -->
                     <li routerLinkActive="/main/profile" [class.disabled]="disableLinks">
                         <!--[routerLink]="'/profile'"-->
                         <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">

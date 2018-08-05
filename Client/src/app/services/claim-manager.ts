@@ -211,6 +211,7 @@ export class ClaimManager {
             c.genders = claim.genders;
             c.states = claim.states;
             c.adjustorId = claim.adjustorId;
+            c.isVip = claim.isVip;
             c.payorId = claim.payorId;
             c.genderId = claim.patientGenderId;
             c.stateId = claim.stateId;
@@ -232,6 +233,7 @@ export class ClaimManager {
           c.gender = result.gender;
           c.genders = result.genders;
           c.states = result.states;
+          c.isVip = result.isVip;
           c.adjustorId = result.adjustorId;
           c.payorId = result.payorId;
           c.genderId = result.patientGenderId;
@@ -357,6 +359,7 @@ export class ClaimManager {
           claim.payorId = result.payorId;
           claim.genderId = result.patientGenderId;
           claim.stateId = result.stateId;
+          claim.isVip = result.isVip;
           claim.claimFlex2Id = result.claimFlex2Id;
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);

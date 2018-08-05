@@ -18,6 +18,7 @@ export interface Prescription {
     prescriber:String;
     prescriberNpi:String;
     pharmacyName:String;
+    fileName:String;
     prescriberPhone:any;
     prescriptionNdc:string;
 }
