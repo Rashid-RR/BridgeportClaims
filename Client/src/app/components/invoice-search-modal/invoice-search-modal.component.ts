@@ -124,7 +124,10 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     this.amount = undefined;
   }
   clear() {
-
+    this.placeholder = 'Start typing to search claims...';
+    $('#rxDate').val('').datepicker("update");
+    this.cancel();
+    this.form.reset();
   }
   checkMatch($event) {
     this.exactMatch = $event.target.checked;
