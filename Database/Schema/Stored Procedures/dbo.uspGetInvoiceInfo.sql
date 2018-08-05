@@ -12,7 +12,7 @@ GO
                     EXECUTE [dbo].[uspGetInvoiceInfo] 775, '291', '5/11/2017', '2594'
  =============================================
 */
-CREATE   PROC [dbo].[uspGetInvoiceInfo]
+CREATE PROC [dbo].[uspGetInvoiceInfo]
 (
 	@ClaimID INTEGER, 
 	@RxNumber VARCHAR(100),
@@ -27,11 +27,12 @@ AS
         DECLARE @WildCard CHAR(1) = '%';
         SELECT  p.PrescriptionID PrescriptionId, p.RxNumber, p.LabelName, FORMAT(p.DateFilled, @DateFormat) RxDate, 
 				p.BilledAmount, p2.GroupName Carrier, I.InvoiceNumber, FORMAT(i.InvoiceDate, @DateFormat) InvoiceDate, p.IsReversed
-        FROM    dbo.Prescription AS p LEFT JOIN dbo.Invoice AS i ON p.InvoiceID = i.InvoiceID AND i.InvoiceNumber = ISNULL(@InvoiceNumber, i.InvoiceNumber)
+        FROM    dbo.Prescription AS p LEFT JOIN dbo.Invoice AS i ON p.InvoiceID = i.InvoiceID
 				INNER JOIN dbo.Claim AS c ON p.ClaimID = c.ClaimID
 				INNER JOIN dbo.Payor AS p2 ON c.PayorID = p2.PayorID
         WHERE   p.ClaimID = @ClaimID
                 AND p.RxNumber LIKE CONCAT(@RxNumber, @WildCard)
-				AND p.DateFilled = ISNULL(@RxDate, p.DateFilled);
+				AND p.DateFilled = ISNULL(@RxDate, p.DateFilled)
+				AND (i.InvoiceNumber = @InvoiceNumber OR i.InvoiceNumber IS NULL);
     END
 GO

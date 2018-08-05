@@ -10,7 +10,7 @@ GO
 					code deployment.
 	Modified:		8/24/2017 by Jordan Gurney. Added dynamic sorting, sort direction, and pagination.
 	Sample Execute:
-					EXEC dbo.uspGetPrescriptionDataForClaim 845, 'NoteCount', 'asc', 1, 5000
+					EXEC [claims].[uspGetPrescriptionDataForClaim] 845, 'NoteCount', 'asc', 1, 5000
 */
 CREATE PROC [claims].[uspGetPrescriptionDataForClaim]
 (
@@ -51,6 +51,7 @@ AS BEGIN
 		 , PrescriberPhone = ISNULL([prb].[Phone], '')
          , InvoiceIsIndexed = CONVERT(BIT, IIF([ii].[DocumentID] IS NOT NULL, 1, 0))
 		 , InvoiceUrl = [d].[FileUrl]
+		 , d.[FileName]
 	FROM   [dbo].[Prescription] AS [p]
 		   INNER JOIN dbo.Pharmacy AS ph ON ph.NABP = p.PharmacyNABP
 		   INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]

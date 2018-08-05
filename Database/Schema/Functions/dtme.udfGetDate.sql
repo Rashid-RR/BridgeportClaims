@@ -5,7 +5,7 @@ GO
 CREATE FUNCTION [dtme].[udfGetDate]()
 RETURNS DATETIME2
 AS BEGIN
-    -- Arbitrary wrapper for common Azure datetime function for "NOW" but in UTC. Can be changed if necessary.
-    RETURN SYSUTCDATETIME()
+    -- Gets real datetime on On-Prem Server, and UTC on Azure.
+    RETURN SYSDATETIME()
 END
 GO
