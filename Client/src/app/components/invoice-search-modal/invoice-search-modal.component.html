@@ -27,7 +27,7 @@
             <div class="search-col">
               <div class="form-group">
                 <label>Rx Number</label>
-                <input class="form-control" id="rxNumber" type="text" formControlName="rxNumber" type="text" (focus)="submitted=false">
+                <input class="form-control" id="rxNumber" type="text" formControlName="rxNumber" type="text">
               </div>
             </div>
             <div class="search-col">
@@ -46,7 +46,7 @@
               <div class="form-group">
                 <label>Invoice #</label>
                 <input  class="form-control" id="invoiceNumber"
-                  type="text" type="text" (focus)="submitted=false"  formControlName="invoiceNumber">
+                  type="text" type="text"  formControlName="invoiceNumber">
               </div>
             </div>
             <div class="search-col">
@@ -141,7 +141,7 @@
           </div>
         </div>
       </div>
-      <div class="overlay" *ngIf="submitted">
+      <div class="overlay" *ngIf="loading">
           <img src="assets/1.gif">
       </div>
     </div>

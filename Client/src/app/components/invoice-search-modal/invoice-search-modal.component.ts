@@ -19,7 +19,7 @@ declare var $: any;
 export class InvoiceSearchComponent implements OnInit, AfterViewInit {
 
   @ViewChild('lastname') lastname: ElementRef;
-  submitted = false;
+  loading = false;
   exactMatch: boolean = false;
   searchText: string = '';
   editing: Prescription;
@@ -59,12 +59,12 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     var form = this.form.value;
     let rxDate = this.dp.transform($('#rxDate').val(), "MM/dd/yyyy");
     form.rxDate = rxDate
-    this.submitted = true;
+    this.loading = true;
     this.http.invoiceAmounts(form).single().subscribe(res => {
-      this.submitted = false;
+      this.loading = false;
       this.prescriptions = res;
     }, err => {
-      this.submitted = false;
+      this.loading = false;
       this.toast.error(err.message); 
     })
   }
@@ -78,17 +78,17 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.submitted = true;
+          this.loading = true;
           this.http.updateBilledAmount({prescriptionId:this.editing.prescriptionId,billedAmount:this.amount}).single().subscribe(res => {
             let p = this.prescriptions.find(p=>p.prescriptionId==this.editing.prescriptionId);
             if(p){
               p['billedAmount']=this.amount;
             }
             this.cancel();
-            this.submitted = false;
+            this.loading = false;
           }, error => {
             this.toast.error(error.message);
-            this.submitted = false;
+            this.loading = false;
           })
         }
       });
