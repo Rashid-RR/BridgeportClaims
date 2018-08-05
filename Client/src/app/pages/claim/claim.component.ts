@@ -8,7 +8,7 @@ import { ClaimNote } from "../../models/claim-note"
 import { Episode } from "../../interfaces/episode"
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { Router } from "@angular/router";
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { AccountReceivableService } from '../../services/services.barrel';
 import { UUID } from 'angular2-uuid';
@@ -68,7 +68,6 @@ export class ClaimsComponent implements OnInit {
     this.expanded = expanded;
     this.expandedBlade = expandedBlade;
     this.initializeExpandedTableBooleanValue(table);
-
   }
   get isVip(){
     return this.claimManager.selectedClaim && this.claimManager.selectedClaim.isVip;

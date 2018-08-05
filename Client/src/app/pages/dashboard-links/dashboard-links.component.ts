@@ -1,9 +1,11 @@
-import { Component,ElementRef,ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { EventsService } from '../../services/events-service';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+
 declare var Highcharts: any;
 
 @Component({
@@ -15,10 +17,12 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   preload = 'auto';
   categories: Array<any> = [];
   data: Array<any> = [];
-  win=window;
-  @ViewChild('images') images:ElementRef;
+  win = window;
+  over: any[] = [false]
+  @ViewChild('searchSwal') private searchSwal: SwalComponent;
+  @ViewChild('images') images: ElementRef;
   summary = {
-    lastWorkDate:  null,
+    lastWorkDate: null,
     totalImagesScanned: null,
     totalImagesIndexed: null,
     totalImagesRemaining: null,
@@ -39,6 +43,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     private http: HttpService,
     private events: EventsService,
     private dp: DatePipe,
+    public readonly swalTargets: SwalPartialTargets,
     private sanitizer: DomSanitizer,
     private profileManager: ProfileManager
   ) { }
@@ -46,60 +51,67 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
 
   }
+  search() {
+    if (this.allowed) {
+      this.searchSwal.show().then((r) => {
 
-  sanitize(style){
+      })
+    }
+  }
+
+  sanitize(style) {
     return this.sanitizer.bypassSecurityTrustStyle(style);
   }
-  ngOnInit() { 
+  ngOnInit() {
     this.http.getKPIs()
       .subscribe((result: any) => {
         this.summary = result;
       }, err => null);
-    
+
   }
 
-  get totalImagesIndexed(){
-       return (100*(this.summary.totalImagesIndexed || 0)/this.totalImages) || 0;
+  get totalImagesIndexed() {
+    return (100 * (this.summary.totalImagesIndexed || 0) / this.totalImages) || 0;
   }
-  get totalImagesRemaining(){
-       return (100*(this.summary.totalImagesRemaining || 0)/this.totalImages) || 0;
+  get totalImagesRemaining() {
+    return (100 * (this.summary.totalImagesRemaining || 0) / this.totalImages) || 0;
   }
 
-  get totalImages(){
-      let total = (this.summary.totalImagesIndexed || 0)+(this.summary.totalImagesRemaining || 0);
-      return total || 0;
+  get totalImages() {
+    let total = (this.summary.totalImagesIndexed || 0) + (this.summary.totalImagesRemaining || 0);
+    return total || 0;
   }
 
   get fileWatcherHealthy() {
     return this.fileWatcherHealthy;
   }
 
-  get imagesSliderPosition(){
+  get imagesSliderPosition() {
     return this.images.nativeElement.offsetTop;
   }
 
-  get totalDiariesResolved(){
-       return (100*(this.summary.totalDiariesResolved || 0)/this.totalDiaries) || 0;
+  get totalDiariesResolved() {
+    return (100 * (this.summary.totalDiariesResolved || 0) / this.totalDiaries) || 0;
   }
-  get totalDiariesUnResolved(){
-       return (100*(this.summary.totalDiariesUnResolved || 0)/this.totalDiaries) || 0;
-  }
-
-  get totalDiaries(){
-      let total = (this.summary.totalDiariesResolved || 0)+(this.summary.totalDiariesUnResolved || 0);
-      return total || 0;
+  get totalDiariesUnResolved() {
+    return (100 * (this.summary.totalDiariesUnResolved || 0) / this.totalDiaries) || 0;
   }
 
-  get totalResolvedEpisodes(){
-       return (100*(this.summary.totalResolvedEpisodes || 0)/this.totalEpisodes ) || 0;
-  }
-  get totalUnresolvedEpisodes(){
-       return (100*(this.summary.totalUnresolvedEpisodes || 0)/this.totalEpisodes ) || 0;
+  get totalDiaries() {
+    let total = (this.summary.totalDiariesResolved || 0) + (this.summary.totalDiariesUnResolved || 0);
+    return total || 0;
   }
 
-  get totalEpisodes(){
-      let total = (this.summary.totalUnresolvedEpisodes || 0)+(this.summary.totalResolvedEpisodes || 0);
-      return total || 0;
+  get totalResolvedEpisodes() {
+    return (100 * (this.summary.totalResolvedEpisodes || 0) / this.totalEpisodes) || 0;
+  }
+  get totalUnresolvedEpisodes() {
+    return (100 * (this.summary.totalUnresolvedEpisodes || 0) / this.totalEpisodes) || 0;
+  }
+
+  get totalEpisodes() {
+    let total = (this.summary.totalUnresolvedEpisodes || 0) + (this.summary.totalResolvedEpisodes || 0);
+    return total || 0;
   }
 
   get allowed(): Boolean {

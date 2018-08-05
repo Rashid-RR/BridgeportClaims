@@ -8,7 +8,7 @@ import { EventsService } from './events-service';
 import { Router } from '@angular/router';
 import {PaymentPosting} from "../models/payment-posting";
 import {PaymentPostingPrescription} from '../models/payment-posting-prescription'
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 
 declare var $:any

@@ -1,0 +1,149 @@
+<button class="close-button" (click)="payment.closeModal()">
+  <i class="fa fa-times"></i>
+</button>
+<div class="row">
+  <div class="col-sm-12" id="accordion">
+    <div class="box bottom-0">
+      <div class="box-body payment-input">
+        <form role="form" autocomplete="off" [formGroup]="form" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
+          <div class="row" style="margin-left:2px;">
+            <div class="col-sm-7" style="padding-left:0px">
+              <div class="form-group">
+                <label>Type Last Name, First Name or Claim Number</label>
+                <div class="input-group">
+                  <div class="input-group-addon commonCheckBox">
+                    <input type="checkbox" name="check" id="exactMatchCheckBox" [checked]="exactMatch" (change)="checkMatch($event)" #inv>
+                    <label for="exactMatchCheckBox" class="match"></label>
+                    <label for="exactMatchCheckBox"> Exact Match</label>
+                  </div>
+                  <input class="form-control" [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
+                    name="searchText" id="searchText" [source]="autoCompleteClaim" [service]="1" [method]="1" min-chars="2"
+                    list-formatter="lastName , firstName - claimNumber - groupNumber" [http-method]="'post'" [exactMatch]="exactMatch"
+                    [autocomplete-dropdown-event-emitter]="showDropDown" [no-match-found-text]="'No Claim Found'" (keyup)="lastInput($event)"
+                    (valueChanged)="claimSelected($event)" [placeholder]="placeholder">
+                </div>
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>Rx Number</label>
+                <input class="form-control" id="rxNumber" type="text" formControlName="rxNumber" type="text" (focus)="submitted=false">
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>Rx Date</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input class="form-control pull-right" type="text" id="rxDate" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask
+                    focus-on>
+                </div>
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>Invoice #</label>
+                <input  class="form-control" id="invoiceNumber"
+                  type="text" type="text" (focus)="submitted=false"  formControlName="invoiceNumber">
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <br/>
+                <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="search()">
+                  <i class="fa fa-search"></i> Search</button>
+                <button class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button" (click)="clear()">
+                  <i class="fa fa-eraser"></i> Clear</button>
+                <button class="color-palette btn bg-DarkGreen btn-flat btn-small refresh-search" type="button" (click)="search()">
+                  <i class="fa fa-refresh"></i> Refresh</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12" id="accordion">
+    <div class="box">
+      <div class="box-header bg-head-box">
+        <h4 class="box-title pull-left text-center panel-head">
+          <u>
+            <img src="assets/img/iconClaims.png"> Search Results</u>
+        </h4>
+        <div class="box-tools pull-right">
+
+        </div>
+      </div>
+      <div class="box-body claims payment-result panel-body-bg">
+        <div class="row claim-info" style="overflow:hidden;">
+          <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
+            <div class="table-responsive top-header scroll-y">
+              <table class="table no-margin table-striped">
+                <thead class="overflowable" id="fixed-thead">
+                  <tr>
+                    <th>Inv Date</th>
+                    <th>Inv #</th>
+                    <th>Label Name</th>
+                    <th>Rx #</th>
+                    <th>Rx Date</th>
+                    <th>Billed Amt</th>
+                    <th>Carrier</th>
+                    <th>&nbsp;</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div class="table-responsive table-body">
+              <table class="table no-margin table-striped" id="maintable">
+                <tbody>
+                  <tr *ngFor="let p of prescriptions" [id]="p.prescriptionId">
+                    <td>{{p.invoiceDate}}</td>
+                    <td>{{p.invoiceNumber}}</td>
+                    <td>{{p.labelName}}</td>
+                    <td>{{p.rxNumber}}</td>
+                    <td>{{p.rxDate}}</td>
+                    <td *ngIf="!editing || editing.prescriptionId!==p.prescriptionId">{{p.billedAmount}}</td>
+                    <td *ngIf="editing && editing.prescriptionId===p.prescriptionId">
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-dolar-sign"></i>
+                        </div>
+                        <input class="form-control" (keypress)="validateNumber($event)" (keyup)="validateAfter($event)" name="amount" [(ngModel)]="amount"
+                          [ngModelOptions]="{standalone: true}">
+                      </div>
+                    </td>
+                    <td>{{p.carrier}}</td>
+                    <td>
+                      <ng-container *ngIf="editing && editing.prescriptionId===p.prescriptionId">
+                        <button type="button" class="btn btn-primary btn-xs" (click)="save(p)" id="saveButton">
+                          <span class="glyphicon glyphicon-edit"></span> Save
+                        </button>
+                        <button type="button" class="btn bg-darkRed btn-xs" (click)="cancel()">
+                          <span class="glyphicon glyphicon-trash"></span> Cancel
+                        </button>
+                      </ng-container>
+                      <ng-container *ngIf="!editing || editing.prescriptionId!==p.prescriptionId">
+                        <button type="button" class="btn btn-primary btn-xs" (click)="update(p)">
+                          <span class="glyphicon glyphicon-edit"></span> Edit
+                        </button>
+                      </ng-container>
+
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="overlay" *ngIf="loading">
+          <img src="assets/1.gif">
+      </div>
+    </div>
+  </div>
+</div>

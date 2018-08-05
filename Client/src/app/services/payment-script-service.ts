@@ -8,7 +8,7 @@ import { PaymentService } from './payment-service';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import swal from "sweetalert2";

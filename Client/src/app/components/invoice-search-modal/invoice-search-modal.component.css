@@ -1,0 +1,133 @@
+.commonCheckBox {
+    position: relative;
+    padding: 1px 10px;
+    min-width:41px;
+  }
+  
+  .commonCheckBox .match{
+    margin: 6px;
+  }
+  .commonCheckBox label:not(.match) { 
+    font-size:12px;
+    font-weight: 600;
+    padding-top: 7px;
+    margin-left: 20px;
+}
+
+table {
+  table-layout: fixed;
+  width: 99% !important;
+  overflow-x: hidden;
+  font-family: 'Cambay', sans-serif !important;
+}
+
+thead,
+tbody {
+  overflow-y: hidden !important;
+}
+
+td,
+th {
+  font-size: 9pt;
+  word-wrap: break-word;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+
+textarea {
+  resize: vertical;
+}
+
+tr>th,
+tr>td {
+  width: 100%;
+  text-align: center;
+}
+
+table {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+tbody,
+thead {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+tbody.overflowable,
+thead.overflowable {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+tr {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+td,
+th {
+  display: block;
+  flex-direction: column;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+.top-header {
+  width: 98%;
+  width: 98%;
+  width: 98%;
+  width: 98%;
+  height: 56px;
+  position: absolute;
+  overflow: hidden;
+}
+
+.table-body {
+  position: absolute;
+  min-width: 98%;
+  min-width: 98%;
+  min-width: 98%;
+  min-width: 98%;
+  width: 98%;
+  top: 33px;
+  height: calc(100% - 33px);
+  overflow-y: auto;
+}
+
+td, th {
+  font-size: 14px !important;
+  font-family: 'Cambay', sans-serif !important;
+  word-wrap: break-word;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+
+
+tr>th:first-child,
+tr>td:first-child ,
+tr>th:nth-child(2),
+tr>td:nth-child(2),
+tr>th:nth-child(3),
+tr>td:nth-child(3),
+tr>th:nth-child(4),
+tr>td:nth-child(4),
+tr>th:nth-child(5),
+tr>td:nth-child(5),
+tr>th:nth-child(7),
+tr>td:nth-child(7){
+  width:10% !important;
+}
+tr>th:nth-child(6),
+tr>td:nth-child(6),
+tr>th:nth-child(8),
+tr>td:nth-child(8){
+    width: 20% !important;
+}

@@ -24,7 +24,6 @@ import { PasswordResetComponent } from './pages/password-reset/password-reset.co
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { Error404Component } from './pages/error404/error404.component';
 import { RoutingModule } from './app.routing';
-import { RouterModule, ActivatedRouteSnapshot, RouterStateSnapshot, PreloadAllModules } from '@angular/router';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 // services
