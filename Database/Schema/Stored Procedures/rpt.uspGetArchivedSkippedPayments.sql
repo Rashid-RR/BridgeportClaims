@@ -25,6 +25,17 @@ AS
         SET NOCOUNT ON;
         SET XACT_ABORT ON;
 
+		CREATE TABLE #Carriers (PayorID INT NOT NULL PRIMARY KEY);
+
+		IF NOT EXISTS (SELECT * FROM @Carriers)
+			BEGIN
+				INSERT #Carriers (PayorID) SELECT p.PayorID FROM dbo.Payor AS p
+			END
+		ELSE
+			BEGIN
+				INSERT #Carriers (PayorID) SELECT PayorID FROM @Carriers
+			END
+
 		CREATE TABLE #Results (
 				RowId INT NOT NULL PRIMARY KEY,
 				PrescriptionId INT NOT NULL,
@@ -66,6 +77,7 @@ AS
                 INNER JOIN dbo.Prescription AS pre ON pre.PrescriptionID = c.PrescriptionID
                 INNER JOIN dbo.Claim AS cl ON pre.ClaimID = cl.ClaimID
                 INNER JOIN dbo.Payor AS pay ON cl.PayorID = pay.PayorID
+				INNER JOIN #Carriers AS ca ON ca.PayorID = pay.PayorID
                 INNER JOIN dbo.Patient AS p ON cl.PatientID = p.PatientID
                 OUTER APPLY
 				(
