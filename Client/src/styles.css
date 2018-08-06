@@ -81,7 +81,7 @@
     .swal2-modal.payment-modal.search-modal .swal2-content
     {
       height: calc(100vh - 50px);
-      overflow: hidden;
+      /* overflow: hidden; */
     }
 
     .swal2-modal.payment-modal .swal2-content .bg-head-box {
