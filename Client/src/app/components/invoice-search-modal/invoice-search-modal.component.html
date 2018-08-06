@@ -111,7 +111,7 @@
                     <td *ngIf="editing && editing.prescriptionId===p.prescriptionId">
                       <div class="input-group">
                         <div class="input-group-addon">
-                          <i class="fa fa-dolar-sign"></i>
+                          <b>$</b>
                         </div>
                         <input class="form-control" (keypress)="validateNumber($event)" (keyup)="validateAfter($event)" name="amount" [(ngModel)]="amount"
                           [ngModelOptions]="{standalone: true}">
