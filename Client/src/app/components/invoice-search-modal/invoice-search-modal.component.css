@@ -113,7 +113,7 @@ td, th {
 
 tr>th:nth-child(2),
 tr>td:nth-child(2){
-  width:7% !important;
+  width:4% !important;
 
 }
 
@@ -135,7 +135,8 @@ tr>td:nth-child(5){
 }
 tr>th:nth-child(7),
 tr>td:nth-child(7){
-  width:11% !important;
+  width:14% !important;
+  font-size: 12px !important;
 }
 tr>th:nth-child(6),
 tr>td:nth-child(6){
