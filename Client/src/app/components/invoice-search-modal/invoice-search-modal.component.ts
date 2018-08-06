@@ -77,18 +77,20 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
       this.toast.warning("You haven't changed the Billed Amount value, and therefore, there is nothing to save");
     } else {
       const disposable = this.dialogService.addDialog(ConfirmComponent, {
-        title: "Update Billed Amount",
-        message: "Are you sure you wish to update this Billed Amount for "+this.editing.rxnumber+" from $"+this.editing['billedAmount']+" to $" + this.amount + "?"
+        title: 'Update Billed Amount',
+        message: 'Are you sure you wish to update this Billed Amount for ' + this.editing.rxnumber +
+         ' from $' + this.editing['billedAmount'] + ' to $' + this.amount + '?'
       })
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
             this.loading = true;
-            this.http.updateBilledAmount({ prescriptionId: this.editing.prescriptionId, billedAmount: this.amount }).single().subscribe(res => {
+            this.http.updateBilledAmount({ prescriptionId: this.editing.prescriptionId,
+               billedAmount: this.amount }).single().subscribe(res => {
               let p = this.prescriptions.find(p => p.prescriptionId == this.editing.prescriptionId);
               if (p) {
                 p['billedAmount'] = this.amount;
               }
-              this.toast.success(res.message);
+              this.toast.success(res.message, null, { toastLife: 5500 });
               this.cancel();
               this.loading = false;
             }, error => {
