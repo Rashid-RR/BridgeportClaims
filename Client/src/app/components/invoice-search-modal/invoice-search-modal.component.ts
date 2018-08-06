@@ -122,7 +122,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   validateAfter($event) {
     if ((this.amount && this.amount.toString().length > 1 && this.amount.toString().lastIndexOf("-") > 0) ||
       (this.amount && this.amount.toString().length > 1 && this.amount.toString().lastIndexOf(".") > this.amount.toString().indexOf(".")) ||
-      //(this.amount && this.amount && this.amount.toString().lastIndexOf(".") > -1 && this.amount.toString().length - this.amount.toString().lastIndexOf(".") > 3) ||
+      (this.amount && this.amount && this.amount.toString().lastIndexOf(".") > -1 && this.amount.toString().length - this.amount.toString().lastIndexOf(".") > 3) ||
       (this.amount && this.amount.toString().length == 1 && this.amount.toString().lastIndexOf(".") > 0)
     ) {
       let num = String(this.amount);
@@ -132,7 +132,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   update(p) {
     this.editing = p;
     this.amount = p.billedAmount
-    $('.money').mask("#,##0.00", {reverse: true});
+   // $('.money').mask("#,##0.00", {reverse: true});
 
   }
   cancel() {

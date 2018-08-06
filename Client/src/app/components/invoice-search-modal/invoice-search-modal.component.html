@@ -116,7 +116,7 @@
                         <div class="input-group-addon">
                           <b>$</b>
                         </div>
-                        <input class="form-control money" (keypress)="validateNumber($event)" name="amount" [(ngModel)]="amount"
+                        <input class="form-control money" (keypress)="validateNumber($event)" (keyup)="validateAfter($event)" name="amount" [(ngModel)]="amount"
                           [ngModelOptions]="{standalone: true}">
                       </div>
                     </td>
