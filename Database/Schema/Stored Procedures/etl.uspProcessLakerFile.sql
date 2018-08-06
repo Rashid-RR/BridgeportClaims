@@ -23,8 +23,8 @@ AS BEGIN
 	EXECUTE [dbo].[uspGenerateNotifications] @IsBeforeDataImport = 1
 
 	BEGIN TRAN;
-	EXEC [etl].[uspCleanupStagedLakerFileAddedColumns]
-	EXEC [etl].[uspAddStagedLakerFileETLColumns]
+	EXEC [etl].[uspCleanupStagedLakerFileAddedColumns];
+	EXEC [etl].[uspAddStagedLakerFileETLColumns];
 
 	-- Update the various ID's from previous File
 	UPDATE [s]
@@ -825,7 +825,7 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'Error. The Updated Pharmacies does not match the actual number of records in the database where Pharmacies were updated', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 
@@ -859,7 +859,7 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'Error. The new Prescription records imported count does not match the rows affected for inserted Prescriptions', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 	UPDATE s SET [s].PrescriptionID = p.PrescriptionID
@@ -874,7 +874,7 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'Error. Something went wrong in updating the #New file, PrescriptionID''s.', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 	UPDATE	[slf] SET [slf].[PrescriptionID] = [n].[PrescriptionID]
@@ -890,13 +890,17 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'Error. The Updated Prescription ID''s in the StagedLakerFile does not match the count of updated Prescription ID''s in #New', 16, 1) WITH NOWAIT
-			RETURN;
+			RETURN -1;
 		END
 
 	-- QA Checks
-	EXEC(N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN [PrescriptionID] INTEGER NOT NULL')
+	EXEC(N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN [PrescriptionID] INTEGER NOT NULL');
 	-- Set it back
-	EXEC(N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN [PrescriptionID] INTEGER NULL')
+	EXEC(N'ALTER TABLE [etl].[StagedLakerFile] ALTER COLUMN [PrescriptionID] INTEGER NULL');
+
+	-- Now we can finally add the index!
+	SET @SQL = N'CREATE INDEX [idxStagedLakerFileRowIDIncludePrescriptionID] ON [etl].[StagedLakerFile] ([RowID]) INCLUDE ([PrescriptionID]) WITH (DATA_COMPRESSION = PAGE, FILLFACTOR = 90);'
+	EXECUTE sys.sp_executesql @SQL;
 
 	WAITFOR DELAY '00:00:00.050' -- wait 50 milliseconds to get a new UTCNow
 	SELECT @UTCNow = dtme.udfGetUtcDate();
@@ -1026,16 +1030,14 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'Error. The QA check for the count of rows updated, and the count of Updated Prescription Records didn''t match', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
-	   
-	DECLARE @Success BIT = 0
+
 	IF @@TRANCOUNT > 0
 		BEGIN
 			IF @@ERROR = 0
 				BEGIN
 					COMMIT;
-					SET @Success = 1;
 					-- Enable Triggers
 					ALTER TABLE [dbo].[Adjustor] ENABLE TRIGGER ALL;
 					ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
@@ -1058,7 +1060,7 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'A transaction is still open', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 	-- Reversed Prescriptions

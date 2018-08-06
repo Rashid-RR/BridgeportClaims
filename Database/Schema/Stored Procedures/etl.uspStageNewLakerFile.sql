@@ -159,11 +159,6 @@ AS BEGIN
 		IF (@DebugOnly = 0)
 			BEGIN
 				SELECT * INTO etl.StagedLakerFile FROM @Base;
-				SET @SQLStatement = N'CREATE NONCLUSTERED INDEX [idxStagedLakerFileRowID]
-				ON etl.StagedLakerFile ([RowID])
-				INCLUDE ([PrescriptionID])
-				WITH (FILLFACTOR = 90, DATA_COMPRESSION = PAGE);'
-				EXEC dbo.uspExecSQL @SQLStatement, @DebugOnly
 			END
 		ELSE
 			PRINT 'SELECT * INTO etl.StagedLakerFile FROM etl.StagedLakerFileBackup WHERE 1 = 2' -- Just something to create the table.
