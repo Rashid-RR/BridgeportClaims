@@ -1,5 +1,5 @@
 import { Component, Input, OnInit,AfterViewInit } from '@angular/core';
-import { DocumentItem } from 'app/models/document';
+import { DocumentItem } from '../../models/document';
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { HttpService } from "../../services/http-service"
@@ -7,7 +7,7 @@ import { EventsService } from "../../services/events-service"
 import { DocumentManagerService } from "../../services/document-manager.service"
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, Toast } from 'ng2-toastr';
 import { Episode } from '../../interfaces/episode';
 import { EpisodeNoteModalComponent } from '../../components/components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../components/ng-window';

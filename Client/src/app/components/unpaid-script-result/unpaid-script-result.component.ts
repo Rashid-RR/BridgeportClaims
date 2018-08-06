@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { UnpaidScriptService, HttpService } from "../../services/services.barrel";
-import { ConfirmComponent } from '../../components/confirm.component';
+import { ConfirmComponent } from '../confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-unpaid-script-result',

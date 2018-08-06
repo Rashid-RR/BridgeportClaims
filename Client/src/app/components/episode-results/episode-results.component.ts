@@ -3,16 +3,16 @@ import { EpisodeService, HttpService } from '../../services/services.barrel';
 import { Diary } from '../../models/diary';
 import { Claim } from '../../models/claim';
 import { PrescriptionNote } from '../../models/prescription-note';
-import { EpisodeNoteModalComponent } from '../../components/components-barrel';
+import { EpisodeNoteModalComponent } from '../components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
 import { Router } from '@angular/router';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 
-import { ConfirmComponent } from '../../components/confirm.component';
-import { DocumentItem } from 'app/models/document';
+import { ConfirmComponent } from '../confirm.component';
+import { DocumentItem } from '../../models/document';
 import { UUID } from 'angular2-uuid';
-import { Episode } from 'app/interfaces/episode';
+import { Episode } from '../../interfaces/episode';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 
 @Component({

@@ -5,7 +5,7 @@ import { HttpService } from "../../services/http-service"
 import { ClaimManager } from "../../services/claim-manager";
 import { UserProfile } from "../../models/profile";
 import { ProfileManager } from "../../services/profile-manager";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-profile',

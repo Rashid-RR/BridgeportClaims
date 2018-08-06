@@ -5,10 +5,10 @@ import { HttpService } from "../../services/http-service";
 import { Payment } from "../../models/payment";
 import { EventsService } from "../../services/events-service";
 import { DatePipe,DecimalPipe } from '@angular/common';
-import { ConfirmComponent } from '../../components/confirm.component';
+import { ConfirmComponent } from '../confirm.component';
 import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
 import { DialogService } from "ng2-bootstrap-modal";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { ProfileManager } from "../../services/profile-manager";
 declare var $:any;
 

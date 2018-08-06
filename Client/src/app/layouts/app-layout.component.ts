@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ViewContainerRef, AfterViewInit } from "@angular/core";
 import { Router, NavigationEnd } from "@angular/router";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { ProfileManager } from "../services/profile-manager"
 import { AuthGuard } from "../services/auth.guard"
 import { LocalStorageService } from 'ng2-webstorage';

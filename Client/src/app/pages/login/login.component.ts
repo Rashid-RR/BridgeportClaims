@@ -6,7 +6,7 @@ import { AuthGuard } from "../../services/auth.guard";
 import { ProfileManager } from "../../services/profile-manager";
 import { UserProfile } from "../../models/profile";
 import { EventsService } from "../../services/events-service";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import {Location} from '@angular/common';
 
 @Component({

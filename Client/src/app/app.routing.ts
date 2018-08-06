@@ -20,7 +20,7 @@ import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.compo
 import { UnindexedImageComponent } from './pages/unindex-image/unindex-image.component';
 import { UnindexedImageFileComponent } from './pages/unindexed-image-file/unindexed-image-file.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { EpisodePageComponent } from 'app/pages/episode-page/episode-page.component';
+import { EpisodePageComponent } from './pages/episode-page/episode-page.component';
 import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-settings.component';
 import { TestComponent } from './pages/test/test.component';
 

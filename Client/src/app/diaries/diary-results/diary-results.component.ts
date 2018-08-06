@@ -5,7 +5,7 @@ import { Claim } from "../../models/claim";
 import { PrescriptionNote } from "../../models/prescription-note";
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../../components/ng-window";
 import { Router } from "@angular/router";
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 import { ScriptNoteWindowComponent } from '../../components/diary-script-note-window/diary-script-note-window.component';
 
 @Component({

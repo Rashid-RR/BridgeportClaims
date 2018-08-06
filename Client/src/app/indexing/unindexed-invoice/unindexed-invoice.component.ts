@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventsService } from "../../services/events-service"
 import { DocumentManagerService } from "../../services/document-manager.service";
-import { DocumentItem } from 'app/models/document';
+import { DocumentItem } from '../../models/document';
 import { HttpService } from "../../services/http-service";
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 import { UUID } from 'angular2-uuid';
 import { DialogService } from 'ng2-bootstrap-modal';

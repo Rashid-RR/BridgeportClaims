@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClaimManager } from '../../services/claim-manager';
 import { EventsService } from '../../services/events-service';
 import { Claim } from '../../models/claim';
-import { HttpService, ComparisonClaim } from 'app/services/services.barrel';
+import { HttpService, ComparisonClaim } from '../../services/services.barrel';
 import { ProfileManager } from "../../services/profile-manager";
 import { DatePipe } from '@angular/common';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 import swal from 'sweetalert2';
 
 declare var $: any;

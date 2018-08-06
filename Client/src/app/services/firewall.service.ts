@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
-import { ArraySortPipe } from 'app/pipes/sort.pipe';
+import { ArraySortPipe } from '../pipes/sort.pipe';
 import { Firewall } from '../interfaces/firewall';
 declare var $: any;
 @Injectable()

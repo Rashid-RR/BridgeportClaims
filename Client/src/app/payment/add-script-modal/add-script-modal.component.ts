@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 import { PaymentScriptService } from '../../services/payment-script-service';
 import { EventsService } from '../../services/events-service';
 import { Subject } from 'rxjs/Subject';

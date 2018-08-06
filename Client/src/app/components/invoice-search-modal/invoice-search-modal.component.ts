@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angula
 import { Toast, ToastsManager } from 'ng2-toastr';
 import { PaymentScriptService } from '../../services/payment-script-service';
 import { Subject } from 'rxjs/Subject';
-import { DatePipe } from '@angular/common';
+import { DatePipe,DecimalPipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from "../../services/http-service"
 import { Prescription } from '../../models/prescription';
@@ -36,6 +36,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     private toast: ToastsManager,
     private dialogService: DialogService,
     private dp: DatePipe,
+    private decPipe: DecimalPipe,
     private http: HttpService) {
     this.form = this.formBuilder.group({
       claimNumber: [null],
@@ -76,9 +77,11 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     if (this.amount == this.editing['billedAmount']) {
       this.toast.warning("You haven't changed the Billed Amount value, and therefore, there is nothing to save");
     } else {
-      const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      let from = this.decPipe.transform(this.editing['billedAmount'], '.2');
+      let toAmount = this.decPipe.transform(this.amount, '.2');
+      this.dialogService.addDialog(ConfirmComponent, {
         title: "Update Billed Amount",
-        message: "Are you sure you wish to update this Billed Amount for "+this.editing.rxnumber+" from $"+this.editing['billedAmount']+" to $" + this.amount + "?"
+        message: `Are you sure you wish to update this Billed Amount for Rx # ${this.editing['rxNumber']} from $${from} to $${toAmount}?`
       })
         .subscribe((isConfirmed) => {
           if (isConfirmed) {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EpisodeService } from 'app/services/episode.service';
+import { EpisodeService } from '../../services/episode.service';
 
 @Component({
   selector: 'app-episode-page',

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { Payor } from "../models/payor"
 import { Subject } from 'rxjs/Subject';
 
@@ -34,6 +34,7 @@ export class SkippedPaymentService {
     pageNumber: number;
     pageSize: number = 50;
     payorListReady = new Subject<any>();
+    archived:boolean=false;
     constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
         this.data = {
             page: 1,
@@ -93,6 +94,7 @@ export class SkippedPaymentService {
                 if (page) {
                     this.data.page = page;
                 }
+                this.archived = this.data.archived;
             }, err => {
                 this.loading = false;
             })

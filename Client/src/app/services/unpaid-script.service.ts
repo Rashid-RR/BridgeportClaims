@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Payor } from "../models/payor"
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import * as Immutable from 'immutable';
 import { Subject } from 'rxjs/Subject';
 import { SortColumnInfo } from "../directives/table-sort.directive";

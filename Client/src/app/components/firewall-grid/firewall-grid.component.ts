@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FirewallService } from '../../services/firewall.service';
 import { Firewall } from '../../interfaces/firewall';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
-import { ConfirmComponent } from '../../components/confirm.component';
+import { ConfirmComponent } from '../confirm.component';
 
 
 @Component({

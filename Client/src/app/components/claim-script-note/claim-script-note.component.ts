@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ClaimManager } from "../../services/claim-manager";
 import swal from "sweetalert2";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
@@ -9,7 +9,7 @@ import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { HttpService } from "../../services/http-service"
 import { PrescriptionNote } from "../../models/prescription-note"
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../ng-window";
-import { ScriptNoteWindowComponent } from "../../components/components-barrel";
+import { ScriptNoteWindowComponent } from "../components-barrel";
 declare var $: any;
 
 @Component({

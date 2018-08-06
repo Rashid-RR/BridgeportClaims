@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {HttpService} from "../../services/http-service";
 import {PaymentService} from "../../services/payment-service";
 import {EventsService} from "../../services/events-service";
-import {ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-payment-invoice',

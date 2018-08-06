@@ -5,14 +5,14 @@ import { DocumentItem } from "../../models/document";
 import { DocumentType } from "../../models/document-type";
 import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
-import { EpisodeNoteModalComponent } from '../../components/components-barrel';
+import { EpisodeNoteModalComponent } from '../components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../ng-window";
 import { UnindexedImageFileComponent } from "../../pages/unindexed-image-file/unindexed-image-file.component";
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConfirmComponent } from '../../components/confirm.component';
+import { ConfirmComponent } from '../confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 declare var $: any;
 
 @Component({

@@ -1,9 +1,9 @@
-import { DocumentItem } from 'app/models/document';
+import { DocumentItem } from '../../models/document';
 import { Router } from "@angular/router";
 import { Subject } from 'rxjs/Subject';
 import { Component, Input,  OnInit, NgZone, AfterViewInit } from '@angular/core';
 import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from '../../services/document-manager.service';

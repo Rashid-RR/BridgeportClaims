@@ -1,16 +1,16 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { EpisodeNoteModalComponent } from '../../components/components-barrel';
+import { EpisodeNoteModalComponent } from '../components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
 import { ClaimManager } from "../../services/claim-manager";
 import { EventsService } from "../../services/events-service";
-import { Episode } from 'app/interfaces/episode';
+import { Episode } from '../../interfaces/episode';
 import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
 import { EpisodeService } from "../../services/episode.service";
 import { DialogService } from 'ng2-bootstrap-modal';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 
-import { ConfirmComponent } from '../../components/confirm.component';
+import { ConfirmComponent } from '../confirm.component';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 @Component({
   selector: 'app-claim-episode',

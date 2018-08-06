@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { EventsService } from "../../services/events-service"
 import { DocumentManagerService } from "../../services/document-manager.service";
-import { DocumentItem } from 'app/models/document';
+import { DocumentItem } from '../../models/document';
 declare var $: any;
 
 

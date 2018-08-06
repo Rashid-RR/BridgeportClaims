@@ -1,10 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 import { EpisodeService } from "../../services/episode.service"
 import { EventsService } from "../../services/events-service"
 import { WindowInstance } from "../ng-window/WindowInstance";
-import { Episode } from 'app/interfaces/episode';
-import { HttpService } from 'app/services/services.barrel';
+import { Episode } from '../../interfaces/episode';
+import { HttpService } from '../../services/services.barrel';
 import swal from "sweetalert2";
 declare var $: any;
 

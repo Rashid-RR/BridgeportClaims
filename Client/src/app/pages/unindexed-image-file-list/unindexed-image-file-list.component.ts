@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { DocumentManagerService } from "../../services/document-manager.service";
-import { DocumentItem } from 'app/models/document';
 declare var $: any;
 
 @Component({

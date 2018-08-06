@@ -4,7 +4,7 @@ import { ProfileManager } from "../../services/profile-manager";
 import { HttpService } from "../../services/http-service";
 import { Router } from "@angular/router";
 import { DOCUMENT } from '@angular/platform-browser';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-header',

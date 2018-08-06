@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { HttpService } from '../../services/services.barrel';
 import { DatePipe } from '@angular/common';
 import { Payor } from "../../models/payor"

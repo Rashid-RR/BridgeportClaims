@@ -11,13 +11,13 @@ import { HttpService } from './http-service';
 import { AuthGuard } from './auth.guard';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
-import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, Toast } from 'ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../components/confirm.component';
 import { Episode } from '../interfaces/episode';
-import { PhonePipe } from 'app/pipes/phone-pipe';
+import { PhonePipe } from '../pipes/phone-pipe';
 import swal from "sweetalert2";
-import { ProfileManager } from 'app/services/services.barrel';
+import { ProfileManager } from './services.barrel';
 
 declare var $: any;
 

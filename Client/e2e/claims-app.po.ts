@@ -1,7 +1,7 @@
 import { browser, element, by, protractor } from 'protractor';
-import { environment as dev } from "../src/environments/environment"
-import { environment as local } from "../src/environments/environment.local"
-import { environment as prod } from "../src/environments/environment.prod"
+import { environment as dev } from "environments/environment"
+import { environment as local } from "environments/environment.local"
+import { environment as prod } from "environments/environment.prod"
 export class ClaimsPage {
   environment: any;
   constructor() {

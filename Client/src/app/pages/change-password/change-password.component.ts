@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { HttpService } from "../../services/http-service";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-change-password',

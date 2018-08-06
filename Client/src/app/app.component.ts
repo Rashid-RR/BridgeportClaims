@@ -1,6 +1,6 @@
 import {Component,OnDestroy, OnInit, ViewContainerRef} from "@angular/core";
 import { ActivatedRoute } from '@angular/router';
-import { ToastsManager,Toast } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager,Toast } from 'ng2-toastr';
 import {HttpService,SignalRService} from "./services/services.barrel";
 import {ProfileManager} from "./services/profile-manager";
 import {UserProfile} from "./models/profile";

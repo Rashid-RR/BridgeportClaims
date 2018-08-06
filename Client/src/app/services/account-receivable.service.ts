@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ReportLoaderService } from './report-loader.service';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import * as FileSaver from 'file-saver';
 

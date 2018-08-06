@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReportLoaderService, ShortPayService } from '../../services/services.barrel';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-short-pay-report',

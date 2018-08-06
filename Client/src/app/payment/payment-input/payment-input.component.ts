@@ -6,7 +6,7 @@ import { PaymentService } from "../../services/payment-service";
 import { EventsService } from "../../services/events-service";
 import { PaymentPosting } from "../../models/payment-posting";
 import { PaymentPostingPrescription } from "../../models/payment-posting-prescription";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { DecimalPipe } from '@angular/common';
 import { LocalStorageService } from 'ng2-webstorage';
 import { DialogService } from "ng2-bootstrap-modal";

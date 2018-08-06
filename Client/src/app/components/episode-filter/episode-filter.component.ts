@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 import swal from "sweetalert2";
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';

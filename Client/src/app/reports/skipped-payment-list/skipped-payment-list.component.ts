@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReportLoaderService, SkippedPaymentService,HttpService } from "../../services/services.barrel";
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-skipped-payment-list',

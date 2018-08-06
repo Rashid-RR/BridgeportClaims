@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { EpisodesFilterPipe } from "../components/episode-results/episode-filter.pipe"
-import { Episode } from 'app/interfaces/episode';
-import { EpisodeNoteType } from 'app/models/episode-note-type';
-import { ArraySortPipe } from 'app/pipes/sort.pipe';
+import { Episode } from '../interfaces/episode';
+import { EpisodeNoteType } from '../models/episode-note-type';
+import { ArraySortPipe } from '../pipes/sort.pipe';
 import swal from "sweetalert2";
 import { Payor } from "../models/payor"
 import { Subject } from 'rxjs/Subject';

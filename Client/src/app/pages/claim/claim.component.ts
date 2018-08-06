@@ -6,7 +6,7 @@ import { PrescriptionNoteType } from "../../models/prescription-note-type";
 import swal from "sweetalert2";
 import { ClaimNote } from "../../models/claim-note"
 import { Episode } from "../../interfaces/episode"
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { Router } from "@angular/router";
 import { DatePipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';

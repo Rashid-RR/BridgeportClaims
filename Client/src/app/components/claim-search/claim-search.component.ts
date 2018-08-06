@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Subject } from 'rxjs/Subject';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { HttpService } from "../../services/http-service";
 import { ClaimManager } from "../../services/claim-manager";
 import { EventsService } from "../../services/events-service";

@@ -1,7 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
 import { PrescriptionNote } from "../../models/prescription-note"
-import {WindowInstance} from "../../components/ng-window/WindowInstance"; 
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import {WindowInstance} from "../ng-window/WindowInstance"; 
+import { ToastsManager } from 'ng2-toastr';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import swal from "sweetalert2";
 import { HttpService } from "../../services/http-service"

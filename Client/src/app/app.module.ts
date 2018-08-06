@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { Ng2Webstorage } from 'ng2-webstorage';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
-import { ToastModule } from 'ng2-toastr/ng2-toastr';
+import { ToastModule } from 'ng2-toastr';
 import { SharedModule } from './shared';
 
 /* import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr'; */
@@ -54,7 +54,7 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { EpisodePageComponent } from './pages/episode-page/episode-page.component';
 import { EpisodeResultsComponent } from './components/episode-results/episode-results.component';
 import { EpisodeFilterComponent } from './components/episode-filter/episode-filter.component';
-import { EpisodeService } from 'app/services/episode.service';
+import { EpisodeService } from './services/episode.service';
 import { NewEpisodeComponent } from './components/new-episode/new-episode.component';
 import { FirewallSettingsComponent } from './pages/firewall-settings/firewall-settings.component';
 import { FirewallFilterComponent } from './components/firewall-filter/firewall-filter.component';

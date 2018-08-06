@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, trigger, state, style, transition, animate } from '@angular/core';
 import { PaymentService, PaymentScriptService } from "../../services/services.barrel";
 import { EventsService } from "../../services/events-service";
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
 import { UUID } from 'angular2-uuid';

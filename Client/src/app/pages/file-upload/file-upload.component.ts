@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FileSelectDirective, FileItem, FileDropDirective, ParsedResponseHeaders, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { HttpService } from "../../services/http-service"
 import { ImportFile } from "../../models/import-file"
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';
 

@@ -5,10 +5,10 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, ActivatedRoute, RouterStateSnapshot, CanActivate, CanActivateChild, Resolve, Router } from "@angular/router";
 
-import { HttpService } from "../services/http-service";
+import { HttpService } from "./http-service";
 import { UserProfile } from "../models/profile";
-import { ProfileManager } from "../services/profile-manager";
-import { EventsService } from "../services/events-service";
+import { ProfileManager } from "./profile-manager";
+import { EventsService } from "./events-service";
 import { Observable } from "rxjs/Observable"
 import 'rxjs/add/operator/first' // in imports
 

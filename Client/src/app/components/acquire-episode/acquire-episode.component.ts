@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../../services/http-service"
 import { EpisodeService } from "../../services/episode.service";
-import { Toast, ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { Toast, ToastsManager } from 'ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Subject } from 'rxjs/Subject';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { ConfirmComponent } from '../../components/confirm.component';
+import { ConfirmComponent } from '../confirm.component';
 import { UUID } from 'angular2-uuid';
 declare var $: any;
 

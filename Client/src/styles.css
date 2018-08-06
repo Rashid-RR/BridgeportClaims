@@ -75,11 +75,13 @@
       height: calc(100vh - 40px);
       margin-bottom: 1px !important;
       margin-top: 30px !important;
-      width: 900px !important;
+      width: 950px !important;
+      overflow: hidden;
     }
     .swal2-modal.payment-modal.search-modal .swal2-content
     {
       height: calc(100vh - 50px);
+      overflow: hidden;
     }
 
     .swal2-modal.payment-modal .swal2-content .bg-head-box {

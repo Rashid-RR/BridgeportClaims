@@ -5,7 +5,7 @@
 
 import {OnDestroy, Component, ViewContainerRef, ViewChild, AfterViewInit, ApplicationRef} from "@angular/core";
 import {NgStyle} from "@angular/common";
-import {Observable} from 'rxjs/Rx'
+import {Observable} from 'rxjs'
 
 import {WindowInstance} from "./WindowInstance";
 import {Subscription} from "rxjs/Subscription";
