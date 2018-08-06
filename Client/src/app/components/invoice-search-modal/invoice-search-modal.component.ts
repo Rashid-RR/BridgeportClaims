@@ -41,7 +41,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
       claimNumber: [null],
       invoiceNumber: [null],
       rxDate: [null],
-      rxNumber: [null, Validators.compose([Validators.required])],
+      rxNumber: [null],
       claimId: [null, Validators.compose([Validators.required])]
     });
   }
@@ -56,42 +56,47 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     //this.lastname.nativeElement.focus();
   }
   search() {
-    var form = this.form.value;
-    let rxDate = this.dp.transform($('#rxDate').val(), "MM/dd/yyyy");
-    form.rxDate = rxDate
-    this.loading = true;
-    this.http.invoiceAmounts(form).single().subscribe(res => {
-      this.loading = false;
-      this.prescriptions = res;
-    }, err => {
-      this.loading = false;
-      this.toast.error(err.message); 
-    })
+    if (!this.form.valid) {
+      this.toast.warning("Please link a claim to search");
+    } else {
+      var form = this.form.value;
+      let rxDate = this.dp.transform($('#rxDate').val(), "MM/dd/yyyy");
+      form.rxDate = rxDate
+      this.loading = true;
+      this.http.invoiceAmounts(form).single().subscribe(res => {
+        this.loading = false;
+        this.prescriptions = res;
+      }, err => {
+        this.loading = false;
+        this.toast.error(err.message);
+      })
+    }
   }
   save() {
-    if(this.amount==this.editing['billedAmount']){
+    if (this.amount == this.editing['billedAmount']) {
       this.toast.warning("You haven't changed the Billed Amount value, and therefore, there is nothing to save");
-    }else{
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Update Billed Amount",
-      message: "Are you sure you wish to update this Billed Amount to "+this.amount+"?"
-    })
-      .subscribe((isConfirmed) => {
-        if (isConfirmed) {
-          this.loading = true;
-          this.http.updateBilledAmount({prescriptionId:this.editing.prescriptionId,billedAmount:this.amount}).single().subscribe(res => {
-            let p = this.prescriptions.find(p=>p.prescriptionId==this.editing.prescriptionId);
-            if(p){
-              p['billedAmount']=this.amount;
-            }
-            this.cancel();
-            this.loading = false;
-          }, error => {
-            this.toast.error(error.message);
-            this.loading = false;
-          })
-        }
-      });
+    } else {
+      const disposable = this.dialogService.addDialog(ConfirmComponent, {
+        title: "Update Billed Amount",
+        message: "Are you sure you wish to update this Billed Amount for "+this.editing.rxnumber+" from $"+this.editing['billedAmount']+" to $" + this.amount + "?"
+      })
+        .subscribe((isConfirmed) => {
+          if (isConfirmed) {
+            this.loading = true;
+            this.http.updateBilledAmount({ prescriptionId: this.editing.prescriptionId, billedAmount: this.amount }).single().subscribe(res => {
+              let p = this.prescriptions.find(p => p.prescriptionId == this.editing.prescriptionId);
+              if (p) {
+                p['billedAmount'] = this.amount;
+              }
+              this.toast.success(res.message);
+              this.cancel();
+              this.loading = false;
+            }, error => {
+              this.toast.error(error.message);
+              this.loading = false;
+            })
+          }
+        });
     }
   }
   validateNumber($event) {
@@ -112,7 +117,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
       (this.amount && this.amount.toString().length == 1 && this.amount.toString().lastIndexOf(".") > 0)
     ) {
       let num = String(this.amount);
-      this.amount =isNaN(Number(num.substring(0, num.length - 1))) ? null : Number(num.substring(0, num.length - 1));
+      this.amount = isNaN(Number(num.substring(0, num.length - 1))) ? null : Number(num.substring(0, num.length - 1));
     }
   }
   update(p) {
