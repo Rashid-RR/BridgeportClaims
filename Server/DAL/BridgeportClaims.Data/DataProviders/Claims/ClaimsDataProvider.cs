@@ -159,7 +159,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
             {
                 try
                 {
-                    var vip = false;
                     var hasEnoughScripts = false;
                     decimal totalPayableAmount = 0;
                     decimal totalAmountPaid = 0;
@@ -234,8 +233,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                         var collectedMargin = totalAmountPaid - totalPayableAmount;
                         if (collectedMargin > ic.CollectedMarginMasi)
                         {
-                            vip = true;
-                            claimDto.isVip = vip;
+                            claimDto.isVip = true;
                         }
                     }
 
