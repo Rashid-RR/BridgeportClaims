@@ -16,16 +16,11 @@ namespace BridgeportClaims.Web.Controllers
     public class ClaimNotesController : BaseApiController
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
-        private readonly Lazy<IRepository<Claim>> _claimRepository;
         private readonly Lazy<IClaimNotesDataProvider> _claimNotesDataProvider;
-        private readonly Lazy<IRepository<ClaimNote>> _claimNoteRepository;
 
-        public ClaimNotesController(Lazy<IClaimNotesDataProvider> claimNotesDataProvider,
-            Lazy<IRepository<ClaimNote>> claimNoteRepository, Lazy<IRepository<Claim>> claimRepository)
+        public ClaimNotesController(Lazy<IClaimNotesDataProvider> claimNotesDataProvider)
         {
             _claimNotesDataProvider = claimNotesDataProvider;
-            _claimNoteRepository = claimNoteRepository;
-            _claimRepository = claimRepository;
         }
 
         [HttpGet]
@@ -40,24 +35,6 @@ namespace BridgeportClaims.Web.Controllers
             {
                 Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
-        [HttpPost]
-        [Route("{claimId:int}", Name = StringConstants.GetClaimNoteAction)]
-        public IHttpActionResult GetClaimNote(int claimId)
-        {
-            try
-            {
-                var claimNote = _claimNoteRepository.Value.GetSingleOrDefault(x => x.Claim.ClaimId == claimId);
-                if (null != claimNote)
-                    return Ok(claimNote);
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -88,9 +65,6 @@ namespace BridgeportClaims.Web.Controllers
                 var userId = User.Identity.GetUserId();
                 if (null == userId)
                     throw new ArgumentNullException(nameof(userId));
-                // validate that the Claim exists
-                if (null == _claimRepository.Value.Get(model.ClaimId))
-                    throw new Exception($"An error has occurred, claim Id {model.ClaimId} doesn't exist");
                 _claimNotesDataProvider.Value.AddOrUpdateNote(model.ClaimId, model.NoteText, userId, model.NoteTypeId);
                 return Ok(new {message = "The Claim Note was Saved Successfully"});
             }

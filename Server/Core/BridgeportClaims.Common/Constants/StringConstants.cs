@@ -18,7 +18,6 @@
 		public const string ResetPasswordRouteAction = "ResetPasswordRoute";
 		public const string GetAllRolesAction = "GetAllRoles";
 		public const string ManageUsersInRoleAction = "ManageUsersInRole";
-		public const string GetClaimNoteAction = "GetClaimNote";
 		public const string ClientLocalHostNameKey = "ClientLocalHostName";
 		public const string ServerLocalHostNameKey = "ServerLocalHostName";
 		public const string ResetPasswordClientRoute = "resetpassword";
