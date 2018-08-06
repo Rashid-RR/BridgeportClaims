@@ -28,7 +28,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   dropdownVisible: boolean = false;
   showDropDown = new Subject<any>();
   form: FormGroup;
-  public prescriptions: Prescription[] = [];
+  public prescriptions: Prescription[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -67,6 +67,9 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
       this.http.invoiceAmounts(form).single().subscribe(res => {
         this.loading = false;
         this.prescriptions = res;
+        if(res && res.length==0){
+          this.toast.info("No records found from this search criteria");
+        }
       }, err => {
         this.loading = false;
         this.toast.error(err.message);

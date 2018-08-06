@@ -100,8 +100,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     const InjuryDate = this.dp.transform(form.InjuryDate, 'MM/dd/yyyy');
     const DateOfBirth = this.dp.transform(form.DateOfBirth, 'MM/dd/yyyy');
     form.DuplicateClaimId = duplicate.claimId;
-    form.ClaimFlex2Id = form.ClaimFlex2Value === this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value ? this.comparisonClaims.rightClaimFlex2Id : undefined);
-    form.AdjustorId = form.AdjustorName === this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName ? this.comparisonClaims.rightAdjustorId : undefined);
+    form.ClaimFlex2Id = form.ClaimFlex2Value === this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value!==undefined ? this.comparisonClaims.rightClaimFlex2Id : undefined);
+    form.AdjustorId = form.AdjustorName === this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName!==undefined ? this.comparisonClaims.rightAdjustorId : undefined);
     form.PatientId = form.PatientName === this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
     form.PayorId = form.Carrier === this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.Carrier ? this.comparisonClaims.rightPayorId : undefined);
     //form.PersonCode = this.claimManager.selectedClaims[0].personCode;
