@@ -77,8 +77,9 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     if (this.amount == this.editing['billedAmount']) {
       this.toast.warning("You haven't changed the Billed Amount value, and therefore, there is nothing to save");
     } else {
+      let amount = this.amount.toString().replace(/,/g,"");
       let from = this.decPipe.transform(this.editing['billedAmount'], '.2');
-      let toAmount = this.decPipe.transform(this.amount, '.2');
+      let toAmount = this.decPipe.transform(amount, '.2');
       this.dialogService.addDialog(ConfirmComponent, {
         title: "Update Billed Amount",
         message: `Are you sure you wish to update this Billed Amount for Rx # ${this.editing['rxNumber']} from $${from} to $${toAmount}?`
@@ -87,10 +88,10 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
           if (isConfirmed) {
             this.loading = true;
             this.http.updateBilledAmount({ prescriptionId: this.editing.prescriptionId,
-               billedAmount: this.amount }).single().subscribe(res => {
+               billedAmount: amount }).single().subscribe(res => {
               let p = this.prescriptions.find(p => p.prescriptionId == this.editing.prescriptionId);
               if (p) {
-                p['billedAmount'] = this.amount;
+                p['billedAmount'] = amount;
               }
               this.toast.success(res.message, null, { toastLife: 5500 });
               this.cancel();
@@ -106,6 +107,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   validateNumber($event) {
     $event = ($event) ? $event : window.event;
     var charCode = ($event.which) ? $event.which : $event.keyCode;
+    console.log(charCode);
     if (!this.amount && charCode == 46) {
       return false;
     }
@@ -127,6 +129,8 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   update(p) {
     this.editing = p;
     this.amount = p.billedAmount
+    $('.money').mask("#,##0.00", {reverse: true});
+
   }
   cancel() {
     this.editing = undefined;
@@ -155,7 +159,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
         claimNumber: $event.claimNumber,
         claimId: $event.claimId
       });
-      this.toast.info("Episode will be linked to " + $event.lastName + " " + $event.firstName + " " + $event.claimNumber, 'Claim Link ready to save', { enableHTML: true, positionClass: 'toast-top-center' })
+      this.toast.info("Episode will be linked to " + $event.lastName + " " + $event.firstName + " " + $event.claimNumber, 'Claim Link ready to save', { enableHTML: true, showCloseButton:true,positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {

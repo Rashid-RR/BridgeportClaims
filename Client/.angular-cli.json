@@ -56,6 +56,7 @@
         "../node_modules/admin-lte/plugins/input-mask/jquery.inputmask.js",
         "../node_modules/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js",
         "../node_modules/admin-lte/plugins/input-mask/jquery.inputmask.extensions.js",
+        "assets/js/jquery.mask.js",
         "../node_modules/highcharts/highcharts.js",
         "../node_modules/highcharts/modules/data.js",
         "../node_modules/highcharts/modules/drilldown.js",
