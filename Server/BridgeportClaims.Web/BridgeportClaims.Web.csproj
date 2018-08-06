@@ -355,7 +355,6 @@
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\ServerEventsController.cs" />
-    <Compile Include="Controllers\TestChecksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="CustomActionResults\DisplayFileResult.cs" />
     <Compile Include="CustomActionResults\FileResult.cs" />

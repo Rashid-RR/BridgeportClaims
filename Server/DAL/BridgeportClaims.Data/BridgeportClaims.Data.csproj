@@ -123,11 +123,9 @@
     <Compile Include="DataProviders\Reports\ReportsDataProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
-    <Compile Include="DataProviders\UserOptions\DbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\Claims\ClaimsDataProvider.cs" />
     <Compile Include="DataProviders\UserRoles\IAssignUsersToRolesProvider.cs" />
     <Compile Include="DataProviders\ClaimNotes\IClaimNotesDataProvider.cs" />
-    <Compile Include="DataProviders\UserOptions\IDbccUserOptionsProvider.cs" />
     <Compile Include="DataProviders\Claims\IClaimsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\IPayorsDataProvider.cs" />
     <Compile Include="DataProviders\Payors\PayorsDataProvider.cs" />
@@ -258,12 +256,10 @@
     <Compile Include="Mappings\UsStateMap.cs" />
     <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionFactory\StoredProcedureExecutors\BaseRepository.cs" />
+    <Compile Include="Repositories\BaseRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="SessionFactory\FluentSessionProvider.cs" />
-    <Compile Include="SessionFactory\StoredProcedureExecutors\IStoredProcedureExecutor.cs" />
-    <Compile Include="SessionFactory\StoredProcedureExecutors\StoredProcedureExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
@@ -284,6 +280,7 @@
     <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="NuGetReferenceHintPathRewrite.targets" />
 </Project>

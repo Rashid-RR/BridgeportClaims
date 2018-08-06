@@ -136,9 +136,10 @@ export class ClaimPaymentComponent implements OnInit {
     }
   }
   get allowed(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+     && this.profileManager.profile.roles.indexOf('Admin') > -1)
   }
-  cancel(){
+  cancel() {
     this.editing = false;
     this.editingPaymentId = undefined;
     this.form.patchValue({
@@ -150,15 +151,16 @@ export class ClaimPaymentComponent implements OnInit {
     });
   }
 
-  del(payment:Payment){
+  del(payment: Payment) {
     let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Delete payment",
-      message: "Are you sure you wish to remove this Payment  for Invoice Number: "+payment.invoiceNumber+" of $"+payment.checkAmt+"?"
+      title: 'Delete payment',
+      message: 'Are you sure you wish to remove this Payment  for Invoice Number: ' +
+      payment.invoiceNumber + ' of $' + payment.checkAmt + '?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.claimManager.loading = true
-          this.http.deletePrescriptionPayment(payment.prescriptionPaymentId).single().subscribe(res=>{              
+          this.claimManager.loading = true;
+          this.http.deletePrescriptionPayment(payment.prescriptionPaymentId).single().subscribe(res => {
               this.toast.success(res.message);
               this.removePayment(payment);
               this.claimManager.loading = false;

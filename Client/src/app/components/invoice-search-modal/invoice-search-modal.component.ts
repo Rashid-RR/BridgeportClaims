@@ -4,7 +4,7 @@ import { PaymentScriptService } from '../../services/payment-script-service';
 import { Subject } from 'rxjs/Subject';
 import { DatePipe,DecimalPipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpService } from "../../services/http-service"
+import { HttpService } from '../../services/http-service';
 import { Prescription } from '../../models/prescription';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../confirm.component';
@@ -54,7 +54,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     $('#rxDate').datepicker({
       autoclose: true
     });
-    //this.lastname.nativeElement.focus();
+    // this.lastname.nativeElement.focus();
   }
   search() {
     if (!this.form.valid) {
@@ -86,12 +86,13 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
             this.loading = true;
-            this.http.updateBilledAmount({ prescriptionId: this.editing.prescriptionId, billedAmount: this.amount }).single().subscribe(res => {
+            this.http.updateBilledAmount({ prescriptionId: this.editing.prescriptionId,
+               billedAmount: this.amount }).single().subscribe(res => {
               let p = this.prescriptions.find(p => p.prescriptionId == this.editing.prescriptionId);
               if (p) {
                 p['billedAmount'] = this.amount;
               }
-              this.toast.success(res.message);
+              this.toast.success(res.message, null, { toastLife: 5500 });
               this.cancel();
               this.loading = false;
             }, error => {
@@ -133,7 +134,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   }
   clear() {
     this.placeholder = 'Start typing to search claims...';
-    $('#rxDate').val('').datepicker("update");
+    $('#rxDate').val('').datepicker('update');
     this.cancel();
     this.form.reset();
   }
@@ -145,12 +146,12 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
     this.searchText = $event.target.value;
   }
   get autoCompleteClaim(): string {
-    return this.http.baseUrl + "/document/claim-search/?exactMatch=" + this.exactMatch + "&searchText=:keyword";
+    return this.http.baseUrl + '/document/claim-search/?exactMatch=' + this.exactMatch + '&searchText=:keyword';
   }
   claimSelected($event) {
     if (this.searchText && $event.claimId) {
       this.form.patchValue({
-        //episodeId: this.episodeService.episodetoAssign.episodeId,
+        // episodeId: this.episodeService.episodetoAssign.episodeId,
         claimNumber: $event.claimNumber,
         claimId: $event.claimId
       });
@@ -164,11 +165,11 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
               msg.parentNode.parentElement.style.position = 'fixed';
             }
           }
-        })
+        });
       setTimeout(() => {
         this.placeholder = $event.lastName + " " + $event.firstName + " ~ " + $event.claimNumber;
         this.searchText = undefined;
-        this.dropdownVisible = false
+        this.dropdownVisible = false;
       }, 100);
     }
   }

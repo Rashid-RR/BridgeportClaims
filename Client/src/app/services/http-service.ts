@@ -877,10 +877,10 @@ export class HttpService {
       });
   }
   updateBilledAmount(data: any): Observable<any> {
-    let params = new HttpParams()
+    const params = new HttpParams()
     .set('prescriptionId', data.prescriptionId)
     .set('billedAmount', data.billedAmount);
-    return this.http.post(this.baseUrl + '/admin/update-billed-amount/', {},{params:params})
+    return this.http.post(this.baseUrl + '/admin/update-billed-amount/', {}, {params: params})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

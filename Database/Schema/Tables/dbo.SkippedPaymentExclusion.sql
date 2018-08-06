@@ -14,6 +14,8 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [pkSkippedPaymentExclusion] PRIMARY KEY CLUSTERED  ([SkippedPaymentExclusionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [idxUqSkippedPaymentExclusionPrescriptionID] UNIQUE NONCLUSTERED  ([PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [fkSkippedPaymentExclusionModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
 ALTER TABLE [dbo].[SkippedPaymentExclusion] ADD CONSTRAINT [fkSkippedPaymentExclusionPrescriptionIDPrescriptionPrescriptionID] FOREIGN KEY ([PrescriptionID]) REFERENCES [dbo].[Prescription] ([PrescriptionID])

@@ -20,7 +20,6 @@ using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.DataProviders.UserRoles;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
-using BridgeportClaims.Data.DataProviders.UserOptions;
 using BridgeportClaims.Data.DataProviders.DateDisplay;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
@@ -48,7 +47,6 @@ using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
-using BridgeportClaims.Data.SessionFactory.StoredProcedureExecutors;
 using BridgeportClaims.Pdf.Factories;
 using BridgeportClaims.Word.FileDriver;
 using BridgeportClaims.Word.Templating;
@@ -63,9 +61,7 @@ namespace BridgeportClaims.Web.IoCConfig
         {
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterType<DbccUserOptionsProvider>().As<IDbccUserOptionsProvider>().InstancePerRequest();
             builder.RegisterType<PayorsDataProvider>().As<IPayorsDataProvider>().InstancePerRequest();
-            builder.RegisterType<StoredProcedureExecutor>().As<IStoredProcedureExecutor>().InstancePerRequest();
             builder.RegisterType<ClaimsDataProvider>().As<IClaimsDataProvider>().InstancePerRequest();
             builder.RegisterType<EmailService>().As<IEmailService>().InstancePerRequest();
             builder.RegisterType<PrescriptionNoteTypesDataProvider>().As<IPrescriptionNoteTypesDataProvider>().InstancePerRequest();

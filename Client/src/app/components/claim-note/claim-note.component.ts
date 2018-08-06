@@ -15,61 +15,62 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
   
   form: FormGroup;
   constructor(
-    public claimManager:ClaimManager,
-    private formBuilder: FormBuilder, 
+    public claimManager: ClaimManager,
+    private formBuilder: FormBuilder,
     private http: HttpService,
     private toast: ToastsManager
   ) {
     this.form = this.formBuilder.group({
-      //claimId: [this.claimManager.selectedClaim.claimId],
-      noteText: [ null,Validators.compose([Validators.required])],
-      noteTypeId: [null,Validators.compose([Validators.required])]
+      // claimId: [this.claimManager.selectedClaim.claimId],
+      noteText: [ null, Validators.compose([Validators.required])],
+      noteTypeId: [null, Validators.compose([Validators.required])]
     });
   }
 
   ngOnInit() {
-  
  }
   ngAfterViewChecked() {
-    let text = this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteText :null;
-    let noteTypeId = this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimNote  ? this.claimManager.selectedClaim.claimNote.noteType : null;
+    const text = this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimNote ?
+     this.claimManager.selectedClaim.claimNote.noteText : null;
+    const noteTypeId = this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimNote ?
+     this.claimManager.selectedClaim.claimNote.noteType : null;
 
     if(this.claimManager.selectedClaim.claimNote!==undefined && this.form.get("noteText").value == null && this.form.get("noteText").value !==this.claimManager.selectedClaim.claimNote.noteText){
       this.form.patchValue({
-          noteTypeId:noteTypeId,
-          noteText:text
-      })
-    }    
+          noteTypeId: noteTypeId,
+          noteText: text
+      });
+    }
   }
 
   parseText(txt:String){
     return txt ? txt.replace(/\\n/g,'<br>') : '';
   }
-  saveNote(){
+  saveNote() {
     this.claimManager.loading = true;
     if (this.form.valid) {
       try {
-        let note=this.form.value;
+        const note = this.form.value;
         note.claimId = this.claimManager.selectedClaim.claimId;
         this.http.saveClaimNote(this.form.value).subscribe(res => {
-            if(!this.claimManager.selectedClaim.claimNote){
-              this.claimManager.selectedClaim.claimNote = new ClaimNote(this.form.value['noteText'],this.form.value['noteTypeId'])
-            }else{
-              this.claimManager.selectedClaim.claimNote.noteText=this.form.value['noteText'];
-            } 
+            if (!this.claimManager.selectedClaim.claimNote) {
+              this.claimManager.selectedClaim.claimNote = new ClaimNote(this.form.value['noteText'], this.form.value['noteTypeId']);
+            } else {
+              this.claimManager.selectedClaim.claimNote.noteText = this.form.value['noteText'];
+            }
             this.claimManager.selectedClaim.editing = false;
             this.claimManager.loading = false;
         }, (error) => {
           this.claimManager.loading = false;
-          let err = error.error;
+          const err = error.error;
           this.toast.warning(err.error_description);
-        })
+        });
       } catch (e) {
         this.toast.warning('Invalid field value(s). Please correct to proceed.');
         this.claimManager.loading = false;
       }
-    }else{
-      console.log(this.form.value)
+    } else {
+      console.log(this.form.value);
        this.toast.warning('Invalid field value(s). Please correct to proceed.');
        this.claimManager.loading = false;
     }
