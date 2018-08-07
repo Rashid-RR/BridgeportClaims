@@ -145,10 +145,11 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                var userId = User.Identity.GetUserId();
                 var msg = string.Empty;
                 var operation =
                     _prescriptionsDataProvider.Value.AddOrUpdatePrescriptionStatus(prescriptionId,
-                        prescriptionStatusId);
+                        prescriptionStatusId, userId);
                 switch (operation)
                 {
                     case EntityOperation.Add:

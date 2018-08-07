@@ -11,6 +11,6 @@ namespace BridgeportClaims.Data.DataProviders.AdminFunctions
         void DeleteFirewallSetting(string ruleName);
         void AddFirewallSetting(string ruleName, string startIpAddress, string endIpAddress);
         IList<FirewallSetting> GetFirewallSettings();
-        void UpdateBilledAmount(int prescriptionId, decimal billedAmount);
+        void UpdateBilledAmount(int prescriptionId, decimal billedAmount, string modifiedByUserId);
     }
 }

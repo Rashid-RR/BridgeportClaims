@@ -120,13 +120,15 @@ namespace BridgeportClaims.Data.DataProviders.AdminFunctions
 				});
 			});
 
-		public void UpdateBilledAmount(int prescriptionId, decimal billedAmount) =>
+		public void UpdateBilledAmount(int prescriptionId, decimal billedAmount, string modifiedByUserId) =>
 			DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
 			{
 				const string sp = "[dbo].[uspUpdateBilledAmount]";
 				conn.Open();
-				conn.Execute(sp, new {PrescriptionID = prescriptionId, BilledAmount = billedAmount},
-					commandType: CommandType.StoredProcedure);
+			    conn.Execute(sp,
+			        new {PrescriptionID = prescriptionId, BilledAmount = billedAmount,
+			            ModifiedByUserID = modifiedByUserId},
+			        commandType: CommandType.StoredProcedure);
 			});
 
 		#endregion
