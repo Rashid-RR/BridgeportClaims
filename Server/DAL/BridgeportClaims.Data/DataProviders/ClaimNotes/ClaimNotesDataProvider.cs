@@ -5,6 +5,8 @@ using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using Dapper;
+using SQLinq;
+using SQLinq.Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimNotes
@@ -16,10 +18,9 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
             conn =>
             {
                 conn.Open();
-                var results = conn.Query<ClaimNoteTypeDto>(
-                    "SELECT cn.ClaimNoteTypeID ClaimNoteTypeId, cn.TypeName FROM dbo.ClaimNoteType cn",
-                    commandType: CommandType.Text);
-                return results?.Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName))
+                return conn.Query(new SQLinq<ClaimNoteTypeDto>()
+                        .Select(c => new {c.ClaimNoteTypeId, c.TypeName}))
+                    ?.Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName))
                     .OrderBy(x => x.Value).ToList();
             });
 
