@@ -179,6 +179,14 @@ thead span {
 }
 .container-fluid.merge .expanded .commonCheckBox input[type=checkbox]{
     z-index:0;
+    display: none;
+    width: 0px;
+    height: 0px;
+}
+.commonCheckBox input[type=checkbox]{
+    display: none;
+    width: 0px;
+    height: 0px;
 }
 
 .commonCheckBox input[type=checkbox]:disabled+label:first-of-type{

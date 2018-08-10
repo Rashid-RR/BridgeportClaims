@@ -131,7 +131,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   }
   update(p) {
     this.editing = p;
-    this.amount = p.billedAmount
+    this.amount = p.billedAmount;
    // $('.money').mask("#,##0.00", {reverse: true});
 
   }
