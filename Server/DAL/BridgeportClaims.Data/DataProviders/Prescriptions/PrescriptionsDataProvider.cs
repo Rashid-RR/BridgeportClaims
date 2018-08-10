@@ -7,8 +7,6 @@ using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -16,27 +14,22 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
 {
     public class PrescriptionsDataProvider : IPrescriptionsDataProvider
     {
-        private readonly Lazy<IRepository<Prescription>> _prescriptionRepository;
-        private readonly Lazy<IRepository<PrescriptionStatus>> _prescriptionStatusRepository;
-
-        public PrescriptionsDataProvider(Lazy<IRepository<Prescription>> prescriptionRepository, Lazy<IRepository<PrescriptionStatus>> prescriptionStatusRepository)
-        {
-            _prescriptionRepository = prescriptionRepository;
-            _prescriptionStatusRepository = prescriptionStatusRepository;
-        }
-
-        public EntityOperation AddOrUpdatePrescriptionStatus(int prescriptionId, int prescriptionStatusId)
-        {
-            var prescription = _prescriptionRepository.Value.Get(prescriptionId);
-            if (null == prescription)
-                throw new ArgumentNullException(nameof(prescription));
-            var prescriptionStatus = _prescriptionStatusRepository.Value.Get(prescriptionStatusId);
-            var op = null == prescription.PrescriptionStatus ? EntityOperation.Add : EntityOperation.Update;
-            prescription.PrescriptionStatus = prescriptionStatus ?? throw new ArgumentNullException(nameof(prescriptionStatus));
-            prescription.UpdatedOnUtc = DateTime.UtcNow;
-            _prescriptionRepository.Value.Update(prescription);
-            return op;
-        }
+        public EntityOperation AddOrUpdatePrescriptionStatus(int prescriptionId, 
+            int prescriptionStatusId, string userId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[claims].[uspAddOrUpdatePrescriptionStatus]";
+                conn.Open();
+                var ps = new DynamicParameters();
+                ps.Add("@PrescriptionID", prescriptionId, DbType.Int32);
+                ps.Add("@PrescriptionStatusID", prescriptionStatusId, DbType.Int32);
+                ps.Add("@ModifiedByUserID", userId, DbType.String, ParameterDirection.Input, 128);
+                ps.Add("@Add", dbType: DbType.Boolean, direction: ParameterDirection.Output);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+                var add = ps.Get<bool>("@Add");
+                var op = add ? EntityOperation.Add : EntityOperation.Update;
+                return op;
+            });
 
         public void ArchiveUnpaidScript(int prescriptionId, string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>

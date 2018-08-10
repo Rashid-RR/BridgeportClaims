@@ -6,6 +6,7 @@ using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.AdminFunctions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -45,7 +46,8 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                _adminFunctionsProvider.Value.UpdateBilledAmount(prescriptionId, billedAmount);
+                var userId = User.Identity.GetUserId();
+                _adminFunctionsProvider.Value.UpdateBilledAmount(prescriptionId, billedAmount, userId);
                 return Ok(new {message = $"The billed amount was updated to {billedAmount:C} successfully."});
             }
             catch (Exception ex)

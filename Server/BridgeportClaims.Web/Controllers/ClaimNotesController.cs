@@ -2,10 +2,7 @@
 using System;
 using System.Net;
 using System.Web.Http;
-using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 

@@ -14,18 +14,29 @@ GO
 CREATE PROC [dbo].[uspUpdateBilledAmount]
 (
 	@PrescriptionID INT,
-	@BilledAmount MONEY
+	@BilledAmount MONEY,
+    @ModifiedByUserID NVARCHAR(128)
 )
 AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
     BEGIN TRY
         BEGIN TRAN;
-            
+
+        IF (@PrescriptionID IS NULL)
+            BEGIN
+                IF (@@TRANCOUNT > 0)
+                    ROLLBACK;
+                RAISERROR(N'Error, the Prescription ID parameter cannot be null.', 16, 1) WITH NOWAIT;
+                RETURN -1;
+            END
+
+        DECLARE @UtcNow DATETIME2 = dtme.udfGetDate();
+
         UPDATE  p
-		SET		p.BilledAmount = @BilledAmount
-		FROM    dbo.Prescription AS p
-		WHERE   p.PrescriptionID = @PrescriptionID;
+        SET     p.BilledAmount = @BilledAmount, p.UpdatedOnUTC = @UtcNow, p.ModifiedByUserID = @ModifiedByUserID
+        FROM    dbo.Prescription AS p
+        WHERE   p.PrescriptionID = @PrescriptionID;
             
         IF (@@TRANCOUNT > 0)
             COMMIT;
@@ -48,4 +59,6 @@ AS BEGIN
             @ErrMsg);            -- First argument (string)
     END CATCH
 END
+
+
 GO
