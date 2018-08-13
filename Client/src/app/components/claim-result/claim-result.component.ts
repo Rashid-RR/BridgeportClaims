@@ -326,7 +326,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       const data = $('#eadjustorSelection option:selected').val();
       this.adjustorId = $('#eadjustorSelection option:selected').text();
       this.form.controls['adjustorId'].setValue(data);
-    })
+    });
     $('#eCarrierSelection').select2({
       initSelection:  (element, callback) =>{
         callback({ id: this.claimManager.selectedClaim.payorId, text: this.claimManager.selectedClaim.carrier });
@@ -347,7 +347,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           };
         }
       }
-    }).on('change', ()=> {
+    }).on('change', () => {
       var data = $("#eCarrierSelection option:selected").val();
       this.payorId = $("#eCarrierSelection option:selected").text();
       this.form.controls['payorId'].setValue(data);

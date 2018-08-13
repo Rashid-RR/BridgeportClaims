@@ -47,6 +47,20 @@ AS BEGIN
                                                    'DateTime2'
                                                WHEN 'bit' THEN
                                                     'Boolean'
+                                               WHEN 'date' THEN
+                                                    'Date'
+                                               WHEN 'tinyint' THEN
+                                                    'Byte' 
+                                               WHEN 'smallint' THEN
+                                                    'Int16'
+                                               WHEN 'numeric' THEN
+                                                    'Decimal'
+                                               WHEN 'money' THEN
+                                                    'Decimal'
+                                               WHEN 'float' THEN
+                                                    'Double'
+                                               WHEN 'smalldatetime' THEN
+                                                    'DateTime'
                    END
                  + CASE WHEN is_output = 1 THEN ', ParameterDirection.Output' ELSE '' END
                  + CASE WHEN TYPE_NAME(user_type_id) IN ('varchar', 'nvarchar') THEN
@@ -63,4 +77,5 @@ AS BEGIN
     FROM    [sys].[parameters]
     WHERE   [object_id] = OBJECT_ID(@ProcName);
 END
+
 GO
