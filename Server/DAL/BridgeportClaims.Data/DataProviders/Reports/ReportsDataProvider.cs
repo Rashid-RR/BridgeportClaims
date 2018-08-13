@@ -44,7 +44,8 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 conn.Open();
                 return conn.Query(new SQLinq<PharmacyNameDto>()
                     .Where(p => p.PharmacyName.Contains(pharmacyName))
-                    .Select(p => new {p.Nabp, p.PharmacyName}));
+                    .Select(p => new {p.Nabp, p.PharmacyName})
+                    .OrderBy(p => p.PharmacyName));
             });
 
         public DuplicateClaimDto GetDuplicateClaims(string sort, string sortDirection, int page = -1, int pageSize = -1)
@@ -73,7 +74,8 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 conn.Open();
                 return conn.Query(new SQLinq<GroupNameDto>()
                     .Where(p => p.GroupName.Contains(groupName))
-                    .Select(p => new {p.GroupName}));
+                    .Select(p => new {p.GroupName})
+                    .OrderBy(p => p.GroupName));
             });
 
         public IList<AccountsReceivableDto> GetAccountsReceivableReport(string groupName, string pharmacyName)
