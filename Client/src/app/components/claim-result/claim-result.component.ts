@@ -302,41 +302,41 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   enableSelect2() {
-    $("#eadjustorSelection").select2({
+    $('#eadjustorSelection').select2({
       initSelection:  (element, callback) =>{
         callback({ id: this.claimManager.selectedClaim.adjustorId, text: this.claimManager.selectedClaim.adjustor });
       },
       ajax: {
         headers: { 'Authorization': this.auth },
         url: function (params) {
-          return '/api/reports/pharmacy-name/?pharmacyName=' + (params.term || '');
+          return '/api/adjustors/adjustor-names/?adjustorName=' + (params.term || '');
         },
-        type: "POST",
+        type: 'POST',
         processResults: function (data) {
           data.forEach(d => {
-            d.id = d.nabp,
-              d.text = d.pharmacyName
+            d.id = d.adjustorId,
+              d.text = d.adjustorName
           });
           return {
             results: (data || [])
           };
         }
       }
-    }).on('change', ()=> {
-      var data = $("#eadjustorSelection option:selected").val();
-      this.adjustorId= $("#eadjustorSelection option:selected").text();
+    }).on('change', () => {
+      const data = $('#eadjustorSelection option:selected').val();
+      this.adjustorId = $('#eadjustorSelection option:selected').text();
       this.form.controls['adjustorId'].setValue(data);
     })
-    $("#eCarrierSelection").select2({
+    $('#eCarrierSelection').select2({
       initSelection:  (element, callback) =>{
         callback({ id: this.claimManager.selectedClaim.payorId, text: this.claimManager.selectedClaim.carrier });
       },
       ajax: {
         headers: { 'Authorization': this.auth },
-        url:  (params)=> {
+        url:  (params) => {
           return '/api/payors/search/?searchText=' + (params.term || this.claimManager.selectedClaim.carrier);
         },
-        type: "POST",
+        type: 'POST',
         processResults: function (data) {
           data.forEach(d => {
             d.id = d.payorId,

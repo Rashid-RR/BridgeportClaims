@@ -216,7 +216,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_reportsDataProvider.Value.GetGroupNames(groupName));
+                return Ok(_reportsDataProvider.Value.GetGroupNames(groupName ?? string.Empty));
             }
             catch (Exception ex)
             {
@@ -231,7 +231,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                return Ok(_reportsDataProvider.Value.GetPharmacyNames(pharmacyName));
+                return Ok(_reportsDataProvider.Value.GetPharmacyNames(pharmacyName ?? string.Empty));
             }
             catch (Exception ex)
             {

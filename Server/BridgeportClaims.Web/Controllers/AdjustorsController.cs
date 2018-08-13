@@ -19,6 +19,22 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("adjustor-names")]
+        public IHttpActionResult GetAdjustorNames(string adjustorName)
+        {
+            try
+            {
+                var results = _adjustorSearchProvider.Value.GetAdjustorNames(adjustorName ?? string.Empty);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("search")]
         public IHttpActionResult GetAdjustorSearchResults(string searchText)
         {

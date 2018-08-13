@@ -1,10 +1,11 @@
-﻿using System;
+﻿using SQLinq;
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
+    [SQLinqTable("Payor")]
     public sealed class GroupNameDto
     {
+        [SQLinqColumn("GroupName")]
         public string GroupName { get; set; }
     }
 }

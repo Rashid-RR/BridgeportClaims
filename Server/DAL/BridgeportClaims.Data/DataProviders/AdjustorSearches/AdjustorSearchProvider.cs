@@ -5,6 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
+using SQLinq;
+using SQLinq.Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
@@ -46,6 +49,15 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
                         return retVal.OrderBy(x => x.AdjustorName).ToList();
                     });
                 });
+            });
+
+        public IEnumerable<AdjustorNameDto> GetAdjustorNames(string adjustorName)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                conn.Open();
+                return conn.Query(new SQLinq<AdjustorNameDto>()
+                    .Where(p => p.AdjustorName.Contains(adjustorName))
+                    .Select(p => new {p.AdjustorId, p.AdjustorName}));
             });
     }
 }
