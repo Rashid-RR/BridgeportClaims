@@ -62,24 +62,18 @@ namespace BridgeportClaims.Business.PrescriptionReports
                 throw new ArgumentNullException(nameof(dt));
             }
             var columns = dt.Columns;
+            var columnsToRemove = new List<string>();
             foreach (DataColumn column in columns)
             {
                 if (!BillingStatementColumnNames.Contains(column.ColumnName))
                 {
-                    dt.Columns.Remove(column.ColumnName);
+                    columnsToRemove.Add(column.ColumnName);
                 }
             }
-            /*dt.Columns.Remove("PrescriptionId");
-            dt.Columns.Remove("Status");
-            dt.Columns.Remove("NoteCount");
-            dt.Columns.Remove("IsReversed");
-            dt.Columns.Remove("Prescriber");
-            dt.Columns.Remove("PrescriberNpi");
-            dt.Columns.Remove("PharmacyName");
-            dt.Columns.Remove("PrescriptionNdc");
-            dt.Columns.Remove("PrescriberPhone");
-            dt.Columns.Remove("InvoiceIsIndexed");
-            dt.Columns.Remove("InvoiceUrl");*/
+            foreach (var remove in columnsToRemove)
+            {
+                dt.Columns.Remove(remove);
+            }
             dt.SetColumnsOrder(InvoiceDate, InvoiceNumber, LabelName, BillTo, RxNumber, RxDate, InvoiceAmount,
                 AmountPaid, Outstanding);
             dt.Columns[InvoiceDate].ColumnName = "Inv Date";

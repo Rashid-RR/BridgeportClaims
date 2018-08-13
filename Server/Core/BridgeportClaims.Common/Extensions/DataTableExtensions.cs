@@ -67,11 +67,17 @@ namespace BridgeportClaims.Common.Extensions
 
             //Remove invalid column names.
             foreach (var colName in columnNames)
+            {
                 if (!dt.Columns.Contains(colName))
+                {
                     listColNames.Remove(colName);
+                }
+            }
 
             foreach (var colName in listColNames)
+            {
                 dt.Columns[colName].SetOrdinal(listColNames.IndexOf(colName));
+            }
         }
 
         public static DataTable ToDataTable<T>(this IEnumerable<T> collection)

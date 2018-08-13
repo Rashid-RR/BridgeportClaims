@@ -28,12 +28,12 @@ namespace BridgeportClaims.Business.BillingStatement
                 ? string.Empty
                 : (billingStatementDto.FirstName.IsNullOrWhiteSpace()
                     ? string.Empty
-                    : billingStatementDto.FirstName.Replace(".", ""));
+                    : billingStatementDto.FirstName.Replace(".", "").Replace(" ", "_"));
             var lastName = null == billingStatementDto.LastName
                 ? string.Empty
                 : (billingStatementDto.LastName.IsNullOrWhiteSpace()
                     ? string.Empty
-                    : billingStatementDto.LastName.Replace(".", ""));
+                    : billingStatementDto.LastName.Replace(".", "").Replace(" ", "_"));
             fileName = $"{lastName}_{firstName}_Billing_Statement_{localNow:MM-dd-yy}";
             var fullFilePath = ExcelFactory.GetBillingStatementExcelFilePathFromDataTable(dt,
                 StringConstants.BillingStatementName, fileName, billingStatementDto);
