@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.ClaimImages
@@ -103,6 +104,21 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                     retVal.ClaimImages = results;
                     return retVal;
                 });
+            });
+
+        public void UpdateDocumentIndex(int documentId, DateTime? rxDate, string rxNumber, byte documentTypeId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[claims].[uspDocumentIndexUpdate]";
+                conn.Open();
+                conn.Execute(sp,
+                    new
+                    {
+                        DocumentID = documentId,
+                        RxDate = rxDate,
+                        RxNumber = rxNumber,
+                        DocumentTypeID = documentTypeId
+                    }, commandType: CommandType.StoredProcedure);
             });
     }
 }

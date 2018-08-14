@@ -27,7 +27,10 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
         public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 var ps = new DynamicParameters();
                 ps.Add("@ClaimID", claimId, DbType.Int32);
                 ps.Add("@NoteText", note, DbType.AnsiString);

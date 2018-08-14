@@ -55,15 +55,8 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                var docIndex = _documentIndexRepository.Value.Get(model.DocumentId);
-                if (null == docIndex)
-                    throw new Exception($"Error, the image could not be found with the Id of {model.DocumentId}.");
-                docIndex.RxDate = model.RxDate.ToNullableFormattedDateTime();
-                docIndex.RxNumber = model.RxNumber;
-                var docType = _documentTypeRepository.Value.Get(model.DocumentTypeId);
-                docIndex.DocumentType = docType;
-                docIndex.UpdatedOnUtc = DateTime.UtcNow;
-                _documentIndexRepository.Value.Update(docIndex);
+                _claimImageProvider.Value.UpdateDocumentIndex(model.DocumentId,
+                    model.RxDate.ToNullableFormattedDateTime(), model.RxNumber, model.DocumentTypeId);
                 return Ok(new {message = "The image was updated successfully."});
             }
             catch (Exception ex)
