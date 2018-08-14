@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using SQLinq;
 using SQLinq.Dapper;
@@ -55,9 +56,9 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
             {
                 conn.Open();
                 return conn.Query(new SQLinq<AdjustorNameDto>()
-                    .Where(p => p.AdjustorName.Contains(adjustorName))
-                    .Select(p => new {p.AdjustorId, p.AdjustorName})
-                    .OrderBy(p => p.AdjustorName));
+                    .Where(p => !adjustorName.IsNotNullOrWhiteSpace() || p.AdjustorName.Contains(adjustorName))
+                    .OrderBy(p => p.AdjustorName)
+                    .Select(p => new {p.AdjustorId, p.AdjustorName}));
             });
     }
 }

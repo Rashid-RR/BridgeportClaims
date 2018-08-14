@@ -57,6 +57,12 @@
     <Reference Include="Remotion.Linq.EagerFetching, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Remotion.Linq.EagerFetching.2.2.0\lib\net45\Remotion.Linq.EagerFetching.dll</HintPath>
     </Reference>
+    <Reference Include="SQLinq, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1c5d57eb9e11fe4b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLinq.2.0\lib\net\SQLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLinq.Dapper, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLinq.Dapper.1.2\lib\net\SQLinq.Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -138,6 +144,7 @@
     <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
     <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
     <Compile Include="Dtos\AccountsReceivableDto.cs" />
+    <Compile Include="Dtos\AdjustorNameDto.cs" />
     <Compile Include="Dtos\AdjustorSearchResultsDto.cs" />
     <Compile Include="Dtos\BillingStatementDto.cs" />
     <Compile Include="Dtos\CarrierDto.cs" />

@@ -4,21 +4,21 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using SQLinq;
 using Dapper;
+using SQLinq.Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Payors
 {
     public class PayorsDataProvider : IPayorsDataProvider
     {
-        private const string Query = "SELECT p.PayorID PayorId, p.GroupName Carrier FROM dbo.Payor AS p";
-
         public IEnumerable<PayorDto> GetPayors() => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
             conn =>
             {
                 conn.Open();
-                var query = conn.Query<PayorDto>(Query, commandType: CommandType.Text);
-                return query?.OrderBy(x => x.Carrier);
+                return conn.Query(new SQLinq<PayorDto>().OrderBy(c => c.Carrier)
+                    ?.Select(c => new {c.PayorId, c.Carrier}));
             });
 
         public IEnumerable<PayorFullDto> GetAllPayors()

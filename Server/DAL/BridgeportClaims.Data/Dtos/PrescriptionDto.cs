@@ -25,5 +25,10 @@ namespace BridgeportClaims.Data.Dtos
         public bool InvoiceIsIndexed { get; set; }
         public string InvoiceUrl { get; set; }
         public string FileName { get; set; }
+        public float Quantity { get; set; }
+        public float DaySupply { get; set; }
+        public string Generic { get; set; }
+        public string Awp { get; set; }
+        public decimal PayableAmount { get; set; }
     }
 }
