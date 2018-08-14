@@ -52,6 +52,11 @@ AS BEGIN
          , InvoiceIsIndexed = CONVERT(BIT, IIF([ii].[DocumentID] IS NOT NULL, 1, 0))
 		 , InvoiceUrl = [d].[FileUrl]
 		 , d.[FileName]
+		 , p.Quantity
+		 , p.DaySupply
+		 , p.Generic
+		 , Awp = ISNULL(CONVERT(VARCHAR(100), p.AWP), '')
+		 , p.PayableAmount
 	FROM   [dbo].[Prescription] AS [p]
 		   INNER JOIN dbo.Pharmacy AS ph ON ph.NABP = p.PharmacyNABP
 		   INNER JOIN [dbo].[Claim] AS [c] ON [c].[ClaimID] = [p].[ClaimID]
@@ -125,4 +130,5 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
 GO
