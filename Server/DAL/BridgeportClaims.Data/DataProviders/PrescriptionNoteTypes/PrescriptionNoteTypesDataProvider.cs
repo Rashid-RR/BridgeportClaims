@@ -1,26 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
+using cs = BridgeportClaims.Common.Config.ConfigService;
+using SQLinq.Dapper;
+using SQLinq;
 
 namespace BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes
 {
     public class PrescriptionNoteTypesDataProvider : IPrescriptionNoteTypesDataProvider
     {
-        private readonly Lazy<IRepository<PrescriptionNoteType>> _repository;
-
-        public PrescriptionNoteTypesDataProvider(Lazy<IRepository<PrescriptionNoteType>> repository)
-        {
-            _repository = repository;
-        }
-
-        public IList<PrescriptionNoteTypesDto> GetPrescriptionNoteTypes() => _repository.Value.GetAll()
-            .Select(c => new PrescriptionNoteTypesDto
+        public IEnumerable<PrescriptionNoteTypesDto> GetPrescriptionNoteTypes()
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                PrescriptionNoteTypeId = c.PrescriptionNoteTypeId,
-                TypeName = c.TypeName
-            }).OrderBy(x => x.TypeName).ToList();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query(new SQLinq<PrescriptionNoteTypesDto>().OrderBy(o => o.TypeName)
+                    ?.Select(s => new {s.PrescriptionNoteTypeId, s.TypeName}));
+            });
     }
 }

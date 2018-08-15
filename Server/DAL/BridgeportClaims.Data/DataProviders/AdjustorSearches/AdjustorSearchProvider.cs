@@ -54,9 +54,18 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
         public IEnumerable<AdjustorNameDto> GetAdjustorNames(string adjustorName)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                if (adjustorName.IsNotNullOrWhiteSpace())
+                {
+                    return conn.Query(new SQLinq<AdjustorNameDto>()
+                        .Where(p => p.AdjustorName.Contains(adjustorName))
+                        .OrderBy(p => p.AdjustorName)
+                        .Select(p => new {p.AdjustorId, p.AdjustorName}));
+                }
                 return conn.Query(new SQLinq<AdjustorNameDto>()
-                    .Where(p => !adjustorName.IsNotNullOrWhiteSpace() || p.AdjustorName.Contains(adjustorName))
                     .OrderBy(p => p.AdjustorName)
                     .Select(p => new {p.AdjustorId, p.AdjustorName}));
             });

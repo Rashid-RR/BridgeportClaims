@@ -20,12 +20,12 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
 
   @ViewChild('lastname') lastname: ElementRef;
   loading = false;
-  exactMatch: boolean = false;
-  searchText: string = '';
+  exactMatch = false;
+  searchText = '';
   editing: Prescription;
   amount: number;
-  placeholder: string = 'Start typing to search claims...';
-  dropdownVisible: boolean = false;
+  placeholder = 'Start typing to search claims...';
+  dropdownVisible = false;
   showDropDown = new Subject<any>();
   form: FormGroup;
   public prescriptions: Prescription[];
@@ -58,17 +58,17 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   }
   search() {
     if (!this.form.valid) {
-      this.toast.warning("Please link a claim to search");
+      this.toast.warning('Please link a claim to search');
     } else {
-      var form = this.form.value;
-      let rxDate = this.dp.transform($('#rxDate').val(), "MM/dd/yyyy");
-      form.rxDate = rxDate
+      const form = this.form.value;
+      const rxDate = this.dp.transform($('#rxDate').val(), 'MM/dd/yyyy');
+      form.rxDate = rxDate;
       this.loading = true;
       this.http.invoiceAmounts(form).single().subscribe(res => {
         this.loading = false;
         this.prescriptions = res;
-        if(res && res.length==0){
-          this.toast.info("No records found from this search criteria");
+        if(res && res.length == 0) {
+          this.toast.info('No records found from this search criteria');
         }
       }, err => {
         this.loading = false;
@@ -78,13 +78,13 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   }
   save() {
     if (this.amount == this.editing['billedAmount']) {
-      this.toast.warning("You haven't changed the Billed Amount value, and therefore, there is nothing to save");
+      this.toast.warning('You haven\'t changed the Billed Amount value, and therefore, there is nothing to save');
     } else {
-      let amount = this.amount.toString().replace(/,/g,"");
-      let from = this.decPipe.transform(this.editing['billedAmount'], '.2');
-      let toAmount = this.decPipe.transform(amount, '.2');
+      const amount = this.amount.toString().replace(/,/g, '');
+      const from = this.decPipe.transform(this.editing['billedAmount'], '.2');
+      const toAmount = this.decPipe.transform(amount, '.2');
       this.dialogService.addDialog(ConfirmComponent, {
-        title: "Update Billed Amount",
+        title: 'Update Billed Amount',
         message: `Are you sure you wish to update this Billed Amount for Rx # ${this.editing['rxNumber']} from $${from} to $${toAmount}?`
       })
         .subscribe((isConfirmed) => {
@@ -109,7 +109,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   }
   validateNumber($event) {
     $event = ($event) ? $event : window.event;
-    var charCode = ($event.which) ? $event.which : $event.keyCode;
+    const charCode = ($event.which) ? $event.which : $event.keyCode;
     console.log(charCode);
     if (!this.amount && charCode == 46) {
       return false;
@@ -122,10 +122,11 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   validateAfter($event) {
     if ((this.amount && this.amount.toString().length > 1 && this.amount.toString().lastIndexOf("-") > 0) ||
       (this.amount && this.amount.toString().length > 1 && this.amount.toString().lastIndexOf(".") > this.amount.toString().indexOf(".")) ||
-      (this.amount && this.amount && this.amount.toString().lastIndexOf(".") > -1 && this.amount.toString().length - this.amount.toString().lastIndexOf(".") > 3) ||
-      (this.amount && this.amount.toString().length == 1 && this.amount.toString().lastIndexOf(".") > 0)
+      (this.amount && this.amount && this.amount.toString().lastIndexOf('.') > -1 &&
+       this.amount.toString().length - this.amount.toString().lastIndexOf('.') > 3) ||
+      (this.amount && this.amount.toString().length == 1 && this.amount.toString().lastIndexOf('.') > 0)
     ) {
-      let num = String(this.amount);
+      const num = String(this.amount);
       this.amount = isNaN(Number(num.substring(0, num.length - 1))) ? null : Number(num.substring(0, num.length - 1));
     }
   }
@@ -162,7 +163,8 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
         claimNumber: $event.claimNumber,
         claimId: $event.claimId
       });
-      this.toast.info("Episode will be linked to " + $event.lastName + " " + $event.firstName + " " + $event.claimNumber, 'Claim Link ready to save', { enableHTML: true, showCloseButton:true,positionClass: 'toast-top-center' })
+      this.toast.info('Episode will be linked to ' + $event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber,
+       'Claim Link ready to save', { enableHTML: true, showCloseButton:true,positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
@@ -174,11 +176,10 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
           }
         });
       setTimeout(() => {
-        this.placeholder = $event.lastName + " " + $event.firstName + " ~ " + $event.claimNumber;
+        this.placeholder = $event.lastName + ' ' + $event.firstName + ' ~ ' + $event.claimNumber;
         this.searchText = undefined;
         this.dropdownVisible = false;
       }, 100);
     }
   }
-
 }

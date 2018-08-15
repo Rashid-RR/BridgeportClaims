@@ -23,7 +23,10 @@ namespace BridgeportClaims.Data.DataProviders.Reports
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 var sp = archived ? "[rpt].[uspGetArchivedSkippedPayments]" : "[rpt].[uspGetSkippedPayment]";
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 var parameters = new DynamicParameters();
                 parameters.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtPayorID]"));
                 parameters.Add("@PageNumber", dbType: DbType.Int32, direction: ParameterDirection.Input, value: page);
@@ -41,17 +44,29 @@ namespace BridgeportClaims.Data.DataProviders.Reports
         public IEnumerable<PharmacyNameDto> GetPharmacyNames(string pharmacyName)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                if (pharmacyName.IsNotNullOrWhiteSpace())
+                {
+                    return conn.Query(new SQLinq<PharmacyNameDto>()
+                        .Where(p => p.PharmacyName.Contains(pharmacyName))
+                        .OrderBy(p => p.PharmacyName)
+                        .Select(p => new {p.Nabp, p.PharmacyName}));
+                }
                 return conn.Query(new SQLinq<PharmacyNameDto>()
-                    .Where(p => p.PharmacyName.Contains(pharmacyName))
-                    .Select(p => new {p.Nabp, p.PharmacyName})
-                    .OrderBy(p => p.PharmacyName));
+                    .OrderBy(p => p.PharmacyName)
+                    .Select(p => new {p.Nabp, p.PharmacyName}));
             });
 
         public DuplicateClaimDto GetDuplicateClaims(string sort, string sortDirection, int page = -1, int pageSize = -1)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 var parameters = new DynamicParameters();
                 parameters.Add("@SortColumn", sort, DbType.AnsiString);
                 parameters.Add("@SortDirection", sortDirection, DbType.AnsiString);
@@ -71,11 +86,20 @@ namespace BridgeportClaims.Data.DataProviders.Reports
         public IEnumerable<GroupNameDto> GetGroupNames(string groupName)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                if (groupName.IsNotNullOrWhiteSpace())
+                {
+                    return conn.Query(new SQLinq<GroupNameDto>()
+                        .Where(p => p.GroupName.Contains(groupName))
+                        .OrderBy(p => p.GroupName)
+                        .Select(p => new {p.GroupName}));
+                }
                 return conn.Query(new SQLinq<GroupNameDto>()
-                    .Where(p => p.GroupName.Contains(groupName))
-                    .Select(p => new {p.GroupName})
-                    .OrderBy(p => p.GroupName));
+                    .OrderBy(p => p.GroupName)
+                    .Select(p => new {p.GroupName}));
             });
 
         public IList<AccountsReceivableDto> GetAccountsReceivableReport(string groupName, string pharmacyName)
@@ -101,7 +125,9 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     pharmacyNameParam.ParameterName = "@PharmacyName";
                     cmd.Parameters.Add(pharmacyNameParam);
                     if (conn.State != ConnectionState.Open)
+                    {
                         conn.Open();
+                    }
                     return DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
                         var monthBilledOrdinal = reader.GetOrdinal("DateBilled");
@@ -152,7 +178,10 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 try
                 {
                     const string sp = "[rpt].[uspGetShortpayReport]";
-                    conn.Open();
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
                     var parameters = new DynamicParameters();
                     parameters.Add("@SortColumn", sort, DbType.AnsiString);
                     parameters.Add("@SortDirection", sortDirection, DbType.AnsiString);
@@ -181,7 +210,10 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 {
                     var cmd = "INSERT dbo.ShortPayExclusion (PrescriptionID, ModifiedByUserID)" +
                               $"VALUES({prescriptionId}, '{userId}')";
-                    conn.Open();
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
                     conn.Execute(cmd, commandType: CommandType.Text);
                     return true;
                 }
@@ -197,7 +229,10 @@ namespace BridgeportClaims.Data.DataProviders.Reports
             {
                 try
                 {
-                    conn.Open();
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
                     var cmd = "INSERT dbo.SkippedPaymentExclusion (PrescriptionID, ModifiedByUserID)" +
                               $"VALUES ({prescriptionId}, '{userId}');";
                     conn.Execute(cmd, commandType: CommandType.Text);

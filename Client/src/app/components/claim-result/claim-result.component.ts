@@ -62,14 +62,14 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     });
   }
   get auth() {
-    var user = localStorage.getItem('user');
+    let user = localStorage.getItem('user');
     try {
       let us = JSON.parse(user);
       return `Bearer ${us.access_token}`;
     } catch (error) {
 
     }
-    return null
+    return null;
   }
 
   get adminOnly(): Boolean {
@@ -348,7 +348,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         }
       }
     }).on('change', () => {
-      var data = $("#eCarrierSelection option:selected").val();
+      let data = $("#eCarrierSelection option:selected").val();
       this.payorId = $("#eCarrierSelection option:selected").text();
       this.form.controls['payorId'].setValue(data);
     })
@@ -383,7 +383,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.form.value.adjustorFax = adjustorFax;
     const dob = $('#dateOfBirth').val() + '';
     const doi = $('#dateOfInjury').val() + '';
-    this.form.value.dateOfBirth = dob
+    this.form.value.dateOfBirth = dob;
     this.form.value.dateOfInjury = doi;
     for (key in this.form.value) {
       if (this.form.value.hasOwnProperty(key)) {
@@ -409,7 +409,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     } else {
       const form: any = {};
       form.claimId = this.form.value.claimId;
-      // check nullable values 
+      // check nullable values.
       form.claimFlex2Id = this.form.value.claimFlex2Id != this.lastForm.claimFlex2Id ? (this.form.value.claimFlex2Id === null ? null : Number(this.form.value.claimFlex2Id)) : undefined;
       form.payorId = this.form.value.payorId != this.lastForm.payorId ? (this.form.value.payorId == null ? null : Number(this.form.value.payorId)) : undefined;
       form.genderId = this.form.value.genderId != this.lastForm.genderId ? Number(this.form.value.genderId) : undefined;
@@ -418,7 +418,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         form.dateOfInjury = this.lastForm.dateOfInjury != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
         form.address1 = this.form.value.address1 != this.lastForm.address1 ? this.form.value.address1 : undefined;
       form.address2 = this.form.value.address2 != this.lastForm.address2 ? this.form.value.address2 : undefined;
-      form.adjustorId = this.adjustor && this.adjustor.adjustorName != this.lastForm.adjustor ? (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
+      form.adjustorId = this.form.value.adjustorId != this.lastForm.adjustorId ? (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
       form.adjustorExtension = this.form.value.adjustorExtension != this.lastForm.adjustorExtension ? this.form.value.adjustorExtension : undefined;
       form.adjustorPhone = this.form.value.adjustorPhone != this.lastForm.adjustorPhone ? this.form.value.adjustorPhone : undefined;
       form.adjustorFax = this.form.value.adjustorFax != this.lastForm.adjustorFax ? this.form.value.adjustorFax : undefined;

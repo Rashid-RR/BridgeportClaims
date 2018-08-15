@@ -5,6 +5,6 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNoteTypes
 {
     public interface IPrescriptionNoteTypesDataProvider
     {
-        IList<PrescriptionNoteTypesDto> GetPrescriptionNoteTypes();
+        IEnumerable<PrescriptionNoteTypesDto> GetPrescriptionNoteTypes();
     }
 }
