@@ -733,4 +733,5 @@ thead{
 }
 .sticky-wrapper:not(.is-sticky) .sticky-claim{
   color:white;
+  display: none;
 }
