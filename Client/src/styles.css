@@ -723,3 +723,13 @@ thead{
 {
   background: #cff1fd !important;
 }
+
+.sticky-wrapper.is-sticky .sticky-claim{
+  height:50px;
+  z-index: 9999991;
+  color:white;
+  width:100% !important;
+}
+.sticky-wrapper:not(.is-sticky) .sticky-claim{
+  color:white;
+}

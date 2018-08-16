@@ -24,10 +24,12 @@
                 <div class="box-tools pull-right" style="top:0px">
                     <div class="btn-group" data-toggle="btn-toggle" *ngIf="claimManager.selectedClaim">
                         <button class="btn btn-flat btn-sm  be" type="button" (click)="exportBilling()">
-                            <img [src]="over[4] ? 'assets/img/billing/Hover.png' : 'assets/img/billing/Normal.png'" (mouseover)="over[4] = true" (mouseout)="over[4] = false" height="35px"  class="pull-left" style="cursor: pointer;">
+                            <img [src]="over[4] ? 'assets/img/billing/Hover.png' : 'assets/img/billing/Normal.png'" (mouseover)="over[4] = true" (mouseout)="over[4] = false"
+                                height="35px" class="pull-left" style="cursor: pointer;">
                         </button>
                         <button class="btn btn-flat btn-sm  be" type="button" (click)="viewFile()" style="background:transparent;border:none;margin-top:-5px">
-                            <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true" (mouseout)="over[3] = false" height="50px"  class="pull-left" style="cursor: pointer;">
+                            <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true" (mouseout)="over[3] = false"
+                                height="50px" class="pull-left" style="cursor: pointer;">
                         </button>
                         <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">
                             <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true" (mouseout)="over[0] = false"
@@ -50,7 +52,23 @@
                         <app-claim-search></app-claim-search>
                     </div>
                 </div>
-                <div class="row data"  [class.isVip]="isVip" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
+                <div class="row data" [class.isVip]="isVip" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
+                    <p class="col-sm-12 box-header sticky-claim text-center">
+                        <ng-container *ngIf="claimManager.selectedClaim">
+                            <span class="claimNumber">
+                                Claim Number:
+                                <span style="font-size:13pt">
+                                    {{claimManager.selectedClaim.claimNumber}}
+                                </span>
+                            </span>
+                            <span class="name">
+                                Patient Name:
+                                <span style="font-size:13pt">
+                                    {{claimManager.selectedClaim.name}}
+                                </span>
+                            </span>
+                        </ng-container>
+                    </p>
                     <div [class.col-sm-5]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)"
                         *ngIf="!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" style="padding-right:0px;">
                         <p class="text-center" style="margin:  0px;">&nbsp;</p>
@@ -313,4 +331,4 @@
     title="Episode Entry">
     <app-new-episode *swalPartial>
     </app-new-episode>
-<swal>
+    <swal>

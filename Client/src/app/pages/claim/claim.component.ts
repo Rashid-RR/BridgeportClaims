@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, HostListener } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, ViewChild, OnInit, HostListener, AfterViewInit } from '@angular/core';
 import { HttpService } from "../../services/http-service"
 import { EventsService } from "../../services/events-service"
 import { ClaimManager } from "../../services/claim-manager";
@@ -14,6 +14,7 @@ import { AccountReceivableService } from '../../services/services.barrel';
 import { UUID } from 'angular2-uuid';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';
+import { isPlatformBrowser } from '@angular/common';
 
 declare var $: any
 
@@ -22,7 +23,7 @@ declare var $: any
   templateUrl: './claim.component.html',
   styleUrls: ['./claim.component.css']
 })
-export class ClaimsComponent implements OnInit {
+export class ClaimsComponent implements OnInit, AfterViewInit {
 
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
 
@@ -48,8 +49,13 @@ export class ClaimsComponent implements OnInit {
   expanded: Boolean = false
   expandedBlade: Number = 0;
   over: boolean[];
-
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      $(".sticky-claim").sticky({ topSpacing: 53 });
+    }
+  }
   constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
     public readonly swalTargets: SwalPartialTargets,
     public claimManager: ClaimManager,
@@ -69,7 +75,7 @@ export class ClaimsComponent implements OnInit {
     this.expandedBlade = expandedBlade;
     this.initializeExpandedTableBooleanValue(table);
   }
-  get isVip(){
+  get isVip() {
     return this.claimManager.selectedClaim && this.claimManager.selectedClaim.isVip;
   }
   deleteNote() {
@@ -380,7 +386,7 @@ export class ClaimsComponent implements OnInit {
       } else {
         //https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245300.pdf used for testing
         let id = UUID.UUID();
-        let doc: any = { fileUrl: prescriptions[0].invoiceUrl,fileName:prescriptions[0].fileName };
+        let doc: any = { fileUrl: prescriptions[0].invoiceUrl, fileName: prescriptions[0].fileName };
         if (prescriptions.length > 1) {
           doc.prescriptionIds = prescriptionId;
         }

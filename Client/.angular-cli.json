@@ -44,6 +44,7 @@
         "assets/js/blob-util.js",
         "assets/js/stickyfill.min.js",
         "assets/js/moment.min.js",
+        "assets/js/jquery.sticky.js",
         "../node_modules/admin-lte/plugins/datatables/jquery.dataTables.min.js",
         "../node_modules/admin-lte/plugins/datatables/dataTables.bootstrap.min.js",
         "../node_modules/admin-lte/plugins/fastclick/fastclick.js",
