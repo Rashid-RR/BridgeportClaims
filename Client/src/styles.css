@@ -728,6 +728,7 @@ thead{
   height:50px;
   z-index: 9999991;
   color:white;
+  border-bottom: 1px solid white;
   width:100% !important;
 }
 .sticky-wrapper:not(.is-sticky) .sticky-claim{
