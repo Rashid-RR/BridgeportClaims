@@ -53,8 +53,8 @@
                     </div>
                 </div>
                 <div class="row data" [class.isVip]="isVip" [class.fittoSreen]="claimManager.selected!==undefined && !expanded">
-                    <p class="col-sm-12 box-header sticky-claim text-center">
-                        <ng-container *ngIf="claimManager.selectedClaim">
+                    <div class="col-sm-12 sticky-claim text-center">
+                        <div class="box-header bg-head-box" *ngIf="claimManager.selectedClaim">
                             <span class="claimNumber">
                                 Claim Number:
                                 <span style="font-size:13pt">
@@ -64,11 +64,11 @@
                             <span class="name" style="margin-left:100px;">
                                 Patient Name:
                                 <span style="font-size:13pt">
-                                    {{claimManager.selectedClaim.name}}
+                                    {{claimManager.selectedClaim.name || claimManager.selectedClaim.firstName+' '+claimManager.selectedClaim.lastName}}
                                 </span>
                             </span>
-                        </ng-container>
-                    </p>
+                        </div>
+                    </div>
                     <div [class.col-sm-5]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)"
                         *ngIf="!expanded || (expandedBlade==1 || expandedBlade==2 || expandedBlade==3)" style="padding-right:0px;">
                         <p class="text-center" style="margin:  0px;">&nbsp;</p>
