@@ -69,8 +69,8 @@
                             <label class="col-sm-4">State: </label>
                             <div class="col-sm-8">
                                 <select class="form-control" formControlName="stateId">
-                                    <option value="">-- No State --</option>
-                                    <option *ngFor="let g of claimManager.selectedClaim.states" [value]="g.stateId">{{g.stateName}}</option>
+                                    <option [ngValue]="null">-- No State --</option>
+                                    <option *ngFor="let g of claimManager.selectedClaim.states" [ngValue]="g.stateId">{{g.stateName}}</option>
                                 </select>
                             </div>
                         </div>
@@ -190,7 +190,7 @@
                             <ng-container *ngIf="editing">
                                 <select class="form-control" formControlName="claimFlex2Id">
                                     <option value="">--No Flex--</option>
-                                    <option *ngFor="let g of claimManager.selectedClaim.getFlex2" [value]="g.claimFlex2Id">{{g.flex2}}</option>
+                                    <option *ngFor="let g of claimManager.selectedClaim.getFlex2" [ngValue]="g.claimFlex2Id">{{g.flex2}}</option>
                                 </select>
                             </ng-container>
                         </div>

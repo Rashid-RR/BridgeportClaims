@@ -1,4 +1,3 @@
-// profile.ts
 import { Prescription } from './prescription';
 import { Payment } from './payment';
 import { DocumentType } from './document-type';
@@ -41,7 +40,6 @@ export class Claim {
     genderId: number;
     claimFlex2Id: number;
     private prescription: Array<Prescription> = [];
-    // private prescriptionNote:Array<PrescriptionNote> = [];
     private prescriptionNote: Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();
     private payment: Array<Payment> = [];
     private image: Array<ClaimImage> = [];

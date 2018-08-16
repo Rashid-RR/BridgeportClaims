@@ -100,8 +100,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     const InjuryDate = this.dp.transform(form.InjuryDate, 'MM/dd/yyyy');
     const DateOfBirth = this.dp.transform(form.DateOfBirth, 'MM/dd/yyyy');
     form.DuplicateClaimId = duplicate.claimId;
-    form.ClaimFlex2Id = form.ClaimFlex2Value === this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value!==undefined ? this.comparisonClaims.rightClaimFlex2Id : undefined);
-    form.AdjustorId = form.AdjustorName === this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName!==undefined ? this.comparisonClaims.rightAdjustorId : undefined);
+    form.ClaimFlex2Id = form.ClaimFlex2Value === this.comparisonClaims.leftClaimFlex2Value ? this.comparisonClaims.leftClaimFlex2Value : (form.ClaimFlex2Value !== undefined ? this.comparisonClaims.rightClaimFlex2Id : undefined);
+    form.AdjustorId = form.AdjustorName === this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName !== undefined ? this.comparisonClaims.rightAdjustorId : undefined);
     form.PatientId = form.PatientName === this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
     form.PayorId = form.Carrier === this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.Carrier ? this.comparisonClaims.rightPayorId : undefined);
     //form.PersonCode = this.claimManager.selectedClaims[0].personCode;
@@ -303,7 +303,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   enableSelect2() {
     $('#eadjustorSelection').select2({
-      initSelection:  (element, callback) =>{
+      initSelection: (element, callback) => {
         callback({ id: this.claimManager.selectedClaim.adjustorId, text: this.claimManager.selectedClaim.adjustor });
       },
       ajax: {
@@ -313,9 +313,14 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         },
         type: 'POST',
         processResults: function (data) {
+
           data.forEach(d => {
             d.id = d.adjustorId,
               d.text = d.adjustorName
+          });
+          data.unshift({
+            id: 'null',
+            text: 'NULL'
           });
           return {
             results: (data || [])
@@ -325,22 +330,23 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }).on('change', () => {
       const data = $('#eadjustorSelection option:selected').val();
       this.adjustorId = $('#eadjustorSelection option:selected').text();
+      data == 'null' ? null : data;
       this.form.controls['adjustorId'].setValue(data);
     });
     $('#eCarrierSelection').select2({
-      initSelection:  (element, callback) =>{
+      initSelection: (element, callback) => {
         callback({ id: this.claimManager.selectedClaim.payorId, text: this.claimManager.selectedClaim.carrier });
       },
       ajax: {
         headers: { 'Authorization': this.auth },
-        url:  (params) => {
+        url: (params) => {
           return '/api/payors/search/?searchText=' + (params.term || this.claimManager.selectedClaim.carrier);
         },
         type: 'POST',
         processResults: function (data) {
           data.forEach(d => {
             d.id = d.payorId,
-            d.text = d.groupName
+              d.text = d.groupName
           });
           return {
             results: (data || [])
