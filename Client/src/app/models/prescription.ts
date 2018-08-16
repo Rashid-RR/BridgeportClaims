@@ -21,4 +21,9 @@ export interface Prescription {
     fileName:String;
     prescriberPhone:any;
     prescriptionNdc:string;
+    payableAmount:string;
+    generic:string;
+    awp:string;
+    quantity:string;
+    daySupply:string;
 }

@@ -143,7 +143,12 @@ export class ClaimManager {
       '<br> Prescriber NPI: ' + prescription.prescriberNpi +
       '<br> Prescriber Phone: ' + (this.pp.transform(prescription.prescriberPhone, [])) +
       '<br> Pharmacy Name: ' + prescription.pharmacyName +
-      '<br> NDC: ' + prescription.prescriptionNdc,
+      '<br> NDC: ' + prescription.prescriptionNdc+
+      '<br> Quantity: ' + prescription.quantity +
+      '<br> Day Supply: ' + prescription.daySupply+
+      '<br> Generic: ' + prescription.generic+
+      '<br> AWP: ' + prescription.awp+
+      '<br> Payable Amount: ' + prescription.payableAmount,
       null,
       { toastLife: 1210000, showCloseButton: true, enableHTML: true, positionClass: 'toast-top-center' }).then((toast: Toast) => {
         const toasts: Array<HTMLElement> = $('.toast-message');
