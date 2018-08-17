@@ -724,6 +724,9 @@ thead{
   background: #cff1fd !important;
 }
 
+.sticky-wrapper .sticky-claim .box-header{
+  color:white;
+}
 .sticky-wrapper.is-sticky .sticky-claim .box-header{
   border-bottom: 1px solid white;
   color:white;

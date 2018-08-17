@@ -18,6 +18,7 @@ import {
 } from '../components/components-barrel';
 import { ColumnSortDirective } from '../directives/column-sort.directive';
 import { TableSortDirective } from '../directives/table-sort.directive';
+import { TextSelectDirective } from '../directives/text-select.directive';
 import { PhonePipe } from '../pipes/phone-pipe';
 import { DisplayRolesPipe } from '../pipes/display-roles.pipe';
 import { ArraySortPipe } from '../pipes/sort.pipe';
@@ -49,7 +50,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   declarations: [
     ConfirmComponent,BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
-    TableSortDirective, ColumnSortDirective,
+    TableSortDirective, ColumnSortDirective,TextSelectDirective,
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe,SafeStylePipe, SafeUrlPipe,FilterUserPipe,DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,InvoiceSearchComponent,
      EpisodeNoteModalComponent,UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
@@ -65,7 +66,7 @@ export class SafeUrlPipe implements PipeTransform {
     AutoCompleteModule,
     ShContextMenuModule,
     SweetAlert2Module,
-    TableSortDirective, ColumnSortDirective,
+    TableSortDirective, ColumnSortDirective,TextSelectDirective,
     DisplayRolesPipe,ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe,SafeStylePipe,FilterUserPipe,DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
     EpisodeNoteModalComponent,InvoiceSearchComponent,

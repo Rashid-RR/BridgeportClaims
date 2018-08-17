@@ -1,13 +1,13 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
+import { ToastsManager, Toast } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { ConfirmComponent } from '../../components/confirm.component';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
-import { DocumentItem } from 'app/models/document';
+import { DocumentItem } from '../../models/document';
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 

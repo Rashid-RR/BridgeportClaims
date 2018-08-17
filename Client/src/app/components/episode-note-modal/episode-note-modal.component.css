@@ -6,6 +6,12 @@
     height:calc(100% - 175px);
     overflow:hidden;
 }
+.expanded,#episodeSection,.noteText{ 
+    -webkit-user-select: text; /* Safari 3.1+ */
+    -moz-user-select: text; /* Firefox 2+ */
+    -ms-user-select: text; /* IE 10+ */
+    user-select: text;
+}
 .expanded .col-sm-12.body{
     height:100%;
     overflow:hidden;
