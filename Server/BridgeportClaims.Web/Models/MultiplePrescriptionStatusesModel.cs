@@ -2,8 +2,9 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    public sealed class MultiPageInvoicesModel
+    public class MultiplePrescriptionStatusesModel
     {
         public IList<int> PrescriptionIds { get; set; }
+        public int PrescriptionStatusId { get; set; }
     }
 }

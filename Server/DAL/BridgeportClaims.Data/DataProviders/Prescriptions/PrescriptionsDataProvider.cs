@@ -19,7 +19,10 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[claims].[uspAddOrUpdatePrescriptionStatus]";
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 var ps = new DynamicParameters();
                 ps.Add("@PrescriptionID", prescriptionId, DbType.Int32);
                 ps.Add("@PrescriptionStatusID", prescriptionStatusId, DbType.Int32);
@@ -45,7 +48,10 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 var sp = !isArchived ? "[dbo].[uspGetUnpaidScripts]" : "[dbo].[uspGetArchivedUnpaidScripts]";
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 var ps = new DynamicParameters();
                 ps.Add("@IsDefaultSort", isDefaultSort, DbType.Boolean);
                 ps.Add("@StartDate", startDate, DbType.Date);
@@ -54,7 +60,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 ps.Add("@SortDirection", sortDirection, DbType.AnsiString, ParameterDirection.Input, 5);
                 ps.Add("@PageNumber", page, DbType.Int32);
                 ps.Add("@PageSize", pageSize, DbType.Int32);
-                ps.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtPayorID]"));
+                ps.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtID]"));
                 ps.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var unpaidScripts = conn.Query<UnpaidScriptResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
                 var unpaidScriptsDto = new UnpaidScriptsDto
@@ -86,7 +92,9 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         cmd.Parameters.Add(prescriptionIdsParam);
                         IList<string> retVal = new List<string>();
                         if (conn.State != ConnectionState.Open)
+                        {
                             conn.Open();
+                        }
                         DisposableService.Using(cmd.ExecuteReader, reader =>
                         {
                             while (reader.Read())
@@ -99,5 +107,20 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         return retVal.AsEnumerable();
                     });
                 });
+
+        public void SetMultiplePrescriptionStatuses(DataTable dt, int prescriptionStatusId, string userId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                const string sp = "[dbo].[uspSaveMultiplePrescriptionStatuses]";
+                var ps = new DynamicParameters();
+                ps.Add("@Prescription", dt.AsTableValuedParameter("[dbo].[udtID]"));
+                ps.Add("@PrescriptionStatusID", prescriptionStatusId, DbType.Int32);
+                ps.Add("@UserID", userId, DbType.String, ParameterDirection.Input, 128);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+            });
     }
 }

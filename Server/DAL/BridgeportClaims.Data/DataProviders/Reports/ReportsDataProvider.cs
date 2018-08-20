@@ -28,7 +28,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     conn.Open();
                 }
                 var parameters = new DynamicParameters();
-                parameters.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtPayorID]"));
+                parameters.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtID]"));
                 parameters.Add("@PageNumber", dbType: DbType.Int32, direction: ParameterDirection.Input, value: page);
                 parameters.Add("@PageSize", dbType: DbType.Int32, direction: ParameterDirection.Input, value: pageSize);
                 parameters.Add("@TotalRowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);

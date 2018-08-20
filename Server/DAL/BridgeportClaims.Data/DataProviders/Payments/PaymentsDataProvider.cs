@@ -257,7 +257,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                             SqlDbType = SqlDbType.Structured,
                             ParameterName = "@PrescriptionIDs",
                             Direction = ParameterDirection.Input,
-                            TypeName = "dbo.udtPrescriptionID"
+                            TypeName = "[dbo].[udtID]"
                         };
                         var checkNumberParam = new SqlParameter
                         {

@@ -60,8 +60,37 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("set-multiple-prescription-statuses")]
+        public IHttpActionResult SetMultiplePrescriptionStatuses(MultiplePrescriptionStatusesModel model)
+        {
+            try
+            {
+                if (null == model)
+                    throw new Exception("Error. No data was provided for this method.");
+                var count = model.PrescriptionIds?.Count;
+                if (null == count)
+                    throw new Exception("Error. Zero prescription Id's were passed in.");
+                IList<PrescriptionIdDto> dto = new List<PrescriptionIdDto>();
+                model.PrescriptionIds.ForEach(x => dto.Add(GetPrescriptionIdDto(x)));
+                var dt = dto.ToFixedDataTable();
+                var userId = User.Identity.GetUserId();
+                _prescriptionsDataProvider.Value.SetMultiplePrescriptionStatuses(dt, model.PrescriptionStatusId,
+                    userId);
+                const string multiple = "The prescription statuses were saved successfully.";
+                const string single = "The prescription status was saved successfully.";
+                var retVal = count.Value < 2 ? single : multiple;
+                return Ok(new {message = retVal});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("multi-page-invoices")]
-        public IHttpActionResult GetMultiPageInvoices(MultiPageInvoicesModel model)
+        public IHttpActionResult GetMultiPageInvoices(PrescriptionIdsModel model)
         {
             try
             {
