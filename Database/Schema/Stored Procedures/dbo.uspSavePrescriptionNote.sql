@@ -18,7 +18,7 @@ CREATE PROC [dbo].[uspSavePrescriptionNote]
 	@FollowUpDate DATE,
 	@EnteredByUserID NVARCHAR(128),
 	@PrescriptionNoteID INT = NULL,
-	@Prescription dbo.udtPrescriptionID READONLY
+	@Prescription [dbo].[udtID] READONLY
 )
 AS 
 BEGIN
@@ -38,14 +38,14 @@ BEGIN
 		  , @EnteredByUserID NVARCHAR(128) = (SELECT TOP (1) u.ID FROM dbo.AspNetUsers AS u)
 		  , @PrescriptionNoteID INT --= -4
 		  , @FollowUpDate DATE = '10/19/2017'
-	DECLARE @Prescription dbo.udtPrescriptionID
-	INSERT @Prescription ( [PrescriptionID] )
+	DECLARE @Prescription dbo.udtID
+	INSERT @Prescription ( [ID] )
 	VALUES ( 993),(994),(995),(996),(1013),(1000)*/
 	
 	IF @ClaimID IS NULL OR @PrescriptionNoteTypeID IS NULL OR @NoteText IS NULL OR @EnteredByUserID IS NULL
 		BEGIN
 			RAISERROR(N'Error. One or more required arguements were not supplied', 16, 1) WITH NOWAIT
-			RETURN
+			RETURN -1;
 		END
 
 	-- Upsert PrescriptionNote
@@ -68,7 +68,7 @@ BEGIN
 	IF NOT EXISTS (SELECT * FROM @PrescriptionNoteMergeChangeResult AS [pnmcr])
 		BEGIN
 			RAISERROR(N'Error. No new Prescription Note was Updated or Inserted into the Prescription', 16, 1) WITH NOWAIT
-			RETURN
+			RETURN -1;
 		END
 	
 	SELECT @OutputPrescriptionNoteID = [x].[PrescriptionNoteID]
@@ -76,7 +76,7 @@ BEGIN
 
 	-- Dupsert PrescriptionNoteMapping
 	MERGE [dbo].[PrescriptionNoteMapping] AS tgt
-	USING (SELECT [p].[PrescriptionID], @OutputPrescriptionNoteID PrescriptionNoteID
+	USING (SELECT [p].[ID] AS PrescriptionID, @OutputPrescriptionNoteID PrescriptionNoteID
 		   FROM @Prescription AS [p]) AS src
 	ON [tgt].[PrescriptionID] = [src].[PrescriptionID]
 		AND [tgt].[PrescriptionNoteID] = [src].[PrescriptionNoteID]

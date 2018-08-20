@@ -15,7 +15,7 @@ GO
 */
 CREATE PROC [rpt].[uspGetArchivedSkippedPayments]
 (
-	@Carriers [dbo].[udtPayorID] READONLY,
+	@Carriers [dbo].[udtID] READONLY,
 	@PageNumber INT,
 	@PageSize INT,
 	@TotalRowCount INT OUTPUT
@@ -33,7 +33,7 @@ AS
 			END
 		ELSE
 			BEGIN
-				INSERT #Carriers (PayorID) SELECT PayorID FROM @Carriers
+				INSERT #Carriers (PayorID) SELECT ID FROM @Carriers
 			END
 
 		CREATE TABLE #Results (
@@ -112,4 +112,5 @@ AS
 		OFFSET @PageSize * (@PageNumber - 1) ROWS
 		FETCH NEXT @PageSize ROWS ONLY;
     END
+
 GO

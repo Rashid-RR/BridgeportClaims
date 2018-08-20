@@ -15,7 +15,7 @@ GO
 */
 CREATE PROC [rpt].[uspGetSkippedPayment]
 (
-	@Carriers [dbo].[udtPayorID] READONLY,
+	@Carriers [dbo].[udtID] READONLY,
 	@PageNumber INT,
 	@PageSize INT,
 	@TotalRowCount INT OUTPUT
@@ -64,7 +64,7 @@ AS BEGIN
 				END
 			ELSE
 				BEGIN
-					INSERT #Carriers (PayorID) SELECT PayorID FROM @Carriers
+					INSERT #Carriers (PayorID) SELECT ID FROM @Carriers
 				END
 
 			CREATE TABLE #ClaimsPreFiltered (ClaimID INT NOT NULL PRIMARY KEY);
@@ -279,4 +279,5 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
     END CATCH
 END
+
 GO

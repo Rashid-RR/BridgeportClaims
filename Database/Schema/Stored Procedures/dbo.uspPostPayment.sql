@@ -18,7 +18,7 @@ GO
 */
 CREATE PROC [dbo].[uspPostPayment]
 (
-	@PrescriptionIDs [dbo].[udtPrescriptionID] READONLY,
+	@PrescriptionIDs [dbo].[udtID] READONLY,
 	@CheckNumber VARCHAR(50),
 	@CheckAmount MONEY,
 	@AmountSelected MONEY,
@@ -41,7 +41,7 @@ AS BEGIN
 						CreatedOnUTC, UpdatedOnUTC)
 				SELECT @CheckNumber, p.BilledAmount, @DatePosted, p.PrescriptionID, @UTCNow, @UTCNow
 				FROM @PrescriptionIDs AS pd
-					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID = pd.PrescriptionID
+					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID = pd.ID
 				SET @RowCount = @@ROWCOUNT
 
 				-- Ensure that the row count equals the number of records in @PrescriptionIDs
@@ -60,7 +60,7 @@ AS BEGIN
 					 CreatedOnUTC, UpdatedOnUTC)
 				SELECT @CheckNumber, @AmountToPost, @DatePosted, p.PrescriptionID, @UTCNow, @UTCNow
 				FROM @PrescriptionIDs AS pd
-					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID=pd.PrescriptionID
+					 INNER JOIN dbo.Prescription AS p ON p.PrescriptionID=pd.ID
 			END
 		ELSE -- Partial Payment. Multi-Line.
 			BEGIN
@@ -75,14 +75,14 @@ AS BEGIN
 		SET @AmountRemaining = ISNULL(@CheckAmount, 0.00) - ISNULL(@AmountToPost, 0.00)
 
 		-- Select out @PrescriptionIDs and the Outstanding amount.
-		SELECT	p.PrescriptionID, Outstanding = 
+		SELECT	p.ID AS PrescriptionID, Outstanding = 
 					ISNULL(pre.BilledAmount, 0.00) - ISNULL(pay.AmountPaid, 0.00)
 		FROM	@PrescriptionIDs AS p
-				INNER JOIN dbo.Prescription AS pre ON pre.PrescriptionID = p.PrescriptionID
+				INNER JOIN dbo.Prescription AS pre ON pre.PrescriptionID = p.ID
 				OUTER APPLY (  SELECT	AmountPaid = SUM(ipay.AmountPaid)
 							   FROM		dbo.PrescriptionPayment AS ipay
 							   WHERE	ipay.PrescriptionID=pre.PrescriptionID) AS pay
-		IF @@TRANCOUNT > 0
+		IF (@@TRANCOUNT > 0)
 			COMMIT
 	END TRY
 	BEGIN CATCH
@@ -103,7 +103,4 @@ AS BEGIN
 			@ErrMsg)			-- First argument (string)
 	END CATCH
 END
-
-
-
 GO

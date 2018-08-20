@@ -22,7 +22,7 @@ CREATE PROC [dbo].[uspGetUnpaidScripts]
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
-	@Carriers [dbo].[udtPayorID] READONLY,
+	@Carriers [dbo].[udtID] READONLY,
 	@TotalRows INTEGER OUTPUT
 )
 AS BEGIN
@@ -44,7 +44,7 @@ AS BEGIN
 		END
 	ELSE
 		BEGIN
-			INSERT #Carriers (PayorID) SELECT PayorID FROM @Carriers
+			INSERT #Carriers (PayorID) SELECT ID FROM @Carriers
 		END
 
 	IF @iIsDefaultSort IS NULL
@@ -212,4 +212,5 @@ AS BEGIN
 			OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 			FETCH NEXT @iPageSize ROWS ONLY;
 END
+
 GO
