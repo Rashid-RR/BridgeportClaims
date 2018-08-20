@@ -66,7 +66,6 @@ AS
                                   WHERE  ca.ClaimID = c.ClaimID )
 
             INSERT INTO dbo.AdjustorAudit ( AdjustorID
-                                          , PayorID
                                           , AdjustorName
                                           , PhoneNumber
                                           , FaxNumber
@@ -80,7 +79,6 @@ AS
                                           , SystemUser
                                           , AuditDateUTC )
             SELECT a.AdjustorID
-                 , a.PayorID
                  , a.AdjustorName
                  , a.PhoneNumber
                  , a.FaxNumber

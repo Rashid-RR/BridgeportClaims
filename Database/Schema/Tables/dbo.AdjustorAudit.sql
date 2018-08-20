@@ -2,7 +2,6 @@ CREATE TABLE [dbo].[AdjustorAudit]
 (
 [AdjustorAuditID] [int] NOT NULL IDENTITY(1, 1),
 [AdjustorID] [int] NOT NULL,
-[PayorID] [int] NOT NULL,
 [AdjustorName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [PhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FaxNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

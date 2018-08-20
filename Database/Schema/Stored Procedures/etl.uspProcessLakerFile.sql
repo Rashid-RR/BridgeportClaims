@@ -276,8 +276,8 @@ AS BEGIN
 	SET @NewRowsImported = @@ROWCOUNT
 
 	-- Actual Adjustor Import
-	INSERT [dbo].[Adjustor] ([PayorID], [AdjustorName], [ETLRowID], [CreatedOnUTC], [UpdatedOnUTC])
-	SELECT a.[PayorID], a.[AdjustorName], [a].[ETLRowID], @UTCNow, @UTCNow
+	INSERT [dbo].[Adjustor] ([AdjustorName], [ETLRowID], [CreatedOnUTC], [UpdatedOnUTC])
+	SELECT a.[AdjustorName], [a].[ETLRowID], @UTCNow, @UTCNow
 	FROM [#Adjustor] AS [a]
 	WHERE [a].[RowNumber] = 1
 	SET @RowCountCheck = @@ROWCOUNT;
@@ -291,14 +291,13 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'The Adjustor count QA check failed', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 	-- Update the temp table with new Ajustor ID's
 	UPDATE s SET [s].[AdjustorID] = [a].[AdjustorID]
 	FROM   #New AS s WITH (TABLOCKX)
-		   INNER JOIN dbo.[Adjustor] AS [a] ON [s].[21] = [a].[AdjustorName]
-	WHERE  [a].[PayorID] = [s].[PayorID]
+		   INNER JOIN dbo.[Adjustor] AS [a] ON [s].[21] = [a].[AdjustorName];
 	SET @RowCountCheck = @@ROWCOUNT
 
 	-- Update the StagedLakerFile with #New's Adjustor ID's
@@ -315,7 +314,7 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'Error. The Updated Ajustor ID''s in the StagedLakerFile does not match the count of updated Adjustor ID''s in #New', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 	-- Adjustor's are unique, in that the matching criteria that we normally would use for an 
@@ -362,7 +361,7 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'The Patient count QA check failed', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 	-- Update the temp table with new Patient ID's
@@ -387,7 +386,7 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'The Patients updated does not match the total records in #New', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 	-- Update the StagedLakerFile with #New's Adjustor ID's
@@ -404,7 +403,7 @@ AS BEGIN
 			ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 			ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 			RAISERROR(N'Error. The Updated Patient ID''s in the StagedLakerFile does not match the count of updated Patient ID''s in #New', 16, 1) WITH NOWAIT;
-			RETURN;
+			RETURN -1;
 		END
 
 	-- QA check that we were able to update every record
