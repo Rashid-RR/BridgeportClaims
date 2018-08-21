@@ -56,6 +56,7 @@ AS
                         INNER JOIN [dbo].[Patient] AS [p] ON [p].[PatientID] = [c].[PatientID]
                         LEFT JOIN [dbo].[DuplicateClaim] AS [dc] ON [dc].[DuplicateClaimID] = [c].[ClaimID]
             WHERE       [dc].[DuplicateClaimID] IS NULL
+                        AND NOT EXISTS (SELECT * FROM dbo.ArchivedDuplicateClaim AS a WHERE a.ExcludeClaimID = c.ClaimID)
             GROUP BY    SOUNDEX([p].[LastName])
                        ,SOUNDEX([p].[FirstName])
             HAVING      COUNT(*) > 1
@@ -103,7 +104,6 @@ AS
         OFFSET @iPageSize * (@iPageNumber - 1) ROWS
         FETCH NEXT @iPageSize ROWS ONLY;
     END
-
 GO
 GRANT EXECUTE ON  [rpt].[uspGetDuplicateClaims] TO [acondie]
 GO
