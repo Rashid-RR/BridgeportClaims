@@ -6,6 +6,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
 {
     public interface IReportsDataProvider
     {
+        void ArchivedDuplicateClaimInsert(int excludeClaimId, string excludedByUserId);
         SkippedPaymentDto GetSkippedPaymentReport(int page, int pageSize, DataTable carriers, bool archived);
         IEnumerable<PharmacyNameDto> GetPharmacyNames(string pharmacyName);
         DuplicateClaimDto GetDuplicateClaims(string sort, string sortDirection, int page, int pageSize);

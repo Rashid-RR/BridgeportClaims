@@ -19,6 +19,20 @@ namespace BridgeportClaims.Data.DataProviders.Reports
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 
+        public void ArchivedDuplicateClaimInsert(int excludeClaimId, string excludedByUserId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                const string sp = "[dbo].[uspArchivedDuplicateClaimInsert]";
+                var ps = new DynamicParameters();
+                ps.Add("@ExcludeClaimID", excludeClaimId, DbType.Int32);
+                ps.Add("@ExcludedByUserID", excludedByUserId, DbType.String, size: 128);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+            });
+
         public SkippedPaymentDto GetSkippedPaymentReport(int page, int pageSize, DataTable carriers, bool archived)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
