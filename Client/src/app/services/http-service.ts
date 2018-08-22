@@ -910,7 +910,7 @@ export class HttpService {
       });
   }
   updateMultiplePrescriptionStatus(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + "/prescriptions/set-multiple-prescription-statuses", data, { observe: 'response',responseType: 'blob' })
+    return this.http.post(this.baseUrl + "/prescriptions/set-multiple-prescription-statuses", data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

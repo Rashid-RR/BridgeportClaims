@@ -213,7 +213,7 @@
                                 </span>
                                 <div class="box-tools pull-right">
                                     <div class="btn-group" data-toggle="btn-toggle">
-                                        <button class="btn btn-flat btn-sm bg-vdarkgrey grey1 no-padding" type="button" (click)="addPrescriptionNote()">
+                                        <button class="btn btn-flat btn-sm bg-vdarkgrey grey1 no-padding" type="button" (click)="updateStatus()">
                                             Change Statuses
                                         </button>
                                         <button class="btn btn-flat btn-sm bg-vdarkgrey no-padding" type="button" (click)="addPrescriptionNote()">
@@ -335,3 +335,17 @@
     <app-new-episode *swalPartial>
     </app-new-episode>
     <swal>
+        <swal #prescriptionStatusSwal [showCancelButton]="true" [confirmButtonColor]="isVip ? '#002f58':'#992727'" confirmButtonText="<i class='fa fa-save'></i> &nbsp; SAVE" cancelButtonColor="#f00" cancelButtonText="<i class='fa fa-close'></i> &nbsp; CANCEL" cancelButtonColor="#f00" [showConfirmButton]="true" customClass="payment-modal" [focusCancel]="false"
+            title="Change Prescriptions status">
+            <div *swalPartial>
+                <h3  style="font-size:24px">Change Prescriptions status</h3>
+                <div class="row search-container text-left" style="padding:15px">
+                    <div class="col-sm-12 field">
+                        <label> Prescriptions status</label>
+                        <select class="form-control" aria-label="..." [(ngModel)]="statusId">
+                            <option *ngFor="let status of claimManager.selectedClaim.prescriptionStatuses;" [ngValue]="status">{{status.statusName}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <swal>

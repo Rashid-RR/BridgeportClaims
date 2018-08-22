@@ -710,7 +710,7 @@ thead{
 {
   background: #002f58 !important;
 }
-.box-header button.grey1
+.box-header button.grey1,.box-header button.grey1:hover
 {
   box-shadow: inset 0px 0 0 3px #992727, inset 0 0 0 4px white;
 }
@@ -725,7 +725,7 @@ button.grey1{
   height:34px;
   font-weight: normal;
 }
-.isVip button.grey1
+.isVip button.grey1,.isVip button.grey1:hover
 {
   box-shadow: inset 0px 0 0 3px #002f58, inset 0 0 0 4px white;
 }

@@ -41,6 +41,9 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
       }, 1000);
     });
     this.cloneTableHeading();
+    this.events.on("reload:prespcriptions",()=>{
+      this.fetchData();
+    })
   }
 
   ngAfterViewInit() {
@@ -129,7 +132,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     }
   }
   selectAllCheckBox($event) {
-     this.checkAll = $event.target.checked;
+    this.checkAll = $event.target.checked;
     if (this.checkAll) {
       this.claimManager.selectedClaim.prescriptions.forEach(c => {
         c.selected = true;
@@ -201,7 +204,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
   }
 
   fetchData() {
-  this.claimManager.loadingPrescription = true;
+    this.claimManager.loadingPrescription = true;
     const page = 1;
     const page_size = 1000;
     let sort = 'RxDate';

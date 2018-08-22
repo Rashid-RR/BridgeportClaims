@@ -26,6 +26,7 @@ declare var $: any
 export class ClaimsComponent implements OnInit, AfterViewInit {
 
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
+  @ViewChild('prescriptionStatusSwal') private prescriptionStatusSwal: SwalComponent;
 
   @HostListener("window:scroll", [])
   onWindowScroll() {
@@ -49,6 +50,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   expanded: Boolean = false
   expandedBlade: Number = 0;
   over: boolean[];
+  statusId:any
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       $(".sticky-claim").sticky({ topSpacing: 53 });
@@ -80,9 +82,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
-      let disposable = this.dialogService.addDialog(ConfirmComponent, {
+      this.dialogService.addDialog(ConfirmComponent, {
         title: "Delete Claim Note",
-        message: "Are you sure you wish to remove this note ?"
+        message: "Are you sure you wish to remove this note?"
       })
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
@@ -149,6 +151,57 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  saveStatus(data) {
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: "Change multiple prescription statuses",
+      message: `Are you sure you wish to change prescription statuses for ${data.prescriptionIds.length} prescription${data.prescriptionIds.length>1 ? 's':''} to ${this.statusId.statusName}?`
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.claimManager.loading = true;
+          this.http.updateMultiplePrescriptionStatus(data).subscribe(r => {
+            this.toast.success(r.message);
+            $('input#selectAllCheckBox').attr({ 'checked': false })
+            const selected = this.claimManager.selectedClaim.prescriptions.filter(pres => pres.selected == true);
+            selected.forEach(s=>{
+              s.selected=false;
+            })
+            this.events.broadcast("reload:prespcriptions",1);
+            this.claimManager.loading = false;
+          }, err => {
+            let result = err.error
+            this.toast.error(result.Message);
+            this.claimManager.loading = false;
+          })
+        }
+      })
+  }
+  updateStatus() {
+    var checkboxes = $('.pescriptionCheck');
+    let selectedNotes = [];
+    for (var i = 0; i < checkboxes.length; i++) {
+      if ($("#" + checkboxes[i].id).is(':checked')) {
+        selectedNotes.push(Number(checkboxes[i].id));
+      }
+    }
+    if (selectedNotes.length > 0) {
+      this.prescriptionStatusSwal.show().then((r) => {
+        if(!r.dismiss){
+          if(!this.statusId || !this.statusId.prescriptionStatusId){
+            this.toast.warning('Please select one status to from the dropdown list.');
+            setTimeout(()=>{this.updateStatus();});
+          }else{
+          this.saveStatus({prescriptionStatusId:this.statusId.prescriptionStatusId,prescriptionIds:selectedNotes})
+          }
+        }
+      })
+    } else {
+      this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length > 0 ?
+        this.toast.warning('Please select at least one prescription to change status.') :
+        this.toast.warning('No prescriptions are present to change status.');
+    }
+
+  }
   addPrescriptionNote(text: String = "", TypeId?: String, prescriptionNoteId: any = null) {
     let selectedNotes = [];
     let prescriptionNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
