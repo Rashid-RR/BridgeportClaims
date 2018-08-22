@@ -760,3 +760,6 @@ button.grey1{
   width: 0px !important;
   height: 0px !important;
 }
+div.toast,#toast-container{
+  z-index: 9999992 !important;
+}
