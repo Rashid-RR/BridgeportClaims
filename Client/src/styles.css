@@ -755,3 +755,8 @@ button.grey1{
 .sticky-wrapper:not(.is-sticky) .sticky-claim{
   color:white;
 }
+.duplicate-merge .commonCheckBox input.claimCheckBox{
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+}
