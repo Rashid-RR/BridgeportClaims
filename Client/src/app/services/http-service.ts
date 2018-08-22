@@ -690,6 +690,15 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  archiveDuplicateClaim(id: any): Observable<any> {
+    const params = new HttpParams()
+    .set('claimId', id);
+    return this.http.post(this.baseUrl + '/reports/archive-duplicate-claim', {},{params:params})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   duplicateClaims(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/duplicate-claims', data)
       .catch(err => {
@@ -895,6 +904,13 @@ export class HttpService {
   }
   exportBillingStatement(data: any): Observable<any> {
     return this.http.post(this.baseUrl + "/prescriptions/billing-statement-excel/?claimId=" + data.claimId, data, { observe: 'response',responseType: 'blob' })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  updateMultiplePrescriptionStatus(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + "/prescriptions/set-multiple-prescription-statuses", data, { observe: 'response',responseType: 'blob' })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

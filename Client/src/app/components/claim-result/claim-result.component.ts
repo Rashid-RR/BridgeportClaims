@@ -320,7 +320,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           });
           data.unshift({
             id: 'null',
-            text: 'NULL'
+            text: '-- No Adjustor --'
           });
           return {
             results: (data || [])

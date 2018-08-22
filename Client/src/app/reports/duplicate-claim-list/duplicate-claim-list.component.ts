@@ -5,6 +5,8 @@ import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
 import { DatePipe } from '@angular/common';
+import { ConfirmComponent } from '../../components/confirm.component';
+import { DialogService } from 'ng2-bootstrap-modal';
 
 declare var jQuery: any;
 @Component({
@@ -20,12 +22,32 @@ export class DuplicateClaimListComponent implements OnInit {
   mergedClaim: any = {} as any;
   @ViewChild('claimActionSwal') private claimSwal: SwalComponent;
   comparisonClaims: ComparisonClaim = {} as ComparisonClaim
-  constructor(private dp: DatePipe, private http: HttpService, public reportloader: ReportLoaderService, private toast: ToastsManager) { }
+  constructor(private dialogService: DialogService,private dp: DatePipe, private http: HttpService, public reportloader: ReportLoaderService, private toast: ToastsManager) { }
 
   ngOnInit() {
     this.reportloader.current = 'Duplicate Claims Report';
     this.reportloader.currentURL = 'duplicate-claims';
     //this.reportloader.loading = false;
+  }
+  archive(claim) {
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Remove Claim',
+      message: "Are you sure you'd like to remove this claim?"
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.reportloader.loading = true;
+          this.http.archiveDuplicateClaim(claim.claimId).single().subscribe(res => {
+            this.toast.success(res.message);
+            this.reportloader.loading = false;
+            this.reportloader.fetchDuplicateClaims()
+            this.closeModal();
+          }, error => {
+            this.toast.error(error.message);
+            this.reportloader.loading = false;
+          });
+        }
+      });
   }
   merge(value: any, $event, index: string) {
     if (value == this.mergedClaim[index] && !$event.checked) {

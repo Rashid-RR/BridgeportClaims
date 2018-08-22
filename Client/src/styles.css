@@ -710,9 +710,24 @@ thead{
 {
   background: #002f58 !important;
 }
+.box-header button.grey1
+{
+  box-shadow: inset 0px 0 0 3px #992727, inset 0 0 0 4px white;
+}
 .isVip .border-style
 {
   border-left: 6px solid #002f58 !important;
+}
+button.grey1{
+  font-family: 'Cambay', sans-serif !important;
+  padding: 5px 10px !important;
+  font-size: 14px;
+  height:34px;
+  font-weight: normal;
+}
+.isVip button.grey1
+{
+  box-shadow: inset 0px 0 0 3px #002f58, inset 0 0 0 4px white;
 }
 .isVip .box-body,
 .isVip .box-body tr:nth-of-type(odd)

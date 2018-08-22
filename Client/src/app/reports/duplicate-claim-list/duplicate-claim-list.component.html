@@ -37,6 +37,7 @@
             <th>
               <span columnSort="groupName" [sort-table]="myTable">Group Name</span>
             </th>
+            <th>&nbsp;</th>
           </tr>
         </thead>
       </table>
@@ -46,20 +47,25 @@
       <table class="table no-margin table-striped" id="maintable">
         <tbody class="overflowable" tabindex="0">
           <ng-container *ngFor="let claim of reportloader.duplicateClaims">
-            <tr (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)">
-              <td>
+            <tr>
+              <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)">
                 <div class="commonCheckBox">
                   <input type="checkbox" name="check" value="None" [id]="claim.claimId" [checked]="claim.selected" class="claimCheckBox" #tdRow>
                   <label></label>
                 </div>
               </td>
-              <td>{{claim.lastName}}</td>
-              <td>{{claim.firstName}}</td>
-              <td>{{claim.claimId}}</td>
-              <td>{{reportloader.formatDate(claim.dateOfBirth)}}</td>
-              <td>{{claim.claimNumber}}</td>
-              <td> {{claim.personCode}}</td>
-              <td> {{claim.groupName}} </td>
+              <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)">{{claim.lastName}}</td>
+              <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)">{{claim.firstName}}</td>
+              <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)">{{claim.claimId}}</td>
+              <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)">{{reportloader.formatDate(claim.dateOfBirth)}}</td>
+              <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)">{{claim.claimNumber}}</td>
+              <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)"> {{claim.personCode}}</td>
+              <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)"> {{claim.groupName}} </td>
+              <td> 
+                <button class="btn bg-darkRed btn-flat pull-right btn-small search-claims" type="button"  (click)="archive(claim)" style="margin-right:15px;">
+                  <i class="fa fa-trash"></i> Remove
+                </button>
+              </td>
             </tr>
           </ng-container>
         </tbody>
