@@ -31,6 +31,23 @@ namespace BridgeportClaims.Web.Controllers
             _reportsDataProvider = reportsDataProvider;
         }
 
+        [HttpPost]
+        [Route("archive-duplicate-claim")]
+        public IHttpActionResult InsertArchivedDuplicateClaim(int claimId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                _reportsDataProvider.Value.ArchivedDuplicateClaimInsert(claimId, userId);
+                return Ok(new {message = "The duplicate claim was removed successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
         private static Dictionary<int, string> MonthDictionary
         {
             get
