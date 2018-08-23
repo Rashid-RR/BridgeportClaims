@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[ArchivedDuplicateClaim]
 (
-[ArchivedDuplicateClaimID] [int] NOT NULL,
+[ArchivedDuplicateClaimID] [int] NOT NULL IDENTITY(1, 1),
 [ExcludeClaimID] [int] NOT NULL,
 [ExcludedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfArchivedDuplicateClaimCreatedOnUTC] DEFAULT (sysutcdatetime()),
