@@ -7,9 +7,9 @@ GO
 	Create Date:	11/29/2017
 	Description:	CRUD Proc Updating the table [dbo].[DocumentIndex]
 	Sample Execute:
-					EXEC [dbo].[uspDocumentIndexUpdate] 
+					EXEC [claims].[uspDocumentIndexUpdate] 
 */
-CREATE PROC [dbo].[uspDocumentIndexUpdate]
+CREATE PROC [claims].[uspDocumentIndexUpdate]
     @DocumentID INT,
     @ClaimID INT,
     @DocumentTypeID TINYINT,
