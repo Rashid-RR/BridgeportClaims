@@ -1,16 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
 
 namespace BridgeportClaims.Web.Models
 {
     public sealed class EditClaimImageViewModel
     {
-        [Required]
         public int DocumentId { get; set; }
-        [Required]
         public int ClaimId { get; set; }
-        [Required]
         public byte DocumentTypeId { get; set; }
         public string RxDate { get; set; }
         public string RxNumber { get; set; }
+        public string InvoiceNumber { get; set; }
+        public DateTime InjuryDate { get; set; }
+        public string AttorneyDate { get; set; }
     }
 }
