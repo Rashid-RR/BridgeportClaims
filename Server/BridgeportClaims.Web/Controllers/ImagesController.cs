@@ -55,7 +55,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                _claimImageProvider.Value.UpdateDocumentIndex(model.DocumentId,
+                _claimImageProvider.Value.UpdateDocumentIndex(model.DocumentId, model.ClaimId,
                     model.RxDate.ToNullableFormattedDateTime(), model.RxNumber, model.DocumentTypeId);
                 return Ok(new {message = "The image was updated successfully."});
             }

@@ -106,19 +106,16 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                 });
             });
 
-        public void UpdateDocumentIndex(int documentId, DateTime? rxDate, string rxNumber, byte documentTypeId)
+        public void UpdateDocumentIndex(int documentId, int claimId, DateTime? rxDate, string rxNumber, byte documentTypeId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[claims].[uspDocumentIndexUpdate]";
-                conn.Open();
-                conn.Execute(sp,
-                    new
-                    {
-                        DocumentID = documentId,
-                        RxDate = rxDate,
-                        RxNumber = rxNumber,
-                        DocumentTypeID = documentTypeId
-                    }, commandType: CommandType.StoredProcedure);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var paramObjs = new {DocumentID = documentId,ClaimID = claimId,RxDate = rxDate,RxNumber = rxNumber,DocumentTypeID = documentTypeId};
+                conn.Execute(sp, paramObjs, commandType: CommandType.StoredProcedure);
             });
     }
 }
