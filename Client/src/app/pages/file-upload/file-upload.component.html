@@ -108,23 +108,6 @@
 
                         <div>
                             <div>
-                                Queue progress Csv files:
-                                <div class="progress" style="">
-                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploaderCsv?.progress + '%' }"></div>
-                                </div>
-                            </div>
-                            <button type="button" class="btn btn-success btn-s" (click)="uploaderCsv.uploadAll()" [disabled]="!uploaderCsv.getNotUploadedItems().length">
-                                <span class="glyphicon glyphicon-upload"></span> Upload all
-                            </button>
-                            <button type="button" class="btn btn-warning btn-s" (click)="uploaderCsv.cancelAll()" [disabled]="!uploaderCsv.isUploading">
-                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
-                            </button>
-                            <button type="button" class="btn btn-danger btn-s" (click)="uploaderCsv.clearQueue()" [disabled]="!uploaderCsv.queue.length">
-                                <span class="glyphicon glyphicon-trash"></span> Remove all
-                            </button>
-                        </div>
-                        <div>
-                            <div>
                                 Queue progress Excel files:
                                 <div class="progress" style="">
                                     <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploaderExcel.progress + '%' }"></div>
@@ -137,6 +120,23 @@
                                 <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
                             </button>
                             <button type="button" class="btn btn-danger btn-s" (click)="uploaderExcel.clearQueue()" [disabled]="!uploaderExcel.queue.length">
+                                <span class="glyphicon glyphicon-trash"></span> Remove all
+                            </button>
+                        </div>
+                        <div>
+                            <div>
+                                Queue progress Csv files:
+                                <div class="progress" style="">
+                                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploaderCsv?.progress + '%' }"></div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success btn-s" (click)="uploaderCsv.uploadAll()" [disabled]="!uploaderCsv.getNotUploadedItems().length">
+                                <span class="glyphicon glyphicon-upload"></span> Upload all
+                            </button>
+                            <button type="button" class="btn btn-warning btn-s" (click)="uploaderCsv.cancelAll()" [disabled]="!uploaderCsv.isUploading">
+                                <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                            </button>
+                            <button type="button" class="btn btn-danger btn-s" (click)="uploaderCsv.clearQueue()" [disabled]="!uploaderCsv.queue.length">
                                 <span class="glyphicon glyphicon-trash"></span> Remove all
                             </button>
                         </div>
