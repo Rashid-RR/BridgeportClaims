@@ -1,0 +1,99 @@
+.box-header {
+  padding: 10px 10px 5px 10px;
+}
+
+.table-responsive {
+  overflow-x: hidden;
+}
+
+table {
+  table-layout: fixed;
+  width: 98% !important;
+  overflow-x: hidden;
+}
+
+td,
+th {
+  padding-bottom: 8px !important;
+  padding-top: 3px !important;
+  font-size: 9pt;
+  word-wrap: break-word;
+}
+
+tr.active,
+tr.active td {
+  background: lightblue !important;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.bg-darkblue {
+  background-color: #414772;
+  color: #fff;
+}
+
+.bg-vdarkgrey {
+  background-color: #111d21 !important;
+  color: #fff;
+}
+
+.view-btn {
+  padding-bottom: 2px;
+  top: 2px;
+  position: relative;
+  border-radius: .25em;
+}
+.border-style{
+  border-left: 6px solid #992727;
+  background-color: #efecec;
+  padding: 8px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+/*ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}
+
+.btn-group.flex2.open .dropdown-toggle,.btn-group.flex2 .dropdown-toggle{
+  color:black !important;
+  box-shadow: none;
+}
+
+span.buttons.edit{
+  position: absolute;
+  bottom:10px;
+  left:10px
+}
+address .form-group {
+  margin-left: 0px; 
+}
+address .form-group:not(.editing) { 
+  margin-bottom: 0px;
+}
+address .form-group.editing{ 
+  margin-bottom: 5px;
+}
+address .form-group label{
+  font-style: normal;
+  line-height: 1.42857143;
+  font-weight:normal;
+}
+.form-group label[class^="col-sm"],
+.form-group label[class*="col-sm"]{
+    padding-left:0px;
+    padding-right:0px;
+}
+.mbt:not(.editing){
+  margin-bottom:-50px;
+}
+.form-horizontal .col-sm-6.invoice-col{
+  padding-right:5px;
+}

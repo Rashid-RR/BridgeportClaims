@@ -1,0 +1,72 @@
+<header class="main-header">
+    <!-- Logo -->
+    <a [routerLink]="!disableLinks ?  '/' : []" class="logo" style="background-color: white;" [class.disabled]="disableLinks">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini" style="color:black">
+            <b>BR</b>-C</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg" style="margin-top: -50px;">
+            <img src="assets/logo/name.png" style="width: 200px;" alt="Bridgeport Claims" />
+        </span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button, check if user is logged in-->
+        <a style="cursor:pointer" (click)="sidebarToggle()" class="sidebar-toggle" data-toggle="offcanvas" role="button" *ngIf="profileManager.profile">
+            <i class="fa fa-align-justify"></i>
+        </a>
+        <ul *ngIf="isTestDomain" class="nav navbar isTestDomain" style="width:  fit-content; clear:  none;display:  flex;  flex-direction: row;margin-right:  0px;float: left;">
+            <li>
+                <a>THIS IS A TESTING SITE ONLY</a>
+            </li>
+        </ul>
+        <!-- Top right menu items, also check if user is logged in-->
+        <div class="navbar-custom-menu cust-nav">
+            <ul class="nav navbar-nav">
+                <ng-container *ngIf="!profileManager.profile">
+                    <li class="display-date">
+                        <i class="fa fa-calendar" aria-hidden="true"></i> {{ date | date }}</li>
+                    <li>
+                        <a [routerLink]="'/register'">
+                            <i class="fa fa-user-plus" aria-hidden="true"></i>Register</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="'/login'">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                            Login</a>
+                    </li>
+
+                </ng-container>
+
+                <ng-container *ngIf="profileManager.profile">
+                    <li class="display-date">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        {{ date | date }}
+                        <small>Version
+                            <strong>16.3</strong>
+                        </small>
+                    </li>
+                   <!--  <li class="display-date" *ngIf="allowed" [class.disabled]="disableLinks">
+                        <a style="cursor:pointer" (click)="!disableLinks ? clearCache() : ''" [class.disabled]="disableLinks">
+                            <i class="fa fa-refresh" aria-hidden="true"></i>
+                            Clear Cache</a>
+                    </li> -->
+                    <li routerLinkActive="/main/profile" [class.disabled]="disableLinks">
+                        <!--[routerLink]="'/profile'"-->
+                        <a class="navbar-link" [routerLink]="!disableLinks ?  '/main/profile' : []" [class.disabled]="disableLinks">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+
+                            My Account</a>
+                    </li>
+                    <li routerLinkActive="active" [class.disabled]="disableLinks">
+                        <a style="cursor:pointer;" (click)="!disableLinks ? logout() : ''" class="navbar-link" [class.disabled]="disableLinks">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Logout</a>
+                    </li>
+                    <!-- here is a version number in ng- containor because in this containor all things are disply when user are logeed in -->
+                    <p class="ver2 large">
+                        <img src="assets/img/header_icon.png" style="margin-right:-10px;margin-top: -11px;" alt="Version #" />
+                    </p>
+                </ng-container>
+            </ul>
+        </div>
+    </nav>

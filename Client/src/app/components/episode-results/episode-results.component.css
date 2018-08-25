@@ -1,0 +1,203 @@
+td,
+th {
+    text-align: center;
+    font-size: 9pt;
+    font-family: 'Cambay', sans-serif !important;
+}
+
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+    background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+    background: #fff8ef !important;
+}
+.claim-info.row,.col-sm-12.claim-col.expanded{
+    margin:0px;
+    padding:0px;
+    overflow: hidden;
+}
+.claim-col{
+    height:60px;
+}
+.expanded{
+    height: calc(100vh - 300px);
+    height: -moz-calc(100vh - 300px);
+    height: -webkit-calc(100vh - 300px);
+    height: -o-calc(100vh - 300px);
+    overflow:hidden;
+}
+.top-header,.table-body{
+    width:98%;
+}
+
+.top-header{
+    height:56px;
+    /* width: calc(98% - 15px);
+    width: -webkit-calc(98% - 15px);
+    width: -o-calc(98% - 15px);
+    width: -moz-calc(98% - 15px); */
+    position: absolute;
+    overflow: hidden;
+}
+.table-body{
+    position: absolute;
+    top:40px;
+    height: calc(100% - 110px);
+    max-height: calc(100% - 110px);
+    max-height: -moz-calc(100% - 110px);
+    max-height: -webkit-calc(100% - 110px);
+    max-height: -o-calc(100% - 110px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.top-header table{
+    height:99%;
+}
+tbody>tr:hover,tbody>tr.no-result {
+    background: #b6f1ff !important;
+    cursor: pointer;
+  }
+  /*SORT*/
+
+thead span {
+    text-indent: -15px;
+    cursor: pointer;
+}
+
+.fa-unsorted:before,
+.fa-sort:before,
+.fa-sort-up:before,
+.fa-sort-asc:before,
+.fa-sort-down:before,
+.fa-sort-desc:before {
+    padding-right: 0.6rem;
+    font-size: 1.4rem;
+    color: #666;
+    position: absolute;
+}
+
+.fa.rotate.fa-exchange {
+    margin-left: 0;
+}
+
+
+/*Unnecessary-space*/
+
+.table>thead>tr>th {
+    border-bottom: 0px;
+    vertical-align: top;
+}
+.pagination-row{
+    position:absolute;
+    right: calc(50% - 234px);
+    bottom:15px;
+    background: -webkit-linear-gradient(top, #fff 0%, #eeedec 40%, #faf6e9 100%);
+    background: linear-gradient(to bottom, #fff 0%, #eeedec 40%, #faf6e9 100%);
+    padding:5px 35px;
+    width: 468px;
+    border-radius:10px;
+    text-align: center;
+}
+.pagination-row button:not(.goto){
+    margin:5px;
+    /* background:transparent; */
+    font-family: 'Cambay', sans-serif !important;
+    line-height: normal;
+    vertical-align:middle;
+    width:60px;
+    font-weight: 700;
+    padding:4px 10px 1px 10px;
+    font-size: 13px;
+    text-anchor: middle;
+}
+
+.pagination-row button.goto,.pagination-row  .input-group .form-control{
+    margin:5px;
+    /* background:transparent; */
+    font-family: 'Cambay', sans-serif !important;
+    line-height: normal;
+    vertical-align:middle;
+    font-weight: 700;
+    padding:4px 10px 1px 10px;
+    font-size: 13px;
+    text-anchor: middle;
+}
+
+.pagination-row  .input-group .form-control{
+    height:28px;
+}
+  /**Use this to adjust the width for the first column*/
+  tr>th:nth-child(1),
+  tr>td:nth-child(1) {
+      width:5%;
+  }
+    tr>th:not(.resolved):nth-child(2),
+    tr>td:not(.resolved):nth-child(2) {
+        width:6%;
+    }
+    tr>th.resolved:nth-child(2),
+    tr>td.resolved:nth-child(2) {
+        width:0%;
+        display: none;
+    }
+    /**Use this to adjust the width for the second column*/
+    tr>th:nth-child(3),
+    tr>td:nth-child(3) {
+        width:5%;
+    }
+    tr>th:nth-child(4),
+    tr>td:nth-child(4) {
+        width:9%;
+    }
+    /**Use this to adjust the width for the third column*/
+    tr>th:nth-child(5),
+    tr>td:nth-child(5) {
+        width:8%;
+    }
+    /**Use this to adjust the width for the fourth column*/
+    tr>th:nth-child(6),
+    tr>td:nth-child(6) {
+        width:13%;
+    }
+    /**Use this to adjust the width for the fifth column*/
+    tr>th:nth-child(7),
+    tr>td:nth-child(7){
+        width:8%;
+    }
+    /**Use this to adjust the width for the sixth column*/
+    tr>th:nth-child(8),
+    tr>td:nth-child(8)
+    {
+        width: 8%;
+    }
+    /**Use this to adjust the width for the seventh column*/
+    tr>th:nth-child(9),
+    tr>td:nth-child(9)
+    {
+        width: 9%;
+    }
+    /**Use this to adjust the width for the eight column*/
+    tr>th:nth-child(10),
+    tr>td:nth-child(10){
+        width:12%;
+    }
+    /**Use this to adjust the width for the nineth column*/
+    tr>th:nth-child(11),
+    tr>td:nth-child(11)
+    {
+        width: 5%;
+    }
+    /**Use this to adjust the width for the nineth column*/
+    tr>th:not(.resolved):nth-child(12),
+    tr>td:not(.resolved):nth-child(12)
+    {
+        width: 12%;
+    }
+    tr>th.resolved:nth-child(12),
+    tr>td.resolved:nth-child(12)
+    {
+        width: 19%;
+    }

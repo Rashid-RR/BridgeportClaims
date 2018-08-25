@@ -1,0 +1,286 @@
+.box-header {
+    padding: 10px 10px 5px 10px;
+}
+
+.table-responsive {
+    position: relative;
+    overflow-x: hidden;
+}
+
+#fixed-header {
+    position: fixed;
+    top: 43px;
+    background: #fbeede;
+    z-index: 2;
+    padding: 1.6rem 0;
+}
+
+table {
+    table-layout: fixed;
+    width: 99% !important;
+    overflow-x: hidden;
+    font-family: 'Cambay', sans-serif !important;
+}
+
+thead,
+tbody {
+    overflow-y: hidden !important;
+}
+
+td,
+th {
+    font-size: 9pt;
+    word-wrap: break-word;
+    padding-left: 2px !important;
+    padding-right: 2px !important;
+}
+
+textarea {
+    resize: vertical;
+}
+
+tr>th,
+tr>td {
+    width: 100%;
+    text-align: center;
+}
+
+tr>th:first-child,
+tr>td:first-child {
+    width: 4%;
+}
+
+tr>th:nth-child(2),
+tr>td:nth-child(2) {
+    width: 7%;
+}
+
+tr>th:nth-child(3),
+tr>td:nth-child(3) {
+    width: 5%;
+}
+
+tr>th:nth-child(4),
+tr>td:nth-child(4) {
+    width: 19%;
+}
+
+tr>th:nth-child(5),
+tr>td:nth-child(5) {
+    width: 15%;
+}
+
+tr>th:nth-child(6),
+tr>td:nth-child(6) {
+    width: 5%;
+}
+
+tr>th:nth-child(7),
+tr>td:nth-child(7),
+tr>th:nth-child(8),
+tr>td:nth-child(8),
+tr>th:nth-child(9),
+tr>td:nth-child(9) {
+    width: 7%;
+}
+
+tr>th:nth-child(10),
+tr>td:nth-child(10),
+tr>th:nth-child(11),
+tr>td:nth-child(11) {
+    width: 8%;
+    display: flex;
+}
+ 
+
+tr>th:last-child,
+tr>td:last-child {
+    text-align: center;
+    width: 8%;
+    word-wrap: normal;
+}
+
+tr>td:last-child {
+    font-size: 1.4rem;
+    font-weight: bold;
+    line-height: 1.5rem;
+}
+
+tr>th:nth-child(8),
+tr>td:nth-child(8),
+tr>th:nth-child(9),
+tr>td:nth-child(9),
+tr>th:nth-child(10),
+tr>td:nth-child(10) {
+    text-align: right !important;
+}
+
+td>a.label {
+    font-size: 1.2rem;
+    padding-bottom: 0;
+    top: 1px;
+    position: relative;
+}
+
+
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+    background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+    background: #fff8ef !important;
+}
+
+table {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+tbody,
+thead {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+tbody.overflowable,
+thead.overflowable {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+tr {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+td,
+th {
+    display: block;
+    flex-direction: column;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+.bg-darkblue {
+    background-color: #414772 !important;
+}
+
+.bg-vdarkgrey {
+    background-color: #111d21 !important;
+    color: #fff;
+}
+
+.fa.rotate {
+    transform: rotate(-90deg);
+    margin-top: 5px;
+    position: absolute;
+    margin-left: 2px;
+}
+
+@media screen and (max-width: 300px) {
+    .fa.rotate {
+        margin-left: 2px;
+    }
+}
+
+@media screen and (min-width: 300px) {
+    .fa.rotate {
+        margin-left: 25px;
+    }
+}
+tbody>tr td .btn-group.status button{
+    color:black;
+    background: transparent; 
+    font-size: 7.5pt;
+    font-family: 'Cambay', sans-serif !important;
+}
+tbody>tr.bgBlue{
+    background: #56a1ff !important;
+    color: white;
+}
+tbody>tr.bgBlue td .btn-group.status button{
+    color:white;
+}
+tbody>tr.bgBlue td::selection,
+tbody>tr.bgBlue td a::selection {
+    background: #56a1ff !important;
+}
+
+tbody>tr:hover,tbody>tr:hover td .btn-group.status button {
+    background: #b6f1ff !important;
+    cursor: pointer;
+    color: #000;
+}
+
+tbody>tr:hover td,
+tbody>tr:hover td::selection {
+    color: #000;
+}
+
+.row.invoice-info,
+.row.invoice-info .invoice-col {
+    height: 100% !important;
+    position: relative;
+    display: block;
+}
+
+.invoice-col {
+    overflow: hidden;
+}
+
+.top-header {
+    width: 98%;
+    width: 98%;
+    width: 98%;
+    width: 98%;
+    height: 56px;
+    position: absolute;
+    overflow: hidden;
+}
+
+.table-body {
+    position: absolute;
+    min-width: 98%;
+    min-width: 98%;
+    min-width: 98%;
+    min-width: 98%;
+    width: 98%;
+    top: 33px;
+    height: calc(100% - 33px);
+    overflow-y: auto;
+}
+
+.fa.rotate.fa-exchange {
+    margin-left: 3px;
+}
+
+
+/*Unnecessary-space*/
+
+.table>thead>tr>th[_ngcontent-c9] {
+    border-bottom: 0px;
+}
+
+td .btn-group.open .dropdown-toggle {
+    box-shadow: none;
+}
+
+.invoiceIsIndexed{
+    font-weight: bold;
+}
+tr:not(.bgBlue) td.invoiceIsIndexed,tr:not(.bgBlue):hover td.invoiceIsIndexed,
+tr:not(.bgBlue) td.invoiceIsIndexed .btn-group button.dropdown-toggle.status{
+    color:blue !important;
+}
+tr.bgBlue td.invoiceIsIndexed, tr.bgBlue td.invoiceIsIndexed, tr.bgBlue:hover td.invoiceIsIndexed,
+tr.bgBlue td.invoiceIsIndexed .btn-group button.dropdown-toggle.status{
+    color:white !important;
+}

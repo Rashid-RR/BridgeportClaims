@@ -1,0 +1,11 @@
+.expanded {
+    height: calc(100vh - 114px);
+    height: -moz-calc(100vh - 114px);
+    height: -webkit-calc(100vh - 114px);
+    overflow: hidden;/* 
+    overflow-y:auto; */
+  }
+  .breadcrumb {
+     background-color: transparent;
+ 
+  }

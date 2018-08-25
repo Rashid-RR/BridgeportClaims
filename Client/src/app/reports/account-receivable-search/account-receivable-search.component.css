@@ -1,0 +1,20 @@
+.bg-DarkGreen {
+    background: #084205;
+    color: #fff;
+}
+.bg-darkRed {
+    background: #992727;
+    color: #fff;
+}
+form{
+    background: #ffffff;
+}
+form .col-md-2.flex{
+    width:165px;
+    padding-right:2px;
+    padding-left:2px;
+}
+form .col-md-2.flex .form-group span{
+    display:flex;
+    flex-direction: row;
+}

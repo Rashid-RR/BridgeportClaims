@@ -1,0 +1,117 @@
+<button class="close-button" (click)="payment.closeModal()">
+  <i class="fa fa-times"></i>
+</button>
+<div class="row">
+  <div class="col-sm-12" id="accordion">
+    <div class="box bottom-0">
+      <div class="box-body payment-input">
+        <form role="form" autocomplete="off" [formGroup]="payment.form" autocapitalize="none" autocomplete="off" (keyup.enter)="payment.search()">
+          <div class="row" style="margin-left:2px;">
+            <div class="search-col">
+              <div class="form-group">
+                <label>Last Name</label>
+                <input class="form-control" type="text" formControlName="lastName" type="text" (focus)="submitted=false" id="add-script-lastname"
+                  #lastname>
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>First Name</label>
+                <input class="form-control" id="firstName" type="text" formControlName="firstName" type="text" (focus)="submitted=false">
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>Claim #</label>
+                <input class="form-control" id="claimNumber" type="text" formControlName="claimNumber" type="text" (focus)="submitted=false">
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>Rx Date</label>
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input class="form-control pull-right" type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'"
+                    inputs-mask focus-on>
+                </div>
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>Invoice #</label>
+                <input class="form-control" id="invoiceNumber" type="text" formControlName="invoiceNumber" type="text" (focus)="submitted=false">
+              </div>
+            </div>
+            <div class="search-col">
+              <div class="form-group">
+                <label>&nbsp;</label>
+                <br/>
+                <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="payment.search()">
+                  <i class="fa fa-search"></i> Search</button>
+                <button class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button" (click)="payment.clear()">
+                  <i class="fa fa-eraser"></i> Clear</button>
+                <button class="color-palette btn bg-DarkGreen btn-flat btn-small refresh-search" type="button" (click)="payment.search()">
+                  <i class="fa fa-refresh"></i> Refresh</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12" id="accordion">
+    <div class="box">
+      <div class="box-header bg-head-box">
+        <h4 class="box-title pull-left text-center panel-head">
+          <u>
+            <img src="assets/img/iconClaims.png"> Claim Results</u>
+        </h4>
+        <div class="box-tools pull-right">
+          <button class="btn white-border view-prescriptions btn-flat btn-small" type="button" style="margin-left:auto;margin-right:auto;"
+            (click)="payment.viewClaims()">
+            <i class="fa fa-eye" aria-hidden="true"></i> Show Scripts</button>
+        </div>
+      </div>
+      <div class="box-body claims payment-result panel-body-bg">
+        <div class="row claim-info" style="overflow:hidden;">
+          <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
+            <div class="table-responsive top-header scroll-y">
+              <table class="table no-margin table-striped">
+                <thead class="overflowable" id="fixed-thead">
+                  <tr>
+                    <th>Claim #</th>
+                    <th>Patient Name</th>
+                    <th>Payor</th>
+                    <th>Scripts</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div class="table-responsive table-body">
+              <table class="table no-margin table-striped" id="maintable">
+                <tbody>
+                  <tr *ngFor="let claim of payment.paymentService.claimsData" [id]="claim.claimId" class="clr-change claimRow" [class.bgBlue]="claim.selected"
+                    (click)="claim.selected=!claim.selected">
+                    <td>{{claim.claimNumber}}</td>
+                    <td>{{claim.patientName}}</td>
+                    <td>{{claim.payor}}</td>
+                    <td *ngIf="claim.numberOfPrescriptions==0">{{claim.numberOfPrescriptions}}</td>
+                    <td *ngIf="claim.numberOfPrescriptions>0">
+                      <a class="label label-info bg-darkblue" style="cursor: not-allowed;">
+                        {{claim.numberOfPrescriptions}}
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

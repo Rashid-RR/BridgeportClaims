@@ -1,0 +1,85 @@
+<div class="row claim-info">
+    <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
+        <!-- Table Header -->
+        <div class="table-responsive top-header">
+            <table class="table no-margin table-striped">
+                <thead class="overflowable" id="fixed-thead">
+                    <tr (tableSort)="uss.onSortColumn($event)" #myTable='table-sort'>
+                        <th>
+                            <span columnSort="patientName" [sort-table]="myTable">Patient Name</span>
+                        </th>
+                        <th>
+                            <span columnSort="claimNumber" [sort-table]="myTable">Claim #</span>
+                        </th>
+                        <th>
+                            <span columnSort="invoiceNumber" [sort-table]="myTable">Inv #</span>
+                        </th>
+                        <th>
+                            <span columnSort="invoiceDate" [sort-table]="myTable">Inv Date</span>
+                        </th>
+                        <th>
+                            <span columnSort="invAmt" [sort-table]="myTable">Inv Amt</span>
+                        </th>
+                        <th>
+                            <span columnSort="rxNumber" [sort-table]="myTable">Rx #</span>
+                        </th>
+                        <th>
+                            <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>
+                        </th>
+                        <th>
+                            <span columnSort="labelName" [sort-table]="myTable">Label Name</span>
+                        </th>
+                        <th>
+                            <span columnSort="insuranceCarrier" [sort-table]="myTable">Insurance Carrier</span>
+                        </th>
+                        <th>
+                            <span columnSort="adjustorName" [sort-table]="myTable">Adjustor Name</span>
+                        </th>
+                        <th>
+                            <span columnSort="adjustorPhone" [sort-table]="myTable">Adjustor Phone</span>
+                        </th>
+                        <th>Archive</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <!-- Table Body -->
+        <div class="table-responsive table-body">
+            <table class="table no-margin table-striped" id="maintable">
+                <tbody class="overflowable" #unpaidScriptTable tabindex="0">
+                    <tr *ngFor="let unpaidScript of uss.unpaidScriptList;">
+                        <td>{{unpaidScript.patientName}}</td>
+                        <td>{{unpaidScript.claimNumber}}</td>
+                        <td>{{unpaidScript.invoiceNumber}}</td>
+                        <td>{{unpaidScript.invoiceDate | date:"shortDate"}}</td>
+                        <td>{{unpaidScript.invAmt | currency:'USD':true:'1.2-2'}}</td>
+                        <td>{{unpaidScript.rxNumber}}</td>
+                        <td>{{unpaidScript.rxDate | date:"shortDate"}}</td>
+                        <td>{{unpaidScript.labelName}}</td>
+                        <td>{{unpaidScript.insuranceCarrier}}</td>
+                        <td>{{unpaidScript.adjustorName}}</td>
+                        <td>{{unpaidScript.adjustorPhone}}</td>
+                        <td>
+                            <span *ngIf="!uss.isArchived">
+                                <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="archive(unpaidScript)">
+                                    <span class="glyphicon glyphicon-trash"></span> Archive
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="btn-group pagination-row"><!-- [style.top.px]="docHeight">-->
+            <button type="button" class="btn btn-default  btn-md" [disabled]="uss.data.page<=1" (click)="prev()">Prev</button>
+            <button type="button" class="btn btn-default  selected btn-md"> {{uss.data.page}} of {{uss.totalPages}}</button>
+            <button type="button" class="btn btn-default  btn-md" [disabled]="uss.end" (click)="next()">Next</button>
+            <div class="input-group" style="width:134px">
+                <input class="form-control" [attr.placeholder]="uss.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)" (keyup.enter)="goto()">
+                <div class="input-group-btn">
+                    <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

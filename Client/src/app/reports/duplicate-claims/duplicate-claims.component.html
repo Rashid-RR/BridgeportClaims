@@ -1,0 +1,32 @@
+<div class="row search">
+  <div class="col-sm-12" id="accordion">
+      <div class="box no-border box-solid" style="padding: 0px;margin-bottom:0rem;">
+          <div class="box-header bg-head-box" style="border-bottom:2px solid white;padding:12px;padding-left: 10px;display:none;">
+              <a class="blade-title panel-head" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                  <h4 class="panel-title" data-toggle="tooltip" title="Click to toggle search and filter">
+                      <span class="left5 right5 white">Search and Filter</span>
+                      <i class="fa fa-filter white" aria-hidden="true"></i>
+                  </h4>
+              </a>
+          </div>
+          <div class="box-body account-receivable-results" style="padding: 0px 15px;">
+              <app-duplicate-claim-search class="panel-collapse collapse out" id="collapseOne"></app-duplicate-claim-search>
+              <div class="row bg-head-box" style="padding-top: 10px;padding-left: 10px;padding-right: 15px;">
+                  <span class="blade-title panel-head">
+                      <i class="fa fa-book" aria-hidden="true"></i> Duplicate Claim Entries
+                  </span>
+                  <span class="total pull-right">
+                        <span *ngIf="reportloader.pageStart  && reportloader.duplicateClaims.length==reportloader.duplicateClaims.length"
+                            style="margin-right:100px;"> {{reportloader.pageStart+ " to "+reportloader.pageEnd}}</span>
+                        <span *ngIf="reportloader.duplicateClaims.length>0">
+                            <span style="font-size:13pt">{{reportloader.totalRowCount}}</span> Record{{reportloader.totalRowCount>1 ? 's':''}} found</span>
+                    </span>
+              </div>
+              <app-duplicate-claim-list></app-duplicate-claim-list>
+          </div>
+          <div class="overlay" *ngIf="reportloader.loading" style="text-align:center;">
+            <img src="assets/1.gif">
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+    <div class="table-responsive top-header scroll-y">
+      <table class="table no-margin table-striped">
+        <thead class="overflowable">
+          <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'  [class.rows6]="!allowed">
+            <th>
+              <span columnSort="messageText" [sort-table]="myTable"> Message</span>
+            </th>
+            <th>
+              <span columnSort="notificationType" [sort-table]="myTable">Type</span>
+            </th>
+            <th>
+              &nbsp;
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="saveButtonClick()">
+      <div class="table-responsive table-body scroll-y">
+        <table class="table no-margin table-striped" id="maintable">
+          <tbody class="overflowable" #paymentsTable tabindex="0">
+            <ng-container *ngIf="loadingNotification">
+              <div class="loader" style="align-self: center;  margin-top: 30px;">
+                <a>
+                    <img src="assets/img/Spinner.gif">
+                  </a>
+              </div>
+          </ng-container>
+            <tr *ngFor="let n of notifications">
+              <ng-container *ngIf="editingNotificationId==n.notificationId">
+                <td>{{n.messageText}}</td>
+                <td>{{n.notificationType}}</td>
+                <td> 
+                    <textarea class="form-control"  name="letterName" formControlName="letterName"
+                      (focus)="submitted=false" placeholder="Letter Name"></textarea>
+                  <button type="button" class="btn  bg-darkRed btn-xs" (click)="saveNotification(n)" id="saveNotificationButton">
+                      <span class="glyphicon glyphicon-edit"></span> Save
+                  </button>
+                  <button type="button" class="btn bg-darkblue btn-xs" (click)="cancel()">
+                      <span class="fa fa-chevron-left"></span> Cancel
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="editingNotificationId!=n.notificationId">
+                <td>{{n.messageText}}</td>
+                <td>{{n.notificationType}}</td> 
+                <td >
+                  <button type="button" class="btn  bg-darkRed btn-xs" (click)="update(n)">
+                      <span class="glyphicon glyphicon-edit"></span> Set Letter Name
+                  </button> 
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>

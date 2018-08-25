@@ -1,0 +1,35 @@
+<form role="form" [formGroup]="firewallService.form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="firewallService.save()">
+    <div class="row search-container">       
+        <div class="col-md-2 col-sm-3" style="padding-left:15px">
+            <div class="form-group">
+                <label>
+                    Rule Name<span> (Alphanumeric only - no spaces or special characters)</span>        
+                </label>
+                <input class="form-control" id="ruleName"  formControlName="ruleName"
+                    autofocus>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-3">
+            <div class="form-group">
+                <label>Start IP Address</label>
+                <input class="form-control" id="startIpAddress"  formControlName="startIpAddress" data-inputmask="'alias': 'ip'"  data-mask>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-3">
+            <div class="form-group">
+                <label>End IP Address</label>
+                <input class="form-control" id="endIpAddress"  formControlName="endIpAddress" data-inputmask="'alias': 'ip'"  data-mask>
+            </div>
+        </div>        
+        <div class="col-sm-4 col-md-3">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <br/>
+                <button class="btn bg-darkRed btn-flat btn-small" type="button" (click)="firewallService.save()">
+                    <i class="fa fa-search" aria-hidden="true"></i> Save</button>
+                <button class="btn bg-darkblue btn-flat btn-small" type="button" (click)="clear()">
+                    <i class="fa fa-eraser" aria-hidden="true"></i> Clear</button> 
+            </div>
+        </div>
+    </div>
+</form>

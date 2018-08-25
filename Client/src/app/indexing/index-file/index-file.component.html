@@ -1,0 +1,137 @@
+<div class="box">
+    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="box-header bg-head-box">
+        <h2 class="box-title text-center panel-head">
+            New Indexing
+        </h2>
+    </a>
+    <div class="box-body" style="padding-bottom:0px;" id="collapseOne" class="panel-collapse collapse in">
+        <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
+            <div class="row" style="margin-left:10px;">
+                <div class="width10">
+                    <div class="form-group">
+                        <label>Type
+                            <span color="red">*</span>
+                        </label>
+                        <select class="form-control" (focus)="submitted=false" formControlName="documentTypeId">
+                            <option selected value='' disabled>Select Image Type</option>
+                            <option *ngFor="let dt of ds.documentTypesList" [value]="dt.documentTypeId">{{dt.typeName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class=" width10">
+                    <div class="form-group">
+                        <label>Rx Date</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input class="form-control pull-right" formControlName="rxDate" id="rxDate" name="rxDate" type="text" (focus)="submitted=false"
+                                data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+                        </div>
+                    </div>
+                </div>
+                <div class=" width10">
+                    <div class="form-group">
+                        <label>Rx Number</label>
+                        <input class="form-control" formControlName="rxNumber" type="text" (focus)="submitted=false">
+                    </div>
+                </div>
+                <div class=" width10">
+                    <div class="form-group">
+                        <label>Invoice Number</label>
+                        <input class="form-control" formControlName="invoiceNumber" type="text" (focus)="submitted=false">
+                    </div>
+                </div>
+                <div class=" width10">
+                    <div class="form-group">
+                        <label>Injury Date</label>
+                        <div class="input-group date">
+                            <div class="input-group-addon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                            <input class="form-control pull-right" formControlName="injuryDate" id="injuryDate" name="injuryDate" type="text" (focus)="submitted=false"
+                                data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+                        </div>
+                    </div>
+                </div>
+                <div class=" width10">
+                    <div class="form-group">
+                        <label>Attorney Name</label>
+                        <input class="form-control" formControlName="attorneyName" type="text" (focus)="submitted=false">
+                    </div>
+                </div>
+                <div class="width30 flex">
+                    <div class="form-group">
+                        <label>&nbsp;</label>
+                        <span>
+                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="!linkClaim" type="button" (click)="linkClaim=true">
+                                <i class="fa fa-plus-circle"></i>Link to Claim</button>
+                            <button class="color-palette btn bg-DarkGreen btn-flat  btn-md" *ngIf="linkClaim" type="button" (click)="linkClaim=false">
+                                <i class="fa fa-ban"></i> Unlink Claim</button>
+                            <button class="color-palette btn bg-darkblue btn-flat  btn-md" type="button" (click)="cancel()">
+                                <i class="fa fa-chevron-left"></i>Cancel</button>
+                            <button class="color-palette btn bg-darkRed btn-flat  btn-md" type="button" (click)="archive()">
+                                <i class="fa fa-trash"></i>Archive</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="linkClaim">
+                <div class="row" style="margin-left:10px;">
+                    <div class="col-md-3" style="padding-left:2.5px;width: 26%;">
+                        <div class="form-group">
+                            <label>Type Last Name, First Name or Claim Number</label>
+                            <div class="input-group">
+                                <div class="input-group-addon commonCheckBox">
+                                    <input type="checkbox" name="check" id="exactMatchCheckBox" [checked]="ds.exactMatch" (change)="checkMatch($event)" #inv>
+                                    <label for="exactMatchCheckBox" class="match"></label>
+                                    <label for="exactMatchCheckBox">Exact Match</label>
+                                </div>
+                                <input class="form-control" [(ngModel)]="ds.searchText" [ngModelOptions]="{standalone: true}" [z-index]="'99999999'" auto-complete
+                                    name="searchText" id="searchText" [source]="ds.autoCompleteClaim" [service]="1" [method]="1"
+                                    min-chars="2" list-formatter="lastName , firstName - claimNumber - groupNumber" [http-method]="'post'"
+                                    [exactMatch]="ds.exactMatch" [autocomplete-dropdown-event-emitter]="showDropDown" [no-match-found-text]="'No Claim Found'"
+                                    (keyup)="lastInput($event)" (valueChanged)="claimSelected($event)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Last Name</label>
+                            <input class="form-control" readonly formControlName="lastName" type="text" (focus)="submitted=false">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input class="form-control" readonly formControlName="firstName" type="text" (focus)="submitted=false">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Claim #</label>
+                            <input class="form-control" readonly formControlName="claimNumber" type="text" (focus)="submitted=false">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Group #</label>
+                            <input class="form-control" readonly formControlName="groupNumber" type="text" (focus)="submitted=false">
+                        </div>
+                    </div>
+                    <div class="col-md-2 flex">
+                        <div class="form-group">
+                            <label>&nbsp;</label>
+                            <span>
+                                <button class="color-palette btn btn-block btn-flat bg-darkRed btn-md" type="button" (click)="save()">Save</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
+    </div>
+    <div class="overlay" *ngIf="ds.loading">
+        <img src="assets/1.gif">
+    </div>
+</div>

@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <ol class="breadcrumb pull-left">
+                <li>
+                    <a routerLink="/">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="[]">
+                        Login
+                    </a>
+                </li>
+            </ol>
+        </section>
+    </div>
+</div>
+<div class="box no-border">
+    <div class="box-body">
+        <div class="row">
+            <div class="col-xs-10 col-sm-6 col-md-6 col-lg-6 col-xs-offset-1 col-sm-offset-3 col-md-offset-3 col-lg-offset-3 ">
+                <div class="login-logo">
+                    <img [src]="'assets/logo/logo_and_text.png'" style="width:300px; padding-top: 3px;" class="img-square">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="box center-form no-border">
+                    <div class="box-body">
+                        <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
+                            <h3>Please sign in</h3>
+                            <div class="form-group">
+                                <input type="text" name="email" class="form-control" placeholder="Email address" formControlName="email" (focus)="submitted=false"
+                                    required focus-on>
+                                <p class="text-danger form-control-static" *ngIf="form.get('email').value!='' && form.get('email').errors && submitted">Incorrect email</p>
+                                <p class="text-danger form-control-static" *ngIf="form.get('email').value =='' && submitted">Email is required</p>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control bottom" placeholder="Password" formControlName="password" required
+                                    (focus)="submitted=false">
+                                <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email
+                                    or password'}}</p>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-6" style="display:flex;flex-direction:row;">
+                                    <div style="width:40px" class="commonCheckBox">
+                                        <input type="checkbox" name="check" value="None" id="checkbox-h" #inv value="true" formControlName="rememberMe">
+                                        <label for="checkbox-h"></label>
+                                    </div>
+                                    <div style="width:calc(100% - 41px);font-weight:510;line-height:15px;cursor:pointer;" (click)="inv.click()">Remember me</div>
+                                </div>
+                                <span class="help-block col-sm-6">
+                                    <a [routerLink]="'/recover-lost-password'" class="pull-right">Forgotten password?</a>
+                                </span>
+                            </div>
+                            <button class="btn btn-primary btn-block" type="submit" (click)="login()">Sign in</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" *ngIf="submitted" style="text-align:center;">
+        <img src="assets/1.gif">
+        <br/>
+    </div>
+</div>

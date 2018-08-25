@@ -1,0 +1,9 @@
+app-confirm-email,.wrapper{    
+    height:100vh !important;
+    background: #d2d6de;
+    /*background: -webkit-linear-gradient(left, purple, brown);
+    background: -moz-linear-gradient(left, purple, brown);
+    background: -o-linear-gradient(left, purple, brown);
+    background: linear-gradient(to right, purple, brown); */
+    /*Safari 5.1-6*/ /*Opera 11.1-12*/ /*Fx 3.6-15*/ /*Standard*/
+}

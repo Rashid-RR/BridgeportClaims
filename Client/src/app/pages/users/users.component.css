@@ -1,0 +1,289 @@
+/*
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #4caf50;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4caf50;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(22px);
+}
+
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.active-switch {
+  margin: 50px auto;
+  position: relative;
+}
+
+.active-switch label {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: block;
+}
+
+.active-switch input {
+  top: 0; 
+  right: 0; 
+  bottom: 0; 
+  left: 0;
+  opacity: 0;
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}*/
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 50%;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+}
+.btn-circle.btn-xl {
+  width: 70px;
+  height: 70px;
+  padding: 10px 16px;
+  font-size: 24px;
+  line-height: 1.33;
+}
+/* CSS used here will be applied after bootstrap.css */
+
+/* CSS used here will be applied after bootstrap.css */
+
+.demo {
+  padding:0px;
+  color:green;
+}
+
+.demo label{
+ top:3px; left:15px;
+ margin-right:30px;     
+ position:relative;     
+}  
+  
+
+input.faChkRnd, input.faChkSqr {
+  visibility: hidden;
+}
+
+input.faChkRnd:checked:after, input.faChkRnd:after,
+input.faChkSqr:checked:after, input.faChkSqr:after {
+  visibility: visible;
+  font-family: FontAwesome;
+  font-size:30px;height: 20px; width: 20px;
+  position: relative;
+  top: -3px;
+  left: 0px;
+  background-color:#FFF;
+  display: inline-block;
+}
+
+input.faChkRnd:checked:after {
+  content: '\f058';
+  background: transparent;
+}
+
+input.faChkRnd:after {
+  content: '\f10c';
+  background: transparent;
+}
+
+input.faChkSqr:checked:after {
+  content: '\f14a';
+}
+
+input.faChkSqr:after {
+  content: '\f096';
+}
+/* ROW COLOR CHANGE*/
+
+tr:nth-of-type(odd) {
+  background: #fbeede !important;
+}
+
+tr:nth-of-type(even) {
+  background: #fff8ef !important;
+}
+ 
+table#dataTables-example tbody tr td.center-in {
+  text-align: center;  
+}
+
+/**
+ * Checkbox Five
+ */
+.checkboxFive {
+	width: 25px;
+	position: relative;
+}
+/**
+ * Create the box for the checkbox
+ */
+ .checkboxFive div {
+	cursor: pointer;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	top: 0;
+  	left: 0;
+	background: #eee;
+	border:1px solid #ddd;
+}
+
+/**
+ * Display the tick inside the checkbox
+ */
+ .checkboxFive div:after {
+	opacity: 0.0;
+	content: '';
+	position: absolute;
+	width: 17px;
+	height: 8px;
+	background: transparent;
+	top: 6px;
+	left: 3px;
+	border: 3px solid #333;
+	border-top: none;
+	border-right: none;
+
+	transform: rotate(-45deg);
+}
+
+/**
+ * Create the hover event of the tick
+ */
+ .checkboxFive div:hover::after {
+	opacity: 0.5;
+}
+
+/**
+ * Create the checkbox state for the tick
+ */
+.checkboxFive input[type=checkbox]:checked + div:after {
+	opacity: 1;
+}
+
+/**
+ * Checkbox Six
+ */
+ .checkboxSix {
+  width: 25px;
+  margin-top: 5px;
+  margin-left: 45px;
+	position: relative;
+}
+/**
+ * Create the box for the checkbox
+ */
+ .checkboxSix label {
+	cursor: pointer;
+	position: absolute;
+	width: 25px;
+	height: 25px;
+	top: 0;
+  	left: 0;
+	background: #eee;
+	border:1px solid #ddd;
+}
+
+/**
+ * Display the tick inside the checkbox
+ */
+ .checkboxSix label:after {
+	opacity: 0.0;
+	content: '';
+	position: absolute;
+	width: 17px;
+	height: 8px;
+	background: transparent;
+	top: 6px;
+	left: 3px;
+	border: 3px solid #333;
+	border-top: none;
+	border-right: none;
+
+	transform: rotate(-45deg);
+}
+
+/**
+ * Create the hover event of the tick
+ */
+ .checkboxSix label:hover::after {
+	opacity: 0.5;
+}
+
+/**
+ * Create the checkbox state for the tick
+ */
+.checkboxSix input[type=checkbox]:checked + label:after {
+	opacity: 1;
+}
+
+.left5 {
+  margin-left: 5px;
+}
+
+.right5 {
+  margin-right: 15px;
+}
+
+.white {
+  color: #ffffff;
+}

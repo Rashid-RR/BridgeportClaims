@@ -1,0 +1,99 @@
+<form role="form">
+    <div class="row search-container">
+        <div class="col-xs-6 col-md-3 flex">
+            <div class="form-group" style="margin-right:4px;">
+                <label>Start Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input class="form-control pull-right" id="startDate" name="startDate" type="text" [(ngModel)]="startDate" (focus)="submitted=false"
+                        data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>End Date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input class="form-control pull-right" id="endDate" name="endDate" type="text" [(ngModel)]="endDate" (focus)="submitted=false"
+                        data-inputmask="'alias': 'mm/dd/yyyy'" data-mask focus-on>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6  flexb">
+            <span class="flex red">
+                <label>&nbsp;</label>
+                <input type="radio" id="f-option1" name="selector" (click)="setClosed($event,false)" [checked]="!resolved" />
+                <label class="check" for="f-option1"></label>
+                <label for="f-option1" class="form-control border0 text-right">Unresolved</label>
+
+            </span>
+            <span class="flex green">
+                <label>&nbsp;</label>
+                <input type="radio" id="f-option" name="selector" (click)="setClosed($event,true)" [checked]="resolved" />
+                <label class="check" for="f-option"></label>
+                <label for="f-option" class="form-control border0 text-right">Resolved</label>
+
+            </span>
+        </div>
+        <div class="col-xs-12 field field-lg field-lgr">
+            <div class="form-group">
+                <label>Owner name</label>
+                <select class="form-control" name="owner" [(ngModel)]="ownerId" (focus)="submitted=false">
+                    <option value="">All Owners</option>
+                    <option *ngFor="let e of ds.owners" [value]="e.ownerId">{{e.owner}}</option>
+                </select>
+            </div>
+            <div class="form-group" style="min-width:165px;width:165px;margin: 0px 5px;">
+                <label>Episode Category</label>
+                <select class="form-control" name="episodeCategoryId" [(ngModel)]="episodeCategoryId" (focus)="submitted=false">
+                    <option value="">All</option>
+                    <option value="1">Call</option>
+                    <option value="2">Image</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Episode Type</label>
+                <select class="form-control" name="episodeNote" [(ngModel)]="episodeTypeId">
+                    <option value="">All Episode Types</option>
+                    <option *ngFor="let e of ds.episodeTypes" [value]="e.episodeTypeId">{{e.episodeTypeName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-6 field flexb" style="padding:0px;">
+            <div class="form-group" style="max-width:95px;margin-right:0px">
+                <label>
+                    <br>
+                </label>
+                <div class="input-group date" style="border-right: 1px solid #ccc;border-left: 1px solid #ccc;">
+                    <span class="input-group-addon" style="padding:6px 0px;">
+                        <div class="commonCheckBox flex">
+                            <input class="archivedCheck" name="check" type="checkbox" id="archivedCheck" (change)="filter($event)">
+                            <label for="archivedCheck" class="archived"></label>
+                            <label for="archivedCheck">Archived</label>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 field field-lg">
+            <div class="form-group">
+                <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="search()">
+                    <i class="fa fa-search" aria-hidden="true"></i> Search</button> &nbsp;
+                <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="reset()">
+                    <i class="fa fa-eraser" aria-hidden="true"></i> Clear</button> &nbsp;
+                <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="refresh()">
+                    <i class="fa fa-refresh"></i> Refresh</button> &nbsp;
+                <button class="color-palette btn bg-darkRed btn-flat btn-small" type="button" (click)="episode()">
+                    <i class="fa fa-plus" aria-hidden="true"></i> Add Episode</button>
+            </div>
+        </div>
+    </div>
+</form>
+<swal #episodeSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="payment-modal" [focusCancel]="false"
+    title="Episode Entry">
+    <app-new-episode *swalPartial [episode]="true">
+    </app-new-episode>
+    <swal>

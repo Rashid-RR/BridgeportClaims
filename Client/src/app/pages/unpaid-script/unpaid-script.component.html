@@ -1,0 +1,58 @@
+<div class="row">
+    <div class="col-md-12">
+        <section class="content-header">
+            <ol class="breadcrumb pull-left">
+                <li>
+                    <a routerLink="/">
+                        <i class="fa fa-home"></i> Home
+                    </a>
+                </li>
+                <li class="active">
+                    <a [routerLink]="[]">
+                        Unpaid Scripts
+                    </a>
+                </li>
+            </ol>
+        </section>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Unpaid Scripts</h3>
+            </div>
+            <div class="box-body">
+                <!-- Input Form -->
+                <div class="row search">
+                    <div class="col-sm-12" id="accordion">
+                        <app-unpaid-script-search></app-unpaid-script-search>
+                    </div>
+                </div>
+                <!-- Diary Results -->
+                <div class="row">
+                    <div class="col-sm-12" id="accordion">
+                        <div class="box">
+                            <div class="box-header bg-head-box">
+                                <span class="blade-title panel-head">
+                                    <i class="fa fa-money" aria-hidden="true"></i> Unpaid Scripts
+                                </span>
+                                <span class="total pull-right">
+                                    <span *ngIf="us.pageStart" style="margin-right:100px;"> {{us.pageStart+ " to "+us.pageEnd}}</span>
+                                    <span *ngIf="us.unpaidScriptList.length>0">
+                                        <span style="font-size:13pt">{{us.totalRowCount}}</span> Record{{us.totalRowCount>1 ? 's':''}} found</span>
+                                </span>
+                            </div>
+                            <div class="box-body unpaid-script-results">
+                                <app-unpaid-script-result></app-unpaid-script-result>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="overlay" *ngIf="us.loading">
+                <img src="assets/1.gif">
+            </div>
+        </div>
+    </div>
+</div>

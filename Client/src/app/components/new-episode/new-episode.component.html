@@ -1,0 +1,81 @@
+<button class="close-button" (click)="closeModal()">
+  <i class="fa fa-times"></i>
+</button>
+<form role="form" autocomplete="off" [formGroup]="episode ? es.episodeForm:claimManager.episodeForm" autocapitalize="none"
+  autocomplete="off">
+  <div class="row invoice-info">
+    <div class="col-sm-12 invoice-col">
+      <h2>Episode Entry</h2>
+    </div>
+  </div>
+  <div class="row invoice-info text-left">
+    <div class="col-sm-6 invoice-col">
+      <h5>&nbsp;</h5>
+      <div class="form-group">
+        <label id="noteTextLabel">Episode Text</label>
+        <textarea formControlName="episodeText" class="form-control" id="note" rows="5" style="resize: vertical;height: 186px;"></textarea>
+      </div>
+    </div>
+    <div class="col-sm-6 invoice-col">
+      <h5>
+        <u>Optional Information</u>
+      </h5>
+      <ng-container *ngIf="episode">
+        <div class="form-group">
+          <label id="episodeNoteTypeLabel">Episode type</label>
+          <select class="form-control" id="episodeTypeId" formControlName="episodeTypeId">
+            <option *ngFor="let note of  es.EpisodeNoteTypes" [value]="note.episodeTypeId"> {{note.episodeTypeName}} </option>
+          </select>
+        </div>
+        <!-- <div class="form-group">
+          <label id="pharmacyName">Pharmacy Name</label>
+          <input class="form-control" type="text" [z-index]="'99999999'" (valueChanged)="pharmacySelected($event)" auto-complete [(ngModel)]="es.pharmacyName"
+            name="pharmacyName" [source]="autoCompletePharmacyName" [service]="1" [method]="1" min-chars="2" list-formatter="pharmacyName"
+            [http-method]="'post'" [no-match-found-text]="'No Pharmacy Names Found'" [ngModelOptions]="{standalone: true}">
+        </div> -->
+        <div class="form-group" style="max-width:275px;">
+          <label>Pharmacy</label>
+          <select class="form-control select2" id="ePayorsSelection" data-placeholder="Start typing to search pharmacies..."
+            size="1" style="width: 100%;">
+          </select>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!episode">
+        <div class="form-group">
+          <label id="episodeNoteTypeLabel">Episode type</label>
+          <select class="form-control" id="episodeTypeId" formControlName="episodeTypeId">
+            <option *ngFor="let note of claimManager.EpisodeNoteTypes" [value]="note.episodeTypeId"> {{note.episodeTypeName}} </option>
+          </select>
+        </div>
+        <div class="form-group" style="max-width:275px;">
+          <label>Pharmacy</label>
+          <select class="form-control select2" id="ePayorsSelection" data-placeholder="Start typing to search pharmacies..."
+            size="1" style="width: 100%;">
+          </select>
+        </div>
+        <!-- <div class="form-group">
+          <label id="pharmacyName">Pharmacy Name</label>
+          <input class="form-control" type="text" [z-index]="'99999999'" (valueChanged)="pharmacySelected($event)" auto-complete [(ngModel)]="claimManager.pharmacyName"
+            name="pharmacyName" [source]="autoCompletePharmacyName" [service]="1" [method]="1" min-chars="2" list-formatter="pharmacyName"
+            [http-method]="'post'" [no-match-found-text]="'No Pharmacy Names Found'" [ngModelOptions]="{standalone: true}">
+        </div> -->
+      </ng-container>
+      <div class="form-group">
+        <label id="rxNumber">Rx Number</label>
+        <input class="form-control" formControlName="rxNumber" type="text">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="form-group">
+        <button class="btn bg-darkRed btn-flat btn-small search-claims" type="button" (click)="episode ? es.saveEpisode():claimManager.saveEpisode()">
+          <i class="fa fa-search"></i> Save
+        </button>
+        <button class="btn bg-darkblue btn-flat btn-small clear-inputs" type="button" (click)="closeModal()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

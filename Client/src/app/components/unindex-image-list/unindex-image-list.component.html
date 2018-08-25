@@ -1,0 +1,85 @@
+<div class="row">
+  <div class="col-sm-12 expanded" style="overflow:hidden;">
+    <div class="table-responsive top-header" *ngIf="ds.display=='list'">
+      <ul class="products-list product-list-in-box">
+        <li class="item row">
+          <div class="col-md-1">
+            &nbsp;
+          </div>
+          <div class="col-md-2">
+            Name
+          </div>
+          <div class="col-md-1">
+            Size
+          </div>
+          <div class="col-md-2">
+            Created
+          </div>
+          <div class="col-md-2">
+            Last Accessed
+          </div>
+          <div class="col-md-2">
+            Last Write
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="table-responsive table-body" *ngIf="ds.display=='list'">
+      <ul class="products-list product-list-in-box">
+        <li class="item row" *ngFor="let file of ds.documentList" [class.edited]="file.edited" [class.added]="file.added"
+          [class.deleted]="file.deleted">
+          <div class="col-md-1"  (click)="openFile(file)">
+            <i class="fa fa-file-pdf-o text-red"></i>
+          </div>
+          <div class="col-md-2"  (click)="openFile(file)">
+            {{file.fileName}}
+          </div>
+          <div class="col-md-1"  (click)="openFile(file)">
+            {{file.fileSize}}
+          </div>
+          <div class="col-md-2"  (click)="openFile(file)">
+            {{file.creationTimeLocal | date : 'mediumDate'}} {{file.creationTimeLocal | date : 'mediumTime'}}
+          </div>
+          <div class="col-md-2"  (click)="openFile(file)">
+            {{file.lastAccessTimeLocal | date : 'mediumDate'}} {{file.lastAccessTimeLocal | date : 'mediumTime'}}
+          </div>
+          <div class="col-md-2"  (click)="openFile(file)">
+            {{file.lastWriteTimeLocal | date : 'mediumDate'}} {{file.lastWriteTimeLocal | date : 'mediumTime'}}
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="archive(file)">
+              <span class="glyphicon glyphicon-trash"></span> Archive
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="table-responsive table-body grid" *ngIf="ds.display=='grid'">
+      <div class="row">
+        <div class="col-md-12 flex-row">
+          <div class="file" *ngFor="let file of ds.documentList" [title]="file.fileSize" (click)="openFile(file)" [class.edited]="file.edited"
+            [class.added]="file.added" [class.deleted]="file.deleted" (onBeforeMenuOpen)="onBefore($event,file)" [sh-context]="items" [sh-data-context]="dataCtxOne">
+            <div class="card-body">
+              <i class="fa fa-3x text-red fa-file-pdf-o"></i>
+            </div>
+            <div class="caption">
+              {{file.fileName}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-group pagination-row">
+      <button type="button" class="btn btn-default  btn-md" [disabled]="ds.data.page<=1" (click)="prev()">Prev</button>
+      <button type="button" class="btn btn-default  selected btn-md" style="width:76px"> {{ds.data.page}} of {{ds.totalPages}}</button>
+      <button type="button" class="btn btn-default  btn-md" [disabled]="ds.end" (click)="next()">Next</button>
+      <div class="input-group" style="width:164px">
+        <input class="form-control" [attr.placeholder]="ds.data.page" [(ngModel)]="goToPage" [ngModelOptions]="{standalone: true}" (keypress)="keyPress($event)" (keyup.enter)="goto()">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

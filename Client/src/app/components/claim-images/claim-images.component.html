@@ -1,0 +1,149 @@
+<div class="row invoice-info">
+  <div class="col-sm-12 invoice-col">
+    <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
+      <div class="table-responsive">
+        <table class="table no-margin table-striped">
+          <thead class="overflowable">
+            <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'>
+              <th>
+                &nbsp;
+              </th>
+              <th>
+                <span columnSort="created" [sort-table]="myTable">
+                  Created
+                </span>
+              </th>
+              <th>
+                <span columnSort="type" [sort-table]="myTable">
+                  Type
+                </span>
+              </th>
+              <th>
+                <span columnSort="rxDate" [sort-table]="myTable">
+                  Rx Date
+                </span>
+              </th>
+              <th>
+                <span columnSort="rxNumber" [sort-table]="myTable">
+                  Rx Number
+                </span>
+              </th>
+              <th>
+                <span columnSort="invoiceNumber" [sort-table]="myTable">
+                  Invoice Number
+                </span>
+              </th>
+              <th>
+                <span columnSort="injuryDate" [sort-table]="myTable">
+                  Injury Date
+                </span>
+              </th>
+              <th>
+                <span columnSort="attorneyName" [sort-table]="myTable">
+                 Attoney Name
+                </span>
+              </th>
+              <th>
+                <span columnSort="fileName" [sort-table]="myTable">
+                  File
+                </span>
+              </th>
+              <th>
+                  <span columnSort="noteCount" [sort-table]="myTable">Note Count</span>
+              </th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="claimManager.loadingImage">
+              <div class="loader" style="align-self: center;margin-top: 40px;">
+                <a>
+                  <img src="assets/img/Spinner.gif">
+                </a>
+              </div>
+            </ng-container>
+            <tr *ngFor="let image of claimManager.selectedClaim.images">
+              <ng-container *ngIf="editingDocumentId==image.documentId">
+                  <td (click)="openAttachment(image)">
+                      <i class="fa fa-file-pdf-o text-red"></i>
+                    </td>
+                    <td>{{image.created | date:"shortDate"}}</td>
+                <td>
+                  <select class="form-control" formControlName="documentTypeId">
+                    <option *ngFor="let o of claimManager.selectedClaim.documentTypes" [value]="o.documentTypeId">{{o.typeName}}</option>
+                  </select>
+                  &nbsp;
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input class="form-control" name="rxDate" formControlName="rxDate" (focus)="submitted=false" id="datepicker" inputs-inputmask="'alias': 'mm/dd/yyyy'"
+                      inputs-mask>
+                  </div>
+                </td>
+                <td>
+                  <div class="input-group">
+                    <input class="form-control" name="rxNumber" formControlName="rxNumber">
+                  </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                      <input class="form-control" name="invoiceNumber" formControlName="invoiceNumber">
+                    </div>
+                  </td>
+                  <td>
+                      <div class="input-group">
+                        <input class="form-control" name="injuryDate"  id="injuryDate" formControlName="injuryDate">
+                      </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                          <input class="form-control" name="attorneyName" formControlName="attorneyName">
+                        </div>
+                      </td>
+                <td>&nbsp;</td>
+                <td>
+                  <button type="button" class="btn btn-primary btn-xs" (click)="saveImage(image)" id="saveImageButton">
+                    <span class="glyphicon glyphicon-edit"></span> Save
+                  </button>
+                  <button type="button" class="btn btn-danger btn-xs" (click)="cancel()">
+                    <span class="glyphicon glyphicon-trash"></span> Cancel
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container *ngIf="editingDocumentId!=image.documentId">
+                <td (click)="openAttachment(image)">
+                  <i class="fa fa-file-pdf-o text-red"></i>
+                </td>
+                <td (click)="openAttachment(image)">{{image.created | date:"shortDate"}}</td>
+                <td (click)="openAttachment(image)">{{image.type}}</td>
+                <td (click)="openAttachment(image)">{{image.rxDate | date:"shortDate"}}</td>
+                <td (click)="openAttachment(image)">{{image.rxNumber}}</td>
+                <td (click)="openAttachment(image)">{{image.invoiceNumber}}</td>
+                <td (click)="openAttachment(image)">{{image.injuryDate | date:"shortDate"}}</td>
+                <td (click)="openAttachment(image)">{{image.attorneyName}}</td>
+                <td (click)="openAttachment(image)" style="color:rgb(97, 157, 180)">
+                  {{image.fileName}}
+                </td>
+                <td>
+                    <a class="label label-info bg-vdarkgrey" *ngIf="image.noteCount && image.noteCount>0" (click)="showNoteWindow(image)">{{image.noteCount || 0}}
+                    </a>
+                    <span *ngIf="!image.noteCount || image.noteCount==0">
+                        0
+                    </span>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary btn-xs" (click)="update(image)">
+                    <span class="glyphicon glyphicon-edit"></span> Edit
+                  </button>
+                  <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="reindex(image)">
+                    <span class="glyphicon glyphicon-trash"></span> Reindex
+                  </button>
+                </td>
+              </ng-container>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+  </div>
+</div>
