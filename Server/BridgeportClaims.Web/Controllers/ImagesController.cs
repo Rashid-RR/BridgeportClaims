@@ -6,7 +6,9 @@ using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.Repositories;
 using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 using NLog;
+using ServiceStack;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -55,8 +57,18 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                     throw new ArgumentNullException(nameof(model));
-                _claimImageProvider.Value.UpdateDocumentIndex(model.DocumentId,
-                    model.RxDate.ToNullableFormattedDateTime(), model.RxNumber, model.DocumentTypeId);
+                var docId = model.DocumentId;
+                var claimId = model.ClaimId;
+                var documentTypeId = model.DocumentTypeId;
+                var theRxDate = model.RxDate?.ToNullableFormattedDateTime();
+                var rxNumber = model.RxNumber;
+                var invoiceNumber = model.InvoiceNumber;
+                var injuryDate = model.InjuryDate;
+                var attorneyName = model.AttorneyDate;
+                var indexedByUserId = User.Identity.GetUserId();
+                var rxDate = model.RxDate;
+                _claimImageProvider.Value.UpdateDocumentIndex(docId, claimId, documentTypeId, theRxDate, rxNumber,
+                    invoiceNumber, injuryDate, attorneyName, indexedByUserId);
                 return Ok(new {message = "The image was updated successfully."});
             }
             catch (Exception ex)

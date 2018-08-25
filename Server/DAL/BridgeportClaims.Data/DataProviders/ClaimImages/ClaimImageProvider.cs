@@ -106,19 +106,26 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                 });
             });
 
-        public void UpdateDocumentIndex(int documentId, DateTime? rxDate, string rxNumber, byte documentTypeId)
+        public void UpdateDocumentIndex(int documentId, int claimId, byte documentTypeId, DateTime? rxDate, string rxNumber,
+            string invoiceNumber, DateTime? injuryDate, string attorneyName, string indexedByUserId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[claims].[uspDocumentIndexUpdate]";
-                conn.Open();
-                conn.Execute(sp,
-                    new
-                    {
-                        DocumentID = documentId,
-                        RxDate = rxDate,
-                        RxNumber = rxNumber,
-                        DocumentTypeID = documentTypeId
-                    }, commandType: CommandType.StoredProcedure);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@DocumentID", documentId, DbType.Int32);
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@DocumentTypeID", documentTypeId, DbType.Byte);
+                ps.Add("@RxDate", rxDate, DbType.DateTime2);
+                ps.Add("@RxNumber", rxNumber, DbType.AnsiString, size: 100);
+                ps.Add("@InvoiceNumber", invoiceNumber, DbType.AnsiString, size: 100);
+                ps.Add("@InjuryDate", injuryDate, DbType.DateTime2);
+                ps.Add("@AttorneyName", attorneyName, DbType.AnsiString, size: 255);
+                ps.Add("@IndexedByUserID", indexedByUserId, DbType.String, size: 128);
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
     }
 }
