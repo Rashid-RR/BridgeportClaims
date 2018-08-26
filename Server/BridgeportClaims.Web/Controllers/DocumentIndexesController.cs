@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
@@ -8,13 +9,12 @@ using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.SignalR;
-using NLog;
+using g = Microsoft.AspNet.SignalR;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [System.Web.Http.Authorize(Roles = "User")]
+    [Authorize(Roles = "User")]
     [RoutePrefix("api/index-document")]
     public class DocumentIndexesController : BaseApiController
     {
@@ -82,7 +82,7 @@ namespace BridgeportClaims.Web.Controllers
                     userId);
                 if (model.DocumentId != default(int))
                 {
-                    var hubContext = GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
+                    var hubContext = g.GlobalHost.ConnectionManager.GetHubContext<DocumentsHub>();
                     hubContext.Clients.All.indexedDocument(model.DocumentId);
                 }
 
