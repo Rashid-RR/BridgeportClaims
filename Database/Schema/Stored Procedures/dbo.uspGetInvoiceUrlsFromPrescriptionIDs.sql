@@ -15,7 +15,7 @@ GO
 */
 CREATE PROC [dbo].[uspGetInvoiceUrlsFromPrescriptionIDs]
 (
-	@PrescriptionIDs [dbo].[udtPrescriptionID] READONLY
+	@PrescriptionIDs [dbo].[udtID] READONLY
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -29,7 +29,7 @@ AS BEGIN
         (
 			SELECT          *
 			FROM            @PrescriptionIDs     AS [pid]
-				LEFT JOIN   [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pid].[PrescriptionID]
+				LEFT JOIN   [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pid].[ID]
 			WHERE           [p].[PrescriptionID] IS NULL
 		)
 			BEGIN
@@ -44,7 +44,7 @@ AS BEGIN
         (
 			SELECT          *
 			FROM            @PrescriptionIDs     AS [pid]
-				INNER JOIN  [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pid].[PrescriptionID]
+				INNER JOIN  [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pid].[ID]
 				LEFT JOIN   [dbo].[Invoice]      AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
 			WHERE           [i].[InvoiceID] IS NULL
 		)
@@ -60,7 +60,7 @@ AS BEGIN
         (
 			SELECT          *
 			FROM            @PrescriptionIDs     AS [pid]
-				INNER JOIN  [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pid].[PrescriptionID]
+				INNER JOIN  [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pid].[ID]
 				INNER JOIN  [dbo].[Invoice]      AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
 				LEFT JOIN	[dbo].[InvoiceIndex] AS [ii] ON [ii].[InvoiceNumber] = [i].[InvoiceNumber]
 			WHERE           [ii].[DocumentID] IS NULL
@@ -75,7 +75,7 @@ AS BEGIN
 
 		SELECT DISTINCT [d].[FileUrl] InvoiceUrl
 		FROM            @PrescriptionIDs     AS [pid]
-			INNER JOIN  [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pid].[PrescriptionID]
+			INNER JOIN  [dbo].[Prescription] AS [p] ON [p].[PrescriptionID] = [pid].[ID]
 			INNER JOIN  [dbo].[Invoice]      AS [i] ON [i].[InvoiceID] = [p].[InvoiceID]
 			INNER JOIN  [dbo].[InvoiceIndex] AS [ii] ON [ii].[InvoiceNumber] = [i].[InvoiceNumber]
 			INNER JOIN  [dbo].[Document]     AS [d] ON [d].[DocumentID] = [ii].[DocumentID]
