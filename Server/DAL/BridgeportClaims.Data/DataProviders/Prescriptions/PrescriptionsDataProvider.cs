@@ -85,7 +85,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         cmd.CommandType = CommandType.StoredProcedure;
                         var prescriptionIdsParam = cmd.CreateParameter();
                         prescriptionIdsParam.SqlDbType = SqlDbType.Structured;
-                        prescriptionIdsParam.TypeName = "dbo.udtPrescriptionID";
+                        prescriptionIdsParam.TypeName = "dbo.udtID";
                         prescriptionIdsParam.Direction = ParameterDirection.Input;
                         prescriptionIdsParam.Value = dtos.ToFixedDataTable();
                         prescriptionIdsParam.ParameterName = "@PrescriptionIDs";
