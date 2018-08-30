@@ -1,12 +1,12 @@
 td,
 th {
-    text-align: center;
+    text-align: left;
     font-size: 9pt;
     font-family: 'Cambay', sans-serif !important;
 }
 table:not(.to-merge) tr>th:first-child,
 table:not(.to-merge)  tr>td:first-child{
-    width: 16%;
+    width: 168px;
 }
 table:not(.to-merge) tr>th:nth-child(2),
 table:not(.to-merge) tr>td:nth-child(2),
@@ -18,9 +18,17 @@ table:not(.to-merge) tr>th:nth-child(5),
 table:not(.to-merge) tr>td:nth-child(5),
 table:not(.to-merge) tr>th:nth-child(6),
 table:not(.to-merge) tr>td:nth-child(6),
+table:not(.to-merge) tr>th:nth-child(7),
+table:not(.to-merge) tr>td:nth-child(7){
+    width: calc(14% - 42.5px);
+}
+table:not(.to-merge) tr>th:nth-child(8),
+table:not(.to-merge) tr>td:nth-child(8){
+    width: 16%;
+}
 table:not(.to-merge) tr>th:last-child,
 table:not(.to-merge) tr>td:last-child{
-    width: 12%;
+    width: 81px;
 }
 
 /* ROW COLOR CHANGE*/
@@ -195,4 +203,33 @@ thead span {
 }
 .not-allowed td{
     cursor: not-allowed;
+}
+tbody,
+thead {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    overflow-y: auto;
+}
+
+tbody.overflowable,
+thead.overflowable {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+tr {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+td,
+th {
+    display: block;
+    flex-direction: column;
+    flex-shrink: 1;
+    flex-grow: 1;
 }

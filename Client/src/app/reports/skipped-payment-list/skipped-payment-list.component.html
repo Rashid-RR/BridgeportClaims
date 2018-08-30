@@ -72,7 +72,7 @@
               <td (click)="showClaim(p.claimId)">{{p.invoiceNumber}} </td>
               <td>
                 <ng-container *ngIf="(!p.amountPaid || p.amountPaid<=0) && !skipped.archived">
-                  <button type="button" class="btn btn-danger btn-flat btn-sm" [disabled]="skipped.deleting==p.prescriptionId" (click)="archive(p.prescriptionId)">
+                  <button type="button" class="btn btn-danger btn-flat btn-sm" [disabled]="skipped.deleting==p.prescriptionId" (click)="archive(p.prescriptionId)" style="padding: 8px 4.8px 4px;">
                     <i class="fa fa-trash"></i>Archive
                   </button>
                 </ng-container> 

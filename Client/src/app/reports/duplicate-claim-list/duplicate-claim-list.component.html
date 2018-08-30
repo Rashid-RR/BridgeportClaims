@@ -13,7 +13,7 @@
             </td>
           </tr>
           <tr #myTable='table-sort' (tableSort)="reportloader.onSortColumn($event);goToPage=''">
-            <th style="padding:0px 0px 12px 0px">
+            <th>
               <span>Select two to compare</span>
             </th>
             <th>
@@ -62,7 +62,7 @@
               <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)"> {{claim.personCode}}</td>
               <td (click)="tdRow.checked=!tdRow.checked;select(claim,tdRow,i)"> {{claim.groupName}} </td>
               <td> 
-                <button class="btn bg-darkRed btn-flat pull-right btn-small search-claims" type="button"  (click)="archive(claim)" style="margin-right:15px;">
+                <button class="btn bg-darkRed btn-flat pull-right btn-small search-claims" type="button"  (click)="archive(claim)" style="padding: 8px 4.8px 4px;">
                   <i class="fa fa-trash"></i> Remove
                 </button>
               </td>
