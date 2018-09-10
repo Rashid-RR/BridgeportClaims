@@ -17,8 +17,8 @@ FROM   [dbo].[Claim] AS [c]
        INNER JOIN [dbo].[Payor] AS pa ON [pa].[PayorID] = [c].[PayorID]
 GO
 
-CREATE UNIQUE CLUSTERED INDEX [pkVwClaimInfoClaimID] ON [dbo].[vwClaimInfo] ([ClaimId]) WITH (DATA_COMPRESSION = ROW) ON [PRIMARY]
+CREATE UNIQUE CLUSTERED INDEX [pkVwClaimInfoClaimID] ON [dbo].[vwClaimInfo] ([ClaimId]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 
 GO
-CREATE NONCLUSTERED INDEX [idxVwClaimInfoClaimIdLastNameFirstNameClaimNumberIncludes] ON [dbo].[vwClaimInfo] ([ClaimId], [LastName], [FirstName], [ClaimNumber]) INCLUDE ([Carrier], [InjuryDate], [PayorId]) WITH (DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxVwClaimInfoClaimIdLastNameFirstNameClaimNumberIncludes] ON [dbo].[vwClaimInfo] ([ClaimId], [LastName], [FirstName], [ClaimNumber]) INCLUDE ([Carrier], [InjuryDate], [PayorId]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
