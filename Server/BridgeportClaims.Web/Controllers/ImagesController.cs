@@ -3,12 +3,9 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;
-using ServiceStack;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -18,17 +15,10 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IClaimImageProvider> _claimImageProvider;
-        private readonly Lazy<IRepository<DocumentIndex>> _documentIndexRepository;
-        private readonly Lazy<IRepository<DocumentType>> _documentTypeRepository;
 
-        public ImagesController(
-            Lazy<IClaimImageProvider> claimImageProvider, 
-            Lazy<IRepository<DocumentIndex>> documentIndexRepository, 
-            Lazy<IRepository<DocumentType>> documentTypeRepository)
+        public ImagesController(Lazy<IClaimImageProvider> claimImageProvider)
         {
             _claimImageProvider = claimImageProvider;
-            _documentIndexRepository = documentIndexRepository;
-            _documentTypeRepository = documentTypeRepository;
         }
 
         [HttpPost]
@@ -84,10 +74,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var entity = _documentIndexRepository.Value.Get(documentId);
-                if (null == entity)
-                    throw new Exception($"Error, could not find the image with Id: {documentId}.");
-                _documentIndexRepository.Value.Delete(entity);
+                _claimImageProvider.Value.ReindexDocumentImage(documentId);
                 return Ok(new { message = "The image was reindexed successfully." });
             }
             catch (Exception ex)

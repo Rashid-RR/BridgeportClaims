@@ -99,7 +99,9 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                         }
                     });
                     if (conn.State != ConnectionState.Closed)
+                    {
                         conn.Close();
+                    }
                     retVal.TotalRowCount = totalRowsParam.Value as int? ?? default;
                     retVal.ClaimImages = results;
                     return retVal;
@@ -126,6 +128,18 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                 ps.Add("@AttorneyName", attorneyName, DbType.AnsiString, size: 255);
                 ps.Add("@IndexedByUserID", indexedByUserId, DbType.String, size: 128);
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+            });
+
+        public void ReindexDocumentImage(int documentId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                var query = $@"DECLARE @DocumentID INT = {documentId};
+                               DELETE dbo.DocumentIndex WHERE DocumentID = @DocumentID;";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                conn.Execute(query, commandType: CommandType.Text);
             });
     }
 }

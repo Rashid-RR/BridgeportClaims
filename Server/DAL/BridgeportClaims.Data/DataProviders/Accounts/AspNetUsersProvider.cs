@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
+using BridgeportClaims.Data.Dtos;
+using SQLinq.Dapper;
+using SQLinq;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Accounts
@@ -50,5 +54,16 @@ namespace BridgeportClaims.Data.DataProviders.Accounts
                             conn.Close();
                     });
                 });
+
+        public IEnumerable<AspNetUsersDto> GetAllUsers() =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query(new SQLinq<AspNetUsersDto>()
+                    .Select(s => new {s.Id, s.FirstName, s.LastName}));
+            });
     }
 }

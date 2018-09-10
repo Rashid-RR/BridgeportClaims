@@ -8,5 +8,6 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
         ClaimImagesDto GetClaimImages(int claimId, string sortColumn, string sortDirection, int pageNumber, int pageSize);
         void UpdateDocumentIndex(int documentId, int claimId, byte documentTypeId, DateTime? rxDate, string rxNumber,
             string invoiceNumber, DateTime? injuryDate, string attorneyName, string indexedByUserId);
+        void ReindexDocumentImage(int documentId);
     }
 }

@@ -9,8 +9,6 @@ using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Accounts;
 using BridgeportClaims.Data.DataProviders.UserRoles;
 using BridgeportClaims.Data.DataProviders.Users;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -21,17 +19,14 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IAspNetUsersProvider> _aspNetUsersProvider;
         private readonly Lazy<IAssignUsersToRolesProvider> _assignUsersToRolesProvider;
-        private readonly Lazy<IRepository<AspNetUsers>> _usersRepository;
         private readonly Lazy<IUsersProvider> _usersProvider;
 
         public UsersController(Lazy<IAspNetUsersProvider> aspNetUsersProvider, 
-            Lazy<IAssignUsersToRolesProvider> assignUsersToRolesProvider, 
-            Lazy<IRepository<AspNetUsers>> usersRepository, 
+            Lazy<IAssignUsersToRolesProvider> assignUsersToRolesProvider,
             Lazy<IUsersProvider> usersProvider)
         {
             _aspNetUsersProvider = aspNetUsersProvider;
             _assignUsersToRolesProvider = assignUsersToRolesProvider;
-            _usersRepository = usersRepository;
             _usersProvider = usersProvider;
         }
 
@@ -56,9 +51,10 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var users = _usersRepository?.Value?.GetAll()?.OrderBy(x => x.LastName)
-                    .ThenBy(y => y.FirstName).Select(s => new {OwnerId = s.Id, Owner = s.LastName + ", " + s.FirstName})
-                    .ToList();
+                var users = _aspNetUsersProvider.Value.GetAllUsers()
+                    ?.OrderBy(o => o.LastName)
+                    .ThenBy(t => t.FirstName)
+                    .Select(x => new {OwnerId = x.Id, Owner = x.LastName + ", " + x.FirstName});
                 if (null == users)
                 {
                     return Content(HttpStatusCode.InternalServerError, new {message = "No users were located."});
