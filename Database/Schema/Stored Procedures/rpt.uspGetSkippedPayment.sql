@@ -8,7 +8,7 @@ GO
  Create date:       7/1/2018
  Description:       Gets Skipped Payments report 
  Example Execute:
-					DECLARE @Carriers [dbo].[udtPayorID], @TotalRowCount INT
+					DECLARE @Carriers [dbo].[udtID], @TotalRowCount INT
                     EXECUTE [rpt].[uspGetSkippedPayment] @Carriers, 1, 5000, @TotalRowCount OUTPUT
 					SELECT @TotalRowCount
  =============================================
@@ -28,7 +28,7 @@ AS BEGIN
         
 			-- Testing
 			/*
-			  DECLARE @Carriers [dbo].[udtPayorID], @PageNumber INT = 1, @PageSize INT = 5000, @TotalRowCount INT
+			  DECLARE @Carriers [dbo].[udtID], @PageNumber INT = 1, @PageSize INT = 5000, @TotalRowCount INT
 			  EXEC(N'DROP TABLE IF EXISTS #AllPayments;')
 			  EXEC(N'DROP TABLE IF EXISTS #MadePayments;')
 			  EXEC(N'DROP TABLE IF EXISTS #MissedPayments;')
@@ -77,19 +77,23 @@ AS BEGIN
 				FROM    dbo.Claim AS c
 						INNER JOIN dbo.Prescription AS p ON c.ClaimID = p.ClaimID
 						INNER JOIN dbo.PrescriptionPayment AS pp ON p.PrescriptionID = pp.PrescriptionID
+                        LEFT JOIN dbo.SkippedPaymentExclusion AS e ON e.PrescriptionID = p.PrescriptionID
+                WHERE   e.SkippedPaymentExclusionID IS NULL
 			) m
 			INNER JOIN
 			(
 				SELECT  c.ClaimID, RxDate = p.DateFilled
 				FROM    dbo.Prescription AS p
 						INNER JOIN dbo.Claim AS c ON p.ClaimID = c.ClaimID
+                        LEFT JOIN dbo.SkippedPaymentExclusion AS e ON e.PrescriptionID = p.PrescriptionID
 						LEFT JOIN dbo.PrescriptionPayment AS pp ON p.PrescriptionID = pp.PrescriptionID
-				WHERE   ISNULL(pp.AmountPaid, 0) = 0
+				WHERE   e.SkippedPaymentExclusionID IS NULL
+                        AND ISNULL(pp.AmountPaid, 0) = 0
 			) mm ON m.ClaimID = mm.ClaimID
 			INNER JOIN dbo.Claim AS cl ON m.ClaimID = cl.ClaimID
 			INNER JOIN #Carriers AS ca ON cl.PayorID = ca.PayorID
-			WHERE   mm.RxDate <= m.RxDate
-			GROUP BY m.ClaimID
+			WHERE mm.RxDate <= m.RxDate
+			GROUP BY m.ClaimID;
 
 			-- Assumption: A zero payment counts as a missed payment.
 			CREATE TABLE #MissedPayments
@@ -145,11 +149,7 @@ AS BEGIN
 				UNION ALL
 				SELECT  mp.ClaimID, mp.PrescriptionID, mp.AmountPaid, mp.RxDate
 				FROM    #MadePayments AS mp
-			) AS a LEFT JOIN dbo.SkippedPaymentExclusion AS spe ON a.PrescriptionID = spe.PrescriptionID
-			WHERE 1 = CASE WHEN a.AmountPaid IS NULL AND spe.SkippedPaymentExclusionID IS NULL THEN 1
-					       WHEN a.AmountPaid IS NOT NULL THEN 1
-						   ELSE 0
-					  END
+			) AS a;
 
 			UPDATE ap SET ap.RxDate = DATEADD(MILLISECOND, ap.RowID, ap.RxDate) FROM #AllPayments AS ap;
 
@@ -279,5 +279,4 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
     END CATCH
 END
-
 GO
