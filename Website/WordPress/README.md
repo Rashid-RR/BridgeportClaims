@@ -1,1 +1,0 @@
-This is the location of the new WordPress site.
