@@ -38,19 +38,11 @@ foreach ($_SERVER as $key => $value) {
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME','bridgeport_pharmacy');
-
-/** MySQL database username */
-define('DB_USER', 'bridge');
-
-/** MySQL database password */
-define('DB_PASSWORD', 'bridge@1!');
-
-/** MySQL hostname */
-define('DB_HOST', 'infometrx.ipowermysql.com');
-
-/** Database Charset to use in creating database tables. */
-define('DB_CHARSET', 'utf8');
+define( 'DB_NAME',     'bridgeport_pharmacy' );
+define( 'DB_USER',     'sid@bridgeportpharmacyservices-mysql' );
+define( 'DB_PASSWORD', 'Snowbird5000$' );
+define( 'DB_HOST',     'bridgeportpharmacyservices-mysql.mysql.database.azure.com' );
+define( 'DB_CHARSET', 'utf8' );
 
 /** The Database Collate type. Don't change this if in doubt. */
 define('DB_COLLATE', '');
