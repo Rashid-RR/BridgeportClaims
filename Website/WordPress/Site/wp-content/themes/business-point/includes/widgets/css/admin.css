@@ -1,0 +1,13 @@
+.rtam-preview-wrap {
+	margin-top: 10px;
+}
+
+.rtam-preview-wrap img {
+    max-width: 100%;
+}
+
+input.button.button-secondary.btn-image-remove,
+input.select-img.button.button-primary {
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
