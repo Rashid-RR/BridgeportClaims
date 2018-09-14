@@ -39,15 +39,6 @@
     <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\..\repos\NuGet\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="FluentNHibernate, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\repos\NuGet\FluentNHibernate.2.1.0\lib\net461\FluentNHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\repos\NuGet\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate, Version=5.1.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\..\repos\NuGet\NHibernate.5.1.0\lib\net461\NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\..\repos\NuGet\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -97,8 +88,6 @@
     <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\Dashboards\DashboardProvider.cs" />
     <Compile Include="DataProviders\Dashboards\IDashboardProvider.cs" />
-    <Compile Include="DataProviders\DateDisplay\DateDisplayProvider.cs" />
-    <Compile Include="DataProviders\DateDisplay\IDateDisplayProvider.cs" />
     <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />
     <Compile Include="DataProviders\Diaries\IDiaryProvider.cs" />
     <Compile Include="DataProviders\DocumentIndexes\DocumentIndexProvider.cs" />
@@ -217,57 +206,7 @@
     <Compile Include="Dtos\UserDto.cs" />
     <Compile Include="Dtos\UsStateDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />
-    <Compile Include="Mappings\AdjustorMap.cs" />
-    <Compile Include="Mappings\AspNetRolesMap.cs" />
-    <Compile Include="Mappings\AspNetUserClaimsMap.cs" />
-    <Compile Include="Mappings\AspNetUserLoginsMap.cs" />
-    <Compile Include="Mappings\AspNetUserRolesMap.cs" />
-    <Compile Include="Mappings\AspNetUsersMap.cs" />
-    <Compile Include="Mappings\ClaimFlex2Map.cs" />
-    <Compile Include="Mappings\ClaimMap.cs" />
-    <Compile Include="Mappings\ClaimNoteMap.cs" />
-    <Compile Include="Mappings\ClaimNoteTypeMap.cs" />
-    <Compile Include="Mappings\ClaimPaymentMap.cs" />
-    <Compile Include="Mappings\ClaimsUserHistoryMap.cs" />
-    <Compile Include="Mappings\FileTypeMap.cs" />
-    <Compile Include="Mappings\DiaryMap.cs" />
-    <Compile Include="Mappings\DocumentIndexMap.cs" />
-    <Compile Include="Mappings\DocumentMap.cs" />
-    <Compile Include="Mappings\DocumentTypeEpisodeTypeMappingMap.cs" />
-    <Compile Include="Mappings\DocumentTypeMap.cs" />
-    <Compile Include="Mappings\EpisodeCategoryMap.cs" />
-    <Compile Include="Mappings\EpisodeLinkMap.cs" />
-    <Compile Include="Mappings\EpisodeLinkTypeMap.cs" />
-    <Compile Include="Mappings\EpisodeMap.cs" />
-    <Compile Include="Mappings\EpisodeNoteMap.cs" />
-    <Compile Include="Mappings\EpisodeTypeMap.cs" />
-    <Compile Include="Mappings\EpisodeTypeUsersMappingMap.cs" />
-    <Compile Include="Mappings\GenderMap.cs" />
-    <Compile Include="Mappings\ImportFileMap.cs" />
-    <Compile Include="Mappings\ImportFileTypeMap.cs" />
-    <Compile Include="Mappings\InvoiceIndexMap.cs" />
-    <Compile Include="Mappings\InvoiceMap.cs" />
-    <Compile Include="Mappings\NotificationConfigMap.cs" />
-    <Compile Include="Mappings\NotificationMap.cs" />
-    <Compile Include="Mappings\NotificationTypeMap.cs" />
-    <Compile Include="Mappings\PatientMap.cs" />
-    <Compile Include="Mappings\PayorMap.cs" />
-    <Compile Include="Mappings\PharmacyMap.cs" />
-    <Compile Include="Mappings\PrescriberMap.cs" />
-    <Compile Include="Mappings\PrescriptionMap.cs" />
-    <Compile Include="Mappings\PrescriptionNoteMap.cs" />
-    <Compile Include="Mappings\PrescriptionNoteMappingMap.cs" />
-    <Compile Include="Mappings\PrescriptionNoteTypeMap.cs" />
-    <Compile Include="Mappings\PrescriptionPaymentMap.cs" />
-    <Compile Include="Mappings\PrescriptionStatusMap.cs" />
-    <Compile Include="Mappings\SuspenseMap.cs" />
-    <Compile Include="Mappings\UsStateMap.cs" />
-    <Compile Include="NHibernate\TypeMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\BaseRepository.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
-    <Compile Include="Repositories\Repository.cs" />
-    <Compile Include="SessionFactory\FluentSessionProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
@@ -277,10 +216,6 @@
     <ProjectReference Include="..\..\Utilities\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
       <Project>{0E70AD77-202B-411B-B724-98C63D0A6407}</Project>
       <Name>BridgeportClaims.CsvReader</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj">
-      <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
-      <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,6 @@ namespace BridgeportClaims.Data.DataProviders.KPI
         IList<LeftRightClaimsDto> GetClaimComparisons(int leftClaimId, int rightClaimId);
         bool SaveClaimMerge(int claimId, int duplicateClaimId, string userId, string claimNumber, int patientId,
             DateTime? injuryDate, int? adjustorId, int payorId, int? claimFlex2Id);
-        IList<PaymentTotalsDto> GetPaymentTotalsDtos();
+        IEnumerable<PaymentTotalsDto> GetPaymentTotalsDtos();
     }
 }

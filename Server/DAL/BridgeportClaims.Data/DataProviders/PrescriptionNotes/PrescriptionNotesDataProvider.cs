@@ -2,60 +2,27 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
-using BridgeportClaims.Common.Config;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
-using NHibernate;
-using NHibernate.Transform;
+using Dapper;
 
 namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 {
     public class PrescriptionNotesDataProvider : IPrescriptionNotesDataProvider
     {
-        private readonly Lazy<ISessionFactory> _factory;
-
-        public PrescriptionNotesDataProvider(Lazy<ISessionFactory> factory)
-        {
-            _factory = factory;
-        }
-
-        public IList<PrescriptionNotesDto> GetPrescriptionNotesByPrescriptionId(int prescriptionId) 
-            => DisposableService.Using(() => _factory.Value.OpenSession(),
-                session =>
+        public IEnumerable<PrescriptionNotesDto> GetPrescriptionNotesByPrescriptionId(int prescriptionId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetPrescriptionNotes]";
+                if (conn.State != ConnectionState.Open)
                 {
-                    return DisposableService.Using(() => session.BeginTransaction(IsolationLevel.ReadCommitted),
-                        transaction =>
-                        {
-                            try
-                            {
-                                var notes = session.CreateSQLQuery(
-                                        @"SELECT  [p].[ClaimID] ClaimId
-                                                , [p].[PrescriptionNoteId] PrescriptionNoteId
-                                                , [p].[NoteUpdatedOn] [RxDate]
-                                                , [p].[PrescriptionNoteType] [Type]
-                                                , [p].[NoteAuthor] EnteredBy
-                                                , [p].[NoteText] [Note]
-                                                , [p].[NoteUpdatedOn] NoteUpdatedOn
-                                        FROM     [dbo].[vwPrescriptionNote] AS [p] WITH ( NOEXPAND )
-                                        WHERE    [p].[PrescriptionID] = :PrescriptionID
-                                        ORDER BY [p].[NoteUpdatedOn] ASC")
-                                    .SetInt32("PrescriptionID", prescriptionId)
-                                    .SetMaxResults(1000)
-                                    .SetResultTransformer(Transformers.AliasToBean(typeof(PrescriptionNotesDto)))
-                                    .List<PrescriptionNotesDto>();
-                                if (transaction.IsActive)
-                                    transaction.Commit();
-                                return notes;
-                            }
-                            catch
-                            {
-                                if (transaction.IsActive)
-                                    transaction.Rollback();
-                                throw;
-                            }
-                        });
-                });
+                    conn.Open();
+                }
+                return conn.Query<PrescriptionNotesDto>(sp, new {PrescriptionID = prescriptionId},
+                    commandType: CommandType.StoredProcedure);
+            });
 
         public void AddOrUpdatePrescriptionNote(PrescriptionNoteSaveDto dto, string userId)
         {
@@ -63,7 +30,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
                 throw new Exception(
                     "Error. There needs to be at least one or more Prescription ID's' " +
                     "associated to this Prescription Note.");
-            DisposableService.Using(() => new SqlConnection(ConfigService.GetDbConnStr()),
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
                 con =>
                 {
                     DisposableService.Using(() => new SqlCommand("[dbo].[uspSavePrescriptionNote]", con),

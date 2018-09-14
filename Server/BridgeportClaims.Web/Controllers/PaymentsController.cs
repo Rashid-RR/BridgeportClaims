@@ -14,7 +14,6 @@ using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Payments;
 using Microsoft.AspNet.Identity;
-using NHibernate.Cache;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -249,8 +248,10 @@ namespace BridgeportClaims.Web.Controllers
                 }
                 var existingModel = _memoryCacher.Value.AddOrGetExisting(model.CacheKey, () => Shell);
                 if (null == existingModel)
-                    throw new CacheException(
+                {
+                    throw new Exception(
                         $"Error, tried to retrieve an object from cache that isn't there. Cache key {model.CacheKey}");
+                }
                 existingModel.CheckNumber = model.CheckNumber;
                 existingModel.CheckAmount = model.CheckAmount;
                 existingModel.AmountSelected = model.AmountSelected;

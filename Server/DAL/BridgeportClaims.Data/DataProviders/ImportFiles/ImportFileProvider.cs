@@ -12,8 +12,6 @@ using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Entities.DomainModels;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using BridgeportClaims.CsvReader.CsvReaders;
 using Dapper;
@@ -22,14 +20,11 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
 {
     public class ImportFileProvider : IImportFileProvider
     {
-        private readonly IRepository<ImportFile> _importFileRepository;
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly ICsvReaderProvider _csvReaderProvider;
 
-        public ImportFileProvider(IRepository<ImportFile> importFileRepository,
-            ICsvReaderProvider csvReaderProvider)
+        public ImportFileProvider(ICsvReaderProvider csvReaderProvider)
         {
-            _importFileRepository = importFileRepository;
             _csvReaderProvider = csvReaderProvider;
         }
 
@@ -69,19 +64,40 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
         {
             var methodName = MethodBase.GetCurrentMethod().Name;
             if (cs.AppIsInDebugMode)
-                Logger.Value.Info($"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
-            var oldestLakeFileName = _importFileRepository.GetMany(x => !x.Processed)
-                .Where(f => null != f.FileName && f.FileName.StartsWith(StringConstants.LakeFileNameStartsWithString))
-                .OrderBy(f => f.CreatedOnUtc)
-                .Select(f => f.FileName).FirstOrDefault();
-            if (!oldestLakeFileName.IsNotNullOrWhiteSpace()) return string.Empty;
-            if (null == tuple || tuple.Item1 != oldestLakeFileName) return string.Empty;
+            {
+                Logger.Value.Info(
+                    $"Entering the \"{methodName}\" method at: {DateTime.UtcNow.ToMountainTime():M/d/yyyy h:mm:ss tt}");
+            }
+            var oldestLakeFileName = string.Empty;
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetOldestLakerFileName]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                oldestLakeFileName = conn.QuerySingleOrDefault<string>(sp,
+                    new {FileNameStartsWith = StringConstants.LakeFileNameStartsWithString},
+                    commandType: CommandType.StoredProcedure);
+            });
+            if (!oldestLakeFileName.IsNotNullOrWhiteSpace())
+            {
+                return string.Empty;
+            }
+            if (null == tuple || tuple.Item1 != oldestLakeFileName)
+            {
+                return string.Empty;
+            }
             var fullFilePath = string.Empty;
             if (null != oldestLakeFileName)
+            {
                 fullFilePath = Path.Combine(Path.GetTempPath(), oldestLakeFileName);
+            }
             File.WriteAllBytes(fullFilePath, tuple.Item2);
             if (File.Exists(fullFilePath))
+            {
                 return fullFilePath;
+            }
             throw new IOException($"Error. Unable to save the Laker CSV file to {fullFilePath}");
         }
 
@@ -93,7 +109,9 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             if (null == dt) throw new Exception($"Could not read CSV into Data Table from {fullFilePathOfLatestLakerFile}");
             // Cleanup temporary file.
             if (File.Exists(fullFilePathOfLatestLakerFile))
+            {
                 File.Delete(fullFilePathOfLatestLakerFile);
+            }
             return dt;
         }
 
@@ -113,7 +131,9 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
                     };
                     cmd.Parameters.Add(importFileIdParam);
                     if (connection.State != ConnectionState.Open)
+                    {
                         connection.Open();
+                    }
                     cmd.ExecuteNonQuery();
                 });
             });
@@ -268,9 +288,13 @@ namespace BridgeportClaims.Data.DataProviders.ImportFiles
             // Payment Import   PI
             // Other            OT
             if (fileName.StartsWith("Billing_Claim_File_"))
+            {
                 code = StringConstants.LakerImportImportFileTypeCode;
+            }
             else if (fileName.EndsWith("Payments.xlsx"))
+            {
                 code = StringConstants.PaymentImportFileTypeCode;
+            }
             else
             {
                 code = StringConstants.OtherImportFileTypeCode;

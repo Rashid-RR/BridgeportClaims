@@ -25,7 +25,6 @@
 		public const string SecureServerLocalHostNameKey = "SecureServerLocalHostName";
 		public const string MaxClaimsLookupHistoryItemsKey = "MaxClaimsLookupHistoryItems";
 		public const string DateDisplayCacheKey = "__DateDisplayCacheKey__";
-		public const string TestClaimIdKey = "TestClaimId";
 		public const string Comma = ",";
 		public const string CachingProvider = "CachingProvider";
 		public const string LakeFileNameStartsWithString = "Billing_Claim_File_";

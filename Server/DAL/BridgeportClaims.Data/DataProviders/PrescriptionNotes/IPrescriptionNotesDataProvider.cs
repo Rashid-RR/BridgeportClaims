@@ -5,7 +5,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 {
     public interface IPrescriptionNotesDataProvider
     {
-        IList<PrescriptionNotesDto> GetPrescriptionNotesByPrescriptionId(int prescriptionId);
+        IEnumerable<PrescriptionNotesDto> GetPrescriptionNotesByPrescriptionId(int prescriptionId);
         void AddOrUpdatePrescriptionNote(PrescriptionNoteSaveDto dto, string userId);
     }
 }

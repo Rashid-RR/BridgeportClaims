@@ -1,7 +1,5 @@
 ﻿using Autofac;
-using NHibernate;
 using System.Web;
-using System.Data;
 using System.Reflection;
 using Autofac.Integration.WebApi;
 using BridgeportClaims.Business.BillingStatement;
@@ -10,8 +8,6 @@ using BridgeportClaims.Web.Email;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Business.PrescriptionReports;
-using BridgeportClaims.Data.Repositories;
-using BridgeportClaims.Data.SessionFactory;
 using BridgeportClaims.Data.DataProviders.Claims;
 using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.DataProviders.Episodes;
@@ -20,7 +16,6 @@ using BridgeportClaims.Data.DataProviders.Payments;
 using BridgeportClaims.Data.DataProviders.UserRoles;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
-using BridgeportClaims.Data.DataProviders.DateDisplay;
 using BridgeportClaims.Web.Email.EmailModelGeneration;
 using BridgeportClaims.Web.Email.EmailTemplateProviders;
 using BridgeportClaims.Data.DataProviders.PrescriptionNotes;
@@ -108,39 +103,13 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<UtilitiesProvider>().As<IUtilitiesProvider>().InstancePerRequest();
             builder.RegisterType<KpiProvider>().As<IKpiProvider>().InstancePerRequest();
             builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
-            builder.RegisterType<DateDisplayProvider>().As<IDateDisplayProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();
             
             // Singletons
             builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().SingleInstance();
-            builder.Register(c => FluentSessionProvider.CreateSessionFactory()).As<ISessionFactory>().SingleInstance();
-            builder.Register(c => FluentSessionProvider.GetSession()).As<ISession>().OnActivated(session =>
-            {
-                session.Instance.BeginTransaction(IsolationLevel.ReadCommitted);
-                session.Instance.FlushMode = FlushMode.Commit;
-            }).OnRelease(session =>
-            {
-                try
-                {
-                    if (session.Transaction.IsActive)
-                        session.Transaction.Commit();
-                }
-                catch
-                {
-                    if (session.Transaction.IsActive)
-                        session.Transaction.Rollback();
-                    throw;
-                }
-                finally
-                {
-                    session.Close();
-                    session.Dispose();
-                }
-            }).InstancePerRequest();
             builder.Register(c => HttpContext.Current).As<HttpContext>().InstancePerRequest();
             builder.Register(c => new HttpContextWrapper(HttpContext.Current)).As<HttpContextBase>()
                 .InstancePerRequest();
-            builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerRequest();
             return builder;
         }
     }

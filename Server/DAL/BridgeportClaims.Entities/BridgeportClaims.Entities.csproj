@@ -67,51 +67,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainModels\Adjustor.cs" />
-    <Compile Include="DomainModels\AspNetRoles.cs" />
-    <Compile Include="DomainModels\AspNetUserClaims.cs" />
-    <Compile Include="DomainModels\AspNetUserLogins.cs" />
-    <Compile Include="DomainModels\AspNetUserRoles.cs" />
-    <Compile Include="DomainModels\AspNetUsers.cs" />
-    <Compile Include="DomainModels\Claim.cs" />
-    <Compile Include="DomainModels\ClaimFlex2.cs" />
-    <Compile Include="DomainModels\ClaimNote.cs" />
-    <Compile Include="DomainModels\ClaimNoteType.cs" />
-    <Compile Include="DomainModels\ClaimPayment.cs" />
-    <Compile Include="DomainModels\ClaimsUserHistory.cs" />
-    <Compile Include="DomainModels\Diary.cs" />
-    <Compile Include="DomainModels\Document.cs" />
-    <Compile Include="DomainModels\DocumentIndex.cs" />
-    <Compile Include="DomainModels\DocumentType.cs" />
-    <Compile Include="DomainModels\DocumentTypeEpisodeTypeMapping.cs" />
-    <Compile Include="DomainModels\Episode.cs" />
-    <Compile Include="DomainModels\EpisodeCategory.cs" />
-    <Compile Include="DomainModels\EpisodeLink.cs" />
-    <Compile Include="DomainModels\EpisodeLinkType.cs" />
-    <Compile Include="DomainModels\EpisodeNote.cs" />
-    <Compile Include="DomainModels\EpisodeType.cs" />
-    <Compile Include="DomainModels\EpisodeTypeUsersMapping.cs" />
-    <Compile Include="DomainModels\FileType.cs" />
-    <Compile Include="DomainModels\Gender.cs" />
-    <Compile Include="DomainModels\ImportFile.cs" />
-    <Compile Include="DomainModels\ImportFileType.cs" />
-    <Compile Include="DomainModels\Invoice.cs" />
-    <Compile Include="DomainModels\InvoiceIndex.cs" />
-    <Compile Include="DomainModels\Notification.cs" />
-    <Compile Include="DomainModels\NotificationConfig.cs" />
-    <Compile Include="DomainModels\NotificationType.cs" />
-    <Compile Include="DomainModels\Patient.cs" />
-    <Compile Include="DomainModels\Payor.cs" />
-    <Compile Include="DomainModels\Pharmacy.cs" />
-    <Compile Include="DomainModels\Prescriber.cs" />
-    <Compile Include="DomainModels\Prescription.cs" />
-    <Compile Include="DomainModels\PrescriptionNote.cs" />
-    <Compile Include="DomainModels\PrescriptionNoteMapping.cs" />
-    <Compile Include="DomainModels\PrescriptionNoteType.cs" />
-    <Compile Include="DomainModels\PrescriptionPayment.cs" />
-    <Compile Include="DomainModels\PrescriptionStatus.cs" />
-    <Compile Include="DomainModels\Suspense.cs" />
-    <Compile Include="DomainModels\UsState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

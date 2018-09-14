@@ -75,12 +75,6 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\repos\NuGet\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="FluentNHibernate, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\repos\NuGet\FluentNHibernate.2.1.0\lib\net461\FluentNHibernate.dll</HintPath>
-    </Reference>
-    <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\repos\NuGet\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\repos\NuGet\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -132,9 +126,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\repos\NuGet\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="NHibernate, Version=5.1.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\..\repos\NuGet\NHibernate.5.1.0\lib\net461\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\..\repos\NuGet\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
@@ -459,10 +450,6 @@
     <ProjectReference Include="..\DAL\BridgeportClaims.Data\BridgeportClaims.Data.csproj">
       <Project>{efbeb7f6-9648-4475-ad19-8f5dab3e5876}</Project>
       <Name>BridgeportClaims.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DAL\BridgeportClaims.Entities\BridgeportClaims.Entities.csproj">
-      <Project>{499bf3d9-d035-4cf0-82da-7dd823956a98}</Project>
-      <Name>BridgeportClaims.Entities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
       <Project>{0E70AD77-202B-411B-B724-98C63D0A6407}</Project>
