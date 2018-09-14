@@ -18,7 +18,7 @@ ALTER TABLE [dbo].[EpisodeNote] ADD CONSTRAINT [pkEpisodeNote] PRIMARY KEY CLUST
 GO
 CREATE NONCLUSTERED INDEX [idxEpisodeNoteEpisodeIDWrittenByUserIDIncludes] ON [dbo].[EpisodeNote] ([EpisodeID], [WrittenByUserID]) INCLUDE ([Created], [NoteText]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[EpisodeNote] ADD CONSTRAINT [fkEpisodeNoteEpisodeIDEpisodeEpisodeID] FOREIGN KEY ([EpisodeID]) REFERENCES [dbo].[Episode] ([EpisodeID])
+ALTER TABLE [dbo].[EpisodeNote] ADD CONSTRAINT [fkEpisodeNoteEpisodeIDEpisodeEpisodeID] FOREIGN KEY ([EpisodeID]) REFERENCES [dbo].[Episode] ([EpisodeID]) ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[EpisodeNote] ADD CONSTRAINT [fkEpisodeNoteWrittenByUserIDAspNetUsersID] FOREIGN KEY ([WrittenByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
