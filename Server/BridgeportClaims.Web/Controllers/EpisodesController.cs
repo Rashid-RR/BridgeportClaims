@@ -17,13 +17,18 @@ namespace BridgeportClaims.Web.Controllers
 	[RoutePrefix("api/episodes")]
 	public class EpisodesController : BaseApiController
 	{
-		private readonly Lazy<IEpisodesDataProvider> _episodesDataProvider;
+        #region Private Members
+
+        private readonly Lazy<IEpisodesDataProvider> _episodesDataProvider;
 		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
 		private readonly Lazy<IEpisodeNoteProvider> _episodeNoteProvider;
 		private readonly Lazy<IUsersProvider> _usersProvider;
 
+        #endregion
 
-		public EpisodesController(
+        #region Ctor
+
+        public EpisodesController(
 			Lazy<IEpisodesDataProvider> episodesDataProvider, 
 			Lazy<IEpisodeNoteProvider> episodeNoteProvider,
 			Lazy<IUsersProvider> usersProvider)
@@ -33,7 +38,11 @@ namespace BridgeportClaims.Web.Controllers
 			_usersProvider = usersProvider;
 		}
 
-		[HttpPost]
+        #endregion
+
+        #region Action Methods
+
+        [HttpPost]
 		[Route("associate-to-claim")]
 		public IHttpActionResult AssociateEpisodeToClaim(EpisodeClaimModel model)
 		{
@@ -258,5 +267,7 @@ namespace BridgeportClaims.Web.Controllers
 				return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
 			}
 		}
-	}
+
+        #endregion
+    }
 }
