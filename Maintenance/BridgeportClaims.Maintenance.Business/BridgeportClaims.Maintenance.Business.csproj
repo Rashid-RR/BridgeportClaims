@@ -50,6 +50,7 @@
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConstants\Constants.cs" />
+    <Compile Include="Tasks\TaskService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

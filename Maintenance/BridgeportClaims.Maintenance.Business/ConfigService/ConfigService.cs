@@ -21,6 +21,6 @@ namespace BridgeportClaims.Maintenance.Business.ConfigService
             => cm.ConnectionStrings[c.DbConnStrName].ConnectionString;
 
         public static bool AppIsInDebugMode
-            => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode)?.ToLower());
+            => Convert.ToBoolean(GetAppSetting(c.AppIsInDebugMode)?.ToLower() ?? "true");
     }
 }

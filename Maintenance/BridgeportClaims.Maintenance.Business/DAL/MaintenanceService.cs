@@ -6,9 +6,9 @@ using Dapper;
 
 namespace BridgeportClaims.Maintenance.Business.DAL
 {
-    public class MaintenanceService
+    public static class MaintenanceService
     {
-        public void ExecuteMaintenance() =>
+        public static void ExecuteMaintenance() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "util.uspMaintenance";

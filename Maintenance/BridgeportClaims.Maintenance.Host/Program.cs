@@ -1,9 +1,12 @@
-﻿namespace BridgeportClaims.Maintenance.Host
+﻿using BridgeportClaims.Maintenance.Business.Tasks;
+
+namespace BridgeportClaims.Maintenance.Host
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            TaskService.ProcessMaintenanceTask();
         }
     }
 }
