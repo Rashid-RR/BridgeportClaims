@@ -23,8 +23,6 @@ AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
     BEGIN TRY
-        BEGIN TRAN;
-            
 			CREATE TABLE #IndexRebuildScript
 			(
 				TableName sysname NOT NULL
@@ -51,26 +49,26 @@ AS BEGIN
 					AND indexstats.avg_fragmentation_in_percent > 0
 			ORDER BY indexstats.avg_fragmentation_in_percent DESC;
 
-			DECLARE @RebuildIndexScript NVARCHAR(4000) 
+			DECLARE @RebuildIndexScript NVARCHAR(4000);
 
 			DECLARE RebuildIdx CURSOR LOCAL FAST_FORWARD READ_ONLY FOR
-			SELECT i.Script FROM #IndexRebuildScript AS i
+			SELECT i.Script FROM #IndexRebuildScript AS i;
 
-			OPEN RebuildIdx
+			OPEN RebuildIdx;
 
-			FETCH NEXT FROM RebuildIdx INTO @RebuildIndexScript
+			FETCH NEXT FROM RebuildIdx INTO @RebuildIndexScript;
 
 			WHILE @@FETCH_STATUS = 0
 			BEGIN
 				EXEC sys.sp_executesql @RebuildIndexScript;
 
-				FETCH NEXT FROM RebuildIdx INTO @RebuildIndexScript
+				FETCH NEXT FROM RebuildIdx INTO @RebuildIndexScript;
 			END
 
 			CLOSE RebuildIdx;
 			DEALLOCATE RebuildIdx;
 
-			DECLARE @DBNAME SYSNAME = DB_NAME()
+			DECLARE @DBNAME SYSNAME = DB_NAME();
 			EXEC [util].[uspIndexOptimize] @Databases = @DBNAME
 				, @FragmentationLow = NULL
 				, @FragmentationMedium = 'INDEX_REORGANIZE,INDEX_REBUILD_ONLINE,INDEX_REBUILD_OFFLINE'
@@ -79,15 +77,12 @@ AS BEGIN
 				, @FragmentationLevel2 = 20
 				, @LogToTable = 'N'
 				, @UpdateStatistics = 'ALL'
-				, @Indexes = 'ALL_INDEXES'
+				, @Indexes = 'ALL_INDEXES';
 			DBCC CHECKDB;
-            
-        IF (@@TRANCOUNT > 0)
-            COMMIT;
+
+			CHECKPOINT;
     END TRY
     BEGIN CATCH     
-        IF (@@TRANCOUNT > 0)
-            ROLLBACK;
                 
         DECLARE @ErrSeverity INT = ERROR_SEVERITY()
             , @ErrState INT = ERROR_STATE()
@@ -99,5 +94,4 @@ AS BEGIN
         
     END CATCH
 END
-
 GO
