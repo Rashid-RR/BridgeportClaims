@@ -10,11 +10,11 @@ using cm = BridgeportClaims.Business.ConfigService.ConfigService;
 
 namespace BridgeportClaims.Business.DAL
 {
-    public class DocumentDataProvider
+    public class DocumentDataProvider : IDocumentDataProvider
     {
         private readonly string _dbConnStr = cm.GetDbConnStr();
 
-        internal DocumentDto GetDocumentByFileName(string fullFileName, byte fileTypeId) =>
+        public DocumentDto GetDocumentByFileName(string fullFileName, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentSelectByFileName]", conn), cmd =>
@@ -79,7 +79,7 @@ namespace BridgeportClaims.Business.DAL
                 });
             });
 
-        internal void DeleteDocument(int documentId) =>
+        public void DeleteDocument(int documentId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("[dbo].[uspDocumentDelete]", conn), cmd =>
@@ -100,7 +100,7 @@ namespace BridgeportClaims.Business.DAL
                 });
             });
 
-        internal int GetDocumentIdByDocumentName(string fullFileName, byte fileTypeId) =>
+        public int GetDocumentIdByDocumentName(string fullFileName, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocumentIDByDocumentName]", conn), cmd =>
@@ -136,7 +136,7 @@ namespace BridgeportClaims.Business.DAL
                 });
             });
 
-        internal void UpdateDocument(int documentId, string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
+        public void UpdateDocument(int documentId, string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
             DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, DateTime? documentDate, long byteCount, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
@@ -248,7 +248,7 @@ namespace BridgeportClaims.Business.DAL
                 });
             });
 
-        internal int InsertDocument(string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
+        public int InsertDocument(string fileName, string extension, string fileSize, DateTime creationTime, DateTime lastAccessTime,
                 DateTime lastWriteTime, string directoryName, string fullFilePath, string fileUrl, DateTime? documentDate,
                 long byteCount, byte fileTypeId) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
@@ -364,9 +364,7 @@ namespace BridgeportClaims.Business.DAL
         public void MergeDocuments(DataTable dt, FileType fileType) =>
             DisposableService.Using(() => new SqlConnection(_dbConnStr), conn =>
             {
-                var proc = fileType == FileType.Images ? "[dbo].[uspMergeImageDocuments]" :
-                    fileType == FileType.Invoices ? "[dbo].[uspMergeInvoiceDocuments]" :
-                    throw new Exception($"Error, could not find a valid file type for arguement {nameof(fileType)}");
+                var proc = GetProcByFileType(fileType);
                 DisposableService.Using(() => new SqlCommand(proc, conn), cmd =>
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -385,5 +383,20 @@ namespace BridgeportClaims.Business.DAL
                         conn.Close();
                 });
             });
+
+        private string GetProcByFileType(FileType fileType)
+        {
+            switch (fileType)
+            {
+                case FileType.Images:
+                    return "[dbo].[uspMergeImageDocuments]";
+                case FileType.Invoices:
+                    return "[dbo].[uspMergeInvoiceDocuments]";
+                case FileType.Checks:
+                    return "[dbo].[uspMergeCheckDocuments]";
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(fileType), fileType, null);
+            }
+        }
     }
 }

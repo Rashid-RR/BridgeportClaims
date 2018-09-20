@@ -25,6 +25,7 @@ namespace BridgeportClaims.Business.Providers
         private static readonly LoggingService LoggingService = LoggingService.Instance;
         private static readonly Logger Logger = LoggingService.Logger;
         private readonly DocumentDataProvider _documentDataProvider;
+        private readonly IApiCallerProvider _apiClient;
         private readonly string _pathToRemove;
         private readonly string _rootDomain;
         private FileType InternalFileType { get; }
@@ -34,12 +35,9 @@ namespace BridgeportClaims.Business.Providers
         protected FileWatcherProvider(FileType fileType)
         {
             InternalFileType = fileType;
-            _pathToRemove = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey :
-                fileType == FileType.Invoices ? c.InvoicesFileLocationKey :
-                throw new Exception($"Error, could not find a valid file type for argument {nameof(fileType)}"));
-            _rootDomain = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesRootDomainNameKey :
-                fileType == FileType.Invoices ? c.InvoicesRootDomainNameKey :
-                throw new Exception($"Error, could not find a valid file type for argument {nameof(fileType)}"));
+            _apiClient = new ApiCallerProvider(new Lazy<ILogger>(() => Logger));
+            _pathToRemove = cs.GetFileLocationByFileType(fileType);
+            _rootDomain = cs.GetRootDomainByFileType(fileType);
             _documentDataProvider = new DocumentDataProvider();
             _fileWatcher = new FileSystemWatcher(GetFileLocation(fileType))
             {
@@ -73,7 +71,7 @@ namespace BridgeportClaims.Business.Providers
                    dbDoc.ByteCount != fileInfo.Length;
         }
 
-        private static void CallSignalRApi(SignalRMethodType type, FileInfo fileInfo, string fileSize, string url, int documentId, FileType fileType)
+        private void CallSignalRApi(SignalRMethodType type, FileInfo fileInfo, string fileSize, string url, int documentId, FileType fileType)
         {
             if (null == fileInfo && type != SignalRMethodType.Delete)
                 throw new ArgumentNullException(nameof(fileInfo));
@@ -98,11 +96,10 @@ namespace BridgeportClaims.Business.Providers
                     FileTypeId = (byte)fileType
                 };
             }
-            var apiClient = new ApiCallerProvider();
-            var token = apiClient.GetAuthenticationBearerTokenAsync().GetAwaiter().GetResult();
+            var token = _apiClient.GetAuthenticationBearerTokenAsync().GetAwaiter().GetResult();
             if (token.IsNullOrWhiteSpace())
                 throw new Exception("Error, could not obtain a valid bearer token. Please ensure that the correct username and password are being used.");
-            var succeededApiCall = apiClient.CallSignalRApiMethod(type, token, dto, documentId).GetAwaiter().GetResult();
+            var succeededApiCall = _apiClient.CallSignalRApiMethod(type, token, dto, documentId).GetAwaiter().GetResult();
             if (!succeededApiCall)
                 throw new Exception("Error, the API call to \"CallSignalRApiMethod\" failed.");
         }
@@ -117,7 +114,7 @@ namespace BridgeportClaims.Business.Providers
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
-                if (e.FullPath.Contains($@"{c.PrintablesString}"))
+                if (e.FullPath.Contains($@"{c.Prints}"))
                     return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
@@ -190,7 +187,7 @@ namespace BridgeportClaims.Business.Providers
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
-                if (e.FullPath.Contains($@"{c.PrintablesString}"))
+                if (e.FullPath.Contains($@"{c.Prints}"))
                     return;
                 // Ensure that the changed file has at least one changed property worth updating
                 var fileInfo = new FileInfo(e.FullPath);
@@ -236,7 +233,7 @@ namespace BridgeportClaims.Business.Providers
                     return;
                 if (File.GetAttributes(e.FullPath).HasFlag(FileAttributes.Directory))
                     return; //ignore directories, only process files
-                if (e.FullPath.Contains($@"{c.PrintablesString}"))
+                if (e.FullPath.Contains($@"{c.Prints}"))
                     return;
                 // Ensure that the changed file has at least one changed property worth updating
                 var fileInfo = new FileInfo(e.FullPath);
@@ -281,9 +278,7 @@ namespace BridgeportClaims.Business.Providers
                     var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                     LoggingService.LogDebugMessage(method, now);
                 }
-                var value = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey :
-                    fileType == FileType.Invoices ? c.InvoicesFileLocationKey :
-                    throw new Exception($"Error, could not find a valid type for argument {nameof(fileType)}"));
+                var value = cs.GetFileLocationByFileType(fileType);
                 return value.IsNotNullOrWhiteSpace() ? value : string.Empty;
             }
             catch (Exception ex)
@@ -299,7 +294,7 @@ namespace BridgeportClaims.Business.Providers
             {
                 if (e.FullPath.Right(4) != ".pdf")
                     return;
-                if (e.FullPath.Contains($@"{c.PrintablesString}"))
+                if (e.FullPath.Contains($@"{c.Prints}"))
                     return;
                 var methodName = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);

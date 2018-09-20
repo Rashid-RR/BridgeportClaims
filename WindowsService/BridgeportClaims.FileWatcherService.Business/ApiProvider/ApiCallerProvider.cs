@@ -16,14 +16,20 @@ using c = BridgeportClaims.Business.StringConstants.Constants;
 
 namespace BridgeportClaims.Business.ApiProvider
 {
-    public class ApiCallerProvider
+    public class ApiCallerProvider : IApiCallerProvider
     {
         private readonly string _apiHostName = cs.GetAppSetting(c.ApiHostNameKey);
-        private static readonly Logger Logger = LoggingService.Instance.Logger;
+        private readonly Lazy<ILogger> _logger;
+
+        public ApiCallerProvider(Lazy<ILogger> logger)
+        {
+            _logger = logger;
+        }
+
         private const string AccessToken = "access_token";
         private const string Message = "message";
 
-        internal async Task<string> GetAuthenticationBearerTokenAsync()
+        public async Task<string> GetAuthenticationBearerTokenAsync()
         {
             var client = new HttpClient();
             var authUrlPath = cs.GetAppSetting(c.AuthenticationApiUrlKey);
@@ -41,19 +47,23 @@ namespace BridgeportClaims.Business.ApiProvider
                 request.Content = new FormUrlEncodedContent(dictionary);
                 var result = await client.SendAsync(request).ConfigureAwait(false);
                 if (!result.IsSuccessStatusCode)
+                {
                     return null;
+                }
                 var jsonString = await result.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var jObj = JsonObject.Parse(jsonString);
                 var token = jObj.Get<string>(AccessToken);
-                if (string.IsNullOrWhiteSpace(token) || !cs.AppIsInDebugMode) return token;
-
-                Logger.Info($"Successfully retrieved an authentication bearer token from method {methodName} on {now}.");
+                if (string.IsNullOrWhiteSpace(token) || !cs.AppIsInDebugMode)
+                {
+                    return token;
+                }
+                _logger.Value.Info($"Successfully retrieved an authentication bearer token from method {methodName} on {now}.");
                 return token;
             }
             catch (Exception ex)
             {
-                Logger.Info($"Did not successfully retreive an Authentication bearer token from method {methodName} on {now}.");
-                Logger.Error(ex);
+                _logger.Value.Info($"Did not successfully retrieve an Authentication bearer token from method {methodName} on {now}.");
+                _logger.Value.Error(ex);
                 return string.Empty;
             }
             finally
@@ -63,12 +73,12 @@ namespace BridgeportClaims.Business.ApiProvider
             }
         }
 
-        internal async Task<bool> CallSignalRApiMethod(SignalRMethodType type, string token, DocumentDto dto, int documentId)
+        public async Task<bool> CallSignalRApiMethod(SignalRMethodType type, string token, DocumentDto dto, int documentId)
         {
             const string methodName = "CallSignalRApiMethod";
             var now = DateTime.Now.ToString(LoggingService.TimeFormat);
             if (cs.AppIsInDebugMode)
-                Logger.Info($"Now entering the {methodName} method on {now}.");
+                _logger.Value.Info($"Now entering the {methodName} method on {now}.");
             var req = new HttpRequestMessage();
             var client = new HttpClient();
             try
@@ -91,14 +101,14 @@ namespace BridgeportClaims.Business.ApiProvider
                 var jObj = JsonObject.Parse(jsonString);
                 var message = jObj.Get<string>(Message);
                 if (cs.AppIsInDebugMode)
-                    Logger.Info(message);
+                    _logger.Value.Info(message);
                 return !string.IsNullOrWhiteSpace(message) && !message.ToLower().Contains("error");
             }
             catch (Exception ex)
             {
                 if (cs.AppIsInDebugMode)
-                    Logger.Info($"Did not successfully retreive an Authentication bearer token from method {methodName} on {now}.");
-                Logger.Error(ex);
+                    _logger.Value.Info($"Did not successfully retrieve an Authentication bearer token from method {methodName} on {now}.");
+                _logger.Value.Error(ex);
                 return false;
             }
             finally

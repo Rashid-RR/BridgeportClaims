@@ -11,6 +11,7 @@ namespace BridgeportClaims.FileWatcherService.Host.Services
         private readonly Lazy<IProxyProvider> _proxyProvider;
         private ImageFileWatcherProvider _imageFileWatcherProvider;
         private InvoiceFileWatcherProvider _invoiceFileWatcherProvider;
+        private ChecksFileWatcherProvider _checksFileWatcherProvider;
         private readonly Lazy<ILogger> _logger;
 
         public FileWatcherWindowsService(Lazy<IProxyProvider> proxyProvider, Lazy<ILogger> logger)
@@ -28,6 +29,7 @@ namespace BridgeportClaims.FileWatcherService.Host.Services
                 _proxyProvider.Value.InitializeFirstImageFileTraversalIfNecessary(FileType.Checks);
                 _imageFileWatcherProvider = new ImageFileWatcherProvider();
                 _invoiceFileWatcherProvider = new InvoiceFileWatcherProvider();
+                _checksFileWatcherProvider = new ChecksFileWatcherProvider();
             }
             catch (Exception ex)
             {

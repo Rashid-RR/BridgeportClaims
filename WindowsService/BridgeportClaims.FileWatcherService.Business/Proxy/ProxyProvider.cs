@@ -14,20 +14,24 @@ namespace BridgeportClaims.Business.Proxy
 {
     public class ProxyProvider : IProxyProvider
     {
-        private readonly DocumentDataProvider _documentDataProvider;
+        private readonly Lazy<IDocumentDataProvider> _documentDataProvider;
+        private readonly Lazy<IIoHelper> _ioHelper;
         private readonly Lazy<ILogger> _logger;
 
-        public ProxyProvider(Lazy<ILogger> logger)
+        public ProxyProvider(Lazy<ILogger> logger,
+            Lazy<IDocumentDataProvider> documentDataProvider,
+            Lazy<IIoHelper> ioHelper)
         {
             _logger = logger;
-            _documentDataProvider = new DocumentDataProvider();
+            _documentDataProvider = documentDataProvider;
+            _ioHelper = ioHelper;
         }
 
         private void MergeDocuments(DataTable dt, FileType fileType)
         {
             try
             {
-                _documentDataProvider.MergeDocuments(dt, fileType);
+                _documentDataProvider.Value.MergeDocuments(dt, fileType);
             }
             catch (Exception ex)
             {
@@ -44,16 +48,13 @@ namespace BridgeportClaims.Business.Proxy
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 var doInitialFileTraversal = cs.GetAppSetting(c.PerformInitialDirectoryTraversalKey);
                 var initial = bool.TryParse(doInitialFileTraversal, out var b) && b;
-                var rootDomain = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesRootDomainNameKey :
-                    fileType == FileType.Invoices ? c.InvoicesRootDomainNameKey :
-                    throw new Exception($"Error, the {nameof(fileType)} argument passed in is not a valid type."));
+                var rootDomain = cs.GetRootDomainByFileType(fileType);
                 if (rootDomain.IsNullOrWhiteSpace())
                 {
                     throw new Exception(
                         $"Error, could not get the root domain from the config file within {method} method on {now}.");
                 }
-                var fileLocation = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey :
-                    fileType == FileType.Invoices ? c.InvoicesFileLocationKey : throw new Exception($"Error, the {nameof(fileType)} argument passed in is not a valid type."));
+                var fileLocation = cs.GetFileLocationByFileType(fileType);
                 if (fileLocation.IsNullOrWhiteSpace())
                 {
                     throw new Exception(
@@ -63,7 +64,7 @@ namespace BridgeportClaims.Business.Proxy
                 {
                     return;
                 }
-                var dt = IoHelper.TraverseDirectories(fileLocation, rootDomain, fileType)?.ToDataTable();
+                var dt = _ioHelper.Value.TraverseDirectories(fileLocation, rootDomain, fileType)?.ToDataTable();
                 if (null != dt)
                 {
                     MergeDocuments(dt, fileType);

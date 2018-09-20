@@ -8,14 +8,20 @@ using BridgeportClaims.Business.Dto;
 using BridgeportClaims.Business.Enums;
 using BridgeportClaims.Business.Logging;
 using BridgeportClaims.Business.URL;
+using NLog;
 using c = BridgeportClaims.Business.StringConstants.Constants;
 using cs = BridgeportClaims.Business.ConfigService.ConfigService;
 
 namespace BridgeportClaims.Business.Helpers.IO
 {
-    public static class IoHelper
+    public class IoHelper : IIoHelper
     {
-        private static readonly LoggingService LoggingService = LoggingService.Instance;
+        private readonly Lazy<ILogger> _logger;
+
+        public IoHelper(Lazy<ILogger> logger)
+        {
+            _logger = logger;
+        }
 
         internal static string GetFileSize(double byteCount)
         {
@@ -31,14 +37,13 @@ namespace BridgeportClaims.Business.Helpers.IO
             return size;
         }
 
-        public static IEnumerable<DocumentDto> TraverseDirectories(string path, string rootDomain, FileType fileType)
+        public IEnumerable<DocumentDto> TraverseDirectories(string path, string rootDomain, FileType fileType)
         {
             try
             {
                 var files = Directory.EnumerateFiles(path, c.PdfPattern, SearchOption.AllDirectories)
-                    .Where(x => !x.Contains($@"\{c.PrintablesString}\")).ToList();
-                var pathToRemove = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey : fileType == FileType.Invoices ? c.InvoicesFileLocationKey:
-                    throw new Exception($"Error, could not file a valid file type for the {nameof(fileType)} arguement."));
+                    .Where(x => !x.Contains($@"\{c.Prints}\")).ToList();
+                var pathToRemove = cs.GetFileLocationByFileType(fileType);
                 if (!files.Any())
                     return null;
                 return files.Select(file => new FileInfo(file))
@@ -63,8 +68,8 @@ namespace BridgeportClaims.Business.Helpers.IO
                 var method = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 if (cs.AppIsInDebugMode)
-                    LoggingService.LogDebugMessage(method, now, ex.Message);
-                LoggingService.Instance.Logger.Error(ex);
+                    _logger.Value.Debug($"Debugging inside of the {method} method on {now}.");
+                _logger.Value.Error(ex);
                 return null;
             }
         }

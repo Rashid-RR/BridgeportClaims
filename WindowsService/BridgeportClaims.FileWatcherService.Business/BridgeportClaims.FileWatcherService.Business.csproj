@@ -68,8 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiProvider\ApiCallerProvider.cs" />
+    <Compile Include="ApiProvider\IApiCallerProvider.cs" />
     <Compile Include="ConfigService\ConfigService.cs" />
     <Compile Include="DAL\DocumentDataProvider.cs" />
+    <Compile Include="DAL\IDocumentDataProvider.cs" />
     <Compile Include="Disposable\DisposableService.cs" />
     <Compile Include="Dto\DocumentDto.cs" />
     <Compile Include="Enums\FileType.cs" />
@@ -77,10 +79,12 @@
     <Compile Include="Extensions\DataTableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
+    <Compile Include="Helpers\IO\IIoHelper.cs" />
     <Compile Include="Helpers\IO\IoHelper.cs" />
     <Compile Include="Logging\LoggingConfigurator.cs" />
     <Compile Include="Logging\LoggingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ChecksFileWatcherProvider.cs" />
     <Compile Include="Providers\FileWatcherProvider.cs" />
     <Compile Include="Providers\ImageFileWatcherProvider.cs" />
     <Compile Include="Providers\InvoiceFileWatcherProvider.cs" />
