@@ -207,6 +207,7 @@
     <Compile Include="Dtos\UsStateDto.cs" />
     <Compile Include="Enums\EntityOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\DapperRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
