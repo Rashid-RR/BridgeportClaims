@@ -36,10 +36,10 @@ namespace BridgeportClaims.Business.Providers
             InternalFileType = fileType;
             _pathToRemove = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey :
                 fileType == FileType.Invoices ? c.InvoicesFileLocationKey :
-                throw new Exception($"Error, could not find a valid file type for arguement {nameof(fileType)}"));
+                throw new Exception($"Error, could not find a valid file type for argument {nameof(fileType)}"));
             _rootDomain = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesRootDomainNameKey :
                 fileType == FileType.Invoices ? c.InvoicesRootDomainNameKey :
-                throw new Exception($"Error, could not find a valid file type for arguement {nameof(fileType)}"));
+                throw new Exception($"Error, could not find a valid file type for argument {nameof(fileType)}"));
             _documentDataProvider = new DocumentDataProvider();
             _fileWatcher = new FileSystemWatcher(GetFileLocation(fileType))
             {
@@ -283,7 +283,7 @@ namespace BridgeportClaims.Business.Providers
                 }
                 var value = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey :
                     fileType == FileType.Invoices ? c.InvoicesFileLocationKey :
-                    throw new Exception($"Error, could not find a valid type for arguement {nameof(fileType)}"));
+                    throw new Exception($"Error, could not find a valid type for argument {nameof(fileType)}"));
                 return value.IsNotNullOrWhiteSpace() ? value : string.Empty;
             }
             catch (Exception ex)

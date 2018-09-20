@@ -84,6 +84,7 @@
     <Compile Include="Providers\FileWatcherProvider.cs" />
     <Compile Include="Providers\ImageFileWatcherProvider.cs" />
     <Compile Include="Providers\InvoiceFileWatcherProvider.cs" />
+    <Compile Include="Proxy\IProxyProvider.cs" />
     <Compile Include="Proxy\ProxyProvider.cs" />
     <Compile Include="Security\SecurityProvider.cs" />
     <Compile Include="StringConstants\Constants.cs" />

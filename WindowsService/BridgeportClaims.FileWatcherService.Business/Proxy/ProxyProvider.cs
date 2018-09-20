@@ -12,13 +12,14 @@ using c = BridgeportClaims.Business.StringConstants.Constants;
 
 namespace BridgeportClaims.Business.Proxy
 {
-    public class ProxyProvider
+    public class ProxyProvider : IProxyProvider
     {
         private readonly DocumentDataProvider _documentDataProvider;
-        private readonly ILogger _logger = LoggingService.Instance.Logger;
+        private readonly Lazy<ILogger> _logger;
 
-        public ProxyProvider()
+        public ProxyProvider(Lazy<ILogger> logger)
         {
+            _logger = logger;
             _documentDataProvider = new DocumentDataProvider();
         }
 
@@ -30,7 +31,7 @@ namespace BridgeportClaims.Business.Proxy
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                _logger.Value.Error(ex);
                 throw;
             }
         }
@@ -45,14 +46,14 @@ namespace BridgeportClaims.Business.Proxy
                 var initial = bool.TryParse(doInitialFileTraversal, out var b) && b;
                 var rootDomain = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesRootDomainNameKey :
                     fileType == FileType.Invoices ? c.InvoicesRootDomainNameKey :
-                    throw new Exception($"Error, the {nameof(fileType)} arguement passed in is not a valid type."));
+                    throw new Exception($"Error, the {nameof(fileType)} argument passed in is not a valid type."));
                 if (rootDomain.IsNullOrWhiteSpace())
                 {
                     throw new Exception(
                         $"Error, could not get the root domain from the config file within {method} method on {now}.");
                 }
                 var fileLocation = cs.GetAppSetting(fileType == FileType.Images ? c.ImagesFileLocationKey :
-                    fileType == FileType.Invoices ? c.InvoicesFileLocationKey : throw new Exception($"Error, the {nameof(fileType)} arguement passed in is not a valid type."));
+                    fileType == FileType.Invoices ? c.InvoicesFileLocationKey : throw new Exception($"Error, the {nameof(fileType)} argument passed in is not a valid type."));
                 if (fileLocation.IsNullOrWhiteSpace())
                 {
                     throw new Exception(
@@ -70,7 +71,7 @@ namespace BridgeportClaims.Business.Proxy
             }
             catch (Exception ex)
             {
-                _logger.Error(ex);
+                _logger.Value.Error(ex);
                 throw;
             }
         }

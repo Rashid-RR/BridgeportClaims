@@ -3,6 +3,7 @@
     public enum FileType : byte
     {
         Images = 1,
-        Invoices = 2
+        Invoices = 2,
+        Checks = 3
     }
 }
