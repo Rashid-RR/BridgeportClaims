@@ -44,8 +44,13 @@ namespace BridgeportClaims.Business.Proxy
         {
             try
             {
+                
                 var method = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
+                if (cs.AppIsInDebugMode)
+                {
+                    _logger.Value.Info($"Starting the {method} method on {now}.");
+                }
                 var doInitialFileTraversal = cs.GetAppSetting(c.PerformInitialDirectoryTraversalKey);
                 var initial = bool.TryParse(doInitialFileTraversal, out var b) && b;
                 var rootDomain = cs.GetRootDomainByFileType(fileType);
