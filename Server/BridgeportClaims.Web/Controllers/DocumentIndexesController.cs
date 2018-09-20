@@ -48,6 +48,26 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("index-check")]
+        public IHttpActionResult IndexCheckDocument(int documentId)
+        {
+            try
+            {
+                if (0 == documentId)
+                    throw new Exception("Invalid document Id");
+                var userId = User.Identity.GetUserId();
+                _documentIndexProvider.Value.InsertCheckIndex(documentId, userId);
+                const string msg = "The check was indexed successfully.";
+                return Ok(new { message = msg });
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("index-invoice")]
         public IHttpActionResult IndexInvoiceDocument(int documentId, string invoiceNumber)
         {
