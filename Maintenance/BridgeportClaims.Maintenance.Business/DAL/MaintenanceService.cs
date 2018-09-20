@@ -16,7 +16,7 @@ namespace BridgeportClaims.Maintenance.Business.DAL
                 {
                     conn.Open();
                 }
-                conn.Execute(sp, commandType: CommandType.StoredProcedure);
+                conn.Execute(sp, commandType: CommandType.StoredProcedure, commandTimeout: 1800);
             });
     }
 }
