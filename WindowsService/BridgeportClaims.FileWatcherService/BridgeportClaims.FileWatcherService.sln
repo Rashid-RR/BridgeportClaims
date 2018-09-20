@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.FileWatcherService", "BridgeportClaims.FileWatcherService\BridgeportClaims.FileWatcherService.csproj", "{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.FileWatcherService.Business", "BridgeportClaims.Business\BridgeportClaims.FileWatcherService.Business.csproj", "{5428CC94-F786-4325-AC99-0479C41A7BA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.Business", "BridgeportClaims.Business\BridgeportClaims.Business.csproj", "{5428CC94-F786-4325-AC99-0479C41A7BA7}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "BridgeportClaims.Setup", "BridgeportClaims.Setup\BridgeportClaims.Setup.vdproj", "{D1C337B8-EC91-4143-B2B4-AC5FB2FD1423}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeportClaims.FileWatcherService.Host", "..\BridgeportClaims.FileWatcherService.Host\BridgeportClaims.FileWatcherService.Host\BridgeportClaims.FileWatcherService.Host.csproj", "{F21E9B58-5364-450C-A517-22C28925F9A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,16 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EEBA4F0-19D0-4676-8F13-9581F7228DE5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5428CC94-F786-4325-AC99-0479C41A7BA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5428CC94-F786-4325-AC99-0479C41A7BA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5428CC94-F786-4325-AC99-0479C41A7BA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5428CC94-F786-4325-AC99-0479C41A7BA7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D1C337B8-EC91-4143-B2B4-AC5FB2FD1423}.Debug|Any CPU.ActiveCfg = Debug
-		{D1C337B8-EC91-4143-B2B4-AC5FB2FD1423}.Release|Any CPU.ActiveCfg = Release
+		{F21E9B58-5364-450C-A517-22C28925F9A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21E9B58-5364-450C-A517-22C28925F9A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21E9B58-5364-450C-A517-22C28925F9A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21E9B58-5364-450C-A517-22C28925F9A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

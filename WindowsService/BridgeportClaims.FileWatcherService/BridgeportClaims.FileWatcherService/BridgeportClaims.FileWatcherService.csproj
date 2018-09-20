@@ -70,12 +70,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BridgeportClaims.Business\BridgeportClaims.Business.csproj">
-      <Project>{5428cc94-f786-4325-ac99-0479c41a7ba7}</Project>
-      <Name>BridgeportClaims.Business</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
