@@ -44,7 +44,6 @@ namespace BridgeportClaims.Business.Proxy
         {
             try
             {
-                
                 var method = MethodBase.GetCurrentMethod().Name;
                 var now = DateTime.Now.ToString(LoggingService.TimeFormat);
                 if (cs.AppIsInDebugMode)
