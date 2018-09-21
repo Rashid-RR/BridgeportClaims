@@ -26,7 +26,6 @@ namespace BridgeportClaims.FileWatcherService.Host
                 {
                     hostCfg.Service<IFileWatcherWindowsService>(svcCfg =>
                     {
-                        Logger.Value.Info("Test");
                         svcCfg.ConstructUsing(() => container.Resolve<IFileWatcherWindowsService>());
                         svcCfg.WhenStarted(fileWatcherWindowsService => fileWatcherWindowsService.Start());
                         svcCfg.WhenStopped(fileWatcherWindowsService => fileWatcherWindowsService.Stop());
@@ -38,7 +37,7 @@ namespace BridgeportClaims.FileWatcherService.Host
                     #else
                     hostCfg.StartAutomatically();
                     hostCfg.EnableServiceRecovery(rx => { rx.RestartService(1); });
-                    hostCfg.RunAsNetworkService();
+                    hostCfg.RunAsLocalSystem();
                     #endif
                     hostCfg.SetDescription("Bridgeport Claims File Watcher Service");
                     hostCfg.SetDisplayName("Bridgeport Claims File Watcher Service");
