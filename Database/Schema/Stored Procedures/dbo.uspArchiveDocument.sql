@@ -7,7 +7,7 @@ GO
  Author:			Jordan Gurney
  Create date:		4/7/2018
  Description:		Deletes any InvoiceIndex record associated with it first, and then updates
-					the document to Archived = t
+					the document to Archived = true;
  Example Execute:
 					EXECUTE [dbo].[uspArchiveDocument]
  =============================================
@@ -25,9 +25,12 @@ AS BEGIN
 		-- Remove any Index Invoicing.
 		DELETE	[ii]
 		FROM    [dbo].[InvoiceIndex] AS [ii]
-		WHERE   [ii].[DocumentID] = @DocumentID
+		WHERE   [ii].[DocumentID] = @DocumentID;
+
+		-- Remove any Check Index.
+		DELETE dbo.[CheckIndex] WHERE DocumentID = @DocumentID;
 	
-		-- Update the actual document to Archivel
+		-- Update the actual document to Archived
 		UPDATE  [dbo].[Document]
 		SET     [Archived] = 1,
 				[UpdatedOnUTC] = SYSUTCDATETIME(), 
