@@ -49,15 +49,22 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("index-check")]
-        public IHttpActionResult IndexCheckDocument(int documentId)
+        public IHttpActionResult IndexCheckDocument(int documentId, string checkNumber)
         {
             try
             {
-                if (0 == documentId)
-                    throw new Exception("Invalid document Id");
+                const int i = default (int);
+                if (i == documentId)
+                {
+                    throw new Exception($"Invalid document Id: {i}");
+                }
+                if (checkNumber.IsNullOrWhiteSpace())
+                {
+                    throw new Exception("Cannot have a null or empty or white space checkNumber.");
+                }
                 var userId = User.Identity.GetUserId();
-                _documentIndexProvider.Value.InsertCheckIndex(documentId, userId);
-                const string msg = "The check was indexed successfully.";
+                _documentIndexProvider.Value.InsertCheckIndex(documentId, checkNumber, userId);
+                var msg = $"The check # {checkNumber} was indexed successfully.";
                 return Ok(new { message = msg });
             }
             catch (Exception ex)

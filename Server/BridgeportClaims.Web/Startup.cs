@@ -20,6 +20,9 @@ using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
 
 namespace BridgeportClaims.Web
 {
+    /// <summary>
+    ///  Oh hell yeah this class is used.
+    /// </summary>
     public class Startup
     {
         internal static string PublicClientId => "LOCAL AUTHORITY";
@@ -72,12 +75,12 @@ namespace BridgeportClaims.Web
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
-
+            const string forceSsl = "forceHttps";
             // Plugin the OAuth bearer JSON Web Token tokens generation and Consumption will be here
             var oAuthServerOptions = new OAuthAuthorizationServerOptions
             {
-                //For Dev enviroment only (on production should be AllowInsecureHttp = false)
-                AllowInsecureHttp = !Convert.ToBoolean(ConfigService.GetAppSetting("forceHttps")),
+                // For Dev environment only (on production should be AllowInsecureHttp = false)
+                AllowInsecureHttp = !Convert.ToBoolean(ConfigService.GetAppSetting(forceSsl)),
                 TokenEndpointPath = new PathString("/oauth/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(5),
                 Provider = new BridgeportClaimOAuthProvider(),
