@@ -15,6 +15,7 @@ CREATE TABLE [dbo].[Document]
 [Archived] [bit] NOT NULL CONSTRAINT [dfDocumentArchived] DEFAULT ((0)),
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [FileTypeID] [tinyint] NOT NULL CONSTRAINT [dfDocumentFileType] DEFAULT ((1)),
+[IsValid] [bit] NOT NULL CONSTRAINT [ckDocumentIsValidTrue] DEFAULT ((1)),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -25,8 +26,6 @@ DATA_COMPRESSION = ROW
 )
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [pkDocument] PRIMARY KEY CLUSTERED  ([DocumentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
-GO
-CREATE NONCLUSTERED INDEX [idxDocumentDocumentDateArchivedFileTypeIDIncludes] ON [dbo].[Document] ([DocumentDate], [Archived], [FileTypeID]) INCLUDE ([ByteCount], [CreatedOnUTC], [CreationTimeLocal], [DataVersion], [DirectoryName], [Extension], [FileName], [FileSize], [FileUrl], [FullFilePath], [LastAccessTimeLocal], [LastWriteTimeLocal], [ModifiedByUserID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDocumentFileNameIncludes] ON [dbo].[Document] ([FileName]) INCLUDE ([CreationTimeLocal], [DocumentID], [Extension], [FileSize], [FileUrl], [FullFilePath], [LastAccessTimeLocal], [LastWriteTimeLocal]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
