@@ -4,15 +4,14 @@ SET ANSI_NULLS ON
 GO
 /*
 	Author:			Jordan Gurney
-	Create Date:	12/1/2017
-	Description:	Proc that returns the grid results for the Documents page.
-	Modified:		1/16/2018 to add an Archived bit flag.
+	Create Date:	09/23/2018
+	Description:	Proc that returns the grid results for the Documents page for checks (invalid).
 	Sample Execute:
 					DECLARE @TotalRows INT
-					EXEC [dbo].[uspGetDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, 2, @TotalRows OUTPUT
+					EXEC [dbo].[uspGetInvalidCheckDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, 2, @TotalRows OUTPUT
 					SELECT @TotalRows TotalRows
 */
-CREATE PROC [dbo].[uspGetDocuments]
+CREATE   PROC [dbo].[uspGetInvalidCheckDocuments]
 (
 	@Date DATE,
 	@Archived BIT,
@@ -27,10 +26,16 @@ CREATE PROC [dbo].[uspGetDocuments]
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
+	SET DEADLOCK_PRIORITY HIGH;
 	
-	-- If an explicit value of 1, 2 or 3 was not passed in, default it to 1.
-	IF @FileTypeID NOT IN (1, 2, 3) OR @FileTypeID IS NULL
-		SET @FileTypeID = 1;
+	-- QA
+	IF NOT EXISTS (SELECT * FROM dbo.FileType AS ft WHERE ft.FileTypeID = @FileTypeID)
+		BEGIN
+			IF (@@TRANCOUNT > 0)
+				ROLLBACK;
+			RAISERROR(N'I am struck inside of my stored procedure [dbo].[uspGetInvalidCheckDocuments]...', 16, 1) WITH NOWAIT;
+			RETURN -1;
+		END
 
 	DECLARE @WildCard CHAR(1) = '%';
 	CREATE TABLE #Document
