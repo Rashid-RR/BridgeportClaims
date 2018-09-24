@@ -21,16 +21,22 @@ CREATE PROC [dbo].[uspGetDocuments]
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
-	@FileTypeID INTEGER,
+	@FileTypeID TINYINT,
 	@TotalRows INTEGER OUTPUT
 )
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
-	
-	-- If an explicit value of 1, 2 or 3 was not passed in, default it to 1.
-	IF @FileTypeID NOT IN (1, 2, 3) OR @FileTypeID IS NULL
-		SET @FileTypeID = 1;
+    DECLARE @SQL NVARCHAR(4000);
+
+    -- QA Check
+    IF EXISTS (SELECT * FROM [dbo].[FileType] AS [ft] WHERE [ft].[FileTypeID] = @FileTypeID)
+        BEGIN
+           SET @SQL = N'Error, you cannot pass a @FileTypeID parameter of ' + CAST(@FileTypeID AS NVARCHAR)
+                   + ' that doesn''t exist.'
+           RAISERROR(@SQL, 16, 1) WITH NOWAIT;
+           RETURN -1;
+       END
 
 	DECLARE @WildCard CHAR(1) = '%';
 	CREATE TABLE #Document
@@ -46,7 +52,6 @@ AS BEGIN
 		[FileUrl] [nvarchar] (4000) NOT NULL,
 		[ByteCount] [bigint] NOT NULL
 	);
-
 	INSERT [#Document]
 		([DocumentID],[FileName],[Extension],[FileSize],[CreationTimeLocal],[LastAccessTimeLocal],
 		[LastWriteTimeLocal],[FullFilePath],[FileUrl],[ByteCount])
@@ -59,16 +64,11 @@ AS BEGIN
 	WHERE 1 = 1
 		AND [di].[DocumentID] IS NULL
 		AND [ii].[DocumentID] IS NULL
-		AND [ci].[DocumentID] IS NULL
+		AND ci.DocumentID IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
 		AND ([d].[FileName] LIKE CONCAT(CONCAT(@WildCard, @FileName), @WildCard) OR @FileName IS NULL)
 		AND [d].[Archived] = @Archived
 		AND [d].[FileTypeID] = @FileTypeID
-		-- Valid Check File Types
-		AND 1 = CASE WHEN [d].[FileTypeID] <> 3 AND [d].[FileTypeID] = 0
-					 THEN 0
-					 ELSE 1
-				END
 
 	SELECT @TotalRows = COUNT(*) FROM [#Document]
 
