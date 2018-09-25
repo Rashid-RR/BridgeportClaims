@@ -29,10 +29,9 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
                 ps.Add("@PageNumber", pageNumber, DbType.Int32);
                 ps.Add("@PageSize", pageSize, DbType.Int32);
-                ps.Add("@FileTypeID", 3, DbType.Byte);
                 ps.Add("@TotalRows", DbType.Int32, direction: ParameterDirection.Output);
                 var queryResults =
-                    conn.Query<DocumentResultDto>(sp, commandType: CommandType.StoredProcedure)?.ToList() ??
+                    conn.Query<DocumentResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.ToList() ??
                     new List<DocumentResultDto>();
                 var docs = new DocumentsDto
                 {
