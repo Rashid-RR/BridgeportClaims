@@ -5,7 +5,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
-using BridgeportClaims.Data.Dtos;
+using ic = BridgeportClaims.Common.Constants.IntegerConstants;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -69,8 +69,8 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                DocumentsDto results = _documentsProvider.Value.GetInvalidDocuments(model.Date.ToNullableFormattedDateTime(),
-                    false, model.FileName, 3, model.Sort, model.SortDirection, model.Page, model.PageSize);
+                var results = _documentsProvider.Value.GetInvalidDocuments(model.Date.ToNullableFormattedDateTime(),
+                    false, model.FileName, ic.NumberOfDocumentTypes, model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(results);
             }
             catch (Exception ex)
