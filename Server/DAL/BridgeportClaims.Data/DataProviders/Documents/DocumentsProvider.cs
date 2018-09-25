@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.ServiceModel.Activation.Configuration;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using Dapper;
@@ -14,7 +12,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
 {
     public class DocumentsProvider : IDocumentsProvider
     {
-        public DocumentsDto GetInvalidDocuments(DateTime? date, bool archived, string fileName, int fileTypeId,
+        public DocumentsDto GetInvalidDocuments(DateTime? date, string fileName, int fileTypeId,
             string sortColumn,
             string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
