@@ -25,6 +25,8 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
+ALTER TABLE [dbo].[Document] ADD CONSTRAINT [ckDocumentFileTypeID3CannotBeArchived] CHECK (((1)=case  when [FileTypeID]<>(3) then (1) when [FileTypeID]=(3) AND [Archived]=(0) then (1) when [FileTypeID]=(3) AND [Archived]=(1) then (0) else (0) end))
+GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [pkDocument] PRIMARY KEY CLUSTERED  ([DocumentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDocumentFileNameIncludes] ON [dbo].[Document] ([FileName]) INCLUDE ([CreationTimeLocal], [DocumentID], [Extension], [FileSize], [FileUrl], [FullFilePath], [LastAccessTimeLocal], [LastWriteTimeLocal]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]

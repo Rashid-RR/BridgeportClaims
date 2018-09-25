@@ -9,7 +9,7 @@ GO
 	Modified:		1/16/2018 to add an Archived bit flag.
 	Sample Execute:
 					DECLARE @TotalRows INT
-					EXEC [dbo].[uspGetDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, 2, @TotalRows OUTPUT
+					EXEC [dbo].[uspGetDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, 4, @TotalRows OUTPUT
 					SELECT @TotalRows TotalRows
 */
 CREATE PROC [dbo].[uspGetDocuments]
@@ -27,12 +27,13 @@ CREATE PROC [dbo].[uspGetDocuments]
 AS BEGIN
 	SET NOCOUNT ON;
 	SET XACT_ABORT ON;
+
     DECLARE @SQL NVARCHAR(4000);
 
     -- QA Check
-    IF EXISTS (SELECT * FROM [dbo].[FileType] AS [ft] WHERE [ft].[FileTypeID] = @FileTypeID)
+    IF NOT EXISTS (SELECT * FROM [dbo].[FileType] AS [ft] WHERE [ft].[FileTypeID] = @FileTypeID)
         BEGIN
-           SET @SQL = N'Error, you cannot pass a @FileTypeID parameter of ' + CAST(@FileTypeID AS NVARCHAR)
+           SET @SQL = N'Error, you cannot pass a @FileTypeID parameter of ' + CAST(@FileTypeID AS NVARCHAR(100))
                    + ' that doesn''t exist.'
            RAISERROR(@SQL, 16, 1) WITH NOWAIT;
            RETURN -1;
@@ -52,6 +53,7 @@ AS BEGIN
 		[FileUrl] [nvarchar] (4000) NOT NULL,
 		[ByteCount] [bigint] NOT NULL
 	);
+
 	INSERT [#Document]
 		([DocumentID],[FileName],[Extension],[FileSize],[CreationTimeLocal],[LastAccessTimeLocal],
 		[LastWriteTimeLocal],[FullFilePath],[FileUrl],[ByteCount])
@@ -69,6 +71,7 @@ AS BEGIN
 		AND ([d].[FileName] LIKE CONCAT(CONCAT(@WildCard, @FileName), @WildCard) OR @FileName IS NULL)
 		AND [d].[Archived] = @Archived
 		AND [d].[FileTypeID] = @FileTypeID
+		AND d.IsValid = 1;
 
 	SELECT @TotalRows = COUNT(*) FROM [#Document]
 
