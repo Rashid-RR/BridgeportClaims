@@ -5,6 +5,7 @@ using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Documents;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -59,6 +60,24 @@ namespace BridgeportClaims.Web.Controllers
             {
                 Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("get-invalid")]
+        public IHttpActionResult GetInvalidDocuments(DocumentViewModel model)
+        {
+            try
+            {
+                DocumentsDto results = _documentsProvider.Value.GetInvalidDocuments(model.Date.ToNullableFormattedDateTime(),
+                    false, model.FileName, 3, model.Sort, model.SortDirection, model.Page, model.PageSize);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message
+                });
             }
         }
 
