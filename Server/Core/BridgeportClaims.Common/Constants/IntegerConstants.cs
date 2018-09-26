@@ -5,6 +5,5 @@
         public const int MaxRowCountForBladeInApp = 5000;
         public const int NumberOfScriptsNeededToBeVip = 25;
         public const decimal CollectedMarginMasi = 5000.00m;
-        public const int NumberOfDocumentTypes = 3;
     }
 }

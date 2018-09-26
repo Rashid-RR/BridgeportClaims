@@ -12,36 +12,6 @@ namespace BridgeportClaims.Data.DataProviders.Documents
 {
     public class DocumentsProvider : IDocumentsProvider
     {
-        public DocumentsDto GetInvalidDocuments(DateTime? date, string fileName, int fileTypeId,
-            string sortColumn,
-            string sortDirection, int pageNumber, int pageSize) =>
-            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                const string sp = "[dbo].[uspGetInvalidDocuments]";
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                var ps = new DynamicParameters();
-                ps.Add("@Date", date, DbType.Date);
-                ps.Add("@FileName", fileName, DbType.AnsiString, size: 1000);
-                ps.Add("@SortColumn", sortColumn, DbType.AnsiString, size: 50);
-                ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
-                ps.Add("@PageNumber", pageNumber, DbType.Int32);
-                ps.Add("@PageSize", pageSize, DbType.Int32);
-                ps.Add("@TotalRows", DbType.Int32, direction: ParameterDirection.Output);
-                var queryResults =
-                    conn.Query<DocumentResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.ToList() ??
-                    new List<DocumentResultDto>();
-                var docs = new DocumentsDto
-                {
-                    DocumentTypes = GetDocumentTypes()?.ToList() ?? new List<DocumentTypeDto>(),
-                    DocumentResults = queryResults
-                };
-                return docs;
-            });
-        
-
         public IEnumerable<DocumentTypeDto> GetDocumentTypes() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -67,7 +37,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     documentIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(documentIdParam);
                     var modifiedByUserIdParam = cmd.CreateParameter();
-                    modifiedByUserIdParam.Value = modifiedByUserId ?? (object) DBNull.Value;
+                    modifiedByUserIdParam.Value = modifiedByUserId ?? (object)DBNull.Value;
                     modifiedByUserIdParam.DbType = DbType.String;
                     modifiedByUserIdParam.SqlDbType = SqlDbType.NVarChar;
                     modifiedByUserIdParam.Size = 128;
@@ -93,7 +63,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     dateParam.Direction = ParameterDirection.Input;
                     dateParam.SqlDbType = SqlDbType.Date;
                     dateParam.DbType = DbType.Date;
-                    dateParam.Value = date ?? (object) DBNull.Value;
+                    dateParam.Value = date ?? (object)DBNull.Value;
                     dateParam.ParameterName = "@Date";
                     cmd.Parameters.Add(dateParam);
                     var archivedParam = cmd.CreateParameter();
@@ -108,7 +78,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     fileNameParam.SqlDbType = SqlDbType.VarChar;
                     fileNameParam.Size = 1000;
                     fileNameParam.DbType = DbType.AnsiString;
-                    fileNameParam.Value = fileName ?? (object) DBNull.Value;
+                    fileNameParam.Value = fileName ?? (object)DBNull.Value;
                     fileNameParam.ParameterName = "@FileName";
                     cmd.Parameters.Add(fileNameParam);
                     var sortColumnParam = cmd.CreateParameter();
@@ -117,12 +87,12 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     sortColumnParam.Size = 50;
                     sortColumnParam.DbType = DbType.AnsiString;
                     sortColumnParam.ParameterName = "@SortColumn";
-                    sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
+                    sortColumnParam.Value = sortColumn ?? (object)DBNull.Value;
                     cmd.Parameters.Add(sortColumnParam);
                     var sortDirectionParam = cmd.CreateParameter();
                     sortDirectionParam.ParameterName = "@SortDirection";
                     sortDirectionParam.DbType = DbType.String;
-                    sortDirectionParam.Value = sortDirection ?? (object) DBNull.Value;
+                    sortDirectionParam.Value = sortDirection ?? (object)DBNull.Value;
                     sortDirectionParam.SqlDbType = SqlDbType.VarChar;
                     sortDirectionParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(sortDirectionParam);
@@ -191,6 +161,34 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     retVal.DocumentTypes = GetDocumentTypes()?.ToList();
                     return retVal;
                 });
+            });
+
+        public DocumentsDto GetInvalidDocuments(DateTime? date, string fileName, string sortColumn,
+            string sortDirection, int pageNumber, int pageSize) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetInvalidDocuments]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@Date", date, DbType.Date);
+                ps.Add("@FileName", fileName, DbType.AnsiString, size: 1000);
+                ps.Add("@SortColumn", sortColumn, DbType.AnsiString, size: 50);
+                ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
+                ps.Add("@PageNumber", pageNumber, DbType.Int32);
+                ps.Add("@PageSize", pageSize, DbType.Int32);
+                ps.Add("@TotalRows", DbType.Int32, direction: ParameterDirection.Output);
+                var queryResults =
+                    conn.Query<DocumentResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.ToList() ??
+                    new List<DocumentResultDto>();
+                var docs = new DocumentsDto
+                {
+                    DocumentTypes = GetDocumentTypes()?.ToList() ?? new List<DocumentTypeDto>(),
+                    DocumentResults = queryResults
+                };
+                return docs;
             });
     }
 }

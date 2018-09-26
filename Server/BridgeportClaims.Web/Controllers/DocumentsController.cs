@@ -70,7 +70,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 var results = _documentsProvider.Value.GetInvalidDocuments(model.Date.ToNullableFormattedDateTime(),
-                    model.FileName, ic.NumberOfDocumentTypes, model.Sort, model.SortDirection, model.Page, model.PageSize);
+                    model.FileName, model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(results);
             }
             catch (Exception ex)
