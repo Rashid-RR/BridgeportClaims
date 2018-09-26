@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AutoCompleteModule } from '../auto-complete';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { IndexingRoutes } from "./indexing.routing"
 import { UnindexedImageComponent } from './unindex-image/unindex-image.component';
@@ -20,6 +18,9 @@ import { IndexFileComponent } from './index-file/index-file.component';
 import { ShContextMenuModule } from 'ng2-right-click-menu';
 import { ImagesInvoiceComponent } from './images-invoice/images-invoice.component';
 import { SharedModule } from '../shared';
+import { UnindexedCheckComponent } from './unindexed-check/unindexed-check.component';
+import { UnindexedCheckListComponent } from './unindexed-check-list/unindexed-check-list.component';
+import { UnindexedCheckFilterComponent } from './unindexed-check-filter/unindexed-check-filter.component';
 
 @NgModule({
   imports: [
@@ -29,7 +30,7 @@ import { SharedModule } from '../shared';
   ],
   declarations: [
     UnindexedImageFileComponent,UnindexedImageFileListComponent,IndexFileComponent,UnindexedImageComponent,UnindexedImageFilterComponent,UnindexedImageListComponent, ImagesInvoiceComponent,
-    UnindexedInvoiceFileListComponent,UnindexedInvoiceFilterComponent,UnindexedInvoiceListComponent,UnindexedInvoiceFileListComponent,UnindexedInvoiceComponent
+    UnindexedInvoiceFileListComponent,UnindexedInvoiceFilterComponent,UnindexedInvoiceListComponent,UnindexedInvoiceFileListComponent,UnindexedInvoiceComponent, UnindexedCheckComponent, UnindexedCheckListComponent, UnindexedCheckFilterComponent
   ]
 })
 export class IndexingModule { }

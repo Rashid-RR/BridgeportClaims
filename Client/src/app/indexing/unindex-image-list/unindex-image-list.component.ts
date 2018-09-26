@@ -62,7 +62,7 @@ export class UnindexedImageListComponent implements OnInit {
     this.ds.loading = false;
   }
   archive(file:DocumentItem) {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: "Archive Image",
       message: "Are you sure you wish to archive "+file.fileName+"?"
     })

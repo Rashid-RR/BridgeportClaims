@@ -808,6 +808,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  saveCheckIndex(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + '/index-document/index-check/?documentId=' + data.documentId + "&checkNumber=" + data.checkNumber, data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   checkInvoiceNumber(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/index-document/inv-num-exists/?invoiceNumber=' + data.invoiceNumber, data)
       .catch(err => {

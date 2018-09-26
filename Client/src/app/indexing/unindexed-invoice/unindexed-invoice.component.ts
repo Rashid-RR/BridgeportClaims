@@ -1,17 +1,15 @@
 import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EventsService } from "../../services/events-service"
 import { DocumentManagerService } from "../../services/document-manager.service";
 import { DocumentItem } from '../../models/document';
 import { HttpService } from "../../services/http-service";
 import { Toast, ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
-import { UUID } from 'angular2-uuid';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
-import swal from "sweetalert2";
 declare var $: any;
 
 
@@ -27,7 +25,6 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
   @Input() invoiceNumber;
   @ViewChild('invoiceSwal') private invoiceSwal: SwalComponent;
   constructor(
-    private dp: DatePipe,
     private dialogService: DialogService,
     public readonly swalTargets: SwalPartialTargets,
     private http: HttpService, private route: ActivatedRoute,

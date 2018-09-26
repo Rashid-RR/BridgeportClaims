@@ -12,11 +12,11 @@ import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 
 @Component({
-  selector: 'indexing-unindexed-invoice-list',
-  templateUrl: './unindexed-invoice-list.component.html',
-  styleUrls: ['./unindexed-invoice-list.component.css']
+  selector: 'indexing-unindexed-check-list',
+  templateUrl: './unindexed-check-list.component.html',
+  styleUrls: ['./unindexed-check-list.component.css']
 })
-export class UnindexedInvoiceListComponent implements OnInit {
+export class UnindexedCheckListComponent implements OnInit, AfterViewInit {
 
   goToPage: any = '';
   activeToast: Toast;
@@ -52,18 +52,19 @@ export class UnindexedInvoiceListComponent implements OnInit {
     ]);
   };
   next() {
-    this.ds.searchInvoices(true);
+    this.ds.searchCheckes(true);
     this.goToPage ='';
   }
   openFile(file: DocumentItem) {
+    console.log(file);
     this.ds.loading = true;
-    this.ds.invoiceFile = file;
-    this.ds.newInvoice = true;
+    this.ds.checksFile = file;
+    this.ds.newCheck = true;
     this.ds.loading = false;
   }
   archive(file:DocumentItem) {
     this.dialogService.addDialog(ConfirmComponent, {
-      title: "Archive Invoice",
+      title: "Archive Check",
       message: "Are you sure you wish to archive "+file.fileName+"?"
     })
       .subscribe((isConfirmed) => {
@@ -76,20 +77,20 @@ export class UnindexedInvoiceListComponent implements OnInit {
     let page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
 
-    } else if (page > 0 && page <= this.ds.invTotalPages) {
-      this.ds.searchInvoices(false, false, page);
+    } else if (page > 0 && page <= this.ds.checkTotalPages) {
+      this.ds.searchCheckes(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invTotalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invTotalPages).then((toast: Toast) => {
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages).then((toast: Toast) => {
           this.activeToast = toast;
         })
       }
     }
   }
   prev() {
-    this.ds.searchInvoices(false, true);
+    this.ds.searchCheckes(false, true);
     this.goToPage ='';
   }
   keyPress(event: any) {
@@ -107,5 +108,10 @@ export class UnindexedInvoiceListComponent implements OnInit {
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
+
+  ngAfterViewInit() {
+
+  }
+
 
 }

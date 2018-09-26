@@ -15,19 +15,25 @@ import { ProfileManager } from './profile-manager';
 export class DocumentManagerService {
   loading: Boolean = false;
   documents: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
+  checks: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
   invoices: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
   documentTypes: Immutable.OrderedMap<any, DocumentType> = Immutable.OrderedMap<any, DocumentType>();
   data: any = {};
   invoiceData: any = {};
+  checksData: any = {};
   display: string = 'list';
   invDisplay: string = 'list';
+  checkDisplay: string = 'list';
   totalRowCount: number;
   totalInvoiceRowCount: number;
+  totalCheckRowCount: number;
   searchText: string = '';
   newIndex: boolean = false;
   newInvoice: boolean = false;
+  newCheck: boolean = false;
   file: DocumentItem;
   invoiceFile: DocumentItem;
+  checksFile: DocumentItem;
   exactMatch: boolean = false;
   constructor(private profileManager: ProfileManager, private http: HttpService, private formBuilder: FormBuilder, private _ngZone: NgZone,
     private events: EventsService, private toast: ToastsManager) {
@@ -43,6 +49,15 @@ export class DocumentManagerService {
     this.invoiceData = {
       date: null,
       fileTypeId: 2,
+      isIndexed: false,
+      sort: "DocumentID",
+      sortDirection: "ASC",
+      page: 1,
+      pageSize: 30
+    };
+    this.checksData = {
+      date: null,
+      fileTypeId: 3,
       isIndexed: false,
       sort: "DocumentID",
       sortDirection: "ASC",
@@ -130,6 +145,7 @@ export class DocumentManagerService {
     })
     this.search();
     this.searchInvoices();
+    this.searchCheckes();
   }
 
   get autoCompleteClaim(): string {
@@ -149,6 +165,13 @@ export class DocumentManagerService {
     this.invoiceData.page = 1;
     this.invoiceData.sortDirection = info.dir.toUpperCase();
     this.searchInvoices();
+  }
+  onCheckSortColumn(info: SortColumnInfo) {
+    this.checksData.isDefaultSort = false;
+    this.checksData.sort = info.column;
+    this.checksData.page = 1;
+    this.checksData.sortDirection = info.dir.toUpperCase();
+    this.searchCheckes();
   }
   get pages(): Array<any> {
     return new Array(this.data.page);
@@ -171,16 +194,16 @@ export class DocumentManagerService {
   get end(): Boolean {
     return this.pageStart && this.data.pageSize > this.documentList.length;
   }
-  archive(id: number,invoice=false) {
+  archive(id: number, invoice = false) {
     this.loading = true;
     this.http.archiveDocument(id).subscribe(r => {
       this.loading = false;
       this.toast.success(r.message);
-      this.cancel(invoice ? 'invoice':'image')
-      if(invoice){ 
-        this.invoices=this.invoices.delete(id);
-      }else{ 
-        this.documents=this.documents.delete(id);
+      this.cancel(invoice ? 'invoice' : 'image')
+      if (invoice) {
+        this.invoices = this.invoices.delete(id);
+      } else {
+        this.documents = this.documents.delete(id);
       }
     }, err => null);
   }
@@ -193,6 +216,10 @@ export class DocumentManagerService {
       case 'invoice':
         this.newInvoice = false;
         this.invoiceFile = undefined;
+        break;
+      case 'checks':
+        this.newCheck = false;
+        this.checksFile = undefined;
         break;
     }
   }
@@ -301,6 +328,58 @@ export class DocumentManagerService {
         });
     }
   }
+  searchCheckes(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
+    if (!this.checksData) {
+      if (this.adminOrAsociate) {
+        this.toast.warning('Please populate at least one search field.');
+      }
+    } else {
+      this.loading = true;
+      let checksData = JSON.parse(JSON.stringify(this.checksData)); //copy checksData instead of memory referencing
+      if (next) {
+        checksData.page++;
+      }
+      if (prev && checksData.page > 1) {
+        checksData.page--;
+      }
+      if (page) {
+        checksData.page = page;
+      }
+      this.http.getDocuments(checksData)
+        .subscribe((result: any) => {
+          //console.log(result);
+          this.loading = false;
+          this.totalCheckRowCount = result.totalRowCount;
+          this.checks = Immutable.OrderedMap<any, DocumentItem>();
+          result.documentResults.forEach((doc: DocumentItem) => {
+            try {
+              this.checks = this.checks.set(doc.documentId, doc);
+            } catch (e) { }
+          });
+          result.documentTypes.forEach((type: DocumentType) => {
+            try {
+              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+            } catch (e) { }
+          });
+          if (next) {
+            this.checksData.page++;
+          }
+          if (prev && this.checksData.page != checksData.page) {
+            this.checksData.page--;
+          }
+          if (page) {
+            this.checksData.page = page;
+          }
+        }, err => {
+          this.loading = false;
+          try {
+            const error = err.error;
+          } catch (e) { }
+        }, () => {
+          this.events.broadcast('document-list-updated');
+        });
+    }
+  }
   get allowed(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
   }
@@ -325,7 +404,25 @@ export class DocumentManagerService {
   get invEnd(): Boolean {
     return this.invPageStart && this.invoiceData.pageSize > this.invoiceList.length;
   }
+  get checkPages(): Array<any> {
+    return new Array(this.checksData.page);
+  }
+  get checksList(): Array<DocumentItem> {
+    return this.checks.toArray();
+  }
+  get checkPageStart() {
+    return this.checksList.length > 1 ? ((this.checksData.page - 1) * this.checksData.pageSize) + 1 : null;
+  }
+  get checkPageEnd() {
+    return this.checksList.length > 1 ? (this.checksData.pageSize > this.checksList.length ? ((this.checksData.page - 1) * this.checksData.pageSize) + this.checksList.length : (this.checksData.page) * this.checksData.pageSize) : null;
+  }
+  get checkTotalPages() {
+    return this.totalCheckRowCount ? Math.ceil(this.totalCheckRowCount / this.checksData.pageSize) : 0;
+  }
+  get checkEnd(): Boolean {
+    return this.checkPageStart && this.checksData.pageSize > this.checksList.length;
+  }
   closeModal() {
-    try{swal.clickCancel();}catch(e){}
+    try { swal.clickCancel(); } catch (e) { }
   }
 }
