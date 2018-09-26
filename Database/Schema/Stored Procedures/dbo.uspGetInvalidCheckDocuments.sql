@@ -8,19 +8,17 @@ GO
 	Description:	Proc that returns the grid results for the Documents page for checks (invalid).
 	Sample Execute:
 					DECLARE @TotalRows INT
-					EXEC [dbo].[uspGetInvalidCheckDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, 2, @TotalRows OUTPUT
+					EXEC [dbo].[uspGetInvalidCheckDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, @TotalRows OUTPUT
 					SELECT @TotalRows TotalRows
 */
-CREATE   PROC [dbo].[uspGetInvalidCheckDocuments]
+CREATE PROC [dbo].[uspGetInvalidCheckDocuments]
 (
 	@Date DATE,
-	@Archived BIT,
 	@FileName VARCHAR(1000),
 	@SortColumn VARCHAR(50),
 	@SortDirection VARCHAR(5),
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
-	@FileTypeID INTEGER,
 	@TotalRows INTEGER OUTPUT
 )
 AS BEGIN
@@ -28,6 +26,9 @@ AS BEGIN
 	SET XACT_ABORT ON;
 	SET DEADLOCK_PRIORITY HIGH;
 	
+	DECLARE @FileTypeID INT
+	SELECT @FileTypeID = ft.FileTypeID FROM dbo.FileType AS ft WHERE ft.Code = 'CK';
+
 	-- QA
 	IF NOT EXISTS (SELECT * FROM dbo.FileType AS ft WHERE ft.FileTypeID = @FileTypeID)
 		BEGIN
@@ -67,7 +68,6 @@ AS BEGIN
 		AND [ci].[DocumentID] IS NULL
 		AND (@Date IS NULL OR d.DocumentDate = @Date)
 		AND ([d].[FileName] LIKE CONCAT(CONCAT(@WildCard, @FileName), @WildCard) OR @FileName IS NULL)
-		AND [d].[Archived] = @Archived
 		AND [d].[FileTypeID] = @FileTypeID
 		-- Valid Check File Types
 		AND 1 = CASE WHEN [d].[FileTypeID] <> 3 AND [d].[FileTypeID] = 0
@@ -126,4 +126,6 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
+
 GO
