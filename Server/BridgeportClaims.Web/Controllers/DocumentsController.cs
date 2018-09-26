@@ -65,7 +65,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get-invalid")]
-        public IHttpActionResult GetInvalidDocuments(DocumentViewModel model)
+        public IHttpActionResult GetInvalidDocuments(InvalidDocumentViewModel model)
         {
             try
             {

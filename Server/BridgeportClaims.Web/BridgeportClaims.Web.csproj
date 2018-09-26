@@ -381,6 +381,7 @@
     <Compile Include="Models\FollowUpDateModel.cs" />
     <Compile Include="Models\ForgotPasswordViewModel.cs" />
     <Compile Include="Email\Models\EmailViewModel.cs" />
+    <Compile Include="Models\InvalidDocumentViewModel.cs" />
     <Compile Include="Models\InvoiceAmountsModel.cs" />
     <Compile Include="Models\MergeClaimModel.cs" />
     <Compile Include="Models\MultiplePrescriptionStatusesModel.cs" />
