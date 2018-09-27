@@ -39,9 +39,7 @@ export class UnindexedInvalidCheckFilterComponent implements OnInit, AfterViewIn
     this.ds.searchInvalidCheckes(); 
   }
 
-  filter($event) {
-    this.ds.invalidChecksData.archived = $event.target.checked;
-  }
+  
   clearFilters() {
     this.fileName = '';
   }

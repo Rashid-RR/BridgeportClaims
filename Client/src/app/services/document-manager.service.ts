@@ -72,7 +72,6 @@ export class DocumentManagerService {
     this.invalidChecksData = {
       fileName: null,
       date: null,
-      isIndexed: false,
       sort: "FileName",
       sortDirection: "ASC",
       page: 1,

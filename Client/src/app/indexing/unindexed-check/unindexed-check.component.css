@@ -119,7 +119,12 @@ form .flex .form-group span
   
 }
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-    background:transparent;
+    background:#992727;
     border-left-color: #992727;
+    color: #fff;
+}
+.nav-pills>li:not(.active)>a, .nav-pills>li:not(.active)>a:focus, .nav-pills>li:not(.active)>a:hover{
+    background:transparent;
+    border-color: #fff;
     color: #000;
 }
