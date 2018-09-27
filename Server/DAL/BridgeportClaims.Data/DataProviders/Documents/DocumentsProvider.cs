@@ -168,6 +168,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspGetInvalidDocuments]";
+                const string totalRows = "@TotalRows";
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
@@ -179,14 +180,15 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
                 ps.Add("@PageNumber", pageNumber, DbType.Int32);
                 ps.Add("@PageSize", pageSize, DbType.Int32);
-                ps.Add("@TotalRows", DbType.Int32, direction: ParameterDirection.Output);
+                ps.Add(totalRows, DbType.Int32, direction: ParameterDirection.Output);
                 var queryResults =
                     conn.Query<DocumentResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.ToList() ??
                     new List<DocumentResultDto>();
                 var docs = new DocumentsDto
                 {
                     DocumentTypes = GetDocumentTypes()?.ToList() ?? new List<DocumentTypeDto>(),
-                    DocumentResults = queryResults
+                    DocumentResults = queryResults,
+                    TotalRowCount = ps.Get<int>(totalRows)
                 };
                 return docs;
             });
