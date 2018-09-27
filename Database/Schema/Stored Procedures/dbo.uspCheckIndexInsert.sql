@@ -12,6 +12,7 @@ GO
 CREATE PROC [dbo].[uspCheckIndexInsert]
     @DocumentID INT,
     @ModifiedByUserID NVARCHAR(128),
+    @CheckNumber VARCHAR(100),
 	@AlreadyExists BIT OUTPUT
 AS 
 	SET NOCOUNT ON;
@@ -35,8 +36,8 @@ AS
 			END
 
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
-		INSERT INTO [dbo].[CheckIndex] ([DocumentID],[ModifiedByUserID],[CreatedOnUTC],[UpdatedOnUTC])
-		SELECT @DocumentID, @ModifiedByUserID, @UtcNow, @UtcNow
+		INSERT [dbo].[CheckIndex] ([DocumentID],[CheckNumber],[ModifiedByUserID],[CreatedOnUTC],[UpdatedOnUTC])
+		SELECT @DocumentID, @CheckNumber, @ModifiedByUserID, @UtcNow, @UtcNow;
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT
@@ -58,4 +59,5 @@ AS
 			@ErrLine,			-- Second argument (int)
 			@ErrMsg);			-- First argument (string)
 	END CATCH
+
 GO

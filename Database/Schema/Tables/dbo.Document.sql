@@ -29,6 +29,8 @@ ALTER TABLE [dbo].[Document] ADD CONSTRAINT [ckDocumentFileTypeID3AndInvalidCann
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [pkDocument] PRIMARY KEY CLUSTERED  ([DocumentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxDocumentDocumentDateArchivedFileTypeIDIncludes] ON [dbo].[Document] ([DocumentDate], [Archived], [FileTypeID]) INCLUDE ([ByteCount], [CreatedOnUTC], [CreationTimeLocal], [DataVersion], [DirectoryName], [Extension], [FileName], [FileSize], [FileUrl], [FullFilePath], [LastAccessTimeLocal], [LastWriteTimeLocal], [ModifiedByUserID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 CREATE NONCLUSTERED INDEX [idxDocumentFileNameIncludes] ON [dbo].[Document] ([FileName]) INCLUDE ([CreationTimeLocal], [DocumentID], [Extension], [FileSize], [FileUrl], [FullFilePath], [LastAccessTimeLocal], [LastWriteTimeLocal]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDocumentFileTypeIDIncludeFileName] ON [dbo].[Document] ([FileTypeID]) INCLUDE ([FileName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
