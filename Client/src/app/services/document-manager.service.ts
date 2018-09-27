@@ -3,34 +3,39 @@ import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ToastsManager } from 'ng2-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
 import swal from "sweetalert2";
 import { SortColumnInfo } from "../directives/table-sort.directive";
 import { DocumentItem } from '../models/document';
 import { DocumentType } from '../models/document-type';
 import { ProfileManager } from './profile-manager';
+declare var $: any;
 
 @Injectable()
 export class DocumentManagerService {
   loading: Boolean = false;
   documents: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
   checks: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
+  invalidChecks: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
   invoices: Immutable.OrderedMap<any, DocumentItem> = Immutable.OrderedMap<any, DocumentItem>();
   documentTypes: Immutable.OrderedMap<any, DocumentType> = Immutable.OrderedMap<any, DocumentType>();
   data: any = {};
   invoiceData: any = {};
   checksData: any = {};
+  invalidChecksData: any = {};
   display: string = 'list';
   invDisplay: string = 'list';
   checkDisplay: string = 'list';
+  invalidCheckDisplay: string = 'list';
   totalRowCount: number;
   totalInvoiceRowCount: number;
   totalCheckRowCount: number;
+  totalInvalidCheckRowCount: number;
   searchText: string = '';
   newIndex: boolean = false;
   newInvoice: boolean = false;
   newCheck: boolean = false;
+  indexNewCheck: boolean = true;
   file: DocumentItem;
   invoiceFile: DocumentItem;
   checksFile: DocumentItem;
@@ -60,6 +65,15 @@ export class DocumentManagerService {
       fileTypeId: 3,
       isIndexed: false,
       sort: "DocumentID",
+      sortDirection: "ASC",
+      page: 1,
+      pageSize: 30
+    };
+    this.invalidChecksData = {
+      fileName: null,
+      date: null,
+      isIndexed: false,
+      sort: "FileName",
       sortDirection: "ASC",
       page: 1,
       pageSize: 30
@@ -146,6 +160,7 @@ export class DocumentManagerService {
     this.search();
     this.searchInvoices();
     this.searchCheckes();
+    this.searchInvalidCheckes();
   }
 
   get autoCompleteClaim(): string {
@@ -172,6 +187,13 @@ export class DocumentManagerService {
     this.checksData.page = 1;
     this.checksData.sortDirection = info.dir.toUpperCase();
     this.searchCheckes();
+  }
+  onInvalidCheckSortColumn(info: SortColumnInfo) {
+    this.invalidChecksData.isDefaultSort = false;
+    this.invalidChecksData.sort = info.column;
+    this.invalidChecksData.page = 1;
+    this.invalidChecksData.sortDirection = info.dir.toUpperCase();
+    this.searchInvalidCheckes();
   }
   get pages(): Array<any> {
     return new Array(this.data.page);
@@ -205,9 +227,12 @@ export class DocumentManagerService {
       } else {
         this.documents = this.documents.delete(id);
       }
-    }, err => null);
+    }, () => {
+      this.loading = false;
+    });
   }
   cancel(type) {
+    console.log(type);
     switch (type) {
       case 'image':
         this.newIndex = false;
@@ -218,8 +243,13 @@ export class DocumentManagerService {
         this.invoiceFile = undefined;
         break;
       case 'checks':
+      case 'check':
         this.newCheck = false;
         this.checksFile = undefined;
+        setTimeout(() => {
+          console.log(`.nav-stacked a[href="#${(this.indexNewCheck ? 'checksA' : 'checksB')}"]`);
+          $(`.nav-stacked a[href="#${(this.indexNewCheck ? 'checksA' : 'checksB')}"]`).tab('show');
+        },200);
         break;
     }
   }
@@ -380,6 +410,58 @@ export class DocumentManagerService {
         });
     }
   }
+  searchInvalidCheckes(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
+    if (!this.invalidChecksData) {
+      if (this.adminOrAsociate) {
+        this.toast.warning('Please populate at least one search field.');
+      }
+    } else {
+      this.loading = true;
+      let invalidChecksData = JSON.parse(JSON.stringify(this.invalidChecksData)); //copy invalidChecksData instead of memory referencing
+      if (next) {
+        invalidChecksData.page++;
+      }
+      if (prev && invalidChecksData.page > 1) {
+        invalidChecksData.page--;
+      }
+      if (page) {
+        invalidChecksData.page = page;
+      }
+      this.http.getInvalidChecks(invalidChecksData)
+        .subscribe((result: any) => {
+          //console.log(result);
+          this.loading = false;
+          this.totalInvalidCheckRowCount = result.totalRowCount || (result.documentResults && result.documentResults.length) || 0;
+          this.invalidChecks = Immutable.OrderedMap<any, DocumentItem>();
+          result.documentResults.forEach((doc: DocumentItem) => {
+            try {
+              this.invalidChecks = this.invalidChecks.set(doc.documentId, doc);
+            } catch (e) { }
+          });
+          result.documentTypes.forEach((type: DocumentType) => {
+            try {
+              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+            } catch (e) { }
+          });
+          if (next) {
+            this.invalidChecksData.page++;
+          }
+          if (prev && this.invalidChecksData.page != invalidChecksData.page) {
+            this.invalidChecksData.page--;
+          }
+          if (page) {
+            this.invalidChecksData.page = page;
+          }
+        }, err => {
+          this.loading = false;
+          try {
+            const error = err.error;
+          } catch (e) { }
+        }, () => {
+          this.events.broadcast('document-list-updated');
+        });
+    }
+  }
   get allowed(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
   }
@@ -421,6 +503,24 @@ export class DocumentManagerService {
   }
   get checkEnd(): Boolean {
     return this.checkPageStart && this.checksData.pageSize > this.checksList.length;
+  }
+  get invalidCheckPages(): Array<any> {
+    return new Array(this.invalidChecksData.page);
+  }
+  get invalidChecksList(): Array<DocumentItem> {
+    return this.invalidChecks.toArray();
+  }
+  get invalidCheckPageStart() {
+    return this.invalidChecksList.length > 1 ? ((this.invalidChecksData.page - 1) * this.invalidChecksData.pageSize) + 1 : null;
+  }
+  get invalidCheckPageEnd() {
+    return this.invalidChecksList.length > 1 ? (this.invalidChecksData.pageSize > this.invalidChecksList.length ? ((this.invalidChecksData.page - 1) * this.invalidChecksData.pageSize) + this.invalidChecksList.length : (this.invalidChecksData.page) * this.invalidChecksData.pageSize) : null;
+  }
+  get invalidCheckTotalPages() {
+    return this.totalInvalidCheckRowCount ? Math.ceil(this.totalInvalidCheckRowCount / this.invalidChecksData.pageSize) : 0;
+  }
+  get invalidCheckEnd(): Boolean {
+    return this.invalidCheckPageStart && this.invalidChecksData.pageSize > this.invalidChecksList.length;
   }
   closeModal() {
     try { swal.clickCancel(); } catch (e) { }

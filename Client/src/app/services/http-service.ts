@@ -780,6 +780,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getInvalidChecks(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + '/document/get-invalid', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   archiveDocument(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/archive/' + id, {})
       .catch(err => {

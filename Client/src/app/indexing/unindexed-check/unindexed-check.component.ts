@@ -22,6 +22,7 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
   file: DocumentItem;
   form: FormGroup;
   @Input() checkNumber;
+  @Input() index;
   @ViewChild('checkSwal') private checkSwal: SwalComponent;
   constructor(
     private dialogService: DialogService,

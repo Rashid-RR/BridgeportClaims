@@ -118,3 +118,8 @@ form .flex .form-group span
   flex-direction: row;
   
 }
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+    background:transparent;
+    border-left-color: #992727;
+    color: #000;
+}

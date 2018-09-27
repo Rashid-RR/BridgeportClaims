@@ -1,33 +1,26 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastsManager, Toast } from 'ng2-toastr';
-import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
 
 import { ConfirmComponent } from '../../components/confirm.component';
-// Services
 import { DocumentManagerService } from "../../services/document-manager.service";
 import { DocumentItem } from '../../models/document';
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 
 @Component({
-  selector: 'indexing-unindexed-check-list',
-  templateUrl: './unindexed-check-list.component.html',
-  styleUrls: ['./unindexed-check-list.component.css']
+  selector: 'indexing-unindexed-invalid-check-list',
+  templateUrl: './unindexed-invalid-check-list.component.html',
+  styleUrls: ['./unindexed-invalid-check-list.component.css']
 })
-export class UnindexedCheckListComponent implements OnInit, AfterViewInit {
+export class UnindexedInvalidCheckListComponent implements OnInit, AfterViewInit {
 
   goToPage: any = '';
   activeToast: Toast;
   items: IShContextMenuItem[];
   constructor(
     public ds: DocumentManagerService,
-    private dp: DatePipe,
     private toast: ToastsManager,
-    private router: Router,
-    private dialogService: DialogService,
-    private fb: FormBuilder) { }
+    private dialogService: DialogService) { }
 
   ngOnInit() {
     this.items = [
@@ -52,7 +45,7 @@ export class UnindexedCheckListComponent implements OnInit, AfterViewInit {
     ]);
   };
   next() {
-    this.ds.searchCheckes(true);
+    this.ds.searchInvalidCheckes(true);
     this.goToPage ='';
   }
   openFile(file: DocumentItem) {
@@ -60,7 +53,7 @@ export class UnindexedCheckListComponent implements OnInit, AfterViewInit {
     this.ds.checksFile = file;
     this.ds.newCheck = true;
     this.ds.loading = false;
-    this.ds.indexNewCheck = true;
+    this.ds.indexNewCheck = false;
   }
   archive(file:DocumentItem) {
     this.dialogService.addDialog(ConfirmComponent, {
@@ -77,20 +70,20 @@ export class UnindexedCheckListComponent implements OnInit, AfterViewInit {
     let page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
 
-    } else if (page > 0 && page <= this.ds.checkTotalPages) {
-      this.ds.searchCheckes(false, false, page);
+    } else if (page > 0 && page <= this.ds.invalidCheckTotalPages) {
+      this.ds.searchInvalidCheckes(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages).then((toast: Toast) => {
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages).then((toast: Toast) => {
           this.activeToast = toast;
         })
       }
     }
   }
   prev() {
-    this.ds.searchCheckes(false, true);
+    this.ds.searchInvalidCheckes(false, true);
     this.goToPage ='';
   }
   keyPress(event: any) {

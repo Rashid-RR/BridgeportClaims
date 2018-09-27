@@ -21,6 +21,8 @@ import { SharedModule } from '../shared';
 import { UnindexedCheckComponent } from './unindexed-check/unindexed-check.component';
 import { UnindexedCheckListComponent } from './unindexed-check-list/unindexed-check-list.component';
 import { UnindexedCheckFilterComponent } from './unindexed-check-filter/unindexed-check-filter.component';
+import { UnindexedInvalidCheckListComponent } from './unindexed-invalid-check-list/unindexed-invalid-check-list.component';
+import { UnindexedInvalidCheckFilterComponent } from './unindexed-invalid-check-filter/unindexed-invalid-check-filter.component';
 
 @NgModule({
   imports: [
@@ -29,7 +31,7 @@ import { UnindexedCheckFilterComponent } from './unindexed-check-filter/unindexe
     RouterModule.forChild(IndexingRoutes),
   ],
   declarations: [
-    UnindexedImageFileComponent,UnindexedImageFileListComponent,IndexFileComponent,UnindexedImageComponent,UnindexedImageFilterComponent,UnindexedImageListComponent, ImagesInvoiceComponent,
+    UnindexedImageFileComponent,UnindexedImageFileListComponent,IndexFileComponent,UnindexedImageComponent,UnindexedImageFilterComponent,UnindexedImageListComponent, ImagesInvoiceComponent,UnindexedInvalidCheckListComponent,UnindexedInvalidCheckFilterComponent,
     UnindexedInvoiceFileListComponent,UnindexedInvoiceFilterComponent,UnindexedInvoiceListComponent,UnindexedInvoiceFileListComponent,UnindexedInvoiceComponent, UnindexedCheckComponent, UnindexedCheckListComponent, UnindexedCheckFilterComponent
   ]
 })
