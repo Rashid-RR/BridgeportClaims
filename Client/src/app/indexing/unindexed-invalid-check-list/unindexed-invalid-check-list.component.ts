@@ -24,17 +24,17 @@ export class UnindexedInvalidCheckListComponent implements OnInit, AfterViewInit
 
   ngOnInit() {
     this.items = [
-      {
+      /* {
         label: '<span class="fa fa-trash text-red">Archive</span>',
         onClick: ($event)=>{
           this.archive($event.menuItem.id);
         }
-      }
+      } */
     ];
   }
 
   onBefore(event: BeforeMenuEvent, id) {
-    event.open([
+    /* event.open([
       {
         id: id,
         label: '<span class="fa fa-trash text-red">Archive</span>',
@@ -42,7 +42,7 @@ export class UnindexedInvalidCheckListComponent implements OnInit, AfterViewInit
           this.archive($event.menuItem.id);
         }
       }
-    ]);
+    ]); */
   };
   next() {
     this.ds.searchInvalidCheckes(true);

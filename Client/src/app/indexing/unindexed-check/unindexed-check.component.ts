@@ -30,7 +30,7 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
     private http: HttpService, private route: ActivatedRoute,
     private toast: ToastsManager, private formBuilder: FormBuilder, public ds: DocumentManagerService, private events: EventsService) {
     this.form = this.formBuilder.group({
-      checkNumber: [null, Validators.compose([Validators.required])]
+      checkNumber: [null, Validators.compose([Validators.min(3),Validators.required])]
     });
 
   }
@@ -80,7 +80,7 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
     } else {
       let er = '';
       this.ds.loading = false;
-      this.toast.warning(er, 'Please correct the check number', { enableHTML: true });
+      this.toast.warning(er, 'Please provide a Check # with a least 3 Characters....', { enableHTML: true });
     }
   }
   archive() {
