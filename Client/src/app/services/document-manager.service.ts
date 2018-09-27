@@ -247,7 +247,6 @@ export class DocumentManagerService {
         this.newCheck = false;
         this.checksFile = undefined;
         setTimeout(() => {
-          console.log(`.nav-stacked a[href="#${(this.indexNewCheck ? 'checksA' : 'checksB')}"]`);
           $(`.nav-stacked a[href="#${(this.indexNewCheck ? 'checksA' : 'checksB')}"]`).tab('show');
         },200);
         break;
