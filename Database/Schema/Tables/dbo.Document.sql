@@ -12,10 +12,10 @@ CREATE TABLE [dbo].[Document]
 [FileUrl] [nvarchar] (500) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [DocumentDate] [date] NULL,
 [ByteCount] [bigint] NOT NULL,
-[Archived] [bit] NOT NULL CONSTRAINT [dfDocumentArchived] DEFAULT ((0)),
+[Archived] [bit] NOT NULL CONSTRAINT [dfDocumentArchivedFalse] DEFAULT ((0)),
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[FileTypeID] [tinyint] NOT NULL CONSTRAINT [dfDocumentFileType] DEFAULT ((1)),
-[IsValid] [bit] NOT NULL CONSTRAINT [ckDocumentIsValidTrue] DEFAULT ((1)),
+[FileTypeID] [tinyint] NOT NULL CONSTRAINT [dfDocumentFileTypeOne] DEFAULT ((1)),
+[IsValid] AS (CONVERT([bit],case  when [FileTypeID]=(3) AND len([FileName])<>(18) then (0) else (1) end,(0))),
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDocumentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -24,8 +24,6 @@ WITH
 (
 DATA_COMPRESSION = ROW
 )
-GO
-ALTER TABLE [dbo].[Document] ADD CONSTRAINT [ckDocumentFileTypeID3AndInvalidCannotBeArchived] CHECK (((1)=case  when [FileTypeID]<>(3) then (1) when [FileTypeID]=(3) AND [Archived]=(0) then (1) when [FileTypeID]=(3) AND [IsValid]=(0) AND [Archived]=(1) then (0) else (0) end))
 GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [pkDocument] PRIMARY KEY CLUSTERED  ([DocumentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
