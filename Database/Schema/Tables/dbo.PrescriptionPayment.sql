@@ -5,7 +5,8 @@ CREATE TABLE [dbo].[PrescriptionPayment]
 [AmountPaid] [money] NOT NULL,
 [DatePosted] [date] NULL,
 [PrescriptionID] [int] NOT NULL,
-[UserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[DocumentID] [int] NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionPaymentCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPrescriptionPaymentUpdatedOnUTC] DEFAULT (sysutcdatetime()),
 [DataVersion] [timestamp] NOT NULL
@@ -21,11 +22,13 @@ CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentAmountPaid] ON [dbo].[Prescript
 GO
 CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentCheckNumber] ON [dbo].[PrescriptionPayment] ([CheckNumber]) INCLUDE ([AmountPaid], [PrescriptionID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentDatePostedIncludeAll] ON [dbo].[PrescriptionPayment] ([DatePosted]) INCLUDE ([AmountPaid], [CheckNumber], [CreatedOnUTC], [DataVersion], [PrescriptionID], [PrescriptionPaymentID], [UpdatedOnUTC], [UserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentDatePostedIncludeAll] ON [dbo].[PrescriptionPayment] ([DatePosted]) INCLUDE ([AmountPaid], [CheckNumber], [CreatedOnUTC], [DataVersion], [DocumentID], [ModifiedByUserID], [PrescriptionID], [PrescriptionPaymentID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentPrescriptionIDUserIDIncludeAll] ON [dbo].[PrescriptionPayment] ([PrescriptionID], [UserID]) INCLUDE ([AmountPaid], [CheckNumber], [CreatedOnUTC], [DatePosted], [PrescriptionPaymentID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxPrescriptionPaymentPrescriptionIDUserIDIncludeAll] ON [dbo].[PrescriptionPayment] ([PrescriptionID], [ModifiedByUserID]) INCLUDE ([AmountPaid], [CheckNumber], [CreatedOnUTC], [DatePosted], [DocumentID], [PrescriptionPaymentID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [fkPrescriptionPaymentDocumentIDDocumentDocumentID] FOREIGN KEY ([DocumentID]) REFERENCES [dbo].[Document] ([DocumentID])
+GO
+ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [fkPrescriptionPaymentModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
 ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [fkPrescriptionPaymentPrescriptionIDPrescriptionPrescriptionID] FOREIGN KEY ([PrescriptionID]) REFERENCES [dbo].[Prescription] ([PrescriptionID])
-GO
-ALTER TABLE [dbo].[PrescriptionPayment] ADD CONSTRAINT [fkPrescriptionPaymentUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

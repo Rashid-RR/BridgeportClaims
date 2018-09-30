@@ -30,7 +30,7 @@ AS
             SET     CheckNumber = @CheckNumber
                    ,AmountPaid = @AmountPaid
                    ,DatePosted = @DatePosted
-                   ,UserID = @UserID
+                   ,ModifiedByUserID = @UserID
             WHERE   PrescriptionPaymentID = @PrescriptionPaymentID;
 
             IF (@@TRANCOUNT > 0) COMMIT;

@@ -31,7 +31,7 @@ AS BEGIN
 		DECLARE @LocalNowDateOnly DATE = CAST(@LocalNow AS DATE);
 
 		INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, PrescriptionID,
-		CreatedOnUTC, UpdatedOnUTC, UserID)
+		CreatedOnUTC, UpdatedOnUTC, ModifiedByUserID)
 		
 		SELECT  @CheckNumber CheckNumber,
 				p.AmountPosted AmountPaid,
