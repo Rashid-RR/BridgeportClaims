@@ -8,6 +8,8 @@ namespace BridgeportClaims.Web.Models
         [Required]
         public IList<int> PrescriptionIds { get; set; }
         [Required]
+        public int DocumentId { get; set; }
+        [Required]
         public string CheckNumber { get; set; }
         [Required]
         public decimal CheckAmount { get; set; }

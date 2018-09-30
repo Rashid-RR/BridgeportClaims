@@ -5,20 +5,22 @@ using System.Globalization;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;
-using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public class PaymentsDataProvider : IPaymentsDataProvider
     {
+        private const string AmountRemainingOutputParam = "@AmountRemaining";
+
         public IEnumerable<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IEnumerable<int> claimIds)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                var delimitedClaimIds = string.Join(StringConstants.Comma, claimIds);
+                var delimitedClaimIds = string.Join(s.Comma, claimIds);
                 const string sp = "[dbo].[uspGetClaimsWithPrescriptionDetails]";
                 conn.Open();
                 return conn.Query<ClaimsWithPrescriptionDetailsDto>(sp, new {ClaimIDs = delimitedClaimIds},
@@ -241,99 +243,51 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 });
         });
 
-        public PostPaymentReturnDto PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
-            decimal checkAmount, decimal amountSelected, decimal amountToPost)
+        private static DynamicParameters PrepareParameters(IEnumerable<int> prescriptionIds, string checkNumber,
+            decimal checkAmount, decimal amountSelected, decimal amountToPost, int documentId)
         {
-            return DisposableService.Using(()
-                => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                return DisposableService.Using(() => new SqlCommand("[dbo].[uspPostPayment]", conn),
-                    cmd =>
-                    {
-                        cmd.CommandType = CommandType.StoredProcedure;
-                        var prescriptionIdsParam = new SqlParameter
-                        {
-                            Value = CreateDataTable(prescriptionIds),
-                            SqlDbType = SqlDbType.Structured,
-                            ParameterName = "@PrescriptionIDs",
-                            Direction = ParameterDirection.Input,
-                            TypeName = "[dbo].[udtID]"
-                        };
-                        var checkNumberParam = new SqlParameter
-                        {
-                            Value = checkNumber,
-                            SqlDbType = SqlDbType.VarChar,
-                            Direction = ParameterDirection.Input,
-                            ParameterName = "@CheckNumber"
-                        };
-                        var checkAmountParam = new SqlParameter
-                        {
-                            Value = checkAmount,
-                            SqlDbType = SqlDbType.Money,
-                            Direction = ParameterDirection.Input,
-                            ParameterName = "@CheckAmount"
-                        };
-                        var amountSelectedParam = new SqlParameter
-                        {
-                            Value = amountSelected,
-                            SqlDbType = SqlDbType.Money,
-                            Direction = ParameterDirection.Input,
-                            ParameterName = "@AmountSelected"
-                        };
-                        var amountToPostParam = new SqlParameter
-                        {
-                            Value = amountToPost,
-                            SqlDbType = SqlDbType.Money,
-                            Direction = ParameterDirection.Input,
-                            ParameterName = "@AmountToPost"
-                        };
-                        var amountRemainingParam = cmd.CreateParameter();
-                        amountRemainingParam.SqlDbType = SqlDbType.Money;
-                        amountRemainingParam.DbType = DbType.Decimal;
-                        amountRemainingParam.Precision = 18;
-                        amountRemainingParam.Scale = 2;
-                        amountRemainingParam.Direction = ParameterDirection.Output;
-                        amountRemainingParam.ParameterName = "@AmountRemaining";
-
-                        cmd.Parameters.Add(prescriptionIdsParam);
-                        cmd.Parameters.Add(checkNumberParam);
-                        cmd.Parameters.Add(checkAmountParam);
-                        cmd.Parameters.Add(amountSelectedParam);
-                        cmd.Parameters.Add(amountToPostParam);
-                        cmd.Parameters.Add(amountRemainingParam);
-                        if (conn.State != ConnectionState.Open)
-                            conn.Open();
-                        var retVal = new PostPaymentReturnDto();
-                        DisposableService.Using(cmd.ExecuteReader, reader =>
-                        {
-                            var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionID");
-                            var outstandingOrdinal = reader.GetOrdinal("Outstanding");
-                            while (reader.Read())
-                            {
-                                var postPaymentPrescriptionReturnDto =
-                                    new PostPaymentPrescriptionReturnDto
-                                    {
-                                        PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
-                                        Outstanding = reader.GetDecimal(outstandingOrdinal)
-                                    };
-                                retVal.PostPaymentPrescriptionReturnDtos.Add(postPaymentPrescriptionReturnDto);
-                            }
-                            return retVal;
-                        });
-                        const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
-                        var culture = CultureInfo.CreateSpecificCulture("en-US");
-                        retVal.AmountRemaining = decimal.TryParse(amountRemainingParam.Value.ToString(), style, culture,
-                            out decimal d) ? d : default;
-                        return retVal;
-                    });
-
-            });
+            var ps = new DynamicParameters();
+            var dt = CreateDataTable(prescriptionIds);
+            ps.Add("@PrescriptionIDs", dt.AsTableValuedParameter(s.udtId));
+            ps.Add("@DocumentID", documentId, DbType.Int32);
+            ps.Add("@CheckNumber", checkNumber, DbType.AnsiString, size: 50);
+            ps.Add("@CheckAmount", checkAmount, DbType.Decimal);
+            ps.Add("@AmountSelected", amountSelected, DbType.Decimal);
+            ps.Add("@AmountToPost", amountToPost, DbType.Decimal);
+            ps.Add(AmountRemainingOutputParam, DbType.Decimal, direction: ParameterDirection.Output);
+            return ps;
         }
+
+        public PostPaymentReturnDto PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
+            decimal checkAmount, decimal amountSelected, decimal amountToPost, int documentId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspPostPayment]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = PrepareParameters(prescriptionIds, checkNumber, checkAmount, amountSelected, amountToPost, documentId);
+                var results = conn.QueryMultiple(sp, ps, commandTimeout: 180, commandType: CommandType.StoredProcedure);
+                var postPaymentReturnDto = new PostPaymentReturnDto();
+                var postPaymentPrescriptionReturnDto = results.Read<PostPaymentPrescriptionReturnDto>()?.ToList() ?? new List<PostPaymentPrescriptionReturnDto>();
+                var postPaymentPrescriptionDocumentDto = results.Read<PostPaymentPrescriptionDocumentDto>()?.SingleOrDefault() ?? new PostPaymentPrescriptionDocumentDto();
+                postPaymentReturnDto.PostPaymentPrescriptionReturnDtos.AddRange(postPaymentPrescriptionReturnDto);
+                const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
+                var culture = CultureInfo.CreateSpecificCulture("en-US");
+                var amtRemaining = ps.Get<decimal>(AmountRemainingOutputParam);
+                postPaymentReturnDto.AmountRemaining = decimal.TryParse(amtRemaining.ToString(CultureInfo.InvariantCulture), style, culture,
+                    out var d) ? d : default;
+                postPaymentReturnDto.DocumentId = postPaymentPrescriptionDocumentDto.DocumentId;
+                postPaymentReturnDto.FileName = postPaymentPrescriptionDocumentDto.FileName;
+                postPaymentReturnDto.FileUrl = postPaymentPrescriptionDocumentDto.FileUrl;
+                return postPaymentReturnDto;
+            });
 
         private static DataTable CreateDataTable(IEnumerable<int> ids)
         {
             var table = new DataTable();
-            table.Columns.Add("PrescriptionID", typeof(int));
+            table.Columns.Add("ID", typeof(int));
             foreach (var id in ids)
             {
                 table.Rows.Add(id);

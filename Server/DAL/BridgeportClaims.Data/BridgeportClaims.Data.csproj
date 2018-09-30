@@ -184,6 +184,7 @@
     <Compile Include="Dtos\PayorFullDto.cs" />
     <Compile Include="Dtos\PayorSearchResultsDto.cs" />
     <Compile Include="Dtos\PharmacyNameDto.cs" />
+    <Compile Include="Dtos\PostPaymentPrescriptionDocumentDto.cs" />
     <Compile Include="Dtos\PostPaymentPrescriptionReturnDto.cs" />
     <Compile Include="Dtos\PostPaymentReturnDto.cs" />
     <Compile Include="Dtos\PrescriptionDto.cs" />
