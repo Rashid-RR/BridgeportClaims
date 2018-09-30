@@ -8,6 +8,7 @@ using BridgeportClaims.Data.DataProviders.Documents;
 using ic = BridgeportClaims.Common.Constants.IntegerConstants;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers
@@ -91,7 +92,12 @@ namespace BridgeportClaims.Web.Controllers
                     model.Archived, model.FileName, model.FileTypeId, model.Sort,
                     model.SortDirection, model.Page,
                     model.PageSize);
-                return Ok(results);
+                if (model.FileTypeId == 1)
+                {
+                    return Ok(results);
+                }
+                return Ok(new { results.TotalRowCount, results.DocumentResults });
+                
             }
             catch (Exception ex)
             {

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class DocumentsDto
     {
         public IList<DocumentTypeDto> DocumentTypes { get; set; }
