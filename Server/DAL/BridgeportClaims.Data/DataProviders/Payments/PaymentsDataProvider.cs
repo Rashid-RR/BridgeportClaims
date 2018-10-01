@@ -15,8 +15,6 @@ namespace BridgeportClaims.Data.DataProviders.Payments
 {
     public class PaymentsDataProvider : IPaymentsDataProvider
     {
-        private const string AmountRemainingOutputParam = "@AmountRemaining";
-
         public IEnumerable<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IEnumerable<int> claimIds)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -254,35 +252,34 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             ps.Add("@CheckAmount", checkAmount, DbType.Decimal);
             ps.Add("@AmountSelected", amountSelected, DbType.Decimal);
             ps.Add("@AmountToPost", amountToPost, DbType.Decimal);
-            ps.Add(AmountRemainingOutputParam, DbType.Decimal, direction: ParameterDirection.Output);
             return ps;
         }
 
         public PostPaymentReturnDto PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
-            decimal checkAmount, decimal amountSelected, decimal amountToPost, int documentId) =>
-            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            decimal checkAmount, decimal amountSelected, decimal amountToPost, int documentId)
+        {
+            var postPaymentReturnDto = new PostPaymentReturnDto();
+            var ps = PrepareParameters(prescriptionIds, checkNumber, checkAmount, amountSelected, amountToPost, documentId);
+            return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspPostPayment]";
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                var ps = PrepareParameters(prescriptionIds, checkNumber, checkAmount, amountSelected, amountToPost, documentId);
-                var results = conn.QueryMultiple(sp, ps, commandTimeout: 180, commandType: CommandType.StoredProcedure);
-                var postPaymentReturnDto = new PostPaymentReturnDto();
-                var postPaymentPrescriptionReturnDto = results.Read<PostPaymentPrescriptionReturnDto>()?.ToList() ?? new List<PostPaymentPrescriptionReturnDto>();
-                var postPaymentPrescriptionDocumentDto = results.Read<PostPaymentPrescriptionDocumentDto>()?.SingleOrDefault() ?? new PostPaymentPrescriptionDocumentDto();
+                if (conn.State != ConnectionState.Open) conn.Open();
+                var multi = conn.QueryMultiple(sp, ps, commandTimeout: 180, commandType: CommandType.StoredProcedure);
+                var postPaymentPrescriptionReturnDto = multi.Read<PostPaymentPrescriptionReturnDto>()?.ToList() ?? new List<PostPaymentPrescriptionReturnDto>();
+                var postPaymentPrescriptionDocumentDto = multi.Read<PostPaymentPrescriptionDocumentDto>()?.SingleOrDefault() ?? new PostPaymentPrescriptionDocumentDto();
                 postPaymentReturnDto.PostPaymentPrescriptionReturnDtos.AddRange(postPaymentPrescriptionReturnDto);
-                const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
-                var culture = CultureInfo.CreateSpecificCulture("en-US");
-                var amtRemaining = ps.Get<decimal>(AmountRemainingOutputParam);
-                postPaymentReturnDto.AmountRemaining = decimal.TryParse(amtRemaining.ToString(CultureInfo.InvariantCulture), style, culture,
-                    out var d) ? d : default;
                 postPaymentReturnDto.DocumentId = postPaymentPrescriptionDocumentDto.DocumentId;
                 postPaymentReturnDto.FileName = postPaymentPrescriptionDocumentDto.FileName;
                 postPaymentReturnDto.FileUrl = postPaymentPrescriptionDocumentDto.FileUrl;
+                // TODO: Get rid of all of this shit.
+                // postPaymentPrescriptionDocumentDto.AmountRemaining;
+                // const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
+                // var culture = CultureInfo.CreateSpecificCulture("en-US");
+                // decimal.TryParse(amtRemaining.ToString(CultureInfo.InvariantCulture), style, culture, out var d) ? d : default;
+                postPaymentReturnDto.AmountRemaining = postPaymentPrescriptionDocumentDto.AmountRemaining;
                 return postPaymentReturnDto;
             });
+        }
 
         private static DataTable CreateDataTable(IEnumerable<int> ids)
         {

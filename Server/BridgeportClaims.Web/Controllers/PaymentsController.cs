@@ -99,7 +99,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 if (null == model)
                 {
-                    throw new ArgumentNullException(nameof(model));
+                    throw new ArgumentNullException(nameof(model)); 
                 }
                 var numberOfPrescriptions = model.PrescriptionIds?.Count;
                 if (null == numberOfPrescriptions || numberOfPrescriptions < 1)
