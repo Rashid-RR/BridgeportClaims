@@ -42,5 +42,6 @@
 	    public const string BillingStatementName = "Billing Statement";
 	    public const string RedisCacheConnection = "CacheConnection";
 	    public const string UseRedisKey = "UseRedis";
+	    public const string IsProductionKey = "IsProduction";
 	}
 }

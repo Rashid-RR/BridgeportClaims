@@ -37,17 +37,14 @@
     <Reference Include="protobuf-net, Version=2.3.13.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.3.13\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
-    <Reference Include="StackExchange.Redis, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
-      <HintPath>..\packages\StackExchange.Redis.2.0.513\lib\net472\StackExchange.Redis.dll</HintPath>
+    <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.1.2.6\lib\net46\StackExchange.Redis.dll</HintPath>
     </Reference>
-    <Reference Include="StackExchange.Redis.Extensions.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=d7d863643bcd13ef, processorArchitecture=MSIL">
-      <HintPath>..\packages\StackExchange.Redis.Extensions.Core.3.5.0\lib\net46\StackExchange.Redis.Extensions.Core.dll</HintPath>
+    <Reference Include="StackExchange.Redis.Extensions.Core, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.Extensions.Core.2.4.0\lib\net45\StackExchange.Redis.Extensions.Core.dll</HintPath>
     </Reference>
-    <Reference Include="StackExchange.Redis.Extensions.Protobuf, Version=3.5.0.0, Culture=neutral, PublicKeyToken=d7d863643bcd13ef, processorArchitecture=MSIL">
-      <HintPath>..\packages\StackExchange.Redis.Extensions.Protobuf.3.5.0\lib\net46\StackExchange.Redis.Extensions.Protobuf.dll</HintPath>
-    </Reference>
-    <Reference Include="StackExchange.Redis.StrongName, Version=1.2.6.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
-      <HintPath>..\packages\StackExchange.Redis.StrongName.1.2.6\lib\net46\StackExchange.Redis.StrongName.dll</HintPath>
+    <Reference Include="StackExchange.Redis.Extensions.Protobuf, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StackExchange.Redis.Extensions.Protobuf.2.3.0\lib\net45\StackExchange.Redis.Extensions.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -95,6 +92,7 @@
     <Compile Include="Domain\RedisDomain.cs" />
     <Compile Include="Environment\IRedisEnvironment.cs" />
     <Compile Include="Environment\RedisEnvironment.cs" />
+    <Compile Include="Keys\ICacheKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Redis\IRedisResult.cs" />
     <Compile Include="Redis\RedisCacheService.cs" />

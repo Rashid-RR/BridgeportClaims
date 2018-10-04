@@ -17,6 +17,8 @@ namespace BridgeportClaims.Common.Config
             return collection;
         }
 
+        public static bool IsProduction = Convert.ToBoolean(GetAppSetting(s.IsProductionKey));
+
         public static bool UseRedis => Convert.ToBoolean(GetAppSetting(s.UseRedisKey));
 
         public static string GetAppSetting(string key) => cm.AppSettings[key];

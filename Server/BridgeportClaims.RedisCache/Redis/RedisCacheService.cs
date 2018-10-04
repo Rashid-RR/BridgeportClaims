@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using StackExchange.Redis;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -18,12 +17,6 @@ namespace BridgeportClaims.RedisCache.Redis
                 return ConnectionMultiplexer.Connect(cacheConn);
             });
             _cache = _lazyConnection.Value.GetDatabase();
-        }
-
-        public ICollection<int> DoIt()
-        {
-            IRedisResult
-                StackExchangeRedisCacheClient
         }
     }
 }
