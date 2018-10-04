@@ -14,7 +14,7 @@ using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.RedisCache.Domain
 {
-    public class RedisDomain
+    public class RedisDomain : IRedisDomain
     {
         private readonly bool _useRedis;
         private readonly NameValueCollection _redisSettings;

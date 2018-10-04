@@ -43,6 +43,7 @@ using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
 using BridgeportClaims.Pdf.Factories;
+using BridgeportClaims.RedisCache.Domain;
 using BridgeportClaims.RedisCache.Environment;
 using BridgeportClaims.Word.FileDriver;
 using BridgeportClaims.Word.Templating;
@@ -78,6 +79,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ClaimImageProvider>().As<IClaimImageProvider>().InstancePerRequest();
             builder.RegisterType<ClaimsEditProvider>().As<IClaimsEditProvider>().InstancePerRequest();
             builder.RegisterType<PayorSearchProvider>().As<IPayorSearchProvider>().InstancePerRequest();
+            builder.RegisterType<RedisDomain>().As<IRedisDomain>().InstancePerRequest();
             builder.RegisterType<AdjustorSearchProvider>().As<IAdjustorSearchProvider>().InstancePerRequest();
             builder.RegisterType<DashboardProvider>().As<IDashboardProvider>().InstancePerRequest();
             builder.RegisterType<EpisodeNoteProvider>().As<IEpisodeNoteProvider>().InstancePerRequest();
