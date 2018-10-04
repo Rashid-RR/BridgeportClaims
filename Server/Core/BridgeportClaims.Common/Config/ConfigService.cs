@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using BridgeportClaims.Common.Constants;
 using cm = System.Configuration.ConfigurationManager;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Common.Config
 {
@@ -11,7 +12,9 @@ namespace BridgeportClaims.Common.Config
         {
             var collection = new NameValueCollection();
             foreach (var configItemKey in cm.AppSettings.AllKeys)
+            {
                 collection.Add(configItemKey, cm.AppSettings[configItemKey]);
+            }
             return collection;
         }
 
@@ -25,5 +28,8 @@ namespace BridgeportClaims.Common.Config
 
         public static bool AppIsInDebugMode
             => Convert.ToBoolean(GetAppSetting(StringConstants.AppIsInDebugMode));
+
+        public static string GetRedisCacheConnStr()
+            => GetAppSetting(s.RedisCacheConnection);
     }
 }

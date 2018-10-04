@@ -3,6 +3,8 @@ using System;
 using System.Web.Http;
 using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Data.DataProviders.ImportFiles;
+using StackExchange.Redis;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -25,12 +27,20 @@ namespace BridgeportClaims.Web.Controllers
         [Route("ImportPaymentFile")]
         public IHttpActionResult ImportPaymentFile(string fileName)
         {
-
             try
             {
-                _paymentsBusiness.Value.ImportPaymentFile(fileName);
+                var lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
+                {
+                    var cacheConn = cs.GetRedisCacheConnStr();
+                    return ConnectionMultiplexer.Connect(cacheConn);
+                });
+
+                IDatabase cache = lazyConnection.Value.GetDatabase();
+
+                cache.SetAdd("dkfjdkfjd", )
+                /*_paymentsBusiness.Value.ImportPaymentFile(fileName);
                 _importFileProvider.Value.MarkFileProcessed(fileName);
-                return Ok(new {message = "The Payment File was Processed Successfully"});
+                return Ok(new {message = "The Payment File was Processed Successfully"});*/
             }
             catch (Exception ex)
             {
