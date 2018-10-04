@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Specialized;
-using BridgeportClaims.Common.Constants;
 using cm = System.Configuration.ConfigurationManager;
 using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Common.Config
 {
-    public static class ConfigService
+    public class ConfigService
     {
         public static NameValueCollection GetAllAppSettings()
         {
@@ -18,16 +17,18 @@ namespace BridgeportClaims.Common.Config
             return collection;
         }
 
+        public static bool UseRedis => Convert.ToBoolean(GetAppSetting(s.UseRedisKey));
+
         public static string GetAppSetting(string key) => cm.AppSettings[key];
 
         public static string GetDbConnStr() 
-            => cm.ConnectionStrings[StringConstants.DbConnStrName].ConnectionString;
+            => cm.ConnectionStrings[s.DbConnStrName].ConnectionString;
 
         public static string GetSecureDbConnStr()
-            => cm.ConnectionStrings[StringConstants.SecureDbConnStrName].ConnectionString;
+            => cm.ConnectionStrings[s.SecureDbConnStrName].ConnectionString;
 
         public static bool AppIsInDebugMode
-            => Convert.ToBoolean(GetAppSetting(StringConstants.AppIsInDebugMode));
+            => Convert.ToBoolean(GetAppSetting(s.AppIsInDebugMode));
 
         public static string GetRedisCacheConnStr()
             => GetAppSetting(s.RedisCacheConnection);

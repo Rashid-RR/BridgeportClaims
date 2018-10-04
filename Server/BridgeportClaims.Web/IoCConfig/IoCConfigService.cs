@@ -43,6 +43,7 @@ using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
 using BridgeportClaims.Pdf.Factories;
+using BridgeportClaims.RedisCache.Environment;
 using BridgeportClaims.Word.FileDriver;
 using BridgeportClaims.Word.Templating;
 using BridgeportClaims.Word.WordProvider;
@@ -84,6 +85,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<UsersProvider>().As<IUsersProvider>().InstancePerRequest();
             builder.RegisterType<PdfFactory>().As<IPdfFactory>().InstancePerRequest();
             builder.RegisterType<PrescriptionReportFactory>().As<IPrescriptionReportFactory>().InstancePerRequest();
+            builder.RegisterType<RedisEnvironment>().As<IRedisEnvironment>().InstancePerRequest();
             builder.RegisterType<WordDocumentProvider>().As<IWordDocumentProvider>().InstancePerRequest();
             builder.RegisterType<WordFileDriver>().As<IWordFileDriver>().InstancePerRequest();
             builder.RegisterType<LetterGenerationProvider>().As<ILetterGenerationProvider>().InstancePerRequest();

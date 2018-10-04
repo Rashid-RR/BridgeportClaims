@@ -29,11 +29,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var lazyConnection = new Lazy<ConnectionMultiplexer>(() =>
-                {
-                    var cacheConn = cs.GetRedisCacheConnStr();
-                    return ConnectionMultiplexer.Connect(cacheConn);
-                });
+                
 
                 IDatabase cache = lazyConnection.Value.GetDatabase();
 
