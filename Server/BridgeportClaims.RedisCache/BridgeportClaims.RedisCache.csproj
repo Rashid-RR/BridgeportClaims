@@ -93,6 +93,8 @@
     <Compile Include="Domain\RedisDomain.cs" />
     <Compile Include="Environment\IRedisEnvironment.cs" />
     <Compile Include="Environment\RedisEnvironment.cs" />
+    <Compile Include="Keys\AbstractCacheKey.cs" />
+    <Compile Include="Keys\ClaimNoteTypeCacheKey.cs" />
     <Compile Include="Keys\ICacheKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Redis\IRedisResult.cs" />

@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.RedisCache.Domain;
+using BridgeportClaims.RedisCache.Keys;
+using BridgeportClaims.RedisCache.Redis;
 using Dapper;
 using SQLinq;
 using SQLinq.Dapper;
@@ -13,7 +18,31 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
 {
     public class ClaimNotesDataProvider : IClaimNotesDataProvider
     {
-        public IList<KeyValuePair<int, string>> GetClaimNoteTypes() => DisposableService.Using(
+        private readonly Lazy<IRedisDomain> _redisDomain;
+
+        public ClaimNotesDataProvider(Lazy<IRedisDomain> redisDomain)
+        {
+            _redisDomain = redisDomain;
+        }
+
+        public async Task<IList<KeyValuePair<int, string>>> GetClaimNoteTypes()
+        {
+            var cacheKey = new ClaimNoteTypeCacheKey();
+            var result = await _redisDomain.Value.GetAsync<IList<KeyValuePair<int, string>>>(cacheKey).ConfigureAwait(false);
+            var claimNotes = result.ReturnResult;
+            if (!result.Success || null == claimNotes)
+            {
+                claimNotes = GetClaimNoteTypesFromDb();
+                if (null != claimNotes)
+                {
+                    await _redisDomain.Value.AddAsync(cacheKey, claimNotes, cacheKey.RedisExpirationTimespan)
+                        .ConfigureAwait(false);
+                }
+            }
+            return claimNotes;
+        }
+
+        private IList<KeyValuePair<int, string>> GetClaimNoteTypesFromDb() => DisposableService.Using(
             () => new SqlConnection(cs.GetDbConnStr()),
             conn =>
             {
