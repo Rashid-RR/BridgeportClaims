@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using BridgeportClaims.RedisCache.Environment;
@@ -10,6 +11,7 @@ using ProtoBuf;
 using StackExchange.Redis;
 using StackExchange.Redis.Extensions.Core;
 using StackExchange.Redis.Extensions.Protobuf;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.RedisCache.Domain
@@ -20,6 +22,7 @@ namespace BridgeportClaims.RedisCache.Domain
         private readonly NameValueCollection _redisSettings;
         private readonly Lazy<IRedisEnvironment> _environment;
         private readonly Lazy<ProtobufSerializer> _serializer;
+        private IDatabase _cache;
 
         private readonly Lazy<StackExchangeRedisCacheClient> _cacheClient =
             new Lazy<StackExchangeRedisCacheClient>();
@@ -30,7 +33,14 @@ namespace BridgeportClaims.RedisCache.Domain
             _redisSettings = _environment.Value.RedisSettings.Value;
             _useRedis = cs.UseRedis;
             _serializer = new Lazy<ProtobufSerializer>();
+            _cache = LazyConnection.Value.GetDatabase();
         }
+
+        private static readonly Lazy<ConnectionMultiplexer> LazyConnection = new Lazy<ConnectionMultiplexer>(() =>
+        {
+            var cacheConnection = cs.GetAppSetting(s.RedisCacheConnection);
+            return ConnectionMultiplexer.Connect(cacheConnection);
+        });
 
         private string DecorateKey(string cacheKey)
         {
@@ -40,6 +50,60 @@ namespace BridgeportClaims.RedisCache.Domain
             }
 
             return cacheKey + System.Environment.MachineName;
+        }
+
+        public async Task<IRedisResult<T>> GetAsync<T>(ICacheKey key)
+        {
+            IRedisResult<T> result = new RedisResult<T>();
+            if (!_useRedis)
+            {
+                result.ReturnResult = default(T);
+                result.Success = false;
+                return result;
+            }
+            try
+            {
+                _cache = LazyConnection.Value.GetDatabase();
+                var data = await _cache.StringGetAsync(
+                    DecorateKey(key.CacheKey),
+                    CommandFlags.PreferSlave
+                ).ConfigureAwait(false);
+                result.ReturnResult = (!data.IsNull)
+                    ? (await _serializer.Value.DeserializeAsync<T>(data).ConfigureAwait(false))
+                    : default(T);
+                result.Success = !data.IsNull;
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                result.ReturnResult = default(T);
+                result.Success = false;
+                return result;
+            }
+        }
+
+        public async Task<bool> AddAsync<T>(ICacheKey key, T value, TimeSpan expirationTime)
+        {
+            if (!_useRedis)
+            {
+                return false;
+            }
+
+            try
+            {
+                await _cache.StringSetAsync(
+                    DecorateKey(key.CacheKey),
+                    (await _serializer.Value.SerializeAsync(value).ConfigureAwait(false)),
+                    expirationTime,
+                    flags: CommandFlags.DemandMaster
+                ).ConfigureAwait(false);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         #region Serialization Helper
@@ -57,7 +121,7 @@ namespace BridgeportClaims.RedisCache.Domain
         #endregion
 
         #region Hash Operations
-
+        /*
         public async Task<bool> AddHashEntryAsync<T>(ICacheKey key, KeyValuePair<ICacheKey, T> entry)
         {
             if (!_useRedis)
@@ -145,7 +209,7 @@ namespace BridgeportClaims.RedisCache.Domain
                 return result;
             }
         }
-
+        
         public async Task<Dictionary<string, IRedisResult<T>>> GetHashEntryAsync<T>(ICacheKey key)
         {
             Dictionary<string, IRedisResult<T>> resultCollection = new Dictionary<string, IRedisResult<T>>();
@@ -238,62 +302,9 @@ namespace BridgeportClaims.RedisCache.Domain
 
         #region Key Operations
 
-        public async Task<bool> AddAsync<T>(ICacheKey key, T value, TimeSpan expirationTime)
-        {
-            if (!_useRedis)
-            {
-                return false;
-            }
+        
 
-            try
-            {
-                var db = _cacheClient.Value.Database;
-                await db.StringSetAsync(
-                    DecorateKey(key.CacheKey),
-                    (await _cacheClient.Value.Serializer.SerializeAsync(value).ConfigureAwait(false)),
-                    expirationTime,
-                    flags: CommandFlags.DemandMaster
-                ).ConfigureAwait(false);
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public async Task<IRedisResult<T>> GetAsync<T>(ICacheKey key)
-        {
-            IRedisResult<T> result = new RedisResult<T>();
-            if (!_useRedis)
-            {
-                result.ReturnResult = default(T);
-                result.Success = false;
-                return result;
-            }
-
-            try
-            {
-                var db = _cacheClient.Value.Database;
-                var data = await db.StringGetAsync(
-                    DecorateKey(key.CacheKey),
-                    CommandFlags.PreferSlave
-                ).ConfigureAwait(false);
-
-                result.ReturnResult = (!data.IsNull)
-                    ? (await _cacheClient.Value.Serializer.DeserializeAsync<T>(data).ConfigureAwait(false))
-                    : default(T);
-                result.Success = !data.IsNull;
-
-                return result;
-            }
-            catch (Exception)
-            {
-                result.ReturnResult = default(T);
-                result.Success = false;
-                return result;
-            }
-        }
+        
 
         public async Task<Dictionary<ICacheKey, IRedisResult<T>>> GetMultipleAsync<T>(IEnumerable<ICacheKey> keys)
         {
@@ -383,7 +394,7 @@ namespace BridgeportClaims.RedisCache.Domain
                 return false;
             }
         }
-
+        */
         #endregion
     }
 }
