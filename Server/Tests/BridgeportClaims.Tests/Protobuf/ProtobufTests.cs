@@ -31,14 +31,15 @@ namespace BridgeportClaims.Tests.Protobuf
         public void ObjectSerializationOfANonProtoMemberProperty()
         {
             var bridgeportAssert = new BridgeportAssert();
+            Person deserializedPerson;
             Assert.IsTrue(
                 bridgeportAssert.AssertThrows<AssertFailedException>(() =>
                 {
                     var objectForStorage = ProtobufService.ProtoSerialize(person);
-                    var deserializedPerson = ProtobufService.ProtoDeserialize<Person>(objectForStorage);
+                    deserializedPerson = ProtobufService.ProtoDeserialize<Person>(objectForStorage);
                     Assert.AreEqual(deserializedPerson.NonProtoMemberProperty, _nonProtoMemberProperty);
-                })
-            );
+                }));
+            
         }
 
         [TestMethod]
