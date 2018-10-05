@@ -110,7 +110,9 @@ AS BEGIN
 					INNER JOIN dbo.Claim AS c ON p.ClaimID = c.ClaimID
 					INNER JOIN #ClaimsPreFiltered AS f ON c.ClaimID = f.ClaimID
 					LEFT JOIN dbo.PrescriptionPayment AS pp ON p.PrescriptionID = pp.PrescriptionID
-			WHERE   ISNULL(pp.AmountPaid, 0) = 0;
+                    LEFT JOIN [dbo].[SkippedPaymentExclusion] AS [spe] ON [spe].[PrescriptionID] = [p].[PrescriptionID]
+			WHERE   ISNULL(pp.AmountPaid, 0) = 0
+                    AND [spe].[SkippedPaymentExclusionID] IS NULL;
 
 			CREATE TABLE #MadePayments
 			(
@@ -124,7 +126,9 @@ AS BEGIN
 			FROM    dbo.Claim AS c
 					INNER JOIN #ClaimsPreFiltered AS f ON c.ClaimID = f.ClaimID
 					INNER JOIN dbo.Prescription AS p ON c.ClaimID = p.ClaimID
-					INNER JOIN dbo.PrescriptionPayment AS pp ON p.PrescriptionID = pp.PrescriptionID;
+					INNER JOIN dbo.PrescriptionPayment AS pp ON p.PrescriptionID = pp.PrescriptionID
+                    LEFT JOIN [dbo].[SkippedPaymentExclusion] AS [spe] ON [spe].[PrescriptionID] = [p].[PrescriptionID]
+            WHERE   [spe].[SkippedPaymentExclusionID] IS NULL;
 
 			CREATE TABLE #AllPayments
 			(
@@ -279,4 +283,6 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
     END CATCH
 END
+
+
 GO

@@ -23,8 +23,7 @@ CREATE PROC [dbo].[uspPostPayment]
 	@CheckNumber VARCHAR(50),
 	@CheckAmount MONEY,
 	@AmountSelected MONEY,
-	@AmountToPost MONEY,
-	@AmountRemaining MONEY OUTPUT
+	@AmountToPost MONEY
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -71,7 +70,7 @@ AS BEGIN
 			END
 
 		-- Do something arbitrary for the @AmountRemaining OUTPUT param
-		SET @AmountRemaining = ISNULL(@CheckAmount, 0.00) - ISNULL(@AmountToPost, 0.00)
+		DECLARE @AmountRemaining MONEY = CAST(ISNULL(@CheckAmount, 0.00) - ISNULL(@AmountToPost, 0.00) AS MONEY)
 
 		-- Select out @PrescriptionIDs and the Outstanding amount.
 		SELECT  PrescriptionId = p.ID
@@ -88,7 +87,7 @@ AS BEGIN
 
 		-- Second Result
 		-- Return Document Info: 
-		SELECT d.DocumentID DocumentId, d.[FileName], d.FileUrl FROM dbo.Document AS d WHERE d.DocumentID = @DocumentID;
+		SELECT d.DocumentID DocumentId, d.[FileName], d.FileUrl, @AmountRemaining AmountRemaining FROM dbo.Document AS d WHERE d.DocumentID = @DocumentID;
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
@@ -106,5 +105,4 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
 	END CATCH
 END
-
 GO
