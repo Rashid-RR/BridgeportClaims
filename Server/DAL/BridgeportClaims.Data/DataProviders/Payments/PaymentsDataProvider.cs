@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
-using System.Globalization;
 using System.Data.SqlClient;
 using BridgeportClaims.Data.Dtos;
 using System.Collections.Generic;

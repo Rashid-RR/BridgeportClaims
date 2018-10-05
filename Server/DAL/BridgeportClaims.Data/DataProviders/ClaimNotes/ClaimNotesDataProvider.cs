@@ -8,7 +8,6 @@ using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.RedisCache.Domain;
 using BridgeportClaims.RedisCache.Keys;
-using BridgeportClaims.RedisCache.Redis;
 using Dapper;
 using SQLinq;
 using SQLinq.Dapper;
@@ -25,7 +24,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
             _redisDomain = redisDomain;
         }
 
-        public async Task<IList<KeyValuePair<int, string>>> GetClaimNoteTypes()
+        public async Task<IList<KeyValuePair<int, string>>> GetClaimNoteTypesAsync()
         {
             var cacheKey = new ClaimNoteTypeCacheKey();
             var result = await _redisDomain.Value.GetAsync<IList<KeyValuePair<int, string>>>(cacheKey).ConfigureAwait(false);

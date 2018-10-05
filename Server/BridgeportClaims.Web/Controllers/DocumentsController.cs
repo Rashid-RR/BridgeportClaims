@@ -8,7 +8,6 @@ using BridgeportClaims.Data.DataProviders.Documents;
 using ic = BridgeportClaims.Common.Constants.IntegerConstants;
 using BridgeportClaims.Web.Hubs;
 using BridgeportClaims.Web.Models;
-using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers

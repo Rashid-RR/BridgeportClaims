@@ -396,6 +396,8 @@
     <Compile Include="Attributes\DenyActionAttribute.cs" />
     <Compile Include="Attributes\NoCacheAttribute.cs" />
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
+    <Compile Include="Caching\CachingClearingService.cs" />
+    <Compile Include="Caching\ICachingClearingService.cs" />
     <Compile Include="Controllers\AdjustorsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CacheController.cs" />

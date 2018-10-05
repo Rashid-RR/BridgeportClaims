@@ -1,8 +1,10 @@
 ﻿using NLog;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimNotes;
+using BridgeportClaims.Web.Caching;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 
@@ -14,24 +16,28 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IClaimNotesDataProvider> _claimNotesDataProvider;
+        private readonly Lazy<ICachingClearingService> _cachingClearingService;
 
-        public ClaimNotesController(Lazy<IClaimNotesDataProvider> claimNotesDataProvider)
+        public ClaimNotesController(Lazy<IClaimNotesDataProvider> claimNotesDataProvider,
+            Lazy<ICachingClearingService> cachingClearingService)
         {
             _claimNotesDataProvider = claimNotesDataProvider;
+            _cachingClearingService = cachingClearingService;
         }
 
         [HttpGet]
         [Route("notetypes")]
-        public IHttpActionResult GetClaimNoteType()
+        public async Task<IHttpActionResult> GetClaimNoteType()
         {
             try
             {
-                return Ok(_claimNotesDataProvider.Value.GetClaimNoteTypes());
+                var results = await _claimNotesDataProvider.Value.GetClaimNoteTypesAsync();
+                return Ok(results);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 

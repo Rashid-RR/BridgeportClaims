@@ -1,16 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using BridgeportClaims.RedisCache.Keys;
 using BridgeportClaims.RedisCache.Redis;
-using StackExchange.Redis;
 
 namespace BridgeportClaims.RedisCache.Domain
 {
     public interface IRedisDomain
     {
-        Task<bool> AddAsync<T>(ICacheKey key, T value, TimeSpan expirationTime);
-        Task<IRedisResult<T>> GetAsync<T>(ICacheKey key);
+        Task<bool> AddAsync<T>(ICacheKey key, T value, TimeSpan expirationTime)
+            where T : class;
+
+        Task<IRedisResult<T>> GetAsync<T>(ICacheKey key)
+            where T : class;
+
+        Task<bool> RemoveAsync(ICacheKey key);
+
         /*Task<byte[]> SerializeObjectAsync<T>(T obj);
         Task<T> DeserializeObjectAsync<T>(byte[] objData);
         Task<bool> AddHashEntryAsync<T>(ICacheKey key, KeyValuePair<ICacheKey, T> entry);
