@@ -9,7 +9,6 @@ using System.Web.Http;
 using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
-using System.Diagnostics.CodeAnalysis;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
@@ -20,10 +19,9 @@ namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "User")]
     [RoutePrefix("api/account")]
-    [SuppressMessage("ReSharper", "ArrangeAccessorOwnerBody")]
     public class AccountsController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private ApplicationUserManager _userManager;
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; }
