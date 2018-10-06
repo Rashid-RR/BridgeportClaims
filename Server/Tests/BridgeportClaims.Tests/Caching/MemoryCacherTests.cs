@@ -52,7 +52,7 @@ namespace BridgeportClaims.Tests.Caching
         public async Task AddOrGetExisting_GeneratesTheValueOnlyOnce()
         {
             const string testValue = "value1";
-            const string testkey = "key1";
+            const string testKey = "key1";
             var valueGeneratedTimes = 0;
 
             Task<TestValue> Factory()
@@ -61,13 +61,13 @@ namespace BridgeportClaims.Tests.Caching
                 return Task.FromResult(new TestValue(testValue));
             }
 
-            var value1 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
+            var value1 = await _cache.AddOrGetExisting(testKey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value1.Value);
 
-            var value2 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
+            var value2 = await _cache.AddOrGetExisting(testKey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value2.Value);
 
-            var value3 = await _cache.AddOrGetExisting(testkey, (Func<Task<TestValue>>) Factory);
+            var value3 = await _cache.AddOrGetExisting(testKey, (Func<Task<TestValue>>) Factory);
             Assert.AreEqual(testValue, value3.Value);
 
             Assert.AreEqual(1, valueGeneratedTimes, "Value should be generated only once.");

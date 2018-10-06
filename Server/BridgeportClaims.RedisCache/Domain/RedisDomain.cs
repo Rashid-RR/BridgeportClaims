@@ -34,7 +34,7 @@ namespace BridgeportClaims.RedisCache.Domain
                 }
                 return cacheKey;
             }
-            return cacheKey + System.Environment.MachineName;
+            return cacheKey + Environment.MachineName;
         }
 
         public async Task<IRedisResult<T>> GetAsync<T>(ICacheKey key)
@@ -49,11 +49,11 @@ namespace BridgeportClaims.RedisCache.Domain
             }
             try
             {
-                var redisCache = ConnectionService.Connection.GetDatabase();
+                var redisCache = CacheConnectionHelper.Connection.GetDatabase();
                 var data = await redisCache.StringGetAsync(DecorateKey(key.CacheKey),
                     CommandFlags.PreferSlave).ConfigureAwait(false);
 
-                result.ReturnResult = (!data.IsNull)
+                result.ReturnResult = !data.IsNull
                     ? ProtobufService.ProtoDeserialize<T>(data)
                     : default(T);
                 result.Success = !data.IsNull;
@@ -77,8 +77,8 @@ namespace BridgeportClaims.RedisCache.Domain
             }
             try
             {
+                var redisDb = CacheConnectionHelper.Connection.GetDatabase();
                 var valueToCache = ProtobufService.ProtoSerialize(value);
-                var redisDb = ConnectionService.Connection.GetDatabase();
                 await redisDb.StringSetAsync(DecorateKey(key.CacheKey)
                     , valueToCache, expirationTime, flags: CommandFlags.DemandMaster
                 ).ConfigureAwait(false);
@@ -99,7 +99,7 @@ namespace BridgeportClaims.RedisCache.Domain
             }
             try
             {
-                var redisCache = ConnectionService.Connection.GetDatabase();
+                var redisCache = CacheConnectionHelper.Connection.GetDatabase();
                 await redisCache.KeyDeleteAsync(DecorateKey(key.CacheKey), 
                     CommandFlags.DemandMaster).ConfigureAwait(false);
                 return true;
@@ -110,5 +110,7 @@ namespace BridgeportClaims.RedisCache.Domain
                 return false;
             }
         }
+
+        // SetKeyExpirationAsync
     }
 }

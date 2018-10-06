@@ -1,5 +1,11 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using BridgeportClaims.RedisCache.Connection;
+using BridgeportClaims.RedisCache.Domain;
+using BridgeportClaims.RedisCache.Redis;
+using BridgeportClaims.Tests.Protobuf.Models;
+using BridgeportClaims.Tests.RedisCache.Keys;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StackExchange.Redis;
 using cs = BridgeportClaims.Common.Config.ConfigService;
@@ -12,12 +18,13 @@ namespace BridgeportClaims.Tests.RedisCache
     {
         private const string Key = "myKey";
         private const string Value = "myValue";
+        private readonly Lazy<IRedisDomain> _redisDomain = new Lazy<IRedisDomain>(() => new RedisDomain());
 
         [TestMethod]
         public void CanSetAndGetFromRedisCache()
         {
             // Arrange.
-            var redisCache = ConnectionService.Connection.GetDatabase();
+            var redisCache = CacheConnectionHelper.Connection.GetDatabase();
 
             // Act.
             redisCache.StringSet(Key, Value);
@@ -28,10 +35,47 @@ namespace BridgeportClaims.Tests.RedisCache
             Assert.AreEqual(data, Value);
         }
 
-        private static Lazy<ConnectionMultiplexer> CreateMultiplexer()
+        [TestMethod]
+        public async Task CanSetAndGetFromRedisObjects()
         {
-            var connectionString = cs.GetAppSetting(s.RedisCacheConnection);
-            return new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(connectionString));
+            // Arrange.
+            var cacheKey = new PersonCacheKey();
+
+            // Act.
+            var result = await _redisDomain.Value.GetAsync<Person>(cacheKey).ConfigureAwait(false);
+            var kevinDurant = result.ReturnResult;
+            if (!result.Success || null == kevinDurant)
+            {
+                kevinDurant = PersonBuilder.BuildPerson();
+                if (null != kevinDurant)
+                {
+                    await _redisDomain.Value.AddAsync(cacheKey, kevinDurant, cacheKey.RedisExpirationTimespan)
+                        .ConfigureAwait(false);
+                }
+            }
+
+            // Assert.
+            Assert.IsNotNull(kevinDurant);
+            var copyOfKd = PersonBuilder.BuildPerson();
+            Assert.AreEqual(kevinDurant.FirstName, copyOfKd.FirstName);
+            Assert.AreEqual(kevinDurant.LastName, copyOfKd.LastName);
+            Assert.AreEqual(kevinDurant.JoinDate, copyOfKd.JoinDate);
+            // Can't compare non-protobuf members.
+
+            // Act. Assert.
+            var newResult = await _redisDomain.Value.GetAsync<Person>(cacheKey).ConfigureAwait(false);
+            var newKd = newResult.ReturnResult;
+            Assert.IsTrue(newResult.Success);
+            Assert.IsNotNull(newKd);
+
+            // Wait ten seconds for the Cache to Expire.
+            Thread.Sleep(new TimeSpan(0, 0, 0, 10));
+
+            // Act. Assert.
+            var expiredResult = await _redisDomain.Value.GetAsync<Person>(cacheKey).ConfigureAwait(false);
+            var nothing = expiredResult.ReturnResult;
+            Assert.IsFalse(expiredResult.Success);
+            Assert.IsNull(nothing);
         }
     }
 }

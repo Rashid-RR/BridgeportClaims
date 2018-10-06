@@ -395,7 +395,6 @@
     <Compile Include="App_Start\AutomapperStartup.cs" />
     <Compile Include="Attributes\DenyActionAttribute.cs" />
     <Compile Include="Attributes\NoCacheAttribute.cs" />
-    <Compile Include="Attributes\OutputCacheAttribute.cs" />
     <Compile Include="Caching\CachingClearingService.cs" />
     <Compile Include="Caching\ICachingClearingService.cs" />
     <Compile Include="Controllers\AdjustorsController.cs" />

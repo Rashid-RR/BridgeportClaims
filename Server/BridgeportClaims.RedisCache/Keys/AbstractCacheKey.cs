@@ -5,6 +5,11 @@ namespace BridgeportClaims.RedisCache.Keys
 {
     public abstract class AbstractCacheKey : ICacheKey
     {
+        protected AbstractCacheKey()
+        {
+            CacheKey = "{DefaultCacheKey_v1}";
+        }
+
         private const int TwentyFourHours = 24;
         public virtual string CacheKey { get; }
         public virtual TimeSpan RedisExpirationTimespan => new TimeSpan(0, TwentyFourHours, 0, 0);

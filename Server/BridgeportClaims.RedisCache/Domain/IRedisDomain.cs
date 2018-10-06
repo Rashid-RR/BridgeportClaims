@@ -24,7 +24,6 @@ namespace BridgeportClaims.RedisCache.Domain
         Task RemoveHashEntryAsync(ICacheKey key, ICacheKey name);
         Task<bool> RemoveHashAsync(ICacheKey key);
         Task<Dictionary<ICacheKey, IRedisResult<T>>> GetMultipleAsync<T>(IEnumerable<ICacheKey> keys);
-        Task<bool> RemoveAsync(ICacheKey key);
         Task<bool> SetKeyExpirationAsync(ICacheKey key, TimeSpan expirationTime);*/
     }
 }

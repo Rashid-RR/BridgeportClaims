@@ -13,7 +13,7 @@ namespace BridgeportClaims.Tests.Protobuf
         private string _lastName;
         private DateTime _joinDate;
         private string _nonProtoMemberProperty;
-        private Person person;
+        private Person _person;
 
 
         [TestInitialize]
@@ -23,7 +23,7 @@ namespace BridgeportClaims.Tests.Protobuf
             _lastName = "Durant";
             _joinDate = new DateTime(2018, 2, 1);
             _nonProtoMemberProperty = "{NULL}";
-            person = new Person
+            _person = new Person
                 { FirstName = _firstName, LastName = _lastName, JoinDate = _joinDate };
         }
 
@@ -35,7 +35,7 @@ namespace BridgeportClaims.Tests.Protobuf
             Assert.IsTrue(
                 bridgeportAssert.AssertThrows<AssertFailedException>(() =>
                 {
-                    var objectForStorage = ProtobufService.ProtoSerialize(person);
+                    var objectForStorage = ProtobufService.ProtoSerialize(_person);
                     deserializedPerson = ProtobufService.ProtoDeserialize<Person>(objectForStorage);
                     Assert.AreEqual(deserializedPerson.NonProtoMemberProperty, _nonProtoMemberProperty);
                 }));
@@ -47,7 +47,7 @@ namespace BridgeportClaims.Tests.Protobuf
         {
             // Arrange the Person class - Done.
             // Act.
-            var objectForStorage = ProtobufService.ProtoSerialize(person);
+            var objectForStorage = ProtobufService.ProtoSerialize(_person);
 
             // Assert.
             Assert.IsNotNull(objectForStorage);

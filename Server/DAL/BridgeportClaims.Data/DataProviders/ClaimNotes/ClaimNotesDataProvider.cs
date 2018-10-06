@@ -41,11 +41,14 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
             return claimNotes;
         }
 
-        private IList<KeyValuePair<int, string>> GetClaimNoteTypesFromDb() => DisposableService.Using(
+        private static IList<KeyValuePair<int, string>> GetClaimNoteTypesFromDb() => DisposableService.Using(
             () => new SqlConnection(cs.GetDbConnStr()),
             conn =>
             {
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 return conn.Query(new SQLinq<ClaimNoteTypeDto>()
                         .Select(c => new {c.ClaimNoteTypeId, c.TypeName}))
                     ?.Select(s => new KeyValuePair<int, string>(s.ClaimNoteTypeId, s.TypeName))

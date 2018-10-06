@@ -103,7 +103,9 @@
     <Compile Include="Payments\PaymentsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Protobuf\Models\Person.cs" />
+    <Compile Include="Protobuf\Models\PersonBuilder.cs" />
     <Compile Include="Protobuf\ProtobufTests.cs" />
+    <Compile Include="RedisCache\Keys\PersonCacheKey.cs" />
     <Compile Include="RedisCache\RedisCacheTests.cs" />
   </ItemGroup>
   <ItemGroup>

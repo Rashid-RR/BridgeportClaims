@@ -76,7 +76,7 @@ namespace BridgeportClaims.Common.Extensions
                 return bytes;
             }
 
-            var buffer = new byte[count + (num2 * 2)];
+            var buffer = new byte[count + num2 * 2];
             var num4 = 0;
             for (var j = 0; j < count; j++)
             {
@@ -127,7 +127,7 @@ namespace BridgeportClaims.Common.Extensions
             {
                 return (char)(n + 0x30);
             }
-            return (char)((n - 10) + 0x61);
+            return (char)(n - 10 + 0x61);
         }
         #endregion
     }
