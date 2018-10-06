@@ -22,8 +22,6 @@ namespace BridgeportClaims.RedisCache.Connection
         // multiplexer seems to not be reconnecting, so re-create the multiplexer
         public static TimeSpan ReconnectErrorThreshold = TimeSpan.FromSeconds(30);
 
-        private static string _connectionString = cs.GetAppSetting(s.RedisCacheConnection);
-
         private static Lazy<ConnectionMultiplexer> _multiplexer = CreateMultiplexer();
 
         public static ConnectionMultiplexer Connection => _multiplexer.Value;
@@ -34,9 +32,7 @@ namespace BridgeportClaims.RedisCache.Connection
             var previousTicks = Interlocked.Read(ref _lastReconnectTicks);
             var previousReconnect = new DateTimeOffset(previousTicks, TimeSpan.Zero);
             var elapsedSinceLastReconnect = utcNow - previousReconnect;
-
             
-
             // If multiple threads call ForceReconnect at the same time, we only want to honor one of them.
             if (elapsedSinceLastReconnect > ReconnectMinFrequency)
             {

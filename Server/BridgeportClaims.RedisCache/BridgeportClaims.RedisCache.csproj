@@ -84,6 +84,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection\CacheConnectionHelper.cs" />
     <Compile Include="Connection\ConnectionService.cs" />
     <Compile Include="Domain\IRedisDomain.cs" />
     <Compile Include="Domain\RedisDomain.cs" />
