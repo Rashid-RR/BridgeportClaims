@@ -14,7 +14,7 @@ namespace BridgeportClaims.Web.Controllers
     public class NotificationsController : BaseApiController
     {
         private readonly Lazy<IPayorLetterNameProvider> _payorLetterNameProvider;
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         public NotificationsController(Lazy<IPayorLetterNameProvider> payorLetterNameProvider)
         {

@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class DiaryResultDto
     {
         public int DiaryId { get; set; }

@@ -1,9 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Business.Models
 {
-    [Serializable]
     public class PaymentInputsModel
     {
         [Required]

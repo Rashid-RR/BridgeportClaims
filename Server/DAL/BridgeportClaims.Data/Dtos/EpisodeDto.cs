@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-	[Serializable]
 	public sealed class EpisodeDto
 	{
 		public int? EpisodeId { get; set; }

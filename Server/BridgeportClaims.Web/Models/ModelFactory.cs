@@ -12,7 +12,7 @@ namespace BridgeportClaims.Web.Models
     {
         private readonly Lazy<UrlHelper> _urlHelper;
         private readonly ApplicationUserManager _appUserManager;
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         public ModelFactory(HttpRequestMessage request, ApplicationUserManager appUserManager)
         {

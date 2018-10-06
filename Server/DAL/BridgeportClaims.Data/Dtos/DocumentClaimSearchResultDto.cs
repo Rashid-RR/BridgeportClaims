@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace BridgeportClaims.Data.Dtos
+﻿namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class DocumentClaimSearchResultDto
     {
         public int ClaimId { get; set; }

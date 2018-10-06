@@ -43,5 +43,6 @@
 	    public const string RedisCacheConnection = "CacheConnection";
 	    public const string UseRedisKey = "UseRedis";
 	    public const string IsProductionKey = "IsProduction";
-	}
+	    public const string TimeFormat = "M/d/yyyy h:mm:ss tt";
+    }
 }

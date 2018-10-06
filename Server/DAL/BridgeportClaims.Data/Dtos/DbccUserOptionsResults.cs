@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace BridgeportClaims.Data.Dtos
+﻿namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public class DbccUserOptionsResults
     {
         public virtual string SetOption { get; set; }

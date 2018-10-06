@@ -26,7 +26,7 @@ namespace BridgeportClaims.Web.Controllers
     {
         private readonly Lazy<IClaimsDataProvider> _claimsDataProvider;
         private readonly Lazy<IPrescriptionsDataProvider> _prescriptionsDataProvider;
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IPdfFactory> _pdfFactory;
         private readonly Lazy<IBillingStatementProvider> _billingStatementProvider;
 

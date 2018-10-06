@@ -16,7 +16,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/users")]
     public class UsersController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IAspNetUsersProvider> _aspNetUsersProvider;
         private readonly Lazy<IAssignUsersToRolesProvider> _assignUsersToRolesProvider;
         private readonly Lazy<IUsersProvider> _usersProvider;

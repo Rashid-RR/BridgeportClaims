@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class UnpaidScriptResultDto
     {
         public int PrescriptionId { get; set; }

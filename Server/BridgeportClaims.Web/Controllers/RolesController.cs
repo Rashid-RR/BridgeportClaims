@@ -16,7 +16,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/roles")]
     public class RolesController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         [HttpGet]
         [Route("{id:guid}", Name = StringConstants.GetRoleByIdAction)]

@@ -11,7 +11,7 @@ namespace BridgeportClaims.Web.Controllers
     public class AdjustorsController : BaseApiController
     {
         private readonly Lazy<IAdjustorSearchProvider> _adjustorSearchProvider;
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         public AdjustorsController(Lazy<IAdjustorSearchProvider> adjustorSearchProvider)
         {

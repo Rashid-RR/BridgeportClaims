@@ -14,7 +14,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/claimnotes")]
     public class ClaimNotesController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IClaimNotesDataProvider> _claimNotesDataProvider;
         private readonly Lazy<ICachingClearingService> _cachingClearingService;
 

@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public class ClaimsWithPrescriptionDetailsDto
     {
         [Required]

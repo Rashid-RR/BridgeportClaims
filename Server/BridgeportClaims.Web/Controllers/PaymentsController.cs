@@ -22,7 +22,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/payment")]
     public class PaymentsController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IPaymentsDataProvider> _paymentsDataProvider;
         private readonly Lazy<IPaymentsBusiness> _paymentsBusiness;
         private readonly Lazy<IMemoryCacher> _memoryCacher;

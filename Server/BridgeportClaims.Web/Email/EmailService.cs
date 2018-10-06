@@ -13,7 +13,7 @@ namespace BridgeportClaims.Web.Email
 {
     public class EmailService : IEmailService
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly IEmailModelGenerator _emailModelGenerator;
 
         public EmailService(IEmailModelGenerator emailModelGenerator)

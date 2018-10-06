@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
     public sealed class UnpaidScriptsDto
     {
         public int PrescriptionId { get; set; }

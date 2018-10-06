@@ -20,7 +20,7 @@ namespace BridgeportClaims.Web.Controllers
     {
         private readonly Lazy<IDocumentIndexProvider> _documentIndexProvider;
         private readonly Lazy<IEpisodesDataProvider> _episodesDataProvider;
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         public DocumentIndexesController(Lazy<IDocumentIndexProvider> documentIndexProvider,
             Lazy<IEpisodesDataProvider> episodesDataProvider)

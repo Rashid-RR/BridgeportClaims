@@ -12,7 +12,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/payors")]
     public class PayorsController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IPayorsDataProvider> _payorsDataProvider;
         private readonly Lazy<IPayorSearchProvider> _payorSearchProvider;
 

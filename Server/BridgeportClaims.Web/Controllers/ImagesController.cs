@@ -13,7 +13,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/image")]
     public class ImagesController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IClaimImageProvider> _claimImageProvider;
 
         public ImagesController(Lazy<IClaimImageProvider> claimImageProvider)

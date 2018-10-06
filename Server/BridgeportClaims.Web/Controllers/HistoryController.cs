@@ -12,7 +12,7 @@ namespace BridgeportClaims.Web.Controllers
     public class HistoryController : BaseApiController
     {
         private readonly Lazy<IClaimsUserHistoryProvider> _claimsUserHistoryProvider;
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         public HistoryController(Lazy<IClaimsUserHistoryProvider> claimsUserHistoryProvider)
         {

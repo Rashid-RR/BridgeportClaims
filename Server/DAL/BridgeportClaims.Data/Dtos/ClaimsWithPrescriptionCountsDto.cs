@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace BridgeportClaims.Data.Dtos
+﻿namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public class ClaimsWithPrescriptionCountsDto
     {
         public virtual int ClaimId { get; set; }

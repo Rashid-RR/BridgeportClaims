@@ -15,7 +15,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/admin")]
     public class AdminController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IAdminFunctionsProvider> _adminFunctionsProvider;
 
         public AdminController(Lazy<IAdminFunctionsProvider> adminFunctionsProvider)

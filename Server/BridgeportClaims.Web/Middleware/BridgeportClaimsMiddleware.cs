@@ -7,7 +7,7 @@ namespace BridgeportClaims.Web.Middleware
 {
     public class BridgeportClaimsMiddleware : OwinMiddleware
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         public BridgeportClaimsMiddleware(OwinMiddleware next) : base(next) { }
 
         public override async Task Invoke(IOwinContext context)

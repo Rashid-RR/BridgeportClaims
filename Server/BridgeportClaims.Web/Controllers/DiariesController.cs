@@ -14,7 +14,7 @@ namespace BridgeportClaims.Web.Controllers
     public class DiariesController : BaseApiController
     {
         private readonly Lazy<IDiaryProvider> _diaryProvider;
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         public DiariesController(Lazy<IDiaryProvider> diaryProvider)
         {

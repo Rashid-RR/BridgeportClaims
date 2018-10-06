@@ -22,7 +22,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/reports")]
     public class ReportsController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IReportsDataProvider> _reportsDataProvider;
         private const string Format = "MMMM_yyyy";
 

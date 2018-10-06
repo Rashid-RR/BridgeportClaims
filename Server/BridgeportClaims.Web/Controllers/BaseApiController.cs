@@ -17,7 +17,7 @@ namespace BridgeportClaims.Web.Controllers
         private ModelFactory _modelFactory;
         private readonly ApplicationUserManager _appUserManager = null;
         private readonly ApplicationRoleManager _appRoleManager = null;
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 
         protected ApplicationRoleManager AppRoleManager
         {

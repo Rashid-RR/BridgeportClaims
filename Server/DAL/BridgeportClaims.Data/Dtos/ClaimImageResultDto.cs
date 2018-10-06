@@ -4,7 +4,6 @@ using System.Web;
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class ClaimImageResultDto
     {
         private string _fileUrl;

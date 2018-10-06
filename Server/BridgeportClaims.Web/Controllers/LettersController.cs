@@ -15,7 +15,7 @@ namespace BridgeportClaims.Web.Controllers
     [Authorize(Roles = "User")]
     public class LettersController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IWordFileDriver> _wordFileDriver;
         private const string DocxContentType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 

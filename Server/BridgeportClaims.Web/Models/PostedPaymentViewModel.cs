@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
     public sealed class PostedPaymentViewModel
     {
         public IList<int> PrescriptionIds { get; set; }

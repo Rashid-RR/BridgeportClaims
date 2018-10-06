@@ -20,7 +20,7 @@ namespace BridgeportClaims.Web.Controllers
         #region Private Members
 
         private readonly Lazy<IEpisodesDataProvider> _episodesDataProvider;
-		private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+		private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
 		private readonly Lazy<IEpisodeNoteProvider> _episodeNoteProvider;
 		private readonly Lazy<IUsersProvider> _usersProvider;
 

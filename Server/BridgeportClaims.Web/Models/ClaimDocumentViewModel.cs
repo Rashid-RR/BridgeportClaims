@@ -1,9 +1,7 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Web.Models
 {
-    [Serializable]
     public sealed class ClaimDocumentViewModel
     {
         public int ClaimId { get; set; }

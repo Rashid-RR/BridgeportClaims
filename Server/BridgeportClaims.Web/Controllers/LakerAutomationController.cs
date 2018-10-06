@@ -20,7 +20,7 @@ namespace BridgeportClaims.Web.Controllers
     [RoutePrefix("api/laker")]
     public class LakerAutomationController : BaseApiController
     {
-        private static readonly Lazy<Logger> Logger = new Lazy<Logger>(LogManager.GetCurrentClassLogger);
+        private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly ILakerFileProcessor _lakerFileProcessor;
         private readonly IImportFileProvider _importFileProvider;
         private readonly IEmailService _emailService;

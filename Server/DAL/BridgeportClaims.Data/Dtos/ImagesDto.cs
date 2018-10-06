@@ -2,7 +2,6 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    [Serializable]
     public sealed class ImagesDto
     {
         public DateTime Created { get; set; }
