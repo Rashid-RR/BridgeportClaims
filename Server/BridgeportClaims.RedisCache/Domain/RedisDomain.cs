@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BridgeportClaims.Common.Protobuf;
 using BridgeportClaims.RedisCache.Connection;
 using BridgeportClaims.RedisCache.Keys;
+using BridgeportClaims.RedisCache.Keys.Abstractions;
 using BridgeportClaims.RedisCache.Redis;
 using NLog;
 using StackExchange.Redis;

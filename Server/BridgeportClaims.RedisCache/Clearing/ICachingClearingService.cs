@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
 
-namespace BridgeportClaims.Web.Caching
+namespace BridgeportClaims.RedisCache.Clearing
 {
     public interface ICachingClearingService
     {
         Task ClearClaimNoteTypeCache();
+        Task ClearClaimUserHistoryCache(string userId);
     }
 }

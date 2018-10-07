@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BridgeportClaims.RedisCache.Keys
+namespace BridgeportClaims.RedisCache.Keys.Abstractions
 {
     public interface ICacheKey
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BridgeportClaims.RedisCache.Keys
+namespace BridgeportClaims.RedisCache.Keys.Abstractions
 {
     public abstract class AbstractCacheKey : ICacheKey
     {
         protected AbstractCacheKey()
         {
-            CacheKey = "{DefaultCacheKey_v1}";
+            CacheKey = "{{DefaultCacheKey_v1}}";
         }
 
         private const int TwentyFourHours = 24;

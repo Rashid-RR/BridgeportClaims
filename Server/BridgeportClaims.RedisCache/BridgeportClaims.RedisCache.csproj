@@ -91,10 +91,13 @@
     <Compile Include="Connection\CacheConnectionHelper.cs" />
     <Compile Include="Domain\IRedisDomain.cs" />
     <Compile Include="Domain\RedisDomain.cs" />
-    <Compile Include="Keys\AbstractCacheKey.cs" />
+    <Compile Include="Keys\Abstractions\AbstractCacheKey.cs" />
     <Compile Include="Keys\ClaimNoteTypeCacheKey.cs" />
-    <Compile Include="Keys\ICacheKey.cs" />
+    <Compile Include="Keys\Abstractions\ICacheKey.cs" />
+    <Compile Include="Keys\ClaimUserHistoryCacheKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Clearing\CachingClearingService.cs" />
+    <Compile Include="Clearing\ICachingClearingService.cs" />
     <Compile Include="Redis\IRedisResult.cs" />
     <Compile Include="Redis\RedisResult.cs" />
   </ItemGroup>

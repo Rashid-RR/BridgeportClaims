@@ -43,12 +43,13 @@ using BridgeportClaims.Data.DataProviders.Reports;
 using BridgeportClaims.Data.DataProviders.Users;
 using BridgeportClaims.Data.DataProviders.Utilities;
 using BridgeportClaims.Pdf.Factories;
+using BridgeportClaims.RedisCache.Clearing;
 using BridgeportClaims.RedisCache.Domain;
-using BridgeportClaims.Web.Caching;
 using BridgeportClaims.Word.FileDriver;
 using BridgeportClaims.Word.Templating;
 using BridgeportClaims.Word.WordProvider;
 using Microsoft.AspNet.SignalR;
+using NLog;
 
 namespace BridgeportClaims.Web.IoCConfig
 {
@@ -108,7 +109,8 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<KpiProvider>().As<IKpiProvider>().InstancePerRequest();
             builder.RegisterType<EmailTemplateProvider>().As<IEmailTemplateProvider>().InstancePerRequest();
             builder.RegisterType<PrescriptionNotesDataProvider>().As<IPrescriptionNotesDataProvider>().InstancePerRequest();
-            
+            builder.Register(ctx => LogManager.GetCurrentClassLogger()).As<ILogger>().SingleInstance();
+
             // Singletons
             builder.RegisterType<MemoryCacher>().As<IMemoryCacher>().SingleInstance();
             builder.Register(c => HttpContext.Current).As<HttpContext>().InstancePerRequest();

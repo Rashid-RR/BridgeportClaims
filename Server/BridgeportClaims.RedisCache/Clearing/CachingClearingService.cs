@@ -1,9 +1,10 @@
-﻿using BridgeportClaims.RedisCache.Domain;
-using BridgeportClaims.RedisCache.Keys;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using BridgeportClaims.RedisCache.Domain;
+using BridgeportClaims.RedisCache.Keys;
+using BridgeportClaims.RedisCache.Keys.Abstractions;
 
-namespace BridgeportClaims.Web.Caching
+namespace BridgeportClaims.RedisCache.Clearing
 {
     public class CachingClearingService : ICachingClearingService
     {
@@ -17,6 +18,12 @@ namespace BridgeportClaims.Web.Caching
         public async Task ClearClaimNoteTypeCache()
         {
             ICacheKey cacheKey = new ClaimNoteTypeCacheKey();
+            await _redisDomain.Value.RemoveAsync(cacheKey).ConfigureAwait(false);
+        }
+
+        public async Task ClearClaimUserHistoryCache(string userId)
+        {
+            ICacheKey cacheKey = new ClaimUserHistoryCacheKey(userId);
             await _redisDomain.Value.RemoveAsync(cacheKey).ConfigureAwait(false);
         }
     }

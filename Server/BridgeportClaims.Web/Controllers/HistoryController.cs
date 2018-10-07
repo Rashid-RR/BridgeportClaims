@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.ClaimsUserHistories;
 using Microsoft.AspNet.Identity;
@@ -21,11 +22,11 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("addclaim")]
-        public IHttpActionResult AddClaimHistoryItem(int claimId)
+        public async Task<IHttpActionResult> AddClaimHistoryItem(int claimId)
         {
             try
             {
-                _claimsUserHistoryProvider.Value.InsertClaimsUserHistory(User.Identity.GetUserId(), claimId);
+                await _claimsUserHistoryProvider.Value.InsertClaimsUserHistoryAsync(User.Identity.GetUserId(), claimId);
                 return Ok(new {message = "Claim History Item Added Successfully"});
             }
             catch (Exception ex)
@@ -37,11 +38,13 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpGet]
         [Route("claims")]
-        public IHttpActionResult GetClaimHistory()
+        public async Task<IHttpActionResult> GetClaimHistory()
         {
             try
             {
-                return Ok(_claimsUserHistoryProvider.Value.GetClaimsUserHistory(User.Identity.GetUserId()));
+                var userId = User.Identity.GetUserId();
+                var results = await _claimsUserHistoryProvider.Value.GetClaimsUserHistoryAsync(userId);
+                return Ok(results);
             }
             catch (Exception ex)
             {

@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using BridgeportClaims.RedisCache.Clearing;
+using BridgeportClaims.RedisCache.Domain;
+using BridgeportClaims.RedisCache.Keys;
 using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -13,7 +17,35 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
 {
     public class ClaimsUserHistoryProvider : IClaimsUserHistoryProvider
     {
-        public IList<ClaimsUserHistoryDto> GetClaimsUserHistory(string userId) =>
+        private readonly Lazy<IRedisDomain> _redisDomain;
+        private readonly Lazy<ICachingClearingService> _clearingProvider;
+
+        public ClaimsUserHistoryProvider(Lazy<IRedisDomain> redisDomain,
+            Lazy<ICachingClearingService> clearingProvider)
+        {
+            _redisDomain = redisDomain;
+            _clearingProvider = clearingProvider;
+        }
+
+        public async Task<IList<ClaimsUserHistoryDto>> GetClaimsUserHistoryAsync(string userId)
+        {
+            var cacheKey = new ClaimUserHistoryCacheKey(userId);
+            var result = await _redisDomain.Value.GetAsync<IList<ClaimsUserHistoryDto>>
+                (cacheKey).ConfigureAwait(false);
+            var history = result.ReturnResult;
+            if (!result.Success || null == history)
+            {
+                history = GetClaimsUserHistoryFromDb(userId)?.ToList();
+                if (null != history)
+                {
+                    await _redisDomain.Value.AddAsync(cacheKey, history, cacheKey.RedisExpirationTimespan)
+                        .ConfigureAwait(false);
+                }
+            }
+            return history;
+        }
+
+        public IEnumerable<ClaimsUserHistoryDto> GetClaimsUserHistoryFromDb(string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 var maxClaimsLookup = int.TryParse(cs.GetAppSetting(StringConstants.MaxClaimsLookupHistoryItemsKey), out var i) ? i : 22;
@@ -55,17 +87,25 @@ namespace BridgeportClaims.Data.DataProviders.ClaimsUserHistories
                         }
                     });
                     if (conn.State != ConnectionState.Closed)
+                    {
                         conn.Close();
-                    return retVal.OrderByDescending(x => x.CreatedOnUtc).Take(maxClaimsLookup).ToList();
+                    }
+                    return retVal.OrderByDescending(x => x.CreatedOnUtc).Take(maxClaimsLookup);
                 });
             });
 
-        public void InsertClaimsUserHistory(string userId, int claimId) =>
+        public async Task InsertClaimsUserHistoryAsync(string userId, int claimId)
+        {
+            await _clearingProvider.Value.ClearClaimUserHistoryCache(userId).ConfigureAwait(false);
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "dbo.uspInsertClaimsUserHistory";
-                conn.Open();
-                conn.Execute(sp, new {ClaimID = claimId, UserID = userId}, commandType: CommandType.StoredProcedure);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                conn.Execute(sp, new { ClaimID = claimId, UserID = userId }, commandType: CommandType.StoredProcedure);
             });
+        }
     }
 }

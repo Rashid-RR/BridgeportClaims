@@ -1,6 +1,7 @@
 ﻿using Owin;
 using System;
 using System.Web.Http;
+using Autofac;
 using Autofac.Integration.WebApi;
 using BridgeportClaims.Common.Config;
 using BridgeportClaims.Web.Formatters;
@@ -15,8 +16,10 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
+using NLog;
 using ServiceStack.Text;
 using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
+using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web
 {
@@ -29,16 +32,21 @@ namespace BridgeportClaims.Web
         public void Configuration(IAppBuilder app)
         {
             // Add SignalR to the OWIN pipeline
-            
             var config = new HttpConfiguration();
             config.Formatters.Add(new BinaryMediaTypeFormatter());
             app.MapSignalR();
             var builder = IoCConfigService.Configure();
             var container = builder.Build();
+            var logger = container.Resolve<ILogger>();
+            if (cs.AppIsInDebugMode)
+            {
+                logger.Info("The Autofac container is resolving instances of ILogger.");
+                logger.Info("Application Started.");
+            }
             app.UseAutofacMiddleware(container);
             var resolver = new AutofacWebApiDependencyResolver(container);
             config.DependencyResolver = resolver;
-            
+
             app.Use<BridgeportClaimsMiddleware>();
             config.MessageHandlers.Add(new CancelledTaskBugWorkaroundMessageHandler());
             ConfigureOAuthTokenGeneration(app);
