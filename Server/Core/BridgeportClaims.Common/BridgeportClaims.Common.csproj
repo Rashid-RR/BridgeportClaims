@@ -62,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Async\AsyncLazy.cs" />
     <Compile Include="Caching\CachingProviderBase.cs" />
     <Compile Include="Caching\IMemoryCacher.cs" />
     <Compile Include="Caching\MemoryCacher.cs" />
@@ -92,9 +93,7 @@
     <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="NuGetReferenceHintPathRewrite.targets" />
 </Project>
