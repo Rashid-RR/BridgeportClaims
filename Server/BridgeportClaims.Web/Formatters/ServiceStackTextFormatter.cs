@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using ServiceStack.Text;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Web.Formatters
 {
@@ -14,7 +15,7 @@ namespace BridgeportClaims.Web.Formatters
         public ServiceStackTextFormatter()
         {
             JsConfig.DateHandler = DateHandler.ISO8601;
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
+            SupportedMediaTypes.Add(new MediaTypeHeaderValue(s.ApplicationJson));
 
             SupportedEncodings.Add(new UTF8Encoding(false, true));
             SupportedEncodings.Add(new UnicodeEncoding(false, true, true));

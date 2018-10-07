@@ -44,5 +44,6 @@
 	    public const string UseRedisKey = "UseRedis";
 	    public const string IsProductionKey = "IsProduction";
 	    public const string TimeFormat = "M/d/yyyy h:mm:ss tt";
-    }
+	    public const string ApplicationJson = "application/json";
+	}
 }

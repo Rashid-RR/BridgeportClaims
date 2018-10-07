@@ -26,13 +26,13 @@ namespace BridgeportClaims.RedisCache.Domain
         {
             if (cs.IsProduction)
             {
-                if (cs.AppIsInDebugMode)
-                {
-                    var method = MethodBase.GetCurrentMethod().Name;
-                    var now = DateTime.Now.ToString(s.TimeFormat);
-                    Logger.Value.Info($"Writing info message in the {method} method on {now}.");
-                }
                 return cacheKey;
+            }
+            if (cs.AppIsInDebugMode)
+            {
+                var method = MethodBase.GetCurrentMethod().Name;
+                var now = DateTime.Now.ToString(s.TimeFormat);
+                Logger.Value.Info($"We are outside of Production. Writing info message in the {method} method on {now}.");
             }
             return cacheKey + Environment.MachineName;
         }
