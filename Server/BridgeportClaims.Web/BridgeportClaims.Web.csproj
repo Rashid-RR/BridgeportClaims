@@ -506,7 +506,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BridgeportClaims.RedisCache\BridgeportClaims.RedisCache.csproj">
+    <ProjectReference Include="..\DAL\BridgeportClaims.RedisCache\BridgeportClaims.RedisCache.csproj">
       <Project>{7cd614ce-0eb0-47bc-9424-90a570b7dbf8}</Project>
       <Name>BridgeportClaims.RedisCache</Name>
     </ProjectReference>
