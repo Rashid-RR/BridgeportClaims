@@ -19,7 +19,10 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             {
                 var delimitedClaimIds = string.Join(s.Comma, claimIds);
                 const string sp = "[dbo].[uspGetClaimsWithPrescriptionDetails]";
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 return conn.Query<ClaimsWithPrescriptionDetailsDto>(sp, new {ClaimIDs = delimitedClaimIds},
                     commandType: CommandType.StoredProcedure)?.OrderByDescending(o => o.RxDate);
             });
@@ -245,7 +248,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
         {
             var ps = new DynamicParameters();
             var dt = CreateDataTable(prescriptionIds);
-            ps.Add("@PrescriptionIDs", dt.AsTableValuedParameter(s.udtId));
+            ps.Add("@PrescriptionIDs", dt.AsTableValuedParameter(s.UdtId));
             ps.Add("@DocumentID", documentId, DbType.Int32);
             ps.Add("@CheckNumber", checkNumber, DbType.AnsiString, size: 50);
             ps.Add("@CheckAmount", checkAmount, DbType.Decimal);
@@ -262,7 +265,10 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspPostPayment]";
-                if (conn.State != ConnectionState.Open) conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 var multi = conn.QueryMultiple(sp, ps, commandTimeout: 180, commandType: CommandType.StoredProcedure);
                 var postPaymentPrescriptionReturnDto = multi.Read<PostPaymentPrescriptionReturnDto>()?.ToList() ?? new List<PostPaymentPrescriptionReturnDto>();
                 var postPaymentPrescriptionDocumentDto = multi.Read<PostPaymentPrescriptionDocumentDto>()?.SingleOrDefault() ?? new PostPaymentPrescriptionDocumentDto();

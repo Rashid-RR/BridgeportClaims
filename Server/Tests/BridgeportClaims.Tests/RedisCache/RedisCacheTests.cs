@@ -3,13 +3,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using BridgeportClaims.RedisCache.Connection;
 using BridgeportClaims.RedisCache.Domain;
-using BridgeportClaims.RedisCache.Redis;
+using BridgeportClaims.RedisCache.Keys;
 using BridgeportClaims.Tests.Protobuf.Models;
 using BridgeportClaims.Tests.RedisCache.Keys;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using StackExchange.Redis;
-using cs = BridgeportClaims.Common.Config.ConfigService;
-using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Tests.RedisCache
 {
@@ -55,6 +53,8 @@ namespace BridgeportClaims.Tests.RedisCache
             }
 
             // Assert.
+            var personCacheKeyExists = await _redisDomain.Value.KeyExists(cacheKey).ConfigureAwait(false);
+            Assert.IsTrue(personCacheKeyExists);
             Assert.IsNotNull(kevinDurant);
             var copyOfKd = PersonBuilder.BuildPerson();
             Assert.AreEqual(kevinDurant.FirstName, copyOfKd.FirstName);
@@ -76,6 +76,16 @@ namespace BridgeportClaims.Tests.RedisCache
             var nothing = expiredResult.ReturnResult;
             Assert.IsFalse(expiredResult.Success);
             Assert.IsNull(nothing);
+
+            ICacheKey fakeCacheKey = new FakeCacheKey();
+            var cacheKeyDoesNotExist = await _redisDomain.Value.KeyExists(fakeCacheKey)
+                .ConfigureAwait(false);
+            Assert.IsFalse(cacheKeyDoesNotExist);
+        }
+
+        private string DecorateFakeKey(string cacheKey)
+        {
+            return cacheKey + "Fake";
         }
     }
 }

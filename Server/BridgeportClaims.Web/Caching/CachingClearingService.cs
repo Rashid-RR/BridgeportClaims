@@ -19,14 +19,5 @@ namespace BridgeportClaims.Web.Caching
             ICacheKey cacheKey = new ClaimNoteTypeCacheKey();
             await _redisDomain.Value.RemoveAsync(cacheKey).ConfigureAwait(false);
         }
-
-        private string DecorateKey(string cacheKey)
-        {
-            if (true) // TODO: Figure out if this is Prod.
-            {
-                return cacheKey;
-            }
-            return cacheKey + System.Environment.MachineName;
-        }
     }
 }

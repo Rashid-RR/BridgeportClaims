@@ -105,6 +105,7 @@
     <Compile Include="Protobuf\Models\Person.cs" />
     <Compile Include="Protobuf\Models\PersonBuilder.cs" />
     <Compile Include="Protobuf\ProtobufTests.cs" />
+    <Compile Include="RedisCache\Keys\FakeCacheKey.cs" />
     <Compile Include="RedisCache\Keys\PersonCacheKey.cs" />
     <Compile Include="RedisCache\RedisCacheTests.cs" />
   </ItemGroup>

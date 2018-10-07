@@ -50,7 +50,7 @@ namespace BridgeportClaims.RedisCache.Domain
             try
             {
                 var redisCache = CacheConnectionHelper.Connection.GetDatabase();
-                var data = await redisCache.StringGetAsync(DecorateKey(key.CacheKey),
+                RedisValue data = await redisCache.StringGetAsync(DecorateKey(key.CacheKey),
                     CommandFlags.PreferSlave).ConfigureAwait(false);
 
                 result.ReturnResult = !data.IsNull
@@ -111,6 +111,44 @@ namespace BridgeportClaims.RedisCache.Domain
             }
         }
 
-        // SetKeyExpirationAsync
+        public async Task<bool> SetKeyExpirationAsync(ICacheKey key, TimeSpan expirationTime)
+        {
+            if (!_useRedis)
+            {
+                return false;
+            }
+            try
+            {
+                var db = CacheConnectionHelper.Connection.GetDatabase();
+                await db.KeyExpireAsync(DecorateKey(key.CacheKey), expirationTime, 
+                    CommandFlags.DemandMaster).ConfigureAwait(false);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return false;
+            }
+        }
+
+        public async Task<bool> KeyExists(ICacheKey key)
+        {
+            if (!_useRedis)
+            {
+                return false;
+            }
+            try
+            {
+                var db = CacheConnectionHelper.Connection.GetDatabase();
+                var retVal = await db.KeyExistsAsync(DecorateKey(key.CacheKey), 
+                    CommandFlags.PreferSlave);
+                return retVal;
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return false;
+            }
+        }
     }
 }
