@@ -393,7 +393,7 @@ export class ClaimManager {
     }
   }
   get selectedClaim(): Claim {
-    return this.claims.get(this.selected)
+    return this.claims.get(this.selected);
   }
 
   changeFlex2(claim: Claim, flex: any) {
