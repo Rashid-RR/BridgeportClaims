@@ -12,6 +12,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
         IList<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection, string userId);
         ClaimDto GetClaimsDataByClaimId(int claimId, string userId);
         BillingStatementDto GetBillingStatementDto(int claimId);
-        string UpdateIsMaxBalance(int claimId, bool isMaxBalance, string modifiedByUserId)
+        string UpdateIsMaxBalance(int claimId, bool isMaxBalance, string modifiedByUserId);
     }
 }

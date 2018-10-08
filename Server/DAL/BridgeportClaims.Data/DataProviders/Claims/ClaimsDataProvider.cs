@@ -331,9 +331,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                     conn.Open();
                 }
                 conn.Execute(sp, ps, commandTimeout: 1800, commandType: CommandType.StoredProcedure);
-                var msg = isMaxBalance
-                    ? $"Claim Id {claimId} has been unblocked from a Max Balance."
-                    : $"Claim Id {claimId} has been blocked from a Max Balance.";
+                var msg = $"Claim Id {claimId} has been {(isMaxBalance ? string.Empty : "un")}blocked from a Max Balance.";
                 return msg;
             });
     }
