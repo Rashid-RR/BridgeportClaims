@@ -18,6 +18,7 @@ AS
         SET XACT_ABORT ON;
         SELECT  ClaimId = c.ClaimID
                ,Name = p.FirstName + ' ' + p.LastName
+			   ,c.IsMaxBalance
                ,ClaimNumber = c.ClaimNumber
                ,DateOfBirth = p.DateOfBirth
                ,DateOfInjury = c.DateOfInjury

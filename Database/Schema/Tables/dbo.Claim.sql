@@ -45,8 +45,8 @@ AS BEGIN
                 BEGIN 
         
                     INSERT  INTO dbo.ClaimAudit
-                            ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
-                            SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'UPDATE'
+                            ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, [IsMaxBalance], ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
+                            SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, [IsMaxBalance], ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'UPDATE'
                                    ,@User
                                    ,@Now
                             FROM    INSERTED
@@ -55,9 +55,9 @@ AS BEGIN
             ELSE 
                 BEGIN 
                     INSERT  INTO dbo.ClaimAudit
-                            ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC
+                            ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, [IsMaxBalance], ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC
                             )
-                            SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'INSERT'
+                            SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, [IsMaxBalance], ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'INSERT'
                                    ,@User
                                    ,@Now
                             FROM    INSERTED
@@ -66,8 +66,8 @@ AS BEGIN
     ELSE 
         BEGIN 
             INSERT  INTO dbo.ClaimAudit
-                    ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
-                    SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'DELETE'
+                    ( ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, [IsMaxBalance], ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC, Operation, SystemUser, AuditDateUTC)
+                    SELECT  ClaimID, PolicyNumber, DateOfInjury, IsFirstParty, ClaimNumber, PreviousClaimNumber, PersonCode, PayorID, [AdjustorID], JurisdictionStateID, RelationCode, TermDate, PatientID, ETLRowID, UniqueClaimNumber, ClaimFlex2ID, [IsMaxBalance], ModifiedByUserID, CreatedOnUTC, UpdatedOnUTC,'DELETE'
                            ,@User
                            ,@Now
                     FROM    DELETED

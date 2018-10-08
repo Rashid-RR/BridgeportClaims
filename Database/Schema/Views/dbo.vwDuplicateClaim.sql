@@ -23,5 +23,5 @@ SELECT [ci].[ClaimNumber]
 FROM   [CTE] AS ct
        INNER JOIN [dbo].[Claim] AS c ON [c].[ClaimNumber] = [ct].[ClaimNumber]
                                         AND [c].[PersonCode] = [ct].[PersonCode]
-       INNER JOIN [dbo].[vwClaimInfo] AS [ci] ON [ci].[ClaimID] = [c].[ClaimID]
+       INNER JOIN [dbo].[vwClaimInfo] AS [ci] WITH (NOEXPAND) ON [ci].[ClaimID] = [c].[ClaimID]
 GO
