@@ -14,8 +14,8 @@ BEGIN
 	SET NOCOUNT ON;
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 	DECLARE @Version VARCHAR(30);
-	SET @Version = '6.2';
-	SET @VersionDate = '20180201';
+	SET @Version = '6.10';
+	SET @VersionDate = '20181001';
 
 
 	IF @Help = 1
@@ -33,7 +33,7 @@ Known limitations of this version:
    
 MIT License
 
-Copyright (c) 2017 Brent Ozar Unlimited
+Copyright (c) 2018 Brent Ozar Unlimited
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -84,13 +84,13 @@ DECLARE  @ProductVersion NVARCHAR(128)
 						 N'LEFT JOIN ( SELECT DISTINCT
 												wait.session_id ,
 												( SELECT    TOP  5 waitwait.wait_type + N'' (''
-												           + CAST(SUM(waitwait.wait_time_ms) AS NVARCHAR(128))
+												           + CAST(MAX(waitwait.wait_time_ms) AS NVARCHAR(128))
 												           + N'' ms), ''
 												 FROM      sys.dm_exec_session_wait_stats AS waitwait
 												 WHERE     waitwait.session_id = wait.session_id
 												 GROUP BY  waitwait.wait_type
 												 HAVING SUM(waitwait.wait_time_ms) > 5
-												 ORDER BY  SUM(waitwait.wait_time_ms) DESC
+												 ORDER BY 1												 
 												 FOR
 												 XML PATH('''') ) AS session_wait_info
 										FROM    sys.dm_exec_session_wait_stats AS wait ) AS wt2
@@ -165,19 +165,29 @@ SET @StringToExecute = N'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 							 WHEN r.blocking_session_id <> 0 AND s.session_id <> blocked.blocking_session_id 
 							 THEN blocked.blocking_session_id
 							ELSE NULL 
-						END AS blocking_session_id,
+						END AS blocking_session_id , 
 			            COALESCE(r.open_transaction_count, blocked.open_tran) AS open_transaction_count ,
+						CASE WHEN EXISTS (  SELECT 1 
+                                            FROM sys.dm_tran_active_transactions AS tat
+                                            JOIN sys.dm_tran_session_transactions AS tst
+                                            ON tst.transaction_id = tat.transaction_id
+                                            WHERE tat.name = ''implicit_transaction''
+                                            AND s.session_id = tst.session_id 
+                                         )  THEN 1 
+                             ELSE 0 
+                        END AS is_implicit_transaction ,
 					    s.nt_domain ,
 			            s.host_name ,
 			            s.login_name ,
 			            s.nt_user_name ,
-			            s.program_name 
+			            s.program_name
 						'
 						
 					IF @ExpertMode = 1
 					BEGIN
 					SET @StringToExecute += 
 			            N',
+						''DBCC FREEPROCCACHE ('' + CONVERT(NVARCHAR(128), r.plan_handle, 1) + '');'' AS fix_parameter_sniffing,						                        		
 			            s.client_interface_name ,
 			            s.login_time ,
 			            r.start_time ,
@@ -253,7 +263,7 @@ SET @StringToExecute = N'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 			    LEFT JOIN ( SELECT DISTINCT
 			                        wait.session_id ,
 			                        ( SELECT    waitwait.wait_type + N'' (''
-			                                    + CAST(SUM(waitwait.wait_duration_ms) AS NVARCHAR(128))
+			                                    + CAST(MAX(waitwait.wait_duration_ms) AS NVARCHAR(128))
 			                                    + N'' ms) ''
 			                          FROM      sys.dm_os_waiting_tasks AS waitwait
 			                          WHERE     waitwait.session_id = wait.session_id
@@ -313,6 +323,7 @@ SELECT @EnhanceFlag =
 	    CASE WHEN @ProductVersionMajor = 11 AND @ProductVersionMinor >= 6020 THEN 1
 		     WHEN @ProductVersionMajor = 12 AND @ProductVersionMinor >= 5000 THEN 1
 		     WHEN @ProductVersionMajor = 13 AND	@ProductVersionMinor >= 1601 THEN 1
+			 WHEN @ProductVersionMajor > 13 THEN 1
 		     ELSE 0 
 	    END
 
@@ -386,7 +397,16 @@ SELECT @StringToExecute = N'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 							   THEN blocked.blocking_session_id
 							   ELSE NULL 
 						  END AS blocking_session_id,
-			            COALESCE(r.open_transaction_count, blocked.open_tran) AS open_transaction_count ,		
+			            COALESCE(r.open_transaction_count, blocked.open_tran) AS open_transaction_count ,
+						CASE WHEN EXISTS (  SELECT 1 
+                                            FROM sys.dm_tran_active_transactions AS tat
+                                            JOIN sys.dm_tran_session_transactions AS tst
+                                            ON tst.transaction_id = tat.transaction_id
+                                            WHERE tat.name = ''implicit_transaction''
+                                            AND s.session_id = tst.session_id 
+                                         )  THEN 1 
+                             ELSE 0 
+                        END AS is_implicit_transaction ,
 					    s.nt_domain ,
 			            s.host_name ,
 			            s.login_name ,
@@ -397,6 +417,7 @@ SELECT @StringToExecute = N'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 					BEGIN
 					SET @StringToExecute += 						
 						N',
+						''DBCC FREEPROCCACHE ('' + CONVERT(NVARCHAR(128), r.plan_handle, 1) + '');'' AS fix_parameter_sniffing,						                        		
 			            s.client_interface_name ,
 			            s.login_time ,
 			            r.start_time ,		
@@ -479,7 +500,7 @@ SELECT @StringToExecute = N'SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 						LEFT JOIN ( SELECT DISTINCT
 									                        wait.session_id ,
 									                        ( SELECT    waitwait.wait_type + N'' (''
-									                                    + CAST(SUM(waitwait.wait_duration_ms) AS NVARCHAR(128))
+									                                    + CAST(MAX(waitwait.wait_duration_ms) AS NVARCHAR(128))
 									                                    + N'' ms) ''
 									                          FROM      sys.dm_os_waiting_tasks AS waitwait
 									                          WHERE     waitwait.session_id = wait.session_id
