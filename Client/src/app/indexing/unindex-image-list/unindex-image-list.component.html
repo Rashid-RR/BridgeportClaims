@@ -42,7 +42,7 @@
             {{file.lastWriteTimeLocal | date : 'mediumDate'}} {{file.lastWriteTimeLocal | date : 'mediumTime'}}
           </div>
           <div class="col-md-1">
-            <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="archive(file)">
+            <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="archive(file)"   *ngIf="!ds.imagesArchived">
               <span class="glyphicon glyphicon-trash"></span> Archive
             </button>
           </div>
@@ -54,7 +54,7 @@
       <div class="row">
         <div class="col-md-12 flex-row">
           <div class="file" *ngFor="let file of ds.documentList" [title]="file.fileSize" (click)="openFile(file)" [class.edited]="file.edited"
-            [class.added]="file.added" [class.deleted]="file.deleted" (onBeforeMenuOpen)="onBefore($event,file)" [sh-context]="items" [sh-data-context]="dataCtxOne">
+            [class.added]="file.added" [class.deleted]="file.deleted" (onBeforeMenuOpen)="ds.imagesArchived ? [] : onBefore($event,file)" [sh-context]="items" [sh-data-context]="dataCtxOne">
             <div class="card-body">
               <i class="fa fa-3x text-red fa-file-pdf-o"></i>
             </div>

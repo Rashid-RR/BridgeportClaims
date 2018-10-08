@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Input,Output,EventEmitter, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators,FormGroup } from '@angular/forms';
 import { EventsService } from "../../services/events-service"
@@ -21,8 +21,11 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
 
   file: DocumentItem;
   form: FormGroup;
+  @Input() checkType;
   @Input() checkNumber;
   @Input() index;
+  @Output() getSearchStatusChange = new EventEmitter<string>();
+
   @ViewChild('checkSwal') private checkSwal: SwalComponent;
   constructor(
     private dialogService: DialogService,
@@ -45,6 +48,10 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
     });
   }
   ngAfterViewInit() {
+
+  }
+  setCurrent(current:string){
+    this.getSearchStatusChange.emit(current);
 
   }
 

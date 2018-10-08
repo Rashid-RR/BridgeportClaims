@@ -27,7 +27,7 @@
     <li [class.active]="active=='1c'">
       <a data-toggle="tab" (click)="active='1c'"  style="cursor:pointer;">Checks</a>
     </li>
-    <span style="font-size: 22pt;font-weight: 600;text-shadow:1px 1px 1px black;color:#333">{{active=='1a' ? "Images": (active=='1b' ? "Invoice": 'Checks')}} Index</span>
+    <span style="font-size: 22pt;font-weight: 600;text-shadow:1px 1px 1px black;color:#333">{{active=='1a' ? "Images Index": (active=='1b' ? "Invoice Index": checkType+' Checks')}}</span>
   </ul>
   <div class="tab-content clearfix">
     <div class="tab-pane" [class.active]="active=='1a'">
@@ -37,7 +37,7 @@
       <indexing-unindexed-invoice></indexing-unindexed-invoice>
     </div>
     <div class="tab-pane" [class.active]="active=='1c'">
-      <indexing-unindexed-check></indexing-unindexed-check>
+      <indexing-unindexed-check (getSearchStatusChange)="setType($event)"></indexing-unindexed-check>
     </div>
   </div>
 </div>

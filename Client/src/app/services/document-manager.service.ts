@@ -33,6 +33,10 @@ export class DocumentManagerService {
   totalInvalidCheckRowCount: number;
   searchText: string = '';
   newIndex: boolean = false;
+  invoiceArchived: boolean = false;
+  checksArchived: boolean = false;
+  invalidChecksArchived: boolean = false;
+  imagesArchived: boolean = false;
   newInvoice: boolean = false;
   newCheck: boolean = false;
   indexNewCheck: boolean = true;
@@ -297,6 +301,7 @@ export class DocumentManagerService {
           if (page) {
             this.data.page = page;
           }
+          this.imagesArchived = this.data.archived;
         }, err => {
           this.loading = false;
           try {
@@ -349,11 +354,9 @@ export class DocumentManagerService {
           if (page) {
             this.invoiceData.page = page;
           }
-        }, err => {
+          this.invoiceArchived = this.invoiceData.archived;
+        }, () => {
           this.loading = false;
-          try {
-            const error = err.error;
-          } catch (e) { }
         }, () => {
           this.events.broadcast('document-list-updated');
         });
@@ -401,6 +404,7 @@ export class DocumentManagerService {
           if (page) {
             this.checksData.page = page;
           }
+          this.checksArchived = this.checksData.archived;
         }, err => {
           this.loading = false;
           try {
@@ -453,6 +457,7 @@ export class DocumentManagerService {
           if (page) {
             this.invalidChecksData.page = page;
           }
+          this.invalidChecksArchived = this.invalidChecksData.archived;
         }, err => {
           this.loading = false;
           try {

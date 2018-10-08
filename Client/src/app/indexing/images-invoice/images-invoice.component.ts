@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ImagesInvoiceComponent implements OnInit {
 
   active: string = '1a';
+  checkType: string = 'Valid';
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -17,6 +18,9 @@ export class ImagesInvoiceComponent implements OnInit {
         this.active = '1b';
       }
     });
+  }
+  setType($event){
+    this.checkType = $event;
   }
 
 }
