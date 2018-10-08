@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[ClaimAudit]
 [ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [UniqueClaimNumber] [varchar] (258) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [ClaimFlex2ID] [int] NULL,
-[IsMaxBalance] [bit] NOT NULL,
+[IsMaxBalance] [bit] NOT NULL CONSTRAINT [dfClaimAuditIsMaxBalance] DEFAULT ((0)),
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOnUTC] [datetime2] NOT NULL,
 [UpdatedOnUTC] [datetime2] NOT NULL,
