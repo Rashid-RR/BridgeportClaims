@@ -69,7 +69,7 @@ export class UnindexedCheckListComponent implements OnInit, AfterViewInit {
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.ds.archive(file.documentId);
+          this.ds.archive(file.documentId,false,'searchCheckes');
         }
       });
   }

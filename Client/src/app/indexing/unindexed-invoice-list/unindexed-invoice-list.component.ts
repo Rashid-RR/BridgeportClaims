@@ -68,7 +68,7 @@ export class UnindexedInvoiceListComponent implements OnInit {
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.ds.archive(file.documentId);
+          this.ds.archive(file.documentId,false,'searchInvoices');
         }
       });
   }

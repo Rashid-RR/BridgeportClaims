@@ -90,7 +90,7 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.ds.archive(this.ds.checksFile.documentId);
+          this.ds.archive(this.ds.checksFile.documentId,false,'searchCheckes');
         }
       });
   }

@@ -215,7 +215,7 @@ export class DocumentManagerService {
   get end(): Boolean {
     return this.pageStart && this.data.pageSize > this.documentList.length;
   }
-  archive(id: number, invoice = false) {
+  archive(id: number, invoice: boolean = false, method: string = '') {
     this.loading = true;
     this.http.archiveDocument(id).subscribe(r => {
       this.loading = false;
@@ -225,6 +225,9 @@ export class DocumentManagerService {
         this.invoices = this.invoices.delete(id);
       } else {
         this.documents = this.documents.delete(id);
+      }
+      if (method) {
+        this[method].apply(this)
       }
     }, () => {
       this.loading = false;
@@ -247,7 +250,7 @@ export class DocumentManagerService {
         this.checksFile = undefined;
         setTimeout(() => {
           $(`.nav-stacked a[href="#${(this.indexNewCheck ? 'checksA' : 'checksB')}"]`).tab('show');
-        },200);
+        }, 200);
         break;
     }
   }
@@ -280,7 +283,7 @@ export class DocumentManagerService {
               this.documents = this.documents.set(doc.documentId, doc);
             } catch (e) { }
           });
-          result.documentTypes.forEach((type: DocumentType) => {
+          (result.documentTypes || []).forEach((type: DocumentType) => {
             try {
               this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
             } catch (e) { }
@@ -332,7 +335,7 @@ export class DocumentManagerService {
               this.invoices = this.invoices.set(doc.documentId, doc);
             } catch (e) { }
           });
-          result.documentTypes.forEach((type: DocumentType) => {
+          (result.documentTypes || []).forEach((type: DocumentType) => {
             try {
               this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
             } catch (e) { }
@@ -384,7 +387,7 @@ export class DocumentManagerService {
               this.checks = this.checks.set(doc.documentId, doc);
             } catch (e) { }
           });
-          result.documentTypes.forEach((type: DocumentType) => {
+          (result.documentTypes || []).forEach((type: DocumentType) => {
             try {
               this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
             } catch (e) { }
@@ -436,7 +439,7 @@ export class DocumentManagerService {
               this.invalidChecks = this.invalidChecks.set(doc.documentId, doc);
             } catch (e) { }
           });
-          result.documentTypes.forEach((type: DocumentType) => {
+          (result.documentTypes || []).forEach((type: DocumentType) => {
             try {
               this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
             } catch (e) { }

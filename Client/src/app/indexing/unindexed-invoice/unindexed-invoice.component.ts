@@ -110,7 +110,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.ds.archive(this.ds.invoiceFile.documentId);
+          this.ds.archive(this.ds.invoiceFile.documentId,false,'searchInvoices');
         }
       });
   }
