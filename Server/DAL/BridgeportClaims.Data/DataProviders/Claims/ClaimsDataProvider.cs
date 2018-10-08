@@ -165,7 +165,10 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                     decimal totalAmountPaid = 0;
 
                     const string sp = "[claims].[uspGetClaims]";
-                    conn.Open();
+                    if (conn.State != ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
                     var multi = conn.QueryMultiple(sp, new {ClaimID = claimId},
                         commandType: CommandType.StoredProcedure);
                     var claimDto = multi.Read<ClaimDto>()?.SingleOrDefault();

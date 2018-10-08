@@ -10,6 +10,7 @@ namespace BridgeportClaims.Data.Dtos
         public int ClaimId { get; set; }
         public bool isVip { get; set; }
         public string Name { get; set; }
+        public bool IsMaxBalance { get; set; }
         public string ClaimNumber { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime? DateOfInjury { get; set; }
