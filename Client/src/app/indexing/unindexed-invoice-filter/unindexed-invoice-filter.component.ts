@@ -30,7 +30,9 @@ export class UnindexedInvoiceFilterComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     // Date picker
-
+    $('#invoicechecksdate').datepicker({
+      autoclose: true
+    });
     this.route.params.subscribe(params => {
       if (params['date'] && params['date'] !='invoice') {
         this.date = params['date'].replace(/\-/g, "/");
@@ -41,7 +43,8 @@ export class UnindexedInvoiceFilterComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-    this.ds.invoiceData.date = null
+    let date = this.dp.transform($('#invoicechecksdate').val(), "MM/dd/yyyy");
+    this.ds.invoiceData.date = date||null
     this.ds.invoiceData.fileName = this.fileName || null
     this.ds.searchInvoices(); 
   }
@@ -50,6 +53,7 @@ export class UnindexedInvoiceFilterComponent implements OnInit, AfterViewInit {
     this.ds.invoiceData.archived = $event.target.checked;
   }
   clearFilters() {
+    $('#invoicechecksdate').val('');
     this.fileName = '';
   }
 

@@ -1,7 +1,5 @@
 import { Component, NgZone, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
@@ -21,16 +19,16 @@ export class UnindexedCheckFilterComponent implements OnInit, AfterViewInit {
     public ds: DocumentManagerService,
     private dp: DatePipe,
     private zone: NgZone,
-    private route: ActivatedRoute,
-    private toast: ToastsManager,
-    private fb: FormBuilder) { }
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
 
   }
   ngAfterViewInit() {
     // Date picker
-
+    $('#checksdate').datepicker({
+      autoclose: true
+    });
     this.route.params.subscribe(params => {
       if (params['date'] && params['date'] !='invoice') {
         this.date = params['date'].replace(/\-/g, "/");
@@ -41,7 +39,8 @@ export class UnindexedCheckFilterComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-    this.ds.checksData.date = null
+    let date = this.dp.transform($('#checksdate').val(), "MM/dd/yyyy");
+    this.ds.checksData.date = date||null
     this.ds.checksData.fileName = this.fileName || null
     this.ds.searchCheckes(); 
   }
@@ -50,6 +49,7 @@ export class UnindexedCheckFilterComponent implements OnInit, AfterViewInit {
     this.ds.checksData.archived = $event.target.checked;
   }
   clearFilters() {
+    $('#checksdate').val('');
     this.fileName = '';
   }
 

@@ -1,5 +1,6 @@
 import { Component, NgZone, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
 declare var $: any;
@@ -15,6 +16,7 @@ export class UnindexedInvalidCheckFilterComponent implements OnInit, AfterViewIn
   fileName: string;
   submitted: boolean = false;
   constructor(
+    private dp: DatePipe,
     public ds: DocumentManagerService,
     private zone: NgZone,
     private route: ActivatedRoute) { }
@@ -24,6 +26,9 @@ export class UnindexedInvalidCheckFilterComponent implements OnInit, AfterViewIn
   }
   ngAfterViewInit() {
     // Date picker
+    $('#invchecksdate').datepicker({
+      autoclose: true
+    });
     this.route.params.subscribe(params => {
       if (params['date'] && params['date'] !='invoice') {
         this.date = params['date'].replace(/\-/g, "/");
@@ -34,13 +39,15 @@ export class UnindexedInvalidCheckFilterComponent implements OnInit, AfterViewIn
   }
 
   search() {
-    this.ds.invalidChecksData.date = null
+    let date = this.dp.transform($('#invchecksdate').val(), "MM/dd/yyyy");
+    this.ds.invalidChecksData.date = date||null
     this.ds.invalidChecksData.fileName = this.fileName || null
     this.ds.searchInvalidCheckes(); 
   }
 
   
   clearFilters() {
+    $('#invchecksdate').val('');
     this.fileName = '';
   }
 
