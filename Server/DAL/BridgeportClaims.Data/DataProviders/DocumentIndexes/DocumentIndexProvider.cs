@@ -204,23 +204,5 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                     return retVal as bool? ?? false;
                 });
             });
-
-        public bool InsertCheckIndex(int documentId, string checkNumber, string userId) =>
-            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                const string output = "@AlreadyExists";
-                var ps = new DynamicParameters();
-                ps.Add("@DocumentID", documentId, DbType.Int32);
-                ps.Add("@ModifiedByUserID", userId, DbType.String, size: 128);
-                ps.Add("@CheckNumber", checkNumber, DbType.AnsiString, size: 100);
-                ps.Add(output, dbType: DbType.Boolean, direction: ParameterDirection.Output);
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                conn.Execute("[dbo].[uspCheckIndexInsert]", ps, commandType: CommandType.StoredProcedure);
-                var retVal = ps.Get<bool>(output);
-                return retVal;
-            });
     }
 }

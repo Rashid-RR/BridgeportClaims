@@ -93,10 +93,12 @@ namespace BridgeportClaims.Web.Controllers
 		{
 			try
 			{
-				if (0 == model.ClaimId)
+				if (default (int) == model.ClaimId)
 					throw new Exception("Error, cannot pass in a Claim ID value of zero.");
-				if (null != model.ClaimId) return GetClaimsDataByClaimId(model.ClaimId.Value);
-
+			    if (null != model.ClaimId)
+			    {
+			        return GetClaimsDataByClaimId(model.ClaimId.Value);
+			    }
 				// Search terms passed, so we're at least performing a search first to see if multiple results appear.
 				var claimsData = _claimsDataProvider.Value.GetClaimsData(model.ClaimNumber,
 					model.FirstName, model.LastName, model.RxNumber, model.InvoiceNumber);
@@ -120,6 +122,24 @@ namespace BridgeportClaims.Web.Controllers
 			return Ok(results);
 		}
 
+	    [HttpPost]
+	    [Route("set-max-balance")]
+	    public IHttpActionResult SetMaxBalance(int claimId, bool isMaxBalance)
+	    {
+	        try
+	        {
+	            var userId = User.Identity.GetUserId();
+	            if (null == userId)
+	                throw new Exception("Error, could not find the logged in user.");
+	            var msg = _claimsDataProvider.Value.UpdateIsMaxBalance(claimId, isMaxBalance, userId);
+	            return Ok(new {message = msg});
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Value.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+	    }
 
 		[HttpPost]
 		[Route("set-flex2")]

@@ -11,6 +11,5 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
         bool UpsertDocumentIndex(int documentId, int claimId, int documentTypeId, DateTime? rxDate,
             string rxNumber, string invoiceNumber, DateTime? injuryDate, string attorneyName, string indexedByUserId);
         bool InsertInvoiceIndex(int documentId, string invoiceNumber, string userId);
-        bool InsertCheckIndex(int documentId, string checkNumber, string userId);
     }
 }

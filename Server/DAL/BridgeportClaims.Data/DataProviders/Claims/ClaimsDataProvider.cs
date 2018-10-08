@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
@@ -315,6 +316,25 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                         conn.Close();
                     return retVal;
                 });
+            });
+
+        public string UpdateIsMaxBalance(int claimId, bool isMaxBalance, string modifiedByUserId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspClaimUpdateMaxBalance]";
+                var ps = new DynamicParameters();
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@IsMaxBalance", isMaxBalance, DbType.Boolean);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                conn.Execute(sp, ps, commandTimeout: 1800, commandType: CommandType.StoredProcedure);
+                var msg = isMaxBalance
+                    ? $"Claim Id {claimId} has been unblocked from a Max Balance."
+                    : $"Claim Id {claimId} has been blocked from a Max Balance.";
+                return msg;
             });
     }
 }
