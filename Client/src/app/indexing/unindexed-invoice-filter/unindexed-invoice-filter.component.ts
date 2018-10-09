@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
@@ -54,6 +54,7 @@ export class UnindexedInvoiceFilterComponent implements OnInit, AfterViewInit {
   }
   clearFilters() {
     $('#invoicechecksdate').val('');
+    $('#IarchivedCheck').prop('checked',false);
     this.fileName = '';
   }
 

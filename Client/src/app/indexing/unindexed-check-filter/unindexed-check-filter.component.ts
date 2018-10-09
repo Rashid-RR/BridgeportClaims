@@ -50,6 +50,7 @@ export class UnindexedCheckFilterComponent implements OnInit, AfterViewInit {
   }
   clearFilters() {
     $('#checksdate').val('');
+    $('#CarchivedCheck').prop('checked',false);
     this.fileName = '';
   }
 

@@ -317,7 +317,7 @@
                                                     <input class="form-control" type="text" formControlName="checkNumber"
                                                         (focus)="submitted=false">
                                                     <p class="text-danger" *ngIf="form.controls['checkNumber'].errors && form.controls['checkNumber'].touched">Please
-                                                        provide a Check Number</p>
+                                                        provide a valid Check Number</p>
                                                 </div>
                                             </div>
                                             <div class="col-md-2 flex">
@@ -325,7 +325,7 @@
                                                     <label>&nbsp;</label>
                                                     <span>
                                                         <button class="color-palette btn btn-block btn-flat bg-DarkGreen btn-md"
-                                                            type="button" (click)="saveCheck()">Save</button>
+                                                            type="button" (click)="saveCheck()"> <i class="fa fa-calculator"></i> Begin Posting</button>
                                                         <button class="color-palette btn bg-darkblue btn-flat  btn-md"
                                                             type="button" (click)="cancel()" style="margin:0px 15px;">
                                                             <i class="fa fa-chevron-left"></i>Cancel

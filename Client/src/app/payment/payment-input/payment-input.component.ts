@@ -1,21 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { FormBuilder, FormGroup,Validators } from "@angular/forms";
+import { Router,ActivatedRoute } from "@angular/router";
 import { HttpService } from "../../services/http-service";
 import { PaymentService } from "../../services/payment-service";
 import { EventsService } from "../../services/events-service";
 import { PaymentPosting } from "../../models/payment-posting";
-import { PaymentPostingPrescription } from "../../models/payment-posting-prescription";
 import { ToastsManager } from 'ng2-toastr';
 import { DecimalPipe } from '@angular/common';
-import { LocalStorageService } from 'ng2-webstorage';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';
 import * as Immutable from 'immutable';
 import { DetailedPaymentClaim } from '../../models/detailed-payment-claim';
 import { PaymentClaim } from '../../models/payment-claim';
 import swal from "sweetalert2";
-
 
 @Component({
   selector: 'app-payment-input',
@@ -31,11 +28,13 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
   paymentamountRemaining: any
   paymentSuspense: any;
   paymentClosed: any;
+  documentId:any;
   constructor(private decimalPipe: DecimalPipe, public paymentService: PaymentService,
-    private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService, private toast: ToastsManager,
-    private localSt: LocalStorageService, private dialogService: DialogService) {
+    private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService, private toast: ToastsManager,    
+    private route: ActivatedRoute,private dialogService: DialogService) {
     this.form = this.formBuilder.group({
       checkNumber: [null],
+      documentId: [null,Validators.required],
       checkAmount: [null],
       amountSelected: [null],
       amountToPost: [null],
@@ -43,6 +42,15 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params['documentId']) {
+        this.documentId = params['documentId']
+        this.form.patchValue({documentId : params['documentId']});
+      }
+      if (params['checkNumber']) {
+        this.form.patchValue({checkNumber : params['checkNumber']});
+      }
+    });
     this.paymentService.paymentPosting = new PaymentPosting();
     this.paymentSuspense = this.events.on("payment-suspense", a => {
       this.form.patchValue({
@@ -147,7 +155,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
               this.disableCheckEntry = false;
               this.paymentService.claims = Immutable.OrderedMap<Number, PaymentClaim>();
               this.paymentService.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
-
+              this.router.navigate([`/main/payments`]);      
               //this.paymentService.paymentPosting = new PaymentPosting();
             }, error => {
               this.toast.error(error.message);

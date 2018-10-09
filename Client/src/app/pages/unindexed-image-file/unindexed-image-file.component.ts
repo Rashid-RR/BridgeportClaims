@@ -22,6 +22,7 @@ declare var $: any;
 export class UnindexedImageFileComponent implements OnInit {
 
   loading: boolean = false;
+  checkImage: boolean = false;
   sanitizedURL: any;
   @Input() file: any;
   constructor(
@@ -49,11 +50,30 @@ export class UnindexedImageFileComponent implements OnInit {
         win.showNote(this.file);
       })
   }
+  showNote(id: any) {
+    let file = localStorage.getItem('file-' + id);
+    this.checkImage=true;
+    if (file) {
+      try {
+        this.file = JSON.parse(file) as any;
+        this.loading = true;
+        this.nativeHttp.get(decodeURIComponent(this.file.fileUrl), { observe: 'response', responseType: 'blob' }).single().subscribe(r => {
+          this.showFile();
+          this.loading = false;
+        }, err => {
+          this.showFile();
+          this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' });
+          this.loading = false;
+        })
+      } catch (e) { }
+    }
+  }
   ngOnInit() {
     var scale = 1.5;
     if (this.file) {
       this.loading = true;
-      this.nativeHttp.get(this.file.fileUrl, { observe: 'response',responseType: 'blob' }).single().subscribe(r => {
+      let url = decodeURIComponent(this.file.fileUrl);
+      this.nativeHttp.get(url, { observe: 'response', responseType: 'blob' }).single().subscribe(r => {
         this.showFile();
         this.loading = false;
       }, err => {
@@ -71,10 +91,10 @@ export class UnindexedImageFileComponent implements OnInit {
             this.events.on("episode-note-updated", (episode) => {
               if (episode.episodeId == this.file.episodeId) {
                 this.file.episodeNoteCount = episode.episodeNoteCount;
-                localStorage.setItem('file-' + params['id'],JSON.stringify(this.file));
+                localStorage.setItem('file-' + params['id'], JSON.stringify(this.file));
               }
             });
-            this.nativeHttp.get(this.file.fileUrl, { observe: 'response',responseType: 'blob' }).single().subscribe(r => {
+            this.nativeHttp.get(decodeURIComponent(this.file.fileUrl), { observe: 'response', responseType: 'blob' }).single().subscribe(r => {
               this.showFile();
               this.loading = false;
             }, err => {
@@ -95,8 +115,8 @@ export class UnindexedImageFileComponent implements OnInit {
     var docInitParams: any = {};
     docInitParams.url = this.file.fileUrl;
     docInitParams.httpHeaders = { 'authorization': this.http.headers.get('authorization') };
-    let minusHeight = this.router.url =='/main/unindexed-images' ? 300 : 110;
-    $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - '+minusHeight+'px);border: none;"></iframe>');
+    let minusHeight = this.router.url == '/main/unindexed-images' ? 300 : 110;
+    $("#fileCanvas").html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - ' + minusHeight + 'px);border: none;"></iframe>');
     if (!this.file.fileUrl) {
       this.toast.error("Error, the PDF that you are looking for cannot be found. Please contact your system administrator.", null, { showCloseButton: true, dismiss: 'click' })
     }

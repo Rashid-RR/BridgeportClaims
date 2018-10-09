@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AutoCompleteModule } from '../auto-complete';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { PaymentRoutes } from './payment.routing';
 import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
@@ -13,6 +11,8 @@ import { PaymentComponent } from './payment/payment.component';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { AddScriptModalComponent } from './add-script-modal/add-script-modal.component';
 import { SharedModule } from '../shared';
+import { PaymentCheckListComponent } from './unindexed-check-list/unindexed-check-list.component';
+import { PaymentCheckFilterComponent } from './unindexed-check-filter/unindexed-check-filter.component';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { SharedModule } from '../shared';
   ],
   declarations: [    
   PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
-  PaymentDetailedResultComponent,PaymentComponent,AddScriptModalComponent
+  PaymentDetailedResultComponent,PaymentComponent,AddScriptModalComponent,PaymentCheckListComponent,PaymentCheckFilterComponent
   ]
 })
 export class PaymentModule { }

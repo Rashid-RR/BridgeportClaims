@@ -8,7 +8,7 @@ import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
 import { EpisodeService } from "../../services/episode.service";
 import { DialogService } from 'ng2-bootstrap-modal';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { ToastsManager } from 'ng2-toastr';
 
 import { ConfirmComponent } from '../confirm.component';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';

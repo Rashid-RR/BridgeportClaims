@@ -266,8 +266,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
             this.dialogInstance.config.BlockParentUI = false;
             $(".ngPopup .modal-content").css({ "padding": "0px" });
             $(".ngPopup .titleBar .iconGroup").css({ "margin-top": "7px" });
-            $(".ngPopup .titleBar .iconGroup span").css({ "color": "black" });
-            debugger;
+            $(".ngPopup .titleBar .iconGroup span").css({ "color": "black" });            
             if (this.MaxmizeStatus) {
                 this.dialogInstance.config.size.width = 200;
                 this.dialogInstance.config.size.height = 1;

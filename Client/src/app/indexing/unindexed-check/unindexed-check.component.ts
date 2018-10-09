@@ -33,7 +33,7 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
     private http: HttpService, private route: ActivatedRoute,
     private toast: ToastsManager, private formBuilder: FormBuilder, public ds: DocumentManagerService, private events: EventsService) {
     this.form = this.formBuilder.group({
-      checkNumber: [null, Validators.compose([Validators.min(3),Validators.required])]
+      checkNumber: [null, Validators.compose([Validators.pattern(/^[a-zA-Z0-9]{3,60}$/),Validators.minLength(3),Validators.required])]
     });
 
   }
@@ -57,33 +57,12 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
 
   saveCheck() {
     this.form.markAsDirty();
+    console.log(this.form.controls.checkNumber.errors);
     this.form.controls.checkNumber.markAsTouched();
     if (this.form.valid) {
-      this.ds.loading = true;
-      try {
-            let data = this.form.value;
-            data.documentId = this.ds.checksFile.documentId;
-            this.ds.loading = true;
-            this.http.saveCheckIndex(data).subscribe(res => {
-              this.toast.success(res.message);
-              this.ds.loading = false;
-              this.form.reset();
-              this.ds.checks = this.ds.checks.delete(this.ds.checksFile.documentId);
-              this.ds.totalCheckRowCount--;
-              this.ds.newCheck = false;
-              this.ds.checksFile = undefined;
-              this.ds.loading = false;
-              this.ds.closeModal();
-            }, requestError => {
-              let err = requestError.error;
-              this.toast.error(err.Message);
-              this.ds.loading = false;
-            })
-      } catch (e) {
-        this.ds.loading = false;
-      } finally {
-
-      }
+      localStorage.setItem('file-' +this.ds.checksFile.documentId,JSON.stringify(this.ds.checksFile));
+      let file = localStorage.getItem('file-' +this.ds.checksFile.documentId);
+      window.open(`#/main/payments/${this.ds.checksFile.documentId}/${this.form.controls.checkNumber.value}`, '_blank');    
     } else {
       let er = '';
       this.ds.loading = false;

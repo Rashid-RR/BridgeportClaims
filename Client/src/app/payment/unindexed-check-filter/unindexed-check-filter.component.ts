@@ -6,18 +6,18 @@ import { DocumentManagerService } from "../../services/document-manager.service"
 declare var $: any;
 
 @Component({
-  selector: 'indexing-unindexed-invalid-check-filter',
-  templateUrl: './unindexed-invalid-check-filter.component.html',
-  styleUrls: ['./unindexed-invalid-check-filter.component.css']
+  selector: 'payment-unindexed-check-filter',
+  templateUrl: './unindexed-check-filter.component.html',
+  styleUrls: ['./unindexed-check-filter.component.css']
 })
-export class UnindexedInvalidCheckFilterComponent implements OnInit, AfterViewInit {
+export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
 
   date: string;
   fileName: string;
   submitted: boolean = false;
   constructor(
-    private dp: DatePipe,
     public ds: DocumentManagerService,
+    private dp: DatePipe,
     private zone: NgZone,
     private route: ActivatedRoute) { }
 
@@ -26,7 +26,7 @@ export class UnindexedInvalidCheckFilterComponent implements OnInit, AfterViewIn
   }
   ngAfterViewInit() {
     // Date picker
-    $('#invchecksdate').datepicker({
+    $('#checksdate').datepicker({
       autoclose: true
     });
     this.route.params.subscribe(params => {
@@ -39,15 +39,17 @@ export class UnindexedInvalidCheckFilterComponent implements OnInit, AfterViewIn
   }
 
   search() {
-    let date = this.dp.transform($('#invchecksdate').val(), "MM/dd/yyyy");
-    this.ds.invalidChecksData.date = date||null
-    this.ds.invalidChecksData.fileName = this.fileName || null
-    this.ds.searchInvalidCheckes(); 
+    let date = this.dp.transform($('#checksdate').val(), "MM/dd/yyyy");
+    this.ds.checksData.date = date||null
+    this.ds.checksData.fileName = this.fileName || null
+    this.ds.searchCheckes(); 
   }
 
-  
+  filter($event) {
+    this.ds.checksData.archived = $event.target.checked;
+  }
   clearFilters() {
-    $('#invchecksdate').val('');
+    $('#checksdate').val('');
     $('#CarchivedCheck').prop('checked',false);
     this.fileName = '';
   }

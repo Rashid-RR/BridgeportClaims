@@ -21,6 +21,14 @@
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">Payments</h3>
+        <div class="box-tools pull-right" style="top:0px">
+          <div class="btn-group" data-toggle="btn-toggle">
+            <button class="btn btn-flat btn-sm " [disabled]="!documentId" type="button" (click)="showNoteWindow()">
+              <img [src]="over[1] ? 'assets/view-check-hover.png' : 'assets/view-check-normal.png'" (mouseover)="over[1] = true"
+                (mouseout)="over[1] = false" height="35px" class="pull-left">
+            </button>
+          </div>
+        </div>
       </div>
       <div class="box-body" style="padding-top:0px;">
         <div class="row search">
@@ -28,19 +36,148 @@
             <app-payment-input></app-payment-input>
           </div>
         </div>
-        <!-- <div class="row"  *ngIf="!paymentService.prescriptionSelected">
-                    <div class="col-sm-12" id="accordion">
-                        <div class="box">
-                            <div class="box-body payment-invoice">
-                                <app-payment-invoice></app-payment-invoice>
-                            </div>
+        <ng-container *ngIf="!documentId">
+            <div class="row search">
+                <div class="col-sm-12" id="accordion">
+                    <div class="box no-border" style="font-weight:normal;padding: 0px;margin-bottom:0rem;">
+                        <div class="box-header bg-head-box">
+                            <span class="blade-title panel-head">
+                                <h4 class="panel-title" style="font-weight:normal;">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseCheckA">
+                                        <i class="fa fa-search white" aria-hidden="true"></i>
+                                        <span class="left5 right5 white">Search and Filter</span>
+                                        <i class="fa fa-filter white" aria-hidden="true"></i>
+                                    </a>
+                                    <span class="total">
+                                            <span style="font-size:16px;margin-right:100px;">
+                                               VALID CHECKS</span>
+                                        </span>
+                                </h4>
+                            </span>
+                        </div>
+                        <div class="box-body" style="padding: 0px 15px;" id="collapseCheckA" class="panel-collapse collapse in">
+                            <payment-unindexed-check-filter></payment-unindexed-check-filter>
                         </div>
                     </div>
-                </div> -->
-        <div class="row">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12" id="accordion">
+                    <div class="box">
+                        <div class="box-header bg-head-box">
+                            <span class="blade-title panel-head">
+                                <i class="fa fa-book" aria-hidden="true"></i> Documents
+                            </span>
+                            <span class="total">
+                                <span *ngIf="ds.checkPageStart" style="margin-right:100px;">
+                                    {{ds.checkPageStart+ "
+                                    to "+ds.checkPageEnd}}</span>
+                                <span *ngIf="ds.checksList.length>0">
+                                    <span style="font-size:13pt">{{ds.totalCheckRowCount}}</span>
+                                    Record{{ds.totalCheckRowCount>1 ? 's':''}} found</span>
+                            </span>
+                            <div class="box-tools pull-right">
+                                <div class="btn-group">
+                                    <div class="dropdown menu">
+                                        <button class="btn transparent dropdown-toggle" type="button"
+                                            data-toggle="dropdown">Sort
+                                            by
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li class="dropdown-submenu" [class.active]="ds.checksData.sort=='fileName'">
+                                                <a tabindex="-1">Name</a>
+                                                <ul class="dropdown-menu">
+                                                    <li [class.active]="ds.checksData.sort=='fileName' && ds.checksData.sortDirection=='ASC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'fileName','dir':'asc'})">
+                                                        <a tabindex="-1">Ascending</a>
+                                                    </li>
+                                                    <li [class.active]="ds.checksData.sort=='fileName' && ds.checksData.sortDirection=='DESC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'fileName','dir':'desc'})">
+                                                        <a tabindex="-1">Descending</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown-submenu" [class.active]="ds.checksData.sort=='CreationTime'">
+                                                <a tabindex="-1">Date Created</a>
+                                                <ul class="dropdown-menu">
+                                                    <li [class.active]="ds.checksData.sort=='CreationTime' && ds.checksData.sortDirection=='ASC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'CreationTime','dir':'asc'})">
+                                                        <a tabindex="-1">Ascending</a>
+                                                    </li>
+                                                    <li [class.active]="ds.checksData.sort=='CreationTime' && ds.checksData.sortDirection=='DESC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'CreationTime','dir':'desc'})">
+                                                        <a tabindex="-1">Descending</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown-submenu" [class.active]="ds.checksData.sort=='fileSize'">
+                                                <a class="test" tabindex="-1">Size</a>
+                                                <ul class="dropdown-menu">
+                                                    <li [class.active]="ds.checksData.sort=='fileSize' && ds.checksData.sortDirection=='ASC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'fileSize','dir':'asc'})">
+                                                        <a tabindex="-1">Ascending</a>
+                                                    </li>
+                                                    <li [class.active]="ds.checksData.sort=='fileSize' && ds.checksData.sortDirection=='DESC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'fileSize','dir':'desc'})">
+                                                        <a tabindex="-1">Descending</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown-submenu" [class.active]="ds.checksData.sort=='LastAccessTime'">
+                                                <a class="test" tabindex="-1">
+                                                    Last Accessed
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li [class.active]="ds.checksData.sort=='LastAccessTime' && ds.checksData.sortDirection=='ASC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'LastAccessTime','dir':'asc'})">
+                                                        <a tabindex="-1">Ascending</a>
+                                                    </li>
+                                                    <li [class.active]="ds.checksData.sort=='LastAccessTime' && ds.checksData.sortDirection=='DESC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'LastAccessTime','dir':'desc'})">
+                                                        <a tabindex="-1">Descending</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown-submenu" [class.active]="ds.checksData.sort=='LastWriteTime'">
+                                                <a class="test" tabindex="-1">
+                                                    Last Write
+                                                </a>
+                                                <ul class="dropdown-menu">
+                                                    <li [class.active]="ds.checksData.sort=='LastWriteTime' && ds.checksData.sortDirection=='ASC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'LastWriteTime','dir':'asc'})">
+                                                        <a tabindex="-1">Ascending</a>
+                                                    </li>
+                                                    <li [class.active]="ds.checksData.sort=='LastWriteTime' && ds.checksData.sortDirection=='DESC'"
+                                                        (click)="ds.onCheckSortColumn({'column':'LastWriteTime','dir':'desc'})">
+                                                        <a tabindex="-1">Descending</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <button type="button" *ngIf="ds.checkDisplay=='list'" class="pull-right transparent btn btn-flat btn-sm"
+                                        (click)="ds.checkDisplay='grid'" title="Grid View" style=" margin-right: 60px; ">
+                                        <i class="fa fa-th"></i>
+                                    </button>
+                                    <button type="button" *ngIf="ds.checkDisplay=='grid'" class="pull-right  transparent btn btn-flat btn-sm"
+                                        (click)="ds.checkDisplay='list'" title="List View" style=" margin-right: 60px; ">
+                                        <i class="fa fa-list"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-body documents">
+                            <payment-unindexed-check-list></payment-unindexed-check-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </ng-container>
+        <div class="row" *ngIf="documentId">
           <div class="col-sm-12" id="accordion">
             <div class="box" style=" border-bottom-color:black">
-              <div class="box-header bg-head-box">
+              <div class="box-header bg-head-box" *ngIf="documentId">
                 <h4 class="box-title text-center panel-head">
                   <u>
                     <img src="assets/img/iconPrescriptions.png"> Prescriptions</u>
@@ -48,11 +185,13 @@
 
                 <span class="tally pull-right" style="margin-right:250px;">
                   <span>
-                    <span style="font-size:13pt">{{paymentService.detailedClaimsData.length}}</span> Record{{paymentService.detailedClaimsData.length>1
+                    <span style="font-size:13pt">{{paymentService.detailedClaimsData.length}}</span>
+                    Record{{paymentService.detailedClaimsData.length>1
                     ? 's':''}} found
                   </span>
                   <span class="label" *ngIf="paymentService.claimsDataCount" style="margin-left:20px;background:#414772;font-size:9pt">
-                    <span style="font-size:11pt">{{paymentService.detailedClaimsDataCount}} </span> Row {{paymentService.detailedClaimsDataCount>1 ? 's':''}}
+                    <span style="font-size:11pt">{{paymentService.detailedClaimsDataCount}} </span> Row
+                    {{paymentService.detailedClaimsDataCount>1 ? 's':''}}
                     selected
                   </span>
                 </span>
@@ -70,7 +209,7 @@
           </div>
         </div>
       </div>
-      <div class="overlay" *ngIf="paymentService.loading" style="text-align:center;">
+      <div class="overlay" *ngIf="paymentService.loading||ds.loading" style="text-align:center;">
         <img src="assets/1.gif">
       </div>
     </div>

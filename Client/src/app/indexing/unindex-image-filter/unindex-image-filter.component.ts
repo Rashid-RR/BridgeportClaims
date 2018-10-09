@@ -62,6 +62,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
 
   clearDates() {
     $('#date').val('');
+    $('#archivedCheck').prop('checked',false);
     this.fileName = '';
   }
 

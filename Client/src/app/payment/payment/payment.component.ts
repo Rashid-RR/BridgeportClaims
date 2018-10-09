@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit, trigger, state, style, transition, animat
 import { PaymentService, PaymentScriptService } from "../../services/services.barrel";
 import { EventsService } from "../../services/events-service";
 import { ToastsManager } from 'ng2-toastr';
+import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../components/ng-window';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
 import { UUID } from 'angular2-uuid';
@@ -9,6 +10,10 @@ import { PaymentPostingPrescription } from "../../models/payment-posting-prescri
 import { DatePipe } from "@angular/common"
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import swal from "sweetalert2";
+import { ActivatedRoute } from "@angular/router";
+import { DocumentManagerService } from "../../services/document-manager.service";
+import { UnindexedImageFileComponent } from '../../pages/unindexed-image-file/unindexed-image-file.component';
+
 declare var $: any;
 
 @Component({
@@ -30,11 +35,25 @@ declare var $: any;
 })
 export class PaymentComponent implements OnInit {
 
+  over: boolean[];
   tabState = 'in';
+  documentId:any;
+  checkNumber:any;
   @ViewChild('addScriptSwal') private addScriptSwal: SwalComponent;
-  constructor(public readonly swalTargets: SwalPartialTargets, public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
-    private dialogService: DialogService, private toast: ToastsManager, private events: EventsService, private dp: DatePipe) {
-    this.events.on("payment-suspense", a => {
+  constructor(private myInjector: WindowsInjetor, public readonly swalTargets: SwalPartialTargets, public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
+    public ds: DocumentManagerService,private route: ActivatedRoute,private dialogService: DialogService, private toast: ToastsManager, private events: EventsService, private dp: DatePipe) {
+      this.route.params.subscribe(params => {
+        if (params['checkNumber']) {
+          this.checkNumber = params['checkNumber'];
+        }
+        if (params['documentId']) {
+          this.documentId = params['documentId'];
+          this.showNoteWindow();
+        }
+      });
+      this.over = new Array(2);
+      this.over.fill(false);
+      this.events.on("payment-suspense", a => {
       this.tabState = "in";
     });
     this.events.on("payment-closed", a => {
@@ -52,6 +71,30 @@ export class PaymentComponent implements OnInit {
     this.events.on('show-payment-script-modal', (b: Boolean) => {
       setTimeout(() => { this.showModal(); }, 100)
     });
+  }
+  showNoteWindow() {
+    let title=`Check Viewer`
+    let file = localStorage.getItem('file-' + this.documentId);
+    if (file) {
+      try {
+        let doc = JSON.parse(file) as any; 
+        title = `Check Viewer - ${doc.fileName} - Check # ${this.checkNumber||''}`
+      } catch (e) { }
+    }
+   let config = new WindowConfig(title, new Size(250, 700))  //height, width
+    config.position = new CustomPosition((window.innerWidth - 700) / 2 + 50, 60)//left,top
+    config.minusTop = 0;
+    config.minusHeight = 0;
+    config.minusLeft = 0;
+    config.minusWidth = 0;
+    config.centerInsideParent = false;
+    var temp = {}
+    config.forAny = [temp];
+    config.openAsMaximize = false;
+    this.myInjector.openWindow(UnindexedImageFileComponent, config)
+      .then((win: UnindexedImageFileComponent) => {
+        win.showNote(this.documentId);
+      })
   }
 
   ngOnInit() {
@@ -89,7 +132,7 @@ export class PaymentComponent implements OnInit {
   }
 
   deletePayment(prescription: PaymentPostingPrescription, sessionId: UUID) {
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+   this.dialogService.addDialog(ConfirmComponent, {
       title: "Delete Payment",
       message: "Are you sure you wish to remove this Payment Posting for " + prescription.patientName + " of $" + prescription.amountPosted + "?"
     })
