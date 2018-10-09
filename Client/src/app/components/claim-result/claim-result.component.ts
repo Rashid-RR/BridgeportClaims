@@ -427,18 +427,16 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         form.dateOfInjury = this.lastForm.dateOfInjury != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
         form.address1 = this.form.value.address1 != this.lastForm.address1 ? this.form.value.address1 : undefined;
       form.address2 = this.form.value.address2 != this.lastForm.address2 ? this.form.value.address2 : undefined;
-    
       form.adjustorId = this.form.value.adjustorId != this.lastForm.adjustorId ? (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
       form.adjustorExtension = this.form.value.adjustorExtension != this.lastForm.adjustorExtension ? this.form.value.adjustorExtension : undefined;
       form.adjustorPhone = this.form.value.adjustorPhone != lastAdjustorPhone ? this.form.value.adjustorPhone : undefined;
       form.adjustorFax = this.form.value.adjustorFax != lastAdjustorFax ? this.form.value.adjustorFax : undefined;
       form.city = this.form.value.city != this.lastForm.city ? this.form.value.city : undefined;
-      
-      if ((!form.adjustorId || form.adjustorId == null) && (form.adjustorPhone || form.adjustorFax || form.adjustorExtension)) {
+      if ((!this.form.value.adjustorId || this.form.value.adjustorId == null) && (form.adjustorPhone || form.adjustorFax || form.adjustorExtension)) {
         this.toast.warning('You cannot save a new Adjustor phone, fax or extension when there is no Adjustor tied to this Claim.');
         return;
       } else {
-        this.claimManager.loading = true;      
+        this.claimManager.loading = true;
         this.http.editClaim(form).subscribe(res => {
           this.claimManager.loading = false;
           this.cancel();
@@ -451,35 +449,64 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           if (form.adjustorId || form.adjustorId === null) {
             this.claimManager.selectedClaim.adjustorId = form.adjustorId;
             this.claimManager.selectedClaim.adjustor = form.adjustorId === null ? null : this.adjustorId;
-            if (form.adjustorId === null){
+            if (form.adjustorId === null) {
               this.claimManager.selectedClaim.adjustorExtension = null;
               this.claimManager.selectedClaim.adjustorFaxNumber = null;
               this.claimManager.selectedClaim.adjustorPhoneNumber = null;
             }
           }
+          // show new extension
           if (form.adjustorExtension) {
             this.claimManager.selectedClaim.adjustorExtension = form.adjustorExtension;
           }
+          // If the user nulls out the extension, remove it from the screen after saving.
+          if (this.form.value.adjustorExtension == null) {
+            this.claimManager.selectedClaim.adjustorExtension = null;
+          }
+          // show new fax
           if (form.adjustorFax) {
             this.claimManager.selectedClaim.adjustorFaxNumber = form.adjustorFax;
+          }
+          // is the user nulls out the fax, remove it from the screen after saving.
+          if (this.form.value.adjustorFax == null) {
+            this.claimManager.selectedClaim.adjustorFaxNumber = null;
           }
           if (form.adjustorPhone) {
             this.claimManager.selectedClaim.adjustorPhoneNumber = form.adjustorPhone;
           }
+          // is the user nulls out the phone, remove it from the screen after saving.
+          if (this.form.value.adjustorPhone == null) {
+            this.claimManager.selectedClaim.adjustorPhoneNumber = null;
+          }
           if (form.dateOfInjury) {
             this.claimManager.selectedClaim.injuryDate = form.dateOfInjury;
           }
+          // is the user nulls out the date of injury, remove it from the screen after saving.
+          if (this.form.value.dateOfInjury == null) {
+            this.claimManager.selectedClaim.injuryDate = null;
+          }
+          // non-nullable field so don't have to worry abouot removing it from the screen if the user removes it.
           if (form.dateOfBirth) {
             this.claimManager.selectedClaim.dateOfBirth = form.dateOfBirth;
           }
           if (form.city) {
             this.claimManager.selectedClaim.city = form.city;
           }
+          // is the user nulls out the city, remove it from the screen after saving.
+          if (this.form.value.city == null) {
+            this.claimManager.selectedClaim.city = null;
+          }
           if (form.address1) {
             this.claimManager.selectedClaim.address1 = form.address1;
           }
+          if (this.form.value.address1 == null) {
+            this.claimManager.selectedClaim.address1 = null;
+          }
           if (form.address2) {
             this.claimManager.selectedClaim.address2 = form.address2;
+          }
+          if (this.form.value.address2) {
+            this.claimManager.selectedClaim.address2 = null;
           }
           if (form.claimFlex2Id || form.claimFlex2Id === null) {
             const newFlex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.claimFlex2Id + '' == form.claimFlex2Id + '');

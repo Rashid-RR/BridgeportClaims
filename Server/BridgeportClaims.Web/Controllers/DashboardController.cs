@@ -26,8 +26,6 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var isProduction = cs.IsProduction;
-                return Ok(isProduction);
                 var results = _dashboardProvider.Value.GetDashboardKpis();
                 return Ok(results);
             }
