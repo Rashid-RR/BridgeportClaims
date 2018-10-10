@@ -212,6 +212,8 @@
     <Compile Include="Dtos\LetterGenerationDto.cs" />
     <Compile Include="Dtos\NewEpisodeSaveDto.cs" />
     <Compile Include="Dtos\NotificationDto.cs" />
+    <Compile Include="Dtos\OutstandingDto.cs" />
+    <Compile Include="Dtos\OutstandingDtoResult.cs" />
     <Compile Include="Dtos\PaymentPostingDto.cs" />
     <Compile Include="Dtos\PaymentTotalsDto.cs" />
     <Compile Include="Dtos\PayorDto.cs" />

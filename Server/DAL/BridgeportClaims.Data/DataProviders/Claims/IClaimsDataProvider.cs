@@ -13,5 +13,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
         ClaimDto GetClaimsDataByClaimId(int claimId, string userId);
         BillingStatementDto GetBillingStatementDto(int claimId);
         string UpdateIsMaxBalance(int claimId, bool isMaxBalance, string modifiedByUserId);
+        OutstandingDto GetOutstanding(int claimId, int pageNumber, int pageSize, string sortColumn, string sortDirection);
     }
 }

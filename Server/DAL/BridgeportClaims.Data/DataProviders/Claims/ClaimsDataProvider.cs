@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Threading.Tasks;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
@@ -336,6 +335,35 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                 conn.Execute(sp, ps, commandTimeout: 1800, commandType: CommandType.StoredProcedure);
                 var msg = $"Claim Id {claimId} has been {(isMaxBalance ? string.Empty : "un")}blocked from a Max Balance.";
                 return msg;
+            });
+
+        public OutstandingDto GetOutstanding(int claimId, int pageNumber,
+            int pageSize, string sortColumn, string sortDirection) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[claims].[uspGetOutstandingBlade]";
+                const string totalRowsParam = "@TotalRows";
+                const string totalOutstandingParam = "@TotalOutstanding";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@PageNumber", pageNumber, DbType.Int32);
+                ps.Add("@PageSize", pageSize, DbType.Int32);
+                ps.Add("@SortColumn", sortColumn, DbType.AnsiString, size: 50);
+                ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
+                ps.Add(totalRowsParam, dbType: DbType.Int32, direction: ParameterDirection.Output);
+                ps.Add(totalOutstandingParam, dbType: DbType.Decimal, direction: ParameterDirection.Output);
+                var results = conn.Query<OutstandingDtoResult>(sp, ps, commandType: CommandType.StoredProcedure);
+                var totalRows = ps.Get<int>(totalRowsParam);
+                var totalOutstanding = ps.Get<decimal>(totalOutstandingParam);
+                var retVal = new OutstandingDto
+                {
+                    Results = results, TotalOutstanding = totalOutstanding, TotalRows = totalRows
+                };
+                return retVal;
             });
     }
 }

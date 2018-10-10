@@ -1,5 +1,4 @@
 ﻿using System;
-using BridgeportClaims.RedisCache.Keys;
 using BridgeportClaims.RedisCache.Keys.Abstractions;
 
 namespace BridgeportClaims.Tests.RedisCache.Keys

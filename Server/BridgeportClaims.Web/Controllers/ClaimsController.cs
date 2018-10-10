@@ -25,6 +25,23 @@ namespace BridgeportClaims.Web.Controllers
 			_claimsEditProvider = claimsEditProvider;
 		}
 
+	    [HttpPost]
+	    [Route("outstanding")]
+	    public IHttpActionResult GetOutstanding(ClaimSortViewModel model)
+	    {
+	        try
+	        {
+	            var outstanding = _claimsDataProvider.Value.GetOutstanding(model.ClaimId, model.Page, model.PageSize, model.Sort,
+	                model.SortDirection);
+	            return Ok(new {outstanding.TotalOutstandingAmount, outstanding.TotalRows, outstanding.Results});
+	        }
+	        catch (Exception ex)
+	        {
+	            Logger.Value.Error(ex);
+	            return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+	    }
+
 		[HttpPost]
 		[Route("sort-episodes")]
 		public IHttpActionResult SortEpisodes(SortEpisodeModel model)

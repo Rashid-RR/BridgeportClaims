@@ -3,7 +3,6 @@ using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
-using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.DocumentIndexes

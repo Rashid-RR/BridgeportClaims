@@ -23,7 +23,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get")]
-        public IHttpActionResult GetClaimImages(ClaimImageViewModel model)
+        public IHttpActionResult GetClaimImages(ClaimSortViewModel model)
         {
             try
             {
