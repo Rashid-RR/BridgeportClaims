@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BridgeportClaims.RedisCache.Keys;
 using BridgeportClaims.RedisCache.Keys.Abstractions;
 using BridgeportClaims.RedisCache.Redis;
 

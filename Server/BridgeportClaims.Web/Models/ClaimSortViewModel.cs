@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    public class ClaimImageViewModel
+    public class ClaimSortViewModel
     {
         [Required]
         public int ClaimId { get; set; }

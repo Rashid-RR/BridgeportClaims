@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[Pharmacy]
 [Address1] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Address2] [varchar] (55) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [City] [varchar] (35) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-[StateID] [int] NULL,
+[StateID] [int] NOT NULL,
 [PostalCode] [varchar] (11) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [PhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [AlternatePhoneNumber] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

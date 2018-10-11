@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using BridgeportClaims.RedisCache.Connection;
 using BridgeportClaims.RedisCache.Domain;
-using BridgeportClaims.RedisCache.Keys;
 using BridgeportClaims.RedisCache.Keys.Abstractions;
 using BridgeportClaims.Tests.Protobuf.Models;
 using BridgeportClaims.Tests.RedisCache.Keys;
