@@ -87,6 +87,7 @@ export class PaymentComponent implements OnInit {
     config.minusHeight = 0;
     config.minusLeft = 0;
     config.minusWidth = 0;
+    config.minWidth = 450;
     config.centerInsideParent = false;
     var temp = {}
     config.forAny = [temp];

@@ -4,9 +4,7 @@
  */
 
 import { OnDestroy, Component, ViewContainerRef, ViewChild, AfterViewInit, ApplicationRef } from "@angular/core";
-import { NgStyle } from "@angular/common";
 import { Observable } from 'rxjs'
-
 import { WindowInstance } from "./WindowInstance";
 import { Subscription } from "rxjs/Subscription";
 import { global, CustomPosition } from "./utils";
@@ -51,10 +49,9 @@ export class DragEvent {
 
     template: `
 
-    <div class="modal-dialog "     
-
- [style.width]="dialogInstance.config.size.width + 'px'"
- [style.height]="dialogInstance.config.size.height + 'px' "
+    <div class="modal-dialog " 
+    [style]="'height:'+dialogInstance.config.size.height + 'px !important'|safeStyle" 
+    [style.width.px]="dialogInstance.config.size.width"
   >
 
  <div class="resizeCorner"  [hidden]="!dialogInstance.config.isResizable"  >
@@ -265,10 +262,10 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
         if (!this.MinimizeStatus) {
             this.dialogInstance.config.BlockParentUI = false;
             $(".ngPopup .modal-content").css({ "padding": "0px" });
-            $(".ngPopup .titleBar .iconGroup").css({ "margin-top": "7px" });
+            $(".ngPopup .titleBar .iconGroup").css({ "margin-top": "0px" });
             $(".ngPopup .titleBar .iconGroup span").css({ "color": "black" });            
             if (this.MaxmizeStatus) {
-                this.dialogInstance.config.size.width = 200;
+                this.dialogInstance.config.size.width = this.dialogInstance.config.minWidth;
                 this.dialogInstance.config.size.height = 1;
                 //  this.dialogInstance.config.position.top = this._originalTop;
                 this.dialogInstance.config.position.left = this._originalLeft;
@@ -280,13 +277,13 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
                 this._originalTop = this.dialogInstance.config.position.top;
                 this._originalLeft = this.dialogInstance.config.position.left;
 
-                this.dialogInstance.config.size.width = 200;
+                this.dialogInstance.config.size.width = this.dialogInstance.config.minWidth;
                 this.dialogInstance.config.size.height = 1
             }
             $(".ngPopup").css("position", "fixed");
             $(".ngPopup").css("bottom", 0);
             $(".ngPopup").css("top", "unset");
-            $("#taskbar").css("display", "block");
+            $("#taskbar").css("display", "none");
             //توسيط الشاشة
             // this.dialogInstance.config.position.top = (window.innerHeight / 2 - this.tempSize.height / 2)
             // this.dialogInstance.config.position.left = (window.innerWidth / 2 - this.tempSize.width / 2)

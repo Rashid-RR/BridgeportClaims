@@ -3,8 +3,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ConfirmComponent } from '../components/confirm.component';
-import { FileUploadModule } from 'ng2-file-upload';
-import { Ng2Webstorage } from 'ng2-webstorage';
 import { ShContextMenuModule } from 'ng2-right-click-menu';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { AutoCompleteModule } from '../auto-complete';

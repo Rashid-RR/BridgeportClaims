@@ -154,7 +154,7 @@ export class HttpService {
     return s;
   }
   paymentPosting(data: any) {
-    const s = this.http.post(this.baseUrl + '/payment/payment-posting', data)
+    const s = this.http.post(this.baseUrl + '/payment/post-payments', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

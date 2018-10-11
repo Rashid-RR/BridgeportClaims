@@ -38,7 +38,8 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
       checkAmount: [null],
       amountSelected: [null],
       amountToPost: [null],
-      amountRemaining: [null]
+      amountRemaining: [null],
+      prescriptionIds: [[]]
     });
   }
   ngOnInit() {
@@ -70,7 +71,8 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
         checkAmount: Number(0).toFixed(2),
         amountSelected: Number(0).toFixed(2),
         amountToPost: null,
-        amountRemaining: null
+        amountRemaining: null,
+        prescriptionIds: []
       });
       this.paymentService.paymentPosting = new PaymentPosting();
       this.disableCheckEntry = false;
@@ -255,6 +257,10 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
         } else if (form.amountToPost == 0 || form.amuontToPost == null) {
           this.toast.warning("You need to specify amount to post");
         } else {
+          form.prescriptionIds=[];
+          this.paymentService.selected.forEach(p=>{
+            form.prescriptionIds.push(p.prescriptionId);
+          })
           this.paymentService.post(form);
         }
       }

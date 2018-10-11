@@ -86,15 +86,17 @@ export class PaymentService {
           this.loading = false;
           this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
            //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
-           result.paymentPostings.forEach(prescription=>{
+           result.postPaymentPrescriptionReturnDtos.forEach(prescription=>{
              try{
                 this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
                 //this.claimsDetail.get(prescription.prescriptionId).outstanding = this.claimsDetail.get(prescription.prescriptionId).invoicedAmount+prescription.outstanding;
                 this.claimsDetail.get(prescription.prescriptionId).selected = false;
              }catch(e){}
-             let posting  = prescription as PaymentPostingPrescription;
-             this.paymentPosting.payments = this.paymentPosting.payments.set(prescription.id,posting);
+             //let posting  = prescription as PaymentPostingPrescription;             
            });
+           data.paymentPostings.forEach((prescription : PaymentPostingPrescription)=>{
+            this.paymentPosting.payments = this.paymentPosting.payments.set(prescription.prescriptionId,prescription);
+           })
            result.lastUpdatedTimeStamp = new Date();
            setTimeout(()=>{
              this.events.broadcast('payment-amountRemaining',result);

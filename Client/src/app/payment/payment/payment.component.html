@@ -19,15 +19,11 @@
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="box">
-      <div class="box-header with-border">
+      <div class="box-header with-border" style=" display: flex;flex-direction: row;padding:2px 5px ">
         <h3 class="box-title">Payments</h3>
-        <div class="box-tools pull-right" style="top:0px">
-          <div class="btn-group" data-toggle="btn-toggle">
-            <button class="btn btn-flat btn-sm " [disabled]="!documentId" type="button" (click)="showNoteWindow()">
-              <img [src]="over[1] ? 'assets/view-check-hover.png' : 'assets/view-check-normal.png'" (mouseover)="over[1] = true"
-                (mouseout)="over[1] = false" height="35px" class="pull-left">
-            </button>
-          </div>
+        <div class="text-center" style="top:0px;flex:1"> 
+              <img [src]="over[1] ? 'assets/view-check-hover.png' : 'assets/view-check-normal.png'" (mouseover)="over[1] = true" (click)="documentId ?showNoteWindow() : []"
+                (mouseout)="over[1] = false" height="45px" [style.cursor]="documentId ? 'pointer':'not-allowed'">
         </div>
       </div>
       <div class="box-body" style="padding-top:0px;">

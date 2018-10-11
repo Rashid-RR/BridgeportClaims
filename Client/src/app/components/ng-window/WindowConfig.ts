@@ -11,6 +11,7 @@ export class WindowConfig {
     minusHeight=44;
     constructor(public Title: string = "",
                 public size: Size = new Size(300, 150),
+                public minWidth: number = 200,
                 public BlockParentUI: boolean = false,
                 public canMinimize: boolean = true,
                 public canMaximize: boolean = true,
