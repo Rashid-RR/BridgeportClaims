@@ -119,12 +119,21 @@ form .flex .form-group span
   
 }
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-    background:#992727;
-    border-left-color: #992727;
+    background:#b20b1b;
+    border-left-color: #b20b1b;
     color: #fff;
 }
 .nav-pills>li:not(.active)>a, .nav-pills>li:not(.active)>a:focus, .nav-pills>li:not(.active)>a:hover{
     background:transparent;
     border-color: #fff;
     color: #000;
+}
+.bg-head-box.bg-black{
+    background:#18261d;
+}
+.bg-gray1{
+    background:#f4f4f4;
+}
+.nav-pills > li:not(.active) > a, .nav-pills > li:not(.active) > a:focus, .nav-pills > li:not(.active) > a:hover{
+    border-color:#f4f4f4;
 }

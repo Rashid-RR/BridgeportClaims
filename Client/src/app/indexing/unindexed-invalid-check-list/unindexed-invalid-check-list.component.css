@@ -7,11 +7,11 @@
     padding: 5px 15px;
 }
 .products-list>.item:nth-of-type(odd) {
-    background: #afcdd8 !important;
+    background: #84a67b !important;
 }
 
 .products-list>.item:nth-of-type(even) {
-    background: #cff1fd !important;
+    background: #b4c6af !important;
 }
 .expanded{
     height: calc(100vh - 300px);
@@ -38,7 +38,8 @@
     overflow-x: hidden;
 } 
 .products-list>.item:hover,.flex-row>.file:hover {
-    background: #afcdd8 !important;
+    background: #18261d !important;
+    color:white;
     cursor: pointer;
   }
 

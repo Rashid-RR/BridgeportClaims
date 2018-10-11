@@ -10,6 +10,16 @@
   background-color: #414772;
   color: #fff;
 }
+.bg-black{
+  background-color: #18261d;
+  color: #fff;
+
+}
+.bg-blue{
+  background-color: #305473;
+  color: #fff;
+}
+
 .no-padding{
     padding-left:0px;
     padding-right:0px;
