@@ -8,7 +8,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
     public interface IPaymentsDataProvider
     {
         void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
-            string toSuspenseNoteText, decimal? amountToPost, string userId, IList<PaymentPostingDto> paymentPostings);
+            string toSuspenseNoteText, int documentId, string userId, IList<PaymentPostingDto> paymentPostings);
         IList<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
             string direction, int pageNumber, int pageSize, string secondarySortColumn, string secondaryDirection);
         IEnumerable<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IEnumerable<int> claimIds);

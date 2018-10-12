@@ -91,99 +91,6 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("post-payments")]
-        public IHttpActionResult PostPayments(PostPaymentsModel model)
-        {
-            try
-            {
-                if (null == model)
-                {
-                    throw new ArgumentNullException(nameof(model)); 
-                }
-                var numberOfPrescriptions = model.PrescriptionIds?.Count;
-                if (null == numberOfPrescriptions || numberOfPrescriptions < 1)
-                {
-                    throw new Exception("Error. There were no Prescriptions sent.");
-                }
-                if (!ModelState.IsValid)
-                {
-                    throw new Exception("Error. The inputted fields are not in the correct format. " +
-                                        "Model state is not valid.");
-                }
-                // Business rule check.
-                if (!_paymentsBusiness.Value.CheckMultiLinePartialPayments(model.AmountSelected, model.AmountToPost,
-                    numberOfPrescriptions.Value))
-                {
-                    throw new Exception(
-                        "Error. Multi-prescription, partial payments are not supported at this time.");
-                }
-                // Go down 2 paths: Payments Data Provider for a Full Payment or
-                var postPaymentReturnDto = _paymentsDataProvider.Value.PostPayment(model.PrescriptionIds,
-                    model.CheckNumber, model.CheckAmount, model.AmountSelected, model.AmountToPost, model.DocumentId);
-                postPaymentReturnDto.ToastMessage =
-                    $"Payment posted successfully for {numberOfPrescriptions.Value} prescription" +
-                    $"{(1 == numberOfPrescriptions ? string.Empty : "s")}";
-                postPaymentReturnDto.AmountRemaining = postPaymentReturnDto.AmountRemaining;
-                return Ok(postPaymentReturnDto);
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
-        /*[HttpPost]
-        [Route("post-payments")]
-        public IHttpActionResult PostPayments(PostPaymentsModel model)
-        {
-            try
-            {
-                if (null == model)
-                    throw new ArgumentNullException(nameof(model));
-                var numberOfPrescriptions = model.PrescriptionIds?.Count;
-                if (null == numberOfPrescriptions || numberOfPrescriptions < 1)
-                    throw new Exception("Error. There were no Prescriptions sent.");
-                if (!ModelState.IsValid)
-                    throw new Exception("Error. The inputted fields are not in the correct format. " +
-                                        "Model state is not valid.");
-                // Business rule check.
-                if (!_paymentsBusiness.Value.CheckMultiLinePartialPayments(model.AmountSelected, model.AmountToPost,
-                    numberOfPrescriptions.Value))
-                    throw new Exception(
-                        "Error. Multi-prescription, partial payments are not supported at this time.");
-
-                // Go down 2 paths: Payments Data Provider for a Full Payment or
-                var postPaymentReturnDto = _paymentsDataProvider.Value.PostPayment(model.PrescriptionIds,
-                    model.CheckNumber, model.CheckAmount, model.AmountSelected, model.AmountToPost, model.DocumentId);
-                var retVal = new PostPaymentReturnDto
-                {
-                    ToastMessage = $"Payment posted successfully for {numberOfPrescriptions.Value} prescription" +
-                                   $"{(1 == numberOfPrescriptions ? string.Empty : "s")}",
-                    AmountRemaining = postPaymentReturnDto.AmountRemaining
-                };
-                var checkDto = _paymentsDataProvider.Value.GetCheckDto(model.DocumentId);
-                foreach (var prescription in postPaymentReturnDto.PostPaymentPrescriptionReturnDtos)
-                {
-                    retVal.PostPaymentPrescriptionReturnDtos.Add(new PostPaymentPrescriptionReturnDto
-                    {
-                        PrescriptionId = prescription.PrescriptionId,
-                        Outstanding = prescription.Outstanding,
-                    });
-                }
-                retVal.DocumentId = model.DocumentId;
-                retVal.FileName = checkDto.FileName;
-                retVal.FileUrl = checkDto.FileUrl;
-                return Ok(retVal);
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
-            }
-        }*/
-
         #region New Payment Posting Section
 
         [HttpPost]
@@ -225,7 +132,7 @@ namespace BridgeportClaims.Web.Controllers
                 {
                     // Database call.
                     _paymentsDataProvider.Value.PrescriptionPostings(model.CheckNumber, true, model.AmountToSuspense,
-                        model.NoteText, null, userId, null);
+                        model.NoteText, model.DocumentId, userId, null);
                     msg =
                         $"The amount of {cultureFormattedSuspenseAmount} has been saved to suspense successfully.";
                     // Nothing in memory so nothing to clean up.
@@ -247,7 +154,7 @@ namespace BridgeportClaims.Web.Controllers
                 throw new Exception("Could not locate a User Id for the Logged In User.");
             var list = Mapper.Map<IList<PaymentPosting>, IList<PaymentPostingDto>>(model.PaymentPostings);
             _paymentsDataProvider.Value.PrescriptionPostings(model.CheckNumber, model.HasSuspense, model.SuspenseAmountRemaining,
-                model.ToSuspenseNoteText, model.AmountsToPost, userId, list);
+                model.ToSuspenseNoteText, model.DocumentId, userId, list);
         }
 
         [HttpPost]
@@ -303,6 +210,9 @@ namespace BridgeportClaims.Web.Controllers
                 }
                 existingModel.CheckNumber = model.CheckNumber;
                 existingModel.CheckAmount = model.CheckAmount;
+                existingModel.DocumentId = model.DocumentId;
+                existingModel.FileName = model.FileName;
+                existingModel.FileUrl = model.FileUrl;
                 existingModel.AmountSelected = model.AmountSelected;
                 existingModel.PaymentPostings.AddRange(model.PaymentPostings);
                 _memoryCacher.Value.UpdateItem(model.CacheKey, model);

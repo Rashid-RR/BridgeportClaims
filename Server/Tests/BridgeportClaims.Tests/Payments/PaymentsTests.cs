@@ -25,7 +25,7 @@ namespace BridgeportClaims.Tests.Payments
         }
 
         [TestMethod]
-        public void TestWetherOrNotTheContainsMethodWorks()
+        public void TestWhetherOrNotTheContainsMethodWorks()
         {
             // Arrange.
             const string key = "__MyUserPaymentPostingSessionCacheTestKey__";
@@ -43,7 +43,7 @@ namespace BridgeportClaims.Tests.Payments
             Assert.AreEqual(itemFromCache, model);
             Assert.AreEqual(addOrGetExistingItem, model);
             _cache.Delete(key);
-            _cache.Delete("blahalfh"); // Ensure this doesn't just blow up.
+            _cache.Delete("blah"); // Ensure this doesn't just blow up.
             Assert.IsFalse(_cache.Contains(key));
         }
 
@@ -59,7 +59,7 @@ namespace BridgeportClaims.Tests.Payments
         }
 
         [TestMethod]
-        public void TestUpdateingItem()
+        public void TestUpdatingItem()
         {
             // Arrange.
             const string key = "__UpdateItemTestKey__";
@@ -83,6 +83,7 @@ namespace BridgeportClaims.Tests.Payments
                 CheckAmount = 1000000,
                 AmountSelected = 8848,
                 CheckNumber = "858458",
+                DocumentId = 34,
                 LastAmountRemaining = null,
                 PaymentPostings = new List<PaymentPosting>
                 {
@@ -109,6 +110,7 @@ namespace BridgeportClaims.Tests.Payments
             var fakeModel = new UserPaymentPostingSession
             {
                 CheckAmount = 8,
+                DocumentId = 34,
                 AmountSelected = 6,
                 CheckNumber = "21",
                 LastAmountRemaining = null,
