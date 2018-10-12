@@ -240,8 +240,7 @@ export class ClaimManager {
           c.genders = result.genders;
           c.states = result.states;
           c.isVip = result.isVip;
-          //c.isMaxBalance = result.isMaxBalance;
-          c.isMaxBalance = true;
+          c.isMaxBalance = result.isMaxBalance; 
           c.adjustorId = result.adjustorId;
           c.payorId = result.payorId;
           c.genderId = result.patientGenderId;
