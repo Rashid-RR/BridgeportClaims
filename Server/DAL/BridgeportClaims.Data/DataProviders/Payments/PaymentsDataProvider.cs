@@ -28,7 +28,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             });
         
         public void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
-                    string toSuspenseNoteText, decimal? amountToPost, string userId, IList<PaymentPostingDto> paymentPostings)
+                    string toSuspenseNoteText, int documentId, string userId, IList<PaymentPostingDto> paymentPostings)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 DisposableService.Using(() => new SqlCommand("dbo.uspInsertPaymentPostings", conn), cmd =>
@@ -64,13 +64,13 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     toSuspenseNoteTextParam.SqlDbType = SqlDbType.VarChar;
                     toSuspenseNoteTextParam.ParameterName = "@ToSuspenseNoteText";
                     cmd.Parameters.Add(toSuspenseNoteTextParam);
-                    var amountToPostParam = cmd.CreateParameter();
-                    amountToPostParam.Direction = ParameterDirection.Input;
-                    amountToPostParam.Value = (object)amountToPost ?? DBNull.Value;
-                    amountToPostParam.DbType = DbType.Decimal;
-                    amountToPostParam.SqlDbType = SqlDbType.Money;
-                    amountToPostParam.ParameterName = "@AmountToPost";
-                    cmd.Parameters.Add(amountToPostParam);
+                    var documentIdParam = cmd.CreateParameter();
+                    documentIdParam.Direction = ParameterDirection.Input;
+                    documentIdParam.Value = (object) documentId ?? DBNull.Value;
+                    documentIdParam.DbType = DbType.Int32;
+                    documentIdParam.SqlDbType = SqlDbType.Int;
+                    documentIdParam.ParameterName = "@DocumentID";
+                    cmd.Parameters.Add(documentIdParam);
                     var userIdParam = cmd.CreateParameter();
                     userIdParam.Value = userId;
                     userIdParam.ParameterName = "@UserID";
