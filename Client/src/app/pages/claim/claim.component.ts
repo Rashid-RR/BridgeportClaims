@@ -80,6 +80,28 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   get isVip() {
     return this.claimManager.selectedClaim && this.claimManager.selectedClaim.isVip;
   }
+  isMaxBalance($event){
+
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: `Change Claim ${$event.target.checked ? 'to' : 'from'} Max Balance`,
+      message: `Are you sure you wish to set Claim # ${this.claimManager.selectedClaim.claimNumber} ${$event.target.checked ? 'to' : 'from'} Max Balance?`
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+          this.claimManager.loading = true;
+          this.http.setMaxBalance(this.claimManager.selectedClaim.claimId,$event.target.checked).subscribe(r => {
+            this.toast.success(r.message);
+            this.claimManager.loading = false;
+          }, err => {
+            const result = err.error
+            this.toast.error(result.Message);
+            this.claimManager.loading = false;
+          })
+        }else{
+          this.claimManager.selectedClaim.isMaxBalance = !$event.target.checked
+        }
+      });
+  }
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
       this.dialogService.addDialog(ConfirmComponent, {

@@ -930,6 +930,13 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  setMaxBalance(claimId: any,isMaxBalance:boolean): Observable<any> {
+    return this.http.post(this.baseUrl + `/claims/set-max-balance/?claimId=${claimId}&isMaxBalance=${isMaxBalance}`,{})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   exportLetter(data: any): Observable<any> {
     return this.http.post(this.baseUrl + "/letters/download/?claimId=" + data.claimId + "&letterType=" + data.type + "&prescriptionId=" + data.prescriptionId, data, { observe: 'response',responseType: 'blob' })
       .catch(err => {

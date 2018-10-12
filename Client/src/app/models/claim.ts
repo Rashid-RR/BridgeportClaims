@@ -39,6 +39,7 @@ export class Claim {
     isVip: boolean;
     genderId: number;
     claimFlex2Id: number;
+    isMaxBalance:boolean;
     private prescription: Array<Prescription> = [];
     private prescriptionNote: Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();
     private payment: Array<Payment> = [];

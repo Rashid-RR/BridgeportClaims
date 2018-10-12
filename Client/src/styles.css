@@ -711,10 +711,15 @@ thead{
 .select2-container.select2-container--open{
   z-index:1070 !important;
 }
-.isVip .box-header,
-.isVip .bg-head-box
+.isVip .box-header:not(.isMaxBalance),
+.isVip .bg-head-box:not(.isMaxBalance)
 {
   background: #002f58 !important;
+}
+.box-header.isMaxBalance,
+.bg-head-box.isMaxBalance
+{
+  background: #e07500 !important;
 }
 .box-header button.grey1,.box-header button.grey1:hover
 {
@@ -768,4 +773,7 @@ button.grey1{
 }
 div.toast,#toast-container{
   z-index: 9999992 !important;
+}
+.modal.show.in{
+  z-index: 9999991;
 }
