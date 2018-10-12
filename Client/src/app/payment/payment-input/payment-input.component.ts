@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup,Validators } from "@angular/forms";
-import { Router,ActivatedRoute } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Router, ActivatedRoute } from "@angular/router";
 import { HttpService } from "../../services/http-service";
 import { PaymentService } from "../../services/payment-service";
 import { EventsService } from "../../services/events-service";
@@ -28,13 +28,15 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
   paymentamountRemaining: any
   paymentSuspense: any;
   paymentClosed: any;
-  documentId:any;
+  documentId: any;
   constructor(private decimalPipe: DecimalPipe, public paymentService: PaymentService,
-    private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService, private toast: ToastsManager,    
-    private route: ActivatedRoute,private dialogService: DialogService) {
+    private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService, private toast: ToastsManager,
+    private route: ActivatedRoute, private dialogService: DialogService) {
     this.form = this.formBuilder.group({
       checkNumber: [null],
-      documentId: [null,Validators.required],
+      documentId: [null, Validators.required],
+      fileName: [null],
+      fileUrl: [null],
       checkAmount: [null],
       amountSelected: [null],
       amountToPost: [null],
@@ -46,10 +48,17 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
     this.route.params.subscribe(params => {
       if (params['documentId']) {
         this.documentId = params['documentId']
-        this.form.patchValue({documentId : params['documentId']});
+        this.form.patchValue({ documentId: params['documentId'] });
+        let file = localStorage.getItem('file-' + this.documentId);
+        if (file) {
+          try {
+            let doc = JSON.parse(file) as any;
+            this.form.patchValue({ fileName: doc.fileName, fileUrl: decodeURIComponent(doc.fileUrl) });
+          } catch (e) { }
+        }
       }
       if (params['checkNumber']) {
-        this.form.patchValue({checkNumber : params['checkNumber']});
+        this.form.patchValue({ checkNumber: params['checkNumber'] });
       }
     });
     this.paymentService.paymentPosting = new PaymentPosting();
@@ -157,7 +166,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
               this.disableCheckEntry = false;
               this.paymentService.claims = Immutable.OrderedMap<Number, PaymentClaim>();
               this.paymentService.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
-              this.router.navigate([`/main/payments`]);      
+              this.router.navigate([`/main/payments`]);
               //this.paymentService.paymentPosting = new PaymentPosting();
             }, error => {
               this.toast.error(error.message);
@@ -257,8 +266,8 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
         } else if (form.amountToPost == 0 || form.amuontToPost == null) {
           this.toast.warning("You need to specify amount to post");
         } else {
-          form.prescriptionIds=[];
-          this.paymentService.selected.forEach(p=>{
+          form.prescriptionIds = [];
+          this.paymentService.selected.forEach(p => {
             form.prescriptionIds.push(p.prescriptionId);
           })
           this.paymentService.post(form);
@@ -327,7 +336,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
   }
   confirmSuspense(amountToSuspend: Number, text: String) {
     var form = this.form.value;
-    this.paymentService.paymentToSuspense({ checkNumber: form.checkNumber, sessionId: this.paymentService.paymentPosting.sessionId, amountToSuspense: amountToSuspend, noteText: text });
+    this.paymentService.paymentToSuspense({ documentId: form.documentId, checkNumber: form.checkNumber, sessionId: this.paymentService.paymentPosting.sessionId, amountToSuspense: amountToSuspend, noteText: text });
   }
 
 }

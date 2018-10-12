@@ -86,17 +86,16 @@ export class PaymentService {
           this.loading = false;
           this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
            //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
-           result.postPaymentPrescriptionReturnDtos.forEach(prescription=>{
+           result.paymentPostings.forEach(prescription=>{
              try{
                 this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
                 //this.claimsDetail.get(prescription.prescriptionId).outstanding = this.claimsDetail.get(prescription.prescriptionId).invoicedAmount+prescription.outstanding;
                 this.claimsDetail.get(prescription.prescriptionId).selected = false;
              }catch(e){}
-             //let posting  = prescription as PaymentPostingPrescription;             
+             let posting  = prescription as PaymentPostingPrescription;             
+             this.paymentPosting.payments = this.paymentPosting.payments.set(posting.id,posting);
            });
-           data.paymentPostings.forEach((prescription : PaymentPostingPrescription)=>{
-            this.paymentPosting.payments = this.paymentPosting.payments.set(prescription.prescriptionId,prescription);
-           })
+           
            result.lastUpdatedTimeStamp = new Date();
            setTimeout(()=>{
              this.events.broadcast('payment-amountRemaining',result);
@@ -215,9 +214,9 @@ export class PaymentService {
         this.events.broadcast('payment-updated',false);
         this.events.broadcast('payment-closed',false);
         this.events.broadcast("disable-links",false);
+        this.router.navigate([`/main/payments`]);
       }, err => {
         this.loading = false;
-        console.log(err);
         if (err.message) {
           this.toast.error(err.message);
         }
@@ -237,6 +236,7 @@ export class PaymentService {
         this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();        
         this.events.broadcast('payment-suspense',false);
         this.events.broadcast("disable-links",false);
+        this.router.navigate([`/main/payments`]);
       }, err => {
         this.loading = false;
         console.log(err);
