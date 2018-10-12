@@ -25,15 +25,7 @@ namespace BridgeportClaims.Web.Models
         public bool HasSuspense => null != SuspenseAmountRemaining;
         public decimal? SuspenseAmountRemaining { get; set; }
         public string ToSuspenseNoteText { get; set; }
-
-        #region New Check Document Fields
-
         public int DocumentId { get; set; }
-        public string FileName { get; set; }
-        public string FileUrl { get; set; }
-
-        #endregion
-
         public List<PaymentPosting> PaymentPostings { get; set; }
 
         #region Private Members

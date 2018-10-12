@@ -165,6 +165,9 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     var rxDateOrdinal = reader.GetOrdinal("RxDate");
                     var invoiceNumberOrdinal = reader.GetOrdinal("InvoiceNumber");
                     var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
+                    var documentIdOrdinal = reader.GetOrdinal("DocumentId");
+                    var fileNameOrdinal = reader.GetOrdinal("FileName");
+                    var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
                     while (reader.Read())
                     {
                         var record = new PrescriptionPaymentsDto
@@ -175,6 +178,9 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                             PrescriptionPaymentId = reader.GetInt32(prescriptionPaymentIdOrdinal),
                             RxDate = reader.GetDateTime(rxDateOrdinal),
                             RxNumber = reader.GetString(rxNumberOrdinal),
+                            DocumentId = reader.GetInt32(documentIdOrdinal),
+                            FileName = reader.GetString(fileNameOrdinal),
+                            FileUrl = reader.GetString(fileUrlOrdinal)
                         };
                         if (!reader.IsDBNull(postedDateOrdinal))
                             record.PostedDate = reader.GetDateTime(postedDateOrdinal);

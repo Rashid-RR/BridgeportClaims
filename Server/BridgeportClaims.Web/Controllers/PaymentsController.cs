@@ -211,8 +211,6 @@ namespace BridgeportClaims.Web.Controllers
                 existingModel.CheckNumber = model.CheckNumber;
                 existingModel.CheckAmount = model.CheckAmount;
                 existingModel.DocumentId = model.DocumentId;
-                existingModel.FileName = model.FileName;
-                existingModel.FileUrl = model.FileUrl;
                 existingModel.AmountSelected = model.AmountSelected;
                 existingModel.PaymentPostings.AddRange(model.PaymentPostings);
                 _memoryCacher.Value.UpdateItem(model.CacheKey, model);
