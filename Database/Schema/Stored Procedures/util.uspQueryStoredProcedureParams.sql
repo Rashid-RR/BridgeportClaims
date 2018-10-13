@@ -14,7 +14,7 @@ GO
 CREATE PROC [util].[uspQueryStoredProcedureParams]
 (
     @ProcName SYSNAME,
-    @ObjAlias VARCHAR(100)
+    @ObjAlias VARCHAR(100) = NULL
 )
 AS BEGIN
     SET NOCOUNT ON;
@@ -34,7 +34,7 @@ AS BEGIN
                                 ,CASE WHEN system_type_id IN (35, 99, 167, 175, 231, 239) THEN
                                       SERVERPROPERTY('collation')END
                              )
-       ,Script = 'ps.Add("' + NAME + '", ' + @ObjAlias + '.' + REPLACE(NAME, '@', '') + ', DbType.'
+       ,Script = 'ps.Add("' + NAME + '", ' + CASE WHEN @ObjAlias IS NULL THEN '' ELSE @ObjAlias + '.' END + [util].[udfVariableCasing](REPLACE(NAME, '@', ''), 0) + ', DbType.'
                  + CASE TYPE_NAME(user_type_id)WHEN 'int' THEN
                                                    'Int32'
                                                WHEN 'varchar' THEN
@@ -77,5 +77,4 @@ AS BEGIN
     FROM    [sys].[parameters]
     WHERE   [object_id] = OBJECT_ID(@ProcName);
 END
-
 GO
