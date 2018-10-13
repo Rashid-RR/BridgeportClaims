@@ -33,8 +33,12 @@ AS BEGIN
 		 , RxDate = [p].[DateFilled]
 		 , InvoiceNumber = [i].[InvoiceNumber]
 		 , p.IsReversed
+		 , d.DocumentID DocumentId
+		 , d.[FileName]
+		 , d.FileUrl
 	FROM   [dbo].[Prescription] AS [p]
 		   INNER JOIN dbo.PrescriptionPayment AS pp ON pp.PrescriptionID = p.PrescriptionID
+		   LEFT JOIN dbo.Document AS d ON pp.DocumentID = d.DocumentID
 		   LEFT JOIN dbo.Invoice AS i ON i.InvoiceID = p.InvoiceID
 	WHERE  [p].[ClaimID] = @ClaimID
 	ORDER BY CASE WHEN @SortColumn = 'PrescriptionPaymentId' AND @SortDirection = 'ASC'
@@ -69,6 +73,22 @@ AS BEGIN
 				THEN [i].[InvoiceNumber] END ASC,
 			 CASE WHEN @SortColumn = 'InvoiceNumber' AND @SortDirection = 'DESC'
 				THEN [i].[InvoiceNumber] END DESC,
+			 CASE WHEN @SortColumn = 'IsReversed' AND @SortDirection = 'ASC'
+				THEN p.IsReversed END ASC,
+			 CASE WHEN @SortColumn = 'IsReversed' AND @SortDirection = 'DESC'
+				THEN p.IsReversed END DESC,
+		     CASE WHEN @SortColumn = 'DocumentId' AND @SortDirection = 'ASC'
+				THEN d.DocumentID END ASC,
+			 CASE WHEN @SortColumn = 'DocumentId' AND @SortDirection = 'DESC'
+				THEN d.DocumentID END DESC,
+			 CASE WHEN @SortColumn = 'FileName' AND @SortDirection = 'ASC'
+				THEN [d].[FileName] END ASC,
+			 CASE WHEN @SortColumn = 'FileName' AND @SortDirection = 'DESC'
+				THEN [d].[FileName] END DESC,
+			 CASE WHEN @SortColumn = 'FileUrl' AND @SortDirection = 'ASC'
+				THEN [d].[FileUrl] END ASC,
+			 CASE WHEN @SortColumn = 'FileUrl' AND @SortDirection = 'DESC'
+				THEN [d].[FileUrl] END DESC,
 			 CASE WHEN @SecondarySortColumn = 'PrescriptionPaymentId' AND @SecondarySortDirection = 'ASC'
 				THEN pp.PrescriptionPaymentID END ASC,
 			 CASE WHEN @SecondarySortColumn = 'PrescriptionPaymentId' AND @SecondarySortDirection = 'DESC'
@@ -85,7 +105,7 @@ AS BEGIN
 				THEN pp.CheckNumber END ASC,
 			 CASE WHEN @SecondarySortColumn = 'CheckNumber' AND @SecondarySortDirection = 'DESC'
 				THEN pp.CheckNumber END DESC,
-    	     CASE WHEN @SecondarySortColumn = 'CheckAmt' AND @SecondarySortDirection = 'ASC'
+			 CASE WHEN @SecondarySortColumn = 'CheckAmt' AND @SecondarySortDirection = 'ASC'
 				THEN pp.AmountPaid END ASC,
 			 CASE WHEN @SecondarySortColumn = 'CheckAmt' AND @SecondarySortDirection = 'DESC'
 				THEN pp.AmountPaid END DESC,
@@ -100,8 +120,26 @@ AS BEGIN
 			 CASE WHEN @SecondarySortColumn = 'InvoiceNumber' AND @SecondarySortDirection = 'ASC'
 				THEN [i].[InvoiceNumber] END ASC,
 			 CASE WHEN @SecondarySortColumn = 'InvoiceNumber' AND @SecondarySortDirection = 'DESC'
-				THEN [i].[InvoiceNumber] END DESC
+				THEN [i].[InvoiceNumber] END DESC,
+			 CASE WHEN @SecondarySortColumn = 'IsReversed' AND @SecondarySortDirection = 'ASC'
+				THEN p.IsReversed END ASC,
+			  CASE WHEN @SecondarySortColumn = 'IsReversed' AND @SecondarySortDirection = 'DESC'
+				THEN p.IsReversed END DESC,
+		      CASE WHEN @SecondarySortColumn = 'DocumentId' AND @SecondarySortDirection = 'ASC'
+				THEN d.DocumentID END ASC,
+			  CASE WHEN @SecondarySortColumn = 'DocumentId' AND @SecondarySortDirection = 'DESC'
+				THEN d.DocumentID END DESC,
+			  CASE WHEN @SecondarySortColumn = 'FileName' AND @SecondarySortDirection = 'ASC'
+				THEN [d].[FileName] END ASC,
+			  CASE WHEN @SecondarySortColumn = 'FileName' AND @SecondarySortDirection = 'DESC'
+				THEN [d].[FileName] END DESC,
+			  CASE WHEN @SecondarySortColumn = 'FileUrl' AND @SecondarySortDirection = 'ASC'
+				THEN [d].[FileUrl] END ASC,
+			  CASE WHEN @SecondarySortColumn = 'FileUrl' AND @SecondarySortDirection = 'DESC'
+				THEN [d].[FileUrl] END DESC
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
+
 GO
