@@ -92,106 +92,25 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                 });
             });
 
-        public IList<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
-            string direction, int pageNumber, int pageSize, string secondarySortColumn, string secondaryDirection) => DisposableService.Using(()
-            => new SqlConnection(cs.GetDbConnStr()), conn =>
-        {
-            return DisposableService.Using(() => new SqlCommand("dbo.uspGetPrescriptionPayments", conn), cmd =>
+        public IEnumerable<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
+            string direction, int pageNumber, int pageSize, string secondarySortColumn, string secondaryDirection) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                cmd.CommandType = CommandType.StoredProcedure;
-                var claimIdParam = cmd.CreateParameter();
-                claimIdParam.ParameterName = "ClaimID";
-                claimIdParam.DbType = DbType.Int32;
-                claimIdParam.SqlDbType = SqlDbType.Int;
-                claimIdParam.Direction = ParameterDirection.Input;
-                claimIdParam.Value = claimId;
-                cmd.Parameters.Add(claimIdParam);
-                var sortColumnParam = cmd.CreateParameter();
-                sortColumnParam.ParameterName = "SortColumn";
-                sortColumnParam.DbType = DbType.AnsiString;
-                sortColumnParam.SqlDbType = SqlDbType.VarChar;
-                sortColumnParam.Direction = ParameterDirection.Input;
-                sortColumnParam.Value = sortColumn;
-                sortColumnParam.Size = 50;
-                cmd.Parameters.Add(sortColumnParam);
-                var sortDirectionParam = cmd.CreateParameter();
-                sortDirectionParam.ParameterName = "SortDirection";
-                sortDirectionParam.DbType = DbType.AnsiString;
-                sortDirectionParam.SqlDbType = SqlDbType.VarChar;
-                sortDirectionParam.Direction = ParameterDirection.Input;
-                sortDirectionParam.Value = direction;
-                sortDirectionParam.Size = 5;
-                cmd.Parameters.Add(sortDirectionParam);
-                var pageNumberParam = cmd.CreateParameter();
-                pageNumberParam.ParameterName = "PageNumber";
-                pageNumberParam.DbType = DbType.Int32;
-                pageNumberParam.SqlDbType = SqlDbType.Int;
-                pageNumberParam.Direction = ParameterDirection.Input;
-                pageNumberParam.Value = pageNumber;
-                cmd.Parameters.Add(pageNumberParam);
-                var pageSizeParam = cmd.CreateParameter();
-                pageSizeParam.ParameterName = "PageSize";
-                pageSizeParam.DbType = DbType.Int32;
-                pageSizeParam.SqlDbType = SqlDbType.Int;
-                pageSizeParam.Direction = ParameterDirection.Input;
-                pageSizeParam.Value = pageSize;
-                cmd.Parameters.Add(pageSizeParam);
-                var secondarySortColumnParam = cmd.CreateParameter();
-                secondarySortColumnParam.ParameterName = "SecondarySortColumn";
-                secondarySortColumnParam.DbType = DbType.AnsiString;
-                secondarySortColumnParam.SqlDbType = SqlDbType.VarChar;
-                secondarySortColumnParam.Size = 50;
-                secondarySortColumnParam.Direction = ParameterDirection.Input;
-                secondarySortColumnParam.Value = secondarySortColumn;
-                cmd.Parameters.Add(secondarySortColumnParam);
-                var secondarySortDirectionParam = cmd.CreateParameter();
-                secondarySortDirectionParam.ParameterName = "SecondarySortDirection";
-                secondarySortDirectionParam.DbType = DbType.AnsiString;
-                secondarySortDirectionParam.SqlDbType = SqlDbType.VarChar;
-                secondarySortDirectionParam.Size = 5;
-                secondarySortDirectionParam.Direction = ParameterDirection.Input;
-                secondarySortDirectionParam.Value = secondaryDirection;
-                cmd.Parameters.Add(secondarySortDirectionParam);
+                const string sp = "[dbo].[uspGetPrescriptionPayments]";
                 if (conn.State != ConnectionState.Open)
-                    conn.Open();
-                IList<PrescriptionPaymentsDto> retVal = new List<PrescriptionPaymentsDto>();
-                return DisposableService.Using(cmd.ExecuteReader, reader =>
                 {
-                    var prescriptionPaymentIdOrdinal = reader.GetOrdinal("PrescriptionPaymentId");
-                    var prescriptionIdOrdinal = reader.GetOrdinal("PrescriptionPaymentId");
-                    var postedDateOrdinal = reader.GetOrdinal("PostedDate");
-                    var checkNumberOrdinal = reader.GetOrdinal("CheckNumber");
-                    var checkAmtOrdinal = reader.GetOrdinal("CheckAmt");
-                    var rxDateOrdinal = reader.GetOrdinal("RxDate");
-                    var invoiceNumberOrdinal = reader.GetOrdinal("InvoiceNumber");
-                    var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
-                    var documentIdOrdinal = reader.GetOrdinal("DocumentId");
-                    var fileNameOrdinal = reader.GetOrdinal("FileName");
-                    var fileUrlOrdinal = reader.GetOrdinal("FileUrl");
-                    while (reader.Read())
-                    {
-                        var record = new PrescriptionPaymentsDto
-                        {
-                            CheckAmt = reader.GetDecimal(checkAmtOrdinal),
-                            CheckNumber = reader.GetString(checkNumberOrdinal),
-                            PrescriptionId = reader.GetInt32(prescriptionIdOrdinal),
-                            PrescriptionPaymentId = reader.GetInt32(prescriptionPaymentIdOrdinal),
-                            RxDate = reader.GetDateTime(rxDateOrdinal),
-                            RxNumber = reader.GetString(rxNumberOrdinal),
-                            DocumentId = reader.GetInt32(documentIdOrdinal),
-                            FileName = reader.GetString(fileNameOrdinal),
-                            FileUrl = reader.GetString(fileUrlOrdinal)
-                        };
-                        if (!reader.IsDBNull(postedDateOrdinal))
-                            record.PostedDate = reader.GetDateTime(postedDateOrdinal);
-                        if (!reader.IsDBNull(invoiceNumberOrdinal))
-                            record.InvoiceNumber = reader.GetString(invoiceNumberOrdinal);
-                        retVal.Add(record);
-                    }
-                    return retVal;
-                });
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@SortColumn", sortColumn, DbType.AnsiString, size: 50);
+                ps.Add("@SortDirection", direction, DbType.AnsiString, size: 5);
+                ps.Add("@PageNumber", pageNumber, DbType.Int32);
+                ps.Add("@PageSize", pageSize, DbType.Int32);
+                ps.Add("@SecondarySortColumn", secondarySortColumn, DbType.AnsiString, size: 50);
+                ps.Add("@SecondarySortDirection", secondaryDirection, DbType.AnsiString, size: 5);
+                return conn.Query<PrescriptionPaymentsDto>(sp, ps, commandType: CommandType.StoredProcedure);
             });
-        });
 
         public IEnumerable<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber,
             string firstName, string lastName, DateTime? rxDate, string invoiceNumber) =>

@@ -48,11 +48,8 @@ namespace BridgeportClaims.Web.Controllers
 		{
 		    try
 		    {
-		        var userId = User.Identity.GetUserId();
-		        if (null == userId)
-		            throw new Exception("Error, could not find the logged in user.");
 		        var results =
-		            _claimsDataProvider.Value.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection, userId);
+		            _claimsDataProvider.Value.GetEpisodesBlade(model.ClaimId, model.SortColumn, model.SortDirection);
 		        return Ok(results);
 		    }
 		    catch (Exception ex)

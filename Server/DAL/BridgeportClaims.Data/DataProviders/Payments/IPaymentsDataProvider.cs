@@ -9,7 +9,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
     {
         void PrescriptionPostings(string checkNumber, bool hasSuspense, decimal? suspenseAmountRemaining,
             string toSuspenseNoteText, int documentId, string userId, IList<PaymentPostingDto> paymentPostings);
-        IList<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
+        IEnumerable<PrescriptionPaymentsDto> GetPrescriptionPaymentsDtos(int claimId, string sortColumn,
             string direction, int pageNumber, int pageSize, string secondarySortColumn, string secondaryDirection);
         IEnumerable<ClaimsWithPrescriptionDetailsDto> GetClaimsWithPrescriptionDetails(IEnumerable<int> claimIds);
         IEnumerable<ClaimsWithPrescriptionCountsDto> GetClaimsWithPrescriptionCounts(string claimNumber, string firstName,

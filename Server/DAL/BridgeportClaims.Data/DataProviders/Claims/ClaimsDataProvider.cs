@@ -88,70 +88,19 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                 return operation.ToLower() == "add" ? EntityOperation.Add : EntityOperation.Update;
             });
 
-        public IList<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection, string userId) =>
+        public IEnumerable<EpisodeBladeDto> GetEpisodesBlade(int claimId, string sortColumn, string sortDirection) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetEpisodesBlade]", conn), cmd =>
+                const string sp = "[dbo].[uspGetEpisodesBlade]";
+                if (conn.State != ConnectionState.Open)
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    IList<EpisodeBladeDto> retVal = new List<EpisodeBladeDto>();
-                    var claimIdParam = cmd.CreateParameter();
-                    claimIdParam.DbType = DbType.Int32;
-                    claimIdParam.SqlDbType = SqlDbType.Int;
-                    claimIdParam.Value = claimId;
-                    claimIdParam.ParameterName = "@ClaimID";
-                    claimIdParam.Direction = ParameterDirection.Input;
-                    cmd.Parameters.Add(claimIdParam);
-                    var sortColumnParam = cmd.CreateParameter();
-                    sortColumnParam.DbType = DbType.AnsiString;
-                    sortColumnParam.SqlDbType = SqlDbType.VarChar;
-                    sortColumnParam.Size = 50;
-                    sortColumnParam.ParameterName = "@SortColumn";
-                    sortColumnParam.Direction = ParameterDirection.Input;
-                    sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
-                    cmd.Parameters.Add(sortColumnParam);
-                    var sortDirectionParam = cmd.CreateParameter();
-                    sortDirectionParam.Value = sortDirection ?? (object) DBNull.Value;
-                    sortDirectionParam.DbType = DbType.AnsiString;
-                    sortDirectionParam.SqlDbType = SqlDbType.VarChar;
-                    sortDirectionParam.Size = 5;
-                    sortDirectionParam.ParameterName = "@SortDirection";
-                    sortDirectionParam.Direction = ParameterDirection.Input;
-                    cmd.Parameters.Add(sortDirectionParam);
-                    if (conn.State != ConnectionState.Open)
-                        conn.Open();
-                    DisposableService.Using(cmd.ExecuteReader, reader =>
-                    {
-                        var idOrdinal = reader.GetOrdinal("Id");
-                        var createdOrdinal = reader.GetOrdinal("Created");
-                        var ownerOrdinal = reader.GetOrdinal("Owner");
-                        var typeOrdinal = reader.GetOrdinal("Type");
-                        var roleOrdinal = reader.GetOrdinal("Role");
-                        var pharmacyOrdinal = reader.GetOrdinal("Pharmacy");
-                        var rxNumberOrdinal = reader.GetOrdinal("RxNumber");
-                        var resolvedOrdinal = reader.GetOrdinal("Resolved");
-                        var noteCountOrdinal = reader.GetOrdinal("NoteCount");
-                        while (reader.Read())
-                        {
-                            var result = new EpisodeBladeDto
-                            {
-                                Id = !reader.IsDBNull(idOrdinal) ? reader.GetInt32(idOrdinal) : default,
-                                Created = !reader.IsDBNull(createdOrdinal) ? reader.GetDateTime(createdOrdinal) : (DateTime?) null,
-                                Owner = !reader.IsDBNull(ownerOrdinal) ? reader.GetString(ownerOrdinal) : string.Empty,
-                                Type = !reader.IsDBNull(typeOrdinal) ? reader.GetString(typeOrdinal) : string.Empty,
-                                Role = !reader.IsDBNull(roleOrdinal) ? reader.GetString(roleOrdinal) : string.Empty,
-                                Pharmacy = !reader.IsDBNull(pharmacyOrdinal) ? reader.GetString(pharmacyOrdinal) : string.Empty,
-                                RxNumber = !reader.IsDBNull(rxNumberOrdinal) ? reader.GetString(rxNumberOrdinal) : string.Empty,
-                                Resolved = !reader.IsDBNull(resolvedOrdinal) && reader.GetBoolean(resolvedOrdinal),
-                                NoteCount = !reader.IsDBNull(noteCountOrdinal) ? reader.GetInt32(noteCountOrdinal) : default
-                            };
-                            retVal.Add(result);
-                        }
-                    });
-                    if (conn.State != ConnectionState.Closed)
-                        conn.Close();
-                    return retVal;
-                });
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@SortColumn", sortColumn, DbType.AnsiString, size: 50);
+                ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
+                return conn.Query<EpisodeBladeDto>(sp, ps, commandType: CommandType.StoredProcedure);
             });
 
         public ClaimDto GetClaimsDataByClaimId(int claimId, string userId) =>
@@ -179,7 +128,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                     var claimNoteDto = multi.Read<ClaimNoteDto>()?.ToList();
                     if (null != claimNoteDto)
                         claimDto.ClaimNotes = claimNoteDto;
-                    var episodes = GetEpisodesBlade(claimId, "Created", "DESC", userId);
+                    var episodes = GetEpisodesBlade(claimId, "Created", "DESC")?.ToList();
                     if (null != episodes)
                         claimDto.Episodes = episodes;
                     const string spObj = "[claims].[uspGetClaimObjects]";
@@ -207,7 +156,7 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                         claimDto.States = states;
                     // Payments
                     var payments = _paymentsDataProvider.Value.GetPrescriptionPaymentsDtos(
-                        claimId, "RxDate", "DESC", 1, ic.MaxRowCountForBladeInApp, "RxNumber", "ASC");
+                        claimId, "RxDate", "DESC", 1, ic.MaxRowCountForBladeInApp, "RxNumber", "ASC")?.ToList();
                     if (null != payments)
                     {
                         totalPayableAmount = payments.Sum(s => s.PayableAmount);
