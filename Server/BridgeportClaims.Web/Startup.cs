@@ -61,7 +61,7 @@ namespace BridgeportClaims.Web
         private static void ConfigureOAuthTokenConsumption(IAppBuilder app)
         {
             var issuer = PublicClientId;
-            var audienceId = ConfigService.GetAppSetting("AudienceId");
+            var audienceId = cs.GetAppSetting("AudienceId");
             var audienceSecret = TextEncodings.Base64Url.Decode(ConfigService.GetAppSetting("AudienceSecret"));
 
             // Api controllers with an [Authorize] attribute will be validated with JWT
@@ -88,7 +88,7 @@ namespace BridgeportClaims.Web
             var oAuthServerOptions = new OAuthAuthorizationServerOptions
             {
                 // For Dev environment only (on production should be AllowInsecureHttp = false)
-                AllowInsecureHttp = !Convert.ToBoolean(ConfigService.GetAppSetting(forceSsl)),
+                AllowInsecureHttp = !Convert.ToBoolean(cs.GetAppSetting(forceSsl)),
                 TokenEndpointPath = new PathString("/oauth/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(5),
                 Provider = new BridgeportClaimOAuthProvider(),

@@ -17,7 +17,7 @@ using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User,Client")]
     [RoutePrefix("api/account")]
     public class AccountsController : BaseApiController
     {
@@ -75,7 +75,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -151,13 +151,14 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
         [HttpGet]
         [Route("UserInfo")]
         [NoCache]
+        [Authorize(Roles = "Client")]
         public async Task<UserInfoViewModel> GetUserInfo()
         {
             try
@@ -230,7 +231,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -252,7 +253,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -272,7 +273,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -291,7 +292,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -310,7 +311,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 
@@ -329,7 +330,7 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                throw;
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
 

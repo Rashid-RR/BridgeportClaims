@@ -12,7 +12,7 @@ using BridgeportClaims.Data.DataProviders.Users;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "User,Client")]
     [RoutePrefix("api/users")]
     public class UsersController : BaseApiController
     {
@@ -31,6 +31,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         [Route("get-users-to-assign")]
         public async Task<IHttpActionResult> GetUsersToAssign()
         {
@@ -46,6 +47,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "User")]
         [Route("get-users")]
         public IHttpActionResult GetAllUsers()
         {
@@ -141,6 +143,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [Route("assign/{id:guid}")]
         public async Task<IHttpActionResult> AssignRole(string id, string roleName)
         {
@@ -150,10 +153,11 @@ namespace BridgeportClaims.Web.Controllers
                     throw new ArgumentNullException(nameof(id));
                 if (roleName.IsNullOrWhiteSpace())
                     throw new ArgumentNullException(nameof(roleName));
-                var role = await AppRoleManager.FindByNameAsync(roleName);
+                var role = await AppRoleManager.FindByNameAsync(roleName).ConfigureAwait(false);
                 _assignUsersToRolesProvider.Value.AssignUserToRole(id, role.Id);
-                var userName = User.Identity.Name;
-                return Ok(new{message=$"The {role.Name} role was assigned to {userName} successfully."});
+                var user = await AppUserManager.FindByIdAsync(id).ConfigureAwait(false);
+                var userName = user.UserName;
+                return Ok(new {message = $"The {role.Name} role was assigned to {userName} successfully."});
             }
             catch (Exception ex)
             {
