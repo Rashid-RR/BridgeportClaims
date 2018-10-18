@@ -246,12 +246,13 @@ button.pip
 
 .lbl {
   position: relative;
-  display: block;
+  display: inline-block;
   height: 20px;
   width: 44px;
   background: #898989;
   border-radius: 100px;
   cursor: pointer;
+  top: 6px;
   transition: all 0.3s ease;
 }
 .lbl:after {

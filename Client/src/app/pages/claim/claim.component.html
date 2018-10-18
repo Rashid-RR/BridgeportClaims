@@ -112,30 +112,31 @@
                             </div>
                         </div>
                         <div class="box" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==2">
-                            <div class="box-header bg-head-box" [class.isMaxBalance]="claimManager.selectedClaim.isMaxBalance" style="display:flex">
+                            <div class="box-header bg-head-box" [class.isMaxBalance]="claimManager.selectedClaim.isMaxBalance"
+                                style="display:flex">
                                 <h4 class="box-title text-center panel-head">
                                     <u><img src="assets/img/iconnotes.png">Notes</u>
                                 </h4>
-                                <span class="tally" style="margin-left:50px;">
-                                    <input type="checkbox" id="unchecked" class="cbx hidden" [checked]="claimManager.selectedClaim.isMaxBalance" [(ngModel)]="claimManager.selectedClaim.isMaxBalance" (change)="isMaxBalance($event)"/>
-                                    <label for="unchecked" class="lbl"></label>
+                                <span class="tally text-center" style="flex:1;margin-left:8px;">
+                                    <span>
+                                        <input type="checkbox" id="unchecked" class="cbx hidden" [checked]="claimManager.selectedClaim.isMaxBalance"
+                                            [(ngModel)]="claimManager.selectedClaim.isMaxBalance" (change)="isMaxBalance($event)" />
+                                        <label for="unchecked" class="lbl"></label>
+                                        <span style="line-height: 20px;font-size:20px;top: -3px;position: relative;display: inline-block;"> &nbsp;Max Balance</span>
+                                    </span>
                                 </span>
-                                <div class="box-tools pull-right" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
-                                    <div class="btn-group" data-toggle="btn-toggle">
-                                        <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding"
-                                            (click)="addNote()" *ngIf="!claimManager.selectedClaim.claimNotes">
-                                            <img src="assets/img/add.png" class="add-btn" />
-                                        </button>
-                                        <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding"
-                                            (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)"
-                                            *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note">
-                                            <img src="assets/img/edit.png" class="add-btn" />
-                                        </button>
-                                        <button type="button" class="btn btn-flat delete-btn btn-sm no-padding" (click)="deleteNote()"
-                                            *ngIf="claimManager.selectedClaim.claimNotes">
-                                            <i class="fa fa-trash"></i> Delete Note
-                                        </button>
-                                    </div>
+                                <div class="pull-right" style="display:flex;" *ngIf="claimManager.selectedClaim && !claimManager.selectedClaim.editing">
+                                    <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" (click)="addNote()"  *ngIf="!claimManager.selectedClaim.claimNotes" title="Add Note">
+                                        <img src="assets/img/add.png" class="add-btn" style="cursor:pointer;"/>
+                                    </button>
+                                    <button type="button" class="btn btn-flat bg-darkblue btn-sm no-padding" (click)="addNote(claimManager.selectedClaim.claimNote.noteText,claimManager.selectedClaim.claimNote.noteType)"
+                                        *ngIf="claimManager.selectedClaim.claimNotes" title="Edit Note">
+                                        <img src="assets/img/edit.png" class="add-btn" />
+                                    </button>
+                                    <button type="button" class="btn btn-flat delete-btn btn-sm no-padding" (click)="deleteNote()"
+                                        *ngIf="claimManager.selectedClaim.claimNotes">
+                                        <i class="fa fa-trash"></i> Delete Note
+                                    </button>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right"
                                         (click)="minimize('notes')" title="Minimize">
                                         <i class="fa fa-minus"></i>
@@ -143,7 +144,7 @@
                                     <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm pull-right"
                                         (click)="expand(true,2,'notes')" title="Expand blade">
                                         <img src="assets/img/maximize.png" class="expand-blade" />
-                                    </button> &nbsp;&nbsp;&nbsp;
+                                    </button>
                                 </div>
                             </div>
                             <div class="box-body panel-body-bg notes">
@@ -302,8 +303,7 @@
                                         </span>
                                     </span>
                                 </span>
-                                <span class="tally pull-right" *ngIf="claimManager.selectedClaim"
-                                    style="margin-right:180px;">
+                                <span class="tally pull-right" *ngIf="claimManager.selectedClaim" style="margin-right:180px;">
                                     <span>
                                         <span style="font-size:13pt">
                                             {{claimManager.numberOutstanding}}
