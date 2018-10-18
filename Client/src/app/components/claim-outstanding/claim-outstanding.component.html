@@ -1,0 +1,103 @@
+<div id="fixed-header"></div>
+<div class="row invoice-info">
+  <div class="col-sm-12 invoice-col">
+    <div class="table-responsive top-header scroll-y">
+      <table class="table no-margin table-striped">
+        <thead class="overflowable">
+          <tr (tableSort)="onSortColumn($event)" #myTable='table-sort'>
+            <th>
+              <div class="commonCheckBox checkAll">
+                <input type="checkbox" id="selectAllOutstanding" name="check" value="None" (change)="selectAllCheckBox($event)"
+                  #checkAllFields>
+                <label for="selectAllOutstanding"></label>
+              </div>&nbsp;<i class="fa rotate fa-exchange" (click)="checkAllFields.click()"></i>
+            </th>
+            <th>
+              <span columnSort="invoiceDate" [sort-table]="myTable">Inv Date</span>
+            </th>
+            <th>
+              <span columnSort="invoiceNumber" [sort-table]="myTable">Inv #</span>
+            </th>
+            <th>
+              <span columnSort="labelName" [sort-table]="myTable">Label Name</span>
+            </th>
+            <th>
+              <span columnSort="billTo" [sort-table]="myTable">Bill To</span>
+            </th>
+            <th>
+              <span columnSort="rxNumber" [sort-table]="myTable">Rx #</span>
+            </th>
+            <th>
+              <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>
+            </th>
+            <th>
+              <span columnSort="invoiceAmount" [sort-table]="myTable">Inv Amt</span>
+            </th>
+            <th>
+              <span columnSort="amountPaid" [sort-table]="myTable">Amt Paid</span>
+            </th>
+            <th>
+              <span columnSort="outstanding" [sort-table]="myTable">Outstanding</span>
+            </th>
+            <th>
+              <span columnSort="status" [sort-table]="myTable">
+                Status
+              </span>
+            </th>
+            <th>
+              <span columnSort="noteCount" [sort-table]="myTable">Note(s)</span>
+            </th>
+          </tr>
+        </thead>
+      </table>
+    </div><br />
+    <div class="table-responsive table-body scroll-y">
+      <table class="table no-margin table-striped" id="maintable">
+        <tbody class="overflowable" #outstandingTable tabindex="0">
+          <ng-container *ngIf="claimManager.loadingOutstanding">
+            <div class="loader" style="align-self: center;margin-top: 40px;">
+              <a>
+                <img src="assets/img/Spinner.gif">
+              </a>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="claimManager.outstanding">
+            <tr *ngFor="let prescription of claimManager.outstanding;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json"
+            (click)="setSelected(prescription,prescription.selected)" [class.isReversed]="prescription.isReversed" [class.bgBlue]="prescription.selected">
+              <td>
+                <div class="commonCheckBox">
+                    <input type="checkbox" name="check" value="None" class="outstandingCheck" [id]="prescription.prescriptionId" [attr.labelName]="prescription.labelName"
+                        [checked]="(prescription.selected || checkAll)" (change)="select(prescription,$event,i)"
+                        #inv>
+                    <label [for]="prescription.prescriptionId" (click)="inv.click()"></label>
+                </div>
+            </td>
+            <td>{{prescription.invoiceDate | date:"shortDate"}}</td>
+              <td [class.invoiceIsIndexed]="prescription.invoiceIsIndexed">{{prescription.invoiceNumber}}</td>
+              <td>{{prescription.labelName}}</td>
+              <td>{{prescription.billTo}}</td>
+              <td>{{prescription.rxNumber}}</td>
+              <td>{{prescription.rxDate | date:"shortDate"}}</td>
+              <td class="text-right">{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
+              <td class="text-right">{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
+              <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
+              <td>
+                <div class="btn-group status">
+                  <button type="button" class="btn btn-box-tool dropdown-toggle status" data-toggle="dropdown">
+                    {{prescription.status}} <i class="fa fa-sort pull-right"></i>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li *ngFor="let status of claimManager.selectedClaim.prescriptionStatuses;" [class.active]="status.statusName==claimManager.selectedClaim.status"
+                      (click)="claimManager.changePrescriptionStatus(prescription,status)"><a style="cursor:pointer;">{{status.statusName}}</a></li>
+                  </ul>
+                </div>
+              </td>
+              <td *ngIf="prescription.noteCount"><a class="label label-info bg-vdarkgrey" (click)="showNotes(prescription.prescriptionId)">{{prescription.noteCount}}</a></td>
+              <td *ngIf="!prescription.noteCount">{{prescription.noteCount}}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -33,6 +33,7 @@ export class ClaimManager {
   loadingEpisodes: Boolean = false;
   loadingPayment: Boolean = false;
   loadingPrescription: Boolean = false;
+  loadingOutstanding: Boolean = false;
   loadingImage: Boolean = false;
   private notetypes: Array<any> = [];
   private prescriptionNotetypes: Array<PrescriptionNoteType> = [];
@@ -48,10 +49,13 @@ export class ClaimManager {
   isPrescriptionsExpanded: boolean;
   isScriptNotesExpanded: boolean;
   isPaymentsExpanded: boolean;
+  isOutstandingExpanded: boolean;
   isImagesExpanded: boolean;
   activeToast: Toast;
   episodeForm: FormGroup;
-
+  totalOutstandingAmount:any;
+  numberOutstanding:number;
+  outstanding:Prescription[]=[];
   get selectedClaims() {
     return this.comparisonClaims.toArray();
   }

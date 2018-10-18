@@ -515,6 +515,24 @@ export class HttpService {
       });
     return s;
   }
+  getOutstandingPrescriptions(claimId: Number, sort: string = 'rxDate', sortDir: 'asc' | 'desc' = 'asc',
+    page: Number = 1, pageSize: Number = 30) {
+       
+    let data:any = {
+      claimId: claimId,
+      sort: sort,
+      sortDirection:sortDir.toUpperCase(),
+      page:page,
+      pageSize: pageSize
+    }
+
+    const s = this.http.post(this.baseUrl + '/Claims/outstanding',data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
   getPayments(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
     page: Number = 1, pageSize: Number = 30) {
     //api/payment/payments-blade?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=30

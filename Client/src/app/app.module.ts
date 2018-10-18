@@ -62,6 +62,9 @@ import { FirewallGridComponent } from './components/firewall-grid/firewall-grid.
 import { AcquireEpisodeComponent } from './components/acquire-episode/acquire-episode.component';
 import { TestComponent } from './pages/test/test.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { OutstandingFilterComponent } from './components/outstanding-filter/outstanding-filter.component';
+import { OutstandingResultComponent } from './components/outstanding-result/outstanding-result.component';
+import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-outstanding.component';
 
 
 @NgModule({
@@ -80,7 +83,7 @@ import { NotificationComponent } from './components/notification/notification.co
     ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
     UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, FileUploadComponent, FooterComponent,
     UnpaidScriptComponent, UnindexedImageComponent,
-    UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent, NotificationComponent
+    UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent, NotificationComponent, OutstandingFilterComponent, OutstandingResultComponent, ClaimOutstandingComponent
   ],
   imports: [
     BrowserModule,

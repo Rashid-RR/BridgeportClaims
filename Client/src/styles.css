@@ -704,6 +704,7 @@ modal-backdrop .modal-backdrop.in{
 }
 .swal2-container{
   padding: 2px;
+  z-index:9999992 !important;
 }
 thead{
   overflow-x: hidden;
@@ -772,8 +773,8 @@ button.grey1{
   height: 0px !important;
 }
 div.toast,#toast-container{
-  z-index: 9999992 !important;
+  z-index: 9999993 !important;
 }
 .modal.show.in{
-  z-index: 9999991;
+  z-index: 9999992;
 }

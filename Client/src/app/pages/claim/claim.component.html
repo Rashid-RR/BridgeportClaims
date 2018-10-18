@@ -187,7 +187,7 @@
                         </div>
                     </div>
                     <div [class.col-sm-7]="!expanded" [class.col-sm-12]="expanded && (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)"
-                        *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7)"
+                        *ngIf="!expanded || (expandedBlade==4 || expandedBlade==5 || expandedBlade==6 || expandedBlade==7 || expandedBlade==8)"
                         style="padding-left:0px;">
                         <p class="text-center" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==4"
                             style="margin:  0px;">
@@ -288,6 +288,48 @@
                                 <app-claim-script-note></app-claim-script-note>
                             </div>
                         </div>
+                        <!--outstanding start-->
+                        <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==8">
+                            <div class="box-header bg-head-box">
+                                <h4 class="box-title text-center panel-head">
+                                    <u><img src="assets/img/iconpayments.png">Outstanding</u>
+                                </h4>
+                                <span class="tally" *ngIf="claimManager.selectedClaim" style="display: inline-block;">
+                                    <span class="totalOutstanding">
+                                        Total Outstanding:
+                                        <span style="font-size:13pt">
+                                            {{claimManager.totalOutstandingAmount | currency:'USD':true:'1.2-2'}}
+                                        </span>
+                                    </span>
+                                </span>
+                                <span class="tally pull-right" *ngIf="claimManager.selectedClaim"
+                                    style="margin-right:180px;">
+                                    <span>
+                                        <span style="font-size:13pt">
+                                            {{claimManager.numberOutstanding}}
+                                        </span> Record{{claimManager.numberOutstanding > 1 ? 's':''}}
+                                    </span>
+                                </span>
+                                <div class="box-tools pull-right">
+                                    <button class="btn btn-flat btn-sm bg-vdarkgrey no-padding outstanding" type="button"
+                                        (click)="addOutstandingnNote()">
+                                        <img src="assets/img/add.png" class="add-btn" />
+                                    </button>
+                                    <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm"
+                                        (click)="minimize('outstanding')" title="Minimize">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" *ngIf="!expanded" class="transparent btn btn-flat bg-grey btn-sm"
+                                        (click)="expand(true,8,'outstanding')" title="Expand blade">
+                                        <img src="assets/img/maximize.png" class="expand-blade" />
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="box-body panel-body-bg payment" [class.expanded]="expanded">
+                                <app-claim-outstanding></app-claim-outstanding>
+                            </div>
+                        </div>
+                        <!--outstanding end-->
                         <div class="box box-warn" *ngIf="(claimManager.selected!==undefined && expandedBlade==0) || expandedBlade==6">
                             <div class="box-header bg-head-box">
                                 <h4 class="box-title text-center panel-head">
