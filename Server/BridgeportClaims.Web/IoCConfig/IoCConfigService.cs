@@ -28,6 +28,7 @@ using BridgeportClaims.Data.DataProviders.AdminFunctions;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
+using BridgeportClaims.Data.DataProviders.Clients;
 using BridgeportClaims.Data.DataProviders.Dashboards;
 using BridgeportClaims.Data.DataProviders.Diaries;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
@@ -92,6 +93,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<WordDocumentProvider>().As<IWordDocumentProvider>().InstancePerRequest();
             builder.RegisterType<WordFileDriver>().As<IWordFileDriver>().InstancePerRequest();
             builder.RegisterType<LetterGenerationProvider>().As<ILetterGenerationProvider>().InstancePerRequest();
+            builder.RegisterType<ClientDataProvider>().As<IClientDataProvider>().InstancePerRequest();
             builder.RegisterType<WordTemplater>().As<IWordTemplater>().InstancePerRequest();
             builder.RegisterType<PayorLetterNameProvider>().As<IPayorLetterNameProvider>().InstancePerRequest();
             builder.RegisterType<BillingStatementProvider>().As<IBillingStatementProvider>().InstancePerRequest();
