@@ -505,7 +505,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           if (form.address2) {
             this.claimManager.selectedClaim.address2 = form.address2;
           }
-          if (this.form.value.address2) {
+          if (this.form.value.address2==null) {
             this.claimManager.selectedClaim.address2 = null;
           }
           if (form.claimFlex2Id || form.claimFlex2Id === null) {
