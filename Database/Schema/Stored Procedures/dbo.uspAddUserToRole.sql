@@ -16,16 +16,17 @@ AS BEGIN
 	SET DEADLOCK_PRIORITY HIGH;
 	SET TRAN ISOLATION LEVEL SERIALIZABLE;
 
-	DECLARE @AdminRoleID NVARCHAR(128), @IndexerRoleID NVARCHAR(128), @UserRoleID NVARCHAR(128)
-	SELECT @AdminRoleID = [r].[ID] FROM [dbo].[AspNetRoles] AS [r] WHERE [r].[Name] = 'Admin'
-	SELECT @IndexerRoleID = [r].[ID] FROM [dbo].[AspNetRoles] AS [r] WHERE [r].[Name] = 'Indexer'
-	SELECT @UserRoleID = [r].[ID] FROM [dbo].[AspNetRoles] AS [r] WHERE [r].[Name] = 'User'
+	DECLARE @AdminRoleID NVARCHAR(128), @IndexerRoleID NVARCHAR(128), @UserRoleID NVARCHAR(128), @ClientRoleID NVARCHAR(128);
+	SELECT @AdminRoleID = [r].[ID] FROM [dbo].[AspNetRoles] AS [r] WHERE [r].[Name] = 'Admin';
+	SELECT @IndexerRoleID = [r].[ID] FROM [dbo].[AspNetRoles] AS [r] WHERE [r].[Name] = 'Indexer';
+	SELECT @UserRoleID = [r].[ID] FROM [dbo].[AspNetRoles] AS [r] WHERE [r].[Name] = 'User';
+	SELECT @ClientRoleID = [r].[ID] FROM [dbo].[AspNetRoles] AS [r] WHERE [r].[Name] = 'Client';
 
 	DECLARE @InternalUserID NVARCHAR(128)
 		  , @InternalRoleID NVARCHAR(128)
 	SELECT  @InternalUserID = @UserID
 		  , @InternalRoleID = @RoleID
-	DECLARE @IsTargetRoleAdmin BIT, @IsTargetRoleIndexer BIT, @IsTargetRoleUser BIT
+	DECLARE @IsTargetRoleAdmin BIT, @IsTargetRoleIndexer BIT, @IsTargetRoleUser BIT, @IsTargetRoleClient BIT
 	
 	IF @InternalRoleID = @AdminRoleID
 		SET @IsTargetRoleAdmin = 1
@@ -33,6 +34,8 @@ AS BEGIN
 		SET @IsTargetRoleIndexer = 1
 	ELSE IF @InternalRoleID = @UserRoleID
 		SET @IsTargetRoleUser = 1
+	ELSE IF @InternalRoleID = @ClientRoleID
+		SET @IsTargetRoleClient = 1
 	ELSE
 		BEGIN
 			RAISERROR(N'An error was encountered. The role passed in was not found.', 16, 1) WITH NOWAIT
@@ -66,12 +69,24 @@ AS BEGIN
 		INSERT [dbo].[AspNetUserRoles] ([UserID], [RoleID])
 		VALUES  (@InternalUserID, @IndexerRoleID)
 
-	-- Insert into User
+	-- Insert into User (If not client)
 	IF NOT EXISTS (SELECT  *
 				   FROM    [dbo].[AspNetUserRoles] AS [ir]
 				   WHERE   [ir].[UserID] = @InternalUserID
 						   AND [ir].[RoleID] = @UserRoleID)
+		AND ISNULL(@IsTargetRoleClient, 0) <> 1
+		AND @IsTargetRoleUser = 1
 		INSERT [dbo].[AspNetUserRoles] ([UserID], [RoleID])
 		VALUES  (@InternalUserID, @UserRoleID)
+
+	-- Insert into Client (If Client)
+	IF NOT EXISTS (SELECT  *
+				   FROM    [dbo].[AspNetUserRoles] AS [ir]
+				   WHERE   [ir].[UserID] = @InternalUserID
+						   AND [ir].[RoleID] = @ClientRoleID)
+		AND @IsTargetRoleClient = 1
+		INSERT [dbo].[AspNetUserRoles] ([UserID], [RoleID])
+		VALUES  (@InternalUserID, @ClientRoleID)
+
 END
 GO
