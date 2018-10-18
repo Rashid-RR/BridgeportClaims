@@ -2,7 +2,6 @@ import { Component, ViewChild, OnInit, trigger, state, style, transition, animat
 import { PaymentService, PaymentScriptService } from "../../services/services.barrel";
 import { EventsService } from "../../services/events-service";
 import { ToastsManager } from 'ng2-toastr';
-import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../components/ng-window';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from "ng2-bootstrap-modal";
 import { UUID } from 'angular2-uuid';
@@ -12,7 +11,6 @@ import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import swal from "sweetalert2";
 import { ActivatedRoute } from "@angular/router";
 import { DocumentManagerService } from "../../services/document-manager.service";
-import { UnindexedImageFileComponent } from '../../pages/unindexed-image-file/unindexed-image-file.component';
 
 declare var $: any;
 
@@ -39,8 +37,9 @@ export class PaymentComponent implements OnInit {
   tabState = 'in';
   documentId:any;
   checkNumber:any;
+  document:any;
   @ViewChild('addScriptSwal') private addScriptSwal: SwalComponent;
-  constructor(private myInjector: WindowsInjetor, public readonly swalTargets: SwalPartialTargets, public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
+  constructor( public readonly swalTargets: SwalPartialTargets, public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
     public ds: DocumentManagerService,private route: ActivatedRoute,private dialogService: DialogService, private toast: ToastsManager, private events: EventsService, private dp: DatePipe) {
       this.route.params.subscribe(params => {
         if (params['checkNumber']) {
@@ -48,7 +47,7 @@ export class PaymentComponent implements OnInit {
         }
         if (params['documentId']) {
           this.documentId = params['documentId'];
-          this.showNoteWindow();
+          this.showDocument();
         }
       });
       this.over = new Array(2);
@@ -72,30 +71,15 @@ export class PaymentComponent implements OnInit {
       setTimeout(() => { this.showModal(); }, 100)
     });
   }
-  showNoteWindow() {
-    let title=`Check Viewer`
+  showDocument() {
     let file = localStorage.getItem('file-' + this.documentId);
     if (file) {
       try {
         let doc = JSON.parse(file) as any; 
-        title = `Check Viewer - ${doc.fileName} - Check # ${this.checkNumber||''}`
+        this.document = doc;
       } catch (e) { }
     }
-   let config = new WindowConfig(title, new Size(250, 700))  //height, width
-    config.position = new CustomPosition((window.innerWidth - 700) / 2 + 50, 60)//left,top
-    config.minusTop = 0;
-    config.minusHeight = 0;
-    config.minusLeft = 0;
-    config.minusWidth = 0;
-    config.minWidth = 450;
-    config.centerInsideParent = false;
-    var temp = {}
-    config.forAny = [temp];
-    config.openAsMaximize = false;
-    this.myInjector.openWindow(UnindexedImageFileComponent, config)
-      .then((win: UnindexedImageFileComponent) => {
-        win.showNote(this.documentId);
-      })
+    window.open('#/main/indexing/indexed-image/' + this.documentId, '_blank');
   }
 
   ngOnInit() {

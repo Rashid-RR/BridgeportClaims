@@ -86,12 +86,12 @@
                   </td>
                 </ng-container>
                 <ng-container *ngIf="editingPaymentId!=pay.prescriptionPaymentId">
-                  <td>{{pay.postedDate | date:"shortDate"}}</td>
-                  <td>{{pay.checkNumber}}</td>
-                  <td>{{pay.checkAmt | currency:'USD':true:'1.2-2'}}</td>
-                  <td>{{pay.rxNumber}}</td>
-                  <td>{{pay.rxDate | date:"shortDate"}}</td>
-                  <td>{{pay.invoiceNumber}}</td>
+                  <td (click)="showDocument(pay)">{{pay.postedDate | date:"shortDate"}}</td>
+                  <td (click)="showDocument(pay)">{{pay.checkNumber}}</td>
+                  <td (click)="showDocument(pay)">{{pay.checkAmt | currency:'USD':true:'1.2-2'}}</td>
+                  <td (click)="showDocument(pay)">{{pay.rxNumber}}</td>
+                  <td (click)="showDocument(pay)">{{pay.rxDate | date:"shortDate"}}</td>
+                  <td (click)="showDocument(pay)">{{pay.invoiceNumber}}</td>
                   <td *ngIf="allowed">
                     <button type="button" class="btn btn-primary btn-xs" (click)="update(pay)">
                         <span class="glyphicon glyphicon-edit"></span> Edit

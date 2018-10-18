@@ -53,7 +53,10 @@ export class ClaimPaymentComponent implements OnInit {
   ngOnInit() {
      
   }
-
+  showDocument(document:any) {
+    localStorage.setItem('file-' + document.documentId, JSON.stringify(document));
+    window.open('#/main/indexing/indexed-image/' + document.documentId, '_blank');
+  }
   onSortColumn(info: SortColumnInfo) {   
     this.sortColumn = info;
     this.fetchData();
