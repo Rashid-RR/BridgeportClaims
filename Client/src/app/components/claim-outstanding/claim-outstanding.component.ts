@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, AfterViewInit, NgZone,  ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, NgZone, ElementRef, ViewChild } from '@angular/core';
 import { ClaimManager } from '../../services/claim-manager';
 import { HttpService } from '../../services/http-service';
 import { EventsService } from '../../services/events-service';
@@ -14,21 +14,21 @@ declare var jQuery: any;
   templateUrl: './claim-outstanding.component.html',
   styleUrls: ['./claim-outstanding.component.css']
 })
-export class ClaimOutstandingComponent  implements OnInit, AfterViewInit {
+export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
 
   @ViewChild('outstandingTable') table: ElementRef;
   sortColumn: SortColumnInfo;
   checkAll: Boolean = false;
   selectMultiple: Boolean = false;
   lastSelectedIndex: number;
-  
+
   constructor(
     private rd: Renderer2, private ngZone: NgZone,
     private dp: DatePipe,
     public claimManager: ClaimManager,
     private events: EventsService,
     private http: HttpService
-  ) { 
+  ) {
     this.claimManager.onClaimIdChanged.subscribe(() => {
       this.fetchData();
     });
@@ -37,17 +37,17 @@ export class ClaimOutstandingComponent  implements OnInit, AfterViewInit {
   ngOnInit() {
     this.fetchData();
     this.events.on('claim-updated', () => {
-      
+
     });
     this.cloneTableHeading();
-    this.events.on("reload:prespcriptions",()=>{
+    this.events.on("reload:prespcriptions", () => {
       this.fetchData();
     })
   }
 
   ngAfterViewInit() {
-     
-  } 
+
+  }
 
 
   cloneTableHeading() {
@@ -140,25 +140,27 @@ export class ClaimOutstandingComponent  implements OnInit, AfterViewInit {
   }
 
   fetchData() {
-    this.claimManager.loadingOutstanding = true;
-    const page = 1;
-    const page_size = 1000;
-    let sort = 'rxDate';
-    let sort_dir: 'asc' | 'desc' = 'desc';
-    if (this.sortColumn) {
-      sort = this.sortColumn.column;
-      sort_dir = this.sortColumn.dir;
+    if (!this.claimManager.loadingOutstanding) {
+      this.claimManager.loadingOutstanding = true;
+      const page = 1;
+      const page_size = 1000;
+      let sort = 'rxDate';
+      let sort_dir: 'asc' | 'desc' = 'desc';
+      if (this.sortColumn) {
+        sort = this.sortColumn.column;
+        sort_dir = this.sortColumn.dir;
+      }
+      this.http.getOutstandingPrescriptions(this.claimManager.selectedClaim.claimId, sort, sort_dir,
+        page, page_size)
+        .subscribe(data => {
+          this.claimManager.outstanding = data.results;
+          this.claimManager.totalOutstandingAmount = data.totalOutstandingAmount;
+          this.claimManager.numberOutstanding = data.totalRows;
+          this.claimManager.loadingOutstanding = false;
+        }, () => {
+          this.claimManager.loadingOutstanding = false;
+        });
     }
-    this.http.getOutstandingPrescriptions(this.claimManager.selectedClaim.claimId, sort, sort_dir,
-      page, page_size)
-      .subscribe(data => {
-        this.claimManager.outstanding = data.results;
-        this.claimManager.totalOutstandingAmount = data.totalOutstandingAmount;
-        this.claimManager.numberOutstanding = data.totalRows;
-        this.claimManager.loadingOutstanding = false;
-      },()=>{
-        this.claimManager.loadingOutstanding = false;
-      });
   }
   uncheckMain() {
     jQuery('input#selectAllOutstanding').attr({ 'checked': false })
