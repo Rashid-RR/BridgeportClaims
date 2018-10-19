@@ -7,9 +7,7 @@ GO
 	Create Date:	10/09/2018
 	Description:	Gets the Data for the Outstanding blade
 	Sample Execute:
-					DECLARE @TotalRows INT, @TotalOutstanding MONEY;
-					EXEC [claims].[uspGetOutstandingBlade] 734, 1, 50, @TotalRows = @TotalRows OUTPUT, @TotalOutstanding = @TotalOutstanding OUTPUT;
-					SELECT @TotalRows, @TotalOutstanding;
+					EXEC [claims].[uspGetOutstandingBlade] 734, 1, 50, 'RxDate', 'ASC';
 */
 CREATE PROC [claims].[uspGetOutstandingBlade]
 (
@@ -17,9 +15,7 @@ CREATE PROC [claims].[uspGetOutstandingBlade]
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
 	@SortColumn VARCHAR(50) = NULL,
-	@SortDirection VARCHAR(5) = NULL,
-	@TotalRows INTEGER OUTPUT,
-	@TotalOutstanding MONEY OUTPUT
+	@SortDirection VARCHAR(5) = NULL
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -124,6 +120,7 @@ AS BEGIN
 	FROM   #Outstanding AS u
 	WHERE  ((u.AmountPaid < (u.InvAmt * 0.75)) OR u.InvAmt = 0)
 
+	DECLARE @TotalRows INTEGER,	@TotalOutstanding MONEY;
 	SELECT @TotalRows = COUNT(*) FROM #OutstandingFiltered;
 	SELECT @TotalOutstanding = SUM(ISNULL(Outstanding, 0.00)) FROM #OutstandingFiltered;
 
@@ -190,5 +187,8 @@ AS BEGIN
 				  THEN u.NoteCount END DESC
 			OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 			FETCH NEXT @iPageSize ROWS ONLY;
+
+	SELECT @TotalRows TotalRows, @TotalOutstanding TotalOutstanding
+
 END
 GO
