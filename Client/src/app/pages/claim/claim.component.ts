@@ -84,40 +84,29 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     return this.claimManager.selectedClaim && this.claimManager.selectedClaim.isVip;
   }
   isMaxBalance($event) {
+    this.claimManager.loading = true;
+    this.http.setMaxBalance(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
+      this.toast.success(r.message, null, { showCloseButton: true, toastLife: 5500 });
+      /* this.snotifyService.success(r.message, {
+        timeout: 5500,
+        showProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        buttons: [
+          {
+            text: 'UNDO', action: () => {
 
-    this.dialogService.addDialog(ConfirmComponent, {
-      title: `Change Claim ${$event.target.checked ? 'to' : 'from'} Max Balance`,
-      message: `Are you sure you wish to set Claim # ${this.claimManager.selectedClaim.claimNumber} ${$event.target.checked ? 'to' : 'from'} Max Balance?`
-    })
-      .subscribe((isConfirmed) => {
-        if (isConfirmed) {
-          this.claimManager.loading = true;
-          this.http.setMaxBalance(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
-            this.toast.success(r.message,null, { showCloseButton:true,toastLife: 5500 });
-            /* this.snotifyService.success(r.message, {
-              timeout: 5500,
-              showProgressBar: true,
-              closeOnClick: false,
-              pauseOnHover: true,
-              buttons: [
-                {
-                  text: 'UNDO', action: () => {
-
-                  }, bold: false
-                },
-                { text: 'Close', action: (toast) => { this.snotifyService.remove(toast.id); }, bold: true },
-              ]
-            }); */
-            this.claimManager.loading = false;
-          }, err => {
-            const result = err.error
-            this.toast.error(result.Message);
-            this.claimManager.loading = false;
-          })
-        } else {
-          this.claimManager.selectedClaim.isMaxBalance = !$event.target.checked
-        }
-      });
+            }, bold: false
+          },
+          { text: 'Close', action: (toast) => { this.snotifyService.remove(toast.id); }, bold: true },
+        ]
+      }); */
+      this.claimManager.loading = false;
+    }, err => {
+      const result = err.error
+      this.toast.error(result.Message);
+      this.claimManager.loading = false;
+    });
   }
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
