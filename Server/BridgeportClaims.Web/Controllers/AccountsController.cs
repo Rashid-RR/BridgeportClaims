@@ -158,7 +158,6 @@ namespace BridgeportClaims.Web.Controllers
         [HttpGet]
         [Route("UserInfo")]
         [NoCache]
-        [Authorize(Roles = "Client")]
         public async Task<UserInfoViewModel> GetUserInfo()
         {
             try

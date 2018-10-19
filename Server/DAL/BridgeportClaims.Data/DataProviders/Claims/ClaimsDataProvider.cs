@@ -305,9 +305,12 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                 ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
                 ps.Add(totalRowsParam, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 ps.Add(totalOutstandingParam, dbType: DbType.Decimal, direction: ParameterDirection.Output);
-                var results = conn.Query<OutstandingDtoResult>(sp, ps, commandType: CommandType.StoredProcedure);
-                var totalRows = ps.Get<int>(totalRowsParam);
-                var totalOutstanding = ps.Get<decimal>(totalOutstandingParam);
+                var multi = conn.QueryMultiple(sp, ps, commandType: CommandType.StoredProcedure);
+                var results = multi.Read<OutstandingDtoResult>();
+                var totals = multi.Read<OutstandingDtoTotalsResult>()?.SingleOrDefault() ??
+                             throw new Exception($"Totals cannot be read from the stored proc: {sp}.");
+                var totalRows = totals.TotalRows;
+                var totalOutstanding = totals.TotalOutstanding;
                 var retVal = new OutstandingDto
                 {
                     Results = results, TotalOutstanding = totalOutstanding, TotalRows = totalRows
