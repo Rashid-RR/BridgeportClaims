@@ -40,8 +40,7 @@ AS BEGIN
 		DECLARE @LocalNowDateOnly DATE = CAST(@LocalNow AS DATE);
 
 		INSERT dbo.PrescriptionPayment(CheckNumber, AmountPaid, DatePosted, PrescriptionID,
-		CreatedOnUTC, UpdatedOnUTC, ModifiedByUserID, DocumentID)
-		
+				CreatedOnUTC, UpdatedOnUTC, ModifiedByUserID, DocumentID)
 		SELECT  @CheckNumber CheckNumber,
 				p.AmountPosted AmountPaid,
 				@LocalNowDateOnly,
@@ -59,6 +58,9 @@ AS BEGIN
 				SELECT @CheckNumber, @SuspenseAmountRemaining, @LocalNowDateOnly, @ToSuspenseNoteText,
 					@UserID, @UTCNow, @UTCNow, @DocumentID;
 			END
+
+		-- Index the Document.
+		EXEC dbo.uspCheckIndexInsert @DocumentID = @DocumentID, @ModifiedByUserID = @UserID, @CheckNumber = @CheckNumber;
 
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
@@ -79,5 +81,6 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
 	END CATCH
 END
+
 
 GO
