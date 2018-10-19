@@ -15,7 +15,7 @@ import { UUID } from 'angular2-uuid';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
-import { Prescription } from '../../models/prescription';
+//import { SnotifyService } from 'ng-snotify';
 
 declare var $: any;
 
@@ -51,7 +51,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   expanded: Boolean = false
   expandedBlade: Number = 0;
   over: boolean[];
-  statusId:any
+  statusId: any
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       $(".sticky-claim").sticky({ topSpacing: 53 });
@@ -60,6 +60,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
+    //private snotifyService: SnotifyService,
     public readonly swalTargets: SwalPartialTargets,
     public claimManager: ClaimManager,
     private dialogService: DialogService,
@@ -81,27 +82,30 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   get isVip() {
     return this.claimManager.selectedClaim && this.claimManager.selectedClaim.isVip;
   }
-  isMaxBalance($event){
+  isMaxBalance($event) {
+    this.claimManager.loading = true;
+    this.http.setMaxBalance(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
+      this.toast.success(r.message, null, { showCloseButton: true, toastLife: 8000 });
+      /* this.snotifyService.success(r.message, {
+        timeout: 5500,
+        showProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        buttons: [
+          {
+            text: 'UNDO', action: () => {
 
-    this.dialogService.addDialog(ConfirmComponent, {
-      title: `Change Claim ${$event.target.checked ? 'to' : 'from'} Max Balance`,
-      message: `Are you sure you wish to set Claim # ${this.claimManager.selectedClaim.claimNumber} ${$event.target.checked ? 'to' : 'from'} Max Balance?`
-    })
-      .subscribe((isConfirmed) => {
-        if (isConfirmed) {
-          this.claimManager.loading = true;
-          this.http.setMaxBalance(this.claimManager.selectedClaim.claimId,$event.target.checked).subscribe(r => {
-            this.toast.success(r.message);
-            this.claimManager.loading = false;
-          }, err => {
-            const result = err.error
-            this.toast.error(result.Message);
-            this.claimManager.loading = false;
-          })
-        }else{
-          this.claimManager.selectedClaim.isMaxBalance = !$event.target.checked
-        }
-      });
+            }, bold: false
+          },
+          { text: 'Close', action: (toast) => { this.snotifyService.remove(toast.id); }, bold: true },
+        ]
+      }); */
+      this.claimManager.loading = false;
+    }, err => {
+      const result = err.error
+      this.toast.error(result.Message);
+      this.claimManager.loading = false;
+    });
   }
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
@@ -179,7 +183,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   saveStatus(data) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Change multiple prescription statuses',
-      message: `Are you sure you wish to change prescription statuses for ${data.prescriptionIds.length} prescription${data.prescriptionIds.length>1 ? 's':''} to ${this.statusId.statusName}?`
+      message: `Are you sure you wish to change prescription statuses for ${data.prescriptionIds.length} prescription${data.prescriptionIds.length > 1 ? 's' : ''} to ${this.statusId.statusName}?`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
@@ -188,10 +192,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             this.toast.success(r.message);
             $('input#selectAllCheckBox').attr({ 'checked': false })
             const selected = this.claimManager.selectedClaim.prescriptions.filter(pres => pres.selected == true);
-            selected.forEach(s=>{
-              s.selected=false;
+            selected.forEach(s => {
+              s.selected = false;
             })
-            this.events.broadcast('reload:prespcriptions',1);
+            this.events.broadcast('reload:prespcriptions', 1);
             this.claimManager.loading = false;
           }, err => {
             const result = err.error
@@ -211,12 +215,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     }
     if (selectedNotes.length > 0) {
       this.prescriptionStatusSwal.show().then((r) => {
-        if(!r.dismiss){
-          if(!this.statusId || !this.statusId.prescriptionStatusId){
+        if (!r.dismiss) {
+          if (!this.statusId || !this.statusId.prescriptionStatusId) {
             this.toast.warning('Please select one status to from the dropdown list.');
-            setTimeout(()=>{this.updateStatus();});
-          }else{
-          this.saveStatus({prescriptionStatusId:this.statusId.prescriptionStatusId,prescriptionIds:selectedNotes})
+            setTimeout(() => { this.updateStatus(); });
+          } else {
+            this.saveStatus({ prescriptionStatusId: this.statusId.prescriptionStatusId, prescriptionIds: selectedNotes })
           }
         }
       })
@@ -328,8 +332,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               }).single().subscribe(res => {
                 const result = res;
                 this.claimManager.selectedClaim.prescriptions.forEach(c => {
-                  if(c.selected){
-                    c.noteCount = (c.noteCount||0)+1;
+                  if (c.selected) {
+                    c.noteCount = (c.noteCount || 0) + 1;
                   }
                   c.selected = false;
                 });
@@ -412,10 +416,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     let selectedPrecriptions = '';
     const checkboxes = $('.outstandingCheck');
     this.claimManager.outstanding.forEach(c => {
-      if(c.selected){
+      if (c.selected) {
         selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex;font-size:11pt;">' + c.labelName + '</span> &nbsp; ';
         selectedNotes.push(Number(c.prescriptionId));
-      } 
+      }
     });
     if (selectedNotes.length > 0) {
       const width = window.innerWidth * 1.799 / 3;
@@ -504,8 +508,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               }).single().subscribe(res => {
                 const result = res;
                 this.claimManager.outstanding.forEach(c => {
-                  if(c.selected){
-                    c.noteCount = (c.noteCount||0)+1;
+                  if (c.selected) {
+                    c.noteCount = (c.noteCount || 0) + 1;
                   }
                   c.selected = false;
                 });
