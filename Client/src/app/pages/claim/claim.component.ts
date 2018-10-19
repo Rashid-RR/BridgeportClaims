@@ -15,7 +15,6 @@ import { UUID } from 'angular2-uuid';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
-import { Prescription } from '../../models/prescription';
 //import { SnotifyService } from 'ng-snotify';
 
 declare var $: any;
@@ -86,7 +85,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   isMaxBalance($event) {
     this.claimManager.loading = true;
     this.http.setMaxBalance(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
-      this.toast.success(r.message, null, { showCloseButton: true, toastLife: 5500 });
+      this.toast.success(r.message, null, { showCloseButton: true, toastLife: 8000 });
       /* this.snotifyService.success(r.message, {
         timeout: 5500,
         showProgressBar: true,
