@@ -36,6 +36,7 @@
         "assets/css/ngPopupStyle.css",
         "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
         "../node_modules/highcharts/css/highcharts.css",
+        "../node_modules/ng-snotify/styles/material.css",
         "styles.css"
       ],
       "scripts": [

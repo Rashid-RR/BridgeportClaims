@@ -28,7 +28,11 @@ export class ClaimOutstandingComponent  implements OnInit, AfterViewInit {
     public claimManager: ClaimManager,
     private events: EventsService,
     private http: HttpService
-  ) { }
+  ) { 
+    this.claimManager.onClaimIdChanged.subscribe(() => {
+      this.fetchData();
+    });
+  }
 
   ngOnInit() {
     this.fetchData();

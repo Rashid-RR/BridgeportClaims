@@ -8,6 +8,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { Ng2Webstorage } from 'ng2-webstorage';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ToastModule } from 'ng2-toastr';
+//import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SharedModule } from './shared';
 
 /* import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr'; */
@@ -93,12 +94,14 @@ import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-
     RoutingModule,
     FileUploadModule,
     Ng2Webstorage,
+    //SnotifyModule,
     //SweetAlert2Module.forRoot(),
     ToastModule.forRoot(),
     BootstrapModalModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    //{ provide: 'SnotifyToastConfig', useValue: ToastDefaults},SnotifyService,
     DecimalPipe, DatePipe,
     HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService, EpisodeService, FirewallService,
     PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, SignalRService,
