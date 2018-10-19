@@ -20,6 +20,22 @@ namespace BridgeportClaims.Web.Controllers
             _clientDataProvider = clientDataProvider;
         }
 
+        [HttpPost]
+        [Route("get-referral-types")]
+        public IHttpActionResult GetReferralTypes()
+        {
+            try
+            {
+                var types = _clientDataProvider.Value.GetReferralTypes();
+                return Ok(types);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("get-user-data")]
         public IHttpActionResult GetClientData()
@@ -43,6 +59,8 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                var referrerId = User.Identity.GetUserId();
+                model.ReferredBy = referrerId;
                 _clientDataProvider.Value.InsertReferral(model);
                 return Ok(new {message = "Referral added successfully."});
             }

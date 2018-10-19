@@ -235,6 +235,7 @@
     <Compile Include="Dtos\PrescriptionPostingAmountsDto.cs" />
     <Compile Include="Dtos\PrescriptionStatusDto.cs" />
     <Compile Include="Dtos\ReferralDto.cs" />
+    <Compile Include="Dtos\ReferralTypeDto.cs" />
     <Compile Include="Dtos\ScriptDto.cs" />
     <Compile Include="Dtos\ScriptNoteDto.cs" />
     <Compile Include="Dtos\ShortPayDto.cs" />

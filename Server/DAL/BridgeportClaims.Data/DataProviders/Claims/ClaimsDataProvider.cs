@@ -291,8 +291,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[claims].[uspGetOutstandingBlade]";
-                const string totalRowsParam = "@TotalRows";
-                const string totalOutstandingParam = "@TotalOutstanding";
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
@@ -303,8 +301,6 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                 ps.Add("@PageSize", pageSize, DbType.Int32);
                 ps.Add("@SortColumn", sortColumn, DbType.AnsiString, size: 50);
                 ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
-                ps.Add(totalRowsParam, dbType: DbType.Int32, direction: ParameterDirection.Output);
-                ps.Add(totalOutstandingParam, dbType: DbType.Decimal, direction: ParameterDirection.Output);
                 var multi = conn.QueryMultiple(sp, ps, commandType: CommandType.StoredProcedure);
                 var results = multi.Read<OutstandingDtoResult>();
                 var totals = multi.Read<OutstandingDtoTotalsResult>()?.SingleOrDefault() ??
