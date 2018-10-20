@@ -36,6 +36,22 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("get-states")]
+        public IHttpActionResult GetStates()
+        {
+            try
+            {
+                var states = _clientDataProvider.Value.GetUsStates();
+                return Ok(states);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
         [HttpGet]
         [Route("get-user-data")]
         public IHttpActionResult GetClientData()

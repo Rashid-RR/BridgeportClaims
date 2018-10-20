@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
@@ -12,6 +13,9 @@ namespace BridgeportClaims.Data.DataProviders.Clients
     {
         private const string TypesQuery =
             "SELECT rt.ReferralTypeID ReferralTypeId, rt.TypeName FROM client.ReferralType AS rt";
+
+        private const string StatesQuery =
+            "SELECT u.StateID StateId, u.StateName FROM dbo.UsState AS u WHERE u.IsTerritory = 0";
 
         public void InsertReferral(ReferralDto referral) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
@@ -53,6 +57,16 @@ namespace BridgeportClaims.Data.DataProviders.Clients
                     conn.Open();
                 }
                 return conn.Query<ReferralTypeDto>(TypesQuery, commandType: CommandType.Text);
+            });
+
+        public IEnumerable<UsStateDto> GetUsStates() =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<UsStateDto>(StatesQuery, commandType: CommandType.Text)?.OrderBy(x => x.StateName);
             });
     }
 }
