@@ -16,7 +16,7 @@
     </section>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="!isClient">
   <div class="col-md-12 full-height">
     <div id="private-nav">
       <div class="row parallel">
@@ -44,19 +44,22 @@
               <ul class="status-in-word top" style="margin-top: 0px;">
                 <li class="outstanding" [style.margin-top.px]="-7" [style.padding-left.px]="((100-totalImagesIndexed)/100*imagesProgress.clientWidth)>170 ? (totalImagesIndexed/100*imagesProgress.clientWidth)+(totalImagesIndexed ==0 ? 12 : 0) : 0"
                   [style.padding-right.px]="((100-totalImagesIndexed)/100*imagesProgress.clientWidth)>170 ? 0: ((100-totalImagesIndexed)/100*imagesProgress.clientWidth)+12"
-                  [style.text-align]="((100-totalImagesIndexed)/100*imagesProgress.clientWidth)>170 ? 'left' : 'right'" [style.width.%]="100">
+                  [style.text-align]="((100-totalImagesIndexed)/100*imagesProgress.clientWidth)>170 ? 'left' : 'right'"
+                  [style.width.%]="100">
                   {{summary.totalImagesRemaining}} Unindexed Images
                 </li>
                 <li class="completed" style="visibility:hidden;"></li>
               </ul>
               <div class="progress" [style.margin-top.px]="3" #imagesProgress>
                 <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.px]="totalImagesIndexed/100*imagesProgress.clientWidth"
-                  [style.border-bottom-right-radius.px]="totalImagesIndexed>99.5 ? 7 : 0" [style.border-top-right-radius.px]="totalImagesIndexed>99.5 ? 7 : 0"
-                  [attr.aria-valuenow]="totalImagesIndexed" aria-valuemin="0" aria-valuemax="100">{{summary.totalImagesIndexed}}</div>
+                  [style.border-bottom-right-radius.px]="totalImagesIndexed>99.5 ? 7 : 0"
+                  [style.border-top-right-radius.px]="totalImagesIndexed>99.5 ? 7 : 0" [attr.aria-valuenow]="totalImagesIndexed"
+                  aria-valuemin="0" aria-valuemax="100">{{summary.totalImagesIndexed}}</div>
                 {{summary.totalImagesRemaining}}
               </div>
               <ul class="status-in-word  bottom">
-                <li class="completed" style="width:max-content">{{summary.totalImagesIndexed}} Images Indexed (total images out)</li>
+                <li class="completed" style="width:max-content">{{summary.totalImagesIndexed}} Images Indexed (total
+                  images out)</li>
                 <li class="outstanding" style="visibility:hidden" style="width:max-content"></li>
               </ul>
             </div>
@@ -92,8 +95,8 @@
                 <li class="completed" style="visibility:hidden;"></li>
               </ul>
               <div class="progress" [style.margin-top.px]="3" #diariesProgress>
-                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalDiariesResolved" [attr.aria-valuenow]="totalDiariesResolved"
-                  aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
+                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalDiariesResolved"
+                  [attr.aria-valuenow]="totalDiariesResolved" aria-valuemin="0" aria-valuemax="100">{{summary.totalDiariesResolved}}</div>
                 {{summary.totalDiariesResolved}}
               </div>
               <ul class="status-in-word bottom">
@@ -133,8 +136,9 @@
                 <li class="completed" style="visibility:hidden"></li>
               </ul>
               <div class="progress" #episodeProgres>
-                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalResolvedEpisodes" aria-valuenow="totalResolvedEpisodes"
-                  aria-valuemin="0" aria-valuemax="100" [style.border-bottom-right-radius.px]="totalResolvedEpisodes>99.5 ? 7 : 0"
+                <div class="progress-bar" role="progressbar" style="height: 25px;" [style.width.%]="totalResolvedEpisodes"
+                  aria-valuenow="totalResolvedEpisodes" aria-valuemin="0" aria-valuemax="100"
+                  [style.border-bottom-right-radius.px]="totalResolvedEpisodes>99.5 ? 7 : 0"
                   [style.border-top-right-radius.px]="totalResolvedEpisodes>99.5 ? 7 : 0">{{summary.totalResolvedEpisodes}}</div>
                 {{summary.totalUnresolvedEpisodes}}
               </div>
@@ -222,7 +226,7 @@
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
           <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="font-size:14pt;padding:0px;">
-              <br/>Windows File Watcher Service Status
+              <br />Windows File Watcher Service Status
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12  text-center">
               <img src="assets/filewatcher-sick.png" *ngIf="!summary.fileWatcherHealthy" class="img-sqaure" width="100px">
@@ -231,14 +235,23 @@
           </div>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 text-center" style="height:164px;padding-top:60px">
-            <img style="cursor:pointer;" [src]="over[0] ? 'assets/change-inv-amt-hover.png':'assets/change-inv-amt.png'" *ngIf="allowed" class="img-sqaure"  (mouseover)="over[0] = true" (mouseout)="over[0] = false" width="200px" (click)="search()">
+          <img style="cursor:pointer;" [src]="over[0] ? 'assets/change-inv-amt-hover.png':'assets/change-inv-amt.png'"
+            *ngIf="allowed" class="img-sqaure" (mouseover)="over[0] = true" (mouseout)="over[0] = false" width="200px"
+            (click)="search()">
         </div>
       </div>
     </div>
   </div>
 </div>
-<swal #searchSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="payment-modal search-modal" [focusCancel]="false"
-    title="Episode Entry">
-    <invoice-search-modal *swalPartial>
-    </invoice-search-modal>
-<swal>
+<ng-container *ngIf="isClient">
+  <div class="row">
+    <div class="col-md-12 full-height">
+      <app-client-view></app-client-view>
+    </div>
+  </div>
+</ng-container>
+<swal #searchSwal [showCancelButton]="false" [showConfirmButton]="false" customClass="payment-modal search-modal"
+  [focusCancel]="false" title="Episode Entry">
+  <invoice-search-modal *swalPartial>
+  </invoice-search-modal>
+  <swal>

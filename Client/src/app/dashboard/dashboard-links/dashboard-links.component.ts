@@ -63,11 +63,12 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     return this.sanitizer.bypassSecurityTrustStyle(style);
   }
   ngOnInit() {
-    this.http.getKPIs()
-      .subscribe((result: any) => {
-        this.summary = result;
-      }, err => null);
-
+    if (!this.isClient) {
+      this.http.getKPIs()
+        .subscribe((result: any) => {
+          this.summary = result;
+        }, () => null);
+    }
   }
 
   get totalImagesIndexed() {
@@ -137,5 +138,10 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     } else {
       return input;
     }
+  }
+
+  get isClient(): Boolean {
+    return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Client') > -1);
   }
 }

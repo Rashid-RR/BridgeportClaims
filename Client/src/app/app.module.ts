@@ -17,7 +17,6 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { AppLayoutComponent } from './layouts/app-layout.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 // end of layouts
-import { DashboardLinksComponent } from './pages/dashboard-links/dashboard-links.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { MainComponent } from './pages/main/main.component';
@@ -61,7 +60,6 @@ import { FirewallFilterComponent } from './components/firewall-filter/firewall-f
 import { FirewallGridComponent } from './components/firewall-grid/firewall-grid.component';
 import { AcquireEpisodeComponent } from './components/acquire-episode/acquire-episode.component';
 import { TestComponent } from './pages/test/test.component';
-import { NotificationComponent } from './components/notification/notification.component';
 import { OutstandingFilterComponent } from './components/outstanding-filter/outstanding-filter.component';
 import { OutstandingResultComponent } from './components/outstanding-result/outstanding-result.component';
 import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-outstanding.component';
@@ -79,11 +77,11 @@ import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-
     PasswordResetComponent,
     RegisterComponent,
     ClaimsComponent, ProfileComponent,
-    SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
+    SidebarComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
     ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
     ChangePasswordComponent, ConfirmEmailComponent, FileUploadComponent, FooterComponent,
     UnpaidScriptComponent, UnindexedImageComponent,
-    UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent, NotificationComponent, OutstandingFilterComponent, OutstandingResultComponent, ClaimOutstandingComponent
+    UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent, ClaimOutstandingComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,6 @@ import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
 import { AppLayoutComponent } from './layouts/app-layout.component';
 // end of layouts
 import { LoginComponent } from './pages/login/login.component';
-import { DashboardLinksComponent } from './pages/dashboard-links/dashboard-links.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { MainComponent } from './pages/main/main.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
@@ -66,7 +65,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
         children: [
-          { path: 'private', component: DashboardLinksComponent },
+          { path: 'private', loadChildren: './dashboard/dashboard.module#DashboardModule'  },
           { path: 'firewall', component: FirewallSettingsComponent },
           { path: 'profile', component: ProfileComponent },
           { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },

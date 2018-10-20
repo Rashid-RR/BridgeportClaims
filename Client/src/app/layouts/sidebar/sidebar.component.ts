@@ -61,5 +61,9 @@ export class SidebarComponent implements OnInit {
       }
     }
   }
+  get isClient(): Boolean {
+    return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Client') > -1);
+  }
 
 }

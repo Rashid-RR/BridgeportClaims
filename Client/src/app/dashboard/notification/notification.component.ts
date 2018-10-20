@@ -1,13 +1,7 @@
 import { SortColumnInfo } from "../../directives/table-sort.directive";
-import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
-import { ClaimManager } from "../../services/claim-manager";
+import { Component, OnInit} from '@angular/core';
 import { HttpService } from "../../services/http-service";
-import { Payment } from "../../models/payment";
-import { EventsService } from "../../services/events-service";
-import { DatePipe, DecimalPipe } from '@angular/common';
-import { ConfirmComponent } from '../confirm.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { DialogService } from "ng2-bootstrap-modal";
+import { FormBuilder,  FormGroup, Validators } from "@angular/forms";
 import { ToastsManager } from 'ng2-toastr';
 import { ProfileManager } from "../../services/profile-manager";
 declare var $: any;
@@ -25,14 +19,9 @@ export class NotificationComponent implements OnInit {
   form: FormGroup;
   notifications: Array<any> = [];
   constructor(
-    private rd: Renderer2, private ngZone: NgZone,
-    private dp: DatePipe,
     private formBuilder: FormBuilder,
-    private events: EventsService,
-    private dialogService: DialogService,
     private profileManager: ProfileManager,
     private toast: ToastsManager,
-    private decimalPipe: DecimalPipe,
     private http: HttpService
   ) {
     this.form = this.formBuilder.group({
@@ -54,9 +43,6 @@ export class NotificationComponent implements OnInit {
   update(payment: any) {
     this.editing = true;
     this.editingNotificationId = payment.notificationId
-    let checkAmt = Number(payment.checkAmt).toFixed(2);
-    let postedDate = this.dp.transform(payment.postedDate, "shortDate");
-    let rxDate = this.dp.transform(payment.rxDate, "shortDate");
     this.form = this.formBuilder.group({
       letterName: [null,Validators.required],
       notificationId: [payment.notificationId,Validators.required],
@@ -80,7 +66,7 @@ export class NotificationComponent implements OnInit {
             }
           }
           this.cancel();
-      },error=>{                          
+      },()=>{                          
         this.toast.error('Could not update letter name');
         this.loadingNotification = false;
       });
@@ -111,7 +97,7 @@ export class NotificationComponent implements OnInit {
       .subscribe((result: any) => {
         this.loadingNotification = false;
         this.notifications = result;
-      }, err => {        
+      }, () => {        
           this.loadingNotification = false;
       });
   }

@@ -18,6 +18,10 @@
           <span>Dashboard</span>
         </a>
       </li>
+      <ng-container *ngIf="isClient">
+
+      </ng-container>
+      <ng-container *ngIf="!isClient">
       <li [class.active]="router.url.indexOf('/main/claims')>-1" (click)="claimsActive()">
         <a [class.disabled]="disableLinks">
           <img style='width: 25px;' src="assets/img/Claims.png">
@@ -110,6 +114,7 @@
             <img src="assets/img/ajax-loader.gif">
           </a>
         </li>
+      </ng-container>
       </ng-container>
     </ul>
   </section>

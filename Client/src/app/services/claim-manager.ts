@@ -66,26 +66,31 @@ export class ClaimManager {
       return input;
     }
   }
+  get isClient(): Boolean {
+    return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Client') > -1);
+  }
   constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService, private events: EventsService,
     private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder, private profileManager: ProfileManager,
-    private dialogService: DialogService) {
-    this.getHistory();
-    this.events.on('loadHistory', () => {
+    private dialogService: DialogService) {          
+      this.episodeForm = this.formBuilder.group({
+        //episodeId: [undefined], // only send on episode edit
+        claimId: [null, Validators.required],
+        rxNumber: [null],
+        pharmacyNabp: [null],
+        episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
+        episodeTypeId: ["1"]
+      });
+      this.events.on('loadHistory', () => {
+        if (!this.isClient) {this.getHistory();}
+      });
+      if (!this.isClient) {
       this.getHistory();
-    });
-    this.events.on('clear-claims', (status: boolean) => {
-      this.selected = undefined;
-      this.claims = Immutable.OrderedMap<Number, Claim>();
-    });
-
-    this.episodeForm = this.formBuilder.group({
-      //episodeId: [undefined], // only send on episode edit
-      claimId: [null, Validators.required],
-      rxNumber: [null],
-      pharmacyNabp: [null],
-      episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
-      episodeTypeId: ["1"]
-    });
+      }
+      this.events.on('clear-claims', (status: boolean) => {
+        this.selected = undefined;
+        this.claims = Immutable.OrderedMap<Number, Claim>();
+      }); 
   }
 
   closeModal() {
@@ -231,7 +236,7 @@ export class ClaimManager {
             }
             this.claims = this.claims.set(claim.claimId, c);
           })
-        } else/*   if(result.name) */ {
+        } else {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorFaxNumber
