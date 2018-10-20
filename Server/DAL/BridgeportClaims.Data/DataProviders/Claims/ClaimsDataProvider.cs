@@ -162,6 +162,12 @@ namespace BridgeportClaims.Data.DataProviders.Claims
                         totalPayableAmount = payments.Sum(s => s.PayableAmount);
                         claimDto.Payments = payments;
                     }
+                    // Outstanding
+                    var outstanding = GetOutstanding(claimId, 1, ic.MaxRowCountForBladeInApp, "RxDate", "ASC");
+                    if (null != outstanding)
+                    {
+                        claimDto.Outstanding = outstanding;
+                    }
                     // Episodes Types
                     var episodeTypes = _episodesDataProvider.Value?.GetEpisodeTypes();
                     if (null != episodeTypes)
