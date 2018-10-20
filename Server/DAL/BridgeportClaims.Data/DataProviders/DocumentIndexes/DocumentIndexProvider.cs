@@ -3,6 +3,7 @@ using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
@@ -202,6 +203,21 @@ namespace BridgeportClaims.Data.DataProviders.DocumentIndexes
                         throw new Exception("Error, could not retrieve the value of the output parameter");
                     return retVal as bool? ?? false;
                 });
+            });
+
+        public void InsertCheckIndex(int documentId, string checkNumber, string userId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                var ps = new DynamicParameters();
+                ps.Add("@DocumentID", documentId, DbType.Int32);
+                ps.Add("@ModifiedByUserID", userId, DbType.String, size: 128);
+                ps.Add("@CheckNumber", checkNumber, DbType.AnsiString, size: 100);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                conn.Execute("[dbo].[uspCheckIndexInsert]", ps,
+                    commandType: CommandType.StoredProcedure);
             });
     }
 }

@@ -20,7 +20,6 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         public DateTime InjuryDate { get; set; }
         public string Notes { get; set; }
-        [Required]
         public string ReferredBy { get; set; }
         [Required]
         public DateTime ReferralDate { get; set; }

@@ -31,10 +31,11 @@ AS BEGIN
 		SET @SortColumn = 'RxDate';
 	IF @SortDirection IS NULL
 		SET @SortDirection = 'DESC';
-	DECLARE @MI        INT				= dbo.udfGetStateIDByCode('MI')
-		  , @LocalDate DATE				= CONVERT(DATE, [dtme].[udfGetLocalDate]())
-		  , @NonMichiganThreshold INT	= 45
-		  , @MichiganThreshold INT		= 60;
+	DECLARE @MI        INT						= dbo.udfGetStateIDByCode('MI')
+		  , @LocalDate DATE						= CONVERT(DATE, [dtme].[udfGetLocalDate]())
+		  , @NonMichiganThreshold INT			= 45
+		  , @MichiganThreshold INT				= 60
+		  , @MinimumOutstandingBalance MONEY	= 4.02;
 
 	CREATE TABLE #Outstanding
 	(
@@ -119,6 +120,7 @@ AS BEGIN
           ,u.NoteCount
 	FROM   #Outstanding AS u
 	WHERE  ((u.AmountPaid < (u.InvAmt * 0.75)) OR u.InvAmt = 0)
+			AND u.Outstanding >= @MinimumOutstandingBalance;
 
 	DECLARE @TotalRows INTEGER,	@TotalOutstanding MONEY;
 	SELECT @TotalRows = COUNT(*) FROM #OutstandingFiltered;
@@ -191,4 +193,5 @@ AS BEGIN
 	SELECT @TotalRows TotalRows, @TotalOutstanding TotalOutstanding
 
 END
+
 GO

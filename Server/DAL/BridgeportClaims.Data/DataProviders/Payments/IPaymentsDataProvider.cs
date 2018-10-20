@@ -16,7 +16,5 @@ namespace BridgeportClaims.Data.DataProviders.Payments
             string lastName, DateTime? rxDate, string invoiceNumber);
         IEnumerable<byte> GetBytesFromDb(string fileName);
         void ImportDataTableIntoDb(DataTable dt);
-        PostPaymentReturnDto PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
-            decimal checkAmount, decimal amountSelected, decimal amountToPost, int documentId);
     }
 }

@@ -68,6 +68,33 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("index-check")]
+        public IHttpActionResult IndexCheckDocument(int documentId, string checkNumber)
+        {
+            try
+            {
+                const int i = default(int);
+                if (i == documentId)
+                {
+                    throw new Exception($"Invalid document Id: {i}");
+                }
+                if (checkNumber.IsNullOrWhiteSpace())
+                {
+                    throw new Exception("Cannot have a null or empty or white space checkNumber.");
+                }
+                var userId = User.Identity.GetUserId();
+                _documentIndexProvider.Value.InsertCheckIndex(documentId, checkNumber, userId);
+                var msg = $"The check # {checkNumber} was indexed successfully.";
+                return Ok(new {message = msg});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
         [Route("save")]
         public IHttpActionResult SaveDocumentIndex(DocumentIndexViewModel model)
         {

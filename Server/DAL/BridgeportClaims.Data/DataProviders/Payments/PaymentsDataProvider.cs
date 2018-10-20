@@ -66,7 +66,7 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     cmd.Parameters.Add(toSuspenseNoteTextParam);
                     var documentIdParam = cmd.CreateParameter();
                     documentIdParam.Direction = ParameterDirection.Input;
-                    documentIdParam.Value = (object) documentId ?? DBNull.Value;
+                    documentIdParam.Value = documentId;
                     documentIdParam.DbType = DbType.Int32;
                     documentIdParam.SqlDbType = SqlDbType.Int;
                     documentIdParam.ParameterName = "@DocumentID";
@@ -167,59 +167,5 @@ namespace BridgeportClaims.Data.DataProviders.Payments
                     cmd.ExecuteNonQuery();
                 });
         });
-
-        private static DynamicParameters PrepareParameters(IEnumerable<int> prescriptionIds, string checkNumber,
-            decimal checkAmount, decimal amountSelected, decimal amountToPost, int documentId)
-        {
-            var ps = new DynamicParameters();
-            var dt = CreateDataTable(prescriptionIds);
-            ps.Add("@PrescriptionIDs", dt.AsTableValuedParameter(s.UdtId));
-            ps.Add("@DocumentID", documentId, DbType.Int32);
-            ps.Add("@CheckNumber", checkNumber, DbType.AnsiString, size: 50);
-            ps.Add("@CheckAmount", checkAmount, DbType.Decimal);
-            ps.Add("@AmountSelected", amountSelected, DbType.Decimal);
-            ps.Add("@AmountToPost", amountToPost, DbType.Decimal);
-            return ps;
-        }
-
-        public PostPaymentReturnDto PostPayment(IEnumerable<int> prescriptionIds, string checkNumber,
-            decimal checkAmount, decimal amountSelected, decimal amountToPost, int documentId)
-        {
-            var postPaymentReturnDto = new PostPaymentReturnDto();
-            var ps = PrepareParameters(prescriptionIds, checkNumber, checkAmount, amountSelected, amountToPost, documentId);
-            return DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                const string sp = "[dbo].[uspPostPayment]";
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                var multi = conn.QueryMultiple(sp, ps, commandTimeout: 180, commandType: CommandType.StoredProcedure);
-                var postPaymentPrescriptionReturnDto = multi.Read<PostPaymentPrescriptionReturnDto>()?.ToList() ?? new List<PostPaymentPrescriptionReturnDto>();
-                var postPaymentPrescriptionDocumentDto = multi.Read<PostPaymentPrescriptionDocumentDto>()?.SingleOrDefault() ?? new PostPaymentPrescriptionDocumentDto();
-                postPaymentReturnDto.PostPaymentPrescriptionReturnDtos.AddRange(postPaymentPrescriptionReturnDto);
-                postPaymentReturnDto.DocumentId = postPaymentPrescriptionDocumentDto.DocumentId;
-                postPaymentReturnDto.FileName = postPaymentPrescriptionDocumentDto.FileName;
-                postPaymentReturnDto.FileUrl = postPaymentPrescriptionDocumentDto.FileUrl;
-                // TODO: Get rid of all of this shit.
-                // postPaymentPrescriptionDocumentDto.AmountRemaining;
-                // const NumberStyles style = NumberStyles.AllowThousands | NumberStyles.AllowDecimalPoint;
-                // var culture = CultureInfo.CreateSpecificCulture("en-US");
-                // decimal.TryParse(amtRemaining.ToString(CultureInfo.InvariantCulture), style, culture, out var d) ? d : default;
-                postPaymentReturnDto.AmountRemaining = postPaymentPrescriptionDocumentDto.AmountRemaining;
-                return postPaymentReturnDto;
-            });
-        }
-
-        private static DataTable CreateDataTable(IEnumerable<int> ids)
-        {
-            var table = new DataTable();
-            table.Columns.Add("ID", typeof(int));
-            foreach (var id in ids)
-            {
-                table.Rows.Add(id);
-            }
-            return table;
-        }
     }
 }
