@@ -10,7 +10,6 @@ import { PasswordResetComponent } from './pages/password-reset/password-reset.co
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 import { Error404Component } from './pages/error404/error404.component';
 import { PayorsComponent } from './pages/payors/payors.component';
-import { UsersComponent } from './pages/users/users.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
 import { AuthGuard } from './services/services.barrel';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -77,7 +76,7 @@ export const routes: Routes = [
           { path: 'unindexed-images', component: UnindexedImageComponent, },
           { path: 'unindexed-images/:date', component: UnindexedImageComponent, },
           { path: 'unpaid-scripts', component: UnpaidScriptComponent },
-          { path: 'users', component: UsersComponent },
+          { path: 'users', loadChildren: './user/user.module#UserModule' },
           { path: 'claims', component: ClaimsComponent },
           { path: 'payments', loadChildren: './payment/payment.module#PaymentModule' },
           { path: 'fileupload', component: FileUploadComponent },

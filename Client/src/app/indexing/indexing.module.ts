@@ -15,7 +15,6 @@ import { UnindexedInvoiceFilterComponent } from './unindexed-invoice-filter/unin
 import { UnindexedInvoiceFileListComponent } from './unindexed-invoice-file-list/unindexed-invoice-file-list.component';
 
 import { IndexFileComponent } from './index-file/index-file.component';
-import { ShContextMenuModule } from 'ng2-right-click-menu';
 import { ImagesInvoiceComponent } from './images-invoice/images-invoice.component';
 import { SharedModule } from '../shared';
 import { UnindexedCheckComponent } from './unindexed-check/unindexed-check.component';

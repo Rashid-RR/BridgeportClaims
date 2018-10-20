@@ -10,6 +10,7 @@ export class User {
         email: String;
         emailConfirmed: Boolean;
         roles: String;
+        client: boolean;
         admin: boolean;
         user: boolean;
         indexer: boolean;

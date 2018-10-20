@@ -7,7 +7,7 @@ import { ShContextMenuModule } from 'ng2-right-click-menu';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
 import { AutoCompleteModule } from '../auto-complete';
 import { WindowsInjetor, WindowBackdrop, BootstrapWindowContainer } from '../components/ng-window';
-import { FilterUserPipe } from '../pages/users/filter-user.pipe';
+import { FilterUserPipe } from '../user/list/filter-user.pipe';
 import { DiariesFilterPipe } from '../diaries/diary-results/diary-filter.pipe';
 import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
 import {

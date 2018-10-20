@@ -81,6 +81,7 @@
                                         <th>Email Confirmed</th>
                                         <th>Registered Date</th>
                                         <th>Extension</th>
+                                        <th>Client</th>
                                         <th>Indexer</th>
                                         <th>Admin</th>
                                     </tr>
@@ -100,6 +101,12 @@
                                             <td>{{user.emailConfirmed}}</td>
                                             <td class="center">{{user.registeredDate | date:"shortDate"}}</td>                                            
                                             <td>{{user.extension}}</td>
+                                            <td class="center-in">
+                                                <label class="checkboxFive">
+                                                    <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.client" (ngModelChange)="showRoleConfirm(i,clientRole,$event)">
+                                                    <div for="checkboxFiveInput"></div>
+                                                </label>
+                                            </td>
                                             <td class="center-in">
                                                 <label class="checkboxFive">
                                                     <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.indexer" (ngModelChange)="showRoleConfirm(i,indexerRole,$event)"

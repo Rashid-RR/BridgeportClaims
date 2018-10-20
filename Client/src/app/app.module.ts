@@ -42,7 +42,6 @@ import { ClaimPrescriptionsComponent } from './components/claim-prescriptions/cl
 import { ClaimNoteComponent } from './components/claim-note/claim-note.component';
 import { ClaimEpisodeComponent } from './components/claim-episode/claim-episode.component';
 import { ClaimScriptNoteComponent } from './components/claim-script-note/claim-script-note.component';
-import { UsersComponent } from './pages/users/users.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FooterComponent } from './layouts/footer/footer.component';
@@ -82,7 +81,7 @@ import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-
     ClaimsComponent, ProfileComponent,
     SidebarComponent, DashboardLinksComponent, PayorsComponent, ClaimSearchComponent, ClaimResultComponent, ClaimPaymentComponent,
     ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
-    UsersComponent, ChangePasswordComponent, ConfirmEmailComponent, FileUploadComponent, FooterComponent,
+    ChangePasswordComponent, ConfirmEmailComponent, FileUploadComponent, FooterComponent,
     UnpaidScriptComponent, UnindexedImageComponent,
     UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent, NotificationComponent, OutstandingFilterComponent, OutstandingResultComponent, ClaimOutstandingComponent
   ],
