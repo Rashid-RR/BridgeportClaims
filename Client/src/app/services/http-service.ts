@@ -28,8 +28,11 @@ export class HttpService {
   setAuth(auth: String) {
     this.token = auth;
   }
-  login(data, headers): Observable<any> {
+  login(data:any, headers:any): Observable<any> {
     return this.http.post('/oauth/token', data, { headers: headers })
+  }
+  insertReferral(data): Observable<any> {
+    return this.http.post(this.baseUrl +'/client/insert-referral', data)
   }
 
   logout(): Observable<any> {

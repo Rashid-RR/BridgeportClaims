@@ -22,11 +22,24 @@ export class ReferralDefaultComponent implements OnInit {
     private toast: ToastsManager
   ) {
     this.form = this.formBuilder.group({
-      firstname: ['', Validators.compose([Validators.required])],
-      lastname: ['', Validators.compose([Validators.required])],
-      Email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],
-      Password: ["", Validators.compose([Validators.required])],
-      ConfirmPassword: ["", Validators.compose([Validators.required])]
+        claimNumber: ['', Validators.compose([Validators.required])],
+        jurisdictionStateId: ['', Validators.compose([Validators.required])],
+        lastName: ['', Validators.compose([Validators.required])],
+        firstName: ['', Validators.compose([Validators.required])],
+        dateOfBirth: ['', Validators.compose([Validators.required])],
+        injuryDate: ['', Validators.compose([Validators.required])],
+        notes: ['', Validators.compose([Validators.required])],
+        referralTypeId: ['', Validators.compose([Validators.required])],
+        eligibilityStart: ['', Validators.compose([Validators.required])],
+        eligibilityEnd: ['', Validators.compose([Validators.required])],
+        address1: ['', Validators.compose([Validators.required])],
+        address2: ['', Validators.compose([Validators.required])],
+        city: ['', Validators.compose([Validators.required])],
+        stateId: ['', Validators.compose([Validators.required])],
+        postalCode: ['', Validators.compose([Validators.required])],
+        patientPhone: ['', Validators.compose([Validators.required])],
+        adjustorName: ['', Validators.compose([Validators.required])],
+        adjustorPhone: ['', Validators.compose([Validators.required])]
     });
   }
 
@@ -42,7 +55,7 @@ export class ReferralDefaultComponent implements OnInit {
     if (this.form.valid) {
       this.submitted = true;
       try {
-        this.http.register(this.form.value).subscribe(res => {
+        this.http.insertReferral(this.form.value).subscribe(res => {
           this.toast.success("You have registered successfully. Now, please check your email to confirm it before logging in...", null,
             { toastLife: 10000 });
           this.registered = true

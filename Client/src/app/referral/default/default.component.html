@@ -1,81 +1,170 @@
 <div class="row">
-    <div class="col-md-12">
-        <section class="content-header">
-            <ol class="breadcrumb pull-left">
-                <li>
-                    <a routerLink="/">
-                        <i class="fa fa-home"></i> Home
-                    </a>
-                </li>
-                <li class="active">
-                    <a [routerLink]="[]">
-                        Register
-                    </a>
-                </li>
-            </ol>
-        </section>
-    </div>
+  <div class="col-md-12">
+    <section class="content-header">
+      <ol class="breadcrumb pull-left">
+        <li>
+          <a routerLink="/">
+            <i class="fa fa-home"></i> Home
+          </a>
+        </li>
+        <li class="active">
+          <a [routerLink]="[]">
+            Referral
+          </a>
+        </li>
+      </ol>
+    </section>
+  </div>
 </div>
 <div class="box no-border">
-    <div class="box-body">
-        <div class="row" *ngIf="!registered">
-            <div class="col-lg-12">
-                <div class="box center-form no-border">
-                    <div class="box-body">
-                        <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
-                            <h4>Please complete form to register</h4>
-                            <div class="form-group">
-                                <input class="form-control" name="Email" class="form-control" placeholder="Email address" formControlName="Email" (focus)="submitted=false">
-                                <p class="text-danger form-control-static" *ngIf="form.get('Email').errors && submitted">Email is required</p>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" name="firstname" class="form-control" placeholder="Firstname" formControlName="firstname" (focus)="submitted=false">
-                                <p class="text-danger form-control-static" *ngIf="form.get('firstname').errors && submitted">Firstname is required</p>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" name="lastname" class="form-control" placeholder="Lastname" formControlName="lastname" (focus)="submitted=false">
-                                <p class="text-danger form-control-static" *ngIf="form.get('lastname').errors && submitted">Lastname is required</p>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="Password" class="form-control bottom" placeholder="Password" formControlName="Password" required
-                                    (focus)="submitted=false">
-                                <p class="text-danger form-control-static" *ngIf="form.get('Password').errors && submitted">
-                                    {{this.form.get('Password').getError('required') ? 'Password is required': 'Password validation creteria'}}
-                                </p>
-                            </div>
-                            <div class="form-group">
-                                <input type="password" name="password" class="form-control bottom" placeholder="Repeat password" formControlName="ConfirmPassword"
-                                    required (focus)="submitted=false">
-                                <p class="text-danger form-control-static" *ngIf="form.get('ConfirmPassword').errors && submitted">
-                                    Repeated password does not match password entry
-                                </p>
-                            </div>
-                            <div class="form-group">
-                                <span class="help-block">
-                                    <a [routerLink]="'/recover-lost-password'">Forgotten password?</a>
-                                </span>
-                            </div>
-                            <button class="btn btn-primary btn-block" type="submit" (click)="register()">Register</button>
-                        </form>
-                    </div>
+  <div class="box-body" style=" height: 80vh; overflow-y: auto; padding: 15px 70px; ">
+    <h3 style="text-decoration: underline;font-size: 24px;">Referral Input page</h3>
+    <div class="row" *ngIf="!registered">
+      <div class="col-lg-12">
+        <div class="box center-form no-border">
+          <div class="box-body">
+            <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
+              <h4>Please complete as many of the following fields as possble. In the Notes box, please enter any
+                special requirements you would linke Bridgeport to apply to this claim (e.g. specific drugs or doctors
+                that are excluded or included).</h4>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <label>Claim #:</label>
+                  <input class="form-control" name="claimNumber" class="form-control" placeholder="Claim #"
+                    formControlName="claimNumber">
+                  <p class="text-danger form-control-static" *ngIf="form.get('claimNumber').errors && submitted">Claim # is required</p>
                 </div>
-            </div>
-        </div>
-        <div class="row" *ngIf="registered">
-            <div class="row">
-                <div class="col-md-12">&nbsp;</div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 col-md-offset-4">
-                    <div class="alert alert-success">
-                        <strong>Success!</strong> An email has been sent for you to verifiy your email address.
-                    </div>
+                <div class="form-group col-sm-7">
+                  <label>Street Address:</label>
+                  <input class="form-control" name="StreetAddress" class="form-control" placeholder="Street Address"
+                    formControlName="address1">
+                  <p class="text-danger form-control-static" *ngIf="form.get('address1').errors && submitted">Street Address is required</p>
                 </div>
-            </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <label>First Name:</label>
+                  <input class="form-control" placeholder="First Name"
+                    formControlName="firstName">
+                  <p class="text-danger form-control-static" *ngIf="form.get('firstName').errors && submitted">First Name is required</p>
+                </div>
+                <div class="form-group col-sm-7">
+                  <label>Address 2:</label>
+                  <input class="form-control" placeholder="Address 2"
+                    formControlName="address2">
+                  <p class="text-danger form-control-static" *ngIf="form.get('address2').errors && submitted">Address 2 is required</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <label>Last Name:</label>
+                  <input class="form-control" placeholder="Last Name"
+                    formControlName="lastName">
+                  <p class="text-danger form-control-static" *ngIf="form.get('lastName').errors && submitted">Last Name is required</p>
+                </div>
+                <div class="form-group col-sm-7">
+                  <label>City:</label>
+                  <input class="form-control" placeholder="City"
+                    formControlName="city">
+                  <p class="text-danger form-control-static" *ngIf="form.get('city').errors && submitted">City is required</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <label>Date of Birth:</label>
+                  <input class="form-control" name="claimNumber" class="form-control" placeholder="Date of Birth"
+                    formControlName="dateOfBirth">
+                  <p class="text-danger form-control-static" *ngIf="form.get('dateOfBirth').errors && submitted">Date of Birth is required</p>
+                </div>
+                <div class="form-group col-sm-2">
+                  <label>Sate:</label>
+                  <input class="form-control" placeholder="State"
+                    formControlName="stateId">
+                  <p class="text-danger form-control-static" *ngIf="form.get('stateId').errors && submitted">State is required</p>
+                </div>
+                <div class="form-group col-sm-5">
+                  <label>Zip:</label>
+                  <input class="form-control" placeholder="Zip"
+                    formControlName="postalCode">
+                  <p class="text-danger form-control-static" *ngIf="form.get('postalCode').errors && submitted">Zip Code is required</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <label>Injury Date:</label>
+                  <input class="form-control" placeholder="Injury Date"
+                    formControlName="injuryDate" id="injuryDate">
+                  <p class="text-danger form-control-static" *ngIf="form.get('injuryDate').errors && submitted">Injury Date is required</p>
+                </div>
+                <div class="form-group col-sm-7">
+                  <label>Phone:</label>
+                  <input class="form-control" placeholder="Patient Phone Number"
+                    formControlName="patientPhone">
+                  <p class="text-danger form-control-static" *ngIf="form.get('patientPhone').errors && submitted">Patient Phone Number is required</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <label>Jurisdiction State:</label>
+                  <input class="form-control" placeholder="Injury Date"
+                    formControlName="injuryDate" id="injuryDate">
+                  <p class="text-danger form-control-static" *ngIf="form.get('injuryDate').errors && submitted">Injury Date is required</p>
+                </div>
+                <div class="form-group col-sm-7">
+                  <label>Adjustor Name:</label>
+                  <input class="form-control" placeholder="Adjustor Name"
+                    formControlName="adjustorName">
+                  <p class="text-danger form-control-static" *ngIf="form.get('adjustorName').errors && submitted">Patient Phone Number is required</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <label>Eligibility Start:</label>
+                  <input class="form-control" placeholder="Eligibility Start"
+                    formControlName="eligibilityStart" id="eligibilityStart">
+                  <p class="text-danger form-control-static" *ngIf="form.get('eligibilityStart').errors && submitted">Eligibility Start is required</p>
+                </div>
+                <div class="form-group col-sm-7">
+                  <label>Adjustor Phone:</label>
+                  <input class="form-control" placeholder="Adjustor Phone Number"
+                    formControlName="adjustorPhone">
+                  <p class="text-danger form-control-static" *ngIf="form.get('adjustorPhone').errors && submitted">Adjustor Phone Number is required</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-sm-5">
+                  <label>Eligibility end:</label>
+                  <input class="form-control" placeholder="Eligibility End"
+                    formControlName="eligibilityEnd" id="eligibilityEnd">
+                  <p class="text-danger form-control-static" *ngIf="form.get('eligibilityEnd').errors && submitted">Eligibility End is required</p>
+                </div>
+                <div class="form-group col-sm-7">
+                  <label>Any special handling instruction:</label>
+                  <textarea formControlName="notes" class="form-control"></textarea>
+                  <p class="text-danger form-control-static" *ngIf="form.get('notes').errors && submitted">Adjustor Phone Number is required</p>
+                </div>
+              </div>
+              <button class="btn btn-primary pull-right" type="submit" (click)="register()">Submit</button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-    <div class="overlay" *ngIf="submitted" style="text-align:center;">
-        <img src="assets/1.gif">
-        <br/>
+    <div class="row" *ngIf="registered">
+      <div class="row">
+        <div class="col-md-12">&nbsp;</div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-4">
+          <div class="alert alert-success">
+            <strong>Success!</strong> An email has been sent for you to verifiy your email address.
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+  <div class="overlay" *ngIf="submitted" style="text-align:center;">
+    <img src="assets/1.gif">
+    <br />
+  </div>
 </div>
