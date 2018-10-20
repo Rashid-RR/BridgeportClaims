@@ -414,8 +414,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       prescriptionNoteTypeIds = prescriptionNoteTypeIds + '<option value="' + note.prescriptionNoteTypeId + '"' + (note.prescriptionNoteTypeId == TypeId ? 'selected' : '') + '>' + note.typeName + '</option>';
     });
     let selectedPrecriptions = '';
-    const checkboxes = $('.outstandingCheck');
-    this.claimManager.outstanding.forEach(c => {
+    this.claimManager.selectedClaim.outstanding.forEach(c => {
       if (c.selected) {
         selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex;font-size:11pt;">' + c.labelName + '</span> &nbsp; ';
         selectedNotes.push(Number(c.prescriptionId));
@@ -507,7 +506,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                 prescriptionNoteId: prescriptionNoteId
               }).single().subscribe(res => {
                 const result = res;
-                this.claimManager.outstanding.forEach(c => {
+                this.claimManager.selectedClaim.outstanding.forEach(c => {
                   if (c.selected) {
                     c.noteCount = (c.noteCount || 0) + 1;
                   }
@@ -578,7 +577,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         // console.log("Awaiting API to remove");
       });
     } else {
-      this.claimManager.outstanding && this.claimManager.outstanding.length > 0 ?
+      this.claimManager.selectedClaim.outstanding && this.claimManager.selectedClaim.outstanding.length > 0 ?
         this.toast.warning('Please select at least one prescription.') :
         this.toast.warning('No prescriptions are present to save a prescription note.');
     }

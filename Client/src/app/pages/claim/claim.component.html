@@ -299,15 +299,15 @@
                                     <span class="totalOutstanding">
                                         Total Outstanding:
                                         <span style="font-size:13pt">
-                                            {{claimManager.totalOutstandingAmount | currency:'USD':true:'1.2-2'}}
+                                            {{claimManager.selectedClaim.totalOutstandingAmount | currency:'USD':true:'1.2-2'}}
                                         </span>
                                     </span>
                                 </span>
                                 <span class="tally pull-right" *ngIf="claimManager.selectedClaim" style="margin-right:180px;">
                                     <span>
                                         <span style="font-size:13pt">
-                                            {{claimManager.numberOutstanding}}
-                                        </span> Record{{claimManager.numberOutstanding > 1 ? 's':''}}
+                                            {{claimManager.selectedClaim.numberOutstanding}}
+                                        </span> Record{{claimManager.selectedClaim.numberOutstanding > 1 ? 's':''}}
                                     </span>
                                 </span>
                                 <div class="box-tools pull-right">

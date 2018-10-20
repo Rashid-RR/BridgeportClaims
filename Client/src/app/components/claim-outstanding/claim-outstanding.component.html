@@ -61,8 +61,8 @@
               </a>
             </div>
           </ng-container>
-          <ng-container *ngIf="claimManager.outstanding">
-            <tr *ngFor="let prescription of claimManager.outstanding;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json"
+          <ng-container *ngIf="claimManager.selectedClaim.outstanding">
+            <tr *ngFor="let prescription of claimManager.selectedClaim.outstanding;let i=index;" [id]="'row'+i" [attr.prescription]="prescription | json"
             (click)="setSelected(prescription,prescription.selected)" [class.isReversed]="prescription.isReversed" [class.bgBlue]="prescription.selected">
               <td>
                 <div class="commonCheckBox">

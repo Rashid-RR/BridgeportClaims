@@ -40,6 +40,10 @@ export class Claim {
     genderId: number;
     claimFlex2Id: number;
     isMaxBalance:boolean;
+    totalOutstandingAmount:number;
+    numberOutstanding:number
+    loadingOutstanding:boolean=false
+    outstanding:Array<Prescription> = [];
     private prescription: Array<Prescription> = [];
     private prescriptionNote: Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();
     private payment: Array<Payment> = [];

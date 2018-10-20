@@ -30,12 +30,12 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
     private http: HttpService
   ) {
     this.claimManager.onClaimIdChanged.subscribe(() => {
-      this.fetchData();
+      //this.fetchData();
     });
   }
 
   ngOnInit() {
-    this.fetchData();
+    //this.fetchData();
     this.events.on('claim-updated', () => {
 
     });
@@ -140,8 +140,8 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
   }
 
   fetchData() {
-    if (!this.claimManager.loadingOutstanding) {
-      this.claimManager.loadingOutstanding = true;
+    if (!this.claimManager.selectedClaim.loadingOutstanding) {
+      this.claimManager.selectedClaim.loadingOutstanding = true;
       const page = 1;
       const page_size = 1000;
       let sort = 'rxDate';
@@ -153,12 +153,12 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
       this.http.getOutstandingPrescriptions(this.claimManager.selectedClaim.claimId, sort, sort_dir,
         page, page_size)
         .subscribe(data => {
-          this.claimManager.outstanding = data.results;
-          this.claimManager.totalOutstandingAmount = data.totalOutstandingAmount;
-          this.claimManager.numberOutstanding = data.totalRows;
-          this.claimManager.loadingOutstanding = false;
+          this.claimManager.selectedClaim.outstanding = data.results;
+          this.claimManager.selectedClaim.totalOutstandingAmount = data.totalOutstandingAmount;
+          this.claimManager.selectedClaim.numberOutstanding = data.totalRows;
+          this.claimManager.selectedClaim.loadingOutstanding = false;
         }, () => {
-          this.claimManager.loadingOutstanding = false;
+          this.claimManager.selectedClaim.loadingOutstanding = false;
         });
     }
   }
@@ -176,7 +176,7 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
         try {
           const p = jQuery('#row' + i).attr('prescription');
           const prescription = JSON.parse(p);
-          const data = this.claimManager.outstanding.find(pres =>
+          const data = this.claimManager.selectedClaim.outstanding.find(pres =>
             pres.prescriptionId == prescription.prescriptionId);
           data.selected = true;
         } catch (e) { }
@@ -194,11 +194,11 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
   selectAllCheckBox($event) {
     this.checkAll = $event.target.checked;
     if (this.checkAll) {
-      this.claimManager.outstanding.forEach(c => {
+      this.claimManager.selectedClaim.outstanding.forEach(c => {
         c.selected = true;
       });
     } else {
-      this.claimManager.outstanding.forEach(c => {
+      this.claimManager.selectedClaim.outstanding.forEach(c => {
         c.selected = false;
       });
       this.uncheckMain();

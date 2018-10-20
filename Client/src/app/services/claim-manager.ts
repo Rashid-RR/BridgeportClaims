@@ -4,7 +4,7 @@ import { Claim } from '../models/claim';
 import { Prescription } from '../models/prescription';
 import { ClaimNote } from '../models/claim-note';
 import { PrescriptionNoteType } from '../models/prescription-note-type';
-import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EpisodeNoteType } from '../models/episode-note-type';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
@@ -53,9 +53,6 @@ export class ClaimManager {
   isImagesExpanded: boolean;
   activeToast: Toast;
   episodeForm: FormGroup;
-  totalOutstandingAmount:any;
-  numberOutstanding:number;
-  outstanding:Prescription[]=[];
   get selectedClaims() {
     return this.comparisonClaims.toArray();
   }
@@ -70,7 +67,7 @@ export class ClaimManager {
     }
   }
   constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService, private events: EventsService,
-    private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder,private profileManager:ProfileManager,
+    private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder, private profileManager: ProfileManager,
     private dialogService: DialogService) {
     this.getHistory();
     this.events.on('loadHistory', () => {
@@ -80,7 +77,7 @@ export class ClaimManager {
       this.selected = undefined;
       this.claims = Immutable.OrderedMap<Number, Claim>();
     });
-    
+
     this.episodeForm = this.formBuilder.group({
       //episodeId: [undefined], // only send on episode edit
       claimId: [null, Validators.required],
@@ -97,16 +94,16 @@ export class ClaimManager {
   saveEpisode() {
     var pharmacyNabp = $("#ePayorsSelection").val() || null;
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
-    if (this.episodeForm.controls['pharmacyNabp'].value==null && this.pharmacyName) {
+    if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
-    }else if (this.episodeForm.valid) {
+    } else if (this.episodeForm.valid) {
       swal({ title: "", html: "Saving Episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
       //this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
-      let form =this.episodeForm.value;
-      this.http.saveEpisode(this.episodeForm.value).single().subscribe(res => {        
+      let form = this.episodeForm.value;
+      this.http.saveEpisode(this.episodeForm.value).single().subscribe(res => {
         let claim = this.claims.get(form.claimId);
-        claim.episodes.splice(0, 0,res.episode as Episode);
+        claim.episodes.splice(0, 0, res.episode as Episode);
         this.episodeForm.reset();
         this.closeModal();
         this.toast.success(res.message);
@@ -120,7 +117,7 @@ export class ClaimManager {
         this.toast.warning('Episode Note must be at least 5 characters');
       } else if (this.episodeForm.controls['pharmacyNabp'].errors && this.episodeForm.controls['pharmacyNabp'].errors.required) {
         this.toast.warning('Pharmacy Name is required');
-      }else {
+      } else {
 
       }
     }
@@ -147,11 +144,11 @@ export class ClaimManager {
       '<br> Prescriber NPI: ' + prescription.prescriberNpi +
       '<br> Prescriber Phone: ' + (this.pp.transform(prescription.prescriberPhone, [])) +
       '<br> Pharmacy Name: ' + prescription.pharmacyName +
-      '<br> NDC: ' + prescription.prescriptionNdc+
+      '<br> NDC: ' + prescription.prescriptionNdc +
       '<br> Quantity: ' + prescription.quantity +
-      '<br> Day Supply: ' + prescription.daySupply+
-      '<br> Generic: ' + prescription.generic+
-      '<br> AWP: ' + prescription.awp+
+      '<br> Day Supply: ' + prescription.daySupply +
+      '<br> Generic: ' + prescription.generic +
+      '<br> AWP: ' + prescription.awp +
       '<br> Payable Amount: ' + prescription.payableAmount,
       null,
       { toastLife: 1210000, showCloseButton: true, enableHTML: true, positionClass: 'toast-top-center' }).then((toast: Toast) => {
@@ -216,7 +213,7 @@ export class ClaimManager {
           result.forEach((claim) => {
             var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate || claim.dateOfInjury, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorFaxNumber
-              , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode,claim.genders,claim.adjustorExtension);
+              , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode, claim.genders, claim.adjustorExtension);
             c.genders = claim.genders;
             c.states = claim.states;
             c.adjustorId = claim.adjustorId;
@@ -226,13 +223,19 @@ export class ClaimManager {
             c.genderId = claim.patientGenderId;
             c.stateId = claim.stateId;
             c.claimFlex2Id = claim.claimFlex2Id;
+            if (data.outstanding) {
+              c.outstanding = result.outstanding.results;
+              c.totalOutstandingAmount = result.outstanding.totalOutstandingAmount;
+              c.numberOutstanding = result.outstanding.totalRows;
+              c.loadingOutstanding = false;
+            }
             this.claims = this.claims.set(claim.claimId, c);
           })
         } else/*   if(result.name) */ {
           this.claims = Immutable.OrderedMap<Number, Claim>();
           var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorFaxNumber
-            , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode,result.genders,result.adjustorExtension);
+            , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode, result.genders, result.adjustorExtension);
           c.dateOfBirth = result.dateOfBirth;
           c.adjustor = result.adjustor;
           c.adjustorPhoneNumber = result.adjustorPhoneNumber;
@@ -244,17 +247,23 @@ export class ClaimManager {
           c.genders = result.genders;
           c.states = result.states;
           c.isVip = result.isVip;
-          c.isMaxBalance = result.isMaxBalance; 
+          c.isMaxBalance = result.isMaxBalance;
           c.adjustorId = result.adjustorId;
           c.payorId = result.payorId;
           c.genderId = result.patientGenderId;
           c.stateId = result.stateId;
           c.claimFlex2Id = result.claimFlex2Id;
+          if (result.outstanding) {
+            c.outstanding = result.outstanding.results;
+            c.totalOutstandingAmount = result.outstanding.totalOutstandingAmount;
+            c.numberOutstanding = result.outstanding.totalRows;
+            c.loadingOutstanding = false;
+          }
           this.claims = this.claims.set(result.claimId, c);
           const claim = this.claims.get(result.claimId);
           claim.setPrescription(result.prescriptions as Array<Prescription>);
           claim.setPayment(result.payments);
-          claim.setEpisodes(result.episodes); 
+          claim.setEpisodes(result.episodes);
           claim.setClaimNotes(result.claimNotes && result.claimNotes[0] ? new ClaimNote(result.claimNotes[0].noteText, result.claimNotes[0].noteType) : null);
           claim.setPrescriptionNotes(result.prescriptionNotes);
           claim.setFlex2(result.claimFlex2s);
@@ -321,7 +330,7 @@ export class ClaimManager {
   deselectAll() {
     this.claims.forEach(c => {
       c.selected = false;
-      this.claims.set(c.claimId,c);
+      this.claims.set(c.claimId, c);
     });
     this.comparisonClaims = Immutable.OrderedMap<Number, Claim>();;
   }
@@ -386,6 +395,12 @@ export class ClaimManager {
           }
           if (result.episodeTypes) {
             this.episodeNoteTypes = result.episodeTypes;
+          }
+          if (result.outstanding) {
+            claim.outstanding = result.outstanding.results;
+            claim.totalOutstandingAmount = result.outstanding.totalOutstandingAmount;
+            claim.numberOutstanding = result.outstanding.totalRows;
+            claim.loadingOutstanding = false;
           }
           this.onClaimIdChanged.next(this.selected);
         }, err => {
