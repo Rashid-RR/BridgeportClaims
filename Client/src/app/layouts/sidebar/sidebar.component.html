@@ -19,7 +19,12 @@
         </a>
       </li>
       <ng-container *ngIf="isClient">
-
+          <li [class.active]="router.url.indexOf('/main/referral')>-1">
+            <a [routerLink]="!disableLinks ? '/main/referral'  : []" [class.disabled]="disableLinks">
+              <i class="fa fa-share-alt fa-fw"></i>
+              <span>Referrals</span>
+            </a>
+          </li>
       </ng-container>
       <ng-container *ngIf="!isClient">
       <li [class.active]="router.url.indexOf('/main/claims')>-1" (click)="claimsActive()">

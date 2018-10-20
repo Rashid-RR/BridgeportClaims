@@ -80,8 +80,8 @@ export const routes: Routes = [
           { path: 'payments', loadChildren: './payment/payment.module#PaymentModule' },
           { path: 'fileupload', component: FileUploadComponent },
           { path: 'diary', loadChildren: './diaries/diaries.module#DiariesModule' },
-          { path: 'episodes', component: EpisodePageComponent }
-        ]
+          { path: 'referral', loadChildren: './referral/referral.module#ReferralModule' },
+          { path: 'episodes', component: EpisodePageComponent }        ]
       }
     ]
   },

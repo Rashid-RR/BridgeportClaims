@@ -52,11 +52,17 @@ export class PaymentComponent implements OnInit {
       });
       this.over = new Array(2);
       this.over.fill(false);
-      this.events.on("payment-suspense", a => {
+      this.events.on("payment-suspense", () => {
       this.tabState = "in";
+      this.paymentService.documentWindow.forEach(win=>{
+        win.close();
+      });
     });
-    this.events.on("payment-closed", a => {
+    this.events.on("payment-closed", () => {
       this.tabState = "in";
+      this.paymentService.documentWindow.forEach(win=>{
+        win.close();
+      });
     });
     this.events.on('payment-updated', (b: Boolean) => {
       try {
@@ -79,7 +85,8 @@ export class PaymentComponent implements OnInit {
         this.document = doc;
       } catch (e) { }
     }
-    window.open('#/main/indexing/indexed-image/' + this.documentId, '_blank');
+    let win = window.open('#/main/indexing/indexed-image/' + this.documentId, '_blank');    
+    this.paymentService.documentWindow.push(win);
   }
 
   ngOnInit() {

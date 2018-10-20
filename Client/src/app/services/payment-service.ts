@@ -22,6 +22,7 @@ export class PaymentService {
   prescriptionSelected: Boolean = false;
   sortColumn: SortColumnInfo;
   lastPrescriptionIds: Array<Number>=[];
+  documentWindow:any[]=[];
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
     this.events.on('postPaymentPrescriptionReturnDtos',data=>{
           data.prescriptions.forEach(d=>{
