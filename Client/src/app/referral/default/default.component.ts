@@ -1,69 +1,101 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, AfterViewInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HttpService } from "../../services/http-service";
 import { ToastsManager } from 'ng2-toastr';
+import { DatePipe } from '@angular/common';
+
+declare var $: any;
 
 @Component({
   selector: 'client-referral',
   templateUrl: './default.component.html',
   styleUrls: ['./default.component.css']
 })
-export class ReferralDefaultComponent implements OnInit {
+export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   submitted: boolean = false;
-  registered: boolean = false;
-  emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+  states: any[] = [];
+  referralTypes: any[] = [];
   constructor(
+    private dp: DatePipe,
     private formBuilder: FormBuilder,
     private http: HttpService,
     private router: Router,
     private toast: ToastsManager
   ) {
     this.form = this.formBuilder.group({
-        claimNumber: ['', Validators.compose([Validators.required])],
-        jurisdictionStateId: ['', Validators.compose([Validators.required])],
-        lastName: ['', Validators.compose([Validators.required])],
-        firstName: ['', Validators.compose([Validators.required])],
-        dateOfBirth: ['', Validators.compose([Validators.required])],
-        injuryDate: ['', Validators.compose([Validators.required])],
-        notes: ['', Validators.compose([Validators.required])],
-        referralTypeId: ['', Validators.compose([Validators.required])],
-        eligibilityStart: ['', Validators.compose([Validators.required])],
-        eligibilityEnd: ['', Validators.compose([Validators.required])],
-        address1: ['', Validators.compose([Validators.required])],
-        address2: ['', Validators.compose([Validators.required])],
-        city: ['', Validators.compose([Validators.required])],
-        stateId: ['', Validators.compose([Validators.required])],
-        postalCode: ['', Validators.compose([Validators.required])],
-        patientPhone: ['', Validators.compose([Validators.required])],
-        adjustorName: ['', Validators.compose([Validators.required])],
-        adjustorPhone: ['', Validators.compose([Validators.required])]
+      claimNumber: [null, Validators.compose([Validators.required])],
+      jurisdictionStateId: [null, Validators.compose([Validators.required])],
+      lastName: [null, Validators.compose([Validators.required])],
+      firstName: [null, Validators.compose([Validators.required])],
+      dateOfBirth: [null, Validators.compose([Validators.required])],
+      injuryDate: [null, Validators.compose([Validators.required])],
+      notes: [null],
+      referralTypeId: [null],
+      eligibilityStart: [null],
+      eligibilityEnd: [null],
+      address1: [null, Validators.compose([Validators.required])],
+      address2: [null],
+      city: [null, Validators.compose([Validators.required])],
+      stateId: [null, Validators.compose([Validators.required])],
+      postalCode: [null, Validators.compose([Validators.required])],
+      patientPhone: [null],
+      adjustorName: [null],
+      adjustorPhone: [null]
     });
   }
 
-  ngOnInit() {
-
+  reset() {
+    this.form.reset();
+    $('#dateOfBirth').val('');
+    $('#injuryDate').val('');
   }
-  register() {
-    console.log(this.form.value);
-    if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
-      this.form.get('ConfirmPassword').setErrors({ "unmatched": "The password and confirmation password do not match." });
-      this.toast.warning('The password and confirmation password do not match.');
-    }
+  ngAfterViewInit() {
+    // Date picker
+    $('#dateOfBirth').datepicker({
+      autoclose: true
+    }).on('changeDate', () => {
+      this.updateDate('dateOfBirth')
+    });
+    $('#injuryDate').datepicker({
+      autoclose: true
+    }).on('changeDate', () => {
+      this.updateDate('injuryDate');
+    });
+    $('#patientPhone').inputmask().on('change', (ev) => {
+      let val=ev.target.value.replace(/[()-\s]/g,'');
+      this.form.controls.patientPhone.setValue(val);
+      console.log(this.form.controls.patientPhone.value);
+    });
+    $('#adjustorPhone').inputmask().on('change', (ev) => {
+      let val=ev.target.value.replace(/[()-\s]/g,'');
+      this.form.controls.adjustorPhone.setValue(val);
+    });
+  }
+  ngOnInit() {
+    this.http.referralTypes({}).single().subscribe(res => {
+      this.referralTypes = res;
+    }, () => { });
+    this.http.states({}).single().subscribe(res => {
+      this.states = res;
+    }, () => { });
+  }
+  updateDate(field: string) {
+    this.form.controls[field].setValue(this.dp.transform($(`#${field}`).val(), "MM/dd/yyyy"));
+  }
+  submit() {
     if (this.form.valid) {
       this.submitted = true;
       try {
-        this.http.insertReferral(this.form.value).subscribe(res => {
-          this.toast.success("You have registered successfully. Now, please check your email to confirm it before logging in...", null,
+        this.http.insertReferral(this.form.value).subscribe((res) => {
+          this.toast.success(res.message || "Referral successfully added", null,
             { toastLife: 10000 });
-          this.registered = true
           this.submitted = false;
-          this.router.navigate(['/login']);
-        }, requestError => {
-          let err = requestError.error;
-          this.toast.error(err.Message);
+          this.reset();
+        }, re => {
+          let err = re.error;
+          this.toast.error(err.message);
           this.submitted = false;
         })
       } catch (e) {

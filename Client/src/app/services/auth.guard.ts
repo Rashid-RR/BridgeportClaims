@@ -49,7 +49,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
     }
     try {
       let us = JSON.parse(user);
-      if (route.path == 'users' || route.path == 'fileupload') {
+      if(['private','referral','profile'].indexOf(route.path)==-1 && (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Client') > -1)){
+        return Observable.of(false)
+      }else if (route.path == 'users' || route.path == 'fileupload') {
         var allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin') > -1);
         return Observable.of(allowed)
       } else if (state.url.indexOf('/main/reports')>-1 && (state.url.indexOf('/main/reports/skipped-payment')==-1 && state.url.indexOf('/main/reports/shortpay')==-1 && state.url.indexOf('/main/reports/list')==-1)) {

@@ -19,7 +19,7 @@
 <div class="box no-border">
   <div class="box-body" style=" height: 80vh; overflow-y: auto; padding: 15px 70px; ">
     <h3 style="text-decoration: underline;font-size: 24px;">Referral Input page</h3>
-    <div class="row" *ngIf="!registered">
+    <div class="row">
       <div class="col-lg-12">
         <div class="box center-form no-border">
           <div class="box-body">
@@ -29,139 +29,142 @@
                 that are excluded or included).</h4>
               <div class="row">
                 <div class="form-group col-sm-5">
-                  <label>Claim #:</label>
-                  <input class="form-control" name="claimNumber" class="form-control" placeholder="Claim #"
-                    formControlName="claimNumber">
-                  <p class="text-danger form-control-static" *ngIf="form.get('claimNumber').errors && submitted">Claim # is required</p>
+                  <label>Claim # <span class="text-danger">*</span>: </label>
+                  <input class="form-control" placeholder="Claim #" formControlName="claimNumber">
+                  <p class="text-danger form-control-static" *ngIf="form.get('claimNumber').errors && form.get('claimNumber').touched">Claim
+                    # is required</p>
                 </div>
                 <div class="form-group col-sm-7">
-                  <label>Street Address:</label>
-                  <input class="form-control" name="StreetAddress" class="form-control" placeholder="Street Address"
-                    formControlName="address1">
-                  <p class="text-danger form-control-static" *ngIf="form.get('address1').errors && submitted">Street Address is required</p>
+                  <label>Address 1 <span class="text-danger">*</span>:</label>
+                  <input class="form-control" placeholder="Address 1" formControlName="address1">
+                  <p class="text-danger form-control-static" *ngIf="form.get('address1').errors && form.get('address1').touched">Street
+                    Address is required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-5">
-                  <label>First Name:</label>
-                  <input class="form-control" placeholder="First Name"
-                    formControlName="firstName">
-                  <p class="text-danger form-control-static" *ngIf="form.get('firstName').errors && submitted">First Name is required</p>
+                  <label>First Name <span class="text-danger">*</span>:</label>
+                  <input class="form-control" placeholder="First Name" formControlName="firstName">
+                  <p class="text-danger form-control-static" *ngIf="form.get('firstName').errors && form.get('firstName').touched">First
+                    Name is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>Address 2:</label>
-                  <input class="form-control" placeholder="Address 2"
-                    formControlName="address2">
-                  <p class="text-danger form-control-static" *ngIf="form.get('address2').errors && submitted">Address 2 is required</p>
+                  <input class="form-control" placeholder="Address 2" formControlName="address2">
+                  <p class="text-danger form-control-static" *ngIf="form.get('address2').errors">Address 2
+                    is required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-5">
-                  <label>Last Name:</label>
-                  <input class="form-control" placeholder="Last Name"
-                    formControlName="lastName">
-                  <p class="text-danger form-control-static" *ngIf="form.get('lastName').errors && submitted">Last Name is required</p>
+                  <label>Last Name <span class="text-danger">*</span>:</label>
+                  <input class="form-control" placeholder="Last Name" formControlName="lastName">
+                  <p class="text-danger form-control-static" *ngIf="form.get('lastName').errors && form.get('lastName').touched">Last Name
+                    is required</p>
                 </div>
                 <div class="form-group col-sm-7">
-                  <label>City:</label>
-                  <input class="form-control" placeholder="City"
-                    formControlName="city">
-                  <p class="text-danger form-control-static" *ngIf="form.get('city').errors && submitted">City is required</p>
+                  <label>City <span class="text-danger">*</span>:</label>
+                  <input class="form-control" placeholder="City" formControlName="city">
+                  <p class="text-danger form-control-static" *ngIf="form.get('city').errors && form.get('city').touched">City is
+                    required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-5">
-                  <label>Date of Birth:</label>
-                  <input class="form-control" name="claimNumber" class="form-control" placeholder="Date of Birth"
-                    formControlName="dateOfBirth">
-                  <p class="text-danger form-control-static" *ngIf="form.get('dateOfBirth').errors && submitted">Date of Birth is required</p>
+                  <label>Date of Birth <span class="text-danger">*</span>:</label>
+                  <input class="form-control" placeholder="Date of Birth"
+                  id="dateOfBirth" formControlName="dateOfBirth" data-inputmask="'alias': 'mm/dd/yyyy'">
+                  <p class="text-danger form-control-static" *ngIf="form.get('dateOfBirth').errors && form.get('dateOfBirth').touched">Date
+                    of Birth is required</p>
                 </div>
                 <div class="form-group col-sm-2">
-                  <label>Sate:</label>
-                  <input class="form-control" placeholder="State"
-                    formControlName="stateId">
-                  <p class="text-danger form-control-static" *ngIf="form.get('stateId').errors && submitted">State is required</p>
+                  <label>Sate <span class="text-danger">*</span>:</label>
+                  <select class="form-control" placeholder="State" formControlName="stateId">
+                    <option *ngFor="let u of states" [value]="u.stateId"> {{u.stateName}}</option>
+                  </select>
+                  <p class="text-danger form-control-static" *ngIf="form.get('stateId').errors && form.get('stateId').touched">State is
+                    required</p>
                 </div>
                 <div class="form-group col-sm-5">
-                  <label>Zip:</label>
-                  <input class="form-control" placeholder="Zip"
-                    formControlName="postalCode">
-                  <p class="text-danger form-control-static" *ngIf="form.get('postalCode').errors && submitted">Zip Code is required</p>
+                  <label>Zip <span class="text-danger">*</span>:</label>
+                  <input class="form-control" placeholder="Zip" formControlName="postalCode">
+                  <p class="text-danger form-control-static" *ngIf="form.get('postalCode').errors && form.get('postalCode').touched">Zip
+                    Code is required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-5">
-                  <label>Injury Date:</label>
-                  <input class="form-control" placeholder="Injury Date"
-                    formControlName="injuryDate" id="injuryDate">
-                  <p class="text-danger form-control-static" *ngIf="form.get('injuryDate').errors && submitted">Injury Date is required</p>
+                  <label>Injury Date <span class="text-danger">*</span>:</label>
+                  <input class="form-control" placeholder="Injury Date" formControlName="injuryDate" id="injuryDate" data-inputmask="'alias': 'mm/dd/yyyy'">
+                  <p class="text-danger form-control-static" *ngIf="form.get('injuryDate').errors && form.get('injuryDate').touched">Injury
+                    Date is required</p>
                 </div>
                 <div class="form-group col-sm-7">
-                  <label>Phone:</label>
-                  <input class="form-control" placeholder="Patient Phone Number"
-                    formControlName="patientPhone">
-                  <p class="text-danger form-control-static" *ngIf="form.get('patientPhone').errors && submitted">Patient Phone Number is required</p>
+                  <label>Phone <span class="text-danger">*</span>:</label>
+                  <input class="form-control" placeholder="Patient Phone Number" formControlName="patientPhone" id="patientPhone" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                  <p class="text-danger form-control-static" *ngIf="form.get('patientPhone').errors && form.get('patientPhone').touched">Patient
+                    Phone Number is required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-5">
-                  <label>Jurisdiction State:</label>
-                  <input class="form-control" placeholder="Injury Date"
-                    formControlName="injuryDate" id="injuryDate">
-                  <p class="text-danger form-control-static" *ngIf="form.get('injuryDate').errors && submitted">Injury Date is required</p>
+                  <label>Jurisdiction State <span class="text-danger">*</span>:</label>
+                  <select class="form-control" placeholder="Injury Date" formControlName="jurisdictionStateId" id="jurisdictionStateId">
+                    <option *ngFor="let u of states" [value]="u.stateId"> {{u.stateName}}</option>
+                  </select>
+                  <p class="text-danger form-control-static" *ngIf="form.get('jurisdictionStateId').errors && form.get('jurisdictionStateId').touched">Jurisdiction State is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>Adjustor Name:</label>
-                  <input class="form-control" placeholder="Adjustor Name"
-                    formControlName="adjustorName">
-                  <p class="text-danger form-control-static" *ngIf="form.get('adjustorName').errors && submitted">Patient Phone Number is required</p>
+                  <input class="form-control" placeholder="Adjustor Name" formControlName="adjustorName">
+                  <p class="text-danger form-control-static" *ngIf="form.get('adjustorName').errors">Patient
+                    Name is required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Eligibility Start:</label>
-                  <input class="form-control" placeholder="Eligibility Start"
-                    formControlName="eligibilityStart" id="eligibilityStart">
-                  <p class="text-danger form-control-static" *ngIf="form.get('eligibilityStart').errors && submitted">Eligibility Start is required</p>
+                  <input class="form-control" placeholder="Eligibility Start" formControlName="eligibilityStart" id="eligibilityStart">
+                  <p class="text-danger form-control-static" *ngIf="form.get('eligibilityStart').errors">Eligibility
+                    Start is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>Adjustor Phone:</label>
-                  <input class="form-control" placeholder="Adjustor Phone Number"
-                    formControlName="adjustorPhone">
-                  <p class="text-danger form-control-static" *ngIf="form.get('adjustorPhone').errors && submitted">Adjustor Phone Number is required</p>
+                  <input class="form-control" placeholder="Adjustor Phone Number" formControlName="adjustorPhone" id="adjustorPhone"  data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                  <p class="text-danger form-control-static" *ngIf="form.get('adjustorPhone').errors">Adjustor
+                    Phone Number is required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Eligibility end:</label>
-                  <input class="form-control" placeholder="Eligibility End"
-                    formControlName="eligibilityEnd" id="eligibilityEnd">
-                  <p class="text-danger form-control-static" *ngIf="form.get('eligibilityEnd').errors && submitted">Eligibility End is required</p>
+                  <input class="form-control" placeholder="Eligibility End" formControlName="eligibilityEnd" id="eligibilityEnd">
+                  <p class="text-danger form-control-static" *ngIf="form.get('eligibilityEnd').errors">Eligibility
+                    End is required</p>
                 </div>
-                <div class="form-group col-sm-7">
-                  <label>Any special handling instruction:</label>
-                  <textarea formControlName="notes" class="form-control"></textarea>
-                  <p class="text-danger form-control-static" *ngIf="form.get('notes').errors && submitted">Adjustor Phone Number is required</p>
+                <div class="form-group col-sm-7"> 
+                        <label>Referral Type:</label>
+                        <select class="form-control" placeholder="Referral Type" formControlName="referralTypeId" id="referralTypeId">
+                          <option *ngFor="let u of referralTypes" [value]="u.referralTypeId"> {{u.typeName}}</option>
+                        </select>
+                        <p class="text-danger form-control-static" *ngIf="form.get('referralTypeId').errors">Referral Type is required</p> 
                 </div>
               </div>
-              <button class="btn btn-primary pull-right" type="submit" (click)="register()">Submit</button>
+              <div class="row">
+                <div class="form-group col-sm-12">
+                  <label>Any special handling instruction:</label>
+                  <textarea formControlName="notes" class="form-control"></textarea>
+                </div>
+              </div>
+              <div class="form-group pull-right">
+                <button class="btn btn-default" type="button" (click)="reset()">Clear Form</button>
+                <button class="btn btn-primary" type="button" (click)="submit()">Submit</button>
+              </div>
             </form>
           </div>
         </div>
       </div>
-    </div>
-    <div class="row" *ngIf="registered">
-      <div class="row">
-        <div class="col-md-12">&nbsp;</div>
-      </div>
-      <div class="row">
-        <div class="col-md-6 col-md-offset-4">
-          <div class="alert alert-success">
-            <strong>Success!</strong> An email has been sent for you to verifiy your email address.
-          </div>
-        </div>
-      </div>
-    </div>
+    </div>  
   </div>
   <div class="overlay" *ngIf="submitted" style="text-align:center;">
     <img src="assets/1.gif">

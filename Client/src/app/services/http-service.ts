@@ -34,6 +34,12 @@ export class HttpService {
   insertReferral(data): Observable<any> {
     return this.http.post(this.baseUrl +'/client/insert-referral', data)
   }
+  referralTypes(data): Observable<any> {
+    return this.http.post(this.baseUrl +'/client/get-referral-types', data)
+  }
+  states(data): Observable<any> {
+    return this.http.post(this.baseUrl +'/client/get-states', data)
+  }
 
   logout(): Observable<any> {
     return this.http.get(this.baseUrl + '/users/logout');
