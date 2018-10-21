@@ -35,32 +35,32 @@ export class PaymentComponent implements OnInit {
 
   over: boolean[];
   tabState = 'in';
-  documentId:any;
-  checkNumber:any;
-  document:any;
+  documentId: any;
+  checkNumber: any;
+  document: any;
   @ViewChild('addScriptSwal') private addScriptSwal: SwalComponent;
-  constructor( public readonly swalTargets: SwalPartialTargets, public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
-    public ds: DocumentManagerService,private route: ActivatedRoute,private dialogService: DialogService, private toast: ToastsManager, private events: EventsService, private dp: DatePipe) {
-      this.route.params.subscribe(params => {
-        if (params['checkNumber']) {
-          this.checkNumber = params['checkNumber'];
-        }
-        if (params['documentId']) {
-          this.documentId = params['documentId'];
-          this.showDocument();
-        }
-      });
-      this.over = new Array(2);
-      this.over.fill(false);
-      this.events.on("payment-suspense", () => {
+  constructor(public readonly swalTargets: SwalPartialTargets, public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
+    public ds: DocumentManagerService, private route: ActivatedRoute, private dialogService: DialogService, private toast: ToastsManager, private events: EventsService, private dp: DatePipe) {
+    this.route.params.subscribe(params => {
+      if (params['checkNumber']) {
+        this.checkNumber = params['checkNumber'];
+      }
+      if (params['documentId']) {
+        this.documentId = params['documentId'];
+        this.showDocument();
+      }
+    });
+    this.over = new Array(2);
+    this.over.fill(false);
+    this.events.on("payment-suspense", () => {
       this.tabState = "in";
-      this.paymentService.documentWindow.forEach(win=>{
+      this.paymentService.documentWindow.forEach(win => {
         win.close();
       });
     });
     this.events.on("payment-closed", () => {
       this.tabState = "in";
-      this.paymentService.documentWindow.forEach(win=>{
+      this.paymentService.documentWindow.forEach(win => {
         win.close();
       });
     });
@@ -81,11 +81,11 @@ export class PaymentComponent implements OnInit {
     let file = localStorage.getItem('file-' + this.documentId);
     if (file) {
       try {
-        let doc = JSON.parse(file) as any; 
+        let doc = JSON.parse(file) as any;
         this.document = doc;
       } catch (e) { }
     }
-    let win = window.open('#/main/indexing/indexed-image/' + this.documentId, '_blank');    
+    let win = window.open('#/main/indexing/indexed-image/' + this.documentId, '_blank');
     this.paymentService.documentWindow.push(win);
   }
 
@@ -98,7 +98,7 @@ export class PaymentComponent implements OnInit {
       this.paymentScriptService.form.reset();
     }
     this.addScriptSwal.show().then((r) => {
-    
+
     })
   }
 
@@ -124,7 +124,7 @@ export class PaymentComponent implements OnInit {
   }
 
   deletePayment(prescription: PaymentPostingPrescription, sessionId: UUID) {
-   this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: "Delete Payment",
       message: "Are you sure you wish to remove this Payment Posting for " + prescription.patientName + " of $" + prescription.amountPosted + "?"
     })

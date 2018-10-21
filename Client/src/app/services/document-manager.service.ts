@@ -164,6 +164,12 @@ export class DocumentManagerService {
     this.searchInvoices();
     this.searchCheckes();
     this.searchInvalidCheckes();
+    this.events.on("payment-suspense", () => {
+      this.searchCheckes();
+    });
+    this.events.on("payment-closed", () => {
+      this.searchCheckes();
+    });
   }
 
   get autoCompleteClaim(): string {
