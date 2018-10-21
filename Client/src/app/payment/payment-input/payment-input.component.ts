@@ -323,7 +323,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
           })
         },
         onOpen: function () {
-          window['jQuery']('#noteText').focus()
+          window['jQuery']('#noteText').focus();
         }
       }).then((results) => {
         if (!results.dismiss) {
