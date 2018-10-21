@@ -266,7 +266,7 @@ export class HttpService {
     return s;
   }
   confirmEmail(id: any, code: any): Observable<any> {
-    let s = this.http.get(this.baseUrl + "/Account/ConfirmEmail?userId=" + id + "&code=" + code)
+    let s = this.http.get(this.baseUrl + "/Account/ConfirmEmail?userId=" + id + "&code=" + code,{ responseType: "text" })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

@@ -309,8 +309,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       $('#datepicker').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
       $('[inputs-mask]').inputmask();
       $('[data-mask]').inputmask();
-      $('#prescriptionNoteTypeId').change(() => {
-        console.log($('#prescriptionNoteTypeId').val());
+      $('#prescriptionNoteTypeId').change(() => { 
         if ($('#prescriptionNoteTypeId').val()) {
           setTimeout(() => {$('#claimNoteTypeLabel').css({ 'color': '#545454' })},150);
         }
@@ -368,7 +367,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         }
       });
       $('.remove-from-diary').click(() => {
-        // console.log("Awaiting API to remove");
+        // log("Awaiting API to remove");
       });
       $('button.save-prescription-note').click(() => {
         let result = [
@@ -457,8 +456,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           .subscribe((result) => {
             this.claimManager.loading = false;
             this.ar.downloadFile(result);
-          }, err => {
-            console.log(err);
+          }, err => { 
             this.toast.error(err.statusText);
             this.claimManager.loading = false;
             try {
@@ -511,8 +509,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         .subscribe((result) => {
           this.claimManager.loading = false;
           this.ar.downloadFile(result);
-        }, err => {
-          console.log(err);
+        }, err => { 
           this.claimManager.loading = false;
           try {
             const error = err.error;
@@ -529,8 +526,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         .subscribe((result) => {
           this.claimManager.loading = false;
           this.ar.downloadFile(result);
-        }, err => {
-          console.log(err);
+        }, err => { 
           this.claimManager.loading = false;
           try {
             const error = err.error;
@@ -604,8 +600,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               this.claimManager.selectedClaim.claimNote.noteType = noteType ? noteType.value : undefined;
             }
             this.claimManager.selectedClaim.editing = false;
-            this.claimManager.loading = false;
-            // console.log(res);
+            this.claimManager.loading = false; 
             swal.close();
             this.toast.success('Noted successfully saved');
           }, error => {
