@@ -15,6 +15,7 @@ import { UUID } from 'angular2-uuid';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
+import { Prescription } from '../../models/prescription';
 //import { SnotifyService } from 'ng-snotify';
 
 declare var $: any;
@@ -231,190 +232,15 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     }
 
   }
-  addPrescriptionNote(text: String = '', TypeId?: String, prescriptionNoteId: any = null) {
+  addPrescriptionNote(type: string='prescriptions', text: String = '', TypeId?: String, prescriptionNoteId: any = null) {
     const selectedNotes = [];
     let prescriptionNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
     this.claimManager.PrescriptionNoteTypes.forEach((note: PrescriptionNoteType) => {
       prescriptionNoteTypeIds = prescriptionNoteTypeIds + '<option value="' + note.prescriptionNoteTypeId + '"' + (note.prescriptionNoteTypeId == TypeId ? 'selected' : '') + '>' + note.typeName + '</option>';
     });
     let selectedPrecriptions = '';
-    const checkboxes = $('.pescriptionCheck');
-    for (let i = 0; i < checkboxes.length; i++) {
-      if ($('#' + checkboxes[i].id).is(':checked')) {
-        selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex;font-size:11pt;">' + $('#' + checkboxes[i].id).attr('labelName') + '</span> &nbsp; ';
-        selectedNotes.push(Number(checkboxes[i].id));
-      }
-    }
-    if (selectedNotes.length > 0) {
-      const width = window.innerWidth * 1.799 / 3;
-      swal({
-        width: width + 'px',
-        title: 'New Prescription Note',
-        html:
-          `
-                  <div class="form-group">
-                      <label id="claimNoteTypeLabel">Prescription Note type</label>
-                      <select class="form-control" id="prescriptionNoteTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
-                        `+ prescriptionNoteTypeIds + `
-                      </select>
-                  </div>
-                  <div class="form-group">
-                      <label id="noteTextLabel">Note Text</label>
-                      <textarea class="form-control"  id="noteText"  rows="5" cols="5" style="resize: vertical;">`+ text + `</textarea>
-                  </div>
-                  <div style="text-align:left;width:56%;height:auto;">
-                      <h4 class="text-green">Prescriptions</h4>
-                      `+ selectedPrecriptions + `              
-                  </div>
-                  <div class="calendar">
-                    <div class="row">
-                      <div class="col-sm-12" style="padding-left:0px;">
-                        <div class="form-group">
-                            <label>Follow-up Date</label>
-                            <div class="input-group date">
-                              <div class="input-group-addon">
-                                  <i class="fa fa-calendar"></i>
-                              </div>
-                              <input class="form-control pull-right"  type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
-                            </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <br>
-                          <button class="btn bg-primary btn-flat pull-right btn-md add-to-diary" type="button" style="color:white">Add to Diary</button>                          
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-            `,
-        showCancelButton: true,
-        showLoaderOnConfirm: true,
-        confirmButtonText: 'Save',
-        cancelButtonClass: 'button-on-top',
-        customClass: 'prescription-modal',
-        preConfirm: function () {
-          return new Promise(function (resolve) {
-            resolve([
-              $('#prescriptionNoteTypeId').val(),
-              $('#noteText').val(),
-              $('#datepicker').val(),
-            ]);
-          });
-        },
-        onOpen: function () {
-          $('#prescriptionNoteTypeId').focus();
-        }
-      }).then((results) => {
-        if (!results.dismiss) {
-          const result = results.value;
-          if (result[0] === '') {
-            this.toast.warning('Please select a note type in order to save your note.');
-            setTimeout(() => {
-              this.addPrescriptionNote(result[1], result[0]);
-              $('#claimNoteTypeLabel').css({ 'color': 'red' });
-            }, 200);
-          } else if (result[1] === '') {
-            this.toast.warning('A blank note cannot be saved.');
-            setTimeout(() => {
-              this.addPrescriptionNote(result[1], result[0]);
-              $('#noteTextLabel').css({ 'color': 'red' });
-            }, 200);
-          } else {
-            swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
-            this.http.savePrescriptionNote(
-              {
-                claimId: this.claimManager.selectedClaim.claimId,
-                noteText: result[1],
-                prescriptionNoteTypeId: Number(result[0]),
-                prescriptions: selectedNotes,
-                prescriptionNoteId: prescriptionNoteId
-              }).single().subscribe(res => {
-                const result = res;
-                this.claimManager.selectedClaim.prescriptions.forEach(c => {
-                  if (c.selected) {
-                    c.noteCount = (c.noteCount || 0) + 1;
-                  }
-                  c.selected = false;
-                });
-                swal.close();
-                this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
-                this.toast.success(result.message);
-              }, () => {
-                setTimeout(() => {
-                  this.addPrescriptionNote(result[1], result[0]);
-                  this.toast.error('A server error has occurred. Please contact your system administrator.');
-                }, 200);
-              });
-          }
-        }
-      }).catch(swal.noop);
-      $('#datepicker').datepicker({
-        autoclose: true
-      });
-      $('#datepicker').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
-      $('[inputs-mask]').inputmask();
-      $('[data-mask]').inputmask();
-      $('.add-to-diary').click(() => {
-        if (!$('#datepicker').val()) {
-          this.toast.warning('Please add a Follow-up Date before adding to the Diary');
-        } else if ($('#prescriptionNoteTypeId').val() === '') {
-          this.toast.warning('Please select a note type in order to save your note.');
-          setTimeout(() => {
-            // this.addPrescriptionNote($('#noteText').val(),$('#prescriptionNoteTypeId').val());
-            $('#claimNoteTypeLabel').css({ 'color': 'red' });
-          }, 200);
-        } else if ($('#noteText').val() === '') {
-          this.toast.warning('A blank note cannot be saved.');
-          setTimeout(() => {
-            // this.addPrescriptionNote($('#noteText').val(), $('#prescriptionNoteTypeId').val());
-            $('#noteTextLabel').css({ 'color': 'red' });
-          }, 200);
-        } else {
-          swal.close();
-          setTimeout(() => {
-            swal({ title: '', html: 'Adding note to Diary... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
-          }, 200);
-          // let followUpDate = $("#datepicker").val();
-          const followUpDate = this.dp.transform($('#datepicker').val(), 'MM/dd/yyyy');
-          this.http.savePrescriptionNote(
-            {
-              claimId: this.claimManager.selectedClaim.claimId,
-              noteText: $('#noteText').val(),
-              followUpDate: followUpDate,
-              prescriptionNoteTypeId: Number($('#prescriptionNoteTypeId').val()),
-              prescriptions: selectedNotes,
-              prescriptionNoteId: prescriptionNoteId
-            }).single().subscribe(res => {
-              const result = res;
-              swal.close();
-              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
-              this.toast.success(result.message);
-            }, () => {
-              setTimeout(() => {
-                this.addPrescriptionNote($('#noteText').val(), $('#prescriptionNoteTypeId').val());
-                this.toast.error('A server error has occurred. Please contact your system administrator.');
-              }, 200);
-            });
-        }
-      });
-      $('.remove-from-diary').click(() => {
-        // console.log("Awaiting API to remove");
-      });
-    } else {
-      this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length > 0 ?
-        this.toast.warning('Please select at least one prescription.') :
-        this.toast.warning('No prescriptions are present to save a prescription note.');
-    }
-  }
-  addOutstandingnNote(text: String = '', TypeId?: String, prescriptionNoteId: any = null) {
-    const selectedNotes = [];
-    let prescriptionNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
-    this.claimManager.PrescriptionNoteTypes.forEach((note: PrescriptionNoteType) => {
-      prescriptionNoteTypeIds = prescriptionNoteTypeIds + '<option value="' + note.prescriptionNoteTypeId + '"' + (note.prescriptionNoteTypeId == TypeId ? 'selected' : '') + '>' + note.typeName + '</option>';
-    });
-    let selectedPrecriptions = '';
-    this.claimManager.selectedClaim.outstanding.forEach(c => {
+    let prescriptions = type=='outstanding'? this.claimManager.selectedClaim.outstanding:this.claimManager.selectedClaim.prescriptions;
+    prescriptions.forEach(c => {
       if (c.selected) {
         selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex;font-size:11pt;">' + c.labelName + '</span> &nbsp; ';
         selectedNotes.push(Number(c.prescriptionId));
@@ -430,98 +256,51 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                   <div class="form-group">
                       <label id="claimNoteTypeLabel">Prescription Note type</label>
                       <select class="form-control" id="prescriptionNoteTypeId" style="font-size:12pt;min-width:200px;width:350px;margin-left: calc(50% - 150px);">
-                        `+ prescriptionNoteTypeIds + `
+                        ${prescriptionNoteTypeIds}
                       </select>
                   </div>
                   <div class="form-group">
                       <label id="noteTextLabel">Note Text</label>
                       <textarea class="form-control"  id="noteText"  rows="5" cols="5" style="resize: vertical;">`+ text + `</textarea>
                   </div>
-                  <div style="text-align:left;width:56%;height:auto;">
-                      <h4 class="text-green">Prescriptions</h4>
-                      `+ selectedPrecriptions + `              
-                  </div>
-                  <div class="calendar">
-                    <div class="row">
-                      <div class="col-sm-12" style="padding-left:0px;">
-                        <div class="form-group">
-                            <label>Follow-up Date</label>
-                            <div class="input-group date">
-                              <div class="input-group-addon">
-                                  <i class="fa fa-calendar"></i>
-                              </div>
-                              <input class="form-control pull-right"  type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
-                            </div>
-                        </div>
-                      </div>
-                      <div class="col-sm-12">
-                        <div class="form-group">
-                          <br>
-                          <button class="btn bg-primary btn-flat pull-right btn-md add-to-diary" type="button" style="color:white">Add to Diary</button>                          
+                  <div class="row">
+                    <div class="col-sm-6 text-left">
+                          <h4 class="text-green">Prescriptions</h4>
+                          ${selectedPrecriptions}
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Follow-up Date</label>
+                        <div class="input-group date">
+                          <div class="input-group-addon">
+                              <i class="fa fa-calendar"></i>
+                          </div>
+                          <input class="form-control pull-right"  type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
                         </div>
                       </div>
                     </div>
                   </div>
+                  <div class="row">
+                        <div class="col-sm-6 text-left">
+                            <button class="btn btn-flat btn-primary save-prescription-note" type="button" style="color:white;background-color: rgb(48, 133, 214);">Save</button>                          
+                            <button class="btn btn-flat btn-default cancel-prescription-note" type="button" style="color:white;background-color: rgb(170, 170, 170);">Cancel</button>                          
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <button class="btn bg-primary btn-flat pull-right btn-md add-to-diary" type="button" style="color:white">Add to Diary</button>                          
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             `,
-        showCancelButton: true,
+        showConfirmButton: false,
+        showCancelButton: false,
         showLoaderOnConfirm: true,
-        confirmButtonText: 'Save',
-        cancelButtonClass: 'button-on-top',
         customClass: 'prescription-modal',
-        preConfirm: function () {
-          return new Promise(function (resolve) {
-            resolve([
-              $('#prescriptionNoteTypeId').val(),
-              $('#noteText').val(),
-              $('#datepicker').val(),
-            ]);
-          });
-        },
         onOpen: function () {
           $('#prescriptionNoteTypeId').focus();
-        }
-      }).then((results) => {
-        if (!results.dismiss) {
-          const result = results.value;
-          if (result[0] === '') {
-            this.toast.warning('Please select a note type in order to save your note.');
-            setTimeout(() => {
-              this.addPrescriptionNote(result[1], result[0]);
-              $('#claimNoteTypeLabel').css({ 'color': 'red' });
-            }, 200);
-          } else if (result[1] === '') {
-            this.toast.warning('A blank note cannot be saved.');
-            setTimeout(() => {
-              this.addPrescriptionNote(result[1], result[0]);
-              $('#noteTextLabel').css({ 'color': 'red' });
-            }, 200);
-          } else {
-            swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
-            this.http.savePrescriptionNote(
-              {
-                claimId: this.claimManager.selectedClaim.claimId,
-                noteText: result[1],
-                prescriptionNoteTypeId: Number(result[0]),
-                prescriptions: selectedNotes,
-                prescriptionNoteId: prescriptionNoteId
-              }).single().subscribe(res => {
-                const result = res;
-                this.claimManager.selectedClaim.outstanding.forEach(c => {
-                  if (c.selected) {
-                    c.noteCount = (c.noteCount || 0) + 1;
-                  }
-                  c.selected = false;
-                });
-                swal.close();
-                this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
-                this.toast.success(result.message);
-              }, () => {
-                setTimeout(() => {
-                  this.addPrescriptionNote(result[1], result[0]);
-                  this.toast.error('A server error has occurred. Please contact your system administrator.');
-                }, 200);
-              });
-          }
         }
       }).catch(swal.noop);
       $('#datepicker').datepicker({
@@ -530,19 +309,28 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       $('#datepicker').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
       $('[inputs-mask]').inputmask();
       $('[data-mask]').inputmask();
+      $('#prescriptionNoteTypeId').change(() => {
+        console.log($('#prescriptionNoteTypeId').val());
+        if ($('#prescriptionNoteTypeId').val()) {
+          setTimeout(() => {$('#claimNoteTypeLabel').css({ 'color': '#545454' })},150);
+        }
+      });
+      $('#noteText').change(e => {
+        if ($('#noteText').val()) {
+          setTimeout(() => {$('#noteTextLabel').css({ 'color': '#545454' });},150);
+        }
+      });
       $('.add-to-diary').click(() => {
         if (!$('#datepicker').val()) {
           this.toast.warning('Please add a Follow-up Date before adding to the Diary');
         } else if ($('#prescriptionNoteTypeId').val() === '') {
           this.toast.warning('Please select a note type in order to save your note.');
           setTimeout(() => {
-            // this.addPrescriptionNote($('#noteText').val(),$('#prescriptionNoteTypeId').val());
             $('#claimNoteTypeLabel').css({ 'color': 'red' });
           }, 200);
         } else if ($('#noteText').val() === '') {
           this.toast.warning('A blank note cannot be saved.');
           setTimeout(() => {
-            // this.addPrescriptionNote($('#noteText').val(), $('#prescriptionNoteTypeId').val());
             $('#noteTextLabel').css({ 'color': 'red' });
           }, 200);
         } else {
@@ -562,12 +350,18 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               prescriptionNoteId: prescriptionNoteId
             }).single().subscribe(res => {
               const result = res;
+              prescriptions.forEach(c => {
+                if (c.selected) {
+                  c.noteCount = (c.noteCount || 0) + 1;
+                }
+                c.selected = false;
+              });
               swal.close();
               this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
               this.toast.success(result.message);
             }, () => {
               setTimeout(() => {
-                this.addPrescriptionNote($('#noteText').val(), $('#prescriptionNoteTypeId').val());
+                this.addPrescriptionNote(type,$('#noteText').val(), $('#prescriptionNoteTypeId').val());
                 this.toast.error('A server error has occurred. Please contact your system administrator.');
               }, 200);
             });
@@ -576,8 +370,55 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       $('.remove-from-diary').click(() => {
         // console.log("Awaiting API to remove");
       });
+      $('button.save-prescription-note').click(() => {
+        let result = [
+          $('#prescriptionNoteTypeId').val(),
+          $('#noteText').val(),
+          $('#datepicker').val(),
+        ];
+        if (result[0] === '') {
+          this.toast.warning('Please select a note type in order to save your note.');
+          setTimeout(() => {
+            $('#claimNoteTypeLabel').css({ 'color': 'red' });
+          }, 200);
+        } else if (result[1] === '') {
+          this.toast.warning('A blank note cannot be saved.');
+          setTimeout(() => {
+            $('#noteTextLabel').css({ 'color': 'red' });
+          }, 200);
+        } else {
+          swal({ title: '', html: 'Saving note... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
+          this.http.savePrescriptionNote(
+            {
+              claimId: this.claimManager.selectedClaim.claimId,
+              noteText: result[1],
+              prescriptionNoteTypeId: Number(result[0]),
+              prescriptions: selectedNotes,
+              prescriptionNoteId: prescriptionNoteId
+            }).single().subscribe(res => {
+              const result = res;
+              prescriptions.forEach(c => {
+                if (c.selected) {
+                  c.noteCount = (c.noteCount || 0) + 1;
+                }
+                c.selected = false;
+              });
+              swal.close();
+              this.claimManager.getClaimsDataById(this.claimManager.selectedClaim.claimId);
+              this.toast.success(result.message);
+            }, () => {
+              setTimeout(() => {
+                this.addPrescriptionNote(type, result[1], result[0]);
+                this.toast.error('A server error has occurred. Please contact your system administrator.');
+              }, 200);
+            });
+        }
+      });
+      $('button.cancel-prescription-note').click(() => {
+        swal.clickCancel();
+      });
     } else {
-      this.claimManager.selectedClaim.outstanding && this.claimManager.selectedClaim.outstanding.length > 0 ?
+      this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length > 0 ?
         this.toast.warning('Please select at least one prescription.') :
         this.toast.warning('No prescriptions are present to save a prescription note.');
     }

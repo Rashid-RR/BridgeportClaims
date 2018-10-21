@@ -229,7 +229,7 @@
                                             Change Statuses
                                         </button>
                                         <button class="btn btn-flat btn-sm bg-vdarkgrey no-padding" type="button"
-                                            (click)="addPrescriptionNote()">
+                                            (click)="addPrescriptionNote('prescriptions')">
                                             <img src="assets/img/add.png" class="add-btn" />
                                         </button>
                                         <button style="display: none;" class="btn btn-flat btn-sm bg-vdarkgrey no-padding"
@@ -253,7 +253,7 @@
                             <div class="box-footer display-none">
                                 <div class="btn-group">
                                     <button class="btn bg-darkRed btn-flat btn-small btn-block left no-padding" type="button"
-                                        (click)="addPrescriptionNote()">
+                                        (click)="addPrescriptionNote('prescriptions')">
                                         <img src="assets/img/add.png" class="add-btn" />
                                     </button>
                                 </div>
@@ -312,7 +312,7 @@
                                 </span>
                                 <div class="box-tools pull-right">
                                     <button class="btn btn-flat btn-sm bg-vdarkgrey no-padding outstanding" type="button"
-                                        (click)="addOutstandingnNote()">
+                                        (click)="addPrescriptionNote('outstanding')">
                                         <img src="assets/img/add.png" class="add-btn" />
                                     </button>
                                     <button type="button" *ngIf="expanded" class="transparent btn btn-flat bg-grey btn-sm"
