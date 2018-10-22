@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from "../../services/document-manager.service";
+import { EventsService } from "../../services/events-service";
 declare var $: any;
 
 @Component({
@@ -19,7 +20,15 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
     public ds: DocumentManagerService,
     private dp: DatePipe,
     private zone: NgZone,
-    private route: ActivatedRoute) { }
+    private events: EventsService,
+    private route: ActivatedRoute) { 
+      this.events.on("payment-suspense", () => {
+        this.search();
+      });
+      this.events.on("payment-closed", () => {
+        this.search();
+      });
+    }
 
   ngOnInit() {
 

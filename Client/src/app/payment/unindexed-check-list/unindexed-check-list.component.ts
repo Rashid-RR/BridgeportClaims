@@ -23,11 +23,9 @@ export class PaymentCheckListComponent implements OnInit, AfterViewInit {
   items: IShContextMenuItem[];
   constructor(
     public ds: DocumentManagerService,
-    private dp: DatePipe,
     private toast: ToastsManager,
     private router: Router,
-    private dialogService: DialogService,
-    private fb: FormBuilder) { }
+    private dialogService: DialogService) { }
 
   ngOnInit() {
     this.items = [
