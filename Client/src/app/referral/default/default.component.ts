@@ -53,30 +53,25 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     // Date picker
-    $('#eligibilityStart').datepicker({
-      autoclose: true
-    }).on('changeDate', () => {
-      this.updateDate('eligibilityStart')
+    $('#eligibilityStart').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    .on('change', (ev) => {
+      this.form.controls.eligibilityStart.setValue(ev.target.value);
     });
-    $('#eligibilityEnd').datepicker({
-      autoclose: true
-    }).on('changeDate', () => {
-      this.updateDate('eligibilityEnd')
+    $('#eligibilityEnd').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    .on('change', (ev) => {
+      this.form.controls.eligibilityEnd.setValue(ev.target.value);
     });
-    $('#dateOfBirth').datepicker({
-      autoclose: true
-    }).on('changeDate', () => {
-      this.updateDate('dateOfBirth')
+    $('#dateOfBirth').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    .on('change', (ev) => {
+      this.form.controls.dateOfBirth.setValue(ev.target.value);
     });
-    $('#injuryDate').datepicker({
-      autoclose: true
-    }).on('changeDate', () => {
-      this.updateDate('injuryDate');
+    $('#injuryDate').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    .on('change', (ev) => {
+      this.form.controls.injuryDate.setValue(ev.target.value);
     });
     $('#patientPhone').inputmask().on('change', (ev) => {
       let val=ev.target.value.replace(/[()-\s]/g,'');
       this.form.controls.patientPhone.setValue(val);
-      console.log(this.form.controls.patientPhone.value);
     });
     $('#adjustorPhone').inputmask().on('change', (ev) => {
       let val=ev.target.value.replace(/[()-\s]/g,'');

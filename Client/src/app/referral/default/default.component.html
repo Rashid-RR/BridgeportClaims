@@ -75,7 +75,7 @@
                 <div class="form-group col-sm-5">
                   <label>Date of Birth <span class="text-danger">*</span>:</label>
                   <input class="form-control" placeholder="Date of Birth" id="dateOfBirth" formControlName="dateOfBirth"
-                    data-inputmask="'alias': 'mm/dd/yyyy'" tabindex="4">
+                    inputs-inputmask="'alias': 'mm/dd/yyyy'" tabindex="4" inputs-mask>
                   <p class="text-danger form-control-static" *ngIf="form.get('dateOfBirth').errors && form.get('dateOfBirth').touched">Date
                     of Birth is required</p>
                 </div>
@@ -99,7 +99,7 @@
                 <div class="form-group col-sm-5">
                   <label>Injury Date <span class="text-danger">*</span>:</label>
                   <input class="form-control" placeholder="Injury Date" formControlName="injuryDate" id="injuryDate"
-                    data-inputmask="'alias': 'mm/dd/yyyy'" tabindex="5">
+                    inputs-inputmask="'alias': 'mm/dd/yyyy'" tabindex="5" inputs-mask>
                   <p class="text-danger form-control-static" *ngIf="form.get('injuryDate').errors && form.get('injuryDate').touched">Injury
                     Date is required</p>
                 </div>
@@ -132,7 +132,7 @@
                 <div class="form-group col-sm-5">
                   <label>Eligibility Start:</label>
                   <input class="form-control" placeholder="Eligibility Start" formControlName="eligibilityStart" id="eligibilityStart"
-                    tabindex="7">
+                    tabindex="7" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask>
                   <p class="text-danger form-control-static" *ngIf="form.get('eligibilityStart').errors">Eligibility
                     Start is required</p>
                 </div>
@@ -148,7 +148,7 @@
                 <div class="form-group col-sm-5">
                   <label>Eligibility end:</label>
                   <input class="form-control" placeholder="Eligibility End" formControlName="eligibilityEnd" id="eligibilityEnd"
-                    tabindex="8">
+                    tabindex="8" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask>
                   <p class="text-danger form-control-static" *ngIf="form.get('eligibilityEnd').errors">Eligibility
                     End is required</p>
                 </div>
