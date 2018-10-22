@@ -32,7 +32,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
       dateOfBirth: [null, Validators.compose([Validators.required])],
       injuryDate: [null, Validators.compose([Validators.required])],
       notes: [null],
-      referralTypeId: [null],
+      referralTypeId: [null, Validators.compose([Validators.required])],
       eligibilityStart: [null],
       eligibilityEnd: [null],
       address1: [null, Validators.compose([Validators.required])],
@@ -53,6 +53,16 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     // Date picker
+    $('#eligibilityStart').datepicker({
+      autoclose: true
+    }).on('changeDate', () => {
+      this.updateDate('eligibilityStart')
+    });
+    $('#eligibilityEnd').datepicker({
+      autoclose: true
+    }).on('changeDate', () => {
+      this.updateDate('eligibilityEnd')
+    });
     $('#dateOfBirth').datepicker({
       autoclose: true
     }).on('changeDate', () => {

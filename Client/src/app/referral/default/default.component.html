@@ -143,11 +143,11 @@
                     End is required</p>
                 </div>
                 <div class="form-group col-sm-7"> 
-                        <label>Referral Type:</label>
+                        <label>Referral Type <span class="text-danger">*</span>:</label>
                         <select class="form-control" placeholder="Referral Type" formControlName="referralTypeId" id="referralTypeId">
                           <option *ngFor="let u of referralTypes" [value]="u.referralTypeId"> {{u.typeName}}</option>
                         </select>
-                        <p class="text-danger form-control-static" *ngIf="form.get('referralTypeId').errors">Referral Type is required</p> 
+                        <p class="text-danger form-control-static" *ngIf="form.get('referralTypeId').errors && form.get('referralTypeId').touched">Referral Type is required</p> 
                 </div>
               </div>
               <div class="row">
