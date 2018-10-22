@@ -32,7 +32,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
       dateOfBirth: [null, Validators.compose([Validators.required])],
       injuryDate: [null, Validators.compose([Validators.required])],
       notes: [null],
-      referralTypeId: [null],
+      referralTypeId: [null, Validators.compose([Validators.required])],
       eligibilityStart: [null],
       eligibilityEnd: [null],
       address1: [null, Validators.compose([Validators.required])],
@@ -53,20 +53,25 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     // Date picker
-    $('#dateOfBirth').datepicker({
-      autoclose: true
-    }).on('changeDate', () => {
-      this.updateDate('dateOfBirth')
+    $('#eligibilityStart').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    .on('change', (ev) => {
+      this.form.controls.eligibilityStart.setValue(ev.target.value);
     });
-    $('#injuryDate').datepicker({
-      autoclose: true
-    }).on('changeDate', () => {
-      this.updateDate('injuryDate');
+    $('#eligibilityEnd').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    .on('change', (ev) => {
+      this.form.controls.eligibilityEnd.setValue(ev.target.value);
+    });
+    $('#dateOfBirth').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    .on('change', (ev) => {
+      this.form.controls.dateOfBirth.setValue(ev.target.value);
+    });
+    $('#injuryDate').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    .on('change', (ev) => {
+      this.form.controls.injuryDate.setValue(ev.target.value);
     });
     $('#patientPhone').inputmask().on('change', (ev) => {
       let val=ev.target.value.replace(/[()-\s]/g,'');
       this.form.controls.patientPhone.setValue(val);
-      console.log(this.form.controls.patientPhone.value);
     });
     $('#adjustorPhone').inputmask().on('change', (ev) => {
       let val=ev.target.value.replace(/[()-\s]/g,'');

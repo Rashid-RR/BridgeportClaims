@@ -30,13 +30,13 @@
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Claim # <span class="text-danger">*</span>: </label>
-                  <input class="form-control" placeholder="Claim #" formControlName="claimNumber">
+                  <input class="form-control" placeholder="Claim #" formControlName="claimNumber" tabindex="1">
                   <p class="text-danger form-control-static" *ngIf="form.get('claimNumber').errors && form.get('claimNumber').touched">Claim
                     # is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>Address 1 <span class="text-danger">*</span>:</label>
-                  <input class="form-control" placeholder="Address 1" formControlName="address1">
+                  <input class="form-control" placeholder="Address 1" formControlName="address1" tabindex="9">
                   <p class="text-danger form-control-static" *ngIf="form.get('address1').errors && form.get('address1').touched">Street
                     Address is required</p>
                 </div>
@@ -44,13 +44,13 @@
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>First Name <span class="text-danger">*</span>:</label>
-                  <input class="form-control" placeholder="First Name" formControlName="firstName">
+                  <input class="form-control" placeholder="First Name" formControlName="firstName" tabindex="2">
                   <p class="text-danger form-control-static" *ngIf="form.get('firstName').errors && form.get('firstName').touched">First
                     Name is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>Address 2:</label>
-                  <input class="form-control" placeholder="Address 2" formControlName="address2">
+                  <input class="form-control" placeholder="Address 2" formControlName="address2" tabindex="10">
                   <p class="text-danger form-control-static" *ngIf="form.get('address2').errors">Address 2
                     is required</p>
                 </div>
@@ -58,36 +58,39 @@
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Last Name <span class="text-danger">*</span>:</label>
-                  <input class="form-control" placeholder="Last Name" formControlName="lastName">
-                  <p class="text-danger form-control-static" *ngIf="form.get('lastName').errors && form.get('lastName').touched">Last Name
+                  <input class="form-control" placeholder="Last Name" formControlName="lastName" tabindex="3">
+                  <p class="text-danger form-control-static" *ngIf="form.get('lastName').errors && form.get('lastName').touched">Last
+                    Name
                     is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>City <span class="text-danger">*</span>:</label>
-                  <input class="form-control" placeholder="City" formControlName="city">
-                  <p class="text-danger form-control-static" *ngIf="form.get('city').errors && form.get('city').touched">City is
+                  <input class="form-control" placeholder="City" formControlName="city" tabindex="11">
+                  <p class="text-danger form-control-static" *ngIf="form.get('city').errors && form.get('city').touched">City
+                    is
                     required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Date of Birth <span class="text-danger">*</span>:</label>
-                  <input class="form-control" placeholder="Date of Birth"
-                  id="dateOfBirth" formControlName="dateOfBirth" data-inputmask="'alias': 'mm/dd/yyyy'">
+                  <input class="form-control" placeholder="Date of Birth" id="dateOfBirth" formControlName="dateOfBirth"
+                    inputs-inputmask="'alias': 'mm/dd/yyyy'" tabindex="4" inputs-mask>
                   <p class="text-danger form-control-static" *ngIf="form.get('dateOfBirth').errors && form.get('dateOfBirth').touched">Date
                     of Birth is required</p>
                 </div>
                 <div class="form-group col-sm-2">
                   <label>Sate <span class="text-danger">*</span>:</label>
-                  <select class="form-control" placeholder="State" formControlName="stateId">
+                  <select class="form-control" placeholder="State" formControlName="stateId" tabindex="12">
                     <option *ngFor="let u of states" [value]="u.stateId"> {{u.stateName}}</option>
                   </select>
-                  <p class="text-danger form-control-static" *ngIf="form.get('stateId').errors && form.get('stateId').touched">State is
+                  <p class="text-danger form-control-static" *ngIf="form.get('stateId').errors && form.get('stateId').touched">State
+                    is
                     required</p>
                 </div>
                 <div class="form-group col-sm-5">
                   <label>Zip <span class="text-danger">*</span>:</label>
-                  <input class="form-control" placeholder="Zip" formControlName="postalCode">
+                  <input class="form-control" placeholder="Zip" formControlName="postalCode" tabindex="13">
                   <p class="text-danger form-control-static" *ngIf="form.get('postalCode').errors && form.get('postalCode').touched">Zip
                     Code is required</p>
                 </div>
@@ -95,13 +98,15 @@
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Injury Date <span class="text-danger">*</span>:</label>
-                  <input class="form-control" placeholder="Injury Date" formControlName="injuryDate" id="injuryDate" data-inputmask="'alias': 'mm/dd/yyyy'">
+                  <input class="form-control" placeholder="Injury Date" formControlName="injuryDate" id="injuryDate"
+                    inputs-inputmask="'alias': 'mm/dd/yyyy'" tabindex="5" inputs-mask>
                   <p class="text-danger form-control-static" *ngIf="form.get('injuryDate').errors && form.get('injuryDate').touched">Injury
                     Date is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>Phone <span class="text-danger">*</span>:</label>
-                  <input class="form-control" placeholder="Patient Phone Number" formControlName="patientPhone" id="patientPhone" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                  <input class="form-control" placeholder="Patient Phone Number" formControlName="patientPhone" id="patientPhone"
+                    data-inputmask='"mask": "(999) 999-9999"' data-mask tabindex="14">
                   <p class="text-danger form-control-static" *ngIf="form.get('patientPhone').errors && form.get('patientPhone').touched">Patient
                     Phone Number is required</p>
                 </div>
@@ -109,14 +114,16 @@
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Jurisdiction State <span class="text-danger">*</span>:</label>
-                  <select class="form-control" placeholder="Injury Date" formControlName="jurisdictionStateId" id="jurisdictionStateId">
+                  <select class="form-control" placeholder="Injury Date" formControlName="jurisdictionStateId" id="jurisdictionStateId"
+                    tabindex="6">
                     <option *ngFor="let u of states" [value]="u.stateId"> {{u.stateName}}</option>
                   </select>
-                  <p class="text-danger form-control-static" *ngIf="form.get('jurisdictionStateId').errors && form.get('jurisdictionStateId').touched">Jurisdiction State is required</p>
+                  <p class="text-danger form-control-static" *ngIf="form.get('jurisdictionStateId').errors && form.get('jurisdictionStateId').touched">Jurisdiction
+                    State is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>Adjustor Name:</label>
-                  <input class="form-control" placeholder="Adjustor Name" formControlName="adjustorName">
+                  <input class="form-control" placeholder="Adjustor Name" formControlName="adjustorName" tabindex="15">
                   <p class="text-danger form-control-static" *ngIf="form.get('adjustorName').errors">Patient
                     Name is required</p>
                 </div>
@@ -124,13 +131,15 @@
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Eligibility Start:</label>
-                  <input class="form-control" placeholder="Eligibility Start" formControlName="eligibilityStart" id="eligibilityStart">
+                  <input class="form-control" placeholder="Eligibility Start" formControlName="eligibilityStart" id="eligibilityStart"
+                    tabindex="7" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask>
                   <p class="text-danger form-control-static" *ngIf="form.get('eligibilityStart').errors">Eligibility
                     Start is required</p>
                 </div>
                 <div class="form-group col-sm-7">
                   <label>Adjustor Phone:</label>
-                  <input class="form-control" placeholder="Adjustor Phone Number" formControlName="adjustorPhone" id="adjustorPhone"  data-inputmask='"mask": "(999) 999-9999"' data-mask>
+                  <input class="form-control" placeholder="Adjustor Phone Number" formControlName="adjustorPhone" id="adjustorPhone"
+                    data-inputmask='"mask": "(999) 999-9999"' data-mask tabindex="16">
                   <p class="text-danger form-control-static" *ngIf="form.get('adjustorPhone').errors">Adjustor
                     Phone Number is required</p>
                 </div>
@@ -138,22 +147,25 @@
               <div class="row">
                 <div class="form-group col-sm-5">
                   <label>Eligibility end:</label>
-                  <input class="form-control" placeholder="Eligibility End" formControlName="eligibilityEnd" id="eligibilityEnd">
+                  <input class="form-control" placeholder="Eligibility End" formControlName="eligibilityEnd" id="eligibilityEnd"
+                    tabindex="8" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask>
                   <p class="text-danger form-control-static" *ngIf="form.get('eligibilityEnd').errors">Eligibility
                     End is required</p>
                 </div>
-                <div class="form-group col-sm-7"> 
-                        <label>Referral Type:</label>
-                        <select class="form-control" placeholder="Referral Type" formControlName="referralTypeId" id="referralTypeId">
-                          <option *ngFor="let u of referralTypes" [value]="u.referralTypeId"> {{u.typeName}}</option>
-                        </select>
-                        <p class="text-danger form-control-static" *ngIf="form.get('referralTypeId').errors">Referral Type is required</p> 
+                <div class="form-group col-sm-7">
+                  <label>Referral Type <span class="text-danger">*</span>:</label>
+                  <select class="form-control" placeholder="Referral Type" formControlName="referralTypeId" id="referralTypeId"
+                    tabindex="17">
+                    <option *ngFor="let u of referralTypes" [value]="u.referralTypeId"> {{u.typeName}}</option>
+                  </select>
+                  <p class="text-danger form-control-static" *ngIf="form.get('referralTypeId').errors && form.get('referralTypeId').touched">Referral
+                    Type is required</p>
                 </div>
               </div>
               <div class="row">
                 <div class="form-group col-sm-12">
                   <label>Any special handling instruction:</label>
-                  <textarea formControlName="notes" class="form-control"></textarea>
+                  <textarea formControlName="notes" class="form-control" tabindex="18"></textarea>
                 </div>
               </div>
               <div class="form-group pull-right">
@@ -164,7 +176,7 @@
           </div>
         </div>
       </div>
-    </div>  
+    </div>
   </div>
   <div class="overlay" *ngIf="submitted" style="text-align:center;">
     <img src="assets/1.gif">

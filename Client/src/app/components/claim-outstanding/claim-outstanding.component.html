@@ -31,7 +31,7 @@
               <span columnSort="rxDate" [sort-table]="myTable">Rx Date</span>
             </th>
             <th>
-              <span columnSort="invoiceAmount" [sort-table]="myTable">Inv Amt</span>
+              <span columnSort="invAmt" [sort-table]="myTable">Inv Amt</span>
             </th>
             <th>
               <span columnSort="amountPaid" [sort-table]="myTable">Amt Paid</span>
@@ -76,7 +76,7 @@
               <td>{{prescription.billTo}}</td>
               <td>{{prescription.rxNumber}}</td>
               <td>{{prescription.rxDate | date:"shortDate"}}</td>
-              <td class="text-right">{{prescription.invoiceAmount | currency:'USD':true:'1.2-2'}}</td>
+              <td class="text-right">{{prescription.invAmt | currency:'USD':true:'1.2-2'}}</td>
               <td class="text-right">{{prescription.amountPaid | currency:'USD':true:'1.2-2'}}</td>
               <td class="text-right">{{prescription.outstanding | currency:'USD':true:'1.2-2'}}</td>
               <td>
