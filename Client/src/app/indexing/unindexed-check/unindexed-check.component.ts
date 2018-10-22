@@ -24,10 +24,7 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
   @Input() checkType;
   @Input() checkNumber;
   @Input() index;
-  @Output() getSearchStatusChange = new EventEmitter<string>();
-
-  @ViewChild('checkSwal') private checkSwal: SwalComponent;
-  constructor(
+   constructor(
     private dialogService: DialogService,
     public readonly swalTargets: SwalPartialTargets,
     private http: HttpService, private route: ActivatedRoute,
@@ -48,10 +45,6 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
     });
   }
   ngAfterViewInit() {
-
-  }
-  setCurrent(current:string){
-    this.getSearchStatusChange.emit(current);
 
   }
 
