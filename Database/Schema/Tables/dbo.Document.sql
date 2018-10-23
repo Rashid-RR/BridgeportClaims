@@ -25,6 +25,88 @@ WITH
 DATA_COMPRESSION = ROW
 )
 GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE TRIGGER [dbo].[utDocumentInsteadOfDelete]
+       ON [dbo].[Document]
+INSTEAD OF DELETE
+AS
+BEGIN
+    SET NOCOUNT ON; 
+	IF EXISTS
+	(
+		SELECT * FROM DELETED d INNER JOIN dbo.PrescriptionPayment AS pp ON d.DocumentID = pp.DocumentID
+	)
+	BEGIN
+		UPDATE  pp
+		SET		pp.DocumentID = NULL
+		FROM    DELETED d
+				INNER JOIN dbo.PrescriptionPayment AS pp ON d.DocumentID = pp.DocumentID
+	END
+	DELETE do FROM DELETED d INNER JOIN dbo.Document AS do ON do.DocumentID = d.DocumentID;
+END
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE TRIGGER [dbo].[utDocumentInsteadOfInsert] ON [dbo].[Document]
+INSTEAD OF INSERT
+AS
+BEGIN
+	SET NOCOUNT ON;
+	INSERT dbo.Document ([FileName],Extension,FileSize,CreationTimeLocal,LastAccessTimeLocal,LastWriteTimeLocal
+	                     ,DirectoryName,FullFilePath,FileUrl,DocumentDate,ByteCount,Archived,ModifiedByUserID
+	                     ,FileTypeID,CreatedOnUTC,UpdatedOnUTC)
+	SELECT i.[FileName]
+          ,i.Extension
+          ,i.FileSize
+          ,i.CreationTimeLocal
+          ,i.LastAccessTimeLocal
+          ,i.LastWriteTimeLocal
+          ,i.DirectoryName
+          ,i.FullFilePath
+          ,i.FileUrl
+          ,i.DocumentDate
+          ,i.ByteCount
+          ,i.Archived
+          ,i.ModifiedByUserID
+          ,i.FileTypeID
+          ,i.CreatedOnUTC
+          ,i.UpdatedOnUTC
+	FROM INSERTED i  
+END
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE TRIGGER [dbo].[utDocumentInsteadOfUpdate] ON [dbo].[Document]
+INSTEAD OF UPDATE
+AS
+BEGIN
+	SET NOCOUNT ON;
+	UPDATE d SET d.[FileName] = i.[FileName],
+				 d.Extension = i.Extension,
+				 d.FileSize = i.FileSize,
+				 d.CreationTimeLocal = i.CreationTimeLocal,
+				 d.LastAccessTimeLocal = i.LastAccessTimeLocal,
+				 d.LastWriteTimeLocal = i.LastWriteTimeLocal,
+				 d.DirectoryName = i.DirectoryName,
+				 d.FullFilePath = i.FullFilePath,
+				 d.FileUrl = i.FileUrl,
+				 d.DocumentDate = i.DocumentDate,
+				 d.ByteCount = i.ByteCount,
+				 d.Archived = i.Archived,
+				 d.ModifiedByUserID = i.ModifiedByUserID,
+				 d.FileTypeID = i.FileTypeID,
+				 d.CreatedOnUTC = i.CreatedOnUTC,
+				 d.UpdatedOnUTC = i.UpdatedOnUTC
+	FROM INSERTED i INNER JOIN dbo.Document AS d ON d.DocumentID = i.DocumentID;
+END
+GO
 ALTER TABLE [dbo].[Document] ADD CONSTRAINT [pkDocument] PRIMARY KEY CLUSTERED  ([DocumentID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDocumentDocumentDateArchivedFileTypeIDIncludes] ON [dbo].[Document] ([DocumentDate], [Archived], [FileTypeID]) INCLUDE ([ByteCount], [CreatedOnUTC], [CreationTimeLocal], [DataVersion], [DirectoryName], [Extension], [FileName], [FileSize], [FileUrl], [FullFilePath], [LastAccessTimeLocal], [LastWriteTimeLocal], [ModifiedByUserID], [UpdatedOnUTC]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
