@@ -1,0 +1,14 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE FUNCTION [dbo].[udfGetFileTypeByCode](@Code VARCHAR(10))
+RETURNS TINYINT
+AS BEGIN
+	RETURN  (
+				SELECT  ft.FileTypeID
+				FROM    dbo.FileType AS ft
+				WHERE	ft.Code = @Code
+			);
+END
+GO

@@ -8,9 +8,9 @@ GO
 	Description:	Proc that returns the grid results for the Documents page.
 	Modified:		1/16/2018 to add an Archived bit flag.
 	Sample Execute:
-					DECLARE @TotalRows INT
-					EXEC [dbo].[uspGetDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, @TotalRows OUTPUT
-					SELECT @TotalRows TotalRows
+					DECLARE @TotalRows INT;
+					EXEC [dbo].[uspGetDocuments] NULL, 0, NULL, 'CreationTime', 'DESC', 1, 5000, @TotalRows OUTPUT;
+					SELECT @TotalRows TotalRows;
 */
 CREATE PROC [dbo].[uspGetDocuments]
 (
@@ -29,6 +29,10 @@ AS
         SET NOCOUNT ON;
         SET XACT_ABORT ON;
 		DECLARE @WildCard CHAR(1) = '%';
+		DECLARE @CheckType TINYINT = [dbo].[udfGetFileTypeByCode]('CK');
+		DECLARE @IsCheckType BIT = CAST(CASE WHEN @CheckType = @FileTypeID THEN 1 ELSE 0 END AS BIT);
+		DECLARE @CheckDateFilter DATE = '10/23/2018';
+
 		CREATE TABLE #Document
 		(
 			[DocumentID] [INT] NOT NULL PRIMARY KEY
@@ -54,7 +58,7 @@ AS
 							,[FileUrl]
 							,[ByteCount])
 		SELECT  d.DocumentID
-				,d.FileName
+				,d.[FileName]
 				,d.Extension
 				,d.FileSize
 				,d.CreationTimeLocal
@@ -66,16 +70,21 @@ AS
 		FROM    dbo.Document AS [d]
 				LEFT JOIN dbo.DocumentIndex AS [di] ON di.DocumentID = d.DocumentID
 				LEFT JOIN dbo.InvoiceIndex AS [ii] ON ii.DocumentID = d.DocumentID
-				LEFT JOIN dbo.CheckIndex AS [ci] ON ci.DocumentID = d.DocumentID
+				LEFT JOIN [dbo].[CheckIndex] AS [ci] ON ci.DocumentID = d.DocumentID
 		WHERE   1 = 1
 				AND di.DocumentID IS NULL
 				AND ii.DocumentID IS NULL
 				AND ci.DocumentID IS NULL
 				AND (@Date IS NULL OR d.DocumentDate = @Date)
-				AND (d.FileName LIKE CONCAT(CONCAT(@WildCard, @FileName), @WildCard) OR @FileName IS NULL)
+				AND ([d].[FileName] LIKE CONCAT(CONCAT(@WildCard, @FileName), @WildCard) OR @FileName IS NULL)
 				AND d.Archived = @Archived
 				AND d.FileTypeID = @FileTypeID
-				AND d.IsValid = 1;
+				AND d.IsValid = 1
+				AND 1 = CASE WHEN @IsCheckType = 1 AND d.DocumentDate IS NOT NULL AND d.DocumentDate >= @CheckDateFilter THEN 1
+							 WHEN @IsCheckType = 0 THEN 1
+							 WHEN @IsCheckType = 1 AND @Archived = 1 THEN 1
+							 ELSE 0
+						END;
 
 		SELECT  @TotalRows = COUNT(*) FROM  [#Document]
 
