@@ -16,7 +16,6 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   form: FormGroup;
   submitted: boolean = false;
   states: any[] = [];
-  referralTypes: any[] = [];
   constructor(
     private dp: DatePipe,
     private formBuilder: FormBuilder,
@@ -31,8 +30,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
       firstName: [null, Validators.compose([Validators.required])],
       dateOfBirth: [null, Validators.compose([Validators.required])],
       injuryDate: [null, Validators.compose([Validators.required])],
-      notes: [null],
-      referralTypeId: [null, Validators.compose([Validators.required])],
+      notes: [null],      
       eligibilityStart: [null],
       eligibilityEnd: [null],
       address1: [null, Validators.compose([Validators.required])],
@@ -79,9 +77,6 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    this.http.referralTypes({}).single().subscribe(res => {
-      this.referralTypes = res;
-    }, () => { });
     this.http.states({}).single().subscribe(res => {
       this.states = res;
     }, () => { });
