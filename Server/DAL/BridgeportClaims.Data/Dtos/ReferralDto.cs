@@ -23,8 +23,6 @@ namespace BridgeportClaims.Data.Dtos
         public string ReferredBy { get; set; }
         [Required]
         public DateTime ReferralDate { get; set; }
-        [Required]
-        public byte ReferralTypeId { get; set; }
         public DateTime? EligibilityStart { get; set; }
         public DateTime? EligibilityEnd { get; set; }
         [Required]

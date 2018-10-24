@@ -35,7 +35,6 @@ namespace BridgeportClaims.Data.DataProviders.Clients
                 ps.Add("@Notes", referral.Notes, DbType.AnsiString, size: 8000);
                 ps.Add("@ReferredBy", referral.ReferredBy, DbType.String, size: 128);
                 ps.Add("@ReferralDate", referral.ReferralDate, DbType.DateTime2);
-                ps.Add("@ReferralTypeID", referral.ReferralTypeId, DbType.Byte);
                 ps.Add("@EligibilityStart", referral.EligibilityStart, DbType.DateTime2);
                 ps.Add("@EligibilityEnd", referral.EligibilityEnd, DbType.DateTime2);
                 ps.Add("@Address1", referral.Address1, DbType.AnsiString, size: 255);
