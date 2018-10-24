@@ -21,6 +21,7 @@ namespace BridgeportClaims.Web.Infrastructure
         public DateTime RegisteredDate { get; set; }
         [MaxLength(30)]
         public string Extension { get; set; }
+        public byte? ReferralTypeId { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

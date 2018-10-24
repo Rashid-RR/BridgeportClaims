@@ -186,6 +186,7 @@ namespace BridgeportClaims.Web.Controllers
                 LastName = user.LastName,
                 RegisteredDate = user.RegisteredDate,
                 Extension = user.Extension,
+                ReferralTypeId = user.ReferralTypeId,
                 Roles = user.Roles.Join(AppRoleManager.Roles, ur => ur.RoleId,
                     r => r.Id, (ur, r) => r.Name).ToList()
             };

@@ -37,6 +37,7 @@ namespace BridgeportClaims.Web.Models
                     EmailConfirmed = appUser.EmailConfirmed,
                     RegisteredDate = appUser.RegisteredDate,
                     Extension = appUser.Extension,
+                    ReferralTypeId = appUser.ReferralTypeId,
                     Roles = _appUserManager.GetRolesAsync(appUser.Id).GetAwaiter().GetResult(),
                     Claims = _appUserManager.GetClaimsAsync(appUser.Id).GetAwaiter().GetResult()
                 };
