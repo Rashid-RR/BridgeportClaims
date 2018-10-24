@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.AdminFunctions;
@@ -25,6 +26,24 @@ namespace BridgeportClaims.Web.Controllers
         {
             _adminFunctionsProvider = adminFunctionsProvider;
             _clientDataProvider = clientDataProvider;
+        }
+
+        [HttpPost]
+        [Route("set-client-user-type")]
+        public async Task<IHttpActionResult> SetClientUserType(string userId, int referralTypeId)
+        {
+            try
+            {
+                var modifiedByUserId = User.Identity.GetUserId();
+                var userEmail = await AppUserManager.GetEmailAsync(userId);
+                var referralTypeName = _clientDataProvider.Value.SetUserType(userId, referralTypeId, modifiedByUserId);
+                return Ok(new {message = $"Set the user {userEmail} to referral type {referralTypeName}."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

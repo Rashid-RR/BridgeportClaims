@@ -68,5 +68,21 @@ namespace BridgeportClaims.Data.DataProviders.Clients
                 }
                 return conn.Query<UsStateDto>(StatesQuery, commandType: CommandType.Text)?.OrderBy(x => x.StateName);
             });
+
+        public string SetUserType(string userId, int referralTypeId, string modifiedByUserId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[client].[uspUserTypeUpsert]";
+                var ps = new DynamicParameters();
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                ps.Add("@ReferralTypeID", referralTypeId, DbType.Byte);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var result = conn.Query<string>(sp, ps, commandType: CommandType.StoredProcedure);
+                return result.SingleOrDefault();
+            });
     }
 }
