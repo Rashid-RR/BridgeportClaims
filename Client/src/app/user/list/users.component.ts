@@ -9,7 +9,7 @@ import { ToastsManager } from 'ng2-toastr';
 
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
- 
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -17,6 +17,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 })
 export class UsersComponent implements OnInit {
   users: Array<User> = [];
+  referralTypes: any[] = [];
   pageNumber: number;
   pageSize = 5;
   loading = false;
@@ -43,7 +44,10 @@ export class UsersComponent implements OnInit {
     });
     this.loading = false;
     this.getRoles();
-    this.getUsers(1);
+    this.http.referralTypes({}).single().subscribe(res => {
+      this.referralTypes = res;
+      this.getUsers(1);
+    }, () => { });
   }
 
   next() {
@@ -65,7 +69,9 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this.http.getUsers(pageNumber, this.pageSize).map(res => { this.loading = false; return res }).subscribe(result => {
       result.forEach(element => {
-
+        if (element.referralTypeId) {
+          element.referralType = this.referralTypes.find(r => r.referralTypeId == element.referralTypeId);
+        }
         if (element.roles.includes(this.userRole)) {
           element.user = true;
         } else {
@@ -90,13 +96,37 @@ export class UsersComponent implements OnInit {
       });
       this.pageNumber = pageNumber;
       this.loading = false;
-    }, err => {
+    }, () => {
       this.loading = false;
     }, () => {
       this.loading = false;
     });
   }
 
+  getReferalType(id:any){
+    return this.referralTypes.find(r => r.referralTypeId == id);
+  }
+  changeReferalType(user,ref){
+    this.loading = true;
+    if (user.roles.length==0) {
+      this.toast.warning("Please assign this user to the client role, before you are able to assign a referral type to them.");      
+      this.loading = false;
+      return;
+    }else if (user.roles.indexOf(this.clientRole)==-1) {
+      this.toast.warning("Unable to assign a referral type to someone who is not a member of the client role.");
+      this.loading = false;
+      return;
+    }
+    this.http.setReferralType({userId:user.id,referralTypeId:ref.referralTypeId}).subscribe(res => {
+      user.referralTypeId = ref.referralTypeId;
+      this.toast.success(res.message||`${user.firstName} ${user.lastName}'s referral type was updated successfully.`);
+      this.loading = false;
+    }, (error) => {
+      this.loading = false;
+      const err = error.error;
+      this.toast.error(err.message);
+    });
+  }
 
   getRoles() {
     const data = '';
@@ -223,7 +253,7 @@ export class UsersComponent implements OnInit {
         this.users[index].indexer = !event;
       }
       console.log(this.users[index].client, this.users[index].admin, this.users[index].user, role, event);
-    },200);
+    }, 200);
   }
 
   processRoleChangeRequest(data, role, index, event) {

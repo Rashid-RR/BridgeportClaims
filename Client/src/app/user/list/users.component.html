@@ -81,6 +81,7 @@
                                         <th>Email Confirmed</th>
                                         <th>Registered Date</th>
                                         <th>Extension</th>
+                                        <th>Referral Type</th>
                                         <th>Client</th>
                                         <th>Indexer</th>
                                         <th>Admin</th>
@@ -99,8 +100,18 @@
                                                 </div>
                                             </td>
                                             <td>{{user.emailConfirmed}}</td>
-                                            <td class="center">{{user.registeredDate | date:"shortDate"}}</td>                                            
-                                            <td>{{user.extension}}</td>
+                                            <td class="center">{{user.registeredDate | date:"shortDate"}}</td>                                                                                        
+                                            <td> {{user.extension}}</td>
+                                            <td>
+                                                <div class="btn-group status">
+                                                    <button type="button" class="btn btn-box-tool dropdown-toggle status" data-toggle="dropdown">
+                                                        {{getReferalType(user.referralTypeId)}} <i class="fa fa-sort pull-right"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+                                                        <li *ngFor="let ref of referralTypes;" [class.active]="ref.referralTypeId==user.referralTypeId" (click)="changeReferalType(user,ref)"><a  style="cursor:pointer;">{{ref.typeName}}</a></li>
+                                                    </ul>
+                                                </div>
+                                            </td>
                                             <td class="center-in">
                                                 <label class="checkboxFive">
                                                     <input type="checkbox" id="checkboxFiveInput" [(ngModel)]="user.client" (ngModelChange)="showRoleConfirm(i,clientRole,$event)">

@@ -31,11 +31,14 @@ export class HttpService {
   login(data:any, headers:any): Observable<any> {
     return this.http.post('/oauth/token', data, { headers: headers })
   }
+  referralTypes(data): Observable<any> {
+    return this.http.post(this.baseUrl +'/admin/get-referral-types', data)
+  }
+  setReferralType(data): Observable<any> {
+    return this.http.post(this.baseUrl +`/admin/set-client-user-type/?userId=${data.userId}&referralTypeId=${data.referralTypeId}`, data)
+  }
   insertReferral(data): Observable<any> {
     return this.http.post(this.baseUrl +'/client/insert-referral', data)
-  }
-  referralTypes(data): Observable<any> {
-    return this.http.post(this.baseUrl +'/client/get-referral-types', data)
   }
   states(data): Observable<any> {
     return this.http.post(this.baseUrl +'/client/get-states', data)
