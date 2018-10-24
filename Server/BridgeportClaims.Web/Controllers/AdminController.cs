@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.AdminFunctions;
+using BridgeportClaims.Data.DataProviders.Clients;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
@@ -17,10 +19,47 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IAdminFunctionsProvider> _adminFunctionsProvider;
+        private readonly Lazy<IClientDataProvider> _clientDataProvider;
 
-        public AdminController(Lazy<IAdminFunctionsProvider> adminFunctionsProvider)
+        public AdminController(Lazy<IAdminFunctionsProvider> adminFunctionsProvider,
+            Lazy<IClientDataProvider> clientDataProvider)
         {
             _adminFunctionsProvider = adminFunctionsProvider;
+            _clientDataProvider = clientDataProvider;
+        }
+
+        [HttpPost]
+        [Route("set-client-user-type")]
+        public async Task<IHttpActionResult> SetClientUserType(string userId, int referralTypeId)
+        {
+            try
+            {
+                var modifiedByUserId = User.Identity.GetUserId();
+                var userEmail = await AppUserManager.GetEmailAsync(userId);
+                var referralTypeName = _clientDataProvider.Value.SetUserType(userId, referralTypeId, modifiedByUserId);
+                return Ok(new {message = $"Set the user {userEmail} to referral type {referralTypeName}."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("get-referral-types")]
+        public IHttpActionResult GetReferralTypes()
+        {
+            try
+            {
+                var types = _clientDataProvider.Value.GetReferralTypes();
+                return Ok(types);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

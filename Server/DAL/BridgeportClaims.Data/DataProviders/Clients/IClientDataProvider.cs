@@ -8,5 +8,6 @@ namespace BridgeportClaims.Data.DataProviders.Clients
         void InsertReferral(ReferralDto referral);
         IEnumerable<ReferralTypeDto> GetReferralTypes();
         IEnumerable<UsStateDto> GetUsStates();
+        string SetUserType(string userId, int referralTypeId, string modifiedByUserId);
     }
 }

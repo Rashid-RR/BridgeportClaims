@@ -21,22 +21,6 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("get-referral-types")]
-        public IHttpActionResult GetReferralTypes()
-        {
-            try
-            {
-                var types = _clientDataProvider.Value.GetReferralTypes();
-                return Ok(types);
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
-        [HttpPost]
         [Route("get-states")]
         public IHttpActionResult GetStates()
         {

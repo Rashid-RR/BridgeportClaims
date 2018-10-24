@@ -35,7 +35,6 @@ namespace BridgeportClaims.Data.DataProviders.Clients
                 ps.Add("@Notes", referral.Notes, DbType.AnsiString, size: 8000);
                 ps.Add("@ReferredBy", referral.ReferredBy, DbType.String, size: 128);
                 ps.Add("@ReferralDate", referral.ReferralDate, DbType.DateTime2);
-                ps.Add("@ReferralTypeID", referral.ReferralTypeId, DbType.Byte);
                 ps.Add("@EligibilityStart", referral.EligibilityStart, DbType.DateTime2);
                 ps.Add("@EligibilityEnd", referral.EligibilityEnd, DbType.DateTime2);
                 ps.Add("@Address1", referral.Address1, DbType.AnsiString, size: 255);
@@ -67,6 +66,22 @@ namespace BridgeportClaims.Data.DataProviders.Clients
                     conn.Open();
                 }
                 return conn.Query<UsStateDto>(StatesQuery, commandType: CommandType.Text)?.OrderBy(x => x.StateName);
+            });
+
+        public string SetUserType(string userId, int referralTypeId, string modifiedByUserId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[client].[uspUserTypeUpsert]";
+                var ps = new DynamicParameters();
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                ps.Add("@ReferralTypeID", referralTypeId, DbType.Byte);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var result = conn.Query<string>(sp, ps, commandType: CommandType.StoredProcedure);
+                return result.SingleOrDefault();
             });
     }
 }
