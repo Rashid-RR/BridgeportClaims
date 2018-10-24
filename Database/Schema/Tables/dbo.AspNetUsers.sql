@@ -15,7 +15,8 @@ CREATE TABLE [dbo].[AspNetUsers]
 [LockoutEndDateUtc] [datetime] NULL,
 [LockoutEnabled] [bit] NOT NULL,
 [AccessFailedCount] [int] NOT NULL,
-[Extension] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+[Extension] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ReferralTypeID] [tinyint] NULL
 ) ON [PRIMARY]
 WITH
 (
@@ -25,4 +26,6 @@ GO
 ALTER TABLE [dbo].[AspNetUsers] ADD CONSTRAINT [pkAspNetUsers] PRIMARY KEY CLUSTERED  ([ID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE UNIQUE NONCLUSTERED INDEX [idxUqAspNetUsersName] ON [dbo].[AspNetUsers] ([UserName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[AspNetUsers] ADD CONSTRAINT [fkAspNetUsersReferralTypeIDReferralTypeReferralTypeID] FOREIGN KEY ([ReferralTypeID]) REFERENCES [client].[ReferralType] ([ReferralTypeID])
 GO
