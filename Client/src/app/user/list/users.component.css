@@ -205,6 +205,18 @@ table#dataTables-example tbody tr td.center-in {
 .white {
   color: #ffffff;
 }
-td .btn-group.open .dropdown-toggle {
+.btn-group.status{
+	position: relative;
+	width:100%;
+	padding: 0px;
+	margin-top: 0px;
+}
+td .btn-group .dropdown-toggle {
 	box-shadow: none;
+	padding: 4px 1px;
+	width:100%;
+	text-align: right;
+}
+td .btn-group.open .dropdown-toggle {
+	box-shadow: none; 
 }

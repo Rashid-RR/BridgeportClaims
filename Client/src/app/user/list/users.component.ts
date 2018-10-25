@@ -44,10 +44,11 @@ export class UsersComponent implements OnInit {
     });
     this.loading = false;
     this.getRoles();
+    this.loading = true;
     this.http.referralTypes({}).single().subscribe(res => {
       this.referralTypes = res;
       this.getUsers(1);
-    }, () => { });
+    }, () => { this.loading = false;});
   }
 
   next() {
@@ -95,8 +96,6 @@ export class UsersComponent implements OnInit {
         this.users.push(element);
       });
       this.pageNumber = pageNumber;
-      this.loading = false;
-    }, () => {
       this.loading = false;
     }, () => {
       this.loading = false;
