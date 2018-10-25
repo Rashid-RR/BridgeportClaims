@@ -15,6 +15,7 @@ namespace BridgeportClaims.Web.Models
         public string LastName { get; set; }
         public DateTime RegisteredDate { get; set; }
         public string Extension { get; set; }
+        public byte? ReferralTypeId { get; set; }
         public IList<string> Roles { get; set; }
     }
 }

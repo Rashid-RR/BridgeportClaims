@@ -22,8 +22,14 @@ AS BEGIN
 		UPDATE SET tgt.ReferralTypeID = src.ReferralTypeID,
 				   tgt.ModifiedByUserID = src.ModifiedByUserID,
 				   tgt.UpdatedOnUTC = src.UpdatedOnUTC;
+
+	UPDATE x SET x.ReferralTypeID = @ReferralTypeID
+	FROM dbo.AspNetUsers AS x
+	WHERE x.ID = @UserID;
+
 	SELECT rt.TypeName
 	FROM client.ReferralType AS rt
 	WHERE rt.ReferralTypeID = @ReferralTypeID;
 END
+
 GO
