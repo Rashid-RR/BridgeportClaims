@@ -104,7 +104,9 @@ export class UsersComponent implements OnInit {
   }
 
   getReferalType(id:any){
-    return this.referralTypes.find(r => r.referralTypeId == id);
+    let ref = this.referralTypes.find(r => r.referralTypeId == id);
+    if(!ref){return '';}
+    return ref.typeName;
   }
   changeReferalType(user,ref){
     this.loading = true;
