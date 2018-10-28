@@ -9,7 +9,6 @@ using System.Reflection;
 using AutoMapper;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
-using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Documents;
@@ -40,11 +39,12 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get-indexed-checks")]
-        public IHttpActionResult GetIndexedChecks()
+        public IHttpActionResult GetIndexedChecks(SmallDocumentViewModel model)
         {
             try
             {
-                var results = _documentDataProvider.Value.GetIndexedChecks();
+                var results = _documentDataProvider.Value.GetIndexedChecks(model.Date.ToNullableFormattedDateTime(),
+                    model.FileName, model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(results);
             }
             catch (Exception ex)
@@ -87,7 +87,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         /// <summary>
-        /// First call, gets the initial Claims, to then drill into to enter the Prescrtions.
+        /// First call, gets the initial Claims, to then drill into to enter the Prescriptions.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

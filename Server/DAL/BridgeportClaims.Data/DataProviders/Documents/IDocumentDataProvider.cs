@@ -10,5 +10,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
             int fileTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize);
         DocumentsDto GetInvalidDocuments(DateTime? date, string fileName, string sortColumn, string sortDirection,
             int pageNumber, int pageSize);
+        IndexedChecksDto GetIndexedChecks(DateTime? date, string fileName, string sortColumn, string sortDirection,
+            int pageNumber, int pageSize);
     }
 }

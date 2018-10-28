@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    public sealed class InvalidDocumentViewModel
+    public sealed class SmallDocumentViewModel
     {
         public string Date { get; set; }
         public string FileName { get; set; }

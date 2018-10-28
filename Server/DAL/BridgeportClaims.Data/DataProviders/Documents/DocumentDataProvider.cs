@@ -192,5 +192,33 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 };
                 return docs;
             });
+
+        public IndexedChecksDto GetIndexedChecks(DateTime? date, string fileName, string sortColumn,
+            string sortDirection, int pageNumber,
+            int pageSize) => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+        {
+            const string sp = "[dbo].[uspGetIndexedChecks]";
+            const string totalRows = "@TotalRows";
+            var ps = new DynamicParameters();
+            ps.Add("@Date", date, DbType.Date);
+            ps.Add("@FileName", fileName, DbType.AnsiString, size: 1000);
+            ps.Add("@SortColumn", sortColumn, DbType.AnsiString, size: 50);
+            ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
+            ps.Add("@PageNumber", pageNumber, DbType.Int32);
+            ps.Add("@PageSize", pageSize, DbType.Int32);
+            ps.Add("@TotalRows", totalRows, DbType.Int32, ParameterDirection.Output);
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            var results = conn.Query<IndexedChecksResultsDto>(sp, ps, commandType: CommandType.StoredProcedure)?.ToList() ??
+                          new List<IndexedChecksResultsDto>();
+            var docs = new IndexedChecksDto
+            {
+                Results = results,
+                TotalRowCount = ps.Get<int>(totalRows)
+            };
+            return docs;
+        });
     }
 }
