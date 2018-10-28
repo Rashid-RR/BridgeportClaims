@@ -12,6 +12,7 @@ using BridgeportClaims.Web.Models;
 using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.Payments;
 using Microsoft.AspNet.Identity;
 using cs = BridgeportClaims.Common.Config.ConfigService;
@@ -24,17 +25,33 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IPaymentsDataProvider> _paymentsDataProvider;
-        private readonly Lazy<IPaymentsBusiness> _paymentsBusiness;
         private readonly Lazy<IMemoryCacher> _memoryCacher;
         private static readonly UserPaymentPostingSession Shell = null;
+        private readonly Lazy<IDocumentDataProvider> _documentDataProvider;
 
         public PaymentsController(
-            Lazy<IPaymentsDataProvider> paymentsDataProvider, 
-            Lazy<IPaymentsBusiness> paymentsBusiness)
+            Lazy<IPaymentsDataProvider> paymentsDataProvider,
+            Lazy<IDocumentDataProvider> documentDataProvider)
         {
             _paymentsDataProvider = paymentsDataProvider;
-            _paymentsBusiness = paymentsBusiness;
+            _documentDataProvider = documentDataProvider;
             _memoryCacher = new Lazy<IMemoryCacher>(() => MemoryCacher.Instance);
+        }
+
+        [HttpPost]
+        [Route("get-indexed-checks")]
+        public IHttpActionResult GetIndexedChecks()
+        {
+            try
+            {
+                var results = _documentDataProvider.Value.GetIndexedChecks();
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

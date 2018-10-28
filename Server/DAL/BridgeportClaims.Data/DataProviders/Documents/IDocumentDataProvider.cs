@@ -3,7 +3,7 @@ using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders.Documents
 {
-    public interface IDocumentsProvider
+    public interface IDocumentDataProvider
     {
         void ArchiveDocument(int documentId, string modifiedByUserId);
         DocumentsDto GetDocuments(DateTime? date, bool archived, string fileName, 

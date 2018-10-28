@@ -128,8 +128,8 @@
     <Compile Include="DataProviders\Diaries\IDiaryProvider.cs" />
     <Compile Include="DataProviders\DocumentIndexes\DocumentIndexProvider.cs" />
     <Compile Include="DataProviders\DocumentIndexes\IDocumentIndexProvider.cs" />
-    <Compile Include="DataProviders\Documents\DocumentsProvider.cs" />
-    <Compile Include="DataProviders\Documents\IDocumentsProvider.cs" />
+    <Compile Include="DataProviders\Documents\DocumentDataProvider.cs" />
+    <Compile Include="DataProviders\Documents\IDocumentDataProvider.cs" />
     <Compile Include="DataProviders\EpisodeNotes\EpisodeNoteProvider.cs" />
     <Compile Include="DataProviders\EpisodeNotes\IEpisodeNoteProvider.cs" />
     <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />

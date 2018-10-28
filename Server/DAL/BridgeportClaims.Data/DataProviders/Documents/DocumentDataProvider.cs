@@ -10,7 +10,7 @@ using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.Documents
 {
-    public class DocumentsProvider : IDocumentsProvider
+    public class DocumentDataProvider : IDocumentDataProvider
     {
         public IEnumerable<DocumentTypeDto> GetDocumentTypes() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
