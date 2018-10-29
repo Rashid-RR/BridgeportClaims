@@ -50,6 +50,38 @@ namespace BridgeportClaims.Web.Controllers
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
+        [Route("get-indexed-check-details")]
+        public IHttpActionResult GetIndexedCheckDetails(int documentId)
+        {
+            try
+            {
+                var results = _documentDataProvider.Value.GetIndexedCheckDetails(documentId);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
+        [Route("re-index-check")]
+        public IHttpActionResult ReIndexCheck(int documentId)
+        {
+            try
+            {
+                _documentDataProvider.Value.ReIndexCheck(documentId);
+                return Ok(new {message = "The check was re-indexed successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }

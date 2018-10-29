@@ -15,11 +15,13 @@ namespace BridgeportClaims.Data.DataProviders.Documents
         public IEnumerable<DocumentTypeDto> GetDocumentTypes() =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                const string query = "SELECT [dt].[DocumentTypeID] DocumentTypeId, [dt].[TypeName] FROM [dbo].[DocumentType] AS [dt]";
+                const string query =
+                    "SELECT [dt].[DocumentTypeID] DocumentTypeId, [dt].[TypeName] FROM [dbo].[DocumentType] AS [dt]";
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
+
                 return conn.Query<DocumentTypeDto>(query, commandType: CommandType.Text)?.OrderBy(o => o.TypeName);
             });
 
@@ -37,7 +39,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     documentIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(documentIdParam);
                     var modifiedByUserIdParam = cmd.CreateParameter();
-                    modifiedByUserIdParam.Value = modifiedByUserId ?? (object)DBNull.Value;
+                    modifiedByUserIdParam.Value = modifiedByUserId ?? (object) DBNull.Value;
                     modifiedByUserIdParam.DbType = DbType.String;
                     modifiedByUserIdParam.SqlDbType = SqlDbType.NVarChar;
                     modifiedByUserIdParam.Size = 128;
@@ -52,7 +54,8 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 });
             });
 
-        public DocumentsDto GetDocuments(DateTime? date, bool archived, string fileName, int fileTypeId, string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
+        public DocumentsDto GetDocuments(DateTime? date, bool archived, string fileName, int fileTypeId,
+            string sortColumn, string sortDirection, int pageNumber, int pageSize) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspGetDocuments]", conn), cmd =>
@@ -63,7 +66,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     dateParam.Direction = ParameterDirection.Input;
                     dateParam.SqlDbType = SqlDbType.Date;
                     dateParam.DbType = DbType.Date;
-                    dateParam.Value = date ?? (object)DBNull.Value;
+                    dateParam.Value = date ?? (object) DBNull.Value;
                     dateParam.ParameterName = "@Date";
                     cmd.Parameters.Add(dateParam);
                     var archivedParam = cmd.CreateParameter();
@@ -78,7 +81,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     fileNameParam.SqlDbType = SqlDbType.VarChar;
                     fileNameParam.Size = 1000;
                     fileNameParam.DbType = DbType.AnsiString;
-                    fileNameParam.Value = fileName ?? (object)DBNull.Value;
+                    fileNameParam.Value = fileName ?? (object) DBNull.Value;
                     fileNameParam.ParameterName = "@FileName";
                     cmd.Parameters.Add(fileNameParam);
                     var sortColumnParam = cmd.CreateParameter();
@@ -87,12 +90,12 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     sortColumnParam.Size = 50;
                     sortColumnParam.DbType = DbType.AnsiString;
                     sortColumnParam.ParameterName = "@SortColumn";
-                    sortColumnParam.Value = sortColumn ?? (object)DBNull.Value;
+                    sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
                     cmd.Parameters.Add(sortColumnParam);
                     var sortDirectionParam = cmd.CreateParameter();
                     sortDirectionParam.ParameterName = "@SortDirection";
                     sortDirectionParam.DbType = DbType.String;
-                    sortDirectionParam.Value = sortDirection ?? (object)DBNull.Value;
+                    sortDirectionParam.Value = sortDirection ?? (object) DBNull.Value;
                     sortDirectionParam.SqlDbType = SqlDbType.VarChar;
                     sortDirectionParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(sortDirectionParam);
@@ -143,11 +146,21 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                             {
                                 CreationTimeLocal = reader.GetDateTime(creationTimeOrdinal),
                                 DocumentId = reader.GetInt32(documentIdOrdinal),
-                                Extension = !reader.IsDBNull(extensionOrdinal) ? reader.GetString(extensionOrdinal) : string.Empty,
-                                FileName = !reader.IsDBNull(fileNameOrdinal) ? reader.GetString(fileNameOrdinal) : string.Empty,
-                                FileSize = !reader.IsDBNull(fileSizeOrdinal) ? reader.GetString(fileSizeOrdinal) : string.Empty,
-                                FileUrl = !reader.IsDBNull(fileUrlOrdinal) ? reader.GetString(fileUrlOrdinal) : string.Empty,
-                                FullFilePath = !reader.IsDBNull(fullFilePathOrdinal) ? reader.GetString(fullFilePathOrdinal) : string.Empty,
+                                Extension = !reader.IsDBNull(extensionOrdinal)
+                                    ? reader.GetString(extensionOrdinal)
+                                    : string.Empty,
+                                FileName = !reader.IsDBNull(fileNameOrdinal)
+                                    ? reader.GetString(fileNameOrdinal)
+                                    : string.Empty,
+                                FileSize = !reader.IsDBNull(fileSizeOrdinal)
+                                    ? reader.GetString(fileSizeOrdinal)
+                                    : string.Empty,
+                                FileUrl = !reader.IsDBNull(fileUrlOrdinal)
+                                    ? reader.GetString(fileUrlOrdinal)
+                                    : string.Empty,
+                                FullFilePath = !reader.IsDBNull(fullFilePathOrdinal)
+                                    ? reader.GetString(fullFilePathOrdinal)
+                                    : string.Empty,
                                 LastAccessTimeLocal = reader.GetDateTime(lastAccessTimeOrdinal),
                                 LastWriteTimeLocal = reader.GetDateTime(lastWriteTimeOrdinal)
                             };
@@ -173,6 +186,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 {
                     conn.Open();
                 }
+
                 var ps = new DynamicParameters();
                 ps.Add("@Date", date, DbType.Date);
                 ps.Add("@FileName", fileName, DbType.AnsiString, size: 1000);
@@ -211,7 +225,9 @@ namespace BridgeportClaims.Data.DataProviders.Documents
             {
                 conn.Open();
             }
-            var results = conn.Query<IndexedChecksResultsDto>(sp, ps, commandType: CommandType.StoredProcedure)?.ToList() ??
+
+            var results = conn.Query<IndexedChecksResultsDto>(sp, ps, commandType: CommandType.StoredProcedure)
+                              ?.ToList() ??
                           new List<IndexedChecksResultsDto>();
             var docs = new IndexedChecksDto
             {
@@ -220,5 +236,30 @@ namespace BridgeportClaims.Data.DataProviders.Documents
             };
             return docs;
         });
+
+        public IEnumerable<IndexedChecksDetailDto> GetIndexedCheckDetails(int documentId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetIndexedCheckDetails]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+
+                return conn.Query<IndexedChecksDetailDto>(sp, new {DocumentID = documentId},
+                    commandType: CommandType.StoredProcedure);
+            });
+
+        public void ReIndexCheck(int documentId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspRePostCheck]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                conn.Execute(sp, new {DocumentID = documentId},
+                    commandType: CommandType.StoredProcedure);
+            });
     }
 }

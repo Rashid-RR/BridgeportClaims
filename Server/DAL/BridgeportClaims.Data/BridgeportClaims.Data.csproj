@@ -208,6 +208,7 @@
     <Compile Include="Dtos\AcctPayableDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
     <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
+    <Compile Include="Dtos\IndexedChecksDetailDto.cs" />
     <Compile Include="Dtos\IndexedChecksDto.cs" />
     <Compile Include="Dtos\IndexedChecksResultsDto.cs" />
     <Compile Include="Dtos\IndexedInvoiceDto.cs" />

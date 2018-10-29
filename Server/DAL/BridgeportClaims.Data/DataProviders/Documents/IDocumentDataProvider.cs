@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using BridgeportClaims.Data.Dtos;
 
 namespace BridgeportClaims.Data.DataProviders.Documents
@@ -12,5 +13,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
             int pageNumber, int pageSize);
         IndexedChecksDto GetIndexedChecks(DateTime? date, string fileName, string sortColumn, string sortDirection,
             int pageNumber, int pageSize);
+        IEnumerable<IndexedChecksDetailDto> GetIndexedCheckDetails(int documentId);
+        void ReIndexCheck(int documentId);
     }
 }
