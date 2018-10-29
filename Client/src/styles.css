@@ -773,8 +773,11 @@ button.grey1{
   height: 0px !important;
 }
 div.toast,#toast-container{
-  z-index: 9999993 !important;
+  z-index: 9999995 !important;
 }
 .modal.show.in{
   z-index: 9999992;
+}
+.select2-container.select2-container--open {
+  z-index: 9999994 !important;
 }
