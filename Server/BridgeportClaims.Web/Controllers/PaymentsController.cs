@@ -72,11 +72,11 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("re-index-check")]
-        public IHttpActionResult ReIndexCheck(int documentId)
+        public IHttpActionResult ReIndexCheck(int documentId, bool skipPayments)
         {
             try
             {
-                _documentDataProvider.Value.ReIndexCheck(documentId);
+                _documentDataProvider.Value.ReIndexCheck(documentId, skipPayments);
                 return Ok(new {message = "The check was re-indexed successfully."});
             }
             catch (Exception ex)

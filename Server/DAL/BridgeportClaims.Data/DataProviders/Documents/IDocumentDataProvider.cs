@@ -14,6 +14,6 @@ namespace BridgeportClaims.Data.DataProviders.Documents
         IndexedChecksDto GetIndexedChecks(DateTime? date, string fileName, string sortColumn, string sortDirection,
             int pageNumber, int pageSize);
         IEnumerable<IndexedChecksDetailDto> GetIndexedCheckDetails(int documentId);
-        void ReIndexCheck(int documentId);
+        void ReIndexCheck(int documentId, bool skipPayments);
     }
 }
