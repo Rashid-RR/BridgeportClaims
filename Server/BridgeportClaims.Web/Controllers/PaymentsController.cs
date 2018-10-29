@@ -9,9 +9,9 @@ using System.Reflection;
 using AutoMapper;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
-using BridgeportClaims.Business.Payments;
 using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
+using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.Payments;
 using Microsoft.AspNet.Identity;
 using cs = BridgeportClaims.Common.Config.ConfigService;
@@ -24,17 +24,66 @@ namespace BridgeportClaims.Web.Controllers
     {
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IPaymentsDataProvider> _paymentsDataProvider;
-        private readonly Lazy<IPaymentsBusiness> _paymentsBusiness;
         private readonly Lazy<IMemoryCacher> _memoryCacher;
         private static readonly UserPaymentPostingSession Shell = null;
+        private readonly Lazy<IDocumentDataProvider> _documentDataProvider;
 
         public PaymentsController(
-            Lazy<IPaymentsDataProvider> paymentsDataProvider, 
-            Lazy<IPaymentsBusiness> paymentsBusiness)
+            Lazy<IPaymentsDataProvider> paymentsDataProvider,
+            Lazy<IDocumentDataProvider> documentDataProvider)
         {
             _paymentsDataProvider = paymentsDataProvider;
-            _paymentsBusiness = paymentsBusiness;
+            _documentDataProvider = documentDataProvider;
             _memoryCacher = new Lazy<IMemoryCacher>(() => MemoryCacher.Instance);
+        }
+
+        [HttpPost]
+        [Route("get-indexed-checks")]
+        public IHttpActionResult GetIndexedChecks(SmallDocumentViewModel model)
+        {
+            try
+            {
+                var results = _documentDataProvider.Value.GetIndexedChecks(model.Date.ToNullableFormattedDateTime(),
+                    model.FileName, model.Sort, model.SortDirection, model.Page, model.PageSize);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
+        [Route("get-indexed-check-details")]
+        public IHttpActionResult GetIndexedCheckDetails(int documentId)
+        {
+            try
+            {
+                var results = _documentDataProvider.Value.GetIndexedCheckDetails(documentId);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
+        }
+
+        [HttpPost]
+        [Route("re-index-check")]
+        public IHttpActionResult ReIndexCheck(int documentId, bool skipPayments)
+        {
+            try
+            {
+                _documentDataProvider.Value.ReIndexCheck(documentId, skipPayments);
+                return Ok(new {message = "The check was re-indexed successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
@@ -70,7 +119,7 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         /// <summary>
-        /// First call, gets the initial Claims, to then drill into to enter the Prescrtions.
+        /// First call, gets the initial Claims, to then drill into to enter the Prescriptions.
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>

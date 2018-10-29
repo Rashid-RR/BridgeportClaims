@@ -12,17 +12,18 @@ using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "Indexer, Admin")]
+    [Authorize(Roles = "Indexer,Admin")]
     [RoutePrefix("api/document")]
     public class DocumentsController : BaseApiController
     {
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
-        private readonly Lazy<IDocumentsProvider> _documentsProvider;
+        private readonly Lazy<IDocumentDataProvider> _documentDataProvider;
         private readonly Lazy<IClaimSearchProvider> _claimSearchProvider;
 
-        public DocumentsController(Lazy<IDocumentsProvider> documentsProvider, Lazy<IClaimSearchProvider> claimSearchProvider)
+        public DocumentsController(Lazy<IDocumentDataProvider> documentDataProvider,
+            Lazy<IClaimSearchProvider> claimSearchProvider)
         {
-            _documentsProvider = documentsProvider;
+            _documentDataProvider = documentDataProvider;
             _claimSearchProvider = claimSearchProvider;
         }
 
@@ -34,7 +35,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 // Database call
-                _documentsProvider.Value.ArchiveDocument(documentId, userId);
+                _documentDataProvider.Value.ArchiveDocument(documentId, userId);
                 // SignalR Call
                 var hubContext = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager
                     .GetHubContext<DocumentsHub>();
@@ -65,11 +66,11 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get-invalid")]
-        public IHttpActionResult GetInvalidDocuments(InvalidDocumentViewModel model)
+        public IHttpActionResult GetInvalidDocuments(SmallDocumentViewModel model)
         {
             try
             {
-                var results = _documentsProvider.Value.GetInvalidDocuments(model.Date.ToNullableFormattedDateTime(),
+                var results = _documentDataProvider.Value.GetInvalidDocuments(model.Date.ToNullableFormattedDateTime(),
                     model.FileName, model.Sort, model.SortDirection, model.Page, model.PageSize);
                 return Ok(results);
             }
@@ -87,7 +88,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var results = _documentsProvider.Value.GetDocuments(model.Date.ToNullableFormattedDateTime(),
+                var results = _documentDataProvider.Value.GetDocuments(model.Date.ToNullableFormattedDateTime(),
                     model.Archived, model.FileName, model.FileTypeId, model.Sort,
                     model.SortDirection, model.Page,
                     model.PageSize);

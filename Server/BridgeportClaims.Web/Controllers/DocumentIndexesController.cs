@@ -115,7 +115,7 @@ namespace BridgeportClaims.Web.Controllers
 
                 var episodeCreated = _episodesDataProvider.Value.CreateImageCategoryEpisode(model.DocumentTypeId,
                     model.ClaimId, model.RxNumber, userId, model.DocumentId);
-                var msg = $"The image was {(wasUpdate ? "reindexed" : "indexed")} successfully.";
+                var msg = $"The image was {(wasUpdate ? "re-indexed" : "indexed")} successfully.";
                 if (episodeCreated)
                     msg += " And a new episode was created.";
                 if (!cs.AppIsInDebugMode) return Ok(new {message = msg});
