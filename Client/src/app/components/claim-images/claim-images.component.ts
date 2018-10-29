@@ -106,7 +106,7 @@ export class ClaimImagesComponent implements OnInit {
     }
   }
   reindex(image: any) {
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: "Reindex Image",
       message: "Are you sure you wish to reindex this image?"
     })

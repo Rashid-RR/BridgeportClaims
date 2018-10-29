@@ -59,7 +59,7 @@ export class EpisodeResultsComponent implements OnInit {
     })
   }
   acquire(episode: Episode) {    
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: 'Acquire Episode',
       message: 'Are you sure you want to acquire this episode?'
     })

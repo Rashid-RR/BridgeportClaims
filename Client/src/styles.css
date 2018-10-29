@@ -781,3 +781,7 @@ div.toast,#toast-container{
 .select2-container.select2-container--open {
   z-index: 9999994 !important;
 }
+ 
+.swal2-shown .modal.show.in{
+  z-index: 9999994 !important;
+}
