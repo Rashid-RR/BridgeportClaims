@@ -57,7 +57,7 @@
     <DataWriteAllFilesInOneDirectory>True</DataWriteAllFilesInOneDirectory>
   </WriteToFileOptions>
   <DataFileSet>
-    <Count>25</Count>
+    <Count>26</Count>
     <DataFile>dbo.AspNetRoles_Data.sql</DataFile>
     <DataFile>dbo.Gender_Data.sql</DataFile>
     <DataFile>dbo.UsState_Data.sql</DataFile>
@@ -83,5 +83,6 @@
     <DataFile>dbo.EpisodeTypeUsersMapping_Data.sql</DataFile>
     <DataFile>dbo.FileType_Data.sql</DataFile>
     <DataFile>dbo.NotificationType_Data.sql</DataFile>
+    <DataFile>client.ReferralType_Data.sql</DataFile>
   </DataFileSet>
 </DatabaseInformation>
