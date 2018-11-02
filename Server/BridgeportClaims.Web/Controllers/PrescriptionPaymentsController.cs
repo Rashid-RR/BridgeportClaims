@@ -45,8 +45,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 _provider.Value.UpdatePrescriptionPayment(model.PrescriptionPaymentId, model.CheckNumber,
-                    model.AmountPaid,
-                    model.DatePosted.ToNullableFormattedDateTime(), model.PrescriptionId, userId);
+                    model.AmountPaid, model.DatePosted.ToNullableFormattedDateTime(), userId);
                 return Ok(new {message = "The prescription payment was updated successfully."});
             }
             catch (Exception e)

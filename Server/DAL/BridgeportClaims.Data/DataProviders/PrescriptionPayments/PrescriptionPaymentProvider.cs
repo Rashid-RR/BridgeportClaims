@@ -22,7 +22,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionPayments
             });
 
         public void UpdatePrescriptionPayment(int prescriptionPaymentId, string checkNumber, decimal amountPaid,
-            DateTime? datePosted, int prescriptionId, string userId) =>
+            DateTime? datePosted, string userId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspUpdatePrescriptionPayment]";

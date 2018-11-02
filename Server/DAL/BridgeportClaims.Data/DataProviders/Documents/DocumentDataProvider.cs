@@ -39,7 +39,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     documentIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(documentIdParam);
                     var modifiedByUserIdParam = cmd.CreateParameter();
-                    modifiedByUserIdParam.Value = modifiedByUserId ?? (object) DBNull.Value;
+                    modifiedByUserIdParam.Value = modifiedByUserId ?? (object)DBNull.Value;
                     modifiedByUserIdParam.DbType = DbType.String;
                     modifiedByUserIdParam.SqlDbType = SqlDbType.NVarChar;
                     modifiedByUserIdParam.Size = 128;
@@ -66,7 +66,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     dateParam.Direction = ParameterDirection.Input;
                     dateParam.SqlDbType = SqlDbType.Date;
                     dateParam.DbType = DbType.Date;
-                    dateParam.Value = date ?? (object) DBNull.Value;
+                    dateParam.Value = date ?? (object)DBNull.Value;
                     dateParam.ParameterName = "@Date";
                     cmd.Parameters.Add(dateParam);
                     var archivedParam = cmd.CreateParameter();
@@ -81,7 +81,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     fileNameParam.SqlDbType = SqlDbType.VarChar;
                     fileNameParam.Size = 1000;
                     fileNameParam.DbType = DbType.AnsiString;
-                    fileNameParam.Value = fileName ?? (object) DBNull.Value;
+                    fileNameParam.Value = fileName ?? (object)DBNull.Value;
                     fileNameParam.ParameterName = "@FileName";
                     cmd.Parameters.Add(fileNameParam);
                     var sortColumnParam = cmd.CreateParameter();
@@ -90,12 +90,12 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     sortColumnParam.Size = 50;
                     sortColumnParam.DbType = DbType.AnsiString;
                     sortColumnParam.ParameterName = "@SortColumn";
-                    sortColumnParam.Value = sortColumn ?? (object) DBNull.Value;
+                    sortColumnParam.Value = sortColumn ?? (object)DBNull.Value;
                     cmd.Parameters.Add(sortColumnParam);
                     var sortDirectionParam = cmd.CreateParameter();
                     sortDirectionParam.ParameterName = "@SortDirection";
                     sortDirectionParam.DbType = DbType.String;
-                    sortDirectionParam.Value = sortDirection ?? (object) DBNull.Value;
+                    sortDirectionParam.Value = sortDirection ?? (object)DBNull.Value;
                     sortDirectionParam.SqlDbType = SqlDbType.VarChar;
                     sortDirectionParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(sortDirectionParam);
@@ -246,7 +246,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     conn.Open();
                 }
 
-                return conn.Query<IndexedChecksDetailDto>(sp, new {DocumentID = documentId},
+                return conn.Query<IndexedChecksDetailDto>(sp, new { DocumentID = documentId },
                     commandType: CommandType.StoredProcedure);
             });
 
@@ -258,7 +258,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 {
                     conn.Open();
                 }
-                conn.Execute(sp, new {DocumentID = documentId, SkipPayments = skipPayments},
+                conn.Execute(sp, new { DocumentID = documentId, SkipPayments = skipPayments },
                     commandType: CommandType.StoredProcedure);
             });
     }

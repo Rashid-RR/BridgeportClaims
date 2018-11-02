@@ -13,6 +13,7 @@ using BridgeportClaims.Common.Caching;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Documents;
 using BridgeportClaims.Data.DataProviders.Payments;
+using BridgeportClaims.Data.DataProviders.PrescriptionPayments;
 using Microsoft.AspNet.Identity;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
@@ -27,13 +28,16 @@ namespace BridgeportClaims.Web.Controllers
         private readonly Lazy<IMemoryCacher> _memoryCacher;
         private static readonly UserPaymentPostingSession Shell = null;
         private readonly Lazy<IDocumentDataProvider> _documentDataProvider;
+        private readonly Lazy<IPrescriptionPaymentProvider> _prescriptionPaymentProvider;
 
         public PaymentsController(
             Lazy<IPaymentsDataProvider> paymentsDataProvider,
-            Lazy<IDocumentDataProvider> documentDataProvider)
+            Lazy<IDocumentDataProvider> documentDataProvider,
+            Lazy<IPrescriptionPaymentProvider> prescriptionPaymentProvider)
         {
             _paymentsDataProvider = paymentsDataProvider;
             _documentDataProvider = documentDataProvider;
+            _prescriptionPaymentProvider = prescriptionPaymentProvider;
             _memoryCacher = new Lazy<IMemoryCacher>(() => MemoryCacher.Instance);
         }
 
@@ -78,6 +82,24 @@ namespace BridgeportClaims.Web.Controllers
             {
                 _documentDataProvider.Value.ReIndexCheck(documentId, skipPayments);
                 return Ok(new {message = "The check was re-indexed successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("update-payments")]
+        public IHttpActionResult UpdatePayments(UpdatePaymentsModel model)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                _prescriptionPaymentProvider.Value.UpdatePrescriptionPayment(model.PrescriptionPaymentId,
+                    model.CheckNumber, model.AmountPaid, model.DatePosted.ToNullableFormattedDateTime(), userId);
+                return Ok(new { message = "The payment was updated successfully." });
             }
             catch (Exception ex)
             {
