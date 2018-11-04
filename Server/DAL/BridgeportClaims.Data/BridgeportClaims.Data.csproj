@@ -122,6 +122,8 @@
     <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\Clients\ClientDataProvider.cs" />
     <Compile Include="DataProviders\Clients\IClientDataProvider.cs" />
+    <Compile Include="DataProviders\CollectionAssignments\CollectionAssignmentProvider.cs" />
+    <Compile Include="DataProviders\CollectionAssignments\ICollectionAssignmentProvider.cs" />
     <Compile Include="DataProviders\Dashboards\DashboardProvider.cs" />
     <Compile Include="DataProviders\Dashboards\IDashboardProvider.cs" />
     <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />

@@ -250,7 +250,7 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                     commandType: CommandType.StoredProcedure);
             });
 
-        public void ReIndexCheck(int documentId, bool skipPayments) =>
+        public void ReIndexCheck(int documentId, bool skipPayments, int? prescriptionPaymentId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspRePostCheck]";
@@ -258,7 +258,12 @@ namespace BridgeportClaims.Data.DataProviders.Documents
                 {
                     conn.Open();
                 }
-                conn.Execute(sp, new { DocumentID = documentId, SkipPayments = skipPayments },
+                conn.Execute(sp,
+                    new
+                    {
+                        DocumentID = documentId, SkipPayments = skipPayments,
+                        PrescriptionPaymentID = prescriptionPaymentId
+                    },
                     commandType: CommandType.StoredProcedure);
             });
     }
