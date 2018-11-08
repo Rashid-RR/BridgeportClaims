@@ -31,5 +31,7 @@ namespace BridgeportClaims.Data.Dtos
         public string UserLastName { get; set; }
         [StringLength(60)]
         public string PharmacyName { get; set; }
+        [StringLength(30)]
+        public string Extension { get; set; }
     }
 }

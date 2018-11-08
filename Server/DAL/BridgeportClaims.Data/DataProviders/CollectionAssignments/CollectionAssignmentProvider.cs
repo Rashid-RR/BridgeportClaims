@@ -1,46 +1,28 @@
-﻿using System.Data;
+﻿using Dapper;
+using System.Data;
 using System.Data.SqlClient;
 using BridgeportClaims.Common.Disposable;
-using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using s = BridgeportClaims.Common.Constants.StringConstants;
+
 
 namespace BridgeportClaims.Data.DataProviders.CollectionAssignments
 {
     public class CollectionAssignmentProvider : ICollectionAssignmentProvider
     {
-        public void InsertCollectionAssignment(string userId, int payorId, string modifiedByUserId)
+        public void MergeCollectionAssignments(string userId, string modifiedByUserId, DataTable dt)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
-                const string sp = "[dbo].[uspCollectionAssignmentInsert]";
+                const string sp = "[dbo].[uspMergeCollectionAssignments]";
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
-                conn.Execute(sp, new {UserID = userId, PayorID = payorId, ModifiedByUserID = modifiedByUserId},
-                    commandType: CommandType.StoredProcedure);
-            });
-
-        public void DeleteCollectionAssignment(string userId, int payorId) =>
-            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                const string sp = "[dbo].[uspCollectionAssignmentDelete]";
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                conn.Execute(sp, new {UserID = userId, PayorID = payorId}, commandType: CommandType.StoredProcedure);
-            });
-
-        public void UpdateCollectionAssignment(string userId, int payorId, string modifiedByUserId) =>
-            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                const string sp = "[dbo].[uspCollectionAssignmentUpdate]";
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                conn.Execute(sp, new {UserID = userId, PayorID = payorId, ModifiedByUserID = modifiedByUserId},
-                    commandType: CommandType.StoredProcedure);
+                var ps = new DynamicParameters();
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                ps.Add("@Payors", dt.AsTableValuedParameter(s.UdtId));
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
     }
 }

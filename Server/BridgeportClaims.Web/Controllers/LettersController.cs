@@ -2,12 +2,12 @@
 using NLog;
 using System.Net;
 using System.Web.Http;
-using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Web.CustomActionResults;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.FileDriver;
 using Microsoft.AspNet.Identity;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -27,30 +27,43 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("download")]
-        public IHttpActionResult GetImeLetter(int claimId, string letterType, int prescriptionId)
+        public IHttpActionResult GetLetter(int claimId, string letterType, int? prescriptionId = null)
         {
             try
             {
-                if (letterType.ToLower() != "be" && letterType.ToLower() != "pip" && letterType.ToLower() != "ime")
+                if (letterType.ToLower() != "be" && letterType.ToLower() != "pip" && letterType.ToLower() != "ime" &&
+                    letterType.ToLower() != "den" && letterType.ToLower() != "ui")
+                {
                     ThrowLetterTypeException(letterType);
+                }
                 var userId = User.Identity.GetUserId();
                 if (userId.IsNullOrWhiteSpace())
+                {
                     throw new ArgumentNullException(nameof(userId));
+                }
                 var type = default(LetterType);
                 var fileName = string.Empty;
                 switch (letterType.ToLower())
                 {
                     case "be":
                         type = LetterType.BenExhaust;
-                        fileName = StringConstants.BenefitsExhaustedLetter;
+                        fileName = s.BenefitsExhaustedLetter;
                         break;
                     case "pip":
                         type = LetterType.PipApp;
-                        fileName = StringConstants.PipAppLetter;
+                        fileName = s.PipAppLetter;
                         break;
                     case "ime":
                         type = LetterType.Ime;
-                        fileName = StringConstants.ImeLetterName;
+                        fileName = s.ImeLetterName;
+                        break;
+                    case "den":
+                        type = LetterType.Denial;
+                        fileName = s.DenialLetterName;
+                        break;
+                    case "ui":
+                        type = LetterType.UnderInvestigation;
+                        fileName = s.UnderInvestigationLetterName;
                         break;
                     default:
                         ThrowLetterTypeException(letterType);
@@ -66,9 +79,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        private static void ThrowLetterTypeException(string letterType)
-        {
-            throw new Exception($"Error, the only letter types allowed are 'be', 'pip' or 'ime'. You passed in '{letterType}'");
-        }
+        private static void ThrowLetterTypeException(string letterType) => throw new Exception(
+            $"Error, the only letter types allowed are 'be', 'pip', 'den', 'ui' or 'ime'. You passed in '{letterType}'");
     }
 }

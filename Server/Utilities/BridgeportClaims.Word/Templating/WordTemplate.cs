@@ -6,16 +6,16 @@ using BridgeportClaims.Data.DataProviders.LetterGenerations;
 
 namespace BridgeportClaims.Word.Templating
 {
-    public class WordTemplater : IWordTemplater
+    public class WordTemplate : IWordTemplate
     {
         private readonly Lazy<ILetterGenerationProvider> _letterGenerationProvider;
 
-        public WordTemplater(Lazy<ILetterGenerationProvider> letterGenerationProvider)
+        public WordTemplate(Lazy<ILetterGenerationProvider> letterGenerationProvider)
         {
             _letterGenerationProvider = letterGenerationProvider;
         }
 
-        public string TransformDocumentText(int claimId, string userId, string docText, int prescriptionId)
+        public string TransformDocumentText(int claimId, string userId, string docText, int? prescriptionId = null)
         {
             var data = _letterGenerationProvider.Value.GetLetterGenerationData(claimId, userId, prescriptionId);
             var ti = new CultureInfo("en-US", false).TextInfo;
@@ -42,7 +42,6 @@ namespace BridgeportClaims.Word.Templating
                           ? "</w:t><w:br/><w:t>" + ti.ToTitleCase(ti.ToLower(data.Address2))
                           : string.Empty)
                     : string.Empty);
-            
             var r5 = new Regex("Patient.City");
             docText = r5.Replace(docText,
                 data.City.IsNotNullOrWhiteSpace()
@@ -70,6 +69,9 @@ namespace BridgeportClaims.Word.Templating
             var r11 = new Regex("Asp.NetUsers.LastName");
             docText = r11.Replace(docText, data.UserLastName.IsNotNullOrWhiteSpace()
                     ? ti.ToTitleCase(ti.ToLower(data.UserLastName)) : string.Empty);
+            var r12 = new Regex("AspNetUsers.Extension");
+            docText = r12.Replace(docText, data.Extension.IsNotNullOrWhiteSpace()
+                    ? "x " + ti.ToTitleCase(ti.ToLower(data.Extension)) : string.Empty);
             return docText;
         }
     }

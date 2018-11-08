@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using BridgeportClaims.Common.Constants;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.WordProvider;
 
@@ -16,19 +16,25 @@ namespace BridgeportClaims.Word.FileDriver
             _wordDocumentProvider = wordDocumentProvider;
         }
 
-        private static Stream GetManifestResourcStream(LetterType type)
+        private static Stream GetManifestResourceStream(LetterType type)
         {
             string resourceString;
             switch (type)
             {
                 case LetterType.Ime:
-                    resourceString = StringConstants.ImeLetterManifestResource;
+                    resourceString = s.ImeLetterManifestResource;
                     break;
                 case LetterType.BenExhaust:
-                    resourceString = StringConstants.BenefitsExhaustedLetterManifestResource;
+                    resourceString = s.BenefitsExhaustedLetterManifestResource;
                     break;
                 case LetterType.PipApp:
-                    resourceString = StringConstants.PipAppLetterManifestResource;
+                    resourceString = s.PipAppLetterManifestResource;
+                    break;
+                case LetterType.Denial:
+                    resourceString = s.DenialLetterManifestResource;
+                    break;
+                case LetterType.UnderInvestigation:
+                    resourceString = s.UnderInvestigationManifestResource;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
@@ -38,9 +44,9 @@ namespace BridgeportClaims.Word.FileDriver
             return stream;
         }
 
-        public string GetLetterByType(int claimId, string userId, LetterType type, int prescriptionId)
+        public string GetLetterByType(int claimId, string userId, LetterType type, int? prescriptionId = null)
         {
-            var path = _wordDocumentProvider.Value.CreateTemplatedWordDocument(claimId, userId, GetManifestResourcStream(type), type, prescriptionId);
+            var path = _wordDocumentProvider.Value.CreateTemplateWordDocument(claimId, userId, GetManifestResourceStream(type), type, prescriptionId);
             return path;
         }
     }

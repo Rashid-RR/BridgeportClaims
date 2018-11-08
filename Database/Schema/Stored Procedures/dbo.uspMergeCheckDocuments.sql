@@ -19,7 +19,7 @@ AS BEGIN
 
 		DECLARE @UtcNow DATETIME2 = SYSUTCDATETIME();
 	
-		MERGE [dbo].[vwCheckDocument] AS [tgt]
+		MERGE INTO [dbo].[vwCheckDocument] AS [tgt]
 		USING (SELECT [d].[FileName]
                     , [d].[Extension]
                     , [d].[FileSize]

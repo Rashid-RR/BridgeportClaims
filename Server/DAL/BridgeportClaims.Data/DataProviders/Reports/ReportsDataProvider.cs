@@ -12,6 +12,7 @@ using SQLinq;
 using SQLinq.Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using ic = BridgeportClaims.Common.Constants.IntegerConstants;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Data.DataProviders.Reports
 {
@@ -42,7 +43,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     conn.Open();
                 }
                 var parameters = new DynamicParameters();
-                parameters.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtID]"));
+                parameters.Add("@Carriers", carriers.AsTableValuedParameter(s.UdtId));
                 parameters.Add("@PageNumber", dbType: DbType.Int32, direction: ParameterDirection.Input, value: page);
                 parameters.Add("@PageSize", dbType: DbType.Int32, direction: ParameterDirection.Input, value: pageSize);
                 parameters.Add("@TotalRowCount", dbType: DbType.Int32, direction: ParameterDirection.Output);

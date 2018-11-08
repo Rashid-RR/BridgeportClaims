@@ -15,5 +15,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             string sort, string sortDirection, int page, int pageSize, bool isArchived, DataTable carriers);
         IEnumerable<string> GetFileUrlsFromPrescriptionIds(IEnumerable<PrescriptionIdDto> dtos);
         void SetMultiplePrescriptionStatuses(DataTable dt, int prescriptionStatusId, string userId);
+        IEnumerable<AspNetUsersDto> GetActiveUsers();
+        IEnumerable<PayorsDto> GetCarriers();
     }
 }

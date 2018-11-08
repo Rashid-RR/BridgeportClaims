@@ -5,11 +5,13 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web.Http;
 using BridgeportClaims.Business.BillingStatement;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.Claims;
+using BridgeportClaims.Data.DataProviders.CollectionAssignments;
 using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
@@ -29,17 +31,83 @@ namespace BridgeportClaims.Web.Controllers
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
         private readonly Lazy<IPdfFactory> _pdfFactory;
         private readonly Lazy<IBillingStatementProvider> _billingStatementProvider;
+        private readonly Lazy<ICollectionAssignmentProvider> _collectionAssignmentProvider;
 
         public PrescriptionsController(
             Lazy<IClaimsDataProvider> claimsDataProvider,
             Lazy<IPrescriptionsDataProvider> prescriptionsDataProvider,
             Lazy<IPdfFactory> pdfFactory,
-            Lazy<IBillingStatementProvider> billingStatementProvider)
+            Lazy<IBillingStatementProvider> billingStatementProvider,
+            Lazy<ICollectionAssignmentProvider> collectionAssignmentProvider)
         {
             _claimsDataProvider = claimsDataProvider;
             _prescriptionsDataProvider = prescriptionsDataProvider;
             _pdfFactory = pdfFactory;
             _billingStatementProvider = billingStatementProvider;
+            _collectionAssignmentProvider = collectionAssignmentProvider;
+        }
+
+        [HttpPost]
+        [Route("get-active-users")]
+        public IHttpActionResult GetActiveUsers()
+        {
+            try
+            {
+                var users = _prescriptionsDataProvider.Value.GetActiveUsers();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("get-carriers")]
+        public IHttpActionResult GetCarriers()
+        {
+            try
+            {
+                IEnumerable<PayorsDto> payors = _prescriptionsDataProvider.Value.GetCarriers();
+                return Ok(payors);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("assign-users-to-payors")]
+        public async Task<IHttpActionResult> AssignUsersToPayors(CollectionAssignmentModel model)
+        {
+            try
+            {
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                if (null == model.UserId)
+                    throw new ArgumentNullException(nameof(model.UserId));
+                if (null == model.PayorIds)
+                    throw new ArgumentNullException(nameof(model.PayorIds));
+                var user = await AppUserManager.FindByIdAsync(model.UserId).ConfigureAwait(false);
+                if (default(int) == model.PayorIds.Count)
+                {
+                    Logger.Value.Info($"We are removing all associations (if there are any), from {user.FullName}");
+                }
+                IList<CarrierDto> carrierDtos =
+                    model.PayorIds.Select(item => new CarrierDto { PayorID = item }).ToList();
+                var dt = carrierDtos.ToFixedDataTable();
+                var modifiedByUserId = User.Identity.GetUserId();
+                _collectionAssignmentProvider.Value.MergeCollectionAssignments(model.UserId, modifiedByUserId, dt);
+                return Ok(new {message = $"{user.FullName} was associated to the selected carriers successfully."});
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
