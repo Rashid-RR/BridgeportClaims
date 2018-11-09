@@ -20,21 +20,5 @@ namespace BridgeportClaims.Web.Controllers
         {
             _collectionAssignmentProvider = collectionAssignmentProvider;
         }
-
-        [HttpPost]
-        [Route("delete")]
-        public IHttpActionResult DeleteCollectionAssignment(string userId, int payorId)
-        {
-            try
-            {
-                _collectionAssignmentProvider.Value.DeleteCollectionAssignment(userId, payorId);
-                return Ok(new {message = "The payor was removed from the user successfully."});
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
     }
 }

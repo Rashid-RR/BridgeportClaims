@@ -21,5 +21,6 @@ namespace BridgeportClaims.Web.Models
         public int PageSize { get; set; }
         public bool IsArchived { get; set; }
         public IEnumerable<int> PayorIds { get; set; }
+        public IEnumerable<string> UserIds { get; set; }
     }
 }   

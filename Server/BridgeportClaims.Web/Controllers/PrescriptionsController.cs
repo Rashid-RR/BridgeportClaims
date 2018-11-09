@@ -1,12 +1,12 @@
 ﻿using NLog;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
+using System.Data;
+using System.Linq;
 using System.Web.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 using BridgeportClaims.Business.BillingStatement;
 using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Extensions;
@@ -55,22 +55,6 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var users = _prescriptionsDataProvider.Value.GetActiveUsers();
                 return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
-        [HttpPost]
-        [Route("get-carriers")]
-        public IHttpActionResult GetCarriers()
-        {
-            try
-            {
-                IEnumerable<PayorsDto> payors = _prescriptionsDataProvider.Value.GetCarriers();
-                return Ok(payors);
             }
             catch (Exception ex)
             {
@@ -163,14 +147,18 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 if (null == model)
+                {
                     throw new Exception("Error. No data was provided for this method.");
+                }
                 IList<PrescriptionIdDto> dto = new List<PrescriptionIdDto>();
                 model.PrescriptionIds.ForEach(x => dto.Add(GetPrescriptionIdDto(x)));
                 var fileUrls = _prescriptionsDataProvider.Value.GetFileUrlsFromPrescriptionIds(dto);
                 var fileName = "Invoices_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
                 var targetPdf = Path.Combine(Path.GetTempPath(), fileName);
                 if (_pdfFactory.Value.MergePdfs(fileUrls.ForEach(x => x.ToAbsoluteUri()), targetPdf))
+                {
                     return new DisplayFileResult(targetPdf, fileName, "application/pdf");
+                }
                 throw new Exception("The merge PDF's method failed.");
             }
             catch (Exception ex)
@@ -244,9 +232,7 @@ namespace BridgeportClaims.Web.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 var msg = string.Empty;
-                var operation =
-                    _prescriptionsDataProvider.Value.AddOrUpdatePrescriptionStatus(prescriptionId,
-                        prescriptionStatusId, userId);
+                var operation = _prescriptionsDataProvider.Value.AddOrUpdatePrescriptionStatus(prescriptionId, prescriptionStatusId, userId);
                 switch (operation)
                 {
                     case EntityOperation.Add:
