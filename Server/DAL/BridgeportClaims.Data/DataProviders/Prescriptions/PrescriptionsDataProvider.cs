@@ -136,15 +136,5 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 }
                 return conn.Query<AspNetUsersDto>(query, commandType: CommandType.Text);
             });
-
-        public IEnumerable<PayorsDto> GetCarriers() =>
-            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                return conn.Query(new SQLinq<PayorsDto>().Select(s => new {s.PayorId, s.GroupName}));
-            });
     }
 }

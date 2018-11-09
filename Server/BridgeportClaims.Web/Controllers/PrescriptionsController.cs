@@ -64,22 +64,6 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("get-carriers")]
-        public IHttpActionResult GetCarriers()
-        {
-            try
-            {
-                IEnumerable<PayorsDto> payors = _prescriptionsDataProvider.Value.GetCarriers();
-                return Ok(payors);
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
-
-        [HttpPost]
         [Route("assign-users-to-payors")]
         public async Task<IHttpActionResult> AssignUsersToPayors(CollectionAssignmentModel model)
         {

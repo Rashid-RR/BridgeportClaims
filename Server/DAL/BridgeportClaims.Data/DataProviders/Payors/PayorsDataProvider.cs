@@ -16,7 +16,10 @@ namespace BridgeportClaims.Data.DataProviders.Payors
         public IEnumerable<PayorDto> GetPayors() => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()),
             conn =>
             {
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 return conn.Query(new SQLinq<PayorDto>().OrderBy(c => c.Carrier)
                     ?.Select(c => new {c.PayorId, c.Carrier}));
             });
@@ -25,7 +28,10 @@ namespace BridgeportClaims.Data.DataProviders.Payors
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[dbo].[uspGetPayors]";
-                conn.Open();
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
                 return conn.Query<PayorFullDto>(sp, commandType: CommandType.StoredProcedure);
             });
 
