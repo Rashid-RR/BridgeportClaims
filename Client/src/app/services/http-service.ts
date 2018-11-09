@@ -974,6 +974,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getNotifications(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/notifications/get', data)
       .catch(err => {

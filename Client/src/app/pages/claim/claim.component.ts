@@ -474,15 +474,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       this.toast.warning('No claim loaded!');
     } else {
       const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected === true);
-      if (prescriptions.length === 0) {
-        this.toast.warning('Please select one prescription before generating a letter.', null,
-          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
-      } else if (prescriptions.length > 1) {
-        this.toast.warning('Please select only one prescription before generating a letter.', null,
-          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
-      } else {
+
         this.claimManager.loading = true;
-        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type, prescriptionId: prescriptions[0].prescriptionId })
+        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type, prescriptionId: null })
           .subscribe((result) => {
             this.claimManager.loading = false;
             this.ar.downloadFile(result);
@@ -493,7 +487,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               const error = err.error;
             } catch (e) { }
           });
-      }
+
     }
   }
 
@@ -567,6 +561,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         });
     }
   }
+
+
 
   addNote(noteText: String = '', TypeId?: String) {
     const selectedNotes = [];
