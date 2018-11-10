@@ -184,6 +184,7 @@
     <Compile Include="Dtos\ClaimNoteTypeDto.cs" />
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
+    <Compile Include="Dtos\CollectionAssignmentData.cs" />
     <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\DiariesDto.cs" />

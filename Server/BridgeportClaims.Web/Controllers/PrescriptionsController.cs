@@ -49,11 +49,13 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get-active-users")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult GetActiveUsers()
         {
             try
             {
-                var users = _prescriptionsDataProvider.Value.GetActiveUsers();
+                var users = _prescriptionsDataProvider.Value.GetActiveUsers()?.OrderBy(x => x.FirstName)
+                    .ThenBy(x => x.LastName);
                 return Ok(users);
             }
             catch (Exception ex)

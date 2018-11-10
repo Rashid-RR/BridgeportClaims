@@ -8,8 +8,6 @@ using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using Dapper;
-using SQLinq;
-using SQLinq.Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using s = BridgeportClaims.Common.Constants.StringConstants;
 

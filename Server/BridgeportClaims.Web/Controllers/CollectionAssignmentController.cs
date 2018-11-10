@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.CollectionAssignments;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/collection")]
     public class CollectionAssignmentController : BaseApiController
     {
@@ -19,6 +16,22 @@ namespace BridgeportClaims.Web.Controllers
         public CollectionAssignmentController(Lazy<ICollectionAssignmentProvider> collectionAssignmentProvider)
         {
             _collectionAssignmentProvider = collectionAssignmentProvider;
+        }
+
+        [HttpPost]
+        [Route("get-collection-assignment-data")]
+        public IHttpActionResult GetCollectionAssignmentData(string userId)
+        {
+            try
+            {
+                var results = _collectionAssignmentProvider.Value.GetCollectionAssignmentData(userId);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
+            }
         }
     }
 }
