@@ -194,6 +194,9 @@
     <Compile Include="Dtos\DocumentResultDto.cs" />
     <Compile Include="Dtos\DocumentsDto.cs" />
     <Compile Include="Dtos\DocumentTypeDto.cs" />
+    <Compile Include="Dtos\DrNoteLetterGenerationDto.cs" />
+    <Compile Include="Dtos\DrNoteLetterGenerationResultsDto.cs" />
+    <Compile Include="Dtos\DrNoteLetterGenerationScriptsDto.cs" />
     <Compile Include="Dtos\DuplicateClaimDto.cs" />
     <Compile Include="Dtos\DuplicateClaimResultsDto.cs" />
     <Compile Include="Dtos\EpisodeBladeDto.cs" />

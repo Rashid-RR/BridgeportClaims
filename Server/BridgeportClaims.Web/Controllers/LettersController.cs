@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using NLog;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Web.CustomActionResults;
+using BridgeportClaims.Web.Models;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.FileDriver;
 using Microsoft.AspNet.Identity;
@@ -24,6 +26,31 @@ namespace BridgeportClaims.Web.Controllers
             _wordFileDriver = wordFileDriver;
         }
 
+        [HttpPost]
+        [Route("download-dr-letter")]
+        public IHttpActionResult DownloadDrLetter(DrLetterModel model)
+        {
+            try
+            {
+                const int def = default(int);
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                if (def == model.ClaimId)
+                    throw new Exception($"The value {def} is not a valid Claim ID.");
+                if (null == model.PrescriptionIds)
+                    throw new ArgumentNullException(nameof(model.PrescriptionIds));
+                if (model.PrescriptionIds.Count < 1)
+                    throw new Exception("Error, you must have a least one prescription selected in the list of prescriptions.");
+                var fullFilePath = _wordFileDriver.Value.GetDrLetter(model.ClaimId, model.FirstPrescriptionId,
+                    model.PrescriptionIds, User.Identity.GetUserId());
+                return new FileResult(fullFilePath, s.DrLetterName, DocxContentType);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
 
         [HttpPost]
         [Route("download")]

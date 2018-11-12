@@ -450,6 +450,7 @@
     <Compile Include="Models\DiariesViewModel.cs" />
     <Compile Include="Models\DocumentIndexViewModel.cs" />
     <Compile Include="Models\DocumentModel.cs" />
+    <Compile Include="Models\DrLetterModel.cs" />
     <Compile Include="Models\EditClaimImageViewModel.cs" />
     <Compile Include="Models\EpisodeClaimModel.cs" />
     <Compile Include="Models\EpisodeNoteHeaderModel.cs" />

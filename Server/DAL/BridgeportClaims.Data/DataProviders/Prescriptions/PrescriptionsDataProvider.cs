@@ -134,5 +134,8 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 }
                 return conn.Query<AspNetUsersDto>(query, commandType: CommandType.Text);
             });
+
+        public PrescriptionIdDto GetPrescriptionIdDto(int prescriptionId) =>
+            new PrescriptionIdDto {PrescriptionID = prescriptionId};
     }
 }
