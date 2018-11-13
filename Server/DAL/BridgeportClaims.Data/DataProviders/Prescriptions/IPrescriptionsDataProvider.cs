@@ -16,5 +16,6 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
         IEnumerable<string> GetFileUrlsFromPrescriptionIds(IEnumerable<PrescriptionIdDto> dtos);
         void SetMultiplePrescriptionStatuses(DataTable dt, int prescriptionStatusId, string userId);
         IEnumerable<AspNetUsersDto> GetActiveUsers();
+        PrescriptionIdDto GetPrescriptionIdDto(int prescriptionId);
     }
 }

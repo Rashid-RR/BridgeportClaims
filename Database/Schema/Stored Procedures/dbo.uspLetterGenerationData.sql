@@ -31,7 +31,7 @@ AS BEGIN
 	FROM    [dbo].[AspNetUsers] AS [u]
 	WHERE   [u].[ID] = @UserID;
 
-	SELECT          TodaysDate = FORMAT(@Today, 'MM/dd/yyyy')
+	SELECT          TodaysDate = @Today
 					, p.[FirstName]
 					, p.[LastName]
 					, p.[Address1]
@@ -52,5 +52,6 @@ AS BEGIN
 		LEFT JOIN   [dbo].[UsState] AS [us] ON [us].[StateID] = [p].[StateID]
 	WHERE           [c].[ClaimID] = @ClaimID;
 END
+
 
 GO

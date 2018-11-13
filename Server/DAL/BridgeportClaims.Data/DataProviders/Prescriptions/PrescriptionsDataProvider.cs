@@ -8,8 +8,6 @@ using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using Dapper;
-using SQLinq;
-using SQLinq.Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 using s = BridgeportClaims.Common.Constants.StringConstants;
 
@@ -136,5 +134,8 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 }
                 return conn.Query<AspNetUsersDto>(query, commandType: CommandType.Text);
             });
+
+        public PrescriptionIdDto GetPrescriptionIdDto(int prescriptionId) =>
+            new PrescriptionIdDto {PrescriptionID = prescriptionId};
     }
 }

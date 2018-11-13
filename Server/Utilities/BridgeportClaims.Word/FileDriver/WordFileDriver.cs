@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using s = BridgeportClaims.Common.Constants.StringConstants;
@@ -36,6 +37,9 @@ namespace BridgeportClaims.Word.FileDriver
                 case LetterType.UnderInvestigation:
                     resourceString = s.UnderInvestigationManifestResource;
                     break;
+                case LetterType.DrNoteLetter:
+                    resourceString = s.DrNoteLetterManifestResource;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
@@ -44,9 +48,18 @@ namespace BridgeportClaims.Word.FileDriver
             return stream;
         }
 
-        public string GetLetterByType(int claimId, string userId, LetterType type, int? prescriptionId = null)
+        public string GetLetterByType(int claimId, string userId, LetterType type, int prescriptionId)
         {
             var path = _wordDocumentProvider.Value.CreateTemplateWordDocument(claimId, userId, GetManifestResourceStream(type), type, prescriptionId);
+            return path;
+        }
+
+        public string GetDrLetter(int claimId, int firstPrescriptionId, IEnumerable<int> prescriptionIds, string userId)
+        {
+            var path =
+                _wordDocumentProvider.Value.CreateDrNoteTemplateWordDocument(claimId, userId,
+                    GetManifestResourceStream(LetterType.DrNoteLetter)
+                    , firstPrescriptionId, prescriptionIds);
             return path;
         }
     }

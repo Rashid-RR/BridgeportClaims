@@ -5,13 +5,15 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Data.DataProviders.LetterGenerations
 {
     public class LetterGenerationProvider : ILetterGenerationProvider
     {
-        public LetterGenerationDto GetLetterGenerationData(int claimId, string userId, int? prescriptionId = null) =>
+        public LetterGenerationDto GetLetterGenerationData(int claimId, string userId, int prescriptionId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspLetterGenerationData]", conn), cmd =>
@@ -33,7 +35,7 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                     userIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(userIdParam);
                     var prescriptionIdParam = cmd.CreateParameter();
-                    prescriptionIdParam.Value = prescriptionId ?? (object) DBNull.Value;
+                    prescriptionIdParam.Value = prescriptionId;
                     prescriptionIdParam.Direction = ParameterDirection.Input;
                     prescriptionIdParam.DbType = DbType.Int32;
                     prescriptionIdParam.SqlDbType= SqlDbType.Int;
@@ -63,7 +65,7 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                         { 
                             var letterGenerationDto = new LetterGenerationDto
                             {
-                                TodaysDate = !reader.IsDBNull(todayDateParam) ? reader.GetString(todayDateParam) : string.Empty,
+                                TodaysDate = reader.GetDateTime(todayDateParam),
                                 FirstName = !reader.IsDBNull(firstNameParam) ? reader.GetString(firstNameParam) : string.Empty,
                                 LastName = !reader.IsDBNull(lastNameParam) ? reader.GetString(lastNameParam) : string.Empty,
                                 Address1 = !reader.IsDBNull(address1Param) ? reader.GetString(address1Param) : string.Empty,
@@ -86,6 +88,35 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                     }
                     return retVal.SingleOrDefault();
                 });
+            });
+
+        public DrNoteLetterGenerationDto GetDrNoteLetterGenerationData(int claimId, string userId,
+            int firstPrescriptionId, DataTable dt) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspDrNoteLetterGenerationData]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                ps.Add("@FirstPrescriptionID", firstPrescriptionId, DbType.Int32);
+                ps.Add("@PrescriptionIds", dt.AsTableValuedParameter(s.UdtId));
+                var multi = conn.QueryMultiple(sp, ps, commandType: CommandType.StoredProcedure);
+                var result = multi.Read<DrNoteLetterGenerationResultsDto>()?.SingleOrDefault();
+                if (null == result)
+                {
+                    throw new Exception("Could not retrieve data from the database to populate the document.");
+                }
+                var scripts = multi.Read<DrNoteLetterGenerationScriptsDto>()?.ToList();
+                if (null == scripts || scripts.Count < 1)
+                {
+                    throw new Exception("One or more scripts could not be found from the database.");
+                }
+                var retVal = new DrNoteLetterGenerationDto {Result = result, Scripts = scripts};
+                return retVal;
             });
     }
 }

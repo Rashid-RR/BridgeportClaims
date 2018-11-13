@@ -22,5 +22,7 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[Prescriber] ADD CONSTRAINT [pkPrescriber] PRIMARY KEY CLUSTERED  ([PrescriberNPI]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPrescriberPrescriberName] ON [dbo].[Prescriber] ([PrescriberName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Prescriber] ADD CONSTRAINT [fkPrescriberStateIDUsStateStateID] FOREIGN KEY ([StateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO

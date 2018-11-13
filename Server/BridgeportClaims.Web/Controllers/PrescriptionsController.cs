@@ -49,11 +49,13 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get-active-users")]
+        [Authorize(Roles = "Admin")]
         public IHttpActionResult GetActiveUsers()
         {
             try
             {
-                var users = _prescriptionsDataProvider.Value.GetActiveUsers();
+                var users = _prescriptionsDataProvider.Value.GetActiveUsers()?.OrderBy(x => x.FirstName)
+                    .ThenBy(x => x.LastName);
                 return Ok(users);
             }
             catch (Exception ex)
@@ -123,7 +125,7 @@ namespace BridgeportClaims.Web.Controllers
                 if (null == count)
                     throw new Exception("Error. Zero prescription Id's were passed in.");
                 IList<PrescriptionIdDto> dto = new List<PrescriptionIdDto>();
-                model.PrescriptionIds.ForEach(x => dto.Add(GetPrescriptionIdDto(x)));
+                model.PrescriptionIds.ForEach(x => dto.Add(_prescriptionsDataProvider.Value.GetPrescriptionIdDto(x)));
                 var dt = dto.ToFixedDataTable();
                 var userId = User.Identity.GetUserId();
                 _prescriptionsDataProvider.Value.SetMultiplePrescriptionStatuses(dt, model.PrescriptionStatusId,
@@ -151,7 +153,7 @@ namespace BridgeportClaims.Web.Controllers
                     throw new Exception("Error. No data was provided for this method.");
                 }
                 IList<PrescriptionIdDto> dto = new List<PrescriptionIdDto>();
-                model.PrescriptionIds.ForEach(x => dto.Add(GetPrescriptionIdDto(x)));
+                model.PrescriptionIds.ForEach(x => dto.Add(_prescriptionsDataProvider.Value.GetPrescriptionIdDto(x)));
                 var fileUrls = _prescriptionsDataProvider.Value.GetFileUrlsFromPrescriptionIds(dto);
                 var fileName = "Invoices_" + $"{DateTime.Now:yyyy-MM-dd_hh-mm-ss-tt}.pdf";
                 var targetPdf = Path.Combine(Path.GetTempPath(), fileName);
@@ -167,8 +169,6 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
-
-        private static PrescriptionIdDto GetPrescriptionIdDto(int i) => new PrescriptionIdDto {PrescriptionID = i};
 
         [HttpPost]
         [Route("unpaid")]
