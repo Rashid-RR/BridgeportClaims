@@ -25,7 +25,7 @@ AS BEGIN
 
 	SELECT [l].[PayorId], [l].[Carrier] FROM @Left AS [l]
 
-	SELECT  [p].[PayorID], [p].[GroupName]
+	SELECT  [p].[PayorID], [Carrier] = [p].[GroupName]
 	FROM    [dbo].[Payor] AS [p]
 			LEFT JOIN @Left AS [l] ON [p].[PayorID] = [l].[PayorId]
 	WHERE   [l].[PayorId] IS NULL;
