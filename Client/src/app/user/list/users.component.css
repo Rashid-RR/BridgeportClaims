@@ -220,3 +220,38 @@ td .btn-group .dropdown-toggle {
 td .btn-group.open .dropdown-toggle {
 	box-shadow: none; 
 }
+
+
+
+/*dropdown*/
+
+.modal-dialog.modal-dialog-centered {
+  min-height: calc(100% - (1.75rem * 2));
+  margin: 1.75rem auto;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.modal-header{
+  padding: 0px !important;
+}
+
+
+.popup-boder{
+
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+}
+.popup-boder p,a{
+  margin: 7px 0px;
+  color: white;
+
+}
+.popup-boder input{
+  height: 26px;
+  border-radius: 9px;
+  margin: 4px;
+}
+
+

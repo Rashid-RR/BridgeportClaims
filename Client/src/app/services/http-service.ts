@@ -2,14 +2,14 @@
 /**
  * This service will serve to facilitate communication between app views and the web services
  */
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import 'rxjs/add/operator/map';
-import { UUID } from 'angular2-uuid';
-import { Router } from '@angular/router';
-import { EventsService } from './events-service';
-import { ToastsManager, Toast } from 'ng2-toastr';
+import {UUID} from 'angular2-uuid';
+import {Router} from '@angular/router';
+import {EventsService} from './events-service';
+import {Toast, ToastsManager} from 'ng2-toastr';
 
 @Injectable()
 export class HttpService {
@@ -22,34 +22,54 @@ export class HttpService {
       return this.groupNameAutoSuggest(name)
     }
   };
+
   constructor(private router: Router, private http: HttpClient, private events: EventsService, private toast: ToastsManager) {
+  }
+
+  get headers(): HttpHeaders {
+    const header = new HttpHeaders();
+    var user = localStorage.getItem('user');
+    try {
+      let us = JSON.parse(user);
+      header.append('Authorization', 'Bearer ' + us.access_token);
+    } catch (error) {
+
+    }
+    return header;
   }
 
   setAuth(auth: String) {
     this.token = auth;
   }
-  login(data:any, headers:any): Observable<any> {
-    return this.http.post('/oauth/token', data, { headers: headers })
+
+  login(data: any, headers: any): Observable<any> {
+    return this.http.post('/oauth/token', data, {headers: headers})
   }
+
   referralTypes(data): Observable<any> {
-    return this.http.post(this.baseUrl +'/admin/get-referral-types', data)
+    return this.http.post(this.baseUrl + '/admin/get-referral-types', data)
   }
+
   setReferralType(data): Observable<any> {
-    return this.http.post(this.baseUrl +`/admin/set-client-user-type/?userId=${data.userId}&referralTypeId=${data.referralTypeId}`, data)
+    return this.http.post(this.baseUrl + `/admin/set-client-user-type/?userId=${data.userId}&referralTypeId=${data.referralTypeId}`, data)
   }
+
   insertReferral(data): Observable<any> {
-    return this.http.post(this.baseUrl +'/client/insert-referral', data)
+    return this.http.post(this.baseUrl + '/client/insert-referral', data)
   }
+
   states(data): Observable<any> {
-    return this.http.post(this.baseUrl +'/client/get-states', data)
+    return this.http.post(this.baseUrl + '/client/get-states', data)
   }
 
   logout(): Observable<any> {
     return this.http.get(this.baseUrl + '/users/logout');
   }
+
   clearCache(): Observable<any> {
     return this.http.post(this.baseUrl + '/cache/clear', {});
   }
+
   getFiles(): Observable<any> {
     return this.http.get(this.baseUrl + '/fileupload/getfiles')
       .catch(err => {
@@ -57,6 +77,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   deleteFileById(id: any): Observable<any> {
     return this.http.delete(this.baseUrl + '/fileupload/delete/?importFileId=' + id)
       .catch(err => {
@@ -64,6 +85,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   importFile(id: String): Observable<any> {
     return this.http.post(this.baseUrl + '/ServerEvents/ImportPaymentFile/?fileName=' + id, {})
       .catch(err => {
@@ -71,6 +93,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   importLakerFile(id: String): Observable<any> {
     return this.http.post(this.baseUrl + '/laker/process?', {})
       .catch(err => {
@@ -98,7 +121,7 @@ export class HttpService {
   }
 
   resetpassword(data): Observable<any> {
-    let s = this.http.post(this.baseUrl + "/account/resetpassword", data)
+    let s = this.http.post(this.baseUrl + '/account/resetpassword', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
@@ -107,23 +130,25 @@ export class HttpService {
   }
 
   forgotpassword(data): Observable<any> {
-    let s = this.http.post(this.baseUrl + "/account/forgotpassword", data)
+    let s = this.http.post(this.baseUrl + '/account/forgotpassword', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   editClaim(data: any): Observable<any> {
-    let s = this.http.post(this.baseUrl + "/claims/edit-claim", data)
+    let s = this.http.post(this.baseUrl + '/claims/edit-claim', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   addHistory(id: Number): Observable<any> {
-    let s = this.http.post(this.baseUrl + "/history/addclaim?claimId=" + id, {})
+    let s = this.http.post(this.baseUrl + '/history/addclaim?claimId=' + id, {})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
@@ -148,6 +173,7 @@ export class HttpService {
       });
     return s;
   }
+
   postPayment(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/post-payments', data)
       .catch(err => {
@@ -165,6 +191,7 @@ export class HttpService {
       });
     return s;
   }
+
   paymentPosting(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/payment-posting', data)
       .catch(err => {
@@ -173,6 +200,7 @@ export class HttpService {
       });
     return s;
   }
+
   paymentToSuspense(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/to-suspense/', data)
       .catch(err => {
@@ -181,6 +209,7 @@ export class HttpService {
       });
     return s;
   }
+
   finalizePosting(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/finalize-posting/?sessionId=' + data.sessionId, {})
       .catch(err => {
@@ -189,6 +218,7 @@ export class HttpService {
       });
     return s;
   }
+
   deletePrescriptionPayment(prescriptionPaymentId: any) {
     const s = this.http.post(this.baseUrl + '/prescription-payments/delete/?prescriptionPaymentId=' + prescriptionPaymentId, {})
       .catch(err => {
@@ -197,6 +227,7 @@ export class HttpService {
       });
     return s;
   }
+
   updatePrescriptionPayment(data: any) {
     const s = this.http.post(this.baseUrl + '/prescription-payments/update', data)
       .catch(err => {
@@ -205,8 +236,9 @@ export class HttpService {
       });
     return s;
   }
+
   getDetailedPaymentClaim(data: any, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
-    page: Number = 1, pageSize: Number = 30) {
+                          page: Number = 1, pageSize: Number = 30) {
     // api/payment/claims-script-details?sort=RxDate&sortDirection=DESC&page=1&pageSize=30
     let params = new HttpParams();
     if (sort) {
@@ -214,7 +246,7 @@ export class HttpService {
       params = params.set('sortDirection', sortDir.toUpperCase());
     }
     if (page >= 1) {
-      params =params.set('page', page.toString());
+      params = params.set('page', page.toString());
     }
     params = params.set('pageSize', pageSize.toString());
     const s = this.http.post(this.baseUrl + '/payment/claims-script-details', data)
@@ -224,6 +256,7 @@ export class HttpService {
       });
     return s;
   }
+
   changepassword(data): Observable<any> {
     const s = this.http.put(this.baseUrl + '/account/changepassword', data)
       .catch(err => {
@@ -232,8 +265,9 @@ export class HttpService {
       });
     return s;
   }
+
   changeusername(firstName, lastName, id, extension: string): Observable<any> {
-    const s = this.http.post(this.baseUrl + '/users/updatename/' + id + '?firstName=' + firstName + '&lastName=' + lastName + "&extension=" + extension,
+    const s = this.http.post(this.baseUrl + '/users/updatename/' + id + '?firstName=' + firstName + '&lastName=' + lastName + '&extension=' + extension,
       '')
       .catch(err => {
         this.handleResponseError(err);
@@ -241,6 +275,7 @@ export class HttpService {
       });
     return s;
   }
+
   // register user
   register(data): Observable<any> {
     const s = this.http.post(this.baseUrl + '/account/create', data)
@@ -250,6 +285,7 @@ export class HttpService {
       });
     return s;
   }
+
   getClaimsData(data: any) {
     const s = this.http.post(this.baseUrl + '/Claims/GetClaimsData', data)
       .catch(err => {
@@ -258,9 +294,10 @@ export class HttpService {
       });
     return s;
   }
+
   //get user using id
   userFromId(id: UUID): Observable<any> {
-    let s = this.http.get(this.baseUrl + "/Account/UserInfo?t=" + (new Date().getTime()))
+    let s = this.http.get(this.baseUrl + '/Account/UserInfo?t=' + (new Date().getTime()))
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
@@ -268,96 +305,113 @@ export class HttpService {
 
     return s;
   }
+
   confirmEmail(id: any, code: any): Observable<any> {
-    let s = this.http.get(this.baseUrl + "/Account/ConfirmEmail?userId=" + id + "&code=" + code,{ responseType: "text" })
+    let s = this.http.get(this.baseUrl + '/Account/ConfirmEmail?userId=' + id + '&code=' + code, {responseType: 'text'})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   profile(): Observable<any> {
-    let s = this.http.get(this.baseUrl + "/Account/UserInfo?t=" + (new Date().getTime()))
+    let s = this.http.get(this.baseUrl + '/Account/UserInfo?t=' + (new Date().getTime()))
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   getPayours(pageNumber: Number, pageSize: Number): Observable<any> {
-    let s = this.http.get(this.baseUrl + "/payor/getpayors/?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
+    let s = this.http.get(this.baseUrl + '/payor/getpayors/?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
+  getActiveUsers(): Observable<any> {
+    let s = this.http.post(this.baseUrl + '/prescriptions/get-active-users/', {})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
+  getUsersListPerActiveUser(userid: any): Observable<any> {
+    let s = this.http.post(this.baseUrl + '/collection/get-collection-assignment-data/?userId=' + userid ,{})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
   getPayorList(pageNumber: Number, pageSize: Number): Observable<any> {
-    let s = this.http.post(this.baseUrl + "/payors/get-payors/?pageNumber=" + pageNumber + "&pageSize=" + pageSize, {})
+    let s = this.http.post(this.baseUrl + '/payors/get-payors/?pageNumber=' + pageNumber + '&pageSize=' + pageSize, {})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   getUsers(pageNumber: Number, pageSize: Number): Observable<any> {
-    let s = this.http.get(this.baseUrl + "/account/users/?pageNumber=" + pageNumber + "&pageSize=" + pageSize)
+    let s = this.http.get(this.baseUrl + '/account/users/?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   getRoles(data: any): Observable<any> {
-    let s = this.http.post(this.baseUrl + "/roles/", data)
+    let s = this.http.post(this.baseUrl + '/roles/', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   assignUserRole(data: any) {
-    let s = this.http.post(this.baseUrl + "/roles/ManageUsersInRole", data)
+    let s = this.http.post(this.baseUrl + '/roles/ManageUsersInRole', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   smartAsignRole(data: any) {
-    let s = this.http.post(this.baseUrl + "/users/assign/" + data.EnrolledUsers + "?roleName=" + data.role, data)
+    let s = this.http.post(this.baseUrl + '/users/assign/' + data.EnrolledUsers + '?roleName=' + data.role, data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   activateUser(userID) {
-    let s = this.http.post(this.baseUrl + "/users/activate/" + userID, '')
+    let s = this.http.post(this.baseUrl + '/users/activate/' + userID, '')
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       })
     return s;
   }
+
   deactivateUser(userID) {
-    let s = this.http.post(this.baseUrl + "/users/deactivate/" + userID, '')
+    let s = this.http.post(this.baseUrl + '/users/deactivate/' + userID, '')
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
-  }
-  get headers(): HttpHeaders {
-    const header = new HttpHeaders();
-    var user = localStorage.getItem('user');
-    try {
-      let us = JSON.parse(user);
-      header.append('Authorization', 'Bearer ' + us.access_token);
-    } catch (error) {
-
-    }
-    return header;
   }
 
   getNotetypes(): Observable<any> {
@@ -368,6 +422,7 @@ export class HttpService {
       });
     return s;
   }
+
   getPrescriptionNotetypes(): Observable<any> {
     let s = this.http.get(this.baseUrl + '/prescriptionnotes/notetypes')
       .catch(err => {
@@ -376,6 +431,7 @@ export class HttpService {
       });
     return s;
   }
+
   getEpisodesNoteTypes(): Observable<any> {
     return this.http.get(this.baseUrl + '/episodes/getepisodetypes')
       .catch(err => {
@@ -383,6 +439,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getEpisodesOwners(): Observable<any> {
     return this.http.post(this.baseUrl + '/users/get-users', {})
       .catch(err => {
@@ -390,6 +447,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getDiaryOwners(): Observable<any> {
     return this.http.get(this.baseUrl + '/diary/owners')
       .catch(err => {
@@ -397,6 +455,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getPrescriptionNotes(id: Number): Observable<any> {
     const s = this.http.post(this.baseUrl + '/prescriptionnotes/getprescriptionnotes/?prescriptionId=' + id, {})
       .catch(err => {
@@ -414,6 +473,7 @@ export class HttpService {
       });
     return s;
   }
+
   deleteClaimNote(data): Observable<any> {
     const s = this.http.delete(this.baseUrl + '/claimnotes/delete?claimId=' + data.claimId)
       .catch(err => {
@@ -422,6 +482,7 @@ export class HttpService {
       });
     return s;
   }
+
   savePrescriptionNote(data): Observable<any> {
     let s = this.http.post(this.baseUrl + '/prescriptionnotes/savenote', data)
       .catch(err => {
@@ -430,6 +491,7 @@ export class HttpService {
       });
     return s;
   }
+
   saveEpisode(data): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/save', data)
       .catch(err => {
@@ -437,8 +499,9 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   sortEpisodes(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
-    page: Number = 1, pageSize: Number = 30) {
+               page: Number = 1, pageSize: Number = 30) {
     let data = {
       claimId: claimId.toString(),
       sortColumn: sort.toString(),
@@ -453,6 +516,7 @@ export class HttpService {
       });
     return s;
   }
+
   saveEpisodeNote(data): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/save-note', data)
       .catch(err => {
@@ -460,6 +524,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   addEpisode(data): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/saveepisode', data)
       .catch(err => {
@@ -474,9 +539,9 @@ export class HttpService {
         this.activeToast.message = 'An invalid login was detected. Please log in again.';
       } else {
         this.toast.info('An invalid login was detected. Please log in again.', null,
-          { toastLife: 10000 }).then((toast: Toast) => {
-            this.activeToast = toast;
-          })
+          {toastLife: 10000}).then((toast: Toast) => {
+          this.activeToast = toast;
+        })
       }
       this.router.navigate(['/login']);
       this.events.broadcast('logout', true);
@@ -488,26 +553,27 @@ export class HttpService {
         this.errorToast.message = 'A server error was detected. Please contact your system administrator.';
       } else {
         this.toast.error('A server error was detected. Please contact your system administrator.', null,
-          { toastLife: 10000 }).then((toast: Toast) => {
-            this.errorToast = toast;
-          });
+          {toastLife: 10000}).then((toast: Toast) => {
+          this.errorToast = toast;
+        });
       }
-      this.events.broadcast("loading-error", true);
+      this.events.broadcast('loading-error', true);
     } else if (res.status == 0 || res.status == 504) {
       if (this.errorToast) {
         //this.toast.dismissToast(this.errorToast);
         this.errorToast.message = 'Cannot reach the server. Please check your network connection.';
       } else {
         this.toast.error('Cannot reach the server. Please check your network connection.', null,
-          { toastLife: 10000 }).then((toast: Toast) => {
-            this.errorToast = toast;
-          });
+          {toastLife: 10000}).then((toast: Toast) => {
+          this.errorToast = toast;
+        });
       }
-      this.events.broadcast("loading-error", true);
+      this.events.broadcast('loading-error', true);
     }
   }
+
   getPrescriptions(claimId: Number, sort: string = null, sortDir: 'asc' | 'desc' = 'asc',
-    page: Number = 1, pageSize: Number = 30) {
+                   page: Number = 1, pageSize: Number = 30) {
     // api/prescriptions/sort/?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=30
     let params = new HttpParams()
       .set('claimId', claimId.toString())
@@ -520,33 +586,35 @@ export class HttpService {
       params = params.set('page', page.toString());
     }
 
-    const s = this.http.post(this.baseUrl + '/prescriptions/sort/',{}, { params: params })
+    const s = this.http.post(this.baseUrl + '/prescriptions/sort/', {}, {params: params})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   getOutstandingPrescriptions(claimId: Number, sort: string = 'rxDate', sortDir: 'asc' | 'desc' = 'asc',
-    page: Number = 1, pageSize: Number = 30) {
-       
-    let data:any = {
+                              page: Number = 1, pageSize: Number = 30) {
+
+    let data: any = {
       claimId: claimId,
       sort: sort,
-      sortDirection:sortDir.toUpperCase(),
-      page:page,
+      sortDirection: sortDir.toUpperCase(),
+      page: page,
       pageSize: pageSize
     }
 
-    const s = this.http.post(this.baseUrl + '/Claims/outstanding',data)
+    const s = this.http.post(this.baseUrl + '/Claims/outstanding', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   getPayments(claimId: Number, sort: String = null, sortDir: 'asc' | 'desc' = 'asc',
-    page: Number = 1, pageSize: Number = 30) {
+              page: Number = 1, pageSize: Number = 30) {
     //api/payment/payments-blade?claimId=776&sort=RxDate&sortDirection=DESC&page=1&pageSize=30
     let params = new HttpParams().set('claimId', claimId.toString());
     if (sort) {
@@ -560,14 +628,15 @@ export class HttpService {
       params = params.set('page', page.toString());
     }
     params = params.set('pageSize', pageSize.toString());
-    let options = { params: params };
-    const s = this.http.post(this.baseUrl + '/payment/payments-blade/',{}, options)
+    let options = {params: params};
+    const s = this.http.post(this.baseUrl + '/payment/payments-blade/', {}, options)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
   cancelPayment(sessionId: UUID): Observable<any> {
     return this.http.post(this.baseUrl + '/payment/cancel-posting/?sessionId=' + sessionId, {})
       .catch(err => {
@@ -575,6 +644,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   saveFlex2(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/claims/set-flex2/?claimId=' + data.claimId + '&claimFlex2Id=' + data.claimFlex2Id, data)
       .catch(err => {
@@ -582,6 +652,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   updatePrescriptionStatus(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/prescriptions/set-status/?prescriptionId=' + data.prescriptionId + '&prescriptionStatusId=' + data.prescriptionStatusId, data)
       .catch(err => {
@@ -589,6 +660,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   archivePrescription(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/prescriptions/archive-unpaid-script', data)
       .catch(err => {
@@ -596,6 +668,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   diaryList(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/diary/get', data)
       .catch(err => {
@@ -603,6 +676,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   episodeList(data: any): Observable<any> {
     //return this.http.get('assets/json/episodes.json')
     return this.http.post(this.baseUrl + '/episodes/get', data)
@@ -611,6 +685,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   markEpisodeAsSolved(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/resolve/?episodeId=' + id, {})
       .catch(err => {
@@ -618,6 +693,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   acquireEpisode(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/acquire/?episodeId=' + id, {})
       .catch(err => {
@@ -625,6 +701,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   associateEpisodeClaim(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/associate-to-claim', data)
       .catch(err => {
@@ -632,6 +709,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   assignEpisode(id: any, userId: UUID): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/assign/?episodeId=' + id + '&userId=' + userId, {})
       .catch(err => {
@@ -639,6 +717,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   userToAssignEpisode(): Observable<any> {
     return this.http.post(this.baseUrl + '/users/get-users-to-assign', {})
       .catch(err => {
@@ -646,6 +725,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getEpisodeNotes(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/note-modal/?episodeId=' + id, {})
       .catch(err => {
@@ -653,16 +733,18 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   archiveEpisode(id: any): Observable<any> {
     let params = new HttpParams()
-    .set('episodeId',id);
-    
-    return this.http.post(this.baseUrl + '/episodes/archive', {},{params:params})
+      .set('episodeId', id);
+
+    return this.http.post(this.baseUrl + '/episodes/archive', {}, {params: params})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
+
   uploadFile(form: FormData): Observable<any> {
     return this.http.post(this.baseUrl + '/fileupload/upload', form)
       .catch(err => {
@@ -670,6 +752,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getUploadFiles(form: FormData): Observable<any> {
     return this.http.get(this.baseUrl + '/fileupload/getfiles')
       .catch(err => {
@@ -677,6 +760,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   deleteUploadedFile(form: FormData): Observable<any> {
     return this.http.get(this.baseUrl + '/fileupload/getfiles')
       .catch(err => {
@@ -684,6 +768,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   removeFromDiary(prescriptionNoteId: any): Observable<any> {
     return this.http.post(this.baseUrl + '/diary/remove/?prescriptionNoteId=' + prescriptionNoteId, {})
       .catch(err => {
@@ -691,6 +776,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   updateDiaryFollowUpDate(prescriptionNoteId: any, data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/diary/update-follow-up-date?prescriptionNoteId=' + prescriptionNoteId, data)
       .catch(err => {
@@ -698,6 +784,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   unpaidScriptsList(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/prescriptions/unpaid', data)
       .catch(err => {
@@ -705,6 +792,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   revenueByMonth(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/kpi/revenue', data)
       .catch(err => {
@@ -720,15 +808,17 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   archiveDuplicateClaim(id: any): Observable<any> {
     const params = new HttpParams()
-    .set('claimId', id);
-    return this.http.post(this.baseUrl + '/reports/archive-duplicate-claim', {},{params:params})
+      .set('claimId', id);
+    return this.http.post(this.baseUrl + '/reports/archive-duplicate-claim', {}, {params: params})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
+
   duplicateClaims(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/duplicate-claims', data)
       .catch(err => {
@@ -736,6 +826,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   skippedPaymentList(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/skippedpayment', data)
       .catch(err => {
@@ -743,6 +834,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   shortPayList(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/shortpay', data)
       .catch(err => {
@@ -750,6 +842,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   removeShortPay(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/reports/remove-shortpay/?prescriptionId=${data.prescriptionId}`, data)
       .catch(err => {
@@ -757,6 +850,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   removeSkippedPay(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/reports/remove-skipped-payment/?prescriptionId=${data.prescriptionId}`, data)
       .catch(err => {
@@ -764,6 +858,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getComparisonClaims(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/kpi/get-left-right-claims/?leftClaimId=${data.leftClaimId}&rightClaimId=${data.rightClaimId}`, data)
       .catch(err => {
@@ -771,6 +866,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getMergeClaims(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/kpi/save-claim-merge`, data)
       .catch(err => {
@@ -778,11 +874,12 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getExport(data: any): Observable<any> {
     let headers = new HttpHeaders();
     headers.append('accept', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-    return this.http.post(this.baseUrl + '/reports/excel-export', data, { responseType: "blob", headers: headers })
+    return this.http.post(this.baseUrl + '/reports/excel-export', data, {responseType: 'blob', headers: headers})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
@@ -796,6 +893,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   pharmacyNameAutoSuggest(name: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/pharmacy-name/?pharmacyName=' + name, {})
       .catch(err => {
@@ -803,6 +901,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getDocuments(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/get', data)
       .catch(err => {
@@ -810,6 +909,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getInvalidChecks(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/get-invalid', data)
       .catch(err => {
@@ -817,6 +917,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   archiveDocument(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/archive/' + id, {})
       .catch(err => {
@@ -824,6 +925,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getSortedImages(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/image/get', data)
       .catch(err => {
@@ -831,6 +933,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   saveDocumentIndex(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/index-document/save', data)
       .catch(err => {
@@ -838,20 +941,23 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   saveInvoiceIndex(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/index-document/index-invoice/?documentId=' + data.documentId + "&invoiceNumber=" + data.invoiceNumber, data)
+    return this.http.post(this.baseUrl + '/index-document/index-invoice/?documentId=' + data.documentId + '&invoiceNumber=' + data.invoiceNumber, data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
+
   saveCheckIndex(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/index-document/index-check/?documentId=' + data.documentId + "&checkNumber=" + data.checkNumber, data)
+    return this.http.post(this.baseUrl + '/index-document/index-check/?documentId=' + data.documentId + '&checkNumber=' + data.checkNumber, data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
+
   checkInvoiceNumber(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/index-document/inv-num-exists/?invoiceNumber=' + data.invoiceNumber, data)
       .catch(err => {
@@ -859,6 +965,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   modifyDocument(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/edit', data)
       .catch(err => {
@@ -866,6 +973,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   deleteDocument(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/delete/?documentId=' + data.documentId, data)
       .catch(err => {
@@ -873,6 +981,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   searchDocumentClaim(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/claim-search/?searchText=' + data.searchText, data)
       .catch(err => {
@@ -880,6 +989,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   updateDocumentIndex(data: any): Observable<any> {
     return this.http.put(this.baseUrl + '/image/edit', data)
       .catch(err => {
@@ -887,6 +997,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   unindexImage(id: any): Observable<any> {
     return this.http.delete(this.baseUrl + '/image/reindex/?documentId=' + id)
       .catch(err => {
@@ -894,6 +1005,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getKPIs(): Observable<any> {
     return this.http.post(this.baseUrl + '/dashboard/kpi', {})
       .catch(err => {
@@ -901,6 +1013,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   getFirewallSettings(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/firewall', data)
       .catch(err => {
@@ -908,6 +1021,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   createFirewallSetting(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/create-firewall-setting', data)
       .catch(err => {
@@ -915,6 +1029,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   deleteFirewallSetting(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/delete-firewall-setting/?ruleName=' + data.ruleName, data)
       .catch(err => {
@@ -922,6 +1037,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   invoiceAmounts(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/get-invoice-amounts', data)
       .catch(err => {
@@ -929,46 +1045,61 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   updateBilledAmount(data: any): Observable<any> {
     const params = new HttpParams()
-    .set('prescriptionId', data.prescriptionId)
-    .set('billedAmount', data.billedAmount);
+      .set('prescriptionId', data.prescriptionId)
+      .set('billedAmount', data.billedAmount);
     return this.http.post(this.baseUrl + '/admin/update-billed-amount/', {}, {params: params})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
+
   exportPrescriptions(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + "/prescriptions/scripts-pdf/?claimId=" + data.claimId, data, { observe: 'response',responseType: 'blob' })
+    return this.http.post(this.baseUrl + '/prescriptions/scripts-pdf/?claimId=' + data.claimId, data, {
+      observe: 'response',
+      responseType: 'blob'
+    })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
+
   exportBillingStatement(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + "/prescriptions/billing-statement-excel/?claimId=" + data.claimId, data, { observe: 'response',responseType: 'blob' })
+    return this.http.post(this.baseUrl + '/prescriptions/billing-statement-excel/?claimId=' + data.claimId, data, {
+      observe: 'response',
+      responseType: 'blob'
+    })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
+
   updateMultiplePrescriptionStatus(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + "/prescriptions/set-multiple-prescription-statuses", data)
+    return this.http.post(this.baseUrl + '/prescriptions/set-multiple-prescription-statuses', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
-  setMaxBalance(claimId: any,isMaxBalance:boolean): Observable<any> {
-    return this.http.post(this.baseUrl + `/claims/set-max-balance/?claimId=${claimId}&isMaxBalance=${isMaxBalance}`,{})
+
+  setMaxBalance(claimId: any, isMaxBalance: boolean): Observable<any> {
+    return this.http.post(this.baseUrl + `/claims/set-max-balance/?claimId=${claimId}&isMaxBalance=${isMaxBalance}`, {})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
   }
+
   exportLetter(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + "/letters/download/?claimId=" + data.claimId + "&letterType=" + data.type + "&prescriptionId=" + data.prescriptionId, data, { observe: 'response',responseType: 'blob' })
+    return this.http.post(this.baseUrl + '/letters/download/?claimId=' + data.claimId + '&letterType=' + data.type + '&prescriptionId=' + data.prescriptionId, data, {
+      observe: 'response',
+      responseType: 'blob'
+    })
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
@@ -982,6 +1113,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   saveLetterNotifications(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/notifications/save-payor-letter-name', data)
       .catch(err => {
@@ -989,8 +1121,9 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   multipageInvoices(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/prescriptions/multi-page-invoices', data, { observe: 'response',responseType: 'blob' })
+    return this.http.post(this.baseUrl + '/prescriptions/multi-page-invoices', data, {observe: 'response', responseType: 'blob'})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

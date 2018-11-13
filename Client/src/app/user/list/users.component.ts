@@ -1,14 +1,14 @@
-import { Component, OnInit, NgZone, } from '@angular/core';
-import { HttpService } from '../../services/http-service';
-import { EventsService } from '../../services/events-service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {Component, NgZone, OnInit,} from '@angular/core';
+import {HttpService} from '../../services/http-service';
+import {EventsService} from '../../services/events-service';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
-import { User } from '../../models/user';
-import { Role } from '../../models/role';
-import { ToastsManager } from 'ng2-toastr';
+import {User} from '../../models/user';
+import {Role} from '../../models/role';
+import {ToastsManager} from 'ng2-toastr';
 
-import { ConfirmComponent } from '../../components/confirm.component';
-import { DialogService } from 'ng2-bootstrap-modal';
+import {ConfirmComponent} from '../../components/confirm.component';
+import {DialogService} from 'ng2-bootstrap-modal';
 
 @Component({
   selector: 'app-users',
@@ -20,6 +20,7 @@ export class UsersComponent implements OnInit {
   referralTypes: any[] = [];
   pageNumber: number;
   pageSize = 5;
+  user_pic_hover = false;
   loading = false;
   userRole = 'User';
   indexerRole = 'Indexer';
@@ -30,6 +31,13 @@ export class UsersComponent implements OnInit {
   roles: Array<Role> = [];
   form: FormGroup;
   submitted = false;
+
+  allUsers: any = [];
+  tempAllUsers: any = []
+  userSearchQuery = '';
+  selectedUsers: any = [];
+  activeUsers: any = [];
+
   constructor(
     private events: EventsService,
     private http: HttpService,
@@ -48,12 +56,19 @@ export class UsersComponent implements OnInit {
     this.http.referralTypes({}).single().subscribe(res => {
       this.referralTypes = res;
       this.getUsers(1);
-    }, () => { this.loading = false;});
+    }, () => {
+      this.loading = false;
+    });
+
+
+    this.tempAllUsers = this.allUsers;
+
   }
 
   next() {
     this.getUsers(this.pageNumber + 1);
   }
+
   prev() {
     if (this.pageNumber > 1) {
       this.getUsers(this.pageNumber - 1);
@@ -64,11 +79,22 @@ export class UsersComponent implements OnInit {
     this.events.on('loading-error', (v) => {
       this.loading = false;
     });
+    this.http.getActiveUsers().map(res => {
+      return res
+    }).subscribe(result => {
+      this.activeUsers = result
+    }, error1 => {
+      console.log(error1)
+    })
   }
+
 
   getUsers(pageNumber: number) {
     this.loading = true;
-    this.http.getUsers(pageNumber, this.pageSize).map(res => { this.loading = false; return res }).subscribe(result => {
+    this.http.getUsers(pageNumber, this.pageSize).map(res => {
+      this.loading = false;
+      return res
+    }).subscribe(result => {
       result.forEach(element => {
         if (element.referralTypeId) {
           element.referralType = this.referralTypes.find(r => r.referralTypeId == element.referralTypeId);
@@ -102,25 +128,28 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  getReferalType(id:any){
+  getReferalType(id: any) {
     let ref = this.referralTypes.find(r => r.referralTypeId == id);
-    if(!ref){return '';}
+    if (!ref) {
+      return '';
+    }
     return ref.typeName;
   }
-  changeReferalType(user,ref){
+
+  changeReferalType(user, ref) {
     this.loading = true;
-    if (user.roles.length==0) {
-      this.toast.warning("Please assign this user to the client role, before you are able to assign a referral type to them.");      
+    if (user.roles.length == 0) {
+      this.toast.warning('Please assign this user to the client role, before you are able to assign a referral type to them.');
       this.loading = false;
       return;
-    }else if (user.roles.indexOf(this.clientRole)==-1) {
-      this.toast.warning("Unable to assign a referral type to someone who is not a member of the client role.");
+    } else if (user.roles.indexOf(this.clientRole) == -1) {
+      this.toast.warning('Unable to assign a referral type to someone who is not a member of the client role.');
       this.loading = false;
       return;
     }
-    this.http.setReferralType({userId:user.id,referralTypeId:ref.referralTypeId}).subscribe(res => {
+    this.http.setReferralType({userId: user.id, referralTypeId: ref.referralTypeId}).subscribe(res => {
       user.referralTypeId = ref.referralTypeId;
-      this.toast.success(res.message||`${user.firstName} ${user.lastName}'s referral type was updated successfully.`);
+      this.toast.success(res.message || `${user.firstName} ${user.lastName}'s referral type was updated successfully.`);
       this.loading = false;
     }, (error) => {
       this.loading = false;
@@ -133,7 +162,7 @@ export class UsersComponent implements OnInit {
     const data = '';
     this.http.getRoles(data).subscribe(result => {
       this.roles = result.reduce(function (result, role) {
-        result[role.name] = { name: role.name, id: role.id, users: role.users };
+        result[role.name] = {name: role.name, id: role.id, users: role.users};
         return result;
       }, {});
 
@@ -163,6 +192,7 @@ export class UsersComponent implements OnInit {
         }
       });
   }
+
   processStatusChange(index, event) {
     if (!event) {
       try {
@@ -192,13 +222,14 @@ export class UsersComponent implements OnInit {
       }
     }
   }
+
   processRoleChange(index, role, event) {
     let data;
 
     if (event) {
-      data = { Id: this.roles[role].id, EnrolledUsers: this.users[index].id };
+      data = {Id: this.roles[role].id, EnrolledUsers: this.users[index].id};
     } else {
-      data = { Id: this.roles[role].id, RemovedUsers: this.users[index].id };
+      data = {Id: this.roles[role].id, RemovedUsers: this.users[index].id};
     }
     this.processRoleChangeRequest(data, role, index, event);
   }
@@ -209,11 +240,11 @@ export class UsersComponent implements OnInit {
     const action = (event) ? 'Assign ' + role + ' role to ' : 'Revoke ' + role + ' role from ';
 
     if (event && role == this.clientRole && (this.users[index].admin || this.users[index].indexer || this.users[index].user)) {
-      this.toast.warning("A user of the Bridgeport system cannot be added to the 'Client' role.");
+      this.toast.warning('A user of the Bridgeport system cannot be added to the \'Client\' role.');
       return this.undoRole(role, index, event);
     }
     if (this.users[index].client && event && [this.indexerRole, this.userRole, this.adminRole].indexOf(role) > -1) {
-      this.toast.warning("A member of the 'Client' role cannot be an 'Admin' or an 'Indexer'.");
+      this.toast.warning('A member of the \'Client\' role cannot be an \'Admin\' or an \'Indexer\'.');
       return this.undoRole(role, index, event);
     }
     if (this.users[index].admin && role == this.userRole && !event) {
@@ -238,6 +269,7 @@ export class UsersComponent implements OnInit {
     //   disposable.unsubscribe();
     // }, 10000);
   }
+
   undoRole(role, index, event) {
     console.log(this.users[index].client, this.users[index].admin, this.users[index].user, role, event);
     setTimeout(() => {
@@ -292,4 +324,78 @@ export class UsersComponent implements OnInit {
   search() {
     console.log(this.form.value);
   }
+
+  addUser(id) {
+    console.log(id)
+    this.allUsers = this.tempAllUsers;
+    if (id === -1) {
+      for (let user in this.allUsers) {
+        this.selectedUsers.push(this.allUsers[user])
+      }
+      this.allUsers = []
+
+    } else {
+      var index = this.allUsers.findIndex(data => data.payorId === id)
+      console.log(index)
+      if (index > -1) {
+
+        console.log(this.allUsers[index])
+      this.selectedUsers.push(this.allUsers[index])
+
+        this.allUsers.splice(index, 1);
+      }
+
+    }
+    this.userSearchQuery = ''
+    this.tempAllUsers = this.allUsers;
+
+  }
+
+  remoevUser(id) {
+    if (id == -1) {
+      for (let user in this.selectedUsers) {
+        this.allUsers.push(this.selectedUsers[user])
+      }
+      this.selectedUsers = []
+    } else {
+      var index = this.selectedUsers.findIndex(data => data.payorId === id)
+      this.allUsers.push(this.selectedUsers[index])
+
+      if (index > -1) {
+        this.selectedUsers.splice(index, 1);
+      }
+    }
+  }
+
+  filterUsers(query) {
+    console.log(this.tempAllUsers)
+    if (query !== '') {
+      this.allUsers = this.tempAllUsers.filter(x => x.carrier.toLocaleLowerCase().includes(query.toLocaleLowerCase()))
+    } else {
+      this.allUsers = this.tempAllUsers;
+    }
+    // console.log(query)
+  }
+
+  getListofusers(id) {
+    console.log(id)
+    this.allUsers=[]
+
+    this.http.getUsersListPerActiveUser(id).map(res => {
+      return res
+    }).subscribe(result => {
+
+      console.log(result);
+      this.allUsers=result['rightCarriers'];
+      this.selectedUsers=result['leftCarriers'];
+      this.tempAllUsers=this.allUsers;
+      console.log(this.allUsers)
+console.log(this.selectedUsers)
+
+
+    }, error1 => {
+      console.log(error1)
+    })
+  }
+
 }
