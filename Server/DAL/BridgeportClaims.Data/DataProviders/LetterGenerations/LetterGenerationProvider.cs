@@ -13,7 +13,7 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
 {
     public class LetterGenerationProvider : ILetterGenerationProvider
     {
-        public LetterGenerationDto GetLetterGenerationData(int claimId, string userId, int? prescriptionId = null) =>
+        public LetterGenerationDto GetLetterGenerationData(int claimId, string userId, int prescriptionId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 return DisposableService.Using(() => new SqlCommand("[dbo].[uspLetterGenerationData]", conn), cmd =>
@@ -35,7 +35,7 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                     userIdParam.Direction = ParameterDirection.Input;
                     cmd.Parameters.Add(userIdParam);
                     var prescriptionIdParam = cmd.CreateParameter();
-                    prescriptionIdParam.Value = prescriptionId ?? (object) DBNull.Value;
+                    prescriptionIdParam.Value = prescriptionId;
                     prescriptionIdParam.Direction = ParameterDirection.Input;
                     prescriptionIdParam.DbType = DbType.Int32;
                     prescriptionIdParam.SqlDbType= SqlDbType.Int;
@@ -65,7 +65,7 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                         { 
                             var letterGenerationDto = new LetterGenerationDto
                             {
-                                TodaysDate = !reader.IsDBNull(todayDateParam) ? reader.GetString(todayDateParam) : string.Empty,
+                                TodaysDate = reader.GetDateTime(todayDateParam),
                                 FirstName = !reader.IsDBNull(firstNameParam) ? reader.GetString(firstNameParam) : string.Empty,
                                 LastName = !reader.IsDBNull(lastNameParam) ? reader.GetString(lastNameParam) : string.Empty,
                                 Address1 = !reader.IsDBNull(address1Param) ? reader.GetString(address1Param) : string.Empty,

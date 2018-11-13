@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace BridgeportClaims.Data.Dtos
 {
     public sealed class LetterGenerationDto
     {
-        [StringLength(4000)]
-        public string TodaysDate { get; set; }
+        public DateTime TodaysDate { get; set; }
         [Required]
         [StringLength(155)]
         public string FirstName { get; set; }

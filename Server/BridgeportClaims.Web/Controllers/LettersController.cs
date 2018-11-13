@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using NLog;
 using System.Net;
 using System.Web.Http;
@@ -54,7 +53,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("download")]
-        public IHttpActionResult GetLetter(int claimId, string letterType, int? prescriptionId = null)
+        public IHttpActionResult GetLetter(int claimId, string letterType, int prescriptionId)
         {
             try
             {

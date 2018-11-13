@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.LetterGenerations;
-using BridgeportClaims.Data.Dtos;
-using DocumentFormat.OpenXml.Packaging;
-using DocumentFormat.OpenXml.Wordprocessing;
 
 namespace BridgeportClaims.Word.Templating
 {
@@ -46,8 +41,7 @@ namespace BridgeportClaims.Word.Templating
                 prescriberLastName = prescriberNames[0];
             }
             var r1 = new Regex("MM/DD/YYYY");
-            docText = r1.Replace(docText,
-                result.TodaysDate.IsNotNullOrWhiteSpace() ? result.TodaysDate : DateTime.Now.ToString("d"));
+            docText = r1.Replace(docText, $"{result.TodaysDate:MMMM dd, yyyy}");
             var r2 = new Regex("Prescription.Prescriber");
             docText = r2.Replace(docText,
                 result.PrescriberName.IsNotNullOrWhiteSpace()
@@ -118,18 +112,18 @@ namespace BridgeportClaims.Word.Templating
             // Here comes the fun - the list of scripts.
             var r18 = new Regex("Prescription.LabelName");
             var sb = new StringBuilder();
-            const string bulletItem = "<w:p><w:pPr><w:pStyle w:val=\"ListParagraph\"/><w:numPr><w:ilvl w:val =\"0\"/><w:numId w:val =\"1\"/></w:numPr></w:pPr><w:r><w:t>{0} prescribed on {1}</w:t></w:r></w:p>";
+            const string bulletItem = "<w:p><w:pPr><w:pStyle w:val=\"ListParagraph\"/><w:numPr><w:ilvl w:val =\"0\"/><w:numId w:val =\"1\"/></w:numPr></w:pPr><w:r><w:t>{0} dispensed on {1}</w:t></w:r></w:p>";
             foreach (var script in data.Scripts)
             {
                 sb.Append(string.Format(bulletItem, script.LabelName, script.DateFilled.ToString("d")));
             }
             docText = r18.Replace(docText, sb.ToString());
             var r19 = new Regex("IsArePlurality");
-            docText = r19.Replace(docText, result.Plurality == "s" ? "Are" : "Is");
+            docText = r19.Replace(docText, result.Plurality == "s" ? "are" : "is");
             return docText;
         }
 
-        public string TransformDocumentText(int claimId, string userId, string docText, int? prescriptionId = null)
+        public string TransformDocumentText(int claimId, string userId, string docText, int prescriptionId)
         {
             var data = _letterGenerationProvider.Value.GetLetterGenerationData(claimId, userId, prescriptionId);
             var ti = new CultureInfo("en-US", false).TextInfo;
@@ -141,8 +135,7 @@ namespace BridgeportClaims.Word.Templating
                     ? ti.ToTitleCase(ti.ToLower(data.FirstName))
                     : string.Empty);
             var r2 = new Regex("MM/DD/YYYY");
-            docText = r2.Replace(docText,
-                data.TodaysDate.IsNotNullOrWhiteSpace() ? data.TodaysDate : DateTime.Now.ToString("d"));
+            docText = r2.Replace(docText, $"{data.TodaysDate:MMMM dd, yyyy}");
             var r3 = new Regex("Patient.LastName");
             docText = r3.Replace(docText,
                 data.LastName.IsNotNullOrWhiteSpace()

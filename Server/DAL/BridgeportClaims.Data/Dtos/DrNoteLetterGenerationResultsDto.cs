@@ -5,7 +5,7 @@ namespace BridgeportClaims.Data.Dtos
 {
     public sealed class DrNoteLetterGenerationResultsDto
     {
-        public string TodaysDate { get; set; }
+        public DateTime TodaysDate { get; set; }
         public string PrescriberName { get; set; }
         public string Addr1 { get; set; }
         public string Addr2 { get; set; }
