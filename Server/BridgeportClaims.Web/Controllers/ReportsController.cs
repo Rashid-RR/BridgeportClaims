@@ -32,6 +32,23 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
+        [Route("collections-bonus")]
+        public IHttpActionResult GetCollectionsBonus(int month, int year)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var report = _reportsDataProvider.Value.GetCollectionsBonus(userId, month, year);
+                return Ok(report);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
         [Route("archive-duplicate-claim")]
         public IHttpActionResult InsertArchivedDuplicateClaim(int claimId)
         {
