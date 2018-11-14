@@ -444,11 +444,13 @@
     <Compile Include="Models\ClaimSortViewModel.cs" />
     <Compile Include="Models\ClaimSearchViewModel.cs" />
     <Compile Include="Models\ClaimsSearchViewModel.cs" />
+    <Compile Include="Models\CollectionAssignmentModel.cs" />
     <Compile Include="Models\CreateFirewallSettingModel.cs" />
     <Compile Include="Models\CreateRoleBindingModel.cs" />
     <Compile Include="Models\DiariesViewModel.cs" />
     <Compile Include="Models\DocumentIndexViewModel.cs" />
     <Compile Include="Models\DocumentModel.cs" />
+    <Compile Include="Models\DrLetterModel.cs" />
     <Compile Include="Models\EditClaimImageViewModel.cs" />
     <Compile Include="Models\EpisodeClaimModel.cs" />
     <Compile Include="Models\EpisodeNoteHeaderModel.cs" />
@@ -478,7 +480,6 @@
     <Compile Include="Models\SavePayorLetterNameModel.cs" />
     <Compile Include="Models\SortEpisodeModel.cs" />
     <Compile Include="Models\SuspenseViewModel.cs" />
-    <Compile Include="Models\UnpaidScriptsDto.cs" />
     <Compile Include="Models\UnpaidScriptsViewModel.cs" />
     <Compile Include="Models\UpdatePaymentsModel.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />

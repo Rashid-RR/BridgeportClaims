@@ -1,0 +1,15 @@
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+CREATE FUNCTION [util].[udfGetRandomAspNetUserID]()
+RETURNS NVARCHAR(128)
+AS BEGIN
+	RETURN
+	(
+		SELECT TOP (1) x.UserID FROM [dbo].[vwAspNetUserAndRole] AS x
+		WHERE x.[RoleName] = 'User'
+		ORDER BY (SELECT ID FROM util.vwGenerateNewID)
+	)
+END
+GO

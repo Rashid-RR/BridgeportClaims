@@ -2,11 +2,12 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Collections.Generic;
-using cs = BridgeportClaims.Common.Config.ConfigService;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
 using Dapper;
+using cs = BridgeportClaims.Common.Config.ConfigService;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
 {
@@ -65,7 +66,7 @@ namespace BridgeportClaims.Data.DataProviders.PrescriptionNotes
                             var prescriptionSqlParameter = new SqlParameter("@Prescription", SqlDbType.Structured)
                             {
                                 Value = dt,
-                                TypeName = "[dbo].[udtID]"
+                                TypeName = s.UdtId
                             };
                             cmd.Parameters.Add(prescriptionSqlParameter);
                             if (con.State != ConnectionState.Open)

@@ -3,7 +3,7 @@ CREATE TABLE [dbo].[PrescriptionPayment]
 [PrescriptionPaymentID] [int] NOT NULL IDENTITY(1, 1),
 [CheckNumber] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [AmountPaid] [money] NOT NULL,
-[DatePosted] [date] NULL,
+[DatePosted] [date] NOT NULL,
 [PrescriptionID] [int] NOT NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [DocumentID] [int] NULL,

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.CollectionAssignments;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
 {
-    [Authorize(Roles = "User")]
+    [Authorize(Roles = "Admin")]
     [RoutePrefix("api/collection")]
     public class CollectionAssignmentController : BaseApiController
     {
@@ -22,18 +19,18 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("delete")]
-        public IHttpActionResult DeleteCollectionAssignment(string userId, int payorId)
+        [Route("get-collection-assignment-data")]
+        public IHttpActionResult GetCollectionAssignmentData(string userId)
         {
             try
             {
-                _collectionAssignmentProvider.Value.DeleteCollectionAssignment(userId, payorId);
-                return Ok(new {message = "The payor was removed from the user successfully."});
+                var results = _collectionAssignmentProvider.Value.GetCollectionAssignmentData(userId);
+                return Ok(results);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
     }

@@ -1,9 +1,11 @@
-﻿namespace BridgeportClaims.Data.DataProviders.CollectionAssignments
+﻿using System.Data;
+using BridgeportClaims.Data.Dtos;
+
+namespace BridgeportClaims.Data.DataProviders.CollectionAssignments
 {
     public interface ICollectionAssignmentProvider
     {
-        void InsertCollectionAssignment(string userId, int payorId, string modifiedByUserId);
-        void DeleteCollectionAssignment(string userId, int payorId);
-        void UpdateCollectionAssignment(string userId, int payorId, string modifiedByUserId);
+        void MergeCollectionAssignments(string userId, string modifiedByUserId, DataTable dt);
+        CollectionAssignmentData GetCollectionAssignmentData(string userId);
     }
 }

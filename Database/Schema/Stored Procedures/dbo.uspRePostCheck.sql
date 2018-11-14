@@ -8,19 +8,29 @@ GO
  Create date:       10/28/2018
  Description:       Deletes all Payments and Check Indexes for a Document.
  Example Execute:
-                    EXECUTE [dbo].[uspRePostCheck] 89738
+                    EXECUTE [dbo].[uspRePostCheck] 89738, 0;
  =============================================
 */
-CREATE PROC [dbo].[uspRePostCheck] @DocumentID INT
+CREATE PROC [dbo].[uspRePostCheck] @DocumentID INT, @SkipPayments BIT, @PrescriptionPaymentID INT = NULL
 AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
+	SET TRAN ISOLATION LEVEL SERIALIZABLE;
+	SET DEADLOCK_PRIORITY HIGH;
     BEGIN TRY
         BEGIN TRAN;
-            
-        DELETE	[pp]
-		FROM    [dbo].[PrescriptionPayment] AS [pp]
-		WHERE   [pp].[DocumentID] = @DocumentID;
+           
+		IF (@SkipPayments = 0)
+			BEGIN
+				DELETE	[pp]
+				FROM    [dbo].[PrescriptionPayment] AS [pp]
+				WHERE   [pp].[DocumentID] = @DocumentID;
+			END;
+
+		IF (@PrescriptionPaymentID IS NOT NULL)
+			BEGIN
+				DELETE [dbo].[PrescriptionPayment] WHERE [PrescriptionPaymentID] = @PrescriptionPaymentID;
+			END
 
 		DELETE	[ci]
 		FROM    [dbo].[CheckIndex] AS [ci]
@@ -47,4 +57,5 @@ AS BEGIN
             @ErrMsg);            -- First argument (string)
     END CATCH
 END
+
 GO

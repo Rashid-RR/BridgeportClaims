@@ -9,6 +9,7 @@ using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Data.Enums;
 using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Data.DataProviders.Prescriptions
 {
@@ -60,7 +61,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 ps.Add("@SortDirection", sortDirection, DbType.AnsiString, ParameterDirection.Input, 5);
                 ps.Add("@PageNumber", page, DbType.Int32);
                 ps.Add("@PageSize", pageSize, DbType.Int32);
-                ps.Add("@Carriers", carriers.AsTableValuedParameter("[dbo].[udtID]"));
+                ps.Add("@Carriers", carriers.AsTableValuedParameter(s.UdtId));
                 ps.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var unpaidScripts = conn.Query<UnpaidScriptResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
                 var unpaidScriptsDto = new UnpaidScriptsDto
@@ -85,7 +86,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                         cmd.CommandType = CommandType.StoredProcedure;
                         var prescriptionIdsParam = cmd.CreateParameter();
                         prescriptionIdsParam.SqlDbType = SqlDbType.Structured;
-                        prescriptionIdsParam.TypeName = "[dbo].[udtID]";
+                        prescriptionIdsParam.TypeName = s.UdtId;
                         prescriptionIdsParam.Direction = ParameterDirection.Input;
                         prescriptionIdsParam.Value = dtos.ToFixedDataTable();
                         prescriptionIdsParam.ParameterName = "@PrescriptionIDs";
@@ -117,10 +118,24 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 }
                 const string sp = "[dbo].[uspSaveMultiplePrescriptionStatuses]";
                 var ps = new DynamicParameters();
-                ps.Add("@Prescription", dt.AsTableValuedParameter("[dbo].[udtID]"));
+                ps.Add("@Prescription", dt.AsTableValuedParameter(s.UdtId));
                 ps.Add("@PrescriptionStatusID", prescriptionStatusId, DbType.Int32);
                 ps.Add("@UserID", userId, DbType.String, ParameterDirection.Input, 128);
                 conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
             });
+
+        public IEnumerable<AspNetUsersDto> GetActiveUsers() =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string query = "SELECT DISTINCT [x].[UserID] Id, [x].[FirstName], [x].[LastName] FROM [dbo].[vwAspNetUserAndRole] AS [x] WHERE [x].[RoleName] = 'User';";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<AspNetUsersDto>(query, commandType: CommandType.Text);
+            });
+
+        public PrescriptionIdDto GetPrescriptionIdDto(int prescriptionId) =>
+            new PrescriptionIdDto {PrescriptionID = prescriptionId};
     }
 }

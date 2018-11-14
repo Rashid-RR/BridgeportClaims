@@ -5,7 +5,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Data.DataProviders.LetterGenerations
 {
@@ -41,10 +43,12 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                     cmd.Parameters.Add(prescriptionIdParam);
                     var retVal = new List<LetterGenerationDto>();
                     if (conn.State != ConnectionState.Open)
+                    {
                         conn.Open();
+                    }
                     DisposableService.Using(cmd.ExecuteReader, reader => 
                     {
-                        var todaysDateParam = reader.GetOrdinal("TodaysDate");
+                        var todayDateParam = reader.GetOrdinal("TodaysDate");
                         var firstNameParam = reader.GetOrdinal("FirstName");
                         var lastNameParam = reader.GetOrdinal("LastName");
                         var address1Param = reader.GetOrdinal("Address1");
@@ -56,11 +60,12 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                         var userFirstNameParam = reader.GetOrdinal("UserFirstName");
                         var userLastNameParam = reader.GetOrdinal("UserLastName");
                         var pharmacyNameParam = reader.GetOrdinal("PharmacyName");
+                        var extensionParam = reader.GetOrdinal("Extension");
                         while (reader.Read())
                         { 
                             var letterGenerationDto = new LetterGenerationDto
                             {
-                                TodaysDate = !reader.IsDBNull(todaysDateParam) ? reader.GetString(todaysDateParam) : string.Empty,
+                                TodaysDate = reader.GetDateTime(todayDateParam),
                                 FirstName = !reader.IsDBNull(firstNameParam) ? reader.GetString(firstNameParam) : string.Empty,
                                 LastName = !reader.IsDBNull(lastNameParam) ? reader.GetString(lastNameParam) : string.Empty,
                                 Address1 = !reader.IsDBNull(address1Param) ? reader.GetString(address1Param) : string.Empty,
@@ -72,14 +77,46 @@ namespace BridgeportClaims.Data.DataProviders.LetterGenerations
                                 UserFirstName = !reader.IsDBNull(userFirstNameParam) ? reader.GetString(userFirstNameParam) : string.Empty,
                                 UserLastName = !reader.IsDBNull(userLastNameParam) ? reader.GetString(userLastNameParam) : string.Empty,
                                 PharmacyName = !reader.IsDBNull(pharmacyNameParam) ? reader.GetString(pharmacyNameParam) : string.Empty,
+                                Extension = !reader.IsDBNull(extensionParam) ? reader.GetString(extensionParam) : string.Empty
                             };
                             retVal.Add(letterGenerationDto);
                         }
                     });
                     if (conn.State != ConnectionState.Closed)
+                    {
                         conn.Close();
+                    }
                     return retVal.SingleOrDefault();
                 });
+            });
+
+        public DrNoteLetterGenerationDto GetDrNoteLetterGenerationData(int claimId, string userId,
+            int firstPrescriptionId, DataTable dt) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspDrNoteLetterGenerationData]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@ClaimID", claimId, DbType.Int32);
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                ps.Add("@FirstPrescriptionID", firstPrescriptionId, DbType.Int32);
+                ps.Add("@PrescriptionIds", dt.AsTableValuedParameter(s.UdtId));
+                var multi = conn.QueryMultiple(sp, ps, commandType: CommandType.StoredProcedure);
+                var result = multi.Read<DrNoteLetterGenerationResultsDto>()?.SingleOrDefault();
+                if (null == result)
+                {
+                    throw new Exception("Could not retrieve data from the database to populate the document.");
+                }
+                var scripts = multi.Read<DrNoteLetterGenerationScriptsDto>()?.ToList();
+                if (null == scripts || scripts.Count < 1)
+                {
+                    throw new Exception("One or more scripts could not be found from the database.");
+                }
+                var retVal = new DrNoteLetterGenerationDto {Result = result, Scripts = scripts};
+                return retVal;
             });
     }
 }

@@ -131,8 +131,8 @@
     <Compile Include="FileDriver\IWordFileDriver.cs" />
     <Compile Include="FileDriver\WordFileDriver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Templating\IWordTemplater.cs" />
-    <Compile Include="Templating\WordTemplater.cs" />
+    <Compile Include="Templating\IWordTemplate.cs" />
+    <Compile Include="Templating\WordTemplate.cs" />
     <Compile Include="WordProvider\IWordDocumentProvider.cs" />
     <Compile Include="WordProvider\WordDocumentProvider.cs" />
   </ItemGroup>
@@ -145,6 +145,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="EmbeddedResources\PIP App Letter.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedResources\Denial Letter.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedResources\Under Investigation.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedResources\Dr Note Request.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="NuGetReferenceHintPathRewrite.targets" />

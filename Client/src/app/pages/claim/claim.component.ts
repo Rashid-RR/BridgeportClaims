@@ -466,6 +466,33 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       }
     }
   }
+
+
+
+  exportDenial(type) {
+    if (!this.claimManager.selectedClaim) {
+      this.toast.warning('No claim loaded!');
+    } else {
+      const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected === true);
+
+        this.claimManager.loading = true;
+        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type, prescriptionId: null })
+          .subscribe((result) => {
+            this.claimManager.loading = false;
+            this.ar.downloadFile(result);
+          }, err => {
+            this.toast.error(err.statusText);
+            this.claimManager.loading = false;
+            try {
+              const error = err.error;
+            } catch (e) { }
+          });
+
+    }
+  }
+
+
+
   viewFile(type) {
     if (!this.claimManager.selectedClaim) {
       this.toast.warning('No claim loaded!');
@@ -534,6 +561,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         });
     }
   }
+
+
 
   addNote(noteText: String = '', TypeId?: String) {
     const selectedNotes = [];

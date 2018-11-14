@@ -21,29 +21,82 @@
         <div class="box">
             <div class="box-header with-border" style="height:40px;line-height:40px;padding-top:0px;padding-bottom:0px;">
                 <h3 class="box-title">Claims</h3>
-                <div class="box-tools pull-right" style="top:0px">
-                    <div class="btn-group" data-toggle="btn-toggle" *ngIf="claimManager.selectedClaim">
-                        <button class="btn btn-flat btn-sm  be" type="button" (click)="exportBilling()">
-                            <img [src]="over[4] ? 'assets/img/billing/Hover.png' : 'assets/img/billing/Normal.png'"
-                                (mouseover)="over[4] = true" (mouseout)="over[4] = false" height="35px" class="pull-left"
-                                style="cursor: pointer;">
+                     
+                <div class="box-tools pull-right" style="top:0px" *ngIf="claimManager.selectedClaim">
+                    <div class="btn-group" data-toggle="btn-toggle">
+
+                      <div class="btn-group"  >
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          --- Export Documents ----
                         </button>
-                        <button class="btn btn-flat btn-sm  be" type="button" (click)="viewFile()" style="background:transparent;border:none;margin-top:-5px">
-                            <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true"
-                                (mouseout)="over[3] = false" height="50px" class="pull-left" style="cursor: pointer;">
-                        </button>
-                        <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">
-                            <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true"
-                                (mouseout)="over[0] = false" height="35px">
-                        </button>
-                        <button class="btn btn-flat btn-sm ime" type="button" (click)="exportLetter('ime')">
-                            <img [src]="over[1] ? 'assets/img/ime/Hover.png' : 'assets/img/ime/Normal.png'" (mouseover)="over[1] = true"
-                                (mouseout)="over[1] = false" height="35px">
-                        </button>
-                        <button class="btn btn-flat btn-sm pip" type="button" (click)="exportLetter('pip')">
-                            <img [src]="over[2] ? 'assets/img/pip/Hover.png' : 'assets/img/pip/Normal.png'" (mouseover)="over[2] = true"
-                                (mouseout)="over[2] = false" height="35px">
-                        </button>
+
+                        <ul class="dropdown-menu" id="ul-z">
+                          <li>
+                            <button class="btn btn-flat btn-sm  be" type="button" (click)="exportBilling()">
+                              <img [src]="over[4] ? 'assets/img/images/white/billingwhite.png' : 'assets/img/images/blue/billingblue.png'"
+                                   (mouseover)="over[4] = true" (mouseout)="over[4] = false" height="35px" class="pull-left"
+                                   style="cursor: pointer;">
+                            </button>
+                          </li>
+                          <li>
+                            <button class="btn btn-flat btn-sm  be" type="button" (click)="viewFile()" style="background:transparent;border:none;">
+                              <img [src]="over[3] ? 'assets/img/images/white/invoicesblue.png' : 'assets/img/images/blue/invoiceswhite.png'"
+                                   (mouseover)="over[3] = true"
+                                   (mouseout)="over[3] = false" height="35px" class="pull-left" style="cursor: pointer;">
+                            </button>  </li>
+                          <li>
+                            <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">
+                              <img [src]="over[0] ? 'assets/img/images/white/benefit.png' : 'assets/img/images/blue/Benefitblue.png'" (mouseover)="over[0] = true"
+                                   (mouseout)="over[0] = false" height="35px">
+                            </button>
+                          </li>
+                          <li>
+                            <button class="btn btn-flat btn-sm ime" type="button" (click)="exportLetter('ime')">
+                              <img [src]="over[1] ? 'assets/img/images/white/ime.png' : 'assets/img/images/blue/ime.png'" (mouseover)="over[1] = true"
+                                   (mouseout)="over[1] = false" height="35px">
+                            </button>
+                          </li>
+                          <li>
+                            <button class="btn btn-flat btn-sm pip" type="button" (click)="exportLetter('pip')">
+                              <img [src]="over[2] ? 'assets/img/images/white/pip.png' : 'assets/img/images/blue/pip.png'" (mouseover)="over[2] = true"
+                                   (mouseout)="over[2] = false" height="35px">
+                            </button>
+                          </li>
+
+                          <li>
+                            <button class="btn btn-flat btn-sm pip" type="button" (click)="exportLetter('den')">
+                              <img [src]="over[5] ? 'assets/img/images/white/denial.png' : 'assets/img/images/blue/Denial.png'"
+                                   (mouseover)="over[5] = true"
+                                   (mouseout)="over[5] = false" height="35px">
+                            </button>
+                          </li>
+
+                          <li>
+                            <button class="btn btn-flat btn-sm pip" type="button" (click)="exportLetter('ui')">
+                              <img [src]="over[6] ? 'assets/img/images/white/underinv.png' : 'assets/img/images/blue/underinvestigation.png'"
+                                   (mouseover)="over[6] = true"
+                                   (mouseout)="over[6] = false" height="35px">
+                            </button>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <!-- <button class="btn btn-flat btn-sm  be" type="button" (click)="viewFile()" style="background:transparent;border:none;margin-top:-5px">
+                          <img [src]="over[3] ? 'assets/img/Hover.png' : 'assets/img/Normal.png'" (mouseover)="over[3] = true"
+                              (mouseout)="over[3] = false" height="50px" class="pull-left" style="cursor: pointer;">
+                      </button>
+                      <button class="btn btn-flat btn-sm  be" type="button" (click)="exportLetter('be')">
+                          <img [src]="over[0] ? 'assets/img/be/Hover.png' : 'assets/img/be/Normal.png'" (mouseover)="over[0] = true"
+                              (mouseout)="over[0] = false" height="35px">
+                      </button>
+                      <button class="btn btn-flat btn-sm ime" type="button" (click)="exportLetter('ime')">
+                          <img [src]="over[1] ? 'assets/img/ime/Hover.png' : 'assets/img/ime/Normal.png'" (mouseover)="over[1] = true"
+                              (mouseout)="over[1] = false" height="35px">
+                      </button>
+                      <button class="btn btn-flat btn-sm pip" type="button" (click)="exportLetter('pip')">
+                          <img [src]="over[2] ? 'assets/img/pip/Hover.png' : 'assets/img/pip/Normal.png'" (mouseover)="over[2] = true"
+                              (mouseout)="over[2] = false" height="35px">
+                      </button> -->
                     </div>
                 </div>
             </div>

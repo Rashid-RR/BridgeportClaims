@@ -81,6 +81,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();
             builder.RegisterType<CachingClearingService>().As<ICachingClearingService>().InstancePerRequest();
             builder.RegisterType<ClaimImageProvider>().As<IClaimImageProvider>().InstancePerRequest();
+            builder.RegisterType<CollectionAssignmentProvider>().As<ICollectionAssignmentProvider>().InstancePerRequest();
             builder.RegisterType<ClaimsEditProvider>().As<IClaimsEditProvider>().InstancePerRequest();
             builder.RegisterType<CollectionAssignmentProvider>().As<ICollectionAssignmentProvider>().InstancePerRequest();
             builder.RegisterType<PayorSearchProvider>().As<IPayorSearchProvider>().InstancePerRequest();
@@ -96,7 +97,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<WordFileDriver>().As<IWordFileDriver>().InstancePerRequest();
             builder.RegisterType<LetterGenerationProvider>().As<ILetterGenerationProvider>().InstancePerRequest();
             builder.RegisterType<ClientDataProvider>().As<IClientDataProvider>().InstancePerRequest();
-            builder.RegisterType<WordTemplater>().As<IWordTemplater>().InstancePerRequest();
+            builder.RegisterType<WordTemplate>().As<IWordTemplate>().InstancePerRequest();
             builder.RegisterType<PayorLetterNameProvider>().As<IPayorLetterNameProvider>().InstancePerRequest();
             builder.RegisterType<BillingStatementProvider>().As<IBillingStatementProvider>().InstancePerRequest();
 

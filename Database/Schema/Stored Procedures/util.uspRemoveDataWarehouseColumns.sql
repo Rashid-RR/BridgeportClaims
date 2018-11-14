@@ -7,9 +7,9 @@ GO
 	Create Date:	10/6/2017
 	Description:	
 	Sample Execute:
-					EXEC util.uspRemoveAndAddDataWarehouseColumnsToTable @TableName = 'dbo.Claim'
+					EXEC [util].[uspRemoveDataWarehouseColumns] @TableName = '[dbo].[CollectionAssignment]', @DebugOnly = 1
 */
-CREATE PROC [util].[uspRemoveAndAddDataWarehouseColumnsToTable]
+CREATE PROC [util].[uspRemoveDataWarehouseColumns]
 (
 	@TableName SYSNAME, -- Include schema name
 	@DebugOnly BIT = 0
@@ -24,7 +24,7 @@ AS BEGIN
 				, @Suffix       NCHAR(4)      = 'Temp'
 				, @PkColumn     NVARCHAR(100) = util.udfGetPrimaryKeyColumnName(@TableName)
 		SET @SQLStatement = N'SELECT ' + @PkColumn + 
-			', CreatedOnUTC, UpdatedOnUTC INTO ' + @TableName + @Suffix + ' FROM ' + @TableName
+			', CreatedOnUTC, UpdatedOnUTC INTO ' + QUOTENAME(REPLACE(REPLACE(@TableName, ']', ''), '[', '') + @Suffix) + ' FROM ' + @TableName
 		IF @DebugOnly = 1 BEGIN PRINT @SQLStatement END ELSE BEGIN EXEC sys.sp_executesql @SQLStatement END
 		SET @SQLStatement = N'ALTER TABLE ' + @TableName + ' DROP CONSTRAINT df' + PARSENAME(@TableName, 1) + 'CreatedOnUTC'
 		IF @DebugOnly = 1 BEGIN PRINT @SQLStatement END ELSE BEGIN EXEC sys.sp_executesql @SQLStatement END
@@ -36,11 +36,12 @@ AS BEGIN
 		IF @DebugOnly = 1 BEGIN PRINT @SQLStatement END ELSE BEGIN EXEC sys.sp_executesql @SQLStatement END
 		SET @SQLStatement = N'ALTER TABLE ' + @TableName + ' DROP COLUMN DataVersion'
 		IF @DebugOnly = 1 BEGIN PRINT @SQLStatement END ELSE BEGIN EXEC sys.sp_executesql @SQLStatement END
-		EXEC util.uspAddDataWarehouseColumnsToTable @TableName = @TableName
+		-- Step 2, populate those columns back. In most cases, this is not necessary. 
+		/*EXEC util.uspAddDataWarehouseColumnsToTable @TableName = @TableName
 		SET @SQLStatement = N'UPDATE a SET a.CreatedOnUTC = t.CreatedOnUTC, a.UpdatedOnUTC = t.UpdatedOnUTC FROM ' +
 			@TableName + ' AS a INNER JOIN ' + @TableName + @Suffix + ' AS t ON t.' + @PkColumn + ' = a.' + @PkColumn
-		IF @DebugOnly = 1 BEGIN PRINT @SQLStatement END ELSE BEGIN EXEC sys.sp_executesql @SQLStatement END
-		SET @SQLStatement = N'DROP TABLE ' + @TableName + 'Temp'
+		IF @DebugOnly = 1 BEGIN PRINT @SQLStatement END ELSE BEGIN EXEC sys.sp_executesql @SQLStatement END*/
+		SET @SQLStatement = N'DROP TABLE ' + QUOTENAME(REPLACE(REPLACE(@TableName, ']', ''), '[', '') + @Suffix)
 		IF @DebugOnly = 1 BEGIN PRINT @SQLStatement END ELSE BEGIN EXEC sys.sp_executesql @SQLStatement END
 		IF (@@TRANCOUNT > 0)
 			COMMIT;
@@ -55,15 +56,10 @@ AS BEGIN
             , @ErrLine INT = ERROR_LINE()
             , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE();
 		
-		SET @PrntMsg = N'Error Line: ' + CONVERT(NVARCHAR, @ErrLine)
+		SET @PrntMsg = N'Error Line: ' + CAST(@ErrLine AS NVARCHAR(4000))
 		PRINT @PrntMsg
 
-        RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
-			@ErrSeverity,		-- Severity
-			@ErrState,			-- State
-			@ErrProc,			-- First argument (string)
-			@ErrLine,			-- Second argument (int)
-			@ErrMsg);			-- First argument (string)
+        RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
 	END CATCH
 END
 GO

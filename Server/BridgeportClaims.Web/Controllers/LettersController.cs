@@ -2,12 +2,13 @@
 using NLog;
 using System.Net;
 using System.Web.Http;
-using BridgeportClaims.Common.Constants;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Web.CustomActionResults;
+using BridgeportClaims.Web.Models;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.FileDriver;
 using Microsoft.AspNet.Identity;
+using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -24,33 +25,71 @@ namespace BridgeportClaims.Web.Controllers
             _wordFileDriver = wordFileDriver;
         }
 
-
         [HttpPost]
-        [Route("download")]
-        public IHttpActionResult GetImeLetter(int claimId, string letterType, int prescriptionId)
+        [Route("download-dr-letter")]
+        public IHttpActionResult DownloadDrLetter(DrLetterModel model)
         {
             try
             {
-                if (letterType.ToLower() != "be" && letterType.ToLower() != "pip" && letterType.ToLower() != "ime")
+                const int def = default(int);
+                if (null == model)
+                    throw new ArgumentNullException(nameof(model));
+                if (def == model.ClaimId)
+                    throw new Exception($"The value {def} is not a valid Claim ID.");
+                if (null == model.PrescriptionIds)
+                    throw new ArgumentNullException(nameof(model.PrescriptionIds));
+                if (model.PrescriptionIds.Count < 1)
+                    throw new Exception("Error, you must have a least one prescription selected in the list of prescriptions.");
+                var fullFilePath = _wordFileDriver.Value.GetDrLetter(model.ClaimId, model.FirstPrescriptionId,
+                    model.PrescriptionIds, User.Identity.GetUserId());
+                return new FileResult(fullFilePath, s.DrLetterName, DocxContentType);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("download")]
+        public IHttpActionResult GetLetter(int claimId, string letterType, int prescriptionId)
+        {
+            try
+            {
+                if (letterType.ToLower() != "be" && letterType.ToLower() != "pip" && letterType.ToLower() != "ime" &&
+                    letterType.ToLower() != "den" && letterType.ToLower() != "ui")
+                {
                     ThrowLetterTypeException(letterType);
+                }
                 var userId = User.Identity.GetUserId();
                 if (userId.IsNullOrWhiteSpace())
+                {
                     throw new ArgumentNullException(nameof(userId));
+                }
                 var type = default(LetterType);
                 var fileName = string.Empty;
                 switch (letterType.ToLower())
                 {
                     case "be":
                         type = LetterType.BenExhaust;
-                        fileName = StringConstants.BenefitsExhaustedLetter;
+                        fileName = s.BenefitsExhaustedLetter;
                         break;
                     case "pip":
                         type = LetterType.PipApp;
-                        fileName = StringConstants.PipAppLetter;
+                        fileName = s.PipAppLetter;
                         break;
                     case "ime":
                         type = LetterType.Ime;
-                        fileName = StringConstants.ImeLetterName;
+                        fileName = s.ImeLetterName;
+                        break;
+                    case "den":
+                        type = LetterType.Denial;
+                        fileName = s.DenialLetterName;
+                        break;
+                    case "ui":
+                        type = LetterType.UnderInvestigation;
+                        fileName = s.UnderInvestigationLetterName;
                         break;
                     default:
                         ThrowLetterTypeException(letterType);
@@ -66,9 +105,7 @@ namespace BridgeportClaims.Web.Controllers
             }
         }
 
-        private static void ThrowLetterTypeException(string letterType)
-        {
-            throw new Exception($"Error, the only letter types allowed are 'be', 'pip' or 'ime'. You passed in '{letterType}'");
-        }
+        private static void ThrowLetterTypeException(string letterType) => throw new Exception(
+            $"Error, the only letter types allowed are 'be', 'pip', 'den', 'ui' or 'ime'. You passed in '{letterType}'");
     }
 }

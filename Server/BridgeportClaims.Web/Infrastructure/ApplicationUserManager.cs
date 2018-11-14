@@ -22,9 +22,9 @@ namespace BridgeportClaims.Web.Infrastructure
                 EmailService = new EmailService(new EmailModelGenerator()),
                 UserLockoutEnabledByDefault = true,
                 MaxFailedAccessAttemptsBeforeLockout = 5,
-                DefaultAccountLockoutTimeSpan = TimeSpan.FromDays(365 * 200)
+                DefaultAccountLockoutTimeSpan = TimeSpan.FromDays(365 * 500)
             };
-            // 200 years
+            // 500 years
 
             //Rest of code is removed for clarity
 
@@ -35,7 +35,7 @@ namespace BridgeportClaims.Web.Infrastructure
                     dataProtectionProvider.Create(StringConstants.AspNetIdentity))
                 {
                     //Code for email confirmation and reset password life time
-                    TokenLifespan = TimeSpan.FromHours(6)
+                    TokenLifespan = TimeSpan.FromHours(24)
                 };
             }
             appUserManager.UserValidator = new UserValidator<ApplicationUser>(appUserManager)
