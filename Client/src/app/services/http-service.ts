@@ -575,6 +575,41 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+  getIndexedChecks(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + '/payment/get-indexed-checks', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  getIndexedCheckDetail(documentId: any): Observable<any> {
+    return this.http.post(this.baseUrl + `/payment/get-indexed-check-details/?documentId=${documentId}`,{})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  reIndexedCheck(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + `/payment/re-index-check/?documentId=${data.documentId}&skipPayments=${data.skipPayments}${data.prescriptionPaymentId ? '&prescriptionPaymentId='+data.prescriptionPaymentId :''}`,{})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  /* cancelIndexedCheck(documentId: any): Observable<any> {
+    return this.http.post(this.baseUrl + `/payment/cancel-posting/?sessionId=9a2012bd-9a7c-4c75-ad17-3b5f099e462b?documentId=${documentId}`,{})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  deleteIndexedCheck(documentId: any): Observable<any> {
+    return this.http.post(this.baseUrl + `/payment/get-indexed-check-details/?documentId=${documentId}`,{})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  } */
   saveFlex2(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/claims/set-flex2/?claimId=' + data.claimId + '&claimFlex2Id=' + data.claimFlex2Id, data)
       .catch(err => {

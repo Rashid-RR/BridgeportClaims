@@ -50,16 +50,29 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
   search() {
     let date = this.dp.transform($('#checksdate').val(), "MM/dd/yyyy");
     this.ds.checksData.date = date||null
-    this.ds.checksData.fileName = this.fileName || null
+    this.ds.checksData.fileName = this.fileName || null;
+    this.ds.viewPostedDetail = undefined;
     this.ds.searchCheckes(); 
   }
 
   filter($event) {
-    this.ds.checksData.archived = $event.target.checked;
+    switch($event.target.value){
+      case 'posted':
+      this.ds.postedChecks = true
+      break;
+      case 'archived':
+      default:
+      this.ds.postedChecks = false
+      this.ds.archivedChecksData.archived = $event.target.checked;
+      break;
+
+    }
   }
   clearFilters() {
     $('#checksdate').val('');
     $('#CarchivedCheck').prop('checked',false);
+    $('#CarchivedCheck1').prop('checked',false);
+    this.ds.viewPostedDetail = undefined;
     this.fileName = '';
   }
 
