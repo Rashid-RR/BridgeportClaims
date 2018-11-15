@@ -168,7 +168,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     let amount = this.cp.transform(file['totalAmountPaid'], 'USD', true);
     this.dialogService.addDialog(DeleteIndexConfirmationComponent, {
       title: "Delete Indexed Check Confirmation",
-      message: `Deleting this check will delete all ${file['numberOfPayments'] || ''} payments associated with this check totalling ${amount}. Are you sure you wish to un-index this check, and remove ALL payments associated with this check? Or do you wish to un-index this check while keeping all of the existibg payments?`
+      message: `Deleting this check will delete all ${file['numberOfPayments'] || ''} payment(s) associated with this check totalling ${amount}. Are you sure you wish to un-index this check, and remove ALL payments associated with this check? Or do you wish to un-index this check while keeping all of the existing payments?`
     }).subscribe((isConfirmed) => {
       if (isConfirmed) {
         this.ds.deleteAndKeep(file.documentId, isConfirmed);
