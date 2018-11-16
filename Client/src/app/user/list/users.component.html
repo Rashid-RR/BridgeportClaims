@@ -256,7 +256,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn bg-darkRed btn-flat btn-small" data-dismiss="modal">Close</button>
-        <button type="button"  [disabled]="allUsers.length===0 && selectedUsers.length===0" class="btn bg-darkblue btn-flat btn-small">Save changes</button>
+        <button type="button"  [disabled]="allUsers.length===0 && selectedUsers.length===0" (click)="saveAssignment()" class="btn bg-darkblue btn-flat btn-small">Save changes</button>
       </div>
     </div>
 

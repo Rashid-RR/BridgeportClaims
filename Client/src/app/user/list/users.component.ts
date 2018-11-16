@@ -33,9 +33,12 @@ export class UsersComponent implements OnInit {
   submitted = false;
 
   allUsers: any = [];
-  tempAllUsers: any = []
-  userSearchQuery = '';
+  tempAllUsers: any = [];
   selectedUsers: any = [];
+
+
+  userSearchQuery = '';
+  selectedUserId = '';
   activeUsers: any = [];
 
   constructor(
@@ -340,7 +343,7 @@ export class UsersComponent implements OnInit {
       if (index > -1) {
 
         console.log(this.allUsers[index])
-      this.selectedUsers.push(this.allUsers[index])
+        this.selectedUsers.push(this.allUsers[index])
 
         this.allUsers.splice(index, 1);
       }
@@ -379,23 +382,43 @@ export class UsersComponent implements OnInit {
 
   getListofusers(id) {
     console.log(id)
-    this.allUsers=[]
+    this.selectedUserId = id;
+    this.allUsers = [];
+    this.selectedUsers = [];
 
     this.http.getUsersListPerActiveUser(id).map(res => {
       return res
     }).subscribe(result => {
 
       console.log(result);
-      this.allUsers=result['rightCarriers'];
-      this.selectedUsers=result['leftCarriers'];
-      this.tempAllUsers=this.allUsers;
+      this.allUsers = result['rightCarriers'];
+      this.selectedUsers = result['leftCarriers'];
+      this.tempAllUsers = this.allUsers;
       console.log(this.allUsers)
-console.log(this.selectedUsers)
+      console.log(this.selectedUsers)
 
 
     }, error1 => {
       console.log(error1)
     })
+  }
+
+  saveAssignment() {
+    var payorId = []
+    for (let payor in this.selectedUsers) {
+      payorId.push(this.selectedUsers[payor].payorId)
+    }
+    this.http.assignUsertoPayors(this.selectedUserId, payorId).map(res => {
+      return res
+    }).subscribe(result => {
+
+      this.toast.success(result['message']);
+
+    }, error1 => {
+      console.log(error1);
+      const err = error1.error;
+      this.toast.error(err.message);
+    });
   }
 
 }

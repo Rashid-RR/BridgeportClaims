@@ -343,13 +343,26 @@ export class HttpService {
   }
 
   getUsersListPerActiveUser(userid: any): Observable<any> {
-    let s = this.http.post(this.baseUrl + '/collection/get-collection-assignment-data/?userId=' + userid ,{})
+    let s = this.http.post(this.baseUrl + '/collection/get-collection-assignment-data/?userId=' + userid, {})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
+
+  assignUsertoPayors(userid: any, payorIds: any): Observable<any> {
+    let s = this.http.post(this.baseUrl + '/collection/assign-users-to-payors/', {
+      'userId': userid,
+      'payorIds': payorIds
+    })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
 
   getPayorList(pageNumber: Number, pageSize: Number): Observable<any> {
     let s = this.http.post(this.baseUrl + '/payors/get-payors/?pageNumber=' + pageNumber + '&pageSize=' + pageSize, {})
