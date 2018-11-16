@@ -18,6 +18,7 @@ AS BEGIN
 	ALTER TABLE [dbo].[Adjustor] DISABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Claim] DISABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Patient] DISABLE TRIGGER ALL;
+	DECLARE @One INT = 1;
 
 	-- Stage preliminary data before the data import
 	EXECUTE [dbo].[uspGenerateNotifications] @IsBeforeDataImport = 1
@@ -554,7 +555,7 @@ AS BEGIN
 
 	UPDATE s SET [s].[ClaimID] = [c].[ClaimID]
 	FROM   #New AS s WITH ( TABLOCKX )
-		   CROSS APPLY (   SELECT TOP 1 c.[ClaimID], c.ClaimNumber, c.PersonCode
+		   CROSS APPLY (   SELECT TOP (@One) c.[ClaimID], c.ClaimNumber, c.PersonCode
 						   FROM   [dbo].[Claim] AS [c]
 						   where  [s].[8] = [c].[ClaimNumber]
 								  AND [c].[PersonCode] = [s].[9]
@@ -564,14 +565,39 @@ AS BEGIN
 	WHERE 1 = 1 -- Moving around SQL Prompt (normally a bad practice)
 	SET @RowCountCheck = @@ROWCOUNT
 
+	-- Safety Check
+	IF EXISTS (SELECT * FROM [#New] AS [n] WHERE [n].[ClaimID] IS NULL)
+		BEGIN
+			INSERT INTO [etl].[SafetyCheck] ([ClaimID], [PatientID])
+			SELECT c.[ClaimID], [c].[PatientID]
+			FROM   #New AS s WITH ( TABLOCKX )
+		    CROSS APPLY (  SELECT TOP (@One) c.[ClaimID], c.ClaimNumber, c.PersonCode, c.[PatientID]
+						   FROM   [dbo].[Claim] AS [c]
+						   where  [s].[8] = [c].[ClaimNumber]
+								  AND [c].[PersonCode] = [s].[9]
+						   ORDER BY c.[CreatedOnUTC] DESC
+					   ) AS c;
+			UPDATE s SET [s].[ClaimID] = [c].[ClaimID]
+			FROM   #New AS s WITH ( TABLOCKX )
+				   CROSS APPLY (   SELECT TOP (@One) c.[ClaimID], c.ClaimNumber, c.PersonCode
+								   FROM   [dbo].[Claim] AS [c]
+								   where  [s].[8] = [c].[ClaimNumber]
+										  AND [c].[PersonCode] = [s].[9]
+										  -- Removed the PatientID match just to assign a valid patient to move on smoothly.
+								   ORDER BY c.[CreatedOnUTC] DESC
+							   ) AS c
+			WHERE s.[ClaimID] IS NULL;
+		END;
+
 	-- QA check that we were able to update every record
-	EXEC(N'ALTER TABLE [#New] ALTER COLUMN [ClaimID] INTEGER NOT NULL')
-	EXEC(N'ALTER TABLE [#New] ALTER COLUMN [ClaimID] INTEGER NULL')
+	EXEC(N'ALTER TABLE [#New] ALTER COLUMN [ClaimID] INTEGER NOT NULL');
+	EXEC(N'ALTER TABLE [#New] ALTER COLUMN [ClaimID] INTEGER NULL');
 
 	-- Update the StagedLakerFile with #New's Claim ID's
 	UPDATE	[slf] SET [slf].[ClaimID] = [n].[ClaimID]
 	FROM	[etl].[StagedLakerFile] AS [slf]
-			INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID]
+			INNER JOIN [#New] AS [n] ON [n].[RowID] = [slf].[RowID];
+
 	IF (@RowCountCheck != @@ROWCOUNT)
 		BEGIN
 			IF (@@TRANCOUNT > 0)

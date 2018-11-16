@@ -1,0 +1,105 @@
+<div class="box" style="margin: 0px;">
+  <div class="box-header bg-head-box">
+    <span class="blade-title panel-head">
+      <i class="fa fa-book" aria-hidden="true"></i> Payments
+    </span>
+    <span class="total"> 
+      <span *ngIf="ds.checksList.length>0">
+        <span style="font-size:13pt">{{(ds.viewPostedDetail && ds.viewPostedDetail.length || 0)}}</span>
+        Record{{ds.viewPostedDetail.length>1 ? 's':''}} found</span>
+    </span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-sm-12 expanded" style="overflow:hidden;">
+    <div class="table-responsive top-header">
+      <ul class="products-list product-list-in-box">
+        <li class="item row">
+          <div class="col-md-1">
+            Check #
+          </div>
+          <div class="col-md-1">
+            Amt Paid
+          </div>
+          <div class="col-md-2">
+            Date Posted
+          </div>
+          <div class="col-md-1">
+            Indexed By
+          </div>
+          <div class="col-md-2">
+            Rx #
+          </div>
+          <div class="col-md-2">
+            Rx Date
+          </div>
+          <div class="col-md-3">
+            Actions
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="table-responsive table-body" *ngIf="ds.checkDisplay=='list'">
+      <form class="form-horizontal" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off"
+        novalidate>
+        <ul class="products-list product-list-in-box">
+          <li class="item row" *ngFor="let pay of ds.viewPostedDetail" [class.edited]="pay.edited" [class.added]="pay.added"
+            [class.deleted]="pay.deleted">
+            <div class="col-md-1">
+              <ng-container *ngIf="!editing  || editing!=pay.prescriptionPaymentId">
+                {{pay.checkNumber}}
+              </ng-container>
+              <ng-container *ngIf="editing && editing==pay.prescriptionPaymentId">
+                <input class="form-control" formControlName="checkNumber" type="text" id="checkNumber" />
+              </ng-container>
+            </div>
+            <div class="col-md-1">
+              <ng-container *ngIf="!editing  || editing!=pay.prescriptionPaymentId">
+                {{pay.amountPaid|currency:'USD':true:'1.2-2'}}
+              </ng-container>
+              <ng-container *ngIf="editing && editing==pay.prescriptionPaymentId">
+                <input class="form-control" formControlName="amountPaid" type="text" id="amountPaid"  (change)="textChange('amountPaid')"/>
+              </ng-container>
+            </div>
+            <div class="col-md-2">
+              <ng-container *ngIf="!editing  || editing!=pay.prescriptionPaymentId">
+                {{pay.datePosted | date : 'mediumDate'}} {{pay.datePosted | date : 'mediumTime'}}
+              </ng-container>
+              <ng-container *ngIf="editing && editing==pay.prescriptionPaymentId">
+                <input class="form-control" formControlName="datePosted" type="text" id="datePosted" data-inputmask="'alias': 'mm/dd/yyyy'"
+                  data-mask />
+              </ng-container>
+            </div>
+            <div class="col-md-1 text-center">
+              {{pay.indexedBy}}
+            </div>
+            <div class="col-md-2 text-center">
+              {{pay.rxNumber}}
+            </div>
+            <div class="col-md-2">
+              {{pay.rxDate | date : 'mediumDate'}} {{pay.rxDate | date : 'mediumTime'}}
+            </div>
+            <div class="col-md-3">
+              <ng-container *ngIf="editing!=pay.prescriptionPaymentId">
+                <button type="button" class="btn btn-primary btn-xs" (click)="edit(pay)">
+                  Edit
+                </button>
+                <button type="button" class="btn btn-danger btn-xs" (click)="remove(pay)">
+                  <span class="glyphicon glyphicon-trash"></span> Delete
+                </button>
+              </ng-container>
+              <ng-container *ngIf="editing==pay.prescriptionPaymentId">
+                <button type="button" class="btn btn-primary btn-xs" (click)="savePayment(pay)">
+                  Save
+                </button>
+                <button type="button" class="btn btn-danger btn-xs" (click)="cancel()">
+                  <span class="glyphicon glyphicon-trash"></span> Cancel
+                </button>
+              </ng-container>
+            </div>
+          </li>
+        </ul>
+      </form>
+    </div>
+  </div>
+</div>

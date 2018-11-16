@@ -20,6 +20,7 @@ import { TextSelectDirective } from '../directives/text-select.directive';
 import { PhonePipe } from '../pipes/phone-pipe';
 import { DisplayRolesPipe } from '../pipes/display-roles.pipe';
 import { ArraySortPipe } from '../pipes/sort.pipe';
+import { DeleteIndexConfirmationComponent } from '../payment/delete-index-confirmation.component';
 
 @Pipe({ name: 'safeStyle' })
 export class SafeStylePipe implements PipeTransform {
@@ -48,7 +49,7 @@ export class SafeUrlPipe implements PipeTransform {
   ],
   declarations: [
     ConfirmComponent,BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
-    TableSortDirective, ColumnSortDirective,TextSelectDirective,
+    TableSortDirective, ColumnSortDirective,TextSelectDirective,DeleteIndexConfirmationComponent,
     DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe,SafeStylePipe, SafeUrlPipe,FilterUserPipe,DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,InvoiceSearchComponent,
      EpisodeNoteModalComponent,UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
@@ -71,7 +72,7 @@ export class SafeUrlPipe implements PipeTransform {
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
   ],
   entryComponents: [
-    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent
+    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,DeleteIndexConfirmationComponent
   ],
 })
 export class SharedModule { }

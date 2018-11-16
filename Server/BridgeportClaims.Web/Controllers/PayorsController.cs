@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.DataProviders.PayorSearches;
+using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers
 {
@@ -22,6 +23,23 @@ namespace BridgeportClaims.Web.Controllers
         {
             _payorsDataProvider = payorsDataProvider;
             _payorSearchProvider = payorSearchProvider;
+        }
+
+        [HttpPost]
+        [Route("get-payors-for-unpaid-scripts")]
+        public IHttpActionResult GetPayorsForUnpaidScripts()
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var results = _payorsDataProvider.Value.GetPayors(userId);
+                return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]

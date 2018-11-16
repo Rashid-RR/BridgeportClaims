@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group">
                 <label>File Name</label>
                 <div class="input-group date">
@@ -22,10 +22,17 @@
                     <input class="form-control pull-right" id="fileName" name="fileName" type="text" [(ngModel)]="fileName"
                         (focus)="submitted=false">
                     <span class="input-group-addon">
-                        <div class="commonCheckBox">
-                            <input class="archivedCheck" name="check" type="checkbox" id="CarchivedCheck" (change)="filter($event)">
+                        <div class="commonCheckBox2">
+                            <input class="archivedCheck"  value="archived" name="check" type="radio" id="CarchivedCheck" (change)="filter($event)">
                             <label for="CarchivedCheck" class="archived"></label>
                             <label for="CarchivedCheck">Archived</label>
+                        </div>
+                    </span>
+                    <span class="input-group-addon">
+                        <div class="commonCheckBox1">
+                            <input class="archivedCheck" value="posted" name="check" type="radio" id="CarchivedCheck1" (change)="filter($event)">
+                            <label for="CarchivedCheck1" class="archived"></label>
+                            <label for="CarchivedCheck1">Posted Checks</label>
                         </div>
                     </span>
                 </div>

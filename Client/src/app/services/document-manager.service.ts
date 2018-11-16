@@ -21,7 +21,10 @@ export class DocumentManagerService {
   documentTypes: Immutable.OrderedMap<any, DocumentType> = Immutable.OrderedMap<any, DocumentType>();
   data: any = {};
   invoiceData: any = {};
-  checksData: any = {};
+  postedChecksData: any = {};
+  archivedChecksData: any = {};
+  postedChecks: boolean = false;
+  viewPostedDetail: any;
   invalidChecksData: any = {};
   display: string = 'list';
   invDisplay: string = 'list';
@@ -64,11 +67,20 @@ export class DocumentManagerService {
       page: 1,
       pageSize: 30
     };
-    this.checksData = {
+    this.archivedChecksData = {
       date: null,
       fileTypeId: 3,
       isIndexed: false,
       sort: "DocumentID",
+      sortDirection: "ASC",
+      page: 1,
+      pageSize: 30
+    };
+    this.postedChecksData = {
+      date: null,
+      fileName: null,
+      isIndexed: false,
+      sort: "IndexedOn",
       sortDirection: "ASC",
       page: 1,
       pageSize: 30
@@ -163,11 +175,15 @@ export class DocumentManagerService {
     this.search();
     this.searchInvoices();
     this.searchCheckes();
-    this.searchInvalidCheckes();    
+    this.searchInvalidCheckes();
   }
 
   get autoCompleteClaim(): string {
     return this.http.baseUrl + "/document/claim-search/?exactMatch=" + this.exactMatch + "&searchText=:keyword";
+  }
+
+  get checksData() {
+    return this.postedChecks ? this.postedChecksData : this.archivedChecksData;;
   }
 
   onSortColumn(info: SortColumnInfo) {
@@ -185,10 +201,11 @@ export class DocumentManagerService {
     this.searchInvoices();
   }
   onCheckSortColumn(info: SortColumnInfo) {
-    this.checksData.isDefaultSort = false;
-    this.checksData.sort = info.column;
-    this.checksData.page = 1;
-    this.checksData.sortDirection = info.dir.toUpperCase();
+    let data = this.postedChecks ? this.postedChecksData : this.archivedChecksData;;
+    data.isDefaultSort = false;
+    data.sort = info.column;
+    data.page = 1;
+    data.sortDirection = info.dir.toUpperCase();
     this.searchCheckes();
   }
   onInvalidCheckSortColumn(info: SortColumnInfo) {
@@ -237,8 +254,26 @@ export class DocumentManagerService {
       this.loading = false;
     });
   }
+  deleteAndKeep(id: number, skipPayments: boolean = false,prescriptionPaymentId?:any) {
+    this.loading = true;
+     this.http.reIndexedCheck({documentId:id,skipPayments:skipPayments,prescriptionPaymentId:prescriptionPaymentId}).subscribe(r => {
+      this.loading = false;
+      this.toast.success(r.message);
+      this.checks = this.checks.delete(id);
+    }, () => {
+      this.loading = false;
+    });
+  }
+  viewPosted(id: any) {
+    this.loading = true;
+     this.http.getIndexedCheckDetail(id).subscribe(r => {
+      this.loading = false;
+      this.viewPostedDetail = r;
+    }, () => {
+      this.loading = false;
+    });
+  }
   cancel(type) {
-    console.log(type);
     switch (type) {
       case 'image':
         this.newIndex = false;
@@ -379,40 +414,40 @@ export class DocumentManagerService {
       if (page) {
         checksData.page = page;
       }
-      this.http.getDocuments(checksData)
-        .subscribe((result: any) => {
-          //console.log(result);
-          this.loading = false;
-          this.totalCheckRowCount = result.totalRowCount;
-          this.checks = Immutable.OrderedMap<any, DocumentItem>();
-          result.documentResults.forEach((doc: DocumentItem) => {
-            try {
-              this.checks = this.checks.set(doc.documentId, doc);
-            } catch (e) { }
-          });
-          (result.documentTypes || []).forEach((type: DocumentType) => {
-            try {
-              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-            } catch (e) { }
-          });
-          if (next) {
-            this.checksData.page++;
-          }
-          if (prev && this.checksData.page != checksData.page) {
-            this.checksData.page--;
-          }
-          if (page) {
-            this.checksData.page = page;
-          }
-          this.checksArchived = this.checksData.archived;
-        }, err => {
-          this.loading = false;
+      let apiCall = this.postedChecks ? this.http.getIndexedChecks(checksData) : this.http.getDocuments(checksData)
+      apiCall.subscribe((result: any) => {
+        //console.log(result);
+        this.loading = false;
+        this.totalCheckRowCount = result.totalRowCount;
+        this.checks = Immutable.OrderedMap<any, DocumentItem>();
+        (result.documentResults || result.results || []).forEach((doc: DocumentItem) => {
           try {
-            const error = err.error;
+            this.checks = this.checks.set(doc.documentId, doc);
           } catch (e) { }
-        }, () => {
-          this.events.broadcast('document-list-updated');
         });
+        (result.documentTypes || []).forEach((type: DocumentType) => {
+          try {
+            this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+          } catch (e) { }
+        });
+        if (next) {
+          this.checksData.page++;
+        }
+        if (prev && this.checksData.page != checksData.page) {
+          this.checksData.page--;
+        }
+        if (page) {
+          this.checksData.page = page;
+        }
+        this.checksArchived = this.checksData.archived;
+      }, err => {
+        this.loading = false;
+        try {
+          const error = err.error;
+        } catch (e) { }
+      }, () => {
+        this.events.broadcast('document-list-updated');
+      });
     }
   }
   searchInvalidCheckes(next: Boolean = false, prev: Boolean = false, page: number = undefined) {

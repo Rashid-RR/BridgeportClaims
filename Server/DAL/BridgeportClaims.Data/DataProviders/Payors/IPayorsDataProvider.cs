@@ -8,5 +8,6 @@ namespace BridgeportClaims.Data.DataProviders.Payors
         IEnumerable<PayorDto> GetPayors();
         IEnumerable<PayorFullDto> GetAllPayors();
         IList<PayorFullDto> GetPaginatedPayors(int pageNumber, int pageSize);
+        IEnumerable<PayorDto> GetPayors(string userId);
     }
 }

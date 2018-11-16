@@ -23,6 +23,7 @@ CREATE PROC [dbo].[uspGetArchivedUnpaidScripts]
 	@PageNumber INTEGER,
 	@PageSize INTEGER,
 	@Carriers [dbo].[udtID] READONLY,
+	@UserID NVARCHAR(128),
 	@TotalRows INTEGER OUTPUT
 )
 AS BEGIN
@@ -40,7 +41,11 @@ AS BEGIN
 
 	IF NOT EXISTS (SELECT * FROM @Carriers)
 		BEGIN
-			INSERT #Carriers (PayorID) SELECT p.PayorID FROM dbo.Payor AS p
+			INSERT INTO [#Carriers] ([PayorID])
+			SELECT  [p].[PayorID]
+			FROM    [dbo].[Payor] AS [p]
+					INNER JOIN [dbo].[CollectionAssignment] AS [ca] ON [p].[PayorID] = [ca].[PayorID]
+			WHERE   [ca].[UserID] = @UserID;
 		END
 	ELSE
 		BEGIN
@@ -214,5 +219,4 @@ AS BEGIN
 			OFFSET @iPageSize * (@iPageNumber - 1) ROWS
 			FETCH NEXT @iPageSize ROWS ONLY;
 END
-
 GO

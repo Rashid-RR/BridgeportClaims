@@ -259,5 +259,20 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                     return false;
                 }
             });
+
+        public IEnumerable<CollectionsBonusDto> GetCollectionsBonus(string userId, int month, int year)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[rpt].[uspCollectionsBonus]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@UserID", userId, DbType.String, size: 128);
+                ps.Add("@Month", month, DbType.Int32);
+                ps.Add("@Year", year, DbType.Int32);
+                return conn.Query<CollectionsBonusDto>(sp, ps, commandType: CommandType.StoredProcedure);
+            });
     }
 }

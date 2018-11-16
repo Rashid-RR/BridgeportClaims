@@ -23,7 +23,7 @@ ALTER TABLE [dbo].[CollectionAssignment] ADD CONSTRAINT [fkCollectionAssignmentM
 GO
 ALTER TABLE [dbo].[CollectionAssignment] ADD CONSTRAINT [fkCollectionAssignmentPayorIDPayorPayorID] FOREIGN KEY ([PayorID]) REFERENCES [dbo].[Payor] ([PayorID])
 GO
-ALTER TABLE [dbo].[CollectionAssignment] ADD CONSTRAINT [fkCollectionAssignmentUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
+ALTER TABLE [dbo].[CollectionAssignment] ADD CONSTRAINT [fkCollectionAssignmentStateIDUsStateStateID] FOREIGN KEY ([StateID]) REFERENCES [dbo].[UsState] ([StateID])
 GO
-ALTER TABLE [dbo].[CollectionAssignment] ADD CONSTRAINT [FK__Collectio__State__58F12BAE] FOREIGN KEY ([StateID]) REFERENCES [dbo].[UsState] ([StateID])
+ALTER TABLE [dbo].[CollectionAssignment] ADD CONSTRAINT [fkCollectionAssignmentUserIDAspNetUsersID] FOREIGN KEY ([UserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
