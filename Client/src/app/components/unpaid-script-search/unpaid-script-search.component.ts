@@ -20,6 +20,7 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   endDate: string;
   submitted: boolean = false;
   payors: Array<Payor> = [];
+  payorsId=[]
   loading: boolean = false;
   pageNumber: number;
   pageSize: number = 50;
@@ -35,6 +36,18 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.us.payorListReady.subscribe(() => {
       $("#payorsSelection").select2();
+    })
+
+    this.http.getPayorList_newapi().map(res => {
+      return res
+    }).subscribe(result => {
+
+      console.log(result);
+      this.payorsId=result;
+
+
+    }, error1 => {
+      console.log(error1)
     })
   }
   filter($event) {

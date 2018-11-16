@@ -23,10 +23,12 @@
             </div>
             <div class="form-group" style="min-width:400px;max-width:850px;margin-right:15px">
                 <label>Carrier</label>
+
                 <select class="form-control select2" id="payorsSelection" multiple="multiple" data-placeholder="Start typing to search carriers..."
                     size="1" style="width: 100%;">
-                    <option *ngFor="let p of us.payors" [value]="p.payorId">{{p.carrier}}</option>
+                    <option *ngFor="let p of payorsId" [value]="p.payorId">{{p.carrier}}</option>
                 </select>
+
             </div>
             <div class="form-group" style="max-width:95px;margin-right:15px">
                 <label>

@@ -373,6 +373,17 @@ export class HttpService {
     return s;
   }
 
+
+
+  getPayorList_newapi(): Observable<any> {
+    let s = this.http.post(this.baseUrl + '/payors/get-payors-for-unpaid-scripts/', {})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
   getUsers(pageNumber: Number, pageSize: Number): Observable<any> {
     let s = this.http.get(this.baseUrl + '/account/users/?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
       .catch(err => {
