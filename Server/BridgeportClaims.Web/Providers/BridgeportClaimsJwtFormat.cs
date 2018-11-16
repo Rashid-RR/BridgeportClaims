@@ -37,6 +37,7 @@ namespace BridgeportClaims.Web.Providers
             return jwt;
         }
 
+        // TODO: Implement.
         public AuthenticationTicket Unprotect(string protectedText)
         {
             throw new NotImplementedException();

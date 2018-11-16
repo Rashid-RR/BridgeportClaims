@@ -37,5 +37,17 @@ namespace BridgeportClaims.Data.DataProviders.Payors
 
         public IList<PayorFullDto> GetPaginatedPayors(int pageNumber, int pageSize) =>
             GetAllPayors()?.ToList();
+
+        public IEnumerable<PayorDto> GetPayors(string userId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetPayorsByCollectionAssignment]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                return conn.Query<PayorDto>(sp, new {UserID = userId}, commandType: CommandType.StoredProcedure)
+                    ?.OrderBy(o => o.Carrier);
+            });
     }
 }

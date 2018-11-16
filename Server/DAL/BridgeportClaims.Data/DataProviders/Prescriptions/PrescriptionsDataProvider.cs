@@ -45,7 +45,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
             });
 
         public UnpaidScriptsMasterDto GetUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sort, string sortDirection, int page, int pageSize, bool isArchived, DataTable carriers)
+            string sort, string sortDirection, int page, int pageSize, bool isArchived, DataTable carriers, string userId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 var sp = !isArchived ? "[dbo].[uspGetUnpaidScripts]" : "[dbo].[uspGetArchivedUnpaidScripts]";
@@ -62,6 +62,7 @@ namespace BridgeportClaims.Data.DataProviders.Prescriptions
                 ps.Add("@PageNumber", page, DbType.Int32);
                 ps.Add("@PageSize", pageSize, DbType.Int32);
                 ps.Add("@Carriers", carriers.AsTableValuedParameter(s.UdtId));
+                ps.Add("@UserID", userId, DbType.String, size: 128);
                 ps.Add("@TotalRows", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var unpaidScripts = conn.Query<UnpaidScriptResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
                 var unpaidScriptsDto = new UnpaidScriptsDto

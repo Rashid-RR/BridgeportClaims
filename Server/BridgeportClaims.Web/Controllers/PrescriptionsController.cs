@@ -144,6 +144,7 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                var userId = User.Identity.GetUserId();
                 if (null != model.PayorIds && model.PayorIds.Any())
                 {
                     IList<CarrierDto> carrierDtos =
@@ -152,14 +153,14 @@ namespace BridgeportClaims.Web.Controllers
                     return ReturnUnpaidScripts(model.IsDefaultSort,
                         model.StartDate.ToNullableFormattedDateTime(),
                         model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page,
-                        model.PageSize, model.IsArchived, dt);
+                        model.PageSize, model.IsArchived, dt, userId);
                 }
                 var dataTable = new DataTable();
                 dataTable.Columns.Add("PayorID");
                 return ReturnUnpaidScripts(model.IsDefaultSort,
                     model.StartDate.ToNullableFormattedDateTime(),
                     model.EndDate.ToNullableFormattedDateTime(), model.Sort, model.SortDirection, model.Page,
-                    model.PageSize, model.IsArchived, dataTable);
+                    model.PageSize, model.IsArchived, dataTable, userId);
             }
             catch (Exception ex)
             {
@@ -169,10 +170,10 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         private IHttpActionResult ReturnUnpaidScripts(bool isDefaultSort, DateTime? startDate, DateTime? endDate,
-            string sort, string sortDirection, int page, int pageSize, bool isArchived, DataTable carriers)
+            string sort, string sortDirection, int page, int pageSize, bool isArchived, DataTable carriers, string userId)
         {
             var results = _prescriptionsDataProvider.Value.GetUnpaidScripts(isDefaultSort, startDate, endDate, sort, sortDirection,
-                page, pageSize, isArchived, carriers);
+                page, pageSize, isArchived, carriers, userId);
             return Ok(results);
         }
 
