@@ -57,7 +57,7 @@
                       <img
                         [src]="user_pic_hover? 'assets/img/user/assign_user_carrier.png'  : 'assets/img/user/assign_user_carrier_blue.png'"
                         (mouseover)="user_pic_hover = true"
-                        (mouseout)="user_pic_hover = false" data-toggle="modal" data-target="#myModal"
+                        (mouseout)="user_pic_hover = false" data-toggle="modal" data-target="#usersModal" (click)="initilizeModal()"
                         style="height:70px; cursor: pointer">
                     </div>
                     <div class="col-md-2">
@@ -174,7 +174,7 @@
 </div>
 
 
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="usersModal" role="dialog">
   <div class="modal-dialog modal-dialog-centered">
 
     <!-- Modal content-->
@@ -192,8 +192,8 @@
             <p style="    margin: 10px 0px;"> Select a User</p>
           </div>
           <div class="col-lg-4">
-            <select class="form-control" (change)="getListofusers($event.target.value)">
-              <option disabled> ---select User--- </option>
+            <select class="form-control" id="userSelection" (change)="getListofusers($event.target.value)">
+              <option value="0" disabled selected> ---select User--- </option>
               <ng-container *ngFor="let user of activeUsers">
               <option [value]="user.id"  >{{user.firstName + " "+ user.lastName}}</option>
               </ng-container>
@@ -209,7 +209,7 @@
         <div class="popup-boder row" style="background-color: #37474f">
 
         <div class="col-lg-6" >
-        <p> {{selectedUsers.length}} items selected</p>
+        <p style="font-size: 12px;"> {{selectedUsers.length}} items selected</p>
 
         </div>
         <div class="col-lg-6">

@@ -9,6 +9,7 @@ import {ToastsManager} from 'ng2-toastr';
 
 import {ConfirmComponent} from '../../components/confirm.component';
 import {DialogService} from 'ng2-bootstrap-modal';
+declare var $: any;
 
 @Component({
   selector: 'app-users',
@@ -79,7 +80,9 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.events.on('loading-error', (v) => {
+
+
+      this.events.on('loading-error', (v) => {
       this.loading = false;
     });
     this.http.getActiveUsers().map(res => {
@@ -413,12 +416,20 @@ export class UsersComponent implements OnInit {
     }).subscribe(result => {
 
       this.toast.success(result['message']);
+      $('#usersModal').modal('hide');
 
     }, error1 => {
       console.log(error1);
       const err = error1.error;
       this.toast.error(err.message);
     });
+  }
+
+  initilizeModal() {
+    this.userSearchQuery = ''
+    $('#userSelection').val(0)
+    this.allUsers = [];
+    this.selectedUsers = [];
   }
 
 }
