@@ -255,6 +255,7 @@ export class DocumentManagerService {
     });
   }
   deleteAndKeep(id: number, skipPayments: boolean = false,prescriptionPaymentId?:any) {
+    console.log('delete and keep')
     this.loading = true;
      this.http.reIndexedCheck({documentId:id,skipPayments:skipPayments,prescriptionPaymentId:prescriptionPaymentId}).subscribe(r => {
       this.loading = false;
