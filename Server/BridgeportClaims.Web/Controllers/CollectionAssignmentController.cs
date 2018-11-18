@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -59,11 +60,23 @@ namespace BridgeportClaims.Web.Controllers
                     Logger.Value.Info($"We are removing all associations (if there are any), from {user.FullName}");
                 }
                 IList<CarrierDto> carrierDtos =
-                    model.PayorIds.Select(item => new CarrierDto { PayorID = item }).ToList();
-                var dt = carrierDtos.ToFixedDataTable();
+                    model.PayorIds?.Select(item => new CarrierDto {PayorID = item}).ToList();
+                DataTable dt;
+                string msg;
+                if (carrierDtos.Count < 1)
+                {
+                    dt = new DataTable();
+                    dt.Columns.Add("PayorID");
+                    msg = $"{user.FullName} was removed from all carriers successfully.";
+                }
+                else
+                {
+                    dt = carrierDtos.ToFixedDataTable();
+                    msg = $"{user.FullName} was associated to the selected carriers successfully.";
+                }
                 var modifiedByUserId = User.Identity.GetUserId();
                 _collectionAssignmentProvider.Value.MergeCollectionAssignments(model.UserId, modifiedByUserId, dt);
-                return Ok(new { message = $"{user.FullName} was associated to the selected carriers successfully." });
+                return Ok(new { message = msg });
             }
             catch (Exception ex)
             {
