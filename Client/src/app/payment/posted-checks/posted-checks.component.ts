@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ToastsManager, Toast } from 'ng2-toastr';
 import { CurrencyPipe } from '@angular/common';
-import { DocumentManagerService } from "../../services/document-manager.service";
+import { DocumentManagerService } from '../../services/document-manager.service';
 import { DocumentItem } from '../../models/document';
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
@@ -33,7 +33,7 @@ export class PostedChecksComponent implements OnInit, AfterViewInit {
       },
       {
         label: '<span class="fa fa-trash text-red">Remove</span>',
-        onClick: ($event)=>{
+        onClick: ($event) => {
           this.remove($event.menuItem.id);
         }
       }
@@ -60,7 +60,7 @@ export class PostedChecksComponent implements OnInit, AfterViewInit {
   };
   next() {
     this.ds.searchCheckes(true);
-    this.goToPage ='';
+    this.goToPage = '';
   }
   openFile(file: DocumentItem) {
     localStorage.setItem('file-' +file.documentId,JSON.stringify(file));
