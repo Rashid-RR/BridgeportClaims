@@ -72,19 +72,23 @@ namespace BridgeportClaims.Web.Controllers
         {
             if (null == result)
                 throw new ArgumentNullException(nameof(result));
-            if (result.Succeeded) return null;
-            if (result.Errors != null)
+            if (result.Succeeded)
             {
-                foreach (var error in result.Errors)
+                return null;
+            }
+            if (result.Errors == null)
+            {
+                return ModelState.IsValid ? BadRequest() : GetBadRequestFormattedErrorMessages();
+            }
+            foreach (var error in result.Errors)
+            {
+                if (error.StartsWith("Name ") && error.EndsWith(" is already taken."))
                 {
-                    if (error.StartsWith("Name ") && error.EndsWith(" is already taken."))
-                    {
-                        // Do nothing
-                    }
-                    else // Else add messages to the ModelState
-                    {
-                        ModelState.AddModelError("", error);
-                    }
+                    // Do nothing
+                }
+                else // Else add messages to the ModelState
+                {
+                    ModelState.AddModelError("", error);
                 }
             }
             return ModelState.IsValid ? BadRequest() : GetBadRequestFormattedErrorMessages();
