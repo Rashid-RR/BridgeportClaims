@@ -33,13 +33,13 @@
                             <h3>Please sign in</h3>
                             <div class="form-group">
                                 <input type="text" name="email" class="form-control" placeholder="Email address" formControlName="email" (focus)="submitted=false"
-                                    required focus-on>
+                                    required focus-on autofill="off" autocomplete="new-password">
                                 <p class="text-danger form-control-static" *ngIf="form.get('email').value!='' && form.get('email').errors && submitted">Incorrect email</p>
                                 <p class="text-danger form-control-static" *ngIf="form.get('email').value =='' && submitted">Email is required</p>
                             </div>
                             <div class="form-group">
                                 <input type="password" name="password" class="form-control bottom" placeholder="Password" formControlName="password" required
-                                    (focus)="submitted=false">
+                                    (focus)="submitted=false" autofill="off" autocomplete="new-password">
                                 <p class="text-danger form-control-static" *ngIf="form.get('password').errors && submitted"> {{this.form.get('password').getError('required') ? 'Password is required': 'Incorrect email
                                     or password'}}</p>
                             </div>
