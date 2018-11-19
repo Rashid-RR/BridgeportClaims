@@ -95,6 +95,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     if (!this.form.valid) {
       this.toast.warning("You must fill amount paid, check Number and date posted to continue");
     }else if(!this.form.dirty){
+      console.log(this.form.value);
       this.toast.warning("Not saving. You haven't made any change");
     }else{
       this.ds.loading = true;
@@ -149,8 +150,11 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
       datePosted: datePosted,
     };
     setTimeout(() => {
-      $('#datePosted').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
       $('[data-mask]').inputmask();
+      $('#datePosted').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' }).on('change',($ev)=>{
+        this.form.controls.datePosted.setValue($ev.target.value);
+        this.form.controls.datePosted.markAsDirty();
+      });
     }, 100)
   }
   next() {

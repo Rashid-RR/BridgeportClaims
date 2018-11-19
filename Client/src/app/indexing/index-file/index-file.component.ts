@@ -110,7 +110,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
 
   }
   saveImage() {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: "Save Image",
       message: "Are you sure you would like to save the indexing of this image?"
     })
