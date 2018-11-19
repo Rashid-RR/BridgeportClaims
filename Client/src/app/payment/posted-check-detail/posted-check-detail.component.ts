@@ -8,6 +8,7 @@ import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 import { DeleteIndexConfirmationComponent } from '../delete-index-confirmation.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {ConfirmComponent} from '../../components/confirm.component';
 declare var $: any;
 
 @Component({
@@ -161,17 +162,33 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     window.open(`#/main/indexing/indexed-image/${file.documentId}`);
   }
   view(file: DocumentItem) {
-    console.log(file);
+    // console.log(file);
     this.ds.viewPostedDetail = true;
   }
   remove(file: DocumentItem) {
-    let amount = this.cp.transform(file['totalAmountPaid'], 'USD', true);
-    this.dialogService.addDialog(DeleteIndexConfirmationComponent, {
-      title: "Delete Indexed Check Confirmation",
-      message: `Deleting this check will delete all ${file['numberOfPayments'] || ''} payment(s) associated with this check totalling ${amount}. Are you sure you wish to un-index this check, and remove ALL payments associated with this check? Or do you wish to un-index this check while keeping all of the existing payments?`
+    let amount = this.cp.transform(file['amountPaid'], 'USD', true);
+    // console.log(file);
+    // console.log(amount);
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Delete payment',
+      message: 'Are you sure you wish to remove this Payment  for RX Number: ' +
+        file.rxNumber + ' of ' + amount + '?'
     }).subscribe((isConfirmed) => {
       if (isConfirmed) {
-        this.ds.deleteAndKeep(file.documentId, isConfirmed);
+        // this.ds.deleteAndKeep(file.documentId, isConfirmed);
+        this.http.deletePrescriptionPayment(file.rxNumber).single().subscribe(res => {
+          this.toast.success(res.message);
+          // console.log(res);
+          // console.log(this.ds.viewPostedDetail);
+          for (var i = 0; i < this.ds.viewPostedDetail.length; i++) {
+            if (file['prescriptionPaymentId'] == this.ds.viewPostedDetail[i].prescriptionPaymentId) {
+              this.ds.viewPostedDetail.splice(i, 1);
+            }
+          }
+
+        }, error => {
+          this.toast.error(error.message);
+        });
       }
     });
   }
