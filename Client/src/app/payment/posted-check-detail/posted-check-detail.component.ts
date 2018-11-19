@@ -166,10 +166,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     this.ds.viewPostedDetail = true;
   }
   remove(file: DocumentItem) {
-      title: 'Delete payment',
-    // console.log(file);
     let amount = this.cp.transform(file['amountPaid'], 'USD', true);
-    // console.log(amount);
     this.dialogService.addDialog(ConfirmComponent, {
       message: 'Are you sure you wish to remove this Payment  for RX Number: ' +
         file.rxNumber + ' of ' + amount + '?'
@@ -178,8 +175,6 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
         // this.ds.deleteAndKeep(file.documentId, isConfirmed);
         this.http.deletePrescriptionPayment(file.rxNumber).single().subscribe(res => {
           this.toast.success(res.message);
-          // console.log(res);
-          // console.log(this.ds.viewPostedDetail);
           for (var i = 0; i < this.ds.viewPostedDetail.length; i++) {
             if (file['prescriptionPaymentId'] == this.ds.viewPostedDetail[i].prescriptionPaymentId) {
               this.ds.viewPostedDetail.splice(i, 1);
