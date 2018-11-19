@@ -165,10 +165,12 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     this.ds.viewPostedDetail = true;
   }
   remove(file: DocumentItem) {
-    let amount = this.cp.transform(file['totalAmountPaid'], 'USD', true);
+    const amount = this.cp.transform(file['totalAmountPaid'], 'USD', true);
     this.dialogService.addDialog(DeleteIndexConfirmationComponent, {
-      title: "Delete Indexed Check Confirmation",
-      message: `Deleting this check will delete all ${file['numberOfPayments'] || ''} payment(s) associated with this check totalling ${amount}. Are you sure you wish to un-index this check, and remove ALL payments associated with this check? Or do you wish to un-index this check while keeping all of the existing payments?`
+      title: 'Delete Indexed Check Confirmation',
+      message: `Deleting this check will delete all ${file['numberOfPayments'] || ''} payment(s) associated with 
+      this check totalling ${amount}. Are you sure you wish to un-index this check, and remove ALL payments
+       associated with this check? Or do you wish to un-index this check while keeping all of the existing payments?`
     }).subscribe((isConfirmed) => {
       if (isConfirmed) {
         this.ds.deleteAndKeep(file.documentId, isConfirmed);
@@ -176,16 +178,17 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     });
   }
   goto() {
-    let page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
 
     } else if (page > 0 && page <= this.ds.checkTotalPages) {
       this.ds.searchCheckes(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages).then((toast: Toast) => {
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' 
+        + this.ds.checkTotalPages).then((toast: Toast) => {
           this.activeToast = toast;
         })
       }
@@ -197,8 +200,8 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
   }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {
