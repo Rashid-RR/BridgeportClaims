@@ -66,7 +66,8 @@ AS BEGIN
 	WHERE   [d].[FileTypeID] = @Check
 			AND [d].[IsValid] = 1
 			AND (@Date IS NULL OR d.DocumentDate = @Date)
-			AND ([d].[FileName] LIKE CONCAT(CONCAT(@WildCard, @FileName), @WildCard) OR @FileName IS NULL);
+			AND ([d].[FileName] LIKE CONCAT(CONCAT(@WildCard, @FileName), @WildCard) OR @FileName IS NULL)
+			AND [d].[Archived] = 0;
 
 	SELECT  @TotalRows = COUNT(*) FROM [#IndexedChecks]
 
@@ -114,4 +115,5 @@ AS BEGIN
 	OFFSET @PageSize * (@PageNumber - 1) ROWS
 	FETCH NEXT @PageSize ROWS ONLY;
 END
+
 GO
