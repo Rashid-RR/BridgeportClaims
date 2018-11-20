@@ -415,6 +415,7 @@ export class DocumentManagerService {
       if (page) {
         checksData.page = page;
       }
+
       let apiCall = this.postedChecks ? this.http.getIndexedChecks(checksData) : this.http.getDocuments(checksData)
       apiCall.subscribe((result: any) => {
         //console.log(result);
