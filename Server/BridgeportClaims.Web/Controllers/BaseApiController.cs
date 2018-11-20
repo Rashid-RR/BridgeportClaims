@@ -81,16 +81,9 @@ namespace BridgeportClaims.Web.Controllers
                 return ModelState.IsValid ? BadRequest() : GetBadRequestFormattedErrorMessages();
             }
             foreach (var error in result.Errors)
-            {
-                if (error.StartsWith("Name ") && error.EndsWith(" is already taken."))
-                {
-                    // Do nothing
-                }
+                if (error.StartsWith("Name ") && error.EndsWith(" is already taken.")) { } // Do nothing
                 else // Else add messages to the ModelState
-                {
                     ModelState.AddModelError("", error);
-                }
-            }
             return ModelState.IsValid ? BadRequest() : GetBadRequestFormattedErrorMessages();
         }
 
