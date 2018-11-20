@@ -170,10 +170,11 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     this.ds.viewPostedDetail = true;
   }
   remove(file: DocumentItem) {
+    console.log(file)
     let amount = this.cp.transform(file['amountPaid'], 'USD', true);
     this.dialogService.addDialog(ConfirmComponent, {
-      message: 'Are you sure you wish to remove this Payment  for RX Number: ' +
-        file.rxNumber + ' of ' + amount + '?'
+      message: 'Are you sure you wish to remove this Payment  for Payment ID: ' +
+        file['prescriptionPaymentId'] + ' of ' + amount + '?'
     }).subscribe((isConfirmed) => {
       if (isConfirmed) {
         // this.ds.deleteAndKeep(file.documentId, isConfirmed);
