@@ -57,7 +57,7 @@ export class PaymentComponent implements OnInit {
       this.paymentService.documentWindow.forEach(win => {
         win.close();
       });
-      this.ds.searchCheckes(); 
+      this.ds.searchCheckes();
     });
     this.events.on("payment-closed", () => {
       this.tabState = "in";

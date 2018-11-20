@@ -56,15 +56,21 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
   }
 
   filter($event) {
+    console.log($event.target.value)
     switch($event.target.value){
       case 'posted':
       this.ds.postedChecks = true
       break;
       case 'archived':
-      default:
       this.ds.postedChecks = false
       this.ds.archivedChecksData.archived = $event.target.checked;
       break;
+      case 'default':
+      this.ds.postedChecks = false
+      this.ds.archivedChecksData.archived = $event.target.checked;
+      this.ds.searchCheckes();
+
+        break;
 
     }
   }
