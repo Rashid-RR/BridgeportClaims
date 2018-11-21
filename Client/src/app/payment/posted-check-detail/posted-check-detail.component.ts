@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ToastsManager, Toast } from 'ng2-toastr';
-import { CurrencyPipe,DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { DocumentManagerService } from "../../services/document-manager.service";
 import { HttpService } from "../../services/http-service";
 import { DocumentItem } from '../../models/document';
@@ -8,7 +8,7 @@ import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 import { DeleteIndexConfirmationComponent } from '../delete-index-confirmation.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {ConfirmComponent} from '../../components/confirm.component';
+import { ConfirmComponent } from '../../components/confirm.component';
 declare var $: any;
 
 @Component({
@@ -94,23 +94,22 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
   savePayment(payment: any) {
     if (!this.form.valid) {
       this.toast.warning("You must fill amount paid, check Number and date posted to continue");
-    }else if(!this.form.dirty){
-      console.log(this.form.value);
+    } else if (!this.form.dirty) {
       this.toast.warning("Not saving. You haven't made any change");
-    }else{
+    } else {
       this.ds.loading = true;
       this.http.updatePrescriptionPayment(this.form.value).single().subscribe(res => {
         this.toast.success(res.message);
         this.ds.loading = false;
         payment.datePosted = this.form.get('datePosted').value;
-        payment.amountPaid = this.form.get('amountPaid').value !== null ? this.form.get('amountPaid').value.replace(new RegExp(",", "gi"), "") : 0;
+        payment.amountPaid = this.form.get('amountPaid').value || 0;
         payment.checkNumber = this.form.get('checkNumber').value;
         this.cancel();
       }, error => {
         this.toast.error(error.message);
         this.ds.loading = false;
       });
-    } 
+    }
   }
   cancel() {
     this.editing = undefined;
@@ -139,7 +138,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     this.form.patchValue({
       amountPaid: pay.amountPaid,
       checkNumber: pay.checkNumber,
-      prescriptionPaymentId: pay.prescriptionPaymentId,      
+      prescriptionPaymentId: pay.prescriptionPaymentId,
       datePosted: datePosted,
     });
     this.lastForm = {
@@ -151,7 +150,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     };
     setTimeout(() => {
       $('[data-mask]').inputmask();
-      $('#datePosted').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' }).on('change',($ev)=>{
+      $('#datePosted').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' }).on('change', ($ev) => {
         this.form.controls.datePosted.setValue($ev.target.value);
         this.form.controls.datePosted.markAsDirty();
       });
@@ -201,10 +200,10 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
       if (this.activeToast && this.activeToast.timeoutId) {
         this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' 
-        + this.ds.checkTotalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        })
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and '
+          + this.ds.checkTotalPages).then((toast: Toast) => {
+            this.activeToast = toast;
+          })
       }
     }
   }

@@ -236,9 +236,11 @@ app-claim{
   padding:0px 5px !important;
 }
 
+
 button.be,
 button.ime,
-button.pip
+button.pip,
+button.dr-note
 {
   line-height:25px;
   padding:0px;

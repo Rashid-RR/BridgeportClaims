@@ -1158,6 +1158,16 @@ export class HttpService {
       });
   }
 
+  downloadDrLetter(data: any): Observable<any> {
+    return this.http.post(this.baseUrl + '/letters/download-dr-letter', data, {
+      observe: 'response',
+      responseType: 'blob'
+    })
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
   exportLetter(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/letters/download/?claimId=' + data.claimId + '&letterType=' + data.type + '&prescriptionId=' + data.prescriptionId, data, {
       observe: 'response',

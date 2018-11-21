@@ -24,6 +24,7 @@ declare var $: any;
 @Injectable()
 export class ClaimManager {
   onClaimIdChanged = new Subject<Number>();
+  dialogListener:Subject<any> = new Subject<any>();
   private claims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   public comparisonClaims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   private history: Array<Claim> = [];
