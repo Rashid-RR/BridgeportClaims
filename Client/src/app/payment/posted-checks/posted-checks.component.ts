@@ -18,7 +18,7 @@ export class PostedChecksComponent implements OnInit, AfterViewInit {
   activeToast: Toast;
   items: IShContextMenuItem[];
   constructor(
-    private cp:CurrencyPipe,
+    private cp: CurrencyPipe,
     public ds: DocumentManagerService,
     private toast: ToastsManager,
     private dialogService: DialogService) { }
@@ -63,54 +63,54 @@ export class PostedChecksComponent implements OnInit, AfterViewInit {
     this.goToPage = '';
   }
   openFile(file: DocumentItem) {
-    localStorage.setItem('file-' +file.documentId,JSON.stringify(file));
+    localStorage.setItem('file-' + file.documentId, JSON.stringify(file));
     window.open(`#/main/indexing/indexed-image/${file.documentId}`);
   }
-  view(file:DocumentItem) {
+  view(file: DocumentItem) {
      this.ds.viewPosted(file.documentId);
   }
-  remove(file:DocumentItem) {
+  remove(file: DocumentItem) {
     console.log(file);
 
-    let amount = this.cp.transform(file['totalAmountPaid'],'USD',true);
+    const amount = this.cp.transform(file['totalAmountPaid'], 'USD', true);
 
-    console.log(amount);
+
 
     this.dialogService.addDialog(DeleteIndexConfirmationComponent, {
-      title: "Delete Indexed Check Confirmation",
-      message: `Deleting this check will delete all ${file['numberOfPayments']||''} payment(s) associated with this check totalling ${amount}. Are you sure you wish to un-index this check, and remove ALL payments associated with this check? Or do you wish to un-index this check while keeping all of the existing payments?`
+      title: 'Delete Indexed Check Confirmation',
+      message: `Deleting this check will delete all ${file['numberOfPayments'] || ''} payment(s) associated with this check totalling ${amount}. Are you sure you wish to un-index this check, and remove ALL payments associated with this check? Or do you wish to un-index this check while keeping all of the existing payments?`
     }).subscribe((isConfirmed) => {
-      console.log('isCOnfirmed box')
-      console.log(isConfirmed)
+      console.log('isCOnfirmed box');
+      console.log(isConfirmed);
         if (isConfirmed) {
-          this.ds.deleteAndKeep(file.documentId,isConfirmed);
+          this.ds.deleteAndKeep(file.documentId, isConfirmed);
         }
       });
   }
   goto() {
-    let page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
 
     } else if (page > 0 && page <= this.ds.checkTotalPages) {
       this.ds.searchCheckes(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages;
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }
   prev() {
     this.ds.searchCheckes(false, true);
-    this.goToPage ='';
+    this.goToPage = '';
   }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {

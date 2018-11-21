@@ -82,8 +82,8 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     } else {
       switch (controlName) {
         case 'amountPaid':
-          var val = this.form.get(controlName).value.replace(new RegExp(",", "gi"), "");
-          this.form.get(controlName).setValue(this.decimalPipe.transform(val, "1.2-2"));
+          const val = this.form.get(controlName).value.replace(new RegExp(',', 'gi'), '');
+          this.form.get(controlName).setValue(this.decimalPipe.transform(val, '1.2-2'));
           break;
         default:
           break;
@@ -125,9 +125,9 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
       return null;
     }
     if (input.indexOf('-') > -1) {
-      const date = input.split("T");
-      let d = date[0].split("-");
-      return d[1] + "/" + d[2] + "/" + d[0];
+      const date = input.split('T');
+      const d = date[0].split('-');
+      return d[1] + '/' + d[2] + '/' + d[0];
     } else {
       return input;
     }
@@ -154,7 +154,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
         this.form.controls.datePosted.setValue($ev.target.value);
         this.form.controls.datePosted.markAsDirty();
       });
-    }, 100)
+    }, 100);
   }
   next() {
     this.ds.searchCheckes(true);
@@ -165,21 +165,20 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     window.open(`#/main/indexing/indexed-image/${file.documentId}`);
   }
   view(file: DocumentItem) {
-    // console.log(file);
     this.ds.viewPostedDetail = true;
   }
   remove(file: DocumentItem) {
-    let amount = this.cp.transform(file['amountPaid'], 'USD', true);
+    const amount = this.cp.transform(file['amountPaid'], 'USD', true);
     this.dialogService.addDialog(ConfirmComponent, {
       message: 'Are you sure you wish to remove this Payment  for RX Number: ' +
         file.rxNumber + ' of ' + amount + '?'
     }).subscribe((isConfirmed) => {
       if (isConfirmed) {
         // this.ds.deleteAndKeep(file.documentId, isConfirmed);
-        this.http.deletePrescriptionPayment(file.rxNumber).single().subscribe(res => {
+        this.http.deletePrescriptionPayment(file['prescriptionPaymentId']).single().subscribe(res => {
           this.toast.success(res.message);
-          for (var i = 0; i < this.ds.viewPostedDetail.length; i++) {
-            if (file['prescriptionPaymentId'] == this.ds.viewPostedDetail[i].prescriptionPaymentId) {
+          for (let i = 0; i < this.ds.viewPostedDetail.length; i++) {
+            if (file['prescriptionPaymentId'] === this.ds.viewPostedDetail[i].prescriptionPaymentId) {
               this.ds.viewPostedDetail.splice(i, 1);
             }
           }

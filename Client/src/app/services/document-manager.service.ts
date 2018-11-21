@@ -1,14 +1,15 @@
-import { Injectable, NgZone } from '@angular/core';
-import { HttpService } from './http-service';
-import { EventsService } from './events-service';
-import { ToastsManager } from 'ng2-toastr';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {Injectable, NgZone} from '@angular/core';
+import {HttpService} from './http-service';
+import {EventsService} from './events-service';
+import {ToastsManager} from 'ng2-toastr';
+import {FormBuilder} from '@angular/forms';
 import * as Immutable from 'immutable';
-import swal from "sweetalert2";
-import { SortColumnInfo } from "../directives/table-sort.directive";
-import { DocumentItem } from '../models/document';
-import { DocumentType } from '../models/document-type';
-import { ProfileManager } from './profile-manager';
+import swal from 'sweetalert2';
+import {SortColumnInfo} from '../directives/table-sort.directive';
+import {DocumentItem} from '../models/document';
+import {DocumentType} from '../models/document-type';
+import {ProfileManager} from './profile-manager';
+
 declare var $: any;
 
 @Injectable()
@@ -47,13 +48,14 @@ export class DocumentManagerService {
   invoiceFile: DocumentItem;
   checksFile: DocumentItem;
   exactMatch: boolean = false;
+
   constructor(private profileManager: ProfileManager, private http: HttpService, private formBuilder: FormBuilder, private _ngZone: NgZone,
-    private events: EventsService, private toast: ToastsManager) {
+              private events: EventsService, private toast: ToastsManager) {
     this.data = {
       date: null,
       isIndexed: false,
-      sort: "DocumentID",
-      sortDirection: "ASC",
+      sort: 'DocumentID',
+      sortDirection: 'ASC',
       page: 1,
       fileTypeId: 1,
       pageSize: 30
@@ -62,8 +64,8 @@ export class DocumentManagerService {
       date: null,
       fileTypeId: 2,
       isIndexed: false,
-      sort: "DocumentID",
-      sortDirection: "ASC",
+      sort: 'DocumentID',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 30
     };
@@ -71,8 +73,8 @@ export class DocumentManagerService {
       date: null,
       fileTypeId: 3,
       isIndexed: false,
-      sort: "DocumentID",
-      sortDirection: "ASC",
+      sort: 'DocumentID',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 30
     };
@@ -80,21 +82,21 @@ export class DocumentManagerService {
       date: null,
       fileName: null,
       isIndexed: false,
-      sort: "IndexedOn",
-      sortDirection: "ASC",
+      sort: 'IndexedOn',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 30
     };
     this.invalidChecksData = {
       fileName: null,
       date: null,
-      sort: "FileName",
-      sortDirection: "ASC",
+      sort: 'FileName',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 30
     };
 
-    this.events.on("new-image", (doc: DocumentItem) => {
+    this.events.on('new-image', (doc: DocumentItem) => {
       setTimeout(() => {
         if (!this.documents.get(doc.documentId)) {
           this.totalRowCount++;
@@ -109,7 +111,7 @@ export class DocumentManagerService {
         this.documents.get(doc.documentId).added = false;
       }, 3500)
     })
-    this.events.on("modified-image", (doc: DocumentItem) => {
+    this.events.on('modified-image', (doc: DocumentItem) => {
       let document = this.documents.get(doc.documentId)
       setTimeout(() => {
         if (!document) {
@@ -129,7 +131,7 @@ export class DocumentManagerService {
         this.documents = this.documents.set(doc.documentId, doc);
       }, 4000)
     })
-    this.events.on("deleted-image", (id: any) => {
+    this.events.on('deleted-image', (id: any) => {
       let document = this.documents.get(id)
       if (document) {
         document.deleted = true;
@@ -143,7 +145,7 @@ export class DocumentManagerService {
         }, 4000)
       }
     })
-    this.events.on("archived-image", (id: any) => {
+    this.events.on('archived-image', (id: any) => {
       let document = this.documents.get(id)
       if (document) {
         document.deleted = true;
@@ -157,7 +159,7 @@ export class DocumentManagerService {
         }, 4000)
       }
     })
-    this.events.on("indexed-image", (id: any) => {
+    this.events.on('indexed-image', (id: any) => {
       let document = this.documents.get(id);
       if (document) {
         let doc = JSON.parse(JSON.stringify(document));//copy document
@@ -179,11 +181,120 @@ export class DocumentManagerService {
   }
 
   get autoCompleteClaim(): string {
-    return this.http.baseUrl + "/document/claim-search/?exactMatch=" + this.exactMatch + "&searchText=:keyword";
+    return this.http.baseUrl + '/document/claim-search/?exactMatch=' + this.exactMatch + '&searchText=:keyword';
   }
 
   get checksData() {
-    return this.postedChecks ? this.postedChecksData : this.archivedChecksData;;
+    return this.postedChecks ? this.postedChecksData : this.archivedChecksData;
+    ;
+  }
+
+  get pages(): Array<any> {
+    return new Array(this.data.page);
+  }
+
+  get documentList(): Array<DocumentItem> {
+    return this.documents.toArray();
+  }
+
+  get pageStart() {
+    return this.documentList.length > 1 ? ((this.data.page - 1) * this.data.pageSize) + 1 : null;
+  }
+
+  get pageEnd() {
+    return this.documentList.length > 1 ? (this.data.pageSize > this.documentList.length ? ((this.data.page - 1) * this.data.pageSize) + this.documentList.length : (this.data.page) * this.data.pageSize) : null;
+  }
+
+  get totalPages() {
+    return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : 0;
+  }
+
+  get documentTypesList(): DocumentType[] {
+    return this.documentTypes.toArray();
+  }
+
+  get end(): Boolean {
+    return this.pageStart && this.data.pageSize > this.documentList.length;
+  }
+
+  get allowed(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
+  }
+
+  get adminOrAsociate(): Boolean {
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));
+  }
+
+  get invPages(): Array<any> {
+    return new Array(this.invoiceData.page);
+  }
+
+  get invoiceList(): Array<DocumentItem> {
+    return this.invoices.toArray();
+  }
+
+  get invPageStart() {
+    return this.invoiceList.length > 1 ? ((this.invoiceData.page - 1) * this.invoiceData.pageSize) + 1 : null;
+  }
+
+  get invPageEnd() {
+    return this.invoiceList.length > 1 ? (this.invoiceData.pageSize > this.invoiceList.length ? ((this.invoiceData.page - 1) * this.invoiceData.pageSize) + this.invoiceList.length : (this.invoiceData.page) * this.invoiceData.pageSize) : null;
+  }
+
+  get invTotalPages() {
+    return this.totalInvoiceRowCount ? Math.ceil(this.totalInvoiceRowCount / this.invoiceData.pageSize) : 0;
+  }
+
+  get invEnd(): Boolean {
+    return this.invPageStart && this.invoiceData.pageSize > this.invoiceList.length;
+  }
+
+  get checkPages(): Array<any> {
+    return new Array(this.checksData.page);
+  }
+
+  get checksList(): Array<DocumentItem> {
+    return this.checks.toArray();
+  }
+
+  get checkPageStart() {
+    return this.checksList.length > 1 ? ((this.checksData.page - 1) * this.checksData.pageSize) + 1 : null;
+  }
+
+  get checkPageEnd() {
+    return this.checksList.length > 1 ? (this.checksData.pageSize > this.checksList.length ? ((this.checksData.page - 1) * this.checksData.pageSize) + this.checksList.length : (this.checksData.page) * this.checksData.pageSize) : null;
+  }
+
+  get checkTotalPages() {
+    return this.totalCheckRowCount ? Math.ceil(this.totalCheckRowCount / this.checksData.pageSize) : 0;
+  }
+
+  get checkEnd(): Boolean {
+    return this.checkPageStart && this.checksData.pageSize > this.checksList.length;
+  }
+
+  get invalidCheckPages(): Array<any> {
+    return new Array(this.invalidChecksData.page);
+  }
+
+  get invalidChecksList(): Array<DocumentItem> {
+    return this.invalidChecks.toArray();
+  }
+
+  get invalidCheckPageStart() {
+    return this.invalidChecksList.length > 1 ? ((this.invalidChecksData.page - 1) * this.invalidChecksData.pageSize) + 1 : null;
+  }
+
+  get invalidCheckPageEnd() {
+    return this.invalidChecksList.length > 1 ? (this.invalidChecksData.pageSize > this.invalidChecksList.length ? ((this.invalidChecksData.page - 1) * this.invalidChecksData.pageSize) + this.invalidChecksList.length : (this.invalidChecksData.page) * this.invalidChecksData.pageSize) : null;
+  }
+
+  get invalidCheckTotalPages() {
+    return this.totalInvalidCheckRowCount ? Math.ceil(this.totalInvalidCheckRowCount / this.invalidChecksData.pageSize) : 0;
+  }
+
+  get invalidCheckEnd(): Boolean {
+    return this.invalidCheckPageStart && this.invalidChecksData.pageSize > this.invalidChecksList.length;
   }
 
   onSortColumn(info: SortColumnInfo) {
@@ -193,6 +304,7 @@ export class DocumentManagerService {
     this.data.sortDirection = info.dir.toUpperCase();
     this.search();
   }
+
   onInvoiceSortColumn(info: SortColumnInfo) {
     this.invoiceData.isDefaultSort = false;
     this.invoiceData.sort = info.column;
@@ -200,14 +312,17 @@ export class DocumentManagerService {
     this.invoiceData.sortDirection = info.dir.toUpperCase();
     this.searchInvoices();
   }
+
   onCheckSortColumn(info: SortColumnInfo) {
-    let data = this.postedChecks ? this.postedChecksData : this.archivedChecksData;;
+    let data = this.postedChecks ? this.postedChecksData : this.archivedChecksData;
+    ;
     data.isDefaultSort = false;
     data.sort = info.column;
     data.page = 1;
     data.sortDirection = info.dir.toUpperCase();
     this.searchCheckes();
   }
+
   onInvalidCheckSortColumn(info: SortColumnInfo) {
     this.invalidChecksData.isDefaultSort = false;
     this.invalidChecksData.sort = info.column;
@@ -215,27 +330,7 @@ export class DocumentManagerService {
     this.invalidChecksData.sortDirection = info.dir.toUpperCase();
     this.searchInvalidCheckes();
   }
-  get pages(): Array<any> {
-    return new Array(this.data.page);
-  }
-  get documentList(): Array<DocumentItem> {
-    return this.documents.toArray();
-  }
-  get pageStart() {
-    return this.documentList.length > 1 ? ((this.data.page - 1) * this.data.pageSize) + 1 : null;
-  }
-  get pageEnd() {
-    return this.documentList.length > 1 ? (this.data.pageSize > this.documentList.length ? ((this.data.page - 1) * this.data.pageSize) + this.documentList.length : (this.data.page) * this.data.pageSize) : null;
-  }
-  get totalPages() {
-    return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : 0;
-  }
-  get documentTypesList(): DocumentType[] {
-    return this.documentTypes.toArray();
-  }
-  get end(): Boolean {
-    return this.pageStart && this.data.pageSize > this.documentList.length;
-  }
+
   archive(id: number, invoice: boolean = false, method: string = '') {
     this.loading = true;
     this.http.archiveDocument(id).subscribe(r => {
@@ -254,26 +349,30 @@ export class DocumentManagerService {
       this.loading = false;
     });
   }
-  deleteAndKeep(id: number, skipPayments: boolean = false,prescriptionPaymentId?:any) {
+
+  deleteAndKeep(id: number, skipPayments: boolean = false, prescriptionPaymentId?: any) {
     console.log('delete and keep')
     this.loading = true;
-     this.http.reIndexedCheck({documentId:id,skipPayments:skipPayments,prescriptionPaymentId:prescriptionPaymentId}).subscribe(r => {
+    this.http.reIndexedCheck({documentId: id, skipPayments: skipPayments, prescriptionPaymentId: prescriptionPaymentId}).subscribe(r => {
       this.loading = false;
       this.toast.success(r.message);
+      this.totalCheckRowCount = this.totalCheckRowCount - 1;
       this.checks = this.checks.delete(id);
     }, () => {
       this.loading = false;
     });
   }
+
   viewPosted(id: any) {
     this.loading = true;
-     this.http.getIndexedCheckDetail(id).subscribe(r => {
+    this.http.getIndexedCheckDetail(id).subscribe(r => {
       this.loading = false;
       this.viewPostedDetail = r;
     }, () => {
       this.loading = false;
     });
   }
+
   cancel(type) {
     switch (type) {
       case 'image':
@@ -294,6 +393,7 @@ export class DocumentManagerService {
         break;
     }
   }
+
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.data) {
       if (this.adminOrAsociate) {
@@ -321,12 +421,14 @@ export class DocumentManagerService {
           result.documentResults.forEach((doc: DocumentItem) => {
             try {
               this.documents = this.documents.set(doc.documentId, doc);
-            } catch (e) { }
+            } catch (e) {
+            }
           });
           (result.documentTypes || []).forEach((type: DocumentType) => {
             try {
               this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-            } catch (e) { }
+            } catch (e) {
+            }
           });
           if (next) {
             this.data.page++;
@@ -342,12 +444,14 @@ export class DocumentManagerService {
           this.loading = false;
           try {
             const error = err.error;
-          } catch (e) { }
+          } catch (e) {
+          }
         }, () => {
           this.events.broadcast('document-list-updated');
         });
     }
   }
+
   searchInvoices(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.invoiceData) {
       if (this.adminOrAsociate) {
@@ -374,12 +478,14 @@ export class DocumentManagerService {
           result.documentResults.forEach((doc: DocumentItem) => {
             try {
               this.invoices = this.invoices.set(doc.documentId, doc);
-            } catch (e) { }
+            } catch (e) {
+            }
           });
           (result.documentTypes || []).forEach((type: DocumentType) => {
             try {
               this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-            } catch (e) { }
+            } catch (e) {
+            }
           });
           if (next) {
             this.invoiceData.page++;
@@ -398,6 +504,7 @@ export class DocumentManagerService {
         });
     }
   }
+
   searchCheckes(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.checksData) {
       if (this.adminOrAsociate) {
@@ -425,12 +532,14 @@ export class DocumentManagerService {
         (result.documentResults || result.results || []).forEach((doc: DocumentItem) => {
           try {
             this.checks = this.checks.set(doc.documentId, doc);
-          } catch (e) { }
+          } catch (e) {
+          }
         });
         (result.documentTypes || []).forEach((type: DocumentType) => {
           try {
             this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-          } catch (e) { }
+          } catch (e) {
+          }
         });
         if (next) {
           this.checksData.page++;
@@ -446,12 +555,14 @@ export class DocumentManagerService {
         this.loading = false;
         try {
           const error = err.error;
-        } catch (e) { }
+        } catch (e) {
+        }
       }, () => {
         this.events.broadcast('document-list-updated');
       });
     }
   }
+
   searchInvalidCheckes(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     if (!this.invalidChecksData) {
       if (this.adminOrAsociate) {
@@ -478,12 +589,14 @@ export class DocumentManagerService {
           result.documentResults.forEach((doc: DocumentItem) => {
             try {
               this.invalidChecks = this.invalidChecks.set(doc.documentId, doc);
-            } catch (e) { }
+            } catch (e) {
+            }
           });
           (result.documentTypes || []).forEach((type: DocumentType) => {
             try {
               this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-            } catch (e) { }
+            } catch (e) {
+            }
           });
           if (next) {
             this.invalidChecksData.page++;
@@ -499,73 +612,18 @@ export class DocumentManagerService {
           this.loading = false;
           try {
             const error = err.error;
-          } catch (e) { }
+          } catch (e) {
+          }
         }, () => {
           this.events.broadcast('document-list-updated');
         });
     }
   }
-  get allowed(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
-  }
-  get adminOrAsociate(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));
-  }
-  get invPages(): Array<any> {
-    return new Array(this.invoiceData.page);
-  }
-  get invoiceList(): Array<DocumentItem> {
-    return this.invoices.toArray();
-  }
-  get invPageStart() {
-    return this.invoiceList.length > 1 ? ((this.invoiceData.page - 1) * this.invoiceData.pageSize) + 1 : null;
-  }
-  get invPageEnd() {
-    return this.invoiceList.length > 1 ? (this.invoiceData.pageSize > this.invoiceList.length ? ((this.invoiceData.page - 1) * this.invoiceData.pageSize) + this.invoiceList.length : (this.invoiceData.page) * this.invoiceData.pageSize) : null;
-  }
-  get invTotalPages() {
-    return this.totalInvoiceRowCount ? Math.ceil(this.totalInvoiceRowCount / this.invoiceData.pageSize) : 0;
-  }
-  get invEnd(): Boolean {
-    return this.invPageStart && this.invoiceData.pageSize > this.invoiceList.length;
-  }
-  get checkPages(): Array<any> {
-    return new Array(this.checksData.page);
-  }
-  get checksList(): Array<DocumentItem> {
-    return this.checks.toArray();
-  }
-  get checkPageStart() {
-    return this.checksList.length > 1 ? ((this.checksData.page - 1) * this.checksData.pageSize) + 1 : null;
-  }
-  get checkPageEnd() {
-    return this.checksList.length > 1 ? (this.checksData.pageSize > this.checksList.length ? ((this.checksData.page - 1) * this.checksData.pageSize) + this.checksList.length : (this.checksData.page) * this.checksData.pageSize) : null;
-  }
-  get checkTotalPages() {
-    return this.totalCheckRowCount ? Math.ceil(this.totalCheckRowCount / this.checksData.pageSize) : 0;
-  }
-  get checkEnd(): Boolean {
-    return this.checkPageStart && this.checksData.pageSize > this.checksList.length;
-  }
-  get invalidCheckPages(): Array<any> {
-    return new Array(this.invalidChecksData.page);
-  }
-  get invalidChecksList(): Array<DocumentItem> {
-    return this.invalidChecks.toArray();
-  }
-  get invalidCheckPageStart() {
-    return this.invalidChecksList.length > 1 ? ((this.invalidChecksData.page - 1) * this.invalidChecksData.pageSize) + 1 : null;
-  }
-  get invalidCheckPageEnd() {
-    return this.invalidChecksList.length > 1 ? (this.invalidChecksData.pageSize > this.invalidChecksList.length ? ((this.invalidChecksData.page - 1) * this.invalidChecksData.pageSize) + this.invalidChecksList.length : (this.invalidChecksData.page) * this.invalidChecksData.pageSize) : null;
-  }
-  get invalidCheckTotalPages() {
-    return this.totalInvalidCheckRowCount ? Math.ceil(this.totalInvalidCheckRowCount / this.invalidChecksData.pageSize) : 0;
-  }
-  get invalidCheckEnd(): Boolean {
-    return this.invalidCheckPageStart && this.invalidChecksData.pageSize > this.invalidChecksList.length;
-  }
+
   closeModal() {
-    try { swal.clickCancel(); } catch (e) { }
+    try {
+      swal.clickCancel();
+    } catch (e) {
+    }
   }
 }
