@@ -1,16 +1,16 @@
-export interface DocumentItem{
+export interface DocumentItem {
     documentId: any;
     fileName: string;
     extension: string;
     fileSize: string;
     creationTimeLocal: Date;
     lastAccessTimeLocal: Date;
-    lastWriteTimeLocal: Date,
+    lastWriteTimeLocal: Date;
     fullFilePath: string;
     fileUrl: string;
     rxNumber?: number;
     rxDate?: Date;
-    added?:boolean;
-    edited?:boolean;
-    deleted?:boolean;
+    added?: boolean;
+    edited?: boolean;
+    deleted?: boolean;
 }
