@@ -453,12 +453,15 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         if (isConfirmed) {
             let prescriptions = this.claimManager.selectedClaim.prescriptions.filter(c=>c.selected &&c.prescriptionId!=p.prescriptionId);
             let prescriptionIds = prescriptions.map(p=>p.prescriptionId);
-            console.log(prescriptionIds);
             this.claimManager.loading = true;
               this.http.downloadDrLetter({ claimId: this.claimManager.selectedClaim.claimId, prescriptionIds: prescriptionIds, firstPrescriptionId: p.prescriptionId })
                 .subscribe((result) => {
                   this.claimManager.loading = false;
                   this.ar.downloadFile(result);
+                  this.claimManager.selectedClaim.prescriptions.forEach(c => {
+                    c.selected = false;
+                  });
+                  $('input#selectAllCheckBox').attr({ 'checked': false })
                 }, err => { 
                   this.toast.error(err.statusText);
                   this.claimManager.loading = false;
