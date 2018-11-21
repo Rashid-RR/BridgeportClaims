@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ToastsManager, Toast } from 'ng2-toastr';
-import { CurrencyPipe,DecimalPipe } from '@angular/common';
-import { DocumentManagerService } from "../../services/document-manager.service";
-import { HttpService } from "../../services/http-service";
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
+import { DocumentManagerService } from '../../services/document-manager.service';
+import { HttpService } from '../../services/http-service';
 import { DocumentItem } from '../../models/document';
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
@@ -82,8 +82,8 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     } else {
       switch (controlName) {
         case 'amountPaid':
-          var val = this.form.get(controlName).value.replace(new RegExp(",", "gi"), "");
-          this.form.get(controlName).setValue(this.decimalPipe.transform(val, "1.2-2"));
+          const val = this.form.get(controlName).value.replace(new RegExp(',', 'gi'), '');
+          this.form.get(controlName).setValue(this.decimalPipe.transform(val, '1.2-2'));
           break;
         default:
           break;
@@ -93,24 +93,24 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
   }
   savePayment(payment: any) {
     if (!this.form.valid) {
-      this.toast.warning("You must fill amount paid, check Number and date posted to continue");
-    }else if(!this.form.dirty){
+      this.toast.warning('You must fill amount paid, check Number and date posted to continue');
+    }else if (!this.form.dirty){
       console.log(this.form.value);
-      this.toast.warning("Not saving. You haven't made any change");
+      this.toast.warning('Not saving. You haven\'t made any change');
     }else{
       this.ds.loading = true;
       this.http.updatePrescriptionPayment(this.form.value).single().subscribe(res => {
         this.toast.success(res.message);
         this.ds.loading = false;
         payment.datePosted = this.form.get('datePosted').value;
-        payment.amountPaid = this.form.get('amountPaid').value !== null ? this.form.get('amountPaid').value.replace(new RegExp(",", "gi"), "") : 0;
+        payment.amountPaid = this.form.get('amountPaid').value !== null ? this.form.get('amountPaid').value.replace(new RegExp(',', 'gi'), '') : 0;
         payment.checkNumber = this.form.get('checkNumber').value;
         this.cancel();
       }, error => {
         this.toast.error(error.message);
         this.ds.loading = false;
       });
-    } 
+    }
   }
   cancel() {
     this.editing = undefined;
@@ -126,9 +126,9 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
       return null;
     }
     if (input.indexOf('-') > -1) {
-      const date = input.split("T");
-      let d = date[0].split("-");
-      return d[1] + "/" + d[2] + "/" + d[0];
+      const date = input.split('T');
+      const d = date[0].split('-');
+      return d[1] + '/' + d[2] + '/' + d[0];
     } else {
       return input;
     }
@@ -139,7 +139,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     this.form.patchValue({
       amountPaid: pay.amountPaid,
       checkNumber: pay.checkNumber,
-      prescriptionPaymentId: pay.prescriptionPaymentId,      
+      prescriptionPaymentId: pay.prescriptionPaymentId,
       datePosted: datePosted,
     });
     this.lastForm = {
@@ -151,11 +151,11 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     };
     setTimeout(() => {
       $('[data-mask]').inputmask();
-      $('#datePosted').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' }).on('change',($ev)=>{
+      $('#datePosted').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' }).on('change', ($ev) => {
         this.form.controls.datePosted.setValue($ev.target.value);
         this.form.controls.datePosted.markAsDirty();
       });
-    }, 100)
+    }, 100);
   }
   next() {
     this.ds.searchCheckes(true);
@@ -166,12 +166,10 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     window.open(`#/main/indexing/indexed-image/${file.documentId}`);
   }
   view(file: DocumentItem) {
-    // console.log(file);
     this.ds.viewPostedDetail = true;
   }
   remove(file: DocumentItem) {
-    console.log(file)
-    let amount = this.cp.transform(file['amountPaid'], 'USD', true);
+    const amount = this.cp.transform(file['amountPaid'], 'USD', true);
     this.dialogService.addDialog(ConfirmComponent, {
       message: 'Are you sure you wish to remove this Payment  for RX Number: ' +
         file.rxNumber + ' of ' + amount + '?'
@@ -180,8 +178,8 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
         // this.ds.deleteAndKeep(file.documentId, isConfirmed);
         this.http.deletePrescriptionPayment(file['prescriptionPaymentId']).single().subscribe(res => {
           this.toast.success(res.message);
-          for (var i = 0; i < this.ds.viewPostedDetail.length; i++) {
-            if (file['prescriptionPaymentId'] == this.ds.viewPostedDetail[i].prescriptionPaymentId) {
+          for (let i = 0; i < this.ds.viewPostedDetail.length; i++) {
+            if (file['prescriptionPaymentId'] === this.ds.viewPostedDetail[i].prescriptionPaymentId) {
               this.ds.viewPostedDetail.splice(i, 1);
             }
           }
@@ -202,10 +200,10 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
       if (this.activeToast && this.activeToast.timeoutId) {
         this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' 
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and '
         + this.ds.checkTotalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }
