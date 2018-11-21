@@ -89,6 +89,7 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
     $('#CarchivedCheck1').prop('checked',false);
     this.ds.viewPostedDetail = undefined;
     this.fileName = '';
+    this.search();
   }
 
 
