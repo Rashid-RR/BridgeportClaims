@@ -1,23 +1,23 @@
 import { Component, Inject, PLATFORM_ID, ViewChild, OnInit, HostListener, AfterViewInit } from '@angular/core';
-import { HttpService } from "../../services/http-service";
-import { EventsService } from "../../services/events-service";
-import { ClaimManager } from "../../services/claim-manager";
-import { PrescriptionNoteType } from "../../models/prescription-note-type";
-import swal from "sweetalert2";
-import { ClaimNote } from "../../models/claim-note";
-import { Episode } from "../../interfaces/episode"
+import { HttpService } from '../../services/http-service';
+import { EventsService } from '../../services/events-service';
+import { ClaimManager } from '../../services/claim-manager';
+import { PrescriptionNoteType } from '../../models/prescription-note-type';
+import swal from 'sweetalert2';
+import { ClaimNote } from '../../models/claim-note';
+import { Episode } from '../../interfaces/episode';
 import { ToastsManager } from 'ng2-toastr';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 import { AccountReceivableService } from '../../services/services.barrel';
 import { UUID } from 'angular2-uuid';
-import { DialogService } from "ng2-bootstrap-modal";
+import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
 import { Subject } from 'rxjs/Subject';
 import { Prescription } from '../../models/prescription';
-//import { SnotifyService } from 'ng-snotify';
+// import { SnotifyService } from 'ng-snotify';
 
 declare var $: any;
 
@@ -31,38 +31,38 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   @ViewChild('prescriptionStatusSwal') private prescriptionStatusSwal: SwalComponent;
 
-  @HostListener("window:scroll", [])
+  @HostListener('window:scroll', [])
   onWindowScroll() {
     if (window.pageYOffset > 200 && this.claimManager.isPrescriptionsExpanded) {
-      let fixedBoxHeader = document.getElementById('pres-box-header');
-      let box = document.getElementById('pres-box');
+      const fixedBoxHeader = document.getElementById('pres-box-header');
+      const box = document.getElementById('pres-box');
       if (fixedBoxHeader && box) {
-        let boxWidth = box.clientWidth.toString();
+        const boxWidth = box.clientWidth.toString();
         fixedBoxHeader.style.width = boxWidth + 'px';
         fixedBoxHeader.style.position = 'fixed';
         fixedBoxHeader.style.top = '0';
       }
     } else if (window.pageYOffset < 200 && this.claimManager.isPrescriptionsExpanded) {
-      let fixedBoxHeader = document.getElementById('pres-box-header');
-      let box = document.getElementById('pres-box');
+      const fixedBoxHeader = document.getElementById('pres-box-header');
+      const box = document.getElementById('pres-box');
       if (fixedBoxHeader && box) {
         fixedBoxHeader.style.position = 'relative';
       }
     }
   }
-  expanded: Boolean = false
+  expanded: Boolean = false;
   expandedBlade: Number = 0;
   over: boolean[];
-  statusId: any
+  statusId: any;
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
-      $(".sticky-claim").sticky({ topSpacing: 53 });
+      $('.sticky-claim').sticky({ topSpacing: 53 });
     }
   }
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
-    //private snotifyService: SnotifyService,
+    // private snotifyService: SnotifyService,
     public readonly swalTargets: SwalPartialTargets,
     public claimManager: ClaimManager,
     private dialogService: DialogService,
@@ -88,23 +88,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     this.claimManager.loading = true;
     this.http.setMaxBalance(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
       this.toast.success(r.message, null, { showCloseButton: true, toastLife: 8000 });
-      /* this.snotifyService.success(r.message, {
-        timeout: 5500,
-        showProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: true,
-        buttons: [
-          {
-            text: 'UNDO', action: () => {
-
-            }, bold: false
-          },
-          { text: 'Close', action: (toast) => { this.snotifyService.remove(toast.id); }, bold: true },
-        ]
-      }); */
       this.claimManager.loading = false;
     }, err => {
-      const result = err.error
+      const result = err.error;
       this.toast.error(result.Message);
       this.claimManager.loading = false;
     });
@@ -112,8 +98,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   deleteNote() {
     if (this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimId) {
       this.dialogService.addDialog(ConfirmComponent, {
-        title: "Delete Claim Note",
-        message: "Are you sure you wish to remove this note?"
+        title: 'Delete Claim Note',
+        message: 'Are you sure you wish to remove this note?'
       })
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
@@ -123,12 +109,12 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               this.claimManager.selectedClaim.claimNote = undefined;
               this.claimManager.loading = false;
             }, err => {
-              let result = err.error;
+              const result = err.error;
               this.toast.error(result.Message);
               this.claimManager.loading = false;
-            })
+            });
           }
-        })
+        });
     }
   }
   minimize(table: string) {
@@ -163,16 +149,15 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    // $('body').addClass('sidebar-collapse');
-    this.events.on("edit-episode", (episode: Episode) => {
+    this.events.on('edit-episode', (episode: Episode) => {
       this.episode(episode.episodeId, episode.type, (episode.episodeNote || episode['note']));
     });
-    this.events.on("minimize", (...args) => {
+    this.events.on('minimize', (...args) => {
       this.minimize(args[0]);
     });
     this.events.on('expand', (...args) => {
       this.expand(args[0], args[1], args[2]);
-    })
+    });
     this.router.routerState.root.queryParams.subscribe(params => {
       if (params['claimId']) {
         this.claimManager.search({ claimId: params['claimId'] });
@@ -180,35 +165,36 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         this.claimManager.search({ claimNumber: params['claimNumber'] });
       }
     });
-    this.claimManager.dialogListener.subscribe(r=>{
+    this.claimManager.dialogListener.subscribe(r => {
       console.log(r);
-    })
+    });
   }
 
   saveStatus(data) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Change multiple prescription statuses',
-      message: `Are you sure you wish to change prescription statuses for ${data.prescriptionIds.length} prescription${data.prescriptionIds.length > 1 ? 's' : ''} to ${this.statusId.statusName}?`
+      message: `Are you sure you wish to change prescription statuses for ${data.prescriptionIds.length}
+       prescription${data.prescriptionIds.length > 1 ? 's' : ''} to ${this.statusId.statusName}?`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.claimManager.loading = true;
           this.http.updateMultiplePrescriptionStatus(data).subscribe(r => {
             this.toast.success(r.message);
-            $('input#selectAllCheckBox').attr({ 'checked': false })
-            const selected = this.claimManager.selectedClaim.prescriptions.filter(pres => pres.selected == true);
+            $('input#selectAllCheckBox').attr({ 'checked': false });
+            const selected = this.claimManager.selectedClaim.prescriptions.filter(pres => pres.selected === true);
             selected.forEach(s => {
               s.selected = false;
-            })
+            });
             this.events.broadcast('reload:prespcriptions', 1);
             this.claimManager.loading = false;
           }, err => {
-            const result = err.error
+            const result = err.error;
             this.toast.error(result.Message);
             this.claimManager.loading = false;
-          })
+          });
         }
-      })
+      });
   }
   updateStatus() {
     const checkboxes = $('.pescriptionCheck');
@@ -225,10 +211,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             this.toast.warning('Please select one status to from the dropdown list.');
             setTimeout(() => { this.updateStatus(); });
           } else {
-            this.saveStatus({ prescriptionStatusId: this.statusId.prescriptionStatusId, prescriptionIds: selectedNotes })
+            this.saveStatus({ prescriptionStatusId: this.statusId.prescriptionStatusId, prescriptionIds: selectedNotes });
           }
         }
-      })
+      });
     } else {
       this.claimManager.selectedClaim.prescriptions && this.claimManager.selectedClaim.prescriptions.length > 0 ?
         this.toast.warning('Please select at least one prescription to change status.') :
@@ -236,14 +222,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     }
 
   }
-  addPrescriptionNote(type: string='prescriptions', text: String = '', TypeId?: String, prescriptionNoteId: any = null) {
+  addPrescriptionNote(type: string= 'prescriptions', text: String = '', TypeId?: String, prescriptionNoteId: any = null) {
     const selectedNotes = [];
     let prescriptionNoteTypeIds = '<option value="" style="color:purple">Select type</option>';
     this.claimManager.PrescriptionNoteTypes.forEach((note: PrescriptionNoteType) => {
-      prescriptionNoteTypeIds = prescriptionNoteTypeIds + '<option value="' + note.prescriptionNoteTypeId + '"' + (note.prescriptionNoteTypeId == TypeId ? 'selected' : '') + '>' + note.typeName + '</option>';
+      prescriptionNoteTypeIds = prescriptionNoteTypeIds + '<option value="' + note.prescriptionNoteTypeId + '"' + (note.prescriptionNoteTypeId === TypeId ? 'selected' : '') + '>' + note.typeName + '</option>';
     });
     let selectedPrecriptions = '';
-    let prescriptions = type=='outstanding'? this.claimManager.selectedClaim.outstanding:this.claimManager.selectedClaim.prescriptions;
+    const prescriptions = type === 'outstanding' ? this.claimManager.selectedClaim.outstanding : this.claimManager.selectedClaim.prescriptions;
     prescriptions.forEach(c => {
       if (c.selected) {
         selectedPrecriptions = selectedPrecriptions + '<span class="label label-info"  style="margin:2px;display:inline-flex;font-size:11pt;">' + c.labelName + '</span> &nbsp; ';
@@ -265,7 +251,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                   </div>
                   <div class="form-group">
                       <label id="noteTextLabel">Note Text</label>
-                      <textarea class="form-control"  id="noteText"  rows="5" cols="5" style="resize: vertical;">`+ text + `</textarea>
+                      <textarea class="form-control"  id="noteText"  rows="5" cols="5" style="resize: vertical;">` + text + `</textarea>
                   </div>
                   <div class="row">
                     <div class="col-sm-6 text-left">
@@ -313,14 +299,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       $('#datepicker').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
       $('[inputs-mask]').inputmask();
       $('[data-mask]').inputmask();
-      $('#prescriptionNoteTypeId').change(() => { 
+      $('#prescriptionNoteTypeId').change(() => {
         if ($('#prescriptionNoteTypeId').val()) {
-          setTimeout(() => {$('#claimNoteTypeLabel').css({ 'color': '#545454' })},150);
+          setTimeout(() => {$('#claimNoteTypeLabel').css({ 'color': '#545454' }); }, 150);
         }
       });
       $('#noteText').change(e => {
         if ($('#noteText').val()) {
-          setTimeout(() => {$('#noteTextLabel').css({ 'color': '#545454' });},150);
+          setTimeout(() => {$('#noteTextLabel').css({ 'color': '#545454' }); }, 150);
         }
       });
       $('.add-to-diary').click(() => {
@@ -364,7 +350,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               this.toast.success(result.message);
             }, () => {
               setTimeout(() => {
-                this.addPrescriptionNote(type,$('#noteText').val(), $('#prescriptionNoteTypeId').val());
+                this.addPrescriptionNote(type, $('#noteText').val(), $('#prescriptionNoteTypeId').val());
                 this.toast.error('A server error has occurred. Please contact your system administrator.');
               }, 200);
             });
@@ -374,7 +360,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         // log("Awaiting API to remove");
       });
       $('button.save-prescription-note').click(() => {
-        let result = [
+        const result = [
           $('#prescriptionNoteTypeId').val(),
           $('#noteText').val(),
           $('#datepicker').val(),
@@ -399,7 +385,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
             }).single().subscribe(res => {
-              const result = res;
+              let result = res;
               prescriptions.forEach(c => {
                 if (c.selected) {
                   c.noteCount = (c.noteCount || 0) + 1;
@@ -442,17 +428,17 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
     });
   }
-  selectDrNotePrescriptions(p:Prescription){
+  selectDrNotePrescriptions(p: Prescription){
     this.dialogService.addDialog(ConfirmComponent, {
-      title: `Select prescription(s) to use`,
-      listener:this.claimManager.dialogListener,
-      buttonText:'Submit',
-      message: `Please select one or more prescriptions to use for the Label Name(s) and Rx Date(s) for the Dr Note Request letter: `
+      title: `Prescription(s)`,
+      listener: this.claimManager.dialogListener,
+      buttonText: 'Submit',
+      message: `Select one or more prescriptions to use for the Label Name(s) and Rx Date(s):`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-            let prescriptions = this.claimManager.selectedClaim.prescriptions.filter(c=>c.selected &&c.prescriptionId!=p.prescriptionId);
-            let prescriptionIds = prescriptions.map(p=>p.prescriptionId);
+            const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(c => c.selected && c.prescriptionId !== p.prescriptionId);
+            const prescriptionIds = prescriptions.map(p => p.prescriptionId);
             this.claimManager.loading = true;
               this.http.downloadDrLetter({ claimId: this.claimManager.selectedClaim.claimId, prescriptionIds: prescriptionIds, firstPrescriptionId: p.prescriptionId })
                 .subscribe((result) => {
@@ -461,8 +447,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                   this.claimManager.selectedClaim.prescriptions.forEach(c => {
                     c.selected = false;
                   });
-                  $('input#selectAllCheckBox').attr({ 'checked': false })
-                }, err => { 
+                  $('input#selectAllCheckBox').attr({ 'checked': false });
+                }, err => {
                   this.toast.error(err.statusText);
                   this.claimManager.loading = false;
                   try {
@@ -473,14 +459,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           this.claimManager.selectedClaim.prescriptions.forEach(c => {
             c.selected = false;
           });
-          $('input#selectAllCheckBox').attr({ 'checked': false })
+          $('input#selectAllCheckBox').attr({ 'checked': false });
         }
       });
   }
-  exportDrNote(p:Prescription){
+  exportDrNote(p: Prescription){
     this.dialogService.addDialog(ConfirmComponent, {
-      title: `Use prescriber: ${p.prescriber} for this Dr. Note Request letter`,
-      message: `Prescriber: ${p.prescriber} will be used for this Dr. Note Request letter. Is this correct? Click "Ok" if yes, click "Cancel" if no, and select the appropriate prescription row for the Prescriber`
+      title: `Prescriber`,
+      message: `Use prescriber ${p.prescriber} for this letter?`
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
@@ -489,7 +475,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           this.claimManager.selectedClaim.prescriptions.forEach(c => {
             c.selected = false;
           });
-          $('input#selectAllCheckBox').attr({ 'checked': false })
+          $('input#selectAllCheckBox').attr({ 'checked': false });
         }
       });
   }
@@ -502,10 +488,10 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       if (prescriptions.length === 0) {
         this.toast.warning('Please select one prescription before generating a letter.', null,
           { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
-      } else if (type=='dr-note' && prescriptions.length > 1) {
+      } else if (type === 'dr-note' && prescriptions.length > 1) {
         this.toast.warning('You must start the Dr Note Request letter with a single prescription!');
         return;
-      } else if (type=='dr-note' && prescriptions.length == 1) {
+      } else if (type === 'dr-note' && prescriptions.length === 1) {
         this.exportDrNote(prescriptions[0]);
       } else if (prescriptions.length > 1) {
         this.toast.warning('Please select only one prescription before generating a letter.', null,
@@ -516,7 +502,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           .subscribe((result) => {
             this.claimManager.loading = false;
             this.ar.downloadFile(result);
-          }, err => { 
+          }, err => {
             this.toast.error(err.statusText);
             this.claimManager.loading = false;
             try {
@@ -550,8 +536,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
     }
   }
-
-
 
   viewFile(type) {
     if (!this.claimManager.selectedClaim) {
@@ -596,7 +580,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         .subscribe((result) => {
           this.claimManager.loading = false;
           this.ar.downloadFile(result);
-        }, err => { 
+        }, err => {
           this.claimManager.loading = false;
           try {
             const error = err.error;
@@ -613,7 +597,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         .subscribe((result) => {
           this.claimManager.loading = false;
           this.ar.downloadFile(result);
-        }, err => { 
+        }, err => {
           this.claimManager.loading = false;
           try {
             const error = err.error;
@@ -689,7 +673,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               this.claimManager.selectedClaim.claimNote.noteType = noteType ? noteType.value : undefined;
             }
             this.claimManager.selectedClaim.editing = false;
-            this.claimManager.loading = false; 
+            this.claimManager.loading = false;
             swal.close();
             this.toast.success('Noted successfully saved');
           }, error => {
@@ -703,5 +687,4 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       }
     }).catch(swal.noop);
   }
-
 }

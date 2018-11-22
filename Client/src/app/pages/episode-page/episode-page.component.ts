@@ -11,7 +11,7 @@ export class EpisodePageComponent implements OnInit {
   constructor(public ds: EpisodeService) { }
 
   ngOnInit() {
-    //this.ds.getPayors(1)
+    // this.ds.getPayors(1)
   }
 
 }

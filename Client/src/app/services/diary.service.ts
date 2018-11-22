@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ToastsManager } from 'ng2-toastr';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
-import { SortColumnInfo } from "../directives/table-sort.directive";
+import { SortColumnInfo } from '../directives/table-sort.directive';
 import { Diary } from '../models/diary';
-import { DiariesFilterPipe } from "../diaries/diary-results/diary-filter.pipe"
+import { DiariesFilterPipe } from '../diaries/diary-results/diary-filter.pipe';
 
 @Injectable()
 export class DiaryService {
@@ -18,7 +18,7 @@ export class DiaryService {
   owner: String;
   diaryNote: String;
   totalRowCount: number;
-  owners: Array<{ ownerId: any, owner: string }> = []
+  owners: Array<{ ownerId: any, owner: string }> = [];
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private dp: DiariesFilterPipe,
     private events: EventsService, private toast: ToastsManager) {
@@ -30,8 +30,8 @@ export class DiaryService {
       userId: null,
       ownerId: null,
       closed: false,
-      sort: "InsuranceCarrier",
-      sortDirection: "ASC",
+      sort: 'InsuranceCarrier',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 30
     };
@@ -40,7 +40,7 @@ export class DiaryService {
         this.owners = result;
       }, err => {
         this.loading = false;
-        let error = err.error;
+        const error = err.error;
       });
   }
 
@@ -71,7 +71,7 @@ export class DiaryService {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+      const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
       if (next) {
         data.page++;
@@ -95,14 +95,14 @@ export class DiaryService {
           if (next) {
             this.data.page++;
           }
-          if (prev && this.data.page != data.page) {
+          if (prev && this.data.page !== data.page) {
             this.data.page--;
           }
           if (page) {
             this.data.page = page;
           }
           setTimeout(() => {
-            //this.events.broadcast('payment-amountRemaining',result)
+            // this.events.broadcast('payment-amountRemaining',result)
           }, 200);
         }, err => {
           this.loading = false;

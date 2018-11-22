@@ -19,7 +19,7 @@ export class ShortPayReportComponent implements OnInit {
   ngOnInit() {
     this.shortpay.fetchShortpayReport();
   }
-  remove(prescriptionId:any) {
+  remove(prescriptionId: any) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Remove shortpay',
       message: `Are you sure you want to remove this entry?`
@@ -39,8 +39,8 @@ export class ShortPayReportComponent implements OnInit {
   }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {
@@ -53,20 +53,20 @@ export class ShortPayReportComponent implements OnInit {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
   showClaim(claimId: any) {
-    window.open("#/main/claims?claimId=" + claimId, "_blank");
+    window.open('#/main/claims?claimId=' + claimId, '_blank');
   }
   goto() {
-    let page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage);
     if (!this.goToPage || isNaN(page)) {
     } else if (page > 0 && ((this.reportloader.totalPages && page <= this.reportloader.totalPages) || this.reportloader.totalPages == null)) {
       this.shortpay.fetchShortpayReport(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }

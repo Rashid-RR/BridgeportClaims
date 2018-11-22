@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { ReportComponent } from './report/report.component';
 import { ReportListComponent } from './report-list/report-list.component';
 import { ReportSampleComponent } from './report-sample/report-sample.component';

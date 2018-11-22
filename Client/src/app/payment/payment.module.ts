@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CurrencyPipe,DecimalPipe,CommonModule } from '@angular/common';
+import { CurrencyPipe, DecimalPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PaymentRoutes } from './payment.routing';
 import { PaymentInvoiceComponent } from './payment-invoice/payment-invoice.component';
@@ -15,7 +15,7 @@ import { PaymentCheckListComponent } from './unindexed-check-list/unindexed-chec
 import { PaymentCheckFilterComponent } from './unindexed-check-filter/unindexed-check-filter.component';
 import { PostedChecksComponent } from './posted-checks/posted-checks.component';
 import { PostedCheckDetailComponent } from './posted-check-detail/posted-check-detail.component';
- 
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,11 +23,11 @@ import { PostedCheckDetailComponent } from './posted-check-detail/posted-check-d
     SharedModule,
     RouterModule.forChild(PaymentRoutes),
   ],
-  declarations: [    
+  declarations: [
   PaymentInvoiceComponent, PaymentInputComponent, PaymentResultComponent, PaymentClaimResultComponent,
-  PaymentDetailedResultComponent,PaymentComponent,AddScriptModalComponent,PaymentCheckListComponent,PaymentCheckFilterComponent, PostedChecksComponent, PostedCheckDetailComponent
+  PaymentDetailedResultComponent, PaymentComponent, AddScriptModalComponent, PaymentCheckListComponent, PaymentCheckFilterComponent, PostedChecksComponent, PostedCheckDetailComponent
   ],
-  providers:[CurrencyPipe,DecimalPipe],
-  
+  providers: [CurrencyPipe, DecimalPipe],
+
 })
 export class PaymentModule { }

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { HttpService } from "../../services/services.barrel";
-import { AuthGuard } from "../../services/auth.guard";
-import { ProfileManager } from "../../services/profile-manager";
-import { UserProfile } from "../../models/profile";
-import { EventsService } from "../../services/events-service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpService } from '../../services/services.barrel';
+import { AuthGuard } from '../../services/auth.guard';
+import { ProfileManager } from '../../services/profile-manager';
+import { UserProfile } from '../../models/profile';
+import { EventsService } from '../../services/events-service';
 import { ToastsManager } from 'ng2-toastr';
 import { Location } from '@angular/common';
 
@@ -16,7 +16,7 @@ import { Location } from '@angular/common';
 })
 export class LoginComponent implements OnInit {
   form: FormGroup;
-  submitted: boolean = false;
+  submitted = false;
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   returnURL: String;
   constructor(
@@ -46,27 +46,27 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       try {
         this.submitted = true;
-        this.http.login('userName=' + this.form.get('email').value + '&password=' + this.form.get('password').value + '&rememberMe=' + this.form.get('rememberMe').value + "&grant_type=password", { 'Content-Type': 'x-www-form-urlencoded' }).subscribe(data => {
+        this.http.login('userName=' + this.form.get('email').value + '&password=' + this.form.get('password').value + '&rememberMe=' + this.form.get('rememberMe').value + '&grant_type=password', { 'Content-Type': 'x-www-form-urlencoded' }).subscribe(data => {
           this.http.setAuth(data.access_token);
-          localStorage.setItem("user", JSON.stringify(data));
+          localStorage.setItem('user', JSON.stringify(data));
           this.http.profile().subscribe(user => {
 
             user.access_token = data.access_token;
-            //res.roles=['Indexer','User']; for test
-            localStorage.setItem("user", JSON.stringify(user));
+            // res.roles=['Indexer','User']; for test
+            localStorage.setItem('user', JSON.stringify(user));
             this.profileManager.profile = new UserProfile(user.id || user.email, user.email, user.firstName, user.lastName, user.email, user.email, null, data.createdOn, user.roles);
             this.profileManager.setProfile(new UserProfile(user.id || user.email, user.email, user.firstName, user.lastName, user.email, user.email, null, data.createdOn, user.roles));
             this.profileManager.profileChanged.next();
             if (this.returnURL) {
-              let url = this.returnURL.split('?');
-              let p = {};
+              const url = this.returnURL.split('?');
+              const p = {};
               if (url[1]) {
-                let params = url[1].split('&');
+                const params = url[1].split('&');
                 if (params.length > 0) {
                   params.forEach(pr => {
-                    let par = pr.split('=');
+                    const par = pr.split('=');
                     p[par[0]] = par[1];
-                  })
+                  });
                 }
               }
               if (user.roles.indexOf('Client') > -1) {
@@ -83,22 +83,22 @@ export class LoginComponent implements OnInit {
             }
             this.events.broadcast('login', true);
             this.toast.success('Welcome back');
-            this.events.broadcast("loadHistory", []);
-          }, err => null)
+            this.events.broadcast('loadHistory', []);
+          }, err => null);
         }, (errors) => {
           this.submitted = false;
-          let err = errors.error
-          this.form.get('password').setErrors({ 'auth': err.error_description })
+          const err = errors.error;
+          this.form.get('password').setErrors({ 'auth': err.error_description });
           this.router.navigate(['/login']);
           if (err.error_description === undefined) {
-            this.toast.error("An internal error has occurred. A system administrator is working to fix it A.S.A.P.");
+            this.toast.error('An internal error has occurred. A system administrator is working to fix it A.S.A.P.');
           } else {
             this.toast.error(err.error_description);
           }
-        })
+        });
       } catch (e) {
         this.submitted = false;
-        this.form.get('password').setErrors({ 'auth': 'Incorrect login or password' })
+        this.form.get('password').setErrors({ 'auth': 'Incorrect login or password' });
         this.toast.error('Incorrect login or password');
       } finally {
 
@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/main/referral'], params);
   }
   ngOnInit() {
-    var user = localStorage.getItem("user");
+    const user = localStorage.getItem('user');
     if (user !== null) {
       this._location.back();
     }

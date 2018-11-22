@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReportLoaderService } from "../../services/services.barrel";
+import { ReportLoaderService } from '../../services/services.barrel';
 
 @Component({
   selector: 'app-duplicate-claims',
@@ -8,7 +8,7 @@ import { ReportLoaderService } from "../../services/services.barrel";
 })
 export class DuplicateClaimsComponent implements OnInit {
 
-  constructor(public reportloader:ReportLoaderService) { }
+  constructor(public reportloader: ReportLoaderService) { }
 
   ngOnInit() {
   }
