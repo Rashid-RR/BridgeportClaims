@@ -15,6 +15,7 @@ import { UUID } from 'angular2-uuid';
 import { DialogService } from "ng2-bootstrap-modal";
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
+import { Subject } from 'rxjs/Subject';
 import { Prescription } from '../../models/prescription';
 //import { SnotifyService } from 'ng-snotify';
 
@@ -71,7 +72,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     private toast: ToastsManager,
     private ar: AccountReceivableService,
   ) {
-    this.over = new Array(5);
+    this.over = new Array(7);
     this.over.fill(false);
   }
 
@@ -179,6 +180,9 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         this.claimManager.search({ claimNumber: params['claimNumber'] });
       }
     });
+    this.claimManager.dialogListener.subscribe(r=>{
+      console.log(r);
+    })
   }
 
   saveStatus(data) {
@@ -438,6 +442,57 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
     });
   }
+  selectDrNotePrescriptions(p:Prescription){
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: `Select prescription(s) to use`,
+      listener:this.claimManager.dialogListener,
+      buttonText:'Submit',
+      message: `Please select one or more prescriptions to use for the Label Name(s) and Rx Date(s) for the Dr Note Request letter: `
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+            let prescriptions = this.claimManager.selectedClaim.prescriptions.filter(c=>c.selected &&c.prescriptionId!=p.prescriptionId);
+            let prescriptionIds = prescriptions.map(p=>p.prescriptionId);
+            this.claimManager.loading = true;
+              this.http.downloadDrLetter({ claimId: this.claimManager.selectedClaim.claimId, prescriptionIds: prescriptionIds, firstPrescriptionId: p.prescriptionId })
+                .subscribe((result) => {
+                  this.claimManager.loading = false;
+                  this.ar.downloadFile(result);
+                  this.claimManager.selectedClaim.prescriptions.forEach(c => {
+                    c.selected = false;
+                  });
+                  $('input#selectAllCheckBox').attr({ 'checked': false })
+                }, err => { 
+                  this.toast.error(err.statusText);
+                  this.claimManager.loading = false;
+                  try {
+                    const error = err.error;
+                  } catch (e) { }
+                });
+        }else{
+          this.claimManager.selectedClaim.prescriptions.forEach(c => {
+            c.selected = false;
+          });
+          $('input#selectAllCheckBox').attr({ 'checked': false })
+        }
+      });
+  }
+  exportDrNote(p:Prescription){
+    this.dialogService.addDialog(ConfirmComponent, {
+      title: `Use prescriber: ${p.prescriber} for this Dr. Note Request letter`,
+      message: `Prescriber: ${p.prescriber} will be used for this Dr. Note Request letter. Is this correct? Click "Ok" if yes, click "Cancel" if no, and select the appropriate prescription row for the Prescriber`
+    })
+      .subscribe((isConfirmed) => {
+        if (isConfirmed) {
+            this.selectDrNotePrescriptions(p);
+        }else{
+          this.claimManager.selectedClaim.prescriptions.forEach(c => {
+            c.selected = false;
+          });
+          $('input#selectAllCheckBox').attr({ 'checked': false })
+        }
+      });
+  }
 
   exportLetter(type) {
     if (!this.claimManager.selectedClaim) {
@@ -447,6 +502,11 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       if (prescriptions.length === 0) {
         this.toast.warning('Please select one prescription before generating a letter.', null,
           { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
+      } else if (type=='dr-note' && prescriptions.length > 1) {
+        this.toast.warning('You must start the Dr Note Request letter with a single prescription!');
+        return;
+      } else if (type=='dr-note' && prescriptions.length == 1) {
+        this.exportDrNote(prescriptions[0]);
       } else if (prescriptions.length > 1) {
         this.toast.warning('Please select only one prescription before generating a letter.', null,
           { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);

@@ -130,6 +130,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
       this.checkAll = false;
       this.uncheckMain();
     }
+    this.claimManager.dialogListener.next({prescriptions:this.claimManager.selectedClaim.prescriptions.filter(p=>p.selected)})    
   }
   selectAllCheckBox($event) {
     this.checkAll = $event.target.checked;
