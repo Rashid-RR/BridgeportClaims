@@ -9,7 +9,8 @@
               &nbsp;
             </th>
             <th class="text-center" colspan="2">
-              {{bonusService.currentReportDate | date:'MMMM yyyy'}}
+              {{(bonusService.bonus && bonusService.bonus[0] && bonusService.bonus[0].datePosted
+              || bonusService.currentReportDate) | date:'MMMM yyyy'}}
             </th>
           </tr>
           <tr>
