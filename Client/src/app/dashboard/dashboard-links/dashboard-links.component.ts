@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ElementRef,ViewEncapsulation, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { EventsService } from '../../services/events-service';
@@ -10,6 +10,7 @@ declare var Highcharts: any;
 
 @Component({
   selector: 'app-private',
+  encapsulation:ViewEncapsulation.None,
   templateUrl: './dashboard-links.component.html',
   styleUrls: ['./dashboard-links.component.css']
 })
