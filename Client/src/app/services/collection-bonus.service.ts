@@ -52,18 +52,7 @@ export class CollectionBonusService {
         this.http.collectionBonus({ month: this.reportMonth, year: this.reportYear }).single().subscribe(r => {
             this.bonus = r.results || r;
             this.totalRowCount = r.totalRowCount || r.length;
-            this.loading = false;
-            if (this.bonus.length == 0) {
-                this.bonus = [
-                    { patientName: 'TARA DALE', datePosted: '2018-06-11T00:00:00.0000000', amountPaid: 359.08, bonusAmount: 5.39 },
-                    { patientName: 'ALAMASA DUALE', datePosted: '2018-06-25T00:00:00.0000000', amountPaid: 272.79, bonusAmount: 4.09 },
-                    { patientName: 'KEN WARIO', datePosted: '2018-06-25T00:00:00.0000000', amountPaid: 416.15, bonusAmount: 6.24 },
-                    { patientName: 'BEN KITILI', datePosted: '2018-06-25T00:00:00.0000000', amountPaid: 176.97, bonusAmount: 2.65 },
-                    { patientName: 'CYNTHIA ROCK DALE', datePosted: '2018-06-11T00:00:00.0000000', amountPaid: 359.08, bonusAmount: 5.39 },
-                    { patientName: 'MAN BUDALE', datePosted: '2018-06-11T00:00:00.0000000', amountPaid: 359.08, bonusAmount: 5.39 },
-                    { patientName: 'OTARA LANALE', datePosted: '2018-06-11T00:00:00.0000000', amountPaid: 359.08, bonusAmount: 5.39 }
-                ]
-            }
+            this.loading = false;         
         }, err => {
             this.loading = false;
             this.bonus = [{} as any];
