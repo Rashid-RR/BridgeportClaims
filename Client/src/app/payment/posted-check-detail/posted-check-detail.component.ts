@@ -1,8 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ToastsManager, Toast } from 'ng2-toastr';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
-import { DocumentManagerService } from "../../services/document-manager.service";
-import { HttpService } from "../../services/http-service";
+import { DocumentManagerService } from '../../services/document-manager.service';
+import { HttpService } from '../../services/http-service';
 import { DocumentItem } from '../../models/document';
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
@@ -93,9 +93,9 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
   }
   savePayment(payment: any) {
     if (!this.form.valid) {
-      this.toast.warning("You must fill amount paid, check Number and date posted to continue");
+      this.toast.warning('You must fill amount paid, check Number and date posted to continue');
     } else if (!this.form.dirty) {
-      this.toast.warning("Not saving. You haven't made any change");
+      this.toast.warning('Not saving. You haven\'t made any change');
     } else {
       this.ds.loading = true;
       this.http.updatePrescriptionPayment(this.form.value).single().subscribe(res => {
@@ -202,7 +202,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and '
           + this.ds.checkTotalPages).then((toast: Toast) => {
             this.activeToast = toast;
-          })
+          });
       }
     }
   }

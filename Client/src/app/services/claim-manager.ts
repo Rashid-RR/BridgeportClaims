@@ -16,7 +16,7 @@ import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../components/confirm.component';
 import { Episode } from '../interfaces/episode';
 import { PhonePipe } from '../pipes/phone-pipe';
-import swal from "sweetalert2";
+import swal from 'sweetalert2';
 import { ProfileManager } from './services.barrel';
 
 declare var $: any;
@@ -24,7 +24,7 @@ declare var $: any;
 @Injectable()
 export class ClaimManager {
   onClaimIdChanged = new Subject<Number>();
-  dialogListener:Subject<any> = new Subject<any>();
+  dialogListener: Subject<any> = new Subject<any>();
   private claims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   public comparisonClaims: Immutable.OrderedMap<Number, Claim> = Immutable.OrderedMap<Number, Claim>();
   private history: Array<Claim> = [];
@@ -38,11 +38,11 @@ export class ClaimManager {
   loadingImage: Boolean = false;
   private notetypes: Array<any> = [];
   private prescriptionNotetypes: Array<PrescriptionNoteType> = [];
-  private episodeNoteTypes: Array<EpisodeNoteType> = []
+  private episodeNoteTypes: Array<EpisodeNoteType> = [];
 
-  searchText: string = '';
-  pharmacyName: string = '';
-  exactMatch: boolean = false;
+  searchText = '';
+  pharmacyName = '';
+  exactMatch = false;
   // Expanded Table Properties
   isClaimsExpanded: boolean;
   isNotesExpanded: boolean;
@@ -58,11 +58,13 @@ export class ClaimManager {
     return this.comparisonClaims.toArray();
   }
   formatDate(input: String) {
-    if (!input) return null;
-    if (input.indexOf("-") > -1) {
-      let date = input.split("T");
-      let d = date[0].split("-");
-      return d[1] + "/" + d[2] + "/" + d[0];
+    if (!input) {
+      return null;
+    }
+    if (input.indexOf('-') > -1) {
+      const date = input.split('T');
+      const d = date[0].split('-');
+      return d[1] + '/' + d[2] + '/' + d[0];
     } else {
       return input;
     }
@@ -73,17 +75,17 @@ export class ClaimManager {
   }
   constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService, private events: EventsService,
     private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder, private profileManager: ProfileManager,
-    private dialogService: DialogService) {          
+    private dialogService: DialogService) {
       this.episodeForm = this.formBuilder.group({
-        //episodeId: [undefined], // only send on episode edit
+        // episodeId: [undefined], // only send on episode edit
         claimId: [null, Validators.required],
         rxNumber: [null],
         pharmacyNabp: [null],
         episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
-        episodeTypeId: ["1"]
+        episodeTypeId: ['1']
       });
       this.events.on('loadHistory', () => {
-        if (!this.isClient) {this.getHistory();}
+        if (!this.isClient) {this.getHistory(); }
       });
       if (!this.isClient) {
       this.getHistory();
@@ -91,30 +93,30 @@ export class ClaimManager {
       this.events.on('clear-claims', (status: boolean) => {
         this.selected = undefined;
         this.claims = Immutable.OrderedMap<Number, Claim>();
-      }); 
+      });
   }
 
   closeModal() {
     swal.clickCancel();
   }
   saveEpisode() {
-    var pharmacyNabp = $("#ePayorsSelection").val() || null;
+    const pharmacyNabp = $('#ePayorsSelection').val() || null;
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     } else if (this.episodeForm.valid) {
-      swal({ title: "", html: "Saving Episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
-      //this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
+      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
+      // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
-      let form = this.episodeForm.value;
+      const form = this.episodeForm.value;
       this.http.saveEpisode(this.episodeForm.value).single().subscribe(res => {
-        let claim = this.claims.get(form.claimId);
+        const claim = this.claims.get(form.claimId);
         claim.episodes.splice(0, 0, res.episode as Episode);
         this.episodeForm.reset();
         this.closeModal();
         this.toast.success(res.message);
       }, err => {
-        this.events.broadcast("edit-episode", { episodeId: this.episodeForm.value.episodeId, type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText })
+        this.events.broadcast('edit-episode', { episodeId: this.episodeForm.value.episodeId, type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText });
       });
     } else {
       if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
@@ -131,7 +133,7 @@ export class ClaimManager {
   }
   getHistory() {
     this.auth.isLoggedIn.single().subscribe(res => {
-      if (res == true) {
+      if (res === true) {
         this.loadingHistory = true;
         this.http.getHistory().single().subscribe(res => {
           this.history = res as Array<Claim>;
@@ -168,7 +170,7 @@ export class ClaimManager {
           }
         }
         this.activeToast = toast;
-      })
+      });
   }
 
   get claimHistory(): Array<Claim> {
@@ -176,20 +178,20 @@ export class ClaimManager {
   }
 
   get totalInvoiced() {
-    var total = 0;
+    let total = 0;
     if (this.selectedClaim) {
-      let selected = this.selectedClaim.prescriptions.filter(c => c.selected == true);
-      for (var i = 0; i < selected.length; i++) {
+      const selected = this.selectedClaim.prescriptions.filter(c => c.selected === true);
+      for (let i = 0; i < selected.length; i++) {
         total += selected[i].invoiceAmount;
       }
     }
     return total;
   }
   get totalOutstanding() {
-    var total = 0;
+    let total = 0;
     if (this.selectedClaim) {
-      let selected = this.selectedClaim.prescriptions.filter(c => c.selected == true);
-      for (var i = 0; i < selected.length; i++) {
+      const selected = this.selectedClaim.prescriptions.filter(c => c.selected === true);
+      for (let i = 0; i < selected.length; i++) {
         total += selected[i].outstanding;
       }
     }
@@ -200,7 +202,7 @@ export class ClaimManager {
       this.getHistory();
     }, err => {
 
-    })
+    });
   }
   search(data, addHistory = true) {
     // let result:any = {"claimId":26957,"name":"Lakisha Krause","claimNumber":"08264","dateOfBirth":"1983-11-08T00:00:00.0000000","gender":"Not Specified","carrier":"AAA - DE","adjustor":"Karrie83","adjustorPhoneNumber":"399843-7211","adjustorFaxNumber":null,"eligibilityTermDate":"2104-12-20T21:28:32.0000000","flex2":"PIP","address1":"82 South Oak St.","address2":"285 West White Clarendon Way","city":"Oklahoma","stateAbbreviation":null,"postalCode":"61993","patientPhoneNumber":"327135-2042","dateEntered":"1984-02-04T17:22:41.0000000","claimFlex2s":[{"claimFlex2Id":2,"flex2":"DR APT"},{"claimFlex2Id":8,"flex2":"PA"},{"claimFlex2Id":1,"flex2":"PIP"},{"claimFlex2Id":12,"flex2":"TFS"},{"claimFlex2Id":11,"flex2":"UFO"},{"claimFlex2Id":9,"flex2":"UI"},{"claimFlex2Id":10,"flex2":"UIO"},{"claimFlex2Id":3,"flex2":"VALUE1"},{"claimFlex2Id":4,"flex2":"VALUE2"},{"claimFlex2Id":5,"flex2":"VALUE3"},{"claimFlex2Id":6,"flex2":"VALUE4"},{"claimFlex2Id":7,"flex2":"VALUE5"}],"claimNotes":[{"noteType":"OTHER","noteText":"Id Tam Id in eudis esset et Id venit. Et apparens Multum in volcans pars travissimantor pladior delerium."}],"episodes":[],"prescriptionStatuses":[{"prescriptionStatusId":1,"statusName":"VALUE1"},{"prescriptionStatusId":10,"statusName":"VALUE10"},{"prescriptionStatusId":2,"statusName":"VALUE2"},{"prescriptionStatusId":3,"statusName":"VALUE3"},{"prescriptionStatusId":4,"statusName":"VALUE4"},{"prescriptionStatusId":5,"statusName":"VALUE5"},{"prescriptionStatusId":6,"statusName":"VALUE6"},{"prescriptionStatusId":7,"statusName":"VALUE7"},{"prescriptionStatusId":8,"statusName":"VALUE8"},{"prescriptionStatusId":9,"statusName":"VALUE9"}],"prescriptions":[{"prescriptionId":15851,"rxDate":"2017-12-03T00:20:04.0000000","rxNumber":"47289","labelName":"Dwayne634","billTo":"Amelia","invoiceNumber":"39731","invoiceAmount":890.4770,"amountPaid":null,"outstanding":null,"invoiceDate":"1990-03-10T00:00:00.0000000","status":"VALUE7","noteCount":0,"isReversed":true},{"prescriptionId":5229,"rxDate":"2017-09-23T21:07:41.0000000","rxNumber":"27981","labelName":"Olga94","billTo":"Amelia","invoiceNumber":"45021","invoiceAmount":927.5000,"amountPaid":494.1700,"outstanding":433.3300,"invoiceDate":"1955-02-14T00:00:00.0000000","status":null,"noteCount":3,"isReversed":false}],"prescriptionNotes":[{"claimId":26957,"prescriptionNoteId":1170,"rxDate":"2017-09-23T21:07:41.0000000","rxNumber":"27981","type":"Denial","enteredBy":"Atiq Masood","note":"fecit. in vobis funem. glavans vobis funem. quartu travissimantor gravis e et bono cognitio, rarendum trepicandor fecit, parte","noteUpdatedOn":"1967-01-31T09:22:51.0000000",hasDiaryEntry:true},{"claimId":26957,"prescriptionNoteId":3416,"rxDate":"2017-09-23T21:07:41.0000000","rxNumber":"27981","type":"Med Records","enteredBy":"Jordan Gurney","note":"new diary entry","noteUpdatedOn":"2017-10-11T23:22:22.0000000",hasDiaryEntry:true},{"claimId":26957,"prescriptionNoteId":3417,"rxDate":"2017-09-23T21:07:41.0000000","rxNumber":"27981","type":"Non Formulary","enteredBy":"Josephat Ogwayi","note":"Test this","noteUpdatedOn":"2017-10-16T18:40:20.0000000",hasDiaryEntry:false}],"acctPayables":[{"date":"1998-01-09T00:00:00.0000000","checkNumber":"83027","rxNumber":"27981","rxDate":"2017-09-23T00:00:00.0000000","checkAmount":494.1700}],"payments":[{"prescriptionPaymentId":5256,"prescriptionId":5229,"postedDate":"1998-01-09T00:00:00.0000000","checkNumber":"83027","checkAmt":494.1700,"rxNumber":"27981","rxDate":"2017-09-23T21:07:41.2513254","invoiceNumber":null,"isReversed":false}]}; //for ofline testing
@@ -214,10 +216,10 @@ export class ClaimManager {
           this.toast.info('No records were found from your search.');
         }
         if (Object.prototype.toString.call(result) === '[object Array]') {
-          let res: Array<Claim> = result as Array<Claim>;
+          const res: Array<Claim> = result as Array<Claim>;
           this.claims = Immutable.OrderedMap<Number, Claim>();
           result.forEach((claim) => {
-            var c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate || claim.dateOfInjury, claim.gender,
+            const c = new Claim(claim.claimId, claim.claimNumber, claim.dateOfBirth, claim.injuryDate || claim.dateOfInjury, claim.gender,
               claim.carrier, claim.adjustor, claim.adjustorPhoneNumber, claim.dateEntered, claim.adjustorFaxNumber
               , claim.name, claim.firstName, claim.lastName, claim.flex2, claim.eligibilityTermDate, claim.address1, claim.address2, claim.city, claim.stateAbbreviation, claim.postalCode, claim.genders, claim.adjustorExtension);
             c.genders = claim.genders;
@@ -236,10 +238,10 @@ export class ClaimManager {
               c.loadingOutstanding = false;
             }
             this.claims = this.claims.set(claim.claimId, c);
-          })
+          });
         } else {
           this.claims = Immutable.OrderedMap<Number, Claim>();
-          var c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
+          const c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorFaxNumber
             , result.name, result.firstName, result.lastName, result.flex2, result.eligibilityTermDate, result.address1, result.address2, result.city, result.stateAbbreviation, result.postalCode, result.genders, result.adjustorExtension);
           c.dateOfBirth = result.dateOfBirth;
@@ -290,11 +292,11 @@ export class ClaimManager {
       }, err => {
         this.loading = false;
         try {
-          let error = err.error;
+          const error = err.error;
           // console.log(error);
         } catch (e) { }
       }, () => {
-        this.events.broadcast("claim-updated");
+        this.events.broadcast('claim-updated');
         this.http.getNotetypes()
           .subscribe((result: Array<any>) => {
             // console.log("Claim Notes",result)
@@ -302,7 +304,7 @@ export class ClaimManager {
           }, err => {
             this.loading = false;
             // let error = err.error;
-          })
+          });
         this.http.getPrescriptionNotetypes()
           .subscribe((result: Array<any>) => {
             // console.log("Prescription Notes", result)
@@ -311,7 +313,7 @@ export class ClaimManager {
             this.loading = false;
             // console.log(err);
             // let error = err.error;
-          })
+          });
 
         if (!this.episodeNoteTypes) {
           this.http.getEpisodesNoteTypes()
@@ -321,10 +323,10 @@ export class ClaimManager {
             }, err => {
               this.loading = false;
               console.log(err);
-              let error = err.error;
+              const error = err.error;
             });
         }
-      })
+      });
   }
 
   get dataSize() {
@@ -338,10 +340,10 @@ export class ClaimManager {
       c.selected = false;
       this.claims.set(c.claimId, c);
     });
-    this.comparisonClaims = Immutable.OrderedMap<Number, Claim>();;
+    this.comparisonClaims = Immutable.OrderedMap<Number, Claim>(); ;
   }
   claimsDataLength(): number {
-    let claimsLength = this.claims.asImmutable().toArray().length;
+    const claimsLength = this.claims.asImmutable().toArray().length;
     return claimsLength;
   }
   clearClaimsData() {
@@ -359,7 +361,7 @@ export class ClaimManager {
   }
   getClaimsDataById(id: Number, addHistory = true) {
     this.selected = id;
-    let claim: Claim = this.claims.get(id) as Claim;
+    const claim: Claim = this.claims.get(id) as Claim;
     if (id !== undefined) {
       this.loading = true;
       this.history.unshift(claim);
@@ -413,11 +415,11 @@ export class ClaimManager {
           this.loading = false;
           const error = err.error;
         }, () => {
-          this.events.broadcast("claim-updated");
+          this.events.broadcast('claim-updated');
           if (addHistory && id) {
             this.addHistory(id);
           }
-        })
+        });
     }
   }
   get selectedClaim(): Claim {
@@ -426,8 +428,8 @@ export class ClaimManager {
 
   changeFlex2(claim: Claim, flex: any) {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Save Flex 2 for claim #" + claim.claimNumber,
-      message: "Would you like to change the Flex2 value to " + (flex.flex2) + "?"
+      title: 'Save Flex 2 for claim #' + claim.claimNumber,
+      message: 'Would you like to change the Flex2 value to ' + (flex.flex2) + '?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {

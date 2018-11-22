@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ReportsRoutes } from './reports.routing';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';

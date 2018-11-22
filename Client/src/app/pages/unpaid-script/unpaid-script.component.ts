@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // Services
-import { UnpaidScriptService } from "../../services/unpaid-script.service";
+import { UnpaidScriptService } from '../../services/unpaid-script.service';
 
 @Component({
   selector: 'app-unpaid-script',

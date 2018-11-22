@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReportLoaderService,ShortPayService } from "../../services/services.barrel";
+import { ReportLoaderService, ShortPayService } from '../../services/services.barrel';
 
 @Component({
   selector: 'app-short-pay',
@@ -7,7 +7,7 @@ import { ReportLoaderService,ShortPayService } from "../../services/services.bar
   styleUrls: ['./short-pay.component.css']
 })
 export class ShortPayComponent implements OnInit {
-  constructor(public reportloader:ReportLoaderService,public shortpay:ShortPayService) { }
+  constructor(public reportloader: ReportLoaderService, public shortpay: ShortPayService) { }
 
   ngOnInit() {
     this.reportloader.current = 'Shortpay Report';

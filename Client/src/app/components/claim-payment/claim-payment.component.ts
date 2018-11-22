@@ -1,15 +1,15 @@
-import { SortColumnInfo } from "../../directives/table-sort.directive";
+import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
-import { ClaimManager } from "../../services/claim-manager";
-import { HttpService } from "../../services/http-service";
-import { Payment } from "../../models/payment";
-import { EventsService } from "../../services/events-service";
+import { ClaimManager } from '../../services/claim-manager';
+import { HttpService } from '../../services/http-service';
+import { Payment } from '../../models/payment';
+import { EventsService } from '../../services/events-service';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { ConfirmComponent } from '../confirm.component';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { DialogService } from "ng2-bootstrap-modal";
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DialogService } from 'ng2-bootstrap-modal';
 import { ToastsManager } from 'ng2-toastr';
-import { ProfileManager } from "../../services/profile-manager";
+import { ProfileManager } from '../../services/profile-manager';
 declare var $: any;
 
 @Component({
@@ -67,9 +67,9 @@ export class ClaimPaymentComponent implements OnInit {
   update(payment: Payment) {
     this.editing = true;
     console.log(payment);
-    this.editingPaymentId = payment.prescriptionPaymentId
-    let checkAmt = Number(payment.checkAmt).toFixed(2);
-    let postedDate = this.dp.transform(payment.postedDate, "shortDate");
+    this.editingPaymentId = payment.prescriptionPaymentId;
+    const checkAmt = Number(payment.checkAmt).toFixed(2);
+    const postedDate = this.dp.transform(payment.postedDate, 'shortDate');
     this.form = this.formBuilder.group({
       amountPaid: [checkAmt],
       checkNumber: [payment.checkNumber],
@@ -81,32 +81,32 @@ export class ClaimPaymentComponent implements OnInit {
       $('#datePostedPicker').datepicker({
         autoclose: true
       });
-      $("#datePostedPicker").inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" });
-      $("[inputs-mask]").inputmask();
-      $("[data-mask]").inputmask();
+      $('#datePostedPicker').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' });
+      $('[inputs-mask]').inputmask();
+      $('[data-mask]').inputmask();
     }, 500);
   }
   saveButtonClick() {
-    var btn = $("#savePaymentButton");
+    const btn = $('#savePaymentButton');
     if (btn.length > 0) {
-      $("#savePaymentButton").click();
+      $('#savePaymentButton').click();
     }
   }
   datePosted($event) {
     console.log($event);
   }
   savePayment(payment: Payment) {
-    let d = $('#datePostedPicker').val();
-    let date = this.dp.transform(d, "shortDate");
+    const d = $('#datePostedPicker').val();
+    const date = this.dp.transform(d, 'shortDate');
     if (this.form.get('amountPaid').value && this.form.get('checkNumber').value && date) {
       this.claimManager.loading = true;
-      this.form.controls['datePosted'].setValue(this.dp.transform(date, "shortDate"));
+      this.form.controls['datePosted'].setValue(this.dp.transform(date, 'shortDate'));
       this.http.updatePrescriptionPayment(this.form.value).single().subscribe(res => {
         this.toast.success(res.message);
-        //this.removePayment(payment);
+        // this.removePayment(payment);
         this.claimManager.loading = false;
         payment.postedDate = this.form.get('datePosted').value;
-        payment.checkAmt = this.form.get('amountPaid').value !== null ? this.form.get('amountPaid').value.replace(new RegExp(",", "gi"), "") : 0;
+        payment.checkAmt = this.form.get('amountPaid').value !== null ? this.form.get('amountPaid').value.replace(new RegExp(',', 'gi'), '') : 0;
         payment.checkNumber = this.form.get('checkNumber').value;
         this.cancel();
       }, error => {
@@ -114,13 +114,13 @@ export class ClaimPaymentComponent implements OnInit {
         this.claimManager.loading = false;
       });
     } else {
-      this.toast.warning("You must fill amount paid, check Number and date posted to continue");
+      this.toast.warning('You must fill amount paid, check Number and date posted to continue');
     }
   }
   validateNumber($event) {
     $event = ($event) ? $event : window.event;
-    var charCode = ($event.which) ? $event.which : $event.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 44 && charCode != 46) {
+    const charCode = ($event.which) ? $event.which : $event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 44 && charCode !== 46) {
       return false;
     }
     return true;
@@ -131,8 +131,8 @@ export class ClaimPaymentComponent implements OnInit {
     } else {
       switch (controlName) {
         case 'amountPaid':
-          var val = this.form.get(controlName).value.replace(new RegExp(",", "gi"), "");
-          this.form.get(controlName).setValue(this.decimalPipe.transform(val, "1.2-2"));
+          const val = this.form.get(controlName).value.replace(new RegExp(',', 'gi'), '');
+          this.form.get(controlName).setValue(this.decimalPipe.transform(val, '1.2-2'));
           break;
         default:
           break;
@@ -142,7 +142,7 @@ export class ClaimPaymentComponent implements OnInit {
   }
   get allowed(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
-      && this.profileManager.profile.roles.indexOf('Admin') > -1)
+      && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   cancel() {
     this.editing = false;
@@ -157,7 +157,7 @@ export class ClaimPaymentComponent implements OnInit {
   }
 
   del(payment: Payment) {
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
       title: 'Delete payment',
       message: 'Are you sure you wish to remove this Payment  for Invoice Number: ' +
         payment.invoiceNumber + ' of $' + payment.checkAmt + '?'
@@ -179,17 +179,17 @@ export class ClaimPaymentComponent implements OnInit {
   }
 
   removePayment(payment) {
-    for (var i = 0; i < this.claimManager.selectedClaim.payments.length; i++) {
-      if (payment.prescriptionPaymentId == this.claimManager.selectedClaim.payments[i].prescriptionPaymentId && this.claimManager.selectedClaim.payments[i].prescriptionId == payment.prescriptionId) {
+    for (let i = 0; i < this.claimManager.selectedClaim.payments.length; i++) {
+      if (payment.prescriptionPaymentId === this.claimManager.selectedClaim.payments[i].prescriptionPaymentId && this.claimManager.selectedClaim.payments[i].prescriptionId === payment.prescriptionId) {
         this.claimManager.selectedClaim.payments.splice(i, 1);
       }
     }
   }
   fetchData() {
     this.claimManager.loadingPayment = true;
-    let page = 1;
-    let page_size = 1000;
-    let sort: string = 'RxDate';
+    const page = 1;
+    const page_size = 1000;
+    let sort = 'RxDate';
     let sort_dir: 'asc' | 'desc' = 'desc';
     if (this.sortColumn) {
       sort = this.sortColumn.column;

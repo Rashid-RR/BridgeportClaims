@@ -1,53 +1,53 @@
-import { Component, OnInit,AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ProfileManager, ReportLoaderService, EventsService } from '../../services/services.barrel';
-import { DatePipe,DecimalPipe } from '@angular/common';
-declare var Highcharts:any; 
+import { DatePipe, DecimalPipe } from '@angular/common';
+declare var Highcharts: any;
 
 @Component({
   selector: 'app-report-sample',
   templateUrl: './report-sample.component.html',
   styleUrls: ['./report-sample.component.css']
 })
-export class ReportSampleComponent implements OnInit ,AfterViewInit{
+export class ReportSampleComponent implements OnInit , AfterViewInit {
     preload = 'auto';
-    categories:Array<any>=[];
-    data:Array<any>=[];
+    categories: Array<any>= [];
+    data: Array<any>= [];
     constructor(
       private http: HttpService,
       private events: EventsService,
       private dp: DatePipe,
-      private reportLoader:ReportLoaderService,
+      private reportLoader: ReportLoaderService,
       private profileManager: ProfileManager
     ) { }
-  
-    ngAfterViewInit() { 
-      if(this.allowed){
+
+    ngAfterViewInit() {
+      if (this.allowed){
         this.reportLoader.loading = true;
-        this.http.revenueByMonth({}).subscribe((res:Array<{datePosted:Date,totalPosted:Number}>)=>{
-          let drilldown:any=[];
-          res.forEach(r=>{
-            let date = this.dp.transform(r.datePosted, "M/d");
+        this.http.revenueByMonth({}).subscribe((res: Array<{datePosted: Date, totalPosted: Number}>) => {
+          const drilldown: any = [];
+          res.forEach(r => {
+            const date = this.dp.transform(r.datePosted, 'M/d');
             this.categories.push(date);
-            /* 
+            /*
             For testing
             if(r.totalPosted==363872.7){
               r.totalPosted=1917;
             } */
             this.data.push({
-              name:date,
-              drilldown:date,
-              y:r.totalPosted
+              name: date,
+              drilldown: date,
+              y: r.totalPosted
             });
             drilldown.push({
-              name:date,
-              id:date,
-              data:[[r.totalPosted]]
+              name: date,
+              id: date,
+              data: [[r.totalPosted]]
             });
-          })
-          var chart = Highcharts.chart('container', {      
+          });
+          const chart = Highcharts.chart('container', {
               title: {
-                  text: 'Revenue From Last '+this.data.length+' Days'
+                  text: 'Revenue From Last ' + this.data.length + ' Days'
               },
               chart: {
                 type: 'column'
@@ -88,26 +88,25 @@ export class ReportSampleComponent implements OnInit ,AfterViewInit{
                   colorByPoint: true,
                   data: this.data,
               }],
-              drilldown:{
-                series:drilldown     
+              drilldown: {
+                series: drilldown
               }
           });
           this.reportLoader.loading = false;
-        },error=>{
+        }, error => {
           this.reportLoader.loading = false;
-        })
+        });
       }
     }
-    ngOnInit() { 
-      this.reportLoader.current ='Revenue From Last 21 Days';
-      this.reportLoader.currentURL ='revenue';
-       
+    ngOnInit() {
+      this.reportLoader.current = 'Revenue From Last 21 Days';
+      this.reportLoader.currentURL = 'revenue';
+
     }
-  
+
     get allowed(): Boolean {
       return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
       && this.profileManager.profile.roles.indexOf('Admin') > -1);
     }
-  
+
   }
-  

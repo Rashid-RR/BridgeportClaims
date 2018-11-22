@@ -30,19 +30,19 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
     private http: HttpService
   ) {
     this.claimManager.onClaimIdChanged.subscribe(() => {
-      //this.fetchData();
+      // this.fetchData();
     });
   }
 
   ngOnInit() {
-    //this.fetchData();
+    // this.fetchData();
     this.events.on('claim-updated', () => {
 
     });
     this.cloneTableHeading();
-    this.events.on("reload:prespcriptions", () => {
+    this.events.on('reload:prespcriptions', () => {
       this.fetchData();
-    })
+    });
   }
 
   ngAfterViewInit() {
@@ -76,7 +76,7 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
           } catch (e) { }
         }
       }
-    }, 500)
+    }, 500);
   }
   clicked() {
 
@@ -102,7 +102,7 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
               <td>` + noteDate + `</td>
               <td>` + note.type + `</td>
               <td>` + note.enteredBy + `</td>
-              <td style="white-space: pre-wrap;">`+ note.note + `</td>
+              <td style="white-space: pre-wrap;">` + note.note + `</td>
             </tr>`;
     });
     const html = `<div class="row invoice-info">
@@ -163,7 +163,7 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
     }
   }
   uncheckMain() {
-    jQuery('input#selectAllOutstanding').attr({ 'checked': false })
+    jQuery('input#selectAllOutstanding').attr({ 'checked': false });
   }
   select(p: any, $event, index) {
     p.selected = $event.target.checked;
@@ -177,7 +177,7 @@ export class ClaimOutstandingComponent implements OnInit, AfterViewInit {
           const p = jQuery('#row' + i).attr('prescription');
           const prescription = JSON.parse(p);
           const data = this.claimManager.selectedClaim.outstanding.find(pres =>
-            pres.prescriptionId == prescription.prescriptionId);
+            pres.prescriptionId === prescription.prescriptionId);
           data.selected = true;
         } catch (e) { }
       }

@@ -10,10 +10,7 @@ export class TestComponent implements AfterViewInit {
   constructor(private zone: NgZone) { }
 
   ngAfterViewInit() {
-
     this.zone.runOutsideAngular(() => {
-      
-    })
+    });
   }
-
 }

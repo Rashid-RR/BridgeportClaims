@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AccountReceivableService,ReportLoaderService } from "../../services/services.barrel";
+import { AccountReceivableService, ReportLoaderService } from '../../services/services.barrel';
 
 @Component({
   selector: 'app-report-account-receivable',
@@ -8,13 +8,13 @@ import { AccountReceivableService,ReportLoaderService } from "../../services/ser
 })
 export class ReportAccountReceivableComponent implements OnInit {
 
-  constructor(public ar:AccountReceivableService,public reportloader:ReportLoaderService) { }
+  constructor(public ar: AccountReceivableService, public reportloader: ReportLoaderService) { }
 
  
   ngOnInit() {
     this.reportloader.current = 'Account Receivable';
     this.reportloader.currentURL = 'account-receivable';
-    //this.ar.search();
+    // this.ar.search();
   }
 
 }

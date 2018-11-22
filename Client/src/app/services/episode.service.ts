@@ -10,9 +10,9 @@ import { Episode } from '../interfaces/episode';
 import { EpisodeNoteType } from '../models/episode-note-type';
 import { ArraySortPipe } from '../pipes/sort.pipe';
 import swal from "sweetalert2";
-import { Payor } from "../models/payor"
+import { Payor } from "../models/payor";
 import { Subject } from 'rxjs/Subject';
-declare var $:any;
+declare var $: any;
 
 @Injectable()
 export class EpisodeService {
@@ -25,27 +25,27 @@ export class EpisodeService {
   episodeNote: String;
   totalRowCount: number;
   episodetoAssign:Episode;
-  episodeNoteTypes: Array<EpisodeNoteType> = []
-  owners: Array<{ownerId:any,owner:string}> = []
-  episodeForm: FormGroup
-  pharmacyName: string = '';
+  episodeNoteTypes: Array<EpisodeNoteType> = [];
+  owners: Array<{ownerId: any, owner: string}> = [];
+  episodeForm: FormGroup;
+  pharmacyName = '';
   payors: Array<Payor> = [];
-  pageSize: number = 50;
+  pageSize = 50;
   payorListReady = new Subject<any>();
 
   constructor(private http: HttpService, private formBuilder: FormBuilder,
-    private epf: EpisodesFilterPipe, private sortPipe:ArraySortPipe,
+    private epf: EpisodesFilterPipe, private sortPipe: ArraySortPipe,
     private events: EventsService, private toast: ToastsManager) {
     this.data = {
       startDate: null,
       endDate: null,
-      episodeCategoryId:null,
-      episodeTypeId:null,
-      OwnerID:null,
+      episodeCategoryId: null,
+      episodeTypeId: null,
+      OwnerID: null,
       resolved: false,
       archived: false,
-      sortColumn: "episodeId",
-      sortDirection: "DESC",
+      sortColumn: 'episodeId',
+      sortDirection: 'DESC',
       pageNumber: 1,
       pageSize: 30
     };
@@ -55,7 +55,7 @@ export class EpisodeService {
       rxNumber: [null],
       pharmacyNabp: [null],
       episodeText: [null, Validators.compose([Validators.minLength(5), Validators.required])],
-      episodeTypeId: ["1"]
+      episodeTypeId: ['1']
     });
     this.http.getEpisodesNoteTypes()
       .subscribe((result: Array<any>) => {
@@ -67,30 +67,30 @@ export class EpisodeService {
       .subscribe((result: Array<any>) => {
         this.owners = result;
       }, err => {
-        this.loading = false; 
-        let error = err.error;
+        this.loading = false;
+        const error = err.error;
       });
   }
   get EpisodeNoteTypes(): Array<any> {
     return this.episodeNoteTypes;
   }
   saveEpisode() {
-    var pharmacyNabp = $("#ePayorsSelection").val() || null;
+    const pharmacyNabp = $('#ePayorsSelection').val() || null;
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
-    if (this.episodeForm.controls['pharmacyNabp'].value==null && this.pharmacyName) {
+    if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
     }else if (this.episodeForm.valid) {
-      swal({ title: "", html: "Saving Episode... <br/> <img src='assets/1.gif'>", showConfirmButton: false }).catch(swal.noop);
-      //this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
+      swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
+      // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
-      let form =this.episodeForm.value;
-      this.http.saveEpisode(form).single().subscribe(res => {        
+      const form = this.episodeForm.value;
+      this.http.saveEpisode(form).single().subscribe(res => {
         this.episodeForm.reset();
         this.closeModal();
         this.toast.success(res.message);
         this.search();
       }, () => {
-        this.events.broadcast("edit-episode", { episodeId: this.episodeForm.value.episodeId, type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText })
+        this.events.broadcast('edit-episode', { episodeId: this.episodeForm.value.episodeId, type: this.episodeForm.value.episodeTypeId, episodeNote: this.episodeForm.value.episodeText });
       });
     } else {
       if (this.episodeForm.controls['episodeText'].errors && this.episodeForm.controls['episodeText'].errors.required) {
@@ -109,8 +109,8 @@ export class EpisodeService {
   refresh() {
 
   }
-  get episodeTypes():Array<EpisodeNoteType>{
-    return this.episodeNoteTypes
+  get episodeTypes(): Array<EpisodeNoteType>{
+    return this.episodeNoteTypes;
   }
   get totalPages() {
     return this.totalRowCount ? Math.ceil(this.totalRowCount / this.data.pageSize) : null;
@@ -135,7 +135,7 @@ export class EpisodeService {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+      const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
       if (next) {
         data.pageNumber++;
@@ -150,8 +150,8 @@ export class EpisodeService {
         .subscribe((result: any) => {
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
-          if(this.data.sortColumn=='fileUrl'){
-            result.episodeResults = this.sortPipe.transform(result.episodeResults,this.data.sortColumn,this.data.sortDirection);
+          if (this.data.sortColumn === 'fileUrl'){
+            result.episodeResults = this.sortPipe.transform(result.episodeResults, this.data.sortColumn, this.data.sortDirection);
           }
           this.episodes = Immutable.OrderedMap<Number, Episode>();
           result.episodeResults.forEach((episode: Episode) => {
@@ -159,21 +159,21 @@ export class EpisodeService {
               this.episodes = this.episodes.set(episode['episodeId'], episode);
             } catch (e) { }
           });
-          if (next && result.episodeResults && result.episodeResults.length>0) {
+          if (next && result.episodeResults && result.episodeResults.length > 0) {
             this.data.pageNumber++;
           }
           if (prev) {
             this.data.pageNumber--;
           }
-          if (page && result.episodeResults && result.episodeResults.length>0) {
+          if (page && result.episodeResults && result.episodeResults.length > 0) {
             this.data.pageNumber = page;
           }
-          if(!prev && !next && ! page){
-            this.data.pageNumber=this.totalRowCount==0  ? null :1;            
-            this.goToPage = this.totalRowCount==0  ? null : this.data.pageNumber;
+          if (!prev && !next && ! page){
+            this.data.pageNumber = this.totalRowCount === 0  ? null : 1;
+            this.goToPage = this.totalRowCount === 0  ? null : this.data.pageNumber;
           }
           setTimeout(() => {
-            //this.events.broadcast('payment-amountRemaining',result)
+            // this.events.broadcast('payment-amountRemaining',result)
           }, 200);
         }, err => {
           this.loading = false;
@@ -189,7 +189,7 @@ export class EpisodeService {
     return new Array(this.data.pageNumber);
   }
   get pageStart() {
-    return this.totalRowCount==0 ? 0 : (this.totalRowCount>0 && this.episodeList.length > 1 ? ((this.data.pageNumber - 1) * this.data.pageSize) + 1 : null);
+    return this.totalRowCount === 0 ? 0 : (this.totalRowCount > 0 && this.episodeList.length > 1 ? ((this.data.pageNumber - 1) * this.data.pageSize) + 1 : null);
   }
   get pageEnd() {
     return this.episodeList.length > 1 ? (this.data.pageSize > this.episodeList.length ? ((this.data.pageNumber - 1) * this.data.pageSize) + this.episodeList.length : (this.data.pageNumber) * this.data.pageSize) : null;

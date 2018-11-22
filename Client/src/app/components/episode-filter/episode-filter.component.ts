@@ -2,12 +2,12 @@ import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
-import swal from "sweetalert2";
+import swal from 'sweetalert2';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
-import { PrescriptionNoteType } from "../../models/prescription-note-type";
+import { PrescriptionNoteType } from '../../models/prescription-note-type';
 
 // Services
-import { HttpService } from "../../services/http-service"
+import { HttpService } from '../../services/http-service';
 import { EpisodeService } from '../../services/episode.service';
 declare var $: any;
 
@@ -23,9 +23,9 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
   ownerId: string = null;
   episodeCategoryId: string = null;
   episodeTypeId: string = null;
-  open: boolean = true;
+  open = true;
   closed: Boolean = false;
-  submitted: boolean = false;
+  submitted = false;
   resolved: Boolean = false;
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   constructor(
@@ -46,7 +46,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
         this.ds.episodeNoteTypes = result;
       }, err => {
         this.ds.loading = false;
-        let error = err.error
+        const error = err.error;
         console.log(error);
       });
   }
@@ -73,11 +73,11 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     this.ds.data.archived = $event.target.checked;
   }
   search() {
-    let startDate = this.dp.transform($('#startDate').val(), "MM/dd/yyyy");
-    let endDate = this.dp.transform($('#endDate').val(), "MM/dd/yyyy");
+    const startDate = this.dp.transform($('#startDate').val(), 'MM/dd/yyyy');
+    const endDate = this.dp.transform($('#endDate').val(), 'MM/dd/yyyy');
     this.ds.data.resolved = this.resolved;
-    this.ds.data.startDate = startDate || null
-    this.ds.data.endDate = endDate || null
+    this.ds.data.startDate = startDate || null;
+    this.ds.data.endDate = endDate || null;
     this.ds.data.OwnerID = this.ownerId ? this.ownerId : null;
     this.ds.data.episodeCategoryId = this.episodeCategoryId ? Number(this.episodeCategoryId) : null;
     this.ds.data.episodeTypeId = this.episodeTypeId ? Number(this.episodeTypeId) : null;
@@ -92,8 +92,8 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
       episodeTypeId: null,
       OwnerID: null,
       resolved: false,
-      sortColumn: "Created",
-      sortDirection: "DESC",
+      sortColumn: 'Created',
+      sortDirection: 'DESC',
       pageNumber: 1,
       pageSize: 30
     };
@@ -111,7 +111,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     this.episodeTypeId = null;
   }
 
-  episode(id: number = undefined, TypeId: string = "1", note: string = null) {
+  episode(id: number = undefined, TypeId: string = '1', note: string = null) {
 
     this.ds.episodeForm.reset();
     this.ds.episodeForm.patchValue({
@@ -122,7 +122,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     });
     this.episodeSwal.show().then((r) => {
 
-    })
+    });
   }
 
 
