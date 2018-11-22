@@ -428,19 +428,19 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
     });
   }
-  selectDrNotePrescriptions(p: Prescription){
+  selectDrNotePrescriptions(p: Prescription) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: `Prescription(s)`,
       listener: this.claimManager.dialogListener,
       buttonText: 'Submit',
       message: `Select one or more prescriptions to use for the Label Name(s) and Rx Date(s):`
-    })
-      .subscribe((isConfirmed) => {
+    }).subscribe((isConfirmed) => {
         if (isConfirmed) {
-            const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(c => c.selected && c.prescriptionId !== p.prescriptionId);
-            const prescriptionIds = prescriptions.map(p => p.prescriptionId);
+            const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(c => c.selected);
+            const prescriptionIds = prescriptions.map(pre => pre.prescriptionId);
             this.claimManager.loading = true;
-              this.http.downloadDrLetter({ claimId: this.claimManager.selectedClaim.claimId, prescriptionIds: prescriptionIds, firstPrescriptionId: p.prescriptionId })
+              this.http.downloadDrLetter({ claimId: this.claimManager.selectedClaim.claimId,
+                prescriptionIds: prescriptionIds, firstPrescriptionId: p.prescriptionId })
                 .subscribe((result) => {
                   this.claimManager.loading = false;
                   this.ar.downloadFile(result);
@@ -455,7 +455,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                     const error = err.error;
                   } catch (e) { }
                 });
-        }else{
+        } else {
           this.claimManager.selectedClaim.prescriptions.forEach(c => {
             c.selected = false;
           });
@@ -463,21 +463,26 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         }
       });
   }
-  exportDrNote(p: Prescription){
+
+  exportDrNote(p: Prescription) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: `Prescriber`,
       message: `Use prescriber ${p.prescriber} for this letter?`
-    })
-      .subscribe((isConfirmed) => {
+    }).subscribe((isConfirmed) => {
         if (isConfirmed) {
-            this.selectDrNotePrescriptions(p);
-        }else{
-          this.claimManager.selectedClaim.prescriptions.forEach(c => {
-            c.selected = false;
-          });
+          this.deselectPrescriptions();
+          this.selectDrNotePrescriptions(p);
+        } else {
+          this.deselectPrescriptions();
           $('input#selectAllCheckBox').attr({ 'checked': false });
         }
       });
+  }
+
+  private deselectPrescriptions() {
+    this.claimManager.selectedClaim.prescriptions.forEach(c => {
+      c.selected = false;
+    });
   }
 
   exportLetter(type) {
@@ -498,7 +503,8 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
       } else {
         this.claimManager.loading = true;
-        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId, type: type, prescriptionId: prescriptions[0].prescriptionId })
+        this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId,
+          type: type, prescriptionId: prescriptions[0].prescriptionId })
           .subscribe((result) => {
             this.claimManager.loading = false;
             this.ar.downloadFile(result);
