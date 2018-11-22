@@ -90,7 +90,7 @@ export class UsersComponent implements OnInit {
     }).subscribe(result => {
       this.activeUsers = result
     }, error1 => {
-      console.log(error1)
+      
     })
   }
 
@@ -277,7 +277,7 @@ export class UsersComponent implements OnInit {
   }
 
   undoRole(role, index, event) {
-    console.log(this.users[index].client, this.users[index].admin, this.users[index].user, role, event);
+    
     setTimeout(() => {
       if (role == this.adminRole) {
         this.users[index].admin = !event;
@@ -291,7 +291,7 @@ export class UsersComponent implements OnInit {
       if (role == this.indexerRole) {
         this.users[index].indexer = !event;
       }
-      console.log(this.users[index].client, this.users[index].admin, this.users[index].user, role, event);
+      
     }, 200);
   }
 
@@ -318,21 +318,21 @@ export class UsersComponent implements OnInit {
       }, error => {
         const err = error.error;
         this.toast.error('A server error has occurred. Please contact your system administrator.');
-        console.log(err.message);
+        
       });
     } catch (e) {
-      console.log(e);
+      
     } finally {
 
     }
   }
 
   search() {
-    console.log(this.form.value);
+    
   }
 
   addUser(id) {
-    console.log(id)
+    
     this.allUsers = this.tempAllUsers;
     if (id === -1) {
       for (let user in this.allUsers) {
@@ -342,10 +342,10 @@ export class UsersComponent implements OnInit {
 
     } else {
       var index = this.allUsers.findIndex(data => data.payorId === id)
-      console.log(index)
+      
       if (index > -1) {
 
-        console.log(this.allUsers[index])
+        
         this.selectedUsers.push(this.allUsers[index])
 
         this.allUsers.splice(index, 1);
@@ -374,17 +374,17 @@ export class UsersComponent implements OnInit {
   }
 
   filterUsers(query) {
-    console.log(this.tempAllUsers)
+    
     if (query !== '') {
       this.allUsers = this.tempAllUsers.filter(x => x.carrier.toLocaleLowerCase().includes(query.toLocaleLowerCase()))
     } else {
       this.allUsers = this.tempAllUsers;
     }
-    // console.log(query)
+    
   }
 
   getListofusers(id) {
-    console.log(id)
+    
     this.selectedUserId = id;
     this.allUsers = [];
     this.selectedUsers = [];
@@ -393,16 +393,16 @@ export class UsersComponent implements OnInit {
       return res
     }).subscribe(result => {
 
-      console.log(result);
+      
       this.allUsers = result['rightCarriers'];
       this.selectedUsers = result['leftCarriers'];
       this.tempAllUsers = this.allUsers;
-      console.log(this.allUsers)
-      console.log(this.selectedUsers)
+      
+      
 
 
     }, error1 => {
-      console.log(error1)
+      
     })
   }
 
@@ -419,7 +419,7 @@ export class UsersComponent implements OnInit {
       $('#usersModal').modal('hide');
 
     }, error1 => {
-      console.log(error1);
+      
       const err = error1.error;
       this.toast.error(err.message);
     });

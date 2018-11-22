@@ -101,10 +101,7 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-   /*  $('#dataSection').bind('click mouseup mousedown mousemove', function (e) {
-      e.stopPropagation();
-      console.log('div');
-    }); */
+   
   }
   getSelectedText() {
     if (window.getSelection) {
@@ -128,13 +125,6 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     this.episode = episode;
   }
   public renderRectangles( event: TextSelectEvent ) : void {
-
-    console.group( 'Text Select Event' );
-    console.log( 'Text:', event.text );
-    console.log( 'Viewport Rectangle:', event.viewportRectangle );
-    console.log( 'Host Rectangle:', event.hostRectangle );
-    console.groupEnd();
-
     // If a new selection has been created, the viewport and host rectangles will
     // exist. Or, if a selection is being removed, the rectangles will be null.
     if ( event.hostRectangle ) {
@@ -154,11 +144,6 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
 
 // I share the selected text with friends :)
 public shareSelection() : void {
-
-    console.group( 'Shared Text' );
-    console.log( this.selectedText );
-    console.groupEnd();
-
     // Now that we've shared the text, let's clear the current selection.
     document.getSelection().removeAllRanges();
     // CAUTION: In modern browsers, the above call triggers a "selectionchange"

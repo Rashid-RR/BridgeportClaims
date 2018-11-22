@@ -84,7 +84,7 @@ export class ProfileManager{
                 observer.error();
             })
           } catch (error) {
-            console.log(error);
+            
           }
         }else{
           observer.error();

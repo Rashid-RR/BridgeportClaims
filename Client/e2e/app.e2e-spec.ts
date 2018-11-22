@@ -21,10 +21,11 @@ describe('client App', () => {
     claimPage.checkClaimLoaded();
   });
   afterEach(function () {
+    var cls=console;
     browser.manage().logs().get('browser').then(function (browserLog) {
       browserLog.forEach(log=>{
         if(log.level.name=='ERROR'){
-          console.log('Got an error '+log.message);
+          cls.log('Got an error '+log.message);
         }
         expect(log.level.name).not.toEqual('ERROR')
       });

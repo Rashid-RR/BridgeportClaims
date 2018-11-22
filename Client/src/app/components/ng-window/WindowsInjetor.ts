@@ -184,7 +184,7 @@ export class WindowsInjetor {
     //         // input
     //         this.cmpRef.instance.someInput = someValue;
     //         // output
-    //         this.cmpRef.instance.someOutput.subscribe(event=>{ console.log(event) });
+    //         this.cmpRef.instance.someOutput.subscribe(event=>{ });
     //     });
     //
     //
@@ -195,7 +195,7 @@ export class WindowsInjetor {
     //         // input
     //         this.cmpRef.instance.someInput = someValue;
     //         // output
-    //         this.cmpRef.instance.someOutput.subscribe(event=>{ console.log(event) });
+    //         this.cmpRef.instance.someOutput.subscribe(event=>{  });
     //     });
     //
     //

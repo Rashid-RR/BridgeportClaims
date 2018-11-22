@@ -60,7 +60,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
 
   }
   log(y) {
-    console.log(y);
+    
   }
   activateClaimCheckBoxes() {
     jQuery('#selectAllCheckBox').click();

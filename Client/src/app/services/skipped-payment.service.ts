@@ -49,7 +49,6 @@ export class SkippedPaymentService {
             this.pageNumber = pageNumber;
             this.payorListReady.next();
         }, err => {
-            console.log(err);
             this.payorListReady.next();
         })
     }

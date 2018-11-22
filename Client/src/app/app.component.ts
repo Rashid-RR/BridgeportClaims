@@ -43,15 +43,12 @@ export class AppComponent implements OnInit, OnDestroy {
           let auth = localStorage.getItem("token");
           if(window.location.hash.indexOf("#/confirm-email")!==0){         
             this.http.userFromId(us.id).single().subscribe( res => {
-                //console.log(res);
                 this.profileManager.profile.roles = res.roles; 
                 this.profileManager.profile.extension = res.extension; 
             },(error)=>{
-              //console.log(error)
             });
           }
       } catch (error) {
-        //console.log(error);
       }
     }
     this.events.on("logout",(v)=>{

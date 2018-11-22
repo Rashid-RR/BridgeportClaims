@@ -685,8 +685,6 @@ export class HttpService {
   }
 
   reIndexedCheck(data: any): Observable<any> {
-    console.log(data)
-    // return this.http.post(this.baseUrl + `/payment/re-index-check/?documentId=${data.documentId}&skipPayments=${data.skipPayments}${data.prescriptionPaymentId ? '&prescriptionPaymentId='+data.prescriptionPaymentId :''}`,{})
     return this.http.post(this.baseUrl + '/payment/re-index-check/?documentId=' + data.documentId + '&skipPayments=' + data.skipPayments + '&prescriptionPaymentId' ,{})
       .catch(err => {
         this.handleResponseError(err);
@@ -900,6 +898,16 @@ export class HttpService {
 
   shortPayList(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/shortpay', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+  }
+  collectionBonus(data?: any): Observable<any> {
+    const params = new HttpParams()
+      .set('month', data.month)
+      .set('year', data.year);
+    return this.http.post(this.baseUrl + '/reports/collections-bonus', {}, {params: params})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

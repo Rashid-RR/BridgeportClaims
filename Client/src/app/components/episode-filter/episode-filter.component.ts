@@ -47,7 +47,6 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
       }, err => {
         this.ds.loading = false;
         const error = err.error;
-        console.log(error);
       });
   }
 

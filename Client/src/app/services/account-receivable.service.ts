@@ -156,8 +156,6 @@ export class AccountReceivableService {
           return fileBlob;
       }) */
       .subscribe((result) => {
-        console.log('Result...');
-        console.log(result);
         this.reportLoader.loading = false;
         this.downloadFile(result);
       }, err => {

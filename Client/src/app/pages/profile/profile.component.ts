@@ -29,9 +29,7 @@ export class ProfileComponent implements OnInit {
     private http: HttpService,
     public profileManager: ProfileManager,
     private toast: ToastsManager
-  ) {
-    /* console.log(this.profileManager.User);
-    console.log(this.profileManager.profile); */
+  ) { 
     this.profileManager.profileChanged.subscribe(r => {
       this.form = this.formBuilder.group({
         firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
@@ -94,7 +92,7 @@ export class ProfileComponent implements OnInit {
         this.updatePassword();
       }
     } else {
-      console.log(this.form.valueChanges);
+      
     }
 
   }

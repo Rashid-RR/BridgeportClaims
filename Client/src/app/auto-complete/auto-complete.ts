@@ -28,7 +28,6 @@ export class AutoComplete {
       el => {
         const objStr = matchFormatted ? this.getFormattedListItem(el).toLowerCase() : JSON.stringify(el).toLowerCase();
         keyword = keyword.toLowerCase();
-        // console.log(objStr, keyword, objStr.indexOf(keyword) !== -1);
         return objStr.indexOf(keyword) !== -1;
       }
     );

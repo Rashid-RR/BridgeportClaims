@@ -81,7 +81,6 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
       // res.push(new ImportFile(new Date(),".png",231,"assets/that-file.png"));
       this.importedFiles = res;
       this.loading = false;
-      // console.log(this.importedFiles)
     }, error => {
       this.loading = false;
     });
@@ -160,7 +159,6 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
     const fixedHeader = document.getElementById('fixed-header');
     if (fixedHeader.style.position !== 'fixed') {
       fixedHeader.style.position = 'fixed';
-      // console.log('set fixed header to Fixed');
     }
   }
 

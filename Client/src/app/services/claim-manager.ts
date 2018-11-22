@@ -293,13 +293,13 @@ export class ClaimManager {
         this.loading = false;
         try {
           const error = err.error;
-          // console.log(error);
+          
         } catch (e) { }
       }, () => {
         this.events.broadcast('claim-updated');
         this.http.getNotetypes()
           .subscribe((result: Array<any>) => {
-            // console.log("Claim Notes",result)
+            
             this.notetypes = result;
           }, err => {
             this.loading = false;
@@ -307,22 +307,22 @@ export class ClaimManager {
           });
         this.http.getPrescriptionNotetypes()
           .subscribe((result: Array<any>) => {
-            // console.log("Prescription Notes", result)
+            
             this.prescriptionNotetypes = result;
           }, err => {
             this.loading = false;
-            // console.log(err);
+            
             // let error = err.error;
           });
 
         if (!this.episodeNoteTypes) {
           this.http.getEpisodesNoteTypes()
             .subscribe((result: Array<any>) => {
-              // console.log("Episode Notes", result)
+              
               this.episodeNoteTypes = result;
             }, err => {
               this.loading = false;
-              console.log(err);
+              
               const error = err.error;
             });
         }

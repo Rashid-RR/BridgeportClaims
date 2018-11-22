@@ -28,7 +28,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 // services
 import {
-  AuthInterceptor,SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, FirewallService,
+  AuthInterceptor,CollectionBonusService,SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, FirewallService,
   PaymentScriptService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, DocumentManagerService, ShortPayService, SkippedPaymentService
 } from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
@@ -99,7 +99,7 @@ import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     //{ provide: 'SnotifyToastConfig', useValue: ToastDefaults},SnotifyService,
-    DecimalPipe, DatePipe,
+    DecimalPipe, DatePipe,CollectionBonusService,
     HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService, EpisodeService, FirewallService,
     PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, SignalRService,
     {

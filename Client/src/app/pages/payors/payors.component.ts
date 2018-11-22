@@ -36,7 +36,7 @@ export class PayorsComponent implements OnInit {
           this.payors = result;
           this.pageNumber = pageNumber;
       }, err => {
-        console.log(err);
+
       });
   }
 

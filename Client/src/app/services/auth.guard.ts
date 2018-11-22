@@ -78,7 +78,6 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
     if (user === null || user.length === 0) { return Observable.of(false); }
     try {
       const us = JSON.parse(user);
-      // console.log(this.profileManager.userProfile(us.userName));
       return this.profileManager.userInfo(us.email).single().map(res => {
         if (res.email && !this.profileManager.profile) {
           this.profileManager.profile = res;
@@ -93,22 +92,20 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
   get isSideBarOpen(): boolean {
     const sidebar = localStorage.getItem('sidebarOpen');
     if (sidebar === null) { return true; }
-    console.log('gets here..');
+
     try {
       return Boolean(sidebar);
     } catch (error) {
-      console.log(error);
       return true;
     }
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserProfile> {
     const user = this.profileManager.User;
     user.subscribe(profile => {
-      // console.log(profile);
     }, error => {
-      console.log(error);
+      
     });
-    // return user.map(profile=>{console.log(profile);return profile});
+    // return user.map(profile=>{return profile});
     return this.profileManager.User;
   }
 

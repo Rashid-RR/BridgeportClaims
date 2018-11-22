@@ -69,7 +69,7 @@ export class PaymentService {
           this.loading = false;
           try {
             const error = err.error;
-            //console.log(error);
+            
           } catch (e) { }
         }, () => {           
             this.events.broadcast('payment-updated',true); 
@@ -105,7 +105,7 @@ export class PaymentService {
           this.loading = false;
           try {
             const error = err.error;
-            console.log(error);
+            
           } catch (e) { }
         }, () => {
           this.events.broadcast('payment-updated');
@@ -206,7 +206,7 @@ export class PaymentService {
     this.http.finalizePosting(data)
       .subscribe(result => {
         this.loading = false;
-        //console.log(result);
+        
         if (result.message) {
           this.toast.success(result.message);
         }
@@ -240,7 +240,7 @@ export class PaymentService {
         this.router.navigate([`/main/payments`]);
       }, err => {
         this.loading = false;
-        console.log(err);
+        
         if (err.message) {
           this.toast.error(err.message);
         }
@@ -253,7 +253,7 @@ export class PaymentService {
       .subscribe(result => {
         this.loading = false;
         this.paymentPosting.payments = this.paymentPosting.payments.delete(data.id);
-        //console.log(result);
+        
         if (result.message) {
           this.toast.success(result.message);
           if(result.amountRemaining){
@@ -263,7 +263,7 @@ export class PaymentService {
         }
       }, err => {
         this.loading = false;
-        //console.log(err);
+        
         if (err.message) {
           this.toast.error(err.message);
         }
@@ -308,7 +308,7 @@ export class PaymentService {
         }, err => {
         this.loadingPayment = false;
           this.loading = false;
-          //console.log(err);
+          
           //const error = err.error;
           this.events.broadcast('payment-updated',true);
         }, () => {

@@ -7,6 +7,7 @@ import { DuplicateClaimsComponent } from './duplicate-claims/duplicate-claims.co
 import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicate-claim-manual.component';
 import { ShortPayComponent } from './short-pay/short-pay.component';
 import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
+import { CollectionBonusComponent } from './collection-bonus/collection-bonus.component';
 
 
 export const ReportsRoutes: Routes = [
@@ -19,6 +20,7 @@ export const ReportsRoutes: Routes = [
             { path: 'account-receivable', component: ReportAccountReceivableComponent },
             { path: 'sample', component: ReportSampleComponent },
             { path: 'shortpay', component: ShortPayComponent },
+            { path: 'collection-bonus', component: CollectionBonusComponent },
             { path: 'skipped-payment', component: SkippedPaymentComponent },
             {
                 path: 'duplicate-claims',

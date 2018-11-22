@@ -56,7 +56,6 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
   }
 
   filter($event) {
-    console.log($event.target.value);
     switch ($event.target.value){
       case 'posted':
       this.ds.postedChecks = true;

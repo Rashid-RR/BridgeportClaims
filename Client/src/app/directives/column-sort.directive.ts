@@ -47,7 +47,7 @@ export class ColumnSortDirective implements OnInit, AfterViewInit {
     if (this.table) {
       this.table.onColumnSorted(this);
     } else {
-      console.log(`No table directive set for sort column: ${this.name} with dir: ${this.sortDir}`);
+      
     }
   }
 

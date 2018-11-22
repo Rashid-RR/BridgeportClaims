@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 const dupReq = req.clone({ headers: req.headers.set('Authorization', `Bearer ${token}`) });
                 return next.handle(dupReq);
             } catch (error) {
-                console.log(error);
+                
             }
         }
         const headers = new HttpHeaders();

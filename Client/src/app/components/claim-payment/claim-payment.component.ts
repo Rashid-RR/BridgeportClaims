@@ -44,7 +44,6 @@ export class ClaimPaymentComponent implements OnInit {
       datePosted: [null],
     });
     this.claimManager.onClaimIdChanged.subscribe(() => {
-      //  console.log("loader");
       // this.fetchData();
     });
 
@@ -66,7 +65,6 @@ export class ClaimPaymentComponent implements OnInit {
 
   update(payment: Payment) {
     this.editing = true;
-    console.log(payment);
     this.editingPaymentId = payment.prescriptionPaymentId;
     const checkAmt = Number(payment.checkAmt).toFixed(2);
     const postedDate = this.dp.transform(payment.postedDate, 'shortDate');
@@ -93,7 +91,6 @@ export class ClaimPaymentComponent implements OnInit {
     }
   }
   datePosted($event) {
-    console.log($event);
   }
   savePayment(payment: Payment) {
     const d = $('#datePostedPicker').val();
@@ -199,7 +196,6 @@ export class ClaimPaymentComponent implements OnInit {
     this.http.getPayments(this.claimManager.selectedClaim.claimId, sort, sort_dir,
       page, page_size)
       .subscribe(results => {
-        // console.log("loader close");
         this.claimManager.selectedClaim.setPayment(results);
         this.loadingPayment = false;
         this.claimManager.loadingPayment = false;

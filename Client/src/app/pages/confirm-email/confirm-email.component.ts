@@ -28,9 +28,6 @@ export class ConfirmEmailComponent implements OnInit {
 
     this.router.routerState.root.queryParams.subscribe(params => {
       this.code = encodeURIComponent(params['code']); this.user = params['userId'];
-        /* console.log(this.code);
-        console.log('\n\n');
-        console.log(this.user); */
         if (this.code && this.user){
           try {
               this.http.confirmEmail(this.user, this.code).subscribe(res => {

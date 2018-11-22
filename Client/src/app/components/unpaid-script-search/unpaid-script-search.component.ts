@@ -41,13 +41,11 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
     this.http.getPayorList_newapi().map(res => {
       return res;
     }).subscribe(result => {
-
-      console.log(result);
       this.payorsId = result;
 
 
     }, error1 => {
-      console.log(error1);
+      
     });
   }
   filter($event) {

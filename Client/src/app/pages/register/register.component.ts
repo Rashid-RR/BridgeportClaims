@@ -37,7 +37,6 @@ export class RegisterComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   register() {
-    console.log(this.form.value);
     if (this.form.valid && this.form.get('Password').value !== this.form.get('ConfirmPassword').value) {
       this.form.get('ConfirmPassword').setErrors({'unmatched': 'The password and confirmation password do not match.'});
       this.toast.warning( 'The password and confirmation password do not match.');

@@ -351,7 +351,7 @@ export class DocumentManagerService {
   }
 
   deleteAndKeep(id: number, skipPayments: boolean = false, prescriptionPaymentId?: any) {
-    console.log('delete and keep');
+    
     this.loading = true;
     this.http.reIndexedCheck({documentId: id, skipPayments: skipPayments, prescriptionPaymentId: prescriptionPaymentId}).subscribe(r => {
       this.loading = false;
@@ -414,7 +414,7 @@ export class DocumentManagerService {
       }
       this.http.getDocuments(data)
         .subscribe((result: any) => {
-          // console.log(result);
+          
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
           this.documents = Immutable.OrderedMap<any, DocumentItem>();
@@ -471,7 +471,7 @@ export class DocumentManagerService {
       }
       this.http.getDocuments(invoiceData)
         .subscribe((result: any) => {
-          // console.log(result);
+          
           this.loading = false;
           this.totalInvoiceRowCount = result.totalRowCount;
           this.invoices = Immutable.OrderedMap<any, DocumentItem>();
@@ -525,7 +525,7 @@ export class DocumentManagerService {
 
       const apiCall = this.postedChecks ? this.http.getIndexedChecks(checksData) : this.http.getDocuments(checksData);
       apiCall.subscribe((result: any) => {
-        // console.log(result);
+        
         this.loading = false;
         this.totalCheckRowCount = result.totalRowCount;
         this.checks = Immutable.OrderedMap<any, DocumentItem>();
@@ -582,7 +582,7 @@ export class DocumentManagerService {
       }
       this.http.getInvalidChecks(invalidChecksData)
         .subscribe((result: any) => {
-          // console.log(result);
+          
           this.loading = false;
           this.totalInvalidCheckRowCount = result.totalRowCount || (result.documentResults && result.documentResults.length) || 0;
           this.invalidChecks = Immutable.OrderedMap<any, DocumentItem>();

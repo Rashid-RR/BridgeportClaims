@@ -38,7 +38,6 @@ export class ChangePasswordComponent implements OnInit {
       try {
         let data;
         data = {userId: this.user, code: this.code, password: this.form.value.Password, confirmPassword: this.form.value.ConfirmPassword};
-        console.log(data);
         this.http.resetpassword(data).subscribe(res => {
            this.submitted = false;
           this.toast.success('You may now login with your new password.');
@@ -47,7 +46,6 @@ export class ChangePasswordComponent implements OnInit {
         }, (error) => {
           this.submitted = false;
            const err = error.error;
-          // console.log(err.Message);
           this.toast.error(err.Message);
         });
       } catch (e) {

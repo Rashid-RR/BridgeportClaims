@@ -96,7 +96,6 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
       this.paymentService.paymentPosting.sessionId = a.sessionId;
       this.paymentService.paymentPosting.checkAmount = form.checkAmount;
       this.paymentService.paymentPosting.checkNumber = form.checkNumber;
-      // console.log(checkAmount-(a.amountRemaining as number));
       this.paymentService.paymentPosting.lastAmountRemaining = a.amountRemaining;
       form.paymentPostings = this.paymentService.paymentPosting.paymentPostings;
       form.lastAmountRemaining = a.amountRemaining;
@@ -104,7 +103,6 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
       /* form.checkAmount = this.paymentService.paymentPosting.checkAmount;
       form.checkNumber = this.paymentService.paymentPosting.checkNumber; */
       form.amountSelected = this.paymentService.paymentPosting.amountSelected;
-      // console.log(form);
       if (a.amountRemaining === 0 && this.paymentService.paymentPosting.sessionId) {
         this.finalizePosting('Came from event');
       } else if (a.amountRemaining <= 0) {
@@ -245,8 +243,6 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
         form.lastAmountRemaining = this.paymentService.paymentPosting.lastAmountRemaining;
         form.sessionId = this.paymentService.paymentPosting.sessionId;
         form.amuontToPost = Number.parseFloat(form.amuontToPost);
-        // console.log(Number(form.amountToPost), Number(form.checkAmount))
-        // console.log(form.amountToPost,form.amountSelected,this.paymentService.paymentPosting.amountSelected,this.paymentService.amountSelected);
         if (this.paymentService.selected.length > 1 && form.amountToPost !== form.amountSelected) {
           this.toast.warning('Multi-line payments are not permitted for posting unless the "Amount Selected" is equal to the "Amount To Post"');
         }/* else if(form.checkAmount > form.amountToPost){
@@ -256,10 +252,8 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
         else if (this.paymentService.selected.length === 0) {
           this.toast.warning('You cannot post a payment without selecting any prescriptions!');
         } else if (Number(form.amountToPost) > Number(form.checkAmount)) {
-          // console.log(Number(form.amountToPost) > Number(form.checkAmount));
           this.toast.warning('You may not post monies that exceed the total check amount;');
         } else if ((Number(form.lastAmountRemaining) - Number(form.amountToPost)) < 0) {
-          // console.log(Number(form.amountToPost) > Number(form.checkAmount));
           this.toast.warning('Error. You may not post an amount that puts the \"Amount Remaining\" for this check into the negative.', null,
             { toastLife: 10000 });
         } else if (form.amountToPost === 0 || form.amuontToPost == null) {

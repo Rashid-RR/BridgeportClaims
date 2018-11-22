@@ -60,7 +60,6 @@ export class DeleteIndexConfirmationComponent extends DialogComponent<ConfirmMod
   }
   filter($event) {
     this.option = $event.target.value;
-    console.log($event.target.value);
   }
   confirm() {
     if (this.option) {

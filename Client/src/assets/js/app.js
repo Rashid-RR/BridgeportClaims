@@ -646,7 +646,7 @@ function _init() {
       //if a source is specified
       if (settings.source === "") {
         if (window.console) {
-          window.console.log("Please specify a source first - boxRefresh()");
+          //window.console.log("Please specify a source first - boxRefresh()");
         }
         return;
       }

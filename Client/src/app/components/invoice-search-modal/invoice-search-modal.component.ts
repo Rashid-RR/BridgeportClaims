@@ -110,7 +110,6 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   validateNumber($event) {
     $event = ($event) ? $event : window.event;
     const charCode = ($event.which) ? $event.which : $event.keyCode;
-    console.log(charCode);
     if (!this.amount && charCode === 46) {
       return false;
     }

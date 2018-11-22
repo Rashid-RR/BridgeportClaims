@@ -70,7 +70,6 @@ export class ClaimNoteComponent implements OnInit, AfterViewChecked {
         this.claimManager.loading = false;
       }
     } else {
-      console.log(this.form.value);
        this.toast.warning('Invalid field value(s). Please correct to proceed.');
        this.claimManager.loading = false;
     }
