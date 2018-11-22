@@ -166,7 +166,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       }
     });
     this.claimManager.dialogListener.subscribe(r => {
-      console.log(r);
     });
   }
 
@@ -425,7 +424,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       episodeTypeId: TypeId
     });
     this.episodeSwal.show().then((r) => {
-
     });
   }
   selectDrNotePrescriptions(p: Prescription) {
@@ -456,9 +454,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                   } catch (e) { }
                 });
         } else {
-          this.claimManager.selectedClaim.prescriptions.forEach(c => {
-            c.selected = false;
-          });
+          this.deselectPrescriptions();
           $('input#selectAllCheckBox').attr({ 'checked': false });
         }
       });
