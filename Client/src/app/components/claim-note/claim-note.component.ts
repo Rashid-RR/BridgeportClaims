@@ -1,9 +1,9 @@
-import { Component, OnInit,AfterViewChecked } from '@angular/core';
-import {ClaimManager} from "../../services/claim-manager";
-import {HttpService} from "../../services/http-service";
-import {ClaimNote} from "../../models/claim-note"
-import {FormBuilder,FormControl, FormGroup, Validators} from "@angular/forms";
-import swal from "sweetalert2";
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import {ClaimManager} from '../../services/claim-manager';
+import {HttpService} from '../../services/http-service';
+import {ClaimNote} from '../../models/claim-note';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import swal from 'sweetalert2';
 import { ToastsManager } from 'ng2-toastr';
 
 @Component({
@@ -11,8 +11,8 @@ import { ToastsManager } from 'ng2-toastr';
   templateUrl: './claim-note.component.html',
   styleUrls: ['./claim-note.component.css']
 })
-export class ClaimNoteComponent implements OnInit,AfterViewChecked {
-  
+export class ClaimNoteComponent implements OnInit, AfterViewChecked {
+
   form: FormGroup;
   constructor(
     public claimManager: ClaimManager,
@@ -35,7 +35,7 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
     const noteTypeId = this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimNote ?
      this.claimManager.selectedClaim.claimNote.noteType : null;
 
-    if(this.claimManager.selectedClaim.claimNote!==undefined && this.form.get("noteText").value == null && this.form.get("noteText").value !==this.claimManager.selectedClaim.claimNote.noteText){
+    if (this.claimManager.selectedClaim.claimNote !== undefined && this.form.get('noteText').value == null && this.form.get('noteText').value !== this.claimManager.selectedClaim.claimNote.noteText){
       this.form.patchValue({
           noteTypeId: noteTypeId,
           noteText: text
@@ -43,8 +43,8 @@ export class ClaimNoteComponent implements OnInit,AfterViewChecked {
     }
   }
 
-  parseText(txt:String){
-    return txt ? txt.replace(/\\n/g,'<br>') : '';
+  parseText(txt: String){
+    return txt ? txt.replace(/\\n/g, '<br>') : '';
   }
   saveNote() {
     this.claimManager.loading = true;

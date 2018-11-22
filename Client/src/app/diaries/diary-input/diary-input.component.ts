@@ -1,11 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DiaryService } from '../../services/diary.service';
 import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/fromEvent';
@@ -16,14 +15,14 @@ declare var $: any;
   templateUrl: './diary-input.component.html',
   styleUrls: ['./diary-input.component.css']
 })
-export class DiaryInputComponent implements OnInit, AfterViewInit {
+export class DiaryInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
   diaryForm: FormGroup;
   startDate: String;
   endDate: String;
-  open: boolean = true;
+  open = true;
   closed: Boolean = false;
-  submitted: boolean = false;
+  submitted = false;
   isClosed: Boolean = false;
   owner = new FormControl();
   diaryNote = new FormControl();
@@ -43,13 +42,13 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     this.noteCtrlSub = this.diaryNote.valueChanges
       .debounceTime(1000)
       .subscribe(newValue => {
-        this.ds.data.diaryNote = newValue || undefined
+        this.ds.data.diaryNote = newValue || undefined;
         this.search();
       });
     this.ownerCtrlSub = this.owner.valueChanges
       .debounceTime(1000)
       .subscribe(newValue => {
-        this.ds.data.owner = newValue || undefined
+        this.ds.data.owner = newValue || undefined;
         this.search();
       });
   }
@@ -58,6 +57,7 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     this.ownerCtrlSub.unsubscribe();
     this.noteCtrlSub.unsubscribe();
   }
+
   ngAfterViewInit() {
     // Date picker
     $('#startDate').datepicker({
@@ -77,15 +77,15 @@ export class DiaryInputComponent implements OnInit, AfterViewInit {
     }
   }
   search() {
-    let startDate = this.dp.transform($('#startDate').val(), "MM/dd/yyyy");
-    let endDate = this.dp.transform($('#endDate').val(), "MM/dd/yyyy");
+    const startDate = this.dp.transform($('#startDate').val(), 'MM/dd/yyyy');
+    const endDate = this.dp.transform($('#endDate').val(), 'MM/dd/yyyy');
     this.ds.data.closed = this.isClosed;
-    //if(this.startDate && this.endDate){
-    this.ds.data.startDate = startDate || null
-    this.ds.data.endDate = endDate || null
-    this.ds.data.ownerId = this.ds.data.ownerId || null
-    this.ds.data.noteText = this.ds.data.noteText || null
-    this.ds.data.userId = this.ds.data.ownerId || null
+    // if(this.startDate && this.endDate){
+    this.ds.data.startDate = startDate || null;
+    this.ds.data.endDate = endDate || null;
+    this.ds.data.ownerId = this.ds.data.ownerId || null;
+    this.ds.data.noteText = this.ds.data.noteText || null;
+    this.ds.data.userId = this.ds.data.ownerId || null;
     this.ds.search();
     /*  }else{
          this.toast.warning("Ensure you select both start date and end date");

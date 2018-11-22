@@ -4,7 +4,7 @@ import { ClaimManager } from '../../services/claim-manager';
 import { EventsService } from '../../services/events-service';
 import { Claim } from '../../models/claim';
 import { HttpService, ComparisonClaim } from '../../services/services.barrel';
-import { ProfileManager } from "../../services/profile-manager";
+import { ProfileManager } from '../../services/profile-manager';
 import { DatePipe } from '@angular/common';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import { Toast, ToastsManager } from 'ng2-toastr';
@@ -33,7 +33,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   lastSelectedIndex: number;
   mergedClaim: any = {} as any;
   @ViewChild('claimActionSwal') private claimSwal: SwalComponent;
-  comparisonClaims: ComparisonClaim = {} as ComparisonClaim
+  comparisonClaims: ComparisonClaim = {} as ComparisonClaim;
 
   constructor(
     public claimManager: ClaimManager,
@@ -62,9 +62,9 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     });
   }
   get auth() {
-    let user = localStorage.getItem('user');
+    const user = localStorage.getItem('user');
     try {
-      let us = JSON.parse(user);
+      const us = JSON.parse(user);
       return `Bearer ${us.access_token}`;
     } catch (error) {
 
@@ -74,13 +74,13 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   get adminOnly(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) &&
-      this.profileManager.profile.roles.indexOf('Admin') > -1)
+      this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   get payorAutoComplete(): string {
     return this.http.baseUrl + '/payors/search/?searchText=:keyword';
   }
   merge(value: any, $event, index: string) {
-    if (value == this.mergedClaim[index] && !$event.checked) {
+    if (value === this.mergedClaim[index] && !$event.checked) {
       this.mergedClaim[index] = undefined;
     } else {
       this.mergedClaim[index] = $event.checked ? value : this.mergedClaim[index];
@@ -104,7 +104,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     form.AdjustorId = form.AdjustorName === this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName !== undefined ? this.comparisonClaims.rightAdjustorId : undefined);
     form.PatientId = form.PatientName === this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
     form.PayorId = form.Carrier === this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.Carrier ? this.comparisonClaims.rightPayorId : undefined);
-    //form.PersonCode = this.claimManager.selectedClaims[0].personCode;
+    // form.PersonCode = this.claimManager.selectedClaims[0].personCode;
     if (!this.comparisonClaims.leftClaimFlex2Id && !this.comparisonClaims.rightClaimFlex2Id) {
       form['ClaimFlex2Id'] = null;
     } else if (form.ClaimFlex2Id === undefined) {
@@ -123,7 +123,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     if (!this.comparisonClaims.leftPayorId && !this.comparisonClaims.rightPayorId) {
       form['PayorId'] = null;
     } else if (form.PayorId === undefined) {
-      delete form['PayorId']
+      delete form['PayorId'];
     }
     delete form.PatientName;
     delete form.AdjustorName;
@@ -161,17 +161,17 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         this.comparisonClaims = Array.isArray(r) ? r[0] : r;
         Object.keys(this.comparisonClaims).forEach(k => {
           if (k.indexOf('left') > -1) {
-            let right = k.replace('left', 'right');
-            let id = k.replace('left', '');
-            //id = id.substr(0,1).toLowerCase()+id.substring(1);
-            if (this.comparisonClaims[k] == this.comparisonClaims[right]) {
+            const right = k.replace('left', 'right');
+            const id = k.replace('left', '');
+            // id = id.substr(0,1).toLowerCase()+id.substring(1);
+            if (this.comparisonClaims[k] === this.comparisonClaims[right]) {
               this.mergedClaim[id] = this.comparisonClaims[k];
             }
           }
-        })
+        });
         this.claimSwal.show().then((r) => {
-          //this.mergedClaim={};
-        })
+          // this.mergedClaim={};
+        });
       }, err => {
         this.claimManager.loading = false;
       });
@@ -179,7 +179,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
   select(claim: Claim, $event, index: number) {
     if ($event.checked) {
-      if (this.claimManager.selectedClaims.length == 2 && $event.checked) {
+      if (this.claimManager.selectedClaims.length === 2 && $event.checked) {
         this.showModal();
         return;
       }
@@ -187,9 +187,9 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       if (this.selectMultiple) {
         for (let i = this.lastSelectedIndex; i < index; i++) {
           try {
-            let c = $('#row' + i).attr('claim');
+            const c = $('#row' + i).attr('claim');
             let claim = JSON.parse(c);
-            let data = this.claimManager.selectedClaims.find(c => c.claimId == claim.claimId);
+            const data = this.claimManager.selectedClaims.find(cl => cl.claimId === claim.claimId);
             data.selected = true;
           } catch (e) { }
         }
@@ -197,12 +197,12 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.lastSelectedIndex = index;
       this.claimManager.comparisonClaims = this.claimManager.comparisonClaims.set(claim.claimId, claim);
 
-      if (this.claimManager.selectedClaims.length == 1) {
+      if (this.claimManager.selectedClaims.length === 1) {
         this.toast.info('You have selected a Claim to compare. Please select another', '',
           { toastLife: 15000, showCloseButton: true }).then((toast: Toast) => {
             this.activeToast = toast;
-          })
-      } else if (this.claimManager.selectedClaims.length == 2) {
+          });
+      } else if (this.claimManager.selectedClaims.length === 2) {
         this.activeToast.timeoutId = null;
         $('.toast.toast-info').hide();
         this.showModal();
@@ -304,7 +304,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   enableSelect2() {
     $('#eadjustorSelection').select2({
       initSelection: (element, callback) => {
-        callback({ id: this.claimManager.selectedClaim.adjustorId||'null', text: this.claimManager.selectedClaim.adjustor||'-- No Adjustor --' });
+        callback({ id: this.claimManager.selectedClaim.adjustorId || 'null', text: this.claimManager.selectedClaim.adjustor || '-- No Adjustor --' });
       },
       ajax: {
         headers: { 'Authorization': this.auth },
@@ -316,7 +316,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
 
           data.forEach(d => {
             d.id = d.adjustorId,
-              d.text = d.adjustorName
+              d.text = d.adjustorName;
           });
           data.unshift({
             id: 'null',
@@ -330,7 +330,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }).on('change', () => {
       const data = $('#eadjustorSelection option:selected').val();
       this.adjustorId = $('#eadjustorSelection option:selected').text();
-      let val = data == 'null' ? null : data;
+      let val = data === 'null' ? null : data;
       this.form.controls['adjustorId'].setValue(val);
     });
     $('#eCarrierSelection').select2({
@@ -346,7 +346,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         processResults: function (data) {
           data.forEach(d => {
             d.id = d.payorId,
-              d.text = d.groupName
+              d.text = d.groupName;
           });
           return {
             results: (data || [])
@@ -354,11 +354,11 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         }
       }
     }).on('change', () => {
-      let data = $("#eCarrierSelection option:selected").val();
-      this.payorId = $("#eCarrierSelection option:selected").text();
-      let val = data == 'null' ? null : data;
+      const data = $('#eCarrierSelection option:selected').val();
+      this.payorId = $('#eCarrierSelection option:selected').text();
+      let val = data === 'null' ? null : data;
       this.form.controls['payorId'].setValue(val);
-    })
+    });
   }
 
   view(claimID: Number) {
@@ -372,9 +372,9 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       return null;
     }
     if (input.indexOf('-') > -1) {
-      const date = input.split("T");
-      let d = date[0].split("-");
-      return d[1] + "/" + d[2] + "/" + d[0];
+      const date = input.split('T');
+      const d = date[0].split('-');
+      return d[1] + '/' + d[2] + '/' + d[0];
     } else {
       return input;
     }
@@ -384,10 +384,10 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     let key: any;
     this.form.value.adjustorPhone = $('#adjustorPhone').val() || '';
     this.form.value.adjustorFax = $('#adjustorFax').val() || '';
-    const adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, '')
+    const adjustorPhone = this.form.value.adjustorPhone.replace(/[\D]/g, '');
     const adjustorFax = this.form.value.adjustorFax.replace(/[\D]/g, '');
-    const lastAdjustorPhone = this.lastForm.adjustorPhone ? this.lastForm.adjustorPhone.replace(/[\D]/g, ''):this.lastForm.adjustorPhone;
-    const lastAdjustorFax = this.lastForm.adjustorFax?this.lastForm.adjustorFax.replace(/[\D]/g, ''):this.lastForm.adjustorFax;
+    const lastAdjustorPhone = this.lastForm.adjustorPhone ? this.lastForm.adjustorPhone.replace(/[\D]/g, '') : this.lastForm.adjustorPhone;
+    const lastAdjustorFax = this.lastForm.adjustorFax ? this.lastForm.adjustorFax.replace(/[\D]/g, '') : this.lastForm.adjustorFax;
     this.form.value.adjustorPhone = adjustorPhone;
     this.form.value.adjustorFax = adjustorFax;
     const dob = $('#dateOfBirth').val() + '';
@@ -396,19 +396,19 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     this.form.value.dateOfInjury = doi;
     for (key in this.form.value) {
       if (this.form.value.hasOwnProperty(key)) {
-        this.form.value[key] = this.form.value[key] == '' || (this.form.value[key] &&
+        this.form.value[key] = this.form.value[key] === '' || (this.form.value[key] &&
           String(this.form.value[key]).trim() === '') ? null : this.form.value[key];
       }
     }
-    if (this.form.value.claimId == this.lastForm.claimId && this.form.value.dateOfBirth == this.lastForm.dateOfBirth &&
-      this.form.value.genderId == this.lastForm.genderId && this.form.value.payorId == this.lastForm.payorId &&
-      this.form.value.adjustorId == this.lastForm.adjustorId && this.form.value.adjustorExtension == this.lastForm.adjustorExtension
-      && this.form.value.adjustorPhone == this.lastForm.adjustorPhone && this.form.value.dateOfInjury == this.lastForm.dateOfInjury &&
-      this.form.value.claimFlex2Id == this.lastForm.claimFlex2Id && this.form.value.adjustorFax == this.lastForm.adjustorFax &&
-      this.form.value.address1 == this.lastForm.address1 && this.form.value.address2 == this.lastForm.address2 &&
-      this.form.value.city == this.lastForm.city && this.form.value.stateId == this.lastForm.stateId) {
+    if (this.form.value.claimId === this.lastForm.claimId && this.form.value.dateOfBirth === this.lastForm.dateOfBirth &&
+      this.form.value.genderId === this.lastForm.genderId && this.form.value.payorId === this.lastForm.payorId &&
+      this.form.value.adjustorId === this.lastForm.adjustorId && this.form.value.adjustorExtension === this.lastForm.adjustorExtension
+      && this.form.value.adjustorPhone === this.lastForm.adjustorPhone && this.form.value.dateOfInjury === this.lastForm.dateOfInjury &&
+      this.form.value.claimFlex2Id === this.lastForm.claimFlex2Id && this.form.value.adjustorFax === this.lastForm.adjustorFax &&
+      this.form.value.address1 === this.lastForm.address1 && this.form.value.address2 === this.lastForm.address2 &&
+      this.form.value.city === this.lastForm.city && this.form.value.stateId === this.lastForm.stateId) {
       this.toast.warning('No changes were made.', 'Not saved');
-    } else if (!this.form.controls['payorId'].value) { //Check for the required payorId
+    } else if (!this.form.controls['payorId'].value) { // Check for the required payorId
       this.toast.warning('Please link a Carrier');
     } else if (!this.form.controls['genderId'].value) { // Check for the required payorId
       this.toast.warning('Please select a Gender');
@@ -416,22 +416,22 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.form.controls['adjustorExtension'].errors.maxlength) {// Check for the required payorId
       this.toast.warning('Adjustor Extension cannot have more than 10 characters');
     } else {
-      const form: any = {};
+      let form: any = {};
       form.claimId = this.form.value.claimId;
       // check nullable values.
-      form.claimFlex2Id = this.form.value.claimFlex2Id != this.lastForm.claimFlex2Id ? (this.form.value.claimFlex2Id === null ? null : Number(this.form.value.claimFlex2Id)) : undefined;
-      form.payorId = this.form.value.payorId != this.lastForm.payorId ? (this.form.value.payorId == null ? null : Number(this.form.value.payorId)) : undefined;
-      form.genderId = this.form.value.genderId != this.lastForm.genderId ? Number(this.form.value.genderId) : undefined;
-      form.stateId = this.form.value.stateId != this.lastForm.stateId ? (this.form.value.stateId === null ? null : Number(this.form.value.stateId)) : undefined;
-      form.dateOfBirth = dob != this.lastForm.dateOfBirth ? this.form.value.dateOfBirth : undefined, // NULL  
-        form.dateOfInjury = this.lastForm.dateOfInjury != this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL  
-        form.address1 = this.form.value.address1 != this.lastForm.address1 ? this.form.value.address1 : undefined;
-      form.address2 = this.form.value.address2 != this.lastForm.address2 ? this.form.value.address2 : undefined;
-      form.adjustorId = this.form.value.adjustorId != this.lastForm.adjustorId ? (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
-      form.adjustorExtension = this.form.value.adjustorExtension != this.lastForm.adjustorExtension ? this.form.value.adjustorExtension : undefined;
-      form.adjustorPhone = this.form.value.adjustorPhone != lastAdjustorPhone ? this.form.value.adjustorPhone : undefined;
-      form.adjustorFax = this.form.value.adjustorFax != lastAdjustorFax ? this.form.value.adjustorFax : undefined;
-      form.city = this.form.value.city != this.lastForm.city ? this.form.value.city : undefined;
+      form.claimFlex2Id = this.form.value.claimFlex2Id !== this.lastForm.claimFlex2Id ? (this.form.value.claimFlex2Id === null ? null : Number(this.form.value.claimFlex2Id)) : undefined;
+      form.payorId = this.form.value.payorId !== this.lastForm.payorId ? (this.form.value.payorId == null ? null : Number(this.form.value.payorId)) : undefined;
+      form.genderId = this.form.value.genderId !== this.lastForm.genderId ? Number(this.form.value.genderId) : undefined;
+      form.stateId = this.form.value.stateId !== this.lastForm.stateId ? (this.form.value.stateId === null ? null : Number(this.form.value.stateId)) : undefined;
+      form.dateOfBirth = dob !== this.lastForm.dateOfBirth ? this.form.value.dateOfBirth : undefined, // NULL
+        form.dateOfInjury = this.lastForm.dateOfInjury !== this.form.value.dateOfInjury ? this.form.value.dateOfInjury : undefined, // NULL
+        form.address1 = this.form.value.address1 !== this.lastForm.address1 ? this.form.value.address1 : undefined;
+      form.address2 = this.form.value.address2 !== this.lastForm.address2 ? this.form.value.address2 : undefined;
+      form.adjustorId = this.form.value.adjustorId !== this.lastForm.adjustorId ? (this.form.value.adjustorId === null ? null : Number(this.form.value.adjustorId)) : undefined;
+      form.adjustorExtension = this.form.value.adjustorExtension !== this.lastForm.adjustorExtension ? this.form.value.adjustorExtension : undefined;
+      form.adjustorPhone = this.form.value.adjustorPhone !== lastAdjustorPhone ? this.form.value.adjustorPhone : undefined;
+      form.adjustorFax = this.form.value.adjustorFax !== lastAdjustorFax ? this.form.value.adjustorFax : undefined;
+      form.city = this.form.value.city !== this.lastForm.city ? this.form.value.city : undefined;
       if ((!this.form.value.adjustorId || this.form.value.adjustorId == null) && (form.adjustorPhone || form.adjustorFax || form.adjustorExtension)) {
         this.toast.warning('You cannot save a new Adjustor phone, fax or extension when there is no Adjustor tied to this Claim.');
         return;
@@ -505,21 +505,21 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
           if (form.address2) {
             this.claimManager.selectedClaim.address2 = form.address2;
           }
-          if (this.form.value.address2==null) {
+          if (this.form.value.address2 == null) {
             this.claimManager.selectedClaim.address2 = null;
           }
           if (form.claimFlex2Id || form.claimFlex2Id === null) {
-            const newFlex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.claimFlex2Id + '' == form.claimFlex2Id + '');
+            const newFlex2 = this.claimManager.selectedClaim.getFlex2.find(g => g.claimFlex2Id + '' === form.claimFlex2Id + '');
             this.claimManager.selectedClaim.flex2 = newFlex2 ? newFlex2.flex2 : null;
             this.claimManager.selectedClaim.claimFlex2Id = form.claimFlex2Id;
           }
           if (form.genderId) {
-            const newGender = this.claimManager.selectedClaim.genders.find(g => g.genderId + '' == form.genderId + '');
+            const newGender = this.claimManager.selectedClaim.genders.find(g => g.genderId + '' === form.genderId + '');
             this.claimManager.selectedClaim.gender = newGender ? newGender.genderName : null;
             this.claimManager.selectedClaim.genderId = form.genderId;
           }
           if (form.stateId || form.stateId === null) {
-            const newState = this.claimManager.selectedClaim.states.find(g => g.stateId + '' == form.stateId + '');
+            const newState = this.claimManager.selectedClaim.states.find(g => g.stateId + '' === form.stateId + '');
             this.claimManager.selectedClaim.stateAbbreviation = newState ? newState.stateName : null;
             this.claimManager.selectedClaim.stateId = form.stateId;
           }

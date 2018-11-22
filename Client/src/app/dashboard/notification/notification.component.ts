@@ -1,9 +1,9 @@
-import { SortColumnInfo } from "../../directives/table-sort.directive";
+import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { Component, OnInit} from '@angular/core';
-import { HttpService } from "../../services/http-service";
-import { FormBuilder,  FormGroup, Validators } from "@angular/forms";
+import { HttpService } from '../../services/http-service';
+import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr';
-import { ProfileManager } from "../../services/profile-manager";
+import { ProfileManager } from '../../services/profile-manager';
 declare var $: any;
 
 @Component({
@@ -42,42 +42,42 @@ export class NotificationComponent implements OnInit {
 
   update(payment: any) {
     this.editing = true;
-    this.editingNotificationId = payment.notificationId
+    this.editingNotificationId = payment.notificationId;
     this.form = this.formBuilder.group({
-      letterName: [null,Validators.required],
-      notificationId: [payment.notificationId,Validators.required],
+      letterName: [null, Validators.required],
+      notificationId: [payment.notificationId, Validators.required],
     });
   }
   saveButtonClick() {
-    var btn = $("#saveNotificationButton");
+    const btn = $('#saveNotificationButton');
     if (btn.length > 0) {
-      $("#saveNotificationButton").click();
+      $('#saveNotificationButton').click();
     }
   }
   saveNotification(n: any) {
-    if(this.form.get('letterName').value){
-      this.loadingNotification = true
-      this.http.saveLetterNotifications(this.form.value).single().subscribe(res=>{              
-          this.toast.success('Letter name successfully updated'); 
+    if (this.form.get('letterName').value){
+      this.loadingNotification = true;
+      this.http.saveLetterNotifications(this.form.value).single().subscribe(res => {
+          this.toast.success('Letter name successfully updated');
           this.loadingNotification = false;
-          for (var i=0;i<this.notifications.length;i++){
-            if(this.notifications[i].notificationId==n.notificationId){ 
-              this.notifications.splice(i,1);
+          for (let i = 0; i < this.notifications.length; i++){
+            if (this.notifications[i].notificationId === n.notificationId){
+              this.notifications.splice(i, 1);
             }
           }
           this.cancel();
-      },()=>{                          
+      }, () => {
         this.toast.error('Could not update letter name');
         this.loadingNotification = false;
       });
-    }else{
-      this.toast.warning("You must fill amount paid, check Number and date posted to continue");
+    } else {
+      this.toast.warning('You must fill amount paid, check Number and date posted to continue');
     }
   }
 
-
   get allowed(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles
+      instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   cancel() {
     this.editing = false;
@@ -97,7 +97,7 @@ export class NotificationComponent implements OnInit {
       .subscribe((result: any) => {
         this.loadingNotification = false;
         this.notifications = result;
-      }, () => {        
+      }, () => {
           this.loadingNotification = false;
       });
   }

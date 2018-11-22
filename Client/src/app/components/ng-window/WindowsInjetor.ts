@@ -8,18 +8,18 @@
     ViewChild,
     ComponentFactory,
     ComponentFactoryResolver
-} from "@angular/core";
- 
-import {WindowConfig} from "./WindowConfig";
-import {WindowInstance} from "./WindowInstance";
-import {WindowBackdrop} from "./ModalBackdrop";
-import {BootstrapWindowContainer} from "./BootstrapWindowContainer";
+} from '@angular/core';
+
+import {WindowConfig} from './WindowConfig';
+import {WindowInstance} from './WindowInstance';
+import {WindowBackdrop} from './ModalBackdrop';
+import {BootstrapWindowContainer} from './BootstrapWindowContainer';
 
 
 @Injectable()
 export class WindowsInjetor {
 
-    //@ViewChild('target', {read: ViewContainerRef}) target;
+    // @ViewChild('target', {read: ViewContainerRef}) target;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private appRef: ApplicationRef) {
 
@@ -47,11 +47,10 @@ export class WindowsInjetor {
 
         if (!ParentViewContainerRefORRootApp) {
 
-            //for ionic
-            if((this.appRef.components[0] as any )._component._overlayPortal) {
+            // for ionic
+            if ((this.appRef.components[0] as any )._component._overlayPortal) {
                  ParentViewContainerRefORRootApp = (this.appRef.components[0] as any )._component._overlayPortal._viewport;
-            }
-            else { //   for not ionic
+            } else { //   for not ionic
 
                 const appInstance = this.appRef['_rootComponents'][0].instance;
 
@@ -59,82 +58,71 @@ export class WindowsInjetor {
                     const appName = this.appRef['_rootComponents'][0].name;
                     throw new Error(`Missing 'viewContainerRef' declaration in ${appName} constructor , please declare viewContainerRef in the constructor of your app root component : ${appName} witn name viewContainerRef :(`);
 
-                }
-                else {
-                    ParentViewContainerRefORRootApp = appInstance.viewContainerRef
+                } else {
+                    ParentViewContainerRefORRootApp = appInstance.viewContainerRef;
                 }
             }
-
-
         }
-
-
-        var config = options ? options : new WindowConfig();
-
-
+        const config = options ? options : new WindowConfig();
         //   config = (config) ? WindowConfig.makeValid(config, _config) : _config;
-        let dialog = new WindowInstance(config);
-        var temp_bindings = ReflectiveInjector.resolve([
+        const dialog = new WindowInstance(config);
+        let temp_bindings = ReflectiveInjector.resolve([
 
             {provide: WindowConfig, useValue: config},
             {provide: ViewContainerRef, useValue: ParentViewContainerRefORRootApp}
-        ])
+        ]);
 
         if (bindings) {
-            temp_bindings = temp_bindings.concat(bindings)
+            temp_bindings = temp_bindings.concat(bindings);
 
         }
 
         dialog.inElement = !!anchorNameWillBe;
 
 
-        let dialogBindings = ReflectiveInjector.resolve([{provide: WindowInstance, useValue: dialog}]);
+        const dialogBindings = ReflectiveInjector.resolve([{provide: WindowInstance, useValue: dialog}]);
 
         return this.createBackdrop2(ParentViewContainerRefORRootApp, dialogBindings, anchorNameWillBe)
             .then((backdropRef: ComponentRef<any>) => {
                 dialog.backdropRef = backdropRef;
-                var scroll_right = 0;
+                let scroll_right = 0;
                 // ParentViewContainerRefORRootApp.element.nativeElement.children[0].tagName == "ION-NAVBAR" &&
-                if (dialog.backdropRef.location.nativeElement.parentElement.tagName == "SCROLL-CONTENT") {
+                if (dialog.backdropRef.location.nativeElement.parentElement.tagName === 'SCROLL-CONTENT') {
                     config.navbarHeight = 50;
                     scroll_right = 18;
-                }
-                else {
+                } else {
                     scroll_right = config.minusWidth;
                 }
                 if (config.openAsMaximize) {
 
                     config.position.top = config.minusTop;
                     config.position.left = config.minusLeft;
-                    if(ParentViewContainerRefORRootApp.element.nativeElement.parentElement.offsetParent) {
+                    if (ParentViewContainerRefORRootApp.element.nativeElement.parentElement.offsetParent) {
                         config.size.width = ParentViewContainerRefORRootApp.element.nativeElement.parentElement.offsetParent.clientWidth - scroll_right;
                         config.size.height = ParentViewContainerRefORRootApp.element.nativeElement.parentElement.offsetParent.clientHeight - config.navbarHeight - config.minusHeight;
-                    }
-                    else {
+                    } else {
                         config.size.width = ParentViewContainerRefORRootApp.element.nativeElement.parentElement.clientWidth - scroll_right;
                         config.size.height = ParentViewContainerRefORRootApp.element.nativeElement.parentElement.clientHeight - config.navbarHeight - config.minusHeight;
 
                     }
-                }
-                else if (config.centerInsideParent) {
+                } else if (config.centerInsideParent) {
                     // DOM.setStyle(userComponent, 'width', '100%');
                     // DOM.getStyle(ParentViewContainerRefORRootApp.nativeElement.innerHeight,'innerHeight')
                     // DOM.getStyle('innerWidth')
                     if (ParentViewContainerRefORRootApp.element.nativeElement.innerHeight) {
-                        config.position.top = (ParentViewContainerRefORRootApp.element.nativeElement.innerHeight / 2 - config.size.height / 2)
-                        config.position.left = (ParentViewContainerRefORRootApp.element.nativeElement.innerWidth / 2 - config.size.width / 2)
-                    }
-                    else {
-                        config.position.top = (ParentViewContainerRefORRootApp.element.nativeElement.parentElement.offsetHeight / 2 - config.size.height / 2)
-                        config.position.left = (ParentViewContainerRefORRootApp.element.nativeElement.parentElement.offsetWidth / 2 - config.size.width / 2)
+                        config.position.top = (ParentViewContainerRefORRootApp.element.nativeElement.innerHeight / 2 - config.size.height / 2);
+                        config.position.left = (ParentViewContainerRefORRootApp.element.nativeElement.innerWidth / 2 - config.size.width / 2);
+                    } else {
+                        config.position.top = (ParentViewContainerRefORRootApp.element.nativeElement.parentElement.offsetHeight / 2 - config.size.height / 2);
+                        config.position.left = (ParentViewContainerRefORRootApp.element.nativeElement.parentElement.offsetWidth / 2 - config.size.width / 2);
                     }
                 }
 
-                let modalDataBindings = ReflectiveInjector.resolve([{
+                const modalDataBindings = ReflectiveInjector.resolve([{
                     provide: WindowInstance,
                     useValue: dialog
                 }]).concat(temp_bindings);
-                var that = this;
+                const that = this;
                 // this.componentLoader.loadAsRoot()
                 return this.injectViewToBackdrop(ParentViewContainerRefORRootApp, dialogBindings)
                     .then((bootstrapRef: ComponentRef<any>) => {
@@ -144,22 +132,22 @@ export class WindowsInjetor {
                         return new Promise(function (resolve, reject) {
                             bootstrapRef.instance.set_finish_Init(function (viewContainerRefx: ViewContainerRef) {
                                 componentType.selector = new Date().getTime();
-                                let factory: ComponentFactory<any> = that.componentFactoryResolver.resolveComponentFactory(componentType);
-                                //let factory:ComponentFactory<any> = bootstrapRef.instance.componentFactoryResolver.resolveComponentFactory(componentType);
-                                var contentRef = viewContainerRefx.createComponent(factory)
-                                bootstrapRef.instance.initEvents()
-                                dialog.contentRef = contentRef; 
+                                const factory: ComponentFactory<any> = that.componentFactoryResolver.resolveComponentFactory(componentType);
+                                // let factory:ComponentFactory<any> = bootstrapRef.instance.componentFactoryResolver.resolveComponentFactory(componentType);
+                                const contentRef = viewContainerRefx.createComponent(factory);
+                                bootstrapRef.instance.initEvents();
+                                dialog.contentRef = contentRef;
                                 resolve(contentRef.instance);
-                            })
-                        })
-                    })
+                            });
+                        });
+                    });
             });
     }
 
     private createBackdrop2(elementRef_viewContaner: ViewContainerRef, bindings: ResolvedReflectiveProvider[], anchorName?: string): Promise<ComponentRef<any>> {
 
-        let factory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(WindowBackdrop);
-        let childInjector = ReflectiveInjector.fromResolvedProviders(bindings, elementRef_viewContaner.parentInjector);
+        const factory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(WindowBackdrop);
+        const childInjector = ReflectiveInjector.fromResolvedProviders(bindings, elementRef_viewContaner.parentInjector);
 
         return Promise.resolve(elementRef_viewContaner.createComponent(factory, elementRef_viewContaner.length, childInjector));
 
@@ -167,8 +155,8 @@ export class WindowsInjetor {
 
     private injectViewToBackdrop(elementRef_viewContaner: ViewContainerRef, bindings: ResolvedReflectiveProvider[]): Promise<ComponentRef<any>> {
 
-        let factory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(BootstrapWindowContainer);
-        let childInjector = ReflectiveInjector.fromResolvedProviders(bindings, elementRef_viewContaner.parentInjector);
+        const factory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(BootstrapWindowContainer);
+        const childInjector = ReflectiveInjector.fromResolvedProviders(bindings, elementRef_viewContaner.parentInjector);
 
         return Promise.resolve(elementRef_viewContaner.createComponent(factory, elementRef_viewContaner.length, childInjector));
 

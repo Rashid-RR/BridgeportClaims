@@ -1,12 +1,12 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { EpisodeNoteModalComponent } from '../components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
-import { ClaimManager } from "../../services/claim-manager";
-import { EventsService } from "../../services/events-service";
+import { ClaimManager } from '../../services/claim-manager';
+import { EventsService } from '../../services/events-service';
 import { Episode } from '../../interfaces/episode';
 import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
-import { EpisodeService } from "../../services/episode.service";
+import { EpisodeService } from '../../services/episode.service';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -23,12 +23,12 @@ export class ClaimEpisodeComponent implements OnInit {
   @ViewChild('prescriptionTable') table: ElementRef;
   @ViewChild('episodeActionSwal') private episodeSwal: SwalComponent;
   sortColumn: SortColumnInfo;
-  constructor(public episodeService: EpisodeService,private myInjector: WindowsInjetor, private dialogService: DialogService, public claimManager: ClaimManager, private events: EventsService, private http: HttpService, private toast: ToastsManager) { }
+  constructor(public episodeService: EpisodeService, private myInjector: WindowsInjetor, private dialogService: DialogService, public claimManager: ClaimManager, private events: EventsService, private http: HttpService, private toast: ToastsManager) { }
 
   ngOnInit() {
-    this.events.on("episode-note-updated", (episode: Episode) => {
+    this.events.on('episode-note-updated', (episode: Episode) => {
       this.claimManager.selectedClaim.episodes.forEach(ep => {
-        if (episode.episodeId == ep.episodeId) {
+        if (episode.episodeId === ep.episodeId) {
           ep.episodeNoteCount = episode.episodeNoteCount;
           ep.noteCount = episode.episodeNoteCount;
         }
@@ -39,7 +39,7 @@ export class ClaimEpisodeComponent implements OnInit {
   getTypeName(id: number): string {
     // find in list for item to get name!!
     if (id) {
-      let item = this.claimManager.EpisodeNoteTypes.find(p => p.episodeRoleId == id);
+      const item = this.claimManager.EpisodeNoteTypes.find(p => p.episodeRoleId === id);
       if (item) {
         return item.episodeRoleName;
       }
@@ -51,23 +51,23 @@ export class ClaimEpisodeComponent implements OnInit {
     if (!episode.episodeId && episode['id']) {
       episode.episodeId = episode['id'];
     }
-    let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
-    config.position = new CustomPosition((window.innerWidth - 700) / 2 + 50, 60)//left,top
+    const config = new WindowConfig('Episode Note(s)', new Size(400, 700));  // height, width
+    config.position = new CustomPosition((window.innerWidth - 700) / 2 + 50, 60); // left,top
     config.minusTop = 0;
     config.minusHeight = 0;
     config.minusLeft = 0;
     config.minusWidth = 0;
     config.centerInsideParent = false;
-    var temp = {}
+    const temp = {};
     config.forAny = [temp];
     config.openAsMaximize = false;
     this.myInjector.openWindow(EpisodeNoteModalComponent, config)
       .then((win: EpisodeNoteModalComponent) => {
         win.showNote(episode);
-      })
+      });
   }
   edit(episode: Episode) {
-    this.events.broadcast("edit-episode", episode);
+    this.events.broadcast('edit-episode', episode);
   }
   onSortColumn(info: SortColumnInfo) {
     this.sortColumn = info;
@@ -92,11 +92,11 @@ export class ClaimEpisodeComponent implements OnInit {
         this.claimManager.loadingEpisodes = false;
       });
   }
-  assign(episode: Episode) { 
+  assign(episode: Episode) {
     this.episodeService.episodetoAssign = episode;
     this.episodeSwal.show().then((r) => {
-        
-    })
+
+    });
   }
   markAsResolved($event, episode) {
     this.dialogService.addDialog(ConfirmComponent, {
@@ -109,7 +109,7 @@ export class ClaimEpisodeComponent implements OnInit {
           this.http.markEpisodeAsSolved(episode.episodeId || episode['id']).single().subscribe(res => {
             this.toast.success(res.message);
             this.claimManager.loading = false;
-            episode.resolved = true;           
+            episode.resolved = true;
           }, error => {
             this.toast.error(error.message);
             $event.target.checked = false;

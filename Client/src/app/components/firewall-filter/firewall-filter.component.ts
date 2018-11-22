@@ -9,18 +9,14 @@ declare var $: any;
   styleUrls: ['./firewall-filter.component.css']
 })
 export class FirewallFilterComponent implements OnInit, AfterViewInit {
-
   constructor(public firewallService: FirewallService) { }
-
   ngOnInit() {
   }
-
   ngAfterViewInit() {
     $('[inputs-mask]').inputmask();
     $('[data-mask]').inputmask();
   }
   clear() {
     this.firewallService.form.reset();
-  } 
-
+  }
 }

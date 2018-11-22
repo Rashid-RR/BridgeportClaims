@@ -41,22 +41,22 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
       }, 1000);
     });
     this.cloneTableHeading();
-    this.events.on("reload:prespcriptions",()=>{
+    this.events.on('reload:prespcriptions', () => {
       this.fetchData();
-    })
+    });
   }
 
   ngAfterViewInit() {
     this.rd.listen(this.table.nativeElement, 'keydown', ($event) => {
-      if ($event.keyCode == 16) {
+      if ($event.keyCode === 16) {
         this.selectMultiple = true;
       }
-    })
+    });
     this.rd.listen(this.table.nativeElement, 'keyup', ($event) => {
-      if ($event.keyCode == 16) {
+      if ($event.keyCode === 16) {
         this.selectMultiple = false;
       }
-    })
+    });
 
   }
   log(y) {
@@ -96,14 +96,14 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
           } catch (e) { }
         }
       }
-    }, 500)
+    }, 500);
   }
   clicked() {
 
   }
 
   uncheckMain() {
-    jQuery('input#selectAllCheckBox').attr({ 'checked': false })
+    jQuery('input#selectAllCheckBox').attr({ 'checked': false });
   }
   select(p: any, $event, index) {
     p.selected = $event.target.checked;
@@ -117,7 +117,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
           const p = jQuery('#row' + i).attr('prescription');
           const prescription = JSON.parse(p);
           const data = this.claimManager.selectedClaim.prescriptions.find(pres =>
-            pres.prescriptionId == prescription.prescriptionId);
+            pres.prescriptionId === prescription.prescriptionId);
           data.selected = true;
         } catch (e) { }
       }
@@ -130,7 +130,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
       this.checkAll = false;
       this.uncheckMain();
     }
-    this.claimManager.dialogListener.next({prescriptions:this.claimManager.selectedClaim.prescriptions.filter(p=>p.selected)})    
+    this.claimManager.dialogListener.next({prescriptions: this.claimManager.selectedClaim.prescriptions.filter(p => p.selected)});
   }
   selectAllCheckBox($event) {
     this.checkAll = $event.target.checked;
@@ -167,7 +167,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
               <td>` + noteDate + `</td>
               <td>` + note.type + `</td>
               <td>` + note.enteredBy + `</td>
-              <td style="white-space: pre-wrap;">`+ note.note + `</td>
+              <td style="white-space: pre-wrap;">` + note.note + `</td>
             </tr>`;
     });
     const html = `<div class="row invoice-info">

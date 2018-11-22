@@ -1,10 +1,10 @@
-import {WindowInstance} from "./WindowInstance";
- import {Component} from "@angular/core";
-import {global} from "./utils";
+import {WindowInstance} from './WindowInstance';
+ import {Component} from '@angular/core';
+import {global} from './utils';
 
- 
+
 @Component({
-    //directives:[IONIC_DIRECTIVES],
+    // directives:[IONIC_DIRECTIVES],
     selector: 'modal-backdrop',
     host: {
         '[style.position]': 'position',
@@ -15,7 +15,7 @@ import {global} from "./utils";
         '[style.right]': 'right',
         '[style.bottom]': 'bottom',
         '[style.background-color]': 'backgroundColor',
-        //'[hidden]':'dialog.config.BlockParentUI',
+        // '[hidden]':'dialog.config.BlockParentUI',
 
         //  '[style.z-index]': "BackdropZindex"
 
@@ -36,15 +36,15 @@ export class WindowBackdrop {
     constructor(public dialog: WindowInstance) {
         this.BackdropZindex = global.MaxZIndex++;
         this.backgroundColor = 'white';
-        //if (!dialog.inElement) {
+        // if (!dialog.inElement) {
             this.position = this.width = this.height = null;
             this.top = this.left = this.right = this.bottom = null;
-        //} else {
+        // } else {
         //    this.position = 'absolute';
         //    this.height = '100%';
         //    this.width = '100%';
         //    this.top = this.left = this.right = this.bottom = '0';
-        //}
+        // }
     }
 }
 
