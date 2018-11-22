@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700,800');
 .content-wrapper{
+    overflow-x:hidden;
     overflow-y:auto;
 }
 .content-header>.breadcrumb{
