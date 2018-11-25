@@ -14,10 +14,10 @@ tr:nth-of-type(odd) {
 }
 .expanded{
 
-    height: calc(100vh - 190px);
-    height: -moz-calc(100vh - 190px);
-    height: -webkit-calc(100vh - 190px);
-    height: -o-calc(100vh - 190px);
+    height: calc(100vh - 280px);
+    height: -moz-calc(100vh - 280px);
+    height: -webkit-calc(100vh - 280px);
+    height: -o-calc(100vh - 280px);
     overflow:hidden;
 }
 
@@ -33,11 +33,11 @@ tr:nth-of-type(odd) {
 .table-body{
     position: absolute;
     top:75px;
-    height: calc(100% - 140px);
-    max-height: calc(100% - 140px);
-    max-height: -moz-calc(100% - 110px);
-    max-height: -webkit-calc(100% - 110px);
-    max-height: -o-calc(100% - 110px);
+    height: calc(100% - 90px);
+    max-height: calc(100% - 90px);
+    max-height: -moz-calc(100% - 90px);
+    max-height: -webkit-calc(100% - 90px);
+    max-height: -o-calc(100% - 90px);
     overflow-y: auto;
     overflow-x: hidden;
 } 
