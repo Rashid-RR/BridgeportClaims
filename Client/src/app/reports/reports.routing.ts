@@ -9,7 +9,6 @@ import { ShortPayComponent } from './short-pay/short-pay.component';
 import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.component';
 import { CollectionBonusComponent } from './collection-bonus/collection-bonus.component';
 
-
 export const ReportsRoutes: Routes = [
     {
         path: '', component: ReportComponent,

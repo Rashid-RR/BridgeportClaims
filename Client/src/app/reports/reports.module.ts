@@ -33,7 +33,11 @@ import { CollectionBonusListComponent } from './collection-bonus-list/collection
   ],
   declarations: [
     AccountReceivableSearchComponent, AccountReceivableResultComponent,
-    ReportComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, DuplicateClaimsComponent, DuplicateClaimSearchComponent, DuplicateClaimListComponent, ShortPayReportComponent, SkippedPaymentListComponent, SkippedPaymentSearchComponent, ShortPaySearchComponent, SkippedPaymentComponent, ShortPayComponent, DuplicateClaimComponent, DuplicateClaimManualComponent, CollectionBonusComponent, CollectionBonusSearchComponent, CollectionBonusListComponent
+    ReportComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, DuplicateClaimsComponent,
+    DuplicateClaimSearchComponent, DuplicateClaimListComponent, ShortPayReportComponent, SkippedPaymentListComponent,
+    SkippedPaymentSearchComponent, ShortPaySearchComponent, SkippedPaymentComponent, ShortPayComponent,
+    DuplicateClaimComponent, DuplicateClaimManualComponent, CollectionBonusComponent, CollectionBonusSearchComponent,
+    CollectionBonusListComponent
   ]
 })
 export class ReportsModule { }

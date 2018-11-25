@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, NavigationEnd, UrlTree } from '@angular/router';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 // Services
 import { ReportLoaderService } from '../../services/services.barrel';
 
@@ -8,18 +8,9 @@ import { ReportLoaderService } from '../../services/services.barrel';
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
-export class ReportComponent implements OnInit , OnDestroy{
+export class ReportComponent {
 
   location: String= '';
   constructor(private router: Router, public reportloader: ReportLoaderService) {
-
   }
-
-  ngOnInit() {
-
-  }
-  ngOnDestroy() {
-
-  }
-
 }
