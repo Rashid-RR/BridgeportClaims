@@ -19,15 +19,15 @@
 
 <div class="row invoice-info" *ngIf="claimManager.selectedClaim && claimManager.selectedClaim.editing">
     <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="saveNote()">
-        <div class="form-group col-sm-offset-1 col-sm-10 invoice-col" [class.has-error]="form.get('noteTypeId').errors">
-            <label> <i class="fa fa-times-circle-o" *ngIf="form.get('noteTypeId').errors"></i> Claim Types</label>
-            <select class="form-control" formControlName="noteTypeId">
+        <div class="form-group col-sm-offset-1 col-sm-10 invoice-col" [class.has-error]="form.controls['noteTypeId'].errors">
+            <label><i class="fa fa-times-circle-o" *ngIf="form.controls['noteTypeId'].errors"></i>Claim Types</label>
+            <select class="form-control" [formControl]="form.controls['noteTypeId']">
                 <option *ngFor="let note of claimManager.NoteTypes" [value]="note.key">{{note.value}}</option>
               </select>
         </div>
-        <div class="form-group col-sm-offset-1 col-sm-10 invoice-col" [class.has-error]="form.get('noteText').errors">
-            <label>  <i class="fa fa-times-circle-o" *ngIf="form.get('noteText').errors"></i>  Claim Text</label>
-            <textarea class="form-control" name="noteText" class="form-control" formControlName="noteText" focus-on></textarea>
+        <div class="form-group col-sm-offset-1 col-sm-10 invoice-col" [class.has-error]="form.controls['noteText'].errors">
+            <label><i class="fa fa-times-circle-o" *ngIf="form.controls['noteText'].errors"></i>Claim Text</label>
+            <textarea class="form-control" name="noteText" class="form-control" [formControl]="form.controls['noteText']" focus-on></textarea>
         </div>
         <div class="form-group col-sm-offset-1 col-sm-10 invoice-col text-right">
             <button class="btn bg-purple btn-flat" type="button" (click)="saveNote()">Save</button>

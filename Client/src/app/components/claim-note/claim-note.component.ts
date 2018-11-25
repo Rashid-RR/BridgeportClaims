@@ -35,7 +35,8 @@ export class ClaimNoteComponent implements OnInit, AfterViewChecked {
     const noteTypeId = this.claimManager.selectedClaim && this.claimManager.selectedClaim.claimNote ?
      this.claimManager.selectedClaim.claimNote.noteType : null;
 
-    if (this.claimManager.selectedClaim.claimNote !== undefined && this.form.get('noteText').value == null && this.form.get('noteText').value !== this.claimManager.selectedClaim.claimNote.noteText){
+    if (this.claimManager.selectedClaim.claimNote !== undefined && this.form.get('noteText').value == null &&
+      this.form.get('noteText').value !== this.claimManager.selectedClaim.claimNote.noteText) {
       this.form.patchValue({
           noteTypeId: noteTypeId,
           noteText: text
@@ -43,11 +44,12 @@ export class ClaimNoteComponent implements OnInit, AfterViewChecked {
     }
   }
 
-  parseText(txt: String){
+  parseText(txt: String) {
     return txt ? txt.replace(/\\n/g, '<br>') : '';
   }
   saveNote() {
     this.claimManager.loading = true;
+    const warningMsg = 'Invalid field value(s). Please correct to proceed.';
     if (this.form.valid) {
       try {
         const note = this.form.value;
@@ -66,13 +68,12 @@ export class ClaimNoteComponent implements OnInit, AfterViewChecked {
           this.toast.warning(err.error_description);
         });
       } catch (e) {
-        this.toast.warning('Invalid field value(s). Please correct to proceed.');
+        this.toast.warning(warningMsg);
         this.claimManager.loading = false;
       }
     } else {
-       this.toast.warning('Invalid field value(s). Please correct to proceed.');
+       this.toast.warning(warningMsg);
        this.claimManager.loading = false;
     }
   }
-
 }

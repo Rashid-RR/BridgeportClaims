@@ -8,14 +8,7 @@ declare var $: any;
   styleUrls: ['./collection-bonus-search.component.css']
 })
 export class CollectionBonusSearchComponent implements OnInit {
-
-  constructor(public http: HttpService, public cb: CollectionBonusService, public reportloader: ReportLoaderService) {
-     
-   }
-
+  constructor(public http: HttpService, public cb: CollectionBonusService, public reportloader: ReportLoaderService) { }
   ngOnInit() {
-    
   }
-
 }
-
