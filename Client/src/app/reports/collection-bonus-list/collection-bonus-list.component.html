@@ -24,7 +24,7 @@
               <span>Amount Paid</span>
             </th>
             <th>
-              <span>Bonus @1.5</span>
+              <span>Bonus @ 1.5 %</span>
             </th>
           </tr>
         </thead>
@@ -38,8 +38,8 @@
             <tr>
               <td *ngIf="i==0" [attr.rowspan]="bonusService.bonus.length">{{userName}}</td>
               <td (click)="showClaim(p.claimId)">{{p.patientName}}</td>
-              <td (click)="showClaim(p.claimId)">{{p.amountPaid}}</td>
-              <td (click)="showClaim(p.claimId)">{{p.bonusAmount}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.amountPaid | currency:'USD':true:'1.2-2'}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.bonusAmount | currency:'USD':true:'1.2-2'}}</td>
             </tr>
           </ng-container>
         </tbody>
@@ -52,23 +52,11 @@
           <tr>
             <td></td>
             <th>Total</th>
-            <th>{{bonusService.totalBonusAmount|currency:'USD'}}</th>
-            <th>{{bonusService.totalAmountPaid|currency:'USD'}}</th>
+            <th>{{bonusService.totalAmountPaid | currency:'USD':true:'1.2-2'}}</th>
+            <th>{{bonusService.totalBonusAmount | currency:'USD':true:'1.2-2'}}</th>
           </tr>
         </tbody>
       </table>
     </div>
-    <!-- <div class="btn-group pagination-row">
-      <button type="button" class="btn btn-default  btn-md" [disabled]="bonusService.data.page<=1" (click)="prev()">Prev</button>
-      <button type="button" class="btn btn-default  selected btn-md" style="width:76px"> {{bonusService.data.page}} of {{bonusService.totalPages}}</button>
-      <button type="button" class="btn btn-default  btn-md" [disabled]="bonusService.end" (click)="next()">Next</button>
-      <div class="input-group" style="width:164px">
-        <input class="form-control" [attr.placeholder]="bonusService.data.page" [(ngModel)]="goToPage" (keypress)="keyPress($event)"
-          (keyup.enter)="goto()" [disabled]="bonusService.totalPages==1">
-        <div class="input-group-btn">
-          <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
-        </div>
-      </div>
-    </div> -->
   </div>
 </div>

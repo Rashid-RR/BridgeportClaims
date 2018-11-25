@@ -35,7 +35,7 @@ export class CollectionBonusService {
             page: 1,
             pageSize: 30
         };
-        let reportDate = new Date();
+        const reportDate = new Date();
         this.reportMonth = (reportDate.getMonth() + 1);
         this.reportYear = reportDate.getFullYear();
         this.yearRange = this.range(2018, this.reportYear);
@@ -45,7 +45,7 @@ export class CollectionBonusService {
         return this.yearRange;
     }
     range(start, end): number[] {
-        return Array.from({ length: (end + 1 - start) }, (v, k) => k + start)
+        return Array.from({ length: (end + 1 - start) }, (v, k) => k + start);
     }
     get currentReportDate(): any {
         return `${this.reportMonth}/02/${this.reportYear}`;
@@ -57,7 +57,7 @@ export class CollectionBonusService {
             this.totalRowCount = r.totalRowCount || r.length;
             this.totalBonusAmount = r.totalBonusAmount;
             this.totalAmountPaid = r.totalAmountPaid;
-            this.loading = false;         
+            this.loading = false;
         }, err => {
             this.loading = false;
             this.bonus = [{} as any];
