@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { ReportLoaderService, ComparisonClaim, DuplicateClaim } from '../../services/services.barrel';
 import { Toast, ToastsManager } from 'ng2-toastr';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';

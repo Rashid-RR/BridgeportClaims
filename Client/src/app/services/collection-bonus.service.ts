@@ -2,7 +2,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { SortColumnInfo } from '../directives/table-sort.directive';
-import { Router, NavigationEnd } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 export interface CollectionBonus {
@@ -28,7 +27,7 @@ export class CollectionBonusService {
     reportMonth: number;
     reportYear: number;
     yearRange: number[];
-    constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
+    constructor(private toast: ToastsManager, private http: HttpService) {
         this.data = {
             sort: 'RxNumber',
             sortDirection: 'DESC',

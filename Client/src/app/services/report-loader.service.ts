@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
-import { SortColumnInfo } from "../directives/table-sort.directive";
+import { SortColumnInfo } from '../directives/table-sort.directive';
 import { Router, NavigationEnd } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 
 export interface ComparisonClaim {
-  leftAdjustorId: number;//
-  leftAdjustorName: string;//
-  leftCarrier: string;//
-  leftClaimFlex2Id: any;//
-  leftClaimFlex2Value: any;//
-  leftClaimId: number;//
-  leftClaimNumber: string;//
-  leftDateOfBirth: Date;//
-  leftInjuryDate: Date;//
-  leftPatientId: number;//
-  leftPatientName: string;//
-  leftPayorId: number;//
+  leftAdjustorId: number; //
+  leftAdjustorName: string; //
+  leftCarrier: string; //
+  leftClaimFlex2Id: any; //
+  leftClaimFlex2Value: any; //
+  leftClaimId: number; //
+  leftClaimNumber: string; //
+  leftDateOfBirth: Date; //
+  leftInjuryDate: Date; //
+  leftPatientId: number; //
+  leftPatientName: string; //
+  leftPayorId: number; //
   rightAdjustorId: number;
   rightAdjustorName: string;
   rightCarrier: string;
-  rightClaimFlex2Id: any
-  rightClaimFlex2Value: any
+  rightClaimFlex2Id: any;
+  rightClaimFlex2Value: any;
   rightClaimId: number;
   rightClaimNumber: any;
   rightDateOfBirth: Date;
@@ -31,14 +31,14 @@ export interface ComparisonClaim {
   rightPayorId: number;
 }
 export interface DuplicateClaim {
-  lastName: string,
-  firstName: string,
-  claimId: number,
-  dateOfBirth: Date,
-  claimNumber: number,
-  personCode: any,
-  groupName: string,
-  selected?: boolean
+  lastName: string;
+  firstName: string;
+  claimId: number;
+  dateOfBirth: Date;
+  claimNumber: number;
+  personCode: any;
+  groupName: string;
+  selected?: boolean;
 }
 @Injectable()
 export class ReportLoaderService {
@@ -53,15 +53,15 @@ export class ReportLoaderService {
   constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
-        this.routes = this.router.url.split("/");
+        this.routes = this.router.url.split('/');
       }
     });
     this.data = {
-      sort: "lastName",
-      sortDirection: "ASC",
+      sort: 'lastName',
+      sortDirection: 'ASC',
       page: 1,
       pageSize: 30
-    }
+    };
   }
   get selectedClaims() {
     return this.duplicates.filter(claim => claim.selected === true);
@@ -71,7 +71,7 @@ export class ReportLoaderService {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+      const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
       if (next) {
         data.page++;
@@ -89,7 +89,7 @@ export class ReportLoaderService {
         if (next) {
           this.data.page++;
         }
-        if (prev && this.data.page != data.page) {
+        if (prev && this.data.page !== data.page) {
           this.data.page--;
         }
         if (page) {
@@ -97,18 +97,20 @@ export class ReportLoaderService {
         }
       }, err => {
         this.loading = false;
-      })
+      });
     }
   }
   get duplicateClaims() {
     return this.duplicates;
   }
   formatDate(input: String) {
-    if (!input) return null;
-    if (input.indexOf("-") > -1) {
-      let date = input.split("T");
-      let d = date[0].split("-");
-      return d[1] + "/" + d[2] + "/" + d[0];
+    if (!input) {
+      return null;
+    }
+    if (input.indexOf('-') > -1) {
+      const date = input.split('T');
+      const d = date[0].split('-');
+      return d[1] + '/' + d[2] + '/' + d[0];
     } else {
       return input;
     }
@@ -131,11 +133,11 @@ export class ReportLoaderService {
     return this.duplicates.length > 1 ? ((this.data.page - 1) * this.data.pageSize) + 1 : null;
   }
   get pageEnd() {
-    return this.duplicates.length > 1 ? (this.data.pageSize > this.duplicates.length ? ((this.data.page - 1) * this.data.pageSize) + this.duplicates.length : (this.data.page) * this.data.pageSize) : null;
+    return this.duplicates.length > 1 ? (this.data.pageSize > this.duplicates.length ?
+      ((this.data.page - 1) * this.data.pageSize) + this.duplicates.length : (this.data.page) * this.data.pageSize) : null;
   }
 
   get end(): Boolean {
     return this.pageStart && this.data.pageSize > this.duplicates.length;
   }
-
 }
