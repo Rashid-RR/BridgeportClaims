@@ -427,7 +427,7 @@ export class ClaimManager {
   }
 
   changeFlex2(claim: Claim, flex: any) {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: 'Save Flex 2 for claim #' + claim.claimNumber,
       message: 'Would you like to change the Flex2 value to ' + (flex.flex2) + '?'
     })
@@ -450,7 +450,7 @@ export class ClaimManager {
       });
   }
   changePrescriptionStatus(prescription: Prescription, status: any) {
-    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+    this.dialogService.addDialog(ConfirmComponent, {
       title: 'Change status for Prescription #' + prescription.prescriptionId,
       message: 'Would you like to change the status to ' + (status.statusName) + '?'
     })

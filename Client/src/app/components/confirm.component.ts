@@ -53,10 +53,13 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
     }
   }
   get msg() {
-    return this.message + '<ul>' +
-      (this.prescriptions.filter(p => p.prescriptionId !== this.prescription.prescriptionId).map(p => p.labelName).reduce((accumulator, currValue) => {
-        return [...accumulator, ...currValue];
-      }, [])).join('<li>');
+    return this.message + '<ul>' + (this.prescription && this.prescriptionsIds.length > 0 ? '<li>' : '') +
+      this.prescriptionsIds.join('<li>');
+  }
+  get prescriptionsIds() {
+    return (this.prescriptions.filter(p => p.prescriptionId !== this.prescription.prescriptionId).map(p => p.labelName).reduce((accumulator, currValue) => {
+      return [...accumulator, ...currValue];
+    }, []));
   }
   get style() {
     return this.customStyle;
