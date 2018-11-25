@@ -37,9 +37,9 @@
           <ng-container *ngFor="let p of bonusService.bonus;let i = index">
             <tr>
               <td *ngIf="i==0" [attr.rowspan]="bonusService.bonus.length">{{userName}}</td>
-              <td>{{p.patientName}}</td>
-              <td>{{p.amountPaid}}</td>
-              <td>{{p.bonusAmount}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.patientName}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.amountPaid}}</td>
+              <td (click)="showClaim(p.claimId)">{{p.bonusAmount}}</td>
             </tr>
           </ng-container>
         </tbody>

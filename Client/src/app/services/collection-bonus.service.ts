@@ -10,6 +10,7 @@ export interface CollectionBonus {
     datePosted: any;
     amountPaid: number;
     bonusAmount: any;
+    claimId:number;
 }
 
 @Injectable()
