@@ -22,6 +22,8 @@ export class CollectionBonusService {
     bonus: CollectionBonus[] = [];
     data: any = {};
     totalRowCount: number;
+    totalAmountPaid: number;
+    totalBonusAmount: number;
     reportMonth: number;
     reportYear: number;
     yearRange: number[];
@@ -52,6 +54,8 @@ export class CollectionBonusService {
         this.http.collectionBonus({ month: this.reportMonth, year: this.reportYear }).single().subscribe(r => {
             this.bonus = r.results || r;
             this.totalRowCount = r.totalRowCount || r.length;
+            this.totalBonusAmount = r.totalBonusAmount;
+            this.totalAmountPaid = r.totalAmountPaid;
             this.loading = false;         
         }, err => {
             this.loading = false;

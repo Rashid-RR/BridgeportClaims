@@ -5,6 +5,9 @@ tr:nth-of-type(even) {
 tr:nth-of-type(odd) {
     background: #fff8ef !important;
 }
+.table-footer tr:nth-of-type(odd) {
+    background: #faf6e9 !important;
+}
 
 
 .row,.col-sm-12.expanded{
@@ -33,19 +36,27 @@ tr:nth-of-type(odd) {
 .table-body{
     position: absolute;
     top:75px;
-    height: calc(100% - 90px);
-    max-height: calc(100% - 90px);
+    height: calc(100% - 140px);
+    max-height: calc(100% - 140px);
     max-height: -moz-calc(100% - 90px);
     max-height: -webkit-calc(100% - 90px);
     max-height: -o-calc(100% - 90px);
     overflow-y: auto;
     overflow-x: hidden;
 } 
-.top-header,.table-body{
+.table-footer{
+    position: absolute; 
+    bottom: 35px;
+    height: 35px;
+    max-height: 35px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+} 
+.top-header,.table-body,.table-footer{
     width:99%;
 }
 
-.top-header table{
+.top-header table,.table-footer table{
     height:100%;
 }
 tbody>tr:not(:first-child):hover{

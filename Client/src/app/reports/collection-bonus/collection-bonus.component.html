@@ -18,7 +18,7 @@
                   <span class="total pull-right">
                         <span *ngIf="bonusService.pageStart"
                             style="margin-right:100px;"> {{bonusService.pageStart+ " to "+bonusService.pageEnd}}</span>
-                        <span *ngIf="bonusService.bonusList.length>0">
+                        <span *ngIf="bonusService.bonus.length>0">
                             <span style="font-size:13pt">{{bonusService.totalRowCount}}</span> Record{{bonusService.totalRowCount>1 ? 's':''}} found</span>
                     </span>
               </div>                
