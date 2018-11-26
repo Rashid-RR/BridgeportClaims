@@ -24,8 +24,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
     });
 
   }
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.returnURL = state.url;
+
     return this.isLoggedIn.map(e => {
       if (e) {
         return true;
@@ -39,6 +40,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
     });
   }
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+
     this.returnURL = state.url;
     const route = childRoute.url[0] || childRoute.parent.url[0];
     const user = localStorage.getItem('user');
@@ -54,7 +56,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
       }else if (route.path === 'users' || route.path === 'fileupload') {
         const allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin') > -1);
         return Observable.of(allowed);
-      } else if (state.url.indexOf('/main/reports') > -1 && (state.url.indexOf('/main/reports/skipped-payment') === -1 && state.url.indexOf('/main/reports/shortpay') === -1 && state.url.indexOf('/main/reports/list') === -1)) {
+      } else if (state.url.indexOf('/main/reports') > -1 && (state.url.indexOf('/main/reports/skipped-payment') === -1 && state.url.indexOf('/main/reports/collection-bonus') === -1 && state.url.indexOf('/main/reports/shortpay') === -1 && state.url.indexOf('/main/reports/list') === -1)) {
         const allowed = (us.roles && us.roles instanceof Array && us.roles.indexOf('Admin') > -1);
         return Observable.of(allowed);
       }else if (route.path === 'unindexed-images' || route.path === 'indexing') {
@@ -63,6 +65,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
       } else {
         return this.profileManager.userLoaded(us.email).single();
       }
+
     } catch (error) {
       const us = JSON.parse(user);
       if (state.url.indexOf('/main/indexing') > -1) {
