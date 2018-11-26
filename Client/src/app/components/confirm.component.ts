@@ -1,5 +1,5 @@
 import { Component, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
-import { DialogComponent, DialogService } from "ng2-bootstrap-modal";
+import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 import { Subject } from 'rxjs/Subject';
 export interface ConfirmModel {
   title: string;
@@ -34,9 +34,9 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
   message: string;
   buttonText: string;
   listener: Subject<any>;
-  buttonDisabled: boolean = false;
+  buttonDisabled = false;
   prescription: any = {};
-  prescriptions: any[] = []
+  prescriptions: any[] = [];
   constructor(private renderer: Renderer2, private elRef: ElementRef, dialogService: DialogService) {
     super(dialogService);
   }
@@ -44,26 +44,29 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
     if (this.listener) {
       this.buttonDisabled = true;
       this.renderer.setStyle(this.elRef.nativeElement.parentElement, 'height', 'fit-content');
-      this.listener.subscribe(r => {        
+      this.listener.subscribe(r => {
         this.prescriptions = r.prescriptions;
         this.buttonDisabled = r.buttonDisabled;
-      })
+      });
     } else {
       this.renderer.setStyle(this.elRef.nativeElement.parentElement, 'height', 'auto');
     }
   }
   get msg() {
-    return this.message + '<ul>' +
-      (this.prescriptions.filter(p=>p.prescriptionId!=this.prescription.prescriptionId).map(p => p.labelName).reduce((accumulator, currValue) => {
-        return [...accumulator, ...currValue];
-      }, [])).join('<li>');
+    return this.message + '<ul>' + (this.prescription && this.prescriptionsIds.length > 0 ? '<li>' : '') +
+      this.prescriptionsIds.join('<li>');
+  }
+  get prescriptionsIds() {
+    return (this.prescriptions.filter(p => p.prescriptionId !== this.prescription.prescriptionId).map(p => p.labelName).reduce((accumulator, currValue) => {
+      return [...accumulator, ...currValue];
+    }, []));
   }
   get style() {
     return this.customStyle;
   }
   confirm() {
-    // we set dialog result as true on click on confirm button, 
-    // then we can get dialog result from caller code 
+    // we set dialog result as true on click on confirm button,
+    // then we can get dialog result from caller code
     this.result = true;
     this.close();
   }

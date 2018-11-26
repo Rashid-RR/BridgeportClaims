@@ -1,21 +1,21 @@
-import {CustomPosition, Size} from "./utils";
+import {CustomPosition, Size} from './utils';
 
 export class WindowConfig {
 
     keyboard: Array<number> | number;
-    forAny:any;
-    navbarHeight=0;
-    minusLeft=7;
-    minusTop=3;
-    minusWidth=14;
-    minusHeight=44;
-    constructor(public Title: string = "",
+    forAny: any;
+    navbarHeight= 0;
+    minusLeft= 7;
+    minusTop= 3;
+    minusWidth= 14;
+    minusHeight= 44;
+    constructor(public Title: string = '',
                 public size: Size = new Size(300, 150),
                 public minWidth: number = 200,
                 public BlockParentUI: boolean = false,
                 public canMinimize: boolean = true,
                 public canMaximize: boolean = true,
-                public openAsMaximize: boolean = false, //for first time
+                public openAsMaximize: boolean = false, // for first time
                 public centerInsideParent: boolean = true,
                 public isResizable: boolean = true,
                 public position: CustomPosition = new CustomPosition(50, 50),
@@ -26,12 +26,9 @@ export class WindowConfig {
     {
         if (keyboard === undefined) {
             keyboard = [27];
-        }
-        else if ((keyboard) && !Array.isArray(<Array<number>>keyboard)) {
+        } else if ((keyboard) && !Array.isArray(<Array<number>>keyboard)) {
             keyboard = (!isNaN(<number>keyboard)) ? [<number>keyboard] : null;
         }
         this.keyboard = keyboard;
     }
 }
-
-

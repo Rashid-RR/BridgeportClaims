@@ -3,7 +3,7 @@ import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ReportLoaderService } from './report-loader.service';
 import { ToastsManager } from 'ng2-toastr';
-import { SortColumnInfo } from "../directives/table-sort.directive";
+import { SortColumnInfo } from '../directives/table-sort.directive';
 import * as FileSaver from 'file-saver';
 
 @Injectable()
@@ -24,19 +24,19 @@ export class AccountReceivableService {
 
   constructor(private http: HttpService, private events: EventsService, private toast: ToastsManager, public reportLoader: ReportLoaderService,
   ) {
-    this.autoCompleteGroupName = this.http.baseUrl + "/reports/group-name/?groupName=:keyword";
-    this.autoCompletePharmacyName = this.http.baseUrl + "/reports/pharmacy-name/?pharmacyName=:keyword";
+    this.autoCompleteGroupName = this.http.baseUrl + '/reports/group-name/?groupName=:keyword';
+    this.autoCompletePharmacyName = this.http.baseUrl + '/reports/pharmacy-name/?pharmacyName=:keyword';
 
   }
   runReport() {
-    //this.toast.info('Hold tight... this will take several seconds...');
-    if (this.groupName && this.filteredList.length == 0) {
+    // this.toast.info('Hold tight... this will take several seconds...');
+    if (this.groupName && this.filteredList.length === 0) {
       this.toast.warning('Please clear the Group Name field or Search for a Group Name and pick from the drop down list');
-    } else if (this.pharmacyName && this.pharmacyList.length == 0) {
+    } else if (this.pharmacyName && this.pharmacyList.length === 0) {
       this.toast.warning('Please clear the Pharmacy Name field or Search for a Pharmacy Name and pick from the drop down list');
     } else {
-      let item = this.filteredList.find(l => l.groupName == this.groupName);
-      let ph = this.pharmacyList.find(l => l.pharmacyName == this.pharmacyName);
+      const item = this.filteredList.find(l => l.groupName === this.groupName);
+      const ph = this.pharmacyList.find(l => l.pharmacyName === this.pharmacyName);
       if (item) {
         this.groupNameParameter = this.groupName.groupName ? this.groupName.groupName : this.groupName;
       } else {
@@ -57,7 +57,7 @@ export class AccountReceivableService {
     }
   }
   export() {
-    //this.toast.info('Hold tight... your report and Excel are generating....');
+    // this.toast.info('Hold tight... your report and Excel are generating....');
     this.search();
   }
   onSortColumn(info: SortColumnInfo) {
@@ -70,8 +70,8 @@ export class AccountReceivableService {
     this.columns = Object.keys(data);
   }
   capitalizeFirstLetter(string) {
-    let str = string.slice(1).replace(/[0-9_]/g, '');
-    let num = string.slice(1).replace(/[A-Za-z]/g, '');
+    const str = string.slice(1).replace(/[0-9_]/g, '');
+    const num = string.slice(1).replace(/[A-Za-z]/g, '');
     return string.charAt(0).toUpperCase() + str + ' ' + num;
   }
   getExport(data: any) {
@@ -86,7 +86,7 @@ export class AccountReceivableService {
   }
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     this.reportLoader.loading = true;
-    let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+    const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
     if (next) {
       data.page++;
@@ -113,7 +113,7 @@ export class AccountReceivableService {
         if (next) {
           this.data.page++;
         }
-        if (prev && this.data.page != data.page) {
+        if (prev && this.data.page !== data.page) {
           this.data.page--;
         }
         if (page) {
@@ -130,7 +130,7 @@ export class AccountReceivableService {
   }
   exportFile(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
     this.reportLoader.loading = true;
-    let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+    const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
     if (next) {
       data.page++;
@@ -150,14 +150,12 @@ export class AccountReceivableService {
     this.http.getExport(data)
       /* .map(response => {
         let fileBlob = response.blob();
-          let blob = new Blob([fileBlob], { 
+          let blob = new Blob([fileBlob], {
             type: response.headers.get('content-type') // must match the Accept type
           });
           return fileBlob;
       }) */
       .subscribe((result) => {
-        console.log("Result...");
-        console.log(result);
         this.reportLoader.loading = false;
         this.downloadFile(result);
       }, err => {
@@ -168,7 +166,7 @@ export class AccountReceivableService {
       });
   }
   downloadFile(data: any) {
-    let blob = data.body;
+    const blob = data.body;
     let filename = data.headers.get('content-disposition').replace('attachment; filename=', '');
     filename = filename.replace(/"/g, '');
     FileSaver.saveAs(blob, filename);

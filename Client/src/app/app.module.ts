@@ -8,7 +8,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { Ng2Webstorage } from 'ng2-webstorage';
 import { BootstrapModalModule } from 'ng2-bootstrap-modal';
 import { ToastModule } from 'ng2-toastr';
-//import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+// import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import { SharedModule } from './shared';
 
 /* import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr'; */
@@ -28,8 +28,10 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { UnpaidScriptComponent } from './pages/unpaid-script/unpaid-script.component';
 // services
 import {
-  AuthInterceptor,SignalRService, DiaryService, HttpService, AuthGuard, ProfileManager, EventsService, ClaimManager, FirewallService,
-  PaymentScriptService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, DocumentManagerService, ShortPayService, SkippedPaymentService
+  AuthInterceptor, CollectionBonusService, SignalRService, DiaryService, HttpService,
+  AuthGuard, ProfileManager, EventsService, ClaimManager, FirewallService,
+  PaymentScriptService, UnpaidScriptService, AccountReceivableService, ReportLoaderService,
+  DocumentManagerService, ShortPayService, SkippedPaymentService
 } from './services/services.barrel';
 import { PayorsComponent } from './pages/payors/payors.component';
 import { ClaimsComponent } from './pages/claim/claim.component';
@@ -81,7 +83,10 @@ import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-
     ClaimImagesComponent, ClaimPrescriptionsComponent, ClaimNoteComponent, ClaimEpisodeComponent, ClaimScriptNoteComponent,
     ChangePasswordComponent, ConfirmEmailComponent, FileUploadComponent, FooterComponent,
     UnpaidScriptComponent, UnindexedImageComponent,
-    UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent, EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent, FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent, ClaimOutstandingComponent
+    UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent,
+    EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent,
+    FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
+    ClaimOutstandingComponent
   ],
   imports: [
     BrowserModule,
@@ -91,17 +96,19 @@ import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-
     RoutingModule,
     FileUploadModule,
     Ng2Webstorage,
-    //SnotifyModule,
-    //SweetAlert2Module.forRoot(),
+    // SnotifyModule,
+    // SweetAlert2Module.forRoot(),
     ToastModule.forRoot(),
     BootstrapModalModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    //{ provide: 'SnotifyToastConfig', useValue: ToastDefaults},SnotifyService,
-    DecimalPipe, DatePipe,
-    HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService, EpisodeService, FirewallService,
-    PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService, AccountReceivableService, ReportLoaderService, SignalRService,
+    // { provide: 'SnotifyToastConfig', useValue: ToastDefaults},SnotifyService,
+    DecimalPipe, DatePipe, CollectionBonusService,
+    HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService,
+    EpisodeService, FirewallService,
+    PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService,
+    AccountReceivableService, ReportLoaderService, SignalRService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

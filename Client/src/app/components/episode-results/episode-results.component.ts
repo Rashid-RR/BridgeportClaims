@@ -35,30 +35,30 @@ export class EpisodeResultsComponent implements OnInit {
     this.episodeService.search();
   }
   showNoteWindow(episode: Episode) {
-    let config = new WindowConfig("Episode Note(s)", new Size(400, 700))  //height, width
-    
-    config.position = new CustomPosition((window.innerWidth-700)/2+50, 60)//left,top
+    const config = new WindowConfig('Episode Note(s)', new Size(400, 700));  // height, width
+
+    config.position = new CustomPosition((window.innerWidth - 700) / 2 + 50, 60); // left,top
     config.minusTop = 0;
     config.minusHeight = 0;
     config.minusLeft = 0;
     config.minusWidth = 0;
     config.centerInsideParent = false;
-    var temp = {}
+    const temp = {};
     config.forAny = [temp];
     config.openAsMaximize = false;
     this.myInjector.openWindow(EpisodeNoteModalComponent, config)
       .then((win: EpisodeNoteModalComponent) => {
         win.showNote(episode);
-      })
+      });
   }
 
-  assign(episode: Episode) { 
+  assign(episode: Episode) {
     this.episodeService.episodetoAssign = episode;
     this.episodeSwal.show().then((r) => {
-        
-    })
+
+    });
   }
-  acquire(episode: Episode) {    
+  acquire(episode: Episode) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Acquire Episode',
       message: 'Are you sure you want to acquire this episode?'
@@ -68,10 +68,10 @@ export class EpisodeResultsComponent implements OnInit {
           this.episodeService.loading = true;
           this.http.acquireEpisode(episode.episodeId).single().subscribe(res => {
             this.toast.success(res.message);
-            this.episodeService.loading = false; 
-            episode.owner = res.owner;            
+            this.episodeService.loading = false;
+            episode.owner = res.owner;
           }, error => {
-            this.toast.error(error.message); 
+            this.toast.error(error.message);
             this.episodeService.loading = false;
           });
         }
@@ -100,8 +100,7 @@ export class EpisodeResultsComponent implements OnInit {
         }
       });
   }
-  openClaim(episode:Episode){
-    console.log(episode);
+  openClaim(episode: Episode){
     window.open('#/main/claims?claimNumber=' + episode.claimNumber, '_blank');
   }
   next() {
@@ -111,10 +110,10 @@ export class EpisodeResultsComponent implements OnInit {
     this.episodeService.search(false, true);
   }
   openFile(episode: Episode) {
-    let id = UUID.UUID();
-    let doc:any = episode;
-    doc.documentId = id
-    let file = doc as any
+    const id = UUID.UUID();
+    const doc: any = episode;
+    doc.documentId = id;
+    const file = doc as any;
     localStorage.setItem('file-' + id, JSON.stringify(file));
     window.open('#/main/indexing/indexed-image/' + id, '_blank');
   }
@@ -144,10 +143,10 @@ export class EpisodeResultsComponent implements OnInit {
 
   formatDate(input: String) {
     if (!input) return null;
-    if (input.indexOf("-") > -1) {
-      let date = input.split("T");
-      let d = date[0].split("-");
-      return d[1] + "/" + d[2] + "/" + d[0];
+    if (input.indexOf('-') > -1) {
+      const date = input.split('T');
+      const d = date[0].split('-');
+      return d[1] + '/' + d[2] + '/' + d[0];
     } else {
       return input;
     }

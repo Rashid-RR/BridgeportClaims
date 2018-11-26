@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit,} from '@angular/core';
+import {Component, NgZone, OnInit, } from '@angular/core';
 import {HttpService} from '../../services/http-service';
 import {EventsService} from '../../services/events-service';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -86,12 +86,12 @@ export class UsersComponent implements OnInit {
       this.loading = false;
     });
     this.http.getActiveUsers().map(res => {
-      return res
+      return res;
     }).subscribe(result => {
-      this.activeUsers = result
+      this.activeUsers = result;
     }, error1 => {
-      console.log(error1)
-    })
+
+    });
   }
 
 
@@ -99,11 +99,11 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     this.http.getUsers(pageNumber, this.pageSize).map(res => {
       this.loading = false;
-      return res
+      return res;
     }).subscribe(result => {
       result.forEach(element => {
         if (element.referralTypeId) {
-          element.referralType = this.referralTypes.find(r => r.referralTypeId == element.referralTypeId);
+          element.referralType = this.referralTypes.find(r => r.referralTypeId === element.referralTypeId);
         }
         if (element.roles.includes(this.userRole)) {
           element.user = true;
@@ -135,7 +135,7 @@ export class UsersComponent implements OnInit {
   }
 
   getReferalType(id: any) {
-    let ref = this.referralTypes.find(r => r.referralTypeId == id);
+    const ref = this.referralTypes.find(r => r.referralTypeId === id);
     if (!ref) {
       return '';
     }
@@ -144,11 +144,11 @@ export class UsersComponent implements OnInit {
 
   changeReferalType(user, ref) {
     this.loading = true;
-    if (user.roles.length == 0) {
+    if (user.roles.length === 0) {
       this.toast.warning('Please assign this user to the client role, before you are able to assign a referral type to them.');
       this.loading = false;
       return;
-    } else if (user.roles.indexOf(this.clientRole) == -1) {
+    } else if (user.roles.indexOf(this.clientRole) === -1) {
       this.toast.warning('Unable to assign a referral type to someone who is not a member of the client role.');
       this.loading = false;
       return;
@@ -245,7 +245,7 @@ export class UsersComponent implements OnInit {
     let msg = '';
     const action = (event) ? 'Assign ' + role + ' role to ' : 'Revoke ' + role + ' role from ';
 
-    if (event && role == this.clientRole && (this.users[index].admin || this.users[index].indexer || this.users[index].user)) {
+    if (event && role === this.clientRole && (this.users[index].admin || this.users[index].indexer || this.users[index].user)) {
       this.toast.warning('A user of the Bridgeport system cannot be added to the \'Client\' role.');
       return this.undoRole(role, index, event);
     }
@@ -253,7 +253,7 @@ export class UsersComponent implements OnInit {
       this.toast.warning('A member of the \'Client\' role cannot be an \'Admin\' or an \'Indexer\'.');
       return this.undoRole(role, index, event);
     }
-    if (this.users[index].admin && role == this.userRole && !event) {
+    if (this.users[index].admin && role === this.userRole && !event) {
       msg = 'Warning, revoking ' + this.users[index].fullName + ' from the "User" role will also revoke them from the "Admin" role.';
     } else {
       msg = '' + action + this.users[index].fullName + '?';
@@ -277,21 +277,21 @@ export class UsersComponent implements OnInit {
   }
 
   undoRole(role, index, event) {
-    console.log(this.users[index].client, this.users[index].admin, this.users[index].user, role, event);
+
     setTimeout(() => {
-      if (role == this.adminRole) {
+      if (role === this.adminRole) {
         this.users[index].admin = !event;
       }
-      if (role == this.clientRole) {
+      if (role === this.clientRole) {
         this.users[index].client = !event;
       }
-      if (role == this.userRole) {
+      if (role === this.userRole) {
         this.users[index].user = !event;
       }
-      if (role == this.indexerRole) {
+      if (role === this.indexerRole) {
         this.users[index].indexer = !event;
       }
-      console.log(this.users[index].client, this.users[index].admin, this.users[index].user, role, event);
+
     }, 200);
   }
 
@@ -306,66 +306,66 @@ export class UsersComponent implements OnInit {
       data.role = role;
       const request = event ? this.http.smartAsignRole(data) : this.http.assignUserRole(data);
       request.subscribe(res => {
-        if (this.users[index].admin && role == this.userRole && !event) {
+        if (this.users[index].admin && role === this.userRole && !event) {
           this.users[index].admin = false;
-        } else if (role == this.adminRole && this.users[index].admin) {
+        } else if (role === this.adminRole && this.users[index].admin) {
           this.users[index].user = true;
           this.users[index].indexer = true;
-        } else if (role == this.indexerRole && this.users[index].indexer) {
+        } else if (role === this.indexerRole && this.users[index].indexer) {
           this.users[index].user = true;
         }
         this.toast.success(msg);
       }, error => {
         const err = error.error;
         this.toast.error('A server error has occurred. Please contact your system administrator.');
-        console.log(err.message);
+
       });
     } catch (e) {
-      console.log(e);
+
     } finally {
 
     }
   }
 
   search() {
-    console.log(this.form.value);
+
   }
 
   addUser(id) {
-    console.log(id)
+
     this.allUsers = this.tempAllUsers;
     if (id === -1) {
       for (let user in this.allUsers) {
-        this.selectedUsers.push(this.allUsers[user])
+        this.selectedUsers.push(this.allUsers[user]);
       }
-      this.allUsers = []
+      this.allUsers = [];
 
     } else {
-      var index = this.allUsers.findIndex(data => data.payorId === id)
-      console.log(index)
+      const index = this.allUsers.findIndex(data => data.payorId === id);
+
       if (index > -1) {
 
-        console.log(this.allUsers[index])
-        this.selectedUsers.push(this.allUsers[index])
+
+        this.selectedUsers.push(this.allUsers[index]);
 
         this.allUsers.splice(index, 1);
       }
 
     }
-    this.userSearchQuery = ''
+    this.userSearchQuery = '';
     this.tempAllUsers = this.allUsers;
 
   }
 
   remoevUser(id) {
-    if (id == -1) {
+    if (id === -1) {
       for (let user in this.selectedUsers) {
-        this.allUsers.push(this.selectedUsers[user])
+        this.allUsers.push(this.selectedUsers[user]);
       }
-      this.selectedUsers = []
+      this.selectedUsers = [];
     } else {
-      var index = this.selectedUsers.findIndex(data => data.payorId === id)
-      this.allUsers.push(this.selectedUsers[index])
+      const index = this.selectedUsers.findIndex(data => data.payorId === id);
+      this.allUsers.push(this.selectedUsers[index]);
 
       if (index > -1) {
         this.selectedUsers.splice(index, 1);
@@ -374,62 +374,61 @@ export class UsersComponent implements OnInit {
   }
 
   filterUsers(query) {
-    console.log(this.tempAllUsers)
+
     if (query !== '') {
-      this.allUsers = this.tempAllUsers.filter(x => x.carrier.toLocaleLowerCase().includes(query.toLocaleLowerCase()))
+      this.allUsers = this.tempAllUsers.filter(x => x.carrier.toLocaleLowerCase().includes(query.toLocaleLowerCase()));
     } else {
       this.allUsers = this.tempAllUsers;
     }
-    // console.log(query)
+
   }
 
   getListofusers(id) {
-    console.log(id)
+
     this.selectedUserId = id;
     this.allUsers = [];
     this.selectedUsers = [];
 
     this.http.getUsersListPerActiveUser(id).map(res => {
-      return res
+      return res;
     }).subscribe(result => {
 
-      console.log(result);
+
       this.allUsers = result['rightCarriers'];
       this.selectedUsers = result['leftCarriers'];
       this.tempAllUsers = this.allUsers;
-      console.log(this.allUsers)
-      console.log(this.selectedUsers)
+
+
 
 
     }, error1 => {
-      console.log(error1)
-    })
+
+    });
   }
 
   saveAssignment() {
-    var payorId = []
+    const payorId = [];
     for (let payor in this.selectedUsers) {
-      payorId.push(this.selectedUsers[payor].payorId)
+      payorId.push(this.selectedUsers[payor].payorId);
     }
     this.http.assignUsertoPayors(this.selectedUserId, payorId).map(res => {
-      return res
+      return res;
     }).subscribe(result => {
 
       this.toast.success(result['message']);
       $('#usersModal').modal('hide');
 
     }, error1 => {
-      console.log(error1);
+
       const err = error1.error;
       this.toast.error(err.message);
     });
   }
 
   initilizeModal() {
-    this.userSearchQuery = ''
-    $('#userSelection').val(0)
+    this.userSearchQuery = '';
+    $('#userSelection').val(0);
     this.allUsers = [];
     this.selectedUsers = [];
   }
-
 }

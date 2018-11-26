@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ReportsRoutes } from './reports.routing';
 import { SweetAlert2Module } from '@toverux/ngx-sweetalert2';
@@ -22,6 +21,9 @@ import { SkippedPaymentComponent } from './skipped-payment/skipped-payment.compo
 import { ShortPayComponent } from './short-pay/short-pay.component';
 import { DuplicateClaimComponent } from './duplicate-claim/duplicate-claim.component';
 import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicate-claim-manual.component';
+import { CollectionBonusComponent } from './collection-bonus/collection-bonus.component';
+import { CollectionBonusSearchComponent } from './collection-bonus-search/collection-bonus-search.component';
+import { CollectionBonusListComponent } from './collection-bonus-list/collection-bonus-list.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,7 +33,11 @@ import { DuplicateClaimManualComponent } from './duplicate-claim-manual/duplicat
   ],
   declarations: [
     AccountReceivableSearchComponent, AccountReceivableResultComponent,
-    ReportComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, DuplicateClaimsComponent, DuplicateClaimSearchComponent, DuplicateClaimListComponent, ShortPayReportComponent, SkippedPaymentListComponent, SkippedPaymentSearchComponent, ShortPaySearchComponent, SkippedPaymentComponent, ShortPayComponent, DuplicateClaimComponent, DuplicateClaimManualComponent
+    ReportComponent, ReportListComponent, ReportSampleComponent, ReportAccountReceivableComponent, DuplicateClaimsComponent,
+    DuplicateClaimSearchComponent, DuplicateClaimListComponent, ShortPayReportComponent, SkippedPaymentListComponent,
+    SkippedPaymentSearchComponent, ShortPaySearchComponent, SkippedPaymentComponent, ShortPayComponent,
+    DuplicateClaimComponent, DuplicateClaimManualComponent, CollectionBonusComponent, CollectionBonusSearchComponent,
+    CollectionBonusListComponent
   ]
 })
 export class ReportsModule { }

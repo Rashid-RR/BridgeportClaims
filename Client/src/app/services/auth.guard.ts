@@ -9,7 +9,7 @@ import { HttpService } from "./http-service";
 import { UserProfile } from "../models/profile";
 import { ProfileManager } from "./profile-manager";
 import { EventsService } from "./events-service";
-import { Observable } from "rxjs/Observable"
+import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/first' // in imports
 
 @Injectable()
@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
   constructor(private activeRoute: ActivatedRoute, private events: EventsService, private router: Router, private profileManager: ProfileManager) {
     this.events.on("logout", immediately => {
       this.profileManager.profile = undefined;
-      localStorage.removeItem("user");
+      localStorage.removeItem('user');
       this.router.navigate(['/login']);
     });
 
@@ -40,75 +40,72 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
   }
   canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     this.returnURL = state.url;
-    let route = childRoute.url[0] || childRoute.parent.url[0];
-    var user = localStorage.getItem("user");
-    if (user === null || user.length == 0) {
+    const route = childRoute.url[0] || childRoute.parent.url[0];
+    const user = localStorage.getItem('user');
+    if (user === null || user.length === 0) {
       this.router.navigate(['/login'], { queryParams: { 'returnURL': this.returnURL } });
-      this.events.broadcast("logout", true);
+      this.events.broadcast('logout', true);
       return Observable.of(false);
     }
     try {
-      let us = JSON.parse(user);
-      if(['private','referral','profile'].indexOf(route.path)==-1 && (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Client') > -1)){
-        return Observable.of(false)
-      }else if (route.path == 'users' || route.path == 'fileupload') {
-        var allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin') > -1);
-        return Observable.of(allowed)
-      } else if (state.url.indexOf('/main/reports')>-1 && (state.url.indexOf('/main/reports/skipped-payment')==-1 && state.url.indexOf('/main/reports/shortpay')==-1 && state.url.indexOf('/main/reports/list')==-1)) {
-        var allowed = (us.roles && us.roles instanceof Array && us.roles.indexOf('Admin') > -1);
-        return Observable.of(allowed)
-      }else if (route.path == 'unindexed-images' || route.path == 'indexing') {
-        var allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));
-        return Observable.of(allowed)
+      const us = JSON.parse(user);
+      if(['private','referral','profile'].indexOf(route.path)===-1 && (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Client') > -1)){
+        return Observable.of(false);
+      }else if (route.path === 'users' || route.path === 'fileupload') {
+        const allowed = (us.roles && (us.roles instanceof Array) && us.roles.indexOf('Admin') > -1);
+        return Observable.of(allowed);
+      } else if (state.url.indexOf('/main/reports') > -1 && (state.url.indexOf('/main/reports/skipped-payment') === -1 && state.url.indexOf('/main/reports/shortpay') === -1 && state.url.indexOf('/main/reports/list') === -1)) {
+        const allowed = (us.roles && us.roles instanceof Array && us.roles.indexOf('Admin') > -1);
+        return Observable.of(allowed);
+      }else if (route.path === 'unindexed-images' || route.path === 'indexing') {
+        const allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));
+        return Observable.of(allowed);
       } else {
         return this.profileManager.userLoaded(us.email).single();
       }
     } catch (error) {
-      let us = JSON.parse(user); 
-      if (state.url.indexOf('/main/indexing')>-1) {
-        var allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));
-        return Observable.of(allowed)
+      const us = JSON.parse(user);
+      if (state.url.indexOf('/main/indexing') > -1) {
+        const allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));
+        return Observable.of(allowed);
       }else{
         return Observable.of(false);
       }
     }
   }
   get isLoggedIn(): Observable<boolean> {
-    var user = localStorage.getItem("user");
-    if (user === null || user.length == 0) { return Observable.of(false); }
+    const user = localStorage.getItem('user');
+    if (user === null || user.length === 0) { return Observable.of(false); }
     try {
-      let us = JSON.parse(user);
-      //console.log(this.profileManager.userProfile(us.userName));
+      const us = JSON.parse(user);
       return this.profileManager.userInfo(us.email).single().map(res => {
         if (res.email && !this.profileManager.profile) {
           this.profileManager.profile = res;
         }
         return res.email ? true : false;
-      })
+      });
     } catch (error) {
       return Observable.of(false);
     }
   }
 
   get isSideBarOpen(): boolean {
-    var sidebar = localStorage.getItem("sidebarOpen");
-    if (sidebar === null) { return true }
-    console.log("gets here..");
+    const sidebar = localStorage.getItem('sidebarOpen');
+    if (sidebar === null) { return true; }
+
     try {
       return Boolean(sidebar);
     } catch (error) {
-      console.log(error);
       return true;
     }
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserProfile> {
-    let user = this.profileManager.User;
+    const user = this.profileManager.User;
     user.subscribe(profile => {
-      //console.log(profile);
     }, error => {
-      console.log(error);
+      
     });
-    //return user.map(profile=>{console.log(profile);return profile});
+    // return user.map(profile=>{return profile});
     return this.profileManager.User;
   }
 

@@ -1,14 +1,14 @@
 import { Component, OnInit, AfterViewChecked } from '@angular/core';
 
 import { FileSelectDirective, FileItem, FileDropDirective, ParsedResponseHeaders, FileUploader } from 'ng2-file-upload/ng2-file-upload';
-import { HttpService } from "../../services/http-service"
-import { ImportFile } from "../../models/import-file"
+import { HttpService } from '../../services/http-service';
+import { ImportFile } from '../../models/import-file';
 import { ToastsManager } from 'ng2-toastr';
-import { DialogService } from "ng2-bootstrap-modal";
+import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 
 const URL = 'http://bridgeportclaims-bridgeportclaimsstaging.azurewebsites.net/api/fileupload/upload';
-const noLaker: String = "No Laker Files were found to import.";
+const noLaker: String = 'No Laker Files were found to import.';
 
 @Component({
   selector: 'app-file-upload',
@@ -53,7 +53,9 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
   }
   onItemUploadComplete(item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) {
     const r = JSON.parse(response);
-    if (status => 200 && status < 300) {
+    if (status => {
+      return 200 && status < 300;
+    }) {
       this.getFiles();
       this.toast.success(r.message);
     } else {
@@ -76,22 +78,21 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
   getFiles() {
     this.loading = true;
     this.http.getFiles().single().subscribe(res => {
-      //res.push(new ImportFile(new Date(),".png",231,"assets/that-file.png"));     
+      // res.push(new ImportFile(new Date(),".png",231,"assets/that-file.png"));
       this.importedFiles = res;
       this.loading = false;
-      //console.log(this.importedFiles)
     }, error => {
       this.loading = false;
     });
   }
 
   deleteFile(file: ImportFile) {
-    let disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Delete File",
-      message: "Do you want to delete " + file.fileName + "?"
+    const disposable = this.dialogService.addDialog(ConfirmComponent, {
+      title: 'Delete File',
+      message: 'Do you want to delete ' + file.fileName + '?'
     })
       .subscribe((isConfirmed) => {
-        //We get dialog result
+        // We get dialog result
         if (isConfirmed) {
           this.loading = true;
           this.http.deleteFileById(file.importFileId).single().subscribe(res => {
@@ -115,7 +116,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
       if (isConfirmed) {
         this.loading = true;
         this.http.importLakerFile(file.fileName).single().subscribe(res => {
-          if (res.message == noLaker) {
+          if (res.message === noLaker) {
             this.toast.info(res.message);
           } else {
             this.toast.info(res.message, null, { toastLife: 10000 });
@@ -158,7 +159,6 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
     const fixedHeader = document.getElementById('fixed-header');
     if (fixedHeader.style.position !== 'fixed') {
       fixedHeader.style.position = 'fixed';
-      // console.log('set fixed header to Fixed');
     }
   }
 

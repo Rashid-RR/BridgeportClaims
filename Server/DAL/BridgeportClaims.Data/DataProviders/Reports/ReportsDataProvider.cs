@@ -260,7 +260,7 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 }
             });
 
-        public IEnumerable<CollectionsBonusDto> GetCollectionsBonus(string userId, int month, int year)
+        public CollectionsBonusDto GetCollectionsBonus(string userId, int month, int year)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[rpt].[uspCollectionsBonus]";
@@ -272,7 +272,16 @@ namespace BridgeportClaims.Data.DataProviders.Reports
                 ps.Add("@UserID", userId, DbType.String, size: 128);
                 ps.Add("@Month", month, DbType.Int32);
                 ps.Add("@Year", year, DbType.Int32);
-                return conn.Query<CollectionsBonusDto>(sp, ps, commandType: CommandType.StoredProcedure);
+                var results =
+                    conn.Query<CollectionsBonusResultsDto>(sp, ps, commandType: CommandType.StoredProcedure)?.OrderBy(o => o.PatientName).ToList() ??
+                    new List<CollectionsBonusResultsDto>();
+                var collectionsBonus = new CollectionsBonusDto
+                {
+                    Results = results,
+                    TotalAmountPaid = results.Sum(s => s.AmountPaid),
+                    TotalBonusAmount = results.Sum(s => s.BonusAmount)
+                };
+                return collectionsBonus;
             });
     }
 }

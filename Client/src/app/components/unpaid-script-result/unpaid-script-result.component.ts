@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { UnpaidScriptService, HttpService } from "../../services/services.barrel";
+import { UnpaidScriptService, HttpService } from '../../services/services.barrel';
 import { ConfirmComponent } from '../confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Toast, ToastsManager } from 'ng2-toastr';
@@ -18,7 +18,7 @@ export class UnpaidScriptResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.uss.getPayors(1)
+    this.uss.getPayors(1);
   }
   archive(u: any) {
     this.dialogService.addDialog(ConfirmComponent, {
@@ -33,7 +33,7 @@ export class UnpaidScriptResultsComponent implements OnInit {
               this.uss.search();
             }, err => {
               this.toast.warning('Could not archive script');
-            })
+            });
         }
       });
   }
@@ -41,18 +41,18 @@ export class UnpaidScriptResultsComponent implements OnInit {
     this.uss.search(true);
   }
   goto() {
-    let page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
 
     } else if (page > 0 && page <= this.uss.totalPages) {
       this.uss.search(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages;
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }
@@ -61,8 +61,8 @@ export class UnpaidScriptResultsComponent implements OnInit {
   }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {

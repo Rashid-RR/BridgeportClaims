@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FirewallService } from '../../services/firewall.service';
 import { Firewall } from '../../interfaces/firewall';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
@@ -12,7 +12,7 @@ import { ConfirmComponent } from '../confirm.component';
 })
 export class FirewallGridComponent implements OnInit {
 
-  constructor(public firewallService:FirewallService,
+  constructor(public firewallService: FirewallService,
     private dialogService: DialogService) { }
 
   ngOnInit() {
@@ -27,7 +27,6 @@ export class FirewallGridComponent implements OnInit {
         if (isConfirmed) {
           this.firewallService.deleteFirewall(fw);
         } else {
-
         }
       });
   }

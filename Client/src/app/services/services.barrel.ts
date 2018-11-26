@@ -17,3 +17,4 @@ export * from "./document-manager.service";
 export * from "./firewall.service";
 export * from "./skipped-payment.service";
 export * from "./short-pay.service";
+export * from "./collection-bonus.service";

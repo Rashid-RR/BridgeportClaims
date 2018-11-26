@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, PreloadAllModules } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AppLayoutComponent } from './layouts/app-layout.component';
 // end of layouts
 import { LoginComponent } from './pages/login/login.component';
@@ -89,7 +89,7 @@ export const routes: Routes = [
   { component: Error404Component, path: '**' }
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
   exports: [RouterModule]
 })
 export class RoutingModule {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReportLoaderService, SkippedPaymentService,HttpService } from "../../services/services.barrel";
+import { ReportLoaderService, SkippedPaymentService, HttpService } from '../../services/services.barrel';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Toast, ToastsManager } from 'ng2-toastr';
@@ -10,16 +10,16 @@ import { Toast, ToastsManager } from 'ng2-toastr';
   styleUrls: ['./skipped-payment-list.component.css']
 })
 export class SkippedPaymentListComponent implements OnInit {
-  
+
   goToPage: any = '';
   activeToast: Toast;
-  constructor(private http:HttpService,private dialogService: DialogService, private toast: ToastsManager, public skipped: SkippedPaymentService,public reportloader: ReportLoaderService) { }
+  constructor(private http: HttpService, private dialogService: DialogService, private toast: ToastsManager, public skipped: SkippedPaymentService, public reportloader: ReportLoaderService) { }
 
   ngOnInit() {
-    this.skipped.getPayors(1)
+    this.skipped.getPayors(1);
   }
- 
-  archive(prescriptionId:any) {
+
+  archive(prescriptionId: any) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Archive skipped payment',
       message: `Are you sure you want to archive this entry`
@@ -36,11 +36,11 @@ export class SkippedPaymentListComponent implements OnInit {
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
-  
+
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {
@@ -48,29 +48,29 @@ export class SkippedPaymentListComponent implements OnInit {
     } else if (input < 1) {
       event.preventDefault();
     }
-  } 
+  }
   prev() {
     this.skipped.fetchSkippedPayReport(false, true);
   }
 
   goto() {
-    let page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage);
     if (!this.goToPage || isNaN(page)) {
     } else if (page > 0 && ((this.reportloader.totalPages && page <= this.reportloader.totalPages) || this.reportloader.totalPages == null)) {
       this.skipped.fetchSkippedPayReport(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }
 
   showClaim(claimId: any) {
-    window.open("#/main/claims?claimId=" + claimId, "_blank");
+    window.open('#/main/claims?claimId=' + claimId, '_blank');
   }
 
 }

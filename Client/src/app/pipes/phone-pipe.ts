@@ -1,16 +1,18 @@
-import {Pipe} from '@angular/core';
+import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
     name: 'phone'
 })
-export class PhonePipe{
+export class PhonePipe implements PipeTransform {
     transform(val, args) {
-        if(!val) return val;
+        if (!val) {
+            return val;
+        }
         val = String(val);
         let newStr = '';
-        newStr += '('+val.substring(0,3)+') ';
-        newStr += val.substring(3,6)+'-';
-        newStr += val.substring(6,val.length);
+        newStr += '(' + val.substring(0, 3) + ') ';
+        newStr += val.substring(3, 6) + '-';
+        newStr += val.substring(6, val.length);
         return newStr;
     }
 }

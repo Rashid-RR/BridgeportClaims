@@ -1,8 +1,6 @@
- 
-
-import {ComponentRef} from "@angular/core";
+import {ComponentRef} from '@angular/core';
 import { PromiseCompleter } from './utils';
-import {WindowConfig} from "./WindowConfig";
+import {WindowConfig} from './WindowConfig';
 
 export class WindowInstance {
     private _bootstrapRef: ComponentRef<any>;
@@ -37,7 +35,7 @@ export class WindowInstance {
      * A Promise that is resolved on a close event and rejected on a dimiss event.
      * @returns {Promise<T>|any|*|Promise<any>}
      */
-    get result():Promise<any> {
+    get result(): Promise<any> {
         return this._resultDeffered.promise;
     }
 
@@ -54,13 +52,7 @@ export class WindowInstance {
     }
 
 
-    dismiss(){
+    dismiss() {
         this.dispose();
     }
-
-
-
 }
-
-
-

@@ -1,5 +1,5 @@
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { ReportLoaderService, ComparisonClaim, DuplicateClaim } from "../../services/services.barrel";
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { ReportLoaderService, ComparisonClaim, DuplicateClaim } from '../../services/services.barrel';
 import { Toast, ToastsManager } from 'ng2-toastr';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import swal from 'sweetalert2';
@@ -21,18 +21,18 @@ export class DuplicateClaimListComponent implements OnInit {
   lastSelectedIndex: number;
   mergedClaim: any = {} as any;
   @ViewChild('claimActionSwal') private claimSwal: SwalComponent;
-  comparisonClaims: ComparisonClaim = {} as ComparisonClaim
-  constructor(private dialogService: DialogService,private dp: DatePipe, private http: HttpService, public reportloader: ReportLoaderService, private toast: ToastsManager) { }
+  comparisonClaims: ComparisonClaim = {} as ComparisonClaim;
+  constructor(private dialogService: DialogService, private dp: DatePipe, private http: HttpService, public reportloader: ReportLoaderService, private toast: ToastsManager) { }
 
   ngOnInit() {
     this.reportloader.current = 'Duplicate Claims Report';
     this.reportloader.currentURL = 'duplicate-claims';
-    //this.reportloader.loading = false;
+    // this.reportloader.loading = false;
   }
   archive(claim) {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Remove Claim',
-      message: "Are you sure you'd like to remove this claim?"
+      message: 'Are you sure you\'d like to remove this claim?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
@@ -40,7 +40,7 @@ export class DuplicateClaimListComponent implements OnInit {
           this.http.archiveDuplicateClaim(claim.claimId).single().subscribe(res => {
             this.toast.success(res.message);
             this.reportloader.loading = false;
-            this.reportloader.fetchDuplicateClaims()
+            this.reportloader.fetchDuplicateClaims();
             this.closeModal();
           }, error => {
             this.toast.error(error.message);
@@ -50,7 +50,7 @@ export class DuplicateClaimListComponent implements OnInit {
       });
   }
   merge(value: any, $event, index: string) {
-    if (value == this.mergedClaim[index] && !$event.checked) {
+    if (value === this.mergedClaim[index] && !$event.checked) {
       this.mergedClaim[index] = undefined;
     } else {
       this.mergedClaim[index] = $event.checked ? value : this.mergedClaim[index];
@@ -60,8 +60,8 @@ export class DuplicateClaimListComponent implements OnInit {
     this.deselectAll();
     try { swal.clickCancel(); } catch (e) { }
   }
-  checked(field:string,side:string){
-    return this.mergedClaim.hasOwnProperty(field) && this.mergedClaim[field]===this.comparisonClaims[`${side}${field}`];
+  checked(field: string, side: string){
+    return this.mergedClaim.hasOwnProperty(field) && this.mergedClaim[field] === this.comparisonClaims[`${side}${field}`];
   }
   save() {
     const duplicate = this.reportloader.selectedClaims.find(c => c.claimId !== this.mergedClaim.ClaimId);
@@ -73,26 +73,26 @@ export class DuplicateClaimListComponent implements OnInit {
     form.AdjustorId = form.AdjustorName === this.comparisonClaims.leftAdjustorName ? this.comparisonClaims.leftAdjustorId : (form.AdjustorName ? this.comparisonClaims.rightAdjustorId : undefined);
     form.PatientId = form.PatientName === this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
     form.PayorId = form.Carrier === this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.Carrier ? this.comparisonClaims.rightPayorId : undefined);
-    //form.PersonCode = this.reportloader.selectedClaims[0].personCode;
-    if(!this.comparisonClaims.leftClaimFlex2Id && !this.comparisonClaims.rightClaimFlex2Id){
-      form['ClaimFlex2Id'] =null;
-    }else  if(form.ClaimFlex2Id===undefined){
-      delete form['ClaimFlex2Id']
+    // form.PersonCode = this.reportloader.selectedClaims[0].personCode;
+    if (!this.comparisonClaims.leftClaimFlex2Id && !this.comparisonClaims.rightClaimFlex2Id){
+      form['ClaimFlex2Id'] = null;
+    }else  if (form.ClaimFlex2Id === undefined){
+      delete form['ClaimFlex2Id'];
     }
-    if(!this.comparisonClaims.leftAdjustorId && !this.comparisonClaims.rightAdjustorId){
-      form['AdjustorId'] =null;
-    }else if(form.AdjustorId===undefined){
-      delete form['AdjustorId']
+    if (!this.comparisonClaims.leftAdjustorId && !this.comparisonClaims.rightAdjustorId){
+      form['AdjustorId'] = null;
+    }else if (form.AdjustorId === undefined){
+      delete form['AdjustorId'];
     }
-    if(!this.comparisonClaims.leftPatientId && !this.comparisonClaims.rightPatientId){
-      form['PatientId'] =null;
-    }else if(form.PatientId===undefined){
-      delete form['PatientId']
+    if (!this.comparisonClaims.leftPatientId && !this.comparisonClaims.rightPatientId){
+      form['PatientId'] = null;
+    }else if (form.PatientId === undefined){
+      delete form['PatientId'];
     }
-    if(!this.comparisonClaims.leftPayorId && !this.comparisonClaims.rightPayorId){
-      form['PayorId'] =null;
-    }else if(form.PayorId===undefined){
-      delete form['PayorId']
+    if (!this.comparisonClaims.leftPayorId && !this.comparisonClaims.rightPayorId){
+      form['PayorId'] = null;
+    }else if (form.PayorId === undefined){
+      delete form['PayorId'];
     }
     delete form.PatientName;
     delete form.AdjustorName;
@@ -124,7 +124,7 @@ export class DuplicateClaimListComponent implements OnInit {
   }
   select(claim: DuplicateClaim, $event, index: number) {
     if ($event.checked) {
-      if (this.reportloader.selectedClaims.length == 2 && $event.checked) {
+      if (this.reportloader.selectedClaims.length === 2 && $event.checked) {
         this.showModal();
         return;
       }
@@ -132,26 +132,27 @@ export class DuplicateClaimListComponent implements OnInit {
       if (this.selectMultiple) {
         for (let i = this.lastSelectedIndex; i < index; i++) {
           try {
-            let c = jQuery('#row' + i).attr('claim');
-            let claim = JSON.parse(c);
-            let data = this.reportloader.duplicates.find(c => c.claimId == claim.claimId);
+            const c = jQuery('#row' + i).attr('claim');
+            const claim = JSON.parse(c);
+            const data = this.reportloader.duplicates.find(c => c.claimId === claim.claimId);
             data.selected = true;
           } catch (e) { }
         }
       }
       this.lastSelectedIndex = index;
-      if (this.reportloader.selectedClaims.length == 1) {
-        this.toast.info('You have selected a Claim to compare. Please select another', '', { toastLife: 15000, showCloseButton: true }).then((toast: Toast) => {
+      if (this.reportloader.selectedClaims.length === 1) {
+        this.toast.info('You have selected a Claim to compare. Please select another', '',
+         { toastLife: 15000, showCloseButton: true }).then((toast: Toast) => {
           this.activeToast = toast;
-        })
-      } else if (this.reportloader.selectedClaims.length == 2) {
+        });
+      } else if (this.reportloader.selectedClaims.length === 2) {
         this.activeToast.timeoutId = null;
-        jQuery(".toast.toast-info").hide();
+        jQuery('.toast.toast-info').hide();
         this.showModal();
       }
     } else {
       this.toast.warning('You you have already chosen this claim for comparison.').then((toast: Toast) => {
-      })
+      });
       $event.checked = true;
     }
   }
@@ -160,7 +161,7 @@ export class DuplicateClaimListComponent implements OnInit {
     this.reportloader.duplicates.forEach(c => {
       c.selected = false;
     });
-    this.mergedClaim={};
+    this.mergedClaim = {};
   }
 
 
@@ -173,17 +174,17 @@ export class DuplicateClaimListComponent implements OnInit {
         this.comparisonClaims = Array.isArray(r) ? r[0] : r;
         Object.keys(this.comparisonClaims).forEach(k => {
           if (k.indexOf('left') > -1) {
-            let right = k.replace('left', 'right');
-            let id = k.replace('left', '');
-            //id = id.substr(0,1).toLowerCase()+id.substring(1);
-            if (this.comparisonClaims[k] == this.comparisonClaims[right]) {
+            const right = k.replace('left', 'right');
+            const id = k.replace('left', '');
+            // id = id.substr(0,1).toLowerCase()+id.substring(1);
+            if (this.comparisonClaims[k] === this.comparisonClaims[right]) {
               this.mergedClaim[id] = this.comparisonClaims[k];
             }
           }
-        })
+        });
         this.claimSwal.show().then((r) => {
-            //this.mergedClaim={};
-        })
+            // this.mergedClaim={};
+        });
       }, err => {
         this.reportloader.loading = false;
       });
@@ -198,7 +199,7 @@ export class DuplicateClaimListComponent implements OnInit {
   }
 
   goto() {
-    let page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage);
     if (!this.goToPage || isNaN(page)) {
       /* if(this.activeToast && this.activeToast.timeoutId){
         this.activeToast.message =  'Invalid page number entered'
@@ -211,19 +212,19 @@ export class DuplicateClaimListComponent implements OnInit {
       this.reportloader.fetchDuplicateClaims(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }
 
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {
@@ -235,5 +236,4 @@ export class DuplicateClaimListComponent implements OnInit {
   isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
-
 }

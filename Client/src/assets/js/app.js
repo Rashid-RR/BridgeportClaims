@@ -247,7 +247,7 @@ function _init() {
       var _this = this;
       _this.fix();
       _this.fixSidebar();
-      $('body, html, .wrapper').css('height', 'auto');
+      $('body, html, .wrapper').css('height', '100%');
       $(window, ".wrapper").resize(function () {
         _this.fix();
         _this.fixSidebar();
@@ -646,7 +646,7 @@ function _init() {
       //if a source is specified
       if (settings.source === "") {
         if (window.console) {
-          window.console.log("Please specify a source first - boxRefresh()");
+          //window.console.log("Please specify a source first - boxRefresh()");
         }
         return;
       }

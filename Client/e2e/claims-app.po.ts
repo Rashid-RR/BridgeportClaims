@@ -5,8 +5,6 @@ import { environment as prod } from "environments/environment.prod"
 export class ClaimsPage {
   environment: any;
   constructor() {
-    console.log(browser.params);
-
     this.environment = browser.params && browser.params.env && browser.params.env == 'prod' ?
       prod : (browser.params && browser.params.env && browser.params.env == 'dev' ? dev : local);
 

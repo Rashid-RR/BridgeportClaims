@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angula
 import { Toast, ToastsManager } from 'ng2-toastr';
 import { PaymentScriptService } from '../../services/payment-script-service';
 import { Subject } from 'rxjs/Subject';
-import { DatePipe,DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../../services/http-service';
 import { Prescription } from '../../models/prescription';
@@ -67,17 +67,17 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
       this.http.invoiceAmounts(form).single().subscribe(res => {
         this.loading = false;
         this.prescriptions = res;
-        if(res && res.length == 0) {
+        if (res && res.length === 0) {
           this.toast.info('No records found from this search criteria');
         }
       }, err => {
         this.loading = false;
         this.toast.error(err.message);
-      })
+      });
     }
   }
   save() {
-    if (this.amount == this.editing['billedAmount']) {
+    if (this.amount === this.editing['billedAmount']) {
       this.toast.warning('You haven\'t changed the Billed Amount value, and therefore, there is nothing to save');
     } else {
       const amount = this.amount.toString().replace(/,/g, '');
@@ -92,7 +92,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
             this.loading = true;
             this.http.updateBilledAmount({ prescriptionId: this.editing.prescriptionId,
                billedAmount: amount }).single().subscribe(res => {
-              let p = this.prescriptions.find(p => p.prescriptionId == this.editing.prescriptionId);
+              const p = this.prescriptions.find(p => p.prescriptionId === this.editing.prescriptionId);
               if (p) {
                 p['billedAmount'] = amount;
               }
@@ -102,7 +102,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
             }, error => {
               this.toast.error(error.message);
               this.loading = false;
-            })
+            });
           }
         });
     }
@@ -110,21 +110,20 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   validateNumber($event) {
     $event = ($event) ? $event : window.event;
     const charCode = ($event.which) ? $event.which : $event.keyCode;
-    console.log(charCode);
-    if (!this.amount && charCode == 46) {
+    if (!this.amount && charCode === 46) {
       return false;
     }
-    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 45 && charCode != 46) {
+    if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 45 && charCode !== 46) {
       return false;
     }
     return true;
   }
   validateAfter($event) {
-    if ((this.amount && this.amount.toString().length > 1 && this.amount.toString().lastIndexOf("-") > 0) ||
-      (this.amount && this.amount.toString().length > 1 && this.amount.toString().lastIndexOf(".") > this.amount.toString().indexOf(".")) ||
+    if ((this.amount && this.amount.toString().length > 1 && this.amount.toString().lastIndexOf('-') > 0) ||
+      (this.amount && this.amount.toString().length > 1 && this.amount.toString().lastIndexOf('.') > this.amount.toString().indexOf('.')) ||
       (this.amount && this.amount && this.amount.toString().lastIndexOf('.') > -1 &&
        this.amount.toString().length - this.amount.toString().lastIndexOf('.') > 3) ||
-      (this.amount && this.amount.toString().length == 1 && this.amount.toString().lastIndexOf('.') > 0)
+      (this.amount && this.amount.toString().length === 1 && this.amount.toString().lastIndexOf('.') > 0)
     ) {
       const num = String(this.amount);
       this.amount = isNaN(Number(num.substring(0, num.length - 1))) ? null : Number(num.substring(0, num.length - 1));
@@ -164,7 +163,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
         claimId: $event.claimId
       });
       this.toast.info('Episode will be linked to ' + $event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber,
-       'Claim Link ready to save', { enableHTML: true, showCloseButton:true,positionClass: 'toast-top-center' })
+       'Claim Link ready to save', { enableHTML: true, showCloseButton: true, positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReportLoaderService,SkippedPaymentService } from "../../services/services.barrel";
+import { ReportLoaderService, SkippedPaymentService } from '../../services/services.barrel';
 
 @Component({
   selector: 'app-skipped-payment',
@@ -8,7 +8,7 @@ import { ReportLoaderService,SkippedPaymentService } from "../../services/servic
 })
 export class SkippedPaymentComponent implements OnInit {
 
-  constructor(public reportloader:ReportLoaderService,public skipped:SkippedPaymentService) { }
+  constructor(public reportloader: ReportLoaderService, public skipped: SkippedPaymentService) { }
 
   ngOnInit() {
     this.reportloader.current = 'Skipped Payment Report';

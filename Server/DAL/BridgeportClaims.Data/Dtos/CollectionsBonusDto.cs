@@ -1,17 +1,11 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace BridgeportClaims.Data.Dtos
 {
     public sealed class CollectionsBonusDto
     {
-        [Required]
-        public string PatientName { get; set; }
-        [Required]
-        public DateTime DatePosted { get; set; }
-        [Required]
-        public decimal AmountPaid { get; set; }
-        [Required]
-        public decimal BonusAmount { get; set; }
+        public IList<CollectionsBonusResultsDto> Results { get; set; }
+        public decimal TotalAmountPaid { get; set; }
+        public decimal TotalBonusAmount { get; set; }
     }
 }

@@ -1,15 +1,15 @@
-import { Component, ElementRef, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ElementRef,ViewEncapsulation, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { EventsService } from '../../services/events-service';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
-
 declare var Highcharts: any;
 
 @Component({
   selector: 'app-private',
+  encapsulation:ViewEncapsulation.None,
   templateUrl: './dashboard-links.component.html',
   styleUrls: ['./dashboard-links.component.css']
 })
@@ -18,7 +18,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   categories: Array<any> = [];
   data: Array<any> = [];
   win = window;
-  over: any[] = [false]
+  over: any[] = [false];
   @ViewChild('searchSwal') private searchSwal: SwalComponent;
   @ViewChild('images') images: ElementRef;
   summary = {
@@ -38,7 +38,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     totalDiariesUnResolved: null,
     totalResolvedEpisodes: null,
     totalUnresolvedEpisodes: null
-  }
+  };
   constructor(
     private http: HttpService,
     private events: EventsService,
@@ -55,7 +55,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
     if (this.allowed) {
       this.searchSwal.show().then((r) => {
 
-      })
+      });
     }
   }
 
@@ -79,7 +79,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   }
 
   get totalImages() {
-    let total = (this.summary.totalImagesIndexed || 0) + (this.summary.totalImagesRemaining || 0);
+    const total = (this.summary.totalImagesIndexed || 0) + (this.summary.totalImagesRemaining || 0);
     return total || 0;
   }
 
@@ -99,7 +99,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   }
 
   get totalDiaries() {
-    let total = (this.summary.totalDiariesResolved || 0) + (this.summary.totalDiariesUnResolved || 0);
+    const total = (this.summary.totalDiariesResolved || 0) + (this.summary.totalDiariesUnResolved || 0);
     return total || 0;
   }
 
@@ -111,7 +111,7 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
   }
 
   get totalEpisodes() {
-    let total = (this.summary.totalUnresolvedEpisodes || 0) + (this.summary.totalResolvedEpisodes || 0);
+    const total = (this.summary.totalUnresolvedEpisodes || 0) + (this.summary.totalResolvedEpisodes || 0);
     return total || 0;
   }
 
@@ -120,21 +120,25 @@ export class DashboardLinksComponent implements OnInit, AfterViewInit {
       && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   formatDate(input: String) {
-    if (!input) return null;
-    if (input.indexOf("-") > -1) {
-      let date = input.split("T");
-      let d = date[0].split("-");
-      return d[1] + "/" + d[2] + "/" + d[0];
+    if (!input) {
+      return null;
+    }
+    if (input.indexOf('-') > -1) {
+      const date = input.split('T');
+      const d = date[0].split('-');
+      return d[1] + '/' + d[2] + '/' + d[0];
     } else {
       return input;
     }
   }
   simpleDate(input: String) {
-    if (!input) return null;
-    if (input.indexOf("-") > -1) {
-      let date = input.split("T");
-      let d = date[0].split("-");
-      return d[1] + "-" + d[2] + "-" + d[0];
+    if (!input) {
+      return null;
+    }
+    if (input.indexOf('-') > -1) {
+      const date = input.split('T');
+      const d = date[0].split('-');
+      return d[1] + '-' + d[2] + '-' + d[0];
     } else {
       return input;
     }

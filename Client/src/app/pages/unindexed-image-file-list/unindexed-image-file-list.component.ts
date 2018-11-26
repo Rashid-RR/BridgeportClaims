@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { DocumentManagerService } from "../../services/document-manager.service";
+import { DocumentManagerService } from '../../services/document-manager.service';
 declare var $: any;
 
 @Component({
@@ -8,14 +8,9 @@ declare var $: any;
   styleUrls: ['./unindexed-image-file-list.component.css']
 })
 export class UnindexedImageFileListComponent implements OnInit, AfterViewInit {
-
   constructor(public ds: DocumentManagerService) { }
-
   ngOnInit() {
   }
   ngAfterViewInit() {
-
   }
-
-
 }

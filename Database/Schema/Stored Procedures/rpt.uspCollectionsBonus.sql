@@ -8,7 +8,7 @@ GO
  Create date:       11/14/2018
  Description:       Gets the data for the Collections Bonus report.
  Example Execute:
-                    EXECUTE [rpt].[uspCollectionsBonus]
+                    EXECUTE [rpt].[uspCollectionsBonus] '09642ba1-ad23-41b6-9369-41e466a1e4ed', 11, 2018;
  =============================================
 */
 CREATE PROC [rpt].[uspCollectionsBonus]
@@ -21,10 +21,13 @@ AS BEGIN
 	DECLARE @StartDate DATE = '11/1/2018';
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
+	-- Testing...
+	-- SET @UserID = '09642ba1-ad23-41b6-9369-41e466a1e4ed';
     WITH [CollectionsCTE]
     AS
     (
-        SELECT  [PatientName] = [pat].[FirstName] + ' ' + [pat].[LastName]
+        SELECT   [c].[ClaimID]
+				,[PatientName] = [pat].[FirstName] + ' ' + [pat].[LastName]
                 ,[p].[NoteAuthorID]
                 ,[pay].[AmountPaid]
                 ,[pay].[DatePosted]
@@ -35,10 +38,12 @@ AS BEGIN
                 INNER JOIN [dbo].[Invoice] AS [i] ON [pre].[InvoiceID] = [i].[InvoiceID]
                 INNER JOIN [dbo].[Claim] AS [c] ON [p].[ClaimID] = [c].[ClaimID]
                 INNER JOIN [dbo].[Patient] AS [pat] ON [c].[PatientID] = [pat].[PatientID]
-        WHERE   DATEDIFF(DAY, [i].[InvoiceDate], [pay].[DatePosted]) > 45
-               -- AND [pay].[DatePosted] >= @StartDate
+        WHERE   1 = 1
+				AND DATEDIFF(DAY, [i].[InvoiceDate], [pay].[DatePosted]) > 45
+                AND [pay].[DatePosted] >= @StartDate
     )
-    SELECT  [c].[PatientName],
+    SELECT  [c].[ClaimID] AS [ClaimId],
+			[c].[PatientName],
 			[c].[DatePosted],
 			[c].[AmountPaid],
 			ISNULL(ROUND([c].[AmountPaid] * 0.015, 2), 0.0) BonusAmount

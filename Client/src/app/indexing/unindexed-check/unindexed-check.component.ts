@@ -50,7 +50,6 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
 
   saveCheck() {
     this.form.markAsDirty();
-    console.log(this.form.controls.checkNumber.errors);
     this.form.controls.checkNumber.markAsTouched();
     if (this.form.valid) {
       localStorage.setItem('file-' +this.ds.checksFile.documentId,JSON.stringify(this.ds.checksFile));

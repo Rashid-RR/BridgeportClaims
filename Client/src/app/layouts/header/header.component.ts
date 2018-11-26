@@ -53,10 +53,7 @@ export class HeaderComponent implements OnInit {
       this.eventservice.broadcast("logout", true);
       this.profileManager.profile = undefined;
       localStorage.removeItem('user');
-      this.router.navigate(['/login']);
-      /* this.http.logout().subscribe(res=>{
-          console.log(res);
-      });*/
+      this.router.navigate(['/login']);      
     }
   }
 }

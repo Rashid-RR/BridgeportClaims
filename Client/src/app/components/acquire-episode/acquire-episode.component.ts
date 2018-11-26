@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from "../../services/http-service"
-import { EpisodeService } from "../../services/episode.service";
+import { HttpService } from '../../services/http-service';
+import { EpisodeService } from '../../services/episode.service';
 import { Toast, ToastsManager } from 'ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { Subject } from 'rxjs/Subject';
@@ -19,10 +19,10 @@ export class AcquireEpisodeComponent implements OnInit {
 
   users: { id: UUID, firstName: string, lastName: string }[] = [];
   user: UUID;
-  exactMatch: boolean = false;
-  searchText: string = '';
-  placeholder: string = 'Start typing to search claims...';
-  dropdownVisible: boolean = false;
+  exactMatch = false;
+  searchText = '';
+  placeholder = 'Start typing to search claims...';
+  dropdownVisible = false;
   showDropDown = new Subject<any>();
   form: FormGroup;
   constructor(
@@ -48,7 +48,7 @@ export class AcquireEpisodeComponent implements OnInit {
     this.searchText = $event.target.value;
   }
   get autoCompleteClaim(): string {
-    return this.http.baseUrl + "/document/claim-search/?exactMatch=" + this.exactMatch + "&searchText=:keyword";
+    return this.http.baseUrl + '/document/claim-search/?exactMatch=' + this.exactMatch + '&searchText=:keyword';
   }
   claimSelected($event) {
     if (this.searchText && $event.claimId) {
@@ -57,7 +57,8 @@ export class AcquireEpisodeComponent implements OnInit {
         claimNumber: $event.claimNumber,
         claimId: $event.claimId
       });
-      this.toast.info("Episode will be linked to " + $event.lastName + " " + $event.firstName + " " + $event.claimNumber, 'Claim Link ready to save', { enableHTML: true, positionClass: 'toast-top-center' })
+      this.toast.info('Episode will be linked to ' + $event.lastName + ' ' + $event.firstName +
+      ' ' + $event.claimNumber, 'Claim Link ready to save', { enableHTML: true, positionClass: 'toast-top-center' })
         .then((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
@@ -67,11 +68,11 @@ export class AcquireEpisodeComponent implements OnInit {
               msg.parentNode.parentElement.style.position = 'fixed';
             }
           }
-        })
+        });
       setTimeout(() => {
-        this.placeholder = $event.lastName + " " + $event.firstName + " ~ " + $event.claimNumber;
+        this.placeholder = $event.lastName + ' ' + $event.firstName + ' ~ ' + $event.claimNumber;
         this.searchText = undefined;
-        this.dropdownVisible = false
+        this.dropdownVisible = false;
       }, 100);
     }
   }
@@ -79,7 +80,7 @@ export class AcquireEpisodeComponent implements OnInit {
   ngOnInit() {
     this.http.userToAssignEpisode().single().subscribe(users => {
       this.users = users;
-    })
+    });
   }
   acquire() {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
@@ -125,7 +126,7 @@ export class AcquireEpisodeComponent implements OnInit {
   }
   assign() {
     if (this.user) {
-      let u = this.users.find(us => us.id == this.user);
+      const u = this.users.find(us => us.id === this.user);
       const disposable = this.dialogService.addDialog(ConfirmComponent, {
         title: 'Assign Episode',
         message: 'Are you sure you want to assign this episode to ' + u.firstName + ' ' + u.lastName + '?'
@@ -145,13 +146,13 @@ export class AcquireEpisodeComponent implements OnInit {
           }
         });
     } else {
-      this.toast.warning("You need to select a user to assign the Episode!");
+      this.toast.warning('You need to select a user to assign the Episode!');
     }
   }
   archive() {
     this.dialogService.addDialog(ConfirmComponent, {
       title: 'Archive Episode',
-      message: "Are you sure you'd like to archive this episode?"
+      message: 'Are you sure you\'d like to archive this episode?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
@@ -168,5 +169,4 @@ export class AcquireEpisodeComponent implements OnInit {
         }
       });
   }
-
 }

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from "@angular/forms";
-import { Router } from "@angular/router";
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { ToastsManager } from 'ng2-toastr';
-import { HttpService } from "../../services/http-service";
-import { ClaimManager } from "../../services/claim-manager";
-import { EventsService } from "../../services/events-service";
+import { HttpService } from '../../services/http-service';
+import { ClaimManager } from '../../services/claim-manager';
+import { EventsService } from '../../services/events-service';
 declare var $: any;
 
 @Component({
@@ -16,10 +16,10 @@ declare var $: any;
 export class ClaimSearchComponent implements OnInit {
 
   form: FormGroup;
-  submitted: boolean = false;
+  submitted = false;
   showDropDown = new Subject<any>();
-  searchText: string = '';
-  dropdownVisible: boolean = false;
+  searchText = '';
+  dropdownVisible = false;
   constructor(public claimManager: ClaimManager, private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService,
     private toast: ToastsManager) {
     this.form = this.formBuilder.group({
@@ -33,10 +33,10 @@ export class ClaimSearchComponent implements OnInit {
   }
   ngOnInit() {
 
-    this.events.on("clear-claims", () => {
+    this.events.on('clear-claims', () => {
       this.form.reset();
     });
-    this.events.on("refresh-claims", () => {
+    this.events.on('refresh-claims', () => {
       this.refresh();
     });
   }
@@ -58,9 +58,9 @@ export class ClaimSearchComponent implements OnInit {
     this.claimManager.search(this.form.value);
   }
   refresh() {
-    var form = this.form.value;
+    const form = this.form.value;
     if (this.claimManager.selectedClaim) {
-      form.claimId = this.claimManager.selectedClaim.claimId
+      form.claimId = this.claimManager.selectedClaim.claimId;
     }
     this.claimManager.search(form, false);
   }

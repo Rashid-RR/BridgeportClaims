@@ -3,12 +3,12 @@
     <section class="content-header">
       <ol class="breadcrumb pull-left">
         <li>
-          <a routerLink="/">
+          <a [routerLink]="'/'">
             <i class="fa fa-home"></i> Home
           </a>
         </li>
         <li class="active">
-          <a routerLink="/main/private">
+          <a [routerLink]="'/main/private'">
             Dashboard
           </a>
         </li>
@@ -22,7 +22,7 @@
       <div class="row parallel">
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
           <div class="grey-box">
-            <a class="img-section" [routerLink]="'/main/unindexed-images/'+simpleDate(summary.lastWorkDate)">
+            <a class="img-section" [routerLink]="'/main/unindexed-images/' + simpleDate(summary.lastWorkDate)">
               <div class="dashboard-img">
                 <img src="assets/img/002-pdf.png">
                 <span class="badge-dashboard badge">{{summary.totalImagesRemaining}}</span>

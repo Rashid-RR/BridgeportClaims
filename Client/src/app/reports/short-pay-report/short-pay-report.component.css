@@ -111,7 +111,7 @@ thead span {
 
 /*Unnecessary-space*/
 
-.table>thead>tr>th[_ngcontent-c9] {
+.table>thead>tr>th {
     border-bottom: 0px;
 }
 .pagination-row{

@@ -1,4 +1,3 @@
- 
 export class PromiseCompleter<R> {
     promise: Promise<R>;
     resolve: (value?: R|PromiseLike<R>) => void;
@@ -12,22 +11,15 @@ export class PromiseCompleter<R> {
     }
 }
 
-
-
-
-
-
 export class global{
-    private static _MaxZIndex:number = 12;
-    static get MaxZIndex():number {
+    private static _MaxZIndex = 12;
+    static get MaxZIndex(): number {
         return this._MaxZIndex;
     }
 
-    static  set MaxZIndex(value:number) {
+    static  set MaxZIndex(value: number) {
         this._MaxZIndex = value;
     }
-
-
 }
 
 export class Size {
@@ -42,14 +34,14 @@ export class Size {
 
 export class Position {
 
-    constructor(public left_x:string = "50%", public top_y:string = "50%") {
+    constructor(public left_x: string = '50%', public top_y: string = '50%') {
     }
 }
 
 
 export class CustomPosition {
 
-    constructor(public left?:number, public top?:number) {
+    constructor(public left?: number, public top?: number) {
     }
 }
 

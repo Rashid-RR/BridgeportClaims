@@ -3,7 +3,7 @@ import { FormBuilder, } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr';
 import { HttpService } from '../../services/services.barrel';
 import { DatePipe } from '@angular/common';
-import { Payor } from "../../models/payor"
+import { Payor } from '../../models/payor';
 import { Subject } from 'rxjs/Subject';
 // Services
 import { UnpaidScriptService } from '../../services/unpaid-script.service';
@@ -18,12 +18,12 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
 
   startDate: string;
   endDate: string;
-  submitted: boolean = false;
+  submitted = false;
   payors: Array<Payor> = [];
-  payorsId=[]
-  loading: boolean = false;
+  payorsId= [];
+  loading = false;
   pageNumber: number;
-  pageSize: number = 50;
+  pageSize = 50;
   payorListReady = new Subject<any>();
   constructor(
     private http: HttpService,
@@ -35,29 +35,27 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.us.payorListReady.subscribe(() => {
-      $("#payorsSelection").select2();
-    })
+      $('#payorsSelection').select2();
+    });
 
     this.http.getPayorList_newapi().map(res => {
-      return res
+      return res;
     }).subscribe(result => {
-
-      console.log(result);
-      this.payorsId=result;
+      this.payorsId = result;
 
 
     }, error1 => {
-      console.log(error1)
-    })
+      
+    });
   }
   filter($event) {
     this.us.data.isArchived = $event.target.checked;
   }
-  
+
 
   ngAfterViewInit() {
-    if(this.us.payors && this.us.payors.length>0){
-      $("#payorsSelection").select2();
+    if (this.us.payors && this.us.payors.length > 0){
+      $('#payorsSelection').select2();
     }
     // Date picker
     $('#startDate').datepicker({
@@ -71,17 +69,17 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   }
 
   search() {
-    this.us.data.payorIds=($('#payorsSelection').val()||undefined);
-    let startDate = this.dp.transform($('#startDate').val(), "MM/dd/yyyy");
-    let endDate = this.dp.transform($('#endDate').val(), "MM/dd/yyyy");
-    this.us.data.startDate = startDate || null
-    this.us.data.endDate = endDate || null
+    this.us.data.payorIds = ($('#payorsSelection').val() || undefined);
+    const startDate = this.dp.transform($('#startDate').val(), 'MM/dd/yyyy');
+    const endDate = this.dp.transform($('#endDate').val(), 'MM/dd/yyyy');
+    this.us.data.startDate = startDate || null;
+    this.us.data.endDate = endDate || null;
     this.us.search();
   }
   clearDates() {
     $('#startDate').val('');
     $('#payorsSelection').val(null).trigger('change');
     $('#endDate').val('');
-    $('#archivedCheck').prop('checked',false);
+    $('#archivedCheck').prop('checked', false);
   }
 }

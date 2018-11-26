@@ -15,6 +15,6 @@ namespace BridgeportClaims.Data.DataProviders.Reports
         ShortPayDto GetShortPayReport(string sort, string sortDirection, int pageNumber, int pageSize);
         bool RemoveShortPay(int prescriptionId, string userId);
         bool RemoveSkippedPayment(int prescriptionId, string userId);
-        IEnumerable<CollectionsBonusDto> GetCollectionsBonus(string userId, int month, int year);
+        CollectionsBonusDto GetCollectionsBonus(string userId, int month, int year);
     }
 }

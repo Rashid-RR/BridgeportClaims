@@ -24,30 +24,30 @@ export class DocumentManagerService {
   invoiceData: any = {};
   postedChecksData: any = {};
   archivedChecksData: any = {};
-  postedChecks: boolean = false;
+  postedChecks = false;
   viewPostedDetail: any;
   invalidChecksData: any = {};
-  display: string = 'list';
-  invDisplay: string = 'list';
-  checkDisplay: string = 'list';
-  invalidCheckDisplay: string = 'list';
+  display = 'list';
+  invDisplay = 'list';
+  checkDisplay = 'list';
+  invalidCheckDisplay = 'list';
   totalRowCount: number;
   totalInvoiceRowCount: number;
   totalCheckRowCount: number;
   totalInvalidCheckRowCount: number;
-  searchText: string = '';
-  newIndex: boolean = false;
-  invoiceArchived: boolean = false;
-  checksArchived: boolean = false;
-  invalidChecksArchived: boolean = false;
-  imagesArchived: boolean = false;
-  newInvoice: boolean = false;
-  newCheck: boolean = false;
-  indexNewCheck: boolean = true;
+  searchText = '';
+  newIndex = false;
+  invoiceArchived = false;
+  checksArchived = false;
+  invalidChecksArchived = false;
+  imagesArchived = false;
+  newInvoice = false;
+  newCheck = false;
+  indexNewCheck = true;
   file: DocumentItem;
   invoiceFile: DocumentItem;
   checksFile: DocumentItem;
-  exactMatch: boolean = false;
+  exactMatch = false;
 
   constructor(private profileManager: ProfileManager, private http: HttpService, private formBuilder: FormBuilder, private _ngZone: NgZone,
               private events: EventsService, private toast: ToastsManager) {
@@ -109,10 +109,10 @@ export class DocumentManagerService {
       }, 50);
       setTimeout(() => {
         this.documents.get(doc.documentId).added = false;
-      }, 3500)
-    })
+      }, 3500);
+    });
     this.events.on('modified-image', (doc: DocumentItem) => {
-      let document = this.documents.get(doc.documentId)
+      const document = this.documents.get(doc.documentId);
       setTimeout(() => {
         if (!document) {
           this.totalRowCount++;
@@ -129,10 +129,10 @@ export class DocumentManagerService {
         doc.edited = false;
         doc.added = false;
         this.documents = this.documents.set(doc.documentId, doc);
-      }, 4000)
-    })
+      }, 4000);
+    });
     this.events.on('deleted-image', (id: any) => {
-      let document = this.documents.get(id)
+      const document = this.documents.get(id);
       if (document) {
         document.deleted = true;
         this.documents = this.documents.set(id, document);
@@ -142,11 +142,11 @@ export class DocumentManagerService {
           }
           this.documents = this.documents.delete(id);
           this.totalRowCount--;
-        }, 4000)
+        }, 4000);
       }
-    })
+    });
     this.events.on('archived-image', (id: any) => {
-      let document = this.documents.get(id)
+      const document = this.documents.get(id);
       if (document) {
         document.deleted = true;
         this.documents = this.documents.set(id, document);
@@ -156,13 +156,13 @@ export class DocumentManagerService {
           }
           this.documents = this.documents.delete(id);
           this.totalRowCount--;
-        }, 4000)
+        }, 4000);
       }
-    })
+    });
     this.events.on('indexed-image', (id: any) => {
-      let document = this.documents.get(id);
+      const document = this.documents.get(id);
       if (document) {
-        let doc = JSON.parse(JSON.stringify(document));//copy document
+        const doc = JSON.parse(JSON.stringify(document)); // copy document
         document.edited = true;
         this.documents = this.documents.set(id, document);
         setTimeout(() => {
@@ -171,9 +171,9 @@ export class DocumentManagerService {
           }
           this.documents = this.documents.delete(id);
           this.totalRowCount--;
-        }, 4000)
+        }, 4000);
       }
-    })
+    });
     this.search();
     this.searchInvoices();
     this.searchCheckes();
@@ -218,7 +218,7 @@ export class DocumentManagerService {
   }
 
   get allowed(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
 
   get adminOrAsociate(): Boolean {
@@ -314,7 +314,7 @@ export class DocumentManagerService {
   }
 
   onCheckSortColumn(info: SortColumnInfo) {
-    let data = this.postedChecks ? this.postedChecksData : this.archivedChecksData;
+    const data = this.postedChecks ? this.postedChecksData : this.archivedChecksData;
     ;
     data.isDefaultSort = false;
     data.sort = info.column;
@@ -336,14 +336,14 @@ export class DocumentManagerService {
     this.http.archiveDocument(id).subscribe(r => {
       this.loading = false;
       this.toast.success(r.message);
-      this.cancel(invoice ? 'invoice' : 'image')
+      this.cancel(invoice ? 'invoice' : 'image');
       if (invoice) {
         this.invoices = this.invoices.delete(id);
       } else {
         this.documents = this.documents.delete(id);
       }
       if (method) {
-        this[method].apply(this)
+        this[method].apply(this);
       }
     }, () => {
       this.loading = false;
@@ -351,7 +351,7 @@ export class DocumentManagerService {
   }
 
   deleteAndKeep(id: number, skipPayments: boolean = false, prescriptionPaymentId?: any) {
-    console.log('delete and keep')
+    
     this.loading = true;
     this.http.reIndexedCheck({documentId: id, skipPayments: skipPayments, prescriptionPaymentId: prescriptionPaymentId}).subscribe(r => {
       this.loading = false;
@@ -401,7 +401,7 @@ export class DocumentManagerService {
       }
     } else {
       this.loading = true;
-      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+      const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
       if (next) {
         data.page++;
@@ -414,7 +414,7 @@ export class DocumentManagerService {
       }
       this.http.getDocuments(data)
         .subscribe((result: any) => {
-          //console.log(result);
+          
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
           this.documents = Immutable.OrderedMap<any, DocumentItem>();
@@ -433,7 +433,7 @@ export class DocumentManagerService {
           if (next) {
             this.data.page++;
           }
-          if (prev && this.data.page != data.page) {
+          if (prev && this.data.page !== data.page) {
             this.data.page--;
           }
           if (page) {
@@ -459,7 +459,7 @@ export class DocumentManagerService {
       }
     } else {
       this.loading = true;
-      let invoiceData = JSON.parse(JSON.stringify(this.invoiceData)); //copy invoiceData instead of memory referencing
+      const invoiceData = JSON.parse(JSON.stringify(this.invoiceData)); // copy invoiceData instead of memory referencing
       if (next) {
         invoiceData.page++;
       }
@@ -471,7 +471,7 @@ export class DocumentManagerService {
       }
       this.http.getDocuments(invoiceData)
         .subscribe((result: any) => {
-          //console.log(result);
+          
           this.loading = false;
           this.totalInvoiceRowCount = result.totalRowCount;
           this.invoices = Immutable.OrderedMap<any, DocumentItem>();
@@ -490,7 +490,7 @@ export class DocumentManagerService {
           if (next) {
             this.invoiceData.page++;
           }
-          if (prev && this.invoiceData.page != invoiceData.page) {
+          if (prev && this.invoiceData.page !== invoiceData.page) {
             this.invoiceData.page--;
           }
           if (page) {
@@ -512,7 +512,7 @@ export class DocumentManagerService {
       }
     } else {
       this.loading = true;
-      let checksData = JSON.parse(JSON.stringify(this.checksData)); //copy checksData instead of memory referencing
+      const checksData = JSON.parse(JSON.stringify(this.checksData)); // copy checksData instead of memory referencing
       if (next) {
         checksData.page++;
       }
@@ -523,9 +523,9 @@ export class DocumentManagerService {
         checksData.page = page;
       }
 
-      let apiCall = this.postedChecks ? this.http.getIndexedChecks(checksData) : this.http.getDocuments(checksData)
+      const apiCall = this.postedChecks ? this.http.getIndexedChecks(checksData) : this.http.getDocuments(checksData);
       apiCall.subscribe((result: any) => {
-        //console.log(result);
+        
         this.loading = false;
         this.totalCheckRowCount = result.totalRowCount;
         this.checks = Immutable.OrderedMap<any, DocumentItem>();
@@ -544,7 +544,7 @@ export class DocumentManagerService {
         if (next) {
           this.checksData.page++;
         }
-        if (prev && this.checksData.page != checksData.page) {
+        if (prev && this.checksData.page !== checksData.page) {
           this.checksData.page--;
         }
         if (page) {
@@ -570,7 +570,7 @@ export class DocumentManagerService {
       }
     } else {
       this.loading = true;
-      let invalidChecksData = JSON.parse(JSON.stringify(this.invalidChecksData)); //copy invalidChecksData instead of memory referencing
+      const invalidChecksData = JSON.parse(JSON.stringify(this.invalidChecksData)); // copy invalidChecksData instead of memory referencing
       if (next) {
         invalidChecksData.page++;
       }
@@ -582,7 +582,7 @@ export class DocumentManagerService {
       }
       this.http.getInvalidChecks(invalidChecksData)
         .subscribe((result: any) => {
-          //console.log(result);
+          
           this.loading = false;
           this.totalInvalidCheckRowCount = result.totalRowCount || (result.documentResults && result.documentResults.length) || 0;
           this.invalidChecks = Immutable.OrderedMap<any, DocumentItem>();
@@ -601,7 +601,7 @@ export class DocumentManagerService {
           if (next) {
             this.invalidChecksData.page++;
           }
-          if (prev && this.invalidChecksData.page != invalidChecksData.page) {
+          if (prev && this.invalidChecksData.page !== invalidChecksData.page) {
             this.invalidChecksData.page--;
           }
           if (page) {

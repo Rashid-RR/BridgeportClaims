@@ -3,11 +3,11 @@
  * Created by Bahgat on 1/15/16.
  */
 
-import { OnDestroy, Component, ViewContainerRef, ViewChild, AfterViewInit, ApplicationRef } from "@angular/core";
-import { Observable } from 'rxjs'
-import { WindowInstance } from "./WindowInstance";
-import { Subscription } from "rxjs/Subscription";
-import { global, CustomPosition } from "./utils";
+import { OnDestroy, Component, ViewContainerRef, ViewChild, AfterViewInit, ApplicationRef } from '@angular/core';
+import { Observable } from 'rxjs';
+import { WindowInstance } from './WindowInstance';
+import { Subscription } from 'rxjs/Subscription';
+import { global, CustomPosition } from './utils';
 declare var $: any;
 
 
@@ -24,7 +24,7 @@ const makeInputObservable =
 
 
 export class DragEvent {
-    public cancelled: boolean = false;
+    public cancelled = false;
     constructor(public mouseDown: UIEvent, public mouseMove: UIEvent, public position: CustomPosition, public offset: CustomPosition) {
     }
 }
@@ -37,9 +37,9 @@ export class DragEvent {
     // inputs: ['dialogInstance.Myconfig.size.height' ],
     host: {
         'role': 'dialog',
-        '[style.top]': "dialogInstance.config.position.top + 'px'",
-        '[style.left]': "dialogInstance.config.position.left +'px'",
-        '[style.z-index]': "compZIndex",
+        '[style.top]': 'dialogInstance.config.position.top + \'px\'',
+        '[style.left]': 'dialogInstance.config.position.left +\'px\'',
+        '[style.z-index]': 'compZIndex',
         style: `
             position: absolute; 
             display: block; `,
@@ -85,17 +85,14 @@ export class DragEvent {
 ` ,
 
 
-    //background: red;
+    // background: red;
     //        overflow: auto;
 
-    //width: 100px;
+    // width: 100px;
     //        height: 300px;
 })
 
 export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
-
-
-
     dialogInstance: WindowInstance;
     compZIndex: number;
 
@@ -103,18 +100,18 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
     private _originalHeight: number;
     private _originalLeft: number;
     private _originalTop: number;
-    MaxmizeStatus: boolean = false;
-    MinimizeStatus: boolean = false;
+    MaxmizeStatus = false;
+    MinimizeStatus = false;
     //noinspection JSAnnotator
     private _dragSubscription: Subscription;
-    private _isDragging: boolean = false;
+    private _isDragging = false;
     private _axis: string;
     private _config: any;
-    private _mouseDelay: number = 50;
+    private _mouseDelay = 50;
     private _mouseDelayMet: boolean;
     private _mouseDelayTimer: number;
-    private _mouseDistance: number = 5;
-    private _mouseDistanceMet: boolean = false;
+    private _mouseDistance = 5;
+    private _mouseDistanceMet = false;
     private _containment: ClientRect = null;
     private _dragOffsetX: number;
     private _dragOffsetY: number;
@@ -123,8 +120,8 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
     private _model: any;
 
     listenerToDrag: any;
-    public finish_Init
-    //modalDialog
+    public finish_Init;
+    // modalDialog
     @ViewChild('modalDialog', { read: ViewContainerRef }) modalDialog_ViewContainer: ViewContainerRef;
     public viewRef;
     ngAfterViewInit(): any {
@@ -142,23 +139,23 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
         this.compZIndex = global.MaxZIndex;
 
         this.dialogInstance = dialogInstance;
-        let win = $("body:not(.sidebar-collapse)");
-        if (win.length == 0) {
-            this.dialogInstance.config.position.left = this.dialogInstance.config.position.left - 50
+        const win = $('body:not(.sidebar-collapse)');
+        if (win.length === 0) {
+            this.dialogInstance.config.position.left = this.dialogInstance.config.position.left - 50;
         } else {
-            this.dialogInstance.config.position.left = this.dialogInstance.config.position.left - 250
+            this.dialogInstance.config.position.left = this.dialogInstance.config.position.left - 250;
         }
         this.dialogInstance.config.BlockParentUI = true;
 
     }
 
 
-    //onClick(dragEvent: DragEvent) {
+    // onClick(dragEvent: DragEvent) {
     //    if( this.compZIndex !=SV.MaxZIndex) {
     //        SV.MaxZIndex++;
     //        this.compZIndex = SV.MaxZIndex;
     //    }
-    //}
+    // }
 
     documentKeypress(event: KeyboardEvent) {
         if (this.dialogInstance.config.keyboard &&
@@ -171,7 +168,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
         this.dialogInstance.close();
     }
     headerDblclick(event) {
-        if (event.srcElement.className == "titleBar" || event.srcElement.className == "title") {
+        if (event.srcElement.className === 'titleBar' || event.srcElement.className === 'title') {
             this.maximize(event);
         }
     }
@@ -181,10 +178,10 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
     maximize(event) {
         if (!this.dialogInstance.config.canMaximize)
             return;
-        var x = 0, y = 53;
-        $(".ngPopup .titleBar .iconGroup").css({ "margin-top": "0px" });
-        $(".ngPopup .titleBar .iconGroup span").css({ "color": "lightgrey" });
-        let win = $("body:not(.sidebar-collapse)");
+        const x = 0, y = 53;
+        $('.ngPopup .titleBar .iconGroup').css({ 'margin-top': '0px' });
+        $('.ngPopup .titleBar .iconGroup span').css({ 'color': 'lightgrey' });
+        const win = $('body:not(.sidebar-collapse)');
         if (!this.MaxmizeStatus) {
 
             this._originalTop = this.dialogInstance.config.position.top;
@@ -199,26 +196,26 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
             }
 
 
-            this.dialogInstance.config.position.top = 53 //this.dialogInstance.config.minusTop;//jQuery('#af-header-0')[0].offsetHeight
-            if (win.length == 0) {
-                this.dialogInstance.config.minusLeft = 50
+            this.dialogInstance.config.position.top = 53; // this.dialogInstance.config.minusTop;//jQuery('#af-header-0')[0].offsetHeight
+            if (win.length === 0) {
+                this.dialogInstance.config.minusLeft = 50;
             } else {
                 this.dialogInstance.config.minusLeft = 230;
             }
             this.dialogInstance.config.position.left = this.dialogInstance.config.minusLeft;
 
             // backdropRef
-            //if(elementRef.nativeElement.children[0].tagName=="ION-NAVBAR")
-            //{
+            // if(elementRef.nativeElement.children[0].tagName=="ION-NAVBAR")
+            // {
             //    config.size.height = elementRef.nativeElement.parentElement.offsetHeight-50
-            //}
+            // }
 
             if (this.dialogInstance.config.navbarHeight > 0) {
 
 
 
-                this.dialogInstance.config.size.height = this.dialogInstance.backdropRef.location.nativeElement.closest("ion-page").offsetHeight - this.dialogInstance.config.minusHeight - this.dialogInstance.config.navbarHeight;//40 بتاعة الهيدر
-                this.dialogInstance.config.size.width = this.dialogInstance.backdropRef.location.nativeElement.closest("ion-page").offsetWidth - this.dialogInstance.config.minusWidth;
+                this.dialogInstance.config.size.height = this.dialogInstance.backdropRef.location.nativeElement.closest('ion-page').offsetHeight - this.dialogInstance.config.minusHeight - this.dialogInstance.config.navbarHeight; // 40 بتاعة الهيدر
+                this.dialogInstance.config.size.width = this.dialogInstance.backdropRef.location.nativeElement.closest('ion-page').offsetWidth - this.dialogInstance.config.minusWidth;
 
                 // this.dialogInstance.config.size.height  = this.dialogInstance.backdropRef.location.nativeElement.offsetHeight-this.dialogInstance.config.navbarHeight;//40 بتاعة الهيدر
                 // this.dialogInstance.config.size.width = this.dialogInstance.backdropRef.location.nativeElement.offsetWidth-3;
@@ -240,15 +237,15 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
 
         }
-        else //return from maximize
+        else // return from maximize
         {
             this.dialogInstance.config.position.top = this._originalTop;
             this.dialogInstance.config.position.left = this._originalLeft;
             this.dialogInstance.config.size.width = this._originalWidth;
             this.dialogInstance.config.size.height = this._originalHeight;
-            $(".ngPopup").css("bottom", "unset");
-            $(".ngPopup").css("top", (window.innerHeight / 2) - 50);
-            $("#taskbar").css("display", "none");
+            $('.ngPopup').css('bottom', 'unset');
+            $('.ngPopup').css('top', (window.innerHeight / 2) - 50);
+            $('#taskbar').css('display', 'none');
         }
 
         this.MaxmizeStatus = !this.MaxmizeStatus;
@@ -261,9 +258,9 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
         //  tempPositionminimize
         if (!this.MinimizeStatus) {
             this.dialogInstance.config.BlockParentUI = false;
-            $(".ngPopup .modal-content").css({ "padding": "0px" });
-            $(".ngPopup .titleBar .iconGroup").css({ "margin-top": "0px" });
-            $(".ngPopup .titleBar .iconGroup span").css({ "color": "black" });            
+            $('.ngPopup .modal-content').css({ 'padding': '0px' });
+            $('.ngPopup .titleBar .iconGroup').css({ 'margin-top': '0px' });
+            $('.ngPopup .titleBar .iconGroup span').css({ 'color': 'black' });
             if (this.MaxmizeStatus) {
                 this.dialogInstance.config.size.width = this.dialogInstance.config.minWidth;
                 this.dialogInstance.config.size.height = 1;
@@ -278,32 +275,32 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
                 this._originalLeft = this.dialogInstance.config.position.left;
 
                 this.dialogInstance.config.size.width = this.dialogInstance.config.minWidth;
-                this.dialogInstance.config.size.height = 1
+                this.dialogInstance.config.size.height = 1;
             }
-            $(".ngPopup").css("position", "fixed");
-            $(".ngPopup").css("bottom", 0);
-            $(".ngPopup").css("top", "unset");
-            $("#taskbar").css("display", "none");
-            //توسيط الشاشة
+            $('.ngPopup').css('position', 'fixed');
+            $('.ngPopup').css('bottom', 0);
+            $('.ngPopup').css('top', 'unset');
+            $('#taskbar').css('display', 'none');
+            // توسيط الشاشة
             // this.dialogInstance.config.position.top = (window.innerHeight / 2 - this.tempSize.height / 2)
             // this.dialogInstance.config.position.left = (window.innerWidth / 2 - this.tempSize.width / 2)
 
 
         }
-        else//return from minimize
+        else// return from minimize
         {
-            $(".ngPopup .modal-content").css({ "padding": "15px" });
-            $(".ngPopup .titleBar .iconGroup").css({ "margin-top": "0px" });
-            $(".ngPopup .titleBar .iconGroup span").css({ "color": "lightgrey" });
+            $('.ngPopup .modal-content').css({ 'padding': '15px' });
+            $('.ngPopup .titleBar .iconGroup').css({ 'margin-top': '0px' });
+            $('.ngPopup .titleBar .iconGroup span').css({ 'color': 'lightgrey' });
             this.dialogInstance.config.BlockParentUI = true;
-            global.MaxZIndex++
+            global.MaxZIndex++;
             this.dialogInstance.config.position.top = this._originalTop;
             this.dialogInstance.config.position.left = this._originalLeft;
             this.dialogInstance.config.size.width = this._originalWidth;
             this.dialogInstance.config.size.height = this._originalHeight;
-            $(".ngPopup").css("bottom", "unset");
-            $(".ngPopup").css("top", (window.innerHeight / 2) - 50);
-            $("#taskbar").css("display", "none");
+            $('.ngPopup').css('bottom', 'unset');
+            $('.ngPopup').css('top', (window.innerHeight / 2) - 50);
+            $('#taskbar').css('display', 'none');
         }
 
         this.MinimizeStatus = !this.MinimizeStatus;
@@ -316,13 +313,13 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
     public initEvents() {
 
         //  click keydown keyup keypress mouseover mouseenter  mouseout mouseleave mousedown mouseup mousemove change blur focus scroll resize load unload beforeunload
-        var mouseDownObservable = Observable.fromEvent(this.dialogInstance.bootstrapRef.location.nativeElement, 'mousedown').filter((md: MouseEvent) => md.which == 1);
-        var mouseMoveObservable = Observable.fromEvent(document, 'mousemove');
+        const mouseDownObservable = Observable.fromEvent(this.dialogInstance.bootstrapRef.location.nativeElement, 'mousedown').filter((md: MouseEvent) => md.which === 1);
+        const mouseMoveObservable = Observable.fromEvent(document, 'mousemove');
 
-        var mouseUpObservable = Observable.fromEvent(document, 'mouseup');
-        var clickObservable = makeInputObservable(this.dialogInstance.bootstrapRef.location.nativeElement, 'click', true);
-        var dragObservable = mouseDownObservable.flatMap((mouseDownEvent: MouseEvent) => {
-            //mouseDownEvent.preventDefault();
+        const mouseUpObservable = Observable.fromEvent(document, 'mouseup');
+        const clickObservable = makeInputObservable(this.dialogInstance.bootstrapRef.location.nativeElement, 'click', true);
+        const dragObservable = mouseDownObservable.flatMap((mouseDownEvent: MouseEvent) => {
+            // mouseDownEvent.preventDefault();
             mouseDownEvent.stopPropagation();
             this._start();
             return mouseMoveObservable
@@ -340,7 +337,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
                 .takeUntil(mouseUpObservable.map((mouseUpEvent) => {
                     clearInterval(this._mouseDelayTimer);
                     if (this._isDragging) {
-                        //this.mydragCode(mouseUpEvent);
+                        // this.mydragCode(mouseUpEvent);
                         // this.dragStop.next(mouseUpEvent);
                     }
                 })
@@ -360,54 +357,54 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
         this._dragSubscription = dragObservable.subscribe((event) => {
             this.onDrag(event);
-            //this.drag.next(event);
+            // this.drag.next(event);
             setTimeout(() => {
                 if (!event.cancelled) {
 
-                    if (event.mouseDown.srcElement.className != "titleBar" && event.mouseDown.srcElement.className != "title") {
+                    if (event.mouseDown.srcElement.className !== 'titleBar' && event.mouseDown.srcElement.className !== 'title') {
                         this.MaxmizeStatus = false;
                         this.MinimizeStatus = false;
                     }
-                    if (event.mouseDown.srcElement.className == "titleBar" || event.mouseDown.srcElement.className == "title") {
+                    if (event.mouseDown.srcElement.className === 'titleBar' || event.mouseDown.srcElement.className === 'title') {
                         this.dialogInstance.config.position.top = event.position.top;
                         this.dialogInstance.config.position.left = event.position.left;
                     }
-                    else if (event.mouseDown.srcElement.className == "bottom-bar") {
+                    else if (event.mouseDown.srcElement.className === 'bottom-bar') {
                         this.dialogInstance.config.size.height = this._originalHeight + event.offset.top;
                     }
 
-                    else if (event.mouseDown.srcElement.className == "right-bar") {
+                    else if (event.mouseDown.srcElement.className === 'right-bar') {
                         this.dialogInstance.config.size.width = this._originalWidth + event.offset.left;
                     }
 
 
 
-                    else if (event.mouseDown.srcElement.className == "left-bar") {
+                    else if (event.mouseDown.srcElement.className === 'left-bar') {
                         this.dialogInstance.config.size.width = this._originalWidth - event.offset.left;
                         this.dialogInstance.config.position.left = this._originalLeft + event.offset.left;
 
                     }
-                    else if (event.mouseDown.srcElement.className == "top-bar") {
+                    else if (event.mouseDown.srcElement.className === 'top-bar') {
                         this.dialogInstance.config.position.top = this._originalTop + event.offset.top;
                         this.dialogInstance.config.size.height = this._originalHeight - event.offset.top;
                     }
-                    else if (event.mouseDown.srcElement.className == "right-bottom-corner") {
+                    else if (event.mouseDown.srcElement.className === 'right-bottom-corner') {
                         this.dialogInstance.config.size.height = this._originalHeight + event.offset.top;
                         this.dialogInstance.config.size.width = this._originalWidth + event.offset.left;
                     }
 
-                    else if (event.mouseDown.srcElement.className == "left-bottom-corner") {
+                    else if (event.mouseDown.srcElement.className === 'left-bottom-corner') {
                         this.dialogInstance.config.size.height = this._originalHeight + event.offset.top;
                         this.dialogInstance.config.size.width = this._originalWidth - event.offset.left;
                         this.dialogInstance.config.position.left = this._originalLeft + event.offset.left;
                     }
-                    else if (event.mouseDown.srcElement.className == "left-top-corner") {
+                    else if (event.mouseDown.srcElement.className === 'left-top-corner') {
                         this.dialogInstance.config.position.top = this._originalTop + event.offset.top;
                         this.dialogInstance.config.size.height = this._originalHeight - event.offset.top;
                         this.dialogInstance.config.size.width = this._originalWidth - event.offset.left;
                         this.dialogInstance.config.position.left = this._originalLeft + event.offset.left;
                     }
-                    else if (event.mouseDown.srcElement.className == "right-top-corner") {
+                    else if (event.mouseDown.srcElement.className === 'right-top-corner') {
                         this.dialogInstance.config.size.width = this._originalWidth + event.offset.left;
                         this.dialogInstance.config.position.top = this._originalTop + event.offset.top;
                         this.dialogInstance.config.size.height = this._originalHeight - event.offset.top;
@@ -434,8 +431,8 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
         this.setConfig(this._config);
     }
     public setConfig(config: any): void {
-        for (let key in config) {
-            var value = config[key];
+        for (const key in config) {
+            const value = config[key];
             switch (key) {
                 case 'axis':
                     this._axis = value;
@@ -457,20 +454,20 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
     }
 
     private _generatePosition(event: MouseEvent): CustomPosition {
-        var posX = (this._axis == 'y') ? this._elementStartX : this._elementStartX + this._dragOffsetX;
-        var posY = (this._axis == 'x') ? this._elementStartY : this._elementStartY + this._dragOffsetY;
+        const posX = (this._axis === 'y') ? this._elementStartX : this._elementStartX + this._dragOffsetX;
+        const posY = (this._axis === 'x') ? this._elementStartY : this._elementStartY + this._dragOffsetY;
         return new CustomPosition(posX, posY);
     }
 
     private _start(): void {
-        if (this.compZIndex != global.MaxZIndex) {
+        if (this.compZIndex !== global.MaxZIndex) {
             global.MaxZIndex++;
             this.compZIndex = global.MaxZIndex;
         }
 
         this._isDragging = false;
-        this._mouseDelayMet = this._mouseDelay == 0;
-        this._mouseDistanceMet = this._mouseDistance == 0;
+        this._mouseDelayMet = this._mouseDelay === 0;
+        this._mouseDistanceMet = this._mouseDistance === 0;
         this._elementStartX = this.dialogInstance.bootstrapRef.location.nativeElement.offsetLeft;
         this._elementStartY = this.dialogInstance.bootstrapRef.location.nativeElement.offsetTop;
         if (!this._mouseDelayMet) {
@@ -484,9 +481,9 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
     private _update(mouseDownEvent: MouseEvent, mouseMoveEvent: MouseEvent): void {
         this._dragOffsetX = mouseMoveEvent.clientX - mouseDownEvent.clientX;
         this._dragOffsetY = mouseMoveEvent.clientY - mouseDownEvent.clientY;
-        this._mouseDistanceMet = Math.abs(this._dragOffsetX) > this._mouseDistance || Math.abs(this._dragOffsetY) > this._mouseDistance
+        this._mouseDistanceMet = Math.abs(this._dragOffsetX) > this._mouseDistance || Math.abs(this._dragOffsetY) > this._mouseDistance;
         if (!this._isDragging && this._mouseDelayMet && this._mouseDistanceMet) {
-            this.onDragStart(event)
+            this.onDragStart(event);
             // this.dragStart.next(event);
             this._isDragging = true;
         }
@@ -494,10 +491,10 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
     private _setStyle(styleName: string, styleValue: string) {
         if (this._model) {
-            this._model[styleName] = styleValue
+            this._model[styleName] = styleValue;
         } else {
             try {
-                // this._renderer.setElementStyle(this.dialogInstance.bootstrapRef.location, styleName, styleValue);                
+                // this._renderer.setElementStyle(this.dialogInstance.bootstrapRef.location, styleName, styleValue);
             }
             catch (e) {
             }
@@ -515,7 +512,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
         this._originalHeight = this.dialogInstance.config.size.height;
         this._originalLeft = this.dialogInstance.config.position.left;
         this._originalTop = this.dialogInstance.config.position.top;
-        //this.resizeStart.next(event);
+        // this.resizeStart.next(event);
     }
 
 
@@ -528,7 +525,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
 
     sizeChanged(event: Event) {
-        for (var i = 0; i < this.sizeChangedlisteners.length; i++) {
+        for (let i = 0; i < this.sizeChangedlisteners.length; i++) {
             try {
                 // setTimeout(() => {
                 this.sizeChangedlisteners[i].onAfterDialogSizeChanged(event);
