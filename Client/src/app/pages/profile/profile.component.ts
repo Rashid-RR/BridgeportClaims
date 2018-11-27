@@ -56,7 +56,7 @@ export class ProfileComponent implements OnInit {
       firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
       lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required])],
       oldPassword: [''],
-      extension: [''],
+      extension: [this.profileManager.profile.extension],
       newPassword: [''],
       confirmPassword: ['']
     });
@@ -108,6 +108,7 @@ export class ProfileComponent implements OnInit {
 
   submitForm(form: any): void {
     if (this.form.valid && this.form.dirty) {
+      console.log(this.profileManager.profile)
       if (this.form.value.firstName !== this.profileManager.profile.firstName || this.form.value.lastName !== this.profileManager.profile.lastName || this.form.value.extension !== this.profileManager.profile.extension) {
         this.updateUserInfo();
       }
