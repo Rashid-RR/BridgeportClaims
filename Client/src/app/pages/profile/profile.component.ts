@@ -44,6 +44,7 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if (this.profileManager.profile == null) {
       this.profileManager.profile = new UserProfile('', '', '', '', '');
     }
@@ -68,6 +69,22 @@ export class ProfileComponent implements OnInit {
       try {
         this.http.changeusername(this.form.value.firstName, this.form.value.lastName, this.profileManager.profile.id, this.form.value.extension).subscribe(res => {
           this.toast.success('User name updated successfully');
+          var user = localStorage.getItem("user");
+          if (user !== null && user.length > 0) {
+            try {
+              let us = JSON.parse(user);
+              console.log(us)
+              console.log(us.firstName);
+              us.firstName=this.form.value.firstName;
+              us.lastName=this.form.value.lastName;
+              console.log(us)
+              localStorage.removeItem('user');
+
+              localStorage.setItem('user', JSON.stringify(us));
+
+            }catch (e) {
+            }
+          }
           this.profileManager.profile.firstName = this.form.value.firstName;
           this.profileManager.profile.lastName = this.form.value.lastName;
           this.profileManager.profile.extension = this.form.value.extension;
