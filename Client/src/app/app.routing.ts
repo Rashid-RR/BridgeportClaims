@@ -89,7 +89,7 @@ export const routes: Routes = [
   { component: Error404Component, path: '**' }
 ];
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {enableTracing: true})],
+  imports: [RouterModule.forRoot(routes, {enableTracing: false})],
   exports: [RouterModule]
 })
 export class RoutingModule {
