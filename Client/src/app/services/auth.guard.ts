@@ -59,7 +59,8 @@ export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserPro
       } else if (state.url.indexOf('/main/reports') > -1 && (state.url.indexOf('/main/reports/skipped-payment')
         === -1 &&  state.url.indexOf('/main/reports/shortpay')
         === -1 && state.url.indexOf('/main/reports/list') === -1)) {
-        const allowed = state.url.indexOf('/main/reports/collection-bonus') >-1 ? (us.roles && us.roles instanceof Array && us.roles.indexOf('User') > -1) :(us.roles && us.roles instanceof Array && us.roles.indexOf('Admin') > -1);
+        const allowed = state.url.indexOf('/main/reports/collection-bonus') >-1 ? (us.roles && us.roles instanceof Array
+          && us.roles.indexOf('User') > -1) : (us.roles && us.roles instanceof Array && us.roles.indexOf('Admin') > -1);
         return Observable.of(allowed);
       } else if (route.path === 'unindexed-images' || route.path === 'indexing') {
         const allowed = (us.roles && (us.roles instanceof Array) && (us.roles.indexOf('Admin') > -1 || us.roles.indexOf('Indexer') > -1));

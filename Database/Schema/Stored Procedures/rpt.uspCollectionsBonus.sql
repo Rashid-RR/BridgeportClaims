@@ -47,10 +47,10 @@ AS BEGIN
 			[c].[DatePosted],
 			[c].[AmountPaid],
 			ISNULL(ROUND([c].[AmountPaid] * 0.015, 2), 0.0) BonusAmount
-    FROM    [CollectionsCTE] [c]
+    FROM    [CollectionsCTE] AS [c]
     WHERE   [c].[LastNoteCreated] = 1
 			AND [c].[NoteAuthorID] = @UserID
 			AND MONTH([c].[DatePosted]) = @Month
 			AND YEAR([c].[DatePosted]) = @Year;
-    END
+END
 GO
