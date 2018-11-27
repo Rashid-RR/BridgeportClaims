@@ -29,11 +29,11 @@ export class ProfileComponent implements OnInit {
     private http: HttpService,
     public profileManager: ProfileManager,
     private toast: ToastsManager
-  ) { 
+  ) {
     this.profileManager.profileChanged.subscribe(r => {
       this.form = this.formBuilder.group({
-        firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
-        lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required])],
+        firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required, Validators.minLength(2)])],
+        lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required, Validators.minLength(2)])],
         oldPassword: [''],
         extension: [this.profileManager.profile.extension],
         newPassword: [''],
@@ -59,6 +59,11 @@ export class ProfileComponent implements OnInit {
 
   updateUserInfo() {
     if (this.form.valid && !this.loading) {
+     if(this.form.value.firstName.length<2 || this.form.value.lastName.length<2) {
+       this.toast.error('Error in name fields, Length should be greater than 2');
+
+       return;
+     }
       this.loading = true;
       try {
         this.http.changeusername(this.form.value.firstName, this.form.value.lastName, this.profileManager.profile.id, this.form.value.extension).subscribe(res => {
@@ -84,6 +89,7 @@ export class ProfileComponent implements OnInit {
     }
   }
   submitForm(form: any): void {
+    {debugger}
     if (this.form.valid && this.form.dirty) {
       if (this.form.value.firstName !== this.profileManager.profile.firstName || this.form.value.lastName !== this.profileManager.profile.lastName || this.form.value.extension !== this.profileManager.profile.extension) {
         this.updateUserInfo();
@@ -92,15 +98,21 @@ export class ProfileComponent implements OnInit {
         this.updatePassword();
       }
     } else {
-      
+
     }
 
   }
   updatePassword() {
+    if (this.form.get('oldPassword').value === '' || this.form.get('newPassword').value === '' || this.form.get('confirmPassword').value === '') {
+      this.toast.error('Please fillout all password fields.!');
+      return;
+    }
+
     this.submitted = true;
     if (this.form.valid && this.form.get('newPassword').value !== this.form.get('confirmPassword').value) {
       this.form.get('confirmPassword').setErrors({ 'unmatched': 'Confirm password does not match password' });
     }
+    this.loading=false;
     if (this.form.valid && !this.loading) {
       this.loading = true;
       try {
