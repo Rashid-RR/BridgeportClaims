@@ -325,7 +325,9 @@ namespace BridgeportClaims.Web.Controllers
                     return BadRequest(ModelState);
                 var result = await AppUserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                     model.NewPassword).ConfigureAwait(false);
-                return !result.Succeeded ? GetErrorResult(result) : Ok();
+                return !result.Succeeded
+                    ? GetErrorResult(result)
+                    : Ok(new {message = "The password was changed successfully."});
             }
             catch (Exception ex)
             {

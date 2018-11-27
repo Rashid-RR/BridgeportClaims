@@ -81,7 +81,6 @@ export class ProfileComponent implements OnInit {
       } catch (e) {
         this.loading = false;
         this.toast.error('Error in fields. Please correct to proceed!');
-
       }
     } else {
       this.loading = false;
@@ -89,7 +88,6 @@ export class ProfileComponent implements OnInit {
     }
   }
   submitForm(form: any): void {
-    {debugger}
     if (this.form.valid && this.form.dirty) {
       if (this.form.value.firstName !== this.profileManager.profile.firstName || this.form.value.lastName !== this.profileManager.profile.lastName || this.form.value.extension !== this.profileManager.profile.extension) {
         this.updateUserInfo();
