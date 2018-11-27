@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { HttpService } from '../../services/http-service';
-import { ClaimManager } from '../../services/claim-manager';
-import { UserProfile } from '../../models/profile';
-import { ProfileManager } from '../../services/profile-manager';
-import { ToastsManager } from 'ng2-toastr';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {HttpService} from '../../services/http-service';
+import {ClaimManager} from '../../services/claim-manager';
+import {UserProfile} from '../../models/profile';
+import {ProfileManager} from '../../services/profile-manager';
+import {ToastsManager} from 'ng2-toastr';
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +22,7 @@ export class ProfileComponent implements OnInit {
   saveEmail = false;
   loginError = '';
   emailError = '';
+
   constructor(
     private formBuilder: FormBuilder,
     public claimManager: ClaimManager,
@@ -31,6 +31,11 @@ export class ProfileComponent implements OnInit {
     private toast: ToastsManager
   ) {
     this.profileManager.profileChanged.subscribe(r => {
+      if(this.profileManager.profile.extension === undefined ){
+        this.profileManager.profile.extension='';
+        console.log(this.profileManager.profile.extension)
+      }
+
       this.form = this.formBuilder.group({
         firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required, Validators.minLength(2)])],
         lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required, Validators.minLength(2)])],
@@ -44,7 +49,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-
     if (this.profileManager.profile == null) {
       this.profileManager.profile = new UserProfile('', '', '', '', '');
     }
@@ -52,7 +56,7 @@ export class ProfileComponent implements OnInit {
       firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
       lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required])],
       oldPassword: [''],
-      extension: [this.profileManager.profile.extension],
+      extension: [''],
       newPassword: [''],
       confirmPassword: ['']
     });
@@ -60,29 +64,26 @@ export class ProfileComponent implements OnInit {
 
   updateUserInfo() {
     if (this.form.valid && !this.loading) {
-     if(this.form.value.firstName.length<2 || this.form.value.lastName.length<2) {
-       this.toast.error('Error in name fields, Length should be greater than 2');
+      if (this.form.value.firstName.length < 2 || this.form.value.lastName.length < 2) {
+        this.toast.error('Error in name fields, Length should be greater than 2');
 
-       return;
-     }
+        return;
+      }
       this.loading = true;
       try {
         this.http.changeusername(this.form.value.firstName, this.form.value.lastName, this.profileManager.profile.id, this.form.value.extension).subscribe(res => {
           this.toast.success('User name updated successfully');
-          var user = localStorage.getItem("user");
+          var user = localStorage.getItem('user');
           if (user !== null && user.length > 0) {
             try {
               let us = JSON.parse(user);
-              console.log(us)
-              console.log(us.firstName);
-              us.firstName=this.form.value.firstName;
-              us.lastName=this.form.value.lastName;
-              console.log(us)
+              us.firstName = this.form.value.firstName;
+              us.lastName = this.form.value.lastName;
               localStorage.removeItem('user');
 
               localStorage.setItem('user', JSON.stringify(us));
 
-            }catch (e) {
+            } catch (e) {
             }
           }
           this.profileManager.profile.firstName = this.form.value.firstName;
@@ -91,7 +92,7 @@ export class ProfileComponent implements OnInit {
           this.registered = true;
           this.loading = false;
         }, error => {
-          const err = error.error || ({ 'Message': 'Server error!' });
+          const err = error.error || ({'Message': 'Server error!'});
           error(err.Message);
           this.loading = false;
         });
@@ -104,6 +105,7 @@ export class ProfileComponent implements OnInit {
       this.toast.error('Error in fields. Please correct to proceed!');
     }
   }
+
   submitForm(form: any): void {
     if (this.form.valid && this.form.dirty) {
       if (this.form.value.firstName !== this.profileManager.profile.firstName || this.form.value.lastName !== this.profileManager.profile.lastName || this.form.value.extension !== this.profileManager.profile.extension) {
@@ -117,6 +119,7 @@ export class ProfileComponent implements OnInit {
     }
 
   }
+
   updatePassword() {
     if (this.form.get('oldPassword').value === '' || this.form.get('newPassword').value === '' || this.form.get('confirmPassword').value === '') {
       this.toast.error('Please fillout all password fields.!');
@@ -125,9 +128,9 @@ export class ProfileComponent implements OnInit {
 
     this.submitted = true;
     if (this.form.valid && this.form.get('newPassword').value !== this.form.get('confirmPassword').value) {
-      this.form.get('confirmPassword').setErrors({ 'unmatched': 'Confirm password does not match password' });
+      this.form.get('confirmPassword').setErrors({'unmatched': 'Confirm password does not match password'});
     }
-    this.loading=false;
+    this.loading = false;
     if (this.form.valid && !this.loading) {
       this.loading = true;
       try {
@@ -136,7 +139,7 @@ export class ProfileComponent implements OnInit {
           this.registered = true;
           this.loading = false;
         }, error => {
-          const err = error.error || ({ 'Message': 'Server error!' });
+          const err = error.error || ({'Message': 'Server error!'});
           this.toast.error(err.Message);
           this.loading = false;
         });
