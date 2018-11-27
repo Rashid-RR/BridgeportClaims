@@ -31,9 +31,8 @@ export class ProfileComponent implements OnInit {
     private toast: ToastsManager
   ) {
     this.profileManager.profileChanged.subscribe(r => {
-      if(this.profileManager.profile.extension === undefined ){
-        this.profileManager.profile.extension='';
-        console.log(this.profileManager.profile.extension)
+      if (this.profileManager.profile.extension === undefined ) {
+        this.profileManager.profile.extension = '';
       }
 
       this.form = this.formBuilder.group({
@@ -71,14 +70,16 @@ export class ProfileComponent implements OnInit {
       }
       this.loading = true;
       try {
-        this.http.changeusername(this.form.value.firstName, this.form.value.lastName, this.profileManager.profile.id, this.form.value.extension).subscribe(res => {
+        this.http.changeusername(this.form.value.firstName, this.form.value.lastName,
+          this.profileManager.profile.id, this.form.value.extension).subscribe(res => {
           this.toast.success('User name updated successfully');
-          var user = localStorage.getItem('user');
+          const user = localStorage.getItem('user');
           if (user !== null && user.length > 0) {
             try {
-              let us = JSON.parse(user);
+              const us = JSON.parse(user);
               us.firstName = this.form.value.firstName;
               us.lastName = this.form.value.lastName;
+              us.extension = this.form.value.extension;
               localStorage.removeItem('user');
 
               localStorage.setItem('user', JSON.stringify(us));
