@@ -266,8 +266,18 @@ export class HttpService {
     return s;
   }
 
+  changeUserNameAndPassword(data): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/account/change-user-name-and-password', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
   changeusername(firstName, lastName, id, extension: string): Observable<any> {
-    const s = this.http.post(this.baseUrl + '/users/updatename/' + id + '?firstName=' + firstName + '&lastName=' + lastName + '&extension=' + extension,
+    const s = this.http.post(this.baseUrl + '/users/updatename/' + id + '?firstName=' + firstName + '&lastName=' +
+      lastName + '&extension=' + extension,
       '')
       .catch(err => {
         this.handleResponseError(err);

@@ -2,29 +2,29 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
-import { Payor } from "../models/payor"
+import { Payor } from '../models/payor';
 import { Subject } from 'rxjs/Subject';
 
 declare var $: any;
 
 export interface SkippedPayment {
-    lastName: string,
-    firstName: string,
-    rxNumber: number,
-    reversedDate: Date,
-    claimNumber: number,
-    invoiceNumber: number,
-    dateFilled: any,
-    amountPaid: number,
-    statusName: string,
-    prescriptionPaymentId?: number
+    lastName: string;
+    firstName: string;
+    rxNumber: number;
+    reversedDate: Date;
+    claimNumber: number;
+    invoiceNumber: number;
+    dateFilled: any;
+    amountPaid: number;
+    statusName: string;
+    prescriptionPaymentId?: number;
 }
 
 @Injectable()
 export class SkippedPaymentService {
 
-    loading: boolean = false;
-    deleting: boolean = false;
+    loading = false;
+    deleting = false;
     goToPage: any = '';
     routes: string[] = [];
     skippedPay: SkippedPayment[] = [];
@@ -32,25 +32,25 @@ export class SkippedPaymentService {
     totalRowCount: number;
     payors: Array<Payor> = [];
     pageNumber: number;
-    pageSize: number = 50;
+    pageSize = 50;
     payorListReady = new Subject<any>();
-    archived:boolean=false;
+    archived= false;
     constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
         this.data = {
             page: 1,
-            archived:false,
+            archived: false,
             pageSize: 30
-        }
+        };
     }
     getPayors(pageNumber: number) {
         this.loading = true;
-        this.http.getPayorList(pageNumber, this.pageSize).map(res => { this.loading = false; return res}).subscribe(result => {
+        this.http.getPayorList(pageNumber, this.pageSize).map(res => { this.loading = false; return res; }).subscribe(result => {
             this.payors = result;
             this.pageNumber = pageNumber;
             this.payorListReady.next();
         }, err => {
             this.payorListReady.next();
-        })
+        });
     }
     removeSkippedPay(id: number = undefined) {
         this.loading = true;
@@ -69,7 +69,7 @@ export class SkippedPaymentService {
             this.toast.warning('Please populate at least one search field.');
         } else {
             this.loading = true;
-            let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+            const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
             if (next) {
                 data.page++;
@@ -87,7 +87,7 @@ export class SkippedPaymentService {
                 if (next) {
                     this.data.page++;
                 }
-                if (prev && this.data.page != data.page) {
+                if (prev && this.data.page !== data.page) {
                     this.data.page--;
                 }
                 if (page) {
@@ -96,7 +96,7 @@ export class SkippedPaymentService {
                 this.archived = this.data.archived;
             }, err => {
                 this.loading = false;
-            })
+            });
         }
     }
     get totalPages() {
