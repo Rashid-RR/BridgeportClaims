@@ -157,21 +157,32 @@ export class ProfileComponent implements OnInit {
         try {
           this.http.changeUserNameAndPassword(this.form.value).subscribe(res => {
             this.toast.success(res.message);
+            const user = localStorage.getItem('user');
+            if (user !== null && user.length > 0) {
+              try {
+                const us = JSON.parse(user);
+                us.firstName = this.form.value.firstName;
+                us.lastName = this.form.value.lastName;
+                us.extension = this.form.value.extension;
+                localStorage.removeItem('user');
+                localStorage.setItem('user', JSON.stringify(us));
+                } catch (e) {
+              }
+            }
             this.registered = true;
             this.loading = false;
           }, error => {
-            const err = error.error || ({'Message': 'Server error!'});
+            const err = error.error || ({'Message': 'Server error.'});
             this.toast.error(err.Message);
             this.loading = false;
           });
         } catch (e) {
           this.loading = false;
-          this.toast.error('Error in fields. Please correct to proceed!');
-
+          this.toast.error('Error in fields. Please correct to proceed.');
         }
       } else {
         this.loading = false;
-        this.toast.error('Error in fields. Please correct to proceed!');
+        this.toast.error('Error in fields. Please correct to proceed.');
       }
     }
   }

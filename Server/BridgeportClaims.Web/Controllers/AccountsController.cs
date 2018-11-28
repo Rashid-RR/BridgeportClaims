@@ -322,36 +322,38 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                var userId = User.Identity.GetUserId();
                 if (!ModelState.IsValid)
                     return BadRequest(ModelState);
                 // First Change Password.
-                if (model.NewPassword.IsNotNullOrWhiteSpace() && model.ConfirmPassword.IsNotNullOrWhiteSpace() &&
-                    model.NewPassword != model.ConfirmPassword)
+                IdentityResult result = null;
+                var changingPasswords = model.NewPassword.IsNotNullOrWhiteSpace() && model.ConfirmPassword.IsNotNullOrWhiteSpace();
+                if (changingPasswords)
                 {
-                    throw new Exception("The new password and confirmation password do not match");
+                    if (model.NewPassword != model.ConfirmPassword)
+                    {
+                        throw new Exception("The new password and confirmation password do not match");
+                    }
+                    result = await AppUserManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword).ConfigureAwait(false);
                 }
-                var result = await AppUserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
-                    model.NewPassword).ConfigureAwait(false);
-
                 if (model.Extension.IsNotNullOrWhiteSpace() && model.Extension?.ToLower() == "null")
                 {
                     model.Extension = null;
                 }
                 // Now Change the User Name.
-                var userId = User.Identity.GetUserId();
-                var appUser = await AppUserManager.FindByIdAsync(userId);
+                var appUser = await AppUserManager.FindByIdAsync(userId).ConfigureAwait(false);
                 appUser.FirstName = model.FirstName;
                 appUser.LastName = model.LastName;
                 appUser.Extension = model.Extension;
                 var entity = await AppUserManager.UpdateAsync(appUser);
-                if (null != entity && entity.Succeeded && null != result && result.Succeeded)
+                if ((null != entity && entity.Succeeded) || (null != result && result.Succeeded))
                 {
                     return Ok(new
                     {
-                        message = $"The user name {(model.OldPassword.IsNotNullOrWhiteSpace() ? "and password were" : "was")} changed successfully."
+                        message = $"The user name {(changingPasswords ? "and password were" : "was")} changed successfully."
                     });
                 }
-                return GetErrorResult(result);
+                return GetErrorResult(result ?? entity);
             }
             catch (Exception ex)
             {
