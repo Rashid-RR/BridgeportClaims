@@ -411,17 +411,19 @@ export class UsersComponent implements OnInit {
     for (let payor in this.selectedUsers) {
       payorId.push(this.selectedUsers[payor].payorId);
     }
+
+    this.loading = true;
     this.http.assignUsertoPayors(this.selectedUserId, payorId).map(res => {
       return res;
     }).subscribe(result => {
-
+      this.loading = false;
       this.toast.success(result['message']);
       $('#usersModal').modal('hide');
 
     }, error1 => {
-
       const err = error1.error;
       this.toast.error(err.message);
+      this.loading = false;
     });
   }
 
