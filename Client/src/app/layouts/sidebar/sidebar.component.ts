@@ -65,5 +65,12 @@ export class SidebarComponent implements OnInit {
     return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
       && this.profileManager.profile.roles.indexOf('Client') > -1);
   }
+  get isOnlyUser(): Boolean {
+    return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Client') === -1
+      && this.profileManager.profile.roles.indexOf('User') > -1
+      && this.profileManager.profile.roles.indexOf('Admin') === -1
+      && this.profileManager.profile.roles.indexOf('Indexer') === -1);
+  }
 
 }
