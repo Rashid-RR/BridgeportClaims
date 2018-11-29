@@ -327,14 +327,17 @@ namespace BridgeportClaims.Web.Controllers
                     return BadRequest(ModelState);
                 // First Change Password.
                 IdentityResult result = null;
-                var changingPasswords = model.NewPassword.IsNotNullOrWhiteSpace() && model.ConfirmPassword.IsNotNullOrWhiteSpace();
+                var changingPasswords = model.NewPassword.IsNotNullOrWhiteSpace() &&
+                                        model.ConfirmPassword.IsNotNullOrWhiteSpace();
                 if (changingPasswords)
                 {
                     if (model.NewPassword != model.ConfirmPassword)
                     {
                         throw new Exception("The new password and confirmation password do not match");
                     }
-                    result = await AppUserManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword).ConfigureAwait(false);
+
+                    result = await AppUserManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword)
+                        .ConfigureAwait(false);
                 }
                 if (model.Extension.IsNotNullOrWhiteSpace() && model.Extension?.ToLower() == "null")
                 {
@@ -346,19 +349,29 @@ namespace BridgeportClaims.Web.Controllers
                 appUser.LastName = model.LastName;
                 appUser.Extension = model.Extension;
                 var entity = await AppUserManager.UpdateAsync(appUser);
-                if ((null != entity && entity.Succeeded) || (null != result && result.Succeeded))
+                if (null != entity)
                 {
-                    return Ok(new
+                    if (!entity.Succeeded)
                     {
-                        message = $"The user name {(changingPasswords ? "and password were" : "was")} changed successfully."
-                    });
+                        return GetErrorResult(entity);
+                    }
                 }
-                return GetErrorResult(result ?? entity);
+                if (null != result)
+                {
+                    if (!result.Succeeded)
+                    {
+                        return GetErrorResult(result);
+                    }
+                }
+                return Ok(new
+                {
+                    message = $"The user name {(changingPasswords ? "and password were" : "was")} changed successfully."
+                });
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
