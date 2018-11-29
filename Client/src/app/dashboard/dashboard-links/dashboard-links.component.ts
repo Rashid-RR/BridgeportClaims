@@ -2,14 +2,12 @@ import { Component, ElementRef,ViewEncapsulation, ViewChild, OnInit, AfterViewIn
 import { HttpService } from '../../services/http-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { EventsService } from '../../services/events-service';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
-declare var Highcharts: any;
 
 @Component({
   selector: 'app-private',
-  encapsulation:ViewEncapsulation.None,
   templateUrl: './dashboard-links.component.html',
   styleUrls: ['./dashboard-links.component.css']
 })
