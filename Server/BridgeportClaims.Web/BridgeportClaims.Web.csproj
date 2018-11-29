@@ -483,6 +483,7 @@
     <Compile Include="Models\UnpaidScriptsViewModel.cs" />
     <Compile Include="Models\UpdatePaymentsModel.cs" />
     <Compile Include="Models\UserInfoViewModel.cs" />
+    <Compile Include="Models\UserNameAndPasswordModel.cs" />
     <Compile Include="Models\UserPaymentPostingSession.cs" />
     <Compile Include="Models\UsersInRoleModel.cs" />
     <Compile Include="Providers\BridgeportClaimOAuthProvider.cs" />

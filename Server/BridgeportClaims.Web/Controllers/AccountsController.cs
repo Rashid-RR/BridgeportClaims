@@ -10,6 +10,7 @@ using BridgeportClaims.Web.Infrastructure;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using BridgeportClaims.Common.Constants;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Web.Attributes;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -312,6 +313,65 @@ namespace BridgeportClaims.Web.Controllers
             {
                 Logger.Value.Error(ex);
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("change-user-name-and-password")]
+        public async Task<IHttpActionResult> ChangeUserNameAndPassword(UserNameAndPasswordModel model)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+                // First Change Password.
+                IdentityResult result = null;
+                var changingPasswords = model.NewPassword.IsNotNullOrWhiteSpace() &&
+                                        model.ConfirmPassword.IsNotNullOrWhiteSpace();
+                if (changingPasswords)
+                {
+                    if (model.NewPassword != model.ConfirmPassword)
+                    {
+                        throw new Exception("The new password and confirmation password do not match");
+                    }
+
+                    result = await AppUserManager.ChangePasswordAsync(userId, model.OldPassword, model.NewPassword)
+                        .ConfigureAwait(false);
+                }
+                if (model.Extension.IsNotNullOrWhiteSpace() && model.Extension?.ToLower() == "null")
+                {
+                    model.Extension = null;
+                }
+                // Now Change the User Name.
+                var appUser = await AppUserManager.FindByIdAsync(userId).ConfigureAwait(false);
+                appUser.FirstName = model.FirstName;
+                appUser.LastName = model.LastName;
+                appUser.Extension = model.Extension;
+                var entity = await AppUserManager.UpdateAsync(appUser);
+                if (null != entity)
+                {
+                    if (!entity.Succeeded)
+                    {
+                        return GetErrorResult(entity);
+                    }
+                }
+                if (null != result)
+                {
+                    if (!result.Succeeded)
+                    {
+                        return GetErrorResult(result);
+                    }
+                }
+                return Ok(new
+                {
+                    message = $"The user name {(changingPasswords ? "and password were" : "was")} changed successfully."
+                });
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 

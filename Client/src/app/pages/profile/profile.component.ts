@@ -5,6 +5,7 @@ import {ClaimManager} from '../../services/claim-manager';
 import {UserProfile} from '../../models/profile';
 import {ProfileManager} from '../../services/profile-manager';
 import {ToastsManager} from 'ng2-toastr';
+import { StringService } from '../../services/string.service';
 
 @Component({
   selector: 'app-profile',
@@ -28,7 +29,8 @@ export class ProfileComponent implements OnInit {
     public claimManager: ClaimManager,
     private http: HttpService,
     public profileManager: ProfileManager,
-    private toast: ToastsManager
+    private toast: ToastsManager,
+    private stringService: StringService
   ) {
     this.profileManager.profileChanged.subscribe(r => {
       if (this.profileManager.profile.extension === undefined ) {
@@ -52,8 +54,8 @@ export class ProfileComponent implements OnInit {
       this.profileManager.profile = new UserProfile('', '', '', '', '');
     }
     this.form = this.formBuilder.group({
-      firstName: [this.profileManager.profile.firstName, Validators.compose([Validators.required])],
-      lastName: [this.profileManager.profile.lastName, Validators.compose([Validators.required])],
+      firstName: [this.profileManager.profile.firstName],
+      lastName: [this.profileManager.profile.lastName],
       oldPassword: [''],
       extension: [this.profileManager.profile.extension],
       newPassword: [''],
@@ -63,16 +65,27 @@ export class ProfileComponent implements OnInit {
 
   updateUserInfo() {
     if (this.form.valid && !this.loading) {
+      let returnNow = false;
+      if (this.stringService.isNullOrWhitespace(this.form.value.firstName)) {
+        this.toast.warning('The first name field must be populated.');
+        returnNow = true;
+      }
+      if (this.stringService.isNullOrWhitespace(this.form.value.lastName)) {
+        this.toast.warning('The last name field must be populated.');
+        returnNow = true;
+      }
+      if (returnNow) {
+        return;
+      }
       if (this.form.value.firstName.length < 2 || this.form.value.lastName.length < 2) {
-        this.toast.error('Error in name fields, Length should be greater than 2');
-
+        this.toast.warning('The first and last name must be at least 2 characters long.');
         return;
       }
       this.loading = true;
       try {
         this.http.changeusername(this.form.value.firstName, this.form.value.lastName,
           this.profileManager.profile.id, this.form.value.extension).subscribe(res => {
-          this.toast.success('User name updated successfully');
+          this.toast.success('User name updated successfully.');
           const user = localStorage.getItem('user');
           if (user !== null && user.length > 0) {
             try {
@@ -81,9 +94,7 @@ export class ProfileComponent implements OnInit {
               us.lastName = this.form.value.lastName;
               us.extension = this.form.value.extension;
               localStorage.removeItem('user');
-
               localStorage.setItem('user', JSON.stringify(us));
-
             } catch (e) {
             }
           }
@@ -93,36 +104,92 @@ export class ProfileComponent implements OnInit {
           this.registered = true;
           this.loading = false;
         }, error => {
-          const err = error.error || ({'Message': 'Server error!'});
+          const err = error.error || ({'Message': 'Server error.'});
           error(err.Message);
           this.loading = false;
         });
       } catch (e) {
         this.loading = false;
-        this.toast.error('Error in fields. Please correct to proceed!');
+        this.toast.error('Error in fields. Please correct to proceed.');
       }
     } else {
       this.loading = false;
-      this.toast.error('Error in fields. Please correct to proceed!');
+      this.toast.error('Error in fields. Please correct to proceed.');
     }
   }
 
   submitForm(form: any): void {
     if (this.form.valid && this.form.dirty) {
-      if (this.form.value.firstName !== this.profileManager.profile.firstName || this.form.value.lastName !== this.profileManager.profile.lastName || this.form.value.extension !== this.profileManager.profile.extension) {
+      /*if (this.form.value.firstName !== this.profileManager.profile.firstName || this.form.value.lastName !==
+        this.profileManager.profile.lastName || this.form.value.extension !== this.profileManager.profile.extension) {
         this.updateUserInfo();
       }
-      if (this.form.get('oldPassword').value !== '' || this.form.get('newPassword').value !== '' || this.form.get('confirmPassword').value !== '') {
-        this.updatePassword();
-      }
-    } else {
-
+      if (!this.stringService.isNullOrWhitespace(this.form.get('oldPassword').value) ||
+        !this.stringService.isNullOrWhitespace(this.form.get('newPassword').value) ||
+        !this.stringService.isNullOrWhitespace(this.form.get('confirmPassword').value)) {
+        this.updatePassword();*/
+        this.changeUserNameAndPassword();
     }
+  }
 
+  changeUserNameAndPassword() {
+      if (this.form.valid && !this.loading) {
+        let returnNow = false;
+        if (this.stringService.isNullOrWhitespace(this.form.value.firstName)) {
+          this.toast.warning('The first name field must be populated.');
+          returnNow = true;
+        }
+        if (this.stringService.isNullOrWhitespace(this.form.value.lastName)) {
+          this.toast.warning('The last name field must be populated.');
+          returnNow = true;
+        }
+        if (returnNow) {
+          return;
+        }
+        if (this.form.value.firstName.length < 2 || this.form.value.lastName.length < 2) {
+          this.toast.warning('The first and last name must be at least 2 characters long.');
+          return;
+        }
+      this.loading = false;
+      this.submitted = true;
+      if (this.form.valid && !this.loading) {
+        this.loading = true;
+        try {
+          this.http.changeUserNameAndPassword(this.form.value).subscribe(res => {
+            this.toast.success(res.message);
+            const user = localStorage.getItem('user');
+            if (user !== null && user.length > 0) {
+              try {
+                const us = JSON.parse(user);
+                us.firstName = this.form.value.firstName;
+                us.lastName = this.form.value.lastName;
+                us.extension = this.form.value.extension;
+                localStorage.removeItem('user');
+                localStorage.setItem('user', JSON.stringify(us));
+                } catch (e) {
+              }
+            }
+            this.registered = true;
+            this.loading = false;
+          }, error => {
+            const err = error.error || ({'Message': 'Server error.'});
+            this.toast.error(err.Message);
+            this.loading = false;
+          });
+        } catch (e) {
+          this.loading = false;
+          this.toast.error('Error in fields. Please correct to proceed.');
+        }
+      } else {
+        this.loading = false;
+        this.toast.error('Error in fields. Please correct to proceed.');
+      }
+    }
   }
 
   updatePassword() {
-    if (this.form.get('oldPassword').value === '' || this.form.get('newPassword').value === '' || this.form.get('confirmPassword').value === '') {
+    if (this.form.get('oldPassword').value === '' || this.form.get('newPassword').value === '' ||
+      this.form.get('confirmPassword').value === '') {
       this.toast.error('Please fillout all password fields.!');
       return;
     }

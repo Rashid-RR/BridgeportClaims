@@ -65,6 +65,7 @@ import { TestComponent } from './pages/test/test.component';
 import { OutstandingFilterComponent } from './components/outstanding-filter/outstanding-filter.component';
 import { OutstandingResultComponent } from './components/outstanding-result/outstanding-result.component';
 import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-outstanding.component';
+import { StringService } from './services/string.service';
 
 
 @NgModule({
@@ -108,7 +109,7 @@ import { ClaimOutstandingComponent } from './components/claim-outstanding/claim-
     HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService,
     EpisodeService, FirewallService,
     PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService,
-    AccountReceivableService, ReportLoaderService, SignalRService,
+    AccountReceivableService, ReportLoaderService, SignalRService, StringService,
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
