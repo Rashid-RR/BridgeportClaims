@@ -4,8 +4,8 @@ using System.IO;
 using BridgeportClaims.Common.Disposable;
 using DataAccess;
 using LumenWorks.Framework.IO.Csv;
-using NLog;
 using DataTable = System.Data.DataTable;
+using NLog;
 
 namespace BridgeportClaims.CsvReader.CsvReaders
 {

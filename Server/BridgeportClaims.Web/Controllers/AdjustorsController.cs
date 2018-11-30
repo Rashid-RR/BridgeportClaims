@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.AdjustorSearches;
-using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using NLog;
 

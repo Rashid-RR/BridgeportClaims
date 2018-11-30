@@ -126,6 +126,8 @@
     <Compile Include="DataProviders\CollectionAssignments\ICollectionAssignmentProvider.cs" />
     <Compile Include="DataProviders\Dashboards\DashboardProvider.cs" />
     <Compile Include="DataProviders\Dashboards\IDashboardProvider.cs" />
+    <Compile Include="DataProviders\DecisionTrees\DecisionTreeDataProvider.cs" />
+    <Compile Include="DataProviders\DecisionTrees\IDecisionTreeDataProvider.cs" />
     <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />
     <Compile Include="DataProviders\Diaries\IDiaryProvider.cs" />
     <Compile Include="DataProviders\DocumentIndexes\DocumentIndexProvider.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Dtos\CollectionsBonusResultsDto.cs" />
     <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
+    <Compile Include="Dtos\DecisionTreeDto.cs" />
     <Compile Include="Dtos\DiariesDto.cs" />
     <Compile Include="Dtos\DiaryOwnerDto.cs" />
     <Compile Include="Dtos\DiaryResultDto.cs" />

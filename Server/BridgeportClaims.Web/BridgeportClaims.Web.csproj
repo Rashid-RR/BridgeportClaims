@@ -403,6 +403,7 @@
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\CollectionAssignmentController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\DecisionTreesController.cs" />
     <Compile Include="Controllers\DiariesController.cs" />
     <Compile Include="Controllers\DocumentIndexesController.cs" />
     <Compile Include="Controllers\DocumentsController.cs" />
@@ -448,6 +449,7 @@
     <Compile Include="Models\CollectionAssignmentModel.cs" />
     <Compile Include="Models\CreateFirewallSettingModel.cs" />
     <Compile Include="Models\CreateRoleBindingModel.cs" />
+    <Compile Include="Models\DecisionTreeModel.cs" />
     <Compile Include="Models\DiariesViewModel.cs" />
     <Compile Include="Models\DocumentIndexViewModel.cs" />
     <Compile Include="Models\DocumentModel.cs" />

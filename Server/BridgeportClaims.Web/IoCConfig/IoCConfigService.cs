@@ -31,6 +31,7 @@ using BridgeportClaims.Data.DataProviders.ClaimSearches;
 using BridgeportClaims.Data.DataProviders.Clients;
 using BridgeportClaims.Data.DataProviders.CollectionAssignments;
 using BridgeportClaims.Data.DataProviders.Dashboards;
+using BridgeportClaims.Data.DataProviders.DecisionTrees;
 using BridgeportClaims.Data.DataProviders.Diaries;
 using BridgeportClaims.Data.DataProviders.DocumentIndexes;
 using BridgeportClaims.Data.DataProviders.Documents;
@@ -79,6 +80,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DocumentDataProvider>().As<IDocumentDataProvider>().InstancePerRequest();
             builder.RegisterType<DocumentIndexProvider>().As<IDocumentIndexProvider>().InstancePerRequest();
             builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();
+            builder.RegisterType<DecisionTreeDataProvider>().As<IDecisionTreeDataProvider>().InstancePerRequest();
             builder.RegisterType<CachingClearingService>().As<ICachingClearingService>().InstancePerRequest();
             builder.RegisterType<ClaimImageProvider>().As<IClaimImageProvider>().InstancePerRequest();
             builder.RegisterType<CollectionAssignmentProvider>().As<ICollectionAssignmentProvider>().InstancePerRequest();

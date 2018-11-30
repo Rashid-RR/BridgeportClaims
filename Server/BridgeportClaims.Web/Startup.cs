@@ -3,7 +3,6 @@ using System;
 using System.Web.Http;
 using Autofac;
 using Autofac.Integration.WebApi;
-using BridgeportClaims.Common.Config;
 using BridgeportClaims.Web.Formatters;
 using BridgeportClaims.Web.Handlers;
 using BridgeportClaims.Web.Infrastructure;
