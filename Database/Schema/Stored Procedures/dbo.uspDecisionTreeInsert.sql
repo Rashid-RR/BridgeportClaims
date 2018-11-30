@@ -15,7 +15,8 @@ CREATE PROC [dbo].[uspDecisionTreeInsert]
 (
 	@ParentTreeID INT,
 	@NodeName VARCHAR(255),
-	@NodeDescription VARCHAR(4000)
+	@NodeDescription VARCHAR(4000),
+	@TreeID INT OUTPUT
 )
 AS BEGIN
     SET NOCOUNT ON;
@@ -39,10 +40,12 @@ AS BEGIN
 
 		SELECT	@LeftChild = MAX([TreeNode])   
 		FROM	[dbo].[DecisionTree]
-		WHERE	[TreeNode].GetAncestor(1) = @ParentNode;  
+		WHERE	[TreeNode].GetAncestor(1) = @ParentNode;
+
+		SET @TreeID = (NEXT VALUE FOR seqDecisionTree);
 
 		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [NodeDescription])
-		VALUES (@ParentNode.GetDescendant(@LeftChild, NULL), (NEXT VALUE FOR seqDecisionTree), @NodeName, @NodeDescription);
+		VALUES (@ParentNode.GetDescendant(@LeftChild, NULL), @TreeID, @NodeName, @NodeDescription);
             
         IF (@@TRANCOUNT > 0)
             COMMIT;
@@ -60,5 +63,6 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
     END CATCH
 END
+
 
 GO
