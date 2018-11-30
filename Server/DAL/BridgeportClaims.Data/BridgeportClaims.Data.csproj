@@ -108,8 +108,8 @@
   <ItemGroup>
     <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
     <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
-    <Compile Include="DataProviders\AdjustorSearches\AdjustorSearchProvider.cs" />
-    <Compile Include="DataProviders\AdjustorSearches\IAdjustorSearchProvider.cs" />
+    <Compile Include="DataProviders\AdjustorSearches\AdjustorDataProvider.cs" />
+    <Compile Include="DataProviders\AdjustorSearches\IAdjustorDataProvider.cs" />
     <Compile Include="DataProviders\AdminFunctions\AdminFunctionsProvider.cs" />
     <Compile Include="DataProviders\AdminFunctions\IAdminFunctionsProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\ClaimImageProvider.cs" />
@@ -171,7 +171,9 @@
     <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
     <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
     <Compile Include="Dtos\AccountsReceivableDto.cs" />
+    <Compile Include="Dtos\AdjustorDto.cs" />
     <Compile Include="Dtos\AdjustorNameDto.cs" />
+    <Compile Include="Dtos\AdjustorResultDto.cs" />
     <Compile Include="Dtos\AdjustorSearchResultsDto.cs" />
     <Compile Include="Dtos\AspNetUsersDto.cs" />
     <Compile Include="Dtos\BillingStatementDto.cs" />

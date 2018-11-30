@@ -6,13 +6,14 @@ using System.Linq;
 using BridgeportClaims.Common.Disposable;
 using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.Dtos;
+using Dapper;
 using SQLinq;
 using SQLinq.Dapper;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
 {
-    public class AdjustorSearchProvider : IAdjustorSearchProvider
+    public class AdjustorDataProvider : IAdjustorDataProvider
     {
         public IList<AdjustorSearchResultsDto> GetAdjustorSearchResults(string searchText) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
@@ -68,6 +69,31 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
                 return conn.Query(new SQLinq<AdjustorNameDto>()
                     .OrderBy(p => p.AdjustorName)
                     .Select(p => new {p.AdjustorId, p.AdjustorName}));
+            });
+
+        public AdjustorDto GetAdjustors(string searchText, int page, int pageSize, string sort, string sortDirection)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[claims].[uspGetAdjustors]";
+                const string totalRows = "@TotalRows";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@SearchText", searchText, DbType.AnsiString, size: 4000);
+                ps.Add("@SortColumn", sort, DbType.AnsiString, size: 50);
+                ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
+                ps.Add("@PageNumber", page, DbType.Int32);
+                ps.Add("@PageSize", pageSize, DbType.Int32);
+                ps.Add(totalRows, DbType.Int32, direction: ParameterDirection.Output);
+                var query = conn.Query<AdjustorResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
+                var adj = new AdjustorDto
+                {
+                    Results = query,
+                    TotalRows = ps.Get<int>(totalRows)
+                };
+                return adj;
             });
     }
 }

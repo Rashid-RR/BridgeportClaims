@@ -86,7 +86,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<CollectionAssignmentProvider>().As<ICollectionAssignmentProvider>().InstancePerRequest();
             builder.RegisterType<PayorSearchProvider>().As<IPayorSearchProvider>().InstancePerRequest();
             builder.RegisterType<RedisDomain>().As<IRedisDomain>().InstancePerRequest();
-            builder.RegisterType<AdjustorSearchProvider>().As<IAdjustorSearchProvider>().InstancePerRequest();
+            builder.RegisterType<AdjustorDataProvider>().As<IAdjustorDataProvider>().InstancePerRequest();
             builder.RegisterType<DashboardProvider>().As<IDashboardProvider>().InstancePerRequest();
             builder.RegisterType<EpisodeNoteProvider>().As<IEpisodeNoteProvider>().InstancePerRequest();
             builder.RegisterType<AdminFunctionsProvider>().As<IAdminFunctionsProvider>().InstancePerRequest();

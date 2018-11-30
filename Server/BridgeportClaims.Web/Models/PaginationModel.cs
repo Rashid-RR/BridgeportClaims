@@ -2,7 +2,7 @@
 
 namespace BridgeportClaims.Web.Models
 {
-    public sealed class PaginationModel
+    public class PaginationModel
     {
         [Required]
         [StringLength(50)]

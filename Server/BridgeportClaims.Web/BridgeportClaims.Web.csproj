@@ -437,6 +437,7 @@
     <Compile Include="Middleware\BridgeportClaimsMiddleware.cs" />
     <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
     <Compile Include="Models\AccountsReceivableViewModel.cs" />
+    <Compile Include="Models\AdjustorModel.cs" />
     <Compile Include="Models\ArchiveUnpaidScriptModel.cs" />
     <Compile Include="Models\CarriersModel.cs" />
     <Compile Include="Models\ClaimDocumentViewModel.cs" />
