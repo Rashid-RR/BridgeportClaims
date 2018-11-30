@@ -57,7 +57,7 @@ AS BEGIN
 		   ,[a].[FaxNumber]
 		   ,[a].[EmailAddress]
 		   ,[a].[Extension]
-		   ,[a].[ModifiedBy] INTO dbo.T
+		   ,[a].[ModifiedBy]
 	FROM    [#Adjustors] AS [a]
 	ORDER BY CASE WHEN @SortColumn = 'AdjustorId' AND @SortDirection = 'ASC' THEN [a].[AdjustorId] END ASC,
 			 CASE WHEN @SortColumn = 'AdjustorId' AND  @SortDirection = 'DESC' THEN [a].[AdjustorId] END DESC,
@@ -75,4 +75,5 @@ AS BEGIN
 			 CASE WHEN @SortColumn = 'ModifiedBy' AND  @SortDirection = 'DESC' THEN [a].[ModifiedBy] END DESC
 	 OFFSET @PageSize * (@PageNumber - 1) ROWS FETCH NEXT @PageSize ROWS ONLY;
 END
+
 GO
