@@ -40,22 +40,5 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 return conn.Query<DecisionTreeDto>(sp, new {ParentTreeID = parentTreeId},
                     commandType: CommandType.StoredProcedure);
             });
-
-        public int InsertDecisionTreeRoot(string nodeName, string nodeDescription)
-            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
-            {
-                if (conn.State != ConnectionState.Open)
-                {
-                    conn.Open();
-                }
-                const string sp = "[dbo].[uspInsertTreeRoot]";
-                const string treeParam = "@TreeID";
-                var ps = new DynamicParameters();
-                ps.Add("@NodeName", nodeName, DbType.AnsiString, size: 255);
-                ps.Add("@NodeDescription", nodeDescription, DbType.AnsiString, size: 4000);
-                ps.Add(treeParam, DbType.Int32, direction: ParameterDirection.Output);
-                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
-                return ps.Get<int>(treeParam);
-            });
     }
 }

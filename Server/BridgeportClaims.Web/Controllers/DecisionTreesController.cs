@@ -50,21 +50,5 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
-
-        [HttpPost]
-        [Route("insert-tree-root")]
-        public IHttpActionResult InsertTreeRoot(DecisionTreeModel model)
-        {
-            try
-            {
-                var treeId = _decisionTreeDataProvider.Value.InsertDecisionTreeRoot(model.NodeName, model.NodeDescription);
-                return Ok(treeId);
-            }
-            catch (Exception ex)
-            {
-                Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
-            }
-        }
     }
 }
