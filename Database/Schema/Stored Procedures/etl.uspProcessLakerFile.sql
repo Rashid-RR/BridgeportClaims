@@ -1097,6 +1097,9 @@ AS BEGIN
 	FROM    [etl].[LatestStagedLakerFileLoaded] AS [l]
 	WHERE	1 = 1;
 
+	-- Cleanup blank Adjustors
+	EXECUTE [util].[uspCleanupEmptyAdjustors];
+
 	-- Insert initial Audit Records
 	EXECUTE dbo.uspInsertInitialAuditRecords;
 
@@ -1108,4 +1111,5 @@ AS BEGIN
 	ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 END
+
 GO
