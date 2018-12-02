@@ -5,7 +5,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
 {
     public interface IDecisionTreeDataProvider
     {
-        DecisionTreeDto InsertDecisionTree(int parentTreeId, string nodeName, string nodeDescription);
+        DecisionTreeDto InsertDecisionTree(int parentTreeId, string nodeName, string nodeDescription, string modifiedByUserId);
         IEnumerable<DecisionTreeDto> GetDecisionTree(int parentTreeId);
     }
 }

@@ -3,6 +3,7 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DecisionTrees;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -41,7 +42,9 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var decisionTree = _decisionTreeDataProvider.Value.InsertDecisionTree(model.ParentTreeId, model.NodeName, model.NodeDescription);
+                var userId = User.Identity.GetUserId();
+                var decisionTree = _decisionTreeDataProvider.Value.InsertDecisionTree(model.ParentTreeId,
+                    model.NodeName, model.NodeDescription, userId);
                 return Ok(decisionTree);
             }
             catch (Exception ex)
