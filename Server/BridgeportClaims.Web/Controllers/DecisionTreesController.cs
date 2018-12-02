@@ -41,8 +41,8 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var treeId = _decisionTreeDataProvider.Value.InsertDecisionTree(model.ParentTreeId, model.NodeName, model.NodeDescription);
-                return Ok(treeId);
+                var decisionTree = _decisionTreeDataProvider.Value.InsertDecisionTree(model.ParentTreeId, model.NodeName, model.NodeDescription);
+                return Ok(decisionTree);
             }
             catch (Exception ex)
             {

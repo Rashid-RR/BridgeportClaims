@@ -7,6 +7,8 @@ namespace BridgeportClaims.Data.Dtos
         [Required]
         public string TreeNode { get; set; }
         [Required]
+        public string TreePath { get; set; }
+        [Required]
         public short TreeLevel { get; set; }
         [Required]
         public int TreeId { get; set; }
