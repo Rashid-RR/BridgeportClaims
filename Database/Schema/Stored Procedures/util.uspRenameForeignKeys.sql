@@ -78,7 +78,7 @@ AS BEGIN
 				FROM    @Data AS d
 				IF @@TRANCOUNT > 0
 					ROLLBACK
-				RETURN
+				RETURN -1;
 			END
 
 		DECLARE @SQL NVARCHAR(1000)
@@ -108,16 +108,12 @@ AS BEGIN
 				
         DECLARE @ErrSeverity INT = ERROR_SEVERITY()
             , @ErrState INT = ERROR_STATE()
-            , @ErrProc NVARCHAR(MAX) = ERROR_PROCEDURE()
+            , @ErrProc NVARCHAR(4000) = ERROR_PROCEDURE()
             , @ErrLine INT = ERROR_LINE()
-            , @ErrMsg NVARCHAR(MAX) = ERROR_MESSAGE()
+            , @ErrMsg NVARCHAR(4000) = ERROR_MESSAGE()
 
-        RAISERROR(N'%s (line %d): %s',	-- Message text w formatting
-			@ErrSeverity,		-- Severity
-			@ErrState,			-- State
-			@ErrProc,			-- First argument (string)
-			@ErrLine,			-- Second argument (int)
-			@ErrMsg)			-- First argument (string)
+        RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
 	END CATCH
 END
+
 GO

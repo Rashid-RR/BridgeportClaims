@@ -19,11 +19,15 @@ DATA_COMPRESSION = ROW
 GO
 ALTER TABLE [dbo].[DecisionTree] ADD CONSTRAINT [pkDecisionTree] PRIMARY KEY CLUSTERED  ([TreeNode]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[DecisionTree] ADD CONSTRAINT [idxUqDecisionTreeNodeName] UNIQUE NONCLUSTERED  ([NodeName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE NONCLUSTERED INDEX [idxDecisionTreeModifiedByUserID] ON [dbo].[DecisionTree] ([ModifiedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
-ALTER TABLE [dbo].[DecisionTree] ADD CONSTRAINT [idxUqDecisionTreeTreeID] UNIQUE NONCLUSTERED  ([TreeID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+CREATE UNIQUE NONCLUSTERED INDEX [idxUqDecisionTreeNodeNameIncludes] ON [dbo].[DecisionTree] ([NodeName]) INCLUDE ([ModifiedByUserID], [NodeDescription], [ParentTreeID], [TreeID], [TreeLevel], [TreeNode], [TreePath]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE NONCLUSTERED INDEX [idxDecisionTreeParentTreeIDIncludes] ON [dbo].[DecisionTree] ([ParentTreeID]) INCLUDE ([ModifiedByUserID], [NodeDescription], [NodeName], [TreeID], [TreeLevel], [TreeNode], [TreePath]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [idxUqDecisionTreeTreeIDIncludes] ON [dbo].[DecisionTree] ([TreeID]) INCLUDE ([ModifiedByUserID], [NodeDescription], [NodeName], [ParentTreeID], [TreeLevel], [TreeNode], [TreePath]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 ALTER TABLE [dbo].[DecisionTree] ADD CONSTRAINT [fkDecisionTreeModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO
-ALTER TABLE [dbo].[DecisionTree] ADD CONSTRAINT [fkDecisionTreeTreeIDDecisionTreeTreeNode] FOREIGN KEY ([TreeID]) REFERENCES [dbo].[DecisionTree] ([TreeID])
+ALTER TABLE [dbo].[DecisionTree] ADD CONSTRAINT [fkDecisionTreeParentTreeIDDecisionTreeTreeID] FOREIGN KEY ([ParentTreeID]) REFERENCES [dbo].[DecisionTree] ([TreeID])
 GO
