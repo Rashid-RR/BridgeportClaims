@@ -50,7 +50,7 @@ AS BEGIN
 		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [NodeDescription], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
 		VALUES (@InsertedHierarchyID, @TreeID, @NodeName, @NodeDescription, @ModifiedByUserID, @UtcNow, @UtcNow);
         
-		SELECT  [dt].[TreeNode], [dt].[TreePath], [dt].[TreeLevel], [dt].[TreeID], [dt].[NodeName], [dt].[NodeDescription]
+		SELECT  [dt].[TreePath], [dt].[TreeLevel], [dt].[TreeID] AS [TreeId], [dt].[NodeName], [dt].[NodeDescription]
 		FROM    [dbo].[DecisionTree] AS [dt]
 		WHERE   [dt].[TreeNode] = @InsertedHierarchyID;
 		 
@@ -70,6 +70,7 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
     END CATCH
 END
+
 
 
 GO

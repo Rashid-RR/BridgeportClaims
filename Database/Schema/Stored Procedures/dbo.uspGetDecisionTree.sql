@@ -21,7 +21,7 @@ AS BEGIN
 	FROM	[dbo].[DecisionTree] AS [dt]
 	WHERE	[dt].[TreeID] = @ParentTreeID
 
-	SELECT  [TreeNode] = [d].[TreeNode].[ToString]()
+	SELECT  [d].[TreePath]
 		   ,[d].[TreeLevel]
 		   ,[TreeId] = [d].[TreeID]
 		   ,[d].[NodeName]
@@ -29,4 +29,5 @@ AS BEGIN
 	FROM    [dbo].[DecisionTree] AS [d]
 	WHERE   [d].[TreeNode].[IsDescendantOf](@RootNode) = 1;
 END
+
 GO

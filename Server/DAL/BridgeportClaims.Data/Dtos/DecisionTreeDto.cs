@@ -5,8 +5,6 @@ namespace BridgeportClaims.Data.Dtos
     public sealed class DecisionTreeDto
     {
         [Required]
-        public string TreeNode { get; set; }
-        [Required]
         public string TreePath { get; set; }
         [Required]
         public short TreeLevel { get; set; }
