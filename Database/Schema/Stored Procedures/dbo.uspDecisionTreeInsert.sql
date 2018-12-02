@@ -8,7 +8,7 @@ GO
  Create date:       11/30/2018
  Description:       Inserts a new Node into the Decision Tree.
  Example Execute:
-                    EXECUTE dbo.DecisionTreeInsert 7, 'Coffey', '';
+                    EXECUTE dbo.uspDecisionTreeInsert 1, 'Coffey', '', '7fff6083-6f89-46dc-afd2-0af36601b312';
  =============================================
 */
 CREATE PROC [dbo].[uspDecisionTreeInsert]
@@ -16,7 +16,7 @@ CREATE PROC [dbo].[uspDecisionTreeInsert]
 	@ParentTreeID INT,
 	@NodeName VARCHAR(255),
 	@NodeDescription VARCHAR(4000),
-	@TreeID INT OUTPUT
+	@ModifiedByUserID NVARCHAR(128)
 )
 AS BEGIN
     SET NOCOUNT ON;
@@ -24,6 +24,8 @@ AS BEGIN
 	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
     BEGIN TRY
         BEGIN TRAN;
+		DECLARE @TreeID INT;
+		DECLARE @UtcNow DATETIME2 = [dtme].[udfGetDate]();
 
 		DECLARE @ParentNode HIERARCHYID, @LeftChild HIERARCHYID;
 		SELECT	@ParentNode = [TreeNode]
@@ -43,10 +45,15 @@ AS BEGIN
 		WHERE	[TreeNode].GetAncestor(1) = @ParentNode;
 
 		SET @TreeID = (NEXT VALUE FOR seqDecisionTree);
+		DECLARE @InsertedHierarchyID HIERARCHYID = @ParentNode.GetDescendant(@LeftChild, NULL);
 
-		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [NodeDescription])
-		VALUES (@ParentNode.GetDescendant(@LeftChild, NULL), @TreeID, @NodeName, @NodeDescription);
-            
+		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [NodeDescription], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
+		VALUES (@InsertedHierarchyID, @TreeID, @NodeName, @NodeDescription, @ModifiedByUserID, @UtcNow, @UtcNow);
+        
+		SELECT  [dt].[TreeNode], [dt].[TreePath], [dt].[TreeLevel], [dt].[TreeID], [dt].[NodeName], [dt].[NodeDescription]
+		FROM    [dbo].[DecisionTree] AS [dt]
+		WHERE   [dt].[TreeNode] = @InsertedHierarchyID;
+		 
         IF (@@TRANCOUNT > 0)
             COMMIT;
     END TRY
