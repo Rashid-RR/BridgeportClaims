@@ -40,24 +40,24 @@ AS BEGIN
 				RETURN -1;
 			END
 
-		SELECT	@LeftChild = MAX([TreeNode])   
+		SELECT	@LeftChild = MAX([TreeNode])
 		FROM	[dbo].[DecisionTree]
 		WHERE	[TreeNode].GetAncestor(1) = @ParentNode;
 
 		SET @TreeID = (NEXT VALUE FOR seqDecisionTree);
 		DECLARE @InsertedHierarchyID HIERARCHYID = @ParentNode.GetDescendant(@LeftChild, NULL);
 
-		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [NodeDescription], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
-		VALUES (@InsertedHierarchyID, @TreeID, @NodeName, @NodeDescription, @ModifiedByUserID, @UtcNow, @UtcNow);
+		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [NodeDescription], [ParentTreeID], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
+		VALUES (@InsertedHierarchyID, @TreeID, @NodeName, @NodeDescription, @ParentTreeID, @ModifiedByUserID, @UtcNow, @UtcNow);
         
-		SELECT  [dt].[TreePath], [dt].[TreeLevel], [dt].[TreeID] AS [TreeId], [dt].[NodeName], [dt].[NodeDescription]
+		SELECT  [dt].[TreePath], [dt].[TreeLevel], [dt].[TreeID] AS [TreeId], [dt].[NodeName], [dt].[NodeDescription], [dt].[ParentTreeID] AS [ParentTreeId]
 		FROM    [dbo].[DecisionTree] AS [dt]
 		WHERE   [dt].[TreeNode] = @InsertedHierarchyID;
 		 
         IF (@@TRANCOUNT > 0)
             COMMIT;
     END TRY
-    BEGIN CATCH     
+    BEGIN CATCH
         IF (@@TRANCOUNT > 0)
             ROLLBACK;
                 
@@ -70,7 +70,4 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
     END CATCH
 END
-
-
-
 GO

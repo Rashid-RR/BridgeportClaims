@@ -26,8 +26,8 @@ AS BEGIN
 		   ,[TreeId] = [d].[TreeID]
 		   ,[d].[NodeName]
 		   ,[d].[NodeDescription]
+		   ,[ParentTreeId] = [d].[ParentTreeID]
 	FROM    [dbo].[DecisionTree] AS [d]
 	WHERE   [d].[TreeNode].[IsDescendantOf](@RootNode) = 1;
 END
-
 GO
