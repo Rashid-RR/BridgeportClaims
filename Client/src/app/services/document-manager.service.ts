@@ -174,6 +174,9 @@ export class DocumentManagerService {
         }, 4000);
       }
     });
+    if (this.isuserNotAdmin === true) {
+      this.postedChecks = true;
+    }
     this.search();
     this.searchInvoices();
     this.searchCheckes();
@@ -297,6 +300,12 @@ export class DocumentManagerService {
     return this.invalidCheckPageStart && this.invalidChecksData.pageSize > this.invalidChecksList.length;
   }
 
+  get isuserNotAdmin(): Boolean {
+    return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Admin') === -1
+    );
+  }
+
   onSortColumn(info: SortColumnInfo) {
     this.data.isDefaultSort = false;
     this.data.sort = info.column;
@@ -350,8 +359,15 @@ export class DocumentManagerService {
     });
   }
 
+
+  get isAdmin(): Boolean {
+    return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+      && this.profileManager.profile.roles.indexOf('Admin') > -1);
+  }
+
+
   deleteAndKeep(id: number, skipPayments: boolean = false, prescriptionPaymentId?: any) {
-    
+
     this.loading = true;
     this.http.reIndexedCheck({documentId: id, skipPayments: skipPayments, prescriptionPaymentId: prescriptionPaymentId}).subscribe(r => {
       this.loading = false;
@@ -395,113 +411,120 @@ export class DocumentManagerService {
   }
 
   search(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
-    if (!this.data) {
-      if (this.adminOrAsociate) {
-        this.toast.warning('Please populate at least one search field.');
-      }
-    } else {
-      this.loading = true;
-      const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
+    // if user is in admin role
+    if (this.isAdmin) {
+      if (!this.data) {
+        if (this.adminOrAsociate) {
+          this.toast.warning('Please populate at least one search field.');
+        }
+      } else {
+        this.loading = true;
+        const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
-      if (next) {
-        data.page++;
-      }
-      if (prev && data.page > 1) {
-        data.page--;
-      }
-      if (page) {
-        data.page = page;
-      }
-      this.http.getDocuments(data)
-        .subscribe((result: any) => {
-          
-          this.loading = false;
-          this.totalRowCount = result.totalRowCount;
-          this.documents = Immutable.OrderedMap<any, DocumentItem>();
-          result.documentResults.forEach((doc: DocumentItem) => {
+        if (next) {
+          data.page++;
+        }
+        if (prev && data.page > 1) {
+          data.page--;
+        }
+        if (page) {
+          data.page = page;
+        }
+        this.http.getDocuments(data)
+          .subscribe((result: any) => {
+
+            this.loading = false;
+            this.totalRowCount = result.totalRowCount;
+            this.documents = Immutable.OrderedMap<any, DocumentItem>();
+            result.documentResults.forEach((doc: DocumentItem) => {
+              try {
+                this.documents = this.documents.set(doc.documentId, doc);
+              } catch (e) {
+              }
+            });
+            (result.documentTypes || []).forEach((type: DocumentType) => {
+              try {
+                this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+              } catch (e) {
+              }
+            });
+            if (next) {
+              this.data.page++;
+            }
+            if (prev && this.data.page !== data.page) {
+              this.data.page--;
+            }
+            if (page) {
+              this.data.page = page;
+            }
+            this.imagesArchived = this.data.archived;
+          }, err => {
+            this.loading = false;
             try {
-              this.documents = this.documents.set(doc.documentId, doc);
+              const error = err.error;
             } catch (e) {
             }
+          }, () => {
+            this.events.broadcast('document-list-updated');
           });
-          (result.documentTypes || []).forEach((type: DocumentType) => {
-            try {
-              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-            } catch (e) {
-            }
-          });
-          if (next) {
-            this.data.page++;
-          }
-          if (prev && this.data.page !== data.page) {
-            this.data.page--;
-          }
-          if (page) {
-            this.data.page = page;
-          }
-          this.imagesArchived = this.data.archived;
-        }, err => {
-          this.loading = false;
-          try {
-            const error = err.error;
-          } catch (e) {
-          }
-        }, () => {
-          this.events.broadcast('document-list-updated');
-        });
+      }
     }
   }
 
   searchInvoices(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
-    if (!this.invoiceData) {
-      if (this.adminOrAsociate) {
-        this.toast.warning('Please populate at least one search field.');
-      }
-    } else {
-      this.loading = true;
-      const invoiceData = JSON.parse(JSON.stringify(this.invoiceData)); // copy invoiceData instead of memory referencing
-      if (next) {
-        invoiceData.page++;
-      }
-      if (prev && invoiceData.page > 1) {
-        invoiceData.page--;
-      }
-      if (page) {
-        invoiceData.page = page;
-      }
-      this.http.getDocuments(invoiceData)
-        .subscribe((result: any) => {
-          
-          this.loading = false;
-          this.totalInvoiceRowCount = result.totalRowCount;
-          this.invoices = Immutable.OrderedMap<any, DocumentItem>();
-          result.documentResults.forEach((doc: DocumentItem) => {
-            try {
-              this.invoices = this.invoices.set(doc.documentId, doc);
-            } catch (e) {
+    // if user is in admin role
+    if (this.isAdmin) {
+
+      if (!this.invoiceData) {
+        if (this.adminOrAsociate) {
+          this.toast.warning('Please populate at least one search field.');
+        }
+      } else {
+        this.loading = true;
+        const invoiceData = JSON.parse(JSON.stringify(this.invoiceData)); // copy invoiceData instead of memory referencing
+        if (next) {
+          invoiceData.page++;
+        }
+        if (prev && invoiceData.page > 1) {
+          invoiceData.page--;
+        }
+        if (page) {
+          invoiceData.page = page;
+        }
+        this.http.getDocuments(invoiceData)
+          .subscribe((result: any) => {
+
+            this.loading = false;
+            this.totalInvoiceRowCount = result.totalRowCount;
+            this.invoices = Immutable.OrderedMap<any, DocumentItem>();
+            result.documentResults.forEach((doc: DocumentItem) => {
+              try {
+                this.invoices = this.invoices.set(doc.documentId, doc);
+              } catch (e) {
+              }
+            });
+            (result.documentTypes || []).forEach((type: DocumentType) => {
+              try {
+                this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+              } catch (e) {
+              }
+            });
+            if (next) {
+              this.invoiceData.page++;
             }
-          });
-          (result.documentTypes || []).forEach((type: DocumentType) => {
-            try {
-              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-            } catch (e) {
+            if (prev && this.invoiceData.page !== invoiceData.page) {
+              this.invoiceData.page--;
             }
+            if (page) {
+              this.invoiceData.page = page;
+            }
+            this.invoiceArchived = this.invoiceData.archived;
+          }, () => {
+            this.loading = false;
+          }, () => {
+            this.events.broadcast('document-list-updated');
           });
-          if (next) {
-            this.invoiceData.page++;
-          }
-          if (prev && this.invoiceData.page !== invoiceData.page) {
-            this.invoiceData.page--;
-          }
-          if (page) {
-            this.invoiceData.page = page;
-          }
-          this.invoiceArchived = this.invoiceData.archived;
-        }, () => {
-          this.loading = false;
-        }, () => {
-          this.events.broadcast('document-list-updated');
-        });
+      }
     }
   }
 
@@ -525,7 +548,7 @@ export class DocumentManagerService {
 
       const apiCall = this.postedChecks ? this.http.getIndexedChecks(checksData) : this.http.getDocuments(checksData);
       apiCall.subscribe((result: any) => {
-        
+
         this.loading = false;
         this.totalCheckRowCount = result.totalRowCount;
         this.checks = Immutable.OrderedMap<any, DocumentItem>();
@@ -564,62 +587,64 @@ export class DocumentManagerService {
   }
 
   searchInvalidCheckes(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
-    if (!this.invalidChecksData) {
-      if (this.adminOrAsociate) {
-        this.toast.warning('Please populate at least one search field.');
-      }
-    } else {
-      this.loading = true;
-      const invalidChecksData = JSON.parse(JSON.stringify(this.invalidChecksData)); // copy invalidChecksData instead of memory referencing
-      if (next) {
-        invalidChecksData.page++;
-      }
-      if (prev && invalidChecksData.page > 1) {
-        invalidChecksData.page--;
-      }
-      if (page) {
-        invalidChecksData.page = page;
-      }
-      this.http.getInvalidChecks(invalidChecksData)
-        .subscribe((result: any) => {
-          
-          this.loading = false;
-          this.totalInvalidCheckRowCount = result.totalRowCount || (result.documentResults && result.documentResults.length) || 0;
-          this.invalidChecks = Immutable.OrderedMap<any, DocumentItem>();
-          result.documentResults.forEach((doc: DocumentItem) => {
+    if (this.isAdmin) {
+
+      if (!this.invalidChecksData) {
+        if (this.adminOrAsociate) {
+          this.toast.warning('Please populate at least one search field.');
+        }
+      } else {
+        this.loading = true;
+        const invalidChecksData = JSON.parse(JSON.stringify(this.invalidChecksData)); // copy invalidChecksData instead of memory referencing
+        if (next) {
+          invalidChecksData.page++;
+        }
+        if (prev && invalidChecksData.page > 1) {
+          invalidChecksData.page--;
+        }
+        if (page) {
+          invalidChecksData.page = page;
+        }
+        this.http.getInvalidChecks(invalidChecksData)
+          .subscribe((result: any) => {
+
+            this.loading = false;
+            this.totalInvalidCheckRowCount = result.totalRowCount || (result.documentResults && result.documentResults.length) || 0;
+            this.invalidChecks = Immutable.OrderedMap<any, DocumentItem>();
+            result.documentResults.forEach((doc: DocumentItem) => {
+              try {
+                this.invalidChecks = this.invalidChecks.set(doc.documentId, doc);
+              } catch (e) {
+              }
+            });
+            (result.documentTypes || []).forEach((type: DocumentType) => {
+              try {
+                this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
+              } catch (e) {
+              }
+            });
+            if (next) {
+              this.invalidChecksData.page++;
+            }
+            if (prev && this.invalidChecksData.page !== invalidChecksData.page) {
+              this.invalidChecksData.page--;
+            }
+            if (page) {
+              this.invalidChecksData.page = page;
+            }
+            this.invalidChecksArchived = this.invalidChecksData.archived;
+          }, err => {
+            this.loading = false;
             try {
-              this.invalidChecks = this.invalidChecks.set(doc.documentId, doc);
+              const error = err.error;
             } catch (e) {
             }
+          }, () => {
+            this.events.broadcast('document-list-updated');
           });
-          (result.documentTypes || []).forEach((type: DocumentType) => {
-            try {
-              this.documentTypes = this.documentTypes.set(type.documentTypeId, type);
-            } catch (e) {
-            }
-          });
-          if (next) {
-            this.invalidChecksData.page++;
-          }
-          if (prev && this.invalidChecksData.page !== invalidChecksData.page) {
-            this.invalidChecksData.page--;
-          }
-          if (page) {
-            this.invalidChecksData.page = page;
-          }
-          this.invalidChecksArchived = this.invalidChecksData.archived;
-        }, err => {
-          this.loading = false;
-          try {
-            const error = err.error;
-          } catch (e) {
-          }
-        }, () => {
-          this.events.broadcast('document-list-updated');
-        });
+      }
     }
   }
-
   closeModal() {
     try {
       swal.clickCancel();

@@ -58,7 +58,7 @@
               View Details
             </button>
           </div>
-          <div class="col-md-1">
+          <div class="col-md-1" *ngIf="ds.isAdmin">
             <button type="button" class="btn btn-danger bg-darkRed btn-xs" (click)="remove(file)">
               <span class="glyphicon glyphicon-trash"></span> Un Index
             </button>

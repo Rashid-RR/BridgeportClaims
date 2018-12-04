@@ -34,6 +34,7 @@ declare var $: any;
 export class PaymentComponent implements OnInit {
 
   over: boolean[];
+  flag='test'
   tabState = 'in';
   documentId: any;
   checkNumber: any;
@@ -64,6 +65,7 @@ export class PaymentComponent implements OnInit {
       this.paymentService.documentWindow.forEach(win => {
         win.close();
       });
+
       this.ds.searchCheckes();
     });
     this.events.on('payment-updated', (b: Boolean) => {
@@ -92,7 +94,6 @@ export class PaymentComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
   showModal(reload: boolean = false) {
     if (!reload) {

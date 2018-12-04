@@ -21,6 +21,7 @@
                     </div>
                     <input class="form-control pull-right" id="fileName" name="fileName" type="text" [(ngModel)]="fileName"
                         (focus)="submitted=false">
+                  <ng-container *ngIf="ds.isAdmin">
                   <span class="input-group-addon" style="    border-left: 0;">
                         <div class="commonCheckBox2">
                             <input class="archivedCheck"  value="default" name="check" type="radio" id="default" (change)="filter($event)">
@@ -28,7 +29,8 @@
                             <label for="default">Default</label>
                         </div>
                     </span>
-
+                  </ng-container>
+                  <ng-container  *ngIf="ds.isAdmin">
                     <span class="input-group-addon" style="    border-left: 0;">
                         <div class="commonCheckBox2">
                             <input class="archivedCheck"  value="archived" name="check" type="radio" id="CarchivedCheck" (change)="filter($event)">
@@ -36,7 +38,7 @@
                             <label for="CarchivedCheck">Archived</label>
                         </div>
                     </span>
-
+                  </ng-container>
 
                   <span class="input-group-addon">
                         <div class="commonCheckBox1">

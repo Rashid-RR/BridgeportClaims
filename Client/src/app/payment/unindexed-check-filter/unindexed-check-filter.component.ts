@@ -1,9 +1,11 @@
-import { Component, NgZone, OnInit, AfterViewInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import {AfterViewInit, Component, NgZone, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {DatePipe} from '@angular/common';
 // Services
-import { DocumentManagerService } from '../../services/document-manager.service';
-import { EventsService } from '../../services/events-service';
+import {DocumentManagerService} from '../../services/document-manager.service';
+import {EventsService} from '../../services/events-service';
+import {ProfileManager} from '../../services/profile-manager';
+
 declare var $: any;
 
 @Component({
@@ -16,23 +18,33 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
   date: string;
   fileName: string;
   submitted = false;
+ public flag= 'File Name';
+
   constructor(
     public ds: DocumentManagerService,
     private dp: DatePipe,
     private zone: NgZone,
+    private profileManager: ProfileManager,
     private events: EventsService,
     private route: ActivatedRoute) {
-      this.events.on('payment-suspense', () => {
-        this.search();
-      });
-      this.events.on('payment-closed', () => {
-        this.search();
-      });
-    }
+    this.events.on('payment-suspense', () => {
+      this.search();
+    });
+    this.events.on('payment-closed', () => {
+      this.search();
+    });
+  }
+
+  // get isuserNotAdmin(): Boolean {
+  //   return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
+  //     && this.profileManager.profile.roles.indexOf('Admin') === -1
+  //   );
+  // }
 
   ngOnInit() {
 
   }
+
   ngAfterViewInit() {
     // Date picker
     $('#checksdate').datepicker({
@@ -52,29 +64,39 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
     this.ds.checksData.date = date || null;
     this.ds.checksData.fileName = this.fileName || null;
     this.ds.viewPostedDetail = undefined;
-    this.ds.searchCheckes();
+    if (this.ds.isuserNotAdmin === true) {
+      this.ds.postedChecks = true;
+      this.ds.viewPostedDetail = false;
+      this.ds.archivedChecksData.archived = null;
+      this.ds.searchCheckes();
+
+    }
+    else {
+      this.ds.searchCheckes();
+
+    }
   }
 
   filter($event) {
-    switch ($event.target.value){
+    switch ($event.target.value) {
       case 'posted':
-      this.ds.postedChecks = true;
+        this.ds.postedChecks = true;
         this.ds.viewPostedDetail = false;
 
         this.search();
 
-       break;
+        break;
       case 'archived':
-      this.ds.postedChecks = false;
+        this.ds.postedChecks = false;
         this.ds.viewPostedDetail = false;
-      this.ds.archivedChecksData.archived = $event.target.checked;
+        this.ds.archivedChecksData.archived = $event.target.checked;
         this.search();
 
 
         break;
       case 'default':
-      this.ds.postedChecks = false;
-      this.ds.archivedChecksData.archived = null;
+        this.ds.postedChecks = false;
+        this.ds.archivedChecksData.archived = null;
         this.search();
 
 
@@ -82,6 +104,7 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
 
     }
   }
+
   clearFilters() {
     $('#checksdate').val('');
     $('#CarchivedCheck').prop('checked', false);
@@ -90,6 +113,4 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
     this.fileName = '';
     this.search();
   }
-
-
 }

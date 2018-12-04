@@ -45,14 +45,14 @@
           <span>Unpaid Scripts</span>
         </a>
       </li>
-        <ng-container *ngIf="!isOnlyUser">
+        <!--<ng-container *ngIf="!isOnlyUser">-->
       <li [class.active]="router.url.indexOf('/main/payments')>-1">
         <a [routerLink]="!disableLinks ? '/main/payments' : []" [class.disabled]="disableLinks">
           <img style='width: 25px;' src="assets/img/payments.png">
           <span>Payments</span>
         </a>
       </li>
-        </ng-container>
+        <!--</ng-container>-->
       <li [class.active]="router.url.indexOf('/main/episodes')>-1">
         <a [routerLink]="!disableLinks ? '/main/episodes' : []" [class.disabled]="disableLinks">
           <img style='width: 25px;' src="assets/img/episodes.png">
