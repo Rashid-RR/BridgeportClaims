@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule, MatDialogModule } from '@angular/material';
+import { MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule, MatDialogModule, MatRadioModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -13,14 +13,14 @@ import { MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatM
     FormsModule, ReactiveFormsModule,
     NgbModule.forRoot(),
     HttpClientModule,
-    MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule, MatDialogModule
+    MatRadioModule,MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule, MatDialogModule
   ],
   exports: [
     NgbModule,
     FormsModule, ReactiveFormsModule,
     NgxDatatableModule,
     HttpClientModule,
-    MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule, MatDialogModule
+    MatRadioModule,MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule, MatDialogModule
   ],
   declarations: [
   ],
