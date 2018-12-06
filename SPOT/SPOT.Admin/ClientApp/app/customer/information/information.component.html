@@ -135,44 +135,44 @@
                 <ng-container *ngFor="let address of contactForm.controls.address.value||[]">
                   <div class="row">
                     <div class="col">Address for {{address.for}}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col">{{address.line1}} {{address.city}} {{address.city}} {{address.zip}} </div>
+                  </div>
                 </ng-container>
-                <div class="row">
-                  <div class="col">{{address.line1}} {{address.city}} {{address.city}} {{address.zip}} </div>
-                </div>
+              </mat-card>
             </div>
-</mat-card>
-</div>
-</div>
-<div class="row">
-  <div class="col-sm-5">
-    <h6>Phone <span class="pull-right text-gray"><i class="icofont icofont-plus-circle"></i> Add More </span></h6>
-    <mat-card>
-      <mat-form-field>
-        <mat-select placeholder="Mobile" formControlName="phoneType">
-          <mat-option value="Mobile">
-            Mobile
-          </mat-option>
-          <mat-option value="Landline">
-            Landline
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Number *" formControlName="lastName">
-      </mat-form-field>
-    </mat-card>
+          </div>
+          <div class="row">
+            <div class="col-sm-5">
+              <h6>Phone <span class="pull-right text-gray"><i class="icofont icofont-plus-circle"></i> Add More </span></h6>
+              <mat-card>
+                <mat-form-field>
+                  <mat-select placeholder="Mobile" formControlName="phoneType">
+                    <mat-option value="Mobile">
+                      Mobile
+                    </mat-option>
+                    <mat-option value="Landline">
+                      Landline
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                  <input matInput placeholder="Number *" formControlName="lastName">
+                </mat-form-field>
+              </mat-card>
+            </div>
+            <div class="col-sm-5">
+              <h6>Email <span class="pull-right text-gray"><i class="icofont icofont-plus-circle"></i> Add More </span></h6>
+              <mat-card>
+                <mat-form-field>
+                  <input matInput placeholder="Email" formControlName="email">
+                </mat-form-field>
+              </mat-card>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
-  <div class="col-sm-5">
-    <h6>Email <span class="pull-right text-gray"><i class="icofont icofont-plus-circle"></i> Add More </span></h6>
-    <mat-card>
-      <mat-form-field>
-        <input matInput placeholder="Email" formControlName="email">
-      </mat-form-field>
-    </mat-card>
-  </div>
-</div>
-</div>
-</form>
-</div>
-</div>
 </mat-card>
