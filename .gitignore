@@ -255,6 +255,7 @@ paket-files/
 
 
 # dependencies
+/SPOT/SPOT.Admin/node_modules
 /Client/node_modules
 /Client/dist
 /Server/BridgeportClaims.Web/assets

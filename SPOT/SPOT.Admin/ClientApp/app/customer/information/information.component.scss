@@ -1,0 +1,37 @@
+.toolbar-spacer {
+    flex: 1 1 auto;
+}
+span.value-label{
+    margin-right:8px;
+} 
+mat-card{
+    margin:8px;
+}
+mat-toolbar span {
+    font-size: 10pt; 
+}
+mat-toolbar span:not(.no-margin) {
+    margin: 0px 10px 0px 0;
+}
+.border-right{
+    border-right: 1px solid rgba(4, 4, 4, 0.7);
+}
+.mat-list-base .mat-list-item{
+    height:40px;
+    cursor:pointer;
+    font-size: 11pt; 
+    color: rgba(4, 4, 4, 0.7);
+}
+.mat-list-base .mat-list-item .mat-list-text{
+    padding-left:3px !important;
+}
+.mat-list-base .mat-list-item .mat-list-text h4{
+    font-size:11pt;
+    color:#3d3d3d
+}
+form h6{
+    padding:0 6px;
+}
+.text-gray{
+    color:gray;
+}

@@ -8,7 +8,11 @@
       "sourceRoot": "ClientApp",
       "projectType": "application",
       "prefix": "app",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "styleext": "scss"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -23,7 +27,10 @@
               "ClientApp/assets"
             ],
             "styles": [
-              "ClientApp/styles.css"
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/font-awesome-scss/scss/font-awesome.scss",
+              "ClientApp/assets/icon/icofont/css/icofont.scss",
+              "ClientApp/styles.scss"
             ],
             "scripts": []
           },
@@ -79,7 +86,10 @@
             "tsConfig": "ClientApp/tsconfig.spec.json",
             "karmaConfig": "ClientApp/karma.conf.js",
             "styles": [
-              "ClientApp/styles.css"
+              "node_modules/bootstrap/scss/bootstrap.scss",
+              "node_modules/font-awesome-scss/scss/font-awesome.scss",
+              "ClientApp/assets/icon/icofont/css/icofont.scss",
+              "ClientApp/styles.scss"
             ],
             "scripts": [],
             "assets": [
