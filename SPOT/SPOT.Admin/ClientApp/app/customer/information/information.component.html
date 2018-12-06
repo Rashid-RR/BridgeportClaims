@@ -1,96 +1,6 @@
-<mat-card style="padding:0px;">
-  <mat-toolbar>
-    <mat-toolbar-row>
-      <span>{{customerName}} <mat-chip>VIP</mat-chip></span>
-      <span class="toolbar-spacer"></span>
-      <mat-icon>bar_chart</mat-icon>
-      <span>Label:</span>
-      <span class="value-label">Value</span>
-      <span>Label:</span>
-      <span class="value-label">Value</span>
-      <span>Label:</span>
-      <span class="value-label">Value</span>
-      <mat-icon>inbox</mat-icon>
-      <span>Message Customer</span>
-      <span class="no-margin">Actions</span>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>expand_more</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-          <mat-icon>print</mat-icon>
-          <span>Print Bag Tag</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon mat-list-icon class="icofont icofont-chart-line-alt"></mat-icon>
-          <span>Marketing Popup</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>description</mat-icon>
-          <span>Referral Coupon</span>
-        </button>
-      </mat-menu>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  <div class="row m-b-20 m-t-20">
-    <div class="col-sm-2 border-right">
-      <mat-list>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-id"></mat-icon>
-          <h4 mat-line>Contact Info</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-jacket"></mat-icon>
-          <h4 mat-line>Preferences</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon>credit_card</mat-icon>
-          <h4 mat-line>Credit Card</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-users-alt-4"></mat-icon>
-          <h4 mat-line>Referral</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-tag"></mat-icon>
-          <h4 mat-line>Promotion</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-papers"></mat-icon>
-          <h4 mat-line>Acct. Receivable</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon>notifications</mat-icon>
-          <h4 mat-line>Notifications</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-settings"></mat-icon>
-          <h4 mat-line>Settings</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-folder-search"></mat-icon>
-          <h4 mat-line>Lookup</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-briefcase"></mat-icon>
-          <h4 mat-line>Pricing</h4>
-        </mat-list-item>
-        <mat-list-item>
-          <mat-icon mat-list-icon class="icofont icofont-chat"></mat-icon>
-          <h4 mat-line>CRM</h4>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-      </mat-list>
-      <mat-divider></mat-divider>
-      <mat-list>
-        <mat-list-item text="primary">
-          <mat-icon mat-list-icon class="icofont icofont-tack-pin"></mat-icon>
-          <h4 mat-line>Collapse Menu</h4>
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <div class="col-sm-10">
-      <form class="row" [formGroup]="contactForm">
+
+    
+      <form class="row" [formGroup]="customerService.contactForm">
         <div class="col-sm-3">
           <h6>Name</h6>
           <mat-card>
@@ -115,7 +25,7 @@
             </mat-form-field>
             VIP User<br />
             <mat-radio-group formControlName="vipUser">
-              <mat-radio-button [value]="false">Yes</mat-radio-button>
+              <mat-radio-button [value]="false">Yes</mat-radio-button> &nbsp; &nbsp;
               <mat-radio-button [value]="true">No</mat-radio-button>
             </mat-radio-group>
           </mat-card>
@@ -132,7 +42,7 @@
               <h6>Address <span class="pull-right text-gray"><i class="icofont icofont-plus-circle"></i> Add More
                 </span></h6>
               <mat-card>
-                <ng-container *ngFor="let address of contactForm.controls.address.value||[]">
+                <ng-container *ngFor="let address of customerService.contactForm.controls.address.value||[]">
                   <div class="row">
                     <div class="col">Address for {{address.for}}</div>
                   </div>
@@ -173,6 +83,3 @@
           </div>
         </div>
       </form>
-    </div>
-  </div>
-</mat-card>

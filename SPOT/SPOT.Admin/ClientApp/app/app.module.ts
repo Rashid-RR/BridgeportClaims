@@ -5,17 +5,17 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
 import { SharedModule } from './shared/shared.module';
-
+import {CustomerService} from "./shared"
 @NgModule({
   declarations: [
     AppComponent,
-    AppLayoutComponent
+    AppLayoutComponent    
   ],
   imports: [
     BrowserModule,BrowserAnimationsModule,
     AppRoutingModule,SharedModule
   ],
-  providers: [],
+  providers: [CustomerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
