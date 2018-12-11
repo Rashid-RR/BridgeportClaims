@@ -1,10 +1,6 @@
 import {AfterViewInit, Component, NgZone, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {DatePipe} from '@angular/common';
-// Services
-import {DocumentManagerService} from '../../services/document-manager.service';
-import {EventsService} from '../../services/events-service';
-import {ProfileManager} from '../../services/profile-manager';
+
+import {ReferenceManagerService} from '../../services/reference-manager.service';
 
 declare var $: any;
 
@@ -20,15 +16,10 @@ export class ReferencesfilterComponent implements OnInit {
   submitted = false;
   public flag= 'File Name';
 
-  constructor() {
+  constructor(public rs: ReferenceManagerService) {
 
   }
 
-  // get isuserNotAdmin(): Boolean {
-  //   return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
-  //     && this.profileManager.profile.roles.indexOf('Admin') === -1
-  //   );
-  // }
 
   ngOnInit() {
 
@@ -36,13 +27,9 @@ export class ReferencesfilterComponent implements OnInit {
 
 
   search() {
-   var  data = {
-      "searchText": this.adjustorName,
-      "sort": "AdjustorName",
-      "sortDirection": "ASC",
-      "page": 1,
-      "pageSize": 30
-    }
+
+    this.rs.setSearchText(this.adjustorName);
+    this.rs.getadjustorslist()
   }
 
   filter($event) {

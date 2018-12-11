@@ -8,8 +8,8 @@ export class ReferenceManagerService {
   public loading=false;
   public adjustors: Array<adjustorItem>;
   private totalAdjustors: any;
-  private pageSize: 30;
-  private searchText: null;
+  private pageSize: number;
+  private searchText: string;
   private currentPage=1;
   private sortType='ASC';
   checkDisplay = 'list';
@@ -23,11 +23,24 @@ export class ReferenceManagerService {
   };
 
   constructor(private http: HttpService) {
-    this.loading=true;
+    this.searchText=null;
+    this.pageSize=30;
+    this.data.searchText=this.searchText;
+    this.data.pageSize=this.pageSize;
     this.fetchadjustors(this.data)
   }
 
+
+  getadjustorslist(){
+    this.data.searchText=this.searchText;
+    this.data.pageSize=this.pageSize;
+    this.fetchadjustors(this.data)
+  }
+  setSearchText(key:any){
+    this.searchText=key;
+  }
   fetchadjustors(data: any) {
+    this.loading=true;
     this.http.getadjustorname(data)
       .subscribe((result: any) => {
           this.adjustors = result.results;
