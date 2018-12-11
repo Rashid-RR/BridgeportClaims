@@ -87,7 +87,7 @@ import { StringService } from './services/string.service';
     UnindexedImageFileComponent, IndexFileComponent, UnindexedImageFileListComponent, MainLayoutComponent, EpisodePageComponent,
     EpisodeResultsComponent, EpisodeFilterComponent, NewEpisodeComponent, FirewallSettingsComponent, FirewallFilterComponent,
     FirewallGridComponent, AcquireEpisodeComponent, TestComponent, OutstandingFilterComponent, OutstandingResultComponent,
-    ClaimOutstandingComponent
+    ClaimOutstandingComponent,
   ],
   imports: [
     BrowserModule,

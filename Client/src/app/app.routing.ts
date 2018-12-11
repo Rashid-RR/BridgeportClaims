@@ -66,6 +66,7 @@ export const routes: Routes = [
         canActivateChild: [AuthGuard],
         children: [
           { path: 'private', loadChildren: './dashboard/dashboard.module#DashboardModule'  },
+          { path: 'refrences', loadChildren: './references/references.module#ReferencesModule'  },
           { path: 'firewall', component: FirewallSettingsComponent },
           { path: 'profile', component: ProfileComponent },
           { path: 'reports', loadChildren: './reports/reports.module#ReportsModule' },

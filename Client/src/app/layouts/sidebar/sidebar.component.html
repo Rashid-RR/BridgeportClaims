@@ -59,6 +59,13 @@
           <span>Episodes</span>
         </a>
       </li>
+
+        <li [class.active]="router.url.indexOf('/main/refrences')>-1">
+          <a [routerLink]="!disableLinks ? '/main/refrences' : []" [class.disabled]="disableLinks">
+            <!--<img style='width: 25px;' src="assets/img/payments.png">-->
+            <span>References</span>
+          </a>
+        </li>
       <li class="header" style="color:white;font-size:14pt" *ngIf="adminOrAsociate">
         <i class="fa fa-sitemap"></i>
         <span>INDEXING</span>

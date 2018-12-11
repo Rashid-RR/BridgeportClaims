@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-md-12">
+    <section class="content-header">
+      <ol class="breadcrumb pull-left">
+        <li>
+          <a routerLink="/">
+            <i class="fa fa-home"></i> Home
+          </a>
+        </li>
+        <li class="active">
+          <a [routerLink]="[]">
+            References
+          </a>
+        </li>
+      </ol>
+    </section>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="box">
+      <div class="box-header with-border" style=" display: flex;flex-direction: row;padding:12px 10px ">
+        <h3 class="box-title">References
+
+        </h3>
+      </div>
+    </div>
+    <ng-container>
+      <div class="row search">
+        <div class="col-sm-12" id="accordion">
+          <div class="box no-border" style="font-weight:normal;padding: 0px;margin-bottom:0rem;">
+            <div class="box-header bg-head-box">
+                                    <span class="blade-title panel-head">
+                                        <h4 class="panel-title" style="font-weight:normal;">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseCheckA">
+                                                <i class="fa fa-search white" aria-hidden="true"></i>
+                                                <span class="left5 right5 white">Search and Filter</span>
+                                                <i class="fa fa-filter white" aria-hidden="true"></i>
+                                            </a>
+                                            <span class="total">
+                                                <span style="font-size:16px;margin-right:100px;">
+                                                    VALID REFERENCES</span>
+                                            </span>
+                                        </h4>
+                                    </span>
+            </div>
+
+            <div class="box-body" style="padding: 0px 15px;" id="collapseCheckA" class="panel-collapse collapse in">
+              <app-referencesfilter></app-referencesfilter>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+  </div>
+</div>
