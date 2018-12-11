@@ -329,3 +329,24 @@ tr:nth-of-type(even) {
   margin-left:160px;
   display: inline-table;
 }
+
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.overlay>img {
+  position: fixed;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

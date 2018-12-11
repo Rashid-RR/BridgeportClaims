@@ -16,17 +16,11 @@ declare var $: any;
 export class ReferencesfilterComponent implements OnInit {
 
   date: string;
-  fileName: string;
+  adjustorName: string;
   submitted = false;
   public flag= 'File Name';
 
-  constructor(
-    public ds: DocumentManagerService,
-    private dp: DatePipe,
-    private zone: NgZone,
-    private profileManager: ProfileManager,
-    private events: EventsService,
-    private route: ActivatedRoute) {
+  constructor() {
 
   }
 
@@ -42,6 +36,13 @@ export class ReferencesfilterComponent implements OnInit {
 
 
   search() {
+   var  data = {
+      "searchText": this.adjustorName,
+      "sort": "AdjustorName",
+      "sortDirection": "ASC",
+      "page": 1,
+      "pageSize": 30
+    }
   }
 
   filter($event) {

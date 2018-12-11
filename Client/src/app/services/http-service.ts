@@ -1220,4 +1220,17 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
+
+
+
+  getadjustorname(data:any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/adjustors/get-adjustors', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
 }

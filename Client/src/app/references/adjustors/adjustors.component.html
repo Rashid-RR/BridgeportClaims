@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-sm-12 expanded" style="overflow:hidden;">
+    <div *ngIf="rs.checkDisplay=='list'" class="table-responsive top-header">
+      <ul class="products-list product-list-in-box">
+        <li class="item row">
+          <div class="col-md-2" style="text-indent: 30px">
+            Name
+          </div>
+          <div class="col-md-2">
+            Phone
+          </div>
+          <div class="col-md-2">
+            Fax
+          </div>
+          <div class="col-md-2">
+            Email
+          </div>
+          <div class="col-md-2">
+            Extension
+          </div>
+          <div class="col-md-2">
+            Modified
+          </div>
+        </li>
+      </ul>
+
+    </div>
+    <div *ngIf="rs.checkDisplay=='list'" class="table-responsive table-body">
+      <ul class="products-list product-list-in-box">
+        <li *ngFor="let adjustor of rs.getadjustors()" class="item row">
+          <ng-container *ngIf="adjustor.adjustorName!=''">
+          <div class="col-md-2">
+
+            {{adjustor?.adjustorName}}
+          </div>
+          <div class="col-md-2">
+            {{adjustor.phoneNumber}}
+          </div>
+          <div class="col-md-2">
+            {{adjustor.faxNumber}}
+          </div>
+          <div class="col-md-2">
+            {{adjustor.emailAddress}}
+          </div>
+          <div class="col-md-2">
+            {{adjustor.extension}}
+          </div>
+          <div class="col-md-2">
+            {{adjustor.modifiedBy | date : 'mediumDate'}}
+          </div>
+          </ng-container>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</div>

@@ -35,11 +35,7 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // get isuserNotAdmin(): Boolean {
-  //   return (this.profileManager.profile && this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array)
-  //     && this.profileManager.profile.roles.indexOf('Admin') === -1
-  //   );
-  // }
+
 
   ngOnInit() {
 

@@ -6,6 +6,7 @@ import { SharedModule } from '../shared';
 import {ReferencesRoutes} from './references.routing';
 import {ReferencesComponent} from './references/references.component';
 import { ReferencesfilterComponent } from './referencesfilter/referencesfilter.component';
+import { AdjustorsComponent } from './adjustors/adjustors.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ReferencesfilterComponent } from './referencesfilter/referencesfilter.c
   ],
   declarations: [
     ReferencesComponent,
-    ReferencesfilterComponent
+    ReferencesfilterComponent,
+    AdjustorsComponent
   ],
   providers: [CurrencyPipe, DecimalPipe],
 
