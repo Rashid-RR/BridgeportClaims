@@ -1,16 +1,16 @@
-<mat-card style="padding:0px;">
+<mat-card style="padding:0px;background: whitesmoke;">
   <mat-toolbar>
-    <mat-toolbar-row>
+    <mat-toolbar-row  style="border-bottom:1px solid #dee2e6 !important">
       <span>{{customerName}} <mat-chip>VIP</mat-chip></span>
       <span class="toolbar-spacer"></span>
       <mat-icon>bar_chart</mat-icon>
       <span>Label:</span>
-      <span class="value-label">Value</span>
+      <span class="value-label text-success">Value</span>
       <span>Label:</span>
-      <span class="value-label">Value</span>
+      <span class="value-label text-success">Value</span>
       <span>Label:</span>
-      <span class="value-label">Value</span>
-      <mat-icon>inbox</mat-icon>
+      <span class="value-label text-success">Value</span>
+      <mat-icon class="icofont icofont-envelope-open"></mat-icon>
       <span>Message Customer</span>
       <span class="no-margin">Actions</span>
       <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -36,47 +36,47 @@
   <div class="row m-b-20 m-t-20">
     <div class="col-sm-2 border-right">
       <mat-list>
-        <a mat-list-item routerLink="/customer">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer">
           <mat-icon mat-list-icon class="icofont icofont-id"></mat-icon>
           <h4 mat-line>Contact Info</h4>
         </a>
-        <a mat-list-item routerLink="/customer/preference">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/preference">
           <mat-icon mat-list-icon class="icofont icofont-jacket"></mat-icon>
           <h4 mat-line>Preferences</h4>
         </a>
-        <a mat-list-item routerLink="/customer/credit-card">
-          <mat-icon mat-list-icon>credit_card</mat-icon>
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/credit-card">
+          <mat-icon mat-list-icon class="icofont icofont-credit-card"></mat-icon>
           <h4 mat-line>Credit Card</h4>
         </a>
-        <a mat-list-item routerLink="/customer/referral">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/referral">
           <mat-icon mat-list-icon class="icofont icofont-users-alt-4"></mat-icon>
           <h4 mat-line>Referral</h4>
         </a>
-        <a mat-list-item routerLink="/customer/promotion">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/promotion">
           <mat-icon mat-list-icon class="icofont icofont-tag"></mat-icon>
           <h4 mat-line>Promotion</h4>
         </a>
-        <a mat-list-item routerLink="/customer/account-receivable">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/account-receivable">
           <mat-icon mat-list-icon class="icofont icofont-papers"></mat-icon>
           <h4 mat-line>Acct. Receivable</h4>
         </a>
-        <a mat-list-item routerLink="/customer/notification">
-          <mat-icon mat-list-icon>notifications</mat-icon>
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/notification">
+          <mat-icon mat-list-icon class="icofont icofont-notification"></mat-icon>
           <h4 mat-line>Notifications</h4>
         </a>
-        <a mat-list-item routerLink="/customer/setting">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/setting">
           <mat-icon mat-list-icon class="icofont icofont-settings"></mat-icon>
           <h4 mat-line>Settings</h4>
         </a>
-        <a mat-list-item routerLink="/customer/lookup">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/lookup">
           <mat-icon mat-list-icon class="icofont icofont-folder-search"></mat-icon>
           <h4 mat-line>Lookup</h4>
         </a>
-        <a mat-list-item routerLink="/customer/pricing">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/pricing">
           <mat-icon mat-list-icon class="icofont icofont-briefcase"></mat-icon>
           <h4 mat-line>Pricing</h4>
         </a>
-        <a mat-list-item routerLink="/customer/crm">
+        <a mat-list-item  routerLinkActive="spot-text-primary" [routerLinkActiveOptions]="{ exact: true }" routerLink="/customer/crm">
           <mat-icon mat-list-icon class="icofont icofont-chat"></mat-icon>
           <h4 mat-line>CRM</h4>
         </a>

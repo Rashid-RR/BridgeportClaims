@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule, MatDialogModule, MatRadioModule } from '@angular/material';
+import { MatDialogModule,MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule,  MatRadioModule,MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -21,6 +21,9 @@ import { MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatM
     NgxDatatableModule,
     HttpClientModule,
     MatRadioModule,MatInputModule,MatSelectModule, MatFormFieldModule, MatListModule, MatMenuModule, MatToolbarModule, MatIconModule, MatProgressSpinnerModule, MatButtonModule, MatChipsModule, MatDividerModule, MatGridListModule, MatCheckboxModule, MatCardModule, MatDialogModule
+  ],
+  providers: [
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
   ],
   declarations: [
   ],

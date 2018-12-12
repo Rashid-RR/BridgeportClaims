@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'assets/spot-theme.scss';
 @import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
@@ -10,7 +11,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$spot-app-primary: mat-palette($mat-amber);
+$spot-app-primary: mat-palette($md-spot-primary,500);
 $spot-app-accent:  mat-palette($mat-amber, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -23,4 +24,60 @@ $spot-app-theme: mat-light-theme($spot-app-primary, $spot-app-accent, $spot-app-
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($spot-app-theme);
-body{margin:0px;}
+body{
+    margin:0px;
+    font-family: Roboto;
+}
+.mat-button.mat-primary{
+    color:$md-primary-text;
+    border-color:$md-primary-text; 
+    cursor: pointer;
+}
+.mat-button.mat-primary[disabled]{
+    color:$md-primary-text;
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+mat-icon{
+    color:#777
+}
+.mat-form-field-label{
+    opacity: 0.8 !important;
+    color: #333333  !important;
+    font-family: Roboto  !important;
+    font-size: 14px  !important;
+    line-height: 16px  !important;
+}
+.mat-list-base .mat-list-item .mat-list-text{
+    padding-left:3px !important;
+}
+.mat-list-base .mat-list-item .mat-list-text h4{
+    font-size:11pt !important;
+    color:#3d3d3d;
+}
+.spot-bg-primary{
+    background-color:#F6BE45 !important;
+}
+.spot-text-primary,
+.spot-text-primary h4,
+.spot-text-primary .mat-select-value,
+.spot-text-primary mat-icon,
+{
+    color: #C78500 !important;
+}
+.text-success{
+    color:#26B450
+}
+.line-height-16{
+    line-height: 16px;
+    font-size: 14px;
+}
+.line-height-19{
+    line-height: 19px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.text-gray{
+    color:gray;
+    font-size: 10pt;
+}
