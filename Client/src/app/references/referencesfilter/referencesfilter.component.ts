@@ -36,6 +36,8 @@ export class ReferencesfilterComponent implements OnInit {
   }
 
   clearFilters() {
-
+    this.adjustorName=''
+    this.rs.setSearchText(null);
+    this.rs.getadjustorslist()
   }
 }

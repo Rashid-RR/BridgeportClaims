@@ -53,5 +53,16 @@
       </ul>
     </div>
 
+    <div class="btn-group pagination-row">
+      <button type="button" class="btn btn-default  btn-md" [disabled]="rs.currentPage<=1" (click)="prev()">Prev</button>
+      <button type="button" class="btn btn-default  selected btn-md" style="width:76px"> {{rs.currentPage}} of {{rs.getTotalRows()+1}}</button>
+      <button type="button" class="btn btn-default  btn-md" [disabled]="rs.getTotalRows()+1 <=rs.currentPage" (click)="next()">Next</button>
+      <div class="input-group" style="width:164px">
+        <input class="form-control" [attr.placeholder]="rs.currentPage" [(ngModel)]="goToPage" [ngModelOptions]="{standalone: true}" (keypress)="keyPress($event)" (keyup.enter)="goto()">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

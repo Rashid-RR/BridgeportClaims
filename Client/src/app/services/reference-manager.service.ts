@@ -7,10 +7,12 @@ export class ReferenceManagerService {
 
   public loading=false;
   public adjustors: Array<adjustorItem>;
-  private totalAdjustors: any;
-  private pageSize: number;
+  public totalAdjustors=0;
+  public totalRows=0;
+  public pageSize:number;
   private searchText: string;
-  private currentPage=1;
+  public currentPage=1;
+  public currentStartedPage:number;
   private sortType='ASC';
   checkDisplay = 'list';
 
@@ -23,8 +25,9 @@ export class ReferenceManagerService {
   };
 
   constructor(private http: HttpService) {
-    this.searchText=null;
+    this.totalAdjustors=0;
     this.pageSize=30;
+    this.searchText=null;
     this.data.searchText=this.searchText;
     this.data.pageSize=this.pageSize;
     this.fetchadjustors(this.data)
@@ -34,6 +37,7 @@ export class ReferenceManagerService {
   getadjustorslist(){
     this.data.searchText=this.searchText;
     this.data.pageSize=this.pageSize;
+    this.data.page=this.currentPage;
     this.fetchadjustors(this.data)
   }
   setSearchText(key:any){
@@ -62,6 +66,15 @@ export class ReferenceManagerService {
 
   getTotalAdjustors() {
     return this.totalAdjustors;
+  }
+
+  getTotalRows(){
+    this.totalRows=this.totalAdjustors/this.pageSize;
+    return Math.floor(this.totalRows);
+  }
+  getcurrentstartpage(){
+    this.currentStartedPage=((this.currentPage-1)*this.pageSize)+1
+    return Math.floor(this.currentStartedPage)
   }
 
   // get checkPageStart() {
