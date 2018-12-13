@@ -23,6 +23,7 @@ import { CustomerLayoutComponent } from './layout/layout.component';
     CommonModule, SharedModule,
     RouterModule.forChild(CustomerRoutes)
   ],
+  entryComponents:[CustomerAddressModalComponent],
   declarations: [CustomerInformationComponent, CustomerAddressModalComponent, CustomerPreferenceComponent, CustomerCreditCardComponent, CustomerReferralComponent, CustomerPromotionComponent, CustomerAccountReceivablesComponent, CustomerNotificationComponent, CustomerSettingComponent, CustomerLookupComponent, CustomerPricingComponent, CustomerCrmComponent, CustomerLayoutComponent]
 })
 export class CustomerModule { }

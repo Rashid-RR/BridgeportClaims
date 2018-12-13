@@ -4,8 +4,13 @@ mat-card{
 
 form h6{
     padding:0 6px;
+    color: #333333;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 18px;
 }
-.text-gray{
-    color:gray;
-    font-size: 10pt;
+
+.pointer{
+    cursor: pointer;
 }

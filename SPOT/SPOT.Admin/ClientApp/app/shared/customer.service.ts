@@ -17,7 +17,7 @@ export class CustomerService {
       phoneNumber: ['(123) 456-7890', Validators.compose([Validators.required])],
       password: ['00000', Validators.compose([Validators.required])],
       address: [
-        [{ for: 'Billing, Mailing', line1: '', line2: '', city: 'San Francisco', state: 'CA', zip: '123-456' }],        
+        [{ for: ['Billing','Mailing'], line1: '123 South 300', line2: '', city: 'East Drapper', state: 'UT', zip: '84020' }],        
       ] 
     });
   }
