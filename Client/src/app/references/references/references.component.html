@@ -76,19 +76,19 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                      <!--<li class="dropdown-submenu" [class.active]="ds.checksData.sort=='fileName'">-->
-                        <!--<a tabindex="-1">Name</a>-->
-                        <!--&lt;!&ndash;<ul class="dropdown-menu">&ndash;&gt;-->
-                          <!--&lt;!&ndash;<li [class.active]="ds.checksData.sort=='fileName' && ds.checksData.sortDirection=='ASC'"&ndash;&gt;-->
-                              <!--&lt;!&ndash;(click)="ds.onCheckSortColumn({'column':'fileName','dir':'asc'})">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<a tabindex="-1">Ascending</a>&ndash;&gt;-->
-                          <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                          <!--&lt;!&ndash;<li [class.active]="ds.checksData.sort=='fileName' && ds.checksData.sortDirection=='DESC'"&ndash;&gt;-->
-                              <!--&lt;!&ndash;(click)="ds.onCheckSortColumn({'column':'fileName','dir':'desc'})">&ndash;&gt;-->
-                            <!--&lt;!&ndash;<a tabindex="-1">Descending</a>&ndash;&gt;-->
-                          <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
-                      <!--</li>-->
+                      <li class="dropdown-submenu">
+                        <a tabindex="-1">Name</a>
+                        <ul class="dropdown-menu">
+                          <li
+                              (click)="rs.setSortType('ASC')">
+                            <a tabindex="-1">Ascending</a>
+                          </li>
+                          <li
+                              (click)="rs.setSortType('DESC')">
+                            <a tabindex="-1">Descending</a>
+                          </li>
+                        </ul>
+                      </li>
                       <!--<ng-container *ngIf="!ds.postedChecks">-->
                         <!--<li class="dropdown-submenu" [class.active]="ds.checksData.sort=='CreationTime'">-->
                           <!--<a tabindex="-1">Date Created</a>-->
@@ -229,14 +229,14 @@
                       <!--</ng-container>-->
                     </ul>
                   </div>
-                  <button type="button" *ngIf="rs.checkDisplay=='list'" class="pull-right transparent btn btn-flat btn-sm"
-                          (click)="rs.checkDisplay='grid'" title="Grid View" style=" margin-right: 60px; ">
-                    <i class="fa fa-th"></i>
-                  </button>
-                  <button type="button" *ngIf="rs.checkDisplay=='grid'" class="pull-right  transparent btn btn-flat btn-sm"
-                          (click)="rs.checkDisplay='list'" title="List View" style=" margin-right: 60px; ">
-                    <i class="fa fa-list"></i>
-                  </button>
+                  <!--<button type="button" *ngIf="rs.checkDisplay=='list'" class="pull-right transparent btn btn-flat btn-sm"-->
+                          <!--(click)="rs.checkDisplay='grid'" title="Grid View" style=" margin-right: 60px; ">-->
+                    <!--<i class="fa fa-th"></i>-->
+                  <!--</button>-->
+                  <!--<button type="button" *ngIf="rs.checkDisplay=='grid'" class="pull-right  transparent btn btn-flat btn-sm"-->
+                          <!--(click)="rs.checkDisplay='list'" title="List View" style=" margin-right: 60px; ">-->
+                    <!--<i class="fa fa-list"></i>-->
+                  <!--</button>-->
                 </div>
               </div>
             </div>
