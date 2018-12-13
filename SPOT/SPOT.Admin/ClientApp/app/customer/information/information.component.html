@@ -3,53 +3,93 @@
     <h6>Name</h6>
     <mat-card>
       <mat-form-field class="spot-text-primary">
-        <input matInput placeholder="First Name" formControlName="firstName">
+        <input matInput placeholder="First Name" formControlName="firstName" />
       </mat-form-field>
       <mat-form-field class="spot-text-primary">
-        <input matInput placeholder="Last Name" formControlName="lastName">
+        <input matInput placeholder="Last Name" formControlName="lastName" />
       </mat-form-field>
     </mat-card>
     <h6>Type</h6>
     <mat-card>
       <mat-form-field class="spot-text-primary">
         <mat-select placeholder="Individual" formControlName="type">
-          <mat-option value="Individual">
-            Individual
-          </mat-option>
-          <mat-option value="Company">
-            Company
-          </mat-option>
+          <mat-option value="Individual"> Individual </mat-option>
+          <mat-option value="Company"> Company </mat-option>
         </mat-select>
       </mat-form-field>
       VIP User<br />
       <mat-radio-group formControlName="vipUser">
-        <mat-radio-button [value]="false">Yes</mat-radio-button> &nbsp; &nbsp;
-        <mat-radio-button [value]="true">No</mat-radio-button>
+        <label class="checkboxContainer">
+          <input type="radio" id="checkYes" name="vipUser" checked="checked" />
+          <span class="checkmark"></span>
+          <span class="label-for-check"> Yes</span>
+        </label>
+        <label class="checkboxContainer">
+          <input type="radio" id="checkNo" name="vipUser" />
+          <span class="checkmark"></span>
+          <span class="label-for-check"> No</span>
+        </label>
       </mat-radio-group>
     </mat-card>
     <h6>Passwords</h6>
     <mat-card>
       <mat-form-field class="spot-text-primary">
-        <input matInput placeholder="Password" formControlName="password" type="password">
+        <input
+          matInput
+          placeholder="Password"
+          formControlName="password"
+          type="password"
+        />
       </mat-form-field>
     </mat-card>
   </div>
   <div class="col-sm-9">
     <div class="row">
       <div class="col-sm-8">
-        <h6>Address <span class="pull-right text-gray pointer" (click)="addAddress()"><i class="icofont icofont-plus-circle"></i> Add More
-          </span></h6>
+        <h6>
+          Address
+          <span class="pull-right text-gray pointer" (click)="addAddress()"
+            ><i class="icofont icofont-plus-circle"></i> Add More
+          </span>
+        </h6>
         <mat-card>
-          <ng-container *ngFor="let address of customerService.contactForm.controls.address.value||[]">
+          <ng-container
+            *ngFor="
+              let address of customerService.contactForm.controls.address
+                .value || []
+            "
+          >
             <div class="row line-height-16">
-              <div class="col">Address for <span class="spot-text-primary"><ng-container *ngFor="let f of address.for;let i = index">{{f+', '}}</ng-container></span> </div>
+              <div class="col">
+                Address for
+                <span class="spot-text-primary"
+                  ><ng-container *ngFor="let f of address.for; let i = index">{{
+                    f + ", "
+                  }}</ng-container></span
+                >
+              </div>
             </div>
-            <div class="row line-height-19" style=" margin: 0px;margin-bottom:20px">
-              <div class="col-sm-10 spot-text-primary" style="padding:15px 0 2px 0;border-bottom: 1px solid #ddd;">{{address.line1}}
-                {{address.city}}, {{address.state}}, {{address.zip}} </div>
+            <div
+              class="row line-height-19"
+              style=" margin: 0px;margin-bottom:20px"
+            >
+              <div
+                class="col-sm-10 spot-text-primary"
+                style="padding:15px 0 2px 0;border-bottom: 1px solid #ddd;"
+              >
+                {{ address.line1 }} {{ address.city }}, {{ address.state }},
+                {{ address.zip }}
+              </div>
               <div class="col-sm-2 text-center" style="padding:15px 0 2px 0;">
-                <mat-icon mat-list-icon  (click)="editAddress(i,address)" class="icofont icofont-pencil-alt-1 pointer"></mat-icon>
-                <mat-icon mat-list-icon class="icofont icofont-ui-delete pointer"></mat-icon>
+                <mat-icon
+                  mat-list-icon
+                  (click)="editAddress(i, address)"
+                  class="icofont icofont-pencil-alt-1 pointer"
+                ></mat-icon>
+                <mat-icon
+                  mat-list-icon
+                  class="icofont icofont-ui-delete pointer"
+                ></mat-icon>
               </div>
             </div>
           </ng-container>
@@ -58,30 +98,40 @@
     </div>
     <div class="row">
       <div class="col-sm-5">
-        <h6>Phone <span class="pull-right text-gray pointer"><i class="icofont icofont-plus-circle"></i> Add More </span></h6>
+        <h6>
+          Phone
+          <span class="pull-right text-gray pointer"
+            ><i class="icofont icofont-plus-circle"></i> Add More
+          </span>
+        </h6>
         <mat-card>
           <div class="row">
             <mat-form-field class="spot-text-primary col-sm-5">
               <mat-select placeholder="Mobile" formControlName="phoneType">
-                <mat-option value="Mobile">
-                  Mobile
-                </mat-option>
-                <mat-option value="Landline">
-                  Landline
-                </mat-option>
+                <mat-option value="Mobile"> Mobile </mat-option>
+                <mat-option value="Landline"> Landline </mat-option>
               </mat-select>
-            </mat-form-field>  
-              <mat-form-field class="spot-text-primary col-sm-7">
-                <input matInput placeholder="Number *" formControlName="phoneNumber">
-              </mat-form-field> 
+            </mat-form-field>
+            <mat-form-field class="spot-text-primary col-sm-7">
+              <input
+                matInput
+                placeholder="Number *"
+                formControlName="phoneNumber"
+              />
+            </mat-form-field>
           </div>
         </mat-card>
       </div>
       <div class="col-sm-5">
-        <h6>Email <span class="pull-right text-gray pointer"><i class="icofont icofont-plus-circle"></i> Add More </span></h6>
+        <h6>
+          Email
+          <span class="pull-right text-gray pointer"
+            ><i class="icofont icofont-plus-circle"></i> Add More
+          </span>
+        </h6>
         <mat-card>
           <mat-form-field class="spot-text-primary">
-            <input matInput placeholder="Email" formControlName="email">
+            <input matInput placeholder="Email" formControlName="email" />
           </mat-form-field>
         </mat-card>
       </div>
