@@ -7,7 +7,7 @@ import {AppComponent} from './app.component';
 import {FileUploadModule} from 'ng2-file-upload';
 import {Ng2Webstorage} from 'ng2-webstorage';
 import {BootstrapModalModule} from 'ng2-bootstrap-modal';
-import {ToastModule} from 'ng2-toastr';
+import {ToastModule, ToastOptions} from 'ng2-toastr';
 // import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
 import {SharedModule} from './shared';
 /* import { SignalRModule ,SignalRConfiguration } from 'ng2-signalr'; */
@@ -25,6 +25,7 @@ import {Error404Component} from './pages/error404/error404.component';
 import {RoutingModule} from './app.routing';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {UnpaidScriptComponent} from './pages/unpaid-script/unpaid-script.component';
+import { CustomOption } from './services/custom-option-toaster';
 // services
 import {
   AccountReceivableService,
@@ -117,6 +118,7 @@ import {ReferenceManagerService} from './services/reference-manager.service';
     BootstrapModalModule,
   ],
   providers: [
+    {provide: ToastOptions, useClass: CustomOption},
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
     // { provide: 'SnotifyToastConfig', useValue: ToastDefaults},SnotifyService,
     DecimalPipe, DatePipe, CollectionBonusService, ReferenceManagerService,
