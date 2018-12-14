@@ -67,40 +67,40 @@
                                             <span style="font-size:13pt">{{rs.totalAdjustors}}</span>
                                             Record{{rs.totalAdjustors>1 ? 's':''}} found</span>
                                     </span>
-              <div class="box-tools pull-right">
-                <div class="btn-group">
-                  <div class="dropdown menu">
-                    <button class="btn transparent dropdown-toggle" type="button"
-                            data-toggle="dropdown">Sort
-                      by
-                      <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li class="dropdown-submenu">
-                        <a tabindex="-1">Name</a>
-                        <ul class="dropdown-menu">
-                          <li
-                              (click)="rs.setSortType('ASC')">
-                            <a tabindex="-1">Ascending</a>
-                          </li>
-                          <li
-                              (click)="rs.setSortType('DESC')">
-                            <a tabindex="-1">Descending</a>
-                          </li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
-                  <!--<button type="button" *ngIf="rs.checkDisplay=='list'" class="pull-right transparent btn btn-flat btn-sm"-->
-                          <!--(click)="rs.checkDisplay='grid'" title="Grid View" style=" margin-right: 60px; ">-->
-                    <!--<i class="fa fa-th"></i>-->
-                  <!--</button>-->
-                  <!--<button type="button" *ngIf="rs.checkDisplay=='grid'" class="pull-right  transparent btn btn-flat btn-sm"-->
-                          <!--(click)="rs.checkDisplay='list'" title="List View" style=" margin-right: 60px; ">-->
-                    <!--<i class="fa fa-list"></i>-->
-                  <!--</button>-->
-                </div>
-              </div>
+              <!--<div class="box-tools pull-right">-->
+                <!--<div class="btn-group">-->
+                  <!--<div class="dropdown menu">-->
+                    <!--<button class="btn transparent dropdown-toggle" type="button"-->
+                            <!--data-toggle="dropdown">Sort-->
+                      <!--by-->
+                      <!--<span class="caret"></span>-->
+                    <!--</button>-->
+                    <!--<ul class="dropdown-menu">-->
+                      <!--<li class="dropdown-submenu">-->
+                        <!--<a tabindex="-1">Name</a>-->
+                        <!--<ul class="dropdown-menu">-->
+                          <!--<li-->
+                              <!--(click)="rs.setSortType('ASC')">-->
+                            <!--<a tabindex="-1">Ascending</a>-->
+                          <!--</li>-->
+                          <!--<li-->
+                              <!--(click)="rs.setSortType('DESC')">-->
+                            <!--<a tabindex="-1">Descending</a>-->
+                          <!--</li>-->
+                        <!--</ul>-->
+                      <!--</li>-->
+                    <!--</ul>-->
+                  <!--</div>-->
+                  <!--&lt;!&ndash;<button type="button" *ngIf="rs.checkDisplay=='list'" class="pull-right transparent btn btn-flat btn-sm"&ndash;&gt;-->
+                          <!--&lt;!&ndash;(click)="rs.checkDisplay='grid'" title="Grid View" style=" margin-right: 60px; ">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="fa fa-th"></i>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                  <!--&lt;!&ndash;<button type="button" *ngIf="rs.checkDisplay=='grid'" class="pull-right  transparent btn btn-flat btn-sm"&ndash;&gt;-->
+                          <!--&lt;!&ndash;(click)="rs.checkDisplay='list'" title="List View" style=" margin-right: 60px; ">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<i class="fa fa-list"></i>&ndash;&gt;-->
+                  <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                <!--</div>-->
+              <!--</div>-->
             </div>
             <div class="box-body documents">
 <app-adjustors></app-adjustors>
