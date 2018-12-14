@@ -12,6 +12,7 @@ export class ReferenceManagerService {
   public pageSize: number;
 
   private searchText: string;
+  private sortColumn: string;
   public currentPage = 1;
   public currentStartedPage: number;
   private sortType = 'ASC';
@@ -29,10 +30,12 @@ export class ReferenceManagerService {
     this.totalAdjustors = 0;
     this.pageSize = 30;
     this.searchText = null;
+    this.sortColumn = 'AdjustorName';
     this.sortType = 'ASC';
     this.data.sortDirection = this.sortType;
     this.data.searchText = this.searchText;
     this.data.pageSize = this.pageSize;
+    this.data.sort = this.sortColumn;
     this.fetchadjustors(this.data)
   }
 
@@ -42,7 +45,15 @@ export class ReferenceManagerService {
     this.data.pageSize = this.pageSize;
     this.data.page = this.currentPage;
     this.data.sortDirection = this.sortType;
+    this.data.sort = this.sortColumn;
     this.fetchadjustors(this.data);
+  }
+
+  onSortColumn($event) {
+    console.log($event);
+    this.sortColumn = $event.column;
+    this.sortType = $event.dir;
+    this.getadjustorslist();
   }
 
   setSearchText(key: any) {
@@ -73,7 +84,7 @@ export class ReferenceManagerService {
   }
 
   getadjustors() {
-    // console.log(this.adjustors)
+    console.log(this.adjustors);
     return this.adjustors;
   }
 

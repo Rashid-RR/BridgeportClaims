@@ -17,6 +17,7 @@ export class AdjustorsComponent implements OnInit {
 
   ngOnInit() {
   }
+
   goto() {
     const page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {

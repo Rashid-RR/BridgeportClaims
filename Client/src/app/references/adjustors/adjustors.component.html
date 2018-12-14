@@ -1,68 +1,135 @@
 <div class="row">
-  <div class="col-sm-12 expanded" style="overflow:hidden;">
-    <div *ngIf="rs.checkDisplay=='list'" class="table-responsive top-header">
-      <ul class="products-list product-list-in-box">
-        <li class="item row">
-          <div class="col-md-2" style="text-indent: 30px">
-            Name
-          </div>
-          <div class="col-md-2">
-            Phone
-          </div>
-          <div class="col-md-2">
-            Fax
-          </div>
-          <div class="col-md-2">
-            Email
-          </div>
-          <div class="col-md-2">
-            Extension
-          </div>
-          <div class="col-md-2">
-            Modified
-          </div>
-        </li>
-      </ul>
+  <div class="col-sm-12 expanded"  *ngIf="rs.checkDisplay=='list'" style="overflow:hidden;">
+    <div style="width: 100%" class="table-responsive top-header">
+      <!-- Table Header -->
+      <div  class="table-responsive top-header">
+        <table class="table no-margin table-striped">
+          <thead class="overflowable" id="fixed-thead">
+          <tr #myTable='table-sort' (tableSort)="rs.onSortColumn($event)">
+            <th>
+         <span [sort-table]="myTable" columnSort="adjustorName">
+             Name
+           </span>
+
+            </th>
+
+            <th>
+                            <span [sort-table]="myTable" columnSort="phoneNumber">
+                                Phone
+                            </span>
+            </th>
+            <th>
+                            <span [sort-table]="myTable" columnSort="faxNumber">
+                                Fax
+                            </span>
+            </th>
+            <th>
+                            <span [sort-table]="myTable" columnSort="emailAddress">
+                                Email
+                            </span>
+            </th>
+            <th>
+                            <span [sort-table]="myTable" columnSort="extension">
+                                Extension
+                            </span>
+            </th>
+          <th>
+                            <span [sort-table]="myTable" columnSort="modifiedBy">
+                                Modified
+                            </span>
+          </th>
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <div class="table-responsive table-body" >
+      <table class="table no-margin table-striped" id="maintable">
+        <tbody class="overflowable" #diaryTable tabindex="0">
+        <ng-container  *ngFor="let adjustor of rs.getadjustors()">
+        <tr>
+
+          <td>{{adjustor?.adjustorName}}</td>
+          <td>{{adjustor?.phoneNumber}}</td>
+          <td>{{adjustor?.faxNumber}}</td>
+          <td>{{adjustor?.emailAddress}}</td>
+          <td>{{adjustor?.extension}}</td>
+          <td>{{adjustor?.modifiedBy}}</td>
+
+        </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </div>
+
+
+    <!--<ul class="products-list product-list-in-box">-->
+      <!--<li class="item row">-->
+      <!--<div class="col-md-2" style="text-indent: 30px">-->
+      <!--Name-->
+      <!--</div>-->
+      <!--<div class="col-md-2">-->
+      <!--Phone-->
+      <!--</div>-->
+      <!--<div class="col-md-2">-->
+      <!--Fax-->
+      <!--</div>-->
+      <!--<div class="col-md-2">-->
+      <!--Email-->
+      <!--</div>-->
+      <!--<div class="col-md-2">-->
+      <!--Extension-->
+      <!--</div>-->
+      <!--<div class="col-md-2">-->
+      <!--Modified-->
+      <!--</div>-->
+      <!--</li>-->
+      <!--</ul>-->
 
     </div>
-    <div *ngIf="rs.checkDisplay=='list'" class="table-responsive table-body">
-      <ul class="products-list product-list-in-box">
-        <li *ngFor="let adjustor of rs.getadjustors()" class="item row">
-          <ng-container *ngIf="adjustor.adjustorName!=''">
-          <div class="col-md-2">
+    <!--<div *ngIf="rs.checkDisplay=='list'" class="table-responsive table-body">-->
+      <!--<ul class="products-list product-list-in-box">-->
+        <!--<li *ngFor="let adjustor of rs.getadjustors()" class="item row">-->
+          <!--<ng-container *ngIf="adjustor.adjustorName!=''">-->
+            <!--<div class="col-md-2">-->
 
-            {{adjustor?.adjustorName}}
-          </div>
-          <div class="col-md-2">
-            {{adjustor.phoneNumber}}
-          </div>
-          <div class="col-md-2">
-            {{adjustor.faxNumber}}
-          </div>
-          <div class="col-md-2">
-            {{adjustor.emailAddress}}
-          </div>
-          <div class="col-md-2">
-            {{adjustor.extension}}
-          </div>
-          <div class="col-md-2">
-            {{adjustor.modifiedBy }}
-          </div>
-          </ng-container>
-        </li>
-      </ul>
-    </div>
+              <!--{{adjustor?.adjustorName}}-->
+            <!--</div>-->
+            <!--<div class="col-md-2">-->
+              <!--{{adjustor.phoneNumber}}-->
+            <!--</div>-->
+            <!--<div class="col-md-2">-->
+              <!--{{adjustor.faxNumber}}-->
+            <!--</div>-->
+            <!--<div class="col-md-2">-->
+              <!--{{adjustor.emailAddress}}-->
+            <!--</div>-->
+            <!--<div class="col-md-2">-->
+              <!--{{adjustor.extension}}-->
+            <!--</div>-->
+            <!--<div class="col-md-2">-->
+              <!--{{adjustor.modifiedBy }}-->
+            <!--</div>-->
+          <!--</ng-container>-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</div>-->
 
     <div class="btn-group pagination-row">
-      <button type="button" class="btn btn-default  btn-md" [disabled]="rs.currentPage<=1" (click)="prev()">Prev</button>
-      <button type="button" class="btn btn-default  selected btn-md" style="width:76px"> {{rs.currentPage}} of {{rs.getTotalRows()+1}}</button>
-      <button type="button" class="btn btn-default  btn-md" [disabled]="rs.getTotalRows()+1 <=rs.currentPage" (click)="next()">Next</button>
+      <button (click)="prev()" [disabled]="rs.currentPage<=1" class="btn btn-default  btn-md" type="button">Prev
+      </button>
+      <button class="btn btn-default  selected btn-md" style="width:76px" type="button"> {{rs.currentPage}}
+        of {{rs.getTotalRows() + 1}}</button>
+      <button (click)="next()" [disabled]="rs.getTotalRows()+1 <=rs.currentPage" class="btn btn-default  btn-md"
+              type="button">Next
+      </button>
       <div class="input-group" style="width:164px">
-        <input class="form-control" [attr.placeholder]="rs.currentPage" [(ngModel)]="goToPage" [ngModelOptions]="{standalone: true}" (keypress)="keyPress($event)" (keyup.enter)="goto()">
+        <input (keypress)="keyPress($event)" (keyup.enter)="goto()" [(ngModel)]="goToPage"
+               [attr.placeholder]="rs.currentPage" [ngModelOptions]="{standalone: true}" class="form-control">
         <div class="input-group-btn">
-          <button type="button" class="btn btn-success goto" (click)="goto()">Go to Page</button>
+          <button (click)="goto()" class="btn btn-success goto" type="button">Go to Page</button>
         </div>
       </div>
     </div>
   </div>
-</div>
+
