@@ -8,6 +8,7 @@ using BridgeportClaims.Data.DataProviders.Prescriptions;
 using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Word.Enums;
 using BridgeportClaims.Word.Templating;
+using DocumentFormat.OpenXml.Packaging;
 using s = BridgeportClaims.Common.Constants.StringConstants;
 
 namespace BridgeportClaims.Word.WordProvider
@@ -52,7 +53,7 @@ namespace BridgeportClaims.Word.WordProvider
 
         public string CreateTemplateWordDocument(int claimId, string userId, Stream document, LetterType type, int prescriptionId)
         {
-            /*var fullFilePath = GetFullFilePathFromStreamAndType(type, document);
+            var fullFilePath = GetFullFilePathFromStreamAndType(type, document);
             var docText = string.Empty;
             DisposableService.Using(() => WordprocessingDocument.Open(fullFilePath, true), wordDoc =>
             {
@@ -65,8 +66,8 @@ namespace BridgeportClaims.Word.WordProvider
                 {
                     sw.Write(docText);
                 });
-            });*/
-            return "";
+            });
+            return fullFilePath;
         }
 
 
@@ -74,7 +75,7 @@ namespace BridgeportClaims.Word.WordProvider
         public string CreateDrNoteTemplateWordDocument(int claimId, string userId, Stream document, int firstPrescriptionId, IEnumerable<int> prescriptionIds)
         {
             var fullFilePath = GetFullFilePathFromStreamAndType(LetterType.DrNoteLetter, document);
-           /* var docText = string.Empty;
+            var docText = string.Empty;
             DisposableService.Using(() => WordprocessingDocument.Open(fullFilePath, true), wordDoc =>
             {
                 DisposableService.Using(() => new StreamReader(wordDoc.MainDocumentPart.GetStream()), sr =>
@@ -89,7 +90,7 @@ namespace BridgeportClaims.Word.WordProvider
                 {
                     sw.Write(docText);
                 });
-            });*/
+            });
             return fullFilePath;
         }
 
