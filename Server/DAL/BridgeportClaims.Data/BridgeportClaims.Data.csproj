@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4AE70900-96E7-460C-BC52-F661042997D8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BridgeportClaims.Data</RootNamespace>
+    <AssemblyName>BridgeportClaims.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLinq, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1c5d57eb9e11fe4b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLinq.2.0\lib\net\SQLinq.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLinq.Dapper, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SQLinq.Dapper.1.2\lib\net\SQLinq.Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataProviders\Accounts\AspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\Accounts\IAspNetUsersProvider.cs" />
+    <Compile Include="DataProviders\AdjustorSearches\AdjustorDataProvider.cs" />
+    <Compile Include="DataProviders\AdjustorSearches\IAdjustorDataProvider.cs" />
+    <Compile Include="DataProviders\AdminFunctions\AdminFunctionsProvider.cs" />
+    <Compile Include="DataProviders\AdminFunctions\IAdminFunctionsProvider.cs" />
+    <Compile Include="DataProviders\ClaimImages\ClaimImageProvider.cs" />
+    <Compile Include="DataProviders\ClaimImages\IClaimImageProvider.cs" />
+    <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
+    <Compile Include="DataProviders\ClaimNotes\IClaimNotesDataProvider.cs" />
+    <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
+    <Compile Include="DataProviders\ClaimSearches\IClaimSearchProvider.cs" />
+    <Compile Include="DataProviders\ClaimsEdit\ClaimsEditProvider.cs" />
+    <Compile Include="DataProviders\ClaimsEdit\IClaimsEditProvider.cs" />
+    <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
+    <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
+    <Compile Include="DataProviders\Claims\ClaimsDataProvider.cs" />
+    <Compile Include="DataProviders\Claims\IClaimsDataProvider.cs" />
+    <Compile Include="DataProviders\Clients\ClientDataProvider.cs" />
+    <Compile Include="DataProviders\Clients\IClientDataProvider.cs" />
+    <Compile Include="DataProviders\CollectionAssignments\CollectionAssignmentProvider.cs" />
+    <Compile Include="DataProviders\CollectionAssignments\ICollectionAssignmentProvider.cs" />
+    <Compile Include="DataProviders\Dashboards\DashboardProvider.cs" />
+    <Compile Include="DataProviders\Dashboards\IDashboardProvider.cs" />
+    <Compile Include="DataProviders\DecisionTrees\DecisionTreeDataProvider.cs" />
+    <Compile Include="DataProviders\DecisionTrees\IDecisionTreeDataProvider.cs" />
+    <Compile Include="DataProviders\Diaries\DiaryProvider.cs" />
+    <Compile Include="DataProviders\Diaries\IDiaryProvider.cs" />
+    <Compile Include="DataProviders\DocumentIndexes\DocumentIndexProvider.cs" />
+    <Compile Include="DataProviders\DocumentIndexes\IDocumentIndexProvider.cs" />
+    <Compile Include="DataProviders\Documents\DocumentDataProvider.cs" />
+    <Compile Include="DataProviders\Documents\IDocumentDataProvider.cs" />
+    <Compile Include="DataProviders\EpisodeNotes\EpisodeNoteProvider.cs" />
+    <Compile Include="DataProviders\EpisodeNotes\IEpisodeNoteProvider.cs" />
+    <Compile Include="DataProviders\Episodes\EpisodesDataProvider.cs" />
+    <Compile Include="DataProviders\Episodes\IEpisodesDataProvider.cs" />
+    <Compile Include="DataProviders\ImportFiles\IImportFileProvider.cs" />
+    <Compile Include="DataProviders\ImportFiles\ImportFileProvider.cs" />
+    <Compile Include="DataProviders\KPI\IKpiProvider.cs" />
+    <Compile Include="DataProviders\KPI\KpiProvider.cs" />
+    <Compile Include="DataProviders\LetterGenerations\ILetterGenerationProvider.cs" />
+    <Compile Include="DataProviders\LetterGenerations\LetterGenerationProvider.cs" />
+    <Compile Include="DataProviders\Notifications\PayorLetterName\IPayorLetterNameProvider.cs" />
+    <Compile Include="DataProviders\Notifications\PayorLetterName\PayorLetterNameProvider.cs" />
+    <Compile Include="DataProviders\Payments\IPaymentsDataProvider.cs" />
+    <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
+    <Compile Include="DataProviders\PayorSearches\IPayorSearchProvider.cs" />
+    <Compile Include="DataProviders\PayorSearches\PayorSearchProvider.cs" />
+    <Compile Include="DataProviders\Payors\IPayorsDataProvider.cs" />
+    <Compile Include="DataProviders\Payors\PayorsDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNotes\IPrescriptionNotesDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNotes\PrescriptionNotesDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNoteTypes\IPrescriptionNoteTypesDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNoteTypes\PrescriptionNoteTypesDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionPayments\IPrescriptionPaymentProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionPayments\PrescriptionPaymentProvider.cs" />
+    <Compile Include="DataProviders\Prescriptions\IPrescriptionsDataProvider.cs" />
+    <Compile Include="DataProviders\Prescriptions\PrescriptionsDataProvider.cs" />
+    <Compile Include="DataProviders\Reports\IReportsDataProvider.cs" />
+    <Compile Include="DataProviders\Reports\ReportsDataProvider.cs" />
+    <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
+    <Compile Include="DataProviders\UserRoles\IAssignUsersToRolesProvider.cs" />
+    <Compile Include="DataProviders\Users\IUsersProvider.cs" />
+    <Compile Include="DataProviders\Users\UsersProvider.cs" />
+    <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
+    <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
+    <Compile Include="Dtos\AccountsReceivableDto.cs" />
+    <Compile Include="Dtos\AcctPayableDto.cs" />
+    <Compile Include="Dtos\AdjustorDto.cs" />
+    <Compile Include="Dtos\AdjustorNameDto.cs" />
+    <Compile Include="Dtos\AdjustorResultDto.cs" />
+    <Compile Include="Dtos\AdjustorSearchResultsDto.cs" />
+    <Compile Include="Dtos\AspNetUsersDto.cs" />
+    <Compile Include="Dtos\BillingStatementDto.cs" />
+    <Compile Include="Dtos\CarrierDto.cs" />
+    <Compile Include="Dtos\ClaimDto.cs" />
+    <Compile Include="Dtos\ClaimFlex2Dto.cs" />
+    <Compile Include="Dtos\ClaimImageResultDto.cs" />
+    <Compile Include="Dtos\ClaimImagesDto.cs" />
+    <Compile Include="Dtos\ClaimNoteDto.cs" />
+    <Compile Include="Dtos\ClaimNoteTypeDto.cs" />
+    <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
+    <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
+    <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
+    <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
+    <Compile Include="Dtos\CollectionAssignmentData.cs" />
+    <Compile Include="Dtos\CollectionsBonusDto.cs" />
+    <Compile Include="Dtos\CollectionsBonusResultsDto.cs" />
+    <Compile Include="Dtos\DashboardDto.cs" />
+    <Compile Include="Dtos\DbccUserOptionsResults.cs" />
+    <Compile Include="Dtos\DecisionTreeDto.cs" />
+    <Compile Include="Dtos\DiariesDto.cs" />
+    <Compile Include="Dtos\DiaryOwnerDto.cs" />
+    <Compile Include="Dtos\DiaryResultDto.cs" />
+    <Compile Include="Dtos\DocumentClaimSearchResultDto.cs" />
+    <Compile Include="Dtos\DocumentResultDto.cs" />
+    <Compile Include="Dtos\DocumentsDto.cs" />
+    <Compile Include="Dtos\DocumentTypeDto.cs" />
+    <Compile Include="Dtos\DrNoteLetterGenerationDto.cs" />
+    <Compile Include="Dtos\DrNoteLetterGenerationResultsDto.cs" />
+    <Compile Include="Dtos\DrNoteLetterGenerationScriptsDto.cs" />
+    <Compile Include="Dtos\DuplicateClaimDto.cs" />
+    <Compile Include="Dtos\DuplicateClaimResultsDto.cs" />
+    <Compile Include="Dtos\EpisodeBladeDto.cs" />
+    <Compile Include="Dtos\EpisodeDto.cs" />
+    <Compile Include="Dtos\EpisodeNotesDto.cs" />
+    <Compile Include="Dtos\EpisodeResultsDto.cs" />
+    <Compile Include="Dtos\EpisodesDto.cs" />
+    <Compile Include="Dtos\EpisodeTypeDto.cs" />
+    <Compile Include="Dtos\FirewallSetting.cs" />
+    <Compile Include="Dtos\GenderDto.cs" />
+    <Compile Include="Dtos\GetClaimsSearchResults.cs" />
+    <Compile Include="Dtos\GroupNameDto.cs" />
+    <Compile Include="Dtos\ImagesDto.cs" />
+    <Compile Include="Dtos\ImportFileDto.cs" />
+    <Compile Include="Dtos\IndexedChecksDetailDto.cs" />
+    <Compile Include="Dtos\IndexedChecksDto.cs" />
+    <Compile Include="Dtos\IndexedChecksResultsDto.cs" />
+    <Compile Include="Dtos\IndexedInvoiceDto.cs" />
+    <Compile Include="Dtos\InvoiceAmountDto.cs" />
+    <Compile Include="Dtos\LeftRightClaimsDto.cs" />
+    <Compile Include="Dtos\LetterGenerationDto.cs" />
+    <Compile Include="Dtos\NewEpisodeSaveDto.cs" />
+    <Compile Include="Dtos\NotificationDto.cs" />
+    <Compile Include="Dtos\OutstandingDto.cs" />
+    <Compile Include="Dtos\OutstandingDtoResult.cs" />
+    <Compile Include="Dtos\OutstandingDtoTotalsResult.cs" />
+    <Compile Include="Dtos\PaymentPostingDto.cs" />
+    <Compile Include="Dtos\PaymentTotalsDto.cs" />
+    <Compile Include="Dtos\PayorDto.cs" />
+    <Compile Include="Dtos\PayorFullDto.cs" />
+    <Compile Include="Dtos\PayorsDto.cs" />
+    <Compile Include="Dtos\PayorSearchResultsDto.cs" />
+    <Compile Include="Dtos\PharmacyNameDto.cs" />
+    <Compile Include="Dtos\PostPaymentPrescriptionDocumentDto.cs" />
+    <Compile Include="Dtos\PostPaymentPrescriptionReturnDto.cs" />
+    <Compile Include="Dtos\PostPaymentReturnDto.cs" />
+    <Compile Include="Dtos\PrescriptionDto.cs" />
+    <Compile Include="Dtos\PrescriptionIdDto.cs" />
+    <Compile Include="Dtos\PrescriptionNoteSaveDto.cs" />
+    <Compile Include="Dtos\PrescriptionNotesDto.cs" />
+    <Compile Include="Dtos\PrescriptionNoteTypesDto.cs" />
+    <Compile Include="Dtos\PrescriptionPaymentsDto.cs" />
+    <Compile Include="Dtos\PrescriptionPostingAmountsDto.cs" />
+    <Compile Include="Dtos\PrescriptionStatusDto.cs" />
+    <Compile Include="Dtos\ReferralDto.cs" />
+    <Compile Include="Dtos\ReferralTypeDto.cs" />
+    <Compile Include="Dtos\ScriptDto.cs" />
+    <Compile Include="Dtos\ScriptNoteDto.cs" />
+    <Compile Include="Dtos\ShortPayDto.cs" />
+    <Compile Include="Dtos\ShortPayResultDto.cs" />
+    <Compile Include="Dtos\SkippedPaymentDto.cs" />
+    <Compile Include="Dtos\SkippedPaymentResultsDto.cs" />
+    <Compile Include="Dtos\UnpaidScriptResultDto.cs" />
+    <Compile Include="Dtos\UnpaidScriptsDto.cs" />
+    <Compile Include="Dtos\UnpaidScriptsMasterDto.cs" />
+    <Compile Include="Dtos\UserDto.cs" />
+    <Compile Include="Dtos\UsStateDto.cs" />
+    <Compile Include="Enums\EntityOperation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\DapperRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
+      <Project>{bb5ef9b0-17bc-4f9c-b7c4-065a447ca2fb}</Project>
+      <Name>BridgeportClaims.CsvReader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
+      <Project>{477129b1-1906-4897-ab87-9601880d9940}</Project>
+      <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
