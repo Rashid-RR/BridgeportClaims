@@ -229,7 +229,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="packages.config" />
     <Content Include="Properties\EmailTemplates\LakerImportStatus.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -239,6 +238,7 @@
     <Content Include="Properties\EmailTemplates\WelcomeActivation.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">

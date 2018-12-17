@@ -225,9 +225,6 @@
     <Compile Include="Repositories\DapperRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
       <Project>{bb5ef9b0-17bc-4f9c-b7c4-065a447ca2fb}</Project>
       <Name>BridgeportClaims.CsvReader</Name>
@@ -236,6 +233,9 @@
       <Project>{477129b1-1906-4897-ab87-9601880d9940}</Project>
       <Name>BridgeportClaims.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

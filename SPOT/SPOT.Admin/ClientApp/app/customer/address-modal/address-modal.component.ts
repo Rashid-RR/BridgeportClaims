@@ -41,7 +41,6 @@ export class CustomerAddressModalComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
   save() {
     let addressForm: any = {};
