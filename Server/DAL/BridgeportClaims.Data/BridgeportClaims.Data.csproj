@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4AE70900-96E7-460C-BC52-F661042997D8}</ProjectGuid>
+    <ProjectGuid>{EFBEB7F6-9648-4475-AD19-8F5DAB3E5876}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BridgeportClaims.Data</RootNamespace>
     <AssemblyName>BridgeportClaims.Data</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,23 +21,38 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.1</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Dapper, Version=1.50.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\..\packages\NLog.4.5.10\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Pipelines.Sockets.Unofficial, Version=1.0.0.0, Culture=neutral, PublicKeyToken=42ea0a778e13fbe2, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Pipelines.Sockets.Unofficial.1.0.7\lib\net461\Pipelines.Sockets.Unofficial.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.4.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\protobuf-net.2.4.0\lib\net40\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Linq.EagerFetching, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Remotion.Linq.EagerFetching.2.2.0\lib\net45\Remotion.Linq.EagerFetching.dll</HintPath>
     </Reference>
     <Reference Include="SQLinq, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1c5d57eb9e11fe4b, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SQLinq.2.0\lib\net\SQLinq.dll</HintPath>
@@ -45,13 +60,42 @@
     <Reference Include="SQLinq.Dapper, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SQLinq.Dapper.1.2\lib\net\SQLinq.Dapper.dll</HintPath>
     </Reference>
+    <Reference Include="StackExchange.Redis, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.2.0.513\lib\net461\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Diagnostics.PerformanceCounter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Diagnostics.PerformanceCounter.4.5.0\lib\net461\System.Diagnostics.PerformanceCounter.dll</HintPath>
+    </Reference>
     <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Pipelines, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.IO.Pipelines.4.5.1\lib\netstandard2.0\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Channels, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Channels.4.5.0\lib\netstandard2.0\System.Threading.Channels.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
     <Reference Include="System.Transactions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -70,16 +114,12 @@
     <Compile Include="DataProviders\AdminFunctions\IAdminFunctionsProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\ClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\IClaimImageProvider.cs" />
-    <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
-    <Compile Include="DataProviders\ClaimNotes\IClaimNotesDataProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\IClaimSearchProvider.cs" />
     <Compile Include="DataProviders\ClaimsEdit\ClaimsEditProvider.cs" />
     <Compile Include="DataProviders\ClaimsEdit\IClaimsEditProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\ClaimsUserHistoryProvider.cs" />
     <Compile Include="DataProviders\ClaimsUserHistories\IClaimsUserHistoryProvider.cs" />
-    <Compile Include="DataProviders\Claims\ClaimsDataProvider.cs" />
-    <Compile Include="DataProviders\Claims\IClaimsDataProvider.cs" />
     <Compile Include="DataProviders\Clients\ClientDataProvider.cs" />
     <Compile Include="DataProviders\Clients\IClientDataProvider.cs" />
     <Compile Include="DataProviders\CollectionAssignments\CollectionAssignmentProvider.cs" />
@@ -110,12 +150,6 @@
     <Compile Include="DataProviders\Payments\PaymentsDataProvider.cs" />
     <Compile Include="DataProviders\PayorSearches\IPayorSearchProvider.cs" />
     <Compile Include="DataProviders\PayorSearches\PayorSearchProvider.cs" />
-    <Compile Include="DataProviders\Payors\IPayorsDataProvider.cs" />
-    <Compile Include="DataProviders\Payors\PayorsDataProvider.cs" />
-    <Compile Include="DataProviders\PrescriptionNotes\IPrescriptionNotesDataProvider.cs" />
-    <Compile Include="DataProviders\PrescriptionNotes\PrescriptionNotesDataProvider.cs" />
-    <Compile Include="DataProviders\PrescriptionNoteTypes\IPrescriptionNoteTypesDataProvider.cs" />
-    <Compile Include="DataProviders\PrescriptionNoteTypes\PrescriptionNoteTypesDataProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\IPrescriptionPaymentProvider.cs" />
     <Compile Include="DataProviders\PrescriptionPayments\PrescriptionPaymentProvider.cs" />
     <Compile Include="DataProviders\Prescriptions\IPrescriptionsDataProvider.cs" />
@@ -123,13 +157,22 @@
     <Compile Include="DataProviders\Reports\IReportsDataProvider.cs" />
     <Compile Include="DataProviders\Reports\ReportsDataProvider.cs" />
     <Compile Include="DataProviders\UserRoles\AssignUsersToRolesProvider.cs" />
+    <Compile Include="DataProviders\ClaimNotes\ClaimNotesDataProvider.cs" />
+    <Compile Include="DataProviders\Claims\ClaimsDataProvider.cs" />
     <Compile Include="DataProviders\UserRoles\IAssignUsersToRolesProvider.cs" />
+    <Compile Include="DataProviders\ClaimNotes\IClaimNotesDataProvider.cs" />
+    <Compile Include="DataProviders\Claims\IClaimsDataProvider.cs" />
+    <Compile Include="DataProviders\Payors\IPayorsDataProvider.cs" />
+    <Compile Include="DataProviders\Payors\PayorsDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNotes\IPrescriptionNotesDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNotes\PrescriptionNotesDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNoteTypes\IPrescriptionNoteTypesDataProvider.cs" />
+    <Compile Include="DataProviders\PrescriptionNoteTypes\PrescriptionNoteTypesDataProvider.cs" />
     <Compile Include="DataProviders\Users\IUsersProvider.cs" />
     <Compile Include="DataProviders\Users\UsersProvider.cs" />
     <Compile Include="DataProviders\Utilities\IUtilitiesProvider.cs" />
     <Compile Include="DataProviders\Utilities\UtilitiesProvider.cs" />
     <Compile Include="Dtos\AccountsReceivableDto.cs" />
-    <Compile Include="Dtos\AcctPayableDto.cs" />
     <Compile Include="Dtos\AdjustorDto.cs" />
     <Compile Include="Dtos\AdjustorNameDto.cs" />
     <Compile Include="Dtos\AdjustorResultDto.cs" />
@@ -145,8 +188,6 @@
     <Compile Include="Dtos\ClaimNoteTypeDto.cs" />
     <Compile Include="Dtos\ClaimsSearchResultsDto.cs" />
     <Compile Include="Dtos\ClaimsUserHistoryDto.cs" />
-    <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
-    <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
     <Compile Include="Dtos\CollectionAssignmentData.cs" />
     <Compile Include="Dtos\CollectionsBonusDto.cs" />
     <Compile Include="Dtos\CollectionsBonusResultsDto.cs" />
@@ -177,6 +218,9 @@
     <Compile Include="Dtos\GroupNameDto.cs" />
     <Compile Include="Dtos\ImagesDto.cs" />
     <Compile Include="Dtos\ImportFileDto.cs" />
+    <Compile Include="Dtos\AcctPayableDto.cs" />
+    <Compile Include="Dtos\ClaimsWithPrescriptionDetailsDto.cs" />
+    <Compile Include="Dtos\ClaimsWithPrescriptionCountsDto.cs" />
     <Compile Include="Dtos\IndexedChecksDetailDto.cs" />
     <Compile Include="Dtos\IndexedChecksDto.cs" />
     <Compile Include="Dtos\IndexedChecksResultsDto.cs" />
@@ -225,17 +269,25 @@
     <Compile Include="Repositories\DapperRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
-      <Project>{bb5ef9b0-17bc-4f9c-b7c4-065a447ca2fb}</Project>
-      <Name>BridgeportClaims.CsvReader</Name>
+    <ProjectReference Include="..\BridgeportClaims.RedisCache\BridgeportClaims.RedisCache.csproj">
+      <Project>{7cd614ce-0eb0-47bc-9424-90a570b7dbf8}</Project>
+      <Name>BridgeportClaims.RedisCache</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Core\BridgeportClaims.Common\BridgeportClaims.Common.csproj">
-      <Project>{477129b1-1906-4897-ab87-9601880d9940}</Project>
+      <Project>{61afc490-da0f-4f71-ab27-427e64fbf7d0}</Project>
       <Name>BridgeportClaims.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\BridgeportClaims.CsvReader\BridgeportClaims.CsvReader.csproj">
+      <Project>{0E70AD77-202B-411B-B724-98C63D0A6407}</Project>
+      <Name>BridgeportClaims.CsvReader</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
+    <None Include="NuGetReferenceHintPathRewrite.targets" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="NuGetReferenceHintPathRewrite.targets" />
 </Project>
