@@ -84,7 +84,6 @@ export class ReferenceManagerService {
   }
 
   getadjustors() {
-    console.log(this.adjustors);
     return this.adjustors;
   }
 

@@ -107,3 +107,10 @@ form .col-md-1:not(.no-padding){
   margin-left:20px;
   margin-top: 5px;
 }
+.modal-dialog.modal-dialog-centered {
+  min-height: calc(100% - (1.75rem * 2));
+  margin: 1.75rem auto;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
