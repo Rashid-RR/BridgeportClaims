@@ -38,6 +38,7 @@
     "file-saver": "*",
     "highcharts": "6.0.1",
     "immutable": "3.8.1",
+    "is-my-json-valid": "^2.19.0",
     "jquery": "3.3.1",
     "jquery-ui-multiselect-widget": "2.0.2",
     "ng-snotify": "4.3.1",
@@ -55,12 +56,12 @@
     "zone.js": "0.8.4"
   },
   "devDependencies": {
-    "@angular/compiler-cli": "4.4.6",
     "@angular/cli": "1.2.6",
-    "enhanced-resolve": "3.3.0",
+    "@angular/compiler-cli": "4.4.6",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
     "codelyzer": "~2.0.0",
+    "enhanced-resolve": "3.3.0",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",
     "karma": "~1.4.1",
@@ -71,7 +72,7 @@
     "karma-jasmine-html-reporter": "0.2.2",
     "ng2-bootstrap-modal": "1.0.1",
     "ng2-file-upload": "1.2.1",
-    "protractor": "~5.1.0",
+    "protractor": "^5.4.1",
     "ts-node": "~2.0.0",
     "tslint": "~4.5.0",
     "typescript": "~2.2.0"
