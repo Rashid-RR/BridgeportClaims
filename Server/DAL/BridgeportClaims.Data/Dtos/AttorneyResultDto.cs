@@ -19,4 +19,3 @@ namespace BridgeportClaims.Data.Dtos
         public string ModifiedBy { get; set; }
     }
 }
-}
