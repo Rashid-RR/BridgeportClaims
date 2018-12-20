@@ -112,6 +112,8 @@
     <Compile Include="DataProviders\AdjustorSearches\IAdjustorDataProvider.cs" />
     <Compile Include="DataProviders\AdminFunctions\AdminFunctionsProvider.cs" />
     <Compile Include="DataProviders\AdminFunctions\IAdminFunctionsProvider.cs" />
+    <Compile Include="DataProviders\AttorneyProviders\AttorneyProvider.cs" />
+    <Compile Include="DataProviders\AttorneyProviders\IAttorneyProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\ClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimImages\IClaimImageProvider.cs" />
     <Compile Include="DataProviders\ClaimSearches\ClaimSearchProvider.cs" />
@@ -178,6 +180,8 @@
     <Compile Include="Dtos\AdjustorResultDto.cs" />
     <Compile Include="Dtos\AdjustorSearchResultsDto.cs" />
     <Compile Include="Dtos\AspNetUsersDto.cs" />
+    <Compile Include="Dtos\AttorneyDto.cs" />
+    <Compile Include="Dtos\AttorneyResultDto.cs" />
     <Compile Include="Dtos\BillingStatementDto.cs" />
     <Compile Include="Dtos\CarrierDto.cs" />
     <Compile Include="Dtos\ClaimDto.cs" />

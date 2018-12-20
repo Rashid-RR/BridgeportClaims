@@ -53,7 +53,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get-adjustors")]
-        public IHttpActionResult GetAdjustor(AdjustorModel model)
+        public IHttpActionResult GetAdjustor(AbstractSearchModel model)
         {
             try
             {
