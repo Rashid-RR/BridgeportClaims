@@ -1,5 +1,5 @@
 <div class="row claim-info">
-    <div class="col-sm-12 claim-col expanded" style="overflow:hidden; max-height: 19em;">
+    <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
         <!-- Table Header -->
         <div class="table-responsive top-header">
             <table class="table no-margin table-striped">
@@ -78,6 +78,7 @@
                 </tbody>
             </table>
         </div>
+
         <div class="btn-group pagination-row">
             <button type="button" class="btn btn-default  btn-md" [disabled]="diaryService.data.page<=1" (click)="prev()">Prev</button>
             <button type="button" class="btn btn-default  selected btn-md" style="width:76px">   {{diaryService.data.page}}  of {{diaryService.totalPages}}</button>

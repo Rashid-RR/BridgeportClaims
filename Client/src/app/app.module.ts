@@ -81,6 +81,9 @@ import {ClaimOutstandingComponent} from './components/claim-outstanding/claim-ou
 import {StringService} from './services/string.service';
 import {ReferenceManagerService} from './services/reference-manager.service';
 
+import {} from '@angular/material';
+
+
 
 @NgModule({
   declarations: [

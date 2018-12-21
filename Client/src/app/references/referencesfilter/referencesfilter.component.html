@@ -1,12 +1,12 @@
 <form (keyup.enter)="search()" autocapitalize="none" autocomplete="off" autocomplete="off" role="form">
   <div class="row">
     <!--</div>-->
-    <div class="col-md-6">
+    <div class="col-md-3">
       <div class="form-group">
         <label>Adjustor Name</label>
-        <div class="input-group date">
-          <div class="input-group-addon">
-            <i class="fa fa-file-text"></i>
+        <div class="">
+          <div class="">
+            <i class=""></i>
           </div>
           <input (focus)="submitted=false" [(ngModel)]="adjustorName" class="form-control pull-right"
                  id="adjustorName" name="adjustorName" placeholder="Type Adjustor Name..."
@@ -14,6 +14,16 @@
 
         </div>
       </div>
+    </div>
+    <div class="col-md-2">
+      <!--<mat-form-field>-->
+        <!--<mat-select placeholder="Favorite food">-->
+          <!--<mat-option *ngFor="let food of foods" [value]="food.value">-->
+            <!--{{food.viewValue}}-->
+          <!--</mat-option>-->
+        <!--</mat-select>-->
+      <!--</mat-form-field>-->
+
     </div>
 
     <div class="col-sm-3 col-md-2 flex">

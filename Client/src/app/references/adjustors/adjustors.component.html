@@ -1,120 +1,65 @@
-<div class="row">
-  <div class="col-sm-12 expanded"  *ngIf="rs.checkDisplay=='list'" style="overflow:hidden; max-height: 24em;">
-    <div style="width: 100%" class="table-responsive top-header">
-      <!-- Table Header -->
-      <div  class="table-responsive top-header">
-        <table class="table no-margin table-striped">
-          <thead class="overflowable" id="fixed-thead">
-          <tr #myTable='table-sort' (tableSort)="rs.onSortColumn($event)">
-            <th>
+<div class="row claim-info">
+  <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
+
+    <div class="table-responsive top-header">
+      <table class="table no-margin table-striped">
+        <thead class="overflowable" id="fixed-thead">
+        <tr #myTable='table-sort' (tableSort)="rs.onSortColumn($event)">
+          <th>
          <span [sort-table]="myTable" columnSort="adjustorName">
              Name
            </span>
 
-            </th>
+          </th>
 
-            <th>
+          <th>
                             <span [sort-table]="myTable" columnSort="phoneNumber">
                                 Phone
                             </span>
-            </th>
-            <th>
+          </th>
+          <th>
                             <span [sort-table]="myTable" columnSort="faxNumber">
                                 Fax
                             </span>
-            </th>
-            <th>
+          </th>
+          <th>
                             <span [sort-table]="myTable" columnSort="emailAddress">
                                 Email
                             </span>
-            </th>
-            <th>
+          </th>
+          <th>
                             <span [sort-table]="myTable" columnSort="extension">
                                 Extension
                             </span>
-            </th>
+          </th>
           <th>
                             <span [sort-table]="myTable" columnSort="modifiedBy">
                                 Modified
                             </span>
           </th>
-          </tr>
-          </thead>
-        </table>
-      </div>
+        </tr>
+
+        </thead>
+      </table>
     </div>
     <div class="table-responsive table-body" >
       <table class="table no-margin table-striped" id="maintable">
         <tbody class="overflowable" #diaryTable tabindex="0">
         <ng-container  *ngFor="let adjustor of rs.getadjustors()">
-        <tr>
+          <tr>
 
-          <td>{{adjustor?.adjustorName}}</td>
-          <td>{{adjustor?.phoneNumber}}</td>
-          <td>{{adjustor?.faxNumber}}</td>
-          <td>{{adjustor?.emailAddress}}</td>
-          <td>{{adjustor?.extension}}</td>
-          <td>{{adjustor?.modifiedBy}}</td>
+            <td>{{adjustor?.adjustorName}}</td>
+            <td>{{adjustor?.phoneNumber}}</td>
+            <td>{{adjustor?.faxNumber}}</td>
+            <td>{{adjustor?.emailAddress}}</td>
+            <td>{{adjustor?.extension}}</td>
+            <td>{{adjustor?.modifiedBy}}</td>
 
-        </tr>
+          </tr>
         </ng-container>
         </tbody>
       </table>
     </div>
-
-
-    <!--<ul class="products-list product-list-in-box">-->
-      <!--<li class="item row">-->
-      <!--<div class="col-md-2" style="text-indent: 30px">-->
-      <!--Name-->
-      <!--</div>-->
-      <!--<div class="col-md-2">-->
-      <!--Phone-->
-      <!--</div>-->
-      <!--<div class="col-md-2">-->
-      <!--Fax-->
-      <!--</div>-->
-      <!--<div class="col-md-2">-->
-      <!--Email-->
-      <!--</div>-->
-      <!--<div class="col-md-2">-->
-      <!--Extension-->
-      <!--</div>-->
-      <!--<div class="col-md-2">-->
-      <!--Modified-->
-      <!--</div>-->
-      <!--</li>-->
-      <!--</ul>-->
-
-    </div>
-    <!--<div *ngIf="rs.checkDisplay=='list'" class="table-responsive table-body">-->
-      <!--<ul class="products-list product-list-in-box">-->
-        <!--<li *ngFor="let adjustor of rs.getadjustors()" class="item row">-->
-          <!--<ng-container *ngIf="adjustor.adjustorName!=''">-->
-            <!--<div class="col-md-2">-->
-
-              <!--{{adjustor?.adjustorName}}-->
-            <!--</div>-->
-            <!--<div class="col-md-2">-->
-              <!--{{adjustor.phoneNumber}}-->
-            <!--</div>-->
-            <!--<div class="col-md-2">-->
-              <!--{{adjustor.faxNumber}}-->
-            <!--</div>-->
-            <!--<div class="col-md-2">-->
-              <!--{{adjustor.emailAddress}}-->
-            <!--</div>-->
-            <!--<div class="col-md-2">-->
-              <!--{{adjustor.extension}}-->
-            <!--</div>-->
-            <!--<div class="col-md-2">-->
-              <!--{{adjustor.modifiedBy }}-->
-            <!--</div>-->
-          <!--</ng-container>-->
-        <!--</li>-->
-      <!--</ul>-->
-    <!--</div>-->
-
     <div class="btn-group pagination-row">
       <button (click)="prev()" [disabled]="rs.currentPage<=1" class="btn btn-default  btn-md" type="button">Prev
       </button>
@@ -131,5 +76,8 @@
         </div>
       </div>
     </div>
-  </div>
 
+
+
+  </div>
+</div>
