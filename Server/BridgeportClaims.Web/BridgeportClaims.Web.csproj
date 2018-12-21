@@ -397,6 +397,7 @@
     <Compile Include="Attributes\NoCacheAttribute.cs" />
     <Compile Include="Controllers\AdjustorsController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AttorneyController.cs" />
     <Compile Include="Controllers\CacheController.cs" />
     <Compile Include="Controllers\ClaimNotesController.cs" />
     <Compile Include="Controllers\ClaimsController.cs" />
@@ -438,7 +439,7 @@
     <Compile Include="Middleware\BridgeportClaimsMiddleware.cs" />
     <Compile Include="Middleware\GlobalExceptionMiddleware.cs" />
     <Compile Include="Models\AccountsReceivableViewModel.cs" />
-    <Compile Include="Models\AdjustorModel.cs" />
+    <Compile Include="Models\AbstractSearchModel.cs" />
     <Compile Include="Models\ArchiveUnpaidScriptModel.cs" />
     <Compile Include="Models\CarriersModel.cs" />
     <Compile Include="Models\ClaimDocumentViewModel.cs" />

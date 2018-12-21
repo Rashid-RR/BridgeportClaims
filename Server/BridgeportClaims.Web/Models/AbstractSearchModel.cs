@@ -1,6 +1,6 @@
 ﻿namespace BridgeportClaims.Web.Models
 {
-    public sealed class AdjustorModel : PaginationModel
+    public sealed class AbstractSearchModel : PaginationModel
     {
         public string SearchText { get; set; }
     }

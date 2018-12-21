@@ -25,6 +25,7 @@ using BridgeportClaims.Web.EmailTemplates;
 using BridgeportClaims.CsvReader.CsvReaders;
 using BridgeportClaims.Data.DataProviders.AdjustorSearches;
 using BridgeportClaims.Data.DataProviders.AdminFunctions;
+using BridgeportClaims.Data.DataProviders.AttorneyProviders;
 using BridgeportClaims.Data.DataProviders.ClaimImages;
 using BridgeportClaims.Data.DataProviders.ClaimsEdit;
 using BridgeportClaims.Data.DataProviders.ClaimSearches;
@@ -80,6 +81,7 @@ namespace BridgeportClaims.Web.IoCConfig
             builder.RegisterType<DocumentDataProvider>().As<IDocumentDataProvider>().InstancePerRequest();
             builder.RegisterType<DocumentIndexProvider>().As<IDocumentIndexProvider>().InstancePerRequest();
             builder.RegisterType<ClaimSearchProvider>().As<IClaimSearchProvider>().InstancePerRequest();
+            builder.RegisterType<AttorneyProvider>().As<IAttorneyProvider>().InstancePerRequest();
             builder.RegisterType<DecisionTreeDataProvider>().As<IDecisionTreeDataProvider>().InstancePerRequest();
             builder.RegisterType<CachingClearingService>().As<ICachingClearingService>().InstancePerRequest();
             builder.RegisterType<ClaimImageProvider>().As<IClaimImageProvider>().InstancePerRequest();
