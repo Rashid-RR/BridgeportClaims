@@ -162,3 +162,9 @@ thead span {
 .pagination-row  .input-group .form-control{
   height:28px;
 }
+.box-body{
+  padding: unset!important;
+}
+/*.expanded{*/
+  /*height: calc(100vh - 296px);*/
+/*}*/

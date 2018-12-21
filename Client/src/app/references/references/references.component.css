@@ -47,3 +47,6 @@
 .white {
   color: #ffffff;
 }
+.box-body{
+  padding: unset!important;
+}
