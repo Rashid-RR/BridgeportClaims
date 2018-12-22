@@ -441,6 +441,7 @@
     <Compile Include="Models\AccountsReceivableViewModel.cs" />
     <Compile Include="Models\AbstractSearchModel.cs" />
     <Compile Include="Models\ArchiveUnpaidScriptModel.cs" />
+    <Compile Include="Models\AttorneyModel.cs" />
     <Compile Include="Models\CarriersModel.cs" />
     <Compile Include="Models\ClaimDocumentViewModel.cs" />
     <Compile Include="Models\ClaimEditModel.cs" />
