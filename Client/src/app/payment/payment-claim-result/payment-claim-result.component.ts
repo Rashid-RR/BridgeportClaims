@@ -15,8 +15,8 @@ declare var jQuery: any;
   styleUrls: ['./payment-claim-result.component.css']
 })
 export class PaymentClaimResultComponent implements OnInit, AfterViewInit {
-  checkAll: Boolean= false;
-  selectMultiple: Boolean= false;
+  checkAll: Boolean = false;
+  selectMultiple: Boolean = false;
   lastSelectedIndex: number;
   @ViewChild('claimsTable') table: ElementRef;
 
@@ -30,53 +30,53 @@ export class PaymentClaimResultComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
       this.rd.listen(this.table.nativeElement, 'keydown', ($event) => {
-        if ($event.keyCode === 16){
+        if ($event.keyCode === 16) {
           this.selectMultiple = true;
         }
       });
       this.rd.listen(this.table.nativeElement, 'keyup', ($event) => {
-        if ($event.keyCode === 16){
+        if ($event.keyCode === 16) {
           this.selectMultiple = false;
         }
       });
 
   }
-  select(claim: PaymentClaim, $event, index: number){
+  select(claim: PaymentClaim, $event, index: number) {
     claim.selected = $event.target.checked;
-    if (this.selectMultiple){
-      for (let i = this.lastSelectedIndex; i < index; i++){
-          try{
+    if (this.selectMultiple) {
+      for (let i = this.lastSelectedIndex; i < index; i++) {
+          try {
             const c = jQuery('#row' + i).attr('claim');
             const claim = JSON.parse(c);
             const data = this.paymentService.rawClaimsData.get(claim.claimId);
             data.selected = true;
-          }catch (e){}
+          } catch (e) {}
       }
     }
     this.lastSelectedIndex = index;
   }
 
 
-  showNotes(){
+  showNotes() {
 
   }
-  activateClaimCheckBoxes(){
+  activateClaimCheckBoxes() {
     jQuery('#claimsCheckBox').click();
   }
-  claimsCheckBox($event){
+  claimsCheckBox($event) {
      this.checkAll =  $event.target.checked;
-     if (this.checkAll){
+     if (this.checkAll) {
        this.paymentService.claimsData.forEach(claim => {
          claim.selected = false;
        });
-     }else{
+     } else {
        this.paymentService.claimsData.forEach(claim => {
          claim.selected = false;
        });
      }
   }
-  prescriptionsCheckBox(invoice: any, $event){
-      if ($event.target.checked){
+  prescriptionsCheckBox(invoice: any, $event) {
+      if ($event.target.checked) {
 
       }
   }

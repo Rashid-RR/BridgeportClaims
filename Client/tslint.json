@@ -86,7 +86,7 @@
         "variable-declaration": "nospace"
       }
     ],
-    "typeof-compare": true,
+    "typeof-compare": false, // deprecated.
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [

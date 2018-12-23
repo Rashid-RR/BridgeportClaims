@@ -41,7 +41,7 @@ export class DuplicateClaimManualComponent implements OnInit {
     this.deselectAll();
     try { swal.clickCancel(); } catch (e) { }
   }
-  checked(field: string, side: string){
+  checked(field: string, side: string) {
     return this.mergedClaim.hasOwnProperty(field) && this.mergedClaim[field] === this.comparisonClaims[`${side}${field}`];
   }
   save() {
@@ -55,24 +55,24 @@ export class DuplicateClaimManualComponent implements OnInit {
     form.PatientId = form.PatientName === this.comparisonClaims.leftPatientName ? this.comparisonClaims.leftPatientId : (form.PatientName ? this.comparisonClaims.rightPatientId : undefined);
     form.PayorId = form.Carrier === this.comparisonClaims.leftCarrier ? this.comparisonClaims.leftPayorId : (form.Carrier ? this.comparisonClaims.rightPayorId : undefined);
     // form.PersonCode = this.reportloader.selectedClaims[0].personCode;
-    if (!this.comparisonClaims.leftClaimFlex2Id && !this.comparisonClaims.rightClaimFlex2Id){
+    if (!this.comparisonClaims.leftClaimFlex2Id && !this.comparisonClaims.rightClaimFlex2Id) {
       form['ClaimFlex2Id'] = null;
-    }else  if (form.ClaimFlex2Id === undefined){
+    } else  if (form.ClaimFlex2Id === undefined) {
       delete form['ClaimFlex2Id'];
     }
-    if (!this.comparisonClaims.leftAdjustorId && !this.comparisonClaims.rightAdjustorId){
+    if (!this.comparisonClaims.leftAdjustorId && !this.comparisonClaims.rightAdjustorId) {
       form['AdjustorId'] = null;
-    }else if (form.AdjustorId === undefined){
+    } else if (form.AdjustorId === undefined) {
       delete form['AdjustorId'];
     }
-    if (!this.comparisonClaims.leftPatientId && !this.comparisonClaims.rightPatientId){
+    if (!this.comparisonClaims.leftPatientId && !this.comparisonClaims.rightPatientId) {
       form['PatientId'] = null;
-    }else if (form.PatientId === undefined){
+    } else if (form.PatientId === undefined) {
       delete form['PatientId'];
     }
-    if (!this.comparisonClaims.leftPayorId && !this.comparisonClaims.rightPayorId){
+    if (!this.comparisonClaims.leftPayorId && !this.comparisonClaims.rightPayorId) {
       form['PayorId'] = null;
-    }else if (form.PayorId === undefined){
+    } else if (form.PayorId === undefined) {
       delete form['PayorId'];
     }
     delete form.PatientName;

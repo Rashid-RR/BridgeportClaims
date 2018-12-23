@@ -335,7 +335,7 @@ export class UsersComponent implements OnInit {
 
     this.allUsers = this.tempAllUsers;
     if (id === -1) {
-      for (let user in this.allUsers) {
+      for (const user in this.allUsers) {
         this.selectedUsers.push(this.allUsers[user]);
       }
       this.allUsers = [];
@@ -359,7 +359,7 @@ export class UsersComponent implements OnInit {
 
   remoevUser(id) {
     if (id === -1) {
-      for (let user in this.selectedUsers) {
+      for (const user in this.selectedUsers) {
         this.allUsers.push(this.selectedUsers[user]);
       }
       this.selectedUsers = [];
@@ -408,7 +408,7 @@ export class UsersComponent implements OnInit {
 
   saveAssignment() {
     const payorId = [];
-    for (let payor in this.selectedUsers) {
+    for (const payor in this.selectedUsers) {
       payorId.push(this.selectedUsers[payor].payorId);
     }
 

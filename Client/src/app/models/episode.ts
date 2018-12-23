@@ -6,11 +6,11 @@ export class Episode {
   episodeId: Number;
   episodeTypeId: String;
   claimId: Number;
-  owner:string;
-  type:String;
-  diaryId?:number;
-  constructor(date: Date, by: String, note: String, episodeId: Number, episodeTypeId: String,type?:String,
-    diaryId?:number,owner?:string) {
+  owner: string;
+  type: String;
+  diaryId?: number;
+  constructor(date: Date, by: String, note: String, episodeId: Number, episodeTypeId: String, type?: String,
+    diaryId?: number, owner?: string) {
     this.date = date;
     this.by = by;
     this.type = type;

@@ -1224,7 +1224,7 @@ export class HttpService {
 
 
 
-  getadjustorname(data:any): Observable<any> {
+  getadjustorname(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/adjustors/get-adjustors', data)
       .catch(err => {
         this.handleResponseError(err);

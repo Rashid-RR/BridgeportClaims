@@ -34,7 +34,7 @@ declare var $: any;
 export class PaymentComponent implements OnInit {
 
   over: boolean[];
-  flag='test'
+  flag = 'test';
   tabState = 'in';
   documentId: any;
   checkNumber: any;
@@ -135,8 +135,7 @@ export class PaymentComponent implements OnInit {
         // We get dialog result
         if (isConfirmed) {
           this.paymentService.deletePayment({ sessionId: this.paymentService.paymentPosting.sessionId, id: prescription.id, prescriptionId: prescription.prescriptionId });
-        }
-        else {
+        } else {
 
         }
       });

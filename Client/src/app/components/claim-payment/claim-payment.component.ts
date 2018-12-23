@@ -170,8 +170,7 @@ export class ClaimPaymentComponent implements OnInit {
             this.toast.error(error.message);
             this.claimManager.loading = false;
           });
-        }
-        else { }
+        } else { }
       });
   }
 

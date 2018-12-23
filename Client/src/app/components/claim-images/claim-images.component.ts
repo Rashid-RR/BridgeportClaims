@@ -121,8 +121,7 @@ export class ClaimImagesComponent implements OnInit {
             this.toast.error(error.message);
             this.claimManager.loading = false;
           });
-        }
-        else { }
+        } else { }
       });
   }
   removeImage(image: ClaimImage) {

@@ -4,11 +4,11 @@ export class WindowConfig {
 
     keyboard: Array<number> | number;
     forAny: any;
-    navbarHeight= 0;
-    minusLeft= 7;
-    minusTop= 3;
-    minusWidth= 14;
-    minusHeight= 44;
+    navbarHeight = 0;
+    minusLeft = 7;
+    minusTop = 3;
+    minusWidth = 14;
+    minusHeight = 44;
     constructor(public Title: string = '',
                 public size: Size = new Size(300, 150),
                 public minWidth: number = 200,
@@ -21,9 +21,7 @@ export class WindowConfig {
                 public position: CustomPosition = new CustomPosition(50, 50),
 
                // public attachToBody: boolean = false,
-                keyboard: Array<number> | number = undefined )
-
-    {
+                keyboard: Array<number> | number = undefined ) {
         if (keyboard === undefined) {
             keyboard = [27];
         } else if ((keyboard) && !Array.isArray(<Array<number>>keyboard)) {

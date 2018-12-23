@@ -18,16 +18,14 @@ export class WindowInstance {
         this._backdropRef = value;
     }
 
-    get backdropRef()
-    {
+    get backdropRef() {
         return this._backdropRef;
     }
     set bootstrapRef(value: ComponentRef<any>) {
         this._bootstrapRef = value;
     }
 
-    get bootstrapRef()
-    {
+    get bootstrapRef() {
         return this._bootstrapRef;
     }
 

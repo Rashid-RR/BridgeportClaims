@@ -18,7 +18,7 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
   date: string;
   fileName: string;
   submitted = false;
- public flag= 'File Name';
+ public flag = 'File Name';
 
   constructor(
     public ds: DocumentManagerService,
@@ -66,8 +66,7 @@ export class PaymentCheckFilterComponent implements OnInit, AfterViewInit {
       this.ds.archivedChecksData.archived = null;
       this.ds.searchCheckes();
 
-    }
-    else {
+    } else {
       this.ds.searchCheckes();
 
     }

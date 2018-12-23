@@ -62,7 +62,7 @@ declare var $: any;
   .auto-complete > input {
     outline: none;
     border: 0;
-    padding: 2px; 
+    padding: 2px;
     box-sizing: border-box;
     background-clip: content-box;
   }
@@ -97,6 +97,16 @@ declare var $: any;
   encapsulation: ViewEncapsulation.None
 })
 export class AutoCompleteComponent implements OnInit {
+;
+;
+
+  get emptyList(): boolean {
+    return !(
+      this.isLoading ||
+      (this.minCharsEntered && !this.isLoading && !this.filteredList.length) ||
+      (this.filteredList.length)
+    );
+  }
 
   /**
    * public input properties
@@ -139,6 +149,14 @@ export class AutoCompleteComponent implements OnInit {
   itemIndex: number = null;
   keyword: string;
   public filteredList: any[] = [];
+
+  private delay = (function () {
+    let timer = 0;
+    return function (callback: any, ms: number) {
+      clearTimeout(timer);
+      timer = setTimeout(callback, ms);
+    };
+  })();
 
   isSrcArr(): boolean {
     return (this.source.constructor.name === 'Array');
@@ -284,8 +302,7 @@ export class AutoCompleteComponent implements OnInit {
     } else {
       this.customSelected.emit(this.keyword);
     }
-  };
-
+  }
   enterText(data: any) {
     this.textEntered.emit(data);
   }
@@ -296,8 +313,7 @@ export class AutoCompleteComponent implements OnInit {
     }
 
     this.hideDropdownList();
-  };
-
+  }
   inputElKeyHandler = (evt: any) => {
     const totalNumItem = this.filteredList.length;
 
@@ -350,21 +366,5 @@ export class AutoCompleteComponent implements OnInit {
       ul.scrollTop = scrollOffset;
     }
   }
-
-  get emptyList(): boolean {
-    return !(
-      this.isLoading ||
-      (this.minCharsEntered && !this.isLoading && !this.filteredList.length) ||
-      (this.filteredList.length)
-    );
-  }
-
-  private delay = (function () {
-    let timer = 0;
-    return function (callback: any, ms: number) {
-      clearTimeout(timer);
-      timer = setTimeout(callback, ms);
-    };
-  })();
 
 }

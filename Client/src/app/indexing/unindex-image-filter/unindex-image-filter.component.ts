@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 // Services
-import { DocumentManagerService } from "../../services/document-manager.service";
+import { DocumentManagerService } from '../../services/document-manager.service';
 declare var $: any;
 
 @Component({
@@ -16,7 +16,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
 
   date: string;
   fileName: string;
-  submitted: boolean = false;
+  submitted = false;
   constructor(
     public ds: DocumentManagerService,
     private dp: DatePipe,
@@ -34,21 +34,21 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
       autoclose: true
     });
     this.route.params.subscribe(params => {
-      if (params['date'] && params['date'] !='invoice') {
-        this.date = params['date'].replace(/\-/g, "/");
+      if (params['date'] && params['date'] != 'invoice') {
+        this.date = params['date'].replace(/\-/g, '/');
         this.ds.data.date = this.date;
         this.zone.run(() => {
           this.ds.search();
-        })
+        });
       }
     });
   }
 
   search() {
-    let date = this.dp.transform($('#date').val(), "MM/dd/yyyy");
-    //if(this.startDate && this.endDate){
-    this.ds.data.date = date || null
-    this.ds.data.fileName = this.fileName || null
+    const date = this.dp.transform($('#date').val(), 'MM/dd/yyyy');
+    // if(this.startDate && this.endDate){
+    this.ds.data.date = date || null;
+    this.ds.data.fileName = this.fileName || null;
     this.ds.search();
     /*  }else{
          this.toast.warning("Ensure you select both start date and end date");
@@ -62,7 +62,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
 
   clearDates() {
     $('#date').val('');
-    $('#archivedCheck').prop('checked',false);
+    $('#archivedCheck').prop('checked', false);
     this.fileName = '';
   }
 

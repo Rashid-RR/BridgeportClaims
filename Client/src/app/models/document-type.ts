@@ -1,4 +1,4 @@
-export interface DocumentType{
+export interface DocumentType {
     documentTypeId: any;
     typeName: string;
 }

@@ -11,8 +11,8 @@ import { FilterUserPipe } from '../user/list/filter-user.pipe';
 import { DiariesFilterPipe } from '../diaries/diary-results/diary-filter.pipe';
 import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
 import {
-  UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,InvoiceSearchComponent,
-   EpisodeNoteModalComponent,UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+  UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
+   EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
 } from '../components/components-barrel';
 import { ColumnSortDirective } from '../directives/column-sort.directive';
 import { TableSortDirective } from '../directives/table-sort.directive';
@@ -48,15 +48,15 @@ export class SafeUrlPipe implements PipeTransform {
     SweetAlert2Module.forRoot(),
   ],
   declarations: [
-    ConfirmComponent,BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
-    TableSortDirective, ColumnSortDirective,TextSelectDirective,DeleteIndexConfirmationComponent,
-    DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe,SafeStylePipe, SafeUrlPipe,FilterUserPipe,DiariesFilterPipe,
-    UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,InvoiceSearchComponent,
-     EpisodeNoteModalComponent,UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
+    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,
+    TableSortDirective, ColumnSortDirective, TextSelectDirective, DeleteIndexConfirmationComponent,
+    DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeStylePipe, SafeUrlPipe, FilterUserPipe, DiariesFilterPipe,
+    UnpaidScriptResultsComponent, UnpaidScriptSearchComponent, InvoiceSearchComponent,
+     EpisodeNoteModalComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
   ],
-  providers:[
+  providers: [
     WindowsInjetor,
-    DisplayRolesPipe,ArraySortPipe,SafeStylePipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe,FilterUserPipe,DiariesFilterPipe
+    DisplayRolesPipe, ArraySortPipe, SafeStylePipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe, FilterUserPipe, DiariesFilterPipe
   ],
   exports: [
     CommonModule,
@@ -65,14 +65,14 @@ export class SafeUrlPipe implements PipeTransform {
     AutoCompleteModule,
     ShContextMenuModule,
     SweetAlert2Module,
-    TableSortDirective, ColumnSortDirective,TextSelectDirective,
-    DisplayRolesPipe,ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe,SafeStylePipe,FilterUserPipe,DiariesFilterPipe,
+    TableSortDirective, ColumnSortDirective, TextSelectDirective,
+    DisplayRolesPipe, ArraySortPipe, PhonePipe, EpisodesFilterPipe, SafeUrlPipe, SafeStylePipe, FilterUserPipe, DiariesFilterPipe,
     UnpaidScriptResultsComponent, UnpaidScriptSearchComponent,
-    EpisodeNoteModalComponent,InvoiceSearchComponent,
+    EpisodeNoteModalComponent, InvoiceSearchComponent,
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
   ],
   entryComponents: [
-    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent,DeleteIndexConfirmationComponent
+    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent, DeleteIndexConfirmationComponent
   ],
 })
 export class SharedModule { }

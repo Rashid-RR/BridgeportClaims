@@ -2,20 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ToastsManager } from 'ng2-toastr';
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
-import { SortColumnInfo } from "../directives/table-sort.directive";
+import { SortColumnInfo } from '../directives/table-sort.directive';
 import { ArraySortPipe } from '../pipes/sort.pipe';
 import { Firewall } from '../interfaces/firewall';
 declare var $: any;
 @Injectable()
 export class FirewallService {
 
-  loading: boolean = false;
+  loading = false;
   firewalls: Immutable.OrderedMap<any, Firewall> = Immutable.OrderedMap<Number, Firewall>();
   data: any = {};
-  display: string = "list";
+  display = 'list';
   goToPage: any = '';
   totalRowCount: number;
   form: FormGroup;
@@ -28,8 +28,8 @@ export class FirewallService {
       FirewallTypeId: null,
       OwnerID: null,
       resolved: false,
-      sortColumn: "Created",
-      sortDirection: "DESC",
+      sortColumn: 'Created',
+      sortDirection: 'DESC',
       pageNumber: 1,
       pageSize: 30
     };
@@ -79,7 +79,7 @@ export class FirewallService {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing
+      const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
 
       if (next) {
         data.pageNumber++;
@@ -124,8 +124,8 @@ export class FirewallService {
     }
   }
   save() {
-    this.form.controls['startIpAddress'].setValue($('#startIpAddress').val())
-    this.form.controls['endIpAddress'].setValue($('#endIpAddress').val())
+    this.form.controls['startIpAddress'].setValue($('#startIpAddress').val());
+    this.form.controls['endIpAddress'].setValue($('#endIpAddress').val());
     if (!this.form.valid) {
       if (this.form.controls['ruleName'].errors && this.form.controls['ruleName'].errors.pattern) {
         this.toast.warning('Rule Name must be alphanumeric only');
@@ -136,7 +136,7 @@ export class FirewallService {
       this.loading = true;
       this.http.createFirewallSetting(this.form.value)
         .subscribe((result: any) => {
-          let form = this.form.value;
+          const form = this.form.value;
           this.firewalls = this.firewalls.set(form.ruleName, form);
           this.loading = false;
           this.toast.success(result.message);

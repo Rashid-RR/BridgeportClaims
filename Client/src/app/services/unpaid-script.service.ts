@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
-import { Payor } from "../models/payor"
+import { Payor } from '../models/payor';
 import { ToastsManager } from 'ng2-toastr';
 import * as Immutable from 'immutable';
 import { Subject } from 'rxjs/Subject';
-import { SortColumnInfo } from "../directives/table-sort.directive";
+import { SortColumnInfo } from '../directives/table-sort.directive';
 
 import { UnpaidScript } from '../models/unpaid-script';
 @Injectable()
@@ -15,9 +15,9 @@ export class UnpaidScriptService {
   unpaidscripts: Immutable.OrderedMap<Number, UnpaidScript> = Immutable.OrderedMap<Number, UnpaidScript>();
   data: any = {};
   totalRowCount: number;
-  isArchived: boolean = false;
+  isArchived = false;
   payors: Array<Payor> = [];
-  pageSize: number = 50;
+  pageSize = 50;
   payorListReady = new Subject<any>();
   constructor(private http: HttpService, private events: EventsService, private toast: ToastsManager) {
     this.data = {
@@ -31,14 +31,14 @@ export class UnpaidScriptService {
       pageSize: 30
     };
   }
-  getPayors(pageNumber:number){
+  getPayors(pageNumber: number) {
     this.loading = true;
-    this.http.getPayorList(pageNumber,5000).map(res=>{this.loading = false;return res;}).subscribe(result=>{
+    this.http.getPayorList(pageNumber, 5000).map(res => {this.loading = false; return res; }).subscribe(result => {
           this.payors = result;
           this.payorListReady.next();
-      },err=>{
+      }, err => {
         this.payorListReady.next();
-      })
+      });
   }
 
   refresh() {
@@ -75,7 +75,7 @@ export class UnpaidScriptService {
       this.toast.warning('Please populate at least one search field.');
     } else {
       this.loading = true;
-      let data = JSON.parse(JSON.stringify(this.data)); //copy data instead of memory referencing      
+      const data = JSON.parse(JSON.stringify(this.data)); // copy data instead of memory referencing
       if (next) {
         data.page++;
       }
@@ -88,7 +88,7 @@ export class UnpaidScriptService {
       this.http.unpaidScriptsList(data)
         .subscribe((result: any) => {
           this.loading = false;
-          this.isArchived=data.isArchived;
+          this.isArchived = data.isArchived;
           this.totalRowCount = result.unpaidScripts.totalRowCount || result.totalRowCount;
           this.unpaidscripts = Immutable.OrderedMap<Number, UnpaidScript>();
           this.payorListReady.next();

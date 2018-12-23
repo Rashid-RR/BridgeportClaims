@@ -8,7 +8,7 @@ declare var $: any;
   templateUrl: './skipped-payment-search.component.html',
   styleUrls: ['./skipped-payment-search.component.css']
 })
-export class SkippedPaymentSearchComponent implements OnInit , AfterViewInit{
+export class SkippedPaymentSearchComponent implements OnInit , AfterViewInit {
 
   constructor(public skipped: SkippedPaymentService, ) { }
 
@@ -26,11 +26,11 @@ export class SkippedPaymentSearchComponent implements OnInit , AfterViewInit{
   filterArchive($event) {
     this.skipped.data.archived = $event.target.checked;
   }
-  filter(){
+  filter() {
     this.skipped.data.payorIds = ($('#payorSelection').val() || undefined);
     this.skipped.fetchSkippedPayReport();
   }
-  clear(){
+  clear() {
     $('#payorSelection').val(null).trigger('change');
     this.skipped.data.archived = false;
     $('input#archivedCheck').attr('checked', false).trigger('change');

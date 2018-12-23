@@ -7,7 +7,7 @@ export class FilterUserPipe implements PipeTransform {
 
   transform(users: any, searchText: any, isAdmin: any): any {
 
-    if (searchText == null && (isAdmin == null || !isAdmin)) return users;
+    if (searchText == null && (isAdmin == null || !isAdmin)) { return users; }
     return users.filter((user) => {
       if (isAdmin && searchText == null) {
         return (user.admin);

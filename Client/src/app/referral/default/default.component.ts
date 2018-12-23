@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
-import { HttpService } from "../../services/http-service";
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpService } from '../../services/http-service';
 import { ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 
@@ -14,7 +14,7 @@ declare var $: any;
 })
 export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   form: FormGroup;
-  submitted: boolean = false;
+  submitted = false;
   states: any[] = [];
   constructor(
     private dp: DatePipe,
@@ -30,7 +30,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
       firstName: [null, Validators.compose([Validators.required])],
       dateOfBirth: [null, Validators.compose([Validators.required])],
       injuryDate: [null, Validators.compose([Validators.required])],
-      notes: [null],      
+      notes: [null],
       eligibilityStart: [null],
       eligibilityEnd: [null],
       address1: [null, Validators.compose([Validators.required])],
@@ -51,28 +51,28 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
     // Date picker
-    $('#eligibilityStart').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    $('#eligibilityStart').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
     .on('change', (ev) => {
       this.form.controls.eligibilityStart.setValue(ev.target.value);
     });
-    $('#eligibilityEnd').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    $('#eligibilityEnd').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
     .on('change', (ev) => {
       this.form.controls.eligibilityEnd.setValue(ev.target.value);
     });
-    $('#dateOfBirth').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    $('#dateOfBirth').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
     .on('change', (ev) => {
       this.form.controls.dateOfBirth.setValue(ev.target.value);
     });
-    $('#injuryDate').inputmask("mm/dd/yyyy", { "placeholder": "mm/dd/yyyy" })
+    $('#injuryDate').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
     .on('change', (ev) => {
       this.form.controls.injuryDate.setValue(ev.target.value);
     });
     $('#patientPhone').inputmask().on('change', (ev) => {
-      let val=ev.target.value.replace(/[()-\s]/g,'');
+      const val = ev.target.value.replace(/[()-\s]/g, '');
       this.form.controls.patientPhone.setValue(val);
     });
     $('#adjustorPhone').inputmask().on('change', (ev) => {
-      let val=ev.target.value.replace(/[()-\s]/g,'');
+      const val = ev.target.value.replace(/[()-\s]/g, '');
       this.form.controls.adjustorPhone.setValue(val);
     });
   }
@@ -82,22 +82,22 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
     }, () => { });
   }
   updateDate(field: string) {
-    this.form.controls[field].setValue(this.dp.transform($(`#${field}`).val(), "MM/dd/yyyy"));
+    this.form.controls[field].setValue(this.dp.transform($(`#${field}`).val(), 'MM/dd/yyyy'));
   }
   submit() {
     if (this.form.valid) {
       this.submitted = true;
       try {
         this.http.insertReferral(this.form.value).subscribe((res) => {
-          this.toast.success(res.message || "Referral successfully added", null,
+          this.toast.success(res.message || 'Referral successfully added', null,
             { toastLife: 10000 });
           this.submitted = false;
           this.reset();
         }, re => {
-          let err = re.error;
+          const err = re.error;
           this.toast.error(err.message);
           this.submitted = false;
-        })
+        });
       } catch (e) {
         this.submitted = false;
       } finally {

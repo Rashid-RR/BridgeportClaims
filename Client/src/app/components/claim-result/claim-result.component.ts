@@ -188,7 +188,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
         for (let i = this.lastSelectedIndex; i < index; i++) {
           try {
             const c = $('#row' + i).attr('claim');
-            let claim = JSON.parse(c);
+            const claim = JSON.parse(c);
             const data = this.claimManager.selectedClaims.find(cl => cl.claimId === claim.claimId);
             data.selected = true;
           } catch (e) { }
@@ -330,7 +330,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }).on('change', () => {
       const data = $('#eadjustorSelection option:selected').val();
       this.adjustorId = $('#eadjustorSelection option:selected').text();
-      let val = data === 'null' ? null : data;
+      const val = data === 'null' ? null : data;
       this.form.controls['adjustorId'].setValue(val);
     });
     $('#eCarrierSelection').select2({
@@ -356,7 +356,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     }).on('change', () => {
       const data = $('#eCarrierSelection option:selected').val();
       this.payorId = $('#eCarrierSelection option:selected').text();
-      let val = data === 'null' ? null : data;
+      const val = data === 'null' ? null : data;
       this.form.controls['payorId'].setValue(val);
     });
   }
@@ -381,6 +381,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   }
 
   save() {
+    // tslint:disable-next-line:prefer-const
     let key: any;
     this.form.value.adjustorPhone = $('#adjustorPhone').val() || '';
     this.form.value.adjustorFax = $('#adjustorFax').val() || '';
@@ -416,7 +417,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.form.controls['adjustorExtension'].errors.maxlength) {// Check for the required payorId
       this.toast.warning('Adjustor Extension cannot have more than 10 characters');
     } else {
-      let form: any = {};
+      const form: any = {};
       form.claimId = this.form.value.claimId;
       // check nullable values.
       form.claimFlex2Id = this.form.value.claimFlex2Id !== this.lastForm.claimFlex2Id ? (this.form.value.claimFlex2Id === null ? null : Number(this.form.value.claimFlex2Id)) : undefined;

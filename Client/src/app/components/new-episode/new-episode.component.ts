@@ -42,14 +42,14 @@ export class NewEpisodeComponent implements OnInit {
       setTimeout(() => {
         this.dropdownVisible = false;
       }, 100);
-    }else if (!this.episode && this.claimManager.pharmacyName && $event.nabp) {
+    } else if (!this.episode && this.claimManager.pharmacyName && $event.nabp) {
       this.claimManager.episodeForm.controls['pharmacyNabp'].setValue($event.nabp);
       setTimeout(() => {
         this.dropdownVisible = false;
       }, 100);
     }
   }
-  get auth(){
+  get auth() {
     const user = localStorage.getItem('user');
     try {
       const us = JSON.parse(user);

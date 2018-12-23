@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { IndexingRoutes } from "./indexing.routing"
+import { IndexingRoutes } from './indexing.routing';
 import { UnindexedImageComponent } from './unindex-image/unindex-image.component';
 import { UnindexedInvoiceComponent } from './unindexed-invoice/unindexed-invoice.component';
 
@@ -30,8 +30,8 @@ import { UnindexedInvalidCheckFilterComponent } from './unindexed-invalid-check-
     RouterModule.forChild(IndexingRoutes),
   ],
   declarations: [
-    UnindexedImageFileComponent,UnindexedImageFileListComponent,IndexFileComponent,UnindexedImageComponent,UnindexedImageFilterComponent,UnindexedImageListComponent, ImagesInvoiceComponent,UnindexedInvalidCheckListComponent,UnindexedInvalidCheckFilterComponent,
-    UnindexedInvoiceFileListComponent,UnindexedInvoiceFilterComponent,UnindexedInvoiceListComponent,UnindexedInvoiceFileListComponent,UnindexedInvoiceComponent, UnindexedCheckComponent, UnindexedCheckListComponent, UnindexedCheckFilterComponent
+    UnindexedImageFileComponent, UnindexedImageFileListComponent, IndexFileComponent, UnindexedImageComponent, UnindexedImageFilterComponent, UnindexedImageListComponent, ImagesInvoiceComponent, UnindexedInvalidCheckListComponent, UnindexedInvalidCheckFilterComponent,
+    UnindexedInvoiceFileListComponent, UnindexedInvoiceFilterComponent, UnindexedInvoiceListComponent, UnindexedInvoiceFileListComponent, UnindexedInvoiceComponent, UnindexedCheckComponent, UnindexedCheckListComponent, UnindexedCheckFilterComponent
   ]
 })
 export class IndexingModule { }

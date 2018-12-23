@@ -55,13 +55,13 @@ export class NotificationComponent implements OnInit {
     }
   }
   saveNotification(n: any) {
-    if (this.form.get('letterName').value){
+    if (this.form.get('letterName').value) {
       this.loadingNotification = true;
       this.http.saveLetterNotifications(this.form.value).single().subscribe(res => {
           this.toast.success('Letter name successfully updated');
           this.loadingNotification = false;
-          for (let i = 0; i < this.notifications.length; i++){
-            if (this.notifications[i].notificationId === n.notificationId){
+          for (let i = 0; i < this.notifications.length; i++) {
+            if (this.notifications[i].notificationId === n.notificationId) {
               this.notifications.splice(i, 1);
             }
           }

@@ -1,10 +1,10 @@
 import { Component, Input, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EventsService } from "../../services/events-service"
-import { DocumentManagerService } from "../../services/document-manager.service";
+import { EventsService } from '../../services/events-service';
+import { DocumentManagerService } from '../../services/document-manager.service';
 import { DocumentItem } from '../../models/document';
-import { HttpService } from "../../services/http-service";
+import { HttpService } from '../../services/http-service';
 import { Toast, ToastsManager } from 'ng2-toastr';
 import { DatePipe } from '@angular/common';
 import { DialogService } from 'ng2-bootstrap-modal';
@@ -37,10 +37,10 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.form.patchValue({ invoiceNumber: this.invoiceNumber });
     if (!this.invoiceNumber) {
-      this.events.broadcast("reset-indexing-form", true);
+      this.events.broadcast('reset-indexing-form', true);
       this.ds.cancel('invoice');
     }
-    this.events.on("archived-image", (id: any) => {
+    this.events.on('archived-image', (id: any) => {
       this.ds.cancel('invoice');
     });
   }
@@ -54,7 +54,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
       try {
         this.http.checkInvoiceNumber(this.form.value).subscribe(check => {
           if (!check || (!check.documentId && !check.invoiceNumberIsAlreadyIndexed)) {
-            let data = this.form.value;
+            const data = this.form.value;
             data.documentId = this.ds.invoiceFile.documentId;
             this.ds.loading = true;
             this.http.saveInvoiceIndex(data).subscribe(res => {
@@ -68,17 +68,17 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
               this.ds.loading = false;
               this.ds.closeModal();
             }, requestError => {
-              let err = requestError.error;
+              const err = requestError.error;
               this.toast.error(err.Message);
               this.ds.loading = false;
-            })
+            });
           } else {
-            let doc: any = check;
+            const doc: any = check;
             this.ds.invoiceFile = doc;
             localStorage.setItem('file-' + doc.documentId, JSON.stringify(doc));
             this.ds.newInvoice = true;
             this.invoiceSwal.show().then((r) => { });
-            this.toast.warning("The Invoice # "+this.form.controls['invoiceNumber'].value+" has already been used. Here is the Invoice that it has been indexed with "+this.form.controls['invoiceNumber'].value+". If you Archive this invoice, then #"+this.form.controls['invoiceNumber'].value+" will be free to use for another invoice",null, { toastLife: 1210000, showCloseButton: true, positionClass: 'toast-top-center' })
+            this.toast.warning('The Invoice # ' + this.form.controls['invoiceNumber'].value + ' has already been used. Here is the Invoice that it has been indexed with ' + this.form.controls['invoiceNumber'].value + '. If you Archive this invoice, then #' + this.form.controls['invoiceNumber'].value + ' will be free to use for another invoice', null, { toastLife: 1210000, showCloseButton: true, positionClass: 'toast-top-center' })
             .then((toast: Toast) => {
               const toasts: Array<HTMLElement> = $('.toast-message');
               for (let i = 0; i < toasts.length; i++) {
@@ -91,26 +91,26 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
             });
             this.ds.loading = false;
           }
-        })
+        });
       } catch (e) {
         this.ds.loading = false;
       } finally {
 
       }
     } else {
-      let er = '';
+      const er = '';
       this.ds.loading = false;
       this.toast.warning(er, 'Please correct the folowing:', { enableHTML: true });
     }
   }
   archive() {
     const disposable = this.dialogService.addDialog(ConfirmComponent, {
-      title: "Archive Image",
-      message: "Are you sure you wish to archive " + (this.ds.invoiceFile.fileName || '') + "?"
+      title: 'Archive Image',
+      message: 'Are you sure you wish to archive ' + (this.ds.invoiceFile.fileName || '') + '?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.ds.archive(this.ds.invoiceFile.documentId,false,'searchInvoices');
+          this.ds.archive(this.ds.invoiceFile.documentId, false, 'searchInvoices');
         }
       });
   }

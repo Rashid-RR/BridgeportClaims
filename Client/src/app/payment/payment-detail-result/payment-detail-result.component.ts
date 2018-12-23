@@ -12,15 +12,15 @@ declare var jQuery: any;
   styleUrls: ['./payment-detail-result.component.css']
 })
 export class PaymentDetailedResultComponent implements OnInit, AfterViewInit {
-
- constructor(private rd: Renderer2, private ngZone: NgZone, public paymentService: PaymentService, private http: HttpService, private events: EventsService, private toast: ToastsManager) { }
-  checkAll: Boolean= false;
-  selectMultiple: Boolean= false;
+  checkAll: Boolean = false;
+  selectMultiple: Boolean = false;
   lastSelectedIndex: number;
   @ViewChild('prescriptionTable') table: ElementRef;
 
+ constructor(private rd: Renderer2, private ngZone: NgZone, public paymentService: PaymentService, private http: HttpService, private events: EventsService, private toast: ToastsManager) { }
+
   ngOnInit() { }
-   activateClaimCheckBoxes(){
+   activateClaimCheckBoxes() {
     jQuery('#claimsCheckBox').click();
   }
   select(p: any, $event, index) {
@@ -42,12 +42,12 @@ export class PaymentDetailedResultComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit() {
       this.rd.listen(this.table.nativeElement, 'keydown', ($event) => {
-        if ($event.keyCode === 16){
+        if ($event.keyCode === 16) {
           this.selectMultiple = true;
         }
       });
       this.rd.listen(this.table.nativeElement, 'keyup', ($event) => {
-        if ($event.keyCode === 16){
+        if ($event.keyCode === 16) {
           this.selectMultiple = false;
         }
       });
@@ -59,7 +59,7 @@ export class PaymentDetailedResultComponent implements OnInit, AfterViewInit {
        this.paymentService.claimsDetail.forEach(c => {
          c.selected = true;
        });
-     }else{
+     } else {
        this.paymentService.claimsDetail.forEach(c => {
          c.selected = false;
        });

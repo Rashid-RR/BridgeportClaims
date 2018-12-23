@@ -9,7 +9,7 @@ import { ReportLoaderService } from '../../services/services.barrel';
 })
 export class ReportComponent {
 
-  location: String= '';
+  location: String = '';
   constructor(public reportloader: ReportLoaderService) {
   }
 }
