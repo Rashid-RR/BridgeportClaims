@@ -17,6 +17,5 @@ namespace BridgeportClaims.Data.Dtos
         public string NodeDescription { get; set; }
         [Required]
         public int ParentTreeId { get; set; }
-        public IList<DecisionTreeDto> Children { get; set; }
     }
 }
