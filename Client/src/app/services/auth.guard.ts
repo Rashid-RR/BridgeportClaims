@@ -9,7 +9,8 @@ import { UserProfile } from '../models/profile';
 import { ProfileManager } from './profile-manager';
 import { EventsService } from './events-service';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/first'; // in imports
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanActivateChild, Resolve<UserProfile> {
