@@ -17,7 +17,7 @@ using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using NLog;
 using ServiceStack.Text;
-using AuthorizeAttribute = System.Web.Http.AuthorizeAttribute;
+using aa = System.Web.Http.AuthorizeAttribute;
 using cs = BridgeportClaims.Common.Config.ConfigService;
 
 namespace BridgeportClaims.Web
@@ -108,7 +108,7 @@ namespace BridgeportClaims.Web
                 "api/{controller}/{action}/{id}",
                 new { id = RouteParameter.Optional }
             );
-            config.Filters.Add(new AuthorizeAttribute());
+            config.Filters.Add(new aa());
             config.Formatters.RemoveAt(0);
             config.Formatters.Insert(0, new ServiceStackTextFormatter());
             JsConfig.EmitCamelCaseNames = true;
