@@ -23,7 +23,7 @@ AS BEGIN
 		[Address1] [varchar] (255) NULL,
 		[Address2] [varchar] (255) NULL,
 		[City] [varchar] (255) NULL,
-		[StateName] [int] NULL,
+		[StateName] [varchar] (64) NULL,
 		[PostalCode] [varchar] (255) NULL,
 		[PhoneNumber] [varchar] (30) NULL,
 		[FaxNumber] [varchar] (30) NULL,
@@ -82,4 +82,5 @@ AS BEGIN
 			 CASE WHEN @SortColumn = 'ModifiedBy' AND  @SortDirection = 'DESC' THEN [a].[ModifiedBy] END DESC
 	 OFFSET @PageSize * (@PageNumber - 1) ROWS FETCH NEXT @PageSize ROWS ONLY;
 END
+
 GO
