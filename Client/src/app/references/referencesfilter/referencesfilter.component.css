@@ -114,3 +114,7 @@ form .col-md-1:not(.no-padding){
   -webkit-box-align: center;
   align-items: center;
 }
+mat-form-field{
+  width: 98%;
+  top: -5px;
+}

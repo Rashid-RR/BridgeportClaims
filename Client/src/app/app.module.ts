@@ -80,8 +80,8 @@ import {OutstandingResultComponent} from './components/outstanding-result/outsta
 import {ClaimOutstandingComponent} from './components/claim-outstanding/claim-outstanding.component';
 import {StringService} from './services/string.service';
 import {ReferenceManagerService} from './services/reference-manager.service';
-
-import {} from '@angular/material';
+import {MaterialComponentsModule} from './material/material-components.module'
+import {MatFormFieldModule, MatInputModule} from '@angular/material';
 
 
 
@@ -108,6 +108,7 @@ import {} from '@angular/material';
   ],
   imports: [
     BrowserModule,
+
     BrowserAnimationsModule,
     SharedModule,
     HttpClientModule,
