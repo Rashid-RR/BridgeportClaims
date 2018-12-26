@@ -165,6 +165,6 @@ thead span {
 .box-body{
   padding: unset!important;
 }
-/*.expanded{*/
-  /*height: calc(100vh - 296px);*/
-/*}*/
+.expanded-custom{
+  height: calc(100vh - 290px);
+}
