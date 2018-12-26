@@ -6,7 +6,6 @@ using BridgeportClaims.Data.Trees;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;
-using ServiceStack;
 
 namespace BridgeportClaims.Web.Controllers
 {

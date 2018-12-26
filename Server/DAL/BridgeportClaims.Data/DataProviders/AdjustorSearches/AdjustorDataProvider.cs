@@ -95,5 +95,46 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
                 };
                 return adj;
             });
+
+        public AdjustorResultDto InsertAdjustor(string adjustorName, string phoneNumber,
+            string faxNumber, string emailAddress, string extension, string modifiedByUserId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[claims].[uspAdjustorInsert]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@AdjustorName", adjustorName, DbType.AnsiString, size: 255);
+                ps.Add("@PhoneNumber", phoneNumber, DbType.AnsiString, size: 30);
+                ps.Add("@FaxNumber", faxNumber, DbType.AnsiString, size: 30);
+                ps.Add("@EmailAddress", emailAddress, DbType.AnsiString, size: 155);
+                ps.Add("@Extension", extension, DbType.AnsiString, size: 10);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                return conn.Query<AdjustorResultDto>(sp, ps, commandType: CommandType.StoredProcedure)
+                    ?.SingleOrDefault();
+            });
+
+        public AdjustorResultDto UpdateAdjustor(int adjustorId, string adjustorName, string phoneNumber,
+            string faxNumber, string emailAddress, string extension, string modifiedByUserId)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[claims].[uspAdjustorUpdate]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@AdjustorID", adjustorId, DbType.Int32);
+                ps.Add("@AdjustorName", adjustorName, DbType.AnsiString, size: 255);
+                ps.Add("@PhoneNumber", phoneNumber, DbType.AnsiString, size: 30);
+                ps.Add("@FaxNumber", faxNumber, DbType.AnsiString, size: 30);
+                ps.Add("@EmailAddress", emailAddress, DbType.AnsiString, size: 155);
+                ps.Add("@Extension", extension, DbType.AnsiString, size: 10);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                return conn.Query<AdjustorResultDto>(sp, ps, commandType: CommandType.StoredProcedure)
+                    ?.SingleOrDefault();
+            });
     }
 }

@@ -3,6 +3,7 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.AdjustorSearches;
 using BridgeportClaims.Web.Models;
+using Microsoft.AspNet.Identity;
 using NLog;
 
 namespace BridgeportClaims.Web.Controllers
@@ -60,6 +61,42 @@ namespace BridgeportClaims.Web.Controllers
                 var results = _adjustorSearchProvider.Value.GetAdjustors(
                     model.SearchText, model.Page, model.PageSize, model.Sort, model.SortDirection);
                 return Ok(results);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("insert-adjustor")]
+        public IHttpActionResult InsertAdjustor(AdjustorModel model)
+        {
+            try
+            {
+                var modifiedByUserId = User.Identity.GetUserId();
+                var adjustor = _adjustorSearchProvider.Value.InsertAdjustor(model.AdjustorName, model.PhoneNumber, model.FaxNumber,
+                    model.EmailAddress, model.Extension, modifiedByUserId);
+                return Ok(adjustor);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("update-adjustor")]
+        public IHttpActionResult UpdateAdjustor(AdjustorModel model)
+        {
+            try
+            {
+                var modifiedByUserId = User.Identity.GetUserId();
+                var adjustor = _adjustorSearchProvider.Value.UpdateAdjustor(model.AdjustorId, model.AdjustorName, model.PhoneNumber, model.FaxNumber,
+                    model.EmailAddress, model.Extension, modifiedByUserId);
+                return Ok(adjustor);
             }
             catch (Exception ex)
             {
