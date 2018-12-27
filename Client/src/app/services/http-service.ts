@@ -1233,4 +1233,13 @@ export class HttpService {
     return s;
   }
 
+  getatorneyname(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/attorney/get-attorneys', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
 }

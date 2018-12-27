@@ -14,19 +14,14 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
   date: string;
   adjustorName: string;
-  typeSelected:string;
   adjustorModel: any = {};
   submitted = false;
   public flag = 'File Name';
   form: FormGroup;
-  types = ['Adjustor', 'Attorney'];
-  // types: Type[] = [
-  //   {value: 'adjustors', viewValue: 'Adjustors'}
-  // ];
+
   constructor(public rs: ReferenceManagerService,
               private formBuilder: FormBuilder,
               private toast: ToastsManager) {
-    this.typeSelected=this.types[0];
     this.form = this.formBuilder.group({
       adjustorName: [null, Validators.compose([Validators.required])],
       faxNumber: [null, Validators.compose([Validators.required])],
@@ -80,7 +75,12 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   changeSelection(event) {
-    console.log(event)
+    console.log(event);
+    this.rs.typeSelected = event.value;
+    this.rs.sortColumn = event.value.toLowerCase() + 'Name';
+    console.log(this.rs.sortColumn)
+    console.log(this.rs.typeSelected)
+    this.rs.getadjustorslist();
   }
 }
 
