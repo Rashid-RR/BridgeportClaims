@@ -2,6 +2,8 @@
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.AttorneyProviders;
+using BridgeportClaims.Data.DataProviders.Clients;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;
@@ -14,15 +16,34 @@ namespace BridgeportClaims.Web.Controllers
     {
         private readonly Lazy<IAttorneyProvider> _attorneyProvider;
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
+        private readonly Lazy<IClientDataProvider> _clientDataProvider;
 
-        public AttorneyController(Lazy<IAttorneyProvider> attorneyProvider)
+        public AttorneyController(Lazy<IAttorneyProvider> attorneyProvider,
+            Lazy<IClientDataProvider> clientDataProvider)
         {
             _attorneyProvider = attorneyProvider;
+            _clientDataProvider = clientDataProvider;
+        }
+
+        [HttpGet]
+        [Route("get-states")]
+        public IHttpActionResult GetStates()
+        {
+            try
+            {
+                var states = _clientDataProvider.Value.GetUsStates();
+                return Ok(states);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
         }
 
         [HttpPost]
         [Route("get-attorneys")]
-        public IHttpActionResult GetAdjustorNames(AbstractSearchModel model)
+        public IHttpActionResult GetAttorneys(AbstractSearchModel model)
         {
             try
             {
