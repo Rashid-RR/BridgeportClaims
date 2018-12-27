@@ -3,6 +3,7 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.AttorneyProviders;
 using BridgeportClaims.Data.DataProviders.Clients;
+using BridgeportClaims.Data.Dtos;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;
@@ -42,7 +43,7 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get-attorneys")]
-        public IHttpActionResult GetAdjustorNames(AbstractSearchModel model)
+        public IHttpActionResult GetAttorneys(AbstractSearchModel model)
         {
             try
             {
