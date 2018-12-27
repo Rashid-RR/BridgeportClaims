@@ -75,11 +75,8 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   changeSelection(event) {
-    console.log(event);
     this.rs.typeSelected = event.value;
     this.rs.sortColumn = event.value.toLowerCase() + 'Name';
-    console.log(this.rs.sortColumn)
-    console.log(this.rs.typeSelected)
     this.rs.getadjustorslist();
   }
 }

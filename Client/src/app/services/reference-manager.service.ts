@@ -46,7 +46,7 @@ export class ReferenceManagerService {
 
 
   getadjustorslist() {
-    {debugger}
+
     this.data.searchText = this.searchText;
     this.data.pageSize = this.pageSize;
     this.data.page = this.currentPage;
