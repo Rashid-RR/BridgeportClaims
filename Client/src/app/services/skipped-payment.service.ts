@@ -34,7 +34,7 @@ export class SkippedPaymentService {
     pageNumber: number;
     pageSize = 50;
     payorListReady = new Subject<any>();
-    archived= false;
+    archived = false;
     constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
         this.data = {
             page: 1,

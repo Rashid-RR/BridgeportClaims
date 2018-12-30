@@ -8,5 +8,9 @@ namespace BridgeportClaims.Data.DataProviders.AdjustorSearches
         IList<AdjustorSearchResultsDto> GetAdjustorSearchResults(string searchText);
         IEnumerable<AdjustorNameDto> GetAdjustorNames(string adjustorName);
         AdjustorDto GetAdjustors(string searchText, int page, int pageSize, string sort, string sortDirection);
+        AdjustorResultDto InsertAdjustor(string adjustorName, string phoneNumber,
+            string faxNumber, string emailAddress, string extension, string modifiedByUserId);
+        AdjustorResultDto UpdateAdjustor(int adjustorId, string adjustorName, string phoneNumber,
+            string faxNumber, string emailAddress, string extension, string modifiedByUserId);
     }
 }

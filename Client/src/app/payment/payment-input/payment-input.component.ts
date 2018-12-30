@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
-import { HttpService } from "../../services/http-service";
-import { PaymentService } from "../../services/payment-service";
-import { EventsService } from "../../services/events-service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpService } from '../../services/http-service';
+import { PaymentService } from '../../services/payment-service';
+import { EventsService } from '../../services/events-service';
 import { PaymentPosting } from '../../models/payment-posting';
 import { ToastsManager } from 'ng2-toastr';
 import { DecimalPipe } from '@angular/common';
-import { DialogService } from "ng2-bootstrap-modal";
+import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import * as Immutable from 'immutable';
 import { DetailedPaymentClaim } from '../../models/detailed-payment-claim';
@@ -25,7 +25,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
   submitted = false;
   disableCheckEntry = false;
   checkAmount = 0;
-  paymentamountRemaining: any
+  paymentamountRemaining: any;
   paymentSuspense: any;
   paymentClosed: any;
   documentId: any;
@@ -47,12 +47,12 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.subscribe(params => {
       if (params['documentId']) {
-        this.documentId = params['documentId']
+        this.documentId = params['documentId'];
         this.form.patchValue({ documentId: params['documentId'] });
         const file = localStorage.getItem('file-' + this.documentId);
         if (file) {
           try {
-            let doc = JSON.parse(file) as any;
+            const doc = JSON.parse(file) as any;
             this.form.patchValue({ fileName: doc.fileName, fileUrl: decodeURIComponent(doc.fileUrl) });
           } catch (e) { }
         }
@@ -62,7 +62,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
       }
     });
     this.paymentService.paymentPosting = new PaymentPosting();
-    this.paymentSuspense = this.events.on("payment-suspense", a => {
+    this.paymentSuspense = this.events.on('payment-suspense', a => {
       this.form.patchValue({
         checkNumber: null,
         checkAmount: Number(0).toFixed(2),
@@ -138,8 +138,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
             this.paymentService.finalizePosting({ sessionId: this.paymentService.paymentPosting.sessionId });
-          }
-          else {
+          } else {
 
           }
         });
@@ -245,11 +244,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
         form.amuontToPost = Number.parseFloat(form.amuontToPost);
         if (this.paymentService.selected.length > 1 && form.amountToPost !== form.amountSelected) {
           this.toast.warning('Multi-line payments are not permitted for posting unless the "Amount Selected" is equal to the "Amount To Post"');
-        }/* else if(form.checkAmount > form.amountToPost){
-          this.localSt.store("partial-payment",payments);
-          this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
-        } */
-        else if (this.paymentService.selected.length === 0) {
+        } else if (this.paymentService.selected.length === 0) {
           this.toast.warning('You cannot post a payment without selecting any prescriptions!');
         } else if (Number(form.amountToPost) > Number(form.checkAmount)) {
           this.toast.warning('You may not post monies that exceed the total check amount;');
@@ -280,13 +275,13 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
     const amountSelected = Number(this.form.get('amountSelected').value.replace(new RegExp(',', 'gi'), ''));
     form.lastAmountRemaining = this.paymentService.paymentPosting.lastAmountRemaining;
     form.amountToPost = form.amountToPost !== null ? Number((form.amountToPost || 0).replace(new RegExp(',', 'gi'), '')).toFixed(2) : (0).toFixed(2);
-    if (this.form.get('checkNumber').value == null || this.form.get('checkNumber').value === 0)
+    if (this.form.get('checkNumber').value == null || this.form.get('checkNumber').value === 0) {
       this.toast.warning('The Check # field is mandatory in order to conclude the payment posting process.');
-    else if (form.checkAmount == null || form.checkAmount === 0)
+    } else if (form.checkAmount == null || form.checkAmount === 0) {
       this.toast.warning('The Check Amount field is mandatory in order to conclude the payment posting process.');
-    else if (this.paymentService.selected.length > 0 || amountSelected > 0)
+         } else if (this.paymentService.selected.length > 0 || amountSelected > 0) {
       this.toast.warning('You have selected ' + this.paymentService.selected.length + ' row' + (this.paymentService.selected.length > 1 ? 's' : '') + ' prescriptions. You cannot associate any prescriptions to an Amount that you are suspending. Please uncheck all prescriptions and retry.');
-    else if (Number(form.amountToPost) > Number(form.checkAmount)) {
+         } else if (Number(form.amountToPost) > Number(form.checkAmount)) {
       this.toast.warning('You cannot post a payment without selecting any prescriptions. You must send any monies without prescriptions to suspense.');
     } else {
       const width = window.innerWidth * 1.799 / 3;

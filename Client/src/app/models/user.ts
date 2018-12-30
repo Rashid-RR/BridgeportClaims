@@ -16,7 +16,7 @@ export class User {
         indexer: boolean;
         deactivated: boolean;
         claims: any;
-    constructor(url: String,id: String,
+    constructor(url: String, id: String,
             userName: String,
             firstName: String,
             lastName: String,

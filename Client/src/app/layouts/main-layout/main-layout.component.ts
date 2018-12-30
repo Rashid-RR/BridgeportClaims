@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SignalRService } from "../../services/signalr-service";
+import { SignalRService } from '../../services/signalr-service';
 
 @Component({
   selector: 'app-main-layout',
@@ -7,7 +7,7 @@ import { SignalRService } from "../../services/signalr-service";
 })
 export class MainLayoutComponent implements OnInit {
 
-  constructor(private signalR:SignalRService) { }
+  constructor(private signalR: SignalRService) { }
 
   ngOnInit() {
   }

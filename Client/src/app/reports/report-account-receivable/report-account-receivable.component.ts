@@ -10,7 +10,7 @@ export class ReportAccountReceivableComponent implements OnInit {
 
   constructor(public ar: AccountReceivableService, public reportloader: ReportLoaderService) { }
 
- 
+
   ngOnInit() {
     this.reportloader.current = 'Account Receivable';
     this.reportloader.currentURL = 'account-receivable';

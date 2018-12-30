@@ -2,6 +2,7 @@
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DecisionTrees;
+using BridgeportClaims.Data.Trees;
 using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 using NLog;
@@ -22,12 +23,13 @@ namespace BridgeportClaims.Web.Controllers
 
         [HttpPost]
         [Route("get-decision-tree")]
-        public IHttpActionResult GetDecisionTree(int parentTreeId)
+        public IHttpActionResult GetDecisionTree(int rootTreeId)
         {
             try
             {
-                var results = _decisionTreeDataProvider.Value.GetDecisionTree(parentTreeId);
-                return Ok(results);
+                var tree = _decisionTreeDataProvider.Value.GetDecisionTree(rootTreeId);
+                var hierarchy = tree.ToHierarchy(rootTreeId);
+                return Ok(hierarchy);
             }
             catch (Exception ex)
             {

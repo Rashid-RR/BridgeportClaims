@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
-import { DiaryService, HttpService } from "../../services/services.barrel";
-import { Diary } from "../../models/diary";
-import { Claim } from "../../models/claim";
-import { PrescriptionNote } from "../../models/prescription-note";
-import { WindowsInjetor, CustomPosition, Size, WindowConfig } from "../../components/ng-window";
-import { Router } from "@angular/router";
+import { DiaryService, HttpService } from '../../services/services.barrel';
+import { Diary } from '../../models/diary';
+import { Claim } from '../../models/claim';
+import { PrescriptionNote } from '../../models/prescription-note';
+import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../components/ng-window';
+import { Router } from '@angular/router';
 import { Toast, ToastsManager } from 'ng2-toastr';
 import { ScriptNoteWindowComponent } from '../../components/diary-script-note-window/diary-script-note-window.component';
 
@@ -25,21 +25,21 @@ export class DiaryResultsComponent implements OnInit {
 
   }
   showNote(diary: Diary) {
-    window.open("#/main/claims?claimId=" + diary.claimId + "&prescriptionNoteId=" + diary.prescriptionNoteId, "_blank");
+    window.open('#/main/claims?claimId=' + diary.claimId + '&prescriptionNoteId=' + diary.prescriptionNoteId, '_blank');
   }
 
   showNoteWindow(note: PrescriptionNote) {
-    let config = new WindowConfig("Prescription Note", new Size(250, 600))  //height, width
-    config.position = new CustomPosition(50 + Math.random() * 200, 100)//left,top
+    const config = new WindowConfig('Prescription Note', new Size(250, 600));  // height, width
+    config.position = new CustomPosition(50 + Math.random() * 200, 100); // left,top
     config.minusTop = 91;
     config.centerInsideParent = false;
-    var temp = {}
+    const temp = {};
     config.forAny = [temp];
     config.openAsMaximize = false;
     this.myInjector.openWindow(ScriptNoteWindowComponent, config)
       .then((win: ScriptNoteWindowComponent) => {
         win.showNote(note);
-      })
+      });
   }
   next() {
     this.diaryService.search(true);
@@ -49,7 +49,7 @@ export class DiaryResultsComponent implements OnInit {
   }
 
   goto() {
-    let page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage);
     if (!this.goToPage || isNaN(page)) {
       /* if(this.activeToast && this.activeToast.timeoutId){
         this.activeToast.message =  'Invalid page number entered'
@@ -62,19 +62,19 @@ export class DiaryResultsComponent implements OnInit {
       this.diaryService.search(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.diaryService.totalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.diaryService.totalPages;
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.diaryService.totalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }
 
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {

@@ -23,11 +23,11 @@ export class AdjustorsComponent implements OnInit {
     if (!this.goToPage) {
 
     } else if (page > 0 && page <= this.rs.getTotalRows()) {
-      this.rs.currentPage=page;
-      this.rs.getadjustorslist()
+      this.rs.currentPage = page;
+      this.rs.getadjustorslist();
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getTotalRows()
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getTotalRows();
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getTotalRows()).then((toast: Toast) => {
           this.activeToast = toast;
@@ -37,13 +37,13 @@ export class AdjustorsComponent implements OnInit {
   }
   next() {
 
-    this.rs.currentPage+=this.rs.currentPage;
-    this.rs.getadjustorslist()
+    this.rs.currentPage += this.rs.currentPage;
+    this.rs.getadjustorslist();
   }
 
   prev() {
-    this.rs.currentPage=this.rs.currentPage-1;
-    this.rs.getadjustorslist()
+    this.rs.currentPage = this.rs.currentPage - 1;
+    this.rs.getadjustorslist();
   }
   keyPress(event: any) {
     // const pattern = /[0-9\+\-\ ]/;

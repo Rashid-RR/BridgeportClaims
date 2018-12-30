@@ -14,7 +14,7 @@ export class ConfirmEmailComponent implements OnInit {
   user: any;
   confirmed: Number = 0;
   loading = true;
-  error= '';
+  error = '';
   constructor(
     private http: HttpService,
     private router: Router,
@@ -28,7 +28,7 @@ export class ConfirmEmailComponent implements OnInit {
 
     this.router.routerState.root.queryParams.subscribe(params => {
       this.code = encodeURIComponent(params['code']); this.user = params['userId'];
-        if (this.code && this.user){
+        if (this.code && this.user) {
           try {
               this.http.confirmEmail(this.user, this.code).subscribe(res => {
                 this.toast.success('Thank you for confirming your email. Please proceed to login');

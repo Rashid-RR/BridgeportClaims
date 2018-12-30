@@ -1,8 +1,8 @@
-import { Component, Inject, OnInit } from "@angular/core";
-import { EventsService } from "../../services/events-service";
-import { ProfileManager } from "../../services/profile-manager";
-import { HttpService } from "../../services/http-service";
-import { Router } from "@angular/router";
+import { Component, Inject, OnInit } from '@angular/core';
+import { EventsService } from '../../services/events-service';
+import { ProfileManager } from '../../services/profile-manager';
+import { HttpService } from '../../services/http-service';
+import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
 import { ToastsManager } from 'ng2-toastr';
 
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.date = Date.now();
-    this.eventservice.on("disable-links", (status: boolean) => {
+    this.eventservice.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
     });
   }
@@ -36,24 +36,24 @@ export class HeaderComponent implements OnInit {
       this.toast.success(res.message);
     }, err => {
       this.toast.error(err.message);
-    })
+    });
   }
   get isTestDomain() {
     return this.document.location.hostname == 'bridgeportclaims-testing.azurewebsites.net';
   }
   get allowed(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   sidebarToggle() {
-    this.eventservice.broadcast("sidebarOpen", true);
+    this.eventservice.broadcast('sidebarOpen', true);
   }
 
   logout() {
     if (!this.disableLinks) {
-      this.eventservice.broadcast("logout", true);
+      this.eventservice.broadcast('logout', true);
       this.profileManager.profile = undefined;
       localStorage.removeItem('user');
-      this.router.navigate(['/login']);      
+      this.router.navigate(['/login']);
     }
   }
 }

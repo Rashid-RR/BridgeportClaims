@@ -1,5 +1,5 @@
-import { Component,Optional, OnInit } from '@angular/core';
-declare var jQuery:any;
+import { Component, Optional, OnInit } from '@angular/core';
+declare var jQuery: any;
 
 @Component({
   selector: 'app-payment-result',
@@ -13,7 +13,7 @@ export class PaymentResultComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
   }
 
 }

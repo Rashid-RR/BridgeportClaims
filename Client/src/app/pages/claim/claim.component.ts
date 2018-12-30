@@ -27,9 +27,16 @@ declare var $: any;
   styleUrls: ['./claim.component.css']
 })
 export class ClaimsComponent implements OnInit, AfterViewInit {
+  get isVip() {
+    return this.claimManager.selectedClaim && this.claimManager.selectedClaim.isVip;
+  }
 
   @ViewChild('episodeSwal') private episodeSwal: SwalComponent;
   @ViewChild('prescriptionStatusSwal') private prescriptionStatusSwal: SwalComponent;
+  expanded: Boolean = false;
+  expandedBlade: Number = 0;
+  over: boolean[];
+  statusId: any;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -50,10 +57,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  expanded: Boolean = false;
-  expandedBlade: Number = 0;
-  over: boolean[];
-  statusId: any;
   ngAfterViewInit() {
     if (isPlatformBrowser(this.platformId)) {
       $('.sticky-claim').sticky({ topSpacing: 53 });
@@ -80,9 +83,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
     this.expanded = expanded;
     this.expandedBlade = expandedBlade;
     this.initializeExpandedTableBooleanValue(table);
-  }
-  get isVip() {
-    return this.claimManager.selectedClaim && this.claimManager.selectedClaim.isVip;
   }
   isMaxBalance($event) {
     this.claimManager.loading = true;
@@ -264,19 +264,19 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
                           <div class="input-group-addon">
                               <i class="fa fa-calendar"></i>
                           </div>
-                          <input class="form-control pull-right"  type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>                  
+                          <input class="form-control pull-right"  type="text" id="datepicker" name="rxDate" inputs-inputmask="'alias': 'mm/dd/yyyy'" inputs-mask focus-on>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="row">
                         <div class="col-sm-6 text-left">
-                            <button class="btn btn-flat btn-primary save-prescription-note" type="button" style="color:white;background-color: rgb(48, 133, 214);">Save</button>                          
-                            <button class="btn btn-flat btn-default cancel-prescription-note" type="button" style="color:white;background-color: rgb(170, 170, 170);">Cancel</button>                          
+                            <button class="btn btn-flat btn-primary save-prescription-note" type="button" style="color:white;background-color: rgb(48, 133, 214);">Save</button>
+                            <button class="btn btn-flat btn-default cancel-prescription-note" type="button" style="color:white;background-color: rgb(170, 170, 170);">Cancel</button>
                         </div>
                         <div class="col-sm-6">
                           <div class="form-group">
-                            <button class="btn bg-primary btn-flat pull-right btn-md add-to-diary" type="button" style="color:white">Add to Diary</button>                          
+                            <button class="btn bg-primary btn-flat pull-right btn-md add-to-diary" type="button" style="color:white">Add to Diary</button>
                           </div>
                         </div>
                       </div>
@@ -384,7 +384,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
             }).single().subscribe(res => {
-              let result = res;
+              const result = res;
               prescriptions.forEach(c => {
                 if (c.selected) {
                   c.noteCount = (c.noteCount || 0) + 1;

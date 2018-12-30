@@ -20,7 +20,7 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
   endDate: string;
   submitted = false;
   payors: Array<Payor> = [];
-  payorsId= [];
+  payorsId = [];
   loading = false;
   pageNumber: number;
   pageSize = 50;
@@ -45,7 +45,7 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
 
 
     }, error1 => {
-      
+
     });
   }
   filter($event) {
@@ -54,7 +54,7 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
 
 
   ngAfterViewInit() {
-    if (this.us.payors && this.us.payors.length > 0){
+    if (this.us.payors && this.us.payors.length > 0) {
       $('#payorsSelection').select2();
     }
     // Date picker

@@ -1,13 +1,32 @@
 <div class="row claim-info">
-  <div class="col-sm-12 claim-col expanded" style="overflow:hidden;">
+  <div class="col-sm-12 claim-col expanded-custom" style="overflow:hidden;">
 
     <div class="table-responsive top-header">
       <table class="table no-margin table-striped">
         <thead class="overflowable" id="fixed-thead">
         <tr #myTable='table-sort' (tableSort)="rs.onSortColumn($event)">
-          <th>
+          <th *ngIf="rs.typeSelected==rs.types[0]">
          <span [sort-table]="myTable" columnSort="adjustorName">
              Name
+           </span>
+
+          </th>
+          <th *ngIf="rs.typeSelected==rs.types[1]">
+         <span [sort-table]="myTable" columnSort="attorneyName">
+             Name
+           </span>
+
+          </th>
+          <th *ngIf="rs.typeSelected==rs.types[1]">
+         <span [sort-table]="myTable" columnSort="address1">
+             Address 1
+           </span>
+
+          </th>
+
+          <th *ngIf="rs.typeSelected==rs.types[1]">
+         <span [sort-table]="myTable" columnSort="address2">
+             Address 2
            </span>
 
           </th>
@@ -22,12 +41,30 @@
                                 Fax
                             </span>
           </th>
-          <th>
+          <th *ngIf="rs.typeSelected==rs.types[1]">
+         <span [sort-table]="myTable" columnSort="postalCode">
+             Postal Code
+           </span>
+
+          </th>
+          <th *ngIf="rs.typeSelected==rs.types[1]">
+         <span [sort-table]="myTable" columnSort="stateName">
+             State
+           </span>
+
+          </th>
+          <th *ngIf="rs.typeSelected==rs.types[1]">
+         <span [sort-table]="myTable" columnSort="city">
+             City
+           </span>
+
+          </th>
+          <th *ngIf="rs.typeSelected==rs.types[0]">
                             <span [sort-table]="myTable" columnSort="emailAddress">
                                 Email
                             </span>
           </th>
-          <th>
+          <th *ngIf="rs.typeSelected==rs.types[0]">
                             <span [sort-table]="myTable" columnSort="extension">
                                 Extension
                             </span>
@@ -42,17 +79,23 @@
         </thead>
       </table>
     </div>
-    <div class="table-responsive table-body" >
+    <div class="table-responsive table-body">
       <table class="table no-margin table-striped" id="maintable">
-        <tbody class="overflowable" #diaryTable tabindex="0">
-        <ng-container  *ngFor="let adjustor of rs.getadjustors()">
+        <tbody #diaryTable class="overflowable" tabindex="0">
+        <ng-container *ngFor="let adjustor of rs.getadjustors()">
           <tr>
 
-            <td>{{adjustor?.adjustorName}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.adjustorName}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.attorneyName}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.address1}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.address2}}</td>
             <td>{{adjustor?.phoneNumber}}</td>
             <td>{{adjustor?.faxNumber}}</td>
-            <td>{{adjustor?.emailAddress}}</td>
-            <td>{{adjustor?.extension}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.postalCode}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.stateName}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.city}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.emailAddress}}</td>
+            <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.extension}}</td>
             <td>{{adjustor?.modifiedBy}}</td>
 
           </tr>
@@ -76,7 +119,6 @@
         </div>
       </div>
     </div>
-
 
 
   </div>

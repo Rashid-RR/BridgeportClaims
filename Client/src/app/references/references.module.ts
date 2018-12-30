@@ -7,11 +7,13 @@ import {ReferencesRoutes} from './references.routing';
 import {ReferencesComponent} from './references/references.component';
 import { ReferencesfilterComponent } from './referencesfilter/referencesfilter.component';
 import { AdjustorsComponent } from './adjustors/adjustors.component';
+import {MaterialComponentsModule} from '../material/material-components.module';
 
 
 @NgModule({
   imports: [
     CommonModule,
+    MaterialComponentsModule,
     SweetAlert2Module.forRoot(),
     SharedModule,
     RouterModule.forChild(ReferencesRoutes),

@@ -100,7 +100,7 @@ export class EpisodeResultsComponent implements OnInit {
         }
       });
   }
-  openClaim(episode: Episode){
+  openClaim(episode: Episode) {
     window.open('#/main/claims?claimNumber=' + episode.claimNumber, '_blank');
   }
   next() {
@@ -142,7 +142,7 @@ export class EpisodeResultsComponent implements OnInit {
   }
 
   formatDate(input: String) {
-    if (!input) return null;
+    if (!input) { return null; }
     if (input.indexOf('-') > -1) {
       const date = input.split('T');
       const d = date[0].split('-');

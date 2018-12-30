@@ -3,8 +3,8 @@
  * Class to facilitate event based communication within the app by availing subjects/topics and subscribers
  */
 
-import {Injectable} from "@angular/core";
-import * as Rx from "rxjs";
+import {Injectable} from '@angular/core';
+import * as Rx from 'rxjs';
 
 
 @Injectable()
@@ -12,17 +12,17 @@ export class EventsService {
   listeners: Object;
   events: Rx.Observable<any>;
   eventsSubject: Rx.Subject<any>;
-  browserNotification:any;
+  browserNotification: any;
   constructor() {
     this.listeners = {};
     this.eventsSubject = new Rx.Subject();
-    
+
     this.events = Rx.Observable.from(this.eventsSubject);
 
     this.events.subscribe(
       ({name, args}) => {
         if (this.listeners[name]) {
-          for (let listener of this.listeners[name]) {
+          for (const listener of this.listeners[name]) {
             listener(...args);
           }
         }
@@ -35,7 +35,7 @@ export class EventsService {
 
     this.listeners[name].push(listener);
   }
-  flash(name){
+  flash(name) {
     this.listeners[name] = [];
   }
 

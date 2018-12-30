@@ -1,10 +1,10 @@
-import { Component, OnInit} from "@angular/core";
-import { EventsService } from "../../services/events-service";
-import { ProfileManager } from "../../services/profile-manager";
-import { ClaimManager } from "../../services/claim-manager";
-import { HttpService } from "../../services/http-service";
-import { Router } from "@angular/router";
-declare var $:any;
+import { Component, OnInit} from '@angular/core';
+import { EventsService } from '../../services/events-service';
+import { ProfileManager } from '../../services/profile-manager';
+import { ClaimManager } from '../../services/claim-manager';
+import { HttpService } from '../../services/http-service';
+import { Router } from '@angular/router';
+declare var $: any;
 
 @Component({
   selector: 'app-sidebar',
@@ -23,18 +23,18 @@ export class SidebarComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.events.on("disable-links", (status: boolean) => {
+    this.events.on('disable-links', (status: boolean) => {
       this.disableLinks = status;
     });
   }
-  
-  claimsActive(){
-    if(this.router.url.indexOf('/main/claims')>-1){
-      this.events.broadcast("clear-claims",true);
-      this.events.broadcast("disable-links",false);
-    }else if(!this.disableLinks){
+
+  claimsActive() {
+    if (this.router.url.indexOf('/main/claims') > -1) {
+      this.events.broadcast('clear-claims', true);
+      this.events.broadcast('disable-links', false);
+    } else if (!this.disableLinks) {
       this.router.navigate(['/main/claims']);
-    }   
+    }
   }
 
   get userName() {
@@ -45,7 +45,7 @@ export class SidebarComponent implements OnInit {
   }
 
   get allowed(): Boolean {
-    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1)
+    return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && this.profileManager.profile.roles.indexOf('Admin') > -1);
   }
   get adminOrAsociate(): Boolean {
     return (this.profileManager.profile.roles && (this.profileManager.profile.roles instanceof Array) && (this.profileManager.profile.roles.indexOf('Admin') > -1 || this.profileManager.profile.roles.indexOf('Indexer') > -1));

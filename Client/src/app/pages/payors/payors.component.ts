@@ -8,7 +8,7 @@ import {Payor} from '../../models/payor';
   styleUrls: ['./payors.component.css']
 })
 export class PayorsComponent implements OnInit {
-  payors: Array<Payor>= [];
+  payors: Array<Payor> = [];
   pageNumber: number;
   pageSize = 5;
   loading: boolean;
@@ -17,11 +17,11 @@ export class PayorsComponent implements OnInit {
      this.getPayors(1);
    }
 
-   next(){
+   next() {
      this.getPayors(this.pageNumber + 1);
    }
-   prev(){
-     if (this.pageNumber > 1){
+   prev() {
+     if (this.pageNumber > 1) {
       this.getPayors(this.pageNumber - 1);
      }
    }
@@ -30,7 +30,7 @@ export class PayorsComponent implements OnInit {
 
   }
 
-  getPayors(pageNumber: number){
+  getPayors(pageNumber: number) {
     this.loading = true;
     this.http.getPayours(pageNumber, this.pageSize).map(res => {this.loading = false; return res; }).subscribe(result => {
           this.payors = result;

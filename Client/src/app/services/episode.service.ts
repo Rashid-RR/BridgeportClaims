@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ToastsManager } from 'ng2-toastr';
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as Immutable from 'immutable';
-import { SortColumnInfo } from "../directives/table-sort.directive";
-import { EpisodesFilterPipe } from "../components/episode-results/episode-filter.pipe"
+import { SortColumnInfo } from '../directives/table-sort.directive';
+import { EpisodesFilterPipe } from '../components/episode-results/episode-filter.pipe';
 import { Episode } from '../interfaces/episode';
 import { EpisodeNoteType } from '../models/episode-note-type';
 import { ArraySortPipe } from '../pipes/sort.pipe';
-import swal from "sweetalert2";
-import { Payor } from "../models/payor";
+import swal from 'sweetalert2';
+import { Payor } from '../models/payor';
 import { Subject } from 'rxjs/Subject';
 declare var $: any;
 
@@ -24,7 +24,7 @@ export class EpisodeService {
   goToPage: any = '';
   episodeNote: String;
   totalRowCount: number;
-  episodetoAssign:Episode;
+  episodetoAssign: Episode;
   episodeNoteTypes: Array<EpisodeNoteType> = [];
   owners: Array<{ownerId: any, owner: string}> = [];
   episodeForm: FormGroup;
@@ -79,7 +79,7 @@ export class EpisodeService {
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
-    }else if (this.episodeForm.valid) {
+    } else if (this.episodeForm.valid) {
       swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
@@ -99,7 +99,7 @@ export class EpisodeService {
         this.toast.warning('Episode Note must be at least 5 characters');
       } else if (this.episodeForm.controls['pharmacyNabp'].errors && this.episodeForm.controls['pharmacyNabp'].errors.required) {
         this.toast.warning('Pharmacy Name is required');
-      }else {
+      } else {
 
       }
     }
@@ -109,7 +109,7 @@ export class EpisodeService {
   refresh() {
 
   }
-  get episodeTypes(): Array<EpisodeNoteType>{
+  get episodeTypes(): Array<EpisodeNoteType> {
     return this.episodeNoteTypes;
   }
   get totalPages() {
@@ -150,7 +150,7 @@ export class EpisodeService {
         .subscribe((result: any) => {
           this.loading = false;
           this.totalRowCount = result.totalRowCount;
-          if (this.data.sortColumn === 'fileUrl'){
+          if (this.data.sortColumn === 'fileUrl') {
             result.episodeResults = this.sortPipe.transform(result.episodeResults, this.data.sortColumn, this.data.sortDirection);
           }
           this.episodes = Immutable.OrderedMap<Number, Episode>();
@@ -168,7 +168,7 @@ export class EpisodeService {
           if (page && result.episodeResults && result.episodeResults.length > 0) {
             this.data.pageNumber = page;
           }
-          if (!prev && !next && ! page){
+          if (!prev && !next && ! page) {
             this.data.pageNumber = this.totalRowCount === 0  ? null : 1;
             this.goToPage = this.totalRowCount === 0  ? null : this.data.pageNumber;
           }

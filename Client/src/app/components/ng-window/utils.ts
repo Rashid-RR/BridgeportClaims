@@ -11,7 +11,7 @@ export class PromiseCompleter<R> {
     }
 }
 
-export class global{
+export class global {
     private static _MaxZIndex = 12;
     static get MaxZIndex(): number {
         return this._MaxZIndex;

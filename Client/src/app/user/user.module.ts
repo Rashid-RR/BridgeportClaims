@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { UserRoutes } from "./user.routing"
-import { UsersComponent } from "./list/users.component"
+import { UserRoutes } from './user.routing';
+import { UsersComponent } from './list/users.component';
 import { SharedModule } from '../shared';
 
 @NgModule({

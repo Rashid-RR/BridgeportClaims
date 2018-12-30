@@ -1,4 +1,4 @@
-import { Component, ElementRef,ViewEncapsulation, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, ViewEncapsulation, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ProfileManager } from '../../services/profile-manager';
 import { EventsService } from '../../services/events-service';

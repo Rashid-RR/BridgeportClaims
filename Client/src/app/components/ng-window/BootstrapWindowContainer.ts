@@ -41,7 +41,7 @@ export class DragEvent {
         '[style.left]': 'dialogInstance.config.position.left +\'px\'',
         '[style.z-index]': 'compZIndex',
         style: `
-            position: absolute; 
+            position: absolute;
             display: block; `,
         class: 'ngPopup  in',
 
@@ -49,8 +49,8 @@ export class DragEvent {
 
     template: `
 
-    <div class="modal-dialog " 
-    [style]="'height:'+dialogInstance.config.size.height + 'px !important'|safeStyle" 
+    <div class="modal-dialog "
+    [style]="'height:'+dialogInstance.config.size.height + 'px !important'|safeStyle"
     [style.width.px]="dialogInstance.config.size.width"
   >
 
@@ -81,7 +81,7 @@ export class DragEvent {
 
             <div id="xxx" #modalDialog></div>
          </div>
-    </div> 
+    </div>
 ` ,
 
 
@@ -93,6 +93,11 @@ export class DragEvent {
 })
 
 export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
+
+    set config(value: any) {
+        this._config = value;
+        this.setConfig(this._config);
+    }
     dialogInstance: WindowInstance;
     compZIndex: number;
 
@@ -124,6 +129,10 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
     // modalDialog
     @ViewChild('modalDialog', { read: ViewContainerRef }) modalDialog_ViewContainer: ViewContainerRef;
     public viewRef;
+
+
+
+    sizeChangedlisteners: Array<IDragListener> = Array<IDragListener>();
     ngAfterViewInit(): any {
         setTimeout(_ => this.finish_Init(this.modalDialog_ViewContainer));
 
@@ -176,8 +185,9 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
 
     maximize(event) {
-        if (!this.dialogInstance.config.canMaximize)
+        if (!this.dialogInstance.config.canMaximize) {
             return;
+        }
         const x = 0, y = 53;
         $('.ngPopup .titleBar .iconGroup').css({ 'margin-top': '0px' });
         $('.ngPopup .titleBar .iconGroup span').css({ 'color': 'lightgrey' });
@@ -189,8 +199,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
             if (this.MinimizeStatus) {
                 this.MinimizeStatus = false;
-            }
-            else {
+            } else {
                 this._originalHeight = this.dialogInstance.config.size.height;
                 this._originalWidth = this.dialogInstance.config.size.width;
             }
@@ -222,8 +231,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
 
 
-            }
-            else {
+            } else {
                 this.dialogInstance.config.size.height = this.dialogInstance.backdropRef.location.nativeElement.offsetParent.clientHeight - this.dialogInstance.config.minusTop - 50;
                 this.dialogInstance.config.size.width = this.dialogInstance.backdropRef.location.nativeElement.offsetParent.clientWidth - this.dialogInstance.config.minusLeft - 10;
                 // this.dialogInstance.config.size.height  = this.dialogInstance.backdropRef.location.nativeElement.closest(".modal-dialog").offsetHeight-44;//40 بتاعة الهيدر
@@ -236,9 +244,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
 
 
-        }
-        else // return from maximize
-        {
+        } else {
             this.dialogInstance.config.position.top = this._originalTop;
             this.dialogInstance.config.position.left = this._originalLeft;
             this.dialogInstance.config.size.width = this._originalWidth;
@@ -267,8 +273,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
                 //  this.dialogInstance.config.position.top = this._originalTop;
                 this.dialogInstance.config.position.left = this._originalLeft;
                 this.MaxmizeStatus = false;
-            }
-            else {
+            } else {
                 this._originalHeight = this.dialogInstance.config.size.height;
                 this._originalWidth = this.dialogInstance.config.size.width;
                 this._originalTop = this.dialogInstance.config.position.top;
@@ -286,9 +291,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
             // this.dialogInstance.config.position.left = (window.innerWidth / 2 - this.tempSize.width / 2)
 
 
-        }
-        else// return from minimize
-        {
+        } else {
             $('.ngPopup .modal-content').css({ 'padding': '15px' });
             $('.ngPopup .titleBar .iconGroup').css({ 'margin-top': '0px' });
             $('.ngPopup .titleBar .iconGroup span').css({ 'color': 'lightgrey' });
@@ -368,43 +371,30 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
                     if (event.mouseDown.srcElement.className === 'titleBar' || event.mouseDown.srcElement.className === 'title') {
                         this.dialogInstance.config.position.top = event.position.top;
                         this.dialogInstance.config.position.left = event.position.left;
-                    }
-                    else if (event.mouseDown.srcElement.className === 'bottom-bar') {
+                    } else if (event.mouseDown.srcElement.className === 'bottom-bar') {
                         this.dialogInstance.config.size.height = this._originalHeight + event.offset.top;
-                    }
-
-                    else if (event.mouseDown.srcElement.className === 'right-bar') {
+                    } else if (event.mouseDown.srcElement.className === 'right-bar') {
                         this.dialogInstance.config.size.width = this._originalWidth + event.offset.left;
-                    }
-
-
-
-                    else if (event.mouseDown.srcElement.className === 'left-bar') {
+                    } else if (event.mouseDown.srcElement.className === 'left-bar') {
                         this.dialogInstance.config.size.width = this._originalWidth - event.offset.left;
                         this.dialogInstance.config.position.left = this._originalLeft + event.offset.left;
 
-                    }
-                    else if (event.mouseDown.srcElement.className === 'top-bar') {
+                    } else if (event.mouseDown.srcElement.className === 'top-bar') {
                         this.dialogInstance.config.position.top = this._originalTop + event.offset.top;
                         this.dialogInstance.config.size.height = this._originalHeight - event.offset.top;
-                    }
-                    else if (event.mouseDown.srcElement.className === 'right-bottom-corner') {
+                    } else if (event.mouseDown.srcElement.className === 'right-bottom-corner') {
                         this.dialogInstance.config.size.height = this._originalHeight + event.offset.top;
                         this.dialogInstance.config.size.width = this._originalWidth + event.offset.left;
-                    }
-
-                    else if (event.mouseDown.srcElement.className === 'left-bottom-corner') {
+                    } else if (event.mouseDown.srcElement.className === 'left-bottom-corner') {
                         this.dialogInstance.config.size.height = this._originalHeight + event.offset.top;
                         this.dialogInstance.config.size.width = this._originalWidth - event.offset.left;
                         this.dialogInstance.config.position.left = this._originalLeft + event.offset.left;
-                    }
-                    else if (event.mouseDown.srcElement.className === 'left-top-corner') {
+                    } else if (event.mouseDown.srcElement.className === 'left-top-corner') {
                         this.dialogInstance.config.position.top = this._originalTop + event.offset.top;
                         this.dialogInstance.config.size.height = this._originalHeight - event.offset.top;
                         this.dialogInstance.config.size.width = this._originalWidth - event.offset.left;
                         this.dialogInstance.config.position.left = this._originalLeft + event.offset.left;
-                    }
-                    else if (event.mouseDown.srcElement.className === 'right-top-corner') {
+                    } else if (event.mouseDown.srcElement.className === 'right-top-corner') {
                         this.dialogInstance.config.size.width = this._originalWidth + event.offset.left;
                         this.dialogInstance.config.position.top = this._originalTop + event.offset.top;
                         this.dialogInstance.config.size.height = this._originalHeight - event.offset.top;
@@ -424,11 +414,6 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
 
     public ngOnDestroy(): void {
         this._dragSubscription.unsubscribe();
-    }
-
-    set config(value: any) {
-        this._config = value;
-        this.setConfig(this._config);
     }
     public setConfig(config: any): void {
         for (const key in config) {
@@ -495,8 +480,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
         } else {
             try {
                 // this._renderer.setElementStyle(this.dialogInstance.bootstrapRef.location, styleName, styleValue);
-            }
-            catch (e) {
+            } catch (e) {
             }
         }
     }
@@ -515,10 +499,6 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
         // this.resizeStart.next(event);
     }
 
-
-
-    sizeChangedlisteners: Array<IDragListener> = Array<IDragListener>();
-
     addSizeChangedListener(listener: IDragListener) {
         this.sizeChangedlisteners.push(listener);
     }
@@ -531,8 +511,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
                 this.sizeChangedlisteners[i].onAfterDialogSizeChanged(event);
                 // },5 );
 
-            }
-            catch (ex) {
+            } catch (ex) {
 
             }
         }

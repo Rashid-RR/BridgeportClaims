@@ -1221,7 +1221,7 @@ export class HttpService {
       });
   }
 
-  getadjustorname(data:any): Observable<any> {
+  getadjustorname(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/adjustors/get-adjustors', data)
       .catch(err => {
         this.handleResponseError(err);
@@ -1247,6 +1247,15 @@ export class HttpService {
   }
   saveTreeRoot(data:any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/trees/save-decision-tree', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
+  getatorneyname(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/attorney/get-attorneys', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

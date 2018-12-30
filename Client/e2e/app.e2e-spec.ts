@@ -12,8 +12,8 @@ describe('client App', () => {
   });
 
   it('App should navigate to login send test credentials then login', () => {
-    //page.navigateTo();
-    //expect(page.getPageText()).toContain('Claims!');
+    // page.navigateTo();
+    // expect(page.getPageText()).toContain('Claims!');
     claimPage.navigateToLogin();
     claimPage.login();
     claimPage.loadClaims();
@@ -21,13 +21,13 @@ describe('client App', () => {
     claimPage.checkClaimLoaded();
   });
   afterEach(function () {
-    var cls=console;
+    const cls = console;
     browser.manage().logs().get('browser').then(function (browserLog) {
-      browserLog.forEach(log=>{
-        if(log.level.name=='ERROR'){
-          cls.log('Got an error '+log.message);
+      browserLog.forEach(log => {
+        if (log.level.name == 'ERROR') {
+          cls.log('Got an error ' + log.message);
         }
-        expect(log.level.name).not.toEqual('ERROR')
+        expect(log.level.name).not.toEqual('ERROR');
       });
     });
   });

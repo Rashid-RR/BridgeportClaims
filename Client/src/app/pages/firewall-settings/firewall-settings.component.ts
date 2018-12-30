@@ -9,7 +9,7 @@ import { FirewallService } from '../../services/firewall.service';
 })
 export class FirewallSettingsComponent implements OnInit {
 
-  expanded= true;
+  expanded = true;
   constructor(public firewallService: FirewallService) { }
 
   ngOnInit() {

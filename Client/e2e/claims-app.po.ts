@@ -1,7 +1,7 @@
 import { browser, element, by, protractor } from 'protractor';
-import { environment as dev } from "environments/environment"
-import { environment as local } from "environments/environment.local"
-import { environment as prod } from "environments/environment.prod"
+import { environment as dev } from 'environments/environment';
+import { environment as local } from 'environments/environment.local';
+import { environment as prod } from 'environments/environment.prod';
 export class ClaimsPage {
   environment: any;
   constructor() {
@@ -16,33 +16,33 @@ export class ClaimsPage {
     return browser.get('/#/main/claims');
   }
   getFirstClaim() {
-    let elem = element.all(by.className('view-btn')).first();
-    var until = protractor.ExpectedConditions;
-    return browser.wait(until.visibilityOf(elem), 30000, 'GetClaimsData API took too long to load')
+    const elem = element.all(by.className('view-btn')).first();
+    const until = protractor.ExpectedConditions;
+    return browser.wait(until.visibilityOf(elem), 30000, 'GetClaimsData API took too long to load');
   }
   loadClaim() {
-    let elem = element.all(by.className('view-btn')).first();
-    return elem.click()
+    const elem = element.all(by.className('view-btn')).first();
+    return elem.click();
   }
   checkClaimLoaded() {
     return browser.driver.wait(() => {
-      var until = protractor.ExpectedConditions;
-      let elem = element(by.id('claimLoader'));
+      const until = protractor.ExpectedConditions;
+      const elem = element(by.id('claimLoader'));
       return browser.wait(until.presenceOf(elem), 30000, 'Claim took too long to appear in the DOM');
     });
   }
   loadClaims() {
     this.navigateToClaims();
-    let firstnameEl = element(by.name('firstName')),
+    const firstnameEl = element(by.name('firstName')),
       searchEl = element(by.id('claimSearchBtn'));
     firstnameEl.sendKeys(this.environment.vars.firstName);
-    var until = protractor.ExpectedConditions;
+    const until = protractor.ExpectedConditions;
     searchEl.click().then(r => {
       this.getFirstClaim();
     });
   }
   login() {
-    let emailEl = element(by.name('email')),
+    const emailEl = element(by.name('email')),
       passwordEl = element(by.name('password')),
       loginEl = element(by.buttonText('Sign in'));
     emailEl.sendKeys(this.environment.vars.testEmail);
@@ -53,7 +53,7 @@ export class ClaimsPage {
           return /#\/main\/private/.test(url);
         });
       }, 50000);
-    })
+    });
 
   }
 }

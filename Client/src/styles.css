@@ -1,593 +1,626 @@
-    /* You can add global styles to this file, and also import other style files */
-    /*Toastr Global positioning*/
-    @import url(//fonts.googleapis.com/css?family=Audiowide);
-    @import url(//fonts.googleapis.com/css?family=Aladin);
-    @import url(//fonts.googleapis.com/css?family=Nova%20Flat);
-    @import url(//fonts.googleapis.com/css?family=Atomic%20Age);
-    .main-header {
-      position: fixed;
-      width: 100%;
-    }
-
-    .content-wrapper {
-      margin-top: 50px;
-    }
-
-    #toast-container {
-      top: 70px !important;
-    }
-
-    .table-striped>tbody>tr:nth-of-type(odd) {
-      background-color: #d9d9d9;
-    }
-
-    .table-striped>tbody>tr.clr-change:nth-child(even) {
-        background-color: #fbeede;
-    }
-
-    .table-striped>tbody>tr.clr-change:nth-child(odd) {
-        background-color: #fff8ef;
-    }
-    table tr> td{
-      align-items: unset;
-    }
-    
-    .scroll-y {
-      overflow-y: auto;
-    }
-
-    li.disabled,
-    a.disabled,a.disabled:active,a.disabled:hover {
-      cursor: not-allowed !important;
-      text-decoration: none;
-    }
-
-    .swal2-modal.payment-modal {
-      padding: 5px 10px !important;
-      padding-left: 15px!important;
-      margin-top: 174px !important;
-    }
-
-    .swal2-modal.payment-modal:not(.episodes):not(.search-modal) {
-      width:calc(100vw - 780px) !important;
-      width:-webkit-calc(100vw - 780px) !important;
-      width:-moz-calc(100vw - 780px) !important;
-      width:-o-calc(100vw - 780px) !important;
-    }
-    .swal2-modal.payment-modal.custom {
-      width:calc(100vw - 580px) !important;
-      width:-webkit-calc(100vw - 580px) !important;
-      width:-moz-calc(100vw - 580px) !important;
-      width:-o-calc(100vw - 580px) !important;
-    }
-    .swal2-modal.custom-modal {
-      width:calc(100vw * 1.799 / 3) !important;
-      width:-webkit-calc(100vw * 1.799 / 3) !important;
-      width:-moz-calc(100vw * 1.799 / 3) !important;
-      width:-o-calc(100vw * 1.799 / 3) !important;
-    }
-    .swal2-modal.payment-modal.episodes{
-        width: 600px !important;
-        height: 500px !important;
-    }
-    .swal2-modal.claims-modal{
-        width: 350px !important;
-    }
-
-    .swal2-modal.payment-modal.search-modal{
-      height: calc(100vh - 40px);
-      margin-bottom: 1px !important;
-      margin-top: 30px !important;
-      width: 1100px !important;
-      overflow: hidden;
-    }
-    .swal2-modal.payment-modal.search-modal .swal2-content
-    {
-      height: calc(100vh - 50px);
-      /* overflow: hidden; */
-    }
-
-    .swal2-modal.payment-modal .swal2-content .bg-head-box {
-      background: #992727;
-      z-index: 3;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .panel-head {
-      color: #fff;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .panel-head u {
-      text-decoration: none;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .panel-head img {
-      vertical-align: -5px;
-      margin-right: 7px;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .panel-body-bg {
-      background: #fbeede;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .bg-darkRed,.btn.bg-darkRed {
-      background: #992727;
-      color: #fff;
-    }
-    .text-darkRed{
-      color:#992727
-    }
-
-    .swal2-modal.payment-modal .swal2-content .bg-darkblue {
-      background-color: #414772;
-      color: #fff;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .not-allowed,
-    .not-allowed .form-control,a.not-allowed {
-      cursor: not-allowed;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .bg-DarkGreen {
-      background: #084205;
-      color: #fff;
-    }
-    .swal2-modal.payment-modal .swal2-content .bg-DarkGreen:focus { 
-      color: #fff !important;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .bg-fullWhite {
-      background: #fff;
-      color: #992727;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .bg-fullWhite:hover {
-      box-shadow: none;
-    }
-
-    .swal2-modal.payment-modal .swal2-title ,
-    .swal2-modal.claims-modal .swal2-title 
-    {
-      display: none;
-    }
-
-    .swal2-modal.payment-modal .swal2-content label,
-    .swal2-modal.payment-modal .swal2-content .form-group button
-    {
-        font-size: 12px;
-    }  
-    .swal2-modal.payment-modal .swal2-content label
-    {
-        line-height: 1.42857143;
-        color: #333;
-        background-color: #fff;
-    }  
-    .swal2-modal.payment-modal .swal2-content .payment-input form div.row{
-        display:flex;
-        flex-wrap: wrap;
-    }
-    .swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col{
-        width:33%;
-        display:block;
-        position: relative;        
-        flex-direction: row;
-        padding-right: 10px;
-        padding-left: 0px;
-    }
-    .swal2-modal.payment-modal.custom .swal2-content .payment-input form div div.search-col{
-        width:16%;
-    }
-    .swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
-    .swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2)
-    {
-        width:27.5% !important;
-    }
-    .swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:last-child
-    {
-        width:44% !important;
-    }
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content .expanded{
-        height: calc(100vh - 420px) !important;
-        height: -moz-calc(100vh - 420px) !important;
-        height: -webkit-calc(100vh - 420px) !important;
-        height: -o-calc(100vh - 420px) !important;
-    }    
-    .swal2-modal.payment-modal.search-modal .swal2-content .expanded{
-        height: calc(100vh - 255px) !important;
-        height: -moz-calc(100vh - 255px) !important;
-        height: -webkit-calc(100vh - 255px) !important;
-        height: -o-calc(100vh - 255px) !important;
-    }    
-    /* .swal2-container{
-        margin-left:-220px;
-    } */
-    .swal2-modal.claims-modal .swal2-content,
-    .swal2-modal.custom-modal .swal2-content,
-    .swal2-modal.payment-modal .swal2-content{
-      display:block !important;
-    }
-    .swal2-modal.payment-modal .swal2-content .payment-input .col-md-2,
-    .swal2-modal.payment-modal .swal2-content .payment-input .col-md-3,
-    .swal2-modal.payment-modal .swal2-content .payment-input .col-md-1 {
-      padding-left: 0px !important;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .payment-input .col-md-3,
-    {
-      padding-right: 0px !important;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .tally,
-    .swal2-modal.payment-modal .swal2-content .tally * {
-      color: white;
-      font-size: 10pt !important;
-      font-family: "Comic Sans MS";
-      display: flex;
-      flex-direction: row;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .claim-info.row,
-    .col-sm-12.claim-col.expanded {
-      margin: 0px;
-      padding: 0px;
-      overflow: hidden;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .box-body {
-      padding: 0px;
-      border: 2px solid lightgray;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .table-responsive {
-      position: relative;
-      overflow-x: hidden;
-    }
-
-    .swal2-modal.payment-modal .swal2-content #fixed-header {
-      position: absolute;
-      top: 43px;
-      background: #fbeede;
-      z-index: 2;
-      padding: 1.6rem 0;
-    }
-
-    .swal2-modal.payment-modal .swal2-content table {
-      table-layout: fixed;
-      width: 100% !important;
-      overflow-x: hidden;
-    }
-
-    .swal2-modal.payment-modal .swal2-content thead,
-    .swal2-modal.payment-modal .swal2-content tbody {
-      overflow-y: hidden !important;
-    }
-
-    .swal2-modal.payment-modal .swal2-content td,
-    .swal2-modal.payment-modal .swal2-content th {
-      word-wrap: break-word;
-      padding-left: 2px !important;
-      font-size: 1.4rem;
-      padding-right: 2px !important;
-    }
-
-    .swal2-modal.payment-modal .swal2-content textarea {
-      resize: vertical;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tr>th,
-    .swal2-modal.payment-modal .swal2-content tr>td {
-      font-size: 1.3rem;
-      text-align: center;
-    }
-
-    .swal2-modal.payment-modal .swal2-content td>a.label {
-      font-size: 1.2rem;
-    }
-
-    .swal2-modal.payment-modal .swal2-content table {
-      display: flex;
-      flex-direction: column;
-      overflow: auto;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tbody,
-    .swal2-modal.payment-modal .swal2-content thead {
-      display: flex;
-      flex-direction: column;
-      flex-grow: 0;
-      flex-shrink: 0;
-      overflow-y: auto;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tbody.overflowable,
-    .swal2-modal.payment-modal .swal2-content thead.overflowable {
-      flex-grow: 1;
-      flex-shrink: 1;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tr {
-      display: flex;
-      flex-direction: row;
-      flex-grow: 1;
-      flex-shrink: 0;
-    }
-
-    .swal2-modal.payment-modal .swal2-content td,
-    .swal2-modal.payment-modal .swal2-content th {
-      display: block;
-      flex-direction: column;
-      flex-shrink: 1;
-      flex-grow: 1;
-    }
-    
-    @media screen and (max-width: 300px) {
-      .swal2-modal.payment-modal .swal2-content .fa.rotate {
-        margin-left: 2px;
-      }
-    }
-
-    @media screen and (min-width: 300px) {
-      .swal2-modal.payment-modal .swal2-content .fa.rotate {
-        margin-left: 7px;
-      }
-    }
-
-    .swal2-modal.payment-modal .swal2-content .bg-darkblue {
-      background-color: #414772 !important;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tbody>tr.bgBlue {
-      background: #56a1ff !important;
-      color: white;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tbody>tr.bgBlue td {
-      color: white;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tbody>tr.bgBlue td::selection,
-    .swal2-modal.payment-modal .swal2-content tbody>tr.bgBlue td a::selection {
-      background: transparent !important;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tbody>tr:hover {
-      background: #b6f1ff !important;
-      cursor: pointer;
-      color: #000;
-    }
-
-    .swal2-modal.payment-modal .swal2-content tbody>tr:hover td,
-    .swal2-modal.payment-modal .swal2-content tbody>tr:hover td::selection {
-      color: #000;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .claim-col {
-      height: 60px;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .box {
-      margin-bottom: 1px;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .expanded {
-      height: calc(100vh - 330px);
-      height: -moz-calc(100vh - 330px);
-      height: -webkit-calc(100vh - 330px);
-      height: -o-calc(100vh - 330px);
-      overflow: hidden;
-      overflow-y: auto;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .top-header,
-    .table-body {
-      width: 99%;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .top-header {
-      height: 56px;
-      position: absolute;
-      overflow: hidden;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .table-body {
-      position: absolute;
-      top: 56px;
-      max-height: calc(100% - 56px);
-      max-height: -moz-calc(100% - 56px);
-      max-height: -webkit-calc(100% - 56px);
-      max-height: -o-calc(100% - 56px);
-      overflow-y: auto;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .close-button i {
-      color: white;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .close-button {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      -moz-border-radius: 50%;
-      -webkit-border-radius: 50%;
-      -o-border-radius: 50%;
-      position: absolute;
-      right: -4px;
-      top: -4px;
-      z-index: 9;
-      background: red;
-    }
-
-    .swal2-modal.payment-modal .swal2-content .top-header table {
-      height: 99%;
-    }
-    
-
-    .wrapper {
-      overflow: hidden !important;
-    }
-
-    .overlay {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      height: 100% !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-    }
-
-    .overlay>img {
-      position: fixed;
-      top: 50%;
-      -ms-transform: translateY(-50%);
-      -moz-transform: translateY(-50%);
-      -webkit-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
-
-    body.sidebar-collapse .overlay{
-      /*  width: calc(100vw - 49px)!important;
-        width: -o-calc(100vw - 49px)!important;
-        width: -webkit-calc(100vw - 49px)!important;
-        width: -moz-calc(100vw - 49px)!important; */
-     
-    }
-
-    body:not(.sidebar-collapse) .overlay {
-     /*  width: calc(100vw - 230px)!important;
-        width: -o-calc(100vw - 230px)!important;
-        width: -webkit-calc(100vw - 230px)!important;
-        width: -moz-calc(100vw - 230px)!important; */
-    }
-     body:not(.sidebar-collapse) .overlay>img {
-      left: 45%;
-    }
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(1),
-    .swal2-modal.payment-modal .swal2-content tr>th:nth-child(1)
-     {
-      text-align: left !important;
-    }
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(1),
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>th:nth-child(1)
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(4),
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>th:nth-child(4)
-     {
-      width:15% !important;
-    }
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>th:nth-child(2),
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(2),
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>th:nth-child(3),
-    .swal2-modal.payment-modal:not(.search-modal) .swal2-content tr>td:nth-child(3)
-     {
-      width:35% !important;
-    }
-
-    .white-border {
-      background: transparent;
-      border: 1px solid #fff;
-      -webkit-border-radius: 3px !important;
-      -moz-border-radius: 3px !important;
-      -o-border-radius: 3px !important;
-      border-radius: 3px !important;
-      color: #fff;
-    }
-    .white-border > i {
-      margin-right: 1rem;
-    }
-    .white-border:hover {
-      background: #832121;
-      color: #fff;
-    }
-
-    tbody>tr.isReversed,
-    tbody>tr.isReversed:hover,
-    tbody>tr.isReversed:hover td,
-    tbody>tr.isReversed:hover td::selection,
-    tbody>tr.isReversed td .btn-group button.dropdown-toggle.status{
-      color: red !important;
-    }
-    .btn-group.flex2,
-    .btn-group.status{
-      position: absolute;
-      display: inline-flex;
-      margin-top: -7px;
-      width: 7.5%;
-    }
-    .btn-group.flex2 button,
-    .btn-group.status button{
-       width: 100%;
-       text-align: center;
-    }
-    .btn-group.flex2.open .dropdown-menu,
-    .btn-group.status.open .dropdown-menu
-    {
-      z-index:999999 !important;
-      min-width: 70px;
-      font-size: 10px;
-    }
-    .swal2-modal.prescription-modal{
-        width:600px !important;
-    }
-    .swal2-modal.prescription-modal .calendar{
-        position: absolute;;
-        width:40%;
-        bottom:-73px;
-        right:0px;
-    }
-    .swal2-modal.prescription-modal .swal2-buttonswrapper{
-        text-align:left !important;
-    }
-
-    .ngPopup .modal-dialog .modal-content,
-    .modal-dialog .modal-content{
-      overflow-y: hidden !important;
-    }
-    *:not(.fa):not(.glyphicon){
-      font-family: 'Cambay', sans-serif !important; 
-    }
-    *:not(.fa):not(.btn):not(.glyphicon){
-      font-size: 14px;
-    }
-    app-claim-result *:not(.fa):not(.btn){
-       font-size: 14px;
-    }
-    .bg-darkblue,.bg-darkblue:hover,.bg-darkblue:focus {
-      background-color: #414772;
-      color: #fff;
-    }
-    .bg-DarkGreen, .bg-DarkGreen:hover , .bg-DarkGreen:focus 
-    {
-      background: #084205;
-      color: #fff;
-    }
-    .bg-vdarkgrey,.bg-vdarkgrey:hover,.bg-vdarkgrey:focus {
-      background-color: #111d21 !important;
-      color: #fff;
-    }
-    .btn:not(.btn-sm):not(.btn-xs){
-      padding: 8px 15.8px 4px 15.8px
-    }
-    .btn i {
-      margin-right: 4px;
-    }
-    .swal2-modal.prescription-modal .swal2-buttonswrapper{
-      justify-content: left;
-    }
-    .swal2-modal.prescription-modal .swal2-buttonswrapper .button-on-top{
-      z-index:10;
-    }
-  /*   .sidebar-menu{
-      text-align:left
-    } */
-  .row div .content-header{
-    height:40px;
-  }        
-.content-header>.breadcrumb{
-  left: 20px; 
-  float: none; 
+/* You can add global styles to this file, and also import other style files */
+/*Toastr Global positioning*/
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import url(//fonts.googleapis.com/css?family=Audiowide);
+@import url(//fonts.googleapis.com/css?family=Aladin);
+@import url(//fonts.googleapis.com/css?family=Nova%20Flat);
+@import url(//fonts.googleapis.com/css?family=Atomic%20Age);
+
+.main-header {
+  position: fixed;
+  width: 100%;
+}
+
+.content-wrapper {
+  margin-top: 50px;
+}
+
+#toast-container {
+  top: 70px !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #d9d9d9;
+}
+
+.table-striped > tbody > tr.clr-change:nth-child(even) {
+  background-color: #fbeede;
+}
+
+.table-striped > tbody > tr.clr-change:nth-child(odd) {
+  background-color: #fff8ef;
+}
+
+table tr > td {
+  align-items: unset;
+}
+
+.scroll-y {
+  overflow-y: auto;
+}
+
+li.disabled,
+a.disabled, a.disabled:active, a.disabled:hover {
+  cursor: not-allowed !important;
+  text-decoration: none;
+}
+
+.swal2-modal.payment-modal {
+  padding: 5px 10px !important;
+  padding-left: 15px !important;
+  margin-top: 174px !important;
+}
+
+.swal2-modal.payment-modal:not(.episodes):not(.search-modal) {
+  width: calc(100vw - 780px) !important;
+  width: -webkit-calc(100vw - 780px) !important;
+  width: -moz-calc(100vw - 780px) !important;
+  width: -o-calc(100vw - 780px) !important;
+}
+
+.swal2-modal.payment-modal.custom {
+  width: calc(100vw - 580px) !important;
+  width: -webkit-calc(100vw - 580px) !important;
+  width: -moz-calc(100vw - 580px) !important;
+  width: -o-calc(100vw - 580px) !important;
+}
+
+.swal2-modal.custom-modal {
+  width: calc(100vw * 1.799 / 3) !important;
+  width: -webkit-calc(100vw * 1.799 / 3) !important;
+  width: -moz-calc(100vw * 1.799 / 3) !important;
+  width: -o-calc(100vw * 1.799 / 3) !important;
+}
+
+.swal2-modal.payment-modal.episodes {
+  width: 600px !important;
+  height: 500px !important;
+}
+
+.swal2-modal.claims-modal {
+  width: 350px !important;
+}
+
+.swal2-modal.payment-modal.search-modal {
+  height: calc(100vh - 40px);
+  margin-bottom: 1px !important;
+  margin-top: 30px !important;
+  width: 1100px !important;
+  overflow: hidden;
+}
+
+.swal2-modal.payment-modal.search-modal .swal2-content {
+  height: calc(100vh - 50px);
+  /* overflow: hidden; */
+}
+
+.swal2-modal.payment-modal .swal2-content .bg-head-box {
+  background: #992727;
+  z-index: 3;
+}
+
+.swal2-modal.payment-modal .swal2-content .panel-head {
+  color: #fff;
+}
+
+.swal2-modal.payment-modal .swal2-content .panel-head u {
+  text-decoration: none;
+}
+
+.swal2-modal.payment-modal .swal2-content .panel-head img {
+  vertical-align: -5px;
+  margin-right: 7px;
+}
+
+.swal2-modal.payment-modal .swal2-content .panel-body-bg {
+  background: #fbeede;
+}
+
+.swal2-modal.payment-modal .swal2-content .bg-darkRed, .btn.bg-darkRed {
+  background: #992727;
+  color: #fff;
+}
+
+.text-darkRed {
+  color: #992727
+}
+
+.swal2-modal.payment-modal .swal2-content .bg-darkblue {
+  background-color: #414772;
+  color: #fff;
+}
+
+.swal2-modal.payment-modal .swal2-content .not-allowed,
+.not-allowed .form-control, a.not-allowed {
+  cursor: not-allowed;
+}
+
+.swal2-modal.payment-modal .swal2-content .bg-DarkGreen {
+  background: #084205;
+  color: #fff;
+}
+
+.swal2-modal.payment-modal .swal2-content .bg-DarkGreen:focus {
+  color: #fff !important;
+}
+
+.swal2-modal.payment-modal .swal2-content .bg-fullWhite {
+  background: #fff;
+  color: #992727;
+}
+
+.swal2-modal.payment-modal .swal2-content .bg-fullWhite:hover {
+  box-shadow: none;
+}
+
+.swal2-modal.payment-modal .swal2-title,
+.swal2-modal.claims-modal .swal2-title {
+  display: none;
+}
+
+.swal2-modal.payment-modal .swal2-content label,
+.swal2-modal.payment-modal .swal2-content .form-group button {
+  font-size: 12px;
+}
+
+.swal2-modal.payment-modal .swal2-content label {
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+
+.swal2-modal.payment-modal .swal2-content .payment-input form div.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col {
+  width: 33%;
+  display: block;
+  position: relative;
+  flex-direction: row;
+  padding-right: 10px;
+  padding-left: 0px;
+}
+
+.swal2-modal.payment-modal.custom .swal2-content .payment-input form div div.search-col {
+  width: 16%;
+}
+
+.swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:nth-last-child(3),
+.swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:nth-last-child(2) {
+  width: 27.5% !important;
+}
+
+.swal2-modal.payment-modal .swal2-content .payment-input form div div.search-col:last-child {
+  width: 44% !important;
+}
+
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content .expanded {
+  height: calc(100vh - 420px) !important;
+  height: -moz-calc(100vh - 420px) !important;
+  height: -webkit-calc(100vh - 420px) !important;
+  height: -o-calc(100vh - 420px) !important;
+}
+
+.swal2-modal.payment-modal.search-modal .swal2-content .expanded {
+  height: calc(100vh - 255px) !important;
+  height: -moz-calc(100vh - 255px) !important;
+  height: -webkit-calc(100vh - 255px) !important;
+  height: -o-calc(100vh - 255px) !important;
+}
+
+/* .swal2-container{
+    margin-left:-220px;
+} */
+.swal2-modal.claims-modal .swal2-content,
+.swal2-modal.custom-modal .swal2-content,
+.swal2-modal.payment-modal .swal2-content {
+  display: block !important;
+}
+
+.swal2-modal.payment-modal .swal2-content .payment-input .col-md-2,
+.swal2-modal.payment-modal .swal2-content .payment-input .col-md-3,
+.swal2-modal.payment-modal .swal2-content .payment-input .col-md-1 {
+  padding-left: 0px !important;
+}
+
+.swal2-modal.payment-modal .swal2-content .payment-input .col-md-3,
+{
+  padding-right: 0px !important;
+}
+
+.swal2-modal.payment-modal .swal2-content .tally,
+.swal2-modal.payment-modal .swal2-content .tally * {
+  color: white;
+  font-size: 10pt !important;
+  font-family: "Comic Sans MS";
+  display: flex;
+  flex-direction: row;
+}
+
+.swal2-modal.payment-modal .swal2-content .claim-info.row,
+.col-sm-12.claim-col.expanded {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+}
+
+.swal2-modal.payment-modal .swal2-content .box-body {
+  padding: 0px;
+  border: 2px solid lightgray;
+}
+
+.swal2-modal.payment-modal .swal2-content .table-responsive {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.swal2-modal.payment-modal .swal2-content #fixed-header {
+  position: absolute;
+  top: 43px;
+  background: #fbeede;
+  z-index: 2;
+  padding: 1.6rem 0;
+}
+
+.swal2-modal.payment-modal .swal2-content table {
+  table-layout: fixed;
+  width: 100% !important;
+  overflow-x: hidden;
+}
+
+.swal2-modal.payment-modal .swal2-content thead,
+.swal2-modal.payment-modal .swal2-content tbody {
+  overflow-y: hidden !important;
+}
+
+.swal2-modal.payment-modal .swal2-content td,
+.swal2-modal.payment-modal .swal2-content th {
+  word-wrap: break-word;
+  padding-left: 2px !important;
+  font-size: 1.4rem;
+  padding-right: 2px !important;
+}
+
+.swal2-modal.payment-modal .swal2-content textarea {
+  resize: vertical;
+}
+
+.swal2-modal.payment-modal .swal2-content tr > th,
+.swal2-modal.payment-modal .swal2-content tr > td {
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.swal2-modal.payment-modal .swal2-content td > a.label {
+  font-size: 1.2rem;
+}
+
+.swal2-modal.payment-modal .swal2-content table {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.swal2-modal.payment-modal .swal2-content tbody,
+.swal2-modal.payment-modal .swal2-content thead {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.swal2-modal.payment-modal .swal2-content tbody.overflowable,
+.swal2-modal.payment-modal .swal2-content thead.overflowable {
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.swal2-modal.payment-modal .swal2-content tr {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.swal2-modal.payment-modal .swal2-content td,
+.swal2-modal.payment-modal .swal2-content th {
+  display: block;
+  flex-direction: column;
+  flex-shrink: 1;
+  flex-grow: 1;
+}
+
+@media screen and (max-width: 300px) {
+  .swal2-modal.payment-modal .swal2-content .fa.rotate {
+    margin-left: 2px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .swal2-modal.payment-modal .swal2-content .fa.rotate {
+    margin-left: 7px;
+  }
+}
+
+.swal2-modal.payment-modal .swal2-content .bg-darkblue {
+  background-color: #414772 !important;
+}
+
+.swal2-modal.payment-modal .swal2-content tbody > tr.bgBlue {
+  background: #56a1ff !important;
+  color: white;
+}
+
+.swal2-modal.payment-modal .swal2-content tbody > tr.bgBlue td {
+  color: white;
+}
+
+.swal2-modal.payment-modal .swal2-content tbody > tr.bgBlue td::selection,
+.swal2-modal.payment-modal .swal2-content tbody > tr.bgBlue td a::selection {
+  background: transparent !important;
+}
+
+.swal2-modal.payment-modal .swal2-content tbody > tr:hover {
+  background: #b6f1ff !important;
+  cursor: pointer;
+  color: #000;
+}
+
+.swal2-modal.payment-modal .swal2-content tbody > tr:hover td,
+.swal2-modal.payment-modal .swal2-content tbody > tr:hover td::selection {
+  color: #000;
+}
+
+.swal2-modal.payment-modal .swal2-content .claim-col {
+  height: 60px;
+}
+
+.swal2-modal.payment-modal .swal2-content .box {
+  margin-bottom: 1px;
+}
+
+.swal2-modal.payment-modal .swal2-content .expanded {
+  height: calc(100vh - 330px);
+  height: -moz-calc(100vh - 330px);
+  height: -webkit-calc(100vh - 330px);
+  height: -o-calc(100vh - 330px);
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.swal2-modal.payment-modal .swal2-content .top-header,
+.table-body {
+  width: 99%;
+}
+
+.swal2-modal.payment-modal .swal2-content .top-header {
+  height: 56px;
+  position: absolute;
+  overflow: hidden;
+}
+
+.swal2-modal.payment-modal .swal2-content .table-body {
+  position: absolute;
+  top: 56px;
+  max-height: calc(100% - 56px);
+  max-height: -moz-calc(100% - 56px);
+  max-height: -webkit-calc(100% - 56px);
+  max-height: -o-calc(100% - 56px);
+  overflow-y: auto;
+}
+
+.swal2-modal.payment-modal .swal2-content .close-button i {
+  color: white;
+}
+
+.swal2-modal.payment-modal .swal2-content .close-button {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -o-border-radius: 50%;
+  position: absolute;
+  right: -4px;
+  top: -4px;
+  z-index: 9;
+  background: red;
+}
+
+.swal2-modal.payment-modal .swal2-content .top-header table {
+  height: 99%;
+}
+
+
+.wrapper {
+  overflow: hidden !important;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.overlay > img {
+  position: fixed;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+body.sidebar-collapse .overlay {
+  /*  width: calc(100vw - 49px)!important;
+    width: -o-calc(100vw - 49px)!important;
+    width: -webkit-calc(100vw - 49px)!important;
+    width: -moz-calc(100vw - 49px)!important; */
+
+}
+
+body:not(.sidebar-collapse) .overlay {
+  /*  width: calc(100vw - 230px)!important;
+     width: -o-calc(100vw - 230px)!important;
+     width: -webkit-calc(100vw - 230px)!important;
+     width: -moz-calc(100vw - 230px)!important; */
+}
+
+body:not(.sidebar-collapse) .overlay > img {
+  left: 45%;
+}
+
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > td:nth-child(1),
+.swal2-modal.payment-modal .swal2-content tr > th:nth-child(1) {
+  text-align: left !important;
+}
+
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > td:nth-child(1),
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > th:nth-child(1)
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > td:nth-child(4),
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > th:nth-child(4) {
+  width: 15% !important;
+}
+
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > th:nth-child(2),
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > td:nth-child(2),
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > th:nth-child(3),
+.swal2-modal.payment-modal:not(.search-modal) .swal2-content tr > td:nth-child(3) {
+  width: 35% !important;
+}
+
+.white-border {
+  background: transparent;
+  border: 1px solid #fff;
+  -webkit-border-radius: 3px !important;
+  -moz-border-radius: 3px !important;
+  -o-border-radius: 3px !important;
+  border-radius: 3px !important;
+  color: #fff;
+}
+
+.white-border > i {
+  margin-right: 1rem;
+}
+
+.white-border:hover {
+  background: #832121;
+  color: #fff;
+}
+
+tbody > tr.isReversed,
+tbody > tr.isReversed:hover,
+tbody > tr.isReversed:hover td,
+tbody > tr.isReversed:hover td::selection,
+tbody > tr.isReversed td .btn-group button.dropdown-toggle.status {
+  color: red !important;
+}
+
+.btn-group.flex2,
+.btn-group.status {
+  position: absolute;
+  display: inline-flex;
+  margin-top: -7px;
+  width: 7.5%;
+}
+
+.btn-group.flex2 button,
+.btn-group.status button {
+  width: 100%;
+  text-align: center;
+}
+
+.btn-group.flex2.open .dropdown-menu,
+.btn-group.status.open .dropdown-menu {
+  z-index: 999999 !important;
+  min-width: 70px;
+  font-size: 10px;
+}
+
+.swal2-modal.prescription-modal {
+  width: 600px !important;
+}
+
+.swal2-modal.prescription-modal .calendar {
+  position: absolute;;
+  width: 40%;
+  bottom: -73px;
+  right: 0px;
+}
+
+.swal2-modal.prescription-modal .swal2-buttonswrapper {
+  text-align: left !important;
+}
+
+.ngPopup .modal-dialog .modal-content,
+.modal-dialog .modal-content {
+  overflow-y: hidden !important;
+}
+
+*:not(.fa):not(.glyphicon) {
+  font-family: 'Cambay', sans-serif !important;
+}
+
+*:not(.fa):not(.btn):not(.glyphicon) {
+  font-size: 14px;
+}
+
+app-claim-result *:not(.fa):not(.btn) {
+  font-size: 14px;
+}
+
+.bg-darkblue, .bg-darkblue:hover, .bg-darkblue:focus {
+  background-color: #414772;
+  color: #fff;
+}
+
+.bg-DarkGreen, .bg-DarkGreen:hover, .bg-DarkGreen:focus {
+  background: #084205;
+  color: #fff;
+}
+
+.bg-vdarkgrey, .bg-vdarkgrey:hover, .bg-vdarkgrey:focus {
+  background-color: #111d21 !important;
+  color: #fff;
+}
+
+.btn:not(.btn-sm):not(.btn-xs) {
+  padding: 8px 15.8px 4px 15.8px
+}
+
+.btn i {
+  margin-right: 4px;
+}
+
+.swal2-modal.prescription-modal .swal2-buttonswrapper {
+  justify-content: left;
+}
+
+.swal2-modal.prescription-modal .swal2-buttonswrapper .button-on-top {
+  z-index: 10;
+}
+
+/*   .sidebar-menu{
+    text-align:left
+  } */
+.row div .content-header {
+  height: 40px;
+}
+
+.content-header > .breadcrumb {
+  left: 20px;
+  float: none;
   top: 0px;
-  padding-top:10px;
-  
+  padding-top: 10px;
+
 }
 
 /*======================
@@ -647,13 +680,15 @@ Check Boxes Styles
   top: 2px;
 }
 
-.commonCheckBox input[type=checkbox]:checked+label:first-of-type:after {
+.commonCheckBox input[type=checkbox]:checked + label:first-of-type:after {
   opacity: 1;
-} 
+}
+
 /*SORT*/
 thead span {
   cursor: pointer;
 }
+
 .fa-unsorted:before,
 .fa-sort:before,
 .fa-sort-up:before,
@@ -664,126 +699,140 @@ thead span {
   font-size: 1.4rem;
   color: #666;
 }
- 
-.swal2-shown .modal.show.in{
+
+.swal2-shown .modal.show.in {
   z-index: 999999 !important;
 }
 
-.ngPopup > .modal-dialog{
-  height:auto !important;
-  margin-bottom:0px;
+.ngPopup > .modal-dialog {
+  height: auto !important;
+  margin-bottom: 0px;
 }
 
-.ngPopup > .modal-dialog .modal-content{
-  min-height:300px;
+.ngPopup > .modal-dialog .modal-content {
+  min-height: 300px;
 }
-.ngPopup > .modal-dialog .modal-content textarea{
+
+.ngPopup > .modal-dialog .modal-content textarea {
   resize: vertical !important;
 }
-modal-backdrop .modal-backdrop.in{
-  z-index:-1 !important;
+
+modal-backdrop .modal-backdrop.in {
+  z-index: -1 !important;
 }
 
-.swal2-modal.invoice-modal{
-  width:85% !important;
-  height:95% !important;
+.swal2-modal.invoice-modal {
+  width: 85% !important;
+  height: 95% !important;
 }
+
 .swal2-modal.invoice-modal .swal2-content,
-.swal2-modal.invoice-modal .swal2-close
-{
-  display:block !important;
+.swal2-modal.invoice-modal .swal2-close {
+  display: block !important;
   outline: none;
   box-shadow: transparent;
 }
-.swal2-modal.invoice-modal .swal2-close
-{
+
+.swal2-modal.invoice-modal .swal2-close {
   font-size: 30pt;
 }
-.swal2-modal.invoice-modal .swal2-content form div.row{
-  display:flex;
+
+.swal2-modal.invoice-modal .swal2-content form div.row {
+  display: flex;
   flex-wrap: wrap;
 }
-.swal2-container{
+
+.swal2-container {
   padding: 2px;
-  z-index:9999992 !important;
+  z-index: 9999992 !important;
 }
-thead{
+
+thead {
   overflow-x: hidden;
 }
-.select2-container.select2-container--open{
-  z-index:1070 !important;
+
+.select2-container.select2-container--open {
+  z-index: 1070 !important;
 }
+
 .isVip .box-header:not(.isMaxBalance),
-.isVip .bg-head-box:not(.isMaxBalance)
-{
+.isVip .bg-head-box:not(.isMaxBalance) {
   background: #002f58 !important;
 }
+
 .box-header.isMaxBalance,
-.bg-head-box.isMaxBalance
-{
+.bg-head-box.isMaxBalance {
   background: #e07500 !important;
 }
-.box-header button.grey1,.box-header button.grey1:hover
-{
+
+.box-header button.grey1, .box-header button.grey1:hover {
   box-shadow: inset 0px 0 0 3px #992727, inset 0 0 0 4px white;
 }
-.isVip .border-style
-{
+
+.isVip .border-style {
   border-left: 6px solid #002f58 !important;
 }
-button.grey1{
+
+button.grey1 {
   font-family: 'Cambay', sans-serif !important;
   padding: 5px 10px !important;
   font-size: 14px;
-  height:34px;
+  height: 34px;
   font-weight: normal;
 }
-.isVip button.grey1,.isVip button.grey1:hover
-{
+
+.isVip button.grey1, .isVip button.grey1:hover {
   box-shadow: inset 0px 0 0 3px #002f58, inset 0 0 0 4px white;
 }
+
 .isVip .box-body,
-.isVip .box-body tr:nth-of-type(odd)
-{
+.isVip .box-body tr:nth-of-type(odd) {
   background: #afcdd8 !important;
 }
-.isVip .box-body tr:nth-of-type(even)
-{
+
+.isVip .box-body tr:nth-of-type(even) {
   background: #cff1fd !important;
 }
 
-.sticky-wrapper .sticky-claim .box-header{
-  color:white;
+.sticky-wrapper .sticky-claim .box-header {
+  color: white;
 }
-.sticky-wrapper.is-sticky .sticky-claim .box-header{
+
+.sticky-wrapper.is-sticky .sticky-claim .box-header {
   border-bottom: 1px solid white;
-  color:white;
-  height:50px;
+  color: white;
+  height: 50px;
 
 }
-.sticky-wrapper.is-sticky .sticky-claim{
+
+.sticky-wrapper.is-sticky .sticky-claim {
   z-index: 9999991;
-  width:100% !important;
+  width: 100% !important;
 }
-.sticky-wrapper:not(.is-sticky) .sticky-claim{
-  color:white;
+
+.sticky-wrapper:not(.is-sticky) .sticky-claim {
+  color: white;
 }
-.duplicate-merge .commonCheckBox input.claimCheckBox{
+
+.duplicate-merge .commonCheckBox input.claimCheckBox {
   display: none !important;
   width: 0px !important;
   height: 0px !important;
 }
-div.toast,#toast-container{
+
+div.toast, #toast-container {
   z-index: 9999995 !important;
 }
-.modal.show.in{
+
+.modal.show.in {
   z-index: 9999992;
 }
+
 .select2-container.select2-container--open {
   z-index: 9999994 !important;
 }
- 
-.swal2-shown .modal.show.in{
+
+.swal2-shown .modal.show.in {
   z-index: 9999994 !important;
 }
 .pointer{

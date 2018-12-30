@@ -16,7 +16,7 @@ export class ColumnSortDirective implements OnInit, AfterViewInit {
   headElement: HTMLTableHeaderCellElement;
 
   constructor(private viewContainerRef: ViewContainerRef) { }
-  
+
   ngOnInit() {
     if (this.template && this.viewContainerRef && this.template.elementRef) {
       this.viewContainerRef.createEmbeddedView(this.template, { data: this });
@@ -47,7 +47,7 @@ export class ColumnSortDirective implements OnInit, AfterViewInit {
     if (this.table) {
       this.table.onColumnSorted(this);
     } else {
-      
+
     }
   }
 

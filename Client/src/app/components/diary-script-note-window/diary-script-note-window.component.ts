@@ -1,4 +1,4 @@
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PrescriptionNote } from '../../models/prescription-note';
 import {WindowInstance} from '../ng-window/WindowInstance';
 import { ToastsManager } from 'ng2-toastr';
@@ -19,18 +19,18 @@ export class ScriptNoteWindowComponent implements OnInit {
   constructor(public dialog: WindowInstance,
     private dp: DatePipe,
     private http: HttpService,
-    private toast: ToastsManager){
+    private toast: ToastsManager) {
    }
 
   ngOnInit() {
     this.dialog.config.BlockParentUI = true;
   }
-  showNote(note){
+  showNote(note) {
     this.note = note;
   }
   saveFollowUpDate() {
     const followupDate = this.dp.transform($('#followupDate').val(), 'MM/dd/yyyy');
-    if (followupDate){
+    if (followupDate) {
     swal({ title: '', html: 'Saving changes... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop)
       .catch(swal.noop);
     this.http.updateDiaryFollowUpDate(this.note.prescriptionNoteId, { diaryId: this.note.diaryId, followUpDate: followupDate })
@@ -41,7 +41,7 @@ export class ScriptNoteWindowComponent implements OnInit {
       }, err => {
         this.toast.error(err.message);
       });
-      }else{
+      } else {
         this.toast.error('Please select a follow-up date');
       }
   }

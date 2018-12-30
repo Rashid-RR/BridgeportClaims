@@ -11,8 +11,8 @@ declare var Highcharts: any;
 })
 export class ReportSampleComponent implements OnInit , AfterViewInit {
     preload = 'auto';
-    categories: Array<any>= [];
-    data: Array<any>= [];
+    categories: Array<any> = [];
+    data: Array<any> = [];
     constructor(
       private http: HttpService,
       private events: EventsService,
@@ -22,7 +22,7 @@ export class ReportSampleComponent implements OnInit , AfterViewInit {
     ) { }
 
     ngAfterViewInit() {
-      if (this.allowed){
+      if (this.allowed) {
         this.reportLoader.loading = true;
         this.http.revenueByMonth({}).subscribe((res: Array<{datePosted: Date, totalPosted: Number}>) => {
           const drilldown: any = [];

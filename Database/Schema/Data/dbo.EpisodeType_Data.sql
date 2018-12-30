@@ -1,15 +1,9 @@
 SET IDENTITY_INSERT [dbo].[EpisodeType] ON
-INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (37, 'BILLING STATEMENT', 'BLST', NULL, 5, '2018-04-23 20:23:33.2037591', '2018-04-23 20:23:33.2037591')
-INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (40, 'MED RECORDS RCVD', 'MEDRCVD', NULL, 32, '2018-05-21 20:01:33.0890145', '2018-05-21 20:01:33.0890145')
-INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (41, 'AOB REQUEST', 'AOBREQ', NULL, 33, '2018-05-21 20:13:45.4999306', '2018-05-21 20:13:45.4999306')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (43, 'DUPLICATE', 'DUP', NULL, 34, '2018-11-23 21:30:56.1187441', '2018-11-23 21:30:56.1187441')
 SET IDENTITY_INSERT [dbo].[EpisodeType] OFF
 SET IDENTITY_INSERT [dbo].[EpisodeType] ON
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (1, 'NONE', 'NONE', NULL, 1, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (2, 'BENEFIT EXHAUST', 'BE', NULL, 4, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
-INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (24, 'APPORTIONMENT', 'APP', NULL, 3, '2018-02-06 16:39:28.2956182', '2018-02-06 16:39:28.2956182')
-INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (30, 'AOB', 'AOB', NULL, 2, '2018-02-22 08:25:26.1328312', '2018-02-22 08:25:26.1328312')
-SET IDENTITY_INSERT [dbo].[EpisodeType] OFF
-SET IDENTITY_INSERT [dbo].[EpisodeType] ON
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (3, 'COB', 'COB', NULL, 6, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (4, 'DENIAL', 'DEN', NULL, 8, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (5, 'FOLLOW UP', 'FU', NULL, 9, '2017-07-26 20:58:53.0058097', '2017-07-26 20:58:53.0058097')
@@ -31,9 +25,14 @@ INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Descripti
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (21, 'PHARMACY CALL', 'PHAR', NULL, 22, '2018-01-11 18:23:07.5975619', '2018-01-11 18:23:07.5975619')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (22, 'NCOF', 'NCOF', NULL, 17, '2018-02-06 16:37:49.6687729', '2018-02-06 16:37:49.6687729')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (23, 'LMN', 'LMN', NULL, 13, '2018-02-06 16:38:55.2325311', '2018-02-06 16:38:55.2325311')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (24, 'APPORTIONMENT', 'APP', NULL, 3, '2018-02-06 16:39:28.2956182', '2018-02-06 16:39:28.2956182')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (25, 'SHORTPAY', 'SP', NULL, 28, '2018-02-06 16:40:12.8277684', '2018-02-06 16:40:12.8277684')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (26, 'NOT MVA', 'NMVA', NULL, 19, '2018-02-06 16:41:17.9383929', '2018-02-06 16:41:17.9383929')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (27, 'DEDUCTIBLE', 'DED', NULL, 7, '2018-02-06 16:41:52.9703176', '2018-02-06 16:41:52.9703176')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (28, 'REFUND REQUEST', 'REF', NULL, 27, '2018-02-06 16:42:27.3303526', '2018-02-06 16:42:27.3303526')
 INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (29, 'LITIGATION', 'LIT', NULL, 12, '2018-02-06 19:37:57.7683039', '2018-02-06 19:37:57.7683039')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (30, 'AOB', 'AOB', NULL, 2, '2018-02-22 08:25:26.1328312', '2018-02-22 08:25:26.1328312')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (37, 'BILLING STATEMENT', 'BLST', NULL, 5, '2018-04-23 20:23:33.2037591', '2018-04-23 20:23:33.2037591')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (40, 'MED RECORDS RCVD', 'MEDRCVD', NULL, 32, '2018-05-21 20:01:33.0890145', '2018-05-21 20:01:33.0890145')
+INSERT INTO [dbo].[EpisodeType] ([EpisodeTypeID], [TypeName], [Code], [Description], [SortOrder], [CreatedOnUTC], [UpdatedOnUTC]) VALUES (41, 'AOB REQUEST', 'AOBREQ', NULL, 33, '2018-05-21 20:13:45.4999306', '2018-05-21 20:13:45.4999306')
 SET IDENTITY_INSERT [dbo].[EpisodeType] OFF

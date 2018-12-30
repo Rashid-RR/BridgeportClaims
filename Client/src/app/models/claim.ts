@@ -39,11 +39,11 @@ export class Claim {
     isVip: boolean;
     genderId: number;
     claimFlex2Id: number;
-    isMaxBalance:boolean;
-    totalOutstandingAmount:number;
-    numberOutstanding:number
-    loadingOutstanding:boolean=false
-    outstanding:Array<Prescription> = [];
+    isMaxBalance: boolean;
+    totalOutstandingAmount: number;
+    numberOutstanding: number;
+    loadingOutstanding = false;
+    outstanding: Array<Prescription> = [];
     private prescription: Array<Prescription> = [];
     private prescriptionNote: Immutable.OrderedMap<Number, PrescriptionNote> = Immutable.OrderedMap<Number, PrescriptionNote>();
     private payment: Array<Payment> = [];
@@ -51,14 +51,14 @@ export class Claim {
     private documentType: Array<DocumentType> = [];
     private episode: Array<Episode> = [];
     private claimFlex2s: Array<ClaimFlex2> = [];
-    genders: {genderId: number,genderName: string}[]= [];
+    genders: {genderId: number, genderName: string}[] = [];
     private prescriptionStatus: Array<PrescriptionStatuses> = [];
     claimNote: ClaimNote;
     editing: Boolean = false;
-    states:{ stateId: number, stateName: string}[]= [];
+    states: { stateId: number, stateName: string}[] = [];
     constructor(claimId: Number, claimNumber: Number, dateOfBirth: Date, injuryDate: Date,
         gender: String, carrier: String, adjustor: String, adjustorPhoneNumber: String, dateEntered: Date, adjustorFaxNumber: String, name?: String, firstName?: String, lastName?: String, flex2?: String, eligibilityTermDate?: Date,
-        address1?:string,address2?: string,city?: string, stateAbbreviation?: string,  postalCode?: any,genders?:any,adjustorExtension?:string) {
+        address1?: string, address2?: string, city?: string, stateAbbreviation?: string,  postalCode?: any, genders?: any, adjustorExtension?: string) {
         this.claimId = claimId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -78,7 +78,7 @@ export class Claim {
         this.adjustorPhoneNumber = adjustorPhoneNumber;
         this.dateEntered = dateEntered;
         this.adjustorFaxNumber = adjustorFaxNumber;
-        this.eligibilityTermDate = eligibilityTermDate; 
+        this.eligibilityTermDate = eligibilityTermDate;
         this.genders = genders;
         this.adjustorExtension = adjustorExtension;
     }
@@ -134,7 +134,7 @@ export class Claim {
     setPrescriptionNotes(prescriptionNotes: Array<PrescriptionNote>) {
         if (prescriptionNotes) {
             prescriptionNotes.forEach(note => {
-                let n = this.prescriptionNote.get(note.prescriptionNoteId);
+                const n = this.prescriptionNote.get(note.prescriptionNoteId);
                 if (note.scripts && note.scripts.length > 0) {
                     note.rxDate = note.scripts[0].rxDate;
                     note.rxNumber = note.scripts[0].rxNumber;

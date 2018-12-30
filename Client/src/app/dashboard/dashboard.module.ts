@@ -14,6 +14,6 @@ import { NotificationComponent } from './notification/notification.component';
       CommonModule,
       RouterModule.forChild(DashboardRoutes),
   ],
-  declarations: [DashboardLinksComponent, ClientViewComponent,NotificationComponent]
+  declarations: [DashboardLinksComponent, ClientViewComponent, NotificationComponent]
 })
 export class DashboardModule { }

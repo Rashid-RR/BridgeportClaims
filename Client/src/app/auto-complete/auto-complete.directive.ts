@@ -86,7 +86,7 @@ export class AutoCompleteDirective implements OnInit, OnChanges, AfterViewInit, 
   }
 
   ngOnInit(): void {
-    // Blur event is handled only after a click event. This is to prevent handling of blur 
+    // Blur event is handled only after a click event. This is to prevent handling of blur
     // events resulting from interacting with a scrollbar
     // introduced by content overflow (Internet explorer issue).
     // See issue description here: http://stackoverflow.com/questions/2023779/clicking-on-a-divs-scroll-bar-fires-the-blur-event-in-ie

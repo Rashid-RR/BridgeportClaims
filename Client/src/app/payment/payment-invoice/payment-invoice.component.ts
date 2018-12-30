@@ -27,7 +27,7 @@ export class PaymentInvoiceComponent implements OnInit, AfterViewInit {
   ngOnInit() {
 
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
      // Date picker
     window['jQuery']('#datepicker').datepicker({
       autoclose: true
@@ -36,26 +36,26 @@ export class PaymentInvoiceComponent implements OnInit, AfterViewInit {
     window['jQuery']('[data-mask]').inputmask();
   }
 
- textChange(controlName: string){
-   if (this.form.get(controlName).value === 'undefined' || this.form.get(controlName).value === ''){
+ textChange(controlName: string) {
+   if (this.form.get(controlName).value === 'undefined' || this.form.get(controlName).value === '') {
      this.form.get(controlName).setValue(null);
    }
  }
-  search(){
+  search() {
     const form  = this.form.value;
-    if ((window['jQuery']('#datepicker').val())){
+    if ((window['jQuery']('#datepicker').val())) {
       form.rxDate = window['jQuery']('#datepicker').val();
     }
     this.paymentService.search(this.form.value, false);
   }
-  refresh(){
+  refresh() {
     const form = this.form.value;
-    if ((window['jQuery']('#datepicker').val())){
+    if ((window['jQuery']('#datepicker').val())) {
       form.rxDate = window['jQuery']('#datepicker').val();
     }
     this.paymentService.search(form, false);
   }
-  clear(){
+  clear() {
     this.paymentService.clearClaimsData();
     this.form.patchValue({
       claimNumber: null,

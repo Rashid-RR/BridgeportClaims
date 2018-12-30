@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ToastsManager, Toast } from 'ng2-toastr';
 
 import { ConfirmComponent } from '../../components/confirm.component';
-import { DocumentManagerService } from "../../services/document-manager.service";
+import { DocumentManagerService } from '../../services/document-manager.service';
 import { DocumentItem } from '../../models/document';
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
@@ -46,7 +46,7 @@ export class UnindexedInvalidCheckListComponent implements OnInit, AfterViewInit
   };
   next() {
     this.ds.searchInvalidCheckes(true);
-    this.goToPage ='';
+    this.goToPage = '';
   }
   openFile(file: DocumentItem) {
     this.ds.loading = true;
@@ -55,41 +55,41 @@ export class UnindexedInvalidCheckListComponent implements OnInit, AfterViewInit
     this.ds.loading = false;
     this.ds.indexNewCheck = false;
   }
-  archive(file:DocumentItem) {
+  archive(file: DocumentItem) {
     this.dialogService.addDialog(ConfirmComponent, {
-      title: "Archive Check",
-      message: "Are you sure you wish to archive "+file.fileName+"?"
+      title: 'Archive Check',
+      message: 'Are you sure you wish to archive ' + file.fileName + '?'
     })
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
-          this.ds.archive(file.documentId,false,'searchInvalidCheckes');
+          this.ds.archive(file.documentId, false, 'searchInvalidCheckes');
         }
       });
   }
   goto() {
-    let page = Number.parseInt(this.goToPage);
+    const page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
 
     } else if (page > 0 && page <= this.ds.invalidCheckTotalPages) {
       this.ds.searchInvalidCheckes(false, false, page);
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages;
       } else {
         this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages).then((toast: Toast) => {
           this.activeToast = toast;
-        })
+        });
       }
     }
   }
   prev() {
     this.ds.searchInvalidCheckes(false, true);
-    this.goToPage ='';
+    this.goToPage = '';
   }
   keyPress(event: any) {
     const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    let input = Number(this.goToPage + "" + inputChar);
+    const inputChar = String.fromCharCode(event.charCode);
+    const input = Number(this.goToPage + '' + inputChar);
     if (!pattern.test(inputChar)) {
       event.preventDefault();
     } else if (!this.isNumeric(input)) {

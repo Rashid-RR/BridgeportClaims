@@ -3,26 +3,30 @@
     <!--</div>-->
     <div class="col-md-3">
       <div class="form-group">
-        <label>Adjustor Name</label>
+        <label>{{rs.typeSelected}} Name</label>
         <div class="">
           <div class="">
             <i class=""></i>
           </div>
           <input (focus)="submitted=false" [(ngModel)]="adjustorName" class="form-control pull-right"
-                 id="adjustorName" name="adjustorName" placeholder="Type Adjustor Name..."
+                 id="adjustorName" name="adjustorName" [placeholder]="'Type '+rs.typeSelected+' Name...'"
                  type="text">
 
         </div>
       </div>
     </div>
     <div class="col-md-2">
-      <!--<mat-form-field>-->
-        <!--<mat-select placeholder="Favorite food">-->
-          <!--<mat-option *ngFor="let food of foods" [value]="food.value">-->
-            <!--{{food.viewValue}}-->
-          <!--</mat-option>-->
-        <!--</mat-select>-->
-      <!--</mat-form-field>-->
+      <div class="form-group">
+        <label>Reference</label>
+      <mat-form-field>
+        <mat-select (change)="changeSelection($event)" [(value)]="rs.typeSelected">
+          <mat-option *ngFor="let type of rs.types" [value]="type">
+            {{type}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      </div>
 
     </div>
 
@@ -39,7 +43,7 @@
            <button class="color-palette btn bg-darkRed btn-flat btn-small" data-target="#modalAddAdjustor"
                    data-toggle="modal" style="margin-left: 4px;"
                    type="button">
-                    <i aria-hidden="true" class="fa fa-plus"></i> Add Adjustor</button>
+                    <i aria-hidden="true" class="fa fa-plus"></i> Add {{rs.typeSelected}}</button>
                 </span>
       </div>
     </div>

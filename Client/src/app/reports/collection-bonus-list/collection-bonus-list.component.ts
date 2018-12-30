@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReportLoaderService,ProfileManager, CollectionBonusService } from '../../services/services.barrel';
+import { ReportLoaderService, ProfileManager, CollectionBonusService } from '../../services/services.barrel';
 import { Toast, ToastsManager } from 'ng2-toastr';
 
 @Component({
@@ -11,12 +11,12 @@ export class CollectionBonusListComponent implements OnInit {
   goToPage: any = '';
   activeToast: Toast;
   constructor(private toast: ToastsManager, public bonusService: CollectionBonusService,
-    public reportloader: ReportLoaderService,private profileManager: ProfileManager) { }
+    public reportloader: ReportLoaderService, private profileManager: ProfileManager) { }
 
   ngOnInit() {
     this.bonusService.fetchBonusReport();
   }
-   
+
   get userName() {
     return this.profileManager.profile ? this.profileManager.profile.firstName + ' ' + this.profileManager.profile.lastName : '';
   }

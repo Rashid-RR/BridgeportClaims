@@ -20,7 +20,7 @@ declare var $: any;
 export class IndexFileComponent implements OnInit, AfterViewInit {
 
   @Input() file: DocumentItem;
-  dropdownVisible= false;
+  dropdownVisible = false;
   form: FormGroup;
   loading = false;
   linkClaim = false;

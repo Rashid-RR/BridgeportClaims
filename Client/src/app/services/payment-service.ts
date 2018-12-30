@@ -6,28 +6,28 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
-import {PaymentPosting} from "../models/payment-posting";
-import {PaymentPostingPrescription} from '../models/payment-posting-prescription'
+import {PaymentPosting} from '../models/payment-posting';
+import {PaymentPostingPrescription} from '../models/payment-posting-prescription';
 import { ToastsManager } from 'ng2-toastr';
-import { SortColumnInfo } from "../directives/table-sort.directive";
+import { SortColumnInfo } from '../directives/table-sort.directive';
 
-declare var $:any
+declare var $: any;
 @Injectable()
 export class PaymentService {
   claims: Immutable.OrderedMap<Number, PaymentClaim> = Immutable.OrderedMap<Number, PaymentClaim>();
   claimsDetail: Immutable.OrderedMap<Number, DetailedPaymentClaim> = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
   loading: Boolean = false;
   loadingPayment: Boolean = false;
-  paymentPosting:PaymentPosting= new PaymentPosting();
+  paymentPosting: PaymentPosting = new PaymentPosting();
   prescriptionSelected: Boolean = false;
   sortColumn: SortColumnInfo;
-  lastPrescriptionIds: Array<Number>=[];
-  documentWindow:any[]=[];
+  lastPrescriptionIds: Array<Number> = [];
+  documentWindow: any[] = [];
   constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
-    this.events.on('postPaymentPrescriptionReturnDtos',data=>{
-          data.prescriptions.forEach(d=>{
-             var prescription = this.claimsDetail.get(d.prescriptionId);
-            if(prescription){
+    this.events.on('postPaymentPrescriptionReturnDtos', data => {
+          data.prescriptions.forEach(d => {
+             const prescription = this.claimsDetail.get(d.prescriptionId);
+            if (prescription) {
               prescription.outstanding = Number(d.outstanding);
             }
            });
@@ -43,7 +43,7 @@ export class PaymentService {
     this.sortColumn = info;
     this.getPaymentClaimDataByIds(this.lastPrescriptionIds);
   }
-  search(data, addHistory = true,showModalAfterUpdate=false) {
+  search(data, addHistory = true, showModalAfterUpdate= false) {
     if (data.claimNumber == null && data.firstName == null && data.lastName == null && data.rxDate == null && data.invoiceNumber == null) {
           this.toast.warning('Please populate at least one search field.');
     } else {
@@ -59,7 +59,7 @@ export class PaymentService {
              this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
             result.forEach(claim => {
               const c = new PaymentClaim(claim.claimId, claim.claimNumber, claim.patientName, claim.payor, claim.numberOfPrescriptions);
-              if(result.length==1){
+              if (result.length == 1) {
                 c.selected = true;
               }
               this.claims = this.claims.set(claim.claimId, c);
@@ -69,10 +69,10 @@ export class PaymentService {
           this.loading = false;
           try {
             const error = err.error;
-            
+
           } catch (e) { }
-        }, () => {           
-            this.events.broadcast('payment-updated',true); 
+        }, () => {
+            this.events.broadcast('payment-updated', true);
 
         });
     }
@@ -85,27 +85,27 @@ export class PaymentService {
       this.http.paymentPosting(data)
         .single().subscribe((result: any) => {
           this.loading = false;
-          this.toast.info("Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database");
-           //this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
-           result.paymentPostings.forEach(prescription=>{
-             try{
+          this.toast.info('Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database');
+           // this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
+           result.paymentPostings.forEach(prescription => {
+             try {
                 this.claimsDetail.get(prescription.prescriptionId).outstanding = prescription.outstanding;
-                //this.claimsDetail.get(prescription.prescriptionId).outstanding = this.claimsDetail.get(prescription.prescriptionId).invoicedAmount+prescription.outstanding;
+                // this.claimsDetail.get(prescription.prescriptionId).outstanding = this.claimsDetail.get(prescription.prescriptionId).invoicedAmount+prescription.outstanding;
                 this.claimsDetail.get(prescription.prescriptionId).selected = false;
-             }catch(e){}
-             let posting  = prescription as PaymentPostingPrescription;             
-             this.paymentPosting.payments = this.paymentPosting.payments.set(posting.id,posting);
+             } catch (e) {}
+             const posting  = prescription as PaymentPostingPrescription;
+             this.paymentPosting.payments = this.paymentPosting.payments.set(posting.id, posting);
            });
-           
+
            result.lastUpdatedTimeStamp = new Date();
-           setTimeout(()=>{
-             this.events.broadcast('payment-amountRemaining',result);
-            },200);           
+           setTimeout(() => {
+             this.events.broadcast('payment-amountRemaining', result);
+            }, 200);
         }, err => {
           this.loading = false;
           try {
             const error = err.error;
-            
+
           } catch (e) { }
         }, () => {
           this.events.broadcast('payment-updated');
@@ -116,17 +116,17 @@ export class PaymentService {
   get dataSize() {
     return this.claims.size;
   }
-  get selected(){
+  get selected() {
     return this.claimsDetail.toArray().filter(claim => {
         return claim.selected;
     });
   }
-  get unselected(){
+  get unselected() {
     return this.claimsDetail.toArray().filter(claim => {
         return !claim.selected;
     });
   }
-  get amountSelected(){
+  get amountSelected() {
      let amount = 0;
      this.selected.forEach(detailedPaymentClaim => {
         amount = amount + Number(detailedPaymentClaim.invoicedAmount);
@@ -136,7 +136,7 @@ export class PaymentService {
   get claimsData(): PaymentClaim[] {
     return this.claims.asImmutable().toArray();
   }
-  get claimsDataCount(): Number{
+  get claimsDataCount(): Number {
     let count = 0;
      this.claims.asImmutable().toArray().forEach(c => {
        if (c.selected) {
@@ -145,7 +145,7 @@ export class PaymentService {
      });
      return count;
   }
-  get detailedClaimsDataCount(): Number{
+  get detailedClaimsDataCount(): Number {
      let count = 0;
      this.claimsDetail.asImmutable().toArray().forEach(c => {
        if (c.selected) {
@@ -167,103 +167,105 @@ export class PaymentService {
     this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
   }
 
-  unSelectAllPrescriptions(){
+  unSelectAllPrescriptions() {
     this.claimsDetail.asImmutable().toArray().forEach(c => {
       c.selected = false;
       c.filterSelected = false;
       c.searchSelected = false;
    });
    $('input#claimsCheckBox').prop('checked', false);
-   this.events.broadcast('claimsCheckBox',false);
+   this.events.broadcast('claimsCheckBox', false);
   }
-  moveSelectedPrescriptions(){
+  moveSelectedPrescriptions() {
     this.claimsDetail.asImmutable().toArray().forEach(c => {
-      if(c.searchSelected && !c.selected)
+      if (c.searchSelected && !c.selected) {
         c.selected = true;
+      }
         c.filterSelected = false;
         c.searchSelected = false;
    });
   }
-  moveUnselectedPrescriptions(){
+  moveUnselectedPrescriptions() {
     this.claimsDetail.asImmutable().toArray().forEach(c => {
-      if(c.filterSelected && c.selected)
+      if (c.filterSelected && c.selected) {
         c.selected = false;
+      }
         c.filterSelected = false;
         c.searchSelected = false;
       });
   }
-  selectAllPrescriptions(){
+  selectAllPrescriptions() {
     this.claimsDetail.asImmutable().toArray().forEach(c => {
        c.selected = true;
        c.filterSelected = false;
        c.searchSelected = false;
-    }); 
+    });
     $('input#claimsCheckBox').prop('checked', false);
-    this.events.broadcast('claimsCheckBox',false);
+    this.events.broadcast('claimsCheckBox', false);
   }
-  finalizePosting(data:any){
+  finalizePosting(data: any) {
     this.loading = true;
     this.http.finalizePosting(data)
       .subscribe(result => {
         this.loading = false;
-        
+
         if (result.message) {
           this.toast.success(result.message);
         }
         this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
-        this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();
-        this.events.broadcast('payment-updated',false);
-        this.events.broadcast('payment-closed',false);
-        this.events.broadcast("disable-links",false);
+        this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
+        this.events.broadcast('payment-updated', false);
+        this.events.broadcast('payment-closed', false);
+        this.events.broadcast('disable-links', false);
         this.router.navigate([`/main/payments`]);
       }, err => {
         this.loading = false;
         if (err.message) {
           this.toast.error(err.message);
         }
-        this.events.broadcast('payment-updated',true);
+        this.events.broadcast('payment-updated', true);
       }, () => {
       });
   }
-  paymentToSuspense(data:any){
+  paymentToSuspense(data: any) {
     this.loading = true;
     this.http.paymentToSuspense(data)
       .subscribe(result => {
         this.loading = false;
         if (result.message) {
           this.toast.success(result.message);
-        }        
+        }
         this.claims = Immutable.OrderedMap<Number, PaymentClaim>();
-        this.claimsDetail= Immutable.OrderedMap<Number, DetailedPaymentClaim>();        
-        this.events.broadcast('payment-suspense',false);
-        this.events.broadcast("disable-links",false);
+        this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
+        this.events.broadcast('payment-suspense', false);
+        this.events.broadcast('disable-links', false);
         this.router.navigate([`/main/payments`]);
       }, err => {
         this.loading = false;
-        
+
         if (err.message) {
           this.toast.error(err.message);
         }
       }, () => {
       });
   }
-  deletePayment(data:any){
+  deletePayment(data: any) {
     this.loading = true;
     this.http.deletePayment(data)
       .subscribe(result => {
         this.loading = false;
         this.paymentPosting.payments = this.paymentPosting.payments.delete(data.id);
-        
+
         if (result.message) {
           this.toast.success(result.message);
-          if(result.amountRemaining){
-            let data = {amountRemaining:result.amountRemaining,sessionId:this.paymentPosting.sessionId};
-            this.events.broadcast('payment-amountRemaining',data);
+          if (result.amountRemaining) {
+            const data = {amountRemaining: result.amountRemaining, sessionId: this.paymentPosting.sessionId};
+            this.events.broadcast('payment-amountRemaining', data);
           }
         }
       }, err => {
         this.loading = false;
-        
+
         if (err.message) {
           this.toast.error(err.message);
         }
@@ -271,9 +273,9 @@ export class PaymentService {
       });
   }
   getPaymentClaimDataByIds(ids: Array<Number>= []) {
-      let page = 1;
-      let page_size = 1000;
-      let sort: string = 'RxDate';
+      const page = 1;
+      const page_size = 1000;
+      let sort = 'RxDate';
       let sort_dir: 'asc' | 'desc' = 'desc';
       if (this.sortColumn) {
         sort = this.sortColumn.column;
@@ -281,7 +283,7 @@ export class PaymentService {
       }
       if (ids.length > 0) {
       this.loading = true;
-      this.http.getDetailedPaymentClaim(ids,sort,sort_dir,page,page_size)
+      this.http.getDetailedPaymentClaim(ids, sort, sort_dir, page, page_size)
         .subscribe(result => {
           this.lastPrescriptionIds = ids;
           this.loading = false;
@@ -293,24 +295,24 @@ export class PaymentService {
           this.loadingPayment = true;
             const res: Array<DetailedPaymentClaim> = result;
             this.claimsDetail = Immutable.OrderedMap<Number, DetailedPaymentClaim>();
-            //var i=0; //test
+            // var i=0; //test
             result.forEach(claim => {
               // claim.isReversed = i%2== 0 ? true : false; //test
               const c = new DetailedPaymentClaim(claim.prescriptionId, claim.claimId, claim.claimNumber, claim.patientName,
-                claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName, claim.outstanding, claim.invoicedAmount, claim.payor,claim.isReversed);
-                c.selected = result.length ==1  && !claim.isReversed ? true : false;
+                claim.rxNumber, claim.invoicedNumber, claim.rxDate, claim.labelName, claim.outstanding, claim.invoicedAmount, claim.payor, claim.isReversed);
+                c.selected = result.length == 1  && !claim.isReversed ? true : false;
                 this.claimsDetail = this.claimsDetail.set(claim.prescriptionId, c);
-              //i++;//meant for test
+              // i++;//meant for test
             });
             this.loadingPayment = false;
           }
-         this.events.broadcast('payment-updated',false);
+         this.events.broadcast('payment-updated', false);
         }, err => {
         this.loadingPayment = false;
           this.loading = false;
-          
-          //const error = err.error;
-          this.events.broadcast('payment-updated',true);
+
+          // const error = err.error;
+          this.events.broadcast('payment-updated', true);
         }, () => {
         });
     }
