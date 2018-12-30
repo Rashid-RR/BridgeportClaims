@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AutoCompleteModule } from '../auto-complete';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DiaryInputComponent } from './diary-input/diary-input.component';
 import { DiaryResultsComponent } from './diary-results/diary-results.component';

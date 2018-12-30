@@ -82,6 +82,7 @@ export const routes: Routes = [
           { path: 'fileupload', component: FileUploadComponent },
           { path: 'diary', loadChildren: './diaries/diaries.module#DiariesModule' },
           { path: 'referral', loadChildren: './referral/referral.module#ReferralModule' },
+          { path: 'decision-tree', loadChildren: './decision-tree/decision-tree.module#DecisionTreeModule' },
           { path: 'episodes', component: EpisodePageComponent }        ]
       }
     ]

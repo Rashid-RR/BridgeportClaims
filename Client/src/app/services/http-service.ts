@@ -1221,11 +1221,32 @@ export class HttpService {
       });
   }
 
-
-
-
   getadjustorname(data:any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/adjustors/get-adjustors', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+  getTree(data:any): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/trees/get-decision-tree/?rootTreeId=${data.rootTreeId}`, data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+  saveTreeChildNode(data:any): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/trees/save-decision-tree`, data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+  saveTreeRoot(data:any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/trees/save-decision-tree', data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
