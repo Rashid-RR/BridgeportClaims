@@ -5,6 +5,8 @@ import {adjustorItem} from '../references/dataitems/adjustors';
 @Injectable()
 export class ReferenceManagerService {
 
+  public editFlag=false;
+
   public loading = false;
   public adjustors: Array<adjustorItem>;
   public totalAdjustors = 0;
@@ -14,6 +16,7 @@ export class ReferenceManagerService {
 
   private sort: string;
   public typeSelected: string;
+  public editAdjustor: any;
   private searchText: string;
   public sortColumn: string;
   public currentPage = 1;
@@ -45,6 +48,9 @@ export class ReferenceManagerService {
   }
 
 
+  editStatus(){
+    return this.editFlag;
+  }
   getadjustorslist() {
 
     this.data.searchText = this.searchText;

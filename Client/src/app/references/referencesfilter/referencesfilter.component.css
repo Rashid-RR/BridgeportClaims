@@ -118,3 +118,26 @@ mat-form-field{
   width: 98%;
   top: -5px;
 }
+
+.md-select-menu-container {
+  z-index: 9999;
+}
+
+.mat-select-menu-container,
+.mat-open-menu-container {
+  z-index: 999999 !important;
+}
+
+.cdk-global-overlay-wrapper, .cdk-overlay-container {
+  z-index: 99999 !important;
+}
+.ng-trigger.ng-trigger-transformPanel.ng-tns-c8-3.mat-select-panel.mat-primary.mat-select-panel-done-animating {
+  z-index: 999999999 !important;
+}
+.cdk-global-overlay-wrapper {
+  z-index: 1000;
+}
+
+.cdk-overlay-container {
+  z-index: 1000000000 !important;
+}

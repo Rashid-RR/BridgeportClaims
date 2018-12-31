@@ -695,7 +695,7 @@ export class HttpService {
   }
 
   reIndexedCheck(data: any): Observable<any> {
-    return this.http.post(this.baseUrl + '/payment/re-index-check/?documentId=' + data.documentId + '&skipPayments=' + data.skipPayments + '&prescriptionPaymentId' , {})
+    return this.http.post(this.baseUrl + '/payment/re-index-check/?documentId=' + data.documentId + '&skipPayments=' + data.skipPayments + '&prescriptionPaymentId', {})
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
@@ -913,6 +913,7 @@ export class HttpService {
         return Observable.throw(err);
       });
   }
+
   collectionBonus(data?: any): Observable<any> {
     const params = new HttpParams()
       .set('month', data.month)
@@ -1181,10 +1182,11 @@ export class HttpService {
       observe: 'response',
       responseType: 'blob'
     }).catch(err => {
-        this.handleResponseError(err);
-        return Observable.throw(err);
-      });
+      this.handleResponseError(err);
+      return Observable.throw(err);
+    });
   }
+
   exportLetter(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/letters/download/?claimId=' + data.claimId + '&letterType='
       + data.type + '&prescriptionId=' + data.prescriptionId, data, {
@@ -1222,8 +1224,6 @@ export class HttpService {
   }
 
 
-
-
   getadjustorname(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/adjustors/get-adjustors', data)
       .catch(err => {
@@ -1235,6 +1235,51 @@ export class HttpService {
 
   getatorneyname(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/attorney/get-attorneys', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
+  updateadjustor(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/adjustors/update-adjustor', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
+  insertadjustor(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/adjustors/insert-adjustor', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
+  insertattorney(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/attorney/insert-attorney', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
+  updateattorney(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + '/adjustors/update-adjustor', data)
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+
+  getstates(data: any): Observable<any> {
+    const s = this.http.get(this.baseUrl + '/attorney/get-states')
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

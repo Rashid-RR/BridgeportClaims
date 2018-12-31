@@ -97,6 +97,11 @@
             <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.emailAddress}}</td>
             <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.extension}}</td>
             <td>{{adjustor?.modifiedBy}}</td>
+            <td style="float: right">
+              <button type="button" (click)="edit(adjustor)" class="btn btn-primary btn-xs">
+                Edit
+              </button>
+            </td>
 
           </tr>
         </ng-container>

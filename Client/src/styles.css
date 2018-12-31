@@ -6,6 +6,12 @@
 @import url(//fonts.googleapis.com/css?family=Nova%20Flat);
 @import url(//fonts.googleapis.com/css?family=Atomic%20Age);
 
+
+.cdk-overlay-container {
+  z-index: 1000000000 !important;
+}
+
+
 .main-header {
   position: fixed;
   width: 100%;

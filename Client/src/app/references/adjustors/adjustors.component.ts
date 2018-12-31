@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
 import {Toast, ToastsManager} from 'ng2-toastr';
 
@@ -11,9 +11,11 @@ export class AdjustorsComponent implements OnInit {
 
   goToPage: any = '';
   activeToast: Toast;
+
   constructor(public rs: ReferenceManagerService,
               private toast: ToastsManager,
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
   }
@@ -35,6 +37,7 @@ export class AdjustorsComponent implements OnInit {
       }
     }
   }
+
   next() {
 
     this.rs.currentPage += this.rs.currentPage;
@@ -45,6 +48,7 @@ export class AdjustorsComponent implements OnInit {
     this.rs.currentPage = this.rs.currentPage - 1;
     this.rs.getadjustorslist();
   }
+
   keyPress(event: any) {
     // const pattern = /[0-9\+\-\ ]/;
     // const inputChar = String.fromCharCode(event.charCode);
@@ -56,5 +60,12 @@ export class AdjustorsComponent implements OnInit {
     // } else if (input < 1) {
     //   event.preventDefault();
     // }
+  }
+
+  edit(adjustor: any) {
+    this.rs.editFlag = true;
+    this.rs.editAdjustor = adjustor;
+    console.log(this.rs.editAdjustor);
+
   }
 }
