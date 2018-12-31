@@ -79,8 +79,7 @@ import {OutstandingFilterComponent} from './components/outstanding-filter/outsta
 import {OutstandingResultComponent} from './components/outstanding-result/outstanding-result.component';
 import {ClaimOutstandingComponent} from './components/claim-outstanding/claim-outstanding.component';
 import {StringService} from './services/string.service';
-import {ReferenceManagerService} from './services/reference-manager.service'; 
-
+import {ReferenceManagerService} from './services/reference-manager.service';
 
 
 @NgModule({

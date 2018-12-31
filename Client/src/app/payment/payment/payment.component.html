@@ -33,9 +33,9 @@
                 </div>
             </div>
             <div class="box-body" style="padding-top:0px;">
-                <div class="row search">
+                <div class="row search"  *ngIf="documentId">
                     <div class="col-sm-12" id="accordion">
-                        <!--<app-payment-input></app-payment-input>-->
+                        <app-payment-input></app-payment-input>
                     </div>
                 </div>
                 <ng-container *ngIf="!documentId">
