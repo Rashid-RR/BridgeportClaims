@@ -2,7 +2,6 @@ import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, Elem
 import {HttpService} from '../../services/http-service';
 import {PaymentService} from '../../services/payment-service';
 import {EventsService} from '../../services/events-service';
-import {PaymentClaim} from '../../models/payment-claim';
 import {ToastsManager } from 'ng2-toastr';
 declare var jQuery: any;
 

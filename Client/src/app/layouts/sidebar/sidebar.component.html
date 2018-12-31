@@ -104,6 +104,12 @@
           <span>User Management</span>
         </a>
       </li>
+      <!-- <li [class.active]="router.url.indexOf('/main/decision-tree')>-1">
+        <a [routerLink]="!disableLinks ? '/main/decision-tree'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
+          <img style='width: 25px;' src="assets/img/decision-tree-icon.png">
+          <span>Decision Tree</span>
+        </a>
+      </li> -->
       <li [class.active]="router.url.indexOf('/main/firewall')>-1">
         <a [routerLink]="!disableLinks ? '/main/firewall'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
           <img style='width: 25px;' src="assets/img/firewall.png">

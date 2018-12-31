@@ -1,0 +1,69 @@
+<div class="row">
+  <div class="col-md-12">
+    <section class="content-header">
+      <ol class="breadcrumb pull-left">
+        <li>
+          <a routerLink="/">
+            <i class="fa fa-home"></i> Home
+          </a>
+        </li>
+        <li class="active">
+          <a [routerLink]="[]">
+            Decision Tree
+          </a>
+        </li>
+        <li class="active">
+          <a [routerLink]="[]">
+            Design
+          </a>
+        </li>
+      </ol>
+    </section>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title"> Design Decision Tree</h3>
+      </div>
+      <div class="box-body">
+
+        <!-- Diary Results -->
+        <div class="row">
+          <div class="col-sm-12" id="accordion">
+            <div class="box">
+              <div class="box-header bg-head-box">
+                <span class="blade-title panel-head">
+                  <i class="fa fa-pencil" aria-hidden="true"></i> Design
+                </span>
+                <div class="box-tools pull-right">
+                  <button type="button" *ngIf="!tree" class="transparent btn btn-flat btn-sm" (click)="createTree()"
+                    title="Grid View">
+                    Create New Tree
+                  </button>
+                </div>
+
+              </div>
+              <div class="box-body diary-results">
+                <div culass="row claim-info">
+                  <div class="col-sm-12 claim-col expanded">
+                    <div style="height:auto;width:100%">
+                      <svg [attr.width]="width" height="600" #decisionTree>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="overlay" *ngIf="loading">
+          <img src="assets/1.gif">
+      </div>
+    </div>
+  </div>
+</div>
