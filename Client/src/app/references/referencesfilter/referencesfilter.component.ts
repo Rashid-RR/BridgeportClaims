@@ -17,7 +17,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   adjustorName: string;
   adjustorModel: any = {};
   states: any = [];
-  selectedState: string;
+  selectedState: any = {};
   selectedStateId: string;
   submitted = false;
   public flag = 'File Name';
@@ -53,6 +53,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     });
     this.http.getstates({}).subscribe(data => {
       this.states = data;
+      this.selectedState = this.states[0]
     }, error1 => {
       //console.log(error1)
     })
@@ -106,30 +107,37 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           this.http.updateadjustor(this.form.value).subscribe(data => {
             this.toast.success('Record successfully updated.');
 
+            this.form.reset();
+            this.rs.editFlag = false;
+            this.rs.getadjustorslist();
             $('#modalAddAdjustor').modal('hide');
 
           }, error1 => {
-            //console.log(error1)
+            this.toast.error(error1)
           })
 
         }
       } else if (this.rs.typeSelected === this.rs.types[1]) {
-        if (!this.attornyform.dirty) {
-          this.toast.warning('you have not made any changes yet');
+        this.attornyform.controls.stateId.setValue(this.selectedState.stateId);
+        this.attornyform.controls.stateName.setValue(this.selectedState.stateName);
 
+        if (this.rs.editAdjustor.stateName === this.selectedState.stateName && !this.attornyform.dirty) {
+          this.toast.error('you have not made any changes yet')
         } else if (!this.attornyform.valid) {
           this.toast.warning('Invalid field value(s). Please correct to proceed.');
 
 
         } else {
+
           this.http.updateattorney(this.attornyform.value).subscribe(data => {
 
             this.toast.success('Record successfully updated.');
-
+            this.form.reset();
+            this.rs.editFlag = false;
+            this.rs.getadjustorslist();
             $('#modalAddAdjustor').modal('hide');
 
           }, error1 => {
-            //console.log(error1);
             this.toast.error(error1)
           })
 
@@ -190,7 +198,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   openModel() {
-
+    console.log(this.rs.editAdjustor);
     $('#modalAddAdjustor').modal('show');
 
     //console.log(this.states);
@@ -204,7 +212,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
         this.form.controls.faxNumber.setValue(this.rs.editAdjustor.faxNumber);
 
       } else if (this.rs.typeSelected === this.rs.types[1]) {
-       
+
         this.attornyform.controls.attorneyId.setValue(this.rs.editAdjustor.attorneyId);
         this.attornyform.controls.attorneyName.setValue(this.rs.editAdjustor.attorneyName);
         this.attornyform.controls.phoneNumber.setValue(this.rs.editAdjustor.phoneNumber);
@@ -213,9 +221,10 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
         this.attornyform.controls.city.setValue(this.rs.editAdjustor.city);
         this.attornyform.controls.address1.setValue(this.rs.editAdjustor.address1);
         this.attornyform.controls.address2.setValue(this.rs.editAdjustor.address2);
-        this.attornyform.controls.stateName.setValue(this.selectedState);
+        this.attornyform.controls.stateName.setValue(this.rs.editAdjustor.stateName);
         this.attornyform.controls.postalCode.setValue(this.rs.editAdjustor.postalCode);
-
+        const index = this.states.findIndex(state => state.stateName = this.rs.editAdjustor.stateName);
+        this.selectedState = this.states[index];
 
       }
 
@@ -233,6 +242,8 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   changestate(event) {
     //console.log(event);
     this.selectedStateId = event.value.stateId;
+    this.attornyform.controls.stateName.setValue(event.value.stateName);
+
   }
 }
 

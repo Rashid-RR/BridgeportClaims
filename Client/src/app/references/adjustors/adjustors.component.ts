@@ -65,7 +65,7 @@ export class AdjustorsComponent implements OnInit {
   edit(adjustor: any) {
     this.rs.editFlag = true;
     this.rs.editAdjustor = adjustor;
-    console.log(this.rs.editAdjustor);
+    //console.log(this.rs.editAdjustor);
 
   }
 }

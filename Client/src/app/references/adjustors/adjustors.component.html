@@ -74,14 +74,16 @@
                                 Modified
                             </span>
           </th>
+          <th></th>
         </tr>
 
         </thead>
+
       </table>
     </div>
     <div class="table-responsive table-body">
       <table class="table no-margin table-striped" id="maintable">
-        <tbody #diaryTable class="overflowable" tabindex="0">
+        <tbody  class="overflowable" tabindex="0">
         <ng-container *ngFor="let adjustor of rs.getadjustors()">
           <tr>
 
@@ -89,7 +91,7 @@
             <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.attorneyName}}</td>
             <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.address1}}</td>
             <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.address2}}</td>
-            <td>{{adjustor?.phoneNumber}}</td>
+            <td>{{adjustor?.phoneNumber }}</td>
             <td>{{adjustor?.faxNumber}}</td>
             <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.postalCode}}</td>
             <td *ngIf="rs.typeSelected==rs.types[1]">{{adjustor?.stateName}}</td>
@@ -97,9 +99,9 @@
             <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.emailAddress}}</td>
             <td *ngIf="rs.typeSelected==rs.types[0]">{{adjustor?.extension}}</td>
             <td>{{adjustor?.modifiedBy}}</td>
-            <td style="float: right">
-              <button type="button" (click)="edit(adjustor)" class="btn btn-primary btn-xs">
-                Edit
+            <td>
+              <button style="float: right;" (click)="edit(adjustor)" class="btn btn-primary btn-xs" type="button">
+              Edit
               </button>
             </td>
 
