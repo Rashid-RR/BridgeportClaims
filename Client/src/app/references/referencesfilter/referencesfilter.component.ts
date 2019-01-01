@@ -71,8 +71,11 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     });
 
     $('#at_phoneNumber').inputmask().on('change', (ev) => {
-
       const val = ev.target.value.replace(/[()-\s]/g, '');
+      {
+        debugger
+      }
+
       this.attornyform.controls.phoneNumber.setValue(val);
     });
   }
@@ -104,8 +107,12 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
 
         } else {
+          this.rs.loading = true;
+
           this.http.updateadjustor(this.form.value).subscribe(data => {
             this.toast.success('Record successfully updated.');
+
+            this.rs.loading = false;
 
             this.form.reset();
             this.rs.editFlag = false;
@@ -113,6 +120,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
             $('#modalAddAdjustor').modal('hide');
 
           }, error1 => {
+            this.rs.loading = false;
             this.toast.error(error1)
           })
 
@@ -128,12 +136,16 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
 
         } else {
+          this.rs.loading = true;
 
           this.http.updateattorney(this.attornyform.value).subscribe(data => {
 
             this.toast.success('Record successfully updated.');
-            this.form.reset();
             this.rs.editFlag = false;
+            this.rs.loading = false;
+
+
+            this.form.reset();
             this.rs.getadjustorslist();
             $('#modalAddAdjustor').modal('hide');
 
@@ -155,9 +167,16 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
 
         } else {
+          this.rs.loading = true;
+
           this.http.insertadjustor(this.form.value).subscribe(data => {
 
             this.toast.success('Added successfully.');
+
+            this.rs.loading = false;
+
+            this.form.reset();
+            this.rs.getadjustorslist();
 
             $('#modalAddAdjustor').modal('hide');
 
@@ -177,9 +196,16 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           if (this.selectedStateId) {
             this.attornyform.controls.stateId.setValue(this.selectedStateId);
 
+            this.rs.loading = true;
+
             this.http.insertattorney(this.attornyform.value).subscribe(data => {
 
               this.toast.success('Added successfully.');
+
+              this.form.reset();
+              this.rs.loading = false;
+
+              this.rs.getadjustorslist();
 
               $('#modalAddAdjustor').modal('hide');
 
@@ -198,10 +224,19 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   openModel() {
-    console.log(this.rs.editAdjustor);
-    $('#modalAddAdjustor').modal('show');
 
-    //console.log(this.states);
+    $('#modalAddAdjustor').modal('show');
+    $('#phoneNumber').inputmask().on('change', (ev) => {
+
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      this.form.controls.phoneNumber.setValue(val);
+    });
+
+    $('#at_phoneNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      this.attornyform.controls.phoneNumber.setValue(val);
+    });
+
     if (this.rs.editFlag === true) {
       if (this.rs.typeSelected === this.rs.types[0]) {
         this.form.controls.adjustorId.setValue(this.rs.editAdjustor.adjustorId);

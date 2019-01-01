@@ -70,7 +70,7 @@ export class ReferenceManagerService {
   }
 
   onSortColumn($event) {
-    console.log($event);
+    //console.log($event);
     this.sortColumn = $event.column;
     this.sortType = $event.dir;
     this.getadjustorslist();
@@ -97,7 +97,7 @@ export class ReferenceManagerService {
         }, error1 => {
           this.loading = false;
 
-          console.log('error');
+          //console.log('error');
         }
       );
   }
@@ -108,13 +108,13 @@ export class ReferenceManagerService {
     this.http.getatorneyname(data)
       .subscribe((result: any) => {
           this.adjustors = result.results;
-          console.log(this.adjustors);
+          //console.log(this.adjustors);
           this.totalAdjustors = result.totalRows;
           this.loading = false;
         }, error1 => {
           this.loading = false;
 
-          console.log('error');
+          //console.log('error');
         }
       );
   }
