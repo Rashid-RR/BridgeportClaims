@@ -95,6 +95,12 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     this.rs.getadjustorslist();
   }
 
+  cancel() {
+    this.form.reset();
+    this.attornyform.reset();
+    this.rs.editFlag = false;
+  }
+
   addadjustor() {
 
     if (this.rs.editStatus() === true) {
@@ -202,7 +208,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
               this.toast.success('Added successfully.');
 
-              this.form.reset();
+              this.attornyform.reset();
               this.rs.loading = false;
 
               this.rs.getadjustorslist();
