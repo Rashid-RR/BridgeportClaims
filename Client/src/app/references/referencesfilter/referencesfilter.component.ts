@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {ReferenceManagerService} from '../../services/reference-manager.service';
-import {ToastsManager} from 'ng2-toastr';
-import {HttpService} from '../../services/http-service';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ReferenceManagerService } from '../../services/reference-manager.service';
+import { ToastsManager } from 'ng2-toastr';
+import { HttpService } from '../../services/http-service';
 
 declare var $: any;
 
@@ -19,8 +19,8 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   public flag = 'File Name';
 
   constructor(public rs: ReferenceManagerService,
-              private http: HttpService,
-              private toast: ToastsManager) {
+    private http: HttpService,
+    private toast: ToastsManager) {
     this.http.getStates({}).subscribe(data => {
       this.rs.states = data;
     }, error => {
@@ -45,6 +45,12 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
       {
       }
       this.rs.attorneyForm.controls.phoneNumber.setValue(val);
+    });
+    $('#at_faxNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      {
+      }
+      this.rs.attorneyForm.controls.faxNumber.setValue(val);
     });
   }
 
@@ -80,8 +86,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           this.http.updateAdjustor(this.rs.adjustorForm.value).subscribe(data => {
             this.toast.success('Record successfully updated.');
             this.rs.loading = false;
-            this.rs.adjustorForm.reset();
-            this.rs.editFlag = false;
+            this.cancel();
             this.rs.getReferencesList();
             $('#modalAddAdjustor').modal('hide');
           }, error => {
@@ -90,7 +95,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           });
         }
       } else if (this.rs.typeSelected === this.rs.types[1]) {
-        this.rs.attorneyForm.controls.stateId.setValue(this.rs.selectedState.stateId);
+        this.rs.attorneyForm.get('stateId').setValue(this.rs.selectedState.stateId);
         this.rs.attorneyForm.controls.stateName.setValue(this.rs.selectedState.stateName);
         if (!this.rs.attorneyForm.valid) {
           this.toast.warning('Invalid field value(s). Please correct to proceed.');
@@ -98,9 +103,8 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           this.rs.loading = true;
           this.http.updateAttorney(this.rs.attorneyForm.value).subscribe(data => {
             this.toast.success('Record successfully updated.');
-            this.rs.editFlag = false;
+            this.cancel();
             this.rs.loading = false;
-            this.rs.adjustorForm.reset();
             this.rs.getReferencesList();
             $('#modalAddAdjustor').modal('hide');
           }, error => {
@@ -117,7 +121,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           this.http.insertAdjustor(this.rs.adjustorForm.value).subscribe(data => {
             this.toast.success('Added successfully.');
             this.rs.loading = false;
-            this.rs.adjustorForm.reset();
+            this.cancel();
             this.rs.getReferencesList();
             $('#modalAddAdjustor').modal('hide');
           }, error => {
@@ -129,18 +133,16 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
         } else {
           if (this.selectedStateId) {
             this.rs.attorneyForm.controls.stateId.setValue(this.selectedStateId);
-            this.rs.loading = true;
-            this.http.insertAttorney(this.rs.attorneyForm.value).subscribe(data => {
-              this.toast.success('Added successfully.');
-              this.rs.attorneyForm.reset();
-              this.rs.loading = false;
-              this.rs.getReferencesList();
-              $('#modalAddAdjustor').modal('hide');
-            }, error => {
-            });
-          } else {
-            this.toast.error('Please select state.')
           }
+          this.rs.loading = true;
+          this.http.insertAttorney(this.rs.attorneyForm.value).subscribe(data => {
+            this.toast.success('Added successfully.');
+            this.cancel();
+            this.rs.loading = false;
+            this.rs.getReferencesList();
+            $('#modalAddAdjustor').modal('hide');
+          }, error => {
+          });
         }
       }
     }

@@ -68,7 +68,6 @@ export class ReferenceManagerService {
       address1: [null],
       city: [null],
       postalCode: [null],
-      state: [null],
       stateName: [null],
       stateId: [null],
       extension: [null],
@@ -151,6 +150,11 @@ export class ReferenceManagerService {
     return Math.floor(this.totalRows);
   }
 
+  getLastPage() {
+    this.totalRows = this.totalAdjustors / this.pageSize;
+    return Math.ceil(this.totalRows);
+  }
+
   getCurrentStartPage() {
     this.currentStartedPage = ((this.currentPage - 1) * this.pageSize) + 1;
     return Math.floor(this.currentStartedPage);
@@ -166,6 +170,10 @@ export class ReferenceManagerService {
     $('#at_phoneNumber').inputmask().on('change', (ev) => {
       const val = ev.target.value.replace(/[()-\s]/g, '');
       this.attorneyForm.controls.phoneNumber.setValue(val);
+    });
+    $('#at_faxNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      this.attorneyForm.controls.faxNumber.setValue(val);
     });
     if (this.editFlag === true) {
       if (this.typeSelected === this.types[0]) {
@@ -187,9 +195,8 @@ export class ReferenceManagerService {
         this.attorneyForm.controls.stateName.setValue(this.editAdjustor.stateName);
         this.attorneyForm.controls.postalCode.setValue(this.editAdjustor.postalCode);
         const state = this.states.filter(st => st.stateName === this.editAdjustor.stateName)[0];
-        console.log(state.stateId);
-        this.attorneyForm.get('state').setValue(state.stateId);
-        // this.selectedState = this.states[36];
+        this.selectedState = state;
+        this.attorneyForm.get('stateId').setValue(state.stateId);
       }
     }
   }

@@ -22,14 +22,14 @@ export class AdjustorsComponent implements OnInit {
   goto() {
     const page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
-    } else if (page > 0 && page <= this.rs.getTotalRows()) {
+    } else if (page > 0 && page <= this.rs.getLastPage()) {
       this.rs.currentPage = page;
       this.rs.getReferencesList();
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getTotalRows();
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage();
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getTotalRows()).then((toast: Toast) => {
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage()).then((toast: Toast) => {
           this.activeToast = toast;
         });
       }
@@ -37,7 +37,7 @@ export class AdjustorsComponent implements OnInit {
   }
 
   next() {
-    this.rs.currentPage += this.rs.currentPage;
+    this.rs.currentPage = this.rs.currentPage + 1;
     this.rs.getReferencesList();
   }
 
