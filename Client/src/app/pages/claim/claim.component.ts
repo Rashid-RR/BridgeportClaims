@@ -483,14 +483,14 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
   exportLetter(type) {
     if (!this.claimManager.selectedClaim) {
-      this.toast.warning('No claim loaded!');
+      this.toast.warning('No claim loaded.');
     } else {
       const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected === true);
       if (prescriptions.length === 0) {
         this.toast.warning('Please select one prescription before generating a letter.', null,
           { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
       } else if (type === 'dr-note' && prescriptions.length > 1) {
-        this.toast.warning('You must start the Dr Note Request letter with a single prescription!');
+        this.toast.warning('You must start the Dr Note Request letter with a single prescription.');
         return;
       } else if (type === 'dr-note' && prescriptions.length === 1) {
         this.exportDrNote(prescriptions[0]);
@@ -519,7 +519,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
   exportDenial(type) {
     if (!this.claimManager.selectedClaim) {
-      this.toast.warning('No claim loaded!');
+      this.toast.warning('No claim loaded.');
     } else {
       const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected === true);
 
@@ -541,7 +541,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
   viewFile(type) {
     if (!this.claimManager.selectedClaim) {
-      this.toast.warning('No claim loaded!');
+      this.toast.warning('No claim loaded.');
     } else {
       const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected === true);
       const unIndexed = prescriptions.filter(p => p.invoiceIsIndexed === false);
@@ -575,7 +575,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
 
   exportPDF() {
     if (!this.claimManager.selectedClaim) {
-      this.toast.warning('No claim loaded!');
+      this.toast.warning('No claim loaded.');
     } else {
       this.claimManager.loading = true;
       this.http.exportPrescriptions({ claimId: this.claimManager.selectedClaim.claimId })
@@ -592,7 +592,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   }
   exportBilling() {
     if (!this.claimManager.selectedClaim) {
-      this.toast.warning('No claim loaded!');
+      this.toast.warning('No claim loaded.');
     } else {
       this.claimManager.loading = true;
       this.http.exportBillingStatement({ claimId: this.claimManager.selectedClaim.claimId })
@@ -652,7 +652,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       if (!results.dismiss) {
         const result = results.value;
         if (result[1] === '') {
-          this.toast.warning('Note Text is required!');
+          this.toast.warning('Note Text is required.');
           setTimeout(() => {
             this.addNote(result[1], result[0]);
             $('#noteTextLabel').css({ 'color': 'red' });

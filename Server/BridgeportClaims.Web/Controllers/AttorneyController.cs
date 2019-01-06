@@ -65,9 +65,10 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                var stateId = model.StateId == 0 || model.StateId == -1 ? (int?) null : model.StateId;
                 var userId = User.Identity.GetUserId();
                 var attorney = _attorneyProvider.Value.InsertAttorney(model.AttorneyName, model.Address1,
-                    model.Address2, model.City, model.StateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, userId);
+                    model.Address2, model.City, stateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, userId);
                 return Ok(attorney);
             }
             catch (Exception ex)

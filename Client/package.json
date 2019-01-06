@@ -19,15 +19,15 @@
   "dependencies": {
     "@angular/animations": "^4.4.7",
     "@angular/cdk": "^2.0.0-beta.12",
-    "@angular/common": "4.4.6",
-    "@angular/compiler": "4.4.6",
-    "@angular/core": "4.4.6",
-    "@angular/forms": "4.4.6",
-    "@angular/http": "4.4.6",
+    "@angular/common": "4.4.7",
+    "@angular/compiler": "4.4.7",
+    "@angular/core": "4.4.7",
+    "@angular/forms": "4.4.7",
+    "@angular/http": "4.4.7",
     "@angular/material": "^2.0.0-beta.12",
-    "@angular/platform-browser": "4.4.6",
-    "@angular/platform-browser-dynamic": "4.4.6",
-    "@angular/router": "4.4.6",
+    "@angular/platform-browser": "4.4.7",
+    "@angular/platform-browser-dynamic": "4.4.7",
+    "@angular/router": "4.4.7",
     "@microsoft/office-js": "1.1.4",
     "@toverux/ngx-sweetalert2": "3.0.1",
     "@types/core-js": "0.9.43",
@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@angular/cli": "^1.2.6",
-    "@angular/compiler-cli": "4.4.6",
+    "@angular/compiler-cli": "4.4.7",
     "@types/jasmine": "2.5.38",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.5.0",
@@ -78,6 +78,6 @@
     "protractor": "^5.4.1",
     "ts-node": "~2.0.0",
     "tslint": "^5.12.0",
-    "typescript": "3.2.2"
+    "typescript": "^3.2.2"
   }
 }

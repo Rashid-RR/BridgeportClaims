@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit {
 
       }
     } else {
-      this.toast.error('Error in fields. Please correct to proceed!');
+      this.toast.error('Error in fields. Please correct to proceed.');
     }
   }
   clientLogin(params?: any) {

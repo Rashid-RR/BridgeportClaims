@@ -146,7 +146,7 @@ export class AcquireEpisodeComponent implements OnInit {
           }
         });
     } else {
-      this.toast.warning('You need to select a user to assign the Episode!');
+      this.toast.warning('You need to select a user to assign the episode.');
     }
   }
   archive() {

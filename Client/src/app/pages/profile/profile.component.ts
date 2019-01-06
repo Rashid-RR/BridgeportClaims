@@ -190,7 +190,7 @@ export class ProfileComponent implements OnInit {
   updatePassword() {
     if (this.form.get('oldPassword').value === '' || this.form.get('newPassword').value === '' ||
       this.form.get('confirmPassword').value === '') {
-      this.toast.error('Please fillout all password fields.!');
+      this.toast.error('Please fillout all password fields.');
       return;
     }
 
@@ -207,18 +207,18 @@ export class ProfileComponent implements OnInit {
           this.registered = true;
           this.loading = false;
         }, error => {
-          const err = error.error || ({'Message': 'Server error!'});
+          const err = error.error || ({'Message': 'Server error.'});
           this.toast.error(err.Message);
           this.loading = false;
         });
       } catch (e) {
         this.loading = false;
-        this.toast.error('Error in fields. Please correct to proceed!');
+        this.toast.error('Error in fields. Please correct to proceed.');
 
       }
     } else {
       this.loading = false;
-      this.toast.error('Error in fields. Please correct to proceed!');
+      this.toast.error('Error in fields. Please correct to proceed.');
     }
   }
 }
