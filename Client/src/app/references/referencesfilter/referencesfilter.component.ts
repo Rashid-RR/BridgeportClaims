@@ -95,8 +95,12 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           });
         }
       } else if (this.rs.typeSelected === this.rs.types[1]) {
-        this.rs.attorneyForm.get('stateId').setValue(this.rs.selectedState.stateId);
-        this.rs.attorneyForm.controls.stateName.setValue(this.rs.selectedState.stateName);
+        if (this.selectedStateId) {
+          this.rs.attorneyForm.get('stateId').setValue(this.selectedStateId);
+        }
+        if (this.rs.selectedState && this.rs.selectedState.stateName) {
+          this.rs.attorneyForm.controls.stateName.setValue(this.rs.selectedState.stateName);
+        }
         if (!this.rs.attorneyForm.valid) {
           this.toast.warning('Invalid field value(s). Please correct to proceed.');
         } else {
@@ -161,6 +165,9 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   changeState(event) {
     this.selectedStateId = event.value;
     this.rs.attorneyForm.controls.stateName.setValue(event.value.stateName);
+    if (this.selectedStateId) {
+      this.rs.attorneyForm.get('stateId').setValue(this.selectedStateId);
+    }
   }
 }
 

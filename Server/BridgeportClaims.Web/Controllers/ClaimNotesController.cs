@@ -68,8 +68,8 @@ namespace BridgeportClaims.Web.Controllers
                 var userId = User.Identity.GetUserId();
                 if (null == userId)
                     throw new ArgumentNullException(nameof(userId));
-                _claimNotesDataProvider.Value.AddOrUpdateNote(model.ClaimId, model.NoteText, userId, model.NoteTypeId);
-                return Ok(new {message = "The Claim Note was Saved Successfully"});
+                var noteType = _claimNotesDataProvider.Value.AddOrUpdateNote(model.ClaimId, model.NoteText, userId, model.NoteTypeId);
+                return Ok(new {message = "The Claim Note was Saved Successfully", noteType});
             }
             catch (Exception ex)
             {

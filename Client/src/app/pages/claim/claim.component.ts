@@ -667,17 +667,20 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
             noteTypeId: result[0] ? result[0] : null,
             noteText: txt
           }).subscribe(res => {
-            const noteType = this.claimManager.NoteTypes.find(type => type.key === result[0]);
+            const noteType = this.claimManager.NoteTypes.find(type => type.value === result[0]);
             if (!this.claimManager.selectedClaim.claimNote) {
               this.claimManager.selectedClaim.claimNote = new ClaimNote(txt, noteType ? noteType.value : undefined);
             } else {
               this.claimManager.selectedClaim.claimNote.noteText = txt;
               this.claimManager.selectedClaim.claimNote.noteType = noteType ? noteType.value : undefined;
+              if (this.claimManager.selectedClaim.claimNote.noteType === undefined) {
+                this.claimManager.selectedClaim.claimNote.noteType = res.noteType;
+              }
             }
             this.claimManager.selectedClaim.editing = false;
             this.claimManager.loading = false;
             swal.close();
-            this.toast.success('Noted successfully saved');
+            this.toast.success('The note was saved successfully.');
           }, error => {
             const err = error.error;
             setTimeout(() => {
@@ -687,6 +690,6 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
           });
         }
       }
-    }).catch(swal.noop);
+    }); // .catch(swal.noop);
   }
 }

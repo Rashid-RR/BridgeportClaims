@@ -6,7 +6,7 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
     public interface IClaimNotesDataProvider
     {
         Task<IList<KeyValuePair<int, string>>> GetClaimNoteTypesAsync();
-        void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId);
+        string AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId);
         void DeleteClaimNote(int claimId);
     }
 }

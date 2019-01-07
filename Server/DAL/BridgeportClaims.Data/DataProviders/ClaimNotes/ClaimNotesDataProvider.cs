@@ -55,19 +55,22 @@ namespace BridgeportClaims.Data.DataProviders.ClaimNotes
                     .OrderBy(x => x.Value).ToList();
             });
 
-        public void AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId) =>
+        public string AddOrUpdateNote(int claimId, string note, string enteredByUserId, int? noteTypeId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 if (conn.State != ConnectionState.Open)
                 {
                     conn.Open();
                 }
+                const string output = "@NoteType";
                 var ps = new DynamicParameters();
                 ps.Add("@ClaimID", claimId, DbType.Int32);
                 ps.Add("@NoteText", note, DbType.AnsiString);
                 ps.Add("@EnteredByUserID", enteredByUserId, DbType.String);
                 ps.Add("@NoteTypeID", noteTypeId, DbType.Int32);
+                ps.Add(output, dbType: DbType.AnsiString, size: 255, direction: ParameterDirection.Output);
                 conn.Execute("[claims].[uspAddOrUpdateClaimNote]", ps, commandType: CommandType.StoredProcedure);
+                return ps.Get<string>(output);
             });
 
         public void DeleteClaimNote(int claimId) =>
