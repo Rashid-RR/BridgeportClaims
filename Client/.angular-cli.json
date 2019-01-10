@@ -37,6 +37,7 @@
         "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
         "../node_modules/highcharts/css/highcharts.css",
         "../node_modules/ng-snotify/styles/material.css",
+        "../node_modules/jquery-contextmenu/dist/jquery.contextMenu.css",
         "styles.css"
       ],
       "scripts": [
@@ -62,6 +63,8 @@
         "../node_modules/highcharts/highcharts.js",
         "../node_modules/highcharts/modules/data.js",
         "../node_modules/highcharts/modules/drilldown.js",
+        "../node_modules/jquery-contextmenu/dist/jquery.contextMenu.js",
+        "../node_modules/jquery-contextmenu/dist/jquery.ui.position.min.js",
         "assets/js/app.js",
         "assets/js/vegas.js",
         "assets/js/jquery.countdownTimer.min.js",

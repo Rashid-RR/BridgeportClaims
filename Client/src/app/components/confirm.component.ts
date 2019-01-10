@@ -51,6 +51,7 @@ export class ConfirmComponent extends DialogComponent<ConfirmModel, boolean> imp
     } else {
       this.renderer.setStyle(this.elRef.nativeElement.parentElement, 'height', 'auto');
     }
+    console.log(this.title,this.message);
   }
   get msg() {
     return this.message + '<ul>' + (this.prescription && this.prescriptionsIds.length > 0 ? '<li>' : '') +
