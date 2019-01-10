@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
 import {Toast, ToastsManager} from 'ng2-toastr';
+
+declare var $: any;
 
 @Component({
   selector: 'app-adjustors',
@@ -8,12 +10,11 @@ import {Toast, ToastsManager} from 'ng2-toastr';
   styleUrls: ['./adjustors.component.css']
 })
 export class AdjustorsComponent implements OnInit {
-
   goToPage: any = '';
   activeToast: Toast;
   constructor(public rs: ReferenceManagerService,
-              private toast: ToastsManager,
-  ) { }
+              private toast: ToastsManager) {
+  }
 
   ngOnInit() {
   }
@@ -21,30 +22,30 @@ export class AdjustorsComponent implements OnInit {
   goto() {
     const page = Number.parseInt(this.goToPage);
     if (!this.goToPage) {
-
-    } else if (page > 0 && page <= this.rs.getTotalRows()) {
+    } else if (page > 0 && page <= this.rs.getLastPage()) {
       this.rs.currentPage = page;
-      this.rs.getadjustorslist();
+      this.rs.getReferencesList();
     } else {
       if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getTotalRows();
+        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage();
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getTotalRows()).then((toast: Toast) => {
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage()).then((toast: Toast) => {
           this.activeToast = toast;
         });
       }
     }
   }
-  next() {
 
-    this.rs.currentPage += this.rs.currentPage;
-    this.rs.getadjustorslist();
+  next() {
+    this.rs.currentPage = this.rs.currentPage + 1;
+    this.rs.getReferencesList();
   }
 
   prev() {
     this.rs.currentPage = this.rs.currentPage - 1;
-    this.rs.getadjustorslist();
+    this.rs.getReferencesList();
   }
+
   keyPress(event: any) {
     // const pattern = /[0-9\+\-\ ]/;
     // const inputChar = String.fromCharCode(event.charCode);
@@ -56,5 +57,11 @@ export class AdjustorsComponent implements OnInit {
     // } else if (input < 1) {
     //   event.preventDefault();
     // }
+  }
+
+  edit(adjustor: any) {
+    this.rs.editFlag = true;
+    this.rs.editAdjustor = adjustor;
+    this.rs.openModal(true);
   }
 }

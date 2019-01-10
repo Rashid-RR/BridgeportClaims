@@ -28,15 +28,15 @@
           <div class="col-sm-12" id="accordion">
             <div class="box no-border" style="padding: 0px;margin-bottom:0rem;">
               <div class="box-header bg-head-box">
-                                <span class="blade-title panel-head">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                            <i class="fa fa-search white" aria-hidden="true"></i>
-                                            <span class="left5 right5 white">Search and Filter</span>
-                                            <i class="fa fa-filter white" aria-hidden="true"></i>
-                                        </a>
-                                    </h4>
-                                </span>
+                <span class="blade-title panel-head">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                      <i class="fa fa-search white" aria-hidden="true"></i>
+                      <span class="left5 right5 white">Search and Filter</span>
+                      <i class="fa fa-filter white" aria-hidden="true"></i>
+                    </a>
+                  </h4>
+                </span>
               </div>
               <div class="box-body" style="padding: 0px 15px;" id="collapseOne" class="panel-collapse collapse in collapse out">
                 <app-referencesfilter></app-referencesfilter>
@@ -49,16 +49,16 @@
           <div class="col-sm-12" id="accordion">
             <div class="box">
               <div class="box-header bg-head-box">
-                                <span class="blade-title panel-head">
-                                        <i class="fa fa-book" aria-hidden="true"></i> References
-                                    </span>
+                <span class="blade-title panel-head">
+                  <i class="fa fa-book" aria-hidden="true"></i> References - {{rs.typeSelected}}
+                </span>
                 <span class="total pull-right">
-                                    <span *ngIf="rs.totalAdjustors" style="margin-right:100px;">
-                                            {{rs.getcurrentstartpage() + " to " + rs.currentPage * rs.pageSize}}</span>
-                                        <span *ngIf="rs.totalAdjustors">
-                                            <span style="font-size:13pt">{{rs.totalAdjustors}}</span>
-                                            Record{{rs.totalAdjustors > 1 ? 's' : ''}} found</span>
-                                </span>
+                  <span *ngIf="rs.totalAdjustors" style="margin-right:100px;">
+                    {{rs.getCurrentStartPage() + " to " + rs.currentPage * rs.pageSize}}</span>
+                  <span *ngIf="rs.totalAdjustors">
+                    <span style="font-size:13pt">{{rs.totalAdjustors}}</span>
+                    Record{{rs.totalAdjustors > 1 ? 's' : ''}} found</span>
+                </span>
               </div>
               <div class="box-body diary-results">
                 <app-adjustors></app-adjustors>

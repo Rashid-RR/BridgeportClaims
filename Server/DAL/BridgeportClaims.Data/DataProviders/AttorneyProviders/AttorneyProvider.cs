@@ -36,7 +36,7 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
             });
 
         public AttorneyResultDto InsertAttorney(string attorneyName, string address1, string address2, string city,
-            int stateId, string postalCode, string phoneNumber, string faxNumber, string modifiedByUserId) =>
+            int? stateId, string postalCode, string phoneNumber, string faxNumber, string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[claims].[uspAttorneyInsert]";
@@ -60,7 +60,7 @@ namespace BridgeportClaims.Data.DataProviders.AttorneyProviders
             });
 
         public AttorneyResultDto UpdateAttorney(int attorneyId, string attorneyName, string address1,
-            string address2, string city, int stateId, string postalCode, string phoneNumber,
+            string address2, string city, int? stateId, string postalCode, string phoneNumber,
             string faxNumber, string userId) => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 const string sp = "[claims].[uspAttorneyUpdate]";

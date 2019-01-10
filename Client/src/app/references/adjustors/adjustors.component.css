@@ -4,6 +4,11 @@ th {
   font-size: 9pt;
   font-family: 'Cambay', sans-serif !important;
 }
+td {
+  text-align: center;
+  font-size: 9pt;
+  font-family: 'Cambay', sans-serif !important;
+}
 tr>th:first-child,
 tr>td:first-child,
 tr>th:nth-child(3),

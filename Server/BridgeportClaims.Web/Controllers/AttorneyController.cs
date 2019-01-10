@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Web.Http;
+using BridgeportClaims.Common.Extensions;
 using BridgeportClaims.Data.DataProviders.AttorneyProviders;
 using BridgeportClaims.Data.DataProviders.Clients;
 using BridgeportClaims.Data.Dtos;
@@ -65,9 +66,15 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                var stateId = model.StateId.IsNullOrWhiteSpace() ? null :
+                    int.TryParse(model.StateId, out var ti) ? ti : (int?)null;
+                if (stateId == 0 || stateId == -1)
+                {
+                    stateId = null;
+                }
                 var userId = User.Identity.GetUserId();
                 var attorney = _attorneyProvider.Value.InsertAttorney(model.AttorneyName, model.Address1,
-                    model.Address2, model.City, model.StateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, userId);
+                    model.Address2, model.City, stateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, userId);
                 return Ok(attorney);
             }
             catch (Exception ex)
@@ -83,9 +90,15 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
+                var stateId = model.StateId.IsNullOrWhiteSpace() ? null :
+                    int.TryParse(model.StateId, out var ti) ? ti : (int?) null;
+                if (stateId == 0 || stateId == -1)
+                {
+                    stateId = null;
+                }
                 var userId = User.Identity.GetUserId();
                 var attorney = _attorneyProvider.Value.UpdateAttorney(model.AttorneyId, model.AttorneyName, model.Address1,
-                    model.Address2, model.City, model.StateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, userId);
+                    model.Address2, model.City, stateId, model.PostalCode, model.PhoneNumber, model.FaxNumber, userId);
                 return Ok(attorney);
             }
             catch (Exception ex)

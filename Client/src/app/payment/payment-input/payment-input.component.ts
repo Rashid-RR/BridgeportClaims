@@ -245,7 +245,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
         if (this.paymentService.selected.length > 1 && form.amountToPost !== form.amountSelected) {
           this.toast.warning('Multi-line payments are not permitted for posting unless the "Amount Selected" is equal to the "Amount To Post"');
         } else if (this.paymentService.selected.length === 0) {
-          this.toast.warning('You cannot post a payment without selecting any prescriptions!');
+          this.toast.warning('You cannot post a payment without selecting any prescriptions.');
         } else if (Number(form.amountToPost) > Number(form.checkAmount)) {
           this.toast.warning('You may not post monies that exceed the total check amount;');
         } else if ((Number(form.lastAmountRemaining) - Number(form.amountToPost)) < 0) {

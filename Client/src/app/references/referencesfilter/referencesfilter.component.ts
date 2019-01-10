@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, NgZone, OnInit} from '@angular/core';
-import {ReferenceManagerService} from '../../services/reference-manager.service';
-import {ToastsManager} from 'ng2-toastr';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { ReferenceManagerService } from '../../services/reference-manager.service';
+import { ToastsManager } from 'ng2-toastr';
+import { HttpService } from '../../services/http-service';
 
 declare var $: any;
 
@@ -11,28 +11,21 @@ declare var $: any;
   styleUrls: ['./referencesfilter.component.css']
 })
 export class ReferencesfilterComponent implements OnInit, AfterViewInit {
-
   date: string;
   adjustorName: string;
   adjustorModel: any = {};
+  selectedStateId: string;
   submitted = false;
   public flag = 'File Name';
-  form: FormGroup;
 
   constructor(public rs: ReferenceManagerService,
-              private formBuilder: FormBuilder,
-              private toast: ToastsManager) {
-    this.form = this.formBuilder.group({
-      adjustorName: [null, Validators.compose([Validators.required])],
-      faxNumber: [null, Validators.compose([Validators.required])],
-      phoneNumber: [null],
-      emailAddress: [null, Validators.compose([Validators.required])],
-      extension: [null, Validators.compose([Validators.required])]
+    private http: HttpService,
+    private toast: ToastsManager) {
+    this.http.getStates({}).subscribe(data => {
+      this.rs.states = data;
+    }, error => {
     });
-
-
   }
-
 
   ngOnInit() {
 
@@ -40,16 +33,31 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     $('#phoneNumber').inputmask().on('change', (ev) => {
-
       const val = ev.target.value.replace(/[()-\s]/g, '');
-      this.form.controls.phoneNumber.setValue(val);
+      this.rs.adjustorForm.controls.phoneNumber.setValue(val);
+    });
+    $('#faxNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      this.rs.adjustorForm.controls.faxNumber.setValue(val);
+    });
+    $('#at_phoneNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      {
+      }
+      this.rs.attorneyForm.controls.phoneNumber.setValue(val);
+    });
+    $('#at_faxNumber').inputmask().on('change', (ev) => {
+      const val = ev.target.value.replace(/[()-\s]/g, '');
+      {
+      }
+      this.rs.attorneyForm.controls.faxNumber.setValue(val);
     });
   }
 
   search() {
 
     this.rs.setSearchText(this.adjustorName);
-    this.rs.getadjustorslist();
+    this.rs.getReferencesList();
   }
 
   filter($event) {
@@ -58,26 +66,108 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   clearFilters() {
     this.adjustorName = '';
     this.rs.setSearchText(null);
-    this.rs.getadjustorslist();
+    this.rs.getReferencesList();
   }
 
-  addadjustor() {
+  cancel() {
+    this.rs.adjustorForm.reset();
+    this.rs.attorneyForm.reset();
+    this.rs.selectedState = 'null';
+    this.rs.editFlag = false;
+  }
 
-    if (this.form.valid) {
-
-      console.log(this.form.value);
-
-      $('#modalAddAdjustor').modal('hide');
+  addAdjustor() {
+    if (this.rs.editStatus() === true) {
+      if (this.rs.typeSelected === this.rs.types[0]) {
+        if (!this.rs.adjustorForm.valid) {
+          this.toast.warning('Invalid field value(s). Please correct to proceed.');
+        } else {
+          this.rs.loading = true;
+          this.http.updateAdjustor(this.rs.adjustorForm.value).subscribe(data => {
+            this.toast.success('Record successfully updated.');
+            this.rs.loading = false;
+            this.cancel();
+            this.rs.getReferencesList();
+            $('#modalAddAdjustor').modal('hide');
+          }, error => {
+            this.rs.loading = false;
+            this.toast.error(error)
+          });
+        }
+      } else if (this.rs.typeSelected === this.rs.types[1]) {
+        if (this.selectedStateId) {
+          this.rs.attorneyForm.get('stateId').setValue(this.selectedStateId);
+        }
+        if (this.rs.selectedState && this.rs.selectedState.stateName) {
+          this.rs.attorneyForm.controls.stateName.setValue(this.rs.selectedState.stateName);
+        }
+        if (!this.rs.attorneyForm.valid) {
+          this.toast.warning('Invalid field value(s). Please correct to proceed.');
+        } else {
+          this.rs.loading = true;
+          this.http.updateAttorney(this.rs.attorneyForm.value).subscribe(data => {
+            this.toast.success('Record successfully updated.');
+            this.cancel();
+            this.rs.loading = false;
+            this.rs.getReferencesList();
+            $('#modalAddAdjustor').modal('hide');
+          }, error => {
+            this.toast.error(error);
+          });
+        }
+      }
     } else {
-      this.toast.warning('Invalid field value(s). Please correct to proceed.');
+      if (this.rs.typeSelected === this.rs.types[0]) {
+        if (!this.rs.adjustorForm.valid) {
+          this.toast.warning('Invalid field value(s). Please correct to proceed.');
+        } else {
+          this.rs.loading = true;
+          this.http.insertAdjustor(this.rs.adjustorForm.value).subscribe(data => {
+            this.toast.success('Added successfully.');
+            this.rs.loading = false;
+            this.cancel();
+            this.rs.getReferencesList();
+            $('#modalAddAdjustor').modal('hide');
+          }, error => {
+          });
+        }
+      } else if (this.rs.typeSelected === this.rs.types[1]) {
+        if (!this.rs.attorneyForm.valid) {
+          this.toast.warning('Invalid field value(s). Please correct to proceed.');
+        } else {
+          if (this.selectedStateId) {
+            this.rs.attorneyForm.controls.stateId.setValue(this.selectedStateId);
+          }
+          this.rs.loading = true;
+          this.http.insertAttorney(this.rs.attorneyForm.value).subscribe(data => {
+            this.toast.success('Added successfully.');
+            this.cancel();
+            this.rs.loading = false;
+            this.rs.getReferencesList();
+            $('#modalAddAdjustor').modal('hide');
+          }, error => {
+          });
+        }
+      }
     }
+  }
 
+  openModal(isModalEdit: boolean) {
+    this.rs.openModal(isModalEdit);
   }
 
   changeSelection(event) {
     this.rs.typeSelected = event.value;
     this.rs.sortColumn = event.value.toLowerCase() + 'Name';
-    this.rs.getadjustorslist();
+    this.rs.getReferencesList();
+  }
+
+  changeState(event) {
+    this.selectedStateId = event.value;
+    this.rs.attorneyForm.controls.stateName.setValue(event.value.stateName);
+    if (this.selectedStateId) {
+      this.rs.attorneyForm.get('stateId').setValue(this.selectedStateId);
+    }
   }
 }
 

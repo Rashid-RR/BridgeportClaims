@@ -2,8 +2,7 @@ import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import {ClaimManager} from '../../services/claim-manager';
 import {HttpService} from '../../services/http-service';
 import {ClaimNote} from '../../models/claim-note';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import swal from 'sweetalert2';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr';
 
 @Component({
@@ -21,9 +20,8 @@ export class ClaimNoteComponent implements OnInit, AfterViewChecked {
     private toast: ToastsManager
   ) {
     this.form = this.formBuilder.group({
-      // claimId: [this.claimManager.selectedClaim.claimId],
       noteText: [ null, Validators.compose([Validators.required])],
-      noteTypeId: [null, Validators.compose([Validators.required])]
+      noteTypeId: [null]
     });
   }
 

@@ -8,121 +8,169 @@
           <div class="">
             <i class=""></i>
           </div>
-          <input (focus)="submitted=false" [(ngModel)]="adjustorName" class="form-control pull-right"
-                 id="adjustorName" name="adjustorName" [placeholder]="'Type '+rs.typeSelected+' Name...'"
-                 type="text">
-
+          <input (focus)="submitted=false" [(ngModel)]="adjustorName" class="form-control pull-right" id="adjustorName"
+            name="adjustorName" [placeholder]="'Type '+rs.typeSelected+' Name...'" type="text">
         </div>
       </div>
     </div>
     <div class="col-md-2">
       <div class="form-group">
         <label>Reference</label>
-      <mat-form-field>
-        <mat-select (change)="changeSelection($event)" [(value)]="rs.typeSelected">
-          <mat-option *ngFor="let type of rs.types" [value]="type">
-            {{type}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
+        <mat-form-field>
+          <mat-select (change)="changeSelection($event)" [(value)]="rs.typeSelected">
+            <mat-option *ngFor="let type of rs.types" [value]="type">
+              {{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-
     </div>
-
     <div class="col-sm-3 col-md-2 flex">
       <div class="form-group">
         <label>&nbsp;</label>
-        <br/>
+        <br />
         <span>
-                    <button (click)="search()" class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button">
-                        <i class="fa fa-search"></i> Search</button> &nbsp;
-                    <button (click)="clearFilters()" class="color-palette btn bg-darkblue btn-flat btn-small"
-                            type="button">
-                        <i class="fa fa-eraser"></i> Clear Filters</button>
-           <button class="color-palette btn bg-darkRed btn-flat btn-small" data-target="#modalAddAdjustor"
-                   data-toggle="modal" style="margin-left: 4px;"
-                   type="button">
-                    <i aria-hidden="true" class="fa fa-plus"></i> Add {{rs.typeSelected}}</button>
-                </span>
+          <button (click)="search()" class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button">
+            <i class="fa fa-search"></i> Search</button> &nbsp;
+          <button (click)="clearFilters()" class="color-palette btn bg-darkblue btn-flat btn-small" type="button">
+            <i class="fa fa-eraser"></i> Clear Filters</button>
+          <button (click)="openModal(false)" class="color-palette btn bg-darkRed btn-flat btn-small"
+            style="margin-left: 4px;" type="button">
+            <i aria-hidden="true" class="fa fa-plus"></i> Add {{rs.typeSelected}}</button>
+        </span>
       </div>
     </div>
   </div>
 </form>
-
 <div class="modal fade" id="modalAddAdjustor" tabindex="-1" role="dialog" aria-labelledby="modalAddAdjustorTitle"
-     aria-hidden="true">
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <!--<div class="modal-header">-->
-        <!--<h5 class="modal-title" id="exampleModalLongTitle">Adjustor</h5>-->
-        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-          <!--<span aria-hidden="true">&times;</span>-->
-        <!--</button>-->
+      <!--<h5 class="modal-title" id="exampleModalLongTitle">Adjustor</h5>-->
+      <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+      <!--<span aria-hidden="true">&times;</span>-->
+      <!--</button>-->
       <!--</div>-->
       <div class="modal-body">
-
-        
-
-
-        <form role="form" [formGroup]="form" autocomplete="off" autocapitalize="none" autocomplete="off">
-
+        <form role="form" *ngIf="rs.typeSelected==rs.types[0]" [formGroup]="rs.adjustorForm" autocomplete="off" autocapitalize="none"
+          autocomplete="off">
           <div class="row">
             <div class="form-group col-sm-12">
               <label>Adjustor Name <span class="text-danger">*</span>: </label>
               <input class="form-control" placeholder="Adjustor Name" formControlName="adjustorName" tabindex="1">
-              <p class="text-danger form-control-static" *ngIf="form.get('adjustorName').errors && form.get('adjustorName').touched">adjustorName
+              <p class="text-danger form-control-static" *ngIf="rs.adjustorForm.get('adjustorName').errors && rs.adjustorForm.get('adjustorName').touched">Adjustor Name
                 is required</p>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-12">
-              <label>Phone Number <span class="text-danger">*</span>:</label>
-              <input class="form-control" placeholder="Phone Number" id="phoneNumber"
-                     data-inputmask='"mask": "(999) 999-9999"' data-mask
-                     formControlName="phoneNumber" tabindex="2">
-              <p class="text-danger form-control-static" *ngIf="form.get('phoneNumber').errors && form.get('phoneNumber').touched">Phone # is required</p>
+              <label>Phone Number:</label>
+              <input class="form-control" placeholder="Phone Number" id="phoneNumber" data-inputmask='"mask": "(999) 999-9999"'
+                data-mask formControlName="phoneNumber" tabindex="2">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-12">
-              <label>Fax <span class="text-danger">*</span>:</label>
-              <input class="form-control" placeholder="Fax" formControlName="faxNumber" tabindex="3">
-              <p class="text-danger form-control-static" *ngIf="form.get('faxNumber').errors && form.get('faxNumber').touched">Fax
-                is required</p>
+              <label>Fax:</label>
+              <input class="form-control" placeholder="Fax" formControlName="faxNumber" tabindex="3" data-inputmask='"mask": "(999) 999-9999"' data-mask id="faxNumber">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-12">
-              <label>Email <span class="text-danger">*</span>:</label>
-              <input class="form-control" placeholder="Email" id="email" formControlName="emailAddress"
-                      tabindex="4" >
-              <p class="text-danger form-control-static" *ngIf="form.get('emailAddress').errors && form.get('emailAddress').touched">Email is required</p>
+              <label>Email:</label>
+              <input class="form-control" placeholder="Email" id="email" formControlName="emailAddress" tabindex="4">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-12">
-              <label>Extension <span class="text-danger">*</span>:</label>
-              <input class="form-control" placeholder="Extension" formControlName="extension" id="extension"
-                     tabindex="5" inputs-mask>
-              <p class="text-danger form-control-static" *ngIf="form.get('extension').errors && form.get('extension').touched">Injury
-                Date is required</p>
+              <label>Extension:</label>
+              <input class="form-control" placeholder="Extension" formControlName="extension" id="extension" tabindex="5"
+                inputs-mask>
             </div>
           </div>
-
-
         </form>
-
-
+        <form role="form" *ngIf="rs.typeSelected==rs.types[1]" [formGroup]="rs.attorneyForm" autocomplete="off"
+          autocapitalize="none" autocomplete="off">
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Attorney Name <span class="text-danger">*</span>: </label>
+              <input class="form-control" placeholder="Attorney Name" formControlName="attorneyName" tabindex="1">
+              <p class="text-danger form-control-static" *ngIf="rs.attorneyForm.get('attorneyName').errors && rs.attorneyForm.get('attorneyName').touched">Attorney Name
+                is required</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Phone Number:</label>
+              <input class="form-control" placeholder="Phone Number" id="at_phoneNumber" data-inputmask='"mask": "(999) 999-9999"'
+                data-mask formControlName="phoneNumber" tabindex="2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Fax:</label>
+              <input class="form-control" placeholder="Fax Number" formControlName="faxNumber" tabindex="3" id="at_faxNumber" data-inputmask='"mask": "(999) 999-9999"' data-mask>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Adress 1:</label>
+              <input class="form-control" placeholder="Address 1" formControlName="address1" id="address1" tabindex="5">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Adress 2:</label>
+              <input class="form-control" placeholder="Address 2" formControlName="address2" id="address2" tabindex="5">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>City:</label>
+              <input class="form-control" placeholder="City" formControlName="city" id="city" tabindex="5">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Postal Code:</label>
+              <input class="form-control" placeholder="Postal Code" formControlName="postalCode" id="postalCode"
+                tabindex="5">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>State Name:</label>
+              <mat-form-field>
+                <mat-select (change)="changeState($event)" [(value)]="rs.selectedState.stateId" formControlName="stateId">
+                  <mat-option value="-1">
+                  </mat-option>
+                  <mat-option *ngFor="let state of rs.states" [value]="state.stateId">
+                    {{state.stateName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-sm-12">
+              <label>Extension:</label>
+              <input class="form-control" placeholder="Extension" formControlName="extension" id="at_extension"
+                tabindex="5">
+            </div>
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
-        <button class="color-palette btn bg-darkblue btn-flat btn-small"
-                type="button" data-dismiss="modal">
+        <button (click)="cancel()" class="color-palette btn bg-darkblue btn-flat btn-small" type="button" data-dismiss="modal">
           <i class="fa fa-eraser"></i> Cancel
         </button>
-        <button style="margin-left: 4px;" class="color-palette btn bg-darkRed btn-flat btn-small"
-(click)="addadjustor()" [disabled]="!form.valid"
-                type="button">
+        <button *ngIf="rs.typeSelected==rs.types[0]" style="margin-left: 4px;" class="color-palette btn bg-darkRed btn-flat btn-small"
+          (click)="addAdjustor()" [disabled]="!rs.adjustorForm.valid" type="button">
+          <i aria-hidden="true" class="fa fa-plus"></i> Save
+        </button>
+        <button *ngIf="rs.typeSelected==rs.types[1]" style="margin-left: 4px;" class="color-palette btn bg-darkRed btn-flat btn-small"
+          (click)="addAdjustor()" [disabled]="!rs.attorneyForm.valid" type="button">
           <i aria-hidden="true" class="fa fa-plus"></i> Save
         </button>
       </div>

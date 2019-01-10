@@ -31,19 +31,19 @@ export class ConfirmEmailComponent implements OnInit {
         if (this.code && this.user) {
           try {
               this.http.confirmEmail(this.user, this.code).subscribe(res => {
-                this.toast.success('Thank you for confirming your email. Please proceed to login');
+                this.toast.success('Thank you for confirming your email. Please proceed to login.');
                 this.loading = false;
                 this.confirmed = 1;
                 this.router.navigate(['/login']);
               }, error => {
-                const err = error.error || ({ 'Message': 'Server error!' });
+                const err = error.error || ({ 'Message': 'Server error.' });
                 this.toast.error(err.Message);
                 this.loading = false;
                 this.confirmed = 2;
                 this.error = err.Message;
               });
             } catch (e) {
-              this.toast.error('Error in fields. Please correct to proceed!');
+              this.toast.error('Error in fields. Please correct to proceed.');
             }
         }
     });
