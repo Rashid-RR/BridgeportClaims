@@ -101,6 +101,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       name: "Add Node",
       icon: "add",
       callback: () => {
+        this.createUpdateNode(n);
         return true;
       }
     };
@@ -108,6 +109,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       name: "Edit Node",
       icon: "edit",
       callback: () => {
+        this.createUpdateNode(n,n.data.nodeName,n.data.nodeDescription);
         return true;
       }
     };
@@ -115,10 +117,134 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       icon: 'delete',
       name: "Delete Node",
       callback: () => {
-        this.deleteNode(n)
+        this.deleteNode(n);
+        return true;
       }
     };
     return items;
+  }
+  createUpdateNode(n?: any, title?: string, description?: string) {
+    const width = window.innerWidth * 1.799 / 3;
+    swal({
+      title: 'New Prescription Note',
+      html: `<div class="form-group">
+                <label id="treeNodeNameLabel">Name</label>
+                <input class="form-control"  type="text" id="treeNodeName" value="${title || ''}">
+            </div> 
+            <div class="form-group">
+                <label id="treeNodeDescriptionLabel">Description</label>
+                <textarea class="form-control"  id="treeNodeDescription">${description || ''}</textarea>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 text-right">
+                    <button class="btn btn-flat btn-primary save-tree-node" type="button" style="color:white;background-color: rgb(48, 133, 214);">Save</button>
+                </div>
+                <div class="col-sm-6 text-left">
+                  <div class="form-group">
+                  <button class="btn btn-flat btn-default cancel-tree-note" type="button" style="color:white;background-color: rgb(170, 170, 170);">Cancel</button>
+                  </div>
+                </div>
+              </div>`,
+      showConfirmButton: false,
+      showCancelButton: false,
+      showLoaderOnConfirm: true,
+      confirmButtonText: 'Save',
+      cancelButtonText: 'Cancel',
+      customClass: 'prescription-modal',
+      preConfirm: function () {
+        return new Promise(function (resolve) {
+          resolve([
+            $('#treeNodeName').val(),
+            $('#treeNodeDescription').val()
+          ]);
+        });
+      },
+      onOpen: function () {
+        $('#treeNodeName').focus();
+      }
+    }).catch(swal.noop);
+    $('button.save-tree-node').click(() => {
+      let name = $('#treeNodeName').val(),
+        desc = $('#treeNodeDescription').val();
+        console.log(name,desc);
+      if (!name) {
+        this.toast.warning('Please provide a name for this node');
+        setTimeout(() => { $('#treeNodeNameLabel').css({ 'color': '#545454' }); }, 150);
+      } else if (!desc) {
+        this.toast.warning('Please provide a description for this node');
+        $('#treeNodeNameLabel').css({ 'color': '#000' });
+        setTimeout(() => { $('#treeNodeDescriptionLabel').css({ 'color': '#545454' }); }, 150);
+      } else {
+        $('#treeNodeNameLabel').css({ 'color': '#000' });
+        $('#treeNodeDescriptionLabel').css({ 'color': '#000' });
+        if(!n){
+          this.saveRoot(name,desc);
+        }else if(title && description){
+          //this.saveChild(n,name,desc);
+          n.data.nodeName = name;
+          n.data.nodeDescription = description;
+        }else{
+          this.saveChild(n,name,desc);
+        }
+        swal.close();
+
+      }
+    });
+    $('button.cancel-tree-note').click(() => {
+      swal.close();
+    });
+  }
+  saveRoot(name:string,description:string){
+    this.loading = true;
+    this.http.saveTreeRoot({ nodeName: name,nodeDescription:description })
+      .subscribe((result: any) => {
+        this.loading = false;
+        /* this.treeData = result;
+        this.root = d3.hierarchy(this.treeData, (d) => { return d.children; });
+        this.root.x0 = this.height / 2;
+        this.root.y0 = 20;
+        this.root.y = 20;
+        this.svg = d3.select('svg')
+          .style("width", this.width)
+          .style("height", this.height)
+          .attr("transform", "translate("
+            + this.margin.left + "," + this.margin.top + ")");
+        this.root.children.forEach(c => this.collapse(c));
+        this.update(this.root); */
+        console.log(result);
+      }, err => {
+        this.loading = false;
+        try {
+          const error = err.error;
+
+        } catch (e) { }
+      });
+  }
+  saveChild(n:any,name:string,description:string){
+    this.loading = true;
+    this.http.saveTreeChildNode({ parentTreeId:n.data.treeId,nodeName: name,nodeDescription:description })
+      .subscribe((result: any) => {
+        this.loading = false;
+        /* this.treeData = result;
+        this.root = d3.hierarchy(this.treeData, (d) => { return d.children; });
+        this.root.x0 = this.height / 2;
+        this.root.y0 = 20;
+        this.root.y = 20;
+        this.svg = d3.select('svg')
+          .style("width", this.width)
+          .style("height", this.height)
+          .attr("transform", "translate("
+            + this.margin.left + "," + this.margin.top + ")");
+        this.root.children.forEach(c => this.collapse(c));
+        this.update(this.root); */
+        console.log(result);
+      }, err => {
+        this.loading = false;
+        try {
+          const error = err.error;
+
+        } catch (e) { }
+      });
   }
   deleteNode(n) {
     let title = `Delete this node - ${n.data.nodeName}`,
