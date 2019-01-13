@@ -2,6 +2,7 @@
 
 # compiled output
 /dist
+/.vscode
 /tmp
 /out-tsc
 /src/assets/json/episodes.json
