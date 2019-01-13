@@ -51,3 +51,11 @@
     height: -o-calc(100vh - 220px);    
     overflow:auto !important;
 }
+.transparent{ 
+    border: 1px solid #fff;
+    color: #fff;
+    background: transparent;
+    padding-top: 7px;
+    padding-bottom: 2px;
+    border-radius: 6px; 
+}
