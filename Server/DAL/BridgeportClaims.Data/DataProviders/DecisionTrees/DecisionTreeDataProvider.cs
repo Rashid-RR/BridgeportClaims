@@ -41,5 +41,31 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 return conn.Query<DecisionTreeDto>(sp, new {ParentTreeID = parentTreeId},
                     commandType: CommandType.StoredProcedure);
             });
+
+        public DecisionTreeListDto GetDecisionTreeList(string searchText, string sort, string sortDirection, int page,
+            int pageSize) => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+        {
+            const string output = "@totalRows";
+            const string sp = "[dbo].[uspGetDecisionTreeList]";
+            if (conn.State != ConnectionState.Open)
+            {
+                conn.Open();
+            }
+            var ps = new DynamicParameters();
+            ps.Add("@SearchText", searchText, DbType.AnsiString, size: 4000);
+            ps.Add("@SortColumn", sort, DbType.AnsiString, size: 50);
+            ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
+            ps.Add("@PageNumber", page, DbType.Int32);
+            ps.Add("@PageSize", pageSize, DbType.Int32);
+            ps.Add(output, dbType: DbType.Int32, direction: ParameterDirection.Output);
+            var results = conn.Query<DecisionTreeListResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
+            var rows = ps.Get<int>(output);
+            var retVal = new DecisionTreeListDto
+            {
+                Results = results,
+                TotalRows = rows
+            };
+            return retVal;
+        });
     }
 }

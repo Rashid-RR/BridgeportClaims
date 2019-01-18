@@ -198,6 +198,8 @@
     <Compile Include="Dtos\DashboardDto.cs" />
     <Compile Include="Dtos\DbccUserOptionsResults.cs" />
     <Compile Include="Dtos\DecisionTreeDto.cs" />
+    <Compile Include="Dtos\DecisionTreeListDto.cs" />
+    <Compile Include="Dtos\DecisionTreeListResultDto.cs" />
     <Compile Include="Dtos\DiariesDto.cs" />
     <Compile Include="Dtos\DiaryOwnerDto.cs" />
     <Compile Include="Dtos\DiaryResultDto.cs" />

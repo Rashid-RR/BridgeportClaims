@@ -2,9 +2,9 @@
 
 namespace BridgeportClaims.Data.Dtos
 {
-    public sealed class AdjustorDto
+    public sealed class DecisionTreeListDto
     {
         public int TotalRows { get; set; }
-        public IEnumerable<AdjustorResultDto> Results { get; set; }
+        public IEnumerable<DecisionTreeListResultDto> Results { get; set; }
     }
 }
