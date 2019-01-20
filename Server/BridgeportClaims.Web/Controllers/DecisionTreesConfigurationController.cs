@@ -10,7 +10,7 @@ using NLog;
 namespace BridgeportClaims.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
-    [RoutePrefix("api/trees")]
+    [RoutePrefix("api/tree-config")]
     public class DecisionTreesConfigurationController : BaseApiController
     {
         private static readonly Lazy<ILogger> Logger = new Lazy<ILogger>(LogManager.GetCurrentClassLogger);
@@ -22,12 +22,36 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("get-decision-tree")]
-        public IHttpActionResult GetDecisionTree(int rootTreeId)
+        [Route("get-tree")]
+        public IHttpActionResult GetDecisionTree(int parentTreeId)
         {
             try
             {
-                var tree = _decisionTreeDataProvider.Value.GetDecisionTree(rootTreeId);
+                var tree = _decisionTreeDataProvider.Value.GetDecisionTree(parentTreeId);
+                var hierarchy = tree.ToHierarchy(parentTreeId);
+                return Ok(hierarchy);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("insert-node")]
+        public IHttpActionResult InsertNode(DecisionTreeModel model)
+        {
+            try
+            {
+                if (null == model)
+                {
+                    throw new ArgumentNullException(nameof(model));
+                }
+                var userId = User.Identity.GetUserId();
+                // Tuple deconstruction.
+                var (tree, rootTreeId) = _decisionTreeDataProvider.Value.InsertDecisionTree(model.ParentTreeId,
+                    model.NodeName, userId);
                 var hierarchy = tree.ToHierarchy(rootTreeId);
                 return Ok(hierarchy);
             }
@@ -39,15 +63,14 @@ namespace BridgeportClaims.Web.Controllers
         }
 
         [HttpPost]
-        [Route("save-decision-tree")]
-        public IHttpActionResult SaveDecisionTree(DecisionTreeModel model)
+        [Route("delete-node")]
+        public IHttpActionResult DeleteNode(int treeId)
         {
             try
             {
-                var userId = User.Identity.GetUserId();
-                var decisionTree = _decisionTreeDataProvider.Value.InsertDecisionTree(model.ParentTreeId,
-                    model.NodeName, model.NodeDescription, userId);
-                return Ok(decisionTree);
+                var (tree, rootTreeId) = _decisionTreeDataProvider.Value.DeleteDecisionTree(treeId);
+                var hierarchy = tree.ToHierarchy(rootTreeId);
+                return Ok(hierarchy);
             }
             catch (Exception ex)
             {
