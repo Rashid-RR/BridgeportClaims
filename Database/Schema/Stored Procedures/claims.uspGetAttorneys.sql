@@ -44,7 +44,7 @@ AS BEGIN
 		   ,[ModifiedBy] = [x].[FirstName] + ' ' + [x].[LastName]
 	FROM    [dbo].[Attorney] AS [a]
 			LEFT JOIN [dbo].[AspNetUsers] AS [x] ON [a].[ModifiedByUserID] = [x].[ID]
-			INNER JOIN [dbo].[UsState] AS [us] ON [a].[StateID] = [us].[StateID]
+			LEFT JOIN [dbo].[UsState] AS [us] ON [a].[StateID] = [us].[StateID]
 	WHERE   [a].[AttorneyName] LIKE CONCAT(@WildCard, @SearchText, @WildCard);
 
 	SELECT @TotalRows = COUNT(*) FROM [#Attorney] AS [a]
@@ -82,5 +82,6 @@ AS BEGIN
 			 CASE WHEN @SortColumn = 'ModifiedBy' AND  @SortDirection = 'DESC' THEN [a].[ModifiedBy] END DESC
 	 OFFSET @PageSize * (@PageNumber - 1) ROWS FETCH NEXT @PageSize ROWS ONLY;
 END
+
 
 GO

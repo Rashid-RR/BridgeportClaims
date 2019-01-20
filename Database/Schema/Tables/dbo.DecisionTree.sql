@@ -5,7 +5,7 @@ CREATE TABLE [dbo].[DecisionTree]
 [TreeLevel] AS ([TreeNode].[GetLevel]()),
 [TreeID] [int] NOT NULL,
 [NodeName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-[NodeDescription] [varchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+[NodeDescription] [varchar] (4000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [ParentTreeID] [int] NOT NULL,
 [ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfDecisionTreeCreatedOnUTC] DEFAULT (sysutcdatetime()),
@@ -20,8 +20,6 @@ GO
 ALTER TABLE [dbo].[DecisionTree] ADD CONSTRAINT [pkDecisionTree] PRIMARY KEY CLUSTERED  ([TreeNode]) WITH (FILLFACTOR=90, DATA_COMPRESSION = ROW) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDecisionTreeModifiedByUserID] ON [dbo].[DecisionTree] ([ModifiedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
-GO
-CREATE UNIQUE NONCLUSTERED INDEX [idxUqDecisionTreeNodeNameIncludes] ON [dbo].[DecisionTree] ([NodeName]) INCLUDE ([ModifiedByUserID], [NodeDescription], [ParentTreeID], [TreeID], [TreeLevel], [TreeNode], [TreePath]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
 CREATE NONCLUSTERED INDEX [idxDecisionTreeParentTreeIDIncludes] ON [dbo].[DecisionTree] ([ParentTreeID]) INCLUDE ([ModifiedByUserID], [NodeDescription], [NodeName], [TreeID], [TreeLevel], [TreeNode], [TreePath]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
