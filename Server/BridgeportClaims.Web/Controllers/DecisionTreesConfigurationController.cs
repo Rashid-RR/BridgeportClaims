@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.DecisionTrees;
@@ -49,16 +50,22 @@ namespace BridgeportClaims.Web.Controllers
                     throw new ArgumentNullException(nameof(model));
                 }
                 var userId = User.Identity.GetUserId();
-                // Tuple deconstruction.
-                var (tree, rootTreeId) = _decisionTreeDataProvider.Value.InsertDecisionTree(model.ParentTreeId,
+                var node = _decisionTreeDataProvider.Value.InsertDecisionTree(model.ParentTreeId,
                     model.NodeName, userId);
-                var hierarchy = tree.ToHierarchy(rootTreeId);
-                return Ok(hierarchy);
+                var tree = new Tree
+                {
+                    TreeId = node.TreeId,
+                    NodeName = node.NodeName,
+                    NodeDescription = node.NodeDescription,
+                    TreeLevel = node.TreeLevel,
+                    Children = new List<Node>()
+                };
+                return Ok(tree);
             }
             catch (Exception ex)
             {
                 Logger.Value.Error(ex);
-                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+                return Content(HttpStatusCode.NotAcceptable, new {message = ex.Message});
             }
         }
 
@@ -68,9 +75,12 @@ namespace BridgeportClaims.Web.Controllers
         {
             try
             {
-                var (tree, rootTreeId) = _decisionTreeDataProvider.Value.DeleteDecisionTree(treeId);
-                var hierarchy = tree.ToHierarchy(rootTreeId);
-                return Ok(hierarchy);
+                var childrenDeleted = _decisionTreeDataProvider.Value.DeleteDecisionTree(treeId);
+                return Ok(new
+                {
+                    message =
+                        $"The tree node {(childrenDeleted > 1 ? $"and {childrenDeleted} of its children nodes were" : "was")} deleted successfully."
+                });
             }
             catch (Exception ex)
             {

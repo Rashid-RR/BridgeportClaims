@@ -12,7 +12,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
 {
     public class DecisionTreeDataProvider : IDecisionTreeDataProvider
     {
-        public Tuple<IEnumerable<DecisionTreeDto>, int> InsertDecisionTree(int parentTreeId, string nodeName,
+        public DecisionTreeDto InsertDecisionTree(int parentTreeId, string nodeName,
             string modifiedByUserId) =>
             DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
@@ -27,9 +27,8 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 ps.Add("@NodeName", nodeName, DbType.AnsiString, size: 255);
                 ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
                 ps.Add(rootTreeId, dbType: DbType.Int32, direction: ParameterDirection.Output);
-                var decisionTree = conn.Query<DecisionTreeDto>(sp, ps, commandType: CommandType.StoredProcedure)
-                    ?.ToList();
-                return new Tuple<IEnumerable<DecisionTreeDto>, int>(decisionTree, ps.Get<int>(rootTreeId));
+                return conn.Query<DecisionTreeDto>(sp, ps, commandType: CommandType.StoredProcedure)
+                    ?.SingleOrDefault();
             });
 
         public IEnumerable<DecisionTreeDto> GetDecisionTree(int parentTreeId) =>
@@ -70,7 +69,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
             return retVal;
         });
 
-        public Tuple<IEnumerable<DecisionTreeDto>, int> DeleteDecisionTree(int treeId)
+        public int DeleteDecisionTree(int treeId)
             => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
             {
                 if (conn.State != ConnectionState.Open)
@@ -79,13 +78,11 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 }
                 const string sp = "[dbo].[uspDecisionTreeDeleteNode]";
                 const string rowCount = "@RowCount";
-                const string rootTreeId = "@RootTreeID";
                 var ps = new DynamicParameters();
                 ps.Add("@TreeID", treeId, DbType.Int32, ParameterDirection.Input);
                 ps.Add(rowCount, dbType: DbType.Int32, direction: ParameterDirection.Output);
-                ps.Add(rootTreeId, dbType: DbType.Int32, direction: ParameterDirection.Output);
-                var results = conn.Query<DecisionTreeDto>(sp, ps, commandType: CommandType.StoredProcedure);
-                return new Tuple<IEnumerable<DecisionTreeDto>, int>(results, ps.Get<int>(rootTreeId));
+                conn.Execute(sp, ps, commandType: CommandType.StoredProcedure);
+                return ps.Get<int>(rowCount);
             });
     }
 }
