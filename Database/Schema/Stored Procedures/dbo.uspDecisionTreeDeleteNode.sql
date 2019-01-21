@@ -12,7 +12,7 @@ GO
                     EXECUTE [dbo].[uspDecisionTreeDeleteNode] 40, @RowCount = @I OUTPUT;
  =============================================
 */
-CREATE PROC [dbo].[uspDecisionTreeDeleteNode] @TreeID INT, @RowCount INT OUTPUT, @RootTreeID INT OUTPUT
+CREATE PROC [dbo].[uspDecisionTreeDeleteNode] @TreeID INT, @RowCount INT OUTPUT
 AS BEGIN
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
@@ -32,19 +32,13 @@ AS BEGIN
 				RETURN -1;
 			END
 
-		DECLARE @NodeToDelete HIERARCHYID, @RootHierarchyID HIERARCHYID;
+		DECLARE @NodeToDelete HIERARCHYID;
         SELECT @NodeToDelete = [dt].[TreeNode] FROM [dbo].[DecisionTree] AS [dt] WHERE [dt].[TreeID] = @TreeID;
-
-		-- Before deleting, we need to get the parent node of the parent we are deleting.
-		SEt @RootHierarchyID = dbo.[udfGetParentRootHierarchyID](@TreeID)
-		SET @RootTreeID = dbo.[udfGetTreeIDByHierarchyID](@RootHierarchyID);
 
 		DELETE [dt] FROM [dbo].[DecisionTree] AS [dt]
 		WHERE [dt].[TreeNode].IsDescendantOf(@NodeToDelete) = 1;
 
 		SET @RowCount = @@ROWCOUNT;
-
-		EXECUTE [dbo].[uspGetDecisionTree] @RootTreeID;
 
         IF (@@TRANCOUNT > 0)
 			COMMIT;

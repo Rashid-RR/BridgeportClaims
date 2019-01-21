@@ -52,12 +52,16 @@ AS BEGIN
 
 		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [ParentTreeID], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
 		VALUES (@InsertedHierarchyID, @TreeID, @NodeName, @ParentTreeID, @ModifiedByUserID, @UtcNow, @UtcNow);
-        
-		DECLARE @LevelOneRootHierarchyID HIERARCHYID;
-		SELECT @LevelOneRootHierarchyID = dbo.udfGetParentRootHierarchyID(@TreeID);
-		SELECT @RootTreeID = dbo.udfGetTreeIDByHierarchyID(@LevelOneRootHierarchyID);
 
-		EXECUTE [dbo].[uspGetDecisionTree] @RootTreeID;
+		SELECT  [d].[TreePath]
+               ,[d].[TreeLevel]
+               ,[TreeId] = [d].[TreeID]
+               ,[d].[NodeName]
+               ,[d].[NodeDescription]
+               ,[ParentTreeId] = [d].[ParentTreeID]
+        FROM    [dbo].[DecisionTree] AS [d]
+        WHERE   [d].[TreeID] = @TreeID;
+		
         IF (@@TRANCOUNT > 0)
             COMMIT;
     END TRY
@@ -74,4 +78,5 @@ AS BEGIN
         RAISERROR(N'%s (line %d): %s', @ErrSeverity, @ErrState, @ErrProc, @ErrLine, @ErrMsg);
     END CATCH
 END
+
 GO
