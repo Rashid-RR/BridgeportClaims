@@ -20,7 +20,6 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 {
                     conn.Open();
                 }
-
                 const string sp = "[dbo].[uspDecisionTreeInsert]";
                 const string rootTreeId = "@RootTreeID";
                 var ps = new DynamicParameters();
@@ -40,7 +39,6 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 {
                     conn.Open();
                 }
-
                 const string sp = "[dbo].[uspGetDecisionTree]";
                 return conn.Query<DecisionTreeDto>(sp, new {ParentTreeID = parentTreeId},
                     commandType: CommandType.StoredProcedure);
@@ -55,7 +53,6 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
             {
                 conn.Open();
             }
-
             var ps = new DynamicParameters();
             ps.Add("@SearchText", searchText, DbType.AnsiString, size: 4000);
             ps.Add("@SortColumn", sort, DbType.AnsiString, size: 50);
@@ -84,7 +81,7 @@ namespace BridgeportClaims.Data.DataProviders.DecisionTrees
                 const string rowCount = "@RowCount";
                 const string rootTreeId = "@RootTreeID";
                 var ps = new DynamicParameters();
-                ps.Add("@TreeID", DbType.Int32, direction: ParameterDirection.Input);
+                ps.Add("@TreeID", treeId, DbType.Int32, ParameterDirection.Input);
                 ps.Add(rowCount, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 ps.Add(rootTreeId, dbType: DbType.Int32, direction: ParameterDirection.Output);
                 var results = conn.Query<DecisionTreeDto>(sp, ps, commandType: CommandType.StoredProcedure);
