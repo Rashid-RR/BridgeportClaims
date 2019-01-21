@@ -4,7 +4,7 @@ export interface ITreeNode {
     treeLevel?: number;
     treeId?: number;
     nodeName: string;
-    nodeDescription: string;
+    nodeDescription?: string;
     parentTreeId?: number;
     children?:ITreeNode[]
 }

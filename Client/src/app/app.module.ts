@@ -29,7 +29,7 @@ import { CustomOption } from './services/custom-option-toaster';
 // services
 import {
   AccountReceivableService,
-  AuthGuard,
+  AuthGuard,DecisionTreeService,
   AuthInterceptor,
   ClaimManager,
   CollectionBonusService,
@@ -124,7 +124,7 @@ import {ReferenceManagerService} from './services/reference-manager.service';
     // { provide: 'SnotifyToastConfig', useValue: ToastDefaults},SnotifyService,
     DecimalPipe, DatePipe, CollectionBonusService, ReferenceManagerService,
     HttpService, ProfileManager, EventsService, AuthGuard, ClaimManager, PaymentService, DocumentManagerService,
-    EpisodeService, FirewallService,
+    EpisodeService, FirewallService,DecisionTreeService,
     PaymentScriptService, DiaryService, ShortPayService, SkippedPaymentService, UnpaidScriptService,
     AccountReceivableService, ReportLoaderService, SignalRService, StringService,
     {
