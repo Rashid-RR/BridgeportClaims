@@ -98,7 +98,7 @@
           </a>
         </li>
         <li [class.active]="router.url.indexOf('/main/users')>-1">
-          <a [routerLink]="!disableLinks ? '/main/users'  : []" *ngIf="allowed" [class.disabled]="disableLinks">
+          <a [routerLink]="!disableLinks ? '/main/users' : []" *ngIf="allowed" [class.disabled]="disableLinks">
             <img style='width: 25px;' src="assets/img/user.png">
             <span>User Management</span>
           </a>

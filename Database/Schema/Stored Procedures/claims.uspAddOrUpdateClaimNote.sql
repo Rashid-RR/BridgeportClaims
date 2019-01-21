@@ -14,7 +14,8 @@ CREATE PROC [claims].[uspAddOrUpdateClaimNote]
 	@ClaimID INT,
 	@NoteText VARCHAR(MAX),
 	@EnteredByUserID NVARCHAR(128),
-	@NoteTypeID INT
+	@NoteTypeID INT,
+	@NoteType VARCHAR(255) OUTPUT
 )
 AS BEGIN
 	SET NOCOUNT ON;
@@ -38,6 +39,12 @@ AS BEGIN
 		BEGIN
 			INSERT [dbo].[ClaimNote] ([ClaimID],[ClaimNoteTypeID],[NoteText],[EnteredByUserID],[CreatedOnUTC],[UpdatedOnUTC])
 			VALUES (@ClaimID, @NoteTypeID, @NoteText, @EnteredByUserID, @UTCNow, @UTCNow);
+		END
+	IF @NoteTypeID IS NOT NULL
+		BEGIN
+			SELECT  @NoteType = [cnt].[TypeName]
+			FROM    [dbo].[ClaimNoteType] AS [cnt]
+			WHERE   [cnt].[ClaimNoteTypeID] = @NoteTypeID;
 		END
 END
 GO

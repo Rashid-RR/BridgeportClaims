@@ -587,6 +587,7 @@ AS BEGIN
 								   ORDER BY c.[CreatedOnUTC] DESC
 							   ) AS c
 			WHERE s.[ClaimID] IS NULL;
+			SET @RowCountCheck = @RowCountCheck + @@ROWCOUNT;
 		END;
 
 	-- QA check that we were able to update every record
@@ -1111,5 +1112,6 @@ AS BEGIN
 	ALTER TABLE [dbo].[Claim] ENABLE TRIGGER ALL;
 	ALTER TABLE [dbo].[Patient] ENABLE TRIGGER ALL;
 END
+
 
 GO

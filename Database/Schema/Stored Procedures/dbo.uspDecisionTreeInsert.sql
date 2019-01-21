@@ -8,17 +8,20 @@ GO
  Create date:       11/30/2018
  Description:       Inserts a new Node into the Decision Tree.
  Example Execute:
-                    EXECUTE dbo.uspDecisionTreeInsert 1, 'Coffey', '', '7fff6083-6f89-46dc-afd2-0af36601b312';
+                    EXECUTE dbo.uspDecisionTreeInsert 13, 'Yes De4ar!', '7fff6083-6f89-46dc-afd2-0af36601b312';
  =============================================
 */
 CREATE PROC [dbo].[uspDecisionTreeInsert]
 (
 	@ParentTreeID INT,
 	@NodeName VARCHAR(255),
-	@NodeDescription VARCHAR(4000),
-	@ModifiedByUserID NVARCHAR(128)
+	@ModifiedByUserID NVARCHAR(128),
+	@RootTreeID INT OUTPUT
 )
 AS BEGIN
+	DECLARE @SeqNum INT = (SELECT MAX([dt].[TreeID]) FROM [dbo].[DecisionTree] AS [dt]) + 1;
+	DECLARE @SQL NVARCHAR(1000) = N'ALTER SEQUENCE [dbo].[seqDecisionTree] RESTART WITH ' + CONVERT(NVARCHAR(500), @SeqNum) + N';';
+	EXEC [sys].[sp_executesql] @SQL;
     SET NOCOUNT ON;
     SET XACT_ABORT ON;
 	SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
@@ -47,13 +50,14 @@ AS BEGIN
 		SET @TreeID = (NEXT VALUE FOR seqDecisionTree);
 		DECLARE @InsertedHierarchyID HIERARCHYID = @ParentNode.GetDescendant(@LeftChild, NULL);
 
-		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [NodeDescription], [ParentTreeID], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
-		VALUES (@InsertedHierarchyID, @TreeID, @NodeName, @NodeDescription, @ParentTreeID, @ModifiedByUserID, @UtcNow, @UtcNow);
+		INSERT INTO [dbo].[DecisionTree] ([TreeNode], [TreeID], [NodeName], [ParentTreeID], [ModifiedByUserID], [CreatedOnUTC], [UpdatedOnUTC])
+		VALUES (@InsertedHierarchyID, @TreeID, @NodeName, @ParentTreeID, @ModifiedByUserID, @UtcNow, @UtcNow);
         
-		SELECT  [dt].[TreePath], [dt].[TreeLevel], [dt].[TreeID] AS [TreeId], [dt].[NodeName], [dt].[NodeDescription], [dt].[ParentTreeID] AS [ParentTreeId]
-		FROM    [dbo].[DecisionTree] AS [dt]
-		WHERE   [dt].[TreeNode] = @InsertedHierarchyID;
-		 
+		DECLARE @LevelOneRootHierarchyID HIERARCHYID;
+		SELECT @LevelOneRootHierarchyID = dbo.udfGetParentRootHierarchyID(@TreeID);
+		SELECT @RootTreeID = dbo.udfGetTreeIDByHierarchyID(@LevelOneRootHierarchyID);
+
+		EXECUTE [dbo].[uspGetDecisionTree] @RootTreeID;
         IF (@@TRANCOUNT > 0)
             COMMIT;
     END TRY
