@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import * as d3 from 'd3';
 import { ITreeNode } from '../tree-node';
 import { HttpService } from '../../services/http-service';
@@ -14,7 +14,7 @@ declare var $: any;
   styleUrls: ['./design-tree.component.css']
 })
 export class DesignTreeComponent implements OnInit, AfterViewInit {
-
+  over: boolean[];
   decisionTreeSVG: any;
   margin = { top: 20, right: 90, bottom: 30, left: 30 };
   get width(): number {
@@ -41,7 +41,10 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
   get treeDepth() {
     return this.depth || 0;
   }
-  constructor(private toast: ToastsManager, private dialogService: DialogService, private http: HttpService) { }
+  constructor(private toast: ToastsManager, private dialogService: DialogService, private http: HttpService) { 
+    this.over = new Array(1);
+    this.over.fill(false);
+  }
   collapse(d) {
     if (d.children) {
       d._children = d.children
@@ -109,7 +112,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       name: "Edit Node",
       icon: "edit",
       callback: () => {
-        this.createUpdateNode(n,n.data.nodeName,n.data.nodeDescription);
+        this.createUpdateNode(n, n.data.nodeName, n.data.nodeDescription);
         return true;
       }
     };
@@ -124,7 +127,6 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
     return items;
   }
   createUpdateNode(n?: any, title?: string, description?: string) {
-    const width = window.innerWidth * 1.799 / 3;
     swal({
       title: 'New Prescription Note',
       html: `<div class="form-group">
@@ -164,9 +166,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       }
     }).catch(swal.noop);
     $('button.save-tree-node').click(() => {
-      let name = $('#treeNodeName').val(),
-        desc = $('#treeNodeDescription').val();
-        console.log(name,desc);
+      let name = $('#treeNodeName').val(), desc = $('#treeNodeDescription').val();
       if (!name) {
         this.toast.warning('Please provide a name for this node');
         setTimeout(() => { $('#treeNodeNameLabel').css({ 'color': '#545454' }); }, 150);
@@ -177,14 +177,14 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       } else {
         $('#treeNodeNameLabel').css({ 'color': '#000' });
         $('#treeNodeDescriptionLabel').css({ 'color': '#000' });
-        if(!n){
-          this.saveRoot(name,desc);
-        }else if(title && description){
+        if (!n) {
+          this.saveRoot(name, desc);
+        } else if (title && description) {
           //this.saveChild(n,name,desc);
           n.data.nodeName = name;
           n.data.nodeDescription = description;
-        }else{
-          this.saveChild(n,name,desc);
+        } else {
+          this.saveChild(n, name, desc);
         }
         swal.close();
 
@@ -194,12 +194,13 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
       swal.close();
     });
   }
-  saveRoot(name:string,description:string){
+  saveRoot(name: string, description: string) {
     this.loading = true;
-    this.http.saveTreeRoot({ nodeName: name,nodeDescription:description })
+    this.http.saveTreeRoot({ nodeName: name, nodeDescription: description })
       .subscribe((result: any) => {
         this.loading = false;
-        /* this.treeData = result;
+        result.children=[];
+        this.treeData = result;
         this.root = d3.hierarchy(this.treeData, (d) => { return d.children; });
         this.root.x0 = this.height / 2;
         this.root.y0 = 20;
@@ -209,9 +210,7 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
           .style("height", this.height)
           .attr("transform", "translate("
             + this.margin.left + "," + this.margin.top + ")");
-        this.root.children.forEach(c => this.collapse(c));
-        this.update(this.root); */
-        console.log(result);
+        this.update(this.root);
       }, err => {
         this.loading = false;
         try {
@@ -220,24 +219,29 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
         } catch (e) { }
       });
   }
-  saveChild(n:any,name:string,description:string){
+  makeD3Node(data, parent) {
+    //I have to use d3.hierarchy because d3 Node constructor is not public
+    if(!data.treeLevel){
+      data.treeLevel = parent.data.treeLevel+1
+    }
+    var node = d3.hierarchy(data);
+    node.parent = parent;
+    node.depth = parent.depth + 1;
+    node.children = null;
+    node.data = data;
+    node.height = 0;
+    return node;
+  }
+  saveChild(n: any, name: string, description: string) {
     this.loading = true;
     this.http.saveTreeChildNode({ parentTreeId:n.data.treeId,nodeName: name,nodeDescription:description })
-      .subscribe((result: any) => {
-        this.loading = false;
-        /* this.treeData = result;
-        this.root = d3.hierarchy(this.treeData, (d) => { return d.children; });
-        this.root.x0 = this.height / 2;
-        this.root.y0 = 20;
-        this.root.y = 20;
-        this.svg = d3.select('svg')
-          .style("width", this.width)
-          .style("height", this.height)
-          .attr("transform", "translate("
-            + this.margin.left + "," + this.margin.top + ")");
-        this.root.children.forEach(c => this.collapse(c));
-        this.update(this.root); */
-        console.log(result);
+      .subscribe((result: any) => {        
+          this.loading = false;
+          result.children = [];
+          n.data.children.push(result);
+          let node = this.makeD3Node(result, n);
+          n.children ? n.children.push(node) : n.children = [node];
+          this.update(n);
       }, err => {
         this.loading = false;
         try {
@@ -263,7 +267,6 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
   }
   removeNode(d) {
     //this is the links target node which you want to remove
-    console.log(d);
     //make new set of children
     var children = [];
     //iterate through the children 
@@ -281,27 +284,28 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
   }
 
   update(source) {
-
     // Assigns the x and y position for the nodes
     var treeData = this.tree(this.root);
-
     // Compute the new tree layout.
     var nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
     // Normalize for fixed-depth.
     nodes.forEach((d) => { d.y = d.depth * 180 + 70 });
-
     // ****************** Nodes section ***************************
-
     // Update the nodes...
     var node = this.svg.selectAll('g.node')
       .data(nodes, (d) => { return d.id || (d.id = ++this.i); });
-
     // Enter any new modes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
+      .attr('data-toggle',"tooltip")
+      .attr('data-placement', 'left')
+      .attr('title',  (n: any) => {
+        return n.data.nodeDescription;
+      })
       .attr('id', (n: any) => {
         let id = `tree_node${n.id}`;
+        $(`#${id}`).tooltip();
         return id;
       })
       .attr("transform", (d) => {
@@ -341,10 +345,8 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
         return d.children || d._children ? "end" : "start";
       })
       .text((d) => { return d.data.nodeName; });
-
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
-
     // Transition to the proper position for the node
     nodeUpdate.transition()
       .duration(this.duration)
@@ -361,8 +363,6 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
         return d._children ? "lightsteelblue" : "#fff";
       })
       .attr('cursor', 'pointer');
-
-
     // Remove any exiting nodes
     var nodeExit = node.exit().transition()
       .duration(this.duration)
