@@ -1233,23 +1233,31 @@ export class HttpService {
     return s;
   }
   getTree(data: any): Observable<any> {
-    const s = this.http.post(this.baseUrl + `/trees/get-decision-tree/?rootTreeId=${data.rootTreeId}`, data)
+    const s = this.http.post(this.baseUrl + `/tree-config/get-tree/?parentTreeId=${data.parentTreeId}`, data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
-  saveTreeChildNode(data: any): Observable<any> {
-    const s = this.http.post(this.baseUrl + `/trees/save-decision-tree`, data)
+  saveTreeNode(data: any): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/tree-config/insert-node`, data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);
       });
     return s;
   }
-  saveTreeRoot(data: any): Observable<any> {
-    const s = this.http.post(this.baseUrl + '/trees/save-decision-tree', data)
+  deleteTreeNode(treeId: string): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/tree-config/delete-node/?treeId=${treeId}`, {})
+      .catch(err => {
+        this.handleResponseError(err);
+        return Observable.throw(err);
+      });
+    return s;
+  }
+  getTreeList(data:any): Observable<any> {
+    const s = this.http.post(this.baseUrl + `/tree-config/get-decision-tree-list`, data)
       .catch(err => {
         this.handleResponseError(err);
         return Observable.throw(err);

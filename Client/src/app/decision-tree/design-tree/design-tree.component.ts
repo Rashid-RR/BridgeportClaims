@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import * as d3 from 'd3';
-import { ITreeNode } from '../tree-node';
 import { HttpService } from '../../services/http-service';
-import swal from 'sweetalert2';
 import { ToastsManager } from 'ng2-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
+import { DecisionTreeService } from 'app/services/services.barrel';
 
 declare var $: any;
 
@@ -15,35 +15,10 @@ declare var $: any;
 })
 export class DesignTreeComponent implements OnInit, AfterViewInit {
   over: boolean[];
-  decisionTreeSVG: any;
-  margin = { top: 20, right: 90, bottom: 30, left: 30 };
-  get width(): number {
-    return (this.treeDepth + 1) + 60;
-  };
-  duration: number = 750
-  i: number = 0
-  height = 500 - this.margin.top - this.margin.bottom;
-  treeData: ITreeNode =
-    {
-      "nodeName": "Top Level",
-      "nodeDescription": "",
-      "parentTreeId": 0,
-      treeId: 1,
-    };
-  dx: number = 35;
-  dy: number = 120;
-  svg: any;
-  tree = d3.tree().size([this.height, this.width]);
-  root: any;
-  loading: boolean = false;
-  rootTreeId: number = 2;
-  depth: number = 930;
-  get treeDepth() {
-    return this.depth || 0;
-  }
-  constructor(private toast: ToastsManager, private dialogService: DialogService, private http: HttpService) { 
+  constructor(private route: ActivatedRoute, private ds: DecisionTreeService, private toast: ToastsManager, private dialogService: DialogService, private http: HttpService) {
     this.over = new Array(1);
     this.over.fill(false);
+
   }
   collapse(d) {
     if (d.children) {
@@ -53,379 +28,37 @@ export class DesignTreeComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-    this.loading = true;
-    this.http.getTree({ rootTreeId: this.rootTreeId })
-      .subscribe((result: any) => {
-        this.loading = false;
-        this.treeData = result;
-        this.root = d3.hierarchy(this.treeData, (d) => { return d.children; });
-        this.root.x0 = this.height / 2;
-        this.root.y0 = 20;
-        this.root.y = 20;
-        this.svg = d3.select('svg')
-          .style("width", this.width)
-          .style("height", this.height)
-          .attr("transform", "translate("
-            + this.margin.left + "," + this.margin.top + ")");
-        this.root.children.forEach(c => this.collapse(c));
-        this.update(this.root);
-      }, err => {
-        this.loading = false;
-        try {
-          const error = err.error;
-
-        } catch (e) { }
-      });
+    if (this.ds.parentTreeId) {
+      this.ds.loading = true;
+      this.http.getTree({ parentTreeId: this.ds.parentTreeId })
+        .subscribe((result: any) => {
+          this.ds.loading = false;
+          this.ds.treeData = result;
+          this.ds.root = d3.hierarchy(this.ds.treeData, (d) => { return d.children; });
+          this.ds.root.x0 = this.ds.height / 2;
+          this.ds.root.y0 = 20;
+          this.ds.root.y = 20;
+          this.ds.svg = d3.select('svg')
+            .style("width", this.ds.width)
+            .style("height", this.ds.height)
+            .attr("transform", "translate("
+              + this.ds.margin.left + "," + this.ds.margin.top + ")");
+          (this.ds.root.children || []).forEach(c => this.collapse(c));
+          this.ds.update(this.ds.root);
+        }, err => {
+          this.ds.loading = false;
+          try {
+            const error = err.error;
+          } catch (e) { }
+        });
+    }
   }
   ngOnInit() {
-
-  }
-  diagonal(s, d) {
-    return `M ${s.y} ${s.x}
-            C ${(s.y + d.y) / 2} ${s.x},
-              ${(s.y + d.y) / 2} ${d.x},
-              ${d.y} ${d.x}`;
-  }
-  treeNodeItems(n): any {
-    let items: any = {}
-    let expandName = `${n._children ? 'Expand' : 'Collapse'} Node`;
-    let expandIcon = n._children ? "fa-expand" : "fa-minus";
-    if (n.data.children && n.data.children.length > 0) items.expand = {
-      name: expandName,
-      icon: expandIcon,
-      callback: () => {
-        this.toggleExpand(n);
-        expandName = `${n._children ? 'Expand' : 'Collapse'} Node`;
-        expandIcon = n._children ? "fa-expand" : "fa-minus";
-        return true;
-      }
-    };
-    items.add = {
-      name: "Add Node",
-      icon: "add",
-      callback: () => {
-        this.createUpdateNode(n);
-        return true;
-      }
-    };
-    items.edit = {
-      name: "Edit Node",
-      icon: "edit",
-      callback: () => {
-        this.createUpdateNode(n, n.data.nodeName, n.data.nodeDescription);
-        return true;
-      }
-    };
-    items.delete = {
-      icon: 'delete',
-      name: "Delete Node",
-      callback: () => {
-        this.deleteNode(n);
-        return true;
-      }
-    };
-    return items;
-  }
-  createUpdateNode(n?: any, title?: string, description?: string) {
-    swal({
-      title: 'New Prescription Note',
-      html: `<div class="form-group">
-                <label id="treeNodeNameLabel">Name</label>
-                <input class="form-control"  type="text" id="treeNodeName" value="${title || ''}">
-            </div> 
-            <div class="form-group">
-                <label id="treeNodeDescriptionLabel">Description</label>
-                <textarea class="form-control"  id="treeNodeDescription">${description || ''}</textarea>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 text-right">
-                    <button class="btn btn-flat btn-primary save-tree-node" type="button" style="color:white;background-color: rgb(48, 133, 214);">Save</button>
-                </div>
-                <div class="col-sm-6 text-left">
-                  <div class="form-group">
-                  <button class="btn btn-flat btn-default cancel-tree-note" type="button" style="color:white;background-color: rgb(170, 170, 170);">Cancel</button>
-                  </div>
-                </div>
-              </div>`,
-      showConfirmButton: false,
-      showCancelButton: false,
-      showLoaderOnConfirm: true,
-      confirmButtonText: 'Save',
-      cancelButtonText: 'Cancel',
-      customClass: 'prescription-modal',
-      preConfirm: function () {
-        return new Promise(function (resolve) {
-          resolve([
-            $('#treeNodeName').val(),
-            $('#treeNodeDescription').val()
-          ]);
-        });
-      },
-      onOpen: function () {
-        $('#treeNodeName').focus();
-      }
-    }).catch(swal.noop);
-    $('button.save-tree-node').click(() => {
-      let name = $('#treeNodeName').val(), desc = $('#treeNodeDescription').val();
-      if (!name) {
-        this.toast.warning('Please provide a name for this node');
-        setTimeout(() => { $('#treeNodeNameLabel').css({ 'color': '#545454' }); }, 150);
-      } else if (!desc) {
-        this.toast.warning('Please provide a description for this node');
-        $('#treeNodeNameLabel').css({ 'color': '#000' });
-        setTimeout(() => { $('#treeNodeDescriptionLabel').css({ 'color': '#545454' }); }, 150);
-      } else {
-        $('#treeNodeNameLabel').css({ 'color': '#000' });
-        $('#treeNodeDescriptionLabel').css({ 'color': '#000' });
-        if (!n) {
-          this.saveRoot(name, desc);
-        } else if (title && description) {
-          //this.saveChild(n,name,desc);
-          n.data.nodeName = name;
-          n.data.nodeDescription = description;
-        } else {
-          this.saveChild(n, name, desc);
-        }
-        swal.close();
-
+    this.route.params.subscribe(params => {
+      if (params.treeId) {
+        this.ds.parentTreeId = params.treeId;
       }
     });
-    $('button.cancel-tree-note').click(() => {
-      swal.close();
-    });
   }
-  saveRoot(name: string, description: string) {
-    this.loading = true;
-    this.http.saveTreeRoot({ nodeName: name, nodeDescription: description })
-      .subscribe((result: any) => {
-        this.loading = false;
-        result.children=[];
-        this.treeData = result;
-        this.root = d3.hierarchy(this.treeData, (d) => { return d.children; });
-        this.root.x0 = this.height / 2;
-        this.root.y0 = 20;
-        this.root.y = 20;
-        this.svg = d3.select('svg')
-          .style("width", this.width)
-          .style("height", this.height)
-          .attr("transform", "translate("
-            + this.margin.left + "," + this.margin.top + ")");
-        this.update(this.root);
-      }, err => {
-        this.loading = false;
-        try {
-          const error = err.error;
-
-        } catch (e) { }
-      });
-  }
-  makeD3Node(data, parent) {
-    //I have to use d3.hierarchy because d3 Node constructor is not public
-    if(!data.treeLevel){
-      data.treeLevel = parent.data.treeLevel+1
-    }
-    var node = d3.hierarchy(data);
-    node.parent = parent;
-    node.depth = parent.depth + 1;
-    node.children = null;
-    node.data = data;
-    node.height = 0;
-    return node;
-  }
-  saveChild(n: any, name: string, description: string) {
-    this.loading = true;
-    this.http.saveTreeChildNode({ parentTreeId:n.data.treeId,nodeName: name,nodeDescription:description })
-      .subscribe((result: any) => {        
-          this.loading = false;
-          result.children = [];
-          n.data.children.push(result);
-          let node = this.makeD3Node(result, n);
-          n.children ? n.children.push(node) : n.children = [node];
-          this.update(n);
-      }, err => {
-        this.loading = false;
-        try {
-          const error = err.error;
-
-        } catch (e) { }
-      });
-  }
-  deleteNode(n) {
-    let title = `Delete this node - ${n.data.nodeName}`,
-      msg = `Are you sure you want to delete this node - ${n.data.nodeName}. This will delete all the decendant trees/nodes`;
-    swal({
-      title: title,
-      text: msg,
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
-    }).then((result) => {
-      if (result.value) {
-        this.removeNode(n);
-      }
-    }).catch(swal.noop)
-  }
-  removeNode(d) {
-    //this is the links target node which you want to remove
-    //make new set of children
-    var children = [];
-    //iterate through the children 
-    d.parent.children.forEach(function (child) {
-      if (child.id != d.id) {
-        //add to the child list if target id is not same 
-        //so that the node target is removed.
-        children.push(child);
-      }
-    });
-    //set the target parent with new set of children sans the one which is removed
-    d.parent.children = children;
-    //redraw the parent since one of its children is removed
-    this.update(d.parent)
-  }
-
-  update(source) {
-    // Assigns the x and y position for the nodes
-    var treeData = this.tree(this.root);
-    // Compute the new tree layout.
-    var nodes = treeData.descendants(),
-      links = treeData.descendants().slice(1);
-    // Normalize for fixed-depth.
-    nodes.forEach((d) => { d.y = d.depth * 180 + 70 });
-    // ****************** Nodes section ***************************
-    // Update the nodes...
-    var node = this.svg.selectAll('g.node')
-      .data(nodes, (d) => { return d.id || (d.id = ++this.i); });
-    // Enter any new modes at the parent's previous position.
-    var nodeEnter = node.enter().append('g')
-      .attr('class', 'node')
-      .attr('data-toggle',"tooltip")
-      .attr('data-placement', 'left')
-      .attr('title',  (n: any) => {
-        return n.data.nodeDescription;
-      })
-      .attr('id', (n: any) => {
-        let id = `tree_node${n.id}`;
-        $(`#${id}`).tooltip();
-        return id;
-      })
-      .attr("transform", (d) => {
-        return "translate(" + source.y0 + "," + source.x0 + ")";
-      })
-      .on('click', (n) => {
-        var _offset = $(`#tree_node${n.id}`).offset(),
-          position = {
-            x: _offset.left + 10,
-            y: _offset.top + 10
-          }
-        $.contextMenu('destroy');
-        $.contextMenu({
-          selector: `#tree_node${n.id}`,
-          trigger: 'none',
-          callback: (key, options) => { },
-          items: this.treeNodeItems(n)
-        });
-        setTimeout(function () { $(`#tree_node${n.id}`).contextMenu(position); }, 10);
-      });
-
-    // Add Circle for the nodes
-    nodeEnter.append('circle')
-      .attr('class', 'node')
-      .attr('r', 1e-6)
-      .style("fill", (d) => {
-        return d._children ? "lightsteelblue" : "#fff";
-      });
-
-    // Add labels for the nodes
-    nodeEnter.append('text')
-      .attr("dy", ".35em")
-      .attr("x", (d) => {
-        return d.children || d._children ? -13 : 13;
-      })
-      .attr("text-anchor", (d) => {
-        return d.children || d._children ? "end" : "start";
-      })
-      .text((d) => { return d.data.nodeName; });
-    // UPDATE
-    var nodeUpdate = nodeEnter.merge(node);
-    // Transition to the proper position for the node
-    nodeUpdate.transition()
-      .duration(this.duration)
-      .attr("transform", (d) => {
-        this.depth = (180 * d.data.treeLevel);
-        $("svg:last-child").css("width", this.width + "px");
-        return "translate(" + d.y + "," + d.x + ")";
-      });
-
-    // Update the node attributes and style
-    nodeUpdate.select('circle.node')
-      .attr('r', 10)
-      .style("fill", (d) => {
-        return d._children ? "lightsteelblue" : "#fff";
-      })
-      .attr('cursor', 'pointer');
-    // Remove any exiting nodes
-    var nodeExit = node.exit().transition()
-      .duration(this.duration)
-      .attr("transform", (d) => {
-        return "translate(" + source.y + "," + source.x + ")";
-      })
-      .remove();
-
-    // On exit reduce the node circles size to 0
-    nodeExit.select('circle')
-      .attr('r', 1e-6);
-
-    // On exit reduce the opacity of text labels
-    nodeExit.select('text')
-      .style('fill-opacity', 1e-6);
-
-    // ****************** links section ***************************
-
-    // Update the links...
-    var link = this.svg.selectAll('path.link')
-      .data(links, (d) => { return d.id; });
-
-    // Enter any new links at the parent's previous position.
-    var linkEnter = link.enter().insert('path', "g")
-      .attr("class", "link")
-      .attr('d', (d) => {
-        var o = { x: source.x0, y: source.y0 }
-        return this.diagonal(o, o)
-      });
-
-    // UPDATE
-    var linkUpdate = linkEnter.merge(link);
-
-    // Transition back to the parent element position
-    linkUpdate.transition()
-      .duration(this.duration)
-      .attr('d', (d) => { return this.diagonal(d, d.parent) });
-
-    // Remove any exiting links
-    link.exit().transition()
-      .duration(this.duration)
-      .attr('d', (d) => {
-        var o = { x: source.x, y: source.y }
-        return this.diagonal(o, o)
-      })
-      .remove();
-
-    // Store the old positions for transition.
-    nodes.forEach((d) => {
-      d.x0 = d.x;
-      d.y0 = d.y;
-    });
-  }
-  toggleExpand(d) {
-    if (d.children) {
-      d._children = d.children;
-      d.children = null;
-    } else {
-      d.children = d._children;
-      d._children = null;
-    }
-    this.update(d);
-  }
-
 
 }

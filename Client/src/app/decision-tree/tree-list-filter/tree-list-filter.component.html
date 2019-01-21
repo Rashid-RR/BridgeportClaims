@@ -1,0 +1,27 @@
+<form role="form" autocomplete="off" autocapitalize="none" autocomplete="off" (keyup.enter)="search()">
+    <div class="row"> 
+        <div class="col-md-3">
+            <div class="form-group">
+                <label>Search Text</label>
+                <div class="input-group date">
+                    <div class="input-group-addon">
+                        <i class="fa fa-file-text"></i>
+                    </div>
+                    <input class="form-control pull-right" id="searchText" name="searchText" type="text" [(ngModel)]="ds.data.searchText" (focus)="submitted=false">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-2 flex">
+            <div class="form-group">
+                <label>&nbsp;</label>
+                <br />
+                <span>
+                    <button class="color-palette btn bg-DarkGreen btn-flat btn-small" type="button" (click)="search()">
+                        <i class="fa fa-search"></i> Search</button> &nbsp;
+                    <button class="color-palette btn bg-darkblue btn-flat btn-small" type="button" (click)="clearFilters()">
+                        <i class="fa fa-eraser"></i> Clear Filters</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</form>

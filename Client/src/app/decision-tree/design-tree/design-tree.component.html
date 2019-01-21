@@ -7,8 +7,8 @@
             <i class="fa fa-home"></i> Home
           </a>
         </li>
-        <li class="active">
-          <a [routerLink]="[]">
+        <li>
+          <a routerLink="/main/decision-tree">
             Decision Tree
           </a>
         </li>
@@ -39,12 +39,9 @@
                   <i class="fa fa-pencil" aria-hidden="true"></i> Design
                 </span>
                 <div class="box-tools pull-right">
-                  <!-- <button type="button" class="transparent btn btn-flat btn-sm" (click)="createUpdateNode()"
-                    > -->
                     <img [src]="over[0] ? 'assets/img/decision-tree.png' : 'assets/img/decision-tree-hover.png'"
                     (mouseover)="over[0] = true" (mouseout)="over[0] = false" height="55px" class="pull-left"
-                    style="cursor: pointer;margin-top: -15px;" title="Create a New Tree">
-                  <!-- </button> -->
+                    style="cursor: pointer;margin-top: -15px;" title="Create a New Tree" (click)="ds.createUpdateNode()">
                 </div>
 
               </div>
