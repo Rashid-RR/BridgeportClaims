@@ -34,7 +34,7 @@ export class DecisionTreeService {
   depth: number = 930;
   totalRowCount: number;
   display: string = 'list';
-  constructor(private router: Router,private http: HttpService, private toast: ToastsManager) {
+  constructor(private router: Router, private http: HttpService, private toast: ToastsManager) {
     this.data = {
       "searchText": null,
       "sort": "treeLevel",
@@ -152,44 +152,48 @@ export class DecisionTreeService {
         return true;
       }
     };
-   /* 
-   No node editing 
-   items.edit = {
-      name: "Edit Node",
-      icon: "edit",
-      callback: () => {
-        this.createUpdateNode(n, n.data.nodeName);
-        return true;
-      }
-    }; */
+    /* 
+    No node editing 
+    items.edit = {
+       name: "Edit Node",
+       icon: "edit",
+       callback: () => {
+         this.createUpdateNode(n, n.data.nodeName);
+         return true;
+       }
+     }; */
     items.delete = {
       icon: 'delete',
       name: "Delete Node",
       callback: () => {
-        this.deleteNode(n);        
+        this.deleteNode(n);
         return true;
       }
     };
     return items;
   }
 
-  saveRoot(name: string) {
+  saveRoot(name: string, newTree?: boolean) {
     this.loading = true;
     this.http.saveTreeNode({ nodeName: name })
       .subscribe((result: any) => {
         this.loading = false;
-        result.children = [];
-        this.treeData = result;
-        this.root = d3.hierarchy(this.treeData, (d) => { return d.children; });
-        this.root.x0 = this.height / 2;
-        this.root.y0 = 20;
-        this.root.y = 20;
-        this.svg = d3.select('svg')
-          .style("width", this.width)
-          .style("height", this.height)
-          .attr("transform", "translate("
-            + this.margin.left + "," + this.margin.top + ")");
-        this.update(this.root);
+        if (newTree) {
+          this.router.navigate(['/main/decision-tree/construct', result.treeId]);
+        } else {
+          result.children = [];
+          this.treeData = result;
+          this.root = d3.hierarchy(this.treeData, (d) => { return d.children; });
+          this.root.x0 = this.height / 2;
+          this.root.y0 = 20;
+          this.root.y = 20;
+          this.svg = d3.select('svg')
+            .style("width", this.width)
+            .style("height", this.height)
+            .attr("transform", "translate("
+              + this.margin.left + "," + this.margin.top + ")");
+          this.update(this.root);
+        }
       }, err => {
         this.loading = false;
         try {
@@ -220,6 +224,10 @@ export class DecisionTreeService {
         result.children = [];
         n.data.children.push(result);
         let node = this.makeD3Node(result, n);
+        if (!n.children) {
+          n.children = n._children;
+          n._children = null;
+        }
         n.children ? n.children.push(node) : n.children = [node];
         this.update(n);
       }, err => {
@@ -425,7 +433,7 @@ export class DecisionTreeService {
     }
     this.update(d);
   }
-  createUpdateNode(n?: any, title?: string) {
+  createUpdateNode(n?: any, title?: any, newTree?: boolean) {
     swal({
       title: `New ${n ? 'Tree Node' : 'New Tree'}`,
       html: `<div class="form-group">
@@ -472,7 +480,7 @@ export class DecisionTreeService {
       } else {
         $('#treeNodeNameLabel').css({ 'color': '#000' });
         if (!n) {
-          this.saveRoot(name);
+          this.saveRoot(name,newTree);
         } else if (title) {
           n.data.nodeName = name;
         } else {
