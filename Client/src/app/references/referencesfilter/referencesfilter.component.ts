@@ -155,8 +155,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           this.toast.warning('Invalid field value(s). Please correct to proceed.');
         } else {
           const stateId = this.rs.states.filter(x => x.stateName === this.rs.attorneyForm.get('state').value)[0].stateId;
-          if (stateId) {
-            this.rs.attorneyForm.controls.stateId.setValue(stateId);
+          if (stateId) {            this.rs.attorneyForm.controls.stateId.setValue(stateId);
           }
           if (this.selectedStateId) {
             this.rs.attorneyForm.controls.stateId.setValue(this.selectedStateId);
