@@ -46,12 +46,6 @@
   aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <!--<div class="modal-header">-->
-      <!--<h5 class="modal-title" id="exampleModalLongTitle">Adjustor</h5>-->
-      <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-      <!--<span aria-hidden="true">&times;</span>-->
-      <!--</button>-->
-      <!--</div>-->
       <div class="modal-body">
         <form role="form" *ngIf="rs.typeSelected==rs.types[0]" [formGroup]="rs.adjustorForm" autocomplete="off" autocapitalize="none"
           autocomplete="off">
@@ -66,14 +60,13 @@
           <div class="row">
             <div class="form-group col-sm-12">
               <label>Phone Number:</label>
-              <input class="form-control" placeholder="Phone Number" id="phoneNumber" data-inputmask='"mask": "(999) 999-9999"'
-                data-mask formControlName="phoneNumber" tabindex="2">
+              <input class="form-control" placeholder="Phone Number" id="phoneNumber" formControlName="phoneNumber" tabindex="2" data-inputmask='"mask": "(999) 999-9999"' data-mask>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-12">
               <label>Fax:</label>
-              <input class="form-control" placeholder="Fax" formControlName="faxNumber" tabindex="3" data-inputmask='"mask": "(999) 999-9999"' data-mask id="faxNumber">
+              <input class="form-control" placeholder="Fax" formControlName="faxNumber" tabindex="3" id="faxNumber" data-inputmask='"mask": "(999) 999-9999"' data-mask>
             </div>
           </div>
           <div class="row">
@@ -103,8 +96,7 @@
           <div class="row">
             <div class="form-group col-sm-12">
               <label>Phone Number:</label>
-              <input class="form-control" placeholder="Phone Number" id="at_phoneNumber" data-inputmask='"mask": "(999) 999-9999"'
-                data-mask formControlName="phoneNumber" tabindex="2">
+              <input class="form-control" placeholder="Phone Number" id="at_phoneNumber" data-inputmask='"mask": "(999) 999-9999"' data-mask formControlName="phoneNumber" tabindex="2">
             </div>
           </div>
           <div class="row">
@@ -128,35 +120,44 @@
           <div class="row">
             <div class="form-group col-sm-12">
               <label>City:</label>
-              <input class="form-control" placeholder="City" formControlName="city" id="city" tabindex="5">
+              <input class="form-control" placeholder="City" formControlName="city" id="city" tabindex="6">
             </div>
           </div>
+          <article class="row">
+            <article class="form-group col-sm-12">
+              <label>State Name:</label>
+              <mat-form-field>
+                  <input type="text" placeholder="Search for a State..." aria-label="State" formControlName="state" tabindex="7" matInput [matAutocomplete]="auto">
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" tabindex="7">
+                    <mat-option *ngFor="let state of stateOptions | async" [value]="state.stateName">
+                        {{state.stateName}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              <!-- <mat-form-field>
+                <input type="text" placeholder="" arial-label="Number" matInput [formControl]="stateCtrl" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" (change)="changeState($event)" [(value)]="rs.selectedState.stateId" formControlName="stateId" tabindex="7">
+                  <mat-option value="-1">
+                  </mat-option>
+                  <mat-option *ngFor="let state of stateOptions | async" [value]="state.stateId">
+                    {{state.stateName}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field> -->
+            </article>
+          </article>
           <div class="row">
             <div class="form-group col-sm-12">
               <label>Postal Code:</label>
               <input class="form-control" placeholder="Postal Code" formControlName="postalCode" id="postalCode"
-                tabindex="5">
-            </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-sm-12">
-              <label>State Name:</label>
-              <mat-form-field>
-                <mat-select (change)="changeState($event)" [(value)]="rs.selectedState.stateId" formControlName="stateId">
-                  <mat-option value="-1">
-                  </mat-option>
-                  <mat-option *ngFor="let state of rs.states" [value]="state.stateId">
-                    {{state.stateName}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+                tabindex="8">
             </div>
           </div>
           <div class="row">
             <div class="form-group col-sm-12">
               <label>Extension:</label>
               <input class="form-control" placeholder="Extension" formControlName="extension" id="at_extension"
-                tabindex="5">
+                tabindex="9">
             </div>
           </div>
         </form>

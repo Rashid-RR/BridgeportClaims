@@ -72,7 +72,8 @@ export class SafeUrlPipe implements PipeTransform {
     UnindexedImageFilterComponent, UnindexedImageListComponent, ScriptNoteWindowComponent
   ],
   entryComponents: [
-    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent, EpisodeNoteModalComponent, DeleteIndexConfirmationComponent
+    ConfirmComponent, BootstrapWindowContainer, WindowBackdrop, ScriptNoteWindowComponent,
+    EpisodeNoteModalComponent, DeleteIndexConfirmationComponent
   ],
 })
 export class SharedModule { }

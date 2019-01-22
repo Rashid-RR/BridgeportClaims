@@ -2,13 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpService} from './http-service';
 import {adjustorItem} from '../references/dataitems/adjustors';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UsState } from '../models/us-state';
 
 declare var $: any;
-
-class UsState {
-  stateId: number;
-  stateName: string;
-}
 
 @Injectable()
 export class ReferenceManagerService {
@@ -68,7 +64,7 @@ export class ReferenceManagerService {
       address1: [null],
       city: [null],
       postalCode: [null],
-      stateName: [null],
+      state: [null],
       stateId: [null],
       extension: [null],
       faxNumber: [null],

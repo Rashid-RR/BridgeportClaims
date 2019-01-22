@@ -2,6 +2,10 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ReferenceManagerService } from '../../services/reference-manager.service';
 import { ToastsManager } from 'ng2-toastr';
 import { HttpService } from '../../services/http-service';
+import { FormControl } from '@angular/forms';
+import { UsState } from '../../models/us-state';
+import { Observable } from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 declare var $: any;
 
@@ -11,12 +15,14 @@ declare var $: any;
   styleUrls: ['./referencesfilter.component.css']
 })
 export class ReferencesfilterComponent implements OnInit, AfterViewInit {
+  stateCtrl = new FormControl();
   date: string;
   adjustorName: string;
   adjustorModel: any = {};
   selectedStateId: string;
   submitted = false;
   public flag = 'File Name';
+  stateOptions: Observable<UsState[]>;
 
   constructor(public rs: ReferenceManagerService,
     private http: HttpService,
@@ -27,9 +33,20 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit() {
-
+  private _filterStates(name: string): UsState[] {
+    if (name) {
+      const filteredStates = name.toLowerCase();
+      return this.rs.states.map(s => ({ stateId: s.stateId, stateName: s.stateName }))
+        .filter(option => option.stateName.toLowerCase().indexOf(filteredStates) === 0);
+    }
   }
+
+  ngOnInit() {
+    this.stateOptions = this.rs.attorneyForm.get('state')!.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filterStates(value))
+    );
+   }
 
   ngAfterViewInit() {
     $('#phoneNumber').inputmask().on('change', (ev) => {
@@ -135,6 +152,10 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
         if (!this.rs.attorneyForm.valid) {
           this.toast.warning('Invalid field value(s). Please correct to proceed.');
         } else {
+          const stateId = this.rs.states.filter(x => x.stateName === this.rs.attorneyForm.get('state').value)[0].stateId;
+          if (stateId) {
+            this.rs.attorneyForm.controls.stateId.setValue(stateId);
+          }
           if (this.selectedStateId) {
             this.rs.attorneyForm.controls.stateId.setValue(this.selectedStateId);
           }
