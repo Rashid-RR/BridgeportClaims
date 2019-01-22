@@ -3,6 +3,9 @@ import { MatButtonModule, MatFormFieldModule, MatSelectModule, MatInputModule, M
 import { NgModule } from '@angular/core';
 
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import {NgModule} from '@angular/core';
+import { MAT_AUTOCOMPLETE_DEFAULT_OPTIONS } from '@angular/material/autocomplete';
+
 @NgModule({
   imports: [MatButtonModule,
     MatFormFieldModule,
@@ -15,7 +18,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSelectModule,
     MatInputModule,
     MatAutocompleteModule],
-  providers: [{ provide: MAT_AUTOCOMPLETE_DEFAULT_OPTIONS, useValue: { autoActiveFirstOption: false } }]
+  providers: [{provide: MAT_AUTOCOMPLETE_DEFAULT_OPTIONS, useValue: { autoActiveFirstOption: false }}]
 })
 export class MaterialComponentsModule {
 }

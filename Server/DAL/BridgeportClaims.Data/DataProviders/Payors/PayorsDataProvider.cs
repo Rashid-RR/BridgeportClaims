@@ -49,5 +49,30 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 return conn.Query<PayorDto>(sp, new {UserID = userId}, commandType: CommandType.StoredProcedure)
                     ?.OrderBy(o => o.Carrier);
             });
+
+        public PayorListDto GetPayorList(string searchText, int page, int pageSize, string sort, string sortDirection)
+            => DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspGetPayorList]";
+                const string totalRows = "@TotalRows";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@SearchText", searchText, DbType.AnsiString, size: 4000);
+                ps.Add("@SortColumn", sort, DbType.AnsiString, size: 50);
+                ps.Add("@SortDirection", sortDirection, DbType.AnsiString, size: 5);
+                ps.Add("@PageNumber", page, DbType.Int32);
+                ps.Add("@PageSize", pageSize, DbType.Int32);
+                ps.Add(totalRows, DbType.Int32, direction: ParameterDirection.Output);
+                var query = conn.Query<PayorResultDto>(sp, ps, commandType: CommandType.StoredProcedure);
+                var adj = new PayorListDto
+                {
+                    Results = query,
+                    TotalRowCount = ps.Get<int>(totalRows)
+                };
+                return adj;
+            });
     }
 }

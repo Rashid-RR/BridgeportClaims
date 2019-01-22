@@ -63,7 +63,9 @@ namespace BridgeportClaims.Data.DataProviders.ClaimImages
                     var retVal = new ClaimImagesDto();
                     IList<ClaimImageResultDto> results = new List<ClaimImageResultDto>();
                     if (conn.State != ConnectionState.Open)
+                    {
                         conn.Open();
+                    }
                     DisposableService.Using(cmd.ExecuteReader, reader =>
                     {
                         var documentIdOrdinal = reader.GetOrdinal("DocumentId");

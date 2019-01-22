@@ -243,6 +243,8 @@
     <Compile Include="Dtos\PaymentTotalsDto.cs" />
     <Compile Include="Dtos\PayorDto.cs" />
     <Compile Include="Dtos\PayorFullDto.cs" />
+    <Compile Include="Dtos\PayorListDto.cs" />
+    <Compile Include="Dtos\PayorResultDto.cs" />
     <Compile Include="Dtos\PayorsDto.cs" />
     <Compile Include="Dtos\PayorSearchResultsDto.cs" />
     <Compile Include="Dtos\PharmacyNameDto.cs" />
