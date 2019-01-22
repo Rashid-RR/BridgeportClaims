@@ -76,6 +76,7 @@
     "karma-coverage-istanbul-reporter": "0.2.0",
     "karma-jasmine": "~1.1.0",
     "karma-jasmine-html-reporter": "0.2.2",
+    "material2": "^2.0.0-alpha.6-2",
     "ng2-bootstrap-modal": "1.0.1",
     "ng2-file-upload": "1.2.1",
     "protractor": "^5.4.1",
