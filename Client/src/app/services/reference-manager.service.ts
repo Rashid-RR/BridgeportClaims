@@ -66,6 +66,7 @@ export class ReferenceManagerService {
       postalCode: [null],
       state: [null],
       stateId: [null],
+      stateName: [null],
       extension: [null],
       faxNumber: [null],
       phoneNumber: [null]

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ReferenceManagerService } from '../../services/reference-manager.service';
 import { ToastsManager } from 'ng2-toastr';
 import { HttpService } from '../../services/http-service';
@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { UsState } from '../../models/us-state';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import { MatAutocomplete } from '@angular/material';
 
 declare var $: any;
 
@@ -15,6 +16,7 @@ declare var $: any;
   styleUrls: ['./referencesfilter.component.css']
 })
 export class ReferencesfilterComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
   stateCtrl = new FormControl();
   date: string;
   adjustorName: string;
@@ -190,9 +192,18 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
       this.rs.attorneyForm.get('stateId').setValue(this.selectedStateId);
     }
   }
-}
 
-export interface Type {
-  value: string;
-  viewValue: string;
+  chooseFirstOption(): void {
+    this.matAutocomplete.options.first.select();
+    this.matAutocomplete.options.first.setActiveStyles();
+  }
+
+  public bindState(): any {
+    return (val) => this.display(val);
+  }
+
+  private display(state): string {
+    // access component "this" here
+    return state ? state.stateName : state;
+ }
 }
