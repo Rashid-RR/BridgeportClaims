@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from '../directives/table-sort.directive';
@@ -11,7 +11,7 @@ import { EpisodeNoteType } from '../models/episode-note-type';
 import { ArraySortPipe } from '../pipes/sort.pipe';
 import swal from 'sweetalert2';
 import { Payor } from '../models/payor';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 declare var $: any;
 
 @Injectable()
@@ -35,7 +35,7 @@ export class EpisodeService {
 
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private epf: EpisodesFilterPipe, private sortPipe: ArraySortPipe,
-    private events: EventsService, private toast: ToastsManager) {
+    private events: EventsService, private toast: ToastrService) {
     this.data = {
       startDate: null,
       endDate: null,
@@ -79,12 +79,12 @@ export class EpisodeService {
     this.episodeForm.controls['pharmacyNabp'].setValue(pharmacyNabp);
     if (this.episodeForm.controls['pharmacyNabp'].value == null && this.pharmacyName) {
       this.toast.warning('Incorrect Pharmacy name, Correct it to a valid value, or delete the value and leave it blank');
-    } else if (this.episodeForm.valid) {
+    } else if (this.episodeForm.valid) {      
       swal({ title: '', html: 'Saving Episode... <br/> <img src=\'assets/1.gif\'>', showConfirmButton: false }).catch(swal.noop);
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
-      this.http.saveEpisode(form).single().subscribe(res => {
+      this.http.saveEpisode(form).subscribe(res => {
         this.episodeForm.reset();
         this.closeModal();
         this.toast.success(res.message);

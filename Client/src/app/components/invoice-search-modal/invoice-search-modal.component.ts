@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { PaymentScriptService } from '../../services/payment-script-service';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../../services/http-service';
@@ -33,7 +33,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
   constructor(
     private formBuilder: FormBuilder,
     public payment: PaymentScriptService,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private dialogService: DialogService,
     private dp: DatePipe,
     private decPipe: DecimalPipe,
@@ -64,7 +64,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
       const rxDate = this.dp.transform($('#rxDate').val(), 'MM/dd/yyyy');
       form.rxDate = rxDate;
       this.loading = true;
-      this.http.invoiceAmounts(form).single().subscribe(res => {
+      this.http.invoiceAmounts(form).subscribe(res => {
         this.loading = false;
         this.prescriptions = res;
         if (res && res.length === 0) {
@@ -91,12 +91,12 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
           if (isConfirmed) {
             this.loading = true;
             this.http.updateBilledAmount({ prescriptionId: this.editing.prescriptionId,
-               billedAmount: amount }).single().subscribe(res => {
+               billedAmount: amount }).subscribe(res => {
               const p = this.prescriptions.find(p => p.prescriptionId === this.editing.prescriptionId);
               if (p) {
                 p['billedAmount'] = amount;
               }
-              this.toast.success(res.message, null, { toastLife: 5500 });
+              this.toast.success(res.message, null, { timeOut: 5500 });
               this.cancel();
               this.loading = false;
             }, error => {
@@ -163,8 +163,8 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
         claimId: $event.claimId
       });
       this.toast.info('Episode will be linked to ' + $event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber,
-       'Claim Link ready to save', { enableHTML: true, showCloseButton: true, positionClass: 'toast-top-center' })
-        .then((toast: Toast) => {
+       'Claim Link ready to save', { enableHtml: true, closeButton: true, positionClass: 'toast-top-center' })
+       .onShown.subscribe((toast:Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
             const msg = toasts[i];

@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ReportLoaderService, ComparisonClaim, DuplicateClaim } from '../../services/services.barrel';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
 import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
@@ -16,13 +16,13 @@ declare var jQuery: any;
 })
 export class DuplicateClaimListComponent implements OnInit {
   goToPage: any = '';
-  activeToast: Toast;
+  activeToast: number;
   selectMultiple: Boolean = false;
   lastSelectedIndex: number;
   mergedClaim: any = {} as any;
   @ViewChild('claimActionSwal') private claimSwal: SwalComponent;
   comparisonClaims: ComparisonClaim = {} as ComparisonClaim;
-  constructor(private dialogService: DialogService, private dp: DatePipe, private http: HttpService, public reportloader: ReportLoaderService, private toast: ToastsManager) { }
+  constructor(private dialogService: DialogService, private dp: DatePipe, private http: HttpService, public reportloader: ReportLoaderService, private toast: ToastrService) { }
 
   ngOnInit() {
     this.reportloader.current = 'Duplicate Claims Report';
@@ -37,7 +37,7 @@ export class DuplicateClaimListComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.reportloader.loading = true;
-          this.http.archiveDuplicateClaim(claim.claimId).single().subscribe(res => {
+          this.http.archiveDuplicateClaim(claim.claimId).subscribe(res => {
             this.toast.success(res.message);
             this.reportloader.loading = false;
             this.reportloader.fetchDuplicateClaims();
@@ -109,10 +109,8 @@ export class DuplicateClaimListComponent implements OnInit {
       && form.hasOwnProperty('AdjustorId') && form.hasOwnProperty('PatientId') && form.hasOwnProperty('PayorId')) {
       this.reportloader.loading = true;
       this.http.getMergeClaims(form)
-        .single().subscribe(r => {
-          this.toast.success('Claim successfully merged').then((toast: Toast) => {
-            this.activeToast = toast;
-          });
+        .subscribe(r => {
+          this.activeToast = this.toast.success('Claim successfully merged').toastId;
           this.closeModal();
           this.reportloader.fetchDuplicateClaims();
         }, err => {
@@ -141,17 +139,15 @@ export class DuplicateClaimListComponent implements OnInit {
       }
       this.lastSelectedIndex = index;
       if (this.reportloader.selectedClaims.length === 1) {
-        this.toast.info('You have selected a Claim to compare. Please select another', '',
-         { toastLife: 15000, showCloseButton: true }).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.info('You have selected a Claim to compare. Please select another', '',
+         { timeOut: 15000, closeButton: true }).toastId;
       } else if (this.reportloader.selectedClaims.length === 2) {
-        this.activeToast.timeoutId = null;
+        this.activeToast = null;
         jQuery('.toast.toast-info').hide();
         this.showModal();
       }
     } else {
-      this.toast.warning('You you have already chosen this claim for comparison.').then((toast: Toast) => {
+      this.toast.warning('You you have already chosen this claim for comparison.').onHidden.subscribe((toast: Toast) => {
       });
       $event.checked = true;
     }
@@ -169,7 +165,7 @@ export class DuplicateClaimListComponent implements OnInit {
   showModal() {
     this.reportloader.loading = true;
     this.http.getComparisonClaims({ leftClaimId: this.reportloader.selectedClaims[0].claimId, rightClaimId: this.reportloader.selectedClaims[1].claimId })
-      .single().subscribe(r => {
+      .subscribe(r => {
         this.reportloader.loading = false;
         this.comparisonClaims = Array.isArray(r) ? r[0] : r;
         Object.keys(this.comparisonClaims).forEach(k => {
@@ -204,19 +200,18 @@ export class DuplicateClaimListComponent implements OnInit {
       /* if(this.activeToast && this.activeToast.timeoutId){
         this.activeToast.message =  'Invalid page number entered'
         }else{
-          this.toast.warning('Invalid page number entered').then((toast: Toast) => {
+          this.toast.warning('Invalid page number entered').onHidden.subscribe((toast: Toast) => {
               this.activeToast = toast;
           })
       }*/
     } else if (page > 0 && ((this.reportloader.totalPages && page <= this.reportloader.totalPages) || this.reportloader.totalPages == null)) {
       this.reportloader.fetchDuplicateClaims(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).toastId;
       }
     }
   }

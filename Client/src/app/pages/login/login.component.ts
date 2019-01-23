@@ -6,7 +6,7 @@ import { AuthGuard } from '../../services/auth.guard';
 import { ProfileManager } from '../../services/profile-manager';
 import { UserProfile } from '../../models/profile';
 import { EventsService } from '../../services/events-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
 
 @Component({
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     private profileManager: ProfileManager,
     private authGuard: AuthGuard,
     private _location: Location,
-    private toast: ToastsManager
+    private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
       email: ['', Validators.compose([Validators.pattern(this.emailRegex)])],

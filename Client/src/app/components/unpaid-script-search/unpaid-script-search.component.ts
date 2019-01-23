@@ -1,10 +1,10 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { HttpService } from '../../services/services.barrel';
 import { DatePipe } from '@angular/common';
 import { Payor } from '../../models/payor';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 // Services
 import { UnpaidScriptService } from '../../services/unpaid-script.service';
 declare var $: any;
@@ -38,14 +38,10 @@ export class UnpaidScriptSearchComponent implements OnInit, AfterViewInit {
       $('#payorsSelection').select2();
     });
 
-    this.http.getPayorList_newapi().map(res => {
-      return res;
-    }).subscribe(result => {
+    this.http.getPayorList_newapi()
+    .subscribe(result => {
       this.payorsId = result;
-
-
-    }, error1 => {
-
+    }, _ => {
     });
   }
   filter($event) {

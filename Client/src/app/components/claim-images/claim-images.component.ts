@@ -12,7 +12,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ConfirmComponent } from '../confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 
 @Component({
@@ -34,7 +34,7 @@ export class ClaimImagesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ngZone: NgZone,
     private dp: DatePipe,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private http: HttpService) { }
 
   ngOnInit() {
@@ -86,7 +86,7 @@ export class ClaimImagesComponent implements OnInit {
       const data = Object.assign(this.form.value);
       data.rxDate = rxDate;
       data.injuryDate = injuryDate;
-      this.http.updateDocumentIndex(data).single().subscribe(res => {
+      this.http.updateDocumentIndex(data).subscribe(res => {
         this.toast.success(res.message);
         this.claimManager.loading = false;
         image.rxDate = $('#datepicker').val();

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-password-reset',
@@ -16,7 +16,7 @@ export class PasswordResetComponent implements OnInit {
   emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router,
-    private toast: ToastsManager) {
+    private toast: ToastrService) {
     this.form = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.pattern(this.emailRegex)])],
     });

@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { AutoComplete } from './auto-complete';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { HttpService, AccountReceivableService } from '../services/services.barrel';
 declare var $: any;
 /**
@@ -151,7 +151,7 @@ export class AutoCompleteComponent implements OnInit {
   public filteredList: any[] = [];
 
   private delay = (function () {
-    let timer = 0;
+    let timer:any = 0;
     return function (callback: any, ms: number) {
       clearTimeout(timer);
       timer = setTimeout(callback, ms);

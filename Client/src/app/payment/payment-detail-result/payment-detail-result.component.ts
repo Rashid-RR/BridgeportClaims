@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer2, AfterViewInit, NgZone, HostListener, Elem
 import {HttpService} from '../../services/http-service';
 import {PaymentService} from '../../services/payment-service';
 import {EventsService} from '../../services/events-service';
-import {ToastsManager } from 'ng2-toastr';
+import {ToastrService } from 'ngx-toastr';
 declare var jQuery: any;
 
 @Component({
@@ -16,7 +16,7 @@ export class PaymentDetailedResultComponent implements OnInit, AfterViewInit {
   lastSelectedIndex: number;
   @ViewChild('prescriptionTable') table: ElementRef;
 
- constructor(private rd: Renderer2, private ngZone: NgZone, public paymentService: PaymentService, private http: HttpService, private events: EventsService, private toast: ToastsManager) { }
+ constructor(private rd: Renderer2, private ngZone: NgZone, public paymentService: PaymentService, private http: HttpService, private events: EventsService, private toast: ToastrService) { }
 
   ngOnInit() { }
    activateClaimCheckBoxes() {

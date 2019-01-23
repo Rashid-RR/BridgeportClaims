@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReportLoaderService, ProfileManager, CollectionBonusService } from '../../services/services.barrel';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-collection-bonus-list',
@@ -9,8 +9,8 @@ import { Toast, ToastsManager } from 'ng2-toastr';
 })
 export class CollectionBonusListComponent implements OnInit {
   goToPage: any = '';
-  activeToast: Toast;
-  constructor(private toast: ToastsManager, public bonusService: CollectionBonusService,
+  activeToast: number;
+  constructor(private toast: ToastrService, public bonusService: CollectionBonusService,
     public reportloader: ReportLoaderService, private profileManager: ProfileManager) { }
 
   ngOnInit() {
@@ -50,12 +50,11 @@ export class CollectionBonusListComponent implements OnInit {
     } else if (page > 0 && ((this.reportloader.totalPages && page <= this.reportloader.totalPages) || this.reportloader.totalPages == null)) {
       this.bonusService.fetchBonusReport(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message= 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).toastId;
       }
     }
   }

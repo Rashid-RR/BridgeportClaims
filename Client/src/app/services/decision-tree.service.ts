@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from '../directives/table-sort.directive';
@@ -34,7 +34,7 @@ export class DecisionTreeService {
   depth: number = 930;
   totalRowCount: number;
   display: string = 'list';
-  constructor(private router: Router, private http: HttpService, private toast: ToastsManager) {
+  constructor(private router: Router, private http: HttpService, private toast: ToastrService) {
     this.data = {
       "searchText": null,
       "sort": "treeLevel",

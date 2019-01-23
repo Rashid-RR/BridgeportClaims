@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Payor } from '../models/payor';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 declare var $: any;
 
@@ -35,7 +36,7 @@ export class SkippedPaymentService {
     pageSize = 50;
     payorListReady = new Subject<any>();
     archived = false;
-    constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
+    constructor(private router: Router, private toast: ToastrService, private http: HttpService) {
         this.data = {
             page: 1,
             archived: false,
@@ -44,7 +45,9 @@ export class SkippedPaymentService {
     }
     getPayors(pageNumber: number) {
         this.loading = true;
-        this.http.getPayorList(pageNumber, this.pageSize).map(res => { this.loading = false; return res; }).subscribe(result => {
+        this.http.getPayorList(pageNumber, this.pageSize)
+            .pipe(map(res => { this.loading = false; return res; }))
+            .subscribe((result:Payor[]) => {
             this.payors = result;
             this.pageNumber = pageNumber;
             this.payorListReady.next();
@@ -54,7 +57,7 @@ export class SkippedPaymentService {
     }
     removeSkippedPay(id: number = undefined) {
         this.loading = true;
-        this.http.removeSkippedPay({ prescriptionId: id }).single().subscribe(res => {
+        this.http.removeSkippedPay({ prescriptionId: id }).subscribe(res => {
             this.loading = false;
             this.toast.success(res.message);
             this.fetchSkippedPayReport();
@@ -80,7 +83,7 @@ export class SkippedPaymentService {
             if (page) {
                 data.page = page;
             }
-            this.http.skippedPaymentList(data).single().subscribe(r => {
+            this.http.skippedPaymentList(data).subscribe(r => {
                 this.skippedPay = r.results || r;
                 this.totalRowCount = r.totalRowCount || r.length;
                 this.loading = false;

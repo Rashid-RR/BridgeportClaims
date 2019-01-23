@@ -148,7 +148,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
 
   showNotes(prescriptionId: Number) {
     this.claimManager.loading = true;
-    this.http.getPrescriptionNotes(prescriptionId).single().subscribe(res => {
+    this.http.getPrescriptionNotes(prescriptionId).subscribe(res => {
       const notes: Array<PrescriptionNote> = res;
       this.displayNotes(notes);
     }, error => {
@@ -216,7 +216,7 @@ export class ClaimPrescriptionsComponent implements OnInit, AfterViewChecked, Af
     }
     this.http.getPrescriptions(this.claimManager.selectedClaim.claimId, sort, sort_dir,
       page, page_size)
-      .subscribe(results => {
+      .subscribe((results:any) => {
         this.claimManager.selectedClaim.setPrescription(results);
         this.claimManager.loadingPrescription = false;
       });

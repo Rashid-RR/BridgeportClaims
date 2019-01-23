@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReportLoaderService, ShortPayService } from '../../services/services.barrel';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-short-pay-report',
@@ -12,8 +12,8 @@ import { Toast, ToastsManager } from 'ng2-toastr';
 export class ShortPayReportComponent implements OnInit {
 
   goToPage: any = '';
-  activeToast: Toast;
-  constructor(private dialogService: DialogService, private toast: ToastsManager, public shortpay: ShortPayService,
+  activeToast: number;
+  constructor(private dialogService: DialogService, private toast: ToastrService, public shortpay: ShortPayService,
     public reportloader: ReportLoaderService) { }
 
   ngOnInit() {
@@ -61,12 +61,11 @@ export class ShortPayReportComponent implements OnInit {
     } else if (page > 0 && ((this.reportloader.totalPages && page <= this.reportloader.totalPages) || this.reportloader.totalPages == null)) {
       this.shortpay.fetchShortpayReport(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.reportloader.totalPages).toastId
       }
     }
   }

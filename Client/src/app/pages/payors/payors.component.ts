@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpService} from '../../services/http-service';
-import {Payor} from '../../models/payor';
+import { HttpService } from '../../services/http-service';
+import { Payor } from '../../models/payor';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-payors',
@@ -14,17 +15,17 @@ export class PayorsComponent implements OnInit {
   loading: boolean;
   constructor(private http: HttpService) {
     this.loading = false;
-     this.getPayors(1);
-   }
+    this.getPayors(1);
+  }
 
-   next() {
-     this.getPayors(this.pageNumber + 1);
-   }
-   prev() {
-     if (this.pageNumber > 1) {
+  next() {
+    this.getPayors(this.pageNumber + 1);
+  }
+  prev() {
+    if (this.pageNumber > 1) {
       this.getPayors(this.pageNumber - 1);
-     }
-   }
+    }
+  }
 
   ngOnInit() {
 
@@ -32,9 +33,11 @@ export class PayorsComponent implements OnInit {
 
   getPayors(pageNumber: number) {
     this.loading = true;
-    this.http.getPayours(pageNumber, this.pageSize).map(res => {this.loading = false; return res; }).subscribe(result => {
-          this.payors = result;
-          this.pageNumber = pageNumber;
+    this.http.getPayours(pageNumber, this.pageSize)
+      .pipe(map(res => { this.loading = false; return res; }))
+      .subscribe(result => {
+        this.payors = result;
+        this.pageNumber = pageNumber;
       }, err => {
 
       });

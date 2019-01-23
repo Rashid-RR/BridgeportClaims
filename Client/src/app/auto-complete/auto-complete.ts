@@ -1,7 +1,7 @@
 import { Injectable, Optional } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import 'rxjs/add/operator/map';
+import { map } from 'rxjs/operators';
 
 /**
  * provides auto-complete related utility functions
@@ -87,7 +87,7 @@ export class AutoComplete {
     const httpRequest = this.httpMethod === 'post' ? this.http.post(url, data,
       { headers: headers }) : this.http.get(url, { headers: this.headers });
     return httpRequest
-      .map(resp => {
+      .pipe(map(resp => {
         let list = resp['data'] || resp;
 
         if (this.pathToData) {
@@ -96,6 +96,6 @@ export class AutoComplete {
         }
         this.filteredList = list;
         return list;
-      });
+      }));
   };
 }

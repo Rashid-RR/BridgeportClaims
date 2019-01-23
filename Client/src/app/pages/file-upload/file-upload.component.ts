@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewChecked } from '@angular/core';
 import { FileSelectDirective, FileItem, FileDropDirective, ParsedResponseHeaders, FileUploader } from 'ng2-file-upload/ng2-file-upload';
 import { HttpService } from '../../services/http-service';
 import { ImportFile } from '../../models/import-file';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 
@@ -35,7 +35,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
   constructor(
     private http: HttpService,
     private dialogService: DialogService,
-    private toast: ToastsManager
+    private toast: ToastrService
   ) {
     const headers = [{
       name: 'Authorization',
@@ -77,7 +77,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
 
   getFiles() {
     this.loading = true;
-    this.http.getFiles().single().subscribe(res => {
+    this.http.getFiles().subscribe(res => {
       // res.push(new ImportFile(new Date(),".png",231,"assets/that-file.png"));
       this.importedFiles = res;
       this.loading = false;
@@ -95,7 +95,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
         // We get dialog result
         if (isConfirmed) {
           this.loading = true;
-          this.http.deleteFileById(file.importFileId).single().subscribe(res => {
+          this.http.deleteFileById(file.importFileId).subscribe(res => {
             this.toast.success(res.message);
             this.loading = false;
             this.getFiles();
@@ -115,11 +115,11 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
       // We get dialog result
       if (isConfirmed) {
         this.loading = true;
-        this.http.importLakerFile(file.fileName).single().subscribe(res => {
+        this.http.importLakerFile(file.fileName).subscribe(res => {
           if (res.message === noLaker) {
             this.toast.info(res.message);
           } else {
-            this.toast.info(res.message, null, { toastLife: 10000 });
+            this.toast.info(res.message, null, { timeOut: 10000 });
           }
           this.loading = false;
           this.getFiles();
@@ -142,7 +142,7 @@ export class FileUploadComponent implements OnInit, AfterViewChecked {
         // We get dialog result
         if (isConfirmed) {
           this.loading = true;
-          this.http.importFile(file.fileName).single().subscribe(res => {
+          this.http.importFile(file.fileName).subscribe(res => {
             this.toast.success(res.message);
             this.loading = false;
             this.getFiles();

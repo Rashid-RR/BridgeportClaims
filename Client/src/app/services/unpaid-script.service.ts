@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Payor } from '../models/payor';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import * as Immutable from 'immutable';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 
 import { UnpaidScript } from '../models/unpaid-script';
@@ -19,7 +20,7 @@ export class UnpaidScriptService {
   payors: Array<Payor> = [];
   pageSize = 50;
   payorListReady = new Subject<any>();
-  constructor(private http: HttpService, private events: EventsService, private toast: ToastsManager) {
+  constructor(private http: HttpService, private events: EventsService, private toast: ToastrService) {
     this.data = {
       isDefaultSort: true,
       startDate: null,
@@ -33,7 +34,9 @@ export class UnpaidScriptService {
   }
   getPayors(pageNumber: number) {
     this.loading = true;
-    this.http.getPayorList(pageNumber, 5000).map(res => {this.loading = false; return res; }).subscribe(result => {
+    this.http.getPayorList(pageNumber, 5000).pipe(
+      map(res => {this.loading = false; return res; })
+      ).subscribe(result => {
           this.payors = result;
           this.payorListReady.next();
       }, err => {

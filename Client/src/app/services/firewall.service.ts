@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
-import { ToastsManager } from 'ng2-toastr';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UUID } from 'angular2-uuid';
+import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as Immutable from 'immutable';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 import { ArraySortPipe } from '../pipes/sort.pipe';
@@ -20,7 +19,7 @@ export class FirewallService {
   totalRowCount: number;
   form: FormGroup;
   constructor(private http: HttpService, private formBuilder: FormBuilder, private sortPipe: ArraySortPipe,
-    private events: EventsService, private toast: ToastsManager) {
+    private events: EventsService, private toast: ToastrService) {
     this.data = {
       startDate: null,
       endDate: null,

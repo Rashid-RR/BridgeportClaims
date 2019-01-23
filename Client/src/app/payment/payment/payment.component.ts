@@ -1,7 +1,8 @@
-import { Component, ViewChild, OnInit, trigger, state, style, transition, animate } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import {trigger, state, style, transition, animate } from '@angular/animations';
 import { PaymentService, PaymentScriptService } from '../../services/services.barrel';
 import { EventsService } from '../../services/events-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { UUID } from 'angular2-uuid';
@@ -41,7 +42,7 @@ export class PaymentComponent implements OnInit {
   document: any;
   @ViewChild('addScriptSwal') private addScriptSwal: SwalComponent;
   constructor(public readonly swalTargets: SwalPartialTargets, public paymentScriptService: PaymentScriptService, public paymentService: PaymentService,
-    public ds: DocumentManagerService, private route: ActivatedRoute, private dialogService: DialogService, private toast: ToastsManager, private events: EventsService, private dp: DatePipe) {
+    public ds: DocumentManagerService, private route: ActivatedRoute, private dialogService: DialogService, private toast: ToastrService, private events: EventsService, private dp: DatePipe) {
     this.route.params.subscribe(params => {
       if (params['checkNumber']) {
         this.checkNumber = params['checkNumber'];

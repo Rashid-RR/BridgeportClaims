@@ -7,7 +7,7 @@ import { EventsService } from '../../services/events-service';
 import { DocumentManagerService } from '../../services/document-manager.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ToastsManager, Toast } from 'ng2-toastr';
+import { ToastrService, Toast } from 'ngx-toastr';
 import { Episode } from '../../interfaces/episode';
 import { EpisodeNoteModalComponent } from '../../components/components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../components/ng-window';
@@ -27,7 +27,7 @@ export class UnindexedImageFileComponent implements OnInit {
   @Input() file: any;
   constructor(
     public router: Router, private nativeHttp: HttpClient, private ds: DocumentManagerService,
-    private route: ActivatedRoute, private toast: ToastsManager, private events: EventsService,
+    private route: ActivatedRoute, private toast: ToastrService, private events: EventsService,
     private http: HttpService, private sanitizer: DomSanitizer, private myInjector: WindowsInjetor,
   ) { }
   get sanitize(): SafeResourceUrl {
@@ -57,12 +57,12 @@ export class UnindexedImageFileComponent implements OnInit {
       try {
         this.file = JSON.parse(file) as any;
         this.loading = true;
-        this.nativeHttp.get(decodeURIComponent(this.file.fileUrl), { observe: 'response', responseType: 'blob' }).single().subscribe(r => {
+        this.nativeHttp.get(decodeURIComponent(this.file.fileUrl), { observe: 'response', responseType: 'blob' }).subscribe(r => {
           this.showFile();
           this.loading = false;
         }, err => {
           this.showFile();
-          this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { showCloseButton: true, dismiss: 'click' });
+          this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { closeButton: true, tapToDismiss:true });
           this.loading = false;
         });
       } catch (e) { }
@@ -73,12 +73,12 @@ export class UnindexedImageFileComponent implements OnInit {
     if (this.file) {
       this.loading = true;
       const url = decodeURIComponent(this.file.fileUrl);
-      this.nativeHttp.get(url, { observe: 'response', responseType: 'blob' }).single().subscribe(r => {
+      this.nativeHttp.get(url, { observe: 'response', responseType: 'blob' }).subscribe(r => {
         this.showFile();
         this.loading = false;
       }, err => {
         this.showFile();
-        this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { showCloseButton: true, dismiss: 'click' });
+        this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { closeButton: true, tapToDismiss:true });
         this.loading = false;
       });
     } else {
@@ -94,12 +94,12 @@ export class UnindexedImageFileComponent implements OnInit {
                 localStorage.setItem('file-' + params['id'], JSON.stringify(this.file));
               }
             });
-            this.nativeHttp.get(decodeURIComponent(this.file.fileUrl), { observe: 'response', responseType: 'blob' }).single().subscribe(r => {
+            this.nativeHttp.get(decodeURIComponent(this.file.fileUrl), { observe: 'response', responseType: 'blob' }).subscribe(r => {
               this.showFile();
               this.loading = false;
             }, err => {
               this.showFile();
-              this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { showCloseButton: true, dismiss: 'click' });
+              this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { closeButton: true, tapToDismiss:true });
               this.loading = false;
             });
           } catch (e) { }
@@ -118,7 +118,7 @@ export class UnindexedImageFileComponent implements OnInit {
     const minusHeight = this.router.url === '/main/unindexed-images' ? 300 : 110;
     $('#fileCanvas').html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl + '" allowfullscreen style="width:100%;height:calc(100vh - ' + minusHeight + 'px);border: none;"></iframe>');
     if (!this.file.fileUrl) {
-      this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { showCloseButton: true, dismiss: 'click' });
+      this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { closeButton: true, tapToDismiss: true });
     }
   }
 

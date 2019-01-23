@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpService } from '../../services/http-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 
 declare var $: any;
@@ -21,7 +21,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private http: HttpService,
     private router: Router,
-    private toast: ToastsManager
+    private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
       claimNumber: [null, Validators.compose([Validators.required])],
@@ -77,7 +77,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
     });
   }
   ngOnInit() {
-    this.http.states({}).single().subscribe(res => {
+    this.http.states({}).subscribe(res => {
       this.states = res;
     }, () => { });
   }
@@ -90,7 +90,7 @@ export class ReferralDefaultComponent implements OnInit, AfterViewInit {
       try {
         this.http.insertReferral(this.form.value).subscribe((res) => {
           this.toast.success(res.message || 'Referral successfully added', null,
-            { toastLife: 10000 });
+            { timeOut: 10000 });
           this.submitted = false;
           this.reset();
         }, re => {

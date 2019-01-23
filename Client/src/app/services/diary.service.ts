@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
 import * as Immutable from 'immutable';
@@ -21,7 +21,7 @@ export class DiaryService {
   owners: Array<{ ownerId: any, owner: string }> = [];
   constructor(private http: HttpService, private formBuilder: FormBuilder,
     private dp: DiariesFilterPipe,
-    private events: EventsService, private toast: ToastsManager) {
+    private events: EventsService, private toast: ToastrService) {
     this.data = {
       isDefaultSort: true,
       startDate: null,

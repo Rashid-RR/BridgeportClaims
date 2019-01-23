@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ReferenceManagerService } from '../../services/reference-manager.service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { HttpService } from '../../services/http-service';
 import { FormControl } from '@angular/forms';
 import { UsState } from '../../models/us-state';
@@ -28,7 +28,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
   constructor(public rs: ReferenceManagerService,
     private http: HttpService,
-    private toast: ToastsManager) {
+    private toast: ToastrService) {
     this.http.getStates({}).subscribe(data => {
       this.rs.states = data;
     }, error => {

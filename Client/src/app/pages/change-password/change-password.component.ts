@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-change-password',
@@ -14,7 +14,7 @@ export class ChangePasswordComponent implements OnInit {
   submitted = false;
   code: any;
   user: any;
-  constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router, private route: ActivatedRoute, private toast: ToastsManager) {
+  constructor(private formBuilder: FormBuilder, private http: HttpService, private router: Router, private route: ActivatedRoute, private toast: ToastrService) {
     this.form = this.formBuilder.group({
       Password: ['', Validators.compose([Validators.required])],
       ConfirmPassword: ['', Validators.compose([Validators.required])]

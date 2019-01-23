@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Component, Input, OnInit, NgZone } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { ClaimManager } from '../../services/claim-manager';

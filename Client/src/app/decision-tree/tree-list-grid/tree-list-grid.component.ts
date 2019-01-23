@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastsManager, Toast } from 'ng2-toastr';
+import { ToastrService, Toast } from 'ngx-toastr';
 import { Router } from '@angular/router';
-
 // Services
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
-import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 import { ITreeNode } from '../tree-node';
 import { DecisionTreeService } from 'app/services/decision-tree.service';
 
@@ -16,11 +14,11 @@ import { DecisionTreeService } from 'app/services/decision-tree.service';
 export class TreeListGridComponent implements OnInit {
 
   goToPage: any = '';
-  activeToast: Toast;
+  activeToast: number;
   items: IShContextMenuItem[];
   constructor(
     public ds: DecisionTreeService, 
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private router: Router) { }
 
   ngOnInit() {
@@ -60,12 +58,11 @@ export class TreeListGridComponent implements OnInit {
     } else if (page > 0 && page <= this.ds.totalPages) {
       this.ds.search(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages).toastId
       }
     }
   }

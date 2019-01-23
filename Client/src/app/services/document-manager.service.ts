@@ -1,7 +1,7 @@
 import {Injectable, NgZone} from '@angular/core';
 import {HttpService} from './http-service';
 import {EventsService} from './events-service';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 import {FormBuilder} from '@angular/forms';
 import * as Immutable from 'immutable';
 import swal from 'sweetalert2';
@@ -50,7 +50,7 @@ export class DocumentManagerService {
   exactMatch = false;
 
   constructor(private profileManager: ProfileManager, private http: HttpService, private formBuilder: FormBuilder, private _ngZone: NgZone,
-              private events: EventsService, private toast: ToastsManager) {
+              private events: EventsService, private toast: ToastrService) {
     this.data = {
       date: null,
       isIndexed: false,

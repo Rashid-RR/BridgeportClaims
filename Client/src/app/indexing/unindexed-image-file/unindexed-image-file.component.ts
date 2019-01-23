@@ -7,7 +7,7 @@ import { EventsService } from '../../services/events-service';
 import { DocumentManagerService } from '../../services/document-manager.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ToastsManager, Toast } from 'ng2-toastr';
+import { ToastrService, Toast } from 'ngx-toastr';
 import { Episode } from '../../interfaces/episode';
 import { EpisodeNoteModalComponent } from '../../components/components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../components/ng-window';
@@ -29,7 +29,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit {
   fileId: number = new Date().getTime();
   constructor(
     public router: Router, private nativeHttp: HttpClient, private ds: DocumentManagerService,
-    private route: ActivatedRoute, private toast: ToastsManager, private events: EventsService,
+    private route: ActivatedRoute, private toast: ToastrService, private events: EventsService,
     private http: HttpService, private sanitizer: DomSanitizer, private myInjector: WindowsInjetor,
   ) { }
   get sanitize(): SafeResourceUrl {
@@ -76,11 +76,11 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit {
     if (this.file) {
       this.loading = true;
       const DEFAULT_URL = this.getDocumentLink('url', 'assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl).replace(/#/g, '%23');
-      this.nativeHttp.get(DEFAULT_URL, { observe: 'response', responseType: 'blob' }).single().subscribe(r => {
+      this.nativeHttp.get(DEFAULT_URL, { observe: 'response', responseType: 'blob' }).subscribe(r => {
         this.showFile();
       }, () => {
         this.showFile();
-        this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { showCloseButton: true, dismiss: 'click' });
+        this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { closeButton: true, tapToDismiss:true });
       });
     } else {
       this.route.params.subscribe(params => {
@@ -97,11 +97,11 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit {
               }
             });
             const DEFAULT_URL = this.getDocumentLink('url', 'assets/js/pdfjs/web/viewer.html?url=' + this.file.fileUrl).replace(/#/g, '%23');
-            this.nativeHttp.get(DEFAULT_URL, { observe: 'response', responseType: 'blob' }).single().subscribe(r => {
+            this.nativeHttp.get(DEFAULT_URL, { observe: 'response', responseType: 'blob' }).subscribe(r => {
               this.showFile();
             }, () => {
               this.showFile();
-              this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { showCloseButton: true, dismiss: 'click' });
+              this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { closeButton: true, tapToDismiss:true });
 
             });
           } catch (e) {
@@ -139,7 +139,7 @@ export class UnindexedImageFileComponent implements OnInit , AfterViewInit {
     // $("#fileCanvas" + this.fileId).html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=https://invoices.bridgeportclaims.com/2017/06- Jun/20170613/GEICO - DE/Rebill as new claim # - INV1500_GEICO - DE050042481010104501.pdf" allowfullscreen style="width:100%;height:calc(100vh - ' + minusHeight + 'px);border: none;"></iframe>');
     $('#fileCanvas' + this.fileId).html('<iframe id="docCanvas" src="assets/js/pdfjs/web/viewer.html?url=' + docInitParams.url + '" allowfullscreen style="width:100%;height:calc(100vh - ' + minusHeight + 'px);border: none;"></iframe>');
     if (!this.file.fileUrl) {
-      this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { showCloseButton: true, dismiss: 'click' });
+      this.toast.error('Error, the PDF that you are looking for cannot be found. Please contact your system administrator.', null, { closeButton: true, tapToDismiss:true });
     }
     setTimeout(() => {this.loading = false; }, 200);
   }

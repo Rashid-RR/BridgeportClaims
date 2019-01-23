@@ -1,6 +1,6 @@
 import { Component, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 export interface ConfirmModel {
   title: string;
   buttonText?: string;

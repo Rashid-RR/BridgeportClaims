@@ -5,7 +5,7 @@ import { Claim } from '../../models/claim';
 import { PrescriptionNote } from '../../models/prescription-note';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../../components/ng-window';
 import { Router } from '@angular/router';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { ScriptNoteWindowComponent } from '../../components/diary-script-note-window/diary-script-note-window.component';
 
 @Component({
@@ -15,9 +15,9 @@ import { ScriptNoteWindowComponent } from '../../components/diary-script-note-wi
 })
 export class DiaryResultsComponent implements OnInit {
   goToPage: any = '';
-  activeToast: Toast;
+  activeToast: number;
   constructor(private _router: Router, public diaryService: DiaryService, private http: HttpService,
-    private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
+    private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastrService) {
 
   }
 
@@ -54,19 +54,18 @@ export class DiaryResultsComponent implements OnInit {
       /* if(this.activeToast && this.activeToast.timeoutId){
         this.activeToast.message =  'Invalid page number entered'
         }else{
-          this.toast.warning('Invalid page number entered').then((toast: Toast) => {
+          this.toast.warning('Invalid page number entered').onHidden.subscribe((toast: Toast) => {
               this.activeToast = toast;
           })
       }*/
     } else if (page > 0 && ((this.diaryService.totalPages && page <= this.diaryService.totalPages) || this.diaryService.totalPages == null)) {
       this.diaryService.search(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.diaryService.totalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.diaryService.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.diaryService.totalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.diaryService.totalPages).toastId
       }
     }
   }

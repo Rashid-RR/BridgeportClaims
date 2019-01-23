@@ -2,7 +2,7 @@ import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { Component, OnInit} from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ProfileManager } from '../../services/profile-manager';
 declare var $: any;
 
@@ -21,7 +21,7 @@ export class NotificationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private profileManager: ProfileManager,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private http: HttpService
   ) {
     this.form = this.formBuilder.group({
@@ -57,7 +57,7 @@ export class NotificationComponent implements OnInit {
   saveNotification(n: any) {
     if (this.form.get('letterName').value) {
       this.loadingNotification = true;
-      this.http.saveLetterNotifications(this.form.value).single().subscribe(res => {
+      this.http.saveLetterNotifications(this.form.value).subscribe(res => {
           this.toast.success('Letter name successfully updated');
           this.loadingNotification = false;
           for (let i = 0; i < this.notifications.length; i++) {

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { EpisodeService } from '../../services/episode.service';
 import { EventsService } from '../../services/events-service';
 import { WindowInstance } from '../ng-window/WindowInstance';
@@ -38,7 +38,7 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
     private episodeService: EpisodeService,
     private events: EventsService,
     private http: HttpService,
-    private toast: ToastsManager) {
+    private toast: ToastrService) {
       this.hostRectangle = null;
       this.selectedText = '';
   }
@@ -46,7 +46,7 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.dialog.config.BlockParentUI = true;
     this.loading = true;
-    this.http.getEpisodeNotes(this.episode.episodeId).single().subscribe(r => {
+    this.http.getEpisodeNotes(this.episode.episodeId).subscribe(r => {
       const result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
       if (result && result.episodeNotes) {
         this.episodeNotes = result.episodeNotes;
@@ -66,7 +66,7 @@ export class EpisodeNoteModalComponent implements OnInit, AfterViewInit {
         html: 'Saving note... <br/> <img src=\'assets/1.gif\'>',
         showConfirmButton: false
       }).catch(swal.noop);
-      this.http.saveEpisodeNote({ episodeId: this.episode.episodeId, note: this.noteText }).single().subscribe(r => {
+      this.http.saveEpisodeNote({ episodeId: this.episode.episodeId, note: this.noteText }).subscribe(r => {
         const result = Object.prototype.toString.call(r) === '[object Array]' ? r[0] : r;
         this.episodeNotes.splice(0, 0, { episodeId: this.episode.episodeId, writtenBy: result.owner, noteCreated: result.created, noteText: this.noteText });
         const episode = this.episodeService.episodes.get(this.episode.episodeId);

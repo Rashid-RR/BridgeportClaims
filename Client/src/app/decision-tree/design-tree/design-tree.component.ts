@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import * as d3 from 'd3';
 import { HttpService } from '../../services/http-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { DecisionTreeService } from 'app/services/services.barrel';
 
@@ -15,7 +15,7 @@ declare var $: any;
 })
 export class DesignTreeComponent implements OnInit, AfterViewInit {
   over: boolean[];
-  constructor(private route: ActivatedRoute, private ds: DecisionTreeService, private toast: ToastsManager, private dialogService: DialogService, private http: HttpService) {
+  constructor(private route: ActivatedRoute, private ds: DecisionTreeService, private toast: ToastrService, private dialogService: DialogService, private http: HttpService) {
     this.over = new Array(1);
     this.over.fill(false);
 

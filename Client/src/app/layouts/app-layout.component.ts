@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ProfileManager } from '../services/profile-manager';
 import { AuthGuard } from '../services/auth.guard';
-import { LocalStorageService } from 'ng2-webstorage';
+import { LocalStorageService } from 'ngx-webstorage';
 import { EventsService } from '../services/events-service';
 declare var $: any;
 
@@ -16,11 +16,9 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
   buildSha: '';
   buildDate: '';
   currentURL = '';
-  @ViewChild('toastContainer', { read: ViewContainerRef }) toastVcr: ViewContainerRef;
   constructor(
     private router: Router,
     private profileManager: ProfileManager,
-    private toast: ToastsManager,
     private guard: AuthGuard,
     private events: EventsService,
     private localSt: LocalStorageService
@@ -65,7 +63,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
     $('body').removeClass('vegas-container');
   }
   adjustSideBar(status) {
-    this.guard.isLoggedIn.single().subscribe(r => {
+    this.guard.isLoggedIn.subscribe(r => {
       if (!r) {
         window['jQuery']('body').removeClass('sidebar-mini');
         window['jQuery']('body').addClass('sidebar-collapse');
@@ -90,7 +88,7 @@ export class AppLayoutComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-    this.toast.setRootViewContainerRef(this.toastVcr);
+   
   }
 
 }

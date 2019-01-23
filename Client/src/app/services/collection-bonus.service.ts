@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { SortColumnInfo } from '../directives/table-sort.directive';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 export interface CollectionBonus {
     patientName: string;
@@ -27,7 +27,7 @@ export class CollectionBonusService {
     reportMonth: number;
     reportYear: number;
     yearRange: number[];
-    constructor(private toast: ToastsManager, private http: HttpService) {
+    constructor(private toast: ToastrService, private http: HttpService) {
         this.data = {
             sort: 'RxNumber',
             sortDirection: 'DESC',
@@ -51,7 +51,7 @@ export class CollectionBonusService {
     }
     fetchBonusReport(next: Boolean = false, prev: Boolean = false, page: number = undefined) {
         this.loading = true;
-        this.http.collectionBonus({ month: this.reportMonth, year: this.reportYear }).single().subscribe(r => {
+        this.http.collectionBonus({ month: this.reportMonth, year: this.reportYear }).subscribe(r => {
             this.bonus = r.results || r;
             this.totalRowCount = r.totalRowCount || r.length;
             this.totalBonusAmount = r.totalBonusAmount;
@@ -65,7 +65,7 @@ export class CollectionBonusService {
 
     removeBonus(id: number = undefined) {
         this.loading = true;
-        this.http.removeShortPay({ prescriptionId: id }).single().subscribe(res => {
+        this.http.removeShortPay({ prescriptionId: id }).subscribe(res => {
             this.loading = false;
             this.toast.success(res.message);
             this.fetchBonusReport();

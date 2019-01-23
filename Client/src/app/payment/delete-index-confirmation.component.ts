@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DialogComponent, DialogService } from 'ng2-bootstrap-modal';
 export interface ConfirmModel {
   title: string;
@@ -55,7 +55,7 @@ export class DeleteIndexConfirmationComponent extends DialogComponent<ConfirmMod
   title: string;
   message: string;
   option: any;
-  constructor(dialogService: DialogService, private toast: ToastsManager) {
+  constructor(dialogService: DialogService, private toast: ToastrService) {
     super(dialogService);
   }
   filter($event) {

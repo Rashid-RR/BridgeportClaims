@@ -1,12 +1,11 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ToastsManager, Toast } from 'ng2-toastr';
+import { ToastrService, Toast } from 'ngx-toastr';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { DocumentManagerService } from '../../services/document-manager.service';
 import { HttpService } from '../../services/http-service';
 import { DocumentItem } from '../../models/document';
 import { IShContextMenuItem, BeforeMenuEvent } from 'ng2-right-click-menu/src/sh-context-menu.models';
 import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
-import { DeleteIndexConfirmationComponent } from '../delete-index-confirmation.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ConfirmComponent } from '../../components/confirm.component';
 declare var $: any;
@@ -19,7 +18,7 @@ declare var $: any;
 export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
 
   goToPage: any = '';
-  activeToast: Toast;
+  activeToast: number;
   items: IShContextMenuItem[];
   editing: any;
   form: FormGroup;
@@ -30,7 +29,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     public ds: DocumentManagerService,
     public http: HttpService,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private dialogService: DialogService) {
     this.form = this.formBuilder.group({
       amountPaid: ['', Validators.required],
@@ -98,7 +97,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
       this.toast.warning('Not saving. You haven\'t made any change');
     } else {
       this.ds.loading = true;
-      this.http.updatePrescriptionPayment(this.form.value).single().subscribe(res => {
+      this.http.updatePrescriptionPayment(this.form.value).subscribe((res:any) => {
         this.toast.success(res.message);
         this.ds.loading = false;
         payment.datePosted = this.form.get('datePosted').value;
@@ -175,7 +174,7 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     }).subscribe((isConfirmed) => {
       if (isConfirmed) {
         // this.ds.deleteAndKeep(file.documentId, isConfirmed);
-        this.http.deletePrescriptionPayment(file['prescriptionPaymentId']).single().subscribe(res => {
+        this.http.deletePrescriptionPayment(file['prescriptionPaymentId']).subscribe((res:any) => {
           this.toast.success(res.message);
           for (let i = 0; i < this.ds.viewPostedDetail.length; i++) {
             if (file['prescriptionPaymentId'] === this.ds.viewPostedDetail[i].prescriptionPaymentId) {
@@ -196,13 +195,12 @@ export class PostedCheckDetailComponent implements OnInit, AfterViewInit {
     } else if (page > 0 && page <= this.ds.checkTotalPages) {
       this.ds.searchCheckes(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.checkTotalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and '
-          + this.ds.checkTotalPages).then((toast: Toast) => {
-            this.activeToast = toast;
-          });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and '
+          + this.ds.checkTotalPages).toastId;
       }
     }
   }

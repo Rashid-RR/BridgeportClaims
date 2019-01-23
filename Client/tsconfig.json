@@ -1,20 +1,35 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
-    "baseUrl": "src",
-    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
     "declaration": false,
-    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
-    "typeRoots": [
-      "node_modules/@types"
-    ],
     "lib": [
-      "es2016",
-      "dom"
-    ]
+      "dom",
+      "es2015"
+    ],
+    "module": "es2015",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "target": "es5",
+    "paths": {
+      "@angular/*": [
+        "node_modules/@angular/*"
+      ],
+      "rxjs/*": [
+        "node_modules/rxjs/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "node_modules/ng4-fittext/*.d.ts"
+  ],
+  "exclude": [],
+  "compileOnSave": false,
+  "atom": {
+    "rewriteTsconfig": false
   }
 }

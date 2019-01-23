@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {HttpService} from '../../services/http-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private http: HttpService,
     private router: Router,
-    private toast: ToastsManager
+    private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
       firstname: ['', Validators.compose([Validators.required])],
@@ -44,9 +44,9 @@ export class RegisterComponent implements OnInit {
     if (this.form.valid) {
       this.submitted = true;
       try {
-        this.http.register(this.form.value).subscribe(res => {
+        this.http.register(this.form.value).subscribe(_ => {
             this.toast.success('You have registered successfully. Now, please check your email to confirm it before logging in...', null,
-            {toastLife: 10000});
+            {timeOut: 10000});
             this.registered = true;
             this.submitted = false;
             this.router.navigate(['/login']);

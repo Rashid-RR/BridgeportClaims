@@ -4,7 +4,7 @@ import {HttpService} from '../../services/http-service';
 import {ClaimManager} from '../../services/claim-manager';
 import {UserProfile} from '../../models/profile';
 import {ProfileManager} from '../../services/profile-manager';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 import { StringService } from '../../services/string.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class ProfileComponent implements OnInit {
     public claimManager: ClaimManager,
     private http: HttpService,
     public profileManager: ProfileManager,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private stringService: StringService
   ) {
     this.profileManager.profileChanged.subscribe(r => {

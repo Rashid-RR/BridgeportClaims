@@ -1,16 +1,11 @@
-import { UUID } from 'angular2-uuid';
-import * as Immutable from 'immutable';
-import { Observable } from 'rxjs/Observable';
-import { PaymentClaim } from '../models/payment-claim';
-import { PrescriptionNoteType } from '../models/prescription-note-type';
 import { Injectable, NgZone } from '@angular/core';
 import { PaymentService } from './payment-service';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import swal from 'sweetalert2';
 
 declare var $: any;
@@ -22,7 +17,7 @@ export class PaymentScriptService {
     searchText = '';
     exactMatch = false;
     constructor(private http: HttpService, private dp: DatePipe, private ngZone: NgZone, private formBuilder: FormBuilder,
-        public paymentService: PaymentService, private events: EventsService, private router: Router, private toast: ToastsManager) {
+        public paymentService: PaymentService, private events: EventsService, private router: Router, private toast: ToastrService) {
         this.form = this.formBuilder.group({
             claimId: [null, Validators.compose([Validators.required])],
             rxNumber: [null],

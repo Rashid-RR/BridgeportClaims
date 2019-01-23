@@ -5,8 +5,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 
 import {User} from '../../models/user';
 import {Role} from '../../models/role';
-import {ToastsManager} from 'ng2-toastr';
-
+import {ToastrService} from 'ngx-toastr';
+import { map } from 'rxjs/operators';
 import {ConfirmComponent} from '../../components/confirm.component';
 import {DialogService} from 'ng2-bootstrap-modal';
 declare var $: any;
@@ -47,7 +47,7 @@ export class UsersComponent implements OnInit {
     private http: HttpService,
     private formBuilder: FormBuilder,
     private dialogService: DialogService,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private zone: NgZone
   ) {
     this.form = this.formBuilder.group({
@@ -57,7 +57,7 @@ export class UsersComponent implements OnInit {
     this.loading = false;
     this.getRoles();
     this.loading = true;
-    this.http.referralTypes({}).single().subscribe(res => {
+    this.http.referralTypes({}).subscribe(res => {
       this.referralTypes = res;
       this.getUsers(1);
     }, () => {
@@ -85,9 +85,8 @@ export class UsersComponent implements OnInit {
       this.events.on('loading-error', (v) => {
       this.loading = false;
     });
-    this.http.getActiveUsers().map(res => {
-      return res;
-    }).subscribe(result => {
+    this.http.getActiveUsers()
+    .subscribe(result => {
       this.activeUsers = result;
     }, error1 => {
 
@@ -97,10 +96,11 @@ export class UsersComponent implements OnInit {
 
   getUsers(pageNumber: number) {
     this.loading = true;
-    this.http.getUsers(pageNumber, this.pageSize).map(res => {
+    this.http.getUsers(pageNumber, this.pageSize).
+    pipe(map(res => {
       this.loading = false;
       return res;
-    }).subscribe(result => {
+    })).subscribe((result:any[]) => {
       result.forEach(element => {
         if (element.referralTypeId) {
           element.referralType = this.referralTypes.find(r => r.referralTypeId === element.referralTypeId);
@@ -246,11 +246,11 @@ export class UsersComponent implements OnInit {
     const action = (event) ? 'Assign ' + role + ' role to ' : 'Revoke ' + role + ' role from ';
 
     if (event && role === this.clientRole && (this.users[index].admin || this.users[index].indexer || this.users[index].user)) {
-      this.toast.warning('A user of the Bridgeport system cannot be added to the \'Client\' role.');
+      this.toast.warning('A user of the Bridgeport system cannot be added to the \'Client\' role.',null,{closeButton:true});
       return this.undoRole(role, index, event);
     }
     if (this.users[index].client && event && [this.indexerRole, this.userRole, this.adminRole].indexOf(role) > -1) {
-      this.toast.warning('A member of the \'Client\' role cannot be an \'Admin\' or an \'Indexer\'.');
+      this.toast.warning('A member of the \'Client\' role cannot be an \'Admin\' or an \'Indexer\'.',null,{closeButton:true});
       return this.undoRole(role, index, event);
     }
     if (this.users[index].admin && role === this.userRole && !event) {
@@ -389,11 +389,8 @@ export class UsersComponent implements OnInit {
     this.allUsers = [];
     this.selectedUsers = [];
 
-    this.http.getUsersListPerActiveUser(id).map(res => {
-      return res;
-    }).subscribe(result => {
-
-
+    this.http.getUsersListPerActiveUser(id)
+    .subscribe(result => {
       this.allUsers = result['rightCarriers'];
       this.selectedUsers = result['leftCarriers'];
       this.tempAllUsers = this.allUsers;
@@ -413,9 +410,8 @@ export class UsersComponent implements OnInit {
     }
 
     this.loading = true;
-    this.http.assignUsertoPayors(this.selectedUserId, payorId).map(res => {
-      return res;
-    }).subscribe(result => {
+    this.http.assignUsertoPayors(this.selectedUserId, payorId)
+    .subscribe(result => {
       this.loading = false;
       this.toast.success(result['message']);
       $('#usersModal').modal('hide');

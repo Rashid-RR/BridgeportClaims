@@ -8,7 +8,7 @@ import { SortColumnInfo } from '../../directives/table-sort.directive';
 import { HttpService } from '../../services/http-service';
 import { EpisodeService } from '../../services/episode.service';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 import { ConfirmComponent } from '../confirm.component';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
@@ -23,7 +23,7 @@ export class ClaimEpisodeComponent implements OnInit {
   @ViewChild('prescriptionTable') table: ElementRef;
   @ViewChild('episodeActionSwal') private episodeSwal: SwalComponent;
   sortColumn: SortColumnInfo;
-  constructor(public episodeService: EpisodeService, private myInjector: WindowsInjetor, private dialogService: DialogService, public claimManager: ClaimManager, private events: EventsService, private http: HttpService, private toast: ToastsManager) { }
+  constructor(public episodeService: EpisodeService, private myInjector: WindowsInjetor, private dialogService: DialogService, public claimManager: ClaimManager, private events: EventsService, private http: HttpService, private toast: ToastrService) { }
 
   ngOnInit() {
     this.events.on('episode-note-updated', (episode: Episode) => {
@@ -85,7 +85,7 @@ export class ClaimEpisodeComponent implements OnInit {
     }
     this.http.sortEpisodes(this.claimManager.selectedClaim.claimId, sort, sort_dir,
       page, page_size)
-      .subscribe(results => {
+      .subscribe((results:any) => {
         this.claimManager.selectedClaim.setEpisodes(results);
         this.claimManager.loadingEpisodes = false;
       }, err => {
@@ -106,7 +106,7 @@ export class ClaimEpisodeComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.claimManager.loading = true;
-          this.http.markEpisodeAsSolved(episode.episodeId || episode['id']).single().subscribe(res => {
+          this.http.markEpisodeAsSolved(episode.episodeId || episode['id']).subscribe(res => {
             this.toast.success(res.message);
             this.claimManager.loading = false;
             episode.resolved = true;

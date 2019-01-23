@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { ClaimManager } from '../../services/claim-manager';
 import swal from 'sweetalert2';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
@@ -28,7 +28,7 @@ export class ClaimScriptNoteComponent implements OnInit {
     private dp: DatePipe,
     private router: Router,
     public readonly swalTargets: SwalPartialTargets,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private myInjector: WindowsInjetor
   ) { }
 

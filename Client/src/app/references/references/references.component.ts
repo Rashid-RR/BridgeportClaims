@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
-import {ToastsManager} from 'ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-references',
@@ -10,7 +10,7 @@ import {ToastsManager} from 'ng2-toastr';
 export class ReferencesComponent implements OnInit {
 
   constructor(public rs: ReferenceManagerService,
-              private toaster: ToastsManager) {
+              private toaster: ToastrService) {
   }
 
   ngOnInit() {

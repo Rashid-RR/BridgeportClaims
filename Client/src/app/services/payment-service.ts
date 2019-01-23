@@ -8,7 +8,7 @@ import { EventsService } from './events-service';
 import { Router } from '@angular/router';
 import {PaymentPosting} from '../models/payment-posting';
 import {PaymentPostingPrescription} from '../models/payment-posting-prescription';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 
 declare var $: any;
@@ -23,7 +23,7 @@ export class PaymentService {
   sortColumn: SortColumnInfo;
   lastPrescriptionIds: Array<Number> = [];
   documentWindow: any[] = [];
-  constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastsManager) {
+  constructor(private http: HttpService, private events: EventsService, private router: Router, private toast: ToastrService) {
     this.events.on('postPaymentPrescriptionReturnDtos', data => {
           data.prescriptions.forEach(d => {
              const prescription = this.claimsDetail.get(d.prescriptionId);
@@ -83,7 +83,7 @@ export class PaymentService {
     } else {
       this.loading = true;
       this.http.paymentPosting(data)
-        .single().subscribe((result: any) => {
+        .subscribe((result: any) => {
           this.loading = false;
           this.toast.info('Posting has been saved. Please continue posting until the Check Amount is posted in full before it is saved to the database');
            // this.events.broadcast('postPaymentPrescriptionReturnDtos',{prescriptions:result.postPaymentPrescriptionReturnDtos});
@@ -206,7 +206,7 @@ export class PaymentService {
   finalizePosting(data: any) {
     this.loading = true;
     this.http.finalizePosting(data)
-      .subscribe(result => {
+      .subscribe((result:any) => {
         this.loading = false;
 
         if (result.message) {
@@ -230,7 +230,7 @@ export class PaymentService {
   paymentToSuspense(data: any) {
     this.loading = true;
     this.http.paymentToSuspense(data)
-      .subscribe(result => {
+      .subscribe((result:any) => {
         this.loading = false;
         if (result.message) {
           this.toast.success(result.message);
@@ -252,7 +252,7 @@ export class PaymentService {
   deletePayment(data: any) {
     this.loading = true;
     this.http.deletePayment(data)
-      .subscribe(result => {
+      .subscribe((result:any) => {
         this.loading = false;
         this.paymentPosting.payments = this.paymentPosting.payments.delete(data.id);
 
@@ -284,7 +284,7 @@ export class PaymentService {
       if (ids.length > 0) {
       this.loading = true;
       this.http.getDetailedPaymentClaim(ids, sort, sort_dir, page, page_size)
-        .subscribe(result => {
+        .subscribe((result:any) => {
           this.lastPrescriptionIds = ids;
           this.loading = false;
           if (result.length < 1) {

@@ -7,7 +7,7 @@ import { HttpService, ComparisonClaim } from '../../services/services.barrel';
 import { ProfileManager } from '../../services/profile-manager';
 import { DatePipe } from '@angular/common';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2';
 
 declare var $: any;
@@ -28,7 +28,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   payor: any;
   adjustor: any;
   lastForm: any;
-  activeToast: Toast;
+  activeToast: number;
   selectMultiple: Boolean = false;
   lastSelectedIndex: number;
   mergedClaim: any = {} as any;
@@ -39,7 +39,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
     public claimManager: ClaimManager,
     private formBuilder: FormBuilder,
     private profileManager: ProfileManager,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private dp: DatePipe,
     private http: HttpService,
     private events: EventsService
@@ -140,10 +140,8 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       && form.hasOwnProperty('AdjustorId') && form.hasOwnProperty('PatientId') && form.hasOwnProperty('PayorId')) {
       this.claimManager.loading = true;
       this.http.getMergeClaims(form)
-        .single().subscribe(r => {
-          this.toast.success('Claim successfully merged').then((toast: Toast) => {
-            this.activeToast = toast;
-          });
+        .subscribe(r => {
+          this.activeToast = this.toast.success('Claim successfully merged').toastId;
           this.closeModal();
           this.events.broadcast('refresh-claims', []);
         }, () => {
@@ -156,7 +154,7 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
   showModal() {
     this.claimManager.loading = true;
     this.http.getComparisonClaims({ leftClaimId: this.claimManager.selectedClaims[0].claimId, rightClaimId: this.claimManager.selectedClaims[1].claimId })
-      .single().subscribe(r => {
+      .subscribe(r => {
         this.claimManager.loading = false;
         this.comparisonClaims = Array.isArray(r) ? r[0] : r;
         Object.keys(this.comparisonClaims).forEach(k => {
@@ -198,18 +196,15 @@ export class ClaimResultComponent implements OnInit, AfterViewInit {
       this.claimManager.comparisonClaims = this.claimManager.comparisonClaims.set(claim.claimId, claim);
 
       if (this.claimManager.selectedClaims.length === 1) {
-        this.toast.info('You have selected a Claim to compare. Please select another', '',
-          { toastLife: 15000, showCloseButton: true }).then((toast: Toast) => {
-            this.activeToast = toast;
-          });
+        this.activeToast = this.toast.info('You have selected a Claim to compare. Please select another', '',
+          { timeOut: 15000, closeButton: true }).toastId;
       } else if (this.claimManager.selectedClaims.length === 2) {
-        this.activeToast.timeoutId = null;
+        this.activeToast = null;
         $('.toast.toast-info').hide();
         this.showModal();
       }
     } else {
-      this.toast.warning('You you have already chosen this claim for comparison.').then((toast: Toast) => {
-      });
+      this.toast.warning('You you have already chosen this claim for comparison.');
       $event.checked = true;
     }
   }

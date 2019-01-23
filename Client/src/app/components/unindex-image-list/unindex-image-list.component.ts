@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastsManager, Toast } from 'ng2-toastr';
+import { ToastrService, Toast } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -19,12 +19,12 @@ import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 export class UnindexedImageListComponent implements OnInit {
 
   goToPage: any = '';
-  activeToast: Toast;
+  activeToast: number;
   items: IShContextMenuItem[];
   constructor(
     public ds: DocumentManagerService,
     private dp: DatePipe,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private router: Router,
     private dialogService: DialogService,
     private fb: FormBuilder) { }
@@ -78,12 +78,11 @@ export class UnindexedImageListComponent implements OnInit {
     } else if (page > 0 && page <= this.ds.totalPages) {
       this.ds.search(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.totalPages).toastId
       }
     }
   }

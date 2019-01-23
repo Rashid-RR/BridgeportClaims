@@ -1,5 +1,5 @@
 import * as Immutable from 'immutable';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { Claim } from '../models/claim';
 import { Prescription } from '../models/prescription';
 import { ClaimNote } from '../models/claim-note';
@@ -11,13 +11,13 @@ import { HttpService } from './http-service';
 import { AuthGuard } from './auth.guard';
 import { EventsService } from './events-service';
 import { Router } from '@angular/router';
-import { ToastsManager, Toast } from 'ng2-toastr';
+import { ToastrService, Toast } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../components/confirm.component';
 import { Episode } from '../interfaces/episode';
 import { PhonePipe } from '../pipes/phone-pipe';
 import swal from 'sweetalert2';
-import { ProfileManager } from './services.barrel';
+import { ProfileManager } from './profile-manager';
 
 declare var $: any;
 
@@ -74,7 +74,7 @@ export class ClaimManager {
       && this.profileManager.profile.roles.indexOf('Client') > -1);
   }
   constructor(private pp: PhonePipe, private auth: AuthGuard, private http: HttpService, private events: EventsService,
-    private router: Router, private toast: ToastsManager, private formBuilder: FormBuilder, private profileManager: ProfileManager,
+    private router: Router, private toast: ToastrService, private formBuilder: FormBuilder, private profileManager: ProfileManager,
     private dialogService: DialogService) {
       this.episodeForm = this.formBuilder.group({
         // episodeId: [undefined], // only send on episode edit
@@ -109,7 +109,7 @@ export class ClaimManager {
       // this.episodeForm.value.episodeId = this.episodeForm.value.episodeId ? Number(this.episodeForm.value.episodeId) : null;
       this.episodeForm.value.episodeTypeId = this.episodeForm.value.episodeTypeId ? Number(this.episodeForm.value.episodeTypeId) : null;
       const form = this.episodeForm.value;
-      this.http.saveEpisode(this.episodeForm.value).single().subscribe(res => {
+      this.http.saveEpisode(this.episodeForm.value).subscribe(res => {
         const claim = this.claims.get(form.claimId);
         claim.episodes.splice(0, 0, res.episode as Episode);
         this.episodeForm.reset();
@@ -132,10 +132,10 @@ export class ClaimManager {
 
   }
   getHistory() {
-    this.auth.isLoggedIn.single().subscribe(res => {
+    this.auth.isLoggedIn.subscribe(res => {
       if (res === true) {
         this.loadingHistory = true;
-        this.http.getHistory().single().subscribe(res => {
+        this.http.getHistory().subscribe(res => {
           this.history = res as Array<Claim>;
           this.loadingHistory = false;
         }, error => {
@@ -159,18 +159,17 @@ export class ClaimManager {
       '<br> AWP: ' + prescription.awp +
       '<br> Payable Amount: ' + prescription.payableAmount,
       null,
-      { toastLife: 1210000, showCloseButton: true, enableHTML: true, positionClass: 'toast-top-center' }).then((toast: Toast) => {
+      { timeOut: 1210000,closeButton: true, enableHtml: true, positionClass: 'toast-top-center' }).onShown.subscribe(t=>{
         const toasts: Array<HTMLElement> = $('.toast-message');
         for (let i = 0; i < toasts.length; i++) {
           const msg = toasts[i];
-          if (msg.innerHTML === toast.message) {
+          if (msg.innerHTML === this.activeToast.message) {
             msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
             msg.parentNode.parentElement.style.position = 'fixed';
             msg.parentNode.parentElement.style.width = 'auto';
           }
         }
-        this.activeToast = toast;
-      });
+      }); 
   }
 
   get claimHistory(): Array<Claim> {
@@ -198,7 +197,7 @@ export class ClaimManager {
     return total;
   }
   addHistory(id: Number) {
-    this.http.addHistory(id).single().subscribe((res: any) => {
+    this.http.addHistory(id).subscribe((res: any) => {
       this.getHistory();
     }, err => {
 
@@ -240,6 +239,10 @@ export class ClaimManager {
             this.claims = this.claims.set(claim.claimId, c);
           });
         } else {
+          if(Object.keys(result).length==0){
+            this.toast.warning("Claim not found");
+            return;
+          }
           this.claims = Immutable.OrderedMap<Number, Claim>();
           const c = new Claim(result.claimId, result.claimNumber, result.date, result.injuryDate || result.dateOfInjury, result.gender,
             result.carrier, result.adjustor, result.adjustorPhoneNumber, result.dateEntered, result.adjustorFaxNumber
@@ -366,7 +369,11 @@ export class ClaimManager {
       this.loading = true;
       this.history.unshift(claim);
       this.http.getClaimsData({ claimId: id })
-        .subscribe(result => {
+        .subscribe((result:any)=> {
+          if(Object.keys(result).length==0){
+            this.toast.warning("Claim not found");
+            return;
+          }
           this.loading = false;
           claim.dateOfBirth = result.dateOfBirth;
           claim.adjustor = result.adjustor;

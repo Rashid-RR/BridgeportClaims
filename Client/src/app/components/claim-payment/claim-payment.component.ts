@@ -8,7 +8,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { ConfirmComponent } from '../confirm.component';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { ProfileManager } from '../../services/profile-manager';
 declare var $: any;
 
@@ -32,7 +32,7 @@ export class ClaimPaymentComponent implements OnInit {
     private events: EventsService,
     private dialogService: DialogService,
     private profileManager: ProfileManager,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private decimalPipe: DecimalPipe,
     private http: HttpService
   ) {
@@ -98,7 +98,7 @@ export class ClaimPaymentComponent implements OnInit {
     if (this.form.get('amountPaid').value && this.form.get('checkNumber').value && date) {
       this.claimManager.loading = true;
       this.form.controls['datePosted'].setValue(this.dp.transform(date, 'shortDate'));
-      this.http.updatePrescriptionPayment(this.form.value).single().subscribe(res => {
+      this.http.updatePrescriptionPayment(this.form.value).subscribe((res:any) => {
         this.toast.success(res.message);
         // this.removePayment(payment);
         this.claimManager.loading = false;
@@ -162,7 +162,7 @@ export class ClaimPaymentComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.claimManager.loading = true;
-          this.http.deletePrescriptionPayment(payment.prescriptionPaymentId).single().subscribe(res => {
+          this.http.deletePrescriptionPayment(payment.prescriptionPaymentId).subscribe((res:any) => {
             this.toast.success(res.message);
             this.removePayment(payment);
             this.claimManager.loading = false;
@@ -194,7 +194,7 @@ export class ClaimPaymentComponent implements OnInit {
     this.loadingPayment = true;
     this.http.getPayments(this.claimManager.selectedClaim.claimId, sort, sort_dir,
       page, page_size)
-      .subscribe(results => {
+      .subscribe((results:any) => {
         this.claimManager.selectedClaim.setPayment(results);
         this.loadingPayment = false;
         this.claimManager.loadingPayment = false;

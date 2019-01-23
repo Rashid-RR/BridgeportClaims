@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 import { Router, NavigationEnd } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 export interface ComparisonClaim {
   leftAdjustorId: number; //
@@ -50,7 +50,7 @@ export class ReportLoaderService {
   duplicates: DuplicateClaim[] = [];
   data: any = {};
   totalRowCount: number;
-  constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
+  constructor(private router: Router, private toast: ToastrService, private http: HttpService) {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
         this.routes = this.router.url.split('/');
@@ -82,7 +82,7 @@ export class ReportLoaderService {
       if (page) {
         data.page = page;
       }
-      this.http.duplicateClaims(data).single().subscribe(r => {
+      this.http.duplicateClaims(data).subscribe(r => {
         this.duplicates = r.results || r;
         this.totalRowCount = r.totalRowCount || r.length;
         this.loading = false;

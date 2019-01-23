@@ -5,7 +5,7 @@ import { EventsService } from '../../services/events-service';
 import { DocumentManagerService } from '../../services/document-manager.service';
 import { DocumentItem } from '../../models/document';
 import { HttpService } from '../../services/http-service';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
@@ -28,7 +28,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
     private dialogService: DialogService,
     public readonly swalTargets: SwalPartialTargets,
     private http: HttpService, private route: ActivatedRoute,
-    private toast: ToastsManager, private formBuilder: FormBuilder, public ds: DocumentManagerService, private events: EventsService) {
+    private toast: ToastrService, private formBuilder: FormBuilder, public ds: DocumentManagerService, private events: EventsService) {
     this.form = this.formBuilder.group({
       invoiceNumber: [null, Validators.compose([Validators.required])]
     });
@@ -78,8 +78,8 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
             localStorage.setItem('file-' + doc.documentId, JSON.stringify(doc));
             this.ds.newInvoice = true;
             this.invoiceSwal.show().then((r) => { });
-            this.toast.warning('The Invoice # ' + this.form.controls['invoiceNumber'].value + ' has already been used. Here is the Invoice that it has been indexed with ' + this.form.controls['invoiceNumber'].value + '. If you Archive this invoice, then #' + this.form.controls['invoiceNumber'].value + ' will be free to use for another invoice', null, { toastLife: 1210000, showCloseButton: true, positionClass: 'toast-top-center' })
-            .then((toast: Toast) => {
+            this.toast.warning('The Invoice # ' + this.form.controls['invoiceNumber'].value + ' has already been used. Here is the Invoice that it has been indexed with ' + this.form.controls['invoiceNumber'].value + '. If you Archive this invoice, then #' + this.form.controls['invoiceNumber'].value + ' will be free to use for another invoice', null, { timeOut: 1210000, closeButton: true, positionClass: 'toast-top-center' })
+            .onHidden.subscribe((toast: Toast) => {
               const toasts: Array<HTMLElement> = $('.toast-message');
               for (let i = 0; i < toasts.length; i++) {
                 const msg = toasts[i];
@@ -100,7 +100,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
     } else {
       const er = '';
       this.ds.loading = false;
-      this.toast.warning(er, 'Please correct the folowing:', { enableHTML: true });
+      this.toast.warning(er, 'Please correct the folowing:', { enableHtml: true });
     }
   }
   archive() {

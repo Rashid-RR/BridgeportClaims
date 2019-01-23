@@ -3,7 +3,7 @@ import {ClaimManager} from '../../services/claim-manager';
 import {HttpService} from '../../services/http-service';
 import {ClaimNote} from '../../models/claim-note';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-claim-note',
@@ -17,7 +17,7 @@ export class ClaimNoteComponent implements OnInit, AfterViewChecked {
     public claimManager: ClaimManager,
     private formBuilder: FormBuilder,
     private http: HttpService,
-    private toast: ToastsManager
+    private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
       noteText: [ null, Validators.compose([Validators.required])],

@@ -1,16 +1,12 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { EpisodeService, HttpService } from '../../services/services.barrel';
-import { Diary } from '../../models/diary';
-import { Claim } from '../../models/claim';
-import { PrescriptionNote } from '../../models/prescription-note';
 import { EpisodeNoteModalComponent } from '../components-barrel';
 import { WindowsInjetor, CustomPosition, Size, WindowConfig } from '../ng-window';
 import { Router } from '@angular/router';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 
 import { ConfirmComponent } from '../confirm.component';
-import { DocumentItem } from '../../models/document';
 import { UUID } from 'angular2-uuid';
 import { Episode } from '../../interfaces/episode';
 import { SwalComponent } from '@toverux/ngx-sweetalert2';
@@ -22,12 +18,12 @@ import { SwalComponent } from '@toverux/ngx-sweetalert2';
 })
 export class EpisodeResultsComponent implements OnInit {
 
-  activeToast: Toast;
+  activeToast: number;
 
   @ViewChild('episodeActionSwal') private episodeSwal: SwalComponent;
   constructor(
     private dialogService: DialogService, private _router: Router, public episodeService: EpisodeService, private http: HttpService,
-    private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
+    private myInjector: WindowsInjetor, public viewContainerRef: ViewContainerRef, private toast: ToastrService) {
 
   }
 
@@ -66,7 +62,7 @@ export class EpisodeResultsComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.acquireEpisode(episode.episodeId).single().subscribe(res => {
+          this.http.acquireEpisode(episode.episodeId).subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false;
             episode.owner = res.owner;
@@ -85,7 +81,7 @@ export class EpisodeResultsComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.markEpisodeAsSolved(episode.episodeId).single().subscribe(res => {
+          this.http.markEpisodeAsSolved(episode.episodeId).subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false;
             this.episodeService.episodes = this.episodeService.episodes.delete(episode.episodeId);
@@ -124,19 +120,18 @@ export class EpisodeResultsComponent implements OnInit {
       /* if(this.activeToast && this.activeToast.timeoutId){
         this.activeToast.message =  'Invalid page number entered'
         }else{
-          this.toast.warning('Invalid page number entered').then((toast: Toast) => {
+          this.toast.warning('Invalid page number entered').onHidden.subscribe((toast: Toast) => {
               this.activeToast = toast;
           })
       }*/
     } else if (page > 0 && ((this.episodeService.totalPages && page <= this.episodeService.totalPages) || this.episodeService.totalPages == null)) {
       this.episodeService.search(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.episodeService.totalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.episodeService.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.episodeService.totalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.episodeService.totalPages).toastId;
       }
     }
   }

@@ -6,7 +6,7 @@ import { PrescriptionNoteType } from '../../models/prescription-note-type';
 import swal from 'sweetalert2';
 import { ClaimNote } from '../../models/claim-note';
 import { Episode } from '../../interfaces/episode';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
@@ -15,10 +15,7 @@ import { UUID } from 'angular2-uuid';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
 import { isPlatformBrowser } from '@angular/common';
-import { Subject } from 'rxjs/Subject';
 import { Prescription } from '../../models/prescription';
-// import { SnotifyService } from 'ng-snotify';
-
 declare var $: any;
 
 @Component({
@@ -65,14 +62,13 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router,
-    // private snotifyService: SnotifyService,
     public readonly swalTargets: SwalPartialTargets,
     public claimManager: ClaimManager,
     private dialogService: DialogService,
     private http: HttpService,
     private dp: DatePipe,
     private events: EventsService,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private ar: AccountReceivableService,
   ) {
     this.over = new Array(7);
@@ -87,7 +83,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
   isMaxBalance($event) {
     this.claimManager.loading = true;
     this.http.setMaxBalance(this.claimManager.selectedClaim.claimId, $event.target.checked).subscribe(r => {
-      this.toast.success(r.message, null, { showCloseButton: true, toastLife: 8000 });
+      this.toast.success(r.message, null, { closeButton: true, timeOut: 8000 });
       this.claimManager.loading = false;
     }, err => {
       const result = err.error;
@@ -336,7 +332,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               prescriptionNoteTypeId: Number($('#prescriptionNoteTypeId').val()),
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
-            }).single().subscribe(res => {
+            }).subscribe(res => {
               const result = res;
               prescriptions.forEach(c => {
                 if (c.selected) {
@@ -383,7 +379,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
               prescriptionNoteTypeId: Number(result[0]),
               prescriptions: selectedNotes,
               prescriptionNoteId: prescriptionNoteId
-            }).single().subscribe(res => {
+            }).subscribe(res => {
               const result = res;
               prescriptions.forEach(c => {
                 if (c.selected) {
@@ -488,7 +484,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       const prescriptions = this.claimManager.selectedClaim.prescriptions.filter(p => p.selected === true);
       if (prescriptions.length === 0) {
         this.toast.warning('Please select one prescription before generating a letter.', null,
-          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
+          { timeOut: 10000, closeButton: true })
       } else if (type === 'dr-note' && prescriptions.length > 1) {
         this.toast.warning('You must start the Dr Note Request letter with a single prescription.');
         return;
@@ -496,7 +492,7 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
         this.exportDrNote(prescriptions[0]);
       } else if (prescriptions.length > 1) {
         this.toast.warning('Please select only one prescription before generating a letter.', null,
-          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
+          { timeOut: 10000, closeButton: true })
       } else {
         this.claimManager.loading = true;
         this.http.exportLetter({ claimId: this.claimManager.selectedClaim.claimId,
@@ -551,13 +547,13 @@ export class ClaimsComponent implements OnInit, AfterViewInit {
       }
       if (prescriptions.length === 0) {
         this.toast.warning('Please select one prescription to view invoice.', null,
-          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
+          { timeOut: 10000, closeButton: true });
       } else if (prescriptions.length > 1 && unIndexed.length > 0) {
         this.toast.warning('All Prescriptions selected must have Indexed Invoices in order to view them', null,
-          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
+          { timeOut: 10000, closeButton: true });
       } else if (prescriptions.length === 1 && !prescriptions[0].invoiceUrl) {
         this.toast.warning('Invoice file not found in selected prescription', null,
-          { toastLife: 10000, showCloseButton: true }).then((toast: any) => null);
+          { timeOut: 10000, closeButton: true });
       } else {
         // https://bridgeportclaims-images.azurewebsites.net/11-17/20171124/csp201711245300.pdf used for testing
         const id = UUID.UUID();

@@ -5,7 +5,7 @@ import { HttpService } from '../../services/http-service';
 import { PaymentService } from '../../services/payment-service';
 import { EventsService } from '../../services/events-service';
 import { PaymentPosting } from '../../models/payment-posting';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DecimalPipe } from '@angular/common';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
@@ -30,7 +30,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
   paymentClosed: any;
   documentId: any;
   constructor(private decimalPipe: DecimalPipe, public paymentService: PaymentService,
-    private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService, private toast: ToastsManager,
+    private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService, private toast: ToastrService,
     private route: ActivatedRoute, private dialogService: DialogService) {
     this.form = this.formBuilder.group({
       checkNumber: [null],
@@ -156,7 +156,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
           this.paymentService.prescriptionSelected = false;
           this.events.broadcast('disable-links', false);
           this.http.cancelPayment(this.paymentService.paymentPosting.sessionId)
-            .single().subscribe(res => {
+            .subscribe(res => {
               this.toast.success(res.message);
               this.paymentService.loading = false;
               this.events.broadcast('payment-closed', true);
@@ -250,7 +250,7 @@ export class PaymentInputComponent implements OnInit, OnDestroy {
           this.toast.warning('You may not post monies that exceed the total check amount;');
         } else if ((Number(form.lastAmountRemaining) - Number(form.amountToPost)) < 0) {
           this.toast.warning('Error. You may not post an amount that puts the \"Amount Remaining\" for this check into the negative.', null,
-            { toastLife: 10000 });
+            { timeOut: 10000 });
         } else if (form.amountToPost === 0 || form.amuontToPost == null) {
           this.toast.warning('You need to specify amount to post');
         } else {

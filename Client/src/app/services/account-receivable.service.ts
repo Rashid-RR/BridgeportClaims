@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { EventsService } from './events-service';
 import { ReportLoaderService } from './report-loader.service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { SortColumnInfo } from '../directives/table-sort.directive';
 import * as FileSaver from 'file-saver';
 
@@ -22,7 +22,7 @@ export class AccountReceivableService {
   public filteredList: any[] = [];
   public pharmacyList: any[] = [];
 
-  constructor(private http: HttpService, private events: EventsService, private toast: ToastsManager, public reportLoader: ReportLoaderService,
+  constructor(private http: HttpService, private events: EventsService, private toast: ToastrService, public reportLoader: ReportLoaderService,
   ) {
     this.autoCompleteGroupName = this.http.baseUrl + '/reports/group-name/?groupName=:keyword';
     this.autoCompletePharmacyName = this.http.baseUrl + '/reports/pharmacy-name/?pharmacyName=:keyword';
@@ -77,9 +77,9 @@ export class AccountReceivableService {
   getExport(data: any) {
     this.reportLoader.loading = true;
     this.http.getExport(data)
-      .subscribe((result: Array<any>) => {
+      .subscribe(_ => {
         this.reportLoader.loading = false;
-      }, error => {
+      }, _ => {
         this.reportLoader.loading = false;
         this.events.broadcast('account-receivable-report-updated');
       });

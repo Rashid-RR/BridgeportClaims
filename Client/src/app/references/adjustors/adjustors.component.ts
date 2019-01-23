@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ReferenceManagerService} from '../../services/reference-manager.service';
-import {Toast, ToastsManager} from 'ng2-toastr';
+import {ActiveToast, ToastrService} from 'ngx-toastr';
 
 declare var $: any;
 
@@ -11,9 +11,10 @@ declare var $: any;
 })
 export class AdjustorsComponent implements OnInit {
   goToPage: any = '';
-  activeToast: Toast;
+  toastId: number;
+  toastIsActive:boolean = false;
   constructor(public rs: ReferenceManagerService,
-              private toast: ToastsManager) {
+              private toast: ToastrService) {
   }
 
   ngOnInit() {
@@ -26,12 +27,11 @@ export class AdjustorsComponent implements OnInit {
       this.rs.currentPage = page;
       this.rs.getReferencesList();
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage();
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.toastId)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage();
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage()).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.toastId = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage()).toastId;        
       }
     }
   }

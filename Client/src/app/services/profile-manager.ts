@@ -1,12 +1,12 @@
 
 import * as Immutable from 'immutable';
-import {Observable} from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
-import {UserProfile} from '../models/profile';
-import {Injectable} from '@angular/core';
-import {HttpService} from './http-service';
-import {EventsService} from './events-service';
-import {Router} from '@angular/router';
+import { Observable, of, Subject } from 'rxjs';
+import { UserProfile } from '../models/profile';
+import { Injectable } from '@angular/core';
+import { HttpService } from './http-service';
+import { EventsService } from './events-service';
+import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ProfileManager {
@@ -15,17 +15,17 @@ export class ProfileManager {
   profile: UserProfile = null;
 
   constructor(private router: Router, private http: HttpService, private events: EventsService) {
-      this.events.on('profile', (profile) => {
-        this.profile = profile as UserProfile;
-      });
-      this.events.on('logout', (v) => {
-        this.clearUsers();
+    this.events.on('profile', (profile) => {
+      this.profile = profile as UserProfile;
+    });
+    this.events.on('logout', (v) => {
+      this.clearUsers();
     });
   }
   userInfo(userId: String): Observable<UserProfile> {
     const v = this.userCache.get(userId);
     if (v) {
-      return Observable.of(v);
+      return of(v);
     } else {
       const s = this.http.userFromId(userId);
       s.subscribe(res => {
@@ -34,13 +34,13 @@ export class ProfileManager {
       }, err => {
         const error = err.error;
       });
-      return s.map(res => res as UserProfile);
+      return s.pipe(map(res => res as UserProfile));
     }
   }
   userLoaded(userId: String): Observable<boolean> {
     const v = this.userCache.get(userId);
     if (v) {
-      return Observable.of(v.email ? true : false);
+      return of(v.email ? true : false);
     } else {
       const s = this.http.userFromId(userId);
       s.subscribe(res => {
@@ -49,18 +49,18 @@ export class ProfileManager {
       }, err => {
         const error = err.error;
       });
-      return s.map(res => {
+      return s.pipe(map(res => {
         return res['email'] || (res && res.email) ? true : false;
-      });
+      }));
     }
   }
   setProfile(u: UserProfile) {
-    const profile = new UserProfile(u.id || u.userName, u.login  || u.userName, u.firstName  || u.userName, u.lastName  || u.userName, u.email  || u.userName, u.userName, u.avatarUrl, u.createdOn);
+    const profile = new UserProfile(u.id || u.userName, u.login || u.userName, u.firstName || u.userName, u.lastName || u.userName, u.email || u.userName, u.userName, u.avatarUrl, u.createdOn);
     this.userCache = this.userCache.set(profile.email, profile);
     this.profileChanged.next(profile);
   }
   userProfile(userId: String) {
-      return this.userCache.get(userId);
+    return this.userCache.get(userId);
   }
 
   clearUsers() {
@@ -70,24 +70,24 @@ export class ProfileManager {
   get User(): Observable<UserProfile> {
     const user = localStorage.getItem('user');
     return Observable.create((observer) => {
-        if (user !== null && user.length > 0) {
-          try {
-            const us = JSON.parse(user);
-            // this.eventservice.broadcast('profile', us);
-            this.userInfo(us.id).single().subscribe( res => {
-              this.profile = res;
-              this.events.broadcast('profile', res);
-              observer.next(res);
-              this.profileChanged.next(res);
-            }, (error) => {
-                observer.error();
-            });
-          } catch (error) {
+      if (user !== null && user.length > 0) {
+        try {
+          const us = JSON.parse(user);
+          // this.eventservice.broadcast('profile', us);
+          this.userInfo(us.id).subscribe(res => {
+            this.profile = res;
+            this.events.broadcast('profile', res);
+            observer.next(res);
+            this.profileChanged.next(res);
+          }, (error) => {
+            observer.error();
+          });
+        } catch (error) {
 
-          }
-        } else {
-          observer.error();
         }
+      } else {
+        observer.error();
+      }
     });
   }
 }

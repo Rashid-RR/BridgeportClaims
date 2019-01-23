@@ -4,9 +4,9 @@
  */
 
 import { OnDestroy, Component, ViewContainerRef, ViewChild, AfterViewInit, ApplicationRef } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, fromEventPattern, Subscription,fromEvent } from 'rxjs';
 import { WindowInstance } from './WindowInstance';
-import { Subscription } from 'rxjs/Subscription';
+import { filter, zip,map, takeUntil, flatMap } from 'rxjs/operators';
 import { global, CustomPosition } from './utils';
 declare var $: any;
 
@@ -15,7 +15,7 @@ declare var $: any;
 
 const makeInputObservable =
     (node: Node, eventName: string, useCapture?: boolean): Observable<UIEvent> =>
-        Observable.fromEventPattern<MouseEvent>(
+        fromEventPattern<MouseEvent>(
             (handler) => { node.addEventListener(eventName, <EventListener>handler, useCapture); },
             (handler) => { node.removeEventListener(eventName, <EventListener>handler, useCapture); }
 
@@ -316,49 +316,47 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
     public initEvents() {
 
         //  click keydown keyup keypress mouseover mouseenter  mouseout mouseleave mousedown mouseup mousemove change blur focus scroll resize load unload beforeunload
-        const mouseDownObservable = Observable.fromEvent(this.dialogInstance.bootstrapRef.location.nativeElement, 'mousedown').filter((md: MouseEvent) => md.which === 1);
-        const mouseMoveObservable = Observable.fromEvent(document, 'mousemove');
+        const mouseDownObservable = fromEvent(this.dialogInstance.bootstrapRef.location.nativeElement, 'mousedown').pipe(filter((md: MouseEvent) => md.which === 1));
+        const mouseMoveObservable = fromEvent(document, 'mousemove');
 
-        const mouseUpObservable = Observable.fromEvent(document, 'mouseup');
+        const mouseUpObservable = fromEvent(document, 'mouseup');
         const clickObservable = makeInputObservable(this.dialogInstance.bootstrapRef.location.nativeElement, 'click', true);
-        const dragObservable = mouseDownObservable.flatMap((mouseDownEvent: MouseEvent) => {
+        const dragObservable = mouseDownObservable.pipe(flatMap((mouseDownEvent: MouseEvent) => {
             // mouseDownEvent.preventDefault();
             mouseDownEvent.stopPropagation();
             this._start();
-            return mouseMoveObservable
-                .map((mouseMoveEvent: MouseEvent) => {
+            return mouseMoveObservable.pipe(
+                map((mouseMoveEvent: MouseEvent) => {
                     this._update(mouseDownEvent, mouseMoveEvent);
 
 
                     return new DragEvent(mouseDownEvent, mouseMoveEvent, this._generatePosition(mouseMoveEvent), new CustomPosition(this._dragOffsetX, this._dragOffsetY));
-                })
-                .filter((e) => {
-                    return this._isDragging;
+                }),
+                    filter((e) => {
+                        return this._isDragging;
 
-                }
-                )
-                .takeUntil(mouseUpObservable.map((mouseUpEvent) => {
-                    clearInterval(this._mouseDelayTimer);
-                    if (this._isDragging) {
-                        // this.mydragCode(mouseUpEvent);
-                        // this.dragStop.next(mouseUpEvent);
-                    }
-                })
-                    .zip(clickObservable.map((clickEvent: MouseEvent) => {
+                    }),
+                    takeUntil(mouseUpObservable.pipe(map((mouseUpEvent) => {
+                        clearInterval(this._mouseDelayTimer);
+                        if (this._isDragging) {
+                            // this.mydragCode(mouseUpEvent);
+                            // this.dragStop.next(mouseUpEvent);
+                        }
+                    }))),
+                    zip(clickObservable.pipe(map((clickEvent: MouseEvent) => {
                         if (this._isDragging) {
                             clickEvent.stopPropagation();
                             this._isDragging = false;
                             this.sizeChanged(event);
                         }
-                    }))
-
-                );
-        });
-
+                    })))
+                ); 
+                })
+            );
         // mouseDownObservable.flatMap(<DragEvent>((mouseDownEvent: MouseEvent) =>{},MouseEvent>)();
 
 
-        this._dragSubscription = dragObservable.subscribe((event) => {
+        this._dragSubscription = dragObservable.subscribe((event:any) => {
             this.onDrag(event);
             // this.drag.next(event);
             setTimeout(() => {

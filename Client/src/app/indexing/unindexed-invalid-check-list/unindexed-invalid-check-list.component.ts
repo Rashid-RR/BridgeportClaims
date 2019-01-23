@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ToastsManager, Toast } from 'ng2-toastr';
+import { ToastrService, Toast } from 'ngx-toastr';
 
 import { ConfirmComponent } from '../../components/confirm.component';
 import { DocumentManagerService } from '../../services/document-manager.service';
@@ -15,11 +15,11 @@ import { DialogService } from 'ng2-bootstrap-modal/dist/dialog.service';
 export class UnindexedInvalidCheckListComponent implements OnInit, AfterViewInit {
 
   goToPage: any = '';
-  activeToast: Toast;
+  activeToast: number;
   items: IShContextMenuItem[];
   constructor(
     public ds: DocumentManagerService,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private dialogService: DialogService) { }
 
   ngOnInit() {
@@ -73,12 +73,11 @@ export class UnindexedInvalidCheckListComponent implements OnInit, AfterViewInit
     } else if (page > 0 && page <= this.ds.invalidCheckTotalPages) {
       this.ds.searchInvalidCheckes(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.ds.invalidCheckTotalPages).toastId
       }
     }
   }

@@ -1,8 +1,8 @@
 import { DocumentItem } from '../../models/document';
-import { Subject } from 'rxjs/Subject';
-import { Component, Input,  OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { Component, Input,  OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder,  FormGroup, Validators } from '@angular/forms';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from '../../services/document-manager.service';
@@ -35,7 +35,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
     public ds: DocumentManagerService,
     private dp: DatePipe,
     private dialogService: DialogService,
-    private toast: ToastsManager
+    private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
       documentId: [null, Validators.compose([Validators.required])],
@@ -70,8 +70,8 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         groupNumber: $event.groupNumber,
         lastName: $event.lastName
       });
-      this.toast.info($event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber + ' has been linked', 'Claim Linked', { enableHTML: true, positionClass: 'toast-top-center' })
-        .then((toast: Toast) => {
+      this.toast.info($event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber + ' has been linked', 'Claim Linked', { enableHtml: true, positionClass: 'toast-top-center' })
+        .onHidden.subscribe((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
             const msg = toasts[i];
@@ -166,7 +166,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         er += '<br/>* Link a claim';
       }
       this.submitted = false;
-      this.toast.warning(er, 'Please correct the folowing:', { enableHTML: true });
+      this.toast.warning(er, 'Please correct the folowing:', { enableHtml: true });
     }
   }
   cancel() {

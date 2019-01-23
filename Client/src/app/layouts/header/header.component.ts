@@ -4,7 +4,7 @@ import { ProfileManager } from '../../services/profile-manager';
 import { HttpService } from '../../services/http-service';
 import { Router } from '@angular/router';
 import { DOCUMENT } from '@angular/platform-browser';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     public eventservice: EventsService,
     public profileManager: ProfileManager,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     @Inject(DOCUMENT) private document
   ) { }
 

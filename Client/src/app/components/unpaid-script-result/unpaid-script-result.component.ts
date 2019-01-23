@@ -2,7 +2,7 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { UnpaidScriptService, HttpService } from '../../services/services.barrel';
 import { ConfirmComponent } from '../confirm.component';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-unpaid-script-result',
@@ -11,9 +11,9 @@ import { Toast, ToastsManager } from 'ng2-toastr';
 })
 export class UnpaidScriptResultsComponent implements OnInit {
   goToPage: any = '';
-  activeToast: Toast;
+  activeToast: number;
   constructor(private dialogService: DialogService,  public uss: UnpaidScriptService, private http: HttpService,
-    public viewContainerRef: ViewContainerRef, private toast: ToastsManager) {
+    public viewContainerRef: ViewContainerRef, private toast: ToastrService) {
 
   }
 
@@ -28,7 +28,7 @@ export class UnpaidScriptResultsComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.http.archivePrescription({ prescriptionId: u.prescriptionId })
-            .single().subscribe(r => {
+            .subscribe(r => {
               this.toast.success(r.message);
               this.uss.search();
             }, err => {
@@ -47,12 +47,11 @@ export class UnpaidScriptResultsComponent implements OnInit {
     } else if (page > 0 && page <= this.uss.totalPages) {
       this.uss.search(false, false, page);
     } else {
-      if (this.activeToast && this.activeToast.timeoutId) {
-        this.activeToast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages;
+      let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages).then((toast: Toast) => {
-          this.activeToast = toast;
-        });
+        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages).toastId
       }
     }
   }

@@ -2,8 +2,8 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http-service';
 import { SortColumnInfo } from '../directives/table-sort.directive';
-import { Router, NavigationEnd } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 export interface ShortPay {
     prescriptionId: number;
@@ -28,7 +28,7 @@ export class ShortPayService {
     shortpay: ShortPay[] = [];
     data: any = {};
     totalRowCount: number;
-    constructor(private router: Router, private toast: ToastsManager, private http: HttpService) {
+    constructor(private router: Router, private toast: ToastrService, private http: HttpService) {
         this.data = {
             sort: 'RxNumber',
             sortDirection: 'DESC',
@@ -52,7 +52,7 @@ export class ShortPayService {
             if (page) {
                 data.page = page;
             }
-            this.http.shortPayList(data).single().subscribe(r => {
+            this.http.shortPayList(data).subscribe(r => {
                 this.shortpay = r.results || r;
                 this.totalRowCount = r.totalRowCount || r.length;
                 this.loading = false;
@@ -74,7 +74,8 @@ export class ShortPayService {
 
     removeShortpay(id: number = undefined) {
         this.loading = true;
-        this.http.removeShortPay({ prescriptionId: id }).single().subscribe(res => {
+        this.http.removeShortPay({ prescriptionId: id })
+        .subscribe(res => {
             this.loading = false;
             this.toast.success(res.message);
             this.fetchShortpayReport();

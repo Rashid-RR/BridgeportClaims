@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {HttpService} from '../../services/http-service';
 import {PaymentService} from '../../services/payment-service';
 import {EventsService} from '../../services/events-service';
-import {ToastsManager } from 'ng2-toastr';
+import {ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-payment-invoice',
@@ -15,7 +15,7 @@ export class PaymentInvoiceComponent implements OnInit, AfterViewInit {
 
  form: FormGroup;
   submitted = false;
-  constructor(public paymentService: PaymentService, private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService, private toast: ToastsManager) {
+  constructor(public paymentService: PaymentService, private formBuilder: FormBuilder, private http: HttpService, private router: Router, private events: EventsService, private toast: ToastrService) {
     this.form = this.formBuilder.group({
       claimNumber: [null],
       firstName: [null],

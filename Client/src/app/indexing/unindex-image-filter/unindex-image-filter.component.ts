@@ -1,7 +1,7 @@
 import { Component, NgZone, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DocumentManagerService } from '../../services/document-manager.service';
@@ -22,7 +22,7 @@ export class UnindexedImageFilterComponent implements OnInit, AfterViewInit {
     private dp: DatePipe,
     private zone: NgZone,
     private route: ActivatedRoute,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private fb: FormBuilder) { }
 
   ngOnInit() {

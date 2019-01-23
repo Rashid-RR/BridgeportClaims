@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PrescriptionNote } from '../../models/prescription-note';
 import {WindowInstance} from '../ng-window/WindowInstance';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import swal from 'sweetalert2';
 import { HttpService } from '../../services/http-service';
@@ -19,7 +19,7 @@ export class ScriptNoteWindowComponent implements OnInit {
   constructor(public dialog: WindowInstance,
     private dp: DatePipe,
     private http: HttpService,
-    private toast: ToastsManager) {
+    private toast: ToastrService) {
    }
 
   ngOnInit() {

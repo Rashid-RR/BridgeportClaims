@@ -4,20 +4,20 @@
  */
 
 import {Injectable} from '@angular/core';
-import * as Rx from 'rxjs';
+import {from,Subject,Observable} from 'rxjs';
 
 
 @Injectable()
 export class EventsService {
   listeners: Object;
-  events: Rx.Observable<any>;
-  eventsSubject: Rx.Subject<any>;
+  events: Observable<any>;
+  eventsSubject: Subject<any>;
   browserNotification: any;
   constructor() {
     this.listeners = {};
-    this.eventsSubject = new Rx.Subject();
+    this.eventsSubject = new Subject();
 
-    this.events = Rx.Observable.from(this.eventsSubject);
+    this.events = from(this.eventsSubject);
 
     this.events.subscribe(
       ({name, args}) => {

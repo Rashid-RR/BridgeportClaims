@@ -5,10 +5,10 @@ import { EventsService } from '../../services/events-service';
 import { DocumentManagerService } from '../../services/document-manager.service';
 import { DocumentItem } from '../../models/document';
 import { HttpService } from '../../services/http-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
 import { ConfirmComponent } from '../../components/confirm.component';
-import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
+import { SwalPartialTargets } from '@toverux/ngx-sweetalert2';
 declare var $: any;
 
 
@@ -28,7 +28,7 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
     private dialogService: DialogService,
     public readonly swalTargets: SwalPartialTargets,
     private http: HttpService, private route: ActivatedRoute,
-    private toast: ToastsManager, private formBuilder: FormBuilder, public ds: DocumentManagerService, private events: EventsService) {
+    private toast: ToastrService, private formBuilder: FormBuilder, public ds: DocumentManagerService, private events: EventsService) {
     this.form = this.formBuilder.group({
       checkNumber: [null, Validators.compose([Validators.pattern(/^[a-zA-Z0-9]{3,60}$/), Validators.minLength(3), Validators.required])]
     });
@@ -58,7 +58,7 @@ export class UnindexedCheckComponent implements OnInit , AfterViewInit {
     } else {
       const er = '';
       this.ds.loading = false;
-      this.toast.warning(er, 'Please provide a Check # with a least 3 Characters....', { enableHTML: true });
+      this.toast.warning(er, 'Please provide a Check # with a least 3 Characters....', { enableHtml: true });
     }
   }
   archive() {

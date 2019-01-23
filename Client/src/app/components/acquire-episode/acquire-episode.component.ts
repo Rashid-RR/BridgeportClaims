@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from '../../services/http-service';
 import { EpisodeService } from '../../services/episode.service';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ConfirmComponent } from '../confirm.component';
@@ -30,7 +30,7 @@ export class AcquireEpisodeComponent implements OnInit {
     private dialogService: DialogService,
     public episodeService: EpisodeService,
     private http: HttpService,
-    private toast: ToastsManager
+    private toast: ToastrService
   ) {
     this.form = this.formBuilder.group({
       claimNumber: [null],
@@ -58,8 +58,8 @@ export class AcquireEpisodeComponent implements OnInit {
         claimId: $event.claimId
       });
       this.toast.info('Episode will be linked to ' + $event.lastName + ' ' + $event.firstName +
-      ' ' + $event.claimNumber, 'Claim Link ready to save', { enableHTML: true, positionClass: 'toast-top-center' })
-        .then((toast: Toast) => {
+      ' ' + $event.claimNumber, 'Claim Link ready to save', { enableHtml: true, positionClass: 'toast-top-center' })
+        .onHidden.subscribe((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
             const msg = toasts[i];
@@ -78,7 +78,7 @@ export class AcquireEpisodeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.http.userToAssignEpisode().single().subscribe(users => {
+    this.http.userToAssignEpisode().subscribe(users => {
       this.users = users;
     });
   }
@@ -90,7 +90,7 @@ export class AcquireEpisodeComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.acquireEpisode(this.episodeService.episodetoAssign.episodeId).single().subscribe(res => {
+          this.http.acquireEpisode(this.episodeService.episodetoAssign.episodeId).subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false;
             this.episodeService.episodetoAssign.owner = res.owner;
@@ -110,7 +110,7 @@ export class AcquireEpisodeComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.associateEpisodeClaim(this.form.value).single().subscribe(res => {
+          this.http.associateEpisodeClaim(this.form.value).subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false;
             this.episodeService.episodetoAssign.claimNumber = this.form.value.claimNumber;
@@ -134,7 +134,7 @@ export class AcquireEpisodeComponent implements OnInit {
         .subscribe((isConfirmed) => {
           if (isConfirmed) {
             this.episodeService.loading = true;
-            this.http.assignEpisode(this.episodeService.episodetoAssign.episodeId, u.id).single().subscribe(res => {
+            this.http.assignEpisode(this.episodeService.episodetoAssign.episodeId, u.id).subscribe(res => {
               this.toast.success(res.message);
               this.episodeService.loading = false;
               this.episodeService.episodetoAssign.owner = res.owner;
@@ -157,7 +157,7 @@ export class AcquireEpisodeComponent implements OnInit {
       .subscribe((isConfirmed) => {
         if (isConfirmed) {
           this.episodeService.loading = true;
-          this.http.archiveEpisode(this.episodeService.episodetoAssign.episodeId).single().subscribe(res => {
+          this.http.archiveEpisode(this.episodeService.episodetoAssign.episodeId).subscribe(res => {
             this.toast.success(res.message);
             this.episodeService.loading = false;
             this.episodeService.search();

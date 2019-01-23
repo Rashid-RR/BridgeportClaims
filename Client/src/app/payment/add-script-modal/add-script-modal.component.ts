@@ -1,8 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
-import { Toast, ToastsManager } from 'ng2-toastr';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { PaymentScriptService } from '../../services/payment-script-service';
 import { EventsService } from '../../services/events-service';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 declare var $: any;
 
 @Component({
@@ -19,7 +19,7 @@ export class AddScriptModalComponent implements OnInit, AfterViewInit {
   showDropDown = new Subject<any>();
 
   constructor(public payment: PaymentScriptService, private events: EventsService,
-    private toast: ToastsManager) {
+    private toast: ToastrService) {
 
   }
 
@@ -48,8 +48,8 @@ export class AddScriptModalComponent implements OnInit, AfterViewInit {
       });
       this.toast.info($event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber +
         ' has been loaded. Wait for a few seconds to load details...',
-        'Claim Loaded', { toastLife: 3000, enableHTML: true, positionClass: 'toast-top-center' })
-        .then((toast: Toast) => {
+        'Claim Loaded', { timeOut: 3000, enableHtml: true, positionClass: 'toast-top-center' })
+        .onHidden.subscribe((toast: Toast) => {
           const toasts: Array<HTMLElement> = $('.toast-message');
           for (let i = 0; i < toasts.length; i++) {
             const msg = toasts[i];

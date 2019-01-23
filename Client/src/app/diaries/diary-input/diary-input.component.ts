@@ -1,13 +1,12 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 // Services
 import { DiaryService } from '../../services/diary.service';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/throttleTime';
-import 'rxjs/add/observable/fromEvent';
+import { Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+ 
 declare var $: any;
 
 @Component({
@@ -32,7 +31,7 @@ export class DiaryInputComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public ds: DiaryService,
     private dp: DatePipe,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private fb: FormBuilder
   ) {
 
@@ -40,13 +39,13 @@ export class DiaryInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     this.noteCtrlSub = this.diaryNote.valueChanges
-      .debounceTime(1000)
+      .pipe(debounceTime(1000))
       .subscribe(newValue => {
         this.ds.data.diaryNote = newValue || undefined;
         this.search();
       });
     this.ownerCtrlSub = this.owner.valueChanges
-      .debounceTime(1000)
+      .pipe(debounceTime(1000))
       .subscribe(newValue => {
         this.ds.data.owner = newValue || undefined;
         this.search();

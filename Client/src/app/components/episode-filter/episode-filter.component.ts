@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import swal from 'sweetalert2';
 import { SwalComponent, SwalPartialTargets } from '@toverux/ngx-sweetalert2';
@@ -33,7 +33,7 @@ export class EpisodeFilterComponent implements OnInit, AfterViewInit {
     private dp: DatePipe,
     public readonly swalTargets: SwalPartialTargets,
     private http: HttpService,
-    private toast: ToastsManager,
+    private toast: ToastrService,
     private fb: FormBuilder
   ) {
 

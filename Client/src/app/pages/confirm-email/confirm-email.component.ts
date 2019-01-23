@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpService } from '../../services/http-service';
-import { ToastsManager } from 'ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 
 @Component({
@@ -18,7 +18,7 @@ export class ConfirmEmailComponent implements OnInit {
   constructor(
     private http: HttpService,
     private router: Router,
-    private toast: ToastsManager
+    private toast: ToastrService
   ) {
 
 

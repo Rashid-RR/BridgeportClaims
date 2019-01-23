@@ -1,12 +1,8 @@
 import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable, Inject, NgZone } from '@angular/core';
 import { EventsService } from './events-service';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
 import * as Rx from 'rxjs';
-import * as Immutable from 'immutable';
 import { DocumentItem } from '../models/document';
-import { setTimeout } from 'core-js/library/web/timers';
 declare var $: any;
 
 @Injectable()
