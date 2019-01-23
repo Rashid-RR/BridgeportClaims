@@ -14,10 +14,11 @@ CREATE TABLE [dbo].[Payor]
 [Notes] [varchar] (8000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [Contact] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [LetterName] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL CONSTRAINT [dfPayorLetterNameBillToName] DEFAULT (''),
-[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+[ModifiedByUserID] [nvarchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 [CreatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPayorCreatedOnUTC] DEFAULT (sysutcdatetime()),
 [UpdatedOnUTC] [datetime2] NOT NULL CONSTRAINT [dfPayorUpdatedOnUTC] DEFAULT (sysutcdatetime()),
-[DataVersion] [timestamp] NOT NULL
+[DataVersion] [timestamp] NOT NULL,
+[ETLRowID] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 WITH
 (
@@ -80,5 +81,9 @@ ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [pkPayor] PRIMARY KEY CLUSTERED  ([Payo
 GO
 ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [idxUqPayorGroupName] UNIQUE NONCLUSTERED  ([GroupName]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
 GO
+CREATE NONCLUSTERED INDEX [idxPayorModifiedByUserID] ON [dbo].[Payor] ([ModifiedByUserID]) WITH (FILLFACTOR=90, DATA_COMPRESSION = PAGE) ON [PRIMARY]
+GO
 ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [fkPayorBillToStateIDUsStateStateID] FOREIGN KEY ([BillToStateID]) REFERENCES [dbo].[UsState] ([StateID])
+GO
+ALTER TABLE [dbo].[Payor] ADD CONSTRAINT [fkPayorModifiedByUserIDAspNetUsersID] FOREIGN KEY ([ModifiedByUserID]) REFERENCES [dbo].[AspNetUsers] ([ID])
 GO

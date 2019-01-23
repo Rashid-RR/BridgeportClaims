@@ -9,5 +9,6 @@ namespace BridgeportClaims.Data.DataProviders.Payors
         IEnumerable<PayorFullDto> GetAllPayors();
         IList<PayorFullDto> GetPaginatedPayors(int pageNumber, int pageSize);
         IEnumerable<PayorDto> GetPayors(string userId);
+        PayorListDto GetPayorList(string searchText, int page, int pageSize, string sort, string sortDirection);
     }
 }

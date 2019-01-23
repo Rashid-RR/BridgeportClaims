@@ -5,6 +5,7 @@ using System.Net;
 using System.Web.Http;
 using BridgeportClaims.Data.DataProviders.Payors;
 using BridgeportClaims.Data.DataProviders.PayorSearches;
+using BridgeportClaims.Web.Models;
 using Microsoft.AspNet.Identity;
 
 namespace BridgeportClaims.Web.Controllers
@@ -94,6 +95,22 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return Ok(_payorsDataProvider.Value.GetPaginatedPayors(pageNumber, pageSize).ToList());
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("get-references-payors-list")]
+        public IHttpActionResult GetReferencesPayorsList(AbstractSearchModel model)
+        {
+            try
+            {
+                return Ok(_payorsDataProvider.Value.GetPayorList(model.SearchText, model.Page, model.PageSize,
+                    model.Sort, model.SortDirection);
             }
             catch (Exception ex)
             {
