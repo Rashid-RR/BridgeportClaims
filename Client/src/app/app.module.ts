@@ -112,10 +112,9 @@ import { ReferenceManagerService } from './services/reference-manager.service';
     RoutingModule,
     FileUploadModule,
     NgxWebstorageModule.forRoot(),
-    // SnotifyModule,
-    // SweetAlert2Module.forRoot(),
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-center',
+      timeOut:15000
     }),
     BootstrapModalModule,
   ],

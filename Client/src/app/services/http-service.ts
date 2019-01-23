@@ -9,7 +9,7 @@ import { UUID } from 'angular2-uuid';
 import { Router } from '@angular/router';
 import { EventsService } from './events-service';
 import { ToastrService } from 'ngx-toastr';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class HttpService {
@@ -24,6 +24,7 @@ export class HttpService {
   };
 
   constructor(private router: Router, private http: HttpClient, private events: EventsService, private toast: ToastrService) {
+
   }
 
   get headers(): HttpHeaders {
@@ -73,9 +74,8 @@ export class HttpService {
   getFiles(): Observable<any> {
     return this.http.get(this.baseUrl + '/fileupload/getfiles')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -83,9 +83,8 @@ export class HttpService {
   deleteFileById(id: any): Observable<any> {
     return this.http.delete(this.baseUrl + '/fileupload/delete/?importFileId=' + id)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -93,9 +92,8 @@ export class HttpService {
   importFile(id: String): Observable<any> {
     return this.http.post(this.baseUrl + '/ServerEvents/ImportPaymentFile/?fileName=' + id, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -103,9 +101,8 @@ export class HttpService {
   importLakerFile(id: String): Observable<any> {
     return this.http.post(this.baseUrl + '/laker/process?', {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -113,9 +110,8 @@ export class HttpService {
   updateProfile(data): Observable<any> {
     const s = this.http.patch(this.baseUrl + '/users', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -124,9 +120,8 @@ export class HttpService {
   passwordreset(data): Observable<any> {
     const s = this.http.post(this.baseUrl + '/passwordreset', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -135,9 +130,8 @@ export class HttpService {
   resetpassword(data): Observable<any> {
     const s = this.http.post(this.baseUrl + '/account/resetpassword', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -146,9 +140,8 @@ export class HttpService {
   forgotpassword(data): Observable<any> {
     const s = this.http.post(this.baseUrl + '/account/forgotpassword', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -157,9 +150,8 @@ export class HttpService {
   editClaim(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/claims/edit-claim', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -168,9 +160,8 @@ export class HttpService {
   addHistory(id: Number): Observable<any> {
     const s = this.http.post(this.baseUrl + '/history/addclaim?claimId=' + id, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -179,9 +170,8 @@ export class HttpService {
   getHistory(): Observable<any> {
     const s = this.http.get(this.baseUrl + '/history/claims')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -190,9 +180,8 @@ export class HttpService {
   getPaymentClaim(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/claims-script-counts', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -201,9 +190,8 @@ export class HttpService {
   postPayment(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/post-payments', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -212,9 +200,8 @@ export class HttpService {
   deletePayment(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/delete-posting/?sessionId=' + data.sessionId + '&prescriptionId=' + data.prescriptionId + '&id=' + data.id, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -223,9 +210,8 @@ export class HttpService {
   paymentPosting(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/payment-posting', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -234,9 +220,8 @@ export class HttpService {
   paymentToSuspense(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/to-suspense/', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -245,9 +230,8 @@ export class HttpService {
   finalizePosting(data: any) {
     const s = this.http.post(this.baseUrl + '/payment/finalize-posting/?sessionId=' + data.sessionId, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -256,9 +240,8 @@ export class HttpService {
   deletePrescriptionPayment(prescriptionPaymentId: any) {
     const s = this.http.post(this.baseUrl + '/prescription-payments/delete/?prescriptionPaymentId=' + prescriptionPaymentId, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -267,9 +250,8 @@ export class HttpService {
   updatePrescriptionPayment(data: any) {
     const s = this.http.post(this.baseUrl + '/prescription-payments/update', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -289,9 +271,8 @@ export class HttpService {
     params = params.set('pageSize', pageSize.toString());
     const s = this.http.post(this.baseUrl + '/payment/claims-script-details', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -300,9 +281,8 @@ export class HttpService {
   changepassword(data): Observable<any> {
     const s = this.http.put(this.baseUrl + '/account/changepassword', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -311,9 +291,8 @@ export class HttpService {
   changeUserNameAndPassword(data): Observable<any> {
     const s = this.http.post(this.baseUrl + '/account/change-user-name-and-password', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -324,9 +303,8 @@ export class HttpService {
       lastName + '&extension=' + extension,
       '')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -336,9 +314,8 @@ export class HttpService {
   register(data): Observable<any> {
     const s = this.http.post(this.baseUrl + '/account/create', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -347,9 +324,8 @@ export class HttpService {
   getClaimsData(data: any) {
     const s = this.http.post(this.baseUrl + '/Claims/GetClaimsData', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -359,9 +335,8 @@ export class HttpService {
   userFromId(id: UUID): Observable<any> {
     const s = this.http.get(this.baseUrl + '/Account/UserInfo?t=' + (new Date().getTime()))
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
 
@@ -369,22 +344,19 @@ export class HttpService {
   }
 
   confirmEmail(id: any, code: any): Observable<any> {
-    const s = this.http.get(this.baseUrl + '/Account/ConfirmEmail?userId=' + id + '&code=' + code, { responseType: 'text' })
+    return this.http.get(this.baseUrl + '/Account/ConfirmEmail?userId=' + id + '&code=' + code, { responseType: 'text' })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
-    return s;
   }
 
   profile(): Observable<any> {
     const s = this.http.get(this.baseUrl + '/Account/UserInfo?t=' + (new Date().getTime()))
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -393,9 +365,8 @@ export class HttpService {
   getPayours(pageNumber: Number, pageSize: Number): Observable<any> {
     const s = this.http.get(this.baseUrl + '/payor/getpayors/?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -404,9 +375,8 @@ export class HttpService {
   getActiveUsers(): Observable<any> {
     const s = this.http.post(this.baseUrl + '/prescriptions/get-active-users/', {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -415,9 +385,8 @@ export class HttpService {
   getUsersListPerActiveUser(userid: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/collection/get-collection-assignment-data/?userId=' + userid, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -429,9 +398,8 @@ export class HttpService {
       'payorIds': payorIds
     })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -441,9 +409,8 @@ export class HttpService {
   getPayorList(pageNumber: Number, pageSize: Number): Observable<any> {
     const s = this.http.post(this.baseUrl + '/payors/get-payors/?pageNumber=' + pageNumber + '&pageSize=' + pageSize, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -453,9 +420,8 @@ export class HttpService {
   getPayorList_newapi(): Observable<any> {
     const s = this.http.post(this.baseUrl + '/payors/get-payors-for-unpaid-scripts/', {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -464,9 +430,8 @@ export class HttpService {
   getUsers(pageNumber: Number, pageSize: Number): Observable<any> {
     const s = this.http.get(this.baseUrl + '/account/users/?pageNumber=' + pageNumber + '&pageSize=' + pageSize)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -475,9 +440,8 @@ export class HttpService {
   getRoles(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/roles/', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -486,9 +450,8 @@ export class HttpService {
   assignUserRole(data: any) {
     const s = this.http.post(this.baseUrl + '/roles/ManageUsersInRole', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -497,9 +460,8 @@ export class HttpService {
   smartAsignRole(data: any) {
     const s = this.http.post(this.baseUrl + '/users/assign/' + data.EnrolledUsers + '?roleName=' + data.role, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -508,9 +470,8 @@ export class HttpService {
   activateUser(userID) {
     const s = this.http.post(this.baseUrl + '/users/activate/' + userID, '')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -519,9 +480,8 @@ export class HttpService {
   deactivateUser(userID) {
     const s = this.http.post(this.baseUrl + '/users/deactivate/' + userID, '')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -530,9 +490,8 @@ export class HttpService {
   getNotetypes(): Observable<any> {
     const s = this.http.get(this.baseUrl + '/claimnotes/notetypes')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -541,9 +500,8 @@ export class HttpService {
   getPrescriptionNotetypes(): Observable<any> {
     const s = this.http.get(this.baseUrl + '/prescriptionnotes/notetypes')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -552,9 +510,8 @@ export class HttpService {
   getEpisodesNoteTypes(): Observable<any> {
     return this.http.get(this.baseUrl + '/episodes/getepisodetypes')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -562,9 +519,8 @@ export class HttpService {
   getEpisodesOwners(): Observable<any> {
     return this.http.post(this.baseUrl + '/users/get-users', {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -572,9 +528,8 @@ export class HttpService {
   getDiaryOwners(): Observable<any> {
     return this.http.get(this.baseUrl + '/diary/owners')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -582,9 +537,8 @@ export class HttpService {
   getPrescriptionNotes(id: Number): Observable<any> {
     const s = this.http.post(this.baseUrl + '/prescriptionnotes/getprescriptionnotes/?prescriptionId=' + id, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -593,9 +547,8 @@ export class HttpService {
   saveClaimNote(data): Observable<any> {
     const s = this.http.post(this.baseUrl + '/claimnotes/savenote', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -604,9 +557,8 @@ export class HttpService {
   deleteClaimNote(data): Observable<any> {
     const s = this.http.delete(this.baseUrl + '/claimnotes/delete?claimId=' + data.claimId)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -615,9 +567,8 @@ export class HttpService {
   savePrescriptionNote(data): Observable<any> {
     const s = this.http.post(this.baseUrl + '/prescriptionnotes/savenote', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -626,9 +577,8 @@ export class HttpService {
   saveEpisode(data): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/save', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -644,9 +594,8 @@ export class HttpService {
     };
     const s = this.http.post(this.baseUrl + '/claims/sort-episodes', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -655,9 +604,8 @@ export class HttpService {
   saveEpisodeNote(data): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/save-note', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -665,9 +613,8 @@ export class HttpService {
   addEpisode(data): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/saveepisode', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -685,7 +632,12 @@ export class HttpService {
       this.events.broadcast('logout', true);
     } else if (res.status === 406) {
       const err = res.error;
-      this.toast.error(err.message);
+      let toast = this.toast.toasts.find(t => t.toastId == this.errorToastId)
+      if (toast) {
+        toast.message = err.message;
+      } else {
+        this.errorToastId = this.toast.error(err.message, null, { timeOut: 100000 }).toastId;
+      }
     } else if (res.status === 500) {
       let toast = this.toast.toasts.find(t => t.toastId == this.errorToastId)
       if (toast) {
@@ -723,9 +675,8 @@ export class HttpService {
 
     const s = this.http.post(this.baseUrl + '/prescriptions/sort/', {}, { params: params })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -744,9 +695,8 @@ export class HttpService {
 
     const s = this.http.post(this.baseUrl + '/Claims/outstanding', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -770,9 +720,8 @@ export class HttpService {
     const options = { params: params };
     const s = this.http.post(this.baseUrl + '/payment/payments-blade/', {}, options)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -781,9 +730,8 @@ export class HttpService {
   cancelPayment(sessionId: UUID): Observable<any> {
     return this.http.post(this.baseUrl + '/payment/cancel-posting/?sessionId=' + sessionId, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -791,9 +739,8 @@ export class HttpService {
   getIndexedChecks(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/payment/get-indexed-checks', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -801,9 +748,8 @@ export class HttpService {
   getIndexedCheckDetail(documentId: any): Observable<any> {
     return this.http.post(this.baseUrl + `/payment/get-indexed-check-details/?documentId=${documentId}`, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -811,9 +757,8 @@ export class HttpService {
   reIndexedCheck(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/payment/re-index-check/?documentId=' + data.documentId + '&skipPayments=' + data.skipPayments + '&prescriptionPaymentId', {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -821,27 +766,24 @@ export class HttpService {
   /* cancelIndexedCheck(documentId: any): Observable<any> {
     return this.http.post(this.baseUrl + `/payment/cancel-posting/?sessionId=9a2012bd-9a7c-4c75-ad17-3b5f099e462b?documentId=${documentId}`,{})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
-        })
-      );
+            tap(event=>{}, error => {
+                this.handleResponseError(error);
+               })
+        );
   }
   deleteIndexedCheck(documentId: any): Observable<any> {
     return this.http.post(this.baseUrl + `/payment/get-indexed-check-details/?documentId=${documentId}`,{})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
-        })
-      );
+            tap(event=>{}, error => {
+                this.handleResponseError(error);
+               })
+        );
   } */
   saveFlex2(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/claims/set-flex2/?claimId=' + data.claimId + '&claimFlex2Id=' + data.claimFlex2Id, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -849,9 +791,8 @@ export class HttpService {
   updatePrescriptionStatus(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/prescriptions/set-status/?prescriptionId=' + data.prescriptionId + '&prescriptionStatusId=' + data.prescriptionStatusId, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -859,9 +800,8 @@ export class HttpService {
   archivePrescription(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/prescriptions/archive-unpaid-script', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -869,9 +809,8 @@ export class HttpService {
   diaryList(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/diary/get', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -880,9 +819,8 @@ export class HttpService {
     // return this.http.get('assets/json/episodes.json')
     return this.http.post(this.baseUrl + '/episodes/get', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -890,9 +828,8 @@ export class HttpService {
   markEpisodeAsSolved(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/resolve/?episodeId=' + id, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -900,9 +837,8 @@ export class HttpService {
   acquireEpisode(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/acquire/?episodeId=' + id, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -910,9 +846,8 @@ export class HttpService {
   associateEpisodeClaim(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/associate-to-claim', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -920,9 +855,8 @@ export class HttpService {
   assignEpisode(id: any, userId: UUID): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/assign/?episodeId=' + id + '&userId=' + userId, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -930,9 +864,8 @@ export class HttpService {
   userToAssignEpisode(): Observable<any> {
     return this.http.post(this.baseUrl + '/users/get-users-to-assign', {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -940,9 +873,8 @@ export class HttpService {
   getEpisodeNotes(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/episodes/note-modal/?episodeId=' + id, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -953,9 +885,8 @@ export class HttpService {
 
     return this.http.post(this.baseUrl + '/episodes/archive', {}, { params: params })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -963,9 +894,8 @@ export class HttpService {
   uploadFile(form: FormData): Observable<any> {
     return this.http.post(this.baseUrl + '/fileupload/upload', form)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -973,9 +903,8 @@ export class HttpService {
   getUploadFiles(form: FormData): Observable<any> {
     return this.http.get(this.baseUrl + '/fileupload/getfiles')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -983,9 +912,8 @@ export class HttpService {
   deleteUploadedFile(form: FormData): Observable<any> {
     return this.http.get(this.baseUrl + '/fileupload/getfiles')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -993,9 +921,8 @@ export class HttpService {
   removeFromDiary(prescriptionNoteId: any): Observable<any> {
     return this.http.post(this.baseUrl + '/diary/remove/?prescriptionNoteId=' + prescriptionNoteId, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1003,9 +930,8 @@ export class HttpService {
   updateDiaryFollowUpDate(prescriptionNoteId: any, data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/diary/update-follow-up-date?prescriptionNoteId=' + prescriptionNoteId, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1013,9 +939,8 @@ export class HttpService {
   unpaidScriptsList(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/prescriptions/unpaid', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1023,9 +948,8 @@ export class HttpService {
   revenueByMonth(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/kpi/revenue', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1033,9 +957,8 @@ export class HttpService {
   accountReceivable(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/accounts-receivable', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1045,9 +968,8 @@ export class HttpService {
       .set('claimId', id);
     return this.http.post(this.baseUrl + '/reports/archive-duplicate-claim', {}, { params: params })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1055,9 +977,8 @@ export class HttpService {
   duplicateClaims(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/duplicate-claims', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1065,9 +986,8 @@ export class HttpService {
   skippedPaymentList(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/skippedpayment', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1075,9 +995,8 @@ export class HttpService {
   shortPayList(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/shortpay', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1088,9 +1007,8 @@ export class HttpService {
       .set('year', data.year);
     return this.http.post(this.baseUrl + '/reports/collections-bonus', {}, { params: params })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1098,9 +1016,8 @@ export class HttpService {
   removeShortPay(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/reports/remove-shortpay/?prescriptionId=${data.prescriptionId}`, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1108,9 +1025,8 @@ export class HttpService {
   removeSkippedPay(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/reports/remove-skipped-payment/?prescriptionId=${data.prescriptionId}`, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1118,9 +1034,8 @@ export class HttpService {
   getComparisonClaims(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/kpi/get-left-right-claims/?leftClaimId=${data.leftClaimId}&rightClaimId=${data.rightClaimId}`, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1128,9 +1043,8 @@ export class HttpService {
   getMergeClaims(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + `/kpi/save-claim-merge`, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1139,11 +1053,10 @@ export class HttpService {
     const headers = new HttpHeaders();
     headers.append('accept', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
-    return this.http.post(this.baseUrl + '/reports/excel-export', data, { observe: 'response',responseType: 'blob', headers: headers })
+    return this.http.post(this.baseUrl + '/reports/excel-export', data, { observe: 'response', responseType: 'blob', headers: headers })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1151,9 +1064,8 @@ export class HttpService {
   groupNameAutoSuggest(name: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/group-name/?groupName=' + name, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1161,9 +1073,8 @@ export class HttpService {
   pharmacyNameAutoSuggest(name: any): Observable<any> {
     return this.http.post(this.baseUrl + '/reports/pharmacy-name/?pharmacyName=' + name, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1171,9 +1082,8 @@ export class HttpService {
   getDocuments(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/get', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1181,9 +1091,8 @@ export class HttpService {
   getInvalidChecks(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/get-invalid', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1191,9 +1100,8 @@ export class HttpService {
   archiveDocument(id: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/archive/' + id, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1201,9 +1109,8 @@ export class HttpService {
   getSortedImages(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/image/get', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1211,9 +1118,8 @@ export class HttpService {
   saveDocumentIndex(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/index-document/save', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1221,9 +1127,8 @@ export class HttpService {
   saveInvoiceIndex(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/index-document/index-invoice/?documentId=' + data.documentId + '&invoiceNumber=' + data.invoiceNumber, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1231,9 +1136,8 @@ export class HttpService {
   saveCheckIndex(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/index-document/index-check/?documentId=' + data.documentId + '&checkNumber=' + data.checkNumber, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1241,9 +1145,8 @@ export class HttpService {
   checkInvoiceNumber(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/index-document/inv-num-exists/?invoiceNumber=' + data.invoiceNumber, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1251,9 +1154,8 @@ export class HttpService {
   modifyDocument(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/edit', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1261,9 +1163,8 @@ export class HttpService {
   deleteDocument(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/delete/?documentId=' + data.documentId, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1271,9 +1172,8 @@ export class HttpService {
   searchDocumentClaim(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/document/claim-search/?searchText=' + data.searchText, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1281,9 +1181,8 @@ export class HttpService {
   updateDocumentIndex(data: any): Observable<any> {
     return this.http.put(this.baseUrl + '/image/edit', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1291,9 +1190,8 @@ export class HttpService {
   unindexImage(id: any): Observable<any> {
     return this.http.delete(this.baseUrl + '/image/reindex/?documentId=' + id)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1301,9 +1199,8 @@ export class HttpService {
   getKPIs(): Observable<any> {
     return this.http.post(this.baseUrl + '/dashboard/kpi', {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1311,9 +1208,8 @@ export class HttpService {
   getFirewallSettings(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/firewall', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1321,9 +1217,8 @@ export class HttpService {
   createFirewallSetting(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/create-firewall-setting', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1331,9 +1226,8 @@ export class HttpService {
   deleteFirewallSetting(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/delete-firewall-setting/?ruleName=' + data.ruleName, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1341,9 +1235,8 @@ export class HttpService {
   invoiceAmounts(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/admin/get-invoice-amounts', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1354,9 +1247,8 @@ export class HttpService {
       .set('billedAmount', data.billedAmount);
     return this.http.post(this.baseUrl + '/admin/update-billed-amount/', {}, { params: params })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1367,9 +1259,8 @@ export class HttpService {
       responseType: 'blob'
     })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1380,9 +1271,8 @@ export class HttpService {
       responseType: 'blob'
     })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1390,9 +1280,8 @@ export class HttpService {
   updateMultiplePrescriptionStatus(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/prescriptions/set-multiple-prescription-statuses', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1400,9 +1289,8 @@ export class HttpService {
   setMaxBalance(claimId: any, isMaxBalance: boolean): Observable<any> {
     return this.http.post(this.baseUrl + `/claims/set-max-balance/?claimId=${claimId}&isMaxBalance=${isMaxBalance}`, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1412,12 +1300,11 @@ export class HttpService {
       observe: 'response',
       responseType: 'blob'
     })
-    .pipe(
-      catchError(err => {
-        this.handleResponseError(err);
-        return Observable.throw(err)
-      })
-    );
+      .pipe(
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
+        })
+      );
   }
 
   exportLetter(data: any): Observable<HttpResponse<Blob>> {
@@ -1427,9 +1314,8 @@ export class HttpService {
         responseType: 'blob'
       })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1437,9 +1323,8 @@ export class HttpService {
   getNotifications(data?: any): Observable<any> {
     return this.http.post(this.baseUrl + '/notifications/get', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1447,9 +1332,8 @@ export class HttpService {
   saveLetterNotifications(data: any): Observable<any> {
     return this.http.post(this.baseUrl + '/notifications/save-payor-letter-name', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1457,9 +1341,8 @@ export class HttpService {
   multipageInvoices(data: any): Observable<HttpResponse<Blob>> {
     return this.http.post(this.baseUrl + '/prescriptions/multi-page-invoices', data, { observe: 'response', responseType: 'blob' })
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
   }
@@ -1468,9 +1351,8 @@ export class HttpService {
   getAdjustorName(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/adjustors/get-adjustors', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1478,9 +1360,8 @@ export class HttpService {
   getTree(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + `/tree-config/get-tree/?parentTreeId=${data.parentTreeId}`, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1488,9 +1369,8 @@ export class HttpService {
   saveTreeNode(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + `/tree-config/insert-node`, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1498,9 +1378,8 @@ export class HttpService {
   deleteTreeNode(treeId: string): Observable<any> {
     const s = this.http.post(this.baseUrl + `/tree-config/delete-node/?treeId=${treeId}`, {})
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1508,9 +1387,8 @@ export class HttpService {
   getTreeList(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + `/tree-config/get-decision-tree-list`, data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1519,9 +1397,8 @@ export class HttpService {
   getAttorneyName(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/attorney/get-attorneys', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1530,9 +1407,8 @@ export class HttpService {
   updateAdjustor(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/adjustors/update-adjustor', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1541,9 +1417,8 @@ export class HttpService {
   insertAdjustor(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/adjustors/insert-adjustor', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1552,9 +1427,8 @@ export class HttpService {
   insertAttorney(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/attorney/insert-attorney', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1563,9 +1437,8 @@ export class HttpService {
   updateAttorney(data: any): Observable<any> {
     const s = this.http.post(this.baseUrl + '/attorney/update-attorney', data)
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;
@@ -1574,9 +1447,8 @@ export class HttpService {
   getStates(data: any): Observable<any> {
     const s = this.http.get(this.baseUrl + '/attorney/get-states')
       .pipe(
-        catchError(err => {
-          this.handleResponseError(err);
-          return Observable.throw(err)
+        tap(_ => { }, error => {
+          this.handleResponseError(error);
         })
       );
     return s;

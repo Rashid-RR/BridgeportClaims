@@ -51,12 +51,11 @@ export class DiaryResultsComponent implements OnInit {
   goto() {
     const page = Number.parseInt(this.goToPage);
     if (!this.goToPage || isNaN(page)) {
-      /* if(this.activeToast && this.activeToast.timeoutId){
-        this.activeToast.message =  'Invalid page number entered'
+      /* let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message =  'Invalid page number entered'
         }else{
-          this.toast.warning('Invalid page number entered').onHidden.subscribe((toast: Toast) => {
-              this.activeToast = toast;
-          })
+          this.activeToast = this.toast.warning('Invalid page number entered').toasId
       }*/
     } else if (page > 0 && ((this.diaryService.totalPages && page <= this.diaryService.totalPages) || this.diaryService.totalPages == null)) {
       this.diaryService.search(false, false, page);

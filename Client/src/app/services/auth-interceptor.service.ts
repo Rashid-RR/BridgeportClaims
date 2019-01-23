@@ -1,13 +1,15 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { EventsService } from './events-service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
-
-
-@Injectable()
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor() { }
+    activeToastId: number;
+    errorToastId: number;
+    constructor(private router: Router, private events: EventsService, private toast: ToastrService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const user = localStorage.getItem('user');
         let token = '';
@@ -22,6 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
             }
         }
         const headers = new HttpHeaders();
-        return next.handle(req.clone({ headers: headers }));
+        return next.handle(req.clone({ headers: headers }))
     }
-}
+
+  }

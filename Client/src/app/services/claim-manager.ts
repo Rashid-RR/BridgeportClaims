@@ -159,17 +159,7 @@ export class ClaimManager {
       '<br> AWP: ' + prescription.awp +
       '<br> Payable Amount: ' + prescription.payableAmount,
       null,
-      { timeOut: 1210000,closeButton: true, enableHtml: true, positionClass: 'toast-top-center' }).onShown.subscribe(t=>{
-        const toasts: Array<HTMLElement> = $('.toast-message');
-        for (let i = 0; i < toasts.length; i++) {
-          const msg = toasts[i];
-          if (msg.innerHTML === this.activeToast.message) {
-            msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
-            msg.parentNode.parentElement.style.position = 'fixed';
-            msg.parentNode.parentElement.style.width = 'auto';
-          }
-        }
-      }); 
+      { timeOut: 1210000,closeButton: true, enableHtml: true, positionClass: 'toast-top-center' });
   }
 
   get claimHistory(): Array<Claim> {

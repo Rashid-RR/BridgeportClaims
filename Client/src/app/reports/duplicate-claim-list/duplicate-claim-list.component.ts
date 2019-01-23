@@ -147,8 +147,7 @@ export class DuplicateClaimListComponent implements OnInit {
         this.showModal();
       }
     } else {
-      this.toast.warning('You you have already chosen this claim for comparison.').onHidden.subscribe((toast: Toast) => {
-      });
+      this.toast.warning('You you have already chosen this claim for comparison.');
       $event.checked = true;
     }
   }
@@ -197,12 +196,11 @@ export class DuplicateClaimListComponent implements OnInit {
   goto() {
     const page = Number.parseInt(this.goToPage);
     if (!this.goToPage || isNaN(page)) {
-      /* if(this.activeToast && this.activeToast.timeoutId){
-        this.activeToast.message =  'Invalid page number entered'
+      /* let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message =  'Invalid page number entered'
         }else{
-          this.toast.warning('Invalid page number entered').onHidden.subscribe((toast: Toast) => {
-              this.activeToast = toast;
-          })
+          this.activeToast = this.toast.warning('Invalid page number entered').toasId
       }*/
     } else if (page > 0 && ((this.reportloader.totalPages && page <= this.reportloader.totalPages) || this.reportloader.totalPages == null)) {
       this.reportloader.fetchDuplicateClaims(false, false, page);

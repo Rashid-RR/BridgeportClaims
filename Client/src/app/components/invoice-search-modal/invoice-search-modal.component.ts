@@ -163,17 +163,7 @@ export class InvoiceSearchComponent implements OnInit, AfterViewInit {
         claimId: $event.claimId
       });
       this.toast.info('Episode will be linked to ' + $event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber,
-       'Claim Link ready to save', { enableHtml: true, closeButton: true, positionClass: 'toast-top-center' })
-       .onShown.subscribe((toast:Toast) => {
-          const toasts: Array<HTMLElement> = $('.toast-message');
-          for (let i = 0; i < toasts.length; i++) {
-            const msg = toasts[i];
-            if (msg.innerHTML === toast.message) {
-              msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
-              msg.parentNode.parentElement.style.position = 'fixed';
-            }
-          }
-        });
+       'Claim Link ready to save', { enableHtml: true, closeButton: true, positionClass: 'toast-top-center' });
       setTimeout(() => {
         this.placeholder = $event.lastName + ' ' + $event.firstName + ' ~ ' + $event.claimNumber;
         this.searchText = undefined;

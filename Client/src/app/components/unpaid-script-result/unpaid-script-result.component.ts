@@ -51,7 +51,7 @@ export class UnpaidScriptResultsComponent implements OnInit {
       if (toast) {
         toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages;
       } else {
-        this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages).toastId
+        this.activeToast = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.uss.totalPages).toastId
       }
     }
   }

@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import { HttpService } from '../../services/http-service';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'ng2-bootstrap-modal';
-import { DecisionTreeService } from 'app/services/services.barrel';
+import { DecisionTreeService } from '../../services/services.barrel';
 
 declare var $: any;
 

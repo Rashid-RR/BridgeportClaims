@@ -117,12 +117,11 @@ export class EpisodeResultsComponent implements OnInit {
   goto() {
     const page = Number.parseInt(this.episodeService.goToPage);
     if (!this.episodeService.goToPage || isNaN(page)) {
-      /* if(this.activeToast && this.activeToast.timeoutId){
-        this.activeToast.message =  'Invalid page number entered'
+      /* let toast = this.toast.toasts.find(t=>t.toastId ==this.activeToast)
+      if (toast) {
+        toast.message =  'Invalid page number entered'
         }else{
-          this.toast.warning('Invalid page number entered').onHidden.subscribe((toast: Toast) => {
-              this.activeToast = toast;
-          })
+          this.activeToast = this.toast.warning('Invalid page number entered').toasId
       }*/
     } else if (page > 0 && ((this.episodeService.totalPages && page <= this.episodeService.totalPages) || this.episodeService.totalPages == null)) {
       this.episodeService.search(false, false, page);

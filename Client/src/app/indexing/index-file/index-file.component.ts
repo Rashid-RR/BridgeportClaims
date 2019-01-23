@@ -71,17 +71,7 @@ export class IndexFileComponent implements OnInit, AfterViewInit {
         groupNumber: $event.groupNumber,
         lastName: $event.lastName
       });
-      this.toast.info($event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber + ' has been linked', 'Claim Linked', { enableHtml: true, positionClass: 'toast-top-center' })
-        .onShown.subscribe((toast:Toast) => {
-          const toasts: Array<HTMLElement> = $('.toast-message');
-          for (let i = 0; i < toasts.length; i++) {
-            const msg = toasts[i];
-            if (msg.innerHTML === toast.message) {
-              msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
-              msg.parentNode.parentElement.style.position = 'fixed';
-            }
-          }
-        });
+      this.toast.info($event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber + ' has been linked', 'Claim Linked', { enableHtml: true, positionClass: 'toast-top-center' });
       setTimeout(() => {
         this.searchText = undefined;
         this.dropdownVisible = false;

@@ -78,17 +78,7 @@ export class UnindexedInvoiceComponent implements OnInit, AfterViewInit {
             localStorage.setItem('file-' + doc.documentId, JSON.stringify(doc));
             this.ds.newInvoice = true;
             this.invoiceSwal.show().then((r) => { });
-            this.toast.warning('The Invoice # ' + this.form.controls['invoiceNumber'].value + ' has already been used. Here is the Invoice that it has been indexed with ' + this.form.controls['invoiceNumber'].value + '. If you Archive this invoice, then #' + this.form.controls['invoiceNumber'].value + ' will be free to use for another invoice', null, { timeOut: 1210000, closeButton: true, positionClass: 'toast-top-center' })
-            .onHidden.subscribe((toast: Toast) => {
-              const toasts: Array<HTMLElement> = $('.toast-message');
-              for (let i = 0; i < toasts.length; i++) {
-                const msg = toasts[i];
-                if (msg.innerHTML === toast.message) {
-                  msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
-                  msg.parentNode.parentElement.style.position = 'fixed';
-                }
-              }
-            });
+            this.toast.warning('The Invoice # ' + this.form.controls['invoiceNumber'].value + ' has already been used. Here is the Invoice that it has been indexed with ' + this.form.controls['invoiceNumber'].value + '. If you Archive this invoice, then #' + this.form.controls['invoiceNumber'].value + ' will be free to use for another invoice', null, { timeOut: 1210000, closeButton: true, positionClass: 'toast-top-center' });
             this.ds.loading = false;
           }
         });

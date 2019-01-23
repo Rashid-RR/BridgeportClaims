@@ -250,7 +250,7 @@ export class DecisionTreeService {
     }).then((result) => {
       if (result.value) {
         this.loading = true;
-        this.http.deleteTreeNode(n.data.treeId)
+        this.http.deleteTreeNode(n.data.treeId+'10000')
           .subscribe((_: any) => {
             this.loading = false;
             this.removeNode(n);
@@ -258,7 +258,7 @@ export class DecisionTreeService {
             this.loading = false;
             try {
               const error = err.error;
-              if ([401, 406, 500].indexOf(err.status) == -1) {
+              if ([401, 406, 500,504].indexOf(err.status) == -1) {
                 this.toast.warning(error.message);
               }
             } catch (e) { }
@@ -492,6 +492,5 @@ export class DecisionTreeService {
     $('button.cancel-tree-note').click(() => {
       swal.close();
     });
-  }
-
+  } 
 }

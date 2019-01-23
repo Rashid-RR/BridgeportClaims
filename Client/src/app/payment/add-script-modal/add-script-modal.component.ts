@@ -48,18 +48,8 @@ export class AddScriptModalComponent implements OnInit, AfterViewInit {
       });
       this.toast.info($event.lastName + ' ' + $event.firstName + ' ' + $event.claimNumber +
         ' has been loaded. Wait for a few seconds to load details...',
-        'Claim Loaded', { timeOut: 3000, enableHtml: true, positionClass: 'toast-top-center' })
-        .onHidden.subscribe((toast: Toast) => {
-          const toasts: Array<HTMLElement> = $('.toast-message');
-          for (let i = 0; i < toasts.length; i++) {
-            const msg = toasts[i];
-            if (msg.innerHTML === toast.message) {
-              msg.parentNode.parentElement.style.left = 'calc(50vw - 200px)';
-              msg.parentNode.parentElement.style.position = 'fixed';
-            }
-          }
-          this.payment.search();
-        });
+        'Claim Loaded', { timeOut: 3000, enableHtml: true, positionClass: 'toast-top-center' });
+      this.payment.search();
       setTimeout(() => {
         this.searchText = undefined;
         this.dropdownVisible = false;
