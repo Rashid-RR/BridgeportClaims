@@ -4,9 +4,9 @@
  */
 
 import { OnDestroy, Component, ViewContainerRef, ViewChild, AfterViewInit, ApplicationRef } from '@angular/core';
-import { Observable, fromEventPattern, Subscription,fromEvent } from 'rxjs';
+import { Observable, fromEventPattern, Subscription, fromEvent } from 'rxjs';
 import { WindowInstance } from './WindowInstance';
-import { filter, zip,map, takeUntil, flatMap } from 'rxjs/operators';
+import { filter, zip, map, takeUntil, flatMap } from 'rxjs/operators';
 import { global, CustomPosition } from './utils';
 declare var $: any;
 
@@ -328,40 +328,35 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
             return mouseMoveObservable.pipe(
                 map((mouseMoveEvent: MouseEvent) => {
                     this._update(mouseDownEvent, mouseMoveEvent);
-
-
                     return new DragEvent(mouseDownEvent, mouseMoveEvent, this._generatePosition(mouseMoveEvent), new CustomPosition(this._dragOffsetX, this._dragOffsetY));
                 }),
-                    filter((e) => {
-                        return this._isDragging;
-
-                    }),
-                    takeUntil(mouseUpObservable.pipe(map((mouseUpEvent) => {
-                        clearInterval(this._mouseDelayTimer);
-                        if (this._isDragging) {
-                            // this.mydragCode(mouseUpEvent);
-                            // this.dragStop.next(mouseUpEvent);
-                        }
-                    }))),
+                filter((e) => {
+                    return this._isDragging;
+                }),
+                takeUntil(mouseUpObservable.pipe(map((mouseUpEvent) => {
+                    clearInterval(this._mouseDelayTimer);
+                    if (this._isDragging) {
+                        // this.mydragCode(mouseUpEvent);
+                        // this.dragStop.next(mouseUpEvent);
+                    }
+                }),
                     zip(clickObservable.pipe(map((clickEvent: MouseEvent) => {
                         if (this._isDragging) {
                             clickEvent.stopPropagation();
                             this._isDragging = false;
                             this.sizeChanged(event);
                         }
-                    })))
-                ); 
-                })
+                    })))))
             );
+        })
+        );
         // mouseDownObservable.flatMap(<DragEvent>((mouseDownEvent: MouseEvent) =>{},MouseEvent>)();
 
-
-        this._dragSubscription = dragObservable.subscribe((event:any) => {
+        this._dragSubscription = dragObservable.subscribe((event: any) => {
             this.onDrag(event);
-            // this.drag.next(event);
+            //this.drag.next(event);
             setTimeout(() => {
                 if (!event.cancelled) {
-
                     if (event.mouseDown.srcElement.className !== 'titleBar' && event.mouseDown.srcElement.className !== 'title') {
                         this.MaxmizeStatus = false;
                         this.MinimizeStatus = false;
@@ -397,9 +392,7 @@ export class BootstrapWindowContainer implements OnDestroy, AfterViewInit {
                         this.dialogInstance.config.position.top = this._originalTop + event.offset.top;
                         this.dialogInstance.config.size.height = this._originalHeight - event.offset.top;
                     }
-
-
-                    //  event.cancelled = true;
+                    event.cancelled = true;
                 }
             });
         });

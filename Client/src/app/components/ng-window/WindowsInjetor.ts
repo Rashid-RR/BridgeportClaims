@@ -50,12 +50,11 @@ export class WindowsInjetor {
             // for ionic
             if ((this.appRef.components[0] as any )._component._overlayPortal) {
                  ParentViewContainerRefORRootApp = (this.appRef.components[0] as any )._component._overlayPortal._viewport;
-            } else { //   for not ionic
-
-                const appInstance = this.appRef['_rootComponents'][0].instance;
+            } else { //   for not ionic 
+                const appInstance = this.appRef['components'][0].instance;
 
                 if (!appInstance.viewContainerRef) {
-                    const appName = this.appRef['_rootComponents'][0].name;
+                    const appName = this.appRef['components'][0].instance.viewContainerRef.element.nativeElement.localName;
                     throw new Error(`Missing 'viewContainerRef' declaration in ${appName} constructor , please declare viewContainerRef in the constructor of your app root component : ${appName} witn name viewContainerRef :(`);
 
                 } else {
