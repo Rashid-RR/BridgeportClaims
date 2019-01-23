@@ -15,7 +15,7 @@ declare var $: any;
 })
 export class DesignTreeComponent implements OnInit, AfterViewInit {
   over: boolean[];
-  constructor(private route: ActivatedRoute, private ds: DecisionTreeService, private toast: ToastrService, private dialogService: DialogService, private http: HttpService) {
+  constructor(private route: ActivatedRoute, public ds: DecisionTreeService, private toast: ToastrService, private dialogService: DialogService, private http: HttpService) {
     this.over = new Array(1);
     this.over.fill(false);
 

@@ -5,7 +5,7 @@
                 <!-- Input Form -->
                 <div class="row search">
                     <div class="col-sm-12" id="accordion">
-                        <div class="box no-border" style="padding: 0px;margin-bottom:0rem;" >
+                        <div class="box no-border" style="padding: 0px;margin-bottom:0rem;">
                             <div class="box-header bg-head-box">
                                 <span class="blade-title panel-head">
                                     <h4 class="panel-title">
@@ -32,24 +32,29 @@
                                     <i class="fa fa-book" aria-hidden="true"></i> Documents
                                 </span>
                                 <span class="total">
-                                    <span *ngIf="ds.pageStart" style="margin-right:100px;"> {{ds.pageStart+ " to "+ds.pageEnd}}</span>
+                                    <span *ngIf="ds.pageStart" style="margin-right:100px;"> {{ds.pageStart+ " to
+                                        "+ds.pageEnd}}</span>
                                     <span *ngIf="ds.treeArray.length>0">
-                                        <span style="font-size:13pt">{{ds.totalRowCount}}</span> Record{{ds.totalRowCount>1 ? 's':''}} found</span>
+                                        <span style="font-size:13pt">{{ds.totalRowCount}}</span>
+                                        Record{{ds.totalRowCount>1 ? 's':''}} found</span>
                                 </span>
                                 <div class="box-tools pull-right">
                                     <div class="btn-group">
                                         <div class="dropdown menu">
-                                            <button class="btn transparent dropdown-toggle" type="button" data-toggle="dropdown">Sort by
+                                            <button class="btn transparent dropdown-toggle" type="button" data-toggle="dropdown">Sort
+                                                by
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li class="dropdown-submenu" [class.active]="ds.data.sort=='fileName'">
                                                     <a tabindex="-1">Name</a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='fileName' && ds.data.sortDirection=='ASC'" (click)="ds.onColumn({'column':'fileName','dir':'asc'})">
+                                                        <li [class.active]="ds.data.sort=='fileName' && ds.data.sortDirection=='ASC'"
+                                                            (click)="ds.onSortColumn({'column':'fileName','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='fileName' && ds.data.sortDirection=='DESC'" (click)="ds.onColumn({'column':'fileName','dir':'desc'})">
+                                                        <li [class.active]="ds.data.sort=='fileName' && ds.data.sortDirection=='DESC'"
+                                                            (click)="ds.onSortColumn({'column':'fileName','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
@@ -57,10 +62,12 @@
                                                 <li class="dropdown-submenu" [class.active]="ds.data.sort=='CreationTime'">
                                                     <a tabindex="-1">Date Created</a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='CreationTime' && ds.data.sortDirection=='ASC'" (click)="ds.onColumn({'column':'CreationTime','dir':'asc'})">
+                                                        <li [class.active]="ds.data.sort=='CreationTime' && ds.data.sortDirection=='ASC'"
+                                                            (click)="ds.onSortColumn({'column':'CreationTime','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='CreationTime' && ds.data.sortDirection=='DESC'" (click)="ds.onColumn({'column':'CreationTime','dir':'desc'})">
+                                                        <li [class.active]="ds.data.sort=='CreationTime' && ds.data.sortDirection=='DESC'"
+                                                            (click)="ds.onSortColumn({'column':'CreationTime','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
@@ -68,10 +75,12 @@
                                                 <li class="dropdown-submenu" [class.active]="ds.data.sort=='fileSize'">
                                                     <a class="test" tabindex="-1">Size</a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='fileSize' && ds.data.sortDirection=='ASC'" (click)="ds.onColumn({'column':'fileSize','dir':'asc'})">
+                                                        <li [class.active]="ds.data.sort=='fileSize' && ds.data.sortDirection=='ASC'"
+                                                            (click)="ds.onSortColumn({'column':'fileSize','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='fileSize' && ds.data.sortDirection=='DESC'" (click)="ds.onColumn({'column':'fileSize','dir':'desc'})">
+                                                        <li [class.active]="ds.data.sort=='fileSize' && ds.data.sortDirection=='DESC'"
+                                                            (click)="ds.onSortColumn({'column':'fileSize','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
@@ -81,10 +90,12 @@
                                                         Last Accessed
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='LastAccessTime' && ds.data.sortDirection=='ASC'" (click)="ds.onColumn({'column':'LastAccessTime','dir':'asc'})">
+                                                        <li [class.active]="ds.data.sort=='LastAccessTime' && ds.data.sortDirection=='ASC'"
+                                                            (click)="ds.onSortColumn({'column':'LastAccessTime','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='LastAccessTime' && ds.data.sortDirection=='DESC'" (click)="ds.onColumn({'column':'LastAccessTime','dir':'desc'})">
+                                                        <li [class.active]="ds.data.sort=='LastAccessTime' && ds.data.sortDirection=='DESC'"
+                                                            (click)="ds.onSortColumn({'column':'LastAccessTime','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
@@ -94,22 +105,24 @@
                                                         Last Write
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        <li [class.active]="ds.data.sort=='LastWriteTime' && ds.data.sortDirection=='ASC'" (click)="ds.onColumn({'column':'LastWriteTime','dir':'asc'})">
+                                                        <li [class.active]="ds.data.sort=='LastWriteTime' && ds.data.sortDirection=='ASC'"
+                                                            (click)="ds.onSortColumn({'column':'LastWriteTime','dir':'asc'})">
                                                             <a tabindex="-1">Ascending</a>
                                                         </li>
-                                                        <li [class.active]="ds.data.sort=='LastWriteTime' && ds.data.sortDirection=='DESC'" (click)="ds.onColumn({'column':'LastWriteTime','dir':'desc'})">
+                                                        <li [class.active]="ds.data.sort=='LastWriteTime' && ds.data.sortDirection=='DESC'"
+                                                            (click)="ds.onSortColumn({'column':'LastWriteTime','dir':'desc'})">
                                                             <a tabindex="-1">Descending</a>
                                                         </li>
                                                     </ul>
                                                 </li>
                                             </ul>
                                         </div>
-                                        <button type="button" *ngIf="ds.display=='list'" class="pull-right transparent btn btn-flat btn-sm" (click)="ds.display='grid'"
-                                            title="Grid View">
+                                        <button type="button" *ngIf="ds.display=='list'" class="pull-right transparent btn btn-flat btn-sm"
+                                            (click)="ds.display='grid'" title="Grid View">
                                             <i class="fa fa-th"></i>
                                         </button>
-                                        <button type="button" *ngIf="ds.display=='grid'" class="pull-right  transparent btn btn-flat btn-sm" (click)="ds.display='list'"
-                                            title="List View">
+                                        <button type="button" *ngIf="ds.display=='grid'" class="pull-right  transparent btn btn-flat btn-sm"
+                                            (click)="ds.display='list'" title="List View">
                                             <i class="fa fa-list"></i>
                                         </button>
                                     </div>
