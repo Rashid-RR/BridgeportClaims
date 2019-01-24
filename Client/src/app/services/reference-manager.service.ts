@@ -1,14 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from './http-service';
 import {adjustorItem} from '../references/dataitems/adjustors';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsState } from '../models/us-state';
 
 declare var $: any;
 
 @Injectable()
 export class ReferenceManagerService {
-  stateControl = new FormControl();
   adjustorForm: FormGroup;
   attorneyForm: FormGroup;
   states: UsState[];

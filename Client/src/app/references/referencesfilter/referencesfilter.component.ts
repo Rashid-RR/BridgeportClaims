@@ -6,6 +6,7 @@ import { UsState } from '../../models/us-state';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocomplete } from '@angular/material';
+import { FormControl } from '@angular/forms';
 
 declare var $: any;
 
@@ -16,6 +17,7 @@ declare var $: any;
 })
 export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
+  stateControl = new FormControl();
   date: string;
   adjustorName: string;
   adjustorModel: any = {};
@@ -41,7 +43,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.filteredStates = this.rs.stateControl.valueChanges.pipe(
+    this.filteredStates = this.stateControl.valueChanges.pipe(
       startWith(''),
       map(val => this._filter(val))
     );
@@ -50,6 +52,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   onStateSelection(stateId) {
     const selected = this.rs.states.find(option => option.stateId === stateId);
     this.rs.attorneyForm.patchValue({stateName: selected.stateName, stateId: stateId}); // patch the state name and stateId to the attorney form
+    // TODO: Remove.
     console.log(this.rs.attorneyForm.value);
   }
 
@@ -96,7 +99,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     this.rs.attorneyForm.reset();
     this.rs.selectedState = 'null';
     this.rs.editFlag = false;
-    this.rs.stateControl.reset();
+    this.stateControl.reset();
   }
 
   addAdjustor() {
@@ -118,9 +121,6 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           });
         }
       } else if (this.rs.typeSelected === this.rs.types[1]) {
-        if (this.rs.selectedState && this.rs.selectedState.stateName) {
-          this.rs.attorneyForm.controls.stateName.setValue(this.rs.selectedState.stateName);
-        }
         if (!this.rs.attorneyForm.valid) {
           this.toast.warning('Invalid field value(s). Please correct to proceed.');
         } else {

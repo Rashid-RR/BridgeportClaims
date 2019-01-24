@@ -137,10 +137,10 @@
                   https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option
                 -->
                 <mat-form-field>
-                  <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="rs.stateControl" tabindex="7"
+                  <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="stateControl" tabindex="7"
                     [matAutocomplete]="auto">
                   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option *ngFor="let state of filteredStates | async" [value]="state.stateId">
+                    <mat-option *ngFor="let state of filteredStates | async" [value]="state.stateName" (onSelectionChange)="onStateSelection(state.stateId)">
                       {{state.stateName}}
                     </mat-option>
                   </mat-autocomplete>
