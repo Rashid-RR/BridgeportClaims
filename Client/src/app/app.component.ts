@@ -33,12 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
         const profile = new UserProfile(us.id || us.email, us.email, us.firstName || us.email, us.lastName || us.email, us.email || us.email, us.email, us.avatarUrl, us.createdOn, us.roles);
         this.profileManager.setProfile(profile);
         this.profileManager.profile = profile;
-        const auth = localStorage.getItem('token');
         if (window.location.hash.indexOf('#/confirm-email') !== 0) {
           this.http.userFromId(us.id).subscribe(res => {
             this.profileManager.profile.roles = res.roles;
             this.profileManager.profile.extension = res.extension;
-          }, (error) => {
+          }, _ => {
           });
         }
       } catch (error) {
