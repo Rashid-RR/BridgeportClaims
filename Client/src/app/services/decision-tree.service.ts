@@ -250,7 +250,7 @@ export class DecisionTreeService {
     }).then((result) => {
       if (result.value) {
         this.loading = true;
-        this.http.deleteTreeNode(n.data.treeId+'10000')
+        this.http.deleteTreeNode(n.data.treeId)
           .subscribe((_: any) => {
             this.loading = false;
             this.removeNode(n);
