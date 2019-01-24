@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpService } from '../../services/http-service';
 import { UsState } from '../../models/us-state';
 import { Observable } from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { MatAutocomplete } from '@angular/material';
 
 declare var $: any;
@@ -34,7 +34,10 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   private _filter(value: string): UsState[] {
-    const filterValue = value.toLowerCase();
+    if (!this.rs.states || !isNaN(Number(value))) {
+      return [];
+    }
+    const filterValue = (value||'').toLowerCase();    //handle undefined that comes from the edit 
     return this.rs.states.filter(option => option.stateName.toLowerCase().indexOf(filterValue) === 0);
   }
 
@@ -43,7 +46,14 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
       startWith(''),
       map(val => this._filter(val))
     );
-   }
+  }
+  onChangeState(event) {
+    console.log(event.option)
+    let value = event.option.value;
+    let selected = this.rs.states.find(option => option.stateName.toLowerCase()===value.toLowerCase());
+    this.rs.attorneyForm.patchValue({stateName:value,stateId:selected.stateId}); //patch the state name and stateId to the attorney form
+    console.log(this.rs.attorneyForm.value);
+  }
 
   ngAfterViewInit() {
     $('#phoneNumber').inputmask().on('change', (ev) => {
@@ -150,7 +160,8 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
           this.toast.warning('Invalid field value(s). Please correct to proceed.');
         } else {
           const stateId = this.rs.states.filter(x => x.stateName === this.rs.attorneyForm.get('state').value)[0].stateId;
-          if (stateId) {            this.rs.attorneyForm.controls.stateId.setValue(stateId);
+          if (stateId) {
+            this.rs.attorneyForm.controls.stateId.setValue(stateId);
           }
           if (this.selectedStateId) {
             this.rs.attorneyForm.controls.stateId.setValue(this.selectedStateId);
@@ -199,5 +210,5 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   private display(state): string {
     // access component "this" here
     return state ? state.stateName : state;
- }
+  }
 }

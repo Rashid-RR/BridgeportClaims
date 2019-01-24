@@ -196,7 +196,7 @@ export class ReferenceManagerService {
         this.attorneyForm.controls.address2.setValue(this.editAdjustor.address2);
         this.attorneyForm.controls.stateName.setValue(this.editAdjustor.stateName);
         this.attorneyForm.controls.postalCode.setValue(this.editAdjustor.postalCode);
-        const state = this.states.filter(st => st.stateName === this.editAdjustor.stateName)[0]; // Single or default
+        const state = this.states.find(st => st.stateName === this.editAdjustor.stateName); // Single or default
         if (state) {
           this.selectedState = state;
           this.attorneyForm.get('stateId').setValue(state.stateId);
