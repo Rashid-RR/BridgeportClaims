@@ -133,19 +133,9 @@
             <article class="form-group col-sm-12">
               <label>State Name:</label>
               <mat-form-field>
-                <!-- I tried to create a hack in the <input element to get the first value in the autocomplete to be selected by
-                  using (keyup.enter)="chooseFirstOption()" but that doesn't look at smooth as the example on
-                  https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option Please
-                use that link to make this autocomplete below for our "States" drop-down behave EXACTLY like the example in the link
-                above. Meaning... as soon as someone clicks on the dropdown input, the drop-down options should ALWAYS automatically
-                display - that is not happening now. Then, When I type, it shoudl search the options in the drop-down, which is actually
-                working fine, but then when I find the one that I want and hit ENTER, it doesn't highlight it and select it. Finally, I
-                wanted this Array that we are iterating over here "stateOptions" to be an arry of UsState[] which has two properties
-                "state.stateId and state.stateName". The idea was to have the LABEL that the user sees be the stateName, but the
-                "Value" is actually the "StateID" becaue THAT is what needs to be passed to the API. Please go over this example
-                in the above article VERY, VERY carefully, and replicate the functionality here. There are many examples in that
-                 article in that link above, but I purposely linked you to the bookmark of the example that I want - entitled
-                 "Automatically highlighting the first option"-->
+                <!-- Using this:
+                  https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option
+                -->
                 <mat-form-field>
                   <input type="text" autocomplete='new-password'
                   autofill="off" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="rs.stateControl" tabindex="7"
