@@ -54,6 +54,11 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     this.rs.attorneyForm.patchValue({stateName:value,stateId:selected.stateId}); //patch the state name and stateId to the attorney form
     console.log(this.rs.attorneyForm.value);
   }
+  onStateSelection(stateId) {
+    let selected = this.rs.states.find(option => option.stateId===stateId);
+    this.rs.attorneyForm.patchValue({stateName:selected.stateName,stateId:stateId}); //patch the state name and stateId to the attorney form
+    console.log(this.rs.attorneyForm.value);
+  }
 
   ngAfterViewInit() {
     $('#phoneNumber').inputmask().on('change', (ev) => {
