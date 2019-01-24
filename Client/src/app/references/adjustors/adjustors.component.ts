@@ -12,7 +12,7 @@ declare var $: any;
 export class AdjustorsComponent implements OnInit {
   goToPage: any = '';
   toastId: number;
-  toastIsActive:boolean = false;
+  toastIsActive = false;
   constructor(public rs: ReferenceManagerService,
               private toast: ToastrService) {
   }
@@ -27,11 +27,11 @@ export class AdjustorsComponent implements OnInit {
       this.rs.currentPage = page;
       this.rs.getReferencesList();
     } else {
-      let toast = this.toast.toasts.find(t=>t.toastId ==this.toastId)
+      const toast = this.toast.toasts.find(t => t.toastId === this.toastId);
       if (toast) {
         toast.message = 'Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage();
       } else {
-        this.toastId = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage()).toastId;        
+        this.toastId = this.toast.warning('Page number entered is out of range. Enter a page number between 1 and ' + this.rs.getLastPage()).toastId;
       }
     }
   }

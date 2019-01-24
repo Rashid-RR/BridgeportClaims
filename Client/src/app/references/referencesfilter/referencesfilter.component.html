@@ -17,7 +17,7 @@
       <div class="form-group">
         <label>Reference</label>
         <mat-form-field>
-          <mat-select (change)="changeSelection($event)" [(value)]="rs.typeSelected">
+          <mat-select (selectionChange)="changeSelection($event)" [(value)]="rs.typeSelected">
             <mat-option *ngFor="let type of rs.types" [value]="type">
               {{type}}
             </mat-option>
@@ -141,7 +141,7 @@
                   autofill="off" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="rs.stateControl" tabindex="7"
                     [matAutocomplete]="auto">
                   <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option *ngFor="let state of filteredStates | async" [value]="state.stateName" [attr.stateId]="state.stateId" (onSelectionChange)="onStateSelection(state.stateId)">
+                    <mat-option *ngFor="let state of filteredStates | async" [value]="state.stateName" (onSelectionChange)="onStateSelection(state.stateId)">
                       {{state.stateName}}
                     </mat-option>
                   </mat-autocomplete>

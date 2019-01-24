@@ -19,7 +19,6 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   date: string;
   adjustorName: string;
   adjustorModel: any = {};
-  selectedStateId: string;
   submitted = false;
   public flag = 'File Name';
   filteredStates: Observable<UsState[]>;
@@ -34,10 +33,10 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   }
 
   private _filter(value: string): UsState[] {
-    if (!this.rs.states || !isNaN(Number(value))) {
+    if (!isNaN(Number(value))) {
       return this.rs.states;
     }
-    const filterValue = (value||'').toLowerCase();    //handle undefined that comes from the edit 
+    const filterValue = (value || '').toLowerCase(); // handle undefined that comes from the edit
     return this.rs.states.filter(option => option.stateName.toLowerCase().indexOf(filterValue) === 0);
   }
 
@@ -47,16 +46,10 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
       map(val => this._filter(val))
     );
   }
-  onChangeState(event) {
-    console.log(event.option)
-    let value = event.option.value;
-    let selected = this.rs.states.find(option => option.stateName.toLowerCase()===value.toLowerCase());
-    this.rs.attorneyForm.patchValue({stateName:value,stateId:selected.stateId}); //patch the state name and stateId to the attorney form
-    console.log(this.rs.attorneyForm.value);
-  }
+
   onStateSelection(stateId) {
-    let selected = this.rs.states.find(option => option.stateId===stateId);
-    this.rs.attorneyForm.patchValue({stateName:selected.stateName,stateId:stateId}); //patch the state name and stateId to the attorney form
+    const selected = this.rs.states.find(option => option.stateId === stateId);
+    this.rs.attorneyForm.patchValue({stateName: selected.stateName, stateId: stateId}); // patch the state name and stateId to the attorney form
     console.log(this.rs.attorneyForm.value);
   }
 
@@ -103,6 +96,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     this.rs.attorneyForm.reset();
     this.rs.selectedState = 'null';
     this.rs.editFlag = false;
+    this.rs.stateControl.reset();
   }
 
   addAdjustor() {
@@ -120,13 +114,10 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
             $('#modalAddAdjustor').modal('hide');
           }, error => {
             this.rs.loading = false;
-            this.toast.error(error)
+            this.toast.error(error);
           });
         }
       } else if (this.rs.typeSelected === this.rs.types[1]) {
-        if (this.selectedStateId) {
-          this.rs.attorneyForm.get('stateId').setValue(this.selectedStateId);
-        }
         if (this.rs.selectedState && this.rs.selectedState.stateName) {
           this.rs.attorneyForm.controls.stateName.setValue(this.rs.selectedState.stateName);
         }
@@ -164,13 +155,6 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
         if (!this.rs.attorneyForm.valid) {
           this.toast.warning('Invalid field value(s). Please correct to proceed.');
         } else {
-          const stateId = this.rs.states.filter(x => x.stateName === this.rs.attorneyForm.get('state').value)[0].stateId;
-          if (stateId) {
-            this.rs.attorneyForm.controls.stateId.setValue(stateId);
-          }
-          if (this.selectedStateId) {
-            this.rs.attorneyForm.controls.stateId.setValue(this.selectedStateId);
-          }
           this.rs.loading = true;
           this.http.insertAttorney(this.rs.attorneyForm.value).subscribe(data => {
             this.toast.success('Added successfully.');
@@ -193,27 +177,5 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     this.rs.typeSelected = event.value;
     this.rs.sortColumn = event.value.toLowerCase() + 'Name';
     this.rs.getReferencesList();
-  }
-
-  changeState(event) {
-    this.selectedStateId = event.value;
-    this.rs.attorneyForm.controls.stateName.setValue(event.value.stateName);
-    if (this.selectedStateId) {
-      this.rs.attorneyForm.get('stateId').setValue(this.selectedStateId);
-    }
-  }
-
-  chooseFirstOption(): void {
-    this.matAutocomplete.options.first.select();
-    this.matAutocomplete.options.first.setActiveStyles();
-  }
-
-  public bindState(): any {
-    return (val) => this.display(val);
-  }
-
-  private display(state): string {
-    // access component "this" here
-    return state ? state.stateName : state;
   }
 }
