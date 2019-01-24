@@ -2,7 +2,6 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ReferenceManagerService } from '../../services/reference-manager.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpService } from '../../services/http-service';
-import { FormControl } from '@angular/forms';
 import { UsState } from '../../models/us-state';
 import { Observable } from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
@@ -17,14 +16,13 @@ declare var $: any;
 })
 export class ReferencesfilterComponent implements OnInit, AfterViewInit {
   @ViewChild(MatAutocomplete) matAutocomplete: MatAutocomplete;
-  stateCtrl = new FormControl();
   date: string;
   adjustorName: string;
   adjustorModel: any = {};
   selectedStateId: string;
   submitted = false;
   public flag = 'File Name';
-  stateOptions: Observable<UsState[]>;
+  filteredStates: Observable<UsState[]>;
 
   constructor(public rs: ReferenceManagerService,
     private http: HttpService,
@@ -35,18 +33,15 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private _filterStates(name: string): UsState[] {
-    if (name) {
-      const filteredStates = name.toLowerCase();
-      return this.rs.states.map(s => ({ stateId: s.stateId, stateName: s.stateName }))
-        .filter(option => option.stateName.toLowerCase().indexOf(filteredStates) === 0);
-    }
+  private _filter(value: string): UsState[] {
+    const filterValue = value.toLowerCase();
+    return this.rs.states.filter(option => option.stateName.toLowerCase().indexOf(filterValue) === 0);
   }
 
   ngOnInit() {
-    this.stateOptions = this.rs.attorneyForm.get('state')!.valueChanges.pipe(
+    this.filteredStates = this.rs.stateControl.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterStates(value))
+      map(val => this._filter(val))
     );
    }
 
