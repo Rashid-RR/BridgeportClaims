@@ -35,7 +35,7 @@ export class ReferencesfilterComponent implements OnInit, AfterViewInit {
 
   private _filter(value: string): UsState[] {
     if (!this.rs.states || !isNaN(Number(value))) {
-      return [];
+      return this.rs.states;
     }
     const filterValue = (value||'').toLowerCase();    //handle undefined that comes from the edit 
     return this.rs.states.filter(option => option.stateName.toLowerCase().indexOf(filterValue) === 0);
