@@ -127,26 +127,34 @@
             <article class="form-group col-sm-12">
               <label>State Name:</label>
               <mat-form-field>
-                  <!-- I tried to create a hack in the <input element to get the first value in the autocomplete to be selected by
-                  using (keyup.enter)="chooseFirstOption()" but that doesn't look at smooth as the example on 
-                  https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option Please
-                use that link to make this autocomplete below for our "States" drop-down behave EXACTLY like the example in the link
-                above. Meaning... as soon as someone clicks on the dropdown input, the drop-down options should ALWAYS automatically
-                display - that is not happening now. Then, When I type, it shoudl search the options in the drop-down, which is actually
-                working fine, but then when I find the one that I want and hit ENTER, it doesn't highlight it and select it. Finally, I 
-                wanted this Array that we are iterating over here "stateOptions" to be an arry of UsState[] which has two properties
-                "state.stateId and state.stateName". The idea was to have the LABEL that the user sees be the stateName, but the 
-                "Value" is actually the "StateID" becaue THAT is what needs to be passed to the API. Please go over this example 
-                in the above article VERY, VERY carefully, and replicate the functionality here. There are many examples in that
-                 article in that link above, but I purposely linked you to the bookmark of the example that I want - entitled
-                 "Automatically highlighting the first option"-->
-                  <input type="text" aria-label="State" formControlName="state" tabindex="7" matInput [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="bindState()">
-                    <mat-option *ngFor="let state of stateOptions | async" [value]="state.stateName">
-                        {{state.stateName}}
-                    </mat-option> 
+                <!-- Using this:
+                  https://material.angular.io/components/autocomplete/overview#automatically-highlighting-the-first-option
+                -->
+                <mat-form-field>
+                  <input type="text" formControlName="state" placeholder="" aria-label="State:" matInput [formControl]="rs.stateControl" tabindex="7"
+                    [matAutocomplete]="auto">
+                  <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let state of filteredStates | async" [value]="state.stateId">
+                      {{state.stateName}}
+                    </mat-option>
                   </mat-autocomplete>
                 </mat-form-field>
+                <!-- End State Drop Down -->
+                <div class="row">
+                  <div class="form-group col-sm-12">
+                    <label>Postal Code:</label>
+                    <input class="form-control" placeholder="Postal Code" formControlName="postalCode" id="postalCode"
+                      tabindex="8">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="form-group col-sm-12">
+                    <label>Extension:</label>
+                    <input class="form-control" placeholder="Extension" formControlName="extension" id="at_extension"
+                      tabindex="9">
+                  </div>
+                </div>
+              </mat-form-field>
             </article>
           </article>
           <div class="row">
