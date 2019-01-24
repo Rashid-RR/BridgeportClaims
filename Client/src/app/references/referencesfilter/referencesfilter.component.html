@@ -141,7 +141,7 @@
                  article in that link above, but I purposely linked you to the bookmark of the example that I want - entitled
                  "Automatically highlighting the first option"-->
                   <input type="text" aria-label="State" formControlName="state" tabindex="7" matInput [matAutocomplete]="auto">
-                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="bindState()" tabindex="7">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="bindState()">
                     <mat-option *ngFor="let state of stateOptions | async" [value]="state.stateName">
                         {{state.stateName}}
                     </mat-option> 
