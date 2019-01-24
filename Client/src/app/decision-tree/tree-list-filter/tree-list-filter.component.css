@@ -9,6 +9,8 @@
 .bg-darkblue {
   background-color: #414772;
   color: #fff;
+  margin-left:5px;
+  margin-right:5px;
 }
 .no-padding{
     padding-left:0px;
