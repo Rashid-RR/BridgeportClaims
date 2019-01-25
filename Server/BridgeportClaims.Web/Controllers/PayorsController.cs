@@ -118,5 +118,43 @@ namespace BridgeportClaims.Web.Controllers
                 return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
             }
         }
+
+        [HttpPost]
+        [Route("references-payor-insert")]
+        public IHttpActionResult PayorInsert(PayorEntityModel model)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var payor = _payorsDataProvider.Value.PayorInsert(model.GroupName, model.BillToName, model.BillToAddress1,
+                    model.BillToAddress2, model.BillToCity, model.BillToStateId, model.BillToPostalCode, model.PhoneNumber,
+                    model.AlternatePhoneNumber, model.FaxNumber, model.Notes, model.Contact, model.LetterName, userId);
+                return Ok(payor);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("references-payor-update")]
+        public IHttpActionResult PayorUpdate(PayorEntityModel model)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                var payor = _payorsDataProvider.Value.PayorUpdate(model.PayorId, model.GroupName, model.BillToName, model.BillToAddress1,
+                    model.BillToAddress2, model.BillToCity, model.BillToStateId, model.BillToPostalCode, model.PhoneNumber,
+                    model.AlternatePhoneNumber, model.FaxNumber, model.Notes, model.Contact, model.LetterName, userId);
+                return Ok(payor);
+            }
+            catch (Exception ex)
+            {
+                Logger.Value.Error(ex);
+                return Content(HttpStatusCode.NotAcceptable, new { message = ex.Message });
+            }
+        }
     }
 }

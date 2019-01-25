@@ -74,5 +74,62 @@ namespace BridgeportClaims.Data.DataProviders.Payors
                 };
                 return adj;
             });
+
+        public PayorResultDto PayorInsert(string groupName, string billToName, string billToAddress1, string billToAddress2,
+            string billToCity, int? billToStateId, string billToPostalCode, string phoneNumber, string alternatePhoneNumber,
+            string faxNumber, string notes, string contact, string letterName, string modifiedByUserId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspPayorInsert]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@GroupName", groupName, DbType.AnsiString, size: 255);
+                ps.Add("@BillToName", billToName, DbType.AnsiString, size: 255);
+                ps.Add("@BillToAddress1", billToAddress1, DbType.AnsiString, size: 255);
+                ps.Add("@BillToAddress2", billToAddress2, DbType.AnsiString, size: 255);
+                ps.Add("@BillToCity", billToCity, DbType.AnsiString, size: 155);
+                ps.Add("@BillToStateID", billToStateId, DbType.Int32);
+                ps.Add("@BillToPostalCode", billToPostalCode, DbType.AnsiString, size: 100);
+                ps.Add("@PhoneNumber", phoneNumber, DbType.AnsiString, size: 30);
+                ps.Add("@AlternatePhoneNumber", alternatePhoneNumber, DbType.AnsiString, size: 30);
+                ps.Add("@FaxNumber", faxNumber, DbType.AnsiString, size: 30);
+                ps.Add("@Notes", notes, DbType.AnsiString, size: 8000);
+                ps.Add("@Contact", contact, DbType.AnsiString, size: 255);
+                ps.Add("@LetterName", letterName, DbType.AnsiString, size: 255);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                return conn.Query<PayorResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
+            });
+
+        public PayorResultDto PayorUpdate(int payorId, string groupName, string billToName, string billToAddress1, string billToAddress2,
+            string billToCity, int? billToStateId, string billToPostalCode, string phoneNumber, string alternatePhoneNumber,
+            string faxNumber, string notes, string contact, string letterName, string modifiedByUserId) =>
+            DisposableService.Using(() => new SqlConnection(cs.GetDbConnStr()), conn =>
+            {
+                const string sp = "[dbo].[uspPayorUpdate]";
+                if (conn.State != ConnectionState.Open)
+                {
+                    conn.Open();
+                }
+                var ps = new DynamicParameters();
+                ps.Add("@PayorID", payorId, DbType.Int32);
+                ps.Add("@GroupName", groupName, DbType.AnsiString, size: 255);
+                ps.Add("@BillToName", billToName, DbType.AnsiString, size: 255);
+                ps.Add("@BillToAddress1", billToAddress1, DbType.AnsiString, size: 255);
+                ps.Add("@BillToAddress2", billToAddress2, DbType.AnsiString, size: 255);
+                ps.Add("@BillToCity", billToCity, DbType.AnsiString, size: 155);
+                ps.Add("@BillToStateID", billToStateId, DbType.Int32);
+                ps.Add("@BillToPostalCode", billToPostalCode, DbType.AnsiString, size: 100);
+                ps.Add("@PhoneNumber", phoneNumber, DbType.AnsiString, size: 30);
+                ps.Add("@AlternatePhoneNumber", alternatePhoneNumber, DbType.AnsiString, size: 30);
+                ps.Add("@FaxNumber", faxNumber, DbType.AnsiString, size: 30);
+                ps.Add("@Notes", notes, DbType.AnsiString, size: 8000);
+                ps.Add("@Contact", contact, DbType.AnsiString, size: 255);
+                ps.Add("@LetterName", letterName, DbType.AnsiString, size: 255);
+                ps.Add("@ModifiedByUserID", modifiedByUserId, DbType.String, size: 128);
+                return conn.Query<PayorResultDto>(sp, ps, commandType: CommandType.StoredProcedure)?.SingleOrDefault();
+            });
     }
 }
