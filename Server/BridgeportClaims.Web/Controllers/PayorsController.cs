@@ -110,7 +110,7 @@ namespace BridgeportClaims.Web.Controllers
             try
             {
                 return Ok(_payorsDataProvider.Value.GetPayorList(model.SearchText, model.Page, model.PageSize,
-                    model.Sort, model.SortDirection);
+                    model.Sort, model.SortDirection));
             }
             catch (Exception ex)
             {
