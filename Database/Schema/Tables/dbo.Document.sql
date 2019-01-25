@@ -30,23 +30,38 @@ GO
 SET ANSI_NULLS ON
 GO
 CREATE TRIGGER [dbo].[utDocumentInsteadOfDelete]
-       ON [dbo].[Document]
+ON [dbo].[Document]
 INSTEAD OF DELETE
 AS
-BEGIN
-    SET NOCOUNT ON; 
-	IF EXISTS
-	(
-		SELECT * FROM DELETED d INNER JOIN dbo.PrescriptionPayment AS pp ON d.DocumentID = pp.DocumentID
-	)
-	BEGIN
-		UPDATE  pp
-		SET		pp.DocumentID = NULL
-		FROM    DELETED d
-				INNER JOIN dbo.PrescriptionPayment AS pp ON d.DocumentID = pp.DocumentID
-	END
-	DELETE do FROM DELETED d INNER JOIN dbo.Document AS do ON do.DocumentID = d.DocumentID;
-END
+    BEGIN
+        SET NOCOUNT ON;
+        IF EXISTS
+        (
+            SELECT *
+            FROM   [DELETED] AS [d]
+                   INNER JOIN [dbo].[PrescriptionPayment] AS [pp] ON [d].[DocumentID] = [pp].[DocumentID]
+        )
+            BEGIN
+                UPDATE [pp]
+                SET    [pp].[DocumentID] = NULL
+                FROM   [DELETED] AS [d]
+                       INNER JOIN [dbo].[PrescriptionPayment] AS [pp] ON [d].[DocumentID] = [pp].[DocumentID];
+            END;
+        IF EXISTS
+        (
+            SELECT *
+            FROM   [DELETED] AS [d]
+                   INNER JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID]
+        )
+            BEGIN
+                DELETE [di]
+                FROM [DELETED] AS [d]
+                     INNER JOIN [dbo].[DocumentIndex] AS [di] ON [di].[DocumentID] = [d].[DocumentID];
+            END;
+        DELETE [do]
+        FROM [DELETED] AS [d]
+             INNER JOIN [dbo].[DOCUMENT] AS [do] ON [do].[DocumentID] = [d].[DocumentID];
+    END;
 GO
 SET QUOTED_IDENTIFIER ON
 GO
